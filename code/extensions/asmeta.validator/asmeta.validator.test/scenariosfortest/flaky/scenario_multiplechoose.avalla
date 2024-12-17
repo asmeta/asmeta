@@ -1,0 +1,14 @@
+scenario scenario1
+load multiplechoose.asm
+
+pick $i := 5;
+step
+check foo1 = 5;
+
+pick $b := true;
+step
+check foo2;
+
+pick $i := 5;
+step
+check foo1 = 5;

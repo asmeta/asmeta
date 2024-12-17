@@ -147,13 +147,7 @@ public class AsmetaFromAvallaBuilder {
 		stb.parseCommands();
 		monitoredInitState = stb.monitoredInitState;// PA: 2017/12/29
 		allMonitored = stb.allMonitored;// PA: 2017/12/29
-		allPickRules = new ArrayList<>();
-		for (ArrayList<Command> list : allMonitored) {
-			allPickRules.addAll(list.stream()
-					.filter(x -> x instanceof Pick)
-					.map(x -> ((Pick) x))
-					.collect(Collectors.toList()));
-		}
+		allPickRules = stb.allPickRules;
 		if (!ScenarioUtility.checkAllPicks(allPickRules, allChooseRules, asm))
 			throw new RuntimeException("some pick variables in the avalla can not be correctly matched"
 					+ " with one and only one choose variable in the asm");

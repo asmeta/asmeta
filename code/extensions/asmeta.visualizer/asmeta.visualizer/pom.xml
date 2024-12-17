@@ -23,7 +23,7 @@
 		non è aggiornatissimo ma almeno compila il tutto-->
 		<repository>
 			<id>eclipse-2024-09</id>
-			<url>https://p2repository.com/mvn4/eclipse-2024-06/</url>
+			<url>https://p2repository.com/mvn4/eclipse-2024-09/</url>
 		</repository>
 	</repositories>
 	<dependencies>
@@ -50,7 +50,7 @@
 		<dependency>
 			<groupId>org.eclipse.platform</groupId>
 			<artifactId>org.eclipse.jface</artifactId>
-			<version>3.35.0</version>
+			<version>[3.35.0,)</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.ide</groupId>
