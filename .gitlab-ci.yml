@@ -54,7 +54,8 @@ test:
 #    - apt-get update -y
 #    - apt-get upgrade -y
 #    - apt-get install wget -y  
-    - apk add xz-utils     
+# needed beacuse NUSMV is now distrubuted comepressed as xz instead of gz
+    - apk add xz    
   # install nusmv  
 #    - wget -O "$NUSMV_FILE" "${NUSMV_URL}/${NUSMV_FILE}"
     - curl "${NUSMV_URL}/${NUSMV_FILE}" --output ${NUSMV_FILE}
