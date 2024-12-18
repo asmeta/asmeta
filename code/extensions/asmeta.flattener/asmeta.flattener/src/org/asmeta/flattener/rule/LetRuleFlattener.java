@@ -10,7 +10,7 @@ import java.util.Stack;
 import org.asmeta.flattener.statistics.Statistics;
 import org.asmeta.flattener.term.DomainVisitor;
 import org.asmeta.flattener.term.ValuesCombinator;
-import org.asmeta.flattener.util.StdlFunction;
+import org.asmeta.simulator.util.StdlFunction;
 import org.eclipse.emf.common.util.EList;
 
 import asmeta.structure.Asm;

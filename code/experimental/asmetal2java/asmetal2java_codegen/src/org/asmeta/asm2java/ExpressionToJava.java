@@ -171,6 +171,11 @@ public class ExpressionToJava {
 	 * @return the string
 	 */
 	private String lt(List<Term> argsTerm) {
+		return translateRelationalOp(argsTerm, "<");
+	}
+
+	private String translateRelationalOp(List<Term> argsTerm, String op) {
+		assert argsTerm.size() == 2;
 		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
 		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
 		try {
@@ -182,7 +187,7 @@ public class ExpressionToJava {
 
 		// The two domains are different. In order to make them comparable, we need to
 		// get the value of at least of them
-		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1))) {
+		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1).getDomain())) {
 			if (argsTerm.get(0).getDomain() instanceof ConcreteDomain) {
 				left = left + VALUE_FIELD_NAME;
 			}
@@ -191,7 +196,9 @@ public class ExpressionToJava {
 				right = right + VALUE_FIELD_NAME;
 			}
 		}
-		return new Util().setPars(left + " < " + right);
+		if (op.equals("=")) return new Util().equals(left, right);
+		if (op.equals("!=")) return new Util().notEquals(left, right);
+		return new Util().setPars(left + " " + op + " " +right);
 	}
 
 	/**
@@ -202,29 +209,7 @@ public class ExpressionToJava {
 	 * @return the string
 	 */
 	private String le(List<Term> argsTerm) {
-		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
-		try {
-			Integer.parseInt(left);
-			Integer.parseInt(right);
-		} catch (NumberFormatException e) {
-			// Ignore
-		}
-
-		// The two domains are different. In order to make them comparable, we need to
-		// get the value of at least of them
-		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1))) {
-			if (argsTerm.get(0).getDomain() instanceof ConcreteDomain) {
-				left = left + VALUE_FIELD_NAME;
-			}
-
-			if (argsTerm.get(1).getDomain() instanceof ConcreteDomain) {
-				right = right + VALUE_FIELD_NAME;
-			}
-		}
-
-		return new Util().setPars(left + " <= " + right);
-
+		return translateRelationalOp(argsTerm, "<=");
 	}
 
 	/**
@@ -235,28 +220,7 @@ public class ExpressionToJava {
 	 * @return the string
 	 */
 	private String gt(List<Term> argsTerm) {
-		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
-		try {
-			Integer.parseInt(left);
-			Integer.parseInt(right);
-		} catch (NumberFormatException e) {
-			// Ignore
-		}
-
-		// The two domains are different. In order to make them comparable, we need to
-		// get the value of at least of them
-		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1))) {
-			if (argsTerm.get(0).getDomain() instanceof ConcreteDomain) {
-				left = left + VALUE_FIELD_NAME;
-			}
-
-			if (argsTerm.get(1).getDomain() instanceof ConcreteDomain) {
-				right = right + VALUE_FIELD_NAME;
-			}
-		}
-		return new Util().setPars(left + " > " + right);
-
+		return translateRelationalOp(argsTerm, ">");
 	}
 
 	/**
@@ -267,28 +231,7 @@ public class ExpressionToJava {
 	 * @return the string
 	 */
 	private String ge(List<Term> argsTerm) {
-		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
-		try {
-			Integer.parseInt(left);
-			Integer.parseInt(right);
-		} catch (NumberFormatException e) {
-			// Ignore
-		}
-
-		// The two domains are different. In order to make them comparable, we need to
-		// get the value of at least of them
-		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1))) {
-			if (argsTerm.get(0).getDomain() instanceof ConcreteDomain) {
-				left = left + VALUE_FIELD_NAME;
-			}
-
-			if (argsTerm.get(1).getDomain() instanceof ConcreteDomain) {
-				right = right + VALUE_FIELD_NAME;
-			}
-		}
-		return new Util().setPars(left + " >= " + right);
-
+		return translateRelationalOp(argsTerm, ">=");		
 	}
 
 	/**
@@ -299,22 +242,7 @@ public class ExpressionToJava {
 	 * @return the string
 	 */
 	private String eq(List<Term> argsTerm) {
-		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
-
-		// The two domains are different. In order to make them comparable, we need to
-		// get the value of at least of them
-		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1))) {
-			if (argsTerm.get(0).getDomain() instanceof ConcreteDomain) {
-				left = left + VALUE_FIELD_NAME;
-			}
-
-			if (argsTerm.get(1).getDomain() instanceof ConcreteDomain) {
-				right = right + VALUE_FIELD_NAME;
-			}
-		}
-
-		return new Util().equals(left, right);
+		return translateRelationalOp(argsTerm, "=");		
 	}
 
 	/**
@@ -325,22 +253,7 @@ public class ExpressionToJava {
 	 * @return the string
 	 */
 	private String notEquals(List<Term> argsTerm) {
-		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
-
-		// The two domains are different. In order to make them comparable, we need to
-		// get the value of at least of them
-		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1))) {
-			if (argsTerm.get(0).getDomain() instanceof ConcreteDomain) {
-				left = left + VALUE_FIELD_NAME;
-			}
-
-			if (argsTerm.get(1).getDomain() instanceof ConcreteDomain) {
-				right = right + VALUE_FIELD_NAME;
-			}
-		}
-
-		return new Util().notEquals(left, right);
+		return translateRelationalOp(argsTerm, "!=");		
 	}
 
 	/**
@@ -393,21 +306,7 @@ public class ExpressionToJava {
 	 * @return the string
 	 */
 	String minusBinary(List<Term> argsTerm) {
-		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
-
-		// The two domains are different. In order to make them comparable, we need to
-		// get the value of at least of them
-		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1))) {
-			if (argsTerm.get(0).getDomain() instanceof ConcreteDomain) {
-				left = left + VALUE_FIELD_NAME;
-			}
-
-			if (argsTerm.get(1).getDomain() instanceof ConcreteDomain) {
-				right = right + VALUE_FIELD_NAME;
-			}
-		}
-		return new Util().setPars(left + " - " + right);
+		return translateRelationalOp(argsTerm, "-");		
 	}
 
 	/**
@@ -429,22 +328,7 @@ public class ExpressionToJava {
 	 * @return the string
 	 */
 	String sum(List<Term> argsTerm) {
-		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
-
-		// The two domains are different. In order to make them comparable, we need to
-		// get the value of at least of them
-		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1))) {
-			if (argsTerm.get(0).getDomain() instanceof ConcreteDomain) {
-				left = left + VALUE_FIELD_NAME;
-			}
-
-			if (argsTerm.get(1).getDomain() instanceof ConcreteDomain) {
-				right = right + VALUE_FIELD_NAME;
-			}
-		}
-
-		return new Util().setPars(left + " + " + right);
+		return translateRelationalOp(argsTerm, "+");		
 	}
 
 	/**

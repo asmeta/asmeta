@@ -323,6 +323,8 @@ public class StandardLibrary {
 		if (set.isEmpty()) {
 			throw new RuntimeException("ERROR at chooseone: the set is empty ");
 		}
+		// it takes alwasys the first
+		// TODO make a shuffle of the set to make the choice really non-deterministic 
 		return set.iterator().next();
 	}
 
