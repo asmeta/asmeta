@@ -74,7 +74,7 @@ import asmeta.transitionrules.turbotransitionrules.SeqRule;
 import asmeta.transitionrules.turbotransitionrules.TurboCallRule;
 import asmeta.transitionrules.turbotransitionrules.TurboDeclaration;
 import asmeta.transitionrules.turbotransitionrules.TurboReturnRule;
-
+/** class used to print an ASM*/
 public class AsmPrinter extends ReflectiveVisitor<Void> {
 	protected AsmetaTermPrinter tp = AsmetaTermPrinter.getAsmetaTermPrinter(false);
 	static final private String tabWidth = "    ";
