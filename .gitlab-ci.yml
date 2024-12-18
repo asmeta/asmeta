@@ -53,7 +53,8 @@ test:
   before_script:
 #    - apt-get update -y
 #    - apt-get upgrade -y
-#    - apt-get install wget -y        
+#    - apt-get install wget -y  
+    - apt-get install xz-utils     
   # install nusmv  
 #    - wget -O "$NUSMV_FILE" "${NUSMV_URL}/${NUSMV_FILE}"
     - curl "${NUSMV_URL}/${NUSMV_FILE}" --output ${NUSMV_FILE}
