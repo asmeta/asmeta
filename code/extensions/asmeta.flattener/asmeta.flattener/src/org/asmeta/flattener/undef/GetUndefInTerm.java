@@ -28,6 +28,7 @@ import asmeta.terms.furtherterms.SetCt;
 import asmeta.terms.furtherterms.StringTerm;
 
 public class GetUndefInTerm extends ReflectiveVisitor<Boolean> {
+	
 	private static GetUndefInTerm getUndef = new GetUndefInTerm();
 
 	public static Boolean getUndefInTerm(Term term) {
@@ -60,7 +61,7 @@ public class GetUndefInTerm extends ReflectiveVisitor<Boolean> {
 
 	public boolean visit(LetTerm letTerm) {
 		for (Term t : letTerm.getAssignmentTerm()) {
-			if (visit(t)) {
+			if (Boolean.TRUE.equals(visit(t))) {
 				return true;
 			}
 		}

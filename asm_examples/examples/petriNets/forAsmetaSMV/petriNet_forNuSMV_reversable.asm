@@ -35,7 +35,7 @@ asm petriNet_forNuSMV_reversable
 
 
 import ../../../STDL/StandardLibrary
-import ../../../STDL/CTLlibrary
+import ../../../STDL/CTLLibrary
 
 signature:
 	abstract domain Place

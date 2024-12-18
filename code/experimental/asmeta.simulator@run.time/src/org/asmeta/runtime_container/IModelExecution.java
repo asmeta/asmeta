@@ -1,5 +1,6 @@
 package org.asmeta.runtime_container;
 
+import java.util.List;
 import java.util.Map;
 import org.asmeta.simulator.main.AsmModelNotFoundException;
 import org.asmeta.simulator.main.MainRuleNotFoundException;
@@ -149,5 +150,18 @@ public interface IModelExecution {
 	 */
  	RunOutput runUntilEmptyTimeout(int id, Map<String, String> locationValue, int timeout);
  	
-	  
+ 	/**
+ 	 * Get the current state of a simulation
+ 	 * @param id the simulation id
+ 	 * @return the run output
+ 	 */
+ 	RunOutput getCurrentState(int id);
+ 	
+ 	
+ 	/**
+ 	 * Get all the monitored locations of a model
+ 	 * @param modelPath the model path
+ 	 * @return the list of monitored locations
+ 	 */
+ 	List<String> getMonitored(String modelPath);
 }

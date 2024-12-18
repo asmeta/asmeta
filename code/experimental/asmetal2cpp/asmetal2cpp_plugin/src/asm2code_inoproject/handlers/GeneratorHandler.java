@@ -68,7 +68,7 @@ public class GeneratorHandler extends AbstractHandler implements IHandler {
 		}
 		// If U2C file doesn't exist create it
 		File u2cFile = new File(
-				asmFile.getPath().substring(0, asmFile.getPath().lastIndexOf(AsmToCGenerator.Ext)) + JsonGenerator.Ext);
+				asmFile.getPath().substring(0, asmFile.getPath().lastIndexOf(ASMParser.ASM_EXTENSION)) + JsonGenerator.Ext);
 		if (!u2cFile.exists()) {
 			System.out.println("U2C file not found: I automatically generate it and save it in the asm folder.");
 			ArduinoVersion av = showSelectArduinoVersionDialog();
@@ -87,11 +87,11 @@ public class GeneratorHandler extends AbstractHandler implements IHandler {
 		// If destination folder hasn't been selected I use the asm file folder
 		if (path != null) {
 			path = path.replace("\\\\", "\\").replace("\\", "/") + "/";
-			destName = asmFile.getName().replace(AsmToCGenerator.Ext, "");
+			destName = asmFile.getName().replace(ASMParser.ASM_EXTENSION, "");
 
 		} else {
 			path = asmFile.getParent().replace("\\\\", "\\").replace("\\", "/") + "/";
-			destName = asmFile.getName().replace(AsmToCGenerator.Ext, "");
+			destName = asmFile.getName().replace(ASMParser.ASM_EXTENSION, "");
 		}
 		// Perform the u2cFile reading and asm conversion in Arduino project files
 		HWConfiguration config = readJSON(u2cFile.getPath());

@@ -627,7 +627,7 @@ public class SimGUI extends JFrame {
 					}
 					
 					if(compositionTree != null) {
-						CompositionGUI.main(containerInstance, compositionTree);
+						CompositionGUI.main(containerInstance, compositionTree, contentPane);
 					} else {
 						JOptionPane.showMessageDialog(contentPane, "Error: composition error!", "Error", JOptionPane.ERROR_MESSAGE);
 					}
@@ -734,7 +734,7 @@ public class SimGUI extends JFrame {
 					   if(ci!=null) {
 						   currentLoadedID = ci.getInt();
 						   currentLoadedModel = ci.getStr();
-						   if(!currentLoadedModel.isEmpty() && currentLoadedModel.indexOf(".asm")!=-1){
+						   if(!currentLoadedModel.isEmpty() && currentLoadedModel.indexOf(ASMParser.ASM_EXTENSION)!=-1){
 							   if (currentLoadedModel.indexOf("\\")>=0) {
 								   textPaneModel.setText(currentLoadedModel.substring(currentLoadedModel.lastIndexOf("\\")+1));
 								   textPaneID.setText(Integer.toString(currentLoadedID));
@@ -745,7 +745,7 @@ public class SimGUI extends JFrame {
 							   clearMenuItem.doClick();
 							   textAreaLog.setText("Simulation ready.\n");
 						   }
-						   else if(currentLoadedModel.indexOf(".asm")==-1 && !currentLoadedModel.isEmpty())
+						   else if(currentLoadedModel.indexOf(ASMParser.ASM_EXTENSION)==-1 && !currentLoadedModel.isEmpty())
 							   JOptionPane.showMessageDialog(contentPane, "Error: wrong extension!", "Error", JOptionPane.ERROR_MESSAGE);
 					   }
 				   } catch (Exception ex) {
@@ -1174,7 +1174,7 @@ public class SimGUI extends JFrame {
 					for (int i = 0; i < importSize; i++) {
 						String moduleName = asm.getMain().getHeaderSection().getImportClause().get(i).getModuleName();
 						if(!moduleName.toLowerCase().endsWith("standardlibrary")) {	//Skips the StandardLibrary.asm
-							monitoredList = getAllMonitored(monitoredList, root + moduleName + ".asm");
+							monitoredList = getAllMonitored(monitoredList, root + moduleName + ASMParser.ASM_EXTENSION);
 						}
 					}
 				} catch (Exception e) {
@@ -1186,7 +1186,7 @@ public class SimGUI extends JFrame {
 		return monitoredList;
 	}
 	
-	private Map<String, String> getInput(List<String> monitoredList, boolean auto) {
+	protected Map<String, String> getInput(List<String> monitoredList, boolean auto) {
 		Map<String, String> input = new HashMap<>();
 		Map<String, Object[]> enumDomainFunction = new HashMap<>();
 		String inputValue = new String();
@@ -1195,7 +1195,7 @@ public class SimGUI extends JFrame {
 		String domainName = new String();
 		boolean nArity = false;
 		Object[] options;
-		
+		/*
 		if(monitoredList == null || monitoredList.isEmpty()) {
 			return null;
 		}
@@ -1275,7 +1275,7 @@ public class SimGUI extends JFrame {
 			}
 			input.put(monitored, inputValue);
 			nArity = false;
-		}
+		}*/
 		return input;
 	}
 	

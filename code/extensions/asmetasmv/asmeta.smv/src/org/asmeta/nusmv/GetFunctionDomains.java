@@ -1,6 +1,7 @@
 package org.asmeta.nusmv;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import asmeta.definitions.domains.AbstractTd;
 import asmeta.definitions.domains.BooleanDomain;
@@ -10,7 +11,7 @@ import asmeta.definitions.domains.EnumTd;
 import asmeta.definitions.domains.ProductDomain;
 
 //public class GetFunctionDomains extends ReflectiveVisitor {
-public class GetFunctionDomains extends org.asmeta.parser.util.ReflectiveVisitor {
+public class GetFunctionDomains extends org.asmeta.parser.util.ReflectiveVisitor<Void> {
 	private static ArrayList<Domain> domains;//TODO PA: why static?
 	
 	GetFunctionDomains() {
@@ -54,7 +55,7 @@ public class GetFunctionDomains extends org.asmeta.parser.util.ReflectiveVisitor
 	 * @return La lista dei singoli domini che compongono il dominio della 
 	 * funzione.
 	 */
-	public static ArrayList<Domain> getFuncDomains(Domain domain) {
+	public static List<Domain> getFuncDomains(Domain domain) {
 		if(domain != null) {
 			(new GetFunctionDomains()).visit(domain);
 		}

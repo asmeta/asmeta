@@ -52,7 +52,6 @@ public class GetRowAction extends AbstractAction {
 		try {
 			this.m_model.updateMonitored(m_view, null);
 			this.m_model.getReader().addValue(this.locationName, new IntegerValue(row));
-			System.out.println("LOCATION MEMORY: " + this.m_model.getReader().getLocationMemory());
 			this.m_model.runSimulator();
 		} catch (IllegalArgumentException | IllegalAccessException e1) {
 			e1.printStackTrace();

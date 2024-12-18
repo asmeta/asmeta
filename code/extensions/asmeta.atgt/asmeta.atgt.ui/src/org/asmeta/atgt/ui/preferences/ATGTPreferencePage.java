@@ -1,9 +1,10 @@
 package org.asmeta.atgt.ui.preferences;
 
 import org.asmeta.atgt.generator.ui.ATGTActivator;
-import org.eclipse.jface.preference.*;
-import org.eclipse.ui.IWorkbenchPreferencePage;
+import org.eclipse.jface.preference.BooleanFieldEditor;
+import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPreferencePage;
 
 public class ATGTPreferencePage
 	extends FieldEditorPreferencePage

@@ -6,16 +6,17 @@
  */
 package org.asmeta.simulator.value;
 
-
 /**
- * The super class of all values.
- * The subclasses act as wrappers for the corresponding Java implementations.
+ * The super class of all values. The subclasses act as wrappers for the
+ * corresponding Java implementations.
  *
  * @param <T> the generic type representing the value type in Java
  */
 public abstract class Value<T> {
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#clone()
 	 */
 	@Override
@@ -27,5 +28,4 @@ public abstract class Value<T> {
 	 * @return the value
 	 */
 	public abstract T getValue();
-	
 }

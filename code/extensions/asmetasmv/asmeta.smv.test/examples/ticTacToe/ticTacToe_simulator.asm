@@ -1,7 +1,7 @@
 asm ticTacToe_simulator
 
 import ../../../../../../asm_examples/STDL/StandardLibrary
-import ../../../../../../asm_examples/STDL/CTLlibrary
+import ../../../../../../asm_examples/STDL/CTLLibrary
 
 //It permits to play Tic-Tac-Toe with the computer.
 //At each step, the user and the computer, alternatively, make a move.
@@ -57,7 +57,7 @@ definitions:
 	CTLSPEC ef(winner(NOUGHT))//NOUGHT can win
 	CTLSPEC ef(not(winner(NOUGHT)) and not(winner(CROSS)) and endOfGame) //TIE
 	CTLSPEC ag(not(winner(CROSS) and winner(NOUGHT)))
-	CTLSPEC e(not(winner(CROSS)) and not(winner(NOUGHT)), winner(CROSS) xor winner(NOUGHT))
+	CTLSPEC eu(not(winner(CROSS)) and not(winner(NOUGHT)), winner(CROSS) xor winner(NOUGHT))
 	CTLSPEC ag((winner(CROSS) and not(winner(NOUGHT))) implies ag((winner(CROSS) and not(winner(NOUGHT)))))
 	CTLSPEC ag((winner(NOUGHT) and not(winner(CROSS))) implies ag((winner(NOUGHT) and not(winner(CROSS)))))
 

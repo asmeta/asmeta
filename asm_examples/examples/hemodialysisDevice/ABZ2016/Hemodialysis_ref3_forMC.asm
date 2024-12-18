@@ -1,8 +1,8 @@
 asm Hemodialysis_ref3_forMC
 
 import ../../../STDL/StandardLibrary
-import ../../../STDL/CTLlibrary
-import ../../../STDL/LTLlibrary
+import ../../../STDL/CTLLibrary
+import ../../../STDL/LTLLibrary
 
 signature:
 	// DOMAINS

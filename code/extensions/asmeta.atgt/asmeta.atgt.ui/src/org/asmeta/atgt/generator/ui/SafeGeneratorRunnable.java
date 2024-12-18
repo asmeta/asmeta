@@ -2,8 +2,6 @@ package org.asmeta.atgt.generator.ui;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
 import org.apache.log4j.Appender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -13,13 +11,9 @@ import org.asmeta.atgt.generator.CriteriaEnum;
 import org.asmeta.atgt.generator.NuSMVtestGenerator;
 import org.asmeta.atgt.generator.SaveResults;
 import org.asmeta.eclipse.AsmeeConsole;
-import org.asmeta.eclipse.AsmetaUtility;
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.ISafeRunnable;
 import org.eclipse.core.runtime.IStatus;
@@ -32,14 +26,12 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.console.IConsoleConstants;
-import org.eclipse.ui.console.IConsoleView;
-import org.eclipse.ui.console.IOConsole;
 import org.eclipse.ui.console.IOConsoleOutputStream;
 
 import atgt.coverage.AsmCoverageBuilder;
 import atgt.coverage.AsmTestSuite;
 import atgt.parser.asmeta.AsmetaLLoader;
+import jakarta.inject.Inject;
 
 public class SafeGeneratorRunnable extends Job {
 

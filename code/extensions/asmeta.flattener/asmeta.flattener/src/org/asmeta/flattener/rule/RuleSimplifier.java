@@ -7,9 +7,10 @@ import org.apache.log4j.Logger;
 import org.asmeta.flattener.statistics.Statistics;
 import org.asmeta.flattener.term.DomainVisitor;
 import org.asmeta.flattener.term.TermSimplifier;
-import org.asmeta.flattener.util.StdlFunction;
 import org.asmeta.parser.util.ReflectiveVisitor;
+import org.asmeta.simulator.util.StdlFunction;
 import org.asmeta.simulator.wrapper.RuleFactory;
+
 import asmeta.definitions.RuleDeclaration;
 import asmeta.structure.Asm;
 import asmeta.terms.basicterms.Term;

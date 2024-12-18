@@ -8,7 +8,7 @@ asm TrafficLight_1
 //Traffic light B is always BLOCKED when controller is in OPERATE state
 
 import ../StandardLibrary
-import ../CTLlibrary
+import ../CTLLibrary
 
 signature:
 	// DOMAINS

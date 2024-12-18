@@ -41,7 +41,7 @@ public class CarSystemGeneratorTest {
 	static void test_hw(String asmFilePath, String jsonFilePath, String destinationFolder) throws IOException, Exception {
 		File asmFile = new File(asmFilePath);
 		File u2cFile = new File(jsonFilePath);
-		File hwFile = new File(destinationFolder + asmFile.getName().replace(AsmToCGenerator.Ext, HWIntegrationGenerator.Ext));
+		File hwFile = new File(destinationFolder + asmFile.getName().replace(ASMParser.ASM_EXTENSION, HWIntegrationGenerator.Ext));
 		assertTrue(asmFile.exists() && u2cFile.exists());
 		Gson gson = new Gson();
 		JsonReader reader;
@@ -63,7 +63,7 @@ public class CarSystemGeneratorTest {
 	static void test_ino(String asmFilePath, String jsonFilePath, String destinationFolder) throws IOException, Exception{
 		File asmFile = new File(asmFilePath);
 		File u2cFile = new File(jsonFilePath);
-		File inoFile = new File(destinationFolder + asmFile.getName().replace(AsmToCGenerator.Ext, InoGenerator.Ext));
+		File inoFile = new File(destinationFolder + asmFile.getName().replace(ASMParser.ASM_EXTENSION, InoGenerator.Ext));
 		assertTrue(asmFile.exists() && u2cFile.exists());
 		Gson gson = new Gson();
 		JsonReader reader;

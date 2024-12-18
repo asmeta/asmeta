@@ -18,6 +18,7 @@ import java.util.SortedSet;
 import java.util.Stack;
 
 import org.asmeta.nusmv.util.AsmNotSupportedException;
+import org.asmeta.nusmv.util.AsmetaSMVOptions;
 import org.asmeta.nusmv.util.ConditionStack;
 import org.asmeta.nusmv.util.Util;
 import org.asmeta.parser.util.ReflectiveVisitor;
@@ -34,6 +35,7 @@ import asmeta.definitions.domains.NaturalDomain;
 import asmeta.definitions.domains.PowersetDomain;
 import asmeta.terms.basicterms.LocationTerm;
 import asmeta.terms.basicterms.Term;
+import asmeta.terms.basicterms.UndefTerm;
 import asmeta.terms.basicterms.VariableTerm;
 import asmeta.transitionrules.basictransitionrules.BlockRule;
 import asmeta.transitionrules.basictransitionrules.ChooseRule;
@@ -429,10 +431,12 @@ public class RuleVisitor extends ReflectiveVisitor<Void> implements IRuleVisitor
 		else {
 			location = tp.visit(loc);
 		}
+		String value;
 		//String location = tp.visit(updateRule.getLocation());
-		String value = tp.visit(updateRule.getUpdatingTerm());
-		if(value!= null && value.equals("undef")) {
-			String undef = mv.getUndefValue().get(mv.locationDomain.get(location));
+		Term updatingTerm = updateRule.getUpdatingTerm();
+		// if it is undef
+		if(updatingTerm instanceof UndefTerm) {
+			String undef = mv.getUndefValue(mv.locationDomain.get(location));
 			if(undef != null) {
 				value = undef;
 			}
@@ -444,6 +448,9 @@ public class RuleVisitor extends ReflectiveVisitor<Void> implements IRuleVisitor
 					"codomain " + mv.locationDomain.get(location) + " does " +
 					"not have an undef value for NuSMV.");
 			}
+		} else {
+			// not undef
+			value = tp.visit(updatingTerm);			
 		}
 		if(env.inSeqRule) {
 			env.srv.seqRuleUpdate(location, value);

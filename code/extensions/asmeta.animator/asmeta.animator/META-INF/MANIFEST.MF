@@ -2,13 +2,15 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Asmeta animator
 Bundle-SymbolicName: asmeta.animator
-Bundle-Version: 22.09
+Bundle-Version: 24.06
 Automatic-Module-Name: asmeta.animator
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Require-Bundle: asmeta.emf,
  asmeta.simulator,
  asmeta.parser,
  org.apache.log4j,
- org.eclipse.swt
+ org.eclipse.swt,
+ org.eclipse.zest.core,
+ org.eclipse.zest.layouts
 Export-Package: org.asmeta.animator
 Bundle-Vendor: foselab.unibg.it

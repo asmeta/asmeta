@@ -14,7 +14,7 @@ public class TermTest extends BaseTest {
 
 	@Test
 	public void test01() throws Exception {
-		sim = Simulator.createSimulator(BASE + "test/simulator/terms/existUniqueTerm.asm");
+		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/terms/existUniqueTerm.asm");
 		Simulator.checkInvariants = InvariantTreament.CHECK_STOP;
 		sim.run(1);
 		State state = sim.getCurrentState();

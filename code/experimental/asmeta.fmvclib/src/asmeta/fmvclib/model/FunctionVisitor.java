@@ -542,8 +542,6 @@ public class FunctionVisitor {
 	private String equals(List<Term> argsTerm) {
 		String left = env.tv.visit(argsTerm.get(0));
 		String right = env.tv.visit(argsTerm.get(1));
-		//System.out.println(argsTerm.get(0) + " = " + argsTerm.get(1));
-		//System.out.println(left + " = " + right);
 		return Util.equals(left, right);
 	}
 

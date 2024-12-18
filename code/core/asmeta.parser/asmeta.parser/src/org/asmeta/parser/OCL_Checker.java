@@ -131,6 +131,7 @@ public class OCL_Checker {
 
 	private static String MSG_ERR = "";
 
+	// when the OCL checker returns false, to know the error use this method
 	public static String getMsgErr() {
 		return MSG_ERR;
 	}
@@ -239,11 +240,11 @@ public class OCL_Checker {
 		while (iter.hasNext()) {
 			domName = ((DomainInitialization) iter.next())
 					.getInitializedDomain().getName();
-			if (domMap.containsKey(new Integer(domName.hashCode()))) {
+			if (domMap.containsKey(domName.hashCode())) {
 				MSG_ERR = "Error: Within an initial state a concrete domain can be initialized only once. Domain " + domName;
 				return false;
 			} else
-				domMap.put(new Integer(domName.hashCode()), domName);
+				domMap.put(domName.hashCode(), domName);
 		}
 		return true;
 	}
@@ -261,11 +262,11 @@ public class OCL_Checker {
 				// To distinguish among overloaded function names
 				funName = funName.concat("(").concat(fun.getDomain().getName())
 						.concat(")");
-			if (funMap.containsKey(new Integer(funName.hashCode()))) {
+			if (funMap.containsKey(funName.hashCode())) {
 				MSG_ERR = "Error: Within an initial state a dynamic function can be initialized only once. Function " + funName;
 				return false;
 			} else
-				funMap.put(new Integer(funName.hashCode()), funName);
+				funMap.put(funName.hashCode(), funName);
 		}
 		return true;
 	}
@@ -2965,13 +2966,4 @@ public class OCL_Checker {
 		}
 		return true;
 	}
-
-	public static void setMSG_ERR(String mSG_ERR) {
-		MSG_ERR = mSG_ERR;
-	}
-
-	public static String getMSG_ERR() {
-		return MSG_ERR;
-	}
-
 }// Class end

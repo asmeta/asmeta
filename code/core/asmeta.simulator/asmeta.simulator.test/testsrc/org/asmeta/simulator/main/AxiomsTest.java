@@ -43,7 +43,7 @@ public class AxiomsTest extends BaseTest {
 	
 	@Test
 	public void testInitStateViolation() throws Exception {
-		sim = Simulator.createSimulator(BASE + "test/simulator/axioms/initStateViolation.asm");
+		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/axioms/initStateViolation.asm");
 		runCatchInv(sim,10);//no step is executed
 		Function foo = searchFunction("foo");
 		Value value = sim.currentState.read(new Location(foo, new Value[0]));
@@ -52,8 +52,8 @@ public class AxiomsTest extends BaseTest {
 
 	@Test
 	public void testInitStateMonAxiomViolation() throws Exception {
-		sim = Simulator.createSimulator(BASE + "test/simulator/axioms/initStateMonAxiomViolation.asm",
-										BASE + "test/simulator/axioms/initStateMonAxiomViolation.env");
+		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/axioms/initStateMonAxiomViolation.asm",
+										ASM_EXAMPLES + "test/simulator/axioms/initStateMonAxiomViolation.env");
 		
 		runCatchInv(sim,3);//no step is executed
 		Function foo = searchFunction("fooA");
@@ -63,8 +63,8 @@ public class AxiomsTest extends BaseTest {
 
 	@Test
 	public void testContrStateViolationViolation() throws Exception {
-		sim = Simulator.createSimulator(BASE + "test/simulator/axioms/contrStateViolation.asm",
-										BASE + "test/simulator/axioms/contrStateViolation.env");
+		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/axioms/contrStateViolation.asm",
+										ASM_EXAMPLES + "test/simulator/axioms/contrStateViolation.env");
 		runCatchInv(sim,10);//just 2 steps are executed
 		Function foo = searchFunction("fooA");
 		Value value = sim.currentState.read(new Location(foo, new Value[0]));
@@ -75,8 +75,8 @@ public class AxiomsTest extends BaseTest {
 
 	@Test
 	public void testMonStateViolation() throws Exception {
-		sim = Simulator.createSimulator(BASE + "test/simulator/axioms/monStateViolation.asm",
-										BASE + "test/simulator/axioms/monStateViolation.env");
+		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/axioms/monStateViolation.asm",
+										ASM_EXAMPLES + "test/simulator/axioms/monStateViolation.env");
 		runCatchInv(sim, 10);//Just 3 steps are executed
 		Function foo = searchFunction("fooA");
 		Value value = sim.currentState.read(new Location(foo, new Value[0]));
@@ -88,7 +88,7 @@ public class AxiomsTest extends BaseTest {
 		InvariantTreament olc_c = Simulator.checkInvariants;
 		try{
 			Simulator.checkInvariants = InvariantTreament.CHECK_STOP;
-			sim = Simulator.createSimulator(BASE + "test/simulator/axioms/runUntilEmptyAxiomViolation.asm");
+			sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/axioms/runUntilEmptyAxiomViolation.asm");
 			sim.runUntilEmpty();
 		}finally{
 			Simulator.checkInvariants = olc_c;					
@@ -99,12 +99,12 @@ public class AxiomsTest extends BaseTest {
 		InvariantTreament olc_c = Simulator.checkInvariants;
 		// no check -> continue till asked (20 states)
 		Simulator.checkInvariants = InvariantTreament.NO_CHECK;
-		sim = Simulator.createSimulator(BASE + "test/simulator/axioms/runUntilEmptyAxiomViolation.asm");
+		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/axioms/runUntilEmptyAxiomViolation.asm");
 		sim.run(20);
 		assertEquals(20, sim.getNumOfState());
 		// check and continue -> stops after 9
 		Simulator.checkInvariants = InvariantTreament.CHECK_CONTINUE;
-		sim = Simulator.createSimulator(BASE + "test/simulator/axioms/runUntilEmptyAxiomViolation.asm");
+		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/axioms/runUntilEmptyAxiomViolation.asm");
 		sim.run(20);
 		assertEquals(20, sim.getNumOfState());
 		Simulator.checkInvariants = olc_c;		
@@ -112,8 +112,8 @@ public class AxiomsTest extends BaseTest {
 
 	@Test
 	public void testAxiom_example() throws Exception {
-		sim = Simulator.createSimulator(BASE + "test/simulator/axioms/axiom_example.asm",
-										BASE + "test/simulator/axioms/axiom_example.env");
+		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/axioms/axiom_example.asm",
+										ASM_EXAMPLES + "test/simulator/axioms/axiom_example.env");
 		runCatchInv(sim, 10);//just 2 steps are executed. After two steps the invariant is violated
 		Function fooA = searchFunction("fooA");
 		Value valueA = sim.currentState.read(new Location(fooA, new Value[0]));

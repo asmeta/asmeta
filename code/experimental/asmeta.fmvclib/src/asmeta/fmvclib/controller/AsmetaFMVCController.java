@@ -1,7 +1,9 @@
 package asmeta.fmvclib.controller;
 
 import java.awt.event.ActionEvent;
+import java.io.File;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Observable;
@@ -20,21 +22,22 @@ import javax.swing.Timer;
 import javax.swing.event.ChangeEvent;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
+import org.asmeta.parser.ASMParser;
 import org.asmeta.simulator.UpdateSet;
-import org.asmeta.simulator.main.Simulator;
+import org.asmeta.simulator.value.UndefValue;
 
+import asmeta.AsmCollection;
+import asmeta.definitions.Function;
 import asmeta.fmvclib.annotations.AsmetaControlledLocation;
-import asmeta.fmvclib.annotations.AsmetaModelParameter;
-import asmeta.fmvclib.annotations.AsmetaModelParameters;
+import asmeta.fmvclib.annotations.AsmetaMonitoredLocation;
+import asmeta.fmvclib.annotations.AsmetaMonitoredLocations;
 import asmeta.fmvclib.annotations.AsmetaRunStep;
 import asmeta.fmvclib.annotations.LocationType;
 import asmeta.fmvclib.model.AsmetaFMVCModel;
-import asmeta.fmvclib.model.InitialStateVisitor;
 import asmeta.fmvclib.view.AsmetaFMVCView;
 import asmeta.fmvclib.view.RunStepListener;
 import asmeta.fmvclib.view.RunStepListenerChangeValue;
-import asmeta.structure.FunctionInitialization;
-import asmeta.structure.Initialization;
+import asmeta.fmvclib.view.XButtonModel;
 
 /**
  * The AsmetaFMVCController is a controller to be used when the pattern fMVC is
@@ -54,11 +57,6 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 	 * The view to which the listener has to be attached
 	 */
 	protected AsmetaFMVCView m_view;
-
-	/**
-	 * The map containing the initial assignments
-	 */
-	protected SortedMap<String, String> initMap;
 
 	/**
 	 * The last Update Set
@@ -117,37 +115,41 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 
 		// Get the other annotation of the field
 		List<Field> fieldListMonitoredLst = FieldUtils.getFieldsListWithAnnotation(m_view.getClass(),
-				AsmetaModelParameter.class);
+				AsmetaMonitoredLocation.class);
 		Stream<Field> fieldListMonitored = fieldListMonitoredLst.stream().filter(x -> x.getName().equals(f.getName()));
 		Field locationNameAnnotation = FieldUtils
-				.getFieldsListWithAnnotation(m_view.getClass(), AsmetaModelParameter.class).stream()
+				.getFieldsListWithAnnotation(m_view.getClass(), AsmetaMonitoredLocation.class).stream()
 				.filter(x -> x.getName().equals(f.getName())).findFirst().orElse(null);
 		if (locationNameAnnotation != null)
-			locationName = locationNameAnnotation.getAnnotation(AsmetaModelParameter.class).asmLocationName();
+			locationName = locationNameAnnotation.getAnnotation(AsmetaMonitoredLocation.class).asmLocationName();
 
 		// If multiple annotations
 		if (fieldListMonitored.count() == 0) {
 			fieldListMonitoredLst = FieldUtils.getFieldsListWithAnnotation(m_view.getClass(),
-					AsmetaModelParameters.class);
+					AsmetaMonitoredLocations.class);
 			fieldListMonitored = fieldListMonitoredLst.stream().filter(x -> x.getName().equals(f.getName()));
 			locationNameAnnotation = FieldUtils
-					.getFieldsListWithAnnotation(m_view.getClass(), AsmetaModelParameters.class).stream()
+					.getFieldsListWithAnnotation(m_view.getClass(), AsmetaMonitoredLocations.class).stream()
 					.filter(x -> x.getName().equals(f.getName())).findFirst().orElse(null);
 			if (locationNameAnnotation != null) {
 				// More annotations are available. The one of interest is the one that is used
 				// in only this case, while the others may be repeated
-				for (AsmetaModelParameter annotation : locationNameAnnotation.getAnnotation(AsmetaModelParameters.class).value()) {
-					if (FieldUtils.getFieldsListWithAnnotation(m_view.getClass(), AsmetaModelParameter.class).stream().filter(x -> x.getAnnotation(AsmetaModelParameter.class).asmLocationName().equals(annotation.asmLocationName())).count()==0) {
+				for (AsmetaMonitoredLocation annotation : locationNameAnnotation.getAnnotation(AsmetaMonitoredLocations.class)
+						.value()) {
+					if (FieldUtils.getFieldsListWithAnnotation(m_view.getClass(), AsmetaMonitoredLocation.class).stream()
+							.filter(x -> x.getAnnotation(AsmetaMonitoredLocation.class).asmLocationName()
+									.equals(annotation.asmLocationName()))
+							.count() == 0) {
 						locationName = annotation.asmLocationName();
 						break;
 					}
 				}
 			}
+			
+			// No annotation is found
+			if (fieldListMonitored.count() == 0)
+				throw new RuntimeException("Missing @AsmetaMonitoredLocation annotation for the field " + f.getName());
 		}
-
-		// No annotation is found
-		if (fieldListMonitored.count() == 0)
-			throw new RuntimeException("Missing @AsmetaModelParameter annotation for the field " + f.getName());
 
 		((ButtonColumn) f.get(m_view)).setAction(new GetRowAction(locationName, m_model, m_view));
 	}
@@ -156,17 +158,9 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 	 * Initializes the initial state on the view
 	 */
 	private void initInitialState() {
-		Simulator simulator = this.m_model.getSimulator();
-		Initialization initialization = simulator.getAsmModel().getDefaultInitialState();
-		InitialStateVisitor visitor = new InitialStateVisitor();
-		// Visit the function initialization part
-		for (FunctionInitialization init : initialization.getFunctionInitialization()) {
-			visitor.visitInit(init);
-		}
+		this.m_model.initInitalState();
 
-		// Assign the initialization values to the annotated component
-		initMap = visitor.initMap;
-		updateView(initMap);
+		updateView();
 	}
 
 	/**
@@ -174,16 +168,13 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 	 */
 	@Override
 	public void update(Observable o, Object arg) {
-		updateView(null);
+		updateView();
 	}
 
 	/**
 	 * Updates the view by setting the value of controlled variables
-	 * 
-	 * @param initialAssignments the possible initial assignmets. It may be null if
-	 *                           it is not the first initial set operation
 	 */
-	protected void updateView(SortedMap<String, String> initialAssignments) {
+	protected void updateView() {
 		List<Field> fieldList = FieldUtils.getFieldsListWithAnnotation(m_view.getClass(),
 				AsmetaControlledLocation.class);
 		for (Field f : fieldList) {
@@ -191,64 +182,108 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 			// First, get the value (it can be in the initial assignments or in the current
 			// state)
 			AsmetaControlledLocation annotation = f.getAnnotation(AsmetaControlledLocation.class);
-			String value = "";
-			if (initialAssignments == null) {
-				value = m_model.getValue(annotation.asmLocationName(), annotation.mapKeyType());
-				if (value.split("=").length == 2)
-					value = value.split("=")[1];
-				// If value is not valorized, it means that it has never been changed w.r.t. its
-				// value in the initial state, so we load the value from the initMap
-				if (value.equals(""))
-					value = getValueFromInitialAssignments(initMap, annotation);
-			} else
-				value = getValueFromInitialAssignments(initialAssignments, annotation);
+			List<Entry<String, String>> value;
+			
+			// Look for the domain type of the map (if present) in the ASM
+			LocationType locationType = LocationType.UNDEF;
+			ArrayList<Function> functions = new ArrayList<Function>();
+			AsmCollection asms;
+			try {
+				asms = ASMParser.setUpReadAsm(new File(AsmetaFMVCModel.ASM_PATH + "/" + m_model.getSimulator().getAsmModel().getName() + ASMParser.ASM_EXTENSION));
+				asms.forEach(x -> x.getHeaderSection().getSignature().getFunction().stream()
+						.filter(fn -> fn.getName().equals(annotation.asmLocationName()))
+						.forEach(y -> functions.add(y)));
+				assert functions.size() == 1
+						: "The function " + annotation.asmLocationName() + " has not been found in the ASM";
+
+				if (functions.get(0).getArity() >= 1) {
+					switch (functions.get(0).getDomain().getClass().getSimpleName()) {
+						case "EnumTdImpl":
+							locationType = LocationType.ENUM;
+							break;
+						case "AbstractTdImpl":
+							locationType = LocationType.RESERVE;
+							break;
+						case "ConcreteDomainImpl":
+							// TODO: Other types may be instead of integer
+							locationType = LocationType.INTEGER;
+							break;
+						default:
+							locationType = LocationType.UNDEF;
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			m_model.computeValue(annotation.asmLocationName(), locationType);
+			value = m_model.getValue(annotation.asmLocationName());
 
 			try {
+				String firstValue = value.get(0).getValue();
 				if (f.get(m_view) instanceof JTextField) {
-					((JTextField) (f.get(m_view))).setText(value);
+					assert value.size() == 1;
+					// of undef then do not show anything
+					if (firstValue.equals(UndefValue.UNDEF.toString())) 
+						firstValue = "";
+					((JTextField) (f.get(m_view))).setText(firstValue);
 				} else if (f.get(m_view) instanceof JLabel) {
-					((JLabel) (f.get(m_view))).setText(value);
+					assert value.size() == 1;
+					((JLabel) (f.get(m_view))).setText(firstValue);
 				} else if (f.get(m_view) instanceof JTable) {
-					assert annotation.asmLocationType() == LocationType.MAP;
 					if (value != null) {
 						JTable table = ((JTable) (f.get(m_view)));
 						// Iterate over the results
-						String[] assignments = value.split(", ");
 						int counter = 0;
-						for (String assignment : assignments) {
+						for (Entry<String, String> entry : value) {
 							if (counter < table.getRowCount()) {
-								if (assignment.contains("=") && !assignment.split("=")[1].equals("undef"))
-									table.getModel().setValueAt(assignment.split("=")[1].toLowerCase(), counter, 0);
-								else
-									table.getModel().setValueAt("", counter, 0);
-								counter++;
+								try {
+									if (!entry.getValue().equals("undef"))
+										table.getModel().setValueAt(entry.getValue().toLowerCase(),
+												Integer.parseInt(entry.getKey().split("_")[1]), 0);
+									else
+										table.getModel().setValueAt("", Integer.parseInt(entry.getKey().split("_")[1]),
+												0);
+									counter++;
+								} catch (ArrayIndexOutOfBoundsException e) {
+									// Sometimes it may happen that the view is not yet correctly updated and it
+									// seems that we have more rows than the actually available
+								}
 							}
 						}
 					}
-				} else {
+				} else if (f.get(m_view) instanceof ButtonColumn) {
+					ButtonColumn column = (ButtonColumn) f.get(m_view);
+					if (column.getTable().getModel() instanceof XButtonModel) {
+						XButtonModel xModel = (XButtonModel) column.getTable().getModel();
+						// Iterate over all rows
+						for (Entry<String, String> entry : value) {
+							int row = Integer.valueOf(entry.getKey().split("_")[1]);
+							if (row < column.getTable().getRowCount()) {
+								try {
+									if (entry.getValue().equals("undef") || entry.getValue().equalsIgnoreCase("false"))
+										xModel.setValueAt(row, false);
+									else
+										xModel.setValueAt(row, true);
+								} catch (ArrayIndexOutOfBoundsException e) {
+									// Sometimes it may happen that the view is not yet correctly updated and it
+									// seems that we have more rows than the actually available
+								}
+							}
+						}
+					} else {
+						throw new RuntimeException("This type of TableModel is not yet supported by the fMVC framework: "
+								+ column.getTable().getModel().getClass());
+					}
+				}
+				else {
 					throw new RuntimeException("This type of component is not yet supported by the fMVC framework: "
 							+ f.get(m_view).getClass());
-
 				}
 			} catch (IllegalArgumentException | IllegalAccessException e) {
 				e.printStackTrace();
 			}
 		}
-	}
-
-	/**
-	 * Get the value of a location in the initial assignments
-	 * 
-	 * @param initialAssignments the map of the initial assignments
-	 * @param annotation         the annotation to be processed
-	 * @return the string containing the val
-	 */
-	private String getValueFromInitialAssignments(SortedMap<String, String> initialAssignments,
-			AsmetaControlledLocation annotation) {
-
-		LocationType keyType = annotation.mapKeyType();
-		String locationName = annotation.asmLocationName();
-		return getValueFromInitialAssignments(initialAssignments, keyType, locationName);
 	}
 
 	/**
@@ -344,11 +379,39 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 			List<Field> fieldList = FieldUtils.getFieldsListWithAnnotation(m_view.getClass(), AsmetaRunStep.class);
 			for (Field f : fieldList) {
 				f.setAccessible(true);
-				if (f.getAnnotation(AsmetaRunStep.class).refreshGui()) {
-					m_view.refreshView(false);
-					updateView(null);
+				if (f.getAnnotation(AsmetaRunStep.class).repaintView()) {
+					m_view.repaintView(false);
+					updateView();
 				}
 			}
 		}
+	}
+	
+	/**
+	 * Updates the blocked status by using an X on the time instants which are
+	 * locked
+	 * 
+	 * @param functionName the name of the function
+	 * @param table the JTable containint the ButtonColumn
+	 */
+	public void updateButtonColumnStatus(String functionName, JTable table) {
+		m_model.computeValue(functionName, LocationType.INTEGER);
+		List<Entry<String, String>> value = m_model.getValue(functionName);
+		XButtonModel model = (XButtonModel) table.getModel();
+
+		// Iterate over the results
+		for (Entry<String, String> assignment : value) {
+			if (Integer.parseInt(assignment.getKey().split("_")[1]) < model.getRowCount()) {
+				if (!assignment.getValue().equals("undef")) {
+					if (assignment.getValue().toLowerCase().equals("true")
+							&& model.getValueAt(Integer.parseInt(assignment.getKey().split("_")[1]), 0).equals(""))
+						model.updateValue(Integer.parseInt(assignment.getKey().split("_")[1]));
+					else if (assignment.getValue().toLowerCase().equals("false")
+							&& model.getValueAt(Integer.parseInt(assignment.getKey().split("_")[1]), 0).equals("X"))
+						model.updateValue(Integer.parseInt(assignment.getKey().split("_")[1]));
+				}
+			}
+		}
+		table.repaint();
 	}
 }

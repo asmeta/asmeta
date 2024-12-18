@@ -1,7 +1,7 @@
 asm door
 
 import ../../../../../asm_examples/STDL/StandardLibrary
-import ../../../../../asm_examples/STDL/CTLlibrary
+import ../../../../../asm_examples/STDL/CTLLibrary
 
 signature:
 	enum domain ButtonDomain = {IN_OPEN | IN_CLOSE | OUT_OPEN | OUT_CLOSE | NONE}

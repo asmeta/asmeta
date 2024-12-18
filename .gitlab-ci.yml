@@ -1,41 +1,76 @@
 variables:
   # This will suppress any download for dependencies and plugins or upload messages which would clutter the console log.
   # `showDateTime` will show the passed time in milliseconds. You need to specify `--batch-mode` to make this work.
-  MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true  -Djava.awt.headless=true"
+  # MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true  -Djava.awt.headless=true"
+  MAVEN_OPTS: -Dmaven.repo.local=.m2/repository
 
 # Specify the version of java to use
-image: maven:3-jdk-8
+# image: maven:3.8.5-openjdk-17
+# provo questa che poi magari riesco ad installare g++
+image: maven:3.9.5-eclipse-temurin-17-alpine
 
 # Specify the stages that will make up the pipeline
 stages:
   - build
   - test
-  - post-test
-
+  #- post-test
+    
 # Cache downloaded dependencies and plugins between builds.
 # To keep cache across branches add 'key: "$CI_JOB_NAME"'
 cache:
   paths:
     - .m2/repository
+    - target
 
 # Template for running a code quality analyzer 
-include:
-  - template: Code-Quality.gitlab-ci.yml
+#include:
+#  - template: Code-Quality.gitlab-ci.yml
   
 # Job for checking wether the mvn build succeeds
 build:
   stage: build
+  # lo metto per farlo eseguire manualmente
+  allow_failure: false
   script:
     - mvn compile
+  # run the CI only on the branch gitlab_ci
+  only:
+    - gitlab_ci
 
 # Job to run all surefire tests and run the JaCoCo coverage plugin
 # TODO:
 # - Remove the failure.ignore=true AFTER fixing all the tests.
 #   To make it so that when a test fails, the pipeline job also fails.
-test-jdk8:
+test:
   stage: test
+  # lo metto per farlo eseguire manualmente
+  allow_failure: false
+  variables:
+        NUSMV_URL: "https://nusmv.fbk.eu/distrib"
+        NUSMV_FILE: "NuSMV-2.6.0-linux64.tar.gz"
+  before_script:
+#    - apt-get update -y
+#    - apt-get upgrade -y
+#    - apt-get install wget -y        
+  # install nusmv  
+#    - wget -O "$NUSMV_FILE" "${NUSMV_URL}/${NUSMV_FILE}"
+    - curl "${NUSMV_URL}/${NUSMV_FILE}" --output ${NUSMV_FILE}
+    - tar -xf "$NUSMV_FILE"
+    #- chmod +x NuSMV-2.6.0-Linux\bin
+    #    - chown root:root monteur
+    #    - cd ..
+    #    - mkdir -p "$MONTEUR_FS"
+    #    - mv ./tmp/monteur "${MONTEUR_FS}/."
+    #    - rm -rf tmp/
+    #    - ls -la "${PWD}/${MONTEUR_FS}"
+    - export PATH="$PATH:$PWD/NuSMV-2.6.0-Linux/bin/"
+    # - NuSMV -help
+    # installiano il g++ per asmeta2gcc
+    - apk add --no-cache g++ make
   script:
-    - 'mvn -Dmaven.test.failure.ignore=true --batch-mode --fail-at-end org.jacoco:jacoco-maven-plugin:prepare-agent test org.jacoco:jacoco-maven-plugin:report-aggregate'
+#    - mvn -Dassembly.skipAssembly=true -Dmaven.test.failure.ignore=true --batch-mode --fail-at-end org.jacoco:jacoco-maven-plugin:prepare-agent test org.jacoco:jacoco-maven-plugin:report-aggregate
+#    - mvn --batch-mode --fail-at-end org.jacoco:jacoco-maven-plugin:prepare-agent test org.jacoco:jacoco-maven-plugin:report-aggregate
+     - mvn test
   artifacts:
     when: always
     reports: # Upload the info for the job report artifact (artifact:reports:junit in this case)
@@ -48,22 +83,29 @@ test-jdk8:
     paths: # Upload the file as a generic job artifact
       - reports/coverage/report.aggregate/jacoco.xml
       - reports/coverage/report.aggregate/index.html
+  # run the CI only on the branch gitlab_ci
+  only:
+    - gitlab_ci
       
-# Job for uploading the json report as artifact to gitlab.
-# Will show up in the pipeline report.
-code_quality:
-  stage: post-test
-  artifacts:
-    paths: [gl-code-quality-report.json]
+# # Job for uploading the json report as artifact to gitlab.
+# # Will show up in the pipeline report.
+# code_quality:
+#   # lo metto per farlo eseguire manualmente
+#   allow_failure: false
+#   stage: post-test
+#   artifacts:
+#     paths: [gl-code-quality-report.json]
 
-# Job for uploading the html report as artifact to gitlab
-code_quality_html:
-  stage: post-test
-  extends: code_quality
-  variables:
-    REPORT_FORMAT: html
-  artifacts:
-    paths: [gl-code-quality-report.html]
+# # Job for uploading the html report as artifact to gitlab
+# code_quality_html:
+#   # lo metto per farlo eseguire manualmente
+#   allow_failure: false
+#   stage: post-test
+#   extends: code_quality
+#   variables:
+#     REPORT_FORMAT: html
+#   artifacts:
+#     paths: [gl-code-quality-report.html]
 
 # Job to translate the JaCoCo xml into a cobertura xml
 # coverage:

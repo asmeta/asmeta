@@ -120,7 +120,8 @@ public class UndefRemover {
 						if (domainBody instanceof SetTerm) {
 							SetTerm st = (SetTerm) domainBody;
 							IntegerTerm it = FurthertermsFactory.eINSTANCE.createIntegerTerm();
-							String symbol = Integer.toString(max + 1);
+							// add now a new value, for instance max + 1234
+							String symbol = Integer.toString(max + 1234);
 							it.setSymbol(symbol);
 							st.getTerm().add(it);
 							fixedDomain.add(codomain);

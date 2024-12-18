@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.asmeta.parser.Utility;
 import org.asmeta.simulator.value.AgentValue;
 import org.asmeta.simulator.value.BagValue;
 import org.asmeta.simulator.value.BooleanValue;
@@ -45,63 +46,72 @@ import asmeta.transitionrules.basictransitionrules.Rule;
  * 
  */
 public class StandardLibrary {
-	// -------------------
-	
-	// this name is reserved 
-	public static final String STANDARD_LIBARY_NAME = "StandardLibrary";
-	
-	
-	public static final String CTL_LIBARY_NAME = "CTLlibrary";
 
-	public static final String LTL_LIBARY_NAME = "LTLlibrary";
-	
 	/**
 	 * 
 	 * @param asmname (with or without .asm) with or without path (the names are reserved)
 	 * @return  return if it refers to a standard library (CTL and LTL included)
 	 */
 	public static boolean isAStandardLibrary(String asmname) {
-		return (asmname.contains(StandardLibrary.STANDARD_LIBARY_NAME) ||
-				asmname.contains(StandardLibrary.CTL_LIBARY_NAME) ||
-				asmname.contains(StandardLibrary.LTL_LIBARY_NAME));
+		return (asmname.contains(Utility.STANDARD_LIBRARY_NAME) ||
+				asmname.contains(Utility.CTL_LIBRARY_NAME) ||
+				asmname.contains(Utility.LTL_LIBRARY_NAME)||
+				asmname.contains(Utility.TIME_LIBRARY_NAME));
 	} 
 	
 
 	// //////////////////////////////////////////////////////////////////////
 	// Boolean
-
+	// ATTENTION: this does not allow lazy evaluation - they take a value which must be already computed
+	// TODO allow 
 	public static BooleanValue not(BooleanValue op1) {
 		if (!op1.getValue())
 			return BooleanValue.TRUE;
 		else
 			return BooleanValue.FALSE;
 	}
+	public static UndefValue not(UndefValue op1) {
+		return UndefValue.UNDEF;
+	}
 
 	public static BooleanValue and(BooleanValue op1, BooleanValue op2) {
+		// this && performs already the lazy evaluation
 		if (op1.getValue() && op2.getValue())
 			return BooleanValue.TRUE;
 		else
 			return BooleanValue.FALSE;
 	}
-
-	public static BooleanValue and(UndefValue op1, BooleanValue op2) {
-		return BooleanValue.FALSE;
+	// in case one is undef
+	public static Value and(UndefValue op1, BooleanValue op2) {
+		if (! op2.getValue()) return BooleanValue.FALSE;
+		else return  UndefValue.UNDEF;
 	}
-
+	public static Value and(BooleanValue op1, UndefValue op2) {
+		if (! op1.getValue()) return BooleanValue.FALSE;
+		else return  UndefValue.UNDEF;
+	}
+	public static UndefValue and(UndefValue op1, UndefValue op2) {
+		return UndefValue.UNDEF;
+	}
+	// OR
 	public static BooleanValue or(BooleanValue op1, BooleanValue op2) {
 		if (op1.getValue() || op2.getValue())
 			return BooleanValue.TRUE;
 		else
 			return BooleanValue.FALSE;
 	}
-
 	public static Value or(BooleanValue op1, UndefValue op2) {
 		if (op1.getValue())
 			return BooleanValue.TRUE;
 		else
 			return UndefValue.UNDEF;
 	}
-
+	public static Value or(UndefValue op1, BooleanValue op2) {
+		if (op2.getValue())
+			return BooleanValue.TRUE;
+		else
+			return UndefValue.UNDEF;
+	}
 	public static UndefValue or(UndefValue op1, UndefValue op2) {
 		return UndefValue.UNDEF;
 	}
@@ -114,7 +124,7 @@ public class StandardLibrary {
 		else
 			return BooleanValue.FALSE;
 	}
-
+	// xor undef TODO
 	public static BooleanValue implies(BooleanValue op1, BooleanValue op2) {
 		if (!op1.getValue())
 			return BooleanValue.TRUE;

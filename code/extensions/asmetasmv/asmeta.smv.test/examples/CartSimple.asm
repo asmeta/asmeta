@@ -10,7 +10,7 @@ asm CartSimple
 // Removed loop (NO -> CLOSED)
 
 import ../../../../../asm_examples/STDL/StandardLibrary
-import ../../../../../asm_examples/STDL/CTLlibrary
+import ../../../../../asm_examples/STDL/CTLLibrary
 
 signature:
 	// DOMAINS
@@ -123,10 +123,10 @@ definitions:
 	// I prodotti nel carrello sono sempre minori o uguali di due
 	CTLSPEC ag(numOfProductsInCart <= 2)
 	
-	// Effettuato il pagamento si rimarrà nello stato CLOSED
+	// Effettuato il pagamento si rimarrï¿½ nello stato CLOSED
 	CTLSPEC ag(cartState = CLOSED implies ag(cartState = CLOSED))
 	
-	// Iniziato un ordine si finirà sicuramente nello stato CLOSED (Grazie al numero massimo di prodotti nel carrello si evitano loop)
+	// Iniziato un ordine si finirï¿½ sicuramente nello stato CLOSED (Grazie al numero massimo di prodotti nel carrello si evitano loop)
 	CTLSPEC ag(cartState = CHOOSE_GEN_COM implies af(cartState = CLOSED))
 
 	// In ogni percorso, dopo aver cliccato EXIT si passa allo stato CLOSED

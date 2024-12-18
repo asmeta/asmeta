@@ -1,0 +1,9 @@
+// starting scenario
+// using the function chooseone to restart the non-determinism
+scenario SCENARIO_NAME
+load CoffeeVendingMachineGround.asm
+// ...
+pick $p := chooseone(Product);
+step
+check dispensed = TEA or dispensed = COFFEE;
+step

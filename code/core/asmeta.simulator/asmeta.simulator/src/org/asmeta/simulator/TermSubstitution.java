@@ -37,8 +37,8 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.asmeta.parser.util.ReflectiveVisitor;
 import org.asmeta.parser.util.AsmetaTermPrinter;
+import org.asmeta.parser.util.ReflectiveVisitor;
 import org.asmeta.simulator.wrapper.RuleFactory;
 
 import asmeta.terms.basicterms.ConstantTerm;
@@ -80,7 +80,8 @@ public class TermSubstitution extends ReflectiveVisitor<Term> {
 	 * Creates new terms and rules.
 	 * 
 	 */
-	public static RuleFactory ruleFactory;
+	//FIXME non dovrebbe essere static !!!
+	protected static RuleFactory ruleFactory;
 	
 	/**
 	 * This field is added to the name of renamed bound variables to avoid
@@ -107,11 +108,12 @@ public class TermSubstitution extends ReflectiveVisitor<Term> {
      *  
      * @param params assignment of terms and free variables
      */
-    public TermSubstitution(TermAssignment params) {
+    public TermSubstitution(TermAssignment params,RuleFactory ruleFactory) {
         assignment = params;
         // FIXME getFrees() should go in the class TermAssignment to avoid
         // to call it every time a new TermSubstitution is created
         freeVars = getFrees();
+        this.ruleFactory = ruleFactory;
     }
     
     /**
@@ -121,6 +123,7 @@ public class TermSubstitution extends ReflectiveVisitor<Term> {
     public TermSubstitution(TermSubstitution substitution) {
     	assignment = new TermAssignment(substitution.assignment);
     	freeVars = getFrees();
+    	this.ruleFactory = substitution.ruleFactory;
     }
        
     /**

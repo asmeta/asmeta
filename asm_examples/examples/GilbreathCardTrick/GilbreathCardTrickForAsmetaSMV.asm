@@ -3,8 +3,8 @@ asm GilbreathCardTrickForAsmetaSMV
 //execution time 146 seconds
 
 import ../../STDL/StandardLibrary
-import ../../STDL/CTLlibrary
-import ../../STDL/LTLlibrary
+import ../../STDL/CTLLibrary
+import ../../STDL/LTLLibrary
 
 signature:
 	enum domain Suit = {SPADES | HEARTS | CLUBS | DIAMONDS}

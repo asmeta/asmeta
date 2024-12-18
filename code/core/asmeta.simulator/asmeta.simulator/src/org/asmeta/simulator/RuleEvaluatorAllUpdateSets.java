@@ -112,7 +112,7 @@ public class RuleEvaluatorAllUpdateSets extends RuleVisitor<SetUpdateSet> {
 	public TermEvaluator termEval;
 
 	/**
-	 * Constructs an evaluator: reuses the covere dmacros
+	 * Constructs an evaluator: reuses the covered macros
 	 * 
 	 * @param state state
 	 * @param environment environment
@@ -518,7 +518,7 @@ public class RuleEvaluatorAllUpdateSets extends RuleVisitor<SetUpdateSet> {
 		} else {
 			ValueAssignment newAssignment = new ValueAssignment(termEval.assignment);
 			newAssignment.put(chooseRule.getVariable(), boundContent);
-			RuleEvaluator newEvaluator = new RuleEvaluator(termEval.state, termEval.environment, newAssignment);
+			RuleEvaluatorAllUpdateSets newEvaluator = createRuleEvaluator(termEval.state,termEval.environment,newAssignment);
 			BooleanValue guard = null;
 			if (chooseRule.getGuard() != null) {
 				guard = (BooleanValue) newEvaluator.visitTerm(chooseRule.getGuard());
@@ -532,6 +532,10 @@ public class RuleEvaluatorAllUpdateSets extends RuleVisitor<SetUpdateSet> {
 				logger.debug("</DoRule>");
 			}
 		}
+	}
+
+	private RuleEvaluatorAllUpdateSets createRuleEvaluator(State state, Environment environment, ValueAssignment newAssignment) {
+		return new RuleEvaluatorAllUpdateSets(state,environment,newAssignment);
 	}
 
 	/**
@@ -661,7 +665,7 @@ public class RuleEvaluatorAllUpdateSets extends RuleVisitor<SetUpdateSet> {
 				TermAssignment macroAssignment = new TermAssignment();
 				macroAssignment.put(variables, arguments);
 				RuleSubstitution substitution = 
-					new RuleSubstitution(macroAssignment);
+					new RuleSubstitution(macroAssignment,TermSubstitution.ruleFactory);
 				newRule = substitution.visit(body);
 				logger.debug("</Substitution>");
 				macros.put(signature, newRule);
@@ -738,7 +742,7 @@ public class RuleEvaluatorAllUpdateSets extends RuleVisitor<SetUpdateSet> {
 		RuleDeclaration dcl = ruleValue.getRule();
 		List<Term> arguments = termAsRule.getParameters();
 		// set the self location
-		termEval.state.locationMap.put(TermEvaluator.self, agent);
+		termEval.state.applyLocationUpdate(TermEvaluator.self, agent);
 		SetUpdateSet setUpdateSets = visit(dcl, arguments);
 		logger.debug("</TermAsRule>");
 		return setUpdateSets;

@@ -1,7 +1,7 @@
 asm darts
 
 import ../STDL/StandardLibrary
-import ../STDL/CTLlibrary
+import ../STDL/CTLLibrary
 
 signature:
 	enum domain Area = {RED | GREEN | OUT}

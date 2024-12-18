@@ -1,7 +1,7 @@
 asm filosofiEciliegieAgents
 
 import ../../STDL/StandardLibrary
-import ../../STDL/CTLlibrary
+import ../../STDL/CTLLibrary
 
 signature:
 	domain Philosopher subsetof Agent

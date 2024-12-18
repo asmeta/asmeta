@@ -41,7 +41,7 @@ public class TimeTest extends BaseTest {
 	@Test
 	public void test_1_jt() throws Exception {
 		// one monitored variable with time seconds
-		sim = Simulator.createSimulator(BASE + "test/simulator/time/time1.asm");
+		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/time/time1.asm");
 		Environment.timeMngt = TimeMngt.use_java_time;
 		sim.run(1);
 		State state = sim.getCurrentState();
@@ -55,7 +55,7 @@ public class TimeTest extends BaseTest {
 	@Test
 	public void test_2_jt() throws Exception {
 		// 2 monitored variables
-		sim = Simulator.createSimulator(BASE + "test/simulator/time/time2.asm");
+		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/time/time2.asm");
 		Environment.timeMngt = TimeMngt.use_java_time;
 		Instant startFrom = Instant.now();
 		TimeUnit.MILLISECONDS.sleep(3);
@@ -77,7 +77,7 @@ public class TimeTest extends BaseTest {
 
 	@Test
 	public void test_mix1_jt() throws Exception {
-		sim = Simulator.createSimulator(BASE + "test/simulator/time/mixedtime1.asm");
+		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/time/mixedtime1.asm");
 		Environment.timeMngt = TimeMngt.use_java_time;
 		// Environment.currentTimeUnit = TimeUnit.MILLISECONDS;
 		sim.run(1);
@@ -98,7 +98,7 @@ public class TimeTest extends BaseTest {
 	@Test
 	public void test_mix2_jt() throws Exception {
 		// 2 monitored variables
-		sim = Simulator.createSimulator(BASE + "test/simulator/time/mixedtime2.asm");
+		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/time/mixedtime2.asm");
 		Environment.timeMngt = TimeMngt.use_java_time;
 		sim.run(1);
 		State state = sim.getCurrentState();
@@ -145,7 +145,7 @@ public class TimeTest extends BaseTest {
 		Environment.currentTimeUnit = null;
 		Environment.timeMngt = TimeMngt.ask_user;
 		SimulatedUser monFuncReader = new SimulatedUser();
-		sim = Simulator.createSimulator(BASE + "test/simulator/time/time1.asm", new Environment(monFuncReader));
+		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/time/time1.asm", new Environment(monFuncReader));
 		sim.run(1);
 		assertEquals("0", getFunctionValue("time", sim.getCurrentState()));
 		monFuncReader.inctime();sim.run(1);
@@ -158,7 +158,7 @@ public class TimeTest extends BaseTest {
 		Environment.currentTimeUnit = ChronoUnit.MILLIS;
 		Environment.timeMngt = TimeMngt.ask_user;
 		SimulatedUser monFuncReader = new SimulatedUser();
-		sim = Simulator.createSimulator(BASE + "test/simulator/time/time1.asm", new Environment(monFuncReader));
+		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/time/time1.asm", new Environment(monFuncReader));
 		// warning !!!
 		sim.run(1);
 		assertEquals("0", getFunctionValue("time", sim.getCurrentState()));
@@ -174,7 +174,7 @@ public class TimeTest extends BaseTest {
 		Environment.currentTimeUnit = null; // auto mode
 		Environment.timeMngt = TimeMngt.ask_user;
 		SimulatedUser user = new SimulatedUser();
-		sim = Simulator.createSimulator(BASE + "test/simulator/time/time2.asm", new Environment(user));
+		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/time/time2.asm", new Environment(user));
 		sim.run(1);
 		// check that it asks only once
 		assertEquals("0", getFunctionValue("time1", sim.getCurrentState()));
@@ -193,7 +193,7 @@ public class TimeTest extends BaseTest {
 		Environment.currentTimeUnit = null;
 		Environment.timeMngt = TimeMngt.ask_user;
 		SimulatedUser user = new SimulatedUser();
-		sim = Simulator.createSimulator(BASE + "test/simulator/time/mixedtime2.asm", new Environment(user));
+		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/time/mixedtime2.asm", new Environment(user));
 		user.inctime();sim.run(1);
 		user.inctime();sim.run(1);
 		user.inctime();sim.run(1);
@@ -207,7 +207,7 @@ public class TimeTest extends BaseTest {
 		Environment.currentTimeUnit = null;
 		Environment.timeMngt = TimeMngt.ask_user;
 		SimulatedUser user = new SimulatedUser();
-		sim = Simulator.createSimulator(BASE + "test/simulator/time/mixedtime1.asm", new Environment(user));
+		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/time/mixedtime1.asm", new Environment(user));
 		user.inctime();sim.run(1);
 		user.inctime();sim.run(1);
 		user.inctime();sim.run(1);
@@ -222,7 +222,7 @@ public class TimeTest extends BaseTest {
 		Environment.currentTimeUnit = ChronoUnit.MILLIS; // it should ask for milliseconds
 		Environment.timeMngt = TimeMngt.ask_user;
 		SimulatedUser u = new SimulatedUser();
-		sim = Simulator.createSimulator(BASE + "test/simulator/time/mixedtime2.asm", new Environment(u));
+		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/time/mixedtime2.asm", new Environment(u));
 		String t1 = getFunctionValue("timeS", sim.getCurrentState());
 		String t2 = getFunctionValue("timeMS", sim.getCurrentState());
 		assertEquals(Double.parseDouble(t1), 0, 0);
@@ -252,7 +252,7 @@ public class TimeTest extends BaseTest {
 	@Test
 	public void test_1_ai() throws Exception {
 		// one monitored variable with time seconds
-		sim = Simulator.createSimulator(BASE + "test/simulator/time/time1.asm");
+		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/time/time1.asm");
 		Environment.timeMngt = TimeMngt.auto_increment;
 		Environment.currentTimeUnit = ChronoUnit.SECONDS;
 		sim.run(1);

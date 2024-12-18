@@ -72,7 +72,7 @@ public class ImportFlattener {
 		Signature signature;
 		Initialization defaultInitialState;
 		Set<Asm> asmSet = new HashSet<Asm>();
-		getAsms(list, asmSet);
+		getAsms(list, asmSet, this.folder);
 		for (Asm asm : asmSet) {
 			signature = asm.getHeaderSection().getSignature();
 			domains.addAll(signature.getDomain());
@@ -91,9 +91,10 @@ public class ImportFlattener {
 	 * 
 	 * @param list   the list of imported clauses
 	 * @param asmSet the set of imported ASMs
+	 * @param folder the current parent folder of the visiting file or library
 	 * 
 	 */
-	private void getAsms(List<ImportClause> list, Set<Asm> asmSet) {
+	private void getAsms(List<ImportClause> list, Set<Asm> asmSet, String folder) {
 		String moduleName;// name of the imported module
 		File file;
 		AsmCollection asms;
@@ -101,8 +102,8 @@ public class ImportFlattener {
 		if (list != null) {
 			for (ImportClause ic : list) {
 				moduleName = ic.getModuleName();
-				if (!moduleName.endsWith("StandardLibrary") && !moduleName.endsWith("CTLlibrary")
-						&& !moduleName.endsWith("LTLlibrary")) {
+				if (!moduleName.endsWith(Utility.STANDARD_LIBRARY_NAME) && !moduleName.endsWith(Utility.CTL_LIBRARY_NAME)
+						&& !moduleName.endsWith(Utility.LTL_LIBRARY_NAME)) {
 					// Import the file
 					file = Utility.importFile(folder, ic);
 					asms = null;
@@ -114,7 +115,7 @@ public class ImportFlattener {
 					}
 					main = asms.getMain();
 					asmSet.add(main);
-					getAsms(main.getHeaderSection().getImportClause(), asmSet);
+					getAsms(main.getHeaderSection().getImportClause(), asmSet, file.getParent());
 				}
 			}
 		}

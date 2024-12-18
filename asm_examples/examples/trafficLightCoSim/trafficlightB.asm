@@ -1,7 +1,7 @@
 asm trafficlightB
  
 import ../../STDL/StandardLibrary
-import ../../STDL/CTLlibrary
+import ../../STDL/CTLLibrary
 
 signature:
 	// DOMAINS

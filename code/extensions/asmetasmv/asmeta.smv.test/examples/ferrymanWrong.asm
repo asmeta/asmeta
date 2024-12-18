@@ -1,7 +1,7 @@
 asm ferrymanWrong
 
 import ../../../../../asm_examples/STDL/StandardLibrary
-import ../../../../../asm_examples/STDL/CTLlibrary
+import ../../../../../asm_examples/STDL/CTLLibrary
 
 //Questo modello ASM e' l'implementazione di un comportamento errato
 //(che porta a situazioni di pericolo) da parte del FERRYMAN.

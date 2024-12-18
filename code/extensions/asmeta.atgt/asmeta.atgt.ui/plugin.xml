@@ -46,6 +46,7 @@
 <extension
       point="org.eclipse.ui.preferencePages">
    <page
+            category="asmeta.plugin.preferences"
          class="org.asmeta.atgt.ui.preferences.ATGTPreferencePage"
          id="org.asmeta.atgt.ui.preferences.ATGTPreferencePage"
          name="ATGT Preferences">

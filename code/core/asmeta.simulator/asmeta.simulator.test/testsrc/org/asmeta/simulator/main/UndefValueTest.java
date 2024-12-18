@@ -16,43 +16,43 @@ public class UndefValueTest extends BaseTest {
 
 	@Test(expected = org.asmeta.simulator.UpdateClashException.class)
 	public void testinconUpdateWithUndef1() throws Exception {
-		sim = Simulator.createSimulator(BASE + "test/simulator/inconUpdateWithUndef.asm",
-				BASE + "test/env/inconUpdateWithUndef1.env");
+		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/inconUpdateWithUndef.asm",
+				ASM_EXAMPLES + "test/env/inconUpdateWithUndef1.env");
 		sim.run(1);
 	}
 
 	@Test(expected = org.asmeta.simulator.UpdateClashException.class)
 	public void testinconUpdateWithUndef2() throws Exception {
-		sim = Simulator.createSimulator(BASE + "test/simulator/inconUpdateWithUndef.asm",
-				BASE + "test/env/inconUpdateWithUndef2.env");
+		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/inconUpdateWithUndef.asm",
+				ASM_EXAMPLES + "test/env/inconUpdateWithUndef2.env");
 		sim.run(1);
 	}
 
 	@Test(expected = org.asmeta.simulator.UpdateClashException.class)
 	public void testinconUpdateWithUndef3() throws Exception {
-		sim = Simulator.createSimulator(BASE + "test/simulator/inconUpdateWithUndef.asm",
-				BASE + "test/env/inconUpdateWithUndef3.env");
+		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/inconUpdateWithUndef.asm",
+				ASM_EXAMPLES + "test/env/inconUpdateWithUndef3.env");
 		sim.run(1);
 	}
 
 	@Test(expected = org.asmeta.simulator.UpdateClashException.class)
 	public void testinconUpdateWithUndef4() throws Exception {
-		sim = Simulator.createSimulator(BASE + "test/simulator/inconUpdateWithUndef.asm",
-				BASE + "test/env/inconUpdateWithUndef4.env");
+		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/inconUpdateWithUndef.asm",
+				ASM_EXAMPLES + "test/env/inconUpdateWithUndef4.env");
 		sim.run(1);
 	}
 
 	@Test(expected = org.asmeta.simulator.UpdateClashException.class)
 	public void testinconUpdateWithUndef5() throws Exception {
-		sim = Simulator.createSimulator(BASE + "test/simulator/inconUpdateWithUndef.asm",
-				BASE + "test/env/inconUpdateWithUndef5.env");
+		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/inconUpdateWithUndef.asm",
+				ASM_EXAMPLES + "test/env/inconUpdateWithUndef5.env");
 		sim.run(1);
 	}
 
 	@Test(expected = org.asmeta.simulator.UpdateClashException.class)
 	public void testinconUpdateWithUndef6() throws Exception {
-		sim = Simulator.createSimulator(BASE + "test/simulator/inconUpdateWithUndef.asm",
-				BASE + "test/env/inconUpdateWithUndef6.env");
+		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/inconUpdateWithUndef.asm",
+				ASM_EXAMPLES + "test/env/inconUpdateWithUndef6.env");
 		sim.run(1);
 	}
 }

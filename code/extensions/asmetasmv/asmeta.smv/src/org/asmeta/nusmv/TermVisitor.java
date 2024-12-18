@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.Stack;
 
 import org.asmeta.nusmv.util.AsmNotSupportedException;
+import org.asmeta.nusmv.util.AsmetaSMVOptions;
 import org.asmeta.nusmv.util.Util;
 import org.asmeta.parser.Defs;
 
@@ -44,10 +45,16 @@ import asmeta.terms.furtherterms.NaturalTerm;
 import asmeta.terms.furtherterms.RealTerm;
 /**
  * 
- * returns the 
+ * returns the traslation in NUSMV of the term passed 
  *
  */
 public class TermVisitor extends org.asmeta.parser.util.ReflectiveVisitor<String> {
+	
+	// eu and au operators in CTLLibrary
+	private static final String EU_OP = "eu";
+	private static final String AU_OP = "au";
+	public static final String UNDEF_VALUE = "undef";
+	
 	MapVisitor mv;
 	private Environment env;
 	protected FunctionVisitor fv;
@@ -72,7 +79,6 @@ public class TermVisitor extends org.asmeta.parser.util.ReflectiveVisitor<String
 	 * @return the string
 	 */
 	public String visit(Term term) {
-		//System.out.println("visit term "+term);
 		return visit((Object) term);
 	}
 
@@ -174,8 +180,11 @@ public class TermVisitor extends org.asmeta.parser.util.ReflectiveVisitor<String
 				s.append(funcSymbol);
 			}
 			else {
-				if(funcName.equals("a") || funcName.equals("e")){
-					s.append(funcName.toUpperCase() + "[");
+				// found AU e EU
+				if(funcName.equals(AU_OP) || funcName.equals(EU_OP)){
+					// only the first letter A or E
+					char pathOp = funcName.toUpperCase().charAt(0);
+					s.append(pathOp + "[");
 				}
 				else if(arity >= 1) {
 					if(!funcName.equals("u")) {
@@ -192,7 +201,7 @@ public class TermVisitor extends org.asmeta.parser.util.ReflectiveVisitor<String
 						s.append(" " + funcSymbol + " " + visit(term));
 					}
 				}
-				if(funcName.equals("a") || funcName.equals("e")) {
+				if(funcName.equals(AU_OP) || funcName.equals(EU_OP)) {
 					s.append("]");
 				}
 				else {
@@ -438,7 +447,9 @@ public class TermVisitor extends org.asmeta.parser.util.ReflectiveVisitor<String
 	 * @return the string
 	 */
 	public String visit(UndefTerm undef) {
-		return "undef";
+		// sometimes it is impossible to know how to stralte undef
+		// like f := if true then undef else 5;
+		return UNDEF_VALUE;
 	}
 	
 	/**
@@ -579,9 +590,9 @@ public class TermVisitor extends org.asmeta.parser.util.ReflectiveVisitor<String
 			else {
 				Domain dom = caseTerm.getDomain();
 				assert dom != null;
-				Map<String, String> undefInDomains = mv.getUndefValue();
+				String undefInDomains = mv.getUndefValue(dom.getName());
 				assert undefInDomains != null : mv.toString();
-				rules.add(undefInDomains.get(dom.getName()));
+				rules.add(undefInDomains);
 			}
 		}
 		if(conds.contains(Util.trueString)) {
@@ -614,7 +625,7 @@ public class TermVisitor extends org.asmeta.parser.util.ReflectiveVisitor<String
 		}
 		else {
 			Domain dom = condTerm.getDomain();
-			elseBranch = mv.getUndefValue().get(dom.getName());
+			elseBranch = mv.getUndefValue(dom.getName());
 		}
 		if(guard.equals(falseString)) {
 			return elseBranch;

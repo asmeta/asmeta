@@ -19,7 +19,7 @@ asm coffeeVendingMachine
 //L'utente del sistema decide ad ogni passo di simulazione il tipo di moneta da inserire.
 
 import ../../STDL/StandardLibrary
-//import STDL/CTLlibrary
+//import STDL/CTLLibrary
 
 signature:
 	enum domain CoinType = {HALF | ONE}

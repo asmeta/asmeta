@@ -1,36 +1,15 @@
 package org.asmeta.eclipse;
 
-import java.io.IOException;
+/**
+ * Asmeta Console to be used for all the ASMETA Plugins. For now it iused as
+ * default console (for simulation and parsing for example
+ */
 
-import org.eclipse.ui.console.IOConsole;
-import org.eclipse.ui.console.IOConsoleOutputStream;
+public class AsmeeConsole extends AsmetaConsole {
 
-/** 
- * Asmeta Console to be used for all the ASMETA Plugins
- * 
- * TODO rename as asmeta console
- * 
- * */
-public class AsmeeConsole extends IOConsole {
 	private static final String CONSOLE_NAME = "Asmeta console";
-
+	
 	public AsmeeConsole() {
-		super(CONSOLE_NAME, null);			
-	}	
-
-	/** write a simple string message
-	 * 
-	 * @param s
-	 */
-	public void writeMessage(String s){
-		IOConsoleOutputStream output = newOutputStream();
-		try {
-			output.write(s + "\n");
-			output.flush();
-			output.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}		
+		super(CONSOLE_NAME);
 	}
 }

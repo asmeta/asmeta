@@ -9,7 +9,10 @@
 
 package org.asmeta.simulator.value;
 
+import org.asmeta.simulator.TermEvaluator;
+
 import asmeta.terms.basicterms.BooleanTerm;
+import asmeta.terms.basicterms.Term;
 
 /**
  * A boolean value.
@@ -31,7 +34,7 @@ public class BooleanValue extends Value<Boolean> {
 	/**
 	 * The value.
 	 */
-	private boolean boolValue;
+	protected Boolean boolValue = null;
     
 
     /**
@@ -43,12 +46,16 @@ public class BooleanValue extends Value<Boolean> {
         boolValue = bool;
     }
 
-    /**
+	// without the value to allow lazy evaluation
+    protected BooleanValue() {
+    }
+    
+	/**
      * Creates a new boolean.
      * 
      * @param term a boolean term
      */
-    static public BooleanValue parseBooleanValue(BooleanTerm term) {
+    public static BooleanValue parseBooleanValue(BooleanTerm term) {
         return parserBooleanValue(term.getSymbol());
     }
     
@@ -58,7 +65,7 @@ public class BooleanValue extends Value<Boolean> {
      * @param bvalue a boolean value
      * @return the same value
      */
-    static public BooleanValue parseBooleanValue(boolean bvalue) {
+    public static BooleanValue parseBooleanValue(boolean bvalue) {
     	if (bvalue) return TRUE;
         else return FALSE;
     }
@@ -68,7 +75,7 @@ public class BooleanValue extends Value<Boolean> {
      * 
      * @param value a string
      */
-    static public BooleanValue parserBooleanValue(String value) {
+    public static BooleanValue parserBooleanValue(String value) {
         boolean bvalue = Boolean.parseBoolean(value);
         return parseBooleanValue(bvalue);
     }
@@ -80,12 +87,13 @@ public class BooleanValue extends Value<Boolean> {
      */
     @Override
 	public Boolean getValue() {
+    	assert boolValue != null : "Boolean Value cannot be null";
         return boolValue;
     }
     
 	@Override
 	public int hashCode() {
-		return getValue() ? 1 : 0;
+		return Boolean.hashCode(boolValue);
 	}
 	
     @Override

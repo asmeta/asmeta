@@ -143,7 +143,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 		try {
 			asmS.rollback(id);
 		} catch(EmptyStackException e) {
-			// TODO: Da scrivere su LOG, l'esecuzione è corretta
+			// TODO: Da scrivere su LOG, l'esecuzione ï¿½ corretta
 			return;
 		}
 	}
@@ -152,7 +152,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 		try {
 			asmS.rollbackToState(id);
 		} catch(EmptyStackException e) {
-			// TODO: Da scrivere su LOG, l'esecuzione è corretta
+			// TODO: Da scrivere su LOG, l'esecuzione ï¿½ corretta
 			return;
 		}
 	}
@@ -451,7 +451,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 					if (stateClon.previousLocationValues==null)
 						stateClon.previousLocationValues = new HashMap<Location, Value>();
 					int id;
-					if (stateClon.locationMap.isEmpty())
+					if (stateClon.getLocationMap().isEmpty())
 						id = clone.startExecution(modelPath);
 					else
 						id = clone.restartExecution(modelPath,1, stateClon);	//in order to be a clone, it needs to be started at the same state as the original
@@ -536,7 +536,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	    return rout;*/
 	}
 	
-//	//Rimane comunque il problema che se allo scadere non ha finito il programma restituirà run timed out con rollback della sim
+//	//Rimane comunque il problema che se allo scadere non ha finito il programma restituirï¿½ run timed out con rollback della sim
 //	//ma la simulazione deve comunque finire altrimenti tutte le run successive non funzioneranno (forse mettendo il timeout direttamente
 //	//nella parte del simulator invece del container in modo tale di almeno arginare il finish forzato su uno step)
 //	public RunOutput runStepTimeout(int id,Map<String, String> locationValue,int timeout) {	
@@ -600,7 +600,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 //        		} catch (InterruptedException e) {
 //                    e.printStackTrace();}
 //    		}
-//    		while (!routTO.getTimeoutFlag()) {	//se non ho ancora rOut vuol dire che non ha ancora finito, devo aspettare altrimenti non funziona più nulla successivamente
+//    		while (!routTO.getTimeoutFlag()) {	//se non ho ancora rOut vuol dire che non ha ancora finito, devo aspettare altrimenti non funziona piï¿½ nulla successivamente
 //    			try {
 //    				Thread.sleep(10);	
 //        		} catch (InterruptedException e) {
@@ -615,7 +615,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 //	    	MyState after = asmS.getCurrentState(id);
 //	    	
 //			if (/*rollbStatus!=rollbackStatus.ROLLOK &&*/ after!=null && !after.equals(pre))	//do a rollback if it has not already been done 
-//			{	//OLDtodo se il rollback è già stato fatto lo fa di nuovo perchè l'equals di mystate non esiste (provato a sistemare con variabile rolledbackQ)
+//			{	//OLDtodo se il rollback ï¿½ giï¿½ stato fatto lo fa di nuovo perchï¿½ l'equals di mystate non esiste (provato a sistemare con variabile rolledbackQ)
 //				try {
 //					if (!rolledbackQ)
 //						printRollback(asmS.getSimulatorTable().get(id).getContSim(), asmS.rollback(id));
@@ -770,7 +770,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				if (stateClon.previousLocationValues==null)
 					stateClon.previousLocationValues = new HashMap<Location, Value>();
 				int id;
-				if (stateClon.locationMap.isEmpty())
+				if (stateClon.getLocationMap().isEmpty())
 					id = clone.startExecution(modelPath);
 				else
 					id = clone.restartExecution(modelPath,1, stateClon);	//in order to be a clone, it needs to be started at the same state as the original
@@ -978,7 +978,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 		for (int i=0;i<c;i++) {
 			String moduleName=asm.getMain().getHeaderSection().getImportClause().get(i).getModuleName();
 			if (!moduleName.toLowerCase().endsWith("standardlibrary")) {	//Skips the StandardLibrary.asm
-				monNames=findAllMonitored(monNames, root+moduleName+".asm");
+				monNames=findAllMonitored(monNames, root+moduleName+ASMParser.ASM_EXTENSION);
 			}
 		}
 		return monNames;
@@ -1609,6 +1609,35 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 		return null;
 	}*/
 	
+	@Override
+	public RunOutput getCurrentState(int id) {
+		try {
+			InfoAsmetaService modelPath = asmS.getSimulatorTable().get(id);
+
+			RunOutput output = new RunOutput(Esit.SAFE, asmS.getCurrentState(id));
+			
+			return output;
+		} catch (NullPointerException e) {
+			throw new IdNotFoundException("Id not valid");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	@Override
+	public List<String> getMonitored(String modelPath) {
+		List<String> monitored = new ArrayList<>();
+		try {
+			monitored = findAllMonitored(monitored, modelPath);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return monitored;
+	}
 }
 
 

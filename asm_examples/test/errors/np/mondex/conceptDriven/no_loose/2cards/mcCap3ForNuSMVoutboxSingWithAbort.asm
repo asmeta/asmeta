@@ -282,33 +282,33 @@ definitions:
 	
 	//un messaggio di REQ rimane nella inbox fino a quando non viene messo il messaggio di VAL nella inbox
 	//dell'altra scheda
-	CTLSPEC ag(inbox(AA, REQ, BB, 0n, 1n) implies e(inbox(AA, REQ, BB, 0n, 1n), inbox(BB, VAL, AA, 0n, 1n)))
-	CTLSPEC ag(inbox(BB, REQ, AA, 0n, 1n) implies e(inbox(BB, REQ, AA, 0n, 1n), inbox(AA, VAL, BB, 0n, 1n)))
-	CTLSPEC ag(inbox(AA, REQ, BB, 0n, 2n) implies e(inbox(AA, REQ, BB, 0n, 2n), inbox(BB, VAL, AA, 0n, 2n)))
-	CTLSPEC ag(inbox(BB, REQ, AA, 0n, 2n) implies e(inbox(BB, REQ, AA, 0n, 2n), inbox(AA, VAL, BB, 0n, 2n)))
+	CTLSPEC ag(inbox(AA, REQ, BB, 0n, 1n) implies eu(inbox(AA, REQ, BB, 0n, 1n), inbox(BB, VAL, AA, 0n, 1n)))
+	CTLSPEC ag(inbox(BB, REQ, AA, 0n, 1n) implies eu(inbox(BB, REQ, AA, 0n, 1n), inbox(AA, VAL, BB, 0n, 1n)))
+	CTLSPEC ag(inbox(AA, REQ, BB, 0n, 2n) implies eu(inbox(AA, REQ, BB, 0n, 2n), inbox(BB, VAL, AA, 0n, 2n)))
+	CTLSPEC ag(inbox(BB, REQ, AA, 0n, 2n) implies eu(inbox(BB, REQ, AA, 0n, 2n), inbox(AA, VAL, BB, 0n, 2n)))
 	//Per i prossimi bisogna essere meno restrittivi (non si puo' usare AG): bisogna usare EF
 	//perche' in alcuni casi la transizioni potrebbero concludersi perche' non ci sono soldi
 	//sul conto
-	CTLSPEC ef(inbox(AA, REQ, BB, 5n, 1n) implies e(inbox(AA, REQ, BB, 5n, 1n), inbox(BB, VAL, AA, 5n, 1n)))
-	CTLSPEC ef(inbox(BB, REQ, AA, 5n, 1n) implies e(inbox(BB, REQ, AA, 5n, 1n), inbox(AA, VAL, BB, 5n, 1n)))
-	CTLSPEC ef(inbox(AA, REQ, BB, 5n, 2n) implies e(inbox(AA, REQ, BB, 5n, 2n), inbox(BB, VAL, AA, 5n, 2n)))
-	CTLSPEC ef(inbox(BB, REQ, AA, 5n, 2n) implies e(inbox(BB, REQ, AA, 5n, 2n), inbox(AA, VAL, BB, 5n, 2n)))
-	CTLSPEC ef(inbox(AA, REQ, BB, 10n, 1n) implies e(inbox(AA, REQ, BB, 10n, 1n), inbox(BB, VAL, AA, 10n, 1n)))
-	CTLSPEC ef(inbox(BB, REQ, AA, 10n, 1n) implies e(inbox(BB, REQ, AA, 10n, 1n), inbox(AA, VAL, BB, 10n, 1n)))
-	CTLSPEC ef(inbox(AA, REQ, BB, 10n, 2n) implies e(inbox(AA, REQ, BB, 10n, 2n), inbox(BB, VAL, AA, 10n, 2n)))
-	CTLSPEC ef(inbox(BB, REQ, AA, 10n, 2n) implies e(inbox(BB, REQ, AA, 10n, 2n), inbox(AA, VAL, BB, 10n, 2n)))
+	CTLSPEC ef(inbox(AA, REQ, BB, 5n, 1n) implies eu(inbox(AA, REQ, BB, 5n, 1n), inbox(BB, VAL, AA, 5n, 1n)))
+	CTLSPEC ef(inbox(BB, REQ, AA, 5n, 1n) implies eu(inbox(BB, REQ, AA, 5n, 1n), inbox(AA, VAL, BB, 5n, 1n)))
+	CTLSPEC ef(inbox(AA, REQ, BB, 5n, 2n) implies eu(inbox(AA, REQ, BB, 5n, 2n), inbox(BB, VAL, AA, 5n, 2n)))
+	CTLSPEC ef(inbox(BB, REQ, AA, 5n, 2n) implies eu(inbox(BB, REQ, AA, 5n, 2n), inbox(AA, VAL, BB, 5n, 2n)))
+	CTLSPEC ef(inbox(AA, REQ, BB, 10n, 1n) implies eu(inbox(AA, REQ, BB, 10n, 1n), inbox(BB, VAL, AA, 10n, 1n)))
+	CTLSPEC ef(inbox(BB, REQ, AA, 10n, 1n) implies eu(inbox(BB, REQ, AA, 10n, 1n), inbox(AA, VAL, BB, 10n, 1n)))
+	CTLSPEC ef(inbox(AA, REQ, BB, 10n, 2n) implies eu(inbox(AA, REQ, BB, 10n, 2n), inbox(BB, VAL, AA, 10n, 2n)))
+	CTLSPEC ef(inbox(BB, REQ, AA, 10n, 2n) implies eu(inbox(BB, REQ, AA, 10n, 2n), inbox(AA, VAL, BB, 10n, 2n)))
 	//Contengono le precedenti ed altri casi.
 	//Reintroducono AG ma inserendo il controllo sulla presenza di soldi sul conto.
 	//Bisogna tenere presente che, anche in presenza di soldi sul conto, la transizione
 	//potrebbe non concludersi perche' viene eseguita una r_abort
-	CTLSPEC ag((inbox(AA, REQ, BB, 5n, 1n) and (balance(AA)>=5n)) implies e(inbox(AA, REQ, BB, 5n, 1n), inbox(BB, VAL, AA, 5n, 1n) or exLogTo(BB, AA, 5n, 1n)))
-	CTLSPEC ag((inbox(BB, REQ, AA, 5n, 1n) and (balance(BB)>=5n)) implies e(inbox(BB, REQ, AA, 5n, 1n), inbox(AA, VAL, BB, 5n, 1n) or exLogTo(AA, BB, 5n, 1n)))
-	CTLSPEC ag((inbox(AA, REQ, BB, 5n, 2n) and (balance(AA)>=5n)) implies e(inbox(AA, REQ, BB, 5n, 2n), inbox(BB, VAL, AA, 5n, 2n) or exLogTo(BB, AA, 5n, 2n)))
-	CTLSPEC ag((inbox(BB, REQ, AA, 5n, 2n) and (balance(BB)>=5n)) implies e(inbox(BB, REQ, AA, 5n, 2n), inbox(AA, VAL, BB, 5n, 2n) or exLogTo(AA, BB, 5n, 2n)))
-	CTLSPEC ag((inbox(AA, REQ, BB, 10n, 1n) and (balance(AA)>=10n)) implies e(inbox(AA, REQ, BB, 10n, 1n), inbox(BB, VAL, AA, 10n, 1n) or exLogTo(BB, AA, 10n, 1n)))
-	CTLSPEC ag((inbox(BB, REQ, AA, 10n, 1n) and (balance(BB)>=10n)) implies e(inbox(BB, REQ, AA, 10n, 1n), inbox(AA, VAL, BB, 10n, 1n) or exLogTo(AA, BB, 10n, 1n)))
-	CTLSPEC ag((inbox(AA, REQ, BB, 10n, 2n) and (balance(AA)>=10n)) implies e(inbox(AA, REQ, BB, 10n, 2n), inbox(BB, VAL, AA, 10n, 2n) or exLogTo(BB, AA, 10n, 2n)))
-	CTLSPEC ag((inbox(BB, REQ, AA, 10n, 2n) and (balance(BB)>=10n)) implies e(inbox(BB, REQ, AA, 10n, 2n), inbox(AA, VAL, BB, 10n, 2n) or exLogTo(AA, BB, 10n, 2n)))
+	CTLSPEC ag((inbox(AA, REQ, BB, 5n, 1n) and (balance(AA)>=5n)) implies eu(inbox(AA, REQ, BB, 5n, 1n), inbox(BB, VAL, AA, 5n, 1n) or exLogTo(BB, AA, 5n, 1n)))
+	CTLSPEC ag((inbox(BB, REQ, AA, 5n, 1n) and (balance(BB)>=5n)) implies eu(inbox(BB, REQ, AA, 5n, 1n), inbox(AA, VAL, BB, 5n, 1n) or exLogTo(AA, BB, 5n, 1n)))
+	CTLSPEC ag((inbox(AA, REQ, BB, 5n, 2n) and (balance(AA)>=5n)) implies eu(inbox(AA, REQ, BB, 5n, 2n), inbox(BB, VAL, AA, 5n, 2n) or exLogTo(BB, AA, 5n, 2n)))
+	CTLSPEC ag((inbox(BB, REQ, AA, 5n, 2n) and (balance(BB)>=5n)) implies eu(inbox(BB, REQ, AA, 5n, 2n), inbox(AA, VAL, BB, 5n, 2n) or exLogTo(AA, BB, 5n, 2n)))
+	CTLSPEC ag((inbox(AA, REQ, BB, 10n, 1n) and (balance(AA)>=10n)) implies eu(inbox(AA, REQ, BB, 10n, 1n), inbox(BB, VAL, AA, 10n, 1n) or exLogTo(BB, AA, 10n, 1n)))
+	CTLSPEC ag((inbox(BB, REQ, AA, 10n, 1n) and (balance(BB)>=10n)) implies eu(inbox(BB, REQ, AA, 10n, 1n), inbox(AA, VAL, BB, 10n, 1n) or exLogTo(AA, BB, 10n, 1n)))
+	CTLSPEC ag((inbox(AA, REQ, BB, 10n, 2n) and (balance(AA)>=10n)) implies eu(inbox(AA, REQ, BB, 10n, 2n), inbox(BB, VAL, AA, 10n, 2n) or exLogTo(BB, AA, 10n, 2n)))
+	CTLSPEC ag((inbox(BB, REQ, AA, 10n, 2n) and (balance(BB)>=10n)) implies eu(inbox(BB, REQ, AA, 10n, 2n), inbox(AA, VAL, BB, 10n, 2n) or exLogTo(AA, BB, 10n, 2n)))
 	
 	//se una carta e' in REQ con la regola R_req ne uscira. Quello stato (tripla valore-tid-REQ)
 	//non si potra' piu' presentare
@@ -356,18 +356,18 @@ definitions:
 
 	//un messaggio di VAL rimane nella inbox fino a quando non viene messo il messaggio di ACK nella inbox
 	//dell'altra scheda. Altrimenti viene creata una exLogTo
-	CTLSPEC ag(inbox(AA, VAL, BB, 0n, 1n) implies e(inbox(AA, VAL, BB, 0n, 1n), inbox(BB, ACK, AA, 0n, 1n) or exLogTo(AA,BB,0n,1n)))
-	CTLSPEC ag(inbox(BB, VAL, AA, 0n, 1n) implies e(inbox(BB, VAL, AA, 0n, 1n), inbox(AA, ACK, BB, 0n, 1n) or exLogTo(BB,AA,0n,1n)))
-	CTLSPEC ag(inbox(AA, VAL, BB, 0n, 2n) implies e(inbox(AA, VAL, BB, 0n, 2n), inbox(BB, ACK, AA, 0n, 2n) or exLogTo(AA,BB,0n,2n)))
-	CTLSPEC ag(inbox(BB, VAL, AA, 0n, 2n) implies e(inbox(BB, VAL, AA, 0n, 2n), inbox(AA, ACK, BB, 0n, 2n) or exLogTo(BB,AA,0n,2n)))
-	CTLSPEC ag(inbox(AA, VAL, BB, 5n, 1n) implies e(inbox(AA, VAL, BB, 5n, 1n), inbox(BB, ACK, AA, 5n, 1n) or exLogTo(AA,BB,5n,1n)))
-	CTLSPEC ag(inbox(BB, VAL, AA, 5n, 1n) implies e(inbox(BB, VAL, AA, 5n, 1n), inbox(AA, ACK, BB, 5n, 1n) or exLogTo(BB,AA,5n,1n)))
-	CTLSPEC ag(inbox(AA, VAL, BB, 5n, 2n) implies e(inbox(AA, VAL, BB, 5n, 2n), inbox(BB, ACK, AA, 5n, 2n) or exLogTo(AA,BB,5n,2n)))
-	CTLSPEC ag(inbox(BB, VAL, AA, 5n, 2n) implies e(inbox(BB, VAL, AA, 5n, 2n), inbox(AA, ACK, BB, 5n, 2n) or exLogTo(BB,AA,5n,2n)))
-	CTLSPEC ag(inbox(AA, VAL, BB, 10n, 1n) implies e(inbox(AA, VAL, BB, 10n, 1n), inbox(BB, ACK, AA, 10n, 1n) or exLogTo(AA,BB,10n,1n)))
-	CTLSPEC ag(inbox(BB, VAL, AA, 10n, 1n) implies e(inbox(BB, VAL, AA, 10n, 1n), inbox(AA, ACK, BB, 10n, 1n) or exLogTo(BB,AA,10n,1n)))
-	CTLSPEC ag(inbox(AA, VAL, BB, 10n, 2n) implies e(inbox(AA, VAL, BB, 10n, 2n), inbox(BB, ACK, AA, 10n, 2n) or exLogTo(AA,BB,10n,2n)))
-	CTLSPEC ag(inbox(BB, VAL, AA, 10n, 2n) implies e(inbox(BB, VAL, AA, 10n, 2n), inbox(AA, ACK, BB, 10n, 2n) or exLogTo(BB,AA,10n,2n)))
+	CTLSPEC ag(inbox(AA, VAL, BB, 0n, 1n) implies eu(inbox(AA, VAL, BB, 0n, 1n), inbox(BB, ACK, AA, 0n, 1n) or exLogTo(AA,BB,0n,1n)))
+	CTLSPEC ag(inbox(BB, VAL, AA, 0n, 1n) implies eu(inbox(BB, VAL, AA, 0n, 1n), inbox(AA, ACK, BB, 0n, 1n) or exLogTo(BB,AA,0n,1n)))
+	CTLSPEC ag(inbox(AA, VAL, BB, 0n, 2n) implies eu(inbox(AA, VAL, BB, 0n, 2n), inbox(BB, ACK, AA, 0n, 2n) or exLogTo(AA,BB,0n,2n)))
+	CTLSPEC ag(inbox(BB, VAL, AA, 0n, 2n) implies eu(inbox(BB, VAL, AA, 0n, 2n), inbox(AA, ACK, BB, 0n, 2n) or exLogTo(BB,AA,0n,2n)))
+	CTLSPEC ag(inbox(AA, VAL, BB, 5n, 1n) implies eu(inbox(AA, VAL, BB, 5n, 1n), inbox(BB, ACK, AA, 5n, 1n) or exLogTo(AA,BB,5n,1n)))
+	CTLSPEC ag(inbox(BB, VAL, AA, 5n, 1n) implies eu(inbox(BB, VAL, AA, 5n, 1n), inbox(AA, ACK, BB, 5n, 1n) or exLogTo(BB,AA,5n,1n)))
+	CTLSPEC ag(inbox(AA, VAL, BB, 5n, 2n) implies eu(inbox(AA, VAL, BB, 5n, 2n), inbox(BB, ACK, AA, 5n, 2n) or exLogTo(AA,BB,5n,2n)))
+	CTLSPEC ag(inbox(BB, VAL, AA, 5n, 2n) implies eu(inbox(BB, VAL, AA, 5n, 2n), inbox(AA, ACK, BB, 5n, 2n) or exLogTo(BB,AA,5n,2n)))
+	CTLSPEC ag(inbox(AA, VAL, BB, 10n, 1n) implies eu(inbox(AA, VAL, BB, 10n, 1n), inbox(BB, ACK, AA, 10n, 1n) or exLogTo(AA,BB,10n,1n)))
+	CTLSPEC ag(inbox(BB, VAL, AA, 10n, 1n) implies eu(inbox(BB, VAL, AA, 10n, 1n), inbox(AA, ACK, BB, 10n, 1n) or exLogTo(BB,AA,10n,1n)))
+	CTLSPEC ag(inbox(AA, VAL, BB, 10n, 2n) implies eu(inbox(AA, VAL, BB, 10n, 2n), inbox(BB, ACK, AA, 10n, 2n) or exLogTo(AA,BB,10n,2n)))
+	CTLSPEC ag(inbox(BB, VAL, AA, 10n, 2n) implies eu(inbox(BB, VAL, AA, 10n, 2n), inbox(AA, ACK, BB, 10n, 2n) or exLogTo(BB,AA,10n,2n)))
 	
 	//se una carta e' in VAL con la regola r_val ne uscira. Quello stato (tripla valore-tid-VAL)
 	//non si potra' piu' presentare. Se rimane selezionata viene creata una exLogTo

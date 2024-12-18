@@ -1,7 +1,8 @@
+// TODO rename to avoid the use of a keyword as ID
 asm abstract
 
 import ../../../../../asm_examples/STDL/StandardLibrary
-import ../../../../../asm_examples/STDL/CTLlibrary
+import ../../../../../asm_examples/STDL/CTLLibrary
 
 signature:
 	abstract domain Contact

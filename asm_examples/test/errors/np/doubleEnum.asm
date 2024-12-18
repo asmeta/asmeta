@@ -1,5 +1,6 @@
 asm doubleEnum
-import ../../../../../asm_examples/STDL/StandardLibrary
+
+import ../../../STDL/StandardLibrary
 
 signature:
 	enum domain EnumDom = {AA | AA}

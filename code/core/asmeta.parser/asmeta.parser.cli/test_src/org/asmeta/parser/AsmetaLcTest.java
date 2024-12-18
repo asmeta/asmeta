@@ -22,10 +22,10 @@ public class AsmetaLcTest {
 	@BeforeClass
 	public static void setUpLogger() {
 		//
-		Logger log = Logger.getLogger("org.asmeta.parser");
-		if (!log.getAllAppenders().hasMoreElements())
-			log.addAppender(new ConsoleAppender(new SimpleLayout()));
-		log.setLevel(Level.INFO);
+//		Logger log = Logger.getLogger("org.asmeta.parser");
+//		if (!log.getAllAppenders().hasMoreElements())
+//			log.addAppender(new ConsoleAppender(new SimpleLayout()));
+//		log.setLevel(Level.INFO);
 	}
 
 	public static final String FILE_BASE = "../../../../asm_examples/";
@@ -33,7 +33,7 @@ public class AsmetaLcTest {
 	protected void testOneSpec(String spec) {
 		String[] args = { "-xmi", spec };
 		AsmetaLc.main(args);
-		int i = spec.lastIndexOf(".asm");
+		int i = spec.lastIndexOf(ASMParser.ASM_EXTENSION);
 		// String s = new String(spec.substring(0, i));
 		String s = spec.substring(0, i);
 		File f = new File(s + ".xmi");
@@ -46,7 +46,7 @@ public class AsmetaLcTest {
 		String spec = fspec.getAbsolutePath();
 		String[] args = { "-xmi", spec };
 		AsmetaLc.main(args);
-		int i = spec.lastIndexOf(".asm");
+		int i = spec.lastIndexOf(ASMParser.ASM_EXTENSION);
 		// String s = new String(spec.substring(0, i));
 		String s = spec.substring(0, i);
 		File f = new File(s + ".xmi");
@@ -75,7 +75,6 @@ public class AsmetaLcTest {
 			if (!testOneSpec(f))
 				failedSpec.add(f);
 		}
-
 		// test dirs
 		for (File f : dir.listFiles(new ASMDirFilter())) {
 			if (f.isDirectory())
@@ -93,7 +92,7 @@ public class AsmetaLcTest {
 
 	@Test
 	public void testSimpleEx() {
-		testDir("examples/simple_ex/");
+		testDir("examples/simple_example/");
 	}
 
 	@Test
@@ -122,11 +121,6 @@ public class AsmetaLcTest {
 	}
 
 	@Test
-	public void testExamplesCluster() {
-		testDir("examples/cluster/");
-	}
-
-	@Test
 	public void testExamplesAgents() {
 		testDir("examples/agents/");
 	}
@@ -148,6 +142,7 @@ public class AsmetaLcTest {
 
 	@Test
 	public void FSMSLE() {
-		testDir("examples/fsmSle/ASM_even.asm");
+		testDir("examples/fsmsemantics/Sle");
 	}
+		
 }

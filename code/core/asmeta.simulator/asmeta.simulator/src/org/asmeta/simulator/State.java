@@ -32,6 +32,7 @@
 package org.asmeta.simulator;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -40,6 +41,7 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.asmeta.parser.Defs;
+import org.asmeta.simulator.value.AgentValue;
 import org.asmeta.simulator.value.ReserveValue;
 import org.asmeta.simulator.value.SetValue;
 import org.asmeta.simulator.value.UndefValue;
@@ -59,6 +61,8 @@ import asmeta.terms.basicterms.Term;
  * 
  */
 public class State extends LocationSet {
+	
+	
 	private static Logger logger = Logger.getLogger(State.class);
 
 	/**
@@ -129,7 +133,8 @@ public class State extends LocationSet {
 	 * @return location's content
 	 */
 	public Value<?> read(Location location) {
-		Value<?> value = locationMap.get(location);
+		Value<?> value = getCurrentValue(location);
+		// null means that the location map does not contain a value for location yet
 		if (value == null) {
 			// PA 21/02/2012 in order to read derived locations values
 			if (Defs.isDerived(location.getSignature())) {
@@ -137,6 +142,7 @@ public class State extends LocationSet {
 				value = evalUserDefinedFunc(this, location.getSignature(), location.getElements());
 				// System.out.println(location + " = " + value);
 				// TODO why it is not put into the state map? AG
+				assert value != null;
 				return value;
 			}
 			// the location is not in the state, does initialization
@@ -150,11 +156,13 @@ public class State extends LocationSet {
 				logger.debug("<EnvironmentInitialization>");
 				logger.debug(location);
 				value = environment.read(location, this);
+				assert value != null : "the envirnoment restuns null for " + location;
 				logger.debug("</EnvironmentInitialization>");
 			} else {
 				throw new RuntimeException("Unknown function kind of " + location.getName());
 			}
-			locationMap.put(location, value);
+			assert value != null : "cannot put a null value in location map for " + location.getName();
+			applyLocationUpdate(location, value);
 		}
 		return value;
 	}
@@ -172,7 +180,7 @@ public class State extends LocationSet {
 			read(new Location(function, new Value[0]));
 		}
 		Map<Location, Value> values = new HashMap<Location, Value>();
-		for (Location location : locationMap.keySet()) {
+		for (Location location : getLocationMap().keySet()) {
 			// TODO questo controlla solo il nome dovrebbe controllare la funzione non il nome
 			if (location.getSignature().getName().equals(function.getName())) {
 				// if(location.getSignature().equals(function)) {
@@ -219,7 +227,7 @@ public class State extends LocationSet {
 			newAssignment.put(variables, arguments);
 			TermEvaluator newTermEvaluator = new TermEvaluator(this, environment, newAssignment);
 //			// FIXME does this code work?
-			// I get the null pointer since it sets the nev to null !!!
+			// I get the null pointer since it sets the env to null !!!
 //			TermEvaluator newTermEvaluator = 
 //				new TermEvaluator(null, null, newAssignment);
 			Term body = funcInit.getBody();
@@ -288,10 +296,13 @@ public class State extends LocationSet {
 	 */
 	public void fireUpdates(UpdateSet updateSet) {
 		// updates the locations
-		locationMap.putAll(updateSet.locationMap);
+		applyLocationUpdates(updateSet.getLocationMap());
 		// adds the sets
 		add(updateSet.abstractSets);
 	}
+
+	
+	
 
 	// Inizio modifiche PA: 10 giugno 2010
 	/**
@@ -310,13 +321,13 @@ public class State extends LocationSet {
 	public Map<Location, Value> getContrLocs(boolean retrieveSelf) {
 		Map<Location, Value> contrLocationMap = new HashMap<Location, Value>();
 		Function function;
-		for (Location location : locationMap.keySet()) {
+		for (Location location : getLocationMap().keySet()) {
 			function = location.getSignature();
 			if (!retrieveSelf && Defs.isSelf(function)) {
 				continue;
 			}
 			if (Defs.isControlled(function) || Defs.isOut(function)) {
-				contrLocationMap.put(location, locationMap.get(location));
+				contrLocationMap.put(location, getCurrentValue(location));
 			}
 		}
 		return contrLocationMap;
@@ -333,13 +344,13 @@ public class State extends LocationSet {
 	public Map<Location, Value> getOutLocs(boolean retrieveSelf) {
 		Map<Location, Value> outLocationMap = new HashMap<Location, Value>();
 		Function function;
-		for (Location location : locationMap.keySet()) {
+		for (Location location : getLocationMap().keySet()) {
 			function = location.getSignature();
 			if (!retrieveSelf && Defs.isSelf(function)) {
 				continue;
 			}
 			if (Defs.isOut(function)) {
-				outLocationMap.put(location, locationMap.get(location));
+				outLocationMap.put(location, getCurrentValue(location));
 			}
 		}
 		return outLocationMap;
@@ -365,16 +376,15 @@ public class State extends LocationSet {
 	public Map<Location, Value> getMonLocs() {
 		Map<Location, Value> monLocationMap = new HashMap<Location, Value>();
 		Function function;
-		for (Location location : locationMap.keySet()) {
+		for (Location location : getLocationMap().keySet()) {
 			function = location.getSignature();
 			if (Defs.isMonitored(function)
 			// || Defs.isShared(function)
 			) {
-				monLocationMap.put(location, locationMap.get(location));
+				monLocationMap.put(location, getCurrentValue(location));
 			}
 		}
 		return monLocationMap;
 	}
-	
 	
 }

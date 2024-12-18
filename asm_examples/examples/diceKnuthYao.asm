@@ -1,7 +1,7 @@
 asm diceKnuthYao
 
 import ../STDL/StandardLibrary
-import ../STDL/CTLlibrary
+import ../STDL/CTLLibrary
 
 signature:
 	domain DiceValue subsetof Integer

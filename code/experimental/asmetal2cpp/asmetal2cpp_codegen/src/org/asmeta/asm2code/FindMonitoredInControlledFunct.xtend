@@ -9,6 +9,7 @@ import asmeta.terms.basicterms.LocationTerm
 import asmeta.terms.basicterms.FunctionTerm
 import asmeta.terms.furtherterms.StringTerm
 import asmeta.terms.furtherterms.NaturalTerm
+import asmeta.terms.furtherterms.RealTerm
 import asmeta.terms.basicterms.BooleanTerm
 import asmeta.terms.furtherterms.IntegerTerm
 import asmeta.terms.furtherterms.EnumTerm
@@ -40,6 +41,10 @@ public class FindMonitoredInControlledFunct extends ReflectiveVisitor<Boolean> {
 	}
 
 	def boolean visit(NaturalTerm term) {
+		return false
+	}
+	
+	def boolean visit(RealTerm term) {
 		return false
 	}
 

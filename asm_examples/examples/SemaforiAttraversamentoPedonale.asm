@@ -1,7 +1,7 @@
 asm SemaforiAttraversamentoPedonale
 
 import ../STDL/StandardLibrary
-import ../STDL/CTLlibrary
+import ../STDL/CTLLibrary
 
 signature:
 	enum domain StatoSemaforo = {ROSSO | VERDE | LAMPEGGIANTE}

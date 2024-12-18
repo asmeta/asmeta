@@ -2,7 +2,9 @@ package asmeta.fmvclib.model;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Observable;
@@ -16,11 +18,16 @@ import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
+import org.apache.commons.lang3.tuple.MutablePair;
+import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.util.ReflectiveVisitor;
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.Environment.TimeMngt;
+import org.asmeta.simulator.InvalidInvariantException;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.State;
 import org.asmeta.simulator.UpdateSet;
+import org.asmeta.simulator.main.AsmetaSimulatorWR;
 import org.asmeta.simulator.main.Simulator;
 import org.asmeta.simulator.value.BooleanValue;
 import org.asmeta.simulator.value.CharValue;
@@ -29,12 +36,21 @@ import org.asmeta.simulator.value.IntegerValue;
 import org.asmeta.simulator.value.RealValue;
 import org.asmeta.simulator.value.ReserveValue;
 import org.asmeta.simulator.value.StringValue;
+import org.asmeta.simulator.value.UndefValue;
 import org.asmeta.simulator.value.Value;
 
-import asmeta.fmvclib.annotations.AsmetaModelParameter;
-import asmeta.fmvclib.annotations.AsmetaModelParameters;
+import asmeta.AsmCollection;
+import asmeta.definitions.Function;
+import asmeta.definitions.domains.AbstractTd;
+import asmeta.definitions.domains.ConcreteDomain;
+import asmeta.definitions.domains.EnumTd;
+import asmeta.definitions.domains.IntegerDomain;
+import asmeta.fmvclib.annotations.AsmetaMonitoredLocation;
+import asmeta.fmvclib.annotations.AsmetaMonitoredLocations;
 import asmeta.fmvclib.annotations.LocationType;
 import asmeta.fmvclib.controller.ButtonColumn;
+import asmeta.structure.FunctionInitialization;
+import asmeta.structure.Initialization;
 
 @SuppressWarnings("deprecation")
 public class AsmetaFMVCModel extends Observable {
@@ -42,7 +58,8 @@ public class AsmetaFMVCModel extends Observable {
 	/**
 	 * The ASMETA simulator
 	 */
-	private Simulator sim;
+	//private Simulator sim;
+	private AsmetaSimulatorWR sim;
 
 	/**
 	 * The reader
@@ -60,6 +77,11 @@ public class AsmetaFMVCModel extends Observable {
 	public static String ASM_PATH;
 
 	/**
+	 * The assignments for all the controlled locations
+	 */
+	private HashMap<String, List<Entry<String, String>>> controlledAssignments;
+
+	/**
 	 * Creates the AsmetaFMVCModel instance for a given ASMETA model
 	 * 
 	 * @param asmPath the path of the ASMETA model
@@ -69,19 +91,22 @@ public class AsmetaFMVCModel extends Observable {
 		ASM_PATH = new File(asmPath).getParent();
 		reader = new ViewReader();
 		environment = new Environment(reader);
-		sim = Simulator.createSimulator(asmPath, environment);
+		//sim = Simulator.createSimulator(asmPath, environment);
+		sim = AsmetaSimulatorWR.createSimulator(asmPath, environment);
 		Environment.timeMngt = TimeMngt.use_java_time;
+		controlledAssignments = new HashMap<String, List<Entry<String, String>>>();
 	}
 
 	/**
-	 * Gets the value (as a String) of a location in the current state
+	 * Compute the value (as a String) of a location in the current state
 	 * 
 	 * @param locationName the name of the location
-	 * @return the value of the specified location in the current state
+	 * @param keyType      the type of the value
 	 */
 	@SuppressWarnings({ "rawtypes" })
-	public String getValue(String locationName, LocationType keyType) {
+	public void computeValue(String locationName, LocationType keyType) {
 		State s = sim.getCurrentState();
+		Boolean assigned = false;
 		SortedMap<String, String> resultStr = new TreeMap<>();
 		SortedMap<Long, String> resultInt = new TreeMap<>();
 		SortedMap<Float, String> resultFloat = new TreeMap<>();
@@ -105,6 +130,7 @@ public class AsmetaFMVCModel extends Observable {
 							(x.getKey().getElements().length > 0 ? (Boolean) (x.getKey().getElements()[0].getValue())
 									: true),
 							x.getValue().toString());
+				assigned = true;
 			}
 		}
 
@@ -120,7 +146,59 @@ public class AsmetaFMVCModel extends Observable {
 		else if (keyType == LocationType.BOOLEAN)
 			strResult = resultBoolean.toString().replace("{", "").replace("}", "");
 
-		return strResult;
+		// Store the updated result
+		if (assigned)
+			updateCurrentAssignments(locationName, strResult);
+	}
+
+	/**
+	 * Updates the current assignments
+	 * 
+	 * @param locationName the name of the location
+	 * @param strResult    the string containing the assignment
+	 */
+	public void updateCurrentAssignments(String locationName, String strResult) {
+		if (controlledAssignments.get(locationName) == null) {
+			throw new RuntimeException("This should never happen");
+		} else {
+			if (controlledAssignments.get(locationName).size() > 1)
+				updateNAryFunction(locationName, strResult);
+			else
+				update0AryFunction(locationName, strResult);
+		}
+	}
+
+	/**
+	 * Updates a N-ary function
+	 * 
+	 * @param locationName the name of the location
+	 * @param strResult    the string containing the assignment
+	 */
+	public void updateNAryFunction(String locationName, String strResult) {
+		for (String str : strResult.split(",")) {
+			ArrayList<Entry<String, String>> locationValues = ((ArrayList<Entry<String, String>>) controlledAssignments
+					.get(locationName));
+			for (Entry<String, String> value : locationValues) {
+				if (value.getKey().equals(locationName + "_" + str.split("=")[0].trim())) {
+					value.setValue(str.split("=")[1]);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Updates a 0-ary function
+	 * 
+	 * @param locationName the name of the location
+	 * @param strResult    the string containing the assignment
+	 */
+	private void update0AryFunction(String locationName, String strResult) {
+		if (strResult.contains("="))
+			((ArrayList<Entry<String, String>>) controlledAssignments.get(locationName)).set(0,
+					new MutablePair<String, String>(locationName, strResult.split("=")[1]));
+		else
+			((ArrayList<Entry<String, String>>) controlledAssignments.get(locationName)).set(0,
+					new MutablePair<String, String>(locationName, strResult));
 	}
 
 	/**
@@ -142,19 +220,26 @@ public class AsmetaFMVCModel extends Observable {
 		UpdateSet updateSet = null;
 		try {
 			updateSet = sim.run(nStep);
-		} catch (Exception e) {
-			e.printStackTrace();
+			setChanged();
+			notifyObservers();
+		} catch (InvalidInvariantException e) {
+			System.err.println("Invariant violation - rolling back :" + e.getMessage());
+			assert nStep == 1;
+			sim.rollBack();
+		} catch (org.asmeta.simulator.UpdateClashException e) { 
+			System.err.println("Incosistent update - rolling back :" + e.getMessage());
+			assert nStep == 1;
+			sim.rollBack();		
+		} catch (Exception e1) {
+			e1.printStackTrace();
 		}
-		InitialStateFiller.fillSimulatorState(sim);
-		setChanged();
-		notifyObservers();
 		return updateSet;
 	}
 
 	/**
 	 * Updates the monitored location using annotations
 	 * 
-	 * @param obj the annotated obj
+	 * @param obj    the annotated obj
 	 * @param source the source object
 	 * @throws IllegalAccessException
 	 * @throws IllegalArgumentException
@@ -163,7 +248,6 @@ public class AsmetaFMVCModel extends Observable {
 		reader.locationMemory.clear();
 		analyzeSingleAnnotations(obj, source);
 		analyzeMultipleAnnotations(obj, source);
-		System.out.println("LOCATION MEMORY: " + reader.locationMemory);
 	}
 
 	/**
@@ -175,19 +259,19 @@ public class AsmetaFMVCModel extends Observable {
 	 */
 	@SuppressWarnings("rawtypes")
 	private void analyzeSingleAnnotations(Object obj, Object source) throws IllegalAccessException {
-		List<Field> fieldList = FieldUtils.getFieldsListWithAnnotation(obj.getClass(), AsmetaModelParameter.class);
+		List<Field> fieldList = FieldUtils.getFieldsListWithAnnotation(obj.getClass(), AsmetaMonitoredLocation.class);
 		for (Field f : fieldList) {
 			f.setAccessible(true);
 			// First, get the value
 			String value = "";
-			if (!f.getAnnotation(AsmetaModelParameter.class).asmLocationValue().equals("")) {
+			if (!f.getAnnotation(AsmetaMonitoredLocation.class).asmLocationValue().equals("")) {
 				if (f.get(obj).equals(source))
-					value = f.getAnnotation(AsmetaModelParameter.class).asmLocationValue();
+					value = f.getAnnotation(AsmetaMonitoredLocation.class).asmLocationValue();
 			} else {
 				if (f.get(obj) instanceof JTable) {
 					JTable guiTable = (JTable) f.get(obj);
 					int selectedRow = guiTable.getSelectedRow();
-					int selectedColumn = guiTable.getSelectedColumn();
+					int selectedColumn = guiTable.getSelectedColumn();					
 					if (selectedRow != -1 && selectedColumn != -1) {
 						Object selectedValue = guiTable.getModel().getValueAt(selectedRow, selectedColumn);
 						value = (selectedValue == null || selectedValue.toString().equals("")) ? "undef"
@@ -195,7 +279,15 @@ public class AsmetaFMVCModel extends Observable {
 					} else
 						value = "undef";
 				} else {
-					value = getValueFromSingleField(f, obj);
+					if (f.get(obj) instanceof ButtonColumn) {
+						if (f.get(obj).equals(source) || source == null) {
+							value = getValueFromSingleField(f, obj);
+						} else {
+							value = "undef";
+						}							
+					} else {
+						value = getValueFromSingleField(f, obj);
+					}
 				}
 				if (value == null && !(f.get(obj) instanceof ButtonColumn))
 					throw new RuntimeException("This type of component is not yet managed by the fMVC framework: "
@@ -203,16 +295,40 @@ public class AsmetaFMVCModel extends Observable {
 			}
 
 			if (value != null) {
-				// Now add the value to the location map
-				LocationType locationType = f.getAnnotation(AsmetaModelParameter.class).asmLocationType();
-				Value val = getValueFromString(value, locationType);
-				String loc = f.getAnnotation(AsmetaModelParameter.class).asmLocationName();
-				if (!reader.locationMemory.containsKey(loc) && !value.equals(""))
-					reader.addValue(loc, val);
+				// Look for the type of the monitored function in the ASM model
+				LocationType locationType = null;
+				ArrayList<Function> functions = new ArrayList<Function>();
+				AsmCollection asms;
+				try {
+					asms = ASMParser.setUpReadAsm(new File(ASM_PATH + "/" + sim.getAsmModel().getName() + ASMParser.ASM_EXTENSION));
+					asms.forEach(x -> x.getHeaderSection().getSignature().getFunction().stream()
+							.filter(fn -> fn.getName().equals(f.getAnnotation(AsmetaMonitoredLocation.class).asmLocationName()))
+							.forEach(y -> functions.add(y)));
+					assert functions.size() == 1
+							: "The function " + f.getAnnotation(AsmetaMonitoredLocation.class).asmLocationName() + " has not been found in the ASM";
+
+					LocationTypeForDomain visitor = new LocationTypeForDomain();
+					locationType = visitor.visit(functions.get(0).getCodomain());
+					if (locationType == null) {
+							throw new RuntimeException(
+									"The type of Codomain " + functions.get(0).getCodomain().getClass().getSimpleName()
+											+ " is not yet managed by the AsmetaFMVCLib");
+					}
+					// Now add the value to the location map
+					Value val = getValueFromString(value, locationType);
+					String loc = f.getAnnotation(AsmetaMonitoredLocation.class).asmLocationName();
+					if (!reader.locationMemory.containsKey(loc) && !value.equals("")) {
+						reader.addValue(loc, val);
+						System.out.println("--- Taking " + val + " for " + loc);
+					}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
-	}
-
+	}	
+	
 	/**
 	 * Analyzes fields with multiple annotations
 	 * 
@@ -222,10 +338,10 @@ public class AsmetaFMVCModel extends Observable {
 	 */
 	@SuppressWarnings("rawtypes")
 	private void analyzeMultipleAnnotations(Object obj, Object source) throws IllegalAccessException {
-		List<Field> fieldList = FieldUtils.getFieldsListWithAnnotation(obj.getClass(), AsmetaModelParameters.class);
+		List<Field> fieldList = FieldUtils.getFieldsListWithAnnotation(obj.getClass(), AsmetaMonitoredLocations.class);
 		for (Field f : fieldList) {
 			f.setAccessible(true);
-			for (AsmetaModelParameter f1 : f.getAnnotation(AsmetaModelParameters.class).value()) {
+			for (AsmetaMonitoredLocation f1 : f.getAnnotation(AsmetaMonitoredLocations.class).value()) {
 				// First, get the value
 				String value = "";
 				if (!f1.asmLocationValue().equals("")) {
@@ -250,12 +366,44 @@ public class AsmetaFMVCModel extends Observable {
 				}
 
 				if (value != null) {
-					// Now add the value to the location map
-					LocationType locationType = f1.asmLocationType();
-					Value val = getValueFromString(value, locationType);
-					String loc = f1.asmLocationName();
-					if (!reader.locationMemory.containsKey(loc) && !value.equals(""))
-						reader.addValue(loc, val);
+					// Look for the type of the monitored function in the ASM model
+					LocationType locationType = null;
+					ArrayList<Function> functions = new ArrayList<Function>();
+					AsmCollection asms;
+					try {
+						asms = ASMParser.setUpReadAsm(new File(ASM_PATH + "/" + sim.getAsmModel().getName() + ASMParser.ASM_EXTENSION));
+						asms.forEach(x -> x.getHeaderSection().getSignature().getFunction().stream()
+								.filter(fn -> fn.getName().equals(f1.asmLocationName()))
+								.forEach(y -> functions.add(y)));
+						assert functions.size() == 1
+								: "The function " + f1.asmLocationName() + " has not been found in the ASM";
+
+						switch (functions.get(0).getCodomain().getClass().getSimpleName()) {
+							case "EnumTdImpl":
+								locationType = LocationType.ENUM;
+								break;
+							case "AbstractTdImpl":
+								locationType = LocationType.RESERVE;
+								break;
+							case "ConcreteDomainImpl":
+								// TODO: Other types may be instead of integer
+								locationType = LocationType.INTEGER;
+								break;
+							default:
+								throw new RuntimeException(
+										"The type of Codomain " + functions.get(0).getCodomain().getClass().getSimpleName()
+												+ " is not yet managed by the AsmetaFMVCLib");
+						}
+
+						// Now add the value to the location map
+						Value val = getValueFromString(value, locationType);
+						String loc = f1.asmLocationName();
+						if (!reader.locationMemory.containsKey(loc) && !value.equals(""))
+							reader.addValue(loc, val);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
 		}
@@ -299,7 +447,12 @@ public class AsmetaFMVCModel extends Observable {
 		Value val;
 		switch (locationType) {
 		case INTEGER:
-			val = new IntegerValue(value);
+			if (value.equals(""))
+				value = "0";
+			if (value.equals("undef"))
+				val = UndefValue.UNDEF;
+			else
+				val = new IntegerValue(value);
 			break;
 		case STRING:
 			val = new StringValue(value);
@@ -351,4 +504,73 @@ public class AsmetaFMVCModel extends Observable {
 	public ViewReader getReader() {
 		return this.reader;
 	}
+
+	/**
+	 * Get the map of the controlled locations
+	 * 
+	 * @return the map of the controlled locations
+	 */
+	public HashMap<String, List<Entry<String, String>>> getControlledAssignments() {
+		return controlledAssignments;
+	}
+
+	/**
+	 * Initializes the controlledAssignments map with initial values
+	 */
+	public void initInitalState() {
+		Simulator simulator = this.getSimulator();
+		Initialization initialization = simulator.getAsmModel().getDefaultInitialState();
+		InitialStateVisitor visitor = new InitialStateVisitor();
+		// Visit the function initialization part
+		for (FunctionInitialization init : initialization.getFunctionInitialization()) {
+			visitor.visitInit(init);
+			List<Entry<String, String>> assignments = new ArrayList<Entry<String, String>>();
+			for (Entry<String, String> entry : visitor.initMap.entrySet()) {
+				MutablePair<String, String> pair = new MutablePair<String, String>();
+				pair.setLeft(entry.getKey());
+				pair.setRight(entry.getValue());
+				assignments.add(pair);
+			}
+			controlledAssignments.put(init.getInitializedFunction().getName(), assignments);
+			visitor.initMap.clear();
+		}
+	}
+
+	/**
+	 * Returns the value of a controlled function in the current state
+	 * 
+	 * @param locationName the name of the location
+	 * @return the value of a controlled function in the current state
+	 */
+	public List<Entry<String, String>> getValue(String locationName) {
+		return controlledAssignments.get(locationName);
+	}
+	
+	
+	public class LocationTypeForDomain extends ReflectiveVisitor<LocationType>{
+
+		public LocationType visit(EnumTd e){
+			return LocationType.ENUM; 
+		}
+
+		public LocationType visit(AbstractTd object) {
+			return LocationType.RESERVE;
+		}
+
+		public LocationType visit(ConcreteDomain object) {
+			// assuming that it is an integer
+			return LocationType.INTEGER;
+		}
+		
+		public LocationType visit(IntegerDomain object) {
+			return LocationType.INTEGER;
+		}
+		
+
+	}
+
+	
 }
+
+
+

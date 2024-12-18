@@ -1,7 +1,7 @@
 asm bitCounter
 
 import ../../../../../asm_examples/STDL/StandardLibrary
-import ../../../../../asm_examples/STDL/CTLlibrary
+import ../../../../../asm_examples/STDL/CTLLibrary
 
 signature:
 	abstract domain Bit

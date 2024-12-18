@@ -1,7 +1,7 @@
 asm Tictactoe_forSMV
 
 import ../../../../../asm_examples/STDL/StandardLibrary
-import ../../../../../asm_examples/STDL/CTLlibrary
+import ../../../../../asm_examples/STDL/CTLLibrary
 
 signature:
 	//For representing a board  

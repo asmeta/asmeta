@@ -33,7 +33,6 @@ public class ForallRuleUnroller extends RuleTransformer{
 	
 	public ForallRuleUnroller(RuleFactory rf) {
 		super(rf);
-		TermSubstitution.ruleFactory = rf;
 	}
 	
 	@Override
@@ -95,8 +94,7 @@ public class ForallRuleUnroller extends RuleTransformer{
 		et.setSymbol(e.getSymbol());
 		et.setDomain(enumtd);
 		macroAssignment.put(var, et);
-		RuleSubstitution substitution = 
-			new RuleSubstitution(macroAssignment);
+		RuleSubstitution substitution = new RuleSubstitution(macroAssignment, ruleFactory);
 		return substitution;
 	}
 

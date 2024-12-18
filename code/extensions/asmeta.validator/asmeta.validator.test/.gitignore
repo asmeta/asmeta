@@ -2,3 +2,4 @@
 /temp/temp/*
 /temp/*
 !/temp/temp
+/target/

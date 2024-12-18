@@ -1,8 +1,8 @@
 asm pillbox_FULL_elia
 
 import ../../STDL/StandardLibrary
-import ../../STDL/CTLlibrary
-import ../../STDL/LTLlibrary
+import ../../STDL/CTLLibrary
+import ../../STDL/LTLLibrary
 
 // Third refinement level of the Pill Box: We consider three drawer, and time controlled By the pillbox 
 
@@ -114,7 +114,7 @@ definitions:
 					// time to take pill 
 					if redLed($drawer) = OFF 
 						and at(time_consumption($drawer),drugIndex($drawer))<=systemTime 
-						and systemTime-at(time_consumption($drawer),drugIndex($drawer))<tenMinutes
+						and systemTime-at(time_consumption($drawer),drugIndex($drawer)) < tenMinutes
 					then
 							r_pillToBeTaken[$drawer]
 					endif

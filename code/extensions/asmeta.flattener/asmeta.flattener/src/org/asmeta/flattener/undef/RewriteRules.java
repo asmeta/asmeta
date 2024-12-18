@@ -9,7 +9,7 @@ import java.util.Set;
 import org.asmeta.flattener.args.RemoveArgumentsRuleFlattener;
 import org.asmeta.flattener.args.RemoveArgumentsTermFlattener;
 import org.asmeta.flattener.rule.RuleFlattener;
-import org.asmeta.flattener.util.StdlFunction;
+import org.asmeta.simulator.util.StdlFunction;
 
 import asmeta.definitions.Function;
 import asmeta.definitions.domains.Domain;
@@ -34,13 +34,13 @@ public class RewriteRules extends RuleFlattener {
 
 	@Override
 	public Rule visit(UpdateRule ur) {
-		LocationTerm lt = (LocationTerm)ur.getLocation();
+		LocationTerm lt = (LocationTerm) ur.getLocation();
 		Function func = lt.getFunction();
-		if(funcsWithUndef.contains(func)) {
+		if (funcsWithUndef.contains(func)) {
 			Term ut = ur.getUpdatingTerm();
 			EvalUndefInTerm eu = new EvalUndefInTerm(mapDomainsUndefTerm, func.getCodomain());
 			Term newTerm = eu.visit(ut);
-			if(newTerm != ut) {
+			if (newTerm != ut) {
 				UpdateRule newUr = ruleFact.createUpdateRule();
 				newUr.setLocation(lt);
 				newUr.setUpdatingTerm(newTerm);
@@ -50,12 +50,12 @@ public class RewriteRules extends RuleFlattener {
 			try {
 				ratf.visit(ur.getUpdatingTerm());
 				LinkedHashMap<VariableTerm, Term> mapForLet = ratf.getMapForLet();
-				if(mapForLet.size() > 0) {
+				if (mapForLet.size() > 0) {
 					LetRule letRule = RemoveArgumentsRuleFlattener.buildLetRule(ur, mapForLet, ruleFact);
 					StdlFunction stdl = new StdlFunction(asm);
 					List<Term> neqs = new ArrayList<>();
-					for(Term i: letRule.getVariable()) {
-						if(mapDomainsUndefTerm.containsKey(i.getDomain())) {
+					for (Term i : letRule.getVariable()) {
+						if (mapDomainsUndefTerm.containsKey(i.getDomain())) {
 							neqs.add(stdl.neq(i, mapDomainsUndefTerm.get(i.getDomain())));
 						}
 					}

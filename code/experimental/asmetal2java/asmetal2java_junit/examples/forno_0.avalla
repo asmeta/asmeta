@@ -1,0 +1,24 @@
+scenario forno_0
+
+load ./forno
+
+//// test name test@test0
+//// generated for (test goal): test0: NULL
+check statoPorta = CHIUSA;
+check statoForno = SPENTO;
+set accendiForno := false;
+set segnalePorta := true;
+step
+check statoPorta = APERTA;
+check statoForno = SPENTO;
+set segnalePorta := false;
+set accendiForno := false;
+step
+check statoPorta = CHIUSA;
+check statoForno = SPENTO;
+set segnalePorta := false;
+set accendiForno := false;
+step
+check statoForno = SPENTO;
+check statoPorta = CHIUSA;
+step

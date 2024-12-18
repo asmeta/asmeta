@@ -22,7 +22,7 @@ asm petriNet_forNuSMV_withDeadlock
 //  the example is taken from the paper of Murata (pag. 8 (or 548), Fig.16)
 
 import ../../../STDL/StandardLibrary
-import ../../../STDL/CTLlibrary
+import ../../../STDL/CTLLibrary
 
 signature:
 	abstract domain Place

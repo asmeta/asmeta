@@ -93,7 +93,7 @@ public class NuSMVtestGenerator extends AsmTestGenerator {
 				asmTestSuite.addTest(asmTest);
 				// To avoid errors while translating in C to compute coverage: 
 				// TODO to fix ATGT and build a new JAR, or reference ATGT projects.
-				// attenzione che questo modifica il test che è passato, meglio fare una copia
+				// attenzione che questo modifica il test che ï¿½ passato, meglio fare una copia
 				if(coverageTp) {
 					computeCoverage(ct, asmTest, spec);
 				}

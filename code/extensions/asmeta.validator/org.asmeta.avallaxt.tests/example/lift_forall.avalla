@@ -1,0 +1,14 @@
+scenario lift
+load Lift.asm
+
+//use the forall
+exec 
+forall $i in {0 : 4} with true do skip;
+
+step
+
+check direction = UP;
+
+check (forall $i in {0 : 4} with true);
+
+step

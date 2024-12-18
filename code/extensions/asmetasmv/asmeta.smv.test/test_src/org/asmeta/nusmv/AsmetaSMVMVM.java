@@ -1,11 +1,9 @@
 package org.asmeta.nusmv;
 
-import static org.junit.Assert.*;
-
 import java.io.File;
-import java.nio.file.Path;
 import java.util.Arrays;
 
+import org.asmeta.nusmv.util.AsmetaSMVOptions;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

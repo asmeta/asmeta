@@ -8,9 +8,9 @@ import java.util.function.BiFunction;
 
 import org.apache.log4j.Logger;
 import org.asmeta.flattener.statistics.Statistics;
-import org.asmeta.flattener.util.StdlFunction;
-import org.asmeta.parser.util.ReflectiveVisitor;
 import org.asmeta.parser.util.AsmetaTermPrinter;
+import org.asmeta.parser.util.ReflectiveVisitor;
+import org.asmeta.simulator.util.StdlFunction;
 import org.asmeta.simulator.wrapper.RuleFactory;
 
 import asmeta.definitions.Function;

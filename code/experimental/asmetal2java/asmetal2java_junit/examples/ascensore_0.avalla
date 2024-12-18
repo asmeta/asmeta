@@ -1,0 +1,20 @@
+scenario ascensore_0
+
+load ./ascensore
+
+//// test name test@test0
+//// generated for (test goal): test0: NULL
+check statoPiano = 1;
+set signalPorta := false;
+step
+check statoPorta = CHIUSA;
+check statoPiano = 2;
+set signalPorta := false;
+step
+check statoPorta = CHIUSA;
+check statoPiano = 1;
+set signalPorta := true;
+step
+check statoPiano = 1;
+check statoPorta = APERTA;
+step

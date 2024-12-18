@@ -30,7 +30,7 @@ import org.asmeta.atgt.generator2.AsmTestGeneratorBySimulation;
 import org.asmeta.atgt.testoptimizer.UnchangedRemover;
 import org.asmeta.atgt.testoptimizer.UnecessaryChangesRemover;
 import org.asmeta.nusmv.AsmetaSMV;
-import org.asmeta.nusmv.AsmetaSMVOptions;
+import org.asmeta.nusmv.util.AsmetaSMVOptions;
 import org.asmeta.parser.ASMParser;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -484,7 +484,7 @@ public class ExperimentsMVM_ICTSS2021 {
 	
 	@Test
 	public void test() throws Exception {
-		// questo falliva perchè creo due volte il test generator
+		// questo falliva perchï¿½ creo due volte il test generator
 		Logger.getLogger(AsmTestGenerator.class).setLevel(Level.DEBUG);
 		Logger.getLogger(NuSMVtestGenerator.class).setLevel(Level.DEBUG);
 		List<CriteriaEnum> criteria = Arrays.asList(CriteriaEnum.COMPLETE_RULE,CriteriaEnum.MCDC);		

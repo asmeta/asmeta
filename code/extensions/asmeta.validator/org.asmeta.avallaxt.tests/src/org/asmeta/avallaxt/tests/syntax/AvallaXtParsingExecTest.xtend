@@ -31,7 +31,7 @@ class AvallaXtParsingExecTest {
 		''')
 		Assert.assertNotNull(result)
 		val errors = result.eResource.errors
-		Assert.assertTrue('''Unexpected errors: «errors.join(", ")»''', errors.isEmpty)
+		Assert.assertTrue('''Unexpected errors: ï¿½errors.join(", ")ï¿½''', errors.isEmpty)
 		println((result as Scenario).elements.get(0))
 		Assert.assertTrue((result as Scenario).elements.get(0) instanceof Exec);
 		Assert.assertEquals("sc1:=1",((result as Scenario).elements.get(0) as Exec).rule)
@@ -49,7 +49,38 @@ class AvallaXtParsingExecTest {
 		''')
 		Assert.assertNotNull(result)
 		val errors = result.eResource.errors
-		Assert.assertTrue('''Unexpected errors: «errors.join(", ")»''', errors.isEmpty)
+		Assert.assertTrue('''Unexpected errors: ï¿½errors.join(", ")ï¿½''', errors.isEmpty)
+	}
+
+	@Test
+	def void checkExecChoose() {
+		val result = parseHelper.parse('''
+			scenario alpha
+			load lll
+			exec  choose $x in Domain with true do sc1:=1; 
+			
+		''')
+		Assert.assertNotNull(result)
+		val errors = result.eResource.errors
+		Assert.assertTrue('''Unexpected errors: ï¿½errors.join(", ")ï¿½''', errors.isEmpty)
+	}
+	
+		@Test
+	def void checkExecForall() {
+		val result = parseHelper.parse('''
+			scenario alpha
+			load lll
+			exec
+			forall $i in {0 : 4} do
+			par
+			hasToDeliverAt(lift1, $i) := false
+			if $i != top then existsCallFromTo($i, UP) := true endif
+			if $i != ground then existsCallFromTo($i, DOWN) := true endif
+			endpar;
+		''')
+		Assert.assertNotNull(result)
+		val errors = result.eResource.errors
+		Assert.assertTrue('''Unexpected errors: ï¿½errors.join(", ")ï¿½''', errors.isEmpty)
 	}
 	
 }

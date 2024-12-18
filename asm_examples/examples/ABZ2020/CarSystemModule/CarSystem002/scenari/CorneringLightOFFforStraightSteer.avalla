@@ -1,7 +1,7 @@
 scenario CorneringLightOFFforStraightSteer
 load ../CarSystem002main.asm
 //prima accendo riprendendo LighOnForCornering
-//luce di svolta sinistra, si spegne quando almeno una è accesa, lo sterzo è dritto, non ci sono richieste di indicatore di svolta
+//luce di svolta sinistra, si spegne quando almeno una ï¿½ accesa, lo sterzo ï¿½ dritto, non ci sono richieste di indicatore di svolta
 //e sono passati almeno 5 secondi
 check keyState_Previous = undef;
 check brakeLampRight = 0;

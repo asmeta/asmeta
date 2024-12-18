@@ -1,7 +1,7 @@
 asm telecamere_v2
 
 import ../../../../../../asm_examples/STDL/StandardLibrary
-import ../../../../../../asm_examples/STDL/CTLlibrary
+import ../../../../../../asm_examples/STDL/CTLLibrary
 
 signature:
 	// DOMAINS
@@ -10,7 +10,7 @@ signature:
 	enum domain Azione = {ACCENDI | SPEGNI}
 	
 	// FUNCTIONS
-	controlled stato: Camera -> Stato // Mi dà lo stato di ogni telecamera
+	controlled stato: Camera -> Stato // Mi dï¿½ lo stato di ogni telecamera
 	monitored scelta: Azione //Scelta di accedere o spegnere una telecamera casuale
 	
 	//Funzioni statiche per determinare le telecamere adiacenti
@@ -55,11 +55,11 @@ definitions:
 	
 	CTLSPEC not ef((forall $c in Camera with stato($c)=OFF))
 	
-	//Se la telacamera 2 è spenta allora le telecamere 1 e 3 sono accese
+	//Se la telacamera 2 ï¿½ spenta allora le telecamere 1 e 3 sono accese
 	
 	CTLSPEC ag(stato(2)=OFF implies stato(1)=ON and stato(3)=ON)
 	
-	//Se una telecamere è accesa può rimanere accesa o essere spenta
+	//Se una telecamere ï¿½ accesa puï¿½ rimanere accesa o essere spenta
 	
 	CTLSPEC(forall $c in Camera with ag(stato(1)=ON implies ax(stato(1)=ON or stato(1)=OFF)))
 	

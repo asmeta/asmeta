@@ -9,8 +9,8 @@
 //N=2, L=2, Q=1
 asm flashProtocol_N2_L2_Q1
 import ../../STDL/StandardLibrary
-import ./LTLlibrary
-import ./CTLlibrary
+import ./LTLLibrary
+import ./CTLLibrary
 
 signature:
 	enum domain MsgType = {NO_MESS | GET_MSG | GETX_MSG | INV_MSG | WB_MSG |

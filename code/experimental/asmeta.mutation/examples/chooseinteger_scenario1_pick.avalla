@@ -1,0 +1,7 @@
+//// starting scenario
+scenario SCENARIO_NAME
+load chooseinteger.asm
+pick $s := 5;
+step
+check foo1 = 5;
+step

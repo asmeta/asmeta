@@ -2,27 +2,23 @@
 <feature
       id="org.asmeta.avallaxt.feature"
       label="AvallaXt Feature "
-      version="22.09">
+      version="24.06"
+      provider-name="https://foselab.unibg.it/">
+
+   <url>
+      <update label="Asmeta" url="https://raw.githubusercontent.com/asmeta/asmeta_update_site"/>
+   </url>
 
    <plugin
          id="org.asmeta.avallaxt"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.asmeta.avallaxt.ide"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.asmeta.avallaxt.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
 </feature>

@@ -20,7 +20,7 @@ asm coffeeVendingMachine
 
 
 import ../../STDL/StandardLibrary
-import ../../STDL/CTLlibrary
+import ../../STDL/CTLLibrary
 
 signature:
 	enum domain CoinType = {HALF | ONE}

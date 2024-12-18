@@ -1,0 +1,95 @@
+options {
+      STATIC = false;
+      SUPPORT_CLASS_VISIBILITY_PUBLIC = true;
+      ERROR_REPORTING = false;
+      JAVA_UNICODE_ESCAPE = true;
+      UNICODE_INPUT = true;
+      NODE_USES_PARSER = false;
+      VISITOR = false;
+      MULTI=true;
+}
+
+PARSER_BEGIN(CompositionFormulaParser)
+package org.asmeta.composition.parser;
+
+/**
+ * parser for compositional formulas
+ */
+public class CompositionFormulaParser {
+
+  /** Main entry point. */
+  public static void main(String args[]) {
+//    System.out.println("Reading from standard input...");
+//    CompositionFormula t = new CompositionFormula(System.in);
+//    try {
+//      SimpleNode n = t.Start();
+//      n.dump("");
+//      System.out.println("Thank you.");
+//    } catch (Exception e) {
+//      System.out.println("Oops.");
+//      System.out.println(e.getMessage());
+//      e.printStackTrace();
+//    }
+  }
+}
+
+PARSER_END(CompositionFormulaParser)
+
+
+SKIP :
+{
+  " "
+| "\t"
+| "\n"
+| "\r"
+}
+
+TOKEN : /* IDENTIFIERS */
+{
+  < IDENTIFIER: <LETTER> (<LETTER>|<DIGIT>)* >
+|
+  < #LETTER: ["_","a"-"z","A"-"Z"] >
+|
+  < #DIGIT: ["0"-"9"] >
+}
+
+/** Main production. */
+SimpleNode parse() : {}
+{
+//  CompositionFormula()
+	SimplePipe()
+  { return jjtThis; }
+}
+
+/** An Expression. */
+//void CompositionFormula() : {}
+//{
+//  SimplePipe()
+//}
+
+/** An Additive Expression. */
+void SimplePipe() : {}
+{
+  HalfduplexBidirectionalPipe() ( ( "|" ) HalfduplexBidirectionalPipe() )*
+}
+
+/** A Multiplicative Expression. */
+void HalfduplexBidirectionalPipe() : {}
+{
+  UnaryExpression() ( ( "<|>" ) UnaryExpression() )*
+}
+
+
+/** A Unary Expression. */
+void UnaryExpression() : {}
+{
+//  "(" CompositionFormula() ")" | AsmetaSpec() 
+  "(" SimplePipe() ")" | AsmetaSpec() 
+}
+
+
+/** An Identifier. */
+void AsmetaSpec() : {}
+{
+  <IDENTIFIER>
+}

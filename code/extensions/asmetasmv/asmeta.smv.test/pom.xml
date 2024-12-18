@@ -10,32 +10,47 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.0</version>
+				<version>3.11.0</version>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
+					<source>17</source>
+					<target>17</target>
 				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.0.0-M4</version>
+				<version>3.1.2</version>
 				<configuration>
+					<skipAfterFailureCount>1</skipAfterFailureCount>
 					<includes>
 						<include>*.java</include>
 						<include>**\*.java</include>
 					</includes>
+					<excludedGroups>org.asmeta.annotations.TestToMavenSkip</excludedGroups>
 					<systemPropertyVariables>
-						<log4j.configuration>file:${basedir}/log4j_maven.properties</log4j.configuration>
+						<!--	<log4j.configuration>
+							file:${basedir}/log4j_maven.properties</log4j.configuration> -->
 					</systemPropertyVariables>
 				</configuration>
 				<dependencies>
 					<dependency>
 						<groupId>org.apache.maven.surefire</groupId>
 						<artifactId>surefire-junit47</artifactId>
-						<version>3.0.0-M4</version>
+						<version>3.3.0</version>
 					</dependency>
 				</dependencies>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.3.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>test-jar</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
@@ -48,17 +63,17 @@
 		<dependency>
 			<groupId>org.eclipse.emf</groupId>
 			<artifactId>org.eclipse.emf.common</artifactId>
-			<version>2.26.0</version>
+			<version>2.40.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.emf</groupId>
 			<artifactId>org.eclipse.emf.ecore</artifactId>
-			<version>2.28.0</version>
+			<version>2.38.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.emf</groupId>
 			<artifactId>org.eclipse.emf.ecore.xmi</artifactId>
-			<version>2.17.0</version>
+			<version>2.38.0</version>
 		</dependency>
 		<dependency>
 			<groupId>asmeta</groupId>
@@ -81,6 +96,5 @@
 			<version>4.13.2</version>
 			<scope>test</scope>
 		</dependency>
-
 	</dependencies>
 </project>

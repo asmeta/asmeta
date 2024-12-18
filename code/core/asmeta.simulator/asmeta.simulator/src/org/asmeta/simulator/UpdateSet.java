@@ -58,18 +58,19 @@ public class UpdateSet extends LocationSet {
 	 * @throws UpdateClashException if the update set becames inconsistent
 	 */
 	public void putUpdate(Location location, Value content) {
-		if (locationMap.containsKey(location)){
-			Value oldContent = locationMap.get(location);
-			if (!oldContent.equals(content)) {
+		assert content != null : "updated value to a location cannot be null";
+		Value currentVal = getCurrentValue(location);
+		if (currentVal != null){
+			if (!currentVal.equals(content)) {
 				logger.debug("<UpdateClash>");
 				logger.debug("<UpdateSet>" + this + "</UpdateSet>");
 				logger.debug("<Update>" + location + "=" + content + "</Update>");
 				logger.debug("</UpdateClash>");
 				//System.out.println("location = " + location + "\noldContent="+oldContent+"\ncontent="+content);
-				throw new UpdateClashException(location, oldContent, content);
+				throw new UpdateClashException(location, currentVal, content);
 			}
 		}
-		locationMap.put(location, content);
+		applyLocationUpdate(location, content);
 	}
 
 	/**
@@ -80,7 +81,7 @@ public class UpdateSet extends LocationSet {
 	 */
 	public void merge(UpdateSet updateSet) {
 		// manages the locations
-		locationMap.putAll(updateSet.locationMap);
+		applyLocationUpdates(updateSet.getLocationMap());
 		// manages the abstract sets
 		add(updateSet.abstractSets);
 	}
@@ -94,7 +95,7 @@ public class UpdateSet extends LocationSet {
 	 */
 	public void union(UpdateSet anotherSet) {
 		// manages the locations
-		for (Map.Entry<Location, Value> entry : anotherSet.locationMap.entrySet()) {
+		for (Map.Entry<Location, Value> entry : anotherSet.getLocationMap().entrySet()) {
 			Location location = entry.getKey();
 			Value value = entry.getValue();
 			putUpdate(location, value);
@@ -103,14 +104,6 @@ public class UpdateSet extends LocationSet {
 		add(anotherSet.abstractSets);
 	}
 
-	/**
-	 * Is the update set empty?
-	 * 
-	 * @return true if it is empty, otherwise false
-	 */
-	public boolean isEmpty() {
-		return locationMap.isEmpty();
-	}
 
 	/*public UpdateSet clone() {
 		UpdateSet newUpdateSet = new UpdateSet();
@@ -128,22 +121,18 @@ public class UpdateSet extends LocationSet {
 		return newUpdateSet;
 	}*/
 
-	public Value get(Location location) {
-		return locationMap.get(location);
-	}
-
 	@Override
 	public boolean equals(Object o) {
 		if(o instanceof UpdateSet) {
 			UpdateSet updateSet = (UpdateSet)o;
-			if(locationMap.size() != updateSet.locationMap.size()) {
+			if(getLocationMap().size() != updateSet.getLocationMap().size()) {
 				//if the two update sets do not have the  same number of elements,
 				//it means that they are not equal. Are we sure?
 				return false;
 			}
-			for(Location location: locationMap.keySet()) {
-				Value value = updateSet.get(location);
-				if(value == null || !value.equals(locationMap.get(location))) {
+			for(Location location: getLocationMap().keySet()) {
+				Value value = updateSet.getCurrentValue(location);
+				if(value == null || !value.equals(getCurrentValue(location))) {
 					return false; 
 				}	
 			}
@@ -152,10 +141,12 @@ public class UpdateSet extends LocationSet {
 		else {
 			return false;
 		}
+		// AG 2023 why abstracts sets are ignored????
 	}
-
+	
+	
 	public Set<Location> getLocationsUpdated() {
-		return locationMap.keySet();
+		return getLocationMap().keySet();
 	}
 
 	public Set<Function> getFunctionsUpdated() {
@@ -168,28 +159,24 @@ public class UpdateSet extends LocationSet {
 	}
 
 	public boolean isTrivial(State previousState) {
-		if(!isEmpty()) {
-			for(Entry<Location, Value> locValue: locationMap.entrySet()) {
+		if (!isEmpty()) {
+			for (Entry<Location, Value> locValue : getLocationMap().entrySet()) {
 				Location loc = locValue.getKey();
 				Value value = locValue.getValue();
 				Value previousStateValue = previousState.read(loc);
-				if(!(value instanceof UndefValue)) {
-					if(previousStateValue instanceof UndefValue ||
-						!previousStateValue.equals(value)) {
+				if (!(value instanceof UndefValue)) {
+					if (previousStateValue instanceof UndefValue || !previousStateValue.equals(value)) {
+						return false;
+					}
+				} else {
+					if (!(previousStateValue instanceof UndefValue)) {
 						return false;
 					}
 				}
-				else {
-					if(!(previousStateValue instanceof UndefValue)) {
-						return false;
-					}
-				}
-				
 			}
 			return true;
-		}
-		else {
-			return false;//an empty update set is NOT considered trivial
+		} else {
+			return false;// an empty update set is NOT considered trivial
 		}
 	}
 }

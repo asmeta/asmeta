@@ -1,13 +1,15 @@
 package org.asmeta.simulator.main;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Stack;
 
+import org.asmeta.parser.ASMParser;
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.LocationSet;
 import org.asmeta.simulator.RuleEvaluator;
 import org.asmeta.simulator.State;
 import org.asmeta.simulator.UpdateSet;
-import org.asmeta.simulator.main.Simulator;
 import org.asmeta.simulator.wrapper.RuleFactory;
 
 import asmeta.AsmCollection;
@@ -73,8 +75,20 @@ public class AsmetaSimulatorWR extends Simulator {
 			clearMon();
 			ruleEvaluator = new RuleEvaluator(currentState, environment, new RuleFactory());	
 			System.out.println("Numero stati dentro: "+states.size());
-		
-		
+	}
+	
+	public static AsmetaSimulatorWR createSimulator(String modelPath, Environment env) throws Exception {
+		// check that the file exists 
+		File modelFile = new File(modelPath);
+		if (!modelFile.exists()) {
+			throw new FileNotFoundException(modelPath);
+		}
+		AsmCollection asmetaPackage = ASMParser.setUpReadAsm(modelFile);
+		// take the name without extension
+		String fileName = modelFile.getName().split("\\.")[0];
+		AsmetaSimulatorWR sim = new AsmetaSimulatorWR(fileName, asmetaPackage, env);
+		return sim;
 	}
 
+	
 }

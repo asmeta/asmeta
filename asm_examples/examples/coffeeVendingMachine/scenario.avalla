@@ -1,7 +1,10 @@
+/// 
 scenario scenario1
 load coffeeVendingMachine.asm
 
-set insertedCoin :=10;
+set insertedCoin :=HALF;
 
+//check false;
 
+step
 

@@ -61,8 +61,8 @@ public class GeneratorTest {
 
 	static void test(String asmFilePath) throws IOException, Exception {
 		File asmFile = new File(asmFilePath);
-		File u2cFile = new File(asmFilePath.replace(AsmToCGenerator.Ext, JsonGenerator.Ext));
-		File hwFile = new File(destinationFolder + asmFile.getName().replace(AsmToCGenerator.Ext, HWIntegrationGenerator.Ext));
+		File u2cFile = new File(asmFilePath.replace(ASMParser.ASM_EXTENSION, JsonGenerator.Ext));
+		File hwFile = new File(destinationFolder + asmFile.getName().replace(ASMParser.ASM_EXTENSION, HWIntegrationGenerator.Ext));
 		assertTrue(asmFile.exists() && u2cFile.exists());
 		Gson gson = new Gson();
 		JsonReader reader;
@@ -85,7 +85,7 @@ public class GeneratorTest {
 		File directory = new File(directoryName);
 		File[] fList = directory.listFiles();
 		for (File file : fList) {
-			if (file.isFile() && file.getName().endsWith(AsmToCGenerator.Ext)) {
+			if (file.isFile() && file.getName().endsWith(ASMParser.ASM_EXTENSION)) {
 				allAsmFiles.add(file);
 			} else if (file.isDirectory() && level > 0) {
 				listf(file.getPath(), allAsmFiles, --level);

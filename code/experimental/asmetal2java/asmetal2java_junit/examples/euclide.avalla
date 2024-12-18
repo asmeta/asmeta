@@ -1,0 +1,16 @@
+scenario euclide2
+load euclideMCD.asm
+
+//se fissiamo numA a 24 e numB a 6, durante l'esecuzione della macchina
+//numA sara' sempre maggiore o uguale a numB.
+//ATTENZIONE: questo e' un invariante di questo determinato scenario; non e'
+//vero in generale.
+invariant inv1: numA >= numB;
+
+//modifica dei valori impostati nello stato iniziale
+exec numA := 24	
+exec numB := 6
+
+
+step until numA = numB;
+check numA = 6;

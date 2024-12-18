@@ -9,7 +9,7 @@
 asm owtl_main
 
 import ../../../../../../asm_examples/STDL/StandardLibrary
-import ../../../../../../asm_examples/STDL/CTLlibrary
+import ../../../../../../asm_examples/STDL/CTLLibrary
 
 import owtl_ctl
 import owtl_pulses

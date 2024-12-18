@@ -53,6 +53,21 @@ class AvallaXtParsingImportTest {
 	def void import2() {
 		test("../../temp/aaa");
 	}
+	
+	@Test
+	def void importDollar1() {
+		test("$temp/aaa");
+	}
+	
+	@Test
+	def void importDollar2() {
+		test("../aa/$temp/aaa");
+	}
+	
+	@Test
+	def void importDollar3() {
+		test("$temp.asm");
+	}
 
 
 	// test only the parser	
@@ -62,7 +77,7 @@ class AvallaXtParsingImportTest {
 		val result = parseHelper.parse(scenario)
 		Assert.assertNotNull(result)
 		val errors = result.eResource.errors
-		Assert.assertTrue('''Unexpected errors: «errors.join(", ")»''', errors.isEmpty)
+		Assert.assertTrue('''Unexpected errors: ï¿½errors.join(", ")ï¿½''', errors.isEmpty)
 		Assert.assertEquals((result as Scenario).spec,i)
 					
 	}

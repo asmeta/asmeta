@@ -2,7 +2,8 @@
 <feature
       id="org.asmeta.atgt.feature"
       label="Asmeta test generator"
-      version="22.09">
+      version="24.06"
+      provider-name="https://foselab.unibg.it/">
 
    <description>
       Asmeta Test generator
@@ -30,7 +31,6 @@ See https://asmeta.github.io
       <import plugin="org.eclipse.debug.ui"/>
       <import plugin="org.eclipse.core.jobs"/>
       <import plugin="org.eclipse.swt"/>
-      <import plugin="javax.inject"/>
       <import plugin="org.eclipse.ui.ide"/>
       <import plugin="org.junit"/>
       <import plugin="asmeta.smv"/>
@@ -42,21 +42,14 @@ See https://asmeta.github.io
       <import plugin="asmeta.parser"/>
       <import plugin="asmeta.simulator"/>
       <import plugin="org.eclipse.core.resources"/>
-      <import feature="org.asmeta.asmetasmv.feature"/>
    </requires>
 
    <plugin
          id="asmeta.atgt.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="asmeta.atgt"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
 </feature>

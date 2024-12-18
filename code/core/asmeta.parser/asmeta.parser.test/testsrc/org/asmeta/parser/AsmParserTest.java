@@ -1,5 +1,6 @@
 package org.asmeta.parser;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -14,6 +15,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Enumeration;
 
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Level;
@@ -21,6 +23,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.apache.log4j.SimpleLayout;
 import org.asmeta.parser.util.AsmPrinter;
+import org.junit.Before;
 import org.junit.BeforeClass;
 
 import asmeta.AsmCollection;
@@ -31,17 +34,33 @@ import asmeta.AsmCollection;
  *
  */
 public class AsmParserTest {
+	
 	private static final boolean CHECK_EQUALITY = false;
 
-	//@BeforeClass
+	static Logger log;
+	
+	@BeforeClass
 	public static void setUpLogger() {
-		/*Logger log = Logger.getLogger("org.asmeta.parser");
-		if (!log.getAllAppenders().hasMoreElements())
+		log = Logger.getLogger("org.asmeta.parser");
+		/*if (!log.getAllAppenders().hasMoreElements())
 		log.addAppender(new ConsoleAppender(new SimpleLayout()));
 		log.setLevel(Level.ALL);
 		Logger.getLogger(Utility.class).setLevel(Level.ALL);
 		PropertyConfigurator.configure("log4j.properties");*/
 	}
+	
+	@Before
+	public void checkLogger() {
+		// check that there is only one appender  
+		Logger log = Logger.getLogger("org.asmeta.parser");		
+		Enumeration allAppenders = log.getAllAppenders();
+		// skip the first appender
+		if (allAppenders.hasMoreElements()) allAppenders.nextElement();
+		// no more appenders !!!
+		assertFalse(allAppenders.hasMoreElements());
+	}
+	
+	
 
 	public static final String FILE_BASE = "../../../../asm_examples/";
 
@@ -55,7 +74,7 @@ public class AsmParserTest {
 	 * called dirname if it contains a directory, all the specs in it will be
 	 * tested. DO not stop if one fails.
 	 * */
-	private Collection<File> testSpecInSubFolder(String dirname) {
+	protected Collection<File> testSpecInSubFolder(String dirname) {
 		Collection<File> failedSpec = new ArrayList<File>();
 		File dir = new File(FILE_BASE + dirname);
 		assertTrue("example dir " + dir.getAbsolutePath()
@@ -66,7 +85,7 @@ public class AsmParserTest {
 			AsmCollection testOneSpec = testOneSpec(f, false, false);
 			if (testOneSpec == null){
 				 failedSpec.add(f);
-				 System.err.println(" failed " + f);
+				 log.error(" failed " + f);
 			}	
 		}
 		// test recursively dirs
@@ -111,7 +130,7 @@ public class AsmParserTest {
 	 * @param visitParsedSpec visits the parse spec to check if the visitor works
 	 * @return the asm collection
 	 */
-	private AsmCollection testOneSpec(File spec, boolean failOnError, boolean visitParsedSpec) {
+	protected AsmCollection testOneSpec(File spec, boolean failOnError, boolean visitParsedSpec) {
 		try {
 			AsmCollection x = ASMParser.setUpReadAsm(spec);
 			if (failOnError) assertNotNull(x);
@@ -124,7 +143,7 @@ public class AsmParserTest {
 				try {
 					printer.visit(x.getMain());
 				} catch (Exception e) {
-					e.printStackTrace();
+					//e.printStackTrace();
 					fail("errors when visiting the spec "+ spec);
 				} finally{
 					System.out.println(writer.getString());					
@@ -136,12 +155,12 @@ public class AsmParserTest {
 			}
 			return x;
 		} catch (Exception e) {
-			e.printStackTrace();
-			System.err.println("in file " + spec.getPath());
+			//e.printStackTrace();
+			log.error("in file " + spec.getPath() + "exception " + e.getMessage());
 			return null;
 		} catch (Error e) {
-			e.printStackTrace();
-			System.err.println("in file " + spec.getPath());
+			//e.printStackTrace();
+			log.error("in file " + spec.getPath() + " error " + e.getMessage());
 			return null;
 		}
 	}

@@ -20,7 +20,7 @@ import org.junit.Test;
 import asmeta.AsmCollection;
 
 // to test with MVM 
-public class GeneratorCompilerTestMVM extends GeneratorCompilerTest2 {
+public class GeneratorCompilerTestMVM extends GeneratorCompilerTest {
 
 	@Test
 	public void testMVM() throws IOException, Exception {
@@ -28,7 +28,7 @@ public class GeneratorCompilerTestMVM extends GeneratorCompilerTest2 {
 		//options.compilerType = CompilerType.DesktopCompiler;
 		options.compilerType = CompilerType.ArduinoCompiler;
 		String asmspec = "D:\\AgHome\\progettidaSVNGIT\\mvm-asmeta\\VentilatoreASM\\Ventilatore000.asm";
-		if (!test(asmspec,options).success)
+		if (!AsmetaL2CppGeneratorMain.translate(asmspec,options, false).success)
 			fail();
 	}
 	
@@ -41,7 +41,7 @@ public class GeneratorCompilerTestMVM extends GeneratorCompilerTest2 {
 		options.compilerType = CompilerType.DesktopCompiler;
 		CppCompiler.setCompiler("g++");
 		String asmspec = "F:\\Dati-Andrea\\GitHub\\mvm-asmeta\\asm_models\\MVM APPFM\\TimeLibrary.asm";
-		if (!test(asmspec,options).success)
+		if (!AsmetaL2CppGeneratorMain.translate(asmspec,options, false).success)
 			fail();
 	}
 }

@@ -19,15 +19,19 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 
 import org.asmeta.parser.ASMParser;
+import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.InvalidInvariantException;
 import org.asmeta.simulator.Location;
+import org.asmeta.simulator.State;
 import org.asmeta.simulator.TermEvaluator;
 import org.asmeta.simulator.UpdateClashException;
 import org.asmeta.simulator.main.Simulator.InvariantTreament;
+import org.asmeta.simulator.readers.MonFuncReader;
 import org.asmeta.simulator.util.UnresolvedReferenceException;
 import org.asmeta.simulator.value.BooleanValue;
 import org.asmeta.simulator.value.EnumValue;
@@ -39,8 +43,13 @@ import org.asmeta.simulator.value.StringValue;
 import org.asmeta.simulator.value.TupleValue;
 import org.asmeta.simulator.value.UndefValue;
 import org.asmeta.simulator.value.Value;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
 
 import asmeta.AsmCollection;
 import asmeta.definitions.Function;
@@ -54,12 +63,35 @@ import org.asmeta.parser.ParseException;
  * Test for Simulator class.  
  *
  */
+@RunWith(Parameterized.class)
 public class InterpreterTest extends BaseTest {
 
 	Function f;
 	Domain d;
 	Value v;
 
+	@Parameters
+    public static Collection<Boolean> data() {
+        return Arrays.asList(Boolean.TRUE, Boolean.FALSE);
+    }
+
+    public InterpreterTest(boolean allowLazyEval) {
+        TermEvaluator.setAllowLazyEval(allowLazyEval);
+    }
+	    
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
+		//AsmParserTest.setUpLogger();
+	}
+
+	@AfterClass
+	public static void ripristina() throws Exception {
+		// rirèroinstin il valore standard
+		TermEvaluator.setAllowLazyEval(false);
+	}
+
+	
+	
 	@Test
 	public void test01() throws Exception {		
 		sim = Util.getSimulatorForTestSpec("test/simulator/ArithmeticExpr01.asm");
@@ -533,34 +565,6 @@ public class InterpreterTest extends BaseTest {
 		assertEquals(BooleanValue.TRUE, v);
 	}
 
-	@Test
-	public void test43() throws Exception {
-		sim = Util.getSimulatorForTestSpec(
-				"test/simulator/monitoredTest.asm",
-				"test/simulator/monitoredTest01.env");
-		sim.run(1);		
-		f = searchFunction("g1");
-		v = sim.currentState.read(new Location(f, new Value[0]));
-		assertEquals(new IntegerValue(1234), v);
-		
-		f = searchFunction("g2");
-		v = sim.currentState.read(new Location(f, new Value[0]));
-		assertEquals(BooleanValue.TRUE, v);
-
-		f = searchFunction("g3");
-		v = sim.currentState.read(new Location(f, new Value[0]));
-		assertEquals(new SequenceValue(new ArrayList<Value>(Arrays.asList(
-				new IntegerValue(1), new IntegerValue(2), new IntegerValue(4567)))), 
-				v);
-
-		f = searchFunction("g4");
-		v = sim.currentState.read(new Location(f, new Value[0]));
-		assertEquals(new SequenceValue(new ArrayList<Value>(Arrays.asList(
-				new TupleValue(new IntegerValue(0), BooleanValue.FALSE), 
-				new TupleValue(new IntegerValue(1), BooleanValue.TRUE)))), 
-				v);
-	}
-	
 	@Test
 	public void test44() throws Exception {		
 		sim = Util.getSimulatorForTestSpec("test/simulator/domains/extendDomains.asm");

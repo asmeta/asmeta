@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Validator
 Bundle-SymbolicName: asmeta.validator;singleton:=true
-Bundle-Version: 22.09
+Bundle-Version: 24.06
 Require-Bundle: org.asmeta.avallaxt,
  org.apache.log4j,
  asmeta.simulator,
@@ -10,7 +10,8 @@ Require-Bundle: org.asmeta.avallaxt,
  asmeta.parser,
  com.google.inject,
  org.eclipse.xtext
-Export-Package: org.asmeta.xt.validator;
+Export-Package: org.asmeta.validator.main,
+ org.asmeta.xt.validator;
   uses:="org.asmeta.avallaXt.util,
    org.asmeta.parser.util,
    asmeta.definitions,
@@ -22,5 +23,5 @@ Export-Package: org.asmeta.xt.validator;
    asmeta,
    org.asmeta.simulator.wrapper"
 Automatic-Module-Name: org.asmeta.avallaxt.validator
-Bundle-RequiredExecutionEnvironment: JavaSE-11
+Bundle-RequiredExecutionEnvironment: JavaSE-17
 Import-Package: org.eclipse.ui.console

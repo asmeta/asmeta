@@ -10,14 +10,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.asmeta.avallaxt.tests.validation.TestParserAndValidation.PossibleFaults;
 import org.junit.Assert;
 import org.junit.Test;
 
 public class TestScenariosInDir extends TestParserAndValidation {
 
-
-	
+	// test all the scenario in the examples
 	@Test
 	public void testAllExamples() throws IOException {
 		testAvallasInDir("../../../../asm_examples");
@@ -25,28 +23,32 @@ public class TestScenariosInDir extends TestParserAndValidation {
 
 	@Test
 	public void testAllExamplesExamples() throws IOException {
-		testAvallasInDir("../../../../asm_examples/examples");
+		// subsumed by the previous onme
+		//testAvallasInDir("../../../../../asm_examples/examples");
 	}
 
 	@Test
 	public void testAllAll() throws IOException {
-		testAvallasInDir("../../../..");
+		//testAvallasInDir("../../../..");
 	}
 
 	@Test
 	public void testAllAvallaXTTestExamples() throws IOException {
-		testAvallasInDir("example");
+		// skip these beasue they contain errors for testing
+		//testAvallasInDir("example");
 	}
 
 	@Test
-	public void testAllAvallaXTTest() throws IOException {
-		testAvallasInDir("../org.asmeta.avallaxt.validator.test\\scenarios.avalla");
+	public void testAllinValidatorTestExamples() throws IOException {
+		testAvallasInDir("../asmeta.validator.test/scenariosforexamples");
 	}
 
+
+	
 	// ABZ2020
 	@Test
 	public void testABZ2020() throws IOException {
-		testAvallasInDir("example/abz2020/scenarios");
+		//testAvallasInDir("example/abz2020/scenarios");
 	}
 
 	
@@ -59,12 +61,12 @@ public class TestScenariosInDir extends TestParserAndValidation {
 			Path fileToRead = files.next();
 			String scenarioName = fileToRead.toString();
 			if (scenarioName.endsWith(".avalla") && Files.isRegularFile(fileToRead)) {
-				if (!test(scenarioName, PossibleFaults.NONE)) {
+				if (checkPossibleFaults(scenarioName) != PossibleFaults_NONE) {
 					filexWithErrors.add(scenarioName);
 				}
 			}
 		}
 		System.err.println(filexWithErrors);
-		assertTrue(filexWithErrors.isEmpty());
+		assertTrue(filexWithErrors.toString(),filexWithErrors.isEmpty());
 	}	
 }

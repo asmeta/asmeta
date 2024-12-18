@@ -2,6 +2,7 @@ package org.asmeta.parser;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
 
 import org.asmeta.parser.util.AsmXMIVisitor;
 import org.eclipse.emf.common.util.URI;
@@ -21,7 +22,8 @@ public class AsmetaLc extends AsmetaCLI {
 	@Option(name = "-xmi", usage = "save as xmi")
 	public boolean saveXMI;
 
-	@Option(name = "-asmetaL", usage = "save as asmetaL")
+	//@Option(name = "-asmetaL", usage = "save as asmetaL")
+	// NOT CLEAR IF IT IS USEFUL OR NOT
 	public boolean saveAsmetaL;
 
 	/**
@@ -35,16 +37,14 @@ public class AsmetaLc extends AsmetaCLI {
 	}
 
 	@Override
-	protected void runWith(File f) throws CmdLineException {
+	protected RunCLIResult runWith(File f) throws CmdLineException {
 		ASMFileFilter filter = new ASMFileFilter();
 		if (filter.accept(f)) {
 			AsmCollection allAsms;
 			try {
 				allAsms = ASMParser.setUpReadAsm(f);
-
 				if (this.saveXMI) {
-					System.out.println("Saving in XMI " + f.getCanonicalPath()
-							+ "...");
+					System.out.println("Saving in XMI " + f.getCanonicalPath() + "...");
 
 					// Asm asm = allAsms.getMain();
 
@@ -57,7 +57,7 @@ public class AsmetaLc extends AsmetaCLI {
 							.put(Resource.Factory.Registry.DEFAULT_EXTENSION,
 									new XMIResourceFactoryImpl());
 					// Viene creato l'URI per il file.
-					int i = f.getPath().lastIndexOf(".asm");
+					int i = f.getPath().lastIndexOf(ASMParser.ASM_EXTENSION);
 					// String s = new String (f.getPath().substring(0,i));
 					String s = f.getPath().substring(0, i);
 					URI fileURI = URI.createFileURI(new File(s + ".xmi")
@@ -80,6 +80,7 @@ public class AsmetaLc extends AsmetaCLI {
 					// resource.save(Collections.EMPTY_MAP);
 					resource.save(null);
 					System.out.println("DONE.");
+					return RunCLIResult.SUCCESS;
 				}
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
@@ -89,7 +90,6 @@ public class AsmetaLc extends AsmetaCLI {
 				e.printStackTrace();
 			}
 		} else if (this.saveAsmetaL) {
-
 			// Create a resource set
 			ResourceSet resourceSet = new ResourceSetImpl();
 			// Viene creato l'URI per il file.
@@ -106,10 +106,9 @@ public class AsmetaLc extends AsmetaCLI {
 				// Demand load the resource for this file.
 				Resource resource = resourceSet.getResource(fileURI, true);
 				// Print the contents of the resource to System.out.
-				// resource.save(System.out, Collections.EMPTY_MAP);
-			}
-
-			catch (IOException e) {
+				resource.save(System.out, Collections.EMPTY_MAP);
+				return RunCLIResult.SUCCESS;
+			}	catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -117,5 +116,6 @@ public class AsmetaLc extends AsmetaCLI {
 			throw new CmdLineException("Error:  " + f.toString()
 					+ " is not an asm file.");
 		}
+		return RunCLIResult.FATAL;
 	}
 }

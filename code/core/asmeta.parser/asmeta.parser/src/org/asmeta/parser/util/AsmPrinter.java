@@ -76,11 +76,12 @@ import asmeta.transitionrules.turbotransitionrules.TurboDeclaration;
 import asmeta.transitionrules.turbotransitionrules.TurboReturnRule;
 /** class used to print an ASM*/
 public class AsmPrinter extends ReflectiveVisitor<Void> {
-	AsmetaTermPrinter tp = AsmetaTermPrinter.getAsmetaTermPrinter(false);
+	protected AsmetaTermPrinter tp = AsmetaTermPrinter.getAsmetaTermPrinter(false);
 	static final private String tabWidth = "    ";
 	private int indentation = 0;
 	private PrintWriter out;
 	protected Asm model;
+	protected RuleDeclaration currentRuleDeclaration = null;
 	boolean expand = true;
 
 	public void close() {
@@ -344,19 +345,37 @@ public class AsmPrinter extends ReflectiveVisitor<Void> {
 		return rules;
 	}
 
+	public void visit(RuleDeclaration rd) {
+		//if it is the main rule (it can be called even without the model)
+		if (model!= null && rd == model.getMainrule()) {
+			visitMain((MacroDeclaration) rd);
+		} else {
+			visitDef(rd);
+		}
+	}
+	
+	protected void visitMain(MacroDeclaration main) {
+		print("main ");
+		visitRuleDeclaration(main);
+	}
+
+	
 	/** print a rule declaration (not main rule) **/
-	public void visitDef(RuleDeclaration dcl) {
-		// assert model.getMainrule() != dcl;
+	protected void visitDef(RuleDeclaration dcl) {
+		// if model is not null, then check that is not the main rule 
+		// main rule is translated by the visit Main
+		assert model == null || model.getMainrule() != dcl;
 		if (dcl instanceof MacroDeclaration) {
 			print("macro ");
 		} else {
 			print("turbo ");
 		}
-		visitDef2(dcl);
+		visitRuleDeclaration(dcl);
 	}
-
-	void visitDef2(RuleDeclaration dcl) {
-		String name = dcl.getName();
+	// common part between main and other rules
+	private void visitRuleDeclaration(RuleDeclaration dcl) {
+		currentRuleDeclaration = dcl;
+		String name = dcl.getName();		
 		List<VariableTerm> vars = dcl.getVariable();
 		Rule rule = dcl.getRuleBody();
 		assert rule != null;
@@ -367,11 +386,6 @@ public class AsmPrinter extends ReflectiveVisitor<Void> {
 		visit(rule);
 		println();
 		unIndent();
-	}
-
-	public void visitMain(MacroDeclaration main) {
-		print("main ");
-		visitDef2(main);
 	}
 
 	public void visit(Rule rule) {
@@ -481,7 +495,6 @@ public class AsmPrinter extends ReflectiveVisitor<Void> {
 		visit(rule2);
 		unIndent();
 		if (rule3 != null) {
-			unIndent();
 			println("ifnone");
 			indent();
 			visit(rule3);

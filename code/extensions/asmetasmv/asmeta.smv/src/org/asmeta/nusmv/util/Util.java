@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.asmeta.nusmv.AsmetaSMVOptions;
 import org.asmeta.parser.Defs;
 import org.asmeta.simulator.value.Value;
 
@@ -21,6 +20,11 @@ import asmeta.structure.Header;
 import asmeta.structure.Signature;
 
 public class Util {
+	
+	private static final String LTL_LIBRARY_NAME = "LTLLibrary";
+	private static final String CTL_LIBRARY_NAME = "CTLLibrary";
+	private static final String STANDARD_LIBRARY_NAME = "StandardLibrary";
+	
 	public static final String trueString = "TRUE";
 	public static final String falseString = "FALSE";
 	public final static String notUsedMess = " has not been exported in NuSMV since it is never used.";
@@ -133,7 +137,7 @@ public class Util {
 	public static String getDomainName(Domain domain) {
 		String domainName = domain.getName();
 		if (notBelongsToMainAsm(domain)
-				&& !getAsmName(domain).equals("StandardLibrary")) {
+				&& !getAsmName(domain).equals(STANDARD_LIBRARY_NAME)) {
 			domainName = Util.getAsmName(domain) + "_" + domainName;
 		}
 		return domainName;
@@ -150,9 +154,9 @@ public class Util {
 	public static String getFunctionName(Function function) {
 		String functionName = function.getName();
 		String asmName = getAsmName(function);
-		if (notBelongsToMainAsm(function) && !asmName.equals("StandardLibrary")
-				&& !asmName.equals("CTLlibrary")
-				&& !asmName.equals("LTLlibrary")) {
+		if (notBelongsToMainAsm(function) && !asmName.equals(STANDARD_LIBRARY_NAME)
+				&& !asmName.equals(CTL_LIBRARY_NAME)
+				&& !asmName.equals(LTL_LIBRARY_NAME)) {
 			functionName = asmName + "_" + functionName;
 		}
 		return functionName;
@@ -219,7 +223,7 @@ public class Util {
 				|| s.equals("ag") || s.equals("ax") || s.equals("af")) {
 			return s.toUpperCase();
 		}
-		else if (s.equals("e") || s.equals("a")) {
+		else if (s.equals("eu") || s.equals("au")) {
 			return "U";
 		}
 		else if (s.equals("x") || s.equals("g") || s.equals("f")
@@ -445,7 +449,7 @@ public class Util {
 		if (locationName.equals("eg") || locationName.equals("ex")
 				|| locationName.equals("ef") || locationName.equals("ag")
 				|| locationName.equals("ax") || locationName.equals("af")
-				|| locationName.equals("e") || locationName.equals("a")
+				|| locationName.equals("eu") || locationName.equals("au")
 				|| locationName.equals("x") || locationName.equals("g")
 				|| locationName.equals("f") || locationName.equals("u")
 				|| locationName.equals("v") || locationName.equals("y")

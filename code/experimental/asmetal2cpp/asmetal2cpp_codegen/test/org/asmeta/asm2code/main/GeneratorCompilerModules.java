@@ -18,13 +18,13 @@ import org.junit.Test;
 
 import asmeta.AsmCollection;
 
-public class GeneratorCompilerModules extends GeneratorCompilerTest2{
+public class GeneratorCompilerModules extends GeneratorCompilerTest{
 
 	@Test
 	public void testIncluding() throws IOException, Exception {
 		Logger.getLogger(CppCompiler.class).setLevel(Level.ALL);
 		String asmspec = "examples/modules/IncludingAsm.asm";
-		if (!test(asmspec,options).success)
+		if (!AsmetaL2CppGeneratorMain.translate(asmspec,testOptions, false).success)
 			fail();
 	}
 
@@ -34,7 +34,7 @@ public class GeneratorCompilerModules extends GeneratorCompilerTest2{
 		// questa non dovrebbe essere necessaria
 		Logger.getLogger(CppCompiler.class).setLevel(Level.ALL);
 		String asmspec = "examples/modules/IncludedModule.asm";
-		if (!test(asmspec,options).success)
+		if (!AsmetaL2CppGeneratorMain.translate(asmspec,testOptions, false).success)
 			fail();
 	}
 

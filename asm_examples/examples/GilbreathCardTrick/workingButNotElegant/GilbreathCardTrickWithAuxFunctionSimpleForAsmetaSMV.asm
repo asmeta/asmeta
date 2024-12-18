@@ -3,7 +3,7 @@ asm GilbreathCardTrickWithAuxFunctionSimpleForAsmetaSMV
 //it uses an auxiliary function for shuffling the cards
 
 import ../../../STDL/StandardLibrary
-import ../../../STDL/CTLlibrary
+import ../../../STDL/CTLLibrary
 
 signature:
 	enum domain Suit = {SPADES | HEARTS | CLUBS | DIAMONDS}

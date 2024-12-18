@@ -14,7 +14,7 @@ again; then for 120 seconds the unit that previously showed Go shows
 Stop, and the other shows Go. Then the cycle is repeated.
 */
 import ../../../STDL/StandardLibrary
-import ../../../STDL/CTLlibrary
+import ../../../STDL/CTLLibrary
 
 signature:
 	enum domain LightUnit = {LIGHTUNIT1 | LIGHTUNIT2}

@@ -20,6 +20,12 @@ public class UndefTest {
 		test("examples/undef/undef.asm");
 	}
 
+//	@Test
+//	public void testUndefUse() throws Exception {
+//		test("examples/undef/UseUndef.asm");
+//	}
+
+	
 	@Test
 	public void testGilbreathCardTrick() throws Exception {
 		test("benchmarksFIDE2018/GilbreathCardTrick.asm");
@@ -31,6 +37,6 @@ public class UndefTest {
 		PrintWriter writer = new PrintWriter(sw);
 		AsmPrinter ap = new AsmPrinter(writer);
 		ap.visit(asm);
-		//System.out.println(sw.toString());
+		System.out.println(sw.toString());
 	}
 }

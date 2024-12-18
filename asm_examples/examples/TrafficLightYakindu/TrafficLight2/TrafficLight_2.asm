@@ -3,7 +3,7 @@ asm TrafficLight_2
 //Added three substates when controller is in OPERATE state: BLOCKED_B, RELEASE_B, RELEASED_B
  
 import ../StandardLibrary
-import ../CTLlibrary
+import ../CTLLibrary
 
 signature:
 	// DOMAINS

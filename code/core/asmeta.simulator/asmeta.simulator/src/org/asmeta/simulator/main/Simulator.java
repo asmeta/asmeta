@@ -39,12 +39,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.log4j.Appender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.apache.log4j.WriterAppender;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.Defs;
 import org.asmeta.parser.util.AsmetaTermPrinter;
@@ -62,6 +62,7 @@ import org.asmeta.simulator.readers.RandomMFReader;
 import org.asmeta.simulator.util.MonitoredFinder;
 import org.asmeta.simulator.value.AgentValue;
 import org.asmeta.simulator.value.BooleanValue;
+import org.asmeta.simulator.value.IntegerValue;
 import org.asmeta.simulator.value.ReserveValue;
 import org.asmeta.simulator.value.SetValue;
 import org.asmeta.simulator.value.Value;
@@ -89,6 +90,7 @@ public class Simulator {
 	protected List<Invariant> controlledInvariants;
 	private List<Invariant> monitoredInvariants;
 
+	/** simulator logger with only ONE appender */
 	public static class SimulatorLogger {
 		public static Logger logger = Logger.getLogger(Simulator.class);
 
@@ -141,7 +143,7 @@ public class Simulator {
 	/**
 	 * Package of the model to simulate.
 	 */
-	protected AsmCollection asmetaPackage;
+	protected AsmCollection asmCollection;
 
 	/**
 	 * The model to simulate.
@@ -173,17 +175,17 @@ public class Simulator {
 	 * The main rule of the model.
 	 *
 	 */
-	private Rule mainRule;
+	protected Rule mainRule;
 
 	/**
 	 * The number of the current state.
 	 */
-	private int numOfState;// PA: 10 giugno 2010
+	protected int numOfState;// PA: 10 giugno 2010
 
 	/**
 	 * Constructor.
 	 *
-	 * @param modelName the model name
+	 * @param modelName the model name (without extension)
 	 * @param asmp      the package of the model
 	 * @param env       the environment
 	 * @throws AsmModelNotFoundException if the model has not been found
@@ -191,18 +193,13 @@ public class Simulator {
 	 */
 	public Simulator(String modelName, AsmCollection asmp, Environment env)
 			throws AsmModelNotFoundException, MainRuleNotFoundException {
-		assert env != null;
-		asmetaPackage = asmp;
-		initAsmModel(modelName);
-		environment = env;
+		set(modelName,asmp,env);
+		//		
 		currentState = initState();
 		initEvaluator(currentState);
-		numOfState = 0;// PA: 10 giugno 2010
-		currentState.previousLocationValues.putAll(currentState.locationMap);// PA: 10 giugno 2010
-		controlledInvariants = new ArrayList<Invariant>();
-		monitoredInvariants = new ArrayList<Invariant>();
-	}
-
+		currentState.previousLocationValues.putAll(currentState.getLocationMap());// PA: 10 giugno 2010
+	}	
+	
 	/**
 	 * Instantiates a new simulator.
 	 *
@@ -215,18 +212,29 @@ public class Simulator {
 	 */
 	public Simulator(String modelName, AsmCollection asmp, Environment env, State s)
 			throws AsmModelNotFoundException, MainRuleNotFoundException {
-		assert env != null;
-		asmetaPackage = asmp;
-		initAsmModel(modelName);
-		environment = env;
+		set(modelName,asmp,env);
+		//
 		currentState = s;
 		initEvaluator(currentState);
-		numOfState = 0;// PA: 10 giugno 2010
-		currentState.previousLocationValues.putAll(currentState.locationMap);// PA: 10 giugno 2010
-		controlledInvariants = new ArrayList<Invariant>();
-		monitoredInvariants = new ArrayList<Invariant>();
+		currentState.previousLocationValues.putAll(currentState.getLocationMap());// PA: 10 giugno 2010
 	}
 
+	// common part of the simulator
+	// TODO build only two constructors
+	void set(String modelName, AsmCollection asmp, Environment env) throws AsmModelNotFoundException, MainRuleNotFoundException{
+		assert env != null;
+		assert !modelName.endsWith(ASMParser.ASM_EXTENSION);
+		asmCollection = asmp;
+		initAsmModel(modelName);
+		environment = env;		
+		numOfState = 0;// PA: 10 giugno 2010
+		controlledInvariants = new ArrayList<Invariant>();
+		monitoredInvariants = new ArrayList<Invariant>();
+		// if the MF readrs supports the lazy evaluation
+		TermEvaluator.setAllowLazyEval(env.supportsLazyTermEval());
+	}
+
+	
 	/**
 	 * Returns a simulator ready to execute the given model. The environment is read
 	 * by the standard input.
@@ -271,7 +279,8 @@ public class Simulator {
 	}
 
 	/**
-	 * Returns a simulator ready to execute the given model.
+	 * Returns a simulator ready to execute the given model. TODO use factory
+	 * instead
 	 *
 	 * @param modelPath path name of the model file
 	 * @param env       environment
@@ -279,32 +288,17 @@ public class Simulator {
 	 * @throws Exception
 	 */
 	public static Simulator createSimulator(String modelPath, Environment env) throws Exception {
+		// check that the file exists
 		File modelFile = new File(modelPath);
 		if (!modelFile.exists()) {
 			throw new FileNotFoundException(modelPath);
 		}
 		AsmCollection asmetaPackage = ASMParser.setUpReadAsm(modelFile);
-		String fileName = modelFile.getName().split("\\.")[0];
-		Simulator sim = new Simulator(fileName, asmetaPackage, env);
-		return sim;
-	}
-
-	/**
-	 * Creates the simulator.
-	 *
-	 * @param modelPath     the model path
-	 * @param env           the env
-	 * @param asmetaPackage the asmeta package
-	 * @return the simulator
-	 * @throws Exception the exception
-	 */
-	public static Simulator createSimulator(String modelPath, Environment env, AsmCollection asmetaPackage)
-			throws Exception {
-		File modelFile = new File(modelPath);
-		if (!modelFile.exists()) {
-			throw new FileNotFoundException(modelPath);
-		}
-		String fileName = modelFile.getName().split("\\.")[0];
+		// take the name without extension
+		assert modelFile.getName().endsWith(ASMParser.ASM_EXTENSION);
+		// remove the extension (allow also a point the the name?)
+		String fileName = modelFile.getName().replaceFirst("[.][^.]+$", "");
+		assert modelFile.getName().equals(fileName + ASMParser.ASM_EXTENSION);
 		Simulator sim = new Simulator(fileName, asmetaPackage, env);
 		return sim;
 	}
@@ -336,9 +330,8 @@ public class Simulator {
 	public UpdateSet run(int ntimes) {
 		// get the update set
 		return runUntil(x -> false, ntimes, checkInvariants).updateSet;
-	}	
-	
-	
+	}
+
 	// it checks invariants and throws exception
 	public UpdateSet runNoCatchInv(int ntimes) {
 		return runUntil(x -> false, ntimes, InvariantTreament.CHECK_STOP).updateSet;
@@ -348,10 +341,30 @@ public class Simulator {
 		LocationSet currentstate;
 		UpdateSet updateSet;
 	}
+
 	private interface StopCondition {
 		public boolean stop(UpdateSet us);
 	}
 	
+// TODO
+// sun untile the variable step takes a value, useful for validation asmetaV
+//	public UpdateSet runUntilStepNeg() {
+//		StopCondition stepNegative = new StopCondition() {			
+//			@Override
+//			public boolean stop(UpdateSet us) {
+//				for (Entry<Location, Value> updates: us.getLocationMap().entrySet()) {
+//					if (updates.getKey().getSignature().getName().equals("step__")) {
+//						IntegerValue v = (IntegerValue) (updates.getValue());
+//						if (v.getValue() < 0) return true;
+//					}					
+//				}
+//				return false;
+//			}
+//		};
+//		return runUntil(stepNegative,  Integer.MAX_VALUE, InvariantTreament.CHECK_CONTINUE).updateSet;
+//	}
+	
+
 	// run until f becomes true
 	// throw exception only if check_stop
 	// f: stop condition
@@ -554,7 +567,7 @@ public class Simulator {
 	 */
 	private void initAsmModel(String modelName) throws AsmModelNotFoundException, MainRuleNotFoundException {
 		// get the model
-		asmModel = asmetaPackage.getMain();
+		asmModel = asmCollection.getMain();
 		//
 		assert asmModel.getName().equals(modelName);
 		// check the main rule
@@ -577,7 +590,7 @@ public class Simulator {
 		initAgents(state);
 		// search the self function in the StandardLibrary,
 		// then assign it to the static attribute of TermEvaluator
-		for (Asm asm : asmetaPackage) {
+		for (Asm asm : asmCollection) {
 			String name = asm.getName();
 			if (!name.equals("StandardLibrary")) {
 				continue;
@@ -615,7 +628,7 @@ public class Simulator {
 	 * @param state the initial state
 	 */
 	private void initAbstractConstants(State state) {
-		for (Asm asm : asmetaPackage) {
+		for (Asm asm : asmCollection) {
 			Collection<Function> functions = asm.getHeaderSection().getSignature().getFunction();
 			for (Function func : functions) {
 				// NOTE the order of controls does matter, because an agent is
@@ -676,7 +689,7 @@ public class Simulator {
 	protected void getContrMonInvariants() {
 		MonitoredFinder mf = new MonitoredFinder();
 		boolean isMonitoredInvariant;
-		for (Iterator<Asm> i = asmetaPackage.iterator(); i.hasNext();) {
+		for (Iterator<Asm> i = asmCollection.iterator(); i.hasNext();) {
 			Asm asm_i = i.next();
 			Body b = asm_i.getBodySection();
 			Collection<Property> propertiesList = b.getProperty();

@@ -1,32 +1,13 @@
 package validator.plugin.handlers;
 
-import java.io.IOException;
+import org.asmeta.eclipse.AsmetaConsole;
 
-import org.eclipse.ui.console.IOConsole;
-import org.eclipse.ui.console.IOConsoleOutputStream;
-
-public class AsmetaVConsole extends IOConsole {
+public class AsmetaVConsole extends AsmetaConsole {
 	
 	
-	static final String CONSOLE_NAME = "ASMETAV_CONSOLE";
+	private static final String CONSOLE_NAME = "ASMETAV_CONSOLE";
 
 	public AsmetaVConsole() {
-		super(CONSOLE_NAME, null);			
+		super(CONSOLE_NAME);			
 	}	
-	
-	/** write a simple string message
-	 * 
-	 * @param s
-	 */
-	public void writeMessage(String s){
-		IOConsoleOutputStream output = newOutputStream();
-		try {
-			output.write(s + "\n");
-			output.flush();
-			output.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}		
-	}
 }

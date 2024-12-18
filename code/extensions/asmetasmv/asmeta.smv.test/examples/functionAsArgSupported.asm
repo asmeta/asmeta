@@ -1,6 +1,6 @@
 asm functionAsArgSupported
 import ../../../../../asm_examples/STDL/StandardLibrary
-import ../../../../../asm_examples/STDL/CTLlibrary
+import ../../../../../asm_examples/STDL/CTLLibrary
 
 signature:
 	enum domain EnumDom = {AA | BB | CC}

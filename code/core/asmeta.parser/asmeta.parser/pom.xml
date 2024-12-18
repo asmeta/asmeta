@@ -2,9 +2,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>asmeta</groupId>
 	<artifactId>asmeta.parser</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<resources>
@@ -16,34 +14,50 @@
 			</resource>
 		</resources>
 		<plugins>
-			<plugin>
-				<groupId>com.helger.maven</groupId>
-				<artifactId>ph-javacc-maven-plugin</artifactId>
-				<version>4.1.4</version>
+			<!-- plugin per javacc ma ha problemi con charstream			
+		<plugin>
+			<groupId>com.helger.maven</groupId>
+			<artifactId>ph-javacc-maven-plugin</artifactId>
+			<version>4.1.4</version>
 				<executions>
 					<execution>
-						<id>jjc1</id>
+			<id>jjc1</id>
 						<phase>generate-sources</phase>
+						<goals>
+			<goal>javacc</goal>
+						</goals>
+						<configuration>
+			<jdkVersion>1.8</jdkVersion>
+			<javadocFriendlyComments>true</javadocFriendlyComments>
+			<packageName>org.asmeta.parser</packageName>
+			<sourceDirectory>src/org/asmeta/parser</sourceDirectory>
+			<outputDirectory>src</outputDirectory>
+						</configuration>
+			</execution>
+				</executions>
+			</plugin>-->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>javacc-maven-plugin</artifactId>
+				<version>3.0.1</version>
+				<executions>
+					<execution>
+						<id>javacc</id>
 						<goals>
 							<goal>javacc</goal>
 						</goals>
 						<configuration>
-							<jdkVersion>1.8</jdkVersion>
-							<javadocFriendlyComments>true</javadocFriendlyComments>
-							<packageName>org.asmeta.parser</packageName>
-							<sourceDirectory>src/org/asmeta/parser</sourceDirectory>
-							<outputDirectory>src</outputDirectory>
+							<lookAhead>2</lookAhead>
+							<isStatic>false</isStatic>
+							<sourceDirectory>src\org\asmeta\parser\</sourceDirectory>
+							<outputDirectory>src\</outputDirectory>
 						</configuration>
 					</execution>
 				</executions>
 			</plugin>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.0</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
+				<version>3.11.0</version>
 			</plugin>
 		</plugins>
 	</build>
@@ -56,7 +70,18 @@
 		<dependency>
 			<groupId>org.eclipse.emf</groupId>
 			<artifactId>org.eclipse.emf.common</artifactId>
-			<version>2.26.0</version>
+			<version>2.40.0</version>
+		</dependency>
+		<dependency>
+			<groupId>asmeta</groupId>
+			<artifactId>asmeta.emf</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
+	  	<parent>
+		<groupId>asmeta</groupId>
+		<artifactId>asmeta.core</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../../</relativePath>
+		</parent> 
 </project>

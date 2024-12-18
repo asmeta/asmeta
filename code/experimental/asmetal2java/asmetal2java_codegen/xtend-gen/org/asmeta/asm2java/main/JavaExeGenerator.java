@@ -32,7 +32,8 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
 
   @Override
   public String compileAsm(final Asm asm) {
-    if (this.options.optimizeSeqMacroRule) {
+    boolean _optimizeSeqMacroRule = this.options.getOptimizeSeqMacroRule();
+    if (_optimizeSeqMacroRule) {
       ArrayList<Rule> _arrayList = new ArrayList<Rule>();
       this.seqCalledRules = _arrayList;
       EList<RuleDeclaration> _ruleDeclaration = asm.getBodySection().getRuleDeclaration();
@@ -161,7 +162,7 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
     _builder.append("askMonitored(esecuzione);");
     _builder.newLine();
     _builder.append("\t\t  \t   ");
-    _builder.append("esecuzione.UpdateASM();");
+    _builder.append("esecuzione.updateASM();");
     _builder.newLine();
     _builder.append("\t\t  \t   ");
     _builder.newLine();
@@ -249,24 +250,28 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
         _builder.append("for(int i=0 ; i< esecuzione.");
         String _name_1 = ((AbstractTd)dd).getName();
         _builder.append(_name_1);
-        _builder.append("_lista.size(); i++)");
+        _builder.append("_elemsList.size(); i++)");
         _builder.newLineIfNotEmpty();
+        _builder.append("    ");
         _builder.append("if(i!= esecuzione.");
         String _name_2 = ((AbstractTd)dd).getName();
-        _builder.append(_name_2);
-        _builder.append("_lista.size()-1)");
+        _builder.append(_name_2, "    ");
+        _builder.append("_elemsList.size()-1)");
         _builder.newLineIfNotEmpty();
+        _builder.append("        ");
         _builder.append("System.out.print(esecuzione.");
         String _name_3 = ((AbstractTd)dd).getName();
-        _builder.append(_name_3);
-        _builder.append("_lista.get(i) +\", \");");
+        _builder.append(_name_3, "        ");
+        _builder.append("_elemsList.get(i) +\", \");");
         _builder.newLineIfNotEmpty();
+        _builder.append("    ");
         _builder.append("else");
         _builder.newLine();
+        _builder.append("        ");
         _builder.append("System.out.print(esecuzione.");
         String _name_4 = ((AbstractTd)dd).getName();
-        _builder.append(_name_4);
-        _builder.append("_lista.get(i));\t");
+        _builder.append(_name_4, "        ");
+        _builder.append("_elemsList.get(i));\t");
         _builder.newLineIfNotEmpty();
         _builder.append("System.out.println(\"}\");");
         _builder.newLine();
@@ -351,7 +356,7 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
             _builder_6.append("for(int i=0; i < esecuzione.");
             String _name_15 = ((ControlledFunction)fd).getDomain().getName();
             _builder_6.append(_name_15);
-            _builder_6.append("_lista.size(); i++)");
+            _builder_6.append("_elemsList.size(); i++)");
             _builder_6.newLineIfNotEmpty();
             _builder_6.append("\t\t");
             _builder_6.append("{");
@@ -363,16 +368,16 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
             _builder_6.append(" =>  (\" + esecuzione.");
             String _name_17 = ((ControlledFunction)fd).getDomain().getName();
             _builder_6.append(_name_17, "\t\t\t");
-            _builder_6.append("_lista.get(i) +\") ");
+            _builder_6.append("_elemsList.get(i) +");
             _builder_6.newLineIfNotEmpty();
             _builder_6.append("\t\t\t");
-            _builder_6.append("= \" + esecuzione.");
+            _builder_6.append("\") = \" + esecuzione.");
             String _name_18 = ((ControlledFunction)fd).getName();
             _builder_6.append(_name_18, "\t\t\t");
             _builder_6.append(".oldValues.get(esecuzione.");
             String _name_19 = ((ControlledFunction)fd).getDomain().getName();
             _builder_6.append(_name_19, "\t\t\t");
-            _builder_6.append("_lista.get(i)).value );");
+            _builder_6.append("_elemsList.get(i)).value );");
             _builder_6.newLineIfNotEmpty();
             _builder_6.append("\t\t");
             _builder_6.append("}");
@@ -384,7 +389,7 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
             _builder_7.append("for(int i=0; i < esecuzione.");
             String _name_20 = ((ControlledFunction)fd).getDomain().getName();
             _builder_7.append(_name_20);
-            _builder_7.append("_lista.size(); i++)");
+            _builder_7.append("_elemsList.size(); i++)");
             _builder_7.newLineIfNotEmpty();
             _builder_7.append("\t\t");
             _builder_7.append("{");
@@ -396,16 +401,16 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
             _builder_7.append(" =>  (\" + esecuzione.");
             String _name_22 = ((ControlledFunction)fd).getDomain().getName();
             _builder_7.append(_name_22, "\t\t\t");
-            _builder_7.append("_lista.get(i) +\") ");
+            _builder_7.append("_elemsList.get(i) +");
             _builder_7.newLineIfNotEmpty();
             _builder_7.append("\t\t\t");
-            _builder_7.append("= \"+ esecuzione.");
+            _builder_7.append("\") = \"+ esecuzione.");
             String _name_23 = ((ControlledFunction)fd).getName();
             _builder_7.append(_name_23, "\t\t\t");
             _builder_7.append(".oldValues.get(esecuzione.");
             String _name_24 = ((ControlledFunction)fd).getDomain().getName();
             _builder_7.append(_name_24, "\t\t\t");
-            _builder_7.append("_lista.get(i)));");
+            _builder_7.append("_elemsList.get(i)));");
             _builder_7.newLineIfNotEmpty();
             _builder_7.append("\t\t");
             _builder_7.append("}");
@@ -582,7 +587,7 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
             _builder_2.append("esecuzione.");
             String _name_15 = ((MonitoredFunction)fd).getCodomain().getName();
             _builder_2.append(_name_15);
-            _builder_2.append("_lista.toString() +\":  \");");
+            _builder_2.append("_elemsList.toString() +\":  \");");
             _builder_2.newLineIfNotEmpty();
             _builder_2.append("Scanner ");
             String _name_16 = ((MonitoredFunction)fd).getName();
@@ -640,7 +645,7 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
             _builder_2.append(".set(esecuzione.");
             String _name_22 = ((MonitoredFunction)fd).getCodomain().getName();
             _builder_2.append(_name_22, "\t            ");
-            _builder_2.append("_lista.get(x-1));");
+            _builder_2.append("_elemsList.get(x-1));");
             _builder_2.newLineIfNotEmpty();
             _builder_2.append("\t            ");
             _builder_2.append("break;");
@@ -844,7 +849,7 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
             _builder_6.append("for(int i=0; i < esecuzione.");
             String _name_44 = ((MonitoredFunction)fd).getDomain().getName();
             _builder_6.append(_name_44);
-            _builder_6.append("_lista.size(); i++)");
+            _builder_6.append("_elemsList.size(); i++)");
             _builder_6.newLineIfNotEmpty();
             _builder_6.append("{");
             _builder_6.newLine();
@@ -855,7 +860,7 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
             _builder_6.append("esecuzione.");
             String _name_45 = ((MonitoredFunction)fd).getDomain().getName();
             _builder_6.append(_name_45, "  ");
-            _builder_6.append("_lista.get(i) +\" della lista ");
+            _builder_6.append("_elemsList.get(i) +\" della lista ");
             String _name_46 = ((MonitoredFunction)fd).getName();
             _builder_6.append(_name_46, "  ");
             _builder_6.append(" (true/false):  \");");
@@ -918,7 +923,7 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
             _builder_6.append(".set(esecuzione.");
             String _name_53 = ((MonitoredFunction)fd).getDomain().getName();
             _builder_6.append(_name_53, "              ");
-            _builder_6.append("_lista.get(i), y);");
+            _builder_6.append("_elemsList.get(i), y);");
             _builder_6.newLineIfNotEmpty();
             _builder_6.append("             ");
             _builder_6.append("break;");

@@ -1,6 +1,6 @@
 asm taxi
 import ../../../../../asm_examples/STDL/StandardLibrary
-import ../../../../../asm_examples/STDL/CTLlibrary
+import ../../../../../asm_examples/STDL/CTLLibrary
 
 //It models a city where some clients can book some taxis.
 //Each client must execute a fixed number of travels.

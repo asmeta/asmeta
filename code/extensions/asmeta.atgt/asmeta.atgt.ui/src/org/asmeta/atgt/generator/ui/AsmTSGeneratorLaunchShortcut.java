@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.asmeta.eclipse.AsmetaUtility;
 import org.eclipse.core.internal.resources.File;
-import org.eclipse.core.internal.runtime.Log;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.debug.core.DebugPlugin;
@@ -27,6 +26,8 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 
 public class AsmTSGeneratorLaunchShortcut implements org.eclipse.debug.ui.ILaunchShortcut {
+
+	private static final String NEW = "New configuration";
 
 	@Override
 	public void launch(ISelection selection, String mode) {
@@ -108,7 +109,7 @@ public class AsmTSGeneratorLaunchShortcut implements org.eclipse.debug.ui.ILaunc
 				configuration = chooseConfiguration(Arrays.asList(configurations));
 
 			} else if (candidateCount == 0) {
-				workingCopy = type.newInstance(null, "new");
+				workingCopy = type.newInstance(null, NEW);
 				//workingCopy.setAttribute(ATTR_FILEPATH, filepath);
 				// workingCopy.setMappedResources(new IResource[] { file });
 				configuration = workingCopy.doSave();
@@ -124,5 +125,4 @@ public class AsmTSGeneratorLaunchShortcut implements org.eclipse.debug.ui.ILaunc
 			return null;
 		}
 	}
-
 }

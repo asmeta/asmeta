@@ -12,6 +12,7 @@ package org.asmeta.simulator;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -37,7 +38,7 @@ public class LocationSet implements Iterable<Map.Entry<Location, Value>> {
 	 * Contents of locations.
 	 * 
 	 */
-	public Map<Location, Value> locationMap;
+	private Map<Location, Value> locationMap;
 		
 	/** 
 	 * Contents of dynamic sets.
@@ -378,6 +379,45 @@ public class LocationSet implements Iterable<Map.Entry<Location, Value>> {
 	@Override
 	public Iterator<Entry<Location, Value>> iterator() {
 		return locationMap.entrySet().iterator();
+	}	
+	
+	// return the current location map
+	public Map<Location,Value> getLocationMap() {
+		return Collections.unmodifiableMap(locationMap);
+	}
+	
+	// return the current value of the location set
+	public Value getCurrentValue(Location l) {
+		return locationMap.get(l);
 	}
 
+	// apply the updates to the current location map of the state
+	public void applyLocationUpdates(Map<? extends Location, ? extends Value> updates) {
+		assert ! updates.containsValue(null);
+		locationMap.putAll(updates);
+	}
+	// apply a single location update
+	public void applyLocationUpdate(Location loc, Value val) {
+		locationMap.put(loc,val);		
+	}
+
+	/**
+	 * Is the update set empty?
+	 * 
+	 * @return true if it is empty, otherwise false
+	 */
+	public boolean isEmpty() {
+		return locationMap.isEmpty();
+	}
+
+	@Override
+	public int hashCode() {
+	    //internal consistency: the value of hashCode() may only change if a property that is in equals() changes
+	    //equals consistency: objects that are equal to each other must return the same hashCode
+	    //collisions: unequal objects may have the same hashCode
+		return locationMap.hashCode() + abstractSets.hashCode();
+	}
+
+	
+	
 }

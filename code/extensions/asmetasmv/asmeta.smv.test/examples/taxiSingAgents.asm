@@ -1,7 +1,7 @@
 asm taxiSingAgents
 
 import ../../../../../asm_examples/STDL/StandardLibrary
-import ../../../../../asm_examples/STDL/CTLlibrary
+import ../../../../../asm_examples/STDL/CTLLibrary
 
 //it models the interaction between a client and a taxi
 

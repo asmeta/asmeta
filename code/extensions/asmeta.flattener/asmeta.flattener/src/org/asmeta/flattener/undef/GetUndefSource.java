@@ -28,7 +28,11 @@ import asmeta.transitionrules.basictransitionrules.UpdateRule;
 import asmeta.transitionrules.derivedtransitionrules.CaseRule;
 import asmeta.transitionrules.turbotransitionrules.SeqRule;
 
+//
+// find the set of functions that use undef
+//
 public class GetUndefSource extends ReflectiveVisitor<Set<Function>> {
+	
 	private static GetUndefSource gus = new GetUndefSource();
 
 	public static Set<Function> getUndefSources(Asm asm) {
@@ -89,6 +93,11 @@ public class GetUndefSource extends ReflectiveVisitor<Set<Function>> {
 
 	public Set<Function> visit(ConditionalRule conditionalRule) {
 		Set<Function> funcs = new HashSet<>();
+		// add the functions in the guard if necessary
+		if (GetUndefInTerm.getUndefInTerm(conditionalRule.getGuard())) {
+			//assert false;
+			// TODO it must be considered
+		}
 		funcs.addAll(visit(conditionalRule.getThenRule()));
 		Rule elseRule = conditionalRule.getElseRule();
 		if (elseRule != null) {

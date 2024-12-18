@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.ParseException;
 import org.asmeta.runtime_container.FullMapException;
 import org.asmeta.runtime_container.IModelExecution;
@@ -101,7 +102,7 @@ public class LoadDialog extends JDialog {
 					e1.printStackTrace();
 				}
 			    String checkmodel = StartGui.getModel();
-			    if(!checkmodel.isEmpty() && checkmodel.indexOf(".asm")!=-1)
+			    if(!checkmodel.isEmpty() && checkmodel.indexOf(ASMParser.ASM_EXTENSION)!=-1)
 			     {
 			    	int id=-99;
 					try {
@@ -137,7 +138,7 @@ public class LoadDialog extends JDialog {
 			    	
 			    	//JOptionPane.showMessageDialog(null, checkmodel);
 			     }
-			     if(checkmodel.indexOf(".asm")==-1 && !checkmodel.isEmpty()) {
+			     if(checkmodel.indexOf(ASMParser.ASM_EXTENSION)==-1 && !checkmodel.isEmpty()) {
 			    	JOptionPane.showMessageDialog(contentPane, "Error: wrong extension!", "Error", JOptionPane.ERROR_MESSAGE);
 			    }
 			     

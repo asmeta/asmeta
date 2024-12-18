@@ -1,1 +1,3 @@
 /target/
+/test-class/
+src-gen/*.java

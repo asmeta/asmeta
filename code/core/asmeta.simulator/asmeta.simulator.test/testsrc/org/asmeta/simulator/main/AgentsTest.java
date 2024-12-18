@@ -33,7 +33,7 @@ public class AgentsTest extends BaseTest {
 
 	@Test
 	public void test01() throws Exception {
-		sim = Simulator.createSimulator(BASE + "test/simulator/agents/agents.asm");
+		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/agents/agents.asm");
 		sim.run(1);
 		Function foo1 = searchFunction("foo1");
 		Value v1 = sim.currentState.read(new Location(foo1, new Value[0]));
@@ -45,7 +45,7 @@ public class AgentsTest extends BaseTest {
 	
 	@Test(expected = org.asmeta.simulator.UpdateClashException.class)
 	public void test02() throws Exception {
-		sim = Simulator.createSimulator(BASE + "test/simulator/agents/agents2.asm");
+		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/agents/agents2.asm");
 		sim.run(1);
 		//Function foo = searchFunction("foo");
 		//Value v = sim.currentState.read(new Location(foo, new Value[0]));

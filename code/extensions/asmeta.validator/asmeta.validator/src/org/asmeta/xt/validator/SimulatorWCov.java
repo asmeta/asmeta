@@ -2,12 +2,14 @@ package org.asmeta.xt.validator;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.PrintStream;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.asmeta.avallaxt.validation.RuleExtractorFromMacroDecl;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.simulator.Environment;
-import org.asmeta.simulator.RuleEvaluator;
 import org.asmeta.simulator.State;
 import org.asmeta.simulator.main.AsmModelNotFoundException;
 import org.asmeta.simulator.main.MainRuleNotFoundException;
@@ -16,6 +18,10 @@ import org.asmeta.simulator.readers.InteractiveMFReader;
 import org.asmeta.simulator.wrapper.RuleFactory;
 
 import asmeta.AsmCollection;
+import asmeta.transitionrules.basictransitionrules.ConditionalRule;
+import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
+import asmeta.transitionrules.basictransitionrules.Rule;
+import asmeta.transitionrules.basictransitionrules.UpdateRule;
 
 public class SimulatorWCov extends Simulator {
 	/**
@@ -23,13 +29,13 @@ public class SimulatorWCov extends Simulator {
 	 */
 	private static final Logger logger = Logger.getLogger(SimulatorWCov.class);
 
-	public SimulatorWCov(String modelName, AsmCollection asmp, Environment env)
+	private SimulatorWCov(String modelName, AsmCollection asmp, Environment env)
 			throws AsmModelNotFoundException, MainRuleNotFoundException {
 		super(modelName, asmp, env);
 	}
 
-	public static SimulatorWCov createSimulatorWC(String modelPath)
-			throws Exception {
+	// create a new Simulator with the coverage tracing
+	public static SimulatorWCov createSimulatorWC(String modelPath) throws Exception {
 		File modelFile = new File(modelPath);
 		if (!modelFile.exists()) {
 			throw new FileNotFoundException(modelPath);
@@ -37,16 +43,15 @@ public class SimulatorWCov extends Simulator {
 		AsmCollection asmetaPackage = ASMParser.setUpReadAsm(modelFile);
 		String fileName = modelFile.getName().split("\\.")[0];
 
-		return new SimulatorWCov(fileName, asmetaPackage, new Environment(
-				new InteractiveMFReader(System.in, System.out)));
+		return new SimulatorWCov(fileName, asmetaPackage,
+				new Environment(new InteractiveMFReader(System.in, System.out)));
 	}
 
 	/**
 	 * Inizializza il valutatore delle regole con quello che valuta anche la
 	 * copertura
-	 * 
-	 * @param state
-	 *            stato iniziale
+	 *
+	 * @param state stato iniziale
 	 * @return il valutatore delle regole inizializzato
 	 */
 	@Override
@@ -57,7 +62,64 @@ public class SimulatorWCov extends Simulator {
 		return;
 	}
 
-	public void printCoveredMacro(PrintStream ps) {
-		RuleEvaluator.printCoveredMacro(ps);
+	// return the coverage of the branches (conditional rules)
+	// PROBLEM is the branches of the modified ASM not the original one.
+	public Map<String, BranchCovData> getCoveredBranches() {
+		Map<String, BranchCovData> covData = new HashMap<>();
+		for (MacroDeclaration md : RuleEvalWCov.coveredMacros) {
+			String ruleCompleteName = RuleDeclarationUtils.getCompleteName(md);
+			if (!covData.containsKey(ruleCompleteName)) {
+				covData.put(ruleCompleteName, new BranchCovData());
+			}
+			List<Rule> rules = RuleExtractorFromMacroDecl.getAllContainedRules(md);
+			int tot = 0;
+			Rule r;
+			for (int i = 0; i < rules.size(); i++) {
+				r = rules.get(i);
+				if (r instanceof ConditionalRule) {
+					tot++;
+					if (RuleEvalWCov.coveredConRuleF.contains(r)
+							// If a rule obtained as a result of a substitution is covered, the original rule from
+							// which it was derived is considered covered
+							|| (RuleEvalWCov.ruleSubstitutions.containsKey(r) && RuleEvalWCov.coveredConRuleF.stream()
+									.anyMatch(RuleEvalWCov.ruleSubstitutions.get(r)::contains)))
+						covData.get(ruleCompleteName).coveredF.add(i);
+
+					if (RuleEvalWCov.coveredConRuleT.contains(r)
+							|| (RuleEvalWCov.ruleSubstitutions.containsKey(r) && RuleEvalWCov.coveredConRuleT.stream()
+									.anyMatch(RuleEvalWCov.ruleSubstitutions.get(r)::contains)))
+						covData.get(ruleCompleteName).coveredT.add(i);
+				}
+			}
+			covData.get(ruleCompleteName).tot = tot;
+		}
+		return covData;
 	}
+
+	// return the coverage of the update rules
+	public Map<String, UpdateCovData> getCoveredUpdateRules() {
+		Map<String, UpdateCovData> covData = new HashMap<>();
+		for (MacroDeclaration md : RuleEvalWCov.coveredMacros) {
+			String ruleCompleteName = RuleDeclarationUtils.getCompleteName(md);
+			if (!covData.containsKey(ruleCompleteName)) {
+				covData.put(ruleCompleteName, new UpdateCovData());
+			}
+			List<Rule> rules = RuleExtractorFromMacroDecl.getAllContainedRules(md);
+			int tot = 0;
+			Rule r;
+			for (int i = 0; i < rules.size(); i++) {
+				r = rules.get(i);
+				if (r instanceof UpdateRule) {
+					tot++;
+					if (RuleEvalWCov.coveredUpdateRules.contains(r)
+							|| (RuleEvalWCov.ruleSubstitutions.containsKey(r) && RuleEvalWCov.coveredUpdateRules
+									.stream().anyMatch(RuleEvalWCov.ruleSubstitutions.get(r)::contains)))
+						covData.get(ruleCompleteName).covered.add(i);
+				}
+			}
+			covData.get(ruleCompleteName).tot = tot;
+		}
+		return covData;
+	}
+
 }

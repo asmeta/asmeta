@@ -1,8 +1,11 @@
 package org.asmeta.avallaxt.tests.validation;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.junit.Test;
@@ -10,45 +13,45 @@ import org.junit.Test;
 public class TestSingleScenario extends TestParserAndValidation {
 
 	@Test
-	public void checkExampleBlock() {
-		assertTrue(test("example/block1.avalla", PossibleFaults.NONE));
-		assertTrue(test("example/block2.avalla", PossibleFaults.NONE));
-		assertTrue(test("example/block3.avalla", PossibleFaults.NONE));
+	public void checkExampleBlockNoError() {
+		assertSame(checkPossibleFaults("example/block1.avalla"),PossibleFaults_NONE);
+		assertTrue(checkPossibleFaults("example/block2.avalla") == PossibleFaults_NONE);
+		assertTrue(checkPossibleFaults("example/block3.avalla") == PossibleFaults_NONE);
 	}
 
 	@Test
 	public void checkExampleBlockErrors() {
 		// with semantic errors
-		// assertTrue(test("example/block_w1.avalla", PossibleFaults.OTHERS));
-		// assertTrue(test("example/block_w2.avalla", PossibleFaults.OTHERS));
-		// assertTrue(test("example/block_w3.avalla", PossibleFaults.OTHERS));
-		// assertTrue(test("example/block_w4.avalla", PossibleFaults.OTHERS));
-		assertTrue(test("example/block_w5.avalla", PossibleFaults.OTHERS));
+		assertEquals("ERROR block blocco5 does not exist in this scenario",checkPossibleFaults("example/block_w1.avalla"));
+		assertEquals("ERROR block blocco1 declared multiple times",checkPossibleFaults("example/block_w2.avalla"));
+		assertEquals("ERROR block blocco1 declared multiple times",checkPossibleFaults("example/block_w3.avalla"));
+		assertEquals("ERROR scenario blockNOTEXISTS does not exist",checkPossibleFaults("example/block_w4.avalla"));
+		assertEquals("ERROR scenario block1 does not contain block blocco5",checkPossibleFaults("example/block_w5.avalla"));
 	}
 
 	@Test
 	public void checkExampleLift() {
-		assertTrue(test("example/lift_wrong1.avalla", PossibleFaults.NOTEXISTS));
-		assertTrue(test("example/lift_w1.avalla", PossibleFaults.NOTEXISTS));
-		assertTrue(test("example/lift_shared.avalla", PossibleFaults.NONE));
+		assertEquals("ERROR Asm spec should end with asm",checkPossibleFaults("example/lift_wrong1.avalla"));
+		// it may be \\ instead of / in windows - use dth strandrd name
+		assertEquals("ERROR File LiftNotExists.asm does not exist as example"+ File.separator+"LiftNotExists.asm",checkPossibleFaults("example/lift_wrong2.avalla"));
+		assertEquals(checkPossibleFaults("example/lift_shared.avalla"),PossibleFaults_NONE);
 	}
 
 	@Test
 	public void checkBattleShip() {
-		assertTrue(test("example/battleship1.avalla", PossibleFaults.NOTEXISTS));
-		assertTrue(test("example/battleship2.avalla", PossibleFaults.NOTEXISTS));
+		assertEquals(checkPossibleFaults("example/battleship1.avalla"),PossibleFaults_NONE);
+		assertEquals(checkPossibleFaults("example/battleship2.avalla"),PossibleFaults_NONE);
+		assertEquals(checkPossibleFaults("example/battleship3.avalla"),PossibleFaults_NONE);
 	}
 
 	@Test
 	public void checkSLE() {
-		assertTrue(test("..\\..\\..\\..\\asm_examples\\examples\\fsmsemantics\\Sle\\testEven1.avalla",PossibleFaults.NONE));
-		assertTrue(test("../../../../asm_examples/examples/fsmsemantics/Sle/testEven1.avalla",PossibleFaults.NONE));
+		assertEquals(checkPossibleFaults("../../../../asm_examples/examples/fsmsemantics/Sle/testEven1.avalla"),PossibleFaults_NONE);
 	}
 
 	// PROBLEMATICS
 	@Test
 	public void testproblematic() throws IOException {
-		test("../../../../asm_examples/DAS/TrafficMonitoringSystem/scenario1.avalla", PossibleFaults.NONE);
 		// test("../../../../asm_examples/examples/fsmsemantics/Sle/testEven1.avalla",
 		// PossibleFaults.NONE);// SOLVED
 	}
@@ -60,16 +63,43 @@ public class TestSingleScenario extends TestParserAndValidation {
 		//test("example/abz2020/scenarios/wExecBlock.avalla", PossibleFaults.NONE);
 		// test("../../../../asm_examples/examples/fsmsemantics/Sle/testEven1.avalla",
 		// PossibleFaults.NONE);// SOLVED
-		test("example/abz2020/CarSystem006scenario003.avalla", PossibleFaults.NONE);
+		//boolean test = (checkPossibleFaults("example/abz2020/CarSystem006scenario003.avalla") == PossibleFaults_NONE);
 	}
 
 	@Test
 	public void checkImportImport() {
-		assertTrue(test("example/importimport.avalla", PossibleFaults.NONE));
+		assertTrue(checkPossibleFaults("example/importimport.avalla") == PossibleFaults_NONE);
 	}
 
 	
+	@Test
+	public void checkForall() {
+		assertTrue(checkPossibleFaults("example/lift_forall.avalla") == PossibleFaults_NONE);
+	}
+
 	
-	
+	@Test
+	public void checkForFlaky() {
+		// correct scenario
+		assertSame(checkPossibleFaults("../asmeta.validator.test/scenariosfortest/flaky/scenario_noflaky.avalla"),PossibleFaults_NONE);
+		// with a missing $
+		assertSame(checkPossibleFaults("../asmeta.validator.test/scenariosfortest/flaky/scenario_noflaky_PARS_ERR.avalla"), PossibleFaults_Parser);
+		// with pick variable not matching any choose variable in the asm
+		String error_msg = checkPossibleFaults("../asmeta.validator.test/scenariosfortest/flaky/scenario_noflaky_VAL_ERR.avalla");
+		assertNotEquals(error_msg, PossibleFaults_NONE);
+		assertNotEquals(error_msg, PossibleFaults_Parser);
+		assertTrue(error_msg.length() > 0);
+		// with pick variable not matching any choose variable in the asm
+		error_msg = checkPossibleFaults("../asmeta.validator.test/scenariosfortest/flaky/scenario_noflaky_VAL_ERR2.avalla");
+		assertNotEquals(error_msg, PossibleFaults_NONE);
+		assertNotEquals(error_msg, PossibleFaults_Parser);
+		assertTrue(error_msg.length() > 0);
+		// with pick variable not matching any choose variable in the asm
+		error_msg = checkPossibleFaults("../asmeta.validator.test/scenariosfortest/flaky/scenario_noflaky_VAL_ERR3.avalla");
+		assertNotEquals(error_msg, PossibleFaults_NONE);
+		assertNotEquals(error_msg, PossibleFaults_Parser);
+		assertTrue(error_msg.length() > 0);
+	}
+
 	
 }
