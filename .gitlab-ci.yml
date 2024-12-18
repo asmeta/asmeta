@@ -57,7 +57,7 @@ test:
   # install nusmv  
 #    - wget -O "$NUSMV_FILE" "${NUSMV_URL}/${NUSMV_FILE}"
     - curl "${NUSMV_URL}/${NUSMV_FILE}" --output ${NUSMV_FILE}
-    - tar -xf "$NUSMV_FILE"
+    - tar -xf "${NUSMV_FILE}"
     #- chmod +x NuSMV-2.6.0-Linux\bin
     #    - chown root:root monteur
     #    - cd ..
