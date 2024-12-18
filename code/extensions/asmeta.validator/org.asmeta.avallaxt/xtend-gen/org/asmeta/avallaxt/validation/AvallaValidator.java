@@ -9,6 +9,7 @@ import asmeta.definitions.Function;
 import asmeta.definitions.MonitoredFunction;
 import asmeta.definitions.SharedFunction;
 import asmeta.structure.Asm;
+import asmeta.transitionrules.basictransitionrules.ChooseRule;
 import com.google.inject.Injector;
 import java.io.File;
 import java.nio.file.Files;
@@ -17,6 +18,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -25,6 +27,7 @@ import org.asmeta.avallaxt.avalla.AvallaPackage;
 import org.asmeta.avallaxt.avalla.Block;
 import org.asmeta.avallaxt.avalla.Element;
 import org.asmeta.avallaxt.avalla.ExecBlock;
+import org.asmeta.avallaxt.avalla.Pick;
 import org.asmeta.avallaxt.avalla.Scenario;
 import org.asmeta.avallaxt.avalla.Set;
 import org.asmeta.parser.ASMParser;
@@ -52,6 +55,8 @@ public class AvallaValidator extends AbstractAvallaValidator {
   private List<String> controlledFunNames;
 
   private List<String> sharedFunNames;
+
+  private Map<ChooseRule, String> chooseRules;
 
   @Check
   public void checkLoadASMexists(final Scenario scenario) {
@@ -106,8 +111,8 @@ public class AvallaValidator extends AbstractAvallaValidator {
     }
   }
 
-  public List<String> setAsmCollection(final AsmCollection collection) {
-    List<String> _xblockexpression = null;
+  public Map<ChooseRule, String> setAsmCollection(final AsmCollection collection) {
+    Map<ChooseRule, String> _xblockexpression = null;
     {
       this.asmCollection = collection;
       final HashSet<Function> functions = new HashSet<Function>();
@@ -135,7 +140,8 @@ public class AvallaValidator extends AbstractAvallaValidator {
       final java.util.function.Function<Function, String> _function_6 = (Function y) -> {
         return y.getName();
       };
-      _xblockexpression = this.sharedFunNames = functions.stream().filter(_function_5).<String>map(_function_6).collect(Collectors.<String>toList());
+      this.sharedFunNames = functions.stream().filter(_function_5).<String>map(_function_6).collect(Collectors.<String>toList());
+      _xblockexpression = this.chooseRules = AsmCollectionUtility.getChooseRules(this.asmCollection);
     }
     return _xblockexpression;
   }
@@ -176,6 +182,19 @@ public class AvallaValidator extends AbstractAvallaValidator {
       String _plus = ("block " + _name);
       String _plus_1 = (_plus + " declared multiple times");
       this.error(_plus_1, AvallaPackage.Literals.BLOCK__NAME);
+    }
+  }
+
+  @Check
+  public void checkPick(final Pick pick) {
+    String errorMessage = ScenarioUtility.checkPickRule(pick, this.asmCollection.getMain());
+    if ((errorMessage != null)) {
+      this.error(errorMessage, AvallaPackage.Literals.PICK__RULE);
+    } else {
+      errorMessage = ScenarioUtility.checkPickVariable(pick, this.chooseRules);
+    }
+    if ((errorMessage != null)) {
+      this.error(errorMessage, AvallaPackage.Literals.PICK__VAR);
     }
   }
 

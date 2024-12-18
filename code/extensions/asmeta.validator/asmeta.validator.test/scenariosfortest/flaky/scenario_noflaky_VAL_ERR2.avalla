@@ -1,0 +1,9 @@
+// starting scenario
+// with ERROR in validation
+scenario SCENARIO_NAME
+load CoffeeVendingMachineGround.asm
+// ...
+pick $a := TEA; // $a not defined in CoffeeVendingMachineGround
+step
+check dispensed = TEA;
+step

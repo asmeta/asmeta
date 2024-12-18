@@ -82,13 +82,13 @@ public abstract class ReflectiveVisitor<T> {
 			Class<?>[] interfaces = argument.getClass().getInterfaces();
 			Class<?> anInterface = null;
 			try {
-				// the first interface must exist
-				assert interfaces != null;
-				assert interfaces.length > 0: "not suitable interfaces found for " + 
-						this.getClass() + " for method " +methodName +
-						" with argument " + argument.getClass();
-				// take the first interface
-				anInterface = interfaces[0];
+				assert interfaces != null;	
+				// if there is no interface for the argument (normally it is an implementation) 
+				if (interfaces.length ==0)
+					anInterface = argument.getClass();
+				else 
+					// take the first interface
+					anInterface = interfaces[0];
 				//System.out.println(methodName + " - " + anInterface + " - " + argument.toString());
 				//logger.debug("<visiting>Interface:" + anInterface.getName() + "</visiting>");
 				assert methodName != null;

@@ -1,0 +1,3 @@
+scenario emptyScenario
+
+load ../../../../../../asm_examples/examples/ferryman/ferrymanSimulator.asm

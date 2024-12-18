@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.asmeta.flattener.statistics.Statistics;
-import org.asmeta.flattener.util.StdlFunction;
+import org.asmeta.simulator.util.StdlFunction;
 import org.eclipse.emf.common.util.EList;
 
 import asmeta.definitions.DefinitionsPackage;

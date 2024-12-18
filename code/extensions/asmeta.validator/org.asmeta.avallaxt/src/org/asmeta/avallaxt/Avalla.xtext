@@ -17,7 +17,7 @@ Element:
 	Command | Block;
 
 Command:
-	Check | Set | {Step} Step | StepUntil | Exec | ExecBlock;
+	Check | Set | {Step} Step | StepUntil | Exec | ExecBlock | Pick;
 
 Check:
 	'check' expression=sentence ";";
@@ -35,6 +35,11 @@ StepUntil:
 Exec:
 	'exec' rule=sentencePlusAssignAndColon ";";
 
+// added choose for flaky scenarios NOV 2024	
+Pick:
+	'pick' var = LOCAL_VARIABLE (IN rule=RULE_NAME)? ':='	value=sentence ";";
+
+
 Block:
 	'begin' name= GOOD_CHARS_NO_COLON
 	elements+=Element*
@@ -48,13 +53,13 @@ Block:
 // end
 // we refer to bl2 only with bl2 (NOT bl1:bl2)
 
-// example scanrio:block -> search block in the scenario
+// example scenario:block -> search block in the scenario
 // if a block is inside the same scenario, scenario can be skipped 
 ExecBlock:
 	'execblock' (scenario=GOOD_CHARS_NO_COLON ':')? block=GOOD_CHARS_NO_COLON ';';
 
 	// or a word or a string (with spaces in it)
-Path: (GOOD_CHARS_NO_COLON | ':')+ | STRING;
+Path: (LOCAL_VARIABLE | GOOD_CHARS_NO_COLON | ':')+ | STRING;
 
 	// a string between double quotes
 terminal STRING:
@@ -76,17 +81,24 @@ terminal WS:
 // it can be f( "pippo" ) = "jjj"
 // it can be aslo with some colon check (forall $k in {0 : 4} with
 sentence:
-	(GOOD_CHARS_NO_COLON | ':' | STRING)+;
+	(IN | LOCAL_VARIABLE | RULE_NAME | GOOD_CHARS_NO_COLON | ':' | STRING)+;
 
 sentencePlusAssignAndColon:
-	(GOOD_CHARS_NO_COLON | ':=' | ":" | STRING)+;
+	(IN | LOCAL_VARIABLE | RULE_NAME | GOOD_CHARS_NO_COLON | ':=' | ":" | STRING)+;
 
+terminal IN: 'in';
+
+terminal RULE_NAME: 'r_'GOOD_CHARS_NO_COLON;
+
+terminal LOCAL_VARIABLE: '$'GOOD_CHARS_NO_COLON;
 
 terminal GOOD_CHAR_NO_COLON:
 //
-	('\u0021'..'\u0039' // da ! (0021) - spazio escluso a 9 (0039) // skip ':' ';'
+	('\u0021'..'\u0023' // da ! (0021) - spazio escluso a # (0023) // skip '$'
+	| '\u0025'..'\u0039' // da % (0025) a 9 (0039) // skip ':' ';'
 	| '\u003C'..'\u007E' // da < a ~
 );
 
 terminal GOOD_CHARS_NO_COLON:
-	GOOD_CHAR_NO_COLON+;	
+	GOOD_CHAR_NO_COLON+;
+	
