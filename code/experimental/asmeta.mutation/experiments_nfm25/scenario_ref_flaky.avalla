@@ -1,0 +1,10 @@
+scenario scenario2
+load CoffeeVendingMachineRefined.asm
+
+set insertedCoin := 2;
+step
+check dispensed = COFFEE;
+
+set insertedCoin := 2;
+step
+check dispensed = COFFEE;

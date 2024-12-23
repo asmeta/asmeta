@@ -9,7 +9,7 @@ import java.util.Set;
 import org.asmeta.flattener.args.RemoveArgumentsRuleFlattener;
 import org.asmeta.flattener.args.RemoveArgumentsTermFlattener;
 import org.asmeta.flattener.rule.RuleFlattener;
-import org.asmeta.flattener.util.StdlFunction;
+import org.asmeta.simulator.util.StdlFunction;
 
 import asmeta.definitions.Function;
 import asmeta.definitions.domains.Domain;

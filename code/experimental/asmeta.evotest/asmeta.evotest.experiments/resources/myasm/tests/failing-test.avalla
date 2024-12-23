@@ -1,0 +1,17 @@
+scenario mytest
+
+load ../myasm.asm
+
+set impostaDefault := false;
+set quantita := 10;
+step
+check statoLivello = 0;
+
+set impostaDefault := true;
+step
+check statoLivello = 10;
+
+set impostaDefault := false;
+set quantita := 75;
+step
+check statoLivello = 75;

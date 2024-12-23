@@ -37,4 +37,21 @@ class AsmetaxtextParsingTest {
 		Assert.assertTrue('''Unexpected errors: «errors.join(", ")»''', errors.isEmpty)
 	}
 	
+	@Test
+	def void booleanInvariant() {
+		val result = parseHelper.parse('''
+			asm machine
+			signature:
+			definitions:
+				
+				rule r_moveCard($i1 in Integer, $i2 in Integer) =
+						skip
+						
+				invariant inv_neverNeg over Boolean: balance >= 0
+		''')
+		Assert.assertNotNull(result)
+		val errors = result.eResource.errors
+		Assert.assertTrue('''Unexpected errors: «errors.join(", ")»''', errors.isEmpty)
+	}
+	
 }

@@ -8,11 +8,16 @@ import java.io.FileNotFoundException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 import org.asmeta.avallaxt.AvallaStandaloneSetup;
 import org.asmeta.avallaxt.avalla.Block;
 import org.asmeta.avallaxt.avalla.Check;
+import org.asmeta.avallaxt.avalla.Pick;
 import org.asmeta.avallaxt.avalla.Command;
 import org.asmeta.avallaxt.avalla.Element;
 import org.asmeta.avallaxt.avalla.Exec;
@@ -29,6 +34,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
 import com.google.inject.Injector;
+
+import asmeta.transitionrules.basictransitionrules.ChooseRule;
 
 /**
  * The Class StatementToStringBuffer transform a scenario to a list of ASM
@@ -62,30 +69,34 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 
 	private String scenarioDir;
 
+	/** The builder */
+	private AsmetaFromAvallaBuilder builder;
+
 	/**
 	 * The Constructor.
 	 *
-	 * @param scenario
-	 *            the scenario
-	 * @param oMN
-	 *            the oold main rule name
+	 * @param scenario    the scenario
+	 * @param oMN         the oold main rule name
 	 * @param scenarioDir
-	 *            TODO
+	 * @param builder     the builder TODO
 	 */
-	public StatementToStringBuffer(Scenario scenario, String oMN, String scenarioDir) {
+	public StatementToStringBuffer(Scenario scenario, String oMN, String scenarioDir, AsmetaFromAvallaBuilder builder) {
 		this.scenario = scenario;
 		this.oldMainName = oMN;
 		this.scenarioDir = scenarioDir;
+		this.builder = builder;
 	}
 
-	// the set that must be set in the init state (initial set of the scencario)
-	ArrayList<Set> monitoredInitState;
-	List<ArrayList<Set>> allMonitored;
+	// the set that must be set in the init state (initial set and pick of the
+	// scencario)
+	ArrayList<Command> monitoredInitState;
+	List<ArrayList<Command>> allMonitored;
+	ArrayList<Pick> allPickRules;
 	int state;
 
 	/**
-	 * Parses the commands and builds the list of statements containing only
-	 * simple commands (remove blocks and exec blocks)
+	 * Parses the commands and builds the list of statements containing only simple
+	 * commands (remove blocks and exec blocks)
 	 */
 	void parseCommands() {
 		// init PA: 2017/12/29
@@ -93,15 +104,15 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 		// build the list of command by expanding blocks
 		addCommands(commandsNewOrder, scenario.getElements());
 		// no command is now a block or exec block or
-		assert ! commandsNewOrder.stream().anyMatch(t -> t instanceof ExecBlock);
-		assert ! commandsNewOrder.stream().anyMatch(t -> t instanceof Block);
+		assert !commandsNewOrder.stream().anyMatch(t -> t instanceof ExecBlock);
+		assert !commandsNewOrder.stream().anyMatch(t -> t instanceof Block);
 		// split monitored from the others
-		ArrayList<Set> monitored = new ArrayList<>();
+		ArrayList<Command> monitored = new ArrayList<>();
 		// list of monitored set
 		allMonitored = new ArrayList<>();
 		for (Command command : commandsNewOrder) {
-			if (command instanceof Set) {
-				monitored.add((Set) command);
+			if (command instanceof Set || command instanceof Pick) {
+				monitored.add(command);
 			} else if (command instanceof Step || command instanceof StepUntil) {
 				allMonitored.add(monitored);
 				monitored = new ArrayList<>();
@@ -111,13 +122,28 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 		allMonitored.add(monitored);
 		state = 0;
 		monitoredInitState = allMonitored.get(state++);
+		allPickRules = new ArrayList<>();
+		for (ArrayList<Command> list : allMonitored) {
+			allPickRules.addAll(extractPickRules(list));
+		}
 		// add all command in the new order
 		for (Command command : commandsNewOrder) {
-			if (command instanceof Set)
+			if (command instanceof Set || command instanceof Pick)
 				continue;
 			doSwitch(command);
 		}
 		enclose();
+	}
+
+	/**
+	 * Extracts all objects that are instances of {@code Pick} from a given list of
+	 * {@code Command}.
+	 * 
+	 * @param list the list of {@code Command} objects to filter
+	 * @return a list containing only the objects that are instances of {@code Pick}
+	 */
+	private List<Pick> extractPickRules(List<Command> list) {
+		return list.stream().filter(x -> x instanceof Pick).map(x -> ((Pick) x)).collect(Collectors.toList());
 	}
 
 	// put the commands in a new order
@@ -164,8 +190,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 	/**
 	 * Append.
 	 *
-	 * @param untilCmd
-	 *            the until cmd
+	 * @param untilCmd the until cmd
 	 */
 	@Override
 	public Void caseStepUntil(StepUntil untilCmd) {
@@ -190,8 +215,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 	/**
 	 * Append.
 	 *
-	 * @param checkCmd
-	 *            the check cmd
+	 * @param checkCmd the check cmd
 	 */
 	@Override
 	public Void caseCheck(Check checkCmd) {
@@ -219,8 +243,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 	/**
 	 * Zip whites.
 	 *
-	 * @param s
-	 *            the s
+	 * @param s the s
 	 *
 	 * @return the string
 	 */
@@ -245,8 +268,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 	/**
 	 * Append.
 	 *
-	 * @param stepCmd
-	 *            the step cmd
+	 * @param stepCmd the step cmd
 	 */
 	@Override
 	public Void caseStep(Step stepCmd) {
@@ -258,24 +280,58 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 
 	private void printMonitored() {
 		if (state < allMonitored.size()) {
-			ArrayList<Set> monsState = allMonitored.get(state);
-			for (Set set : monsState) {
+			ArrayList<Command> monsState = allMonitored.get(state);
+			for (Command set : monsState) {
 				doSwitch(set);
+			}
+			// Set all monitored is_picked_X functions to false for all variables that have
+			// not been picked in the avalla. Skip last step as setting the value would be
+			// useless
+			if (state != allMonitored.size() - 1) {
+				List<Pick> usedPickRules = extractPickRules(monsState);
+				// Using Set instead of List to avoid duplicates
+				java.util.Set<String> notUsedPickRules = new HashSet<>();
+				for (Pick p1 : allPickRules) {
+					if (!usedPickRules.stream().anyMatch(p2 -> pickSameVariable(p1, p2))) {
+						String ruleName = p1.getRule();
+						if (ruleName == null)
+							ruleName = getRuleName(p1.getVar());
+						notUsedPickRules.add(AsmetaPrinterForAvalla.IS_PICKED + p1.getVar().substring(1) + "_" + ruleName);
+					}
+				}
+				for (String monitored : notUsedPickRules)
+					append(monitored + " := false");
 			}
 		}
 		state++;
 	}
 
 	/**
+	 * Given two pick rules, check whether they are picking the same variable in the
+	 * same rule declaration or not
+	 * 
+	 * @param p1 the first pick rule
+	 * @param p2 the second pick rule
+	 * @return true if the two pick rules pick the same variable, false otherwise
+	 */
+	private boolean pickSameVariable(Pick p1, Pick p2) {
+		String p1RuleName = p1.getRule() == null ? getRuleName(p1.getVar()) : p1.getRule();
+		String p2RuleName = p2.getRule() == null ? getRuleName(p2.getVar()) : p2.getRule();
+		return Objects.equals(p1.getVar(), p2.getVar()) && Objects.equals(p1RuleName, p2RuleName);
+	}
+
+	/**
 	 * Append.
 	 *
-	 * @param setCmd
-	 *            the set cmd
+	 * @param setCmd the set cmd
 	 */
 	@Override
 	public Void caseSet(Set setCmd) {
-		//26/04/2021 -> Silvia: if simulation time is set to auto increment or use java time and the user has set the time function in the scenario, do not add its assignment in the .asm model
-		if ((Environment.timeMngt == TimeMngt.auto_increment || Environment.timeMngt == TimeMngt.use_java_time) && Environment.monTimeFunctions.containsKey(setCmd.getLocation().trim()))
+		// 26/04/2021 -> Silvia: if simulation time is set to auto increment or use java
+		// time and the user has set the time function in the scenario, do not add its
+		// assignment in the .asm model
+		if ((Environment.timeMngt == TimeMngt.auto_increment || Environment.timeMngt == TimeMngt.use_java_time)
+				&& Environment.monTimeFunctions.containsKey(setCmd.getLocation().trim()))
 			return null;
 		String loc = setCmd.getLocation().trim();
 		String value = setCmd.getValue().trim();
@@ -286,8 +342,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 	/**
 	 * Append.
 	 *
-	 * @param execCmd
-	 *            the exec cmd
+	 * @param execCmd the exec cmd
 	 */
 	@Override
 	public Void caseExec(Exec execCmd) {
@@ -306,6 +361,40 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 		throw new RuntimeException("should never happen since this is expanded in its block");
 	}
 
+	@Override
+	public Void casePick(Pick pickCmd) {
+		String variable = pickCmd.getVar().trim();
+		String value = pickCmd.getValue().trim();
+		String rule = pickCmd.getRule();
+		if (rule == null)
+			rule = getRuleName(variable);
+		assert rule != null;
+		rule = rule.trim();
+		String variableWithRule = variable.substring(1) + "_" + rule;
+		String is_variable = AsmetaPrinterForAvalla.IS_PICKED + variableWithRule;
+		String val_variable = AsmetaPrinterForAvalla.VAL_PICKED + variableWithRule;
+		append(is_variable + " := true");
+		append(val_variable + " := " + value);
+		return null;
+	}
+
+	/**
+	 * Given the name of a variable (starting with $) of a Pick rule, return the
+	 * correspondent rule declaration containing the choose rule that defines a
+	 * variable with the same name
+	 * 
+	 * @param variable the name of the variable
+	 * @return the name of the rule declaration
+	 */
+	private String getRuleName(String variable) {
+		for (Entry<ChooseRule, String> chooseRule : this.builder.allChooseRules.entrySet()) {
+			if (chooseRule.getKey().getVariable().stream().anyMatch(var -> var.getName().equals(variable)))
+				return chooseRule.getValue();
+		}
+		// should never happen
+		return null;
+	}
+
 	private Block getBlockByName(Scenario s, String block) {
 		for (Element b : s.getElements()) {
 			if ((b instanceof Block) && ((Block) b).getName().equals(block))
@@ -317,8 +406,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 	/**
 	 * Append.
 	 *
-	 * @param s
-	 *            the s
+	 * @param s the s
 	 */
 	void append(String s) {
 		for (int i = 0; i < indentation; i++)
@@ -339,6 +427,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 			append(STEP_VAR + " := " + STEP_VAR + " + 1");
 			unIndent();
 			append("endseq");
+			indent();
 			next();
 		}
 	}

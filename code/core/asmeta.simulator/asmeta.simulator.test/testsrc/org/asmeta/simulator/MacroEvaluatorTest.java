@@ -12,6 +12,7 @@ package org.asmeta.simulator;
 
 import java.util.HashMap;
 
+import org.asmeta.simulator.RuleEvaluator;
 import org.asmeta.simulator.main.Simulator;
 import org.asmeta.simulator.main.Util;
 import org.junit.Assert;
