@@ -20,7 +20,6 @@ import asmeta.terms.basicterms.LocationTerm;
 import asmeta.terms.basicterms.TupleTerm;
 import java.util.Arrays;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.xtext.xbase.lib.XbaseGenerated;
 
 /**
  * This class is used when implementing operations of the StandardLibrary
@@ -214,7 +213,6 @@ public class TermToJavaStandardLibrary extends TermToJava {
   }
 
   @Override
-  @XbaseGenerated
   public String caseFunctionTermSupp(final Function fd, final FunctionTerm ft) {
     if (fd instanceof ControlledFunction) {
       return _caseFunctionTermSupp((ControlledFunction)fd, ft);

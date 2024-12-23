@@ -43,7 +43,6 @@ import org.asmeta.parser.util.ReflectiveVisitor;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.xbase.lib.Exceptions;
-import org.eclipse.xtext.xbase.lib.XbaseGenerated;
 
 @SuppressWarnings("all")
 public class TermToJava extends ReflectiveVisitor<String> {
@@ -1117,7 +1116,6 @@ public class TermToJava extends ReflectiveVisitor<String> {
     }
   }
 
-  @XbaseGenerated
   public String caseFunctionTermSupp(final Function fd, final FunctionTerm ft) {
     if (fd instanceof ControlledFunction) {
       return _caseFunctionTermSupp((ControlledFunction)fd, ft);
