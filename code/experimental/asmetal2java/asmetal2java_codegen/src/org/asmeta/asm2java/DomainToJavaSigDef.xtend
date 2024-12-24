@@ -195,7 +195,6 @@ class DomainToJavaSigDef extends ReflectiveVisitor<String> {
 	// Translate concrete domains
 	def String visit(ConcreteDomain object) {
 		var StringBuffer sb = new StringBuffer
-
 		// Dynamic domains
 		if (object.isDynamic) {
 			sb.append('''
@@ -240,12 +239,11 @@ class DomainToJavaSigDef extends ReflectiveVisitor<String> {
 						}
 						
 				}
-				
-				«object.name» «object.name»_elem = new «object.name»();
+				// do not use this object to init TODO remove this line in the translation
+				// «object.name» «object.name»_elem = new «object.name»();
 				List<«new ToString(res).visit(object.typeDomain)»> «object.name»_elems = new ArrayList<>();
 			''')
 		}
 		return sb.toString
 	}
-
 }

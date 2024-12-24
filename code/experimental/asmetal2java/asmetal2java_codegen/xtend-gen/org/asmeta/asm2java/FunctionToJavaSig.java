@@ -282,7 +282,6 @@ public class FunctionToJavaSig extends ReflectiveVisitor<String> {
         _builder_2.append(_name_1);
         _builder_2.append(" = new Fun0Ctrl<>();");
         _builder_2.newLineIfNotEmpty();
-        _builder_2.newLine();
         function.append(_builder_2);
       } else {
         Domain _codomain_1 = object.getCodomain();

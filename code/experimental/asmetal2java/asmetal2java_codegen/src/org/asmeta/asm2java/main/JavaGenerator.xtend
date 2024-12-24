@@ -5,6 +5,7 @@ import asmeta.definitions.DerivedFunction
 import asmeta.definitions.RuleDeclaration
 import asmeta.definitions.StaticFunction
 import asmeta.definitions.domains.AbstractTd
+import asmeta.definitions.domains.EnumTd
 import asmeta.structure.Asm
 import asmeta.transitionrules.basictransitionrules.Rule
 import java.util.ArrayList
@@ -15,12 +16,13 @@ import org.asmeta.asm2java.FunctionToJavaDef
 import org.asmeta.asm2java.FunctionToJavaSig
 import org.asmeta.asm2java.RuleToJava
 import org.asmeta.asm2java.SeqRuleCollector
+import org.asmeta.asm2java.ToString
 import org.asmeta.asm2java.Util
 import org.junit.Assert
-import asmeta.definitions.domains.EnumTd
-import org.asmeta.asm2java.ToString
 
-/**Generates .cpp ASM file */
+/**Generates .java ASM file
+ * 
+ */
 class JavaGenerator extends AsmToJavaGenerator {
 
 	String initConrolledMonitored
@@ -35,6 +37,10 @@ class JavaGenerator extends AsmToJavaGenerator {
 	List<Rule> seqCalledRules;
 
 	String supp
+
+	// visitor to discover if a controlled contains a monitored in init
+	val findMonitoredInControlledFunct = new FindMonitoredInControlledFunct()
+
 
 	override compileAsm(Asm asm) {
 		// collect alla the seq rules if required
@@ -407,22 +413,19 @@ class JavaGenerator extends AsmToJavaGenerator {
 
 		var StringBuffer initial = new StringBuffer
 		var StringBuffer initialMonitored = new StringBuffer
-		var boolean containsMonitored = false
+		val functionToJavaDef = new FunctionToJavaDef(asm)
 
 		if (asm.defaultInitialState !== null && asm.defaultInitialState.functionInitialization !== null) {
 
 			for (fd : asm.defaultInitialState.functionInitialization) {
+				// translate the function
+				val String trans = functionToJavaDef.visit(fd.initializedFunction)
 
-				containsMonitored = new FindMonitoredInControlledFunct().visit(fd.body);
-
+				var boolean containsMonitored = findMonitoredInControlledFunct.visit(fd.body);
 				if (containsMonitored == false)
-					initial.append(
-		  					'''«new FunctionToJavaDef(asm).visit(fd.initializedFunction)»
-					''')
+					initial.append(trans)
 				else
-					initialMonitored.append(
-		  					'''«new FunctionToJavaDef(asm).visit(fd.initializedFunction)»
-					''')
+					initialMonitored.append(trans)
 			}
 		}
 
