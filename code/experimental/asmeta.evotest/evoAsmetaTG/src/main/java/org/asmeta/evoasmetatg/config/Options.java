@@ -56,5 +56,13 @@ public interface Options {
 	 * @return {@code true} if the java class should be compiled, {@code false} otherwise.
 	 */
 	public boolean isCompiler();
+	
+	/**
+	 * Returns the copyAsm option.
+	 *
+	 * @return {@code true} if the asmeta specification should be copied in another
+	 *         folder to be processed, {@code false} otherwise.
+	 */
+	public boolean isCopyAsm();
 
 }

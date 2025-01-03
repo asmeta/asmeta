@@ -283,7 +283,7 @@ public class EvoAsmetaTgCLI {
 				translator.setOptions(propertyName, propertyValue);
 
 			} catch (Exception e) {
-				logger.error("Invalid value for property {} : {}.", propertyName, propertyValue);
+				logger.error("Invalid value for property {}: {}.", propertyName, propertyValue);
 			}
 		}
 

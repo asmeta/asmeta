@@ -121,21 +121,29 @@ public class FileManager {
 	}
 
 	/**
-	 * Given a string containing the path to the input file, copies the file into
-	 * the input directory and returns the newly generated file.
+	 * Given a string containing the path to the input file, returns the asmeta specification 
+	 * or copies the file into the input directory and returns the newly generated file, if 
+	 * the copyAsm option is enabled.
 	 * 
 	 * @param asmspec the path to the input file (relative or absolute).
-	 * @return the copied file.
+	 * @param copyAsm the translator option copyAsm (Indicates to copy the asm specification files to another folder to be processed.)
+	 * @return the retrieved asmeta file.
 	 * @throws IOException    if an I/O error occurs.
 	 * @throws SetupException if an error occurs during the setup process.
 	 */
-	File retrieveInput(String asmspec) throws IOException, SetupException {
+	File retrieveInput(String asmspec, boolean copyAsm) throws IOException, SetupException {
 		File asmFile = new File(asmspec);
 		if (!asmFile.exists()) {
 			logger.error("Failed to locate the input file:" + asmFile.toString());
 			throw new SetupException("File doesn't exist: " + asmFile.toString());
 		}
-
+		
+		// if the copyAsm option is disabled, return the current file without coping
+		if(!copyAsm) {
+			return asmFile;
+		}
+		// else copy the asmFile to the working directory
+		
 		// Check if the input directory exists and if it contains the required
 		// libraries.
 		// If not, creates a new input directory and adds the missing libraries.

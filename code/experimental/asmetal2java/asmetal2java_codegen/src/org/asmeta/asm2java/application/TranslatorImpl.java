@@ -126,7 +126,7 @@ public class TranslatorImpl implements Translator {
 	public boolean generate() throws AsmParsingException, IOException, SetupException {
 		
 		boolean result = true;
-		File asmFile = fileManager.retrieveInput(this.asmspec);
+		File asmFile = fileManager.retrieveInput(this.asmspec, this.translatorOptions.getCopyAsm());
 		String asmFileName = asmFile.getName();
 		String asmName = asmFileName.substring(0, asmFileName.lastIndexOf("."));
 		

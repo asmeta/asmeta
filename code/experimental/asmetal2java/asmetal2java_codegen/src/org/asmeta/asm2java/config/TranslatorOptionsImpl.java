@@ -18,7 +18,8 @@ public class TranslatorOptionsImpl implements TranslatorOptions {
 	public static final String COVER_OUTPUTS_OPTION = "coverOutputs";
 	public static final String COVER_RULES_OPTION = "coverRules";
 	private static final String EXPORT_OPTION = "export";
-
+	public static final String COPY_ASM_OPTION = "copyAsm";
+	
 	/** Logger */
 	private static final Logger logger = Logger.getLogger(TranslatorOptionsImpl.class);
 
@@ -55,6 +56,9 @@ public class TranslatorOptionsImpl implements TranslatorOptions {
 	/** Indicates to export the generated Java files into the output folder. */
 	private boolean export;
 	
+	/** Indicates to copy the asm specification files to another folder to be processed. */
+	private boolean copyAsm;
+	
 	/**
 	 * A map that associates property names with actions that modify the corresponding boolean fields.
 	 *
@@ -81,6 +85,7 @@ public class TranslatorOptionsImpl implements TranslatorOptions {
 		this.coverOutputs = false;
 		this.coverRules = true;
 		this.export = true;
+		this.copyAsm = false;
 		mapperSetup();
 	}
 
@@ -117,11 +122,9 @@ public class TranslatorOptionsImpl implements TranslatorOptions {
 		this.propertyMapper.put(COVER_OUTPUTS_OPTION, value -> this.coverOutputs = value);
 		this.propertyMapper.put(COVER_RULES_OPTION, value -> this.coverRules = value);
 		this.propertyMapper.put(EXPORT_OPTION, value -> this.export = value);
+		this.propertyMapper.put(COPY_ASM_OPTION, value -> this.copyAsm = value);
 	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
+
 	@Override
 	public void setValue(String propertyName, boolean propertyValue) {
 		
@@ -129,7 +132,7 @@ public class TranslatorOptionsImpl implements TranslatorOptions {
        
 		if (action != null) {
             action.accept(propertyValue);
-            logger.info("Setting the translator option " + propertyName + " to " + propertyValue + ".");
+            logger.info("Setting the translator option: " + propertyName + " to: " + propertyValue + ".");
         } else {
             logger.error("Failed to set the value: " + propertyName);
             throw new IllegalArgumentException("Unexpected value: " + propertyName);
@@ -137,9 +140,6 @@ public class TranslatorOptionsImpl implements TranslatorOptions {
         
 	}
 	
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public List<String> getPropertyNames() {
 		return List.of(
@@ -153,13 +153,11 @@ public class TranslatorOptionsImpl implements TranslatorOptions {
 				ModeConstantsConfig.TEST_GEN,
 				COVER_OUTPUTS_OPTION,
 				COVER_RULES_OPTION,
-				EXPORT_OPTION
+				EXPORT_OPTION,
+				COPY_ASM_OPTION
 				);
 	}
 	
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String getDescription() {
 		return "use value for given translator property (the default value is in brackets):\n"
@@ -174,96 +172,69 @@ public class TranslatorOptionsImpl implements TranslatorOptions {
 				+ " -D" + COVER_OUTPUTS_OPTION + " = true/(false) : cover the outputs in the testGen class.\n"
 				+ " -D" + COVER_RULES_OPTION + " = (true)/false : cover the rules in the testGen class.\n"
 				+ " -D" + EXPORT_OPTION + " = (true)/false : export the generated file into the output folder.\n"
+				+ " -D" + COPY_ASM_OPTION + " = true/(false) : copy the amseta spec file to another folder for processing.\n"
 				+ " Note: Please use " + ModeConstantsConfig.TRANSLATOR + ", " + ModeConstantsConfig.COMPILER + ", " + ModeConstantsConfig.GENERATE_EXE + ", " + ModeConstantsConfig.GENERATE_WIN + " and " + ModeConstantsConfig.TEST_GEN 
 				+ " options only if you have selected the -mode custom option.";
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean getShuffleRandom() {
 		return shuffleRandom;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean getFormatter() {
 		return formatter;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean getOptimizeSeqMacroRule() {
 		return optimizeSeqMacroRule;
 	}
 	
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean getTranslator() {
 		return translator;
 	}
 	
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean getCompiler() {
 		return compiler;
 	}
 	
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean getExecutable() {
 		return generateExe;
 	}
 	
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean getWindow() {
 		return generateWin;
 	}
 	
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean getTestGen() {
 		return testGen;
 	}
 	
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean getCoverOutputs() {
 		return coverOutputs;
 	}
 	
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean getCoverRules() {
 		return coverRules;
 	}
 	
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public boolean getExport() {
 		return export;
+	}
+
+	@Override
+	public boolean getCopyAsm() {
+		return copyAsm;
 	}
 
 }
