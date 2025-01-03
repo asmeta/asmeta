@@ -48,6 +48,8 @@ public class JavaGenerator extends AsmToJavaGenerator {
 
   protected String supp;
 
+  private final FindMonitoredInControlledFunct findMonitoredInControlledFunct = new FindMonitoredInControlledFunct();
+
   /**
    * Create an instance of the {@code DomainToJavaSigDef} object.
    */
@@ -817,24 +819,17 @@ public class JavaGenerator extends AsmToJavaGenerator {
   public String functionInitialization(final Asm asm) {
     StringBuffer initial = new StringBuffer();
     StringBuffer initialMonitored = new StringBuffer();
-    boolean containsMonitored = false;
+    final FunctionToJavaDef functionToJavaDef = this.createFunctionToJavaDef(asm);
     if (((asm.getDefaultInitialState() != null) && (asm.getDefaultInitialState().getFunctionInitialization() != null))) {
       EList<FunctionInitialization> _functionInitialization = asm.getDefaultInitialState().getFunctionInitialization();
       for (final FunctionInitialization fd : _functionInitialization) {
         {
-          containsMonitored = (new FindMonitoredInControlledFunct().visit(fd.getBody())).booleanValue();
+          final String trans = functionToJavaDef.visit(fd.getInitializedFunction());
+          boolean containsMonitored = (this.findMonitoredInControlledFunct.visit(fd.getBody())).booleanValue();
           if ((containsMonitored == false)) {
-            StringConcatenation _builder = new StringConcatenation();
-            String _visit = new FunctionToJavaDef(asm).visit(fd.getInitializedFunction());
-            _builder.append(_visit);
-            _builder.newLineIfNotEmpty();
-            initial.append(_builder);
+            initial.append(trans);
           } else {
-            StringConcatenation _builder_1 = new StringConcatenation();
-            String _visit_1 = new FunctionToJavaDef(asm).visit(fd.getInitializedFunction());
-            _builder_1.append(_visit_1);
-            _builder_1.newLineIfNotEmpty();
-            initialMonitored.append(_builder_1);
+            initialMonitored.append(trans);
           }
         }
       }

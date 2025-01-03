@@ -39,6 +39,9 @@ class JavaGenerator extends AsmToJavaGenerator {
 
 	protected String supp
 	
+	// visitor to discover if a controlled contains a monitored in init
+	val findMonitoredInControlledFunct = new FindMonitoredInControlledFunct()
+	
 	/**
 	 * Create an instance of the {@code DomainToJavaSigDef} object.
 	 */
@@ -445,22 +448,19 @@ class JavaGenerator extends AsmToJavaGenerator {
 
 		var StringBuffer initial = new StringBuffer
 		var StringBuffer initialMonitored = new StringBuffer
-		var boolean containsMonitored = false
+		val functionToJavaDef = createFunctionToJavaDef(asm)
 
 		if (asm.defaultInitialState !== null && asm.defaultInitialState.functionInitialization !== null) {
 
 			for (fd : asm.defaultInitialState.functionInitialization) {
+				// translate the function
+				val String trans = functionToJavaDef.visit(fd.initializedFunction)
 
-				containsMonitored = new FindMonitoredInControlledFunct().visit(fd.body);
-
+				var boolean containsMonitored = findMonitoredInControlledFunct.visit(fd.body);
 				if (containsMonitored == false)
-					initial.append(
-		  					'''«new FunctionToJavaDef(asm).visit(fd.initializedFunction)»
-					''')
+					initial.append(trans)
 				else
-					initialMonitored.append(
-		  					'''«new FunctionToJavaDef(asm).visit(fd.initializedFunction)»
-					''')
+					initialMonitored.append(trans)
 			}
 		}
 

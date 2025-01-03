@@ -94,6 +94,19 @@ public class GeneratorCompilerTest {
 			fail();
 	}
 	
+	@Test
+	public void testConcreteDom2Init() throws IOException, Exception {
+		String asmspec = "examples/ConcreteDom2Init.asm";
+		CompileResult test = test(asmspec, options);
+		if (!test.getSuccess())
+			fail();
+		// get the java
+		File javaTrans = new File("examples/compilazione/ConcreteDom2Init.java");
+		assertTrue(javaTrans.exists());
+
+
+	}
+	
 	/*
 	@Test
 	public void testQuickSort() throws IOException, Exception {
