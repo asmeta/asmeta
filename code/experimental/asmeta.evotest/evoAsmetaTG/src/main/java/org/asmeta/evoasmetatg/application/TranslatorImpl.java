@@ -139,8 +139,8 @@ public class TranslatorImpl implements Translator {
 
 	@Override
 	public void setOptions(String propertyName, String propertyValue) {
-		logger.info("Setting the option: {} to : {}.", propertyName, propertyValue);
-		options.setValue(propertyValue, Boolean.parseBoolean(propertyValue));
+		logger.debug("Setting the option: {} to: {}.", propertyName, propertyValue);
+		options.setValue(propertyName, Boolean.parseBoolean(propertyValue));
 	}
 
 	@Override
