@@ -224,14 +224,12 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 					// check if it has been already declared
 					var dec = declaredDomainIninit.contains(object.codomain.name)
 					if (! dec){
-						// create a new object for the initialization
-						sb.append('''«object.codomain.name»  «object.codomain.name»_elem = new  «object.codomain.name»();''')
-							declaredDomainIninit.add(object.codomain.name)
+						// use the default _elem instance
+						declaredDomainIninit.add(object.codomain.name)
 					}
 					else {
 						// create a new instance of the initialization object
 						sb.append('''«object.codomain.name»_elem = new  «object.codomain.name»();''')
-						declaredDomainIninit.add(object.codomain.name)
 					}
 					// set the right value
 					sb.append('''«object.codomain.name»_elem.value = «new TermToJava(asm).visit(object.initialization.get(0).body)»;''')

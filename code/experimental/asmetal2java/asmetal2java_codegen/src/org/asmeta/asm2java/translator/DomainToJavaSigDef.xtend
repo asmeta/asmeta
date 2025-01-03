@@ -253,8 +253,8 @@ class DomainToJavaSigDef extends ReflectiveVisitor<String> {
 						}
 						
 				}
-				// do not use this object to init TODO remove this line in the translation
-				// «object.name» «object.name»_elem = new «object.name»();
+				
+				«object.name» «object.name»_elem = new «object.name»();
 				List<«createToString(res).visit(object.typeDomain)»> «object.name»_elems = new ArrayList<>();
 			''')
 		}
