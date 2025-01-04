@@ -15,7 +15,7 @@ public class GeneratorCompilerFailingTest {
 	private TranslatorOptions options= new TranslatorOptionsImpl(true, true, true);
 
      @Test 
-     public void testFibonacci() throws IOException, Exception { 
+     public void testFibonacci() throws Exception { 
          String asmspec = "examples/fibonacci.asm"; 
          assertTrue(GeneratorCompilerTest.test(asmspec, options).getSuccess()); 
      } 

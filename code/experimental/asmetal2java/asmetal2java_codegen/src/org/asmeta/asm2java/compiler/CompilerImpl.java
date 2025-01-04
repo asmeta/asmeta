@@ -12,7 +12,8 @@ import javax.tools.StandardJavaFileManager;
 import javax.tools.StandardLocation;
 import javax.tools.ToolProvider;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * Implementation of the {@link Compiler} interface.
@@ -23,7 +24,7 @@ public class CompilerImpl implements Compiler {
 	private static final String RELEASE_OPTION = "--release";
 	
 	/** Logger */
-	private static Logger logger = Logger.getLogger(CompilerImpl.class);
+	private static Logger logger = LogManager.getLogger(CompilerImpl.class);
 
 	/**
 	 * Default No args constructor.
@@ -69,13 +70,13 @@ public class CompilerImpl implements Compiler {
 		assert compiler != null;
 		StandardJavaFileManager standardJavaFileManager = compiler.getStandardFileManager(null, null, null);
 		File parent = directory.toFile();
-		logger.info("Compiling the java file present in the target -> " + parent);
+		logger.info("Compiling the java file present in the target -> {}", parent);
 		logger.info("Generating .class files ");
 		try {
 			standardJavaFileManager.setLocation(StandardLocation.CLASS_OUTPUT, Arrays.asList(parent));
 		} catch (IOException e) {
 			logger.error(
-					"An exception occurred while setting the location for standardJavaFileManager: " + e.getMessage());
+					"An exception occurred while setting the location for standardJavaFileManager: {}", e.getMessage());
 			e.printStackTrace();
 		}
 

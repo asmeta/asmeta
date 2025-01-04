@@ -23,9 +23,6 @@ public class FormatterImpl implements Formatter {
 	
 	public FormatterImpl() { /* Empty Constructor */ }
 	
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public String formatCode(String code) {
 		// first remove double new lines

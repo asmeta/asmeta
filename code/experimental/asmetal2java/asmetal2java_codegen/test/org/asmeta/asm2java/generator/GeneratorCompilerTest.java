@@ -4,7 +4,6 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
@@ -18,7 +17,6 @@ import org.asmeta.asm2java.compiler.Compiler;
 import org.asmeta.asm2java.compiler.CompilerImpl;
 import org.asmeta.asm2java.config.TranslatorOptions;
 import org.asmeta.asm2java.config.TranslatorOptionsImpl;
-import org.asmeta.asm2java.generator.*;
 import org.asmeta.parser.ASMParser;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -29,7 +27,7 @@ public class GeneratorCompilerTest {
 	private static final String SRC_GEN = "../asmetal2java_examples/src/";
 
 	// the generator for the code
-	static private JavaGenerator jGenerator = new JavaGenerator();
+	private static JavaGenerator jGenerator = new JavaGenerator();
 	// static private JavaExeGenerator jGeneratorExe = new JavaExeGenerator();
 	// static private JavaWindowGenerator jGeneratorWin = new JavaWindowGenerator();
 
@@ -95,7 +93,7 @@ public class GeneratorCompilerTest {
 	}
 	
 	@Test
-	public void testConcreteDom2Init() throws IOException, Exception {
+	public void testConcreteDom2Init() throws Exception {
 		String asmspec = "examples/ConcreteDom2Init.asm";
 		CompileResult test = test(asmspec, options);
 		if (!test.getSuccess())
@@ -305,7 +303,7 @@ public class GeneratorCompilerTest {
 	 */
 
 	@Test
-	public void testAll() throws IOException, Exception {
+	public void testAll() throws Exception {
 
 		System.out.println("CASO TEST ALL \n\n\n\n");
 		List<File> allUasmFiles = new ArrayList<>();

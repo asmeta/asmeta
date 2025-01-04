@@ -12,7 +12,8 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.asmeta.asm2java.application.AsmParsingException;
 import org.asmeta.asm2java.application.SetupException;
 import org.asmeta.asm2java.application.Translator;
@@ -36,7 +37,7 @@ public class Asmeta2JavaCLI {
 	public static final String COMPILER_VERSION = "compilerVersion";
 
 	/** Logger */
-	private static final Logger logger = Logger.getLogger(Asmeta2JavaCLI.class);
+	private static final Logger logger = LogManager.getLogger(Asmeta2JavaCLI.class);
 
 	/** Translator instance for translating the asm specification. */
 	private static final Translator translator = new TranslatorImpl();
@@ -90,7 +91,7 @@ public class Asmeta2JavaCLI {
 
 				formatter.printHelp("Asmetal2java", header, options, footer, false);
 			} else if (!line.hasOption(INPUT)) {
-				logger.error("Please specify the asm input file path with -" + INPUT + " <path/to/file.asm>.");
+				logger.error("Please specify the asm input file path with -{} <path/to/file.asm>.", INPUT);
 				returnCode = 1; // error code
 			} else {
 				returnCode = 0; // ok code
@@ -98,7 +99,7 @@ public class Asmeta2JavaCLI {
 			}
 		} catch (Exception e) {
 			logger.error("Generation failed!");
-			logger.error("An error occurred: " + e.getMessage());
+			logger.error("An error occurred: {}.", e.getMessage());
 			e.printStackTrace();
 			returnCode = 1; // error code
 		} finally {
@@ -236,7 +237,7 @@ public class Asmeta2JavaCLI {
 		for (String propertyName : properties.stringPropertyNames()) {
 
 			if (!propertyNames.contains(propertyName)) {
-				logger.error("* Unknown property: " + propertyName);
+				logger.error("* Unknown property: {}.", propertyName);
 				continue;
 			}
 
@@ -246,7 +247,7 @@ public class Asmeta2JavaCLI {
 				translator.setOptions(propertyName, propertyValue);
 
 			} catch (Exception e) {
-				logger.error("Invalid value for property " + propertyName + ": " + propertyValue);
+				logger.error("Invalid value for property {}: {}", propertyName, propertyValue);
 			}
 		}
 

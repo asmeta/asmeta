@@ -1,7 +1,5 @@
 package org.asmeta.asm2java.generator;
 
-import static org.junit.Assert.fail;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,7 +23,6 @@ public class TestAsmetaExamplesParser {
 					AsmCollection x = ASMParser.setUpReadAsm(asmeta.toFile());
 					System.out.println(asmeta);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					//e.printStackTrace();
 					System.err.println(asmeta);
 				}

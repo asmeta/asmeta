@@ -5,11 +5,13 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.asmeta.asm2java.config.Mode;
 import org.asmeta.asm2java.config.TranslatorOptions;
 import org.asmeta.asm2java.config.TranslatorOptionsImpl;
 import org.asmeta.parser.ASMParser;
+import org.eclipse.xtext.util.Files;
 
 import asmeta.AsmCollection;
 
@@ -19,7 +21,7 @@ import asmeta.AsmCollection;
 public class TranslatorImpl implements Translator {
 	
 	/** Logger */
-	private static final Logger logger = Logger.getLogger(TranslatorImpl.class);
+	private static final Logger logger = LogManager.getLogger(TranslatorImpl.class);
 	
 	/* Constants */
 	private static final String ASM_EXTENSION = ASMParser.ASM_EXTENSION;
@@ -57,13 +59,13 @@ public class TranslatorImpl implements Translator {
 	
 	@Override
 	public void setWorkingDir(String workingDirPath) {
-		logger.info("Setting a custom working directory: " + workingDirPath);
+		logger.info("Setting a custom working directory: {}.", workingDirPath);
 		fileManager.setInputFolder(workingDirPath);
 	}
 	
 	@Override
 	public void setInput(String value) throws AsmParsingException{
-		logger.info("Setting the input file path: " + value);
+		logger.info("Setting the input file path: {}.", value);
 		if(!value.endsWith(ASM_EXTENSION)) {
 			throw new AsmParsingException("The Asmeta specification must have the " + ASM_EXTENSION + " extension.");
 		}
@@ -91,10 +93,10 @@ public class TranslatorImpl implements Translator {
 			mode = Mode.fromValue(value);
 		}
 		catch(IllegalArgumentException e) {
-			logger.error("Failed to parse the mode value: " + e.getMessage());
+			logger.error("Failed to parse the mode value: {}.", e.getMessage());
 			logger.error("Using the custom mode as default.");
 		}
-		logger.info("Translator mode setted to: " + mode.getValue());
+		logger.info("Translator mode setted to: {}.", mode.getValue());
 		switch (mode) {
 		case TRANSLATOR_MODE:
 			translatorOptions.setValue(Mode.TRANSLATOR_MODE.getValue(), true);
@@ -136,7 +138,7 @@ public class TranslatorImpl implements Translator {
 			model = ASMParser.setUpReadAsm(asmFile);
 		}
 		catch (Exception e){
-			logger.error("Asm parsing failed: " + e.getMessage());
+			logger.error("Asm parsing failed: {}.", e.getMessage());
 			throw new AsmParsingException("Error while parsing ASM file: " + asmFile.getName(), e);
 		}
 	
@@ -193,7 +195,11 @@ public class TranslatorImpl implements Translator {
      * @throws IOException if an I/O error occurs during file generation.
      */
 	private File generateTranslation(String asmName, AsmCollection model, Mode mode) throws IOException {
-		 return fileManager.generateFile(asmName, model, translatorOptions, mode);
+		File generatedFile = fileManager.generateFile(asmName, model, translatorOptions, mode);
+		if(logger.isDebugEnabled()) {
+			logger.debug("File generated:\n{}", Files.readFileIntoString(generatedFile.toString()));
+		}
+		return generatedFile;
 	}
 
     /**
@@ -210,7 +216,7 @@ public class TranslatorImpl implements Translator {
 			File javaFile = generateTranslation(asmName, model, mode);
 			exportJavaFile(javaFile);
 		} catch (IOException e) {
-			logger.error(mode.getValue() + " operation completed with errors: " + e.getMessage());
+			logger.error("{} operation completed with errors: {}.", mode.getValue(), e.getMessage());
 			return false;
 		}
 		return true;
@@ -229,11 +235,11 @@ public class TranslatorImpl implements Translator {
 		try {
 			javaFile = generateTranslation(asmName, model, Mode.COMPILER_MODE);
 		} catch (IOException e) {
-			logger.error("Failed to generate the Java translation: " + e.getMessage());
+			logger.error("Failed to generate the Java translation: {}.", e.getMessage());
 			return false;
 		}
 		boolean result = fileManager.compileFile(asmName);
-		if (result && javaFile != null) {
+		if (result) {
 			exportJavaFile(javaFile);
 		} else {
 			logger.error("Failed to compile.");
@@ -260,15 +266,16 @@ public class TranslatorImpl implements Translator {
 			if(translatorOptions.getExport()) {
 				// compile
 				List<File> files = List.of(testGenJavaFileExported,atgJavaFileExported);
+				String filesToString = files.stream().map(File::getName).collect(Collectors.joining(", "));
 				boolean result = fileManager.compileExportedFiles(files);
 				if(!result) {
-					logger.error("Failed to compile the files: " + files.stream().map(File::getName).collect(Collectors.joining(", ")));
+					logger.error("Failed to compile the files: {}", filesToString);
 					return false;
 				}
-				logger.info("Compiled with success the files: " + files.stream().map(File::getName).collect(Collectors.joining(", ")));
+				logger.info("Compiled with success the files: {}.", filesToString);
 			}
 		} catch (IOException e) {
-			logger.error("TestGen operation completed with errors: " + e.getMessage());
+			logger.error("TestGen operation completed with errors: {}.", e.getMessage());
 			return false;
 		}
 		return true;

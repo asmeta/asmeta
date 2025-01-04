@@ -16,7 +16,8 @@ import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.asmeta.asm2java.compiler.CompileResult;
 import org.asmeta.asm2java.compiler.Compiler;
 import org.asmeta.asm2java.compiler.CompilerImpl;
@@ -44,13 +45,14 @@ public class FileManager {
 	private static final String INPUT = "input";
 	private static final String OUTPUT = "output";
 	private static final String STDL = "STDL";
+	private static final String SLASH = "/";
 
 	/** List of required Stdl Libraries. */
 	private static final List<String> requiredStdlLibraries = List.of("StandardLibrary.asm", "LTLLibrary.asm",
 			"CTLLibrary.asm");
 
 	/** Logger */
-	private static final Logger logger = Logger.getLogger(FileManager.class);
+	private static final Logger logger = LogManager.getLogger(FileManager.class);
 
 	/** Path to the default input working directory. */
 	private static final Path DEFAULT_INPUT_DIR_PATH = Paths.get(System.getProperty(USER_DIR), INPUT);
@@ -134,7 +136,7 @@ public class FileManager {
 	File retrieveInput(String asmspec, boolean copyAsm) throws IOException, SetupException {
 		File asmFile = new File(asmspec);
 		if (!asmFile.exists()) {
-			logger.error("Failed to locate the input file:" + asmFile.toString());
+			logger.error("Failed to locate the input file: {}.", asmFile);
 			throw new SetupException("File doesn't exist: " + asmFile.toString());
 		}
 		
@@ -148,13 +150,13 @@ public class FileManager {
 		// libraries.
 		// If not, creates a new input directory and adds the missing libraries.
 		if (!checkInputDir()) {
-			logger.error("Failed to check the input directory: " + inputFolder);
+			logger.error("Failed to check the input directory: {}.", inputFolder);
 			throw new SetupException("Unable to set input working directory correctly");
 		}
 
 		// Copy the asm file to the input folder
 		Path inputAsmPath = Paths.get(inputFolder.toString(), asmFile.getName());
-		logger.info("Copying the " + asmFile + " to: " + inputAsmPath);
+		logger.info("Copying the {} to: {}.", asmFile, inputAsmPath);
 		Files.copy(Paths.get(asmFile.getAbsolutePath()), inputAsmPath, StandardCopyOption.REPLACE_EXISTING);
 		return inputAsmPath.toFile();
 	}
@@ -234,7 +236,7 @@ public class FileManager {
 	 */
 	private void generate(AsmCollection model, TranslatorOptions userOptions, File javaFile,
 			AsmToJavaGenerator asmToJavaGenerator) throws IOException {
-		logger.info("Generating " + javaFile);
+		logger.info("Generating {}.", javaFile);
 		asmToJavaGenerator.compileAndWrite(model.getMain(), javaFile.getCanonicalPath(), JAVA, userOptions);
 	}
 
@@ -255,7 +257,7 @@ public class FileManager {
 		if (result.getSuccess()) {
 			return true;
 		}
-		logger.error("Compilation errors: " + result.toString());
+		logger.error("Compilation errors: {}.", result);
 		return false;
 	}
 
@@ -274,7 +276,7 @@ public class FileManager {
 
 		CompileResult compilerResult = compilerJava.compileFiles(files, outputFolder, compilerVersion);
 		if (!compilerResult.getSuccess()) {
-			logger.error("Compilation errors: " + compilerResult.toString());
+			logger.error("Compilation errors: {}", compilerResult);
 			return false;
 		}
 
@@ -289,7 +291,7 @@ public class FileManager {
 	 */
 	File exportFile(File javaInputFile) {
 		File javaOutFile = new File(outputFolder + File.separator + javaInputFile.getName());
-		logger.info("Exporting " + javaInputFile + " to: " + outputFolder.toString());
+		logger.info("Exporting {} to: {}.", javaInputFile, outputFolder);
 		try (InputStream in = new BufferedInputStream(Files.newInputStream(javaInputFile.toPath()));
 				OutputStream out = new BufferedOutputStream(Files.newOutputStream(javaOutFile.toPath()))) {
 			checkPath(outputFolder);
@@ -346,11 +348,11 @@ public class FileManager {
 				throw new NumberFormatException();
 			}
 			this.compilerVersion = javaVersion;
-			logger.info("Setting the version of Java compiler to " + javaVersion + ".");
+			logger.info("Setting the version of Java compiler to: {}.", javaVersion);
 		} catch (NumberFormatException e) {
-			logger.error("Failed to set the version of Java compiler: " + javaVersion + " , uses the default one: "
-					+ javaVersion);
-			logger.error("Please enter a valid java version " + e.getMessage());
+			logger.error("Failed to set the version of Java compiler: {}, uses the default one: {}.", javaVersion,
+					javaVersion);
+			logger.error("Please enter a valid java version {}.", e.getMessage());
 			throw new SetupException("Unable to set the version of Java compiler to: " + javaVersion);
 		}
 
@@ -369,9 +371,9 @@ public class FileManager {
 
 		// if the input directory doesn't exist, creates a new one.
 		if (!inputDir.exists()) {
-			logger.info("input directory not found, creating: " + inputDir);
+			logger.info("input directory not found, creating: {}.", inputDir);
 			if (!inputDir.mkdirs()) {
-				logger.error("failed to create a new input directory: " + inputDir);
+				logger.error("failed to create a new input directory: {}.", inputDir);
 				// return false if the mkdir fails.
 				return false;
 			}
@@ -380,7 +382,7 @@ public class FileManager {
 		// check if the input directory contains the STDL folder.
 		for (File file : inputDir.listFiles()) {
 			if (file.isDirectory() && file.getName().equals(STDL)) {
-				logger.info("Found the " + STDL + " folder: " + file);
+				logger.info("Found the {} folder: {}.", STDL, file);
 				// OK, the input folder exists and contains the STDL folder
 				// check if it contains all the required libraries, add the missing ones
 				// and stop the execution.
@@ -392,9 +394,9 @@ public class FileManager {
 		// creates the STDL folder.
 		Path stdlPath = Paths.get(inputFolder.toString(), STDL);
 		File stdl = new File(stdlPath.toString());
-		logger.info("STDL directory not found, creating: " + stdl);
+		logger.info("STDL directory not found, creating: {}.", stdl);
 		if (!stdl.mkdir()) {
-			logger.error("failed to create a new STDL directory: " + stdl);
+			logger.error("failed to create a new STDL directory: {}.", stdl);
 			// return false if the mkdir fails.
 			return false;
 		}
@@ -402,7 +404,7 @@ public class FileManager {
 		// populates the STDL folder
 		for (String library : requiredStdlLibraries) {
 			// don't use File.separator because execution in jar will fail.
-			String resourceStdlFilePath = STDL + "/" + library;
+			String resourceStdlFilePath = STDL + SLASH + library;
 			Path inputStdlFilePath = Paths.get(stdl.toString(), library);
 			if (!copyResourceFile(resourceStdlFilePath, inputStdlFilePath)) {
 				return false;
@@ -428,11 +430,11 @@ public class FileManager {
 		for (String library : requiredStdlLibraries) {
 			// if the current STDL input folder doesn't contain the required library.
 			if (!stdlLibraries.contains(library)) {
-				logger.info("The " + library + " is missing...");
+				logger.info("The {} is missing...", library);
 				// don't use File.separator because execution in jar will fail.
-				String resourceStdlFilePath = STDL + "/" + library;
+				String resourceStdlFilePath = STDL + SLASH + library;
 				Path inputStdlFilePath = Paths.get(stdlFolder.toString(), library);
-				logger.info("Adding the " + library + " to the " + STDL + "folder: " + inputStdlFilePath);
+				logger.info("Adding the {} to the {} folder: {}.", library, STDL, inputStdlFilePath);
 				if (!copyResourceFile(resourceStdlFilePath, inputStdlFilePath)) {
 					return false;
 				}
@@ -454,7 +456,7 @@ public class FileManager {
 	private boolean copyResourceFile(String inputFilePath, Path outputFilePath) {
 		try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(inputFilePath);
 				OutputStream outputStream = new FileOutputStream(outputFilePath.toString());) {
-			logger.info("Copying the resource file: " + inputFilePath + " to " + outputFilePath);
+			logger.info("Copying the resource file: {} to: {}.", inputFilePath, outputFilePath);
 			if (inputStream == null) {
 				throw new FileNotFoundException("Resource not found in classpath: " + inputFilePath);
 			}
@@ -489,9 +491,9 @@ public class FileManager {
 
 		try {
 			Files.delete(file.toPath());
-			logger.info("Deleted: " + file.getAbsolutePath());
+			logger.info("Deleted: {}.", file.getAbsolutePath());
 		} catch (IOException e) {
-			logger.error("Failed to delete: " + file.getAbsolutePath() + "\nError message: " + e.getMessage());
+			logger.error("Failed to delete: {}\nError message: {}.", file.getAbsolutePath(), e.getMessage());
 		}
 
 	}
@@ -515,10 +517,10 @@ public class FileManager {
 	 * @throws IOException if an IO error occurs.
 	 */
 	private void createPath(Path path) throws IOException {
-		logger.info("Path " + path + " doesn't exist.");
-		logger.info("Creating path " + path + " ...");
+		logger.info("Path: {} doesn't exist.", path);
+		logger.info("Creating path: {}...", path);
 		Files.createDirectories(path);
-		logger.info("Path" + path + " created with success.");
+		logger.info("Path: {} created with success.", path);
 	}
 
 	/**
@@ -532,7 +534,7 @@ public class FileManager {
 			try {
 				Files.delete(file.toPath());
 			} catch (NoSuchFileException e) {
-				logger.error("File not found, skipping: " + file.getPath());
+				logger.error("File not found, skipping: {}.", file.getPath());
 			}
 		}
 	}

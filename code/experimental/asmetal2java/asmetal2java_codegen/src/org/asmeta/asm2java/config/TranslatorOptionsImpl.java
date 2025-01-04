@@ -4,7 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.function.Consumer;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /** 
  * contains the translation options used by the generators to decide the behaviors of the generators
@@ -21,7 +22,7 @@ public class TranslatorOptionsImpl implements TranslatorOptions {
 	public static final String COPY_ASM_OPTION = "copyAsm";
 	
 	/** Logger */
-	private static final Logger logger = Logger.getLogger(TranslatorOptionsImpl.class);
+	private static final Logger logger = LogManager.getLogger(TranslatorOptionsImpl.class);
 
 	/** Indicates whether the generated code should be formatted. */
 	private boolean formatter;
@@ -132,9 +133,9 @@ public class TranslatorOptionsImpl implements TranslatorOptions {
        
 		if (action != null) {
             action.accept(propertyValue);
-            logger.info("Setting the translator option: " + propertyName + " to: " + propertyValue + ".");
+            logger.info("Setting the translator option: {} to: {}.", propertyName, propertyValue);
         } else {
-            logger.error("Failed to set the value: " + propertyName);
+            logger.error("Failed to set the value: {}.", propertyName);
             throw new IllegalArgumentException("Unexpected value: " + propertyName);
         }
         

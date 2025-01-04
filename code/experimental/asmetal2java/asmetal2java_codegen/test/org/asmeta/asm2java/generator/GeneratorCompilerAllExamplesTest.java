@@ -8,7 +8,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -35,7 +34,7 @@ public class GeneratorCompilerAllExamplesTest {
 	}
 
 	@Test
-	public void testAllLocalExamples() throws IOException, Exception {
+	public void testAllLocalExamples() throws IOException {
 		List<String> failures = new ArrayList<>();
 		Path path = Paths.get("examples/");
 		assertTrue(path.toFile().exists() && path.toFile().isDirectory());
@@ -50,7 +49,6 @@ public class GeneratorCompilerAllExamplesTest {
 						System.err.println("failing for " + fileName);
 					}
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		});
