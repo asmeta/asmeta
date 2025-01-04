@@ -1,7 +1,11 @@
 package org.asmeta.asm2java.main;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
@@ -35,12 +39,15 @@ public class Asmeta2JavaCLI {
 	public static final String OUTPUT = "output";
 	public static final String INPUT = "input";
 	public static final String COMPILER_VERSION = "compilerVersion";
+	private static final String DEBUG_LOG = "debug.log";
+	private static final String LOGS = "logs";
+	private static final String LOGFILE = "--logfile";
 
 	/** Logger */
 	private final Logger logger = LogManager.getLogger(Asmeta2JavaCLI.class);
 
 	/** Translator instance for translating the asm specification. */
-	private static final Translator translator = new TranslatorImpl();
+	private final Translator translator = new TranslatorImpl();
 
 	/**
 	 * Return code: <br>
@@ -69,10 +76,12 @@ public class Asmeta2JavaCLI {
 	 * @param args the command-line arguments.
 	 */
 	public static void main(String[] args) {
+		// Set logger properties before creating an instance of any logger.
+		setLoggerProperties(args);
 		Asmeta2JavaCLI asmeta2JavaCLI = new Asmeta2JavaCLI();
 		asmeta2JavaCLI.executeCLI(args);
 	}
-	
+
 	/**
 	 * Execute the Command Line Application (CLI) process.
 	 * 
@@ -85,7 +94,7 @@ public class Asmeta2JavaCLI {
 				+ " / ___ \\\\__ \\ | | | | |  __/ || (_| | |/ __/ | | (_| |\\ V / (_| |\n"
 				+ "/_/   \\_\\___/_| |_| |_|\\___|\\__\\__,_|_|_____|/ |\\__,_| \\_/ \\__,_|\n"
 				+ "                                           |__/                  \n";
-		Options options = getCommandLineOptions();
+		Options options = getCommandLineOptions(translator.getModeDescription(), translator.getOptionsDescription());
 		CommandLine line = this.parseCommandLine(args, options);
 		logger.info(asciiart);
 		try {
@@ -118,7 +127,7 @@ public class Asmeta2JavaCLI {
 			logger.info("Requested operation completed.");
 		}
 	}
-	
+
 	/**
 	 * Update the static field returnCode from a non-static method.
 	 * 
@@ -173,7 +182,7 @@ public class Asmeta2JavaCLI {
 	 *
 	 * @return the command-line options.
 	 */
-	private static Options getCommandLineOptions() {
+	private static Options getCommandLineOptions(String modeDescription, String optionsDescription) {
 		Options options = new Options();
 
 		// print help
@@ -199,7 +208,7 @@ public class Asmeta2JavaCLI {
 
 		// set the desired behavior
 		Option mode = Option.builder(MODE).argName(MODE).type(String.class).hasArg(true)
-				.desc("Set the mode of the application:\n" + translator.getModeDescription()
+				.desc("Set the mode of the application:\n" + modeDescription
 						+ "Note: Please use the properties: -Dtranslator, -Dexecutable, -Dwindow and -DtestGen only if you have selected the -mode custom option.")
 				.build();
 
@@ -210,7 +219,7 @@ public class Asmeta2JavaCLI {
 
 		// translator property
 		Option property = Option.builder("D").numberOfArgs(2).argName("property=value").valueSeparator('=')
-				.required(false).optionalArg(false).type(String.class).desc(translator.getOptionsDescription()).build();
+				.required(false).optionalArg(false).type(String.class).desc(optionsDescription).build();
 
 		options.addOption(help);
 		options.addOption(workingDir);
@@ -269,6 +278,32 @@ public class Asmeta2JavaCLI {
 			}
 		}
 
+	}
+
+	/**
+	 * Set the logger properties by Main Argument Lookup:
+	 * <p>
+	 * - set a custom path for the log file in the user-defined workingDir.
+	 * 
+	 * @param args the command-line arguments.
+	 */
+	private static void setLoggerProperties(String[] args) {
+		List<String> argList = Arrays.asList(args);
+
+		int index = argList.indexOf("-" + WORKING_DIR);
+
+		// only if a custom working directory is selected
+		if (index != -1 && index + 1 < argList.size()) {
+			Path logFilePath = Paths.get(argList.get(index + 1), LOGS, DEBUG_LOG);
+			// generates the argument --logfile <workingDir>/logs/debug.log
+			try {
+				Class.forName("org.apache.logging.log4j.core.lookup.MainMapLookup")
+						.getDeclaredMethod("setMainArguments", String[].class)
+						.invoke(null, (Object) new String[] { LOGFILE, logFilePath.toString() });
+			} catch (final ReflectiveOperationException e) {
+				// Log4j Core is not used.
+			}
+		}
 	}
 
 }

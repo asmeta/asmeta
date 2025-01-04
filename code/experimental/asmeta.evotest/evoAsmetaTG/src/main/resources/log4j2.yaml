@@ -2,7 +2,7 @@ Configuration:
   Properties:
     Property:
       - name: "--logfile"
-        value: "logs/app.log"
+        value: "logs/debug.log"
   Appenders:
     Console:
       name: "CONSOLE"

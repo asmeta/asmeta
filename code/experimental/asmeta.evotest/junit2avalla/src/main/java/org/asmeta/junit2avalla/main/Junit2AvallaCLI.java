@@ -1,6 +1,11 @@
 package org.asmeta.junit2avalla.main;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -24,12 +29,15 @@ public class Junit2AvallaCLI {
 	public static final String WORKING_DIR = "workingDir";
 	public static final String CLEAN = "clean";
 	public static final String HELP = "help";
+	private static final String DEBUG_LOG = "debug.log";
+	private static final String LOGS = "logs";
+	private static final String LOGFILE = "--logfile";
 
 	/** Logger */
 	private final Logger log = LogManager.getLogger(Junit2AvallaCLI.class);
 
 	/** Translator */
-	private static final Translator translator = new TranslatorImpl();
+	private final Translator translator = new TranslatorImpl();
 
 	/**
 	 * Return code: <br>
@@ -57,6 +65,8 @@ public class Junit2AvallaCLI {
 	 *             line.
 	 */
 	public static void main(String[] args) {
+		// Set logger properties before creating an instance of any logger.
+		setLoggerProperties(args);
 		Junit2AvallaCLI junit2AvallaCLI = new Junit2AvallaCLI();
 		junit2AvallaCLI.executeCLI(args);
 	}
@@ -192,6 +202,32 @@ public class Junit2AvallaCLI {
 
 		translator.generate();
 
+	}
+	
+	/**
+	 * Set the logger properties by Main Argument Lookup:
+	 * <p>
+	 * - set a custom path for the log file in the user-defined workingDir.
+	 * 
+	 * @param args the command-line arguments.
+	 */
+	private static void setLoggerProperties(String[] args) {
+		List<String> argList = Arrays.asList(args);
+
+		int index = argList.indexOf("-" + WORKING_DIR);
+
+		// only if a custom working directory is selected
+		if (index != -1 && index + 1 < argList.size()) {
+			Path logFilePath = Paths.get(argList.get(index + 1), LOGS, DEBUG_LOG);
+			// generates the argument --logfile <workingDir>/logs/debug.log
+			try {
+				Class.forName("org.apache.logging.log4j.core.lookup.MainMapLookup")
+						.getDeclaredMethod("setMainArguments", String[].class)
+						.invoke(null, (Object) new String[] { LOGFILE, logFilePath.toString() });
+			} catch (final ReflectiveOperationException e) {
+				// Log4j Core is not used.
+			}
+		}
 	}
 
 }
