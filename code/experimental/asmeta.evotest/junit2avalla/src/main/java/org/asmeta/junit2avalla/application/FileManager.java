@@ -142,6 +142,12 @@ public class FileManager {
      */
 	void setInputDir(String inputDir) throws IOException {
 		this.inputFolderPath = Paths.get(inputDir);
+		if(inputFolderPath.toAbsolutePath().toString().equals(Paths.get(System.getProperty(USER_DIR)).toAbsolutePath().toString()) || 
+				inputFolderPath.toAbsolutePath().toString().equals(Paths.get(System.getProperty(USER_DIR),".").toAbsolutePath().toString())) {
+			logger.warn("The current user directory can't be the path of the custom input working directory.");
+			// warning: otherwise the -clean option would erase the entire project directory
+			this.inputFolderPath = DEFAULT_INPUT_DIR_PATH;
+		}
 		logger.info("Setting the input working directory: {}", this.inputFolderPath);
 		checkPath(this.inputFolderPath);
 	}
