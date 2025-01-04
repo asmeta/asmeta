@@ -19,7 +19,7 @@ import org.asmeta.junit2avalla.model.terms.JavaVariableTerm;
 class ScenarioManager {
 
 	/** Logger */
-	private static final Logger log = LogManager.getLogger(ScenarioManager.class);
+	private final Logger log = LogManager.getLogger(ScenarioManager.class);
 
 	/**
 	 * Default no args constructor.

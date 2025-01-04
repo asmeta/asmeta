@@ -36,7 +36,7 @@ public class FileManager {
 	private static final List<String> excludeList = List.of(GITIGNORE,STDL);
 
 	/** Logger */
-	private static final Logger logger = LogManager.getLogger(FileManager.class);
+	private final Logger logger = LogManager.getLogger(FileManager.class);
 	
 	/** Path to the input directory. */
 	private static final Path DEFAULT_INPUT_DIR_PATH = Paths.get(System.getProperty(USER_DIR), INPUT);

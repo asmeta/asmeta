@@ -52,7 +52,7 @@ public class FileManager {
 			"CTLLibrary.asm");
 
 	/** Logger */
-	private static final Logger logger = LogManager.getLogger(FileManager.class);
+	private final Logger logger = LogManager.getLogger(FileManager.class);
 
 	/** Path to the default input working directory. */
 	private static final Path DEFAULT_INPUT_DIR_PATH = Paths.get(System.getProperty(USER_DIR), INPUT);

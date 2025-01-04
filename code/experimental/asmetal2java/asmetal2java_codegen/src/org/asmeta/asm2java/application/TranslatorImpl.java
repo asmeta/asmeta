@@ -21,7 +21,7 @@ import asmeta.AsmCollection;
 public class TranslatorImpl implements Translator {
 	
 	/** Logger */
-	private static final Logger logger = LogManager.getLogger(TranslatorImpl.class);
+	private final Logger logger = LogManager.getLogger(TranslatorImpl.class);
 	
 	/* Constants */
 	private static final String ASM_EXTENSION = ASMParser.ASM_EXTENSION;

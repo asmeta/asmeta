@@ -26,11 +26,11 @@ public class Junit2AvallaCLI {
 	public static final String HELP = "help";
 
 	/** Logger */
-	private static final Logger log = LogManager.getLogger(Junit2AvallaCLI.class);
+	private final Logger log = LogManager.getLogger(Junit2AvallaCLI.class);
 
 	/** Translator */
-	private static final Translator translator = new TranslatorImpl();	
-	
+	private static final Translator translator = new TranslatorImpl();
+
 	/**
 	 * Return code: <br>
 	 * -1: The application didn't started yet.<br>
@@ -57,18 +57,26 @@ public class Junit2AvallaCLI {
 	 *             line.
 	 */
 	public static void main(String[] args) {
-		String asciiart =  """
-				
-				     _             _ _   ____     _             _ _       
-				    | |_   _ _ __ (_) |_|___ \\   / \\__   ____ _| | | __ _ 
+		Junit2AvallaCLI junit2AvallaCLI = new Junit2AvallaCLI();
+		junit2AvallaCLI.executeCLI(args);
+	}
+
+	/**
+	 * Execute the Command Line Application (CLI) process.
+	 * 
+	 * @param args the command-line arguments.
+	 */
+	private void executeCLI(String[] args) {
+		String asciiart = """
+
+				     _             _ _   ____     _             _ _
+				    | |_   _ _ __ (_) |_|___ \\   / \\__   ____ _| | | __ _
 				 _  | | | | | '_ \\| | __| __) | / _ \\ \\ / / _` | | |/ _` |
 				| |_| | |_| | | | | | |_ / __/ / ___ \\ V / (_| | | | (_| |
 				 \\___/ \\__,_|_| |_|_|\\__|_____/_/   \\_\\_/ \\__,_|_|_|\\__,_|
 				 """;
-
-		Junit2AvallaCLI main = new Junit2AvallaCLI();
 		Options options = getCommandLineOptions();
-		CommandLine line = main.parseCommandLine(args, options);
+		CommandLine line = this.parseCommandLine(args, options);
 		log.info(asciiart);
 		try {
 			if (line == null || line.hasOption(HELP) || line.getOptions().length == 0) {
@@ -82,22 +90,30 @@ public class Junit2AvallaCLI {
 				formatter.printHelp("AvallaToJava", header, options, footer, false);
 			} else if (!line.hasOption(INPUT)) {
 				log.error("Please specify the asm input file path with -{} <path/to/file.asm>.", INPUT);
-				returnCode = 1; // error code
+				updateReturnCode(1); // error code
 			} else {
-				returnCode = 0; // ok code
-				main.execute(line);
+				updateReturnCode(0); // ok code
+				this.executeTranslation(line);
 			}
 		} catch (Exception e) {
 			log.error("Generation failed");
 			log.error("An error occurred, {}", e.getMessage(), e);
-			returnCode = 1; // error code
-		}  finally {
+			updateReturnCode(1); // error code
+		} finally {
 			if (line != null && line.hasOption(CLEAN)) {
 				translator.clean();
 			}
 			log.info("Requested operation completed.");
 		}
-
+	}
+	
+	/**
+	 * Update the static field returnCode from a non-static method.
+	 * 
+	 * @param code the code returned by the application.
+	 */
+	private static synchronized void updateReturnCode(int code) {
+		returnCode = code;
 	}
 
 	/**
@@ -110,7 +126,7 @@ public class Junit2AvallaCLI {
 
 		// print help
 		Option help = new Option(HELP, "print this message");
-		
+
 		// input file
 		Option workingDir = Option.builder(WORKING_DIR).argName(WORKING_DIR).type(String.class).hasArg(true)
 				.desc("The working directory for intermediate files (optional, Defaults to `./input/`)").build();
@@ -124,8 +140,8 @@ public class Junit2AvallaCLI {
 				.desc("The output folder (optional, defaults to `./output/`)").build();
 
 		// clean option
-		Option clean = Option.builder(CLEAN).hasArg(false)
-				.desc("Clean the input and the stepFunctionArgs files.").build();
+		Option clean = Option.builder(CLEAN).hasArg(false).desc("Clean the input and the stepFunctionArgs files.")
+				.build();
 
 		options.addOption(help);
 		options.addOption(workingDir);
@@ -157,11 +173,11 @@ public class Junit2AvallaCLI {
 	/**
 	 * Executes the main process based on the command-line arguments.
 	 *
-	 * @param line    the parsed CommandLine object.
-	 * @throws IOException 
+	 * @param line the parsed CommandLine object.
+	 * @throws IOException
 	 */
-	private void execute(CommandLine line) throws IOException {
-		
+	private void executeTranslation(CommandLine line) throws IOException {
+
 		if (line.hasOption(WORKING_DIR)) {
 			translator.setWorkingDir(line.getOptionValue(WORKING_DIR));
 		}
@@ -169,7 +185,7 @@ public class Junit2AvallaCLI {
 		// INPUT OPTION: by precondition -input option is always available and not null
 		// (required)
 		translator.setInput(line.getOptionValue(INPUT));
-		
+
 		if (line.hasOption(OUTPUT)) {
 			translator.setOutput(line.getOptionValue(OUTPUT));
 		}
@@ -177,6 +193,5 @@ public class Junit2AvallaCLI {
 		translator.generate();
 
 	}
-
 
 }

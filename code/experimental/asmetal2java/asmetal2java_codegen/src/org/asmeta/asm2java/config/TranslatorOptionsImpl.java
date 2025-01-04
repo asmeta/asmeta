@@ -22,7 +22,7 @@ public class TranslatorOptionsImpl implements TranslatorOptions {
 	public static final String COPY_ASM_OPTION = "copyAsm";
 	
 	/** Logger */
-	private static final Logger logger = LogManager.getLogger(TranslatorOptionsImpl.class);
+	private final Logger logger = LogManager.getLogger(TranslatorOptionsImpl.class);
 
 	/** Indicates whether the generated code should be formatted. */
 	private boolean formatter;

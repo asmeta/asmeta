@@ -7,7 +7,6 @@ import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.asmeta.junit2avalla.model.Scenario;
-import org.asmeta.junit2avalla.model.terms.JavaArgumentTerm;
 import org.asmeta.junit2avalla.model.terms.JavaAssertionTerm;
 import org.asmeta.junit2avalla.model.terms.JavaVariableTerm;
 
@@ -36,7 +35,7 @@ import org.asmeta.junit2avalla.antlr.JavaScenarioParser.VariableValueContext;
 public class JavaScenarioListener extends JavaScenarioBaseListener {
 
 	/** Logger */
-	private static final Logger log = LogManager.getLogger(JavaScenarioListener.class);
+	private final Logger log = LogManager.getLogger(JavaScenarioListener.class);
 
 	/**
 	 * List of scenarios parsed and processed.

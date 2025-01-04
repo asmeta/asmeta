@@ -30,7 +30,7 @@ class ScenarioWriter {
 	private static final String CHECK = "check";
 
 	/** Logger */
-	private static final Logger log = LogManager.getLogger(ScenarioWriter.class);
+	private final Logger log = LogManager.getLogger(ScenarioWriter.class);
 
 	/** String Builder */
 	private StringBuilder stringBuilder;

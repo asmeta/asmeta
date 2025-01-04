@@ -17,7 +17,7 @@ import org.asmeta.junit2avalla.model.ScenarioFile;
 public class ScenarioListMapperImpl implements ScenarioListMapper {
 
 	/** Logger */
-	private static final Logger log = LogManager.getLogger(ScenarioListMapperImpl.class);
+	private final Logger log = LogManager.getLogger(ScenarioListMapperImpl.class);
 
 	/**
 	 * The {@link ScenarioWriter} used to convert each {@link Scenario} into a

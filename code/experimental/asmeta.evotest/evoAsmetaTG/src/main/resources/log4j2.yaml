@@ -1,4 +1,8 @@
 Configuration:
+  Properties:
+    Property:
+      - name: "--logfile"
+        value: "logs/app.log"
   Appenders:
     Console:
       name: "CONSOLE"
@@ -6,7 +10,7 @@ Configuration:
         pattern: "%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1} - %m%n"
     File:
       - name: "DEBUG_LOG"
-        fileName: "logs/evoasmetatg_debug.log"
+        fileName: "${main:\\--logfile}"
         append: false
         PatternLayout:
           pattern: "%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1} - %m%n"

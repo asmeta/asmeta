@@ -37,7 +37,7 @@ public class Asmeta2JavaCLI {
 	public static final String COMPILER_VERSION = "compilerVersion";
 
 	/** Logger */
-	private static final Logger logger = LogManager.getLogger(Asmeta2JavaCLI.class);
+	private final Logger logger = LogManager.getLogger(Asmeta2JavaCLI.class);
 
 	/** Translator instance for translating the asm specification. */
 	private static final Translator translator = new TranslatorImpl();
@@ -69,15 +69,24 @@ public class Asmeta2JavaCLI {
 	 * @param args the command-line arguments.
 	 */
 	public static void main(String[] args) {
+		Asmeta2JavaCLI asmeta2JavaCLI = new Asmeta2JavaCLI();
+		asmeta2JavaCLI.executeCLI(args);
+	}
+	
+	/**
+	 * Execute the Command Line Application (CLI) process.
+	 * 
+	 * @param args the command-line arguments.
+	 */
+	private void executeCLI(String[] args) {
 		String asciiart = "\n    _                       _        _ ____   _                  \n"
 				+ "   / \\   ___ _ __ ___   ___| |_ __ _| |___ \\ (_) __ ___   ____ _ \n"
 				+ "  / _ \\ / __| '_ ` _ \\ / _ \\ __/ _` | | __) || |/ _` \\ \\ / / _` |\n"
 				+ " / ___ \\\\__ \\ | | | | |  __/ || (_| | |/ __/ | | (_| |\\ V / (_| |\n"
 				+ "/_/   \\_\\___/_| |_| |_|\\___|\\__\\__,_|_|_____|/ |\\__,_| \\_/ \\__,_|\n"
 				+ "                                           |__/                  \n";
-		Asmeta2JavaCLI main = new Asmeta2JavaCLI();
 		Options options = getCommandLineOptions();
-		CommandLine line = main.parseCommandLine(args, options);
+		CommandLine line = this.parseCommandLine(args, options);
 		logger.info(asciiart);
 		try {
 			if (line == null || line.hasOption(HELP) || line.getOptions().length == 0) {
@@ -92,22 +101,31 @@ public class Asmeta2JavaCLI {
 				formatter.printHelp("Asmetal2java", header, options, footer, false);
 			} else if (!line.hasOption(INPUT)) {
 				logger.error("Please specify the asm input file path with -{} <path/to/file.asm>.", INPUT);
-				returnCode = 1; // error code
+				updateReturnCode(1); // error code
 			} else {
-				returnCode = 0; // ok code
-				main.execute(line);
+				updateReturnCode(0); // ok code
+				this.executeTranslation(line);
 			}
 		} catch (Exception e) {
 			logger.error("Generation failed!");
 			logger.error("An error occurred: {}.", e.getMessage());
 			e.printStackTrace();
-			returnCode = 1; // error code
+			updateReturnCode(1); // error code
 		} finally {
 			if (line != null && line.hasOption(CLEAN)) {
 				translator.clean();
 			}
 			logger.info("Requested operation completed.");
 		}
+	}
+	
+	/**
+	 * Update the static field returnCode from a non-static method.
+	 * 
+	 * @param code the code returned by the application.
+	 */
+	private static synchronized void updateReturnCode(int code) {
+		returnCode = code;
 	}
 
 	/**
@@ -118,7 +136,7 @@ public class Asmeta2JavaCLI {
 	 * @throws AsmParsingException if an error occurs during the parsing operation.
 	 * @throws SetupException      if an error occurs during the setup operation.
 	 */
-	private void execute(CommandLine line) throws AsmParsingException, IOException, SetupException {
+	private void executeTranslation(CommandLine line) throws AsmParsingException, IOException, SetupException {
 
 		setGlobalProperties(line);
 

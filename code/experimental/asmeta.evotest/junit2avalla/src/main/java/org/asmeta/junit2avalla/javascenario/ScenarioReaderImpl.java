@@ -22,7 +22,7 @@ import org.asmeta.junit2avalla.model.Scenario;
  */
 public class ScenarioReaderImpl implements ScenarioReader {
 
-  private static final Logger log = LogManager.getLogger(ScenarioReaderImpl.class);
+  private final Logger log = LogManager.getLogger(ScenarioReaderImpl.class);
 
   /**
    * Reads a java scenario from the file at the specified {@code path} and parses its content to

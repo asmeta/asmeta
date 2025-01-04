@@ -18,7 +18,7 @@ import org.asmeta.asm2java.application.AsmParsingException;
 public class FileManager {
 
 	/** Logger */
-	private static final Logger logger = LogManager.getLogger(FileManager.class);
+	private final Logger logger = LogManager.getLogger(FileManager.class);
 
 	/** Current working directory */
 	private Path workingDirPath = Paths.get(System.getProperty(TranslatorConstants.USER_DIR));

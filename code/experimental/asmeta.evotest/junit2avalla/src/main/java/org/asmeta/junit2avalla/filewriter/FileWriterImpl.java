@@ -16,7 +16,7 @@ import org.asmeta.junit2avalla.model.ScenarioFile;
  */
 public class FileWriterImpl implements FileWriter {
 
-	private static final Logger log = LogManager.getLogger(FileWriterImpl.class);
+	private final Logger log = LogManager.getLogger(FileWriterImpl.class);
 
 	/**
 	 * The default output path where files will be written if no specific folder is

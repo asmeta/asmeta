@@ -24,7 +24,7 @@ public class CompilerImpl implements Compiler {
 	private static final String RELEASE_OPTION = "--release";
 	
 	/** Logger */
-	private static Logger logger = LogManager.getLogger(CompilerImpl.class);
+	private final Logger logger = LogManager.getLogger(CompilerImpl.class);
 
 	/**
 	 * Default No args constructor.

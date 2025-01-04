@@ -24,7 +24,7 @@ import org.asmeta.junit2avalla.main.Junit2AvallaCLI;
 public class TranslatorImpl implements Translator {
 
 	/** Logger */
-	private static final Logger logger = LogManager.getLogger(TranslatorImpl.class);
+	private final Logger logger = LogManager.getLogger(TranslatorImpl.class);
 
 	/** Name of the Asm input file. */
 	private String asmName;
