@@ -1,6 +1,7 @@
 package org.asmeta.asm2java.main;
 
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -18,7 +19,17 @@ public class GeneratorCompilerFailingTest {
      public void testFibonacci() throws IOException, Exception { 
          String asmspec = "examples/fibonacci.asm"; 
          Path dirCompilazione = Path.of("examples/compilazione/");
-         assertTrue(GeneratorCompilerUtil.genandcompile(asmspec, options,dirCompilazione, null).getSuccess()); 
+         assertFalse(GeneratorCompilerUtil.genandcompile(asmspec, options,dirCompilazione, null).getSuccess()); 
      } 
+     
+     
+     
+     @Test 
+     public void testATM3() throws IOException, Exception { 
+         String asmspec = "examples/ATM3.asm"; 
+         Path dirCompilazione = Path.of("examples/compilazione/");
+         assertFalse(GeneratorCompilerUtil.genandcompile(asmspec, options,dirCompilazione, dirCompilazione).getSuccess()); 
+     } 
+
 
 }

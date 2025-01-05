@@ -38,7 +38,7 @@ public class Util {
     paramDef.append("");
     for (int i = 0; (i < variables.size()); i++) {
       StringConcatenation _builder = new StringConcatenation();
-      String _visit = new ToString(res).visit(variables.get(i).getDomain());
+      String _visit = new DomainToJavaString(res).visit(variables.get(i).getDomain());
       _builder.append(_visit);
       _builder.append(" ");
       String _name = variables.get(i).getName();

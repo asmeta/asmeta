@@ -4,23 +4,19 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import org.asmeta.asm2java.main.TranslatorOptions;
+
 import org.asmeta.asm2java.compiler.CompileResult;
-import org.asmeta.asm2java.compiler.CompilatoreJava;
-import org.asmeta.asm2java.main.*;
 //import org.asmeta.asm2java.main.JavaGenerator;
 //import org.asmeta.asm2java.main.JavaExeGenerator;
 //import org.asmeta.asm2java.main.JavaWindowGenerator;
 import org.asmeta.parser.ASMParser;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import asmeta.AsmCollection;
 
 // generates the code in a eclispe project and it does not compile it
 // eclipse will take care of the compilation

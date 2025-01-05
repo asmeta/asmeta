@@ -34,7 +34,7 @@ class Util {
 		var StringBuffer paramDef = new StringBuffer
 		paramDef.append("");
 		for (var i = 0; i < variables.size; i++) {
-			paramDef.append('''«new ToString(res).visit(variables.get(i).domain)» «variables.get(i).name», ''')
+			paramDef.append('''«new DomainToJavaString(res).visit(variables.get(i).domain)» «variables.get(i).name», ''')
 		}
 		return paramDef.substring(0, paramDef.length - 2)
 	}

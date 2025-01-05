@@ -192,7 +192,7 @@ class TermToJava extends ReflectiveVisitor<String> {
 		var s = map.substring(0, map.length - 2) + "}}";
 		var StringBuffer domain = new StringBuffer()
 		for (var i = 0; i < object.pair.get(0).terms.size; i++)
-			domain.append(new ToString(res).visit(object.pair.get(0).terms.get(i).domain) + ", ")
+			domain.append(new DomainToJavaString(res).visit(object.pair.get(0).terms.get(i).domain) + ", ")
 		if (object.pair.size == 0)
 			throw new RuntimeException("Empty map is not yet implemented")
 		else
@@ -226,22 +226,22 @@ class TermToJava extends ReflectiveVisitor<String> {
 			if ((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof AbstractTd)
 				sb.append(
 			'''
-					«""»	«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems.stream().anyMatch(c -> c.toString(c).equals(«app.substring(7,app.length-1)».toString(c)))
+					«""»	«new DomainToJavaString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems.stream().anyMatch(c -> c.toString(c).equals(«app.substring(7,app.length-1)».toString(c)))
 				''')
 			else if ((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof EnumTd)
 				sb.append(
 			'''
-					«"Arrays.stream("»	«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».values()).anyMatch(c -> «valore»c))
+					«"Arrays.stream("»	«new DomainToJavaString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».values()).anyMatch(c -> «valore»c))
 				''')
 			else if ((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof ConcreteDomain) // devo togliere il .value aggiunto in TermToJavaStandardLibrary.xtend (riga 102)  
 				sb.append(
 			'''
-					«""»	«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems.stream().anyMatch(c -> c.equals(«app.substring(13,app.length-7)»))
+					«""»	«new DomainToJavaString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems.stream().anyMatch(c -> c.equals(«app.substring(13,app.length-7)»))
 				''')
 			else
 				sb.append(
 			'''
-					«""»	«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems.stream().anyMatch(c -> c.equals(«app.substring(13,app.length-1)»))
+					«""»	«new DomainToJavaString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems.stream().anyMatch(c -> c.equals(«app.substring(13,app.length-1)»))
 				''')
 		}
 
@@ -263,22 +263,22 @@ class TermToJava extends ReflectiveVisitor<String> {
 			if ((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof AbstractTd)
 				sb.append(
 				'''
-					«""»	for(Object «visit(object.variable.get(i))» : «new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems)
+					«""»	for(Object «visit(object.variable.get(i))» : «new DomainToJavaString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems)
 				''')
 			else if ((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof ConcreteDomain)
 				sb.append(
 			'''
-					«""»	«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems.stream().allMatch(c -> «supp.toString.replaceAll("\\(\\$[^)]*\\)", "(c)")»);
+					«""»	«new DomainToJavaString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems.stream().allMatch(c -> «supp.toString.replaceAll("\\(\\$[^)]*\\)", "(c)")»);
 				''')
 			else if ((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof EnumTd)
 				sb.append(
 			'''
-					«"Arrays.stream("»	«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».values()).allMatch(c -> «supp.toString.replaceAll("\\(\\$[^)]*\\)", "(c)")»);
+					«"Arrays.stream("»	«new DomainToJavaString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».values()).allMatch(c -> «supp.toString.replaceAll("\\(\\$[^)]*\\)", "(c)")»);
 				''')
 			else
 				sb.append(
 			'''
-					«""»	«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)»_elemsList.stream().allMatch(c -> «supp.toString.replaceAll("\\(\\$[^)]*\\)", "(c)")»);
+					«""»	«new DomainToJavaString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)»_elemsList.stream().allMatch(c -> «supp.toString.replaceAll("\\(\\$[^)]*\\)", "(c)")»);
 				''')
 
 		}
@@ -288,7 +288,7 @@ class TermToJava extends ReflectiveVisitor<String> {
 
 	def String visit(LetTerm object) {
 		var StringBuffer let = new StringBuffer
-		var String structure=new ToString(res).visit(object.domain)
+		var String structure=new DomainToJavaString(res).visit(object.domain)
 		
 		if(object.domain instanceof StructuredTd) {
 			if (object.domain instanceof PowersetDomain)
@@ -307,7 +307,7 @@ class TermToJava extends ReflectiveVisitor<String> {
 			new Function<Void, «structure»>(){@Override public «structure» apply(Void input) {    /**<--- letTerm**/
 		''')
 		for (var int i = 0; i < object.variable.size; i++) {
-			let.append('''	«new ToString(res).visit(object.assignmentTerm.get(i).domain)» «visit(object.variable.get(i))» = «visit(object.assignmentTerm.get(i))»;
+			let.append('''	«new DomainToJavaString(res).visit(object.assignmentTerm.get(i).domain)» «visit(object.variable.get(i))» = «visit(object.assignmentTerm.get(i))»;
 			''')
 		}
 		let.append(
@@ -339,17 +339,17 @@ class TermToJava extends ReflectiveVisitor<String> {
 			if ((object.getRanges.get(i).domain as SequenceDomain).domain instanceof AbstractTd)
 				sb.append(
 				'''
-					«""»	for(Object «visit(object.variable.get(i))» : «new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)»::elems)
+					«""»	for(Object «visit(object.variable.get(i))» : «new DomainToJavaString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)»::elems)
 				''')
 			else if ((object.getRanges.get(i).domain as SequenceDomain).domain instanceof ConcreteDomain)
 				sb.append(
 			'''
-					«""»	(ArrayList<«new ToString(res).visit(((object.getRanges.get(i).domain as SequenceDomain).domain as ConcreteDomain).typeDomain)»>)«visit(object.getRanges.get(i))».stream().filter(c -> «supp.toString.replace(object.variable.get(i).name, "c")»).collect(Collectors.toList())
+					«""»	(ArrayList<«new DomainToJavaString(res).visit(((object.getRanges.get(i).domain as SequenceDomain).domain as ConcreteDomain).typeDomain)»>)«visit(object.getRanges.get(i))».stream().filter(c -> «supp.toString.replace(object.variable.get(i).name, "c")»).collect(Collectors.toList())
 				''')
 			else
 				sb.append(
 			'''
-					«""»	(ArrayList<«new ToString(res).visit((object.getRanges.get(i).domain as SequenceDomain).domain)»>)«visit(object.getRanges.get(i))».stream().filter(c -> «supp.toString.replace(object.variable.get(i).name, "c")»).collect(Collectors.toList())
+					«""»	(ArrayList<«new DomainToJavaString(res).visit((object.getRanges.get(i).domain as SequenceDomain).domain)»>)«visit(object.getRanges.get(i))».stream().filter(c -> «supp.toString.replace(object.variable.get(i).name, "c")»).collect(Collectors.toList())
 				''')
 
 		}
@@ -718,7 +718,7 @@ class TermToJava extends ReflectiveVisitor<String> {
 							visitedTerm = visitedTerm.replaceAll("\\.value","")	
 					else {
 						if (fd.domain instanceof ConcreteDomain && ft.arguments.terms.get(i).domain instanceof ConcreteDomain)
-							visitedTerm = new ToString(res).visit(fd.domain) + ".valueOf(" + visitedTerm + ")"
+							visitedTerm = new DomainToJavaString(res).visit(fd.domain) + ".valueOf(" + visitedTerm + ")"
 					}
 				}
 				
@@ -743,7 +743,7 @@ class TermToJava extends ReflectiveVisitor<String> {
 				var String parameter = visit(ft.arguments.terms.get(i))
 				if (ft.arguments.terms.get(i) instanceof SequenceTerm) {
 					parameter = "(ArrayList<" +
-						new ToString(res).visit(
+						new DomainToJavaString(res).visit(
 							((ft.arguments.terms.get(i) as SequenceTerm).domain as SequenceDomain).domain) +
 						">)Arrays.asList(" + parameter + ")"
 				}

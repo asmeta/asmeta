@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
+import org.asmeta.asm2java.compiler.CompileResult;
 import org.asmeta.parser.ASMParser;
 import org.junit.Test;
 
@@ -50,7 +51,8 @@ public class GeneratorCompilerAllLocalExamplesTest {
 				String fileName = x.toFile().toString();
 				if (fileName.endsWith(ASMParser.ASM_EXTENSION) && 
 						excludeFiles.stream().filter(tX -> fileName.contains(tX)).count() == 0) {
-					if (!GeneratorCompilerUtil.genandcompile(fileName, options, Path.of(dirCompilazione), Path.of(dirCompilazione)).getSuccess()) {
+					CompileResult genandcompile = GeneratorCompilerUtil.genandcompile(fileName, options, Path.of(dirCompilazione), Path.of(dirCompilazione));
+					if (!genandcompile.getSuccess()) {
 						if (failOnError) fail();
 						failures.add(fileName);
 						System.err.println("failing for " + fileName);
@@ -64,7 +66,7 @@ public class GeneratorCompilerAllLocalExamplesTest {
 			}
 		});
 		walk.close();
-		assertTrue(failures.toString(), failures.isEmpty());
+		assertTrue(failures.size() + ": " + failures.toString(), failures.isEmpty());
 	}
 
 }

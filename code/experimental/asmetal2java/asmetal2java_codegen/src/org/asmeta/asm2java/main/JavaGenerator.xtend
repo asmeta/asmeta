@@ -16,9 +16,9 @@ import org.asmeta.asm2java.FunctionToJavaDef
 import org.asmeta.asm2java.FunctionToJavaSig
 import org.asmeta.asm2java.RuleToJava
 import org.asmeta.asm2java.SeqRuleCollector
-import org.asmeta.asm2java.ToString
 import org.asmeta.asm2java.Util
 import org.junit.Assert
+import org.asmeta.asm2java.DomainToJavaString
 
 /**
  * Generates .java from an ASMeta specification
@@ -355,9 +355,9 @@ class JavaGenerator extends AsmToJavaGenerator {
 					for (var int i = 0; i < dd.element.size; i++) {
 						
 						if (i != dd.element.size - 1)
-							initial.append('''«dd.name».«new ToString(asm).visit(dd.element.get(i))», ''')
+							initial.append('''«dd.name».«new DomainToJavaString(asm).visit(dd.element.get(i))», ''')
 						else
-							initial.append('''«dd.name».«new ToString(asm).visit(dd.element.get(i))»)''')
+							initial.append('''«dd.name».«new DomainToJavaString(asm).visit(dd.element.get(i))»)''')
 					}
 
 					initial.append(");\n")

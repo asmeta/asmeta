@@ -214,7 +214,7 @@ class RuleToJava extends RuleVisitor<String> {
 		for (var i = 0; i < object.getRanges.size; i++)
 			if (object.getRanges.get(i).domain instanceof PowersetDomain) {
 				sb.append('''
-					List<«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)»> point«i» = new ArrayList<>();
+					List<«new DomainToJavaString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)»> point«i» = new ArrayList<>();
 				''')
 			} // println("Object ranges: " + (object.getRanges.get(i).domain as PowersetDomain).baseDomain)
 			else
@@ -230,7 +230,7 @@ class RuleToJava extends RuleVisitor<String> {
 					''')
 					counter = counter + 1
 					sb.append('''
-						for(«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» : point«i»){
+						for(«new DomainToJavaString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» : point«i»){
 					''')
 				} else if ((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof AbstractTd ||
 					((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof ConcreteDomain &&
@@ -239,21 +239,21 @@ class RuleToJava extends RuleVisitor<String> {
 						))) {
 					if ((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof AbstractTd) {
 						sb.append('''
-							for(«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» : «new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems)
+							for(«new DomainToJavaString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» : «new DomainToJavaString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems)
 						''')
 					} else {
 						sb.append('''
-							for(«new ToString(res).visit(((object.getRanges.get(i).domain as PowersetDomain).baseDomain as ConcreteDomain).
-							typeDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» : «new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems)
+							for(«new DomainToJavaString(res).visit(((object.getRanges.get(i).domain as PowersetDomain).baseDomain as ConcreteDomain).
+							typeDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» : «new DomainToJavaString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems)
 						''')
 					}
 				} else if ((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof EnumTd) {
 					sb.append('''
-						for(«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» : «new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».values())
+						for(«new DomainToJavaString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» : «new DomainToJavaString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».values())
 					''')
 				} else {
 					sb.append('''
-						for(«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» : «new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)»_elemsList)
+						for(«new DomainToJavaString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» : «new DomainToJavaString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)»_elemsList)
 					''')
 				}
 			} else
@@ -306,7 +306,7 @@ class RuleToJava extends RuleVisitor<String> {
 		''')
 		for (var i = 0; i < object.getVariable.size; i++)
 			sb.append('''
-				«new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» = point«i».get(rndm);
+				«new DomainToJavaString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» = point«i».get(rndm);
 			''')
 		if (object.getIfnone !== null) {
 			var doRule = visit(object.getDoRule)
@@ -341,12 +341,12 @@ class RuleToJava extends RuleVisitor<String> {
 			if (baseDomain instanceof EnumTd)
 				sb.append(
 			'''
-					for(«new ToString(res).visit(baseDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» : «new ToString(res).visit(baseDomain)».values())
+					for(«new DomainToJavaString(res).visit(baseDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» : «new DomainToJavaString(res).visit(baseDomain)».values())
 				''')
 			else
 				sb.append(
 			'''
-					for(«new ToString(res).visit(baseDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» : «new ToString(res).visit(baseDomain)».elems)
+					for(«new DomainToJavaString(res).visit(baseDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» : «new DomainToJavaString(res).visit(baseDomain)».elems)
 				''')
 		}
 
