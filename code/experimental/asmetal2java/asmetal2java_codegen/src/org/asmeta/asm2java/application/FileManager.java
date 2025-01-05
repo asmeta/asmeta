@@ -252,20 +252,19 @@ public class FileManager {
 	 * compilation process.
 	 * 
 	 * @param asmName the name of the ASM file to compile.
-	 * @return {@code true} if the the result of the compilation is successful,
-	 *         {@code false} otherwise.
 	 * @throws IOException if an I/O error occurs.
+	 * @throws TranslationException if the the result of the compilation is not successful.
 	 */
-	boolean compileFile(String asmName) throws IOException {
+	void compileFile(String asmName) throws IOException, TranslationException {
 		logger.info("JavaCompiler: compiling the .java class...");
 		checkPath(compilerDirPath);
 		CompileResult result = compilerJava.compileFile(asmName + JAVA_EXTENSION, compilerDirPath, true,
 				compilerVersion);
-		if (result.getSuccess()) {
-			return true;
+		if (!result.getSuccess()) {
+			logger.error("Failed to compile the file {}. Compilation errors: {}", asmName, result);
+			throw new TranslationException("Unable to compile the file, the file has compilation errors: " + result);
 		}
-		logger.error("Compilation errors: {}.", result);
-		return false;
+		logger.info("File {} compiled with no errors.", asmName);
 	}
 
 	/**
@@ -273,21 +272,19 @@ public class FileManager {
 	 * compilation process.
 	 * 
 	 * @param files list of files to compile.
-	 * @return {@code true} if the the result of the compilation is successful,
-	 *         {@code false} otherwise.
+	 * @throw TranslationException if the the result of the compilation is not successful.
 	 */
-	boolean compileExportedFiles(List<File> files) {
+	void compileExportedFiles(List<File> files) throws TranslationException {
 		if (files.isEmpty()) {
 			logger.error("No files to compile.");
+			throw new TranslationException("Unable to compile the files, the files list is empty");
 		}
-
 		CompileResult compilerResult = compilerJava.compileFiles(files, outputFolder, compilerVersion);
 		if (!compilerResult.getSuccess()) {
-			logger.error("Compilation errors: {}", compilerResult);
-			return false;
+			logger.error("Failed to compile the file {}. Compilation errors: {}", files, compilerResult);
+			throw new TranslationException("Unable to compile the file, the file has compilation errors: " + compilerResult);
 		}
-
-		return true;
+		logger.info("File {} compiled with no errors.", files);
 	}
 
 	/**

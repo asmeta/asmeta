@@ -39,8 +39,9 @@ public interface Translator {
 	 *
 	 * @param outputDir the output directory.
 	 * @throws IOException if an I/O error occurs.
+	 * @throws SetupException 
 	 */
-	void setOutput(String outputDir) throws IOException;
+	void setOutput(String outputDir) throws SetupException;
 
 	/**
 	 * Sets the mode of translation to be used.
@@ -52,13 +53,11 @@ public interface Translator {
 	/**
 	 * Executes the translation process.
 	 *
-	 * @return {@code true} if the translation was successful, otherwise
-	 *         {@code false}.
 	 * @throws AsmParsingException when an error occurs while parsing an ASM file.
-	 * @throws IOException         if an I/O error occurs.
 	 * @throws SetupException      if an error occurs during the setup process.
+	 * @throws TranslationException if an error occurs during the translation process.
 	 */
-	boolean generate() throws AsmParsingException, IOException, SetupException;
+	void generate() throws AsmParsingException, SetupException, TranslationException;
 
 	/**
 	 * Sets the version of the java compiler.

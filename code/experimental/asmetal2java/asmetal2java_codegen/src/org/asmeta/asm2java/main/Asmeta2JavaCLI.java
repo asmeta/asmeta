@@ -20,6 +20,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.asmeta.asm2java.application.AsmParsingException;
 import org.asmeta.asm2java.application.SetupException;
+import org.asmeta.asm2java.application.TranslationException;
 import org.asmeta.asm2java.application.Translator;
 import org.asmeta.asm2java.application.TranslatorImpl;
 
@@ -31,6 +32,7 @@ import org.asmeta.asm2java.application.TranslatorImpl;
  */
 public class Asmeta2JavaCLI {
 
+	private static final String GENERATION_FAILED = "Generation failed!";
 	/* Constants */
 	public static final String MODE = "mode";
 	public static final String CLEAN = "clean";
@@ -53,7 +55,10 @@ public class Asmeta2JavaCLI {
 	 * Return code: <br>
 	 * -1: The application didn't started yet.<br>
 	 * 0: The application terminated without errors.<br>
-	 * 1: The application terminated with errors.
+	 * 1: The application terminated with errors. 2: The application terminated with
+	 * errors related to the setup process. 3: The application terminated with
+	 * errors related to the translation process. 4: The application terminated with
+	 * errors related to the parsing process.
 	 */
 	private static int returnCode = -1;
 
@@ -62,7 +67,11 @@ public class Asmeta2JavaCLI {
 	 * 
 	 * @return -1: The application didn't started yet.<br>
 	 *         0: The application terminated without errors.<br>
-	 *         1: The application terminated with errors.
+	 *         1: The application terminated with errors. 2: The application
+	 *         terminated with errors related to the setup process. 3: The
+	 *         application terminated with errors related to the translation
+	 *         process. 4: The application terminated with errors related to the
+	 *         parsing process.
 	 */
 	public static int getReturnedCode() {
 		return returnCode;
@@ -97,17 +106,16 @@ public class Asmeta2JavaCLI {
 		Options options = getCommandLineOptions(translator.getModeDescription(), translator.getOptionsDescription());
 		CommandLine line = this.parseCommandLine(args, options);
 		logger.info(asciiart);
+		HelpFormatter formatter = new HelpFormatter();
+		// Do not sort
+		formatter.setOptionComparator(null);
+		// Header and footer strings
+		String header = "Asmetal2Java\n\n";
+		String footer = "\nthis project is part of Asmeta, see https://github.com/asmeta/asmeta "
+				+ "for further information or to report an issue.";
 		try {
 			if (line == null || line.hasOption(HELP) || line.getOptions().length == 0) {
-				HelpFormatter formatter = new HelpFormatter();
-				// Do not sort
-				formatter.setOptionComparator(null);
-				// Header and footer strings
-				String header = "Asmetal2java\n\n";
-				String footer = "\nthis project is part of Asmeta, see https://github.com/asmeta/asmeta "
-						+ "for further information or to report an issue.";
-
-				formatter.printHelp("Asmetal2java", header, options, footer, false);
+				formatter.printHelp("Asmetal2Java", header, options, footer, false);
 			} else if (!line.hasOption(INPUT)) {
 				logger.error("Please specify the asm input file path with -{} <path/to/file.asm>.", INPUT);
 				updateReturnCode(1); // error code
@@ -115,10 +123,25 @@ public class Asmeta2JavaCLI {
 				updateReturnCode(0); // ok code
 				this.executeTranslation(line);
 			}
+		} catch (AsmParsingException e) {
+			logger.error(GENERATION_FAILED);
+			logger.error("A parsing error occurred: {}", e.getMessage(), e);
+			logger.warn("Please check the asmeta specification provided");
+			updateReturnCode(4); // parsing error code
+		} catch (SetupException e) {
+			logger.error(GENERATION_FAILED);
+			logger.error("A setup error occurred: {}", e.getMessage(), e);
+			logger.warn("Please check the parameters provided and consult the help message with -help:");
+			formatter.printHelp("Asmetal2Java", header, options, footer, false);
+			updateReturnCode(2); // setup error code
+		} catch(TranslationException e) {
+			logger.error(GENERATION_FAILED);
+			logger.error("A translation error occurred: {}", e.getMessage(), e);
+			logger.info("Please report an isssue to the Asmeta team: https://github.com/asmeta/asmeta");
+			updateReturnCode(3); // translation error code
 		} catch (Exception e) {
-			logger.error("Generation failed!");
-			logger.error("An error occurred: {}.", e.getMessage());
-			e.printStackTrace();
+			logger.error(GENERATION_FAILED);
+			logger.error("An error occurred: {}.", e.getMessage(), e);
 			updateReturnCode(1); // error code
 		} finally {
 			if (line != null && line.hasOption(CLEAN)) {
@@ -141,11 +164,11 @@ public class Asmeta2JavaCLI {
 	 * Executes the main process based on the command-line arguments.
 	 *
 	 * @param line the parsed CommandLine object.
-	 * @throws IOException         if an I/O error occurs.
 	 * @throws AsmParsingException if an error occurs during the parsing operation.
+	 * @throws TranslationException if an error occurs during the translation operation.
 	 * @throws SetupException      if an error occurs during the setup operation.
 	 */
-	private void executeTranslation(CommandLine line) throws AsmParsingException, IOException, SetupException {
+	private void executeTranslation(CommandLine line) throws AsmParsingException, SetupException, TranslationException {
 
 		setGlobalProperties(line);
 
@@ -169,11 +192,9 @@ public class Asmeta2JavaCLI {
 			translator.setCompilerVersion(line.getOptionValue(COMPILER_VERSION));
 		}
 
-		if (translator.generate()) {
-			logger.info("Generation succeed");
-		} else {
-			logger.error("Generation failed");
-		}
+		// generate the translation
+		translator.generate();
+		logger.info("Generation succeed");
 
 	}
 
