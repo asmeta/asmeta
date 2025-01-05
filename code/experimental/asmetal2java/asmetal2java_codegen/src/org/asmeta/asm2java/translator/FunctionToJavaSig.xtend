@@ -6,7 +6,6 @@ import asmeta.definitions.MonitoredFunction
 import asmeta.definitions.OutFunction
 import asmeta.definitions.StaticFunction
 import asmeta.definitions.domains.AbstractTd
-import asmeta.definitions.domains.BasicTd
 import asmeta.definitions.domains.ConcreteDomain
 import asmeta.definitions.domains.Domain
 import asmeta.definitions.domains.ProductDomain
@@ -18,7 +17,6 @@ import asmeta.definitions.domains.PowersetDomain
 import asmeta.definitions.domains.SequenceDomain
 import asmeta.definitions.domains.BagDomain
 import asmeta.definitions.domains.MapDomain
-import asmeta.definitions.domains.ConcreteDomain
 
 class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 

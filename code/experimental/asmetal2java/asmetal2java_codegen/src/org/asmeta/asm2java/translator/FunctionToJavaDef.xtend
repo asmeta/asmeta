@@ -16,8 +16,6 @@ import asmeta.terms.furtherterms.ForallTerm
 import asmeta.terms.furtherterms.SequenceTerm
 import org.asmeta.parser.util.ReflectiveVisitor
 import org.asmeta.asm2java.translator.Util
-import java.util.Map
-import java.util.HashMap
 import java.util.List
 import java.util.ArrayList
 

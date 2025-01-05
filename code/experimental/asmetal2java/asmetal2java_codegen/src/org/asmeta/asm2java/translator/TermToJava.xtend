@@ -19,7 +19,6 @@ import asmeta.terms.furtherterms.NaturalTerm
 import asmeta.terms.furtherterms.SetCt
 import asmeta.terms.furtherterms.StringTerm
 import asmeta.terms.furtherterms.SequenceCt
-import org.asmeta.parser.util.ReflectiveVisitor
 import asmeta.definitions.ControlledFunction
 import asmeta.definitions.MonitoredFunction
 import asmeta.definitions.DerivedFunction
@@ -38,6 +37,7 @@ import asmeta.terms.basicterms.UndefTerm
 import asmeta.definitions.domains.StructuredTd
 import asmeta.definitions.domains.ProductDomain
 import asmeta.definitions.domains.BagDomain
+import org.asmeta.parser.util.ReflectiveVisitor
 import org.asmeta.asm2java.translator.Util
 
 class TermToJava extends ReflectiveVisitor<String> {
