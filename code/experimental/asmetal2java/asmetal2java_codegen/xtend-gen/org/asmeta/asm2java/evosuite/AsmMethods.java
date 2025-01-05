@@ -188,7 +188,7 @@ public class AsmMethods {
               if ((dd instanceof EnumTd)) {
                 for (int i = 0; (i < ((EnumTd)dd).getElement().size()); i++) {
                   {
-                    String symbol = new ToStringEvosuite(asm).visit(((EnumTd)dd).getElement().get(i));
+                    String symbol = new DomainToJavaStringEvosuite(asm).visit(((EnumTd)dd).getElement().get(i));
                     sb.append(System.lineSeparator());
                     Domain _codomain_3 = ((ControlledFunction)fd).getCodomain();
                     if ((_codomain_3 instanceof ConcreteDomain)) {
@@ -624,7 +624,7 @@ public class AsmMethods {
               if ((dd instanceof EnumTd)) {
                 for (int i = 0; (i < ((EnumTd)dd).getElement().size()); i++) {
                   {
-                    String symbol = new ToStringEvosuite(asm).visit(((EnumTd)dd).getElement().get(i));
+                    String symbol = new DomainToJavaStringEvosuite(asm).visit(((EnumTd)dd).getElement().get(i));
                     sb.append(System.lineSeparator());
                     Domain _codomain_3 = ((MonitoredFunction)fd).getCodomain();
                     if ((_codomain_3 instanceof ConcreteDomain)) {
@@ -1286,7 +1286,7 @@ public class AsmMethods {
           if ((dd instanceof EnumTd)) {
             for (int i = 0; (i < ((EnumTd)dd).getElement().size()); i++) {
               {
-                String symbol = new ToStringEvosuite(asm).visit(((EnumTd)dd).getElement().get(i));
+                String symbol = new DomainToJavaStringEvosuite(asm).visit(((EnumTd)dd).getElement().get(i));
                 Domain _codomain_3 = ((MonitoredFunction)fd).getCodomain();
                 if ((_codomain_3 instanceof ConcreteDomain)) {
                   sb.append(System.lineSeparator());

@@ -251,20 +251,19 @@ public class FileManager {
 	 * Compiles the file with the given name and returns the result of the
 	 * compilation process.
 	 * 
-	 * @param asmName the name of the ASM file to compile.
+	 * @param javaFile the java file to compile.
 	 * @throws IOException if an I/O error occurs.
 	 * @throws TranslationException if the the result of the compilation is not successful.
 	 */
-	void compileFile(String asmName) throws IOException, TranslationException {
+	void compileFile(File javaFile) throws IOException, TranslationException {
 		logger.info("JavaCompiler: compiling the .java class...");
 		checkPath(compilerDirPath);
-		CompileResult result = compilerJava.compileFile(asmName + JAVA_EXTENSION, compilerDirPath, true,
-				compilerVersion);
+		CompileResult result = compilerJava.compileFile(javaFile, compilerDirPath, compilerVersion);
 		if (!result.getSuccess()) {
-			logger.error("Failed to compile the file {}. Compilation errors: {}", asmName, result);
+			logger.error("Failed to compile the file {}. Compilation errors: {}", javaFile, result);
 			throw new TranslationException("Unable to compile the file, the file has compilation errors: " + result);
 		}
-		logger.info("File {} compiled with no errors.", asmName);
+		logger.info("File {} compiled with no errors.", javaFile);
 	}
 
 	/**
@@ -272,9 +271,10 @@ public class FileManager {
 	 * compilation process.
 	 * 
 	 * @param files list of files to compile.
+	 * @throws IOException if an I/O error occur.
 	 * @throw TranslationException if the the result of the compilation is not successful.
 	 */
-	void compileExportedFiles(List<File> files) throws TranslationException {
+	void compileExportedFiles(List<File> files) throws TranslationException, IOException {
 		if (files.isEmpty()) {
 			logger.error("No files to compile.");
 			throw new TranslationException("Unable to compile the files, the files list is empty");
@@ -292,24 +292,21 @@ public class FileManager {
 	 *
 	 * @param javaInputFile the Java file to be exported.
 	 * @return javaOutFile the exported file.
+	 * @throws IOException if an I/O error occurs.
 	 */
-	File exportFile(File javaInputFile) {
+	File exportFile(File javaInputFile) throws IOException {
 		File javaOutFile = new File(outputFolder + File.separator + javaInputFile.getName());
 		logger.info("Exporting {} to: {}.", javaInputFile, outputFolder);
+		checkPath(outputFolder);
 		try (InputStream in = new BufferedInputStream(Files.newInputStream(javaInputFile.toPath()));
 				OutputStream out = new BufferedOutputStream(Files.newOutputStream(javaOutFile.toPath()))) {
-			checkPath(outputFolder);
 			byte[] buffer = new byte[1024];
 			int lengthRead;
 			while ((lengthRead = in.read(buffer)) > 0) {
 				out.write(buffer, 0, lengthRead);
 				out.flush();
 			}
-		} catch (IOException e) {
-			logger.error("Export Failed.");
-			e.printStackTrace();
 		}
-		logger.info("Export completed.");
 		return javaOutFile;
 	}
 

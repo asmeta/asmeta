@@ -29,7 +29,6 @@
 			<attribute name="test" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="src" path="src-gen-examples"/>
 	<classpathentry excluding="**" kind="src" output="target/classes" path="resources">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>

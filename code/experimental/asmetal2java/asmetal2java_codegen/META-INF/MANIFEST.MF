@@ -26,6 +26,7 @@ Require-Bundle: org.junit,
  org.eclipse.core.resources,
  asmeta.asm2java,
  org.eclipse.jdt.core
-Import-Package: org.eclipse.jdt.core.formatter,
+Import-Package: org.asmeta.asm2java.compiler,
+ org.eclipse.jdt.core.formatter,
  org.eclipse.xtext.generator,
  org.eclipse.xtext.resource

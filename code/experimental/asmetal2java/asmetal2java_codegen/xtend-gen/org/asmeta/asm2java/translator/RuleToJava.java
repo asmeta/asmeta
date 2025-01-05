@@ -372,7 +372,7 @@ public class RuleToJava extends RuleVisitor<String> {
         StringConcatenation _builder = new StringConcatenation();
         _builder.append("List<");
         Domain _domain_1 = object.getRanges().get(i).getDomain();
-        String _visit = new ToString(this.res).visit(((PowersetDomain) _domain_1).getBaseDomain());
+        String _visit = new DomainToJavaString(this.res).visit(((PowersetDomain) _domain_1).getBaseDomain());
         _builder.append(_visit);
         _builder.append("> point");
         _builder.append(i);
@@ -405,7 +405,7 @@ public class RuleToJava extends RuleVisitor<String> {
           StringConcatenation _builder_1 = new StringConcatenation();
           _builder_1.append("for(");
           Domain _domain_2 = object.getRanges().get(i).getDomain();
-          String _visit_1 = new ToString(this.res).visit(((PowersetDomain) _domain_2).getBaseDomain());
+          String _visit_1 = new DomainToJavaString(this.res).visit(((PowersetDomain) _domain_2).getBaseDomain());
           _builder_1.append(_visit_1);
           _builder_1.append(" ");
           String _visit_2 = new TermToJava(this.res).visit(object.getVariable().get(i));
@@ -423,14 +423,14 @@ public class RuleToJava extends RuleVisitor<String> {
               StringConcatenation _builder_2 = new StringConcatenation();
               _builder_2.append("for(");
               Domain _domain_4 = object.getRanges().get(i).getDomain();
-              String _visit_3 = new ToString(this.res).visit(((PowersetDomain) _domain_4).getBaseDomain());
+              String _visit_3 = new DomainToJavaString(this.res).visit(((PowersetDomain) _domain_4).getBaseDomain());
               _builder_2.append(_visit_3);
               _builder_2.append(" ");
               String _visit_4 = new TermToJava(this.res).visit(object.getVariable().get(i));
               _builder_2.append(_visit_4);
               _builder_2.append(" : ");
               Domain _domain_5 = object.getRanges().get(i).getDomain();
-              String _visit_5 = new ToString(this.res).visit(((PowersetDomain) _domain_5).getBaseDomain());
+              String _visit_5 = new DomainToJavaString(this.res).visit(((PowersetDomain) _domain_5).getBaseDomain());
               _builder_2.append(_visit_5);
               _builder_2.append(".elems)");
               _builder_2.newLineIfNotEmpty();
@@ -440,14 +440,14 @@ public class RuleToJava extends RuleVisitor<String> {
               _builder_3.append("for(");
               Domain _domain_6 = object.getRanges().get(i).getDomain();
               Domain _baseDomain_1 = ((PowersetDomain) _domain_6).getBaseDomain();
-              String _visit_6 = new ToString(this.res).visit(((ConcreteDomain) _baseDomain_1).getTypeDomain());
+              String _visit_6 = new DomainToJavaString(this.res).visit(((ConcreteDomain) _baseDomain_1).getTypeDomain());
               _builder_3.append(_visit_6);
               _builder_3.append(" ");
               String _visit_7 = new TermToJava(this.res).visit(object.getVariable().get(i));
               _builder_3.append(_visit_7);
               _builder_3.append(" : ");
               Domain _domain_7 = object.getRanges().get(i).getDomain();
-              String _visit_8 = new ToString(this.res).visit(((PowersetDomain) _domain_7).getBaseDomain());
+              String _visit_8 = new DomainToJavaString(this.res).visit(((PowersetDomain) _domain_7).getBaseDomain());
               _builder_3.append(_visit_8);
               _builder_3.append(".elems)");
               _builder_3.newLineIfNotEmpty();
@@ -460,14 +460,14 @@ public class RuleToJava extends RuleVisitor<String> {
               StringConcatenation _builder_4 = new StringConcatenation();
               _builder_4.append("for(");
               Domain _domain_9 = object.getRanges().get(i).getDomain();
-              String _visit_9 = new ToString(this.res).visit(((PowersetDomain) _domain_9).getBaseDomain());
+              String _visit_9 = new DomainToJavaString(this.res).visit(((PowersetDomain) _domain_9).getBaseDomain());
               _builder_4.append(_visit_9);
               _builder_4.append(" ");
               String _visit_10 = new TermToJava(this.res).visit(object.getVariable().get(i));
               _builder_4.append(_visit_10);
               _builder_4.append(" : ");
               Domain _domain_10 = object.getRanges().get(i).getDomain();
-              String _visit_11 = new ToString(this.res).visit(((PowersetDomain) _domain_10).getBaseDomain());
+              String _visit_11 = new DomainToJavaString(this.res).visit(((PowersetDomain) _domain_10).getBaseDomain());
               _builder_4.append(_visit_11);
               _builder_4.append(".values())");
               _builder_4.newLineIfNotEmpty();
@@ -476,14 +476,14 @@ public class RuleToJava extends RuleVisitor<String> {
               StringConcatenation _builder_5 = new StringConcatenation();
               _builder_5.append("for(");
               Domain _domain_11 = object.getRanges().get(i).getDomain();
-              String _visit_12 = new ToString(this.res).visit(((PowersetDomain) _domain_11).getBaseDomain());
+              String _visit_12 = new DomainToJavaString(this.res).visit(((PowersetDomain) _domain_11).getBaseDomain());
               _builder_5.append(_visit_12);
               _builder_5.append(" ");
               String _visit_13 = new TermToJava(this.res).visit(object.getVariable().get(i));
               _builder_5.append(_visit_13);
               _builder_5.append(" : ");
               Domain _domain_12 = object.getRanges().get(i).getDomain();
-              String _visit_14 = new ToString(this.res).visit(((PowersetDomain) _domain_12).getBaseDomain());
+              String _visit_14 = new DomainToJavaString(this.res).visit(((PowersetDomain) _domain_12).getBaseDomain());
               _builder_5.append(_visit_14);
               _builder_5.append("_elemsList)");
               _builder_5.newLineIfNotEmpty();
@@ -586,7 +586,7 @@ public class RuleToJava extends RuleVisitor<String> {
     for (int i = 0; (i < object.getVariable().size()); i++) {
       StringConcatenation _builder_6 = new StringConcatenation();
       Domain _domain = object.getRanges().get(i).getDomain();
-      String _visit_1 = new ToString(this.res).visit(((PowersetDomain) _domain).getBaseDomain());
+      String _visit_1 = new DomainToJavaString(this.res).visit(((PowersetDomain) _domain).getBaseDomain());
       _builder_6.append(_visit_1);
       _builder_6.append(" ");
       String _visit_2 = new TermToJava(this.res).visit(object.getVariable().get(i));
@@ -648,13 +648,13 @@ public class RuleToJava extends RuleVisitor<String> {
         if ((baseDomain instanceof EnumTd)) {
           StringConcatenation _builder = new StringConcatenation();
           _builder.append("for(");
-          String _visit = new ToString(this.res).visit(((EnumTd)baseDomain));
+          String _visit = new DomainToJavaString(this.res).visit(((EnumTd)baseDomain));
           _builder.append(_visit);
           _builder.append(" ");
           String _visit_1 = new TermToJava(this.res).visit(object.getVariable().get(i));
           _builder.append(_visit_1);
           _builder.append(" : ");
-          String _visit_2 = new ToString(this.res).visit(((EnumTd)baseDomain));
+          String _visit_2 = new DomainToJavaString(this.res).visit(((EnumTd)baseDomain));
           _builder.append(_visit_2);
           _builder.append(".values())");
           _builder.newLineIfNotEmpty();
@@ -662,13 +662,13 @@ public class RuleToJava extends RuleVisitor<String> {
         } else {
           StringConcatenation _builder_1 = new StringConcatenation();
           _builder_1.append("for(");
-          String _visit_3 = new ToString(this.res).visit(baseDomain);
+          String _visit_3 = new DomainToJavaString(this.res).visit(baseDomain);
           _builder_1.append(_visit_3);
           _builder_1.append(" ");
           String _visit_4 = new TermToJava(this.res).visit(object.getVariable().get(i));
           _builder_1.append(_visit_4);
           _builder_1.append(" : ");
-          String _visit_5 = new ToString(this.res).visit(baseDomain);
+          String _visit_5 = new DomainToJavaString(this.res).visit(baseDomain);
           _builder_1.append(_visit_5);
           _builder_1.append(".elems)");
           _builder_1.newLineIfNotEmpty();

@@ -43,6 +43,7 @@ import org.asmeta.parser.util.ReflectiveVisitor;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.xbase.lib.Exceptions;
+import org.eclipse.xtext.xbase.lib.XbaseGenerated;
 
 @SuppressWarnings("all")
 public class TermToJava extends ReflectiveVisitor<String> {
@@ -289,7 +290,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
     String s = (_substring + "}}");
     StringBuffer domain = new StringBuffer();
     for (int i = 0; (i < object.getPair().get(0).getTerms().size()); i++) {
-      String _visit = new ToString(this.res).visit(object.getPair().get(0).getTerms().get(i).getDomain());
+      String _visit = new DomainToJavaString(this.res).visit(object.getPair().get(0).getTerms().get(i).getDomain());
       String _plus = (_visit + ", ");
       domain.append(_plus);
     }
@@ -350,7 +351,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
         StringConcatenation _builder_1 = new StringConcatenation();
         _builder_1.append("\t");
         Domain _domain_1 = object.getRanges().get(i).getDomain();
-        String _visit_1 = new ToString(this.res).visit(((PowersetDomain) _domain_1).getBaseDomain());
+        String _visit_1 = new DomainToJavaString(this.res).visit(((PowersetDomain) _domain_1).getBaseDomain());
         _builder_1.append(_visit_1);
         _builder_1.append(".elems.stream().anyMatch(c -> c.toString(c).equals(");
         int _length = app.length();
@@ -368,7 +369,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
           _builder_2.append("Arrays.stream(");
           _builder_2.append("\t");
           Domain _domain_3 = object.getRanges().get(i).getDomain();
-          String _visit_2 = new ToString(this.res).visit(((PowersetDomain) _domain_3).getBaseDomain());
+          String _visit_2 = new DomainToJavaString(this.res).visit(((PowersetDomain) _domain_3).getBaseDomain());
           _builder_2.append(_visit_2);
           _builder_2.append(".values()).anyMatch(c -> ");
           _builder_2.append(valore);
@@ -382,7 +383,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
             StringConcatenation _builder_3 = new StringConcatenation();
             _builder_3.append("\t");
             Domain _domain_5 = object.getRanges().get(i).getDomain();
-            String _visit_3 = new ToString(this.res).visit(((PowersetDomain) _domain_5).getBaseDomain());
+            String _visit_3 = new DomainToJavaString(this.res).visit(((PowersetDomain) _domain_5).getBaseDomain());
             _builder_3.append(_visit_3);
             _builder_3.append(".elems.stream().anyMatch(c -> c.equals(");
             int _length_1 = app.length();
@@ -396,7 +397,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
             StringConcatenation _builder_4 = new StringConcatenation();
             _builder_4.append("\t");
             Domain _domain_6 = object.getRanges().get(i).getDomain();
-            String _visit_4 = new ToString(this.res).visit(((PowersetDomain) _domain_6).getBaseDomain());
+            String _visit_4 = new DomainToJavaString(this.res).visit(((PowersetDomain) _domain_6).getBaseDomain());
             _builder_4.append(_visit_4);
             _builder_4.append(".elems.stream().anyMatch(c -> c.equals(");
             int _length_2 = app.length();
@@ -435,7 +436,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
         _builder_2.append(_visit_1);
         _builder_2.append(" : ");
         Domain _domain_1 = object.getRanges().get(i).getDomain();
-        String _visit_2 = new ToString(this.res).visit(((PowersetDomain) _domain_1).getBaseDomain());
+        String _visit_2 = new DomainToJavaString(this.res).visit(((PowersetDomain) _domain_1).getBaseDomain());
         _builder_2.append(_visit_2);
         _builder_2.append(".elems)");
         _builder_2.newLineIfNotEmpty();
@@ -447,7 +448,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
           StringConcatenation _builder_3 = new StringConcatenation();
           _builder_3.append("\t");
           Domain _domain_3 = object.getRanges().get(i).getDomain();
-          String _visit_3 = new ToString(this.res).visit(((PowersetDomain) _domain_3).getBaseDomain());
+          String _visit_3 = new DomainToJavaString(this.res).visit(((PowersetDomain) _domain_3).getBaseDomain());
           _builder_3.append(_visit_3);
           _builder_3.append(".elems.stream().allMatch(c -> ");
           String _replaceAll = supp.toString().replaceAll("\\(\\$[^)]*\\)", "(c)");
@@ -463,7 +464,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
             _builder_4.append("Arrays.stream(");
             _builder_4.append("\t");
             Domain _domain_5 = object.getRanges().get(i).getDomain();
-            String _visit_4 = new ToString(this.res).visit(((PowersetDomain) _domain_5).getBaseDomain());
+            String _visit_4 = new DomainToJavaString(this.res).visit(((PowersetDomain) _domain_5).getBaseDomain());
             _builder_4.append(_visit_4);
             _builder_4.append(".values()).allMatch(c -> ");
             String _replaceAll_1 = supp.toString().replaceAll("\\(\\$[^)]*\\)", "(c)");
@@ -475,7 +476,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
             StringConcatenation _builder_5 = new StringConcatenation();
             _builder_5.append("\t");
             Domain _domain_6 = object.getRanges().get(i).getDomain();
-            String _visit_5 = new ToString(this.res).visit(((PowersetDomain) _domain_6).getBaseDomain());
+            String _visit_5 = new DomainToJavaString(this.res).visit(((PowersetDomain) _domain_6).getBaseDomain());
             _builder_5.append(_visit_5);
             _builder_5.append("_elemsList.stream().allMatch(c -> ");
             String _replaceAll_2 = supp.toString().replaceAll("\\(\\$[^)]*\\)", "(c)");
@@ -492,7 +493,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
 
   public String visit(final LetTerm object) {
     StringBuffer let = new StringBuffer();
-    String structure = new ToString(this.res).visit(object.getDomain());
+    String structure = new DomainToJavaString(this.res).visit(object.getDomain());
     Domain _domain = object.getDomain();
     if ((_domain instanceof StructuredTd)) {
       Domain _domain_1 = object.getDomain();
@@ -528,7 +529,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
     for (int i = 0; (i < object.getVariable().size()); i++) {
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append("\t");
-      String _visit = new ToString(this.res).visit(object.getAssignmentTerm().get(i).getDomain());
+      String _visit = new DomainToJavaString(this.res).visit(object.getAssignmentTerm().get(i).getDomain());
       _builder_1.append(_visit, "\t");
       _builder_1.append(" ");
       String _visit_1 = this.visit(object.getVariable().get(i));
@@ -582,7 +583,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
         _builder_2.append(_visit_1);
         _builder_2.append(" : ");
         Domain _domain_2 = object.getRanges().get(i).getDomain();
-        String _visit_2 = new ToString(this.res).visit(((PowersetDomain) _domain_2).getBaseDomain());
+        String _visit_2 = new DomainToJavaString(this.res).visit(((PowersetDomain) _domain_2).getBaseDomain());
         _builder_2.append(_visit_2);
         _builder_2.append("::elems)");
         _builder_2.newLineIfNotEmpty();
@@ -595,7 +596,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
           _builder_3.append("\t(ArrayList<");
           Domain _domain_5 = object.getRanges().get(i).getDomain();
           Domain _domain_6 = ((SequenceDomain) _domain_5).getDomain();
-          String _visit_3 = new ToString(this.res).visit(((ConcreteDomain) _domain_6).getTypeDomain());
+          String _visit_3 = new DomainToJavaString(this.res).visit(((ConcreteDomain) _domain_6).getTypeDomain());
           _builder_3.append(_visit_3);
           _builder_3.append(">)");
           String _visit_4 = this.visit(object.getRanges().get(i));
@@ -610,7 +611,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
           StringConcatenation _builder_4 = new StringConcatenation();
           _builder_4.append("\t(ArrayList<");
           Domain _domain_7 = object.getRanges().get(i).getDomain();
-          String _visit_5 = new ToString(this.res).visit(((SequenceDomain) _domain_7).getDomain());
+          String _visit_5 = new DomainToJavaString(this.res).visit(((SequenceDomain) _domain_7).getDomain());
           _builder_4.append(_visit_5);
           _builder_4.append(">)");
           String _visit_6 = this.visit(object.getRanges().get(i));
@@ -1038,7 +1039,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
               visitedTerm = visitedTerm.replaceAll("\\.value", "");
             } else {
               if (((fd.getDomain() instanceof ConcreteDomain) && (ft.getArguments().getTerms().get(i).getDomain() instanceof ConcreteDomain))) {
-                String _visit = new ToString(this.res).visit(fd.getDomain());
+                String _visit = new DomainToJavaString(this.res).visit(fd.getDomain());
                 String _plus = (_visit + ".valueOf(");
                 String _plus_1 = (_plus + visitedTerm);
                 String _plus_2 = (_plus_1 + ")");
@@ -1079,7 +1080,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
           if ((_get instanceof SequenceTerm)) {
             Term _get_1 = ft.getArguments().getTerms().get(i);
             Domain _domain = ((SequenceTerm) _get_1).getDomain();
-            String _visit = new ToString(this.res).visit(
+            String _visit = new DomainToJavaString(this.res).visit(
               ((SequenceDomain) _domain).getDomain());
             String _plus = ("(ArrayList<" + _visit);
             String _plus_1 = (_plus + 
@@ -1116,6 +1117,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
     }
   }
 
+  @XbaseGenerated
   public String caseFunctionTermSupp(final Function fd, final FunctionTerm ft) {
     if (fd instanceof ControlledFunction) {
       return _caseFunctionTermSupp((ControlledFunction)fd, ft);

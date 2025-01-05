@@ -17,12 +17,12 @@ import org.asmeta.asm2java.translator.FunctionToJavaDef
 import org.asmeta.asm2java.translator.FunctionToJavaSig
 import org.asmeta.asm2java.translator.RuleToJava
 import org.asmeta.asm2java.translator.SeqRuleCollector
-import org.asmeta.asm2java.translator.ToString
 import org.asmeta.asm2java.translator.Util
 import org.junit.Assert
+import org.asmeta.asm2java.translator.DomainToJavaString
 
 /** 
- * Generates the translation of an Asm specification to a java class.
+ * Generates the translation of an Asm specification to a java class from an ASMeta specification.
  */
 class JavaGenerator extends AsmToJavaGenerator {
 
@@ -52,8 +52,8 @@ class JavaGenerator extends AsmToJavaGenerator {
 	/**
 	 * Create an instance of the {@code ToString} object.
 	 */
-	protected def ToString createToString(Asm resource) {
-		new ToString(resource)
+	protected def DomainToJavaString createToString(Asm resource) {
+		new DomainToJavaString(resource)
 	}
 	
 	/**

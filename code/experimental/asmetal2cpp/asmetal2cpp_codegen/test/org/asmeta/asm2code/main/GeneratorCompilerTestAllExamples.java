@@ -23,17 +23,17 @@ import org.junit.runners.Parameterized.Parameters;
 import asmeta.structure.Asm;
 
 /**
- * descrizione: test di corretta generazione di codice (.h e .cpp) da
- * modello Asm input: cartella modelli asm, cartella destinazione codice c++
+ * descrizione: test di corretta generazione di codice (.h e .cpp) da modello
+ * Asm input: cartella modelli asm, cartella destinazione codice c++
  */
 @RunWith(Parameterized.class)
-public class GeneratorCompilerTestAllExamples extends GeneratorCompilerTest{
+public class GeneratorCompilerTestAllExamples extends GeneratorCompilerTest {
 	// path of the examples
 	static private String examplesPath = "examples";
 	// destination folder of compiled files
 	static private String destinationFolder = "generatedExamples/";
 	// options for the compiler
-	private TranslatorOptions options = new TranslatorOptions(true, true, true,false);
+	private TranslatorOptions options = new TranslatorOptions(true, true, true, false);
 
 	@Parameterized.Parameter(0)
 	public String fileToTest;
@@ -51,7 +51,6 @@ public class GeneratorCompilerTestAllExamples extends GeneratorCompilerTest{
 		return c;
 	}
 
-	
 	@Test
 	public void testAll() throws IOException, Exception {
 		if (test(fileToTest, options).success)
@@ -72,7 +71,7 @@ public class GeneratorCompilerTestAllExamples extends GeneratorCompilerTest{
 		HeaderGenerator hGenerator = new HeaderGenerator();
 		CppGenerator cppGenerator = new CppGenerator();
 
-		File cppFile = new File(destinationFolder +  name + CppGenerator.Ext);
+		File cppFile = new File(destinationFolder + name + CppGenerator.Ext);
 		File hFile = new File(destinationFolder + name + HeaderGenerator.Ext);
 
 		// write .cpp and .h

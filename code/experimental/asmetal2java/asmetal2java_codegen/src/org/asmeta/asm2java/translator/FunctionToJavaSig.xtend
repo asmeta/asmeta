@@ -36,10 +36,10 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 	} 
 	
 	/**
-	 * Create an instance of the {@code ToString} object.
+	 * Create an instance of the {@code DomainToJavaString} object.
 	 */
-	protected def ToString createToString(Asm resource) {
-		new ToString(resource)
+	protected def DomainToJavaString createDomainToJavaString(Asm resource) {
+		new DomainToJavaString(resource)
 	}
 	
 
@@ -106,7 +106,7 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 
 		var int countparameters = 0;
 		var sb = new StringBuffer;
-		sb.append('''«createToString(res).visit(domain)» param«countparameters»_«name», ''')
+		sb.append('''«createDomainToJavaString(res).visit(domain)» param«countparameters»_«name», ''')
 		countparameters++
 		return sb.toString.substring(0, sb.toString.length - 2)
 
@@ -118,7 +118,7 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 		paramDef.append("");
 		for (var i = 0; i < domain.domains.size; i++) {
 
-			paramDef.append('''«createToString(res).visit(domain.domains.get(i))» param«countparameters»_«name», ''')
+			paramDef.append('''«createDomainToJavaString(res).visit(domain.domains.get(i))» param«countparameters»_«name», ''')
 			countparameters++
 		}
 		return paramDef.substring(0, paramDef.length - 2)
@@ -129,7 +129,7 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 		if (domain instanceof StructuredTd || domain instanceof StructuredTdImpl)
 			sb.append('''«createDomainToJavaSigDef(res).visit(domain)»''')
 		else
-			sb.append('''«createToString(res).visit(domain)»''')
+			sb.append('''«createDomainToJavaString(res).visit(domain)»''')
 		return sb.toString
 	}
 

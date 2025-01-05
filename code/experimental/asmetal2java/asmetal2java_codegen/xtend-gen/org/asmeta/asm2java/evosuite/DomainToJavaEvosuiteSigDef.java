@@ -17,8 +17,8 @@ public class DomainToJavaEvosuiteSigDef extends DomainToJavaSigDef {
    * Create an instance of the {@code ToStringEvosuite} object.
    */
   @Override
-  public ToStringEvosuite createToString(final Asm resource) {
-    return new ToStringEvosuite(resource);
+  public DomainToJavaStringEvosuite createDomainToJavaString(final Asm resource) {
+    return new DomainToJavaStringEvosuite(resource);
   }
 
   /**

@@ -20,12 +20,12 @@ import java.util.List;
 import java.util.Set;
 import org.asmeta.asm2java.config.TranslatorOptions;
 import org.asmeta.asm2java.translator.DomainToJavaSigDef;
+import org.asmeta.asm2java.translator.DomainToJavaString;
 import org.asmeta.asm2java.translator.FindMonitoredInControlledFunct;
 import org.asmeta.asm2java.translator.FunctionToJavaDef;
 import org.asmeta.asm2java.translator.FunctionToJavaSig;
 import org.asmeta.asm2java.translator.RuleToJava;
 import org.asmeta.asm2java.translator.SeqRuleCollector;
-import org.asmeta.asm2java.translator.ToString;
 import org.asmeta.asm2java.translator.Util;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
@@ -33,7 +33,7 @@ import org.eclipse.xtext.xbase.lib.CollectionLiterals;
 import org.junit.Assert;
 
 /**
- * Generates the translation of an Asm specification to a java class.
+ * Generates the translation of an Asm specification to a java class from an ASMeta specification.
  */
 @SuppressWarnings("all")
 public class JavaGenerator extends AsmToJavaGenerator {
@@ -60,8 +60,8 @@ public class JavaGenerator extends AsmToJavaGenerator {
   /**
    * Create an instance of the {@code ToString} object.
    */
-  protected ToString createToString(final Asm resource) {
-    return new ToString(resource);
+  protected DomainToJavaString createToString(final Asm resource) {
+    return new DomainToJavaString(resource);
   }
 
   /**

@@ -52,7 +52,7 @@ public class CoverOutputs {
                 if ((dd instanceof EnumTd)) {
                   for (int i = 0; (i < ((EnumTd)dd).getElement().size()); i++) {
                     {
-                      String symbol = new ToStringEvosuite(asm).visit(((EnumTd)dd).getElement().get(i));
+                      String symbol = new DomainToJavaStringEvosuite(asm).visit(((EnumTd)dd).getElement().get(i));
                       sb.append(System.lineSeparator());
                       StringBuffer _append_2 = sb.append("\t\t\t");
                       StringConcatenation _builder_2 = new StringConcatenation();

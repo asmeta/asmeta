@@ -32,11 +32,11 @@ public class FunctionToJavaEvosuiteSig extends FunctionToJavaSig {
   }
 
   /**
-   * Create an instance of the {@code ToString} object.
+   * Create an instance of the {@code DomainToJavaString} object.
    */
   @Override
-  public ToStringEvosuite createToString(final Asm resource) {
-    return new ToStringEvosuite(resource);
+  public DomainToJavaStringEvosuite createDomainToJavaString(final Asm resource) {
+    return new DomainToJavaStringEvosuite(resource);
   }
 
   /**

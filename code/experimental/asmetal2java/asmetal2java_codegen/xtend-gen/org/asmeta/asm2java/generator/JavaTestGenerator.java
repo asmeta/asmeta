@@ -6,11 +6,11 @@ import asmeta.transitionrules.basictransitionrules.Rule;
 import java.util.ArrayList;
 import java.util.List;
 import org.asmeta.asm2java.evosuite.DomainToJavaEvosuiteSigDef;
+import org.asmeta.asm2java.evosuite.DomainToJavaStringEvosuite;
 import org.asmeta.asm2java.evosuite.FunctionToJavaEvosuiteSig;
 import org.asmeta.asm2java.evosuite.JavaRule;
 import org.asmeta.asm2java.evosuite.RuleToJavaEvosuite;
 import org.asmeta.asm2java.evosuite.RulesAdder;
-import org.asmeta.asm2java.evosuite.ToStringEvosuite;
 import org.asmeta.asm2java.translator.SeqRuleCollector;
 import org.asmeta.asm2java.translator.Util;
 import org.eclipse.emf.common.util.EList;
@@ -41,8 +41,8 @@ public class JavaTestGenerator extends JavaGenerator {
    * Create an instance of the {@code ToString} object.
    */
   @Override
-  public ToStringEvosuite createToString(final Asm resource) {
-    return new ToStringEvosuite(resource);
+  public DomainToJavaStringEvosuite createToString(final Asm resource) {
+    return new DomainToJavaStringEvosuite(resource);
   }
 
   /**

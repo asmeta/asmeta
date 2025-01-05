@@ -6,7 +6,7 @@
  * {@link org.asmeta.asm2java.generator.JavaTestGenerator} generators. In fact
  * we can find the redefinition of some translator classes via inheritance
  * {@link DomainToJavaEvosuiteSigDef}, {@link FunctionToJavaEvosuiteSig},
- * {@link RuleToJavaEvosuite}, {@link ToStringEvosuite}, some classes to support
+ * {@link RuleToJavaEvosuite}, {@link DomainToJavaStringEvosuite}, some classes to support
  * the generation of the _ATG class ({@link AsmMethods}, {@link CoverOutputs},
  * {@link CoverRules}) and classes that manage the java rules. Specifically, the
  * {@link JavaRule} class defines an object that consists of the translated java

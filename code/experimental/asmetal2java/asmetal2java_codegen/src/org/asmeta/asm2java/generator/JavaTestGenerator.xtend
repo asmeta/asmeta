@@ -11,7 +11,7 @@ import java.util.ArrayList
 import org.asmeta.asm2java.translator.SeqRuleCollector
 import org.asmeta.asm2java.evosuite.FunctionToJavaEvosuiteSig
 import org.asmeta.asm2java.evosuite.DomainToJavaEvosuiteSigDef
-import org.asmeta.asm2java.evosuite.ToStringEvosuite
+import org.asmeta.asm2java.evosuite.DomainToJavaStringEvosuite
 
 /**
  * This generator creates a translated version of the Java class for testing purposes only,
@@ -36,8 +36,8 @@ class JavaTestGenerator extends JavaGenerator {
 	/**
 	 * Create an instance of the {@code ToString} object.
 	 */
-	override ToStringEvosuite createToString(Asm resource) {
-		new ToStringEvosuite(resource)
+	override DomainToJavaStringEvosuite createToString(Asm resource) {
+		new DomainToJavaStringEvosuite(resource)
 	}
 	
 	/**

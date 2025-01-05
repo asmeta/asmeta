@@ -35,10 +35,10 @@ public class FunctionToJavaSig extends ReflectiveVisitor<String> {
   }
 
   /**
-   * Create an instance of the {@code ToString} object.
+   * Create an instance of the {@code DomainToJavaString} object.
    */
-  protected ToString createToString(final Asm resource) {
-    return new ToString(resource);
+  protected DomainToJavaString createDomainToJavaString(final Asm resource) {
+    return new DomainToJavaString(resource);
   }
 
   public String visit(final StaticFunction object) {
@@ -213,7 +213,7 @@ public class FunctionToJavaSig extends ReflectiveVisitor<String> {
     int countparameters = 0;
     StringBuffer sb = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
-    String _visit = this.createToString(this.res).visit(domain);
+    String _visit = this.createDomainToJavaString(this.res).visit(domain);
     _builder.append(_visit);
     _builder.append(" param");
     _builder.append(countparameters);
@@ -235,7 +235,7 @@ public class FunctionToJavaSig extends ReflectiveVisitor<String> {
     for (int i = 0; (i < domain.getDomains().size()); i++) {
       {
         StringConcatenation _builder = new StringConcatenation();
-        String _visit = this.createToString(this.res).visit(domain.getDomains().get(i));
+        String _visit = this.createDomainToJavaString(this.res).visit(domain.getDomains().get(i));
         _builder.append(_visit);
         _builder.append(" param");
         _builder.append(countparameters);
@@ -260,7 +260,7 @@ public class FunctionToJavaSig extends ReflectiveVisitor<String> {
       sb.append(_builder);
     } else {
       StringConcatenation _builder_1 = new StringConcatenation();
-      String _visit_1 = this.createToString(this.res).visit(domain);
+      String _visit_1 = this.createDomainToJavaString(this.res).visit(domain);
       _builder_1.append(_visit_1);
       sb.append(_builder_1);
     }

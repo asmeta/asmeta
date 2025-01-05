@@ -11,18 +11,22 @@ import javax.tools.JavaCompiler;
 import javax.tools.StandardJavaFileManager;
 import javax.tools.StandardLocation;
 import javax.tools.ToolProvider;
+import javax.tools.DiagnosticCollector;
+import javax.tools.JavaCompiler.CompilationTask;
+import javax.tools.JavaFileObject;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * Implementation of the {@link Compiler} interface.
+ * Implementation of the {@link Compiler} interface, compiles a java file
+ * (likely generated from asmeta).
  */
 public class CompilerImpl implements Compiler {
 
 	/** Constants */
 	private static final String RELEASE_OPTION = "--release";
-	
+
 	/** Logger */
 	private final Logger logger = LogManager.getLogger(CompilerImpl.class);
 
@@ -34,65 +38,57 @@ public class CompilerImpl implements Compiler {
 	}
 
 	@Override
-	public CompileResult compileFile(String name, Path directory, boolean compileOnly, String javaVersion) {
+	public CompileResult compileFile(File javaFile, Path directory, String javaVersion) throws IOException {
 		if (!directory.toFile().isDirectory())
 			throw new NotValidFileException("The given path does not represent a proper directory");
-		if (compileOnly && !name.endsWith(".java"))
-			throw new NotValidFileException(name + " does not end with .java");
+		if (!javaFile.isFile() || !javaFile.getName().endsWith(".java"))
+			throw new NotValidFileException(javaFile + " does not end with .java");
 
-		File sourceFile = new File(directory + File.separator + name);
-
-		if (compileOnly) {
-			return compile(Arrays.asList(sourceFile), directory, Arrays.asList(RELEASE_OPTION, javaVersion));
-		}
-
-		return new CompileResultImpl(true, "not compiled.");
+		return compile(Arrays.asList(javaFile), directory.toFile(), Arrays.asList(RELEASE_OPTION, javaVersion));
 	}
 
 	@Override
-	public CompileResult compileFiles(List<File> files, Path directory, String javaVersion) {
-		return compile(files, directory, Arrays.asList(RELEASE_OPTION, javaVersion));
+	public CompileResult compileFiles(List<File> files, Path directory, String javaVersion) throws IOException {
+		return compile(files, directory.toFile(), Arrays.asList(RELEASE_OPTION, javaVersion));
 	}
 
 	/**
 	 * Compile a list of java files.
 	 * 
-	 * @param files list of java files to compile.
-	 * @param directory the Path to the directory where the java file is stored.
-	 * @param options list of options.
-	 * @return A {@link CompileResultImpl} object containing the result of the operation.
+	 * @param files     list of java files to compile.
+	 * @param directory the directory where to put the .class
+	 * @param options   list of options.
+	 * @return A {@link CompileResultImpl} object containing the result of the
+	 *         operation.
+	 * @throws IOException if an I/O error occurs.
 	 */
-	private CompileResult compile(List<File> files, Path directory, List<String> options) {
+	private CompileResult compile(List<File> files, File directory, List<String> options) throws IOException {
 
 		String message;
-
+		String filesToCompile = files.stream().map(File::getName).collect(Collectors.joining(", "));
 		JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+		DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<>();
 		assert compiler != null;
-		StandardJavaFileManager standardJavaFileManager = compiler.getStandardFileManager(null, null, null);
-		File parent = directory.toFile();
-		logger.info("Compiling the java file present in the target -> {}", parent);
-		logger.info("Generating .class files ");
-		try {
-			standardJavaFileManager.setLocation(StandardLocation.CLASS_OUTPUT, Arrays.asList(parent));
-		} catch (IOException e) {
-			logger.error(
-					"An exception occurred while setting the location for standardJavaFileManager: {}", e.getMessage());
-			e.printStackTrace();
-		}
-
-		Boolean result = compiler.getTask(null, standardJavaFileManager, null, options, null,
-				standardJavaFileManager.getJavaFileObjectsFromFiles(files)).call();
+		StandardJavaFileManager standardJavaFileManager = compiler.getStandardFileManager(diagnostics, null, null);
+		logger.info("Compiling the java file {} into the target directory -> {}", filesToCompile, directory);
+		logger.info("Generating .class files");
+		standardJavaFileManager.setLocation(StandardLocation.CLASS_OUTPUT, Arrays.asList(directory));
+		Iterable<? extends JavaFileObject> javaFileObjectsFromFiles = standardJavaFileManager
+				.getJavaFileObjectsFromFiles(files);
+		CompilationTask task = compiler.getTask(null, standardJavaFileManager, diagnostics, options, null,
+				javaFileObjectsFromFiles);
+		Boolean result = task.call();
 
 		if (Boolean.TRUE.equals(result)) {
-			message = "Successfully compiled file "
-					+ files.stream().map(File::getName).collect(Collectors.joining(", "));
+			message = "Successfully compiled file " + filesToCompile;
 			logger.info(message);
 		} else {
-			message = "Failed to compile file " + files.stream().map(File::getName).collect(Collectors.joining(", "));
+			message = "Failed to compile file " + filesToCompile;
 			logger.error(message);
 		}
 
-		return new CompileResultImpl(true, message);
+		standardJavaFileManager.close();
+		return new CompileResultImpl(result, message);
 	}
 
 }

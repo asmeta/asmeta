@@ -27,12 +27,12 @@ import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 
 @SuppressWarnings("all")
-public class ToString extends ReflectiveVisitor<String> {
+public class DomainToJavaString extends ReflectiveVisitor<String> {
   Integer numStaticParam;
 
   protected Asm res;
 
-  public ToString(final Asm resource) {
+  public DomainToJavaString(final Asm resource) {
     this.res = resource;
   }
 

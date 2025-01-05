@@ -24,7 +24,7 @@ import asmeta.terms.basicterms.FunctionTerm
 import org.asmeta.parser.util.ReflectiveVisitor
 import asmeta.definitions.domains.AgentDomain
 
-class ToString extends ReflectiveVisitor<String> {
+class DomainToJavaString extends ReflectiveVisitor<String> {
 
 	package Integer numStaticParam
 	protected Asm res

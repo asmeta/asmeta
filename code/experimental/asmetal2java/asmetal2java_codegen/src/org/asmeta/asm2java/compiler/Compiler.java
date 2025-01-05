@@ -1,6 +1,7 @@
 package org.asmeta.asm2java.compiler;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -12,22 +13,23 @@ public interface Compiler {
 	/**
 	 * Compile the generated java file.
 	 * 
-	 * @param name the name of the java file to compile.
-	 * @param directory the Path to the directory where the java file is stored.
-	 * @param compileOnly {@code true} to only compile, {@code false} otherwise.
+	 * @param javaFile the java file to compile.
+	 * @param directory the Path to the directory where to put the .class
 	 * @param javaVersion version of the java compiler to use.
 	 * @return A {@link CompileResultImpl} object containing the result of the operation.
+	 * @throws IOException if an I/O error occurs.
 	 */
-	CompileResult compileFile(String name, Path directory, boolean compileOnly, String javaVersion);
+	CompileResult compileFile(File javaFile, Path directory, String javaVersion) throws IOException;
 	
 	/**
 	 * Compile a list of generated java files.
 	 * 
 	 * @param files list of java files to compile.
-	 * @param directory the Path to the directory where the java files are stored.
+	 * @param directory the Path to the directory where to put the .class
 	 * @param javaVersion version of the java compiler to use.
 	 * @return A {@link CompileResultImpl} object containing the result of the operation.
+	 * @throws IOException if an I/O error occurs.
 	 */
-	CompileResult compileFiles(List<File> files, Path directory, String javaVersion);
+	CompileResult compileFiles(List<File> files, Path directory, String javaVersion) throws IOException;
 
 }

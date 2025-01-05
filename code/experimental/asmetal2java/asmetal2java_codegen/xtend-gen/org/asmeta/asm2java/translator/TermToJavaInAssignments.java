@@ -20,6 +20,7 @@ import asmeta.terms.furtherterms.NaturalTerm;
 import asmeta.terms.furtherterms.StringTerm;
 import java.util.Arrays;
 import org.eclipse.xtend2.lib.StringConcatenation;
+import org.eclipse.xtext.xbase.lib.XbaseGenerated;
 
 /**
  * This class is used to translate Asmeta Terms in assignments
@@ -263,6 +264,7 @@ public class TermToJavaInAssignments extends TermToJava {
   }
 
   @Override
+  @XbaseGenerated
   public String caseFunctionTermSupp(final Function fd, final FunctionTerm ft) {
     if (fd instanceof ControlledFunction) {
       return _caseFunctionTermSupp((ControlledFunction)fd, ft);

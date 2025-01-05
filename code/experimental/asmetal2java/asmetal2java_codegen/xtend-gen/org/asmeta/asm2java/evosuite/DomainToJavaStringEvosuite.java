@@ -1,15 +1,15 @@
 package org.asmeta.asm2java.evosuite;
 
 import asmeta.structure.Asm;
-import org.asmeta.asm2java.translator.ToString;
+import org.asmeta.asm2java.translator.DomainToJavaString;
 
 /**
- * Redefinition of the {@link ToString} class by adding
+ * Redefinition of the {@link DomainToJavaString} class by adding
  * specific methods for the Evosuite tool
  */
 @SuppressWarnings("all")
-public class ToStringEvosuite extends ToString {
-  public ToStringEvosuite(final Asm resource) {
+public class DomainToJavaStringEvosuite extends DomainToJavaString {
+  public DomainToJavaStringEvosuite(final Asm resource) {
     super(resource);
   }
 

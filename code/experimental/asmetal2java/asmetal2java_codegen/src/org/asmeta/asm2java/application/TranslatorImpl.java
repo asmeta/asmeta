@@ -244,7 +244,7 @@ public class TranslatorImpl implements Translator {
 		javaFile = generateTranslation(asmName, model, Mode.COMPILER_MODE);
 		// compile
 		try {
-			fileManager.compileFile(asmName);
+			fileManager.compileFile(javaFile);
 		} catch (Exception e) {
 			logger.error("Failed to compile the translated asmeta specification.");
 			throw new TranslationException("Unable to compile the translated asmeta specification: " + asmName, e) ;
@@ -270,7 +270,12 @@ public class TranslatorImpl implements Translator {
 		if(translatorOptions.getExport()) {
 			// compile
 			List<File> files = List.of(testGenJavaFileExported, atgJavaFileExported);
-			fileManager.compileExportedFiles(files);
+			try {
+				fileManager.compileExportedFiles(files);
+			} catch (Exception e) {
+				logger.error("Failed to compile the translated asmeta specification.");
+				throw new TranslationException("Unable to compile the translated asmeta specification: " + asmName, e) ;
+			}
 			logger.info("Compiled with success the files: {}.", files);
 		}
 	}
@@ -279,13 +284,18 @@ public class TranslatorImpl implements Translator {
      * Exports the given Java file to the output directory if the export option is enabled.
      * 
      * @param javaFile the Java file to export.
+     * @throws TranslationException if an error occurs during the translation process.
      */
-	private File exportJavaFile(File javaFile) {
+	private File exportJavaFile(File javaFile) throws TranslationException {
 		if(translatorOptions.getExport()) {
-			return fileManager.exportFile(javaFile);
+			try {
+				return fileManager.exportFile(javaFile);
+			} catch (Exception e) {
+				logger.error("Failed to export the file {}.", javaFile);
+				throw new TranslationException("Unable to export the java file: " + javaFile, e) ;
+			}
 		}
 		return null;
 	}
-
 
 }

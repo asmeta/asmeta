@@ -27,10 +27,10 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
   }
 
   /**
-   * Create an instance of the {@code ToString} object.
+   * Create an instance of the {@code DomainToJavaString} object.
    */
-  protected ToString createToString(final Asm resource) {
-    return new ToString(resource);
+  protected DomainToJavaString createDomainToJavaString(final Asm resource) {
+    return new DomainToJavaString(resource);
   }
 
   /**
@@ -51,7 +51,7 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
         sb.append(_builder);
         for (int i = 0; (i < object.getDomains().size()); i++) {
           StringConcatenation _builder_1 = new StringConcatenation();
-          String _visit = this.createToString(this.res).visit(object.getDomains().get(i));
+          String _visit = this.createDomainToJavaString(this.res).visit(object.getDomains().get(i));
           _builder_1.append(_visit);
           _builder_1.append(", ");
           sb.append(_builder_1);
@@ -63,7 +63,7 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
         sb.append(_builder_1);
         for (int i = 0; (i < object.getDomains().size()); i++) {
           StringConcatenation _builder_2 = new StringConcatenation();
-          String _visit = this.createToString(this.res).visit(object.getDomains().get(i));
+          String _visit = this.createDomainToJavaString(this.res).visit(object.getDomains().get(i));
           _builder_2.append(_visit);
           _builder_2.append(", ");
           sb.append(_builder_2);
@@ -75,7 +75,7 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
         sb.append(_builder_2);
         for (int i = 0; (i < object.getDomains().size()); i++) {
           StringConcatenation _builder_3 = new StringConcatenation();
-          String _visit = this.createToString(this.res).visit(object.getDomains().get(i));
+          String _visit = this.createDomainToJavaString(this.res).visit(object.getDomains().get(i));
           _builder_3.append(_visit);
           _builder_3.append(", ");
           sb.append(_builder_3);
@@ -87,7 +87,7 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
         sb.append(_builder_3);
         for (int i = 0; (i < object.getDomains().size()); i++) {
           StringConcatenation _builder_4 = new StringConcatenation();
-          String _visit = this.createToString(this.res).visit(object.getDomains().get(i));
+          String _visit = this.createDomainToJavaString(this.res).visit(object.getDomains().get(i));
           _builder_4.append(_visit);
           _builder_4.append(", ");
           sb.append(_builder_4);
@@ -99,7 +99,7 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
         sb.append(_builder_4);
         for (int i = 0; (i < object.getDomains().size()); i++) {
           StringConcatenation _builder_5 = new StringConcatenation();
-          String _visit = this.createToString(this.res).visit(object.getDomains().get(i));
+          String _visit = this.createDomainToJavaString(this.res).visit(object.getDomains().get(i));
           _builder_5.append(_visit);
           _builder_5.append(", ");
           sb.append(_builder_5);
@@ -111,7 +111,7 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
         sb.append(_builder_5);
         for (int i = 0; (i < object.getDomains().size()); i++) {
           StringConcatenation _builder_6 = new StringConcatenation();
-          String _visit = this.createToString(this.res).visit(object.getDomains().get(i));
+          String _visit = this.createDomainToJavaString(this.res).visit(object.getDomains().get(i));
           _builder_6.append(_visit);
           _builder_6.append(", ");
           sb.append(_builder_6);
@@ -123,7 +123,7 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
         sb.append(_builder_6);
         for (int i = 0; (i < object.getDomains().size()); i++) {
           StringConcatenation _builder_7 = new StringConcatenation();
-          String _visit = this.createToString(this.res).visit(object.getDomains().get(i));
+          String _visit = this.createDomainToJavaString(this.res).visit(object.getDomains().get(i));
           _builder_7.append(_visit);
           _builder_7.append(", ");
           sb.append(_builder_7);
@@ -135,7 +135,7 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
         sb.append(_builder_7);
         for (int i = 0; (i < object.getDomains().size()); i++) {
           StringConcatenation _builder_8 = new StringConcatenation();
-          String _visit = this.createToString(this.res).visit(object.getDomains().get(i));
+          String _visit = this.createDomainToJavaString(this.res).visit(object.getDomains().get(i));
           _builder_8.append(_visit);
           _builder_8.append(", ");
           sb.append(_builder_8);
@@ -147,7 +147,7 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
         sb.append(_builder_8);
         for (int i = 0; (i < object.getDomains().size()); i++) {
           StringConcatenation _builder_9 = new StringConcatenation();
-          String _visit = this.createToString(this.res).visit(object.getDomains().get(i));
+          String _visit = this.createDomainToJavaString(this.res).visit(object.getDomains().get(i));
           _builder_9.append(_visit);
           _builder_9.append(", ");
           sb.append(_builder_9);
@@ -176,7 +176,7 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
     StringBuffer sb = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("<");
-    String _visit = this.createToString(this.res).visit(object.getDomain());
+    String _visit = this.createDomainToJavaString(this.res).visit(object.getDomain());
     _builder.append(_visit);
     _builder.append("> ");
     sb.append(_builder);
@@ -187,7 +187,7 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
     StringBuffer sb = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("<");
-    String _visit = this.createToString(this.res).visit(object.getBaseDomain());
+    String _visit = this.createDomainToJavaString(this.res).visit(object.getBaseDomain());
     _builder.append(_visit);
     _builder.append("> ");
     sb.append(_builder);
@@ -198,7 +198,7 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
     StringBuffer sb = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("<");
-    String _visit = this.createToString(this.res).visit(object.getDomain());
+    String _visit = this.createDomainToJavaString(this.res).visit(object.getDomain());
     _builder.append(_visit);
     _builder.append("> ");
     sb.append(_builder);
@@ -211,12 +211,12 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
     _builder.append("<");
     sb.append(_builder);
     StringConcatenation _builder_1 = new StringConcatenation();
-    String _visit = this.createToString(this.res).visit(object.getSourceDomain());
+    String _visit = this.createDomainToJavaString(this.res).visit(object.getSourceDomain());
     _builder_1.append(_visit);
     _builder_1.append(",");
     sb.append(_builder_1);
     StringConcatenation _builder_2 = new StringConcatenation();
-    String _visit_1 = this.createToString(this.res).visit(object.getTargetDomain());
+    String _visit_1 = this.createDomainToJavaString(this.res).visit(object.getTargetDomain());
     _builder_2.append(_visit_1);
     sb.append(_builder_2);
     return sb.toString().substring(0, sb.length()).concat(">");
@@ -236,13 +236,13 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
       boolean _notEquals = (i != _minus);
       if (_notEquals) {
         StringConcatenation _builder_1 = new StringConcatenation();
-        String _visit = this.createToString(this.res).visit(object.getElement().get(i));
+        String _visit = this.createDomainToJavaString(this.res).visit(object.getElement().get(i));
         _builder_1.append(_visit);
         _builder_1.append(", ");
         sb.append(_builder_1);
       } else {
         StringConcatenation _builder_2 = new StringConcatenation();
-        String _visit_1 = this.createToString(this.res).visit(object.getElement().get(i));
+        String _visit_1 = this.createDomainToJavaString(this.res).visit(object.getElement().get(i));
         _builder_2.append(_visit_1);
         _builder_2.append("}");
         _builder_2.newLineIfNotEmpty();
@@ -386,18 +386,18 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
       _builder.newLineIfNotEmpty();
       _builder.newLine();
       _builder.append("List<");
-      String _visit = this.createToString(this.res).visit(object.getTypeDomain());
+      String _visit = this.createDomainToJavaString(this.res).visit(object.getTypeDomain());
       _builder.append(_visit);
       _builder.append("> elems = new ArrayList<>();\t\t\t      ");
       _builder.newLineIfNotEmpty();
-      String _visit_1 = this.createToString(this.res).visit(object.getTypeDomain());
+      String _visit_1 = this.createDomainToJavaString(this.res).visit(object.getTypeDomain());
       _builder.append(_visit_1);
       _builder.append(" value;\t\t\t      ");
       _builder.newLineIfNotEmpty();
       String _name_1 = object.getName();
       _builder.append(_name_1);
       _builder.append("(");
-      String _visit_2 = this.createToString(this.res).visit(object.getTypeDomain());
+      String _visit_2 = this.createDomainToJavaString(this.res).visit(object.getTypeDomain());
       _builder.append(_visit_2);
       _builder.append(" i) { ");
       _builder.newLineIfNotEmpty();
@@ -414,7 +414,7 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
       _builder.newLine();
       _builder.append("   ");
       _builder.append("List<");
-      String _visit_3 = this.createToString(this.res).visit(object.getTypeDomain());
+      String _visit_3 = this.createDomainToJavaString(this.res).visit(object.getTypeDomain());
       _builder.append(_visit_3, "   ");
       _builder.append("> ");
       String _name_2 = object.getName();
@@ -433,12 +433,12 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
       String _isPrivate = this.isPrivate();
       _builder_1.append(_isPrivate, "\t\t\t\t");
       _builder_1.append("static List<");
-      String _visit_4 = this.createToString(this.res).visit(object.getTypeDomain());
+      String _visit_4 = this.createDomainToJavaString(this.res).visit(object.getTypeDomain());
       _builder_1.append(_visit_4, "\t\t\t\t");
       _builder_1.append("> elems = new ArrayList<>();");
       _builder_1.newLineIfNotEmpty();
       _builder_1.append("                ");
-      String _visit_5 = this.createToString(this.res).visit(object.getTypeDomain());
+      String _visit_5 = this.createDomainToJavaString(this.res).visit(object.getTypeDomain());
       _builder_1.append(_visit_5, "                ");
       _builder_1.append(" value;");
       _builder_1.newLineIfNotEmpty();
@@ -449,7 +449,7 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
       String _name_4 = object.getName();
       _builder_1.append(_name_4, "                ");
       _builder_1.append(" valueOf(");
-      String _visit_6 = this.createToString(this.res).visit(object.getTypeDomain());
+      String _visit_6 = this.createDomainToJavaString(this.res).visit(object.getTypeDomain());
       _builder_1.append(_visit_6, "                ");
       _builder_1.append(" val) {");
       _builder_1.newLineIfNotEmpty();
@@ -546,7 +546,7 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
       _builder_1.newLineIfNotEmpty();
       _builder_1.append("\t\t\t\t");
       _builder_1.append("List<");
-      String _visit_7 = this.createToString(this.res).visit(object.getTypeDomain());
+      String _visit_7 = this.createDomainToJavaString(this.res).visit(object.getTypeDomain());
       _builder_1.append(_visit_7, "\t\t\t\t");
       _builder_1.append("> ");
       String _name_14 = object.getName();
