@@ -20,7 +20,8 @@ import org.asmeta.asm2java.ToString
 import org.asmeta.asm2java.Util
 import org.junit.Assert
 
-/**Generates .java ASM file
+/**
+ * Generates .java from an ASMeta specification
  * 
  */
 class JavaGenerator extends AsmToJavaGenerator {

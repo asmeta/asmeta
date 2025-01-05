@@ -11,7 +11,7 @@ signature:
 		
 definitions:
 
-	domain VectDomain={0..9}
+	domain VectDomain={0 : 9}
 	function n = 10
 	/* Note that no temporary variable is needed to swap two variables, if the
 	 swap is performed in a par rule */
@@ -22,7 +22,7 @@ definitions:
 		endpar
 
 	macro rule r_swapSort =
-		choose $i in {0..9}, $j in {0..9} with $i < $j and vect($i) > vect($j) do
+		choose $i in {0 : 9}, $j in {0 : 9} with $i < $j and vect($i) > vect($j) do
 			r_swap[vect($i), vect($j)]
 	
 	main rule r_Main =

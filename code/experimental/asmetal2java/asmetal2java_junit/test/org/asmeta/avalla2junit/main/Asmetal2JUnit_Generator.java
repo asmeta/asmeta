@@ -6,8 +6,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.Path;
 
-import org.asmeta.asm2java.main.GeneratorCompilerTest;
+import org.asmeta.asm2java.main.GeneratorCompilerTestInProject;
+import org.asmeta.asm2java.main.GeneratorCompilerUtil;
 import org.asmeta.asm2java.main.TranslatorOptions;
 import org.asmeta.avallaxt.AvallaStandaloneSetup;
 import org.asmeta.avallaxt.avalla.Scenario;
@@ -32,6 +34,9 @@ public class Asmetal2JUnit_Generator {
 	public static final String JUnit_EXT = ".java";
 	//nome specifica
 	public String spec = "";
+	
+	
+	private static final Path JAVA_GEN_path = Path.of("examples/compilazione");
 	
 	
 	
@@ -120,9 +125,8 @@ public class Asmetal2JUnit_Generator {
 
 	private void generateTest(String asmspec,String avaTest) throws Exception, IOException {
 		
-		GeneratorCompilerTest gen = new GeneratorCompilerTest();
 		TranslatorOptions options = new TranslatorOptions(true, true, true);
-		gen.test(asmspec, options);
+		GeneratorCompilerUtil.genandcompile(asmspec, options, JAVA_GEN_path, JAVA_GEN_path);
 		
 
 		assert new File(avaTest).exists();

@@ -13,9 +13,10 @@ VERIFICA_SCARICO_FUMI | ACCESA | VERIFICA_PELLET_POSTACCENSIONE}
        dynamic controlled outMess: Any
        dynamic controlled pellet: Pellet
        dynamic controlled potenza: Potenza
-       dynamic controlled timer: Timer
-dynamic monitored tasto_potenza: String
-dynamic monitored tasto_on_off: String
+       dynamic controlled fuliggine: Fuliggine
+		dynamic controlled timer: Timer
+		dynamic monitored tasto_potenza: String
+		dynamic monitored tasto_on_off: String
 definitions:
 domain Pellet = {0 : 50}
 domain Potenza = {1 : 3}

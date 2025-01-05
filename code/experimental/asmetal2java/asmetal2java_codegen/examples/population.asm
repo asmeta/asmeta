@@ -18,7 +18,7 @@ signature:
 definitions:
 	rule r_reproduce($p in Person) =
 		if( gender($p) = FEMALE and age($p) >= 13n and age($p) <= 50n ) then
-			choose $x in {1..100} with true do
+			choose $x in {1 : 100} with true do
 				if($x <= 30) then //probabilita' di riprodursi
 					choose $father in Person with alive($father) and gender($father) = MALE and age($father) >= 13n do
 						extend Person with $child do
@@ -34,7 +34,7 @@ definitions:
 		endif
 
 	rule r_dead($p in Person) =
-		choose $x in {1..100} with true do
+		choose $x in {1 : 100} with true do
 			if($x > 95) then
 				alive($p) := false
 			endif

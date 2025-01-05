@@ -126,7 +126,7 @@ public class MainClass {
 		exportFile(javaFile, outputFolder);
 		exportFile(javaFileExe, outputFolder);
 
-		CompileResult result = CompilatoreJava.compile(name + ".java", dir, true);
+		CompileResult result = CompilatoreJava.compile(name + ".java", dir);
 
 		return result;
 	}

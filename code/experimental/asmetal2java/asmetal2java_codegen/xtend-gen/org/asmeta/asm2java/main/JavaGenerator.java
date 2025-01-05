@@ -32,7 +32,7 @@ import org.eclipse.xtext.xbase.lib.CollectionLiterals;
 import org.junit.Assert;
 
 /**
- * Generates .java ASM file
+ * Generates .java from an ASMeta specification
  */
 @SuppressWarnings("all")
 public class JavaGenerator extends AsmToJavaGenerator {

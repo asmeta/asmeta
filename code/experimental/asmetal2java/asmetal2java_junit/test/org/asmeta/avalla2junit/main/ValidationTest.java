@@ -7,9 +7,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.Path;
 
 import org.asmeta.asm2java.formatter.Formatter;
-import org.asmeta.asm2java.main.GeneratorCompilerTest;
+import org.asmeta.asm2java.main.GeneratorCompilerTestInProject;
+import org.asmeta.asm2java.main.GeneratorCompilerUtil;
 import org.asmeta.asm2java.main.TranslatorOptions;
 import org.asmeta.atgt.generator.SaveResults;
 import org.asmeta.atgt.generator2.AsmTestGeneratorBySimulation;
@@ -50,6 +52,7 @@ public class ValidationTest {
 	//Folder output
 	private static final String CLASS_FOLDER ="src-gen/";
 	
+	private static final Path JAVA_GEN_path = Path.of("examples/compilazione");
 	
 	//Validation Test ascensore.asm
 	@Test
@@ -150,10 +153,10 @@ public class ValidationTest {
 		// 2. la traduce con codice casati
 		
 		
-		GeneratorCompilerTest gen = new GeneratorCompilerTest();
+		GeneratorCompilerTestInProject gen = new GeneratorCompilerTestInProject();
 		TranslatorOptions options = new TranslatorOptions(true, true, true);
-		gen.test(asmSpec, options);
-	
+		
+		GeneratorCompilerUtil.genandcompile(asmSpec, options, JAVA_GEN_path, JAVA_GEN_path);
 		
 		File asmFile = new File(asmSpec); 
 		assert asmFile.exists();

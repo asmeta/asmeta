@@ -6,6 +6,8 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import org.asmeta.asm2java.main.TranslatorOptions;
@@ -20,16 +22,23 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import asmeta.AsmCollection;
 
-public class GeneratorCompilerTest {
+// generates the code in a eclispe project and it does not compile it
+// eclipse will take care of the compilation
+
+public class GeneratorCompilerTestInProject {
 
 	private static final String SRC_GEN = "../asmetal2java_examples/src/";
 
-	// the generator for the code
-	static private JavaGenerator jGenerator = new JavaGenerator();
-	// static private JavaExeGenerator jGeneratorExe = new JavaExeGenerator();
-	// static private JavaWindowGenerator jGeneratorWin = new JavaWindowGenerator();
-
 	private TranslatorOptions options = new TranslatorOptions(true, true, true);
+
+	private static final Path SRC_GEN_path = Path.of(SRC_GEN);
+
+	@BeforeClass
+	static public void checkExistsPath() {
+		File dest = new File(SRC_GEN);
+		assertTrue(dest.exists() && dest.isDirectory());
+		assertTrue(Files.exists(SRC_GEN_path));
+	}
 
 	// -------------------------------------------------------------------------------------------------------------------------------------------------
 	// -----
@@ -42,31 +51,28 @@ public class GeneratorCompilerTest {
 	@Test
 	public void testBasicDomain() throws IOException, Exception {
 		String asmspec = "examples/RegistroDiCassa.asm";
-		if (!test(asmspec, options).getSuccess())
+		if (!GeneratorCompilerUtil.genandcompile(asmspec, options, SRC_GEN_path, null).getSuccess())
 			fail();
 	}
 
 	@Test
 	public void testDado() throws IOException, Exception {
 		String asmspec = "examples/QuickSort.asm";
-		if (!test(asmspec, options).getSuccess())
+		if (!GeneratorCompilerUtil.genandcompile(asmspec, options, SRC_GEN_path, null).getSuccess())
 			fail();
 	}
-	
+
 	@Test
 	public void testConcreteDom2Init() throws IOException, Exception {
 		String asmspec = "examples/ConcreteDom2Init.asm";
-		CompileResult test = test(asmspec, options);
+		CompileResult test = GeneratorCompilerUtil.genandcompile(asmspec, options, SRC_GEN_path, null);
 		if (!test.getSuccess())
 			fail();
 		// get the java
 		File javaTrans = new File("examples/compilazione/ConcreteDom2Init.java");
 		assertTrue(javaTrans.exists());
-		
-		
 	}
-	
-	
+
 	/*
 	 * 
 	 * 
@@ -265,8 +271,8 @@ public class GeneratorCompilerTest {
 		listf("examples", allUasmFiles);
 
 		allUasmFiles.toString();
-		for (File f : allUasmFiles) {
-			results.add(test(f.getPath(), options));
+		for (File asmspec : allUasmFiles) {
+			results.add(GeneratorCompilerUtil.genandcompile(asmspec.toString(), options, SRC_GEN_path, null));
 		}
 
 		System.out.println("\n\n\n\n\n");
@@ -305,135 +311,4 @@ public class GeneratorCompilerTest {
 		}
 
 	}
-	
-	@BeforeClass
-	static public void checkExistsPath() {
-		File dest = new File(SRC_GEN);
-		assertTrue(dest.exists() && dest.isDirectory());
-	}
-	
-
-	/**
-	 * 
-	 * @param <jGenerator>
-	 * @param asmspec      the path of the spec
-	 * @return true if success
-	 * 
-	 * @throws Exception
-	 */
-
-	public static CompileResult test(String asmspec, TranslatorOptions userOptions) throws Exception {
-		//
-		// PARSE THE SPECIFICATION
-		// parse using the asmeta parser
-
-		File asmFile = new File(asmspec);
-		assert asmFile.exists();
-		String asmname = asmFile.getName();
-		String name = asmname.substring(0, asmname.lastIndexOf("."));
-
-		final AsmCollection model = ASMParser.setUpReadAsm(asmFile);
-		File dir = asmFile.getParentFile();
-		assert dir.exists() && dir.isDirectory();
-
-		String dirCompilazione = asmFile.getParentFile().getPath() + "/compilazione";
-//		String dirEsecuzione = asmFile.getParentFile().getPath() + "/esecuzione";
-//		String dirWin = asmFile.getParentFile().getPath() + "/window";
-//		
-//		String dirTraduzione = asmFile.getParentFile().getPath() + "/Traduzione";
-
-		
-		// AC
-		File javaFile = new File(SRC_GEN + File.separator + name + ".java");
-//		File javaFile = new File(dir.getPath() + File.separator + name + ".java");
-		File javaFileCompilazione = new File(dirCompilazione + File.separator + name + ".java");
-//		File javaFileExe = new File(dirEsecuzione + File.separator + name + "_Exe.java");
-//		File javaFileExeN = new File(dirEsecuzione + File.separator + name + ".java");
-//		File javaFileWin = new File(dirWin + File.separator + name + "_Win.java");
-//		File javaFileWinN = new File(dirWin + File.separator + name + ".java");
-//		
-//		File javaFileT = new File(dirTraduzione + File.separator + name + ".java");
-//		File javaFileExeT = new File(dirTraduzione + File.separator + name + "_Exe.java");
-//		File javaFileWinT = new File(dirTraduzione + File.separator + name + "_Win.java");
-
-		// Se il file java esiste di gi , lo cancella
-
-		if (javaFile.exists())
-			javaFile.delete();
-		assert !javaFile.exists();
-
-		if (javaFileCompilazione.exists())
-			javaFileCompilazione.delete();
-		assert !javaFileCompilazione.exists();
-//		
-//		if (javaFileExe.exists())
-//			javaFileExe.delete();
-//		assert !javaFileExe.exists();
-//		
-//		if (javaFileExeN.exists())
-//			javaFileExeN.delete();
-//		assert !javaFileExeN.exists();
-//		
-//		if (javaFileWin.exists())
-//			javaFileWin.delete();
-//		assert !javaFileWin.exists();
-//		
-//		if (javaFileWinN.exists())
-//			javaFileWinN.delete();
-//		assert !javaFileWinN.exists();
-//
-//		if (javaFileT.exists())
-//			javaFileT.delete();
-//		assert !javaFileT.exists();
-//		
-//		if (javaFileExeT.exists())
-//			javaFileExeT.delete();
-//		assert !javaFileExeT.exists();
-//		
-//		if (javaFileWinT.exists())
-//			javaFileWinT.delete();
-//		assert !javaFileWinT.exists();
-
-		System.out.println("\n\n===" + name + " ===================");
-
-		try {
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new CompileResult(false, e.getMessage());
-		}
-
-		// write java
-
-		try {
-			jGenerator.compileAndWrite(model.getMain(), javaFile.getCanonicalPath(), userOptions);
-			jGenerator.compileAndWrite(model.getMain(), javaFileCompilazione.getCanonicalPath(), userOptions);
-//			jGeneratorExe.compileAndWrite(model.getMain(), javaFileExe.getCanonicalPath(), userOptions);
-//			jGenerator.compileAndWrite(model.getMain(), javaFileExeN.getCanonicalPath(), userOptions);
-//			jGeneratorWin.compileAndWrite(model.getMain(), javaFileWin.getCanonicalPath(), userOptions);
-//			jGenerator.compileAndWrite(model.getMain(), javaFileWinN.getCanonicalPath(), userOptions);
-
-//			jGenerator.compileAndWrite(model.getMain(), javaFileT.getCanonicalPath(), userOptions);
-//			jGeneratorExe.compileAndWrite(model.getMain(), javaFileExeT.getCanonicalPath(), userOptions);
-//			jGeneratorWin.compileAndWrite(model.getMain(), javaFileWinT.getCanonicalPath(), userOptions);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new CompileResult(false, e.getMessage());
-		}
-
-		System.out.println("Generated java file: " + javaFile.getCanonicalPath());
-		System.out.println("Generated java file: " + javaFileCompilazione.getCanonicalPath());
-//		System.out.println("Generated java file: " + javaFileExeN.getCanonicalPath());
-//		System.out.println("Generated java file: " + javaFileWinN.getCanonicalPath());
-//		System.out.println("Generated java file for the execution: " + javaFileExe.getCanonicalPath());
-//		System.out.println("Generated java file for window: " + javaFileWin.getCanonicalPath());
-
-//		System.out.println("All java files Generated in: " + javaFileT.getCanonicalPath());
-
-		CompileResult result = CompilatoreJava.compile(name + ".java", dir, true);
-
-		return result;
-	}
-
 }
