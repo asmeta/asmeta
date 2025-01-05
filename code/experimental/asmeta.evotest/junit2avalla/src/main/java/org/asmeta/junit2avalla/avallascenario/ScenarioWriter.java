@@ -49,7 +49,7 @@ class ScenarioWriter {
 	 * @return a {@link ScenarioFile} representing the written scenario.
 	 */
 	ScenarioFile write(Scenario scenario) {
-		log.info("Writing the scenario...");
+		log.debug("Writing the scenario...");
 		this.stringBuilder = new StringBuilder();
 		ScenarioFile scenarioFile = new ScenarioFile();
 
@@ -70,7 +70,7 @@ class ScenarioWriter {
 		}
 
 		scenarioFile.setText(stringBuilder.toString());
-		log.info("Scenario file written successfully.");
+		log.debug("Scenario file written successfully.");
 		log.debug("Avalla scenario: {}", scenarioFile.getText());
 		return scenarioFile;
 	}

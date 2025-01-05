@@ -96,7 +96,7 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	 */
 	@Override
 	public void enterStart(StartContext ctx) {
-		log.info("Parsing the Java Scenario...");
+		log.debug("Parsing the Java Scenario...");
 		log.debug("Entering start: {} .", ctx.getText());
 		this.scenarioIndex = 0;
 	}
@@ -112,7 +112,7 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	@Override
 	public void enterScenario(ScenarioContext ctx) {
 		log.debug("Entering start_test_scenario: {} .", ctx.getText());
-		log.info("Found a scenario, creating a new Scenario Object.");
+		log.debug("Found a scenario, creating a new Scenario Object.");
 		this.variablesList = new HashMap<>();
 		this.currenteScenario = new Scenario();
 		this.ignoreChecks = false;

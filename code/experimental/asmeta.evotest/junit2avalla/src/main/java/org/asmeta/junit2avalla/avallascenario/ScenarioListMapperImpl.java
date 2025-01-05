@@ -51,13 +51,16 @@ public class ScenarioListMapperImpl implements ScenarioListMapper {
 	public List<ScenarioFile> mapScenarioListToFileList(List<Scenario> scenarioList) {
 		log.debug("Mapping ScenarioList to ScenarioFile");
 		List<ScenarioFile> scenarioFiles = new LinkedList<>();
+		int validScenario = 0;
 		for (Scenario scenario : scenarioList) {
 			log.debug("Processing the scenario: {}", scenario);
 			if (scenario.isValid()) {
 				log.debug("Scenario is valid, mapping scenario to ScenarioFile");
 				scenarioFiles.add(scenarioWriter.write(scenario));
+				validScenario++;
 			}
 		}
+		log.info("Found {} scenarios and {} of them are valid scenarios.", scenarioList.size(), validScenario);
 		return scenarioFiles;
 	}
 

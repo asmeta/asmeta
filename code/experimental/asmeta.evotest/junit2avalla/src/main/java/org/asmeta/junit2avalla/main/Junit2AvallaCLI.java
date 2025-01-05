@@ -1,6 +1,5 @@
 package org.asmeta.junit2avalla.main;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
@@ -15,6 +14,8 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.asmeta.junit2avalla.application.SetupException;
+import org.asmeta.junit2avalla.application.TranslationException;
 import org.asmeta.junit2avalla.application.Translator;
 import org.asmeta.junit2avalla.application.TranslatorImpl;
 
@@ -32,9 +33,10 @@ public class Junit2AvallaCLI {
 	private static final String DEBUG_LOG = "debug.log";
 	private static final String LOGS = "logs";
 	private static final String LOGFILE = "--logfile";
+	private static final String GENERATION_FAILED = "Generation failed!";
 
 	/** Logger */
-	private final Logger log = LogManager.getLogger(Junit2AvallaCLI.class);
+	private final Logger logger = LogManager.getLogger(Junit2AvallaCLI.class);
 
 	/** Translator */
 	private final Translator translator = new TranslatorImpl();
@@ -43,7 +45,9 @@ public class Junit2AvallaCLI {
 	 * Return code: <br>
 	 * -1: The application didn't started yet.<br>
 	 * 0: The application terminated without errors.<br>
-	 * 1: The application terminated with errors.
+	 * 1: The application terminated with errors. 2: The application terminated with
+	 * errors related to the setup process. 3: The application terminated with
+	 * errors related to the translation process.
 	 */
 	private static int returnCode = -1;
 
@@ -52,7 +56,10 @@ public class Junit2AvallaCLI {
 	 * 
 	 * @return -1: The application didn't started yet.<br>
 	 *         0: The application terminated without errors.<br>
-	 *         1: The application terminated with errors.
+	 *         1: The application terminated with errors. 2: The application
+	 *         terminated with errors related to the setup process. 3: The
+	 *         application terminated with errors related to the translation
+	 *         process.
 	 */
 	public static int getReturnedCode() {
 		return returnCode;
@@ -87,33 +94,43 @@ public class Junit2AvallaCLI {
 				 """;
 		Options options = getCommandLineOptions();
 		CommandLine line = this.parseCommandLine(args, options);
-		log.info(asciiart);
+		logger.info(asciiart);
+		HelpFormatter formatter = new HelpFormatter();
+		// Do not sort
+		formatter.setOptionComparator(null);
+		// Header and footer strings
+		String header = "AvallaToJava\n\n";
+		String footer = "\n";
 		try {
-			if (line == null || line.hasOption(HELP) || line.getOptions().length == 0) {
-				HelpFormatter formatter = new HelpFormatter();
-				// Do not sort
-				formatter.setOptionComparator(null);
-				// Header and footer strings
-				String header = "AvallaToJava\n\n";
-				String footer = "\n";
-
+			if (line == null || line.hasOption(HELP) || line.getOptions().length == 0) {	
 				formatter.printHelp("AvallaToJava", header, options, footer, false);
 			} else if (!line.hasOption(INPUT)) {
-				log.error("Please specify the asm input file path with -{} <path/to/file.asm>.", INPUT);
+				logger.error("Please specify the asm input file path with -{} <path/to/file.asm>.", INPUT);
 				updateReturnCode(1); // error code
 			} else {
 				updateReturnCode(0); // ok code
 				this.executeTranslation(line);
 			}
+		} catch (SetupException e) {
+			logger.error(GENERATION_FAILED);
+			logger.error("A setup error occurred: {}", e.getMessage(), e);
+			logger.warn("Please check the parameters provided and consult the help message with -help:");
+			formatter.printHelp("EvoAsmetaTG", header, options, footer, false);
+			updateReturnCode(2); // setup error code
+		} catch (TranslationException e) {
+			logger.error(GENERATION_FAILED);
+			logger.error("A translation error occurred: {}", e.getMessage(), e);
+			logger.info("Please report an isssue to the Asmeta team: https://github.com/asmeta/asmeta");
+			updateReturnCode(3); // translation error code
 		} catch (Exception e) {
-			log.error("Generation failed");
-			log.error("An error occurred, {}", e.getMessage(), e);
+			logger.error(GENERATION_FAILED);
+			logger.error("An error occurred: {}", e.getMessage(), e);
 			updateReturnCode(1); // error code
-		} finally {
+		}  finally {
 			if (line != null && line.hasOption(CLEAN)) {
 				translator.clean();
 			}
-			log.info("Requested operation completed.");
+			logger.info("Requested operation completed.");
 		}
 	}
 	
@@ -175,7 +192,7 @@ public class Junit2AvallaCLI {
 		try {
 			line = parser.parse(options, args);
 		} catch (ParseException e) {
-			log.error("Failed to parse commandline arguments.");
+			logger.error("Failed to parse commandline arguments.");
 		}
 		return line;
 	}
@@ -184,9 +201,11 @@ public class Junit2AvallaCLI {
 	 * Executes the main process based on the command-line arguments.
 	 *
 	 * @param line the parsed CommandLine object.
-	 * @throws IOException
+	 * @throws SetupException       if there are errors during the setup process.
+	 * @throws TranslationException if there was an error during the generation
+	 *                              process.
 	 */
-	private void executeTranslation(CommandLine line) throws IOException {
+	private void executeTranslation(CommandLine line) throws SetupException, TranslationException {
 
 		if (line.hasOption(WORKING_DIR)) {
 			translator.setWorkingDir(line.getOptionValue(WORKING_DIR));
