@@ -30,7 +30,7 @@ import org.asmeta.simulator.RuleEvaluator;
 import org.asmeta.xt.validator.AsmetaV;
 import org.asmeta.xt.validator.RuleDeclarationUtils;
 import org.asmeta.xt.validator.RuleEvalWCov;
-import org.asmeta.xt.validator.RuleExtractorFromMacroDecl;
+import org.asmeta.avallaxt.validation.RuleExtractorFromMacroDecl;
 
 public class TestExperiments {
 
