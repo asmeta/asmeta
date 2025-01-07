@@ -233,7 +233,7 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	@Override
 	public void enterSetVariableValue(SetVariableValueContext ctx) {
 		log.debug("Entering start_test_scenario_setFunction_setVariableValue: {} .", ctx.getText());
-		if(!ctx.INT().isEmpty() || ctx.STRING() != null || ctx.Boolean() != null) {
+		if(ctx.number() != null || ctx.STRING() != null || ctx.Boolean() != null) {
 			// if its a primitive type (int, string or boolean)
 			log.debug("Setting the primitive type value : {} .", ctx.getText());
 			this.currentJavaVariable.setValue(ctx.getText());
@@ -325,6 +325,8 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 		}
 		log.debug("Entering start_test_scenario_assertEquals_actual: {} .", ctx.getText());
 		this.currentJavaAssertionTerm.setActual(ctx.getText());
+		// if it's an identifier --> not primitive
+		this.currentJavaAssertionTerm.setPrimitive(!(ctx.Identifier() != null));
 	}
 
 	/**

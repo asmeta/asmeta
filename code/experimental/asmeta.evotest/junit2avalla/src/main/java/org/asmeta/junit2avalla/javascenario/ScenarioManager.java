@@ -58,8 +58,8 @@ class ScenarioManager {
 	/**
 	 * Adds a {@link AvallaSetTerm} object to the specified scenario.
 	 *
-	 * @param avallaScenario the scenario to which the set terms are added.
-	 * @param javaVariableTerm  the variables to set in the scenario.
+	 * @param avallaScenario   the scenario to which the set terms are added.
+	 * @param javaVariableTerm the variables to set in the scenario.
 	 */
 	void setSetTerm(Scenario avallaScenario, JavaVariableTerm javaVariableTerm) {
 		AvallaSetTerm avallaSetTerm = new AvallaSetTerm();
@@ -94,7 +94,7 @@ class ScenarioManager {
 		AvallaCheckTerm avallaCheckTerm = new AvallaCheckTerm();
 		avallaCheckTerm.setLeftTerm(retrieveExpected(javaAssertionTerm.getExpected()));
 		log.debug("Set AvallaCheckTerm_leftTerm: {} .", avallaCheckTerm.getLeftTerm());
-		avallaCheckTerm.setRightTerm(retrieveActual(javaAssertionTerm.getActual()));
+		avallaCheckTerm.setRightTerm(retrieveActual(javaAssertionTerm));
 		log.debug("Set AvallaCheckTerm_rightTerm: {} .", avallaCheckTerm.getRightTerm());
 		avallaScenario.add(avallaCheckTerm);
 	}
@@ -121,13 +121,15 @@ class ScenarioManager {
 	}
 
 	/**
-	 * Retrieves the actual value from a given string.
+	 * Retrieves the actual value from a given string. If the value is not
+	 * primitive, extract the last id of the identifier.
 	 *
 	 * @param actual the actual value string.
 	 * @return the processed actual value.
 	 */
-	private String retrieveActual(String actual) {
-		return actual.substring(actual.lastIndexOf(".") + 1);
+	private String retrieveActual(JavaAssertionTerm javaAssertionTerm) {
+		String actual = javaAssertionTerm.getActual();
+		return javaAssertionTerm.isPrimitive() ? actual : actual.substring(actual.lastIndexOf(".") + 1);
 	}
 
 	/**

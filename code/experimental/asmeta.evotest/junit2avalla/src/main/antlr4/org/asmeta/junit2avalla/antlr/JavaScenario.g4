@@ -91,9 +91,9 @@ actual
 	// The actual value to be tested, which can be an Identifier, an integer, or a string.
 	// example:
 	// RegistroDiCassav4.Stati.ATTENDI_ORDINAZIONI	--> Identifier
-	// 20 											--> INT+
+	// 20 											--> number
 	// "margherita"									--> STRING
-    : (Identifier | INT+ | STRING)
+    : (Identifier | number | STRING)
     ;
 
 expected
@@ -139,19 +139,24 @@ stepFunction
     ;
     
 setVariableValue
-	// Defines the value used in a setFunction, which can be a boolean, ID, string, or integer.
+	// Defines the value used in a setFunction, which can be a boolean, ID, string, or number.
 	// example:
 	// true										--> Boolean
 	// registroDiCassav4_SelezioneTipoDiPizza0	--> ID
 	// "margherita"								--> STRING
-	// 20										--> INT+
-    : (Boolean | ID | STRING | INT+)
+	// 20										--> number
+    : (Boolean | ID | STRING | number)
     ;
 
 trycatchblock
 	// Represents a try-catch block: "try { ... } catch (...) { ... }".
     : TRY LCURLY (.)*? RCURLY CATCH LPAREN (.)*? LCURLY (.)*? RCURLY
     ;
+
+number
+	// defines a number, a number can be positive, negative, integer or decimal.
+	: MINUS? (FLOAT | INT)
+	; 
 
 /*
  * Lexer Rules
@@ -282,7 +287,8 @@ TRY : 'try' ;
 CATCH : 'catch' ;
 TRUE : 'true' ;
 FALSE : 'false' ;
-
+MINUS : '-' ;
+FLOAT : [0-9]+ '.' [0-9]+ ;
 INT : [0-9]+ ;
 ID: [a-zA-Z_][a-zA-Z_0-9]* ;
 WS: [ \t\n\r\f]+ -> skip ;

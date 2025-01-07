@@ -7,7 +7,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.asmeta.junit2avalla.filewriter.FileWriterImpl;
 import org.asmeta.junit2avalla.model.ScenarioFile;
 import org.asmeta.junit2avalla.util.ScenarioAvallaUtil;
 import org.junit.Test;
