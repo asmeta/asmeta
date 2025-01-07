@@ -19,7 +19,7 @@ import org.junit.Test;
 // generates the code in a eclispe project and it does not compile it
 // eclipse will take care of the compilation
 
-public class GeneratorCompilerTestInProject {
+public class GeneratorCompilerTestInProjectTest {
 
 	private static final String SRC_GEN = "../asmetal2java_examples/src/";
 	

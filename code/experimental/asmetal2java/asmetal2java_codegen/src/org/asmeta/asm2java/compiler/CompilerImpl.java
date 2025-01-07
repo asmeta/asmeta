@@ -11,6 +11,7 @@ import javax.tools.JavaCompiler;
 import javax.tools.StandardJavaFileManager;
 import javax.tools.StandardLocation;
 import javax.tools.ToolProvider;
+import javax.tools.Diagnostic;
 import javax.tools.DiagnosticCollector;
 import javax.tools.JavaCompiler.CompilationTask;
 import javax.tools.JavaFileObject;
@@ -83,7 +84,17 @@ public class CompilerImpl implements Compiler {
 			message = "Successfully compiled file " + filesToCompile;
 			logger.info(message);
 		} else {
-			message = "Failed to compile file " + filesToCompile;
+			StringBuilder sb = new StringBuilder();
+			sb.append("Failed to compile:");
+			sb.append(System.lineSeparator());
+	    	for (Diagnostic<? extends JavaFileObject> diagnostic : diagnostics.getDiagnostics()) {
+	    		// read error details from the diagnostic object
+	    		sb.append("File: ").append(diagnostic.getSource().getName()).append(System.lineSeparator());
+	    		sb.append("\tLine number: ").append(diagnostic.getLineNumber()).append(", ");
+	    		sb.append("Column number: ").append(diagnostic.getColumnNumber()).append(System.lineSeparator());
+	    		sb.append("\tCause: ").append(diagnostic.getMessage(null)).append(System.lineSeparator());
+	    	}
+			message = sb.toString();
 			logger.error(message);
 		}
 

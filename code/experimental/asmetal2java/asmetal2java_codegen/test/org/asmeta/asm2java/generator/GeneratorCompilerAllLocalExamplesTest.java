@@ -37,10 +37,10 @@ public class GeneratorCompilerAllLocalExamplesTest {
 
 	@BeforeClass
 	public static void setup() {
-		excludeFiles.addAll(GeneratorCompilerTestInProject.libraries);
-		excludeFiles.addAll(GeneratorCompilerTestInProject.parseException);
-		excludeFiles.addAll(GeneratorCompilerTestInProject.runtimeException);
-		excludeFiles.addAll(GeneratorCompilerTestInProject.errors);
+		excludeFiles.addAll(GeneratorCompilerTestInProjectTest.libraries);
+		excludeFiles.addAll(GeneratorCompilerTestInProjectTest.parseException);
+		excludeFiles.addAll(GeneratorCompilerTestInProjectTest.runtimeException);
+		excludeFiles.addAll(GeneratorCompilerTestInProjectTest.errors);
 	}
 
 	@Test

@@ -15,6 +15,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -280,11 +281,12 @@ public class FileManager {
 			throw new TranslationException("Unable to compile the files, the files list is empty");
 		}
 		CompileResult compilerResult = compilerJava.compileFiles(files, outputFolder, compilerVersion);
+		String filesString = files.stream().map(File::getName).collect(Collectors.joining(", "));
 		if (!compilerResult.getSuccess()) {
-			logger.error("Failed to compile the file {}. Compilation errors: {}", files, compilerResult);
-			throw new TranslationException("Unable to compile the file, the file has compilation errors: " + compilerResult);
+			logger.error("Failed to compile the file {}", filesString);
+			throw new TranslationException("Unable to compile the exported files: " + filesString + ".\nThe file has compilation errors:\n" + compilerResult);
 		}
-		logger.info("File {} compiled with no errors.", files);
+		logger.info("File {} compiled with no errors.", filesString);
 	}
 
 	/**

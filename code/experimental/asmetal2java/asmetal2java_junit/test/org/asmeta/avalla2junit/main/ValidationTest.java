@@ -11,7 +11,7 @@ import java.nio.file.Path;
 
 import org.asmeta.asm2java.formatter.Formatter;
 import org.asmeta.asm2java.formatter.FormatterImpl;
-import org.asmeta.asm2java.generator.GeneratorCompilerTestInProject;
+import org.asmeta.asm2java.generator.GeneratorCompilerTestInProjectTest;
 import org.asmeta.asm2java.generator.GeneratorCompilerUtil;
 import org.asmeta.asm2java.config.TranslatorOptions;
 import org.asmeta.asm2java.config.TranslatorOptionsImpl;
@@ -157,7 +157,7 @@ public class ValidationTest {
 		// 2. la traduce con codice casati
 		
 		
-		GeneratorCompilerTestInProject gen = new GeneratorCompilerTestInProject();
+		GeneratorCompilerTestInProjectTest gen = new GeneratorCompilerTestInProjectTest();
 		TranslatorOptions options = new TranslatorOptionsImpl(true, true, true);
 		
 		GeneratorCompilerUtil.genandcompile(asmSpec, options, JAVA_GEN_path, JAVA_GEN_path);
