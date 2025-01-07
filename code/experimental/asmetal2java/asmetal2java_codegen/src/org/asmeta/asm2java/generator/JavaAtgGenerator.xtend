@@ -80,16 +80,12 @@ class JavaAtgGenerator extends AsmToJavaGenerator {
 			/** The step function allows to perform a step of the asm by incrementing the state.
 			*/
 			public void step(){
-				System.out.println("<State "+ state +" (controlled)>");
-
-				printControlled();
 				
 				this.execution.updateASM();
 				
-				System.out.println("</State "+ state +" (controlled)>");
+				System.out.println("</State "+ state +" >");
 				
-				System.out.println("\n<Current status>");
-				printControlled();''');
+				''');
 			
 		if(options.coverRules){
 			sb.append(System.lineSeparator)
@@ -161,11 +157,6 @@ class JavaAtgGenerator extends AsmToJavaGenerator {
 		sb.append('''/* ASM Methods */''');
 		sb.append(System.lineSeparator)
 		sb.append(System.lineSeparator)
-	
-		// Print controlled functions - unnecessary for test generation, can be removed
-		sb.append("\t\t").append('''// Print controlled''');
-		sb.append(System.lineSeparator)
-		sb.append(AsmMethods.printControlled(asm))
 	
 		// Controlled public getters (to make assertions)
 		sb.append(System.lineSeparator)

@@ -4,13 +4,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.asmeta.annotations.TestToMavenSkip;
-import org.asmeta.evoasmetatg.main.EvoAsmetaTgCLI;
 import org.asmeta.parser.ASMParser;
 import org.junit.After;
 import org.junit.Before;
@@ -31,9 +32,10 @@ public class CLIExampleFilesTest {
 	private static final Logger logger = LogManager.getLogger(CLIExampleFilesTest.class);
 
 	/* Constants */
-	private static final String TEST_RESOURCES_DIR = "src" + File.separator + "test" + File.separator + "resources";
+	private static final Path TEST_RESOURCES_DIR_PATH = Paths.get("src", "test", "resources");
 	private static final String JAVA_PATH = "-javaPath";
-	private static final String JAVA_PATH_VALUE = "\"C:\\Program Files\\Java\\jdk-1.8\"";
+	// README: update with you path to the jdk-1.8 folder
+	private static final String JAVA_PATH_VALUE = Paths.get("C:","Program Files","Java","jdk-1.8").toString();
 	private static final String INPUT = "-input";
 	private static final String OUTPUT = "-output";
 	private static final String OUTPUT_DIR = "tempOutput";
@@ -59,7 +61,7 @@ public class CLIExampleFilesTest {
 	 */
 	@Before
 	public void setup() {
-		File testResourcesDir = new File(TEST_RESOURCES_DIR);
+		File testResourcesDir = TEST_RESOURCES_DIR_PATH.toFile();
 		assertTrue(testResourcesDir.exists());
 		assertTrue(testResourcesDir.isDirectory());
 		this.asmFiles = new LinkedList<>();
@@ -100,7 +102,7 @@ public class CLIExampleFilesTest {
 	 */
 	private int testFile(File file) {
 
-		logger.info("\n\n=== {} ===================", file.getName());
+		logger.info("\n=== {} ===================", file.getName());
 
 		List<String> args = List.of(INPUT, "\"" + file.getAbsolutePath() + "\"", OUTPUT,
 				"\"" + tempOutputDir.getAbsolutePath() + "\"", JAVA_PATH, JAVA_PATH_VALUE, EVOSUITE_VERSION,

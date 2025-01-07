@@ -1,4 +1,4 @@
-asm TrafficLight
+asm TrafficLightv2
 
 import STDL/StandardLibrary
 
@@ -12,6 +12,7 @@ import STDL/StandardLibrary
  * Instead, if the traffic light was green for at least 60s, the light becomes yellow for 5 seconds before going to red.
  * The EFSM has also outputs that correspond to light colours.
  */
+ // considering 60 second as 6 steps, 5 seconds as 1 step.
 
 signature:
 	// DOMAINS
@@ -29,12 +30,12 @@ signature:
 
 definitions:
 	// DOMAIN DEFINITIONS
-	domain TimerDomain = {0 : 60}
+	domain TimerDomain = {0 : 6}
 
 	// FUNCTION DEFINITIONS
-	function timeOut = (count >= 60)
-	function yellow_timeOut = (count >= 5)
-	function interupt = (pedestrian = true and count < 60)
+	function timeOut = (count >= 6)
+	function yellow_timeOut = (count >= 1)
+	function interupt = (pedestrian = true and count < 6)
 
 	// RULE DEFINITIONS
 	rule r_red = 
