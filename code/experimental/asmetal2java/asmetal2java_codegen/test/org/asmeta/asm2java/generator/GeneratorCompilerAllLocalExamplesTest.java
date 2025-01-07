@@ -6,7 +6,6 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -28,35 +27,40 @@ import org.junit.Test;
  */
 public class GeneratorCompilerAllLocalExamplesTest {
 
+	/**
+	 * formatter = true, shuffleRandom = true, optimizeSeqRule = true
+	 */
 	private TranslatorOptions options = new TranslatorOptionsImpl(true, true, true);
 
+	/**
+	 * {@code True} to stop the generation at the first error, {@code False}
+	 * otherwise
+	 */
 	static boolean failOnError = false;
 
-	/** File to exclude from the translation */
+	/** Files to exclude from the translation */
 	static List<String> excludeFiles = new ArrayList<>();
 
 	@BeforeClass
 	public static void setup() {
-		excludeFiles.addAll(GeneratorCompilerTestInProjectTest.libraries);
-		excludeFiles.addAll(GeneratorCompilerTestInProjectTest.parseException);
-		excludeFiles.addAll(GeneratorCompilerTestInProjectTest.runtimeException);
-		excludeFiles.addAll(GeneratorCompilerTestInProjectTest.errors);
+		excludeFiles.addAll(GeneratorCompilerUtil.libraries);
+		excludeFiles.addAll(GeneratorCompilerUtil.parseException);
+		excludeFiles.addAll(GeneratorCompilerUtil.runtimeException);
+		excludeFiles.addAll(GeneratorCompilerUtil.errors);
 	}
 
 	@Test
 	public void testAllLocalExamples() throws Exception {
 		List<String> failures = new ArrayList<>();
-		Path path = Paths.get("examples/");
+		Path path = GeneratorCompilerUtil.dirExamples;
 		assertTrue(path.toFile().exists() && path.toFile().isDirectory());
 		// build where to put the .java and the .class
-		String dirCompilazione = path.toString() + File.separator + "compilazione";
-		String dirTraduzione = path.toString() + File.separator + "traduzione";
-		File dirCompF = new File(dirCompilazione);
-		File dirTradF = new File(dirCompilazione);
+		File dirCompF = GeneratorCompilerUtil.dirCompilazione.toFile();
+		File dirTradF = GeneratorCompilerUtil.dirTraduzione.toFile();
 		// create if it does not exists
 		GeneratorCompilerUtil.checkDir(dirCompF);
 		GeneratorCompilerUtil.checkDir(dirTradF);
-		System.out.println("Translating and compiling all the local examples inside the " + path +":");
+		System.out.println("Translating and compiling all the local examples inside the " + path + ":");
 		// limit depth to 1
 		Stream<Path> walk = Files.walk(path, 1);
 		walk.forEach(x -> {
@@ -65,7 +69,7 @@ public class GeneratorCompilerAllLocalExamplesTest {
 				if (fileName.endsWith(ASMParser.ASM_EXTENSION)
 						&& excludeFiles.stream().filter(tX -> fileName.contains(tX)).count() == 0) {
 					CompileResult genandcompile = GeneratorCompilerUtil.genandcompile(fileName, options,
-							Path.of(dirTraduzione), Path.of(dirCompilazione));
+							GeneratorCompilerUtil.dirTraduzione, GeneratorCompilerUtil.dirCompilazione);
 					if (!genandcompile.getSuccess()) {
 						if (failOnError)
 							fail();

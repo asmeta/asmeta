@@ -261,10 +261,10 @@ public class FileManager {
 		checkPath(compilerDirPath);
 		CompileResult result = compilerJava.compileFile(javaFile, compilerDirPath, compilerVersion);
 		if (!result.getSuccess()) {
-			logger.error("Failed to compile the file {}. Compilation errors: {}", javaFile, result);
+			logger.error("Failed to compile the file {}.", javaFile.getName());
 			throw new TranslationException("Unable to compile the file, the file has compilation errors: " + result);
 		}
-		logger.info("File {} compiled with no errors.", javaFile);
+		logger.info("File {} compiled with no errors.", javaFile.getName());
 	}
 
 	/**

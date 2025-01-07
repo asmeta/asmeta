@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
+import java.util.List;
 
 import org.asmeta.asm2java.compiler.Compiler;
 import org.asmeta.asm2java.compiler.CompileResult;
@@ -18,11 +19,54 @@ import org.asmeta.parser.ParseException;
 
 import asmeta.AsmCollection;
 
+/**
+ * Utility class for testing.
+ * <p>
+ * contains the path to the folders, the list of files to exclude from testing
+ * and methods to generate and compile the translation.
+ */
 public class GeneratorCompilerUtil {
-	
-	public final static Path dirCompilazione = Path.of("examples/compilazione/");
-	public final static Path dirTraduzione = Path.of("examples/traduzione/");
-	public final static Path dirEsecuzione = Path.of("examples/esecuzione/");
+
+	/** Path of the directory where the example files are stored */
+	public static final Path dirExamples = Path.of("examples");
+
+	/**
+	 * Path to the directory where the translation-related .class files are stored
+	 */
+	public static final Path dirCompilazione = Path.of(dirExamples.toString(), "compilazione");
+
+	/** Path to the directory where the translsted files are stored */
+	public static final Path dirTraduzione = Path.of(dirExamples.toString(), "traduzione");
+
+	/**
+	 * Path to the directory where the translation-related execution files are
+	 * stored
+	 */
+	public static final Path dirEsecuzione = Path.of(dirExamples.toString(), "esecuzione");
+
+	/**
+	 * List of libraries that should be excluded from testing
+	 */
+	static List<String> libraries = List.of("StandardLibrary.asm", "LTLLibrary.asm", "CTLLibrary.asm");
+
+	/**
+	 * List of asm files with known issues: these files have compilation errors
+	 * related to the translation.
+	 */
+	static List<String> errors = List.of("battleship.asm", "fibonacci.asm", "QuickSort.asm", "testSignature.asm",
+			"SIS.asm", "testDefinition3.asm");
+
+	/**
+	 * The following files have compilation errors already in the .asm file and
+	 * asmetal2java correctly throws exceptions
+	 */
+	static List<String> parseException = List.of(/* Empty */);
+
+	/**
+	 * The following classes have runtime errors
+	 */
+	static List<String> runtimeException = List.of("gameOfLife.asm", "groundModel_v2.asm", "Bare.asm", "ProdDomain.asm",
+			"population.asm", "LIFT.asm");
 
 	// the generator for the code
 	static private JavaGenerator jGenerator = new JavaGenerator();
@@ -94,7 +138,7 @@ public class GeneratorCompilerUtil {
 		 * deleteExisting(javaFileWinT);
 		 */
 
-		System.out.println("===" + name + " === translating in " + targetJava
+		System.out.println("=== " + name + " === translating in " + targetJava
 				+ (targetJava != null ? " compiling in " + targetClass : ""));
 		//
 		// TRANSALTE to Java
@@ -156,7 +200,7 @@ public class GeneratorCompilerUtil {
 		}
 		assert !file.exists();
 	}
-	
+
 	/**
 	 * Check if the directory exists, and in case not, creates a new one.
 	 * 

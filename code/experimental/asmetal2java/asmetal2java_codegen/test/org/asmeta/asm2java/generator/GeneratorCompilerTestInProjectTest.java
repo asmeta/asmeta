@@ -16,67 +16,47 @@ import org.asmeta.parser.ASMParser;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-// generates the code in a eclispe project and it does not compile it
-// eclipse will take care of the compilation
-
+/**
+ * Generates the code in a Eclipse project and it does not compile it,
+ * Eclipse will take care of the compilation
+ */
 public class GeneratorCompilerTestInProjectTest {
 
-	private static final String SRC_GEN = "../asmetal2java_examples/src/";
-	
-	private static final Path SRC_GEN_path = Path.of(SRC_GEN);
-	
-	private static final Path COMPILATION_PATH = Path.of("examples/compilazione");
+	/**
+	 * Path of the directory where the example files are stored (./examples/)
+	 */
+	private static final Path dirExamples = GeneratorCompilerUtil.dirExamples;
 
+	/**
+	 * Path to a java project containing the translations of the example asmeta
+	 * specs (../asmetal2java_examples/src)
+	 */
+	private static final Path SRC_GEN_path = Path.of("..", "asmetal2java_examples", "src");
+
+	/**
+	 * Path to the directory where the translation-related .class files are stored
+	 * (./examples/compilazione)
+	 */
+	private static final Path dirCompilazione = GeneratorCompilerUtil.dirCompilazione;
+
+	/**
+	 * formatter = true, shuffleRandom = true, optimizeSeqRule = true
+	 */
 	private TranslatorOptions options = new TranslatorOptionsImpl(true, true, true);
-	
-	/**
-	 * List of libraries that should be excluded from testing
-	 */
-	static List<String> libraries = List.of(
-			"StandardLibrary.asm",
-			"LTLLibrary.asm",
-			"CTLLibrary.asm");
-	
-	/**
-	 * List of asm files with known issues:
-	 * these files have compilation errors related to the translation.
-	 */
-	static List<String> errors = List.of(
-			"battleship.asm",
-			"fibonacci.asm",
-			"QuickSort.asm", 
-			"testSignature.asm",
-			"SIS.asm",
-			"testDefinition3.asm");
-	
-	/**
-	 * The following files have compilation errors already in the .asm file 
-	 * and asmetal2java correctly throws exceptions
-	 */
-	static List<String> parseException = List.of(/* Empty */);
-	
-	/**
-	 * The following classes have runtime errors
-	 */
-	static List<String> runtimeException = List.of(
-			"gameOfLife.asm", 
-			"groundModel_v2.asm",
-			"Bare.asm",
-			"ProdDomain.asm",
-			"population.asm",
-			"LIFT.asm");
-	
+
 	@BeforeClass
 	public static void checkExistsPath() {
-		File dest = new File(SRC_GEN);
+		File src = dirExamples.toFile();
+		assertTrue(src.exists() && src.isDirectory());
+		File dest = SRC_GEN_path.toFile();
 		assertTrue(dest.exists() && dest.isDirectory());
 		assertTrue(Files.exists(SRC_GEN_path));
 	}
-	
+
 	// -------------------------------------------------------------------------------------------------------------------------------------------------
 	// -----
 	// -----
-	
+
 	// -------------------------------------------------------------------------------------------------------------------------------------------------
 	// -----
 	// -----
@@ -87,30 +67,29 @@ public class GeneratorCompilerTestInProjectTest {
 
 	@Test
 	public void testBasicDomain() throws Exception {
-		String asmspec = "examples/RegistroDiCassa.asm";
+		String asmspec = dirExamples.resolve("RegistroDiCassa.asm").toString();
 		if (!GeneratorCompilerUtil.genandcompile(asmspec, options, SRC_GEN_path, null).getSuccess())
 			fail();
 	}
 
 	@Test
 	public void testDado() throws Exception {
-		String asmspec = "examples/dado.asm";
+		String asmspec = dirExamples.resolve("dado.asm").toString();
 		if (!GeneratorCompilerUtil.genandcompile(asmspec, options, SRC_GEN_path, null).getSuccess())
 			fail();
 	}
-	
+
 	@Test
 	public void testConcreteDom2Init() throws Exception {
-		String asmspec = "examples/ConcreteDom2Init.asm";
-		CompileResult test = GeneratorCompilerUtil.genandcompile(asmspec, options, SRC_GEN_path, COMPILATION_PATH);
+		String asmspec = dirExamples.resolve("ConcreteDom2Init.asm").toString();
+		CompileResult test = GeneratorCompilerUtil.genandcompile(asmspec, options, SRC_GEN_path, dirCompilazione);
 		if (!test.getSuccess())
 			fail();
 		// get the java
-		File javaTrans = new File("examples/compilazione/ConcreteDom2Init.java");
+		File javaTrans = SRC_GEN_path.resolve("ConcreteDom2Init.java").toFile();
 		assertTrue(javaTrans.exists());
 	}
-	
-	
+
 	/*
 	 * 
 	 * 
@@ -334,8 +313,9 @@ public class GeneratorCompilerTestInProjectTest {
 	/**
 	 * Adds all files in a directory to a target list.
 	 * 
-	 * @param directoryName the name of the directory where the files to be added are stored.
-	 * @param files the target list to add the files to.
+	 * @param directoryName the name of the directory where the files to be added
+	 *                      are stored.
+	 * @param files         the target list to add the files to.
 	 */
 	void listf(String directoryName, List<File> files) {
 		File directory = new File(directoryName);
@@ -354,7 +334,7 @@ public class GeneratorCompilerTestInProjectTest {
 		}
 
 	}
-	
+
 	/**
 	 * check if the current file should be excluded from testing.
 	 * 
@@ -362,10 +342,10 @@ public class GeneratorCompilerTestInProjectTest {
 	 * @return {@code true} if the file is to exclude, {@code false} otherwise.
 	 */
 	private boolean exclude(String fileName) {
-		return libraries.contains(fileName) ||
-				parseException.contains(fileName) ||
-				runtimeException.contains(fileName) ||
-				errors.contains(fileName);
+		return GeneratorCompilerUtil.libraries.contains(fileName)
+				|| GeneratorCompilerUtil.parseException.contains(fileName)
+				|| GeneratorCompilerUtil.runtimeException.contains(fileName)
+				|| GeneratorCompilerUtil.errors.contains(fileName);
 	}
 
 }
