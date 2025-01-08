@@ -29,11 +29,15 @@ class AsmMethods {
 		for (fd : asm.headerSection.signature.function) {
 			if (fd instanceof ControlledFunction) {
 				if (fd.domain === null) {
+					// use the wrapper objects to prevent NullPointerException
 					if (fd.codomain instanceof ConcreteDomain) {
 						sb.append('''
 
-								public int get_«fd.name»(){
-									return this.execution.«fd.name».get().value;
+								public Integer get_«fd.name»(){
+									if(this.execution.«fd.name».get() != null){
+										return this.execution.«fd.name».get().value;
+									}
+									return null;
 								}
 						 	''');
 					} else if (fd.codomain instanceof EnumTd) {
@@ -53,14 +57,14 @@ class AsmMethods {
 					} else if (fd.codomain.name.equals("Boolean")) {
 						sb.append('''
 
-								public boolean get_«fd.name»(){
+								public Boolean get_«fd.name»(){
 									return this.execution.«fd.name».get();
 								}
 						 	''');
 					} else if (fd.codomain.name.equals("Integer")) {
 						sb.append('''
 
-								public int get_«fd.name»(){
+								public Integer get_«fd.name»(){
 									return this.execution.«fd.name».get();
 								}
 						 	''');
@@ -79,7 +83,7 @@ class AsmMethods {
 								}
 					 		''');
 					}
-				} else { // getter per le funzioni con Dominio -> Codominio
+				} else { // getter for the Dominio -> Codominio funzions
 
 					for(dd : asm.headerSection.signature.domain){
 						if(dd.equals(fd.domain)){
@@ -87,8 +91,8 @@ class AsmMethods {
 								for (var int i = 0; i < dd.element.size; i++) {
 									var symbol = new DomainToJavaStringEvosuite(asm).visit(dd.element.get(i))
 									sb.append(System.lineSeparator)
-									if(fd.codomain instanceof ConcreteDomain){ // considero subsetOf Integer
-										sb.append("\t").append('''public int get_«fd.name»_«symbol»(){''');
+									if(fd.codomain instanceof ConcreteDomain){ // consider subsetOf Integer
+										sb.append("\t").append('''public Integer get_«fd.name»_«symbol»(){''');
 										sb.append(System.lineSeparator)
 										sb.append("\t\t").append('''return this.execution.«fd.name».oldValues.get(''');
 										sb.append(System.lineSeparator)
@@ -97,10 +101,10 @@ class AsmMethods {
 										sb.append("\t").append('''}''');
 									} else{
 										if (fd.codomain.name.equals("Integer")){
-											sb.append("\t").append('''public int get_«fd.name»_«symbol»(){''');
+											sb.append("\t").append('''public Integer get_«fd.name»_«symbol»(){''');
 										}
 										else if (fd.codomain.name.equals("Boolean")){
-											sb.append("\t").append('''public boolean get_«fd.name»_«symbol»(){''');
+											sb.append("\t").append('''public Boolean get_«fd.name»_«symbol»(){''');
 										}
 										else if (fd.codomain.name.equals("String")){
 											sb.append("\t").append('''public String get_«fd.name»_«symbol»(){''');
@@ -125,7 +129,7 @@ class AsmMethods {
 											var symbol = sf.name
 											sb.append(System.lineSeparator)
 											if(fd.codomain instanceof ConcreteDomain){
-												sb.append("\t").append('''public int get_«fd.name»_«symbol»(){''');
+												sb.append("\t").append('''public Integer get_«fd.name»_«symbol»(){''');
 												sb.append(System.lineSeparator)
 												sb.append("\t\t").append('''return this.execution.«fd.name».oldValues.get(''');
 												sb.append(System.lineSeparator)
@@ -136,10 +140,10 @@ class AsmMethods {
 												sb.append("\t").append('''}''');
 											} else{
 												if (fd.codomain.name.equals("Integer")){
-													sb.append("\t").append('''public int get_«fd.name»_«symbol»(){''');
+													sb.append("\t").append('''public Integer get_«fd.name»_«symbol»(){''');
 												}
 												else if (fd.codomain.name.equals("Boolean")){
-													sb.append("\t").append('''public boolean get_«fd.name»_«symbol»(){''');
+													sb.append("\t").append('''public Boolean get_«fd.name»_«symbol»(){''');
 												}
 												else if (fd.codomain.name.equals("String")){
 													sb.append("\t").append('''public Srting get_«fd.name»_«symbol»(){''');

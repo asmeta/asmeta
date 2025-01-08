@@ -81,7 +81,7 @@ variableValue
 
 assertEquals
 	// Represents the assertEquals instruction block: "assertEquals(actual, expected);".
-    : ASSERT_EQUALS LPAREN actual COMMA expected RPAREN SEMI
+    : ASSERT_EQUALS LPAREN actual COMMA cast? expected RPAREN SEMI
     ;
 
 assertBoolean
@@ -154,6 +154,15 @@ trycatchblock
 	// Represents a try-catch block: "try { ... } catch (...) { ... }".
     : TRY LCURLY (.)*? RCURLY CATCH LPAREN (.)*? LCURLY (.)*? RCURLY
     ;
+    
+cast
+	// Represent an explicit type casting operation
+	// example:
+	// (	--> LPAREN
+	// int 	--> ID
+	// )	--> RPAREN
+	: LPAREN ID RPAREN
+	;
 
 number
 	// defines a number, a number can be positive, negative, integer or decimal.

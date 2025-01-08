@@ -43,3 +43,6 @@ build/
 
 ### javadoc ###
 /docs/
+
+### project
+/src/test/resources/translation/

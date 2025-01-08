@@ -26,12 +26,12 @@ public class CLIExampleFilesTest {
 	private static final Logger logger = LogManager.getLogger(CLIExampleFilesTest.class);
 
 	/* Constants */
-	private static final Path TEST_RESOURCES_DIR_PATH = Paths.get("src", "test", "resources");
-	private static final String INPUT = "-input";
-	private static final String OUTPUT = "-output";
-	private static final String OUTPUT_DIR = "tempOutput";
-	private static final String CLEAN = "-clean";
-	private static final String JAVA = ".java";
+	static final Path TEST_RESOURCES_DIR_PATH = Paths.get("src", "test", "resources");
+	static final String INPUT = "-input";
+	static final String OUTPUT = "-output";
+	static final String OUTPUT_DIR = "tempOutput";
+	static final String CLEAN = "-clean";
+	static final String JAVA = ".java";
 
 	/** temp output folder */
 	private File tempOutputDir;
@@ -88,7 +88,7 @@ public class CLIExampleFilesTest {
 	 */
 	private int testFile(File file) {
 
-		logger.info("\n=== {} ===================", file.getName());
+		logger.info("\n\n=== {} ===================", file.getName());
 
 		List<String> args = List.of(INPUT, "\"" + file.getAbsolutePath() + "\"", OUTPUT,
 				"\"" + tempOutputDir.getAbsolutePath() + "\"", CLEAN);
