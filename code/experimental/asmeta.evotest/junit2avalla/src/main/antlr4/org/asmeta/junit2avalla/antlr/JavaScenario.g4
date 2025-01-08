@@ -74,7 +74,9 @@ variableValue
     // example:
     // RegistroDiCassav4.Servizio.NEWORDINE	--> Identifier
     // registroDiCassav4_ATG0.get_outMess()	--> Getter
-    : (Identifier| Getter)
+    // "card2"								--> String
+    // (-125)								--> number
+    : (Identifier| Getter | STRING | (LPAREN? number RPAREN?))
     ;
 
 assertEquals
@@ -142,10 +144,10 @@ setVariableValue
 	// Defines the value used in a setFunction, which can be a boolean, ID, string, or number.
 	// example:
 	// true										--> Boolean
-	// registroDiCassav4_SelezioneTipoDiPizza0	--> ID
+	// int4 									--> ID
 	// "margherita"								--> STRING
 	// 20										--> number
-    : (Boolean | ID | STRING | number)
+    : (Boolean | ID | STRING | number )
     ;
 
 trycatchblock

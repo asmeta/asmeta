@@ -26,6 +26,12 @@ class CoverOutputs {
 					if(fd.codomain instanceof EnumTd){ // [] -> Enum
 						sb.append("\t").append('''private void cover_«fd.name»(){''');
 						sb.append(System.lineSeparator)
+						sb.append("\t\t").append('''if(this.get_«fd.name»() == null){''');
+						sb.append(System.lineSeparator)
+						sb.append("\t\t\t").append('''return;''');
+						sb.append(System.lineSeparator)
+						sb.append("\t\t").append('''}''')
+						sb.append(System.lineSeparator)
 						sb.append("\t\t").append('''switch(this.get_«fd.name»()){''');
 						for(dd : asm.headerSection.signature.domain){
 							if(dd.equals(fd.codomain)){

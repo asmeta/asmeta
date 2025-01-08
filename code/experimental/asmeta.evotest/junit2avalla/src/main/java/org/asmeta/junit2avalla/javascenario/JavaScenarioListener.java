@@ -45,7 +45,12 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	/**
 	 * Map of declared variables within the current scenario.
 	 */
-	private Map<String, JavaVariableTerm> variablesList;
+	private Map<String, JavaVariableTerm> variablesMap;
+	
+	/**
+	 * Map of the functions getter value.
+	 */
+	private Map<String, String> getterMap;
 
 	/**
 	 * The Scenario Manager interface to manage and transform scenario terms.
@@ -113,7 +118,8 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	public void enterScenario(ScenarioContext ctx) {
 		log.debug("Entering start_test_scenario: {} .", ctx.getText());
 		log.debug("Found a scenario, creating a new Scenario Object.");
-		this.variablesList = new HashMap<>();
+		this.variablesMap = new HashMap<>();
+		this.getterMap = new HashMap<>();
 		this.currenteScenario = new Scenario();
 		this.ignoreChecks = false;
 	}
@@ -204,7 +210,7 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	@Override
 	public void exitVariableDeclaration(VariableDeclarationContext ctx) {
 		log.debug("Exiting start_test_scenario_variableDeclaration: {} .", ctx.getText());
-		this.variablesList.put(this.currentJavaVariable.getName(), this.currentJavaVariable);
+		this.variablesMap.put(this.currentJavaVariable.getName(), this.currentJavaVariable);
 	}
 	
 	/**
@@ -241,9 +247,18 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 		} else {
 			// if its a variable (identifier)
 			log.debug("Setting the variable value : {} .", ctx.getText());
-			log.debug("Searching the value in the vaiables dictonay : {} .", this.variablesList.get(ctx.getText()));
-			this.currentJavaVariable.setValue(this.variablesList.get(ctx.getText()).getValue());
-			this.currentJavaVariable.setPrimitive(false);
+			JavaVariableTerm javaVariableTerm = this.variablesMap.get(ctx.getText());
+			log.debug("Searching the value in the variables dictionary {} : {} .", javaVariableTerm.getName(), javaVariableTerm.getValue());
+			// search in the getters map
+			if(this.getterMap.containsKey(javaVariableTerm.getValue())) {
+				String value = getterMap.get(javaVariableTerm.getValue());
+				log.debug("Found a getter value in the getterMap: {} .", value);
+				this.currentJavaVariable.setValue(value);
+				this.currentJavaVariable.setPrimitive(true);
+			} else {
+				this.currentJavaVariable.setValue(javaVariableTerm.getValue());
+				this.currentJavaVariable.setPrimitive(false);
+			}
 		}
 	}
 	
@@ -300,10 +315,6 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	 */
 	@Override
 	public void enterAssertEquals(AssertEqualsContext ctx) {
-		if(this.ignoreChecks) {
-			log.debug("Ignoring the start_test_scenario_assertEquals: {} .", ctx.getText());
-			return;
-		}
 		log.debug("Entering start_test_scenario_assertEquals: {} .", ctx.getText());
 		this.currentJavaAssertionTerm = new JavaAssertionTerm();
 		this.currentJavaAssertionTerm.setType("AssertEquals");
@@ -319,14 +330,10 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	 */
 	@Override
 	public void enterActual(ActualContext ctx) {
-		if(this.ignoreChecks) {
-			log.debug("Ignoring the start_test_scenario_assertEquals_actual: {} .", ctx.getText());
-			return;
-		}
 		log.debug("Entering start_test_scenario_assertEquals_actual: {} .", ctx.getText());
 		this.currentJavaAssertionTerm.setActual(ctx.getText());
 		// if it's an identifier --> not primitive
-		this.currentJavaAssertionTerm.setPrimitive(!(ctx.Identifier() != null));
+		this.currentJavaAssertionTerm.setPrimitive(ctx.Identifier() == null);
 	}
 
 	/**
@@ -339,15 +346,17 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	 */
 	@Override
 	public void enterExpected(ExpectedContext ctx) {
-		if(this.ignoreChecks) {
-			log.debug("Ignoring the start_test_scenario_assertEquals_expected: {} .", ctx.getText());
-			return;
-		}
 		log.debug("Entering start_test_scenario_assertEquals_expected: {} .", ctx.getText());
 		if(ctx.ID() != null) {
 			log.debug("parsing ID: {} .", ctx.getText());
-			String expectedValue = this.variablesList.get(ctx.getText()).getValue();
+			String expectedValue = this.variablesMap.get(ctx.getText()).getValue();
 			this.currentJavaAssertionTerm.setExpected(expectedValue);
+			log.debug("Expected id: {}", expectedValue);
+			// add the value to the getters dictionary
+			if(expectedValue.contains("get_")) {
+				this.getterMap.put(expectedValue, this.currentJavaAssertionTerm.getActual());
+				log.debug("Saving the getter {} : {}", expectedValue, this.currentJavaAssertionTerm.getActual());
+			}
 		} else {
 			log.debug("parsing Getter: {} .", ctx.getText());
 			this.currentJavaAssertionTerm.setExpected(ctx.getText());
@@ -368,6 +377,7 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	public void exitAssertEquals(AssertEqualsContext ctx) {
 		if(this.ignoreChecks) {
 			log.debug("Ignoring the start_test_scenario_assertEquals: {} .", ctx.getText());
+			this.currentJavaAssertionTerm = null;
 			return;
 		}
 		log.debug("Exiting start_test_scenario_assertEquals: {} . Setting AvallaCheckTerm:", ctx.getText());
@@ -379,10 +389,6 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	 */
 	@Override
 	public void enterAssertBoolean(AssertBooleanContext ctx) {
-		if(this.ignoreChecks) {
-			log.debug("Ignoring the start_test_scenario_assertBoolean: {} .", ctx.getText());
-			return;
-		}
 		log.debug("Entering start_test_scenario_assertBoolean: {} .", ctx.getText());
 		this.currentJavaAssertionTerm = new JavaAssertionTerm();
 	}
@@ -392,10 +398,6 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	 */
 	@Override
 	public void enterBooleanAssertion(BooleanAssertionContext ctx) {
-		if(this.ignoreChecks) {
-			log.debug("Ignoring the start_test_scenario_booleanAssertion: {} .", ctx.getText());
-			return;
-		}
 		if(ctx.ASSERT_TRUE()!= null) {
 			log.debug("parsing ASSERT_TRUE: {} .", ctx.getText());
 			this.currentJavaAssertionTerm.setType("AssertTrue");
@@ -412,10 +414,6 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	 */
 	@Override
 	public void enterBooleanExpected(BooleanExpectedContext ctx) {
-		if(this.ignoreChecks) {
-			log.debug("Ignoring the start_test_scenario_booleanExpected: {} .", ctx.getText());
-			return;
-		}
 		log.debug("parsing Getter: {} .", ctx.getText());
 		this.currentJavaAssertionTerm.setExpected(ctx.getText());
 	}
@@ -426,6 +424,7 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	public void exitAssertBoolean(AssertBooleanContext ctx) {
 		if(this.ignoreChecks) {
 			log.debug("Ignoring the start_test_scenario_assertBoolean: {} .", ctx.getText());
+			this.currentJavaAssertionTerm = null;
 			return;
 		}
 		log.debug("Exiting start_test_scenario_assertBoolean: {} . Setting AvallaCheckTerm:", ctx.getText());

@@ -99,11 +99,11 @@ public class Junit2AvallaCLI {
 		// Do not sort
 		formatter.setOptionComparator(null);
 		// Header and footer strings
-		String header = "AvallaToJava\n\n";
+		String header = "Junit2Avalla\n\n";
 		String footer = "\n";
 		try {
 			if (line == null || line.hasOption(HELP) || line.getOptions().length == 0) {	
-				formatter.printHelp("AvallaToJava", header, options, footer, false);
+				formatter.printHelp("Junit2Avalla", header, options, footer, false);
 			} else if (!line.hasOption(INPUT)) {
 				logger.error("Please specify the asm input file path with -{} <path/to/file.asm>.", INPUT);
 				updateReturnCode(1); // error code
@@ -115,7 +115,7 @@ public class Junit2AvallaCLI {
 			logger.error(GENERATION_FAILED);
 			logger.error("A setup error occurred: {}", e.getMessage(), e);
 			logger.warn("Please check the parameters provided and consult the help message with -help:");
-			formatter.printHelp("EvoAsmetaTG", header, options, footer, false);
+			formatter.printHelp("Junit2Avalla", header, options, footer, false);
 			updateReturnCode(2); // setup error code
 		} catch (TranslationException e) {
 			logger.error(GENERATION_FAILED);

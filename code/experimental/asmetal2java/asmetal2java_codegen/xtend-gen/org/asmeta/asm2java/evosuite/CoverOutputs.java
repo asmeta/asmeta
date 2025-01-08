@@ -40,11 +40,29 @@ public class CoverOutputs {
             sb.append(System.lineSeparator());
             StringBuffer _append_1 = sb.append("\t\t");
             StringConcatenation _builder_1 = new StringConcatenation();
-            _builder_1.append("switch(this.get_");
+            _builder_1.append("if(this.get_");
             String _name_1 = fd.getName();
             _builder_1.append(_name_1);
-            _builder_1.append("()){");
+            _builder_1.append("() == null){");
             _append_1.append(_builder_1);
+            sb.append(System.lineSeparator());
+            StringBuffer _append_2 = sb.append("\t\t\t");
+            StringConcatenation _builder_2 = new StringConcatenation();
+            _builder_2.append("return;");
+            _append_2.append(_builder_2);
+            sb.append(System.lineSeparator());
+            StringBuffer _append_3 = sb.append("\t\t");
+            StringConcatenation _builder_3 = new StringConcatenation();
+            _builder_3.append("}");
+            _append_3.append(_builder_3);
+            sb.append(System.lineSeparator());
+            StringBuffer _append_4 = sb.append("\t\t");
+            StringConcatenation _builder_4 = new StringConcatenation();
+            _builder_4.append("switch(this.get_");
+            String _name_2 = fd.getName();
+            _builder_4.append(_name_2);
+            _builder_4.append("()){");
+            _append_4.append(_builder_4);
             EList<Domain> _domain_1 = asm.getHeaderSection().getSignature().getDomain();
             for (final Domain dd : _domain_1) {
               boolean _equals = dd.equals(fd.getCodomain());
@@ -54,23 +72,23 @@ public class CoverOutputs {
                     {
                       String symbol = new DomainToJavaStringEvosuite(asm).visit(((EnumTd)dd).getElement().get(i));
                       sb.append(System.lineSeparator());
-                      StringBuffer _append_2 = sb.append("\t\t\t");
-                      StringConcatenation _builder_2 = new StringConcatenation();
-                      _builder_2.append("case ");
-                      _builder_2.append(symbol);
-                      _builder_2.append(" :");
-                      _builder_2.newLineIfNotEmpty();
-                      _builder_2.append("\t\t\t\t\t\t\t\t\t\t");
-                      _builder_2.append("System.out.println(\"Branch ");
-                      String _name_2 = fd.getCodomain().getName();
-                      _builder_2.append(_name_2, "\t\t\t\t\t\t\t\t\t\t");
-                      _builder_2.append(" ");
-                      _builder_2.append(symbol, "\t\t\t\t\t\t\t\t\t\t");
-                      _builder_2.append(" covered\");");
-                      _builder_2.newLineIfNotEmpty();
-                      _builder_2.append("\t\t\t\t\t\t\t\t\t\t");
-                      _builder_2.append("break;");
-                      _append_2.append(_builder_2);
+                      StringBuffer _append_5 = sb.append("\t\t\t");
+                      StringConcatenation _builder_5 = new StringConcatenation();
+                      _builder_5.append("case ");
+                      _builder_5.append(symbol);
+                      _builder_5.append(" :");
+                      _builder_5.newLineIfNotEmpty();
+                      _builder_5.append("\t\t\t\t\t\t\t\t\t\t");
+                      _builder_5.append("System.out.println(\"Branch ");
+                      String _name_3 = fd.getCodomain().getName();
+                      _builder_5.append(_name_3, "\t\t\t\t\t\t\t\t\t\t");
+                      _builder_5.append(" ");
+                      _builder_5.append(symbol, "\t\t\t\t\t\t\t\t\t\t");
+                      _builder_5.append(" covered\");");
+                      _builder_5.newLineIfNotEmpty();
+                      _builder_5.append("\t\t\t\t\t\t\t\t\t\t");
+                      _builder_5.append("break;");
+                      _append_5.append(_builder_5);
                       sb.append(System.lineSeparator());
                     }
                   }
@@ -78,14 +96,14 @@ public class CoverOutputs {
               }
             }
             sb.append("\t\t\t");
-            StringConcatenation _builder_2 = new StringConcatenation();
-            _builder_2.append("}");
-            sb.append(_builder_2);
+            StringConcatenation _builder_5 = new StringConcatenation();
+            _builder_5.append("}");
+            sb.append(_builder_5);
             sb.append(System.lineSeparator());
             sb.append("\t\t");
-            StringConcatenation _builder_3 = new StringConcatenation();
-            _builder_3.append("}");
-            sb.append(_builder_3);
+            StringConcatenation _builder_6 = new StringConcatenation();
+            _builder_6.append("}");
+            sb.append(_builder_6);
             sb.append(System.lineSeparator());
           }
         }
