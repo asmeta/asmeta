@@ -1,0 +1,69 @@
+scenario Pillbox_1_scenario0
+
+load Pillbox_1.asm
+
+check logMess = NONE;
+check drawerTimer = 0;
+check time_consumption = 1;
+check redLed = OFF;
+check outMess = NONE;
+check requestSatisfied = false;
+check systemTime = 0;
+check opened = false;
+set openSwitch := true;
+
+step
+
+check logMess = NONE;
+check opened = true;
+check drawerTimer = 0;
+check time_consumption = 1;
+check redLed = OFF;
+check outMess = NONE;
+check requestSatisfied = false;
+check systemTime = 1;
+
+step
+
+check outMess = TAKE_PILL;
+check redLed = ON;
+check drawerTimer = 1;
+check logMess = NONE;
+check opened = true;
+check systemTime = 2;
+check time_consumption = 1;
+check requestSatisfied = false;
+set openSwitch := false;
+
+step
+
+check logMess = NONE;
+check redLed = BLINKING;
+check time_consumption = 1;
+check drawerTimer = 2;
+check systemTime = 3;
+check requestSatisfied = false;
+check opened = false;
+check outMess = CLOSE_DRAWER_IN_10_MIN;
+
+step
+
+check logMess = NONE;
+check systemTime = 4;
+check redLed = BLINKING;
+check time_consumption = 1;
+check drawerTimer = 2;
+check requestSatisfied = false;
+check opened = false;
+check outMess = CLOSE_DRAWER_IN_10_MIN;
+
+step
+
+check drawerTimer = 4;
+check systemTime = 5;
+check time_consumption = 1;
+check redLed = OFF;
+check outMess = NONE;
+check logMess = PILL_MISSED;
+check requestSatisfied = true;
+check opened = false;
