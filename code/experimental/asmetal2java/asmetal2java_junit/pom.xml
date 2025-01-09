@@ -32,6 +32,8 @@
 		<dependency>
 			<groupId>asmeta</groupId>
 			<artifactId>asmetal2java_codegen</artifactId>
+			<!--<type>test-jar</type>	
+			<scope>test</scope>-->
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
