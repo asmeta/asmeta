@@ -26,13 +26,17 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
           
-      - name: Install dependencies
+      - name: Install parent
         working-directory: .
+        run: mvn --batch-mode install -N
+        
+      - name: Install dependencies
+        working-directory: ./code/core
         run: mvn --batch-mode install -DskipTests
-
+        
       - name: Build and test with Maven
         run: mvn --batch-mode clean verify
-
+        
       - name: Upload Artifact
         if: github.ref == 'refs/heads/master' || github.event.pull_request.base.ref == 'master'
         uses: actions/upload-artifact@v4

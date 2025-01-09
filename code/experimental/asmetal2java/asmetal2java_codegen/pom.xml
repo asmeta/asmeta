@@ -184,26 +184,26 @@
 	      <version>7.0.0</version>
 	    </dependency>
 	
-	    <!-- EMF Common -->
+	    <!-- EMF Common : inherited from asmeta.emf
 	    <dependency>
 	      <groupId>org.eclipse.emf</groupId>
 	      <artifactId>org.eclipse.emf.common</artifactId>
 	      <version>2.27.0</version>
-	    </dependency>
+	    </dependency> -->
 	
-	    <!-- EMF Ecore -->
+	    <!-- EMF Ecore : inherited from asmeta.emf
 	    <dependency>
 	      <groupId>org.eclipse.emf</groupId>
 	      <artifactId>org.eclipse.emf.ecore</artifactId>
 	      <version>2.29.0</version>
-	    </dependency>
+	    </dependency>-->
 	
-	    <!-- EMF MWE Utils -->
+	    <!-- EMF MWE Utils : inherited from asmeta.emf
 	    <dependency>
 	      <groupId>org.eclipse.emf</groupId>
 	      <artifactId>org.eclipse.emf.mwe.utils</artifactId>
 	      <version>1.12.0</version>
-	    </dependency>
+	    </dependency>-->
 	
 	    <!-- JDT Compiler APT -->
 	    <dependency>

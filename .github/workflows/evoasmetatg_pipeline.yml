@@ -26,10 +26,14 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
           
-      - name: Install dependencies
+      - name: Install parent
         working-directory: .
+        run: mvn --batch-mode install -N
+		
+      - name: Install dependencies
+        working-directory: ./code/core
         run: mvn --batch-mode install -DskipTests
-     
+        
       - name: Install asmetal2java
         working-directory: ./code/experimental/asmetal2java/asmetal2java_codegen
         run: mvn --batch-mode install -DskipTests
