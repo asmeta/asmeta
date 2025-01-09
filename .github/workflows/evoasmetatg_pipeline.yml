@@ -29,7 +29,7 @@ jobs:
       - name: Install parent
         working-directory: .
         run: mvn --batch-mode install -N
-		
+        
       - name: Install dependencies
         working-directory: ./code/core
         run: mvn --batch-mode install -DskipTests
