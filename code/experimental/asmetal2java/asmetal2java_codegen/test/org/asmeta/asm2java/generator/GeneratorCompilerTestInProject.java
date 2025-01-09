@@ -20,7 +20,7 @@ import org.junit.Test;
  * Generates the code in a Eclipse project and it does not compile it,
  * Eclipse will take care of the compilation
  */
-public class GeneratorCompilerTestInProjectTest {
+public class GeneratorCompilerTestInProject {
 
 	/**
 	 * Path of the directory where the example files are stored (./examples/)
@@ -82,7 +82,7 @@ public class GeneratorCompilerTestInProjectTest {
 	@Test
 	public void testConcreteDom2Init() throws Exception {
 		String asmspec = dirExamples.resolve("ConcreteDom2Init.asm").toString();
-		CompileResult test = GeneratorCompilerUtil.genandcompile(asmspec, options, SRC_GEN_path, dirCompilazione);
+		CompileResult test = GeneratorCompilerUtil.genandcompile(asmspec, options, SRC_GEN_path, null);
 		if (!test.getSuccess())
 			fail();
 		// get the java
@@ -343,9 +343,9 @@ public class GeneratorCompilerTestInProjectTest {
 	 */
 	private boolean exclude(String fileName) {
 		return GeneratorCompilerUtil.libraries.contains(fileName)
-				|| GeneratorCompilerUtil.parseException.contains(fileName)
-				|| GeneratorCompilerUtil.runtimeException.contains(fileName)
-				|| GeneratorCompilerUtil.errors.contains(fileName);
+				/*|| GeneratorCompilerUtil.parseException.contains(fileName)
+				 *|| GeneratorCompilerUtil.runtimeException.contains(fileName)
+				|| GeneratorCompilerUtil.errors.contains(fileName)*/;
 	}
 
 }
