@@ -9,12 +9,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.nio.file.Path;
 
+import org.asmeta.annotations.TestToMavenSkip;
 import org.asmeta.asm2java.compiler.CompileResult;
 import org.asmeta.asm2java.config.TranslatorOptions;
 import org.asmeta.asm2java.config.TranslatorOptionsImpl;
 import org.asmeta.parser.ASMParser;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 /**
  * Generates the code in a Eclipse project and it does not compile it,
@@ -66,6 +68,7 @@ public class GeneratorCompilerTestInProject {
 	// -------------------------------------------------------------------------------------------------------------------------------------------------
 
 	@Test
+	@Category(TestToMavenSkip.class)
 	public void testBasicDomain() throws Exception {
 		String asmspec = dirExamples.resolve("RegistroDiCassa.asm").toString();
 		if (!GeneratorCompilerUtil.genandcompile(asmspec, options, SRC_GEN_path, null).getSuccess())
@@ -73,6 +76,7 @@ public class GeneratorCompilerTestInProject {
 	}
 
 	@Test
+	@Category(TestToMavenSkip.class)
 	public void testDado() throws Exception {
 		String asmspec = dirExamples.resolve("dado.asm").toString();
 		if (!GeneratorCompilerUtil.genandcompile(asmspec, options, SRC_GEN_path, null).getSuccess())
@@ -80,6 +84,7 @@ public class GeneratorCompilerTestInProject {
 	}
 
 	@Test
+	@Category(TestToMavenSkip.class)
 	public void testConcreteDom2Init() throws Exception {
 		String asmspec = dirExamples.resolve("ConcreteDom2Init.asm").toString();
 		CompileResult test = GeneratorCompilerUtil.genandcompile(asmspec, options, SRC_GEN_path, null);
@@ -279,6 +284,7 @@ public class GeneratorCompilerTestInProject {
 	 */
 
 	@Test
+	@Category(TestToMavenSkip.class)
 	public void testAll() throws Exception {
 
 		System.out.println("Testing the translation on all the examples (without compiling):");

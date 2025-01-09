@@ -534,6 +534,9 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
       _builder_1.append("\t\t\t\t");
       _builder_1.newLine();
       _builder_1.append("\t\t\t\t");
+      _builder_1.append("// TODO do not use this object to init - remove this line in the translation");
+      _builder_1.newLine();
+      _builder_1.append("\t\t\t\t");
       String _name_11 = object.getName();
       _builder_1.append(_name_11, "\t\t\t\t");
       _builder_1.append(" ");

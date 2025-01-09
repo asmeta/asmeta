@@ -1,8 +1,11 @@
 Configuration:
+  # Main Arguments Lookup https://logging.apache.org/log4j/2.x/manual/lookups.html#MainMapLookup
+  # Use an instance logger field instead of a static one, to prevent Log4j Core initialization before main()
   Properties:
     Property:
       - name: "--logfile"
         value: "logs/debug.log"
+        # default values for the CLI arguments if they are not specified
   Appenders:
     Console:
       name: "CONSOLE"
@@ -11,6 +14,7 @@ Configuration:
     File:
       - name: "DEBUG_LOG"
         fileName: "${main:\\--logfile}"
+        # escape the special :- sequence using :\-
         append: false
         PatternLayout:
           pattern: "%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1} - %m%n"
