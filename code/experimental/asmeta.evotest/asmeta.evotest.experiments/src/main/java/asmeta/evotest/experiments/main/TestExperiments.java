@@ -1,4 +1,4 @@
-package asmeta.evotest.experiments;
+package asmeta.evotest.experiments.main;
 
 import asmeta.AsmCollection;
 import asmeta.definitions.RuleDeclaration;
@@ -8,8 +8,6 @@ import asmeta.transitionrules.basictransitionrules.UpdateRule;
 import asmeta.transitionrules.basictransitionrules.ConditionalRule;
 import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
 import atgt.coverage.AsmTestSuite;
-import tgtlib.util.Pair;
-
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -18,6 +16,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.asmeta.parser.ASMParser;
@@ -34,7 +33,7 @@ import org.asmeta.avallaxt.validation.RuleExtractorFromMacroDecl;
 
 public class TestExperiments {
 
-	private static final String RESOURCES = "resources";
+	private static final String RESOURCES = "src/main/resources";
 	private static final String MYASM_DIR = "myasm";
 	private static final String RANDOM_DIR = "randomtests";
 	private static final String ATGT_DIR = "atgttests";
@@ -81,6 +80,7 @@ public class TestExperiments {
 		// ottieni tutte le regole contenute nella asm e nelle asm che importa con il
 		// totale di cond e update rules (è utile? per ora non ci faccio niente)
 		Map<String, Pair<Integer, Integer>> allRules = new HashMap<>();
+
 		for (Asm a : asmCollection) {
 			String name = a.getName();
 			if (name.equals("StandardLibrary") || name.equals("CTLLibrary") || name.equals("LTLLibrary"))
@@ -94,13 +94,14 @@ public class TestExperiments {
 					if (r instanceof UpdateRule)
 						totUpdateRules++;
 				}
-				allRules.put(RuleDeclarationUtils.getCompleteName(rd), new Pair<>(totCondRules, totUpdateRules));
+				allRules.put(RuleDeclarationUtils.getCompleteName(rd), Pair.of(totCondRules, totUpdateRules));
 			}
 		}
 
 		String asmFileName = new File(asmPath).getName().substring(0, new File(asmPath).getName().indexOf("."));
 		try {
-			// Come decidere i parametri della random simulation? Vedere quanti avalla generano gli altri metodi e con quanti step
+			// Come decidere i parametri della random simulation? Vedere quanti avalla
+			// generano gli altri metodi e con quanti step
 			AsmTestGeneratorBySimulation randomTestGenerator = new AsmTestGeneratorBySimulation(asmCollection, 5, 5);
 			AsmTestSuite randomSuite = randomTestGenerator.getTestSuite();
 			computeCoverageFromAsmTestSuite(asmPath, randomSuite, RESOURCES + "/" + RANDOM_DIR + "/" + asmFileName,
