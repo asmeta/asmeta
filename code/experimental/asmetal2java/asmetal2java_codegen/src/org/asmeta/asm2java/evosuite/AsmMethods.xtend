@@ -26,7 +26,7 @@ class AsmMethods {
 	static def controlledGetter(Asm asm) {
 		
 		val sb = new StringBuffer;
-		
+				
 		var asmName = asm.name;
 		for (fd : asm.headerSection.signature.function) {
 			if (fd instanceof ControlledFunction) {
@@ -100,7 +100,17 @@ class AsmMethods {
 										sb.append("\t\t\t").append('''this.execution.«fd.domain.name»_elemsList.get(«i»)).value;''');
 										sb.append(System.lineSeparator)
 										sb.append("\t").append('''}''');
-									} else{ 
+									} else if (fd.codomain instanceof AbstractTd){ // Enum -> Abstract
+										sb.append("\t").append('''public String get_«fd.name»_«symbol»(){''');
+										sb.append(System.lineSeparator)
+										sb.append("\t\t").append('''return «asmName».«fd.codomain.name».toString(''');
+										sb.append(System.lineSeparator)
+										sb.append("\t\t").append('''this.execution.«fd.name».oldValues.get(''');
+										sb.append(System.lineSeparator)
+										sb.append("\t\t\t").append('''this.execution.«fd.domain.name»_elemsList.get(«i»)));''');
+										sb.append(System.lineSeparator)
+										sb.append("\t").append('''}''');
+									} else { 
 										if (fd.codomain.name.equals(INTEGER)){ // Enum -> Integer
 											sb.append("\t").append('''public Integer get_«fd.name»_«symbol»(){''');
 										}
@@ -122,7 +132,7 @@ class AsmMethods {
 									}
 									sb.append(System.lineSeparator)
 								}
-							}// TODO: Ritornare pubblicamente dei valori astratti crea problemi perchè non si possono confrontare
+							} // Be careful, making the abstract values ​​return publicly creates problems because they cannot be compared
 							else if(dd instanceof AbstractTd){ // Abstract -> ...
 								for (sf : asm.headerSection.signature.function) {
 									if(sf instanceof StaticFunction){
@@ -249,7 +259,7 @@ class AsmMethods {
 									System.out.println("Set «fd.name»_«symbol» = " + «fd.name»_«symbol»);
 								}''')
 								sb.append(System.lineSeparator)
-							} else if (fd.codomain instanceof EnumTd) { // Enum -> Enum  (//TODO: test and fix)
+							} else if (fd.codomain instanceof EnumTd) { // Enum -> Enum
 								sb.append(System.lineSeparator)
 								sb.append('''
 								public void set_«fd.name»_«symbol»(«asm.name».«fd.codomain.name» «fd.name»_«symbol») {
@@ -257,11 +267,13 @@ class AsmMethods {
 									System.out.println("Set «fd.name»_«symbol» = " + «fd.name»_«symbol»);
 								}''')
 								sb.append(System.lineSeparator)
-							} else if (fd.codomain instanceof AbstractTd){ // Enum -> Abstract  (//TODO: test and fix)
+							} else if (fd.codomain instanceof AbstractTd){ // Enum -> Abstract
 								sb.append(System.lineSeparator)
 								sb.append('''
 								public void set_«fd.name»_«symbol»(String «fd.name»_«symbol») {
-									this.execution.«fd.name».set(«asm.name».«dd.name».«symbol», «fd.name»_«symbol»);
+									this.execution.«fd.name».set(«asm.name».«dd.name».«symbol», 
+									this.execution.«fd.codomain.name»_Class.get(
+									this.execution.«fd.codomain.name»_elemsList.indexOf(«fd.name»_«symbol»)));
 									System.out.println("Set «fd.name»_«symbol» = " + «fd.name»_«symbol»);
 								}''')
 								sb.append(System.lineSeparator)
