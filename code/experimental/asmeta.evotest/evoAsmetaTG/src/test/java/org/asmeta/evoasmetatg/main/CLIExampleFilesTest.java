@@ -43,6 +43,7 @@ public class CLIExampleFilesTest {
 	private static final String EVOSUITE_VERSION_VALUE = "1.0.6";
 	private static final String TIME_BUDGET = "-timeBudget";
 	private static final String TIME_BUDGET_VALUE = "5";
+	private static final String COVER_OUTPUTS_OPTION = "-DCoverOutputs=true";
 	private static final String CLEAN = "-clean";
 	private static final String ASM_EXTENSION = ASMParser.ASM_EXTENSION;
 
@@ -106,7 +107,7 @@ public class CLIExampleFilesTest {
 
 		List<String> args = List.of(INPUT, "\"" + file.getAbsolutePath() + "\"", OUTPUT,
 				"\"" + tempOutputDir.getAbsolutePath() + "\"", JAVA_PATH, JAVA_PATH_VALUE, EVOSUITE_VERSION,
-				EVOSUITE_VERSION_VALUE, TIME_BUDGET, TIME_BUDGET_VALUE, CLEAN);
+				EVOSUITE_VERSION_VALUE, TIME_BUDGET, TIME_BUDGET_VALUE, COVER_OUTPUTS_OPTION, CLEAN);
 
 		logger.info("args: {} ", args);
 

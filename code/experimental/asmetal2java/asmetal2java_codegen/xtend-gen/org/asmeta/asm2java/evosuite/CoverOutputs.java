@@ -25,11 +25,11 @@ public class CoverOutputs {
     EList<Function> _function = asm.getHeaderSection().getSignature().getFunction();
     for (final Function fd : _function) {
       if (((fd instanceof MonitoredFunction) || (fd instanceof ControlledFunction))) {
-        Domain _domain = fd.getDomain();
-        boolean _tripleEquals = (_domain == null);
-        if (_tripleEquals) {
-          Domain _codomain = fd.getCodomain();
-          if ((_codomain instanceof EnumTd)) {
+        Domain _codomain = fd.getCodomain();
+        if ((_codomain instanceof EnumTd)) {
+          Domain _domain = fd.getDomain();
+          boolean _tripleEquals = (_domain == null);
+          if (_tripleEquals) {
             StringBuffer _append = sb.append("\t");
             StringConcatenation _builder = new StringConcatenation();
             _builder.append("private void cover_");
@@ -105,6 +105,101 @@ public class CoverOutputs {
             _builder_6.append("}");
             sb.append(_builder_6);
             sb.append(System.lineSeparator());
+          } else {
+            EList<Domain> _domain_2 = asm.getHeaderSection().getSignature().getDomain();
+            for (final Domain dd_1 : _domain_2) {
+              boolean _equals_1 = dd_1.equals(fd.getDomain());
+              if (_equals_1) {
+                if ((dd_1 instanceof EnumTd)) {
+                  for (int i = 0; (i < ((EnumTd)dd_1).getElement().size()); i++) {
+                    {
+                      String symbol = new DomainToJavaStringEvosuite(asm).visit(((EnumTd)dd_1).getElement().get(i));
+                      StringBuffer _append_5 = sb.append("\t");
+                      StringConcatenation _builder_7 = new StringConcatenation();
+                      _builder_7.append("private void cover_");
+                      String _name_3 = fd.getName();
+                      _builder_7.append(_name_3);
+                      _builder_7.append("_");
+                      _builder_7.append(symbol);
+                      _builder_7.append("(){");
+                      _append_5.append(_builder_7);
+                      sb.append(System.lineSeparator());
+                      StringBuffer _append_6 = sb.append("\t\t");
+                      StringConcatenation _builder_8 = new StringConcatenation();
+                      _builder_8.append("if(this.get_");
+                      String _name_4 = fd.getName();
+                      _builder_8.append(_name_4);
+                      _builder_8.append("_");
+                      _builder_8.append(symbol);
+                      _builder_8.append("() == null){");
+                      _append_6.append(_builder_8);
+                      sb.append(System.lineSeparator());
+                      StringBuffer _append_7 = sb.append("\t\t\t");
+                      StringConcatenation _builder_9 = new StringConcatenation();
+                      _builder_9.append("return;");
+                      _append_7.append(_builder_9);
+                      sb.append(System.lineSeparator());
+                      StringBuffer _append_8 = sb.append("\t\t");
+                      StringConcatenation _builder_10 = new StringConcatenation();
+                      _builder_10.append("}");
+                      _append_8.append(_builder_10);
+                      sb.append(System.lineSeparator());
+                      StringBuffer _append_9 = sb.append("\t\t");
+                      StringConcatenation _builder_11 = new StringConcatenation();
+                      _builder_11.append("switch(this.get_");
+                      String _name_5 = fd.getName();
+                      _builder_11.append(_name_5);
+                      _builder_11.append("_");
+                      _builder_11.append(symbol);
+                      _builder_11.append("()){");
+                      _append_9.append(_builder_11);
+                      EList<Domain> _domain_3 = asm.getHeaderSection().getSignature().getDomain();
+                      for (final Domain ddd : _domain_3) {
+                        boolean _equals_2 = ddd.equals(fd.getCodomain());
+                        if (_equals_2) {
+                          if ((ddd instanceof EnumTd)) {
+                            for (int j = 0; (j < ((EnumTd)ddd).getElement().size()); j++) {
+                              {
+                                String symbolD = new DomainToJavaStringEvosuite(asm).visit(((EnumTd)ddd).getElement().get(j));
+                                sb.append(System.lineSeparator());
+                                StringBuffer _append_10 = sb.append("\t\t\t");
+                                StringConcatenation _builder_12 = new StringConcatenation();
+                                _builder_12.append("case ");
+                                _builder_12.append(symbolD);
+                                _builder_12.append(" :");
+                                _builder_12.newLineIfNotEmpty();
+                                _builder_12.append("\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+                                _builder_12.append("System.out.println(\"Branch ");
+                                String _name_6 = fd.getCodomain().getName();
+                                _builder_12.append(_name_6, "\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+                                _builder_12.append(" ");
+                                _builder_12.append(symbolD, "\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+                                _builder_12.append(" covered\");");
+                                _builder_12.newLineIfNotEmpty();
+                                _builder_12.append("\t\t\t\t\t\t\t\t\t\t\t\t\t\t");
+                                _builder_12.append("break;");
+                                _append_10.append(_builder_12);
+                                sb.append(System.lineSeparator());
+                              }
+                            }
+                          }
+                        }
+                      }
+                      sb.append("\t\t\t");
+                      StringConcatenation _builder_12 = new StringConcatenation();
+                      _builder_12.append("}");
+                      sb.append(_builder_12);
+                      sb.append(System.lineSeparator());
+                      sb.append("\t\t");
+                      StringConcatenation _builder_13 = new StringConcatenation();
+                      _builder_13.append("}");
+                      sb.append(_builder_13);
+                      sb.append(System.lineSeparator());
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -144,11 +239,11 @@ public class CoverOutputs {
     EList<Function> _function = asm.getHeaderSection().getSignature().getFunction();
     for (final Function fd : _function) {
       if (((fd instanceof MonitoredFunction) || (fd instanceof ControlledFunction))) {
-        Domain _domain = fd.getDomain();
-        boolean _tripleEquals = (_domain == null);
-        if (_tripleEquals) {
-          Domain _codomain = fd.getCodomain();
-          if ((_codomain instanceof EnumTd)) {
+        Domain _codomain = fd.getCodomain();
+        if ((_codomain instanceof EnumTd)) {
+          Domain _domain = fd.getDomain();
+          boolean _tripleEquals = (_domain == null);
+          if (_tripleEquals) {
             sb.append(System.lineSeparator());
             StringBuffer _append_1 = sb.append("\t\t");
             StringConcatenation _builder_2 = new StringConcatenation();
@@ -157,6 +252,30 @@ public class CoverOutputs {
             _builder_2.append(_name);
             _builder_2.append("();");
             _append_1.append(_builder_2);
+          } else {
+            EList<Domain> _domain_1 = asm.getHeaderSection().getSignature().getDomain();
+            for (final Domain dd : _domain_1) {
+              boolean _equals = dd.equals(fd.getDomain());
+              if (_equals) {
+                if ((dd instanceof EnumTd)) {
+                  for (int i = 0; (i < ((EnumTd)dd).getElement().size()); i++) {
+                    {
+                      String symbol = new DomainToJavaStringEvosuite(asm).visit(((EnumTd)dd).getElement().get(i));
+                      sb.append(System.lineSeparator());
+                      StringBuffer _append_2 = sb.append("\t\t");
+                      StringConcatenation _builder_3 = new StringConcatenation();
+                      _builder_3.append("cover_");
+                      String _name_1 = fd.getName();
+                      _builder_3.append(_name_1);
+                      _builder_3.append("_");
+                      _builder_3.append(symbol);
+                      _builder_3.append("();");
+                      _append_2.append(_builder_3);
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -169,7 +288,7 @@ public class CoverOutputs {
   }
 
   /**
-   * In order to cover outputs we only need to cover the Enum functions
+   * Monitored functions getters (private, only for cover outputs)
    * 
    * @param asm the Asm specification
    */
@@ -231,6 +350,86 @@ public class CoverOutputs {
             _builder.newLine();
             sb.append(_builder);
             sb.append(System.lineSeparator());
+          }
+        } else {
+          Domain _codomain_1 = ((MonitoredFunction)fd).getCodomain();
+          if ((_codomain_1 instanceof EnumTd)) {
+            EList<Domain> _domain_1 = asm.getHeaderSection().getSignature().getDomain();
+            for (final Domain dd : _domain_1) {
+              boolean _equals = dd.equals(((MonitoredFunction)fd).getDomain());
+              if (_equals) {
+                if ((dd instanceof EnumTd)) {
+                  for (int i = 0; (i < ((EnumTd)dd).getElement().size()); i++) {
+                    {
+                      String symbol = new DomainToJavaStringEvosuite(asm).visit(((EnumTd)dd).getElement().get(i));
+                      sb.append(System.lineSeparator());
+                      StringConcatenation _builder_1 = new StringConcatenation();
+                      _builder_1.append("/**");
+                      _builder_1.newLine();
+                      _builder_1.append("* Get the monitored function {@code ");
+                      String _name_7 = ((MonitoredFunction)fd).getName();
+                      _builder_1.append(_name_7);
+                      _builder_1.append("_");
+                      _builder_1.append(symbol);
+                      _builder_1.append("}.");
+                      _builder_1.newLineIfNotEmpty();
+                      _builder_1.append("*");
+                      _builder_1.newLine();
+                      _builder_1.append("* @return the selected {@code ");
+                      _builder_1.append(asmName);
+                      _builder_1.append(".");
+                      String _name_8 = ((MonitoredFunction)fd).getCodomain().getName();
+                      _builder_1.append(_name_8);
+                      _builder_1.append(" ");
+                      String _name_9 = ((MonitoredFunction)fd).getName();
+                      _builder_1.append(_name_9);
+                      _builder_1.append("_");
+                      _builder_1.append(symbol);
+                      _builder_1.append("} ");
+                      String _name_10 = ((MonitoredFunction)fd).getName();
+                      _builder_1.append(_name_10);
+                      _builder_1.append("_");
+                      _builder_1.append(symbol);
+                      _builder_1.newLineIfNotEmpty();
+                      _builder_1.append("*/");
+                      _builder_1.newLine();
+                      _builder_1.append("\t");
+                      _builder_1.append("private ");
+                      _builder_1.append(asmName, "\t");
+                      _builder_1.append(".");
+                      String _name_11 = ((MonitoredFunction)fd).getCodomain().getName();
+                      _builder_1.append(_name_11, "\t");
+                      _builder_1.append(" get_");
+                      String _name_12 = ((MonitoredFunction)fd).getName();
+                      _builder_1.append(_name_12, "\t");
+                      _builder_1.append("_");
+                      _builder_1.append(symbol, "\t");
+                      _builder_1.append("(){");
+                      _builder_1.newLineIfNotEmpty();
+                      _builder_1.append("\t\t");
+                      _builder_1.append("return this.execution.");
+                      String _name_13 = ((MonitoredFunction)fd).getName();
+                      _builder_1.append(_name_13, "\t\t");
+                      _builder_1.append(".get(");
+                      _builder_1.newLineIfNotEmpty();
+                      _builder_1.append("\t\t\t");
+                      _builder_1.append("this.execution.");
+                      String _name_14 = ((MonitoredFunction)fd).getDomain().getName();
+                      _builder_1.append(_name_14, "\t\t\t");
+                      _builder_1.append("_elemsList.get(");
+                      _builder_1.append(i, "\t\t\t");
+                      _builder_1.append("));");
+                      _builder_1.newLineIfNotEmpty();
+                      _builder_1.append("\t");
+                      _builder_1.append("}");
+                      _builder_1.newLine();
+                      sb.append(_builder_1);
+                      sb.append(System.lineSeparator());
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }

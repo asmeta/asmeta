@@ -22,8 +22,9 @@ class CoverOutputs {
 		
 		for (fd : asm.headerSection.signature.function){
 			if(fd instanceof MonitoredFunction || fd instanceof ControlledFunction){
-				if(fd.domain === null){ // [] -> ...
-					if(fd.codomain instanceof EnumTd){ // [] -> Enum
+				// cover only enum states
+				if(fd.codomain instanceof EnumTd){ // ... -> Enum
+					if(fd.domain === null){ // [] -> Enum
 						sb.append("\t").append('''private void cover_«fd.name»(){''');
 						sb.append(System.lineSeparator)
 						sb.append("\t\t").append('''if(this.get_«fd.name»() == null){''');
@@ -51,7 +52,45 @@ class CoverOutputs {
 						sb.append(System.lineSeparator)
 						sb.append("\t\t")sb.append('''}''');
 						sb.append(System.lineSeparator)
-					} /* TODO: add cover functions for domain -> codomain functions if necessary */
+					} else {
+						// Enum -> Enum
+						for(dd : asm.headerSection.signature.domain){
+							if(dd.equals(fd.domain)){
+								if(dd instanceof EnumTd){ 
+									for (var int i = 0; i < dd.element.size; i++) {
+										var symbol = new DomainToJavaStringEvosuite(asm).visit(dd.element.get(i))
+										sb.append("\t").append('''private void cover_«fd.name»_«symbol»(){''');
+										sb.append(System.lineSeparator)
+										sb.append("\t\t").append('''if(this.get_«fd.name»_«symbol»() == null){''');
+										sb.append(System.lineSeparator)
+										sb.append("\t\t\t").append('''return;''');
+										sb.append(System.lineSeparator)
+										sb.append("\t\t").append('''}''')
+										sb.append(System.lineSeparator)
+										sb.append("\t\t").append('''switch(this.get_«fd.name»_«symbol»()){''');
+										for(ddd : asm.headerSection.signature.domain){
+											if(ddd.equals(fd.codomain)){
+												if(ddd instanceof EnumTd){
+													for (var int j = 0; j < ddd.element.size; j++) {
+														var symbolD = new DomainToJavaStringEvosuite(asm).visit(ddd.element.get(j))
+														sb.append(System.lineSeparator)
+														sb.append("\t\t\t").append('''case «symbolD» :
+														System.out.println("Branch «fd.codomain.name» «symbolD» covered");
+														break;''');
+														sb.append(System.lineSeparator)
+													}
+												}
+											}
+										}
+										sb.append("\t\t\t")sb.append('''}''');
+										sb.append(System.lineSeparator)
+										sb.append("\t\t")sb.append('''}''');
+										sb.append(System.lineSeparator)
+									}
+								}
+							}
+						}
+					}
 				}
 			}
 		}
@@ -79,14 +118,30 @@ class CoverOutputs {
 		sb.append("\t").append('''private void coverOutputs(){''');
 
 		for (fd : asm.headerSection.signature.function) {
+			// cover monitored and controlled outputs
 			if (fd instanceof MonitoredFunction || fd instanceof ControlledFunction) {
-				if(fd.domain === null){ // [] -> ...
-					if(fd.codomain instanceof EnumTd){ // [] -> Enum
+				// cover only enum states
+				if(fd.codomain instanceof EnumTd){ // ... -> Enum
+					if(fd.domain === null){  // [] -> Enum
 						sb.append(System.lineSeparator)
 						sb.append("\t\t").append('''cover_«fd.name»();''')
+					} else {
+						for(dd : asm.headerSection.signature.domain){
+							if(dd.equals(fd.domain)){
+								if(dd instanceof EnumTd){ 
+									// Enum -> Enum
+									for (var int i = 0; i < dd.element.size; i++) {
+										var symbol = new DomainToJavaStringEvosuite(asm).visit(dd.element.get(i))
+										sb.append(System.lineSeparator);
+										sb.append("\t\t").append('''cover_«fd.name»_«symbol»();''')
+									}
+								}
+							}
+						}
 					}
-				}
-			} // TODO: add cover functions for domain -> codomain functions if necessary
+				} 
+			}
+			
 		}
 		
 		sb.append("\t").append('''}''');
@@ -95,18 +150,18 @@ class CoverOutputs {
 	}	
 	
 	/**
-	 * In order to cover outputs we only need to cover the Enum functions 
+	 * Monitored functions getters (private, only for cover outputs)
 	 * 
 	 * @param asm the Asm specification
 	 */
 	static def monitoredGetter(Asm asm) {
-		
+		// In order to cover outputs we only need to cover the Enum functions
 		val sb = new StringBuffer();
 		
 		var asmName = asm.name;
 			for (fd : asm.headerSection.signature.function) {
 				if (fd instanceof MonitoredFunction) {
-					if (fd.domain === null) {
+					if (fd.domain === null) { // [] -> Enum
 						if (fd.codomain instanceof EnumTd) {
 							sb.append(System.lineSeparator);
 							sb.append('''
@@ -121,7 +176,32 @@ class CoverOutputs {
 						 	''');
 						 	sb.append(System.lineSeparator);
 						}
-					} /* TODO: add monitored getters for domain -> codomain functions if necessary */
+					} else {
+						if(fd.codomain instanceof EnumTd){ // Enum -> Enum
+							for(dd : asm.headerSection.signature.domain){
+								if(dd.equals(fd.domain)){
+									if(dd instanceof EnumTd){ 
+										for (var int i = 0; i < dd.element.size; i++) {
+											var symbol = new DomainToJavaStringEvosuite(asm).visit(dd.element.get(i))
+											sb.append(System.lineSeparator);
+											sb.append('''
+											/**
+											* Get the monitored function {@code «fd.name»_«symbol»}.
+											*
+											* @return the selected {@code «asmName».«fd.codomain.name» «fd.name»_«symbol»} «fd.name»_«symbol»
+											*/
+												private «asmName».«fd.codomain.name» get_«fd.name»_«symbol»(){
+													return this.execution.«fd.name».get(
+														this.execution.«fd.domain.name»_elemsList.get(«i»));
+												}
+										 	''');										 	
+										 	sb.append(System.lineSeparator);
+										}
+									}
+								}
+							}
+						}
+					}
 				}
 			}
 			
