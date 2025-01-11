@@ -239,10 +239,29 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	@Override
 	public void enterSetVariableValue(SetVariableValueContext ctx) {
 		log.debug("Entering start_test_scenario_setFunction_setVariableValue: {} .", ctx.getText());
-		if(ctx.number() != null || ctx.STRING() != null || ctx.Boolean() != null) {
+		if(ctx.STRING() != null) {
+			String value = ctx.getText();
+			log.debug("Setting the primitive String value : {} .", value);
+			String setter = this.currentJavaVariable.getName();
+			if(setter.contains("set_abstract_")) {
+				// it's an abstract type
+				log.debug("Replacing the abstract flag for the abstract type : {} .", setter);
+				// remove the flag abstract_
+				this.currentJavaVariable.setName(setter.replace("abstract_", ""));
+				log.debug("new setter: {} ", this.currentJavaVariable.getName());
+				// set primitive to true to remove double quotes
+				this.currentJavaVariable.setPrimitive(true);
+			} else {
+				// it's a String, set primitive to false to keep double quotes
+				this.currentJavaVariable.setPrimitive(false);
+			}
+			this.currentJavaVariable.setValue(value);
+		}
+		else if(ctx.number() != null || ctx.Boolean() != null) {
 			// if its a primitive type (int, string or boolean)
-			log.debug("Setting the primitive type value : {} .", ctx.getText());
-			this.currentJavaVariable.setValue(ctx.getText());
+			String setter = ctx.getText();
+			log.debug("Setting the primitive type value : {} .", setter);
+			this.currentJavaVariable.setValue(setter);
 			this.currentJavaVariable.setPrimitive(true);
 		} else {
 			// if its a variable (identifier)
@@ -358,8 +377,9 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 				log.debug("Saving the getter {} : {}", expectedValue, this.currentJavaAssertionTerm.getActual());
 			}
 		} else {
-			log.debug("parsing Getter: {} .", ctx.getText());
-			this.currentJavaAssertionTerm.setExpected(ctx.getText());
+			String getter = ctx.getText();
+			log.debug("parsing Getter: {} .", getter);
+			this.currentJavaAssertionTerm.setExpected(getter);
 		}
 		
 	}

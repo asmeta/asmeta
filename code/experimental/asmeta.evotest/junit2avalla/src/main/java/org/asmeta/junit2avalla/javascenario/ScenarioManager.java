@@ -129,6 +129,11 @@ class ScenarioManager {
 	 */
 	private String retrieveActual(JavaAssertionTerm javaAssertionTerm) {
 		String actual = javaAssertionTerm.getActual();
+		if (actual.contains("abstract_")){
+			// if it's an abstract type remove the double quotes and the abstract_ flag
+			actual = actual.replace("\"", "");
+			actual = actual.replace("abstract_", "");
+		}
 		return javaAssertionTerm.isPrimitive() ? actual : actual.substring(actual.lastIndexOf(".") + 1);
 	}
 
