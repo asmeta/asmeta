@@ -34,6 +34,9 @@ import org.asmeta.junit2avalla.antlr.JavaScenarioParser.VariableValueContext;
  */
 public class JavaScenarioListener extends JavaScenarioBaseListener {
 
+	/* Constants */
+	private static final String FROM_DOMAIN = "_fromDomain_";
+	
 	/** Logger */
 	private final Logger log = LogManager.getLogger(JavaScenarioListener.class);
 
@@ -195,8 +198,12 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	 */
 	@Override
 	public void enterVariableValue(VariableValueContext ctx) {
-		log.debug("Entering start_test_scenario_variableDeclaration_variableValue: {} .", ctx.getText());
-		this.currentJavaVariable.setValue(ctx.getText());
+		String value = ctx.getText();
+		log.debug("Entering start_test_scenario_variableDeclaration_variableValue: {} .", value);
+		// Set a function with Domain -> Codomain
+		value = buildDomainCodomain(value);
+		// example: get_function_fromDomain_STATE1 -> get_function(STATE1)
+		this.currentJavaVariable.setValue(value);
 	}
 
 	/**
@@ -222,11 +229,14 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	 */
 	@Override
 	public void enterSetFunction(SetFunctionContext ctx) {
-		log.debug("Entering start_test_scenario_setFunction: {} .", ctx.getText());
+		String setName = ctx.SetFunc().getText();
+		log.debug("Entering start_test_scenario_setFunction: {} .", setName);
 		this.currentJavaVariable = new JavaVariableTerm();
-		currentJavaVariable.setName(ctx.SetFunc().getText());
+		// Set a function with Domain -> Codomain
+		setName = buildDomainCodomain(setName);
+		// example: set_function_fromDomain_STATE1 -> set_function(STATE1)
+		currentJavaVariable.setName(setName);
 	}
-
 
 	/**
 	 * {@inheritDoc}
@@ -379,6 +389,9 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 		} else {
 			String getter = ctx.getText();
 			log.debug("parsing Getter: {} .", getter);
+			// Set a function with Domain -> Codomain
+			getter = buildDomainCodomain(getter);
+			// example: get_function_fromDomain_STATE1 -> get_function(STATE1)
 			this.currentJavaAssertionTerm.setExpected(getter);
 		}
 		
@@ -434,8 +447,12 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	 */
 	@Override
 	public void enterBooleanExpected(BooleanExpectedContext ctx) {
-		log.debug("parsing Getter: {} .", ctx.getText());
-		this.currentJavaAssertionTerm.setExpected(ctx.getText());
+		String getter = ctx.getText();
+		log.debug("parsing Getter: {} .", getter);
+		// Set a function with Domain -> Codomain
+		getter = buildDomainCodomain(getter);
+		// example: get_function_fromDomain_STATE1 -> get_function(STATE1)
+		this.currentJavaAssertionTerm.setExpected(getter);
 	}
 	
 	
@@ -488,4 +505,14 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	public List<Scenario> getScenarioList() {
 		return scenarioList;
 	}
+	
+	private String buildDomainCodomain(String name) {
+		if(name.contains(FROM_DOMAIN)) {
+			// example: set_function_fromDomain_STATE1 -> set_function(STATE1)
+			name = name.replace(FROM_DOMAIN, "(").concat(")");
+			log.debug("Building the Domain -> Codomain operator: {} .", name);
+		}
+		return name;
+	}
+	
 }

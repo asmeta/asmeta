@@ -99,7 +99,7 @@ public class JavaScenarioUtil {
               assertEquals(0, registroDiCassav4_ATG0.get_totale());
               assertEquals("Scegli il tipo di pizza desiderata:", registroDiCassav4_ATG0.get_outMess());
         
-              registroDiCassav4_ATG0.set_pizzaInserita("margherita");
+              registroDiCassav4_ATG0.set_abstract_pizzaInserita("margherita");
               assertEquals(RegistroDiCassav4.Stati.SCEGLI_TIPO_DI_PIZZA, registroDiCassav4_ATG0.get_statoCassa());
               assertEquals(0, registroDiCassav4_ATG0.get_totale());
               assertEquals("Scegli il tipo di pizza desiderata:", registroDiCassav4_ATG0.get_outMess());

@@ -1,0 +1,29 @@
+scenario AbstractTD_scenario0
+
+load AbstractTD.asm
+
+check stringControlledFunction = "Hello world";
+check abstractControlledFunction = value1;
+check enumtoabstractControlledFunction(STATE3) = value1;
+check abstracttointegerControlledFunction(value1) = 10;
+check abstracttostringControlledFunction(value2) = "hello world";
+check abstracttoenumControlledFunction(value1) = STATE1;
+check abstracttoabstractControlledFunction(value1) = another1;
+check abstracttoconcreteControlledFunction(value2) = 5;
+check abstracttostringControlledFunction(value1) = "hello world";
+check abstracttobooleanControlledFunction(value2) = false;
+
+step
+
+set stringMonitoredFunction := "Hello world";
+set enumtoabstractMonitoredFunction(STATE3) := value2;
+set abstractMonitoredFunction := value2;
+set abstracttointegerMonitoredFunction(value1) := 10;
+set abstracttobooleanMonitoredFunction(value1) := false;
+set abstracttostringMonitoredFunction(value1) := "Hello world";
+set abstracttoabstractMonitoredFunction(value1) := another1;
+set abstracttoconcreteMonitoredFunction(value2) := 5;
+set abstracttoconcreteMonitoredFunction(value1) := 5;
+
+step
+

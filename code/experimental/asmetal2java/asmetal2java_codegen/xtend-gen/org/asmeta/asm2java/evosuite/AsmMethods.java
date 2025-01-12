@@ -216,7 +216,7 @@ public class AsmMethods {
                       _builder_7.append("public Integer get_");
                       String _name_17 = ((ControlledFunction)fd).getName();
                       _builder_7.append(_name_17);
-                      _builder_7.append("_");
+                      _builder_7.append("_fromDomain_");
                       _builder_7.append(symbol);
                       _builder_7.append("(){");
                       _append.append(_builder_7);
@@ -251,7 +251,7 @@ public class AsmMethods {
                         _builder_11.append("public String get_");
                         String _name_20 = ((ControlledFunction)fd).getName();
                         _builder_11.append(_name_20);
-                        _builder_11.append("_");
+                        _builder_11.append("_fromDomain_");
                         _builder_11.append(symbol);
                         _builder_11.append("(){");
                         _append_4.append(_builder_11);
@@ -301,7 +301,7 @@ public class AsmMethods {
                           _builder_17.append("public Integer get_");
                           String _name_24 = ((ControlledFunction)fd).getName();
                           _builder_17.append(_name_24);
-                          _builder_17.append("_");
+                          _builder_17.append("_fromDomain_");
                           _builder_17.append(symbol);
                           _builder_17.append("(){");
                           _append_10.append(_builder_17);
@@ -313,7 +313,7 @@ public class AsmMethods {
                             _builder_18.append("public Boolean get_");
                             String _name_25 = ((ControlledFunction)fd).getName();
                             _builder_18.append(_name_25);
-                            _builder_18.append("_");
+                            _builder_18.append("_fromDomain_");
                             _builder_18.append(symbol);
                             _builder_18.append("(){");
                             _append_11.append(_builder_18);
@@ -325,7 +325,7 @@ public class AsmMethods {
                               _builder_19.append("public String get_");
                               String _name_26 = ((ControlledFunction)fd).getName();
                               _builder_19.append(_name_26);
-                              _builder_19.append("_");
+                              _builder_19.append("_fromDomain_");
                               _builder_19.append(symbol);
                               _builder_19.append("(){");
                               _append_12.append(_builder_19);
@@ -340,7 +340,7 @@ public class AsmMethods {
                               _builder_20.append(" get_");
                               String _name_28 = ((ControlledFunction)fd).getName();
                               _builder_20.append(_name_28);
-                              _builder_20.append("_");
+                              _builder_20.append("_fromDomain_");
                               _builder_20.append(symbol);
                               _builder_20.append("(){");
                               _append_13.append(_builder_20);
@@ -390,7 +390,7 @@ public class AsmMethods {
                           _builder_7.append("public Integer get_");
                           String _name_17 = ((ControlledFunction)fd).getName();
                           _builder_7.append(_name_17);
-                          _builder_7.append("_");
+                          _builder_7.append("_fromDomain_");
                           _builder_7.append(symbol);
                           _builder_7.append("(){");
                           _append.append(_builder_7);
@@ -433,7 +433,7 @@ public class AsmMethods {
                             _builder_12.append("public String get_");
                             String _name_21 = ((ControlledFunction)fd).getName();
                             _builder_12.append(_name_21);
-                            _builder_12.append("_");
+                            _builder_12.append("_fromDomain_");
                             _builder_12.append(symbol);
                             _builder_12.append("(){");
                             _append_5.append(_builder_12);
@@ -491,7 +491,7 @@ public class AsmMethods {
                               _builder_19.append("public Integer get_");
                               String _name_26 = ((ControlledFunction)fd).getName();
                               _builder_19.append(_name_26);
-                              _builder_19.append("_");
+                              _builder_19.append("_fromDomain_");
                               _builder_19.append(symbol);
                               _builder_19.append("(){");
                               _append_12.append(_builder_19);
@@ -503,7 +503,7 @@ public class AsmMethods {
                                 _builder_20.append("public Boolean get_");
                                 String _name_27 = ((ControlledFunction)fd).getName();
                                 _builder_20.append(_name_27);
-                                _builder_20.append("_");
+                                _builder_20.append("_fromDomain_");
                                 _builder_20.append(symbol);
                                 _builder_20.append("(){");
                                 _append_13.append(_builder_20);
@@ -515,7 +515,7 @@ public class AsmMethods {
                                   _builder_21.append("public String get_");
                                   String _name_28 = ((ControlledFunction)fd).getName();
                                   _builder_21.append(_name_28);
-                                  _builder_21.append("_");
+                                  _builder_21.append("_fromDomain_");
                                   _builder_21.append(symbol);
                                   _builder_21.append("(){");
                                   _append_14.append(_builder_21);
@@ -531,7 +531,7 @@ public class AsmMethods {
                                   _builder_22.append(" get_");
                                   String _name_31 = ((ControlledFunction)fd).getName();
                                   _builder_22.append(_name_31);
-                                  _builder_22.append("_");
+                                  _builder_22.append("_fromDomain_");
                                   _builder_22.append(symbol);
                                   _builder_22.append("(){");
                                   _append_15.append(_builder_22);
@@ -797,7 +797,7 @@ public class AsmMethods {
                   _builder_4.append("public void set_");
                   String _name_32 = ((MonitoredFunction)fd).getName();
                   _builder_4.append(_name_32);
-                  _builder_4.append("_");
+                  _builder_4.append("_fromDomain_");
                   _builder_4.append(symbol);
                   _builder_4.append("(int ");
                   String _name_33 = ((MonitoredFunction)fd).getName();
@@ -862,7 +862,7 @@ public class AsmMethods {
                     _builder_5.append("public void set_");
                     String _name_43 = ((MonitoredFunction)fd).getName();
                     _builder_5.append(_name_43);
-                    _builder_5.append("_");
+                    _builder_5.append("_fromDomain_");
                     _builder_5.append(symbol);
                     _builder_5.append("(");
                     String _name_44 = asm.getName();
@@ -920,7 +920,7 @@ public class AsmMethods {
                       _builder_6.append("public void set_abstract_");
                       String _name_53 = ((MonitoredFunction)fd).getName();
                       _builder_6.append(_name_53);
-                      _builder_6.append("_");
+                      _builder_6.append("_fromDomain_");
                       _builder_6.append(symbol);
                       _builder_6.append("(String ");
                       String _name_54 = ((MonitoredFunction)fd).getName();
@@ -993,7 +993,7 @@ public class AsmMethods {
                       _builder_7.append("public void set_");
                       String _name_63 = ((MonitoredFunction)fd).getName();
                       _builder_7.append(_name_63);
-                      _builder_7.append("_");
+                      _builder_7.append("_fromDomain_");
                       _builder_7.append(symbol);
                       _builder_7.append("(");
                       _builder_7.append(type_1);
@@ -1059,7 +1059,7 @@ public class AsmMethods {
                       _builder_4.append("public void set_");
                       String _name_32 = ((MonitoredFunction)fd).getName();
                       _builder_4.append(_name_32);
-                      _builder_4.append("_");
+                      _builder_4.append("_fromDomain_");
                       _builder_4.append(symbol);
                       _builder_4.append("(int ");
                       String _name_33 = ((MonitoredFunction)fd).getName();
@@ -1127,7 +1127,7 @@ public class AsmMethods {
                         _builder_5.append("public void set_");
                         String _name_43 = ((MonitoredFunction)fd).getName();
                         _builder_5.append(_name_43);
-                        _builder_5.append("_");
+                        _builder_5.append("_fromDomain_");
                         _builder_5.append(symbol);
                         _builder_5.append("(");
                         String _name_44 = asm.getName();
@@ -1191,7 +1191,7 @@ public class AsmMethods {
                           _builder_6.append("public void set_abstract_");
                           String _name_53 = ((MonitoredFunction)fd).getName();
                           _builder_6.append(_name_53);
-                          _builder_6.append("_");
+                          _builder_6.append("_fromDomain_");
                           _builder_6.append(symbol);
                           _builder_6.append("(String ");
                           String _name_54 = ((MonitoredFunction)fd).getName();
@@ -1270,7 +1270,7 @@ public class AsmMethods {
                           _builder_7.append("public void set_");
                           String _name_63 = ((MonitoredFunction)fd).getName();
                           _builder_7.append(_name_63);
-                          _builder_7.append("_");
+                          _builder_7.append("_fromDomain_");
                           _builder_7.append(symbol);
                           _builder_7.append("(");
                           _builder_7.append(type_1);
