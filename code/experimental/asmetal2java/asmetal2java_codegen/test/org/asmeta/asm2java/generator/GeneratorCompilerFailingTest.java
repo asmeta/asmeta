@@ -6,6 +6,7 @@ import java.nio.file.Path;
 
 import org.asmeta.asm2java.config.TranslatorOptions;
 import org.asmeta.asm2java.config.TranslatorOptionsImpl;
+import org.junit.Before;
 import org.junit.Test;
 
 public class GeneratorCompilerFailingTest {
@@ -17,6 +18,11 @@ public class GeneratorCompilerFailingTest {
 	private static final Path dirCompilazione = GeneratorCompilerUtil.dirCompilazione;
 	private static final Path dirTraduzione = GeneratorCompilerUtil.dirTraduzione;
 	private static final String FIBONACCI_ASM = "fibonacci.asm";
+	
+	@Before
+	public void setup() {
+		GeneratorCompilerUtil.setupFolders(dirExamples);
+	}
 
 	@Test
 	public void testFibonacci() throws Exception {

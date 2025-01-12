@@ -3,7 +3,6 @@ package org.asmeta.asm2java.generator;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -28,6 +27,11 @@ import org.junit.Test;
 public class GeneratorCompilerAllLocalExamplesTest {
 
 	/**
+	 * Path of the directory where the example files are stored 
+	 */
+	private static final Path path = GeneratorCompilerUtil.dirExamples;
+	
+	/**
 	 * formatter = true, shuffleRandom = true, optimizeSeqRule = true
 	 */
 	private TranslatorOptions options = new TranslatorOptionsImpl(true, true, true);
@@ -43,6 +47,7 @@ public class GeneratorCompilerAllLocalExamplesTest {
 
 	@BeforeClass
 	public static void setup() {
+		GeneratorCompilerUtil.setupFolders(path);
 		excludeFiles.addAll(GeneratorCompilerUtil.libraries);
 		excludeFiles.addAll(GeneratorCompilerUtil.parseException);
 		excludeFiles.addAll(GeneratorCompilerUtil.runtimeException);
@@ -52,14 +57,6 @@ public class GeneratorCompilerAllLocalExamplesTest {
 	@Test
 	public void testAllLocalExamples() throws Exception {
 		List<String> failures = new ArrayList<>();
-		Path path = GeneratorCompilerUtil.dirExamples;
-		assertTrue(path.toFile().exists() && path.toFile().isDirectory());
-		// build where to put the .java and the .class
-		File dirCompF = GeneratorCompilerUtil.dirCompilazione.toFile();
-		File dirTradF = GeneratorCompilerUtil.dirTraduzione.toFile();
-		// create if it does not exists
-		GeneratorCompilerUtil.checkDir(dirCompF);
-		GeneratorCompilerUtil.checkDir(dirTradF);
 		System.out.println("Translating and compiling all the local examples inside the " + path + ":");
 		// limit depth to 1
 		Stream<Path> walk = Files.walk(path, 1);

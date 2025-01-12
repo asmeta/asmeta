@@ -8,6 +8,7 @@ import org.asmeta.asm2java.config.TranslatorOptions;
 import org.asmeta.asm2java.config.TranslatorOptionsImpl;
 import org.asmeta.asm2java.evosuite.RulesMap;
 import org.asmeta.parser.ASMParser;
+import org.junit.Before;
 import org.junit.Test;
 
 import asmeta.AsmCollection;
@@ -32,6 +33,11 @@ public class JavaTestGeneratorTest {
 	/** Generator of the _ASM java class */
 	private JavaAtgGenerator jGeneratorAtg = new JavaAtgGenerator(rulesImpl);
 
+	@Before
+	public void setup() {
+		GeneratorCompilerUtil.setupFolders(GeneratorCompilerUtil.dirExamples);
+	}
+	
 	@Test
 	public void genTestandATGClasses() throws Exception {
 

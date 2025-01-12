@@ -36,12 +36,6 @@ public class GeneratorCompilerTestInProject {
 	private static final Path SRC_GEN_path = Path.of("..", "asmetal2java_examples", "src");
 
 	/**
-	 * Path to the directory where the translation-related .class files are stored
-	 * (./examples/compilazione)
-	 */
-	private static final Path dirCompilazione = GeneratorCompilerUtil.dirCompilazione;
-
-	/**
 	 * formatter = true, shuffleRandom = true, optimizeSeqRule = true
 	 */
 	private TranslatorOptions options = new TranslatorOptionsImpl(true, true, true);

@@ -1,5 +1,6 @@
 package org.asmeta.asm2java.generator;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.File;
@@ -182,6 +183,23 @@ public class GeneratorCompilerUtil {
 			return new CompileResultImpl(true, " java generated with success");
 		}
 
+	}
+
+	/**
+	 * Configuration steps to perform before the testing process. Verify that the
+	 * destination folder where the files to be translated are stored exists and
+	 * check/create the translation and compilation folders
+	 * 
+	 * @param filesFolderPath path to the folder of the file to be translated
+	 */
+	public static void setupFolders(Path filesFolderPath) {
+		assertTrue(filesFolderPath.toFile().exists());
+		assertTrue(filesFolderPath.toFile().isDirectory());
+		File dirCompF = GeneratorCompilerUtil.dirCompilazione.toFile();
+		File dirTradF = GeneratorCompilerUtil.dirTraduzione.toFile();
+		// create if it does not exists
+		GeneratorCompilerUtil.checkDir(dirCompF);
+		GeneratorCompilerUtil.checkDir(dirTradF);
 	}
 
 	/**
