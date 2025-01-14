@@ -503,10 +503,10 @@ public class FunctionToJavaDef extends ReflectiveVisitor<String> {
             _builder_20.append(".newValue = ");
             String _name_24 = object.getCodomain().getName();
             _builder_20.append(_name_24);
-            _builder_20.append(".get(");
+            _builder_20.append(".get(\"");
             String _visit_33 = new TermToJava(this.asm).visit(object.getInitialization().get(0).getBody());
             _builder_20.append(_visit_33);
-            _builder_20.append(".toString());");
+            _builder_20.append("\");");
             _builder_20.newLineIfNotEmpty();
             sb.append(_builder_20);
           } else {

@@ -150,9 +150,7 @@ class AsmMethods {
 												sb.append(System.lineSeparator)
 												sb.append("\t\t").append('''return this.execution.«fd.name».oldValues.get(''');
 												sb.append(System.lineSeparator)
-												sb.append("\t\t\t").append('''this.execution.«fd.domain.name»_Class.get(''');
-												sb.append(System.lineSeparator)
-												sb.append("\t\t\t").append('''this.execution.«fd.domain.name»_elemsList.indexOf("«symbol»"))).value;''');
+												sb.append("\t\t\t").append('''«asmName».«fd.domain.name».get("«symbol»")).value;''');
 												sb.append(System.lineSeparator)
 												sb.append("\t").append('''}''');
 											} else if (fd.codomain instanceof AbstractTd){ // Abstract -> Abstract
@@ -163,9 +161,7 @@ class AsmMethods {
 												sb.append(System.lineSeparator)
 												sb.append("\t\t").append('''this.execution.«fd.name».oldValues.get(''');
 												sb.append(System.lineSeparator)
-												sb.append("\t\t\t").append('''this.execution.«fd.domain.name»_Class.get(''');
-												sb.append(System.lineSeparator)
-												sb.append("\t\t\t").append('''this.execution.«fd.domain.name»_elemsList.indexOf("«symbol»"))));''');
+												sb.append("\t\t").append('''«asmName».«fd.domain.name».get("«symbol»")));''');
 												sb.append(System.lineSeparator)
 												sb.append("\t\t").append('''return value != null ? "abstract_" + value : null;''');
 												sb.append(System.lineSeparator)
@@ -186,9 +182,7 @@ class AsmMethods {
 												sb.append(System.lineSeparator)
 												sb.append("\t\t").append('''return this.execution.«fd.name».oldValues.get(''');
 												sb.append(System.lineSeparator)
-												sb.append("\t\t\t").append('''this.execution.«fd.domain.name»_Class.get(''');
-												sb.append(System.lineSeparator)
-												sb.append("\t\t\t").append('''this.execution.«fd.domain.name»_elemsList.indexOf("«symbol»")));''');
+												sb.append("\t\t\t").append('''«asmName».«fd.domain.name».get("«symbol»"));''');
 												sb.append(System.lineSeparator)
 												sb.append("\t").append('''}''');
 											}
@@ -245,8 +239,7 @@ class AsmMethods {
 						sb.append('''
 						public void set_abstract_«fd.name»(String «fd.name») {
 							this.execution.«fd.name».set(
-							this.execution.«fd.codomain.name»_Class.get(
-							this.execution.«fd.codomain.name»_elemsList.indexOf(«fd.name»)));
+							«asm.name».«fd.codomain.name».get(«fd.name»));
 							System.out.println("Set «fd.name» = " + «fd.name»);
 						}''')
 				    	sb.append(System.lineSeparator)
@@ -296,8 +289,7 @@ class AsmMethods {
 								sb.append('''
 								public void set_abstract_«fd.name»_fromDomain_«symbol»(String «fd.name»_«symbol») {
 									this.execution.«fd.name».set(«asm.name».«dd.name».«symbol», 
-									this.execution.«fd.codomain.name»_Class.get(
-									this.execution.«fd.codomain.name»_elemsList.indexOf(«fd.name»_«symbol»)));
+									«asm.name».«fd.codomain.name».get(«fd.name»_«symbol»));
 									System.out.println("Set «fd.name»_«symbol» = " + «fd.name»_«symbol»);
 								}''')
 								sb.append(System.lineSeparator)
@@ -328,19 +320,17 @@ class AsmMethods {
 										sb.append('''
 										public void set_«fd.name»_fromDomain_«symbol»(int «fd.name»_«symbol») {
 											this.execution.«fd.name».set(
-											this.execution.«fd.domain.name»_Class.get(
-											this.execution.«fd.domain.name»_elemsList.indexOf("«symbol»")),
+											«asm.name».«fd.domain.name».get("«symbol»"),
 											«asm.name».«fd.codomain.name».valueOf(this.execution.«fd.codomain.name»_elems.get(«fd.name»_«symbol»)));
 											System.out.println("Set «fd.name»_«symbol» = " + «fd.name»_«symbol»);
 										}''')
 									}
-									else if (fd.codomain instanceof EnumTd) { // Abstract -> Enum  (//TODO: test and fix)
+									else if (fd.codomain instanceof EnumTd) { // Abstract -> Enum
 										sb.append(System.lineSeparator)
 										sb.append('''
 										public void set_«fd.name»_fromDomain_«symbol»(«asm.name».«fd.codomain.name» «fd.name»_«symbol») {
 											this.execution.«fd.name».set(
-											this.execution.«fd.domain.name»_Class.get(
-											this.execution.«fd.domain.name»_elemsList.indexOf("«symbol»")),«fd.name»_«symbol»);
+											«asm.name».«fd.domain.name».get("«symbol»"),«fd.name»_«symbol»);
 											System.out.println("Set «fd.name»_«symbol» = " + «fd.name»_«symbol»);
 										}''')
 										sb.append(System.lineSeparator)
@@ -350,10 +340,8 @@ class AsmMethods {
 										sb.append('''
 										public void set_abstract_«fd.name»_fromDomain_«symbol»(String «fd.name»_«symbol») {
 											this.execution.«fd.name».set(
-											this.execution.«fd.domain.name»_Class.get(
-											this.execution.«fd.domain.name»_elemsList.indexOf("«symbol»")),
-											this.execution.«fd.codomain.name»_Class.get(
-											this.execution.«fd.codomain.name»_elemsList.indexOf(«fd.name»_«symbol»)));
+											«asm.name».«fd.domain.name».get("«symbol»"),
+											«asm.name».«fd.codomain.name».get(«fd.name»_«symbol»));
 											System.out.println("Set «fd.name»_«symbol» = " + «fd.name»_«symbol»);
 										}''')
 										sb.append(System.lineSeparator)
@@ -369,8 +357,7 @@ class AsmMethods {
 										sb.append('''
 										public void set_«fd.name»_fromDomain_«symbol»(«type» «fd.name»_«symbol») {
 											this.execution.«fd.name».set(
-											this.execution.«fd.domain.name»_Class.get(
-											this.execution.«fd.domain.name»_elemsList.indexOf("«symbol»")),«fd.name»_«symbol»);
+											«asm.name».«fd.domain.name».get("«symbol»"),«fd.name»_«symbol»);
 											System.out.println("Set «fd.name»_«symbol» = " + «fd.name»_«symbol»);
 										}''')
 										sb.append(System.lineSeparator)
