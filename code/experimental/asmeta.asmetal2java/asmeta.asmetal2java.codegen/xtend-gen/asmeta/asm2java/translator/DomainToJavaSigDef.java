@@ -331,6 +331,7 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
     _builder.append("      ");
     _builder.newLine();
     _builder.append("\t  ");
+    _builder.append("static ");
     String _name_4 = object.getName();
     _builder.append(_name_4, "\t  ");
     _builder.append(" get(String a) {");

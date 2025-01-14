@@ -192,7 +192,7 @@ class DomainToJavaSigDef extends ReflectiveVisitor<String> {
 			      	else return null;
 			      }
 			      
-				  «object.name» get(String a) {
+				  static «object.name» get(String a) {
 			      	if(val.contains(a)) {
 			      		return elems.get(val.lastIndexOf(a));
 			      	}
