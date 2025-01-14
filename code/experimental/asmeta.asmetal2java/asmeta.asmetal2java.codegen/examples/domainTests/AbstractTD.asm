@@ -57,7 +57,7 @@ definitions:
 
 // INITIAL STATE
 default init s0:
-	//function abstractControlledFunction = value1 // init error
+	function abstractControlledFunction = value1 // OK
 	function stringControlledFunction = "Hello world" // OK
 	function enumtoabstractControlledFunction($c in EnumDomain) = switch($c)
 									case STATE1 : value1

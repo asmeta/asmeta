@@ -218,6 +218,11 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 					sb.append('''
 						«object.name».oldValue = «object.name».newValue = «new TermToJava(asm).visit(object.initialization.get(0).body)»;
 					''')
+				} else if (object.codomain instanceof AbstractTd){ // [] -> Abstract
+					// get the abstract domain from the static list of the Abstract domain class
+					sb.append('''
+						«object.name».oldValue = «object.name».newValue = «object.codomain.name».get(«new TermToJava(asm).visit(object.initialization.get(0).body)».toString());
+					''')
 				} else {
 					// check if it has been already declared
 					var dec = declaredDomainIninit.contains(object.codomain.name)
