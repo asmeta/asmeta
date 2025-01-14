@@ -1,7 +1,7 @@
 package asmeta.junit2avalla.javascenario;
 
-import org.asmeta.junit2avalla.antlr.JavaScenarioLexer;
-import org.asmeta.junit2avalla.antlr.JavaScenarioParser;
+import asmeta.junit2avalla.antlr.JavaScenarioLexer;
+import asmeta.junit2avalla.antlr.JavaScenarioParser;
 
 import asmeta.junit2avalla.model.Scenario;
 

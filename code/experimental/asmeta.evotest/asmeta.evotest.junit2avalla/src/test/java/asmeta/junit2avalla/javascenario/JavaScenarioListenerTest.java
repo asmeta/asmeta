@@ -8,12 +8,11 @@ import java.util.List;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
-import org.asmeta.junit2avalla.antlr.JavaScenarioLexer;
-import org.asmeta.junit2avalla.antlr.JavaScenarioParser;
+import asmeta.junit2avalla.antlr.JavaScenarioLexer;
+import asmeta.junit2avalla.antlr.JavaScenarioParser;
 
 import org.junit.Test;
 
-import asmeta.junit2avalla.javascenario.JavaScenarioListener;
 import asmeta.junit2avalla.model.Scenario;
 import asmeta.junit2avalla.model.terms.AvallaCheckTerm;
 import asmeta.junit2avalla.model.terms.AvallaHeaderTerm;
