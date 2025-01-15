@@ -76,12 +76,14 @@ variableValue
     // registroDiCassav4_ATG0.get_outMess()	--> Getter
     // "card2"								--> String
     // (-125)								--> number
-    : (Identifier| Getter | STRING | (LPAREN? number RPAREN?))
+    // 'a'									--> char
+    : (Identifier| Getter | STRING | (LPAREN? number RPAREN?) | CHARACTER)
     ;
 
 assertEquals
 	// Represents the assertEquals instruction block: "assertEquals(actual, expected);".
-    : ASSERT_EQUALS LPAREN actual COMMA cast? expected RPAREN SEMI
+	// (COMMA number)? represents the delta: assertEquals(2.2, (double)double0, 0.01);
+    : ASSERT_EQUALS LPAREN actual COMMA cast? expected (COMMA number)? RPAREN SEMI
     ;
 
 assertBoolean
@@ -95,7 +97,8 @@ actual
 	// RegistroDiCassav4.Stati.ATTENDI_ORDINAZIONI	--> Identifier
 	// 20 											--> number
 	// "margherita"									--> STRING
-    : (Identifier | number | STRING)
+	// 'a'											--> char
+    : (Identifier | number | STRING | CHARACTER)
     ;
 
 expected
@@ -143,11 +146,12 @@ stepFunction
 setVariableValue
 	// Defines the value used in a setFunction, which can be a boolean, ID, string, or number.
 	// example:
-	// true										--> Boolean
-	// int4 									--> ID
-	// "margherita"								--> STRING
-	// 20										--> number
-    : (Boolean | ID | STRING | number )
+	// true							--> Boolean
+	// int4 						--> ID
+	// "margherita"					--> STRING
+	// 20							--> number
+	// 'a'							--> char
+    : (Boolean | ID | STRING | number | CHARACTER )
     ;
 
 trycatchblock
@@ -262,6 +266,16 @@ STRING
 	// example: "margherita"
     : DOUBLE_QUOTES TEXT DOUBLE_QUOTES
     ;
+    
+CHARACTER
+	// Represents a char literal enclosed in single quote.
+	// example: 'a'
+	// ' 		--> SINGLE_QUOTE
+	// '\\' -	-> for escape sequences like \n,\t, ...
+	// ~[\\'] 	--> any character that isn't a \ or '
+	// ' 		--> SINGLE_QUOTE
+	: SINGLE_QUOTE ( '\\' . | ~[\\'] ) SINGLE_QUOTE
+	;
 
 ASMID
 	// Represents an identifier for an asmeta specification object, ending with "_ATG".
@@ -290,6 +304,7 @@ DOT : '.' ;
 START : '*' ;
 AT : '@' ;
 DOUBLE_QUOTES : '"' ;
+SINGLE_QUOTE : '\'';
 NEW : 'new' ;
 SET : 'set_' ;
 STEP : 'step' ;

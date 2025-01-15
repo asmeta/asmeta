@@ -228,7 +228,7 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 					// check if it has been already declared
 					var dec = declaredDomainIninit.contains(object.codomain.name)
 					if (! dec){
-						// declare and create a new object for the initiatiliation
+						// declare and create a new object for the initialization
 						sb.append('''«object.codomain.name»  «object.codomain.name»_elem = new  «object.codomain.name»();''')
 						declaredDomainIninit.add(object.codomain.name)
 					}
@@ -522,7 +522,7 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 	}
 
 	def Boolean controllo(String domain) {
-		if (domain.equals("Integer") || domain.equals("String") || domain.equals("Boolean"))
+		if (domain.equals("Integer") || domain.equals("String") || domain.equals("Boolean") || domain.equals("Real"))
 			return true
 		else
 			return false

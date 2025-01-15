@@ -29,6 +29,10 @@ public class AbstractTD_ATG_ESTest extends AbstractTD_ATG_ESTest_scaffolding {
       assertNotNull(string1);
       Integer int0 = abstractTD_ATG0.get_abstracttointegerControlledFunction_fromDomain_value1();
       assertEquals(10, (int)int0);
+      Double double0 = abstractTD_ATG0.get_abstracttorealControlledFunction_fromDomain_value1();
+      assertEquals(2.2, (double)double0, 0.01);
+      Character character0 = abstractTD_ATG0.get_abstracttocharControlledFunction_fromDomain_value1();
+      assertEquals('c', (char)character0);
       String string2 = abstractTD_ATG0.get_abstracttostringControlledFunction_fromDomain_value2();
       assertEquals("hello world", string2);
       Boolean bool1 = abstractTD_ATG0.get_abstracttobooleanControlledFunction_fromDomain_value1();
@@ -39,7 +43,6 @@ public class AbstractTD_ATG_ESTest extends AbstractTD_ATG_ESTest_scaffolding {
       assertEquals("abstract_another1", string3);
       Integer int1 = abstractTD_ATG0.get_abstracttoconcreteControlledFunction_fromDomain_value2();
       assertEquals(5, (int)int1);
-
       assertEquals("hello world", abstractTD_ATG0.get_abstracttostringControlledFunction_fromDomain_value1());
       assertFalse(abstractTD_ATG0.get_abstracttobooleanControlledFunction_fromDomain_value2());
 
@@ -51,10 +54,11 @@ public class AbstractTD_ATG_ESTest extends AbstractTD_ATG_ESTest_scaffolding {
       abstractTD_ATG0.set_abstracttointegerMonitoredFunction_fromDomain_value1(10);
       abstractTD_ATG0.set_abstracttobooleanMonitoredFunction_fromDomain_value1(false);
       abstractTD_ATG0.set_abstracttostringMonitoredFunction_fromDomain_value1("Hello world");
+      abstractTD_ATG0.set_abstracttorealMonitoredFunction_fromDomain_value1(2.5);
+      abstractTD_ATG0.set_abstracttocharMonitoredFunction_fromDomain_value1('d');
       abstractTD_ATG0.set_abstracttoenumMonitoredFunction_fromDomain_value1(EnumDomain.STATE1);
       abstractTD_ATG0.set_abstract_abstracttoabstractMonitoredFunction_fromDomain_value1("another1");
       abstractTD_ATG0.set_abstracttoconcreteMonitoredFunction_fromDomain_value2(5);
-
       abstractTD_ATG0.set_abstracttoconcreteMonitoredFunction_fromDomain_value1(int1);
 
       abstractTD_ATG0.step();

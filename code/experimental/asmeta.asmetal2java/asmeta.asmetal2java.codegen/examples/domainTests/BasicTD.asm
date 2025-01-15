@@ -45,7 +45,7 @@ definitions:
 // INITIAL STATE
 default init s0:
 	// function complexControlledFunction = -2-i3 // Not supported by the translator
-	// function realControlledFunction = -3.4 // Initialization error
+	function realControlledFunction = -3.4 // Initialization error
 	function integerControlledFunction = -5 // OK
 	// function naturalControlledFunction = 3n // Not supported by the testGen
 	function stringControlledFunction = "hello world" // OK

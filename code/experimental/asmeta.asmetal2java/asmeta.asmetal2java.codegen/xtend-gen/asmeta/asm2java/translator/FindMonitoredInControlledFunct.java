@@ -11,10 +11,12 @@ import asmeta.terms.basicterms.TupleTerm;
 import asmeta.terms.basicterms.UndefTerm;
 import asmeta.terms.basicterms.VariableTerm;
 import asmeta.terms.furtherterms.CaseTerm;
+import asmeta.terms.furtherterms.CharTerm;
 import asmeta.terms.furtherterms.ConditionalTerm;
 import asmeta.terms.furtherterms.EnumTerm;
 import asmeta.terms.furtherterms.IntegerTerm;
 import asmeta.terms.furtherterms.NaturalTerm;
+import asmeta.terms.furtherterms.RealTerm;
 import asmeta.terms.furtherterms.SequenceTerm;
 import asmeta.terms.furtherterms.StringTerm;
 import org.asmeta.parser.util.ReflectiveVisitor;
@@ -33,11 +35,19 @@ public class FindMonitoredInControlledFunct extends ReflectiveVisitor<Boolean> {
     return false;
   }
 
+  public boolean visit(final CharTerm term) {
+    return false;
+  }
+
   public boolean visit(final UndefTerm term) {
     return false;
   }
 
   public boolean visit(final IntegerTerm term) {
+    return false;
+  }
+
+  public boolean visit(final RealTerm term) {
     return false;
   }
 

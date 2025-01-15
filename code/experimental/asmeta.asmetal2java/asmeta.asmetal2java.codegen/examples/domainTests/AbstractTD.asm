@@ -18,6 +18,8 @@ signature:
 	monitored abstracttointegerMonitoredFunction: AbstractDomain -> Integer // OK
 	monitored abstracttostringMonitoredFunction: AbstractDomain -> String // OK
 	monitored abstracttobooleanMonitoredFunction: AbstractDomain -> Boolean // OK
+	monitored abstracttorealMonitoredFunction: AbstractDomain -> Real // OK
+	monitored abstracttocharMonitoredFunction: AbstractDomain -> Char // OK
 	monitored abstracttoenumMonitoredFunction: AbstractDomain -> EnumDomain // OK
 	monitored abstracttoabstractMonitoredFunction: AbstractDomain -> AnotherAbstractDomain // OK
 	monitored abstracttoconcreteMonitoredFunction: AbstractDomain -> ConcreteDomain // OK
@@ -30,6 +32,8 @@ signature:
 	controlled abstracttointegerControlledFunction: AbstractDomain -> Integer // OK
 	controlled abstracttostringControlledFunction: AbstractDomain -> String // OK
 	controlled abstracttobooleanControlledFunction: AbstractDomain -> Boolean // OK
+	controlled abstracttorealControlledFunction: AbstractDomain -> Real // OK
+	controlled abstracttocharControlledFunction: AbstractDomain -> Char // OK
 	controlled abstracttoenumControlledFunction: AbstractDomain -> EnumDomain // OK
 	controlled abstracttoabstractControlledFunction: AbstractDomain -> AnotherAbstractDomain // OK
 	controlled abstracttoconcreteControlledFunction: AbstractDomain -> ConcreteDomain // OK
@@ -57,7 +61,7 @@ definitions:
 
 // INITIAL STATE
 default init s0:
-	function abstractControlledFunction = value1 // OK
+	function abstractControlledFunction = value1 // init error
 	function stringControlledFunction = "Hello world" // OK
 	function enumtoabstractControlledFunction($c in EnumDomain) = switch($c)
 									case STATE1 : value1
@@ -69,6 +73,16 @@ default init s0:
 									case value2 : 20
 								endswitch //OK
 	// function abstracttointegerControlledFunction($c in AbstractDomain) = 10 // OK
+	function abstracttorealControlledFunction($c in AbstractDomain) = switch($c)
+									case value1 : 5.5
+									case value2 : 3.3
+								endswitch // OK
+	// function abstracttorealControlledFunction($c in AbstractDomain) = 2.2 // OK						
+	/* function abstracttocharControlledFunction($c in AbstractDomain) = switch($c)
+									case value1 : 'a'
+									case value2 : 'b'
+								endswitch*/ // init error
+	// function abstracttocharControlledFunction($c in AbstractDomain) = 'c' // init error
 	/* function abstracttostringControlledFunction($c in AbstractDomain) = switch($c)
 									case value1 : "hello"
 									case value2 : "world"

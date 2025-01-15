@@ -26,6 +26,7 @@ import asmeta.terms.basicterms.TupleTerm;
 import asmeta.terms.basicterms.UndefTerm;
 import asmeta.terms.basicterms.VariableTerm;
 import asmeta.terms.furtherterms.CaseTerm;
+import asmeta.terms.furtherterms.CharTerm;
 import asmeta.terms.furtherterms.ConditionalTerm;
 import asmeta.terms.furtherterms.EnumTerm;
 import asmeta.terms.furtherterms.ExistTerm;
@@ -34,6 +35,7 @@ import asmeta.terms.furtherterms.IntegerTerm;
 import asmeta.terms.furtherterms.LetTerm;
 import asmeta.terms.furtherterms.MapTerm;
 import asmeta.terms.furtherterms.NaturalTerm;
+import asmeta.terms.furtherterms.RealTerm;
 import asmeta.terms.furtherterms.SequenceCt;
 import asmeta.terms.furtherterms.SequenceTerm;
 import asmeta.terms.furtherterms.SetCt;
@@ -83,6 +85,10 @@ public class TermToJava extends ReflectiveVisitor<String> {
     return term.getSymbol();
   }
 
+  public String visit(final RealTerm term) {
+    return term.getSymbol();
+  }
+
   public String visit(final NaturalTerm term) {
     String _symbol = term.getSymbol();
     int _length = term.getSymbol().length();
@@ -95,6 +101,10 @@ public class TermToJava extends ReflectiveVisitor<String> {
     String _symbol = term.getSymbol();
     String _plus = (supp + _symbol);
     return (_plus + supp);
+  }
+
+  public String visit(final CharTerm term) {
+    return term.getSymbol();
   }
 
   public String visit(final BooleanTerm term) {

@@ -17,6 +17,8 @@ import asmeta.terms.basicterms.SetTerm
 import asmeta.terms.basicterms.UndefTerm
 import asmeta.terms.furtherterms.SequenceTerm
 import asmeta.terms.basicterms.TupleTerm
+import asmeta.terms.furtherterms.RealTerm
+import asmeta.terms.furtherterms.CharTerm
 
 /* Check if the init function term contains monitored functions */
 class FindMonitoredInControlledFunct extends ReflectiveVisitor<Boolean> {
@@ -29,11 +31,19 @@ class FindMonitoredInControlledFunct extends ReflectiveVisitor<Boolean> {
 		return false
 	}
 	
+	def boolean visit(CharTerm term) {
+		return false
+	}
+	
 	def boolean visit(UndefTerm term) {
 		return false
 	}
 
 	def boolean visit(IntegerTerm term) {
+		return false
+	}
+	
+	def boolean visit(RealTerm term) {
 		return false
 	}
 

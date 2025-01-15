@@ -16,7 +16,9 @@ class AsmMethods {
 	
 	public static val BOOLEAN = "Boolean"
 	public static val INTEGER = "Integer"
+	public static val REAL = "Real"
 	public static val STRING = "String"
+	public static val CHAR = "Char"
 	
 	/** 
 	 * Controlled functions getters (public getters)
@@ -72,10 +74,24 @@ class AsmMethods {
 									return this.execution.«fd.name».get();
 								}
 						 	''');
+					} else if (fd.codomain.name.equals(REAL)) { // [] -> Real
+						sb.append('''
+
+								public Double get_«fd.name»(){
+									return this.execution.«fd.name».get();
+								}
+						 	''');
 					} else if (fd.codomain.name.equals(STRING)) { // [] -> String
 						sb.append('''
 
 								public String get_«fd.name»(){
+									return this.execution.«fd.name».get();
+								}
+						 	''');
+					} else if (fd.codomain.name.equals(CHAR)) { // [] -> Char
+						sb.append('''
+
+								public Character get_«fd.name»(){
 									return this.execution.«fd.name».get();
 								}
 						 	''');
@@ -120,11 +136,17 @@ class AsmMethods {
 										if (fd.codomain.name.equals(INTEGER)){ // Enum -> Integer
 											sb.append("\t").append('''public Integer get_«fd.name»_fromDomain_«symbol»(){''');
 										}
+										else if (fd.codomain.name.equals(REAL)){ // Enum -> Real
+											sb.append("\t").append('''public Double get_«fd.name»_fromDomain_«symbol»(){''');
+										}
 										else if (fd.codomain.name.equals(BOOLEAN)){ // Enum -> Boolean
 											sb.append("\t").append('''public Boolean get_«fd.name»_fromDomain_«symbol»(){''');
 										}
 										else if (fd.codomain.name.equals(STRING)){ // Enum -> String
 											sb.append("\t").append('''public String get_«fd.name»_fromDomain_«symbol»(){''');
+										}
+										else if (fd.codomain.name.equals(CHAR)){ // Enum -> Character
+											sb.append("\t").append('''public Character get_«fd.name»_fromDomain_«symbol»(){''');
 										}
 										else{  // Enum -> Enum (and other)
 											sb.append("\t").append('''public «asmName».«fd.codomain.name» get_«fd.name»_fromDomain_«symbol»(){''');
@@ -170,11 +192,17 @@ class AsmMethods {
 												if (fd.codomain.name.equals(INTEGER)){ // Abstract -> Integer
 													sb.append("\t").append('''public Integer get_«fd.name»_fromDomain_«symbol»(){''');
 												}
+												else if (fd.codomain.name.equals(REAL)){ // Abstract -> Real
+													sb.append("\t").append('''public Double get_«fd.name»_fromDomain_«symbol»(){''');
+												}
 												else if (fd.codomain.name.equals(BOOLEAN)){ // Abstract -> Boolean
 													sb.append("\t").append('''public Boolean get_«fd.name»_fromDomain_«symbol»(){''');
 												}
 												else if (fd.codomain.name.equals(STRING)){ // Abstract -> String
 													sb.append("\t").append('''public String get_«fd.name»_fromDomain_«symbol»(){''');
+												}
+												else if (fd.codomain.name.equals(CHAR)){ // Abstract -> Character
+													sb.append("\t").append('''public Character get_«fd.name»_fromDomain_«symbol»(){''');
 												}
 												else{ // Abstratc -> Enum (and others)
 													sb.append("\t").append('''public «asm.name».«fd.codomain.name» get_«fd.name»_fromDomain_«symbol»(){''');
@@ -243,13 +271,18 @@ class AsmMethods {
 							System.out.println("Set «fd.name» = " + «fd.name»);
 						}''')
 				    	sb.append(System.lineSeparator)
-					} else { 									// [] -> (Integer|Boolean|String)
-						var type = fd.codomain.name;
+					} else { 									// [] -> (Integer|Boolean|String|Real|Char)
+						var type = fd.codomain.name; 
+						// type String already equals to fd.codomain.name, no case is needed in the switch case
 						switch (type){
 							case BOOLEAN:
 								type="boolean"
 							case INTEGER:
 								type="int"
+							case REAL:
+								type="double"
+							case CHAR:
+								type="char"
 						}
 						sb.append(System.lineSeparator)
 						sb.append('''
@@ -293,13 +326,17 @@ class AsmMethods {
 									System.out.println("Set «fd.name»_«symbol» = " + «fd.name»_«symbol»);
 								}''')
 								sb.append(System.lineSeparator)
-							} else { // Enum -> (Integer|String|Boolean)
+							} else { // Enum -> (Integer|String|Boolean|Real|Char)
 								var type = fd.codomain.name;
 								switch (type){
 									case BOOLEAN:
 										type="boolean"
 									case INTEGER:
 										type="int"
+									case REAL:
+										type="double"
+									case CHAR:
+										type="char"
 									}
 								sb.append(System.lineSeparator)
 								sb.append('''
@@ -345,13 +382,17 @@ class AsmMethods {
 											System.out.println("Set «fd.name»_«symbol» = " + «fd.name»_«symbol»);
 										}''')
 										sb.append(System.lineSeparator)
-									} else { // Abstract -> (Integer|String|Boolean)
+									} else { // Abstract -> (Integer|String|Boolean|Real|Char)
 										var type = fd.codomain.name;
 										switch (type){
 											case BOOLEAN:
 											type="boolean"
 										case INTEGER:
 											type="int"
+										case REAL:
+											type="double"
+										case CHAR:
+											type="char"
 											}
 										sb.append(System.lineSeparator)
 										sb.append('''

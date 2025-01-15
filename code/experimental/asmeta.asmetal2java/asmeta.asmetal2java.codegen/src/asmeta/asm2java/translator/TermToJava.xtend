@@ -39,6 +39,8 @@ import asmeta.definitions.domains.ProductDomain
 import asmeta.definitions.domains.BagDomain
 import asmeta.asm2java.translator.Util
 import org.asmeta.parser.util.ReflectiveVisitor
+import asmeta.terms.furtherterms.RealTerm
+import asmeta.terms.furtherterms.CharTerm
 
 class TermToJava extends ReflectiveVisitor<String> {
 
@@ -76,6 +78,11 @@ class TermToJava extends ReflectiveVisitor<String> {
 	def String visit(IntegerTerm term) {
 		return term.symbol
 	}
+	
+	def String visit(RealTerm term){
+		// if negative it doesn't include the minus "-"
+		return term.symbol
+	}
 
 	def String visit(NaturalTerm term) {
 		return term.symbol.substring(0, term.symbol.length - 1)
@@ -85,6 +92,10 @@ class TermToJava extends ReflectiveVisitor<String> {
 
 		var supp = new String('"');
 		return supp + term.symbol + supp
+	}
+	
+	def String visit(CharTerm term){
+		return term.symbol
 	}
 
 	def String visit(BooleanTerm term) {

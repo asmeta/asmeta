@@ -13,6 +13,8 @@ import asmeta.terms.furtherterms.IntegerTerm
 import asmeta.terms.furtherterms.NaturalTerm
 import asmeta.terms.furtherterms.StringTerm
 import asmeta.asm2java.translator.Util
+import asmeta.terms.furtherterms.RealTerm
+import asmeta.terms.furtherterms.CharTerm
 
 /**
  * This class is used to translate Asmeta Terms in assignments
@@ -30,12 +32,20 @@ class TermToJavaInAssignments extends TermToJava {
 	override String visit(IntegerTerm term) {
 		return " = " + super.visit(term)
 	}
+	
+	override String visit(RealTerm term) {
+		return " = " + super.visit(term)
+	}
 
 	override String visit(NaturalTerm term) {
 		return " = " + super.visit(term)
 	}
 
 	override String visit(StringTerm term) {
+		return " = " + super.visit(term)
+	}
+	
+	override String visit(CharTerm term) {
 		return " = " + super.visit(term)
 	}
 

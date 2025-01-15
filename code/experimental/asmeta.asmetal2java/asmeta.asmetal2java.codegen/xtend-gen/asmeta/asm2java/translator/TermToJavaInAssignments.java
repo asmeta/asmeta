@@ -14,9 +14,11 @@ import asmeta.terms.basicterms.LocationTerm;
 import asmeta.terms.basicterms.Term;
 import asmeta.terms.basicterms.TupleTerm;
 import asmeta.terms.furtherterms.CaseTerm;
+import asmeta.terms.furtherterms.CharTerm;
 import asmeta.terms.furtherterms.EnumTerm;
 import asmeta.terms.furtherterms.IntegerTerm;
 import asmeta.terms.furtherterms.NaturalTerm;
+import asmeta.terms.furtherterms.RealTerm;
 import asmeta.terms.furtherterms.StringTerm;
 import java.util.Arrays;
 import org.eclipse.xtend2.lib.StringConcatenation;
@@ -42,6 +44,12 @@ public class TermToJavaInAssignments extends TermToJava {
   }
 
   @Override
+  public String visit(final RealTerm term) {
+    String _visit = super.visit(term);
+    return (" = " + _visit);
+  }
+
+  @Override
   public String visit(final NaturalTerm term) {
     String _visit = super.visit(term);
     return (" = " + _visit);
@@ -49,6 +57,12 @@ public class TermToJavaInAssignments extends TermToJava {
 
   @Override
   public String visit(final StringTerm term) {
+    String _visit = super.visit(term);
+    return (" = " + _visit);
+  }
+
+  @Override
+  public String visit(final CharTerm term) {
     String _visit = super.visit(term);
     return (" = " + _visit);
   }

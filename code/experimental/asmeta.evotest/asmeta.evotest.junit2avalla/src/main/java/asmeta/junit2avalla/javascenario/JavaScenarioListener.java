@@ -267,8 +267,8 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 			}
 			this.currentJavaVariable.setValue(value);
 		}
-		else if(ctx.number() != null || ctx.Boolean() != null) {
-			// if its a primitive type (int, string or boolean)
+		else if(ctx.number() != null || ctx.Boolean() != null || ctx.CHARACTER() != null) {
+			// if its a primitive type (int, char or boolean)
 			String setter = ctx.getText();
 			log.debug("Setting the primitive type value : {} .", setter);
 			this.currentJavaVariable.setValue(setter);

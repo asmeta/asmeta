@@ -10,8 +10,3 @@
  * processing operations.
  */
 package asmeta.junit2avalla.antlr;
-
-import org.asmeta.junit2avalla.antlr.JavaScenarioBaseListener;
-import org.asmeta.junit2avalla.antlr.JavaScenarioLexer;
-import org.asmeta.junit2avalla.antlr.JavaScenarioListener;
-import org.asmeta.junit2avalla.antlr.JavaScenarioParser;
