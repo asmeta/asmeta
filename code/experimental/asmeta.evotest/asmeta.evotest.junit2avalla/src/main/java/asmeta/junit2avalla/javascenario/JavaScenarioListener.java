@@ -14,6 +14,7 @@ import asmeta.junit2avalla.antlr.JavaScenarioParser.AssertEqualsContext;
 import asmeta.junit2avalla.antlr.JavaScenarioParser.BooleanAssertionContext;
 import asmeta.junit2avalla.antlr.JavaScenarioParser.BooleanExpectedContext;
 import asmeta.junit2avalla.antlr.JavaScenarioParser.ExpectedContext;
+import asmeta.junit2avalla.antlr.JavaScenarioParser.InstanceDeclarationContext;
 import asmeta.junit2avalla.antlr.JavaScenarioParser.ScenarioContext;
 import asmeta.junit2avalla.antlr.JavaScenarioParser.SetFunctionContext;
 import asmeta.junit2avalla.antlr.JavaScenarioParser.SetVariableValueContext;
@@ -36,7 +37,7 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 
 	/* Constants */
 	private static final String FROM_DOMAIN = "_fromDomain_";
-	
+
 	/** Logger */
 	private final Logger log = LogManager.getLogger(JavaScenarioListener.class);
 
@@ -49,7 +50,7 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	 * Map of declared variables within the current scenario.
 	 */
 	private Map<String, JavaVariableTerm> variablesMap;
-	
+
 	/**
 	 * Map of the functions getter value.
 	 */
@@ -79,7 +80,7 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	 * The current Java assertion being processed.
 	 */
 	private JavaAssertionTerm currentJavaAssertionTerm;
-	
+
 	/**
 	 * {@code True} ignore the next assertions, {@code False} write the checks.
 	 */
@@ -219,12 +220,13 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 		log.debug("Exiting start_test_scenario_variableDeclaration: {} .", ctx.getText());
 		this.variablesMap.put(this.currentJavaVariable.getName(), this.currentJavaVariable);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 * <p>
-	 * Create a new Java variable term and set its name. 
+	 * Create a new Java variable term and set its name.
 	 * </p>
+	 * 
 	 * @param ctx the parse tree context.
 	 */
 	@Override
@@ -241,19 +243,20 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	/**
 	 * {@inheritDoc}
 	 * <p>
-	 * Check if the variable is primitive, in this case set its value directly, 
+	 * Check if the variable is primitive, in this case set its value directly,
 	 * otherwise look for it in the variablesList structure and assign it to it
 	 * </p>
+	 * 
 	 * @param ctx the parse tree context.
 	 */
 	@Override
 	public void enterSetVariableValue(SetVariableValueContext ctx) {
 		log.debug("Entering start_test_scenario_setFunction_setVariableValue: {} .", ctx.getText());
-		if(ctx.STRING() != null) {
+		if (ctx.STRING() != null) {
 			String value = ctx.getText();
 			log.debug("Setting the primitive String value : {} .", value);
 			String setter = this.currentJavaVariable.getName();
-			if(setter.contains("set_abstract_")) {
+			if (setter.contains("set_abstract_")) {
 				// it's an abstract type
 				log.debug("Replacing the abstract flag for the abstract type : {} .", setter);
 				// remove the flag abstract_
@@ -266,23 +269,31 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 				this.currentJavaVariable.setPrimitive(false);
 			}
 			this.currentJavaVariable.setValue(value);
-		}
-		else if(ctx.number() != null || ctx.Boolean() != null || ctx.CHARACTER() != null) {
+		} else if (ctx.number() != null || ctx.Boolean() != null || ctx.CHARACTER() != null) {
 			// if its a primitive type (int, char or boolean)
 			String setter = ctx.getText();
 			log.debug("Setting the primitive type value : {} .", setter);
 			this.currentJavaVariable.setValue(setter);
 			this.currentJavaVariable.setPrimitive(true);
+		} else if(ctx.Identifier() != null) {
+			String identifier = ctx.getText();
+			log.debug("Setting the identifier : {} .", identifier);
+			this.currentJavaVariable.setValue(identifier);
+			this.currentJavaVariable.setPrimitive(false);
 		} else {
 			// if its a variable (identifier)
 			log.debug("Setting the variable value : {} .", ctx.getText());
+			log.debug("Searching the value in the variables dictionary.");
 			JavaVariableTerm javaVariableTerm = this.variablesMap.get(ctx.getText());
-			log.debug("Searching the value in the variables dictionary {} : {} .", javaVariableTerm.getName(), javaVariableTerm.getValue());
 			// search in the getters map
-			if(this.getterMap.containsKey(javaVariableTerm.getValue())) {
+			if (this.getterMap.containsKey(javaVariableTerm.getValue())) {
 				String value = getterMap.get(javaVariableTerm.getValue());
 				log.debug("Found a getter value in the getterMap: {} .", value);
 				this.currentJavaVariable.setValue(value);
+				this.currentJavaVariable.setPrimitive(true);
+			} else if (javaVariableTerm.getType().equalsIgnoreCase("double")) {
+				// set it primitive to not cut it off after the dot
+				this.currentJavaVariable.setValue(javaVariableTerm.getValue());
 				this.currentJavaVariable.setPrimitive(true);
 			} else {
 				this.currentJavaVariable.setValue(javaVariableTerm.getValue());
@@ -290,12 +301,14 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 			}
 		}
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 * <p>
-	 * Add the set term to the scenario and ignore the following assertions up to the step function.
+	 * Add the set term to the scenario and ignore the following assertions up to
+	 * the step function.
 	 * </p>
+	 * 
 	 * @param ctx the parse tree context.
 	 */
 	@Override
@@ -304,7 +317,6 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 		this.scenarioManager.setSetTerm(this.currenteScenario, this.currentJavaVariable);
 		this.ignoreChecks = true;
 	}
-
 
 	/**
 	 * {@inheritDoc}
@@ -376,13 +388,13 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	@Override
 	public void enterExpected(ExpectedContext ctx) {
 		log.debug("Entering start_test_scenario_assertEquals_expected: {} .", ctx.getText());
-		if(ctx.ID() != null) {
+		if (ctx.ID() != null) {
 			log.debug("parsing ID: {} .", ctx.getText());
 			String expectedValue = this.variablesMap.get(ctx.getText()).getValue();
 			this.currentJavaAssertionTerm.setExpected(expectedValue);
 			log.debug("Expected id: {}", expectedValue);
 			// add the value to the getters dictionary
-			if(expectedValue.contains("get_")) {
+			if (expectedValue.contains("get_")) {
 				this.getterMap.put(expectedValue, this.currentJavaAssertionTerm.getActual());
 				log.debug("Saving the getter {} : {}", expectedValue, this.currentJavaAssertionTerm.getActual());
 			}
@@ -394,7 +406,7 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 			// example: get_function_fromDomain_STATE1 -> get_function(STATE1)
 			this.currentJavaAssertionTerm.setExpected(getter);
 		}
-		
+
 	}
 
 	/**
@@ -408,7 +420,7 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	 */
 	@Override
 	public void exitAssertEquals(AssertEqualsContext ctx) {
-		if(this.ignoreChecks) {
+		if (this.ignoreChecks) {
 			log.debug("Ignoring the start_test_scenario_assertEquals: {} .", ctx.getText());
 			this.currentJavaAssertionTerm = null;
 			return;
@@ -416,7 +428,7 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 		log.debug("Exiting start_test_scenario_assertEquals: {} . Setting AvallaCheckTerm:", ctx.getText());
 		this.scenarioManager.setCheckTerm(this.currenteScenario, this.currentJavaAssertionTerm);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -425,13 +437,13 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 		log.debug("Entering start_test_scenario_assertBoolean: {} .", ctx.getText());
 		this.currentJavaAssertionTerm = new JavaAssertionTerm();
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public void enterBooleanAssertion(BooleanAssertionContext ctx) {
-		if(ctx.ASSERT_TRUE()!= null) {
+		if (ctx.ASSERT_TRUE() != null) {
 			log.debug("parsing ASSERT_TRUE: {} .", ctx.getText());
 			this.currentJavaAssertionTerm.setType("AssertTrue");
 			this.currentJavaAssertionTerm.setActual("true");
@@ -441,31 +453,57 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 			this.currentJavaAssertionTerm.setActual("false");
 		}
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public void enterBooleanExpected(BooleanExpectedContext ctx) {
-		String getter = ctx.getText();
-		log.debug("parsing Getter: {} .", getter);
-		// Set a function with Domain -> Codomain
-		getter = buildDomainCodomain(getter);
-		// example: get_function_fromDomain_STATE1 -> get_function(STATE1)
-		this.currentJavaAssertionTerm.setExpected(getter);
+		String expected = ctx.getText();
+		log.debug("parsing the expected: {} .", expected);
+		if (ctx.Getter() != null) {
+			// Set a function with Domain -> Codomain
+			expected = buildDomainCodomain(expected);
+			// example: get_function_fromDomain_STATE1 -> get_function(STATE1)
+		} else {
+			// search the ID in the dictionary
+			log.debug("Search the term {} in the variablesMap", expected);
+			JavaVariableTerm javaVariableTerm = this.variablesMap.get(expected);
+			expected = javaVariableTerm.getValue();
+		}
+		this.currentJavaAssertionTerm.setExpected(expected);
 	}
-	
-	
 
 	@Override
 	public void exitAssertBoolean(AssertBooleanContext ctx) {
-		if(this.ignoreChecks) {
+		if (this.ignoreChecks) {
 			log.debug("Ignoring the start_test_scenario_assertBoolean: {} .", ctx.getText());
 			this.currentJavaAssertionTerm = null;
 			return;
 		}
 		log.debug("Exiting start_test_scenario_assertBoolean: {} . Setting AvallaCheckTerm:", ctx.getText());
 		this.scenarioManager.setCheckTerm(this.currenteScenario, this.currentJavaAssertionTerm);
+	}
+	
+	
+
+	@Override
+	public void enterInstanceDeclaration(InstanceDeclarationContext ctx) {
+		// example: Boolean boolean2 = new Boolean(boolean1);
+		log.debug("Entering start_test_scenario_instanceDeclaration: {} .", ctx.getText());
+		String name = ctx.ID(1).getText();
+		String val = ctx.ID(3).getText();
+		log.debug("new variable, name : {} , value {} ", name, val);
+		if(this.variablesMap.containsKey(val)) {
+			// get the value of the current variable and add to the map
+			JavaVariableTerm javaVariableTerm = this.variablesMap.get(val);
+			JavaVariableTerm newJavaVariableTerm = new JavaVariableTerm();
+			newJavaVariableTerm.setName(name);
+			newJavaVariableTerm.setType(javaVariableTerm.getType());
+			newJavaVariableTerm.setValue(javaVariableTerm.getValue());
+			this.variablesMap.put(name, newJavaVariableTerm);
+		}
+		
 	}
 
 	/**
@@ -505,14 +543,14 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	public List<Scenario> getScenarioList() {
 		return scenarioList;
 	}
-	
+
 	private String buildDomainCodomain(String name) {
-		if(name.contains(FROM_DOMAIN)) {
+		if (name.contains(FROM_DOMAIN)) {
 			// example: set_function_fromDomain_STATE1 -> set_function(STATE1)
 			name = name.replace(FROM_DOMAIN, "(").concat(")");
 			log.debug("Building the Domain -> Codomain operator: {} .", name);
 		}
 		return name;
 	}
-	
+
 }

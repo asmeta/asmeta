@@ -26,7 +26,7 @@ testClass
 scenario
  	// A scenario is defined by a sequence of actions (set step check), variable declarations, assertions, or try-catch blocks.
     // Ends with a }.
-    :  (asmDeclaration | variableDeclaration | setFunction | stepFunction| assertEquals | assertBoolean | trycatchblock | ~RCURLY)* RCURLY
+    :  (asmDeclaration | variableDeclaration | instanceDeclaration | setFunction | stepFunction| assertEquals | assertBoolean | trycatchblock | ~RCURLY)* RCURLY
     ;
 
 asmDeclaration
@@ -77,7 +77,8 @@ variableValue
     // "card2"								--> String
     // (-125)								--> number
     // 'a'									--> char
-    : (Identifier| Getter | STRING | (LPAREN? number RPAREN?) | CHARACTER)
+    // true or false 						--> Boolean
+    : (Identifier| Getter | STRING | (LPAREN? number RPAREN?) | CHARACTER | Boolean)
     ;
 
 assertEquals
@@ -95,10 +96,10 @@ actual
 	// The actual value to be tested, which can be an Identifier, an integer, or a string.
 	// example:
 	// RegistroDiCassav4.Stati.ATTENDI_ORDINAZIONI	--> Identifier
-	// 20 											--> number
+	// (-20) 										--> number
 	// "margherita"									--> STRING
 	// 'a'											--> char
-    : (Identifier | number | STRING | CHARACTER)
+    : (Identifier | (LPAREN? number RPAREN?) | STRING | CHARACTER)
     ;
 
 expected
@@ -119,7 +120,8 @@ booleanExpected
  	// Represents the expected boolean value in a boolean assertion.
  	// example:
 	// pillbox1_ATG0.get_requestSatisfied()	--> Getter
-    : Getter
+	// boolean0 							--> ID
+    : (Getter | ID)
     ;
 
 setFunction
@@ -148,11 +150,28 @@ setVariableValue
 	// example:
 	// true							--> Boolean
 	// int4 						--> ID
+	// EnumDomain.STATE1			--> Identifier
 	// "margherita"					--> STRING
-	// 20							--> number
+	// (-20)						--> number
 	// 'a'							--> char
-    : (Boolean | ID | STRING | number | CHARACTER )
+    : (Boolean | ID | Identifier | STRING | (LPAREN? number RPAREN?) | CHARACTER )
     ;
+
+instanceDeclaration
+	// Represents a declaration of a new instance
+	// example: Boolean boolean2 = new Boolean(boolean1);
+	// Boolean 						--> ID
+	// boolean2 					--> ID
+	// = 							--> EQ
+	// new 							--> NEW
+	// Boolean 						--> ID
+	// ( 							--> LPAREN
+	// boolean1 					--> ID
+	// )							--> RPAREN
+	// ;							--> SEMI
+	: ID ID EQ NEW ID LPAREN ID RPAREN SEMI
+	;
+	
 
 trycatchblock
 	// Represents a try-catch block: "try { ... } catch (...) { ... }".

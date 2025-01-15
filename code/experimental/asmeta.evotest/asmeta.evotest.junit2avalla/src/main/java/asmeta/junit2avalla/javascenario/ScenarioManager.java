@@ -145,7 +145,7 @@ class ScenarioManager {
 	 * @return the processed expected value.
 	 */
 	private String retrieveExpected(String expected) {
-		return expected.substring(expected.lastIndexOf(".get_") + 5).replace("()", "");
+		return expected.contains(".get_") ? expected.substring(expected.lastIndexOf(".get_") + 5).replace("()", "") : expected;
 	}
 
 	/**
