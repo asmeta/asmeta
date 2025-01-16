@@ -1,0 +1,67 @@
+scenario EnumTD_scenario0
+
+load EnumTD.asm
+
+check enumControlledFunction = STATE1;
+check enumtointegerControlledFunction(STATE3) = 15;
+check enumtointegerControlledFunction(STATE2) = 15;
+check enumtointegerControlledFunction(STATE1) = 15;
+check enumtobooleanControlledFunction(STATE2) = true;
+check enumtobooleanControlledFunction(STATE1) = true;
+check enumtobooleanControlledFunction(STATE3) = true;
+check enumtostringControlledFunction(STATE1) = "hello world";
+check enumtostringControlledFunction(STATE2) = "hello world";
+check enumtostringControlledFunction(STATE3) = "hello world";
+check enumtocharControlledFunction(STATE1) = 'a';
+check enumtocharControlledFunction(STATE2) = 'b';
+check enumtocharControlledFunction(STATE3) = 'c';
+check enumtorealControlledFunction(STATE3) = 2.5;
+check enumtorealControlledFunction(STATE2) = 2.5;
+check enumtorealControlledFunction(STATE1) = 2.5;
+check enumtoabstractControlledFunction(STATE1) = value1;
+check enumtoabstractControlledFunction(STATE2) = value2;
+check enumtoabstractControlledFunction(STATE3) = value1;
+check enumtoconcreteControlledFunction(STATE2) = 5;
+check enumtoconcreteControlledFunction(STATE3) = 5;
+check enumtoconcreteControlledFunction(STATE1) = 5;
+check enumtoenumControlledFunction(STATE3) = STATE2;
+check enumtoenumControlledFunction(STATE2) = STATE2;
+check enumtoenumControlledFunction(STATE1) = STATE2;
+check anotherEnumtoenumControlledFunction(STATE1) = ON;
+check anotherEnumtoenumControlledFunction(STATE3) = ON;
+check anotherEnumtoenumControlledFunction(STATE2) = ON;
+
+step
+
+check enumControlledFunction = STATE1;
+check enumtointegerControlledFunction(STATE3) = 15;
+check enumtointegerControlledFunction(STATE2) = 15;
+check enumtobooleanControlledFunction(STATE2) = true;
+check enumtobooleanControlledFunction(STATE1) = true;
+check enumtostringControlledFunction(STATE1) = "hello world";
+check enumtocharControlledFunction(STATE1) = 'a';
+check enumtocharControlledFunction(STATE2) = 'b';
+check enumtorealControlledFunction(STATE3) = 2.5;
+check enumtorealControlledFunction(STATE2) = 2.5;
+check enumtoabstractControlledFunction(STATE1) = value1;
+check enumtoconcreteControlledFunction(STATE2) = 5;
+check enumtoenumControlledFunction(STATE3) = STATE2;
+check anotherEnumtoenumControlledFunction(STATE1) = ON;
+
+step
+
+set enumMonitoredFunction := STATE1;
+set anotherenumMonitoredFunction := ON;
+set enumtointegerMonitoredFunction(STATE1) := 10;
+set enumtointegerMonitoredFunction(STATE2) := (-7);
+set enumtobooleanMonitoredFunction(STATE1) := true;
+set enumtobooleanMonitoredFunction(STATE2) := false;
+set enumtostringMonitoredFunction(STATE1) := "Hello world";
+set enumtostringMonitoredFunction(STATE1) := "";
+set enumtocharMonitoredFunction(STATE1) := 'a';
+set enumtorealMonitoredFunction(STATE1) := 5.7;
+set enumtorealMonitoredFunction(STATE1) := (3.2);
+set enumtoabstractMonitoredFunction(STATE1) := value1;
+set enumtoconcreteMonitoredFunction(STATE1) := 5;
+set enumtoenumMonitoredFunction(STATE1) := STATE1;
+set anotherEnumtoenumMonitoredFunction(OFF) := STATE3;
