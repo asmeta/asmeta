@@ -1,0 +1,81 @@
+package asmeta.asm2java.evosuite
+
+import asmeta.definitions.domains.ConcreteDomain
+import asmeta.asm2java.translator.DomainToJavaString
+import java.util.Arrays
+import asmeta.structure.Asm
+import asmeta.definitions.Function
+
+class AsmMethodsUtil {
+	
+	public static val BOOLEAN = "Boolean"
+	public static val INTEGER = "Integer"
+	public static val REAL = "Real"
+	public static val STRING = "String"
+	public static val CHAR = "Char"
+	public static val basicTdList = Arrays.asList(BOOLEAN, INTEGER, REAL, STRING, CHAR) 
+	
+	/**
+	 * Get the specific domain type under consideration.
+	 */
+	protected def static String getConcreteDomainType(Asm asm, Function fd, String concreteDomName) {
+		for(to : asm.headerSection.signature.domain){
+			if(to instanceof ConcreteDomain){
+				if(to.name.equals(concreteDomName)){
+					var type = new DomainToJavaString(asm).visit(to.typeDomain)
+					if(!basicTdList.contains(type)){
+						type = asm.name.concat(".").concat(type)
+					}
+					return type
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Get the specific basic domain type under consideration.
+	 */
+	protected def static String getBasicTdType(String domainType) {
+		var type = domainType
+		switch (type){
+			case BOOLEAN:
+			type="boolean"
+			case INTEGER:
+				type="int"
+			case REAL:
+				type="double"
+			case CHAR:
+				type="char"
+			case STRING:
+				type="String"
+		}
+		return type
+	}
+	
+	/**
+	 * 	Generate and return the method signature for getter functions
+	 */
+	protected def static String getMethodSignature(String asmName, String methodGetterSignature, String codomain) {
+		var methodDeclaration = "\t"
+		if (codomain.equals(INTEGER)){ // ... -> Integer
+			methodDeclaration += ('''public Integer «methodGetterSignature»(){''');
+		}
+		else if (codomain.equals(REAL)){ // ... -> Real
+			methodDeclaration += ('''public Double «methodGetterSignature»(){''');
+		}
+		else if (codomain.equals(BOOLEAN)){ // ... -> Boolean
+			methodDeclaration += ('''public Boolean «methodGetterSignature»(){''');
+		}
+		else if (codomain.equals(STRING)){ // ... -> String
+			methodDeclaration += ('''public String «methodGetterSignature»(){''');
+		}
+		else if (codomain.equals(CHAR)){ // ... -> Character
+			methodDeclaration += ('''public Character «methodGetterSignature»(){''');
+		}
+		else{  // ... -> Enum (and other)
+			methodDeclaration += ('''public «asmName».«codomain» «methodGetterSignature»(){''');
+		}
+		
+	}
+	
+}

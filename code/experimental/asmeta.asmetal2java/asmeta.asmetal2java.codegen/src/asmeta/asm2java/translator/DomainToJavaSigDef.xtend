@@ -231,14 +231,17 @@ class DomainToJavaSigDef extends ReflectiveVisitor<String> {
                 «createDomainToJavaString(res).visit(object.typeDomain)» value;
                 
                 static «object.name» valueOf(«createDomainToJavaString(res).visit(object.typeDomain)» val) {
-                	«object.name» n = new «object.name»();
-                	n.value = val;
-                	return n;
+                	if(elems.contains(val)){
+                		«object.name» n = new «object.name»();
+                		n.value = elems.get(elems.indexOf(val));
+                		return n;
+                	}
+                	return null;
 				}
 				
 				static «object.name» valueOf(«object.name» val) {
 				                	return val;
-								}
+				}
 				
 				@Override
 					public boolean equals(Object obj) {
