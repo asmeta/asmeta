@@ -73,11 +73,11 @@ default init s0:
 									case value2 : 20
 								endswitch //OK
 	// function abstracttointegerControlledFunction($c in AbstractDomain) = 10 // OK
-	function abstracttorealControlledFunction($c in AbstractDomain) = switch($c)
+	/*function abstracttorealControlledFunction($c in AbstractDomain) = switch($c)
 									case value1 : 5.5
 									case value2 : 3.3
-								endswitch // OK
-	// function abstracttorealControlledFunction($c in AbstractDomain) = 2.2 // OK						
+								endswitch */ // OK
+	function abstracttorealControlledFunction($c in AbstractDomain) = 2.2 // OK						
 	/* function abstracttocharControlledFunction($c in AbstractDomain) = switch($c)
 									case value1 : 'a'
 									case value2 : 'b'

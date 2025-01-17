@@ -19,7 +19,7 @@ signature:
 	
 	// CONTROLLED
 	// controlled complexControlledFunction: Complex // Not supported by the translator
-	controlled realControlledFunction: Real // Initialization error
+	controlled realControlledFunction: Real // OK
 	controlled integerControlledFunction: Integer // OK
 	// controlled naturalControlledFunction: Natural // Not supported by the testGen
 	controlled stringControlledFunction: String // OK

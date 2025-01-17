@@ -17,6 +17,8 @@ signature:
 	monitored enumtointegerMonitoredFunction: EnumDomain -> Integer // OK
 	monitored enumtobooleanMonitoredFunction: EnumDomain -> Boolean // OK
 	monitored enumtostringMonitoredFunction: EnumDomain -> String // OK
+	monitored enumtocharMonitoredFunction: EnumDomain -> Char
+	monitored enumtorealMonitoredFunction: EnumDomain -> Real
 	monitored enumtoabstractMonitoredFunction: EnumDomain -> AbstractDomain // OK
 	monitored enumtoconcreteMonitoredFunction: EnumDomain -> ConcreteDomain // OK
 	monitored enumtoenumMonitoredFunction: EnumDomain -> EnumDomain // OK
@@ -28,6 +30,8 @@ signature:
 	controlled enumtointegerControlledFunction: EnumDomain -> Integer // OK
 	controlled enumtobooleanControlledFunction: EnumDomain -> Boolean // OK
 	controlled enumtostringControlledFunction: EnumDomain -> String // OK
+	controlled enumtocharControlledFunction: EnumDomain -> Char
+	controlled enumtorealControlledFunction: EnumDomain -> Real
 	controlled enumtoabstractControlledFunction: EnumDomain -> AbstractDomain // OK
 	controlled enumtoconcreteControlledFunction: EnumDomain -> ConcreteDomain // OK
 	controlled enumtoenumControlledFunction: EnumDomain -> EnumDomain // OK
@@ -71,6 +75,18 @@ default init s0:
 										case STATE3 : "world"
 									endswitch */ // init error
 	function enumtostringControlledFunction($c in EnumDomain) = "hello world" // OK
+	/*function enumtocharControlledFunction($c in EnumDomain) = switch($c)
+										case STATE1 : 'a'
+										case STATE2 : 'b'
+										case STATE3 : 'c'
+									endswitch*/ // init error
+	//function enumtocharControlledFunction($c in EnumDomain) = 'd'// init error
+	/*function enumtorealControlledFunction($c in EnumDomain) = switch($c)
+										case STATE1 : 1.5
+										case STATE2 : 2.7
+										case STATE3 : 9.2
+									endswitch*/ // init error
+	function enumtorealControlledFunction($c in EnumDomain) = 2.5
 	function enumtoabstractControlledFunction($c in EnumDomain) = switch($c)
 										case STATE1 : value1
 										case STATE2 : value2

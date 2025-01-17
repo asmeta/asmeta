@@ -6,6 +6,9 @@ import asmeta.definitions.MonitoredFunction
 import asmeta.structure.Asm
 import asmeta.definitions.domains.AbstractTd
 import asmeta.definitions.StaticFunction
+import asmeta.definitions.domains.ConcreteDomain
+import asmeta.asm2java.translator.TermToJava
+import asmeta.asm2java.translator.DomainToJavaString
 
 /**
  * Contains the methods to cover the outputs of the abstract state machine (ASM),
@@ -125,6 +128,45 @@ class CoverOutputs {
 											}
 										}
 									}
+								} else if(dd instanceof ConcreteDomain){ // ConcreteDomain -> Enum
+									for(cd : asm.headerSection.signature.domain){
+										if(cd instanceof ConcreteDomain){
+											if(cd.name.equals(fd.domain.name)){
+												val elemsString = new TermToJava(asm).visit(cd.definition.body)
+												val elems = elemsString.replace("(", "").replace(")", "").split(", ").map [ it.substring(it.lastIndexOf('.') + 1) ]
+												for (String elem : elems){
+													sb.append(System.lineSeparator);
+													sb.append("\t").append('''private void cover_«fd.name»_fromDomain_«elem»(){''');
+													sb.append(System.lineSeparator)
+													sb.append("\t\t").append('''if(this.get_«fd.name»_fromDomain_«elem»() == null){''');
+													sb.append(System.lineSeparator)
+													sb.append("\t\t\t").append('''return;''');
+													sb.append(System.lineSeparator)
+													sb.append("\t\t").append('''}''')
+													sb.append(System.lineSeparator)
+													sb.append("\t\t").append('''switch(this.get_«fd.name»_fromDomain_«elem»()){''');
+													for(ddd : asm.headerSection.signature.domain){
+													if(ddd.equals(fd.codomain)){
+														if(ddd instanceof EnumTd){
+															for (var int j = 0; j < ddd.element.size; j++) {
+																var symbolD = new DomainToJavaStringEvosuite(asm).visit(ddd.element.get(j))
+																sb.append(System.lineSeparator)
+																sb.append("\t\t\t").append('''case «symbolD» :
+																System.out.println("Branch «fd.domain.name» -> «fd.codomain.name» «symbolD» covered");
+																break;''');
+																sb.append(System.lineSeparator)
+															}
+														}
+													}
+												}
+												sb.append("\t\t\t")sb.append('''}''');
+												sb.append(System.lineSeparator)
+												sb.append("\t\t")sb.append('''}''');
+												sb.append(System.lineSeparator)
+												}
+											}
+										}
+									}
 								}
 							}
 						}
@@ -180,6 +222,19 @@ class CoverOutputs {
 												var symbol = sf.name
 												sb.append(System.lineSeparator);
 												sb.append("\t\t").append('''cover_«fd.name»_fromDomain_«symbol»();''')
+											}
+										}
+									}
+								} else if(dd instanceof ConcreteDomain){ // ConcreteDomain -> Enum
+									for(cd : asm.headerSection.signature.domain){
+										if(cd instanceof ConcreteDomain){
+											if(cd.name.equals(fd.domain.name)){
+												val elemsString = new TermToJava(asm).visit(cd.definition.body)
+												val elems = elemsString.replace("(", "").replace(")", "").split(", ").map [ it.substring(it.lastIndexOf('.') + 1) ]
+												for (String elem : elems){
+													sb.append(System.lineSeparator);
+													sb.append("\t\t").append('''cover_«fd.name»_fromDomain_«elem»();''')
+												}
 											}
 										}
 									}
@@ -266,14 +321,49 @@ class CoverOutputs {
 												}
 											}
 										}
+									} else if(dd instanceof ConcreteDomain){ // ConcreteDomain -> Enum
+										for(cd : asm.headerSection.signature.domain){
+											if(cd instanceof ConcreteDomain){
+												if(cd.name.equals(fd.domain.name)){
+													// string containing the elems of the concrete domain 
+													// example: "(EnumDomain.STATE1, EnumDomain.STATE2)"
+													val elemsString = new TermToJava(asm).visit(cd.definition.body)
+													// list containing the elems of the concrete domain
+													// example: [STATE1,STATE2]
+													val elems = elemsString.replace("(", "").replace(")", "").split(", ").map [ it.substring(it.lastIndexOf('.') + 1) ]
+													for (String elem : elems){
+														// domain that is reduced by the concrete domain
+														var originalDomain = new DomainToJavaString(asm).visit(cd.definition.definedDomain.typeDomain)
+														var symbol = elem
+															// if not a basic domain add the class prefix
+															if(!AsmMethodsUtil.basicTdList.contains(originalDomain)){
+																symbol = asmName.concat(".").concat(originalDomain).concat(".").concat(elem)
+															}
+															sb.append(System.lineSeparator);
+															sb.append('''
+															/**
+															* Get the monitored function {@code «fd.name»_fromDomain_«elem»}.
+															*
+															* @return the selected {@code «asmName».«fd.codomain.name» «fd.name»_fromDomain_«elem»} «fd.name»_fromDomain_«elem»
+															*/
+																private «asmName».«fd.codomain.name» get_«fd.name»_fromDomain_«elem»(){
+																	return this.execution.«fd.name».get(
+																		«asmName».«fd.domain.name».valueOf(«symbol»));
+																}
+														 	''');
+														 	sb.append(System.lineSeparator);
+													}
+												}
+											}
+										}
 									}
-								} 
-							}
-						}	
-					}
+								}
+							} 
+						}
+					}	
 				}
 			}
-			
+		
 			return sb.toString;
 			
 		}

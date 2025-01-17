@@ -115,7 +115,8 @@ class AsmMethods {
 									var symbol = new DomainToJavaStringEvosuite(asm).visit(dd.element.get(i))
 									sb.append(System.lineSeparator)
 									if(fd.codomain instanceof ConcreteDomain){ // Enum -> ConcreteDomain
-										sb.append("\t").append('''public Integer get_«fd.name»_fromDomain_«symbol»(){''');
+										var type = AsmMethodsUtil.getConcreteDomainType(asm, fd, fd.codomain.name)
+										sb.append("\t").append('''public «type» get_«fd.name»_fromDomain_«symbol»(){''');
 										sb.append(System.lineSeparator)
 										sb.append("\t\t").append('''return this.execution.«fd.name».oldValues.get(''');
 										sb.append(System.lineSeparator)
@@ -154,7 +155,8 @@ class AsmMethods {
 											var symbol = sf.name
 											sb.append(System.lineSeparator)
 											if(fd.codomain instanceof ConcreteDomain){ // Abstract -> ConcreteDomain
-												sb.append("\t").append('''public Integer get_«fd.name»_fromDomain_«symbol»(){''');
+												var type = AsmMethodsUtil.getConcreteDomainType(asm, fd, fd.codomain.name)
+												sb.append("\t").append('''public «type» get_«fd.name»_fromDomain_«symbol»(){''');
 												sb.append(System.lineSeparator)
 												sb.append("\t\t").append('''return this.execution.«fd.name».oldValues.get(''');
 												sb.append(System.lineSeparator)
@@ -199,21 +201,41 @@ class AsmMethods {
 											// example: [STATE1,STATE2]
 											val elems = elemsString.replace("(", "").replace(")", "").split(", ").map [ it.substring(it.lastIndexOf('.') + 1) ]
 											for (String elem : elems){
-												var methodGetterSignature = "get_".concat(fd.name).concat("_fromDomain_").concat(elem)
-												sb.append(AsmMethodsUtil.getMethodSignature(asmName, methodGetterSignature, fd.codomain.name))
-												var symbol = elem
 												// domain that is reduced by the concrete domain
 												var originalDomain = new DomainToJavaString(asm).visit(cd.definition.definedDomain.typeDomain)
-												// if not a basic domain add the class prefix
-												if(!AsmMethodsUtil.basicTdList.contains(originalDomain)){
-													symbol = asmName.concat(".").concat(originalDomain).concat(".").concat(elem)
+												var symbol = elem
+													// if not a basic domain add the class prefix
+													if(!AsmMethodsUtil.basicTdList.contains(originalDomain)){
+														symbol = asmName.concat(".").concat(originalDomain).concat(".").concat(elem)
+													}
+												if(fd.codomain instanceof ConcreteDomain){ // ConcreteDomain -> ConcreteDomain
+													sb.append("\t\t").append('''public «originalDomain» get_«fd.name»_fromDomain_«elem»(){''');
+													sb.append(System.lineSeparator)
+													sb.append("\t\t").append('''return this.execution.«fd.name».get(''');
+													sb.append(System.lineSeparator)
+													sb.append("\t\t\t").append('''«asmName».«fd.domain.name».valueOf(«symbol»)).value;''');
+													sb.append(System.lineSeparator)
+													sb.append("\t").append('''}''');
+												} else if(fd.codomain instanceof AbstractTd){ // ConcreteDomain -> Abstract
+													sb.append("\t\t").append('''public String get_«fd.name»_fromDomain_«elem»(){''');
+													sb.append(System.lineSeparator)
+													sb.append("\t\t").append('''return «asm.name».«fd.codomain.name».toString(''');
+													sb.append(System.lineSeparator)
+													sb.append("\t\t").append('''this.execution.«fd.name».get(''');
+													sb.append(System.lineSeparator)
+													sb.append("\t\t\t").append('''«asmName».«fd.domain.name».valueOf(«symbol»)));''');
+													sb.append(System.lineSeparator)
+													sb.append("\t").append('''}''');
+												} else {
+													var methodGetterSignature = "get_".concat(fd.name).concat("_fromDomain_").concat(elem)
+													sb.append(AsmMethodsUtil.getMethodSignature(asmName, methodGetterSignature, fd.codomain.name))
+													sb.append(System.lineSeparator)
+													sb.append("\t\t").append('''return this.execution.«fd.name».get(''');
+													sb.append(System.lineSeparator)
+													sb.append("\t\t\t").append('''«asmName».«fd.domain.name».valueOf(«symbol»));''');
+													sb.append(System.lineSeparator)
+													sb.append("\t").append('''}''');
 												}
-												sb.append(System.lineSeparator)
-												sb.append("\t\t").append('''return this.execution.«fd.name».get(''');
-												sb.append(System.lineSeparator)
-												sb.append("\t\t\t").append('''«asmName».«fd.domain.name».valueOf(«symbol»));''');
-												sb.append(System.lineSeparator)
-												sb.append("\t").append('''}''');
 											}
 										}
 									}
@@ -281,7 +303,7 @@ class AsmMethods {
 						}''')
 						sb.append(System.lineSeparator)
 					}
-				} else { // (Enum|Abstract) -> (Integer|String|Boolean|ConcreteDomain|Enum|Abstract)
+				} else { // (Enum|Abstract|ConcreteDomain) -> (Integer|String|Boolean|ConcreteDomain|Enum|Abstract)
 				// add the marker _fromDomain_ to the setter name
 					var dd = fd.domain
 					if(dd instanceof EnumTd){ // Enum -> ...
@@ -373,6 +395,68 @@ class AsmMethods {
 											System.out.println("Set «fd.name»_«symbol» = " + «fd.name»_«symbol»);
 										}''')
 										sb.append(System.lineSeparator)
+									}
+								}
+							}
+						}
+					} else if(fd.domain instanceof ConcreteDomain){ // ConcreteDomain -> ...
+						for(cd : asm.headerSection.signature.domain){
+							if(cd instanceof ConcreteDomain){
+								if(cd.name.equals(fd.domain.name)){
+									// string containing the elems of the concrete domain 
+									// example: "(EnumDomain.STATE1, EnumDomain.STATE2)"
+									val elemsString = new TermToJava(asm).visit(cd.definition.body)
+									// list containing the elems of the concrete domain
+									// example: [STATE1,STATE2]
+									val elems = elemsString.replace("(", "").replace(")", "").split(", ").map [ it.substring(it.lastIndexOf('.') + 1) ]
+									for (String elem : elems){
+										var symbol = elem
+										// domain that is reduced by the concrete domain
+										var originalDomain = new DomainToJavaString(asm).visit(cd.definition.definedDomain.typeDomain)
+										// if not a basic domain add the class prefix
+										if(!AsmMethodsUtil.basicTdList.contains(originalDomain)){
+											symbol = asm.name.concat(".").concat(originalDomain).concat(".").concat(elem)
+										}
+										if(fd.codomain instanceof ConcreteDomain){ // ConcreteDomain -> ConcreteDomain
+											var type = AsmMethodsUtil.getConcreteDomainType(asm, fd, fd.codomain.name)
+											sb.append(System.lineSeparator)
+											sb.append('''
+											public void set_«fd.name»_fromDomain_«elem»(«type» «fd.name»_«elem») {
+												this.execution.«fd.name».set(
+												«asm.name».«fd.domain.name».valueOf(«symbol»),
+												«asm.name».«fd.codomain.name».valueOf(«fd.name»_«elem»));
+												System.out.println("Set «fd.name»_«elem» = " + «fd.name»_«elem»);
+											}''')
+										} else if (fd.codomain instanceof EnumTd) { // ConcreteDomain -> Enum
+											sb.append(System.lineSeparator)
+											sb.append('''
+											public void set_«fd.name»_fromDomain_«elem»(«asm.name».«fd.codomain.name» «fd.name»_«elem») {
+												this.execution.«fd.name».set(
+												«asm.name».«fd.domain.name».valueOf(«symbol»),«fd.name»_«elem»);
+												System.out.println("Set «fd.name»_«elem» = " + «fd.name»_«elem»);
+											}''')
+											sb.append(System.lineSeparator)
+										} else if (fd.codomain instanceof AbstractTd) { // ConcreteDomain -> Abstract
+											sb.append(System.lineSeparator)
+											sb.append('''
+											public void set_abstract_«fd.name»_fromDomain_«elem»(String «fd.name»_«elem») {
+												this.execution.«fd.name».set(
+												«asm.name».«fd.domain.name».valueOf(«symbol»),
+												«asm.name».«fd.codomain.name».get(«fd.name»_«elem»));
+												System.out.println("Set «fd.name»_«elem» = " + «fd.name»_«elem»);
+											}''')
+											sb.append(System.lineSeparator)
+										} else { // ConcreteDomain -> (Integer|String|Boolean|Real|Char)
+											var type = AsmMethodsUtil.getBasicTdType(fd.codomain.name)
+											sb.append(System.lineSeparator)
+											sb.append('''
+											public void set_«fd.name»_fromDomain_«elem»(«type» «fd.name»_«elem») {
+												this.execution.«fd.name».set(
+												«asm.name».«fd.domain.name».valueOf(«symbol»),«fd.name»_«elem»);
+												System.out.println("Set «fd.name»_«elem» = " + «fd.name»_«elem»);
+											}''')
+											sb.append(System.lineSeparator)
+										}
 									}
 								}
 							}
