@@ -1,14 +1,14 @@
 package asmeta.asm2java.evosuite
 
-import asmeta.definitions.domains.EnumTd
+import asmeta.asm2java.translator.DomainToJavaString
+import asmeta.asm2java.translator.TermToJava
 import asmeta.definitions.ControlledFunction
 import asmeta.definitions.MonitoredFunction
-import asmeta.structure.Asm
-import asmeta.definitions.domains.AbstractTd
 import asmeta.definitions.StaticFunction
+import asmeta.definitions.domains.AbstractTd
 import asmeta.definitions.domains.ConcreteDomain
-import asmeta.asm2java.translator.TermToJava
-import asmeta.asm2java.translator.DomainToJavaString
+import asmeta.definitions.domains.EnumTd
+import asmeta.structure.Asm
 
 /**
  * Contains the methods to cover the outputs of the abstract state machine (ASM),
@@ -63,68 +63,16 @@ class CoverOutputs {
 							if(dd.equals(fd.domain)){
 								if(dd instanceof EnumTd){ // Enum -> Enum
 									for (var int i = 0; i < dd.element.size; i++) {
-										var symbol = new DomainToJavaStringEvosuite(asm).visit(dd.element.get(i))
-										sb.append("\t").append('''private void cover_«fd.name»_fromDomain_«symbol»(){''');
-										sb.append(System.lineSeparator)
-										sb.append("\t\t").append('''if(this.get_«fd.name»_fromDomain_«symbol»() == null){''');
-										sb.append(System.lineSeparator)
-										sb.append("\t\t\t").append('''return;''');
-										sb.append(System.lineSeparator)
-										sb.append("\t\t").append('''}''')
-										sb.append(System.lineSeparator)
-										sb.append("\t\t").append('''switch(this.get_«fd.name»_fromDomain_«symbol»()){''');
-										for(ddd : asm.headerSection.signature.domain){
-											if(ddd.equals(fd.codomain)){
-												if(ddd instanceof EnumTd){
-													for (var int j = 0; j < ddd.element.size; j++) {
-														var symbolD = new DomainToJavaStringEvosuite(asm).visit(ddd.element.get(j))
-														sb.append(System.lineSeparator)
-														sb.append("\t\t\t").append('''case «symbolD» :
-														System.out.println("Branch «fd.domain.name» -> «fd.codomain.name» «symbolD» covered");
-														break;''');
-														sb.append(System.lineSeparator)
-													}
-												}
-											}
-										}
-										sb.append("\t\t\t")sb.append('''}''');
-										sb.append(System.lineSeparator)
-										sb.append("\t\t")sb.append('''}''');
-										sb.append(System.lineSeparator)
+										var elem = new DomainToJavaStringEvosuite(asm).visit(dd.element.get(i))
+										sb.append(AsmMethodsUtil.genCoverOutputMethod(fd, elem, asm))
 									}
 								}
 								else if (dd instanceof AbstractTd){ // Abstract -> Enum
 									for (sf : asm.headerSection.signature.function) {
 										if(sf instanceof StaticFunction){
 											if(sf.codomain.equals(dd) && sf.domain===null){
-												var symbol = sf.name
-												sb.append("\t").append('''private void cover_«fd.name»_fromDomain_«symbol»(){''');
-												sb.append(System.lineSeparator)
-												sb.append("\t\t").append('''if(this.get_«fd.name»_fromDomain_«symbol»() == null){''');
-												sb.append(System.lineSeparator)
-												sb.append("\t\t\t").append('''return;''');
-												sb.append(System.lineSeparator)
-												sb.append("\t\t").append('''}''')
-												sb.append(System.lineSeparator)
-												sb.append("\t\t").append('''switch(this.get_«fd.name»_fromDomain_«symbol»()){''');
-												for(ddd : asm.headerSection.signature.domain){
-												if(ddd.equals(fd.codomain)){
-													if(ddd instanceof EnumTd){
-														for (var int j = 0; j < ddd.element.size; j++) {
-															var symbolD = new DomainToJavaStringEvosuite(asm).visit(ddd.element.get(j))
-															sb.append(System.lineSeparator)
-															sb.append("\t\t\t").append('''case «symbolD» :
-															System.out.println("Branch «fd.domain.name» -> «fd.codomain.name» «symbolD» covered");
-															break;''');
-															sb.append(System.lineSeparator)
-														}
-													}
-												}
-											}
-											sb.append("\t\t\t")sb.append('''}''');
-											sb.append(System.lineSeparator)
-											sb.append("\t\t")sb.append('''}''');
-											sb.append(System.lineSeparator)
+												var elem = sf.name
+												sb.append(AsmMethodsUtil.genCoverOutputMethod(fd, elem, asm))
 											}
 										}
 									}
@@ -135,34 +83,7 @@ class CoverOutputs {
 												val elemsString = new TermToJava(asm).visit(cd.definition.body)
 												val elems = elemsString.replace("(", "").replace(")", "").split(", ").map [ it.substring(it.lastIndexOf('.') + 1) ]
 												for (String elem : elems){
-													sb.append(System.lineSeparator);
-													sb.append("\t").append('''private void cover_«fd.name»_fromDomain_«elem»(){''');
-													sb.append(System.lineSeparator)
-													sb.append("\t\t").append('''if(this.get_«fd.name»_fromDomain_«elem»() == null){''');
-													sb.append(System.lineSeparator)
-													sb.append("\t\t\t").append('''return;''');
-													sb.append(System.lineSeparator)
-													sb.append("\t\t").append('''}''')
-													sb.append(System.lineSeparator)
-													sb.append("\t\t").append('''switch(this.get_«fd.name»_fromDomain_«elem»()){''');
-													for(ddd : asm.headerSection.signature.domain){
-													if(ddd.equals(fd.codomain)){
-														if(ddd instanceof EnumTd){
-															for (var int j = 0; j < ddd.element.size; j++) {
-																var symbolD = new DomainToJavaStringEvosuite(asm).visit(ddd.element.get(j))
-																sb.append(System.lineSeparator)
-																sb.append("\t\t\t").append('''case «symbolD» :
-																System.out.println("Branch «fd.domain.name» -> «fd.codomain.name» «symbolD» covered");
-																break;''');
-																sb.append(System.lineSeparator)
-															}
-														}
-													}
-												}
-												sb.append("\t\t\t")sb.append('''}''');
-												sb.append(System.lineSeparator)
-												sb.append("\t\t")sb.append('''}''');
-												sb.append(System.lineSeparator)
+													sb.append(AsmMethodsUtil.genCoverOutputMethod(fd, elem, asm))
 												}
 											}
 										}

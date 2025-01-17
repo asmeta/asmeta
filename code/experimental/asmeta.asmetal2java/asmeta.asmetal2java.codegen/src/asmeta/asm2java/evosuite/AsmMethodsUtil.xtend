@@ -5,6 +5,7 @@ import asmeta.asm2java.translator.DomainToJavaString
 import java.util.Arrays
 import asmeta.structure.Asm
 import asmeta.definitions.Function
+import asmeta.definitions.domains.EnumTd
 
 class AsmMethodsUtil {
 	
@@ -76,6 +77,42 @@ class AsmMethodsUtil {
 			methodDeclaration += ('''public «asmName».«codomain» «methodGetterSignature»(){''');
 		}
 		
+	}
+	
+	/**
+	 * Generates the private method that covers the outputs
+	 */
+	protected def static String genCoverOutputMethod(Function fd, String enumState, Asm asm) {
+		var sb = new StringBuffer;
+		sb.append(System.lineSeparator);
+		sb.append("\t").append('''private void cover_«fd.name»_fromDomain_«enumState»(){''');
+		sb.append(System.lineSeparator)
+		sb.append("\t\t").append('''if(this.get_«fd.name»_fromDomain_«enumState»() == null){''');
+		sb.append(System.lineSeparator)
+		sb.append("\t\t\t").append('''return;''');
+		sb.append(System.lineSeparator)
+		sb.append("\t\t").append('''}''')
+		sb.append(System.lineSeparator)
+		sb.append("\t\t").append('''switch(this.get_«fd.name»_fromDomain_«enumState»()){''');
+		for(ddd : asm.headerSection.signature.domain){
+		if(ddd.equals(fd.codomain)){
+			if(ddd instanceof EnumTd){
+				for (var int j = 0; j < ddd.element.size; j++) {
+					var output = new DomainToJavaStringEvosuite(asm).visit(ddd.element.get(j))
+					sb.append(System.lineSeparator)
+					sb.append("\t\t\t").append('''case «output» :
+					System.out.println("Branch «fd.domain.name» -> «fd.codomain.name» «output» covered");
+					break;''');
+					sb.append(System.lineSeparator)
+				}
+			}
+		}
+		}
+		sb.append("\t\t\t")sb.append('''}''');
+		sb.append(System.lineSeparator)
+		sb.append("\t\t")sb.append('''}''');
+		sb.append(System.lineSeparator)
+		return sb.toString()
 	}
 	
 }
