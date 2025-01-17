@@ -26,7 +26,7 @@ testClass
 scenario
  	// A scenario is defined by a sequence of actions (set step check), variable declarations, assertions, or try-catch blocks.
     // Ends with a }.
-    :  (asmDeclaration | variableDeclaration | instanceDeclaration | valueOfDeclaration | setFunction | stepFunction| assertEquals | assertBoolean | trycatchblock | ~RCURLY)* RCURLY
+    :  (asmDeclaration | variableDeclaration | instanceDeclaration | valueOfDeclaration | constructorDeclaration | setFunction | stepFunction| assertEquals | assertBoolean | trycatchblock | ~RCURLY)* RCURLY
     ;
 
 asmDeclaration
@@ -72,6 +72,12 @@ valueOfDeclaration
 	// Represents a declaration made with the static method valueOf 
 	// example: Integer integer0 = Integer.valueOf(1316);
 	: ID ID EQ ValueOf LPAREN variableValue RPAREN SEMI
+	;
+	
+constructorDeclaration
+	// Represents a declaration made inside the constructor method call
+	// example: Integer integer0 = new Integer(0);
+	: ID ID EQ NEW ID LPAREN variableValue RPAREN SEMI
 	;
 
 variableValue

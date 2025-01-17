@@ -13,6 +13,7 @@ import asmeta.junit2avalla.antlr.JavaScenarioParser.AssertBooleanContext;
 import asmeta.junit2avalla.antlr.JavaScenarioParser.AssertEqualsContext;
 import asmeta.junit2avalla.antlr.JavaScenarioParser.BooleanAssertionContext;
 import asmeta.junit2avalla.antlr.JavaScenarioParser.BooleanExpectedContext;
+import asmeta.junit2avalla.antlr.JavaScenarioParser.ConstructorDeclarationContext;
 import asmeta.junit2avalla.antlr.JavaScenarioParser.ExpectedContext;
 import asmeta.junit2avalla.antlr.JavaScenarioParser.InstanceDeclarationContext;
 import asmeta.junit2avalla.antlr.JavaScenarioParser.ScenarioContext;
@@ -175,6 +176,21 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 		currentJavaVariable.setType(ctx.ID(0).getText());
 		currentJavaVariable.setName(ctx.ID(1).getText());
 	}
+	
+	
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * Creates a new {@link JavaVariableTerm} with name and type.
+	 * </p>
+	 */
+	@Override
+	public void enterConstructorDeclaration(ConstructorDeclarationContext ctx) {
+		log.debug("Entering start_test_scenario_constructorDeclaration: {} .", ctx.getText());
+		this.currentJavaVariable = new JavaVariableTerm();
+		currentJavaVariable.setType(ctx.ID(0).getText());
+		currentJavaVariable.setName(ctx.ID(1).getText());
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -248,6 +264,20 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	@Override
 	public void exitValueOfDeclaration(ValueOfDeclarationContext ctx) {
 		log.debug("Exiting start_test_scenario_valueOfDeclaration: {} .", ctx.getText());
+		this.variablesMap.put(this.currentJavaVariable.getName(), this.currentJavaVariable);
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * Adds the current variable to the variables map.
+	 * </p>
+	 *
+	 * @param ctx the parse tree context.
+	 */
+	@Override
+	public void exitConstructorDeclaration(ConstructorDeclarationContext ctx) {
+		log.debug("Exiting start_test_scenario_constructorDeclaration: {} .", ctx.getText());
 		this.variablesMap.put(this.currentJavaVariable.getName(), this.currentJavaVariable);
 	}
 

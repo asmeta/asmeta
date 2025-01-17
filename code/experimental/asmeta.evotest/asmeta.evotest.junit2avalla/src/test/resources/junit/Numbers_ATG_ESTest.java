@@ -30,6 +30,9 @@ public class Integer_ATG_ESTest {
       assertEquals(1316, (int)integer0);
       assertNotNull(integer0);
       
+      Integer integer0 = new Integer(5);
+      assertEquals(5, (int)integer0);
+      
       numbers_ATG0.set_insertedPin(5.5);
       
   }
