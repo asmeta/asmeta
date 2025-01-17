@@ -21,6 +21,7 @@ import asmeta.junit2avalla.antlr.JavaScenarioParser.SetVariableValueContext;
 import asmeta.junit2avalla.antlr.JavaScenarioParser.StartContext;
 import asmeta.junit2avalla.antlr.JavaScenarioParser.StepFunctionContext;
 import asmeta.junit2avalla.antlr.JavaScenarioParser.TrycatchblockContext;
+import asmeta.junit2avalla.antlr.JavaScenarioParser.ValueOfDeclarationContext;
 import asmeta.junit2avalla.antlr.JavaScenarioParser.VariableDeclarationContext;
 import asmeta.junit2avalla.antlr.JavaScenarioParser.VariableNameContext;
 import asmeta.junit2avalla.antlr.JavaScenarioParser.VariableTypeContext;
@@ -159,6 +160,21 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 		log.debug("Entering start_test_scenario_variableDeclaration: {} .", ctx.getText());
 		this.currentJavaVariable = new JavaVariableTerm();
 	}
+	
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * Creates a new {@link JavaVariableTerm} with name and type for the 
+	 * declaration with valueOf static method.
+	 * </p>
+	 */
+	@Override
+	public void enterValueOfDeclaration(ValueOfDeclarationContext ctx) {
+		log.debug("Entering start_test_scenario_valueOfDeclaration: {} .", ctx.getText());
+		this.currentJavaVariable = new JavaVariableTerm();
+		currentJavaVariable.setType(ctx.ID(0).getText());
+		currentJavaVariable.setName(ctx.ID(1).getText());
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -218,6 +234,20 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	@Override
 	public void exitVariableDeclaration(VariableDeclarationContext ctx) {
 		log.debug("Exiting start_test_scenario_variableDeclaration: {} .", ctx.getText());
+		this.variablesMap.put(this.currentJavaVariable.getName(), this.currentJavaVariable);
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * Adds the current variable to the variables map.
+	 * </p>
+	 *
+	 * @param ctx the parse tree context.
+	 */
+	@Override
+	public void exitValueOfDeclaration(ValueOfDeclarationContext ctx) {
+		log.debug("Exiting start_test_scenario_valueOfDeclaration: {} .", ctx.getText());
 		this.variablesMap.put(this.currentJavaVariable.getName(), this.currentJavaVariable);
 	}
 

@@ -25,6 +25,12 @@ public class Integer_ATG_ESTest {
       Integer int2 = numbers_ATG0.get_balance_card2();
       assertEquals(3, (int)numbers_ATG0.get_insertedPin());
       assertEquals(-3188, (int)int2);
+      
+      Integer integer0 = Integer.valueOf(1316);
+      assertEquals(1316, (int)integer0);
+      assertNotNull(integer0);
+      
       numbers_ATG0.set_insertedPin(5.5);
+      
   }
 }

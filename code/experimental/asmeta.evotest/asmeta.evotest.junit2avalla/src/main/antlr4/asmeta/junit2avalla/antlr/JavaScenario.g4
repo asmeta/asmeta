@@ -26,7 +26,7 @@ testClass
 scenario
  	// A scenario is defined by a sequence of actions (set step check), variable declarations, assertions, or try-catch blocks.
     // Ends with a }.
-    :  (asmDeclaration | variableDeclaration | instanceDeclaration | setFunction | stepFunction| assertEquals | assertBoolean | trycatchblock | ~RCURLY)* RCURLY
+    :  (asmDeclaration | variableDeclaration | instanceDeclaration | valueOfDeclaration | setFunction | stepFunction| assertEquals | assertBoolean | trycatchblock | ~RCURLY)* RCURLY
     ;
 
 asmDeclaration
@@ -67,6 +67,12 @@ variableName
  	// registroDiCassav4_Servizio0 --> ID
     : ID
     ;
+    
+valueOfDeclaration
+	// Represents a declaration made with the static method valueOf 
+	// example: Integer integer0 = Integer.valueOf(1316);
+	: ID ID EQ ValueOf LPAREN variableValue RPAREN SEMI
+	;
 
 variableValue
 	// Defines the value assigned to a variable, which can be an Identifier (if the type is not primitive) 
@@ -171,7 +177,6 @@ instanceDeclaration
 	// ;							--> SEMI
 	: ID ID EQ NEW ID LPAREN ID RPAREN SEMI
 	;
-	
 
 trycatchblock
 	// Represents a try-catch block: "try { ... } catch (...) { ... }".
@@ -270,6 +275,12 @@ Boolean
 	// Represents boolean values: "true" or "false".
     :  (TRUE | FALSE)
     ;
+    
+ValueOf
+	// Represents the valueOf static method
+	// example: Integer.valueOf
+    : ID DOT VALUEOF
+    ;
 
 Identifier
 	// Represents a qualified identifier with dots
@@ -332,6 +343,7 @@ TRY : 'try' ;
 CATCH : 'catch' ;
 TRUE : 'true' ;
 FALSE : 'false' ;
+VALUEOF : 'valueOf' ;
 MINUS : '-' ;
 FLOAT : [0-9]+ '.' [0-9]+ ;
 INT : [0-9]+ ;

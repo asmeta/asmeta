@@ -15,4 +15,5 @@ step
 
 check insertedPin = 3;
 check balance_card2 = -3188;
+check 1316 = 1316;
 set insertedPin := 5.5;
