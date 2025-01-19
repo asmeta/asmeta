@@ -54,6 +54,46 @@ class AsmMethodsUtil {
 	}
 	
 	/**
+	 * Get the specific wrapper object of the basic domain type under consideration.
+	 */
+	protected def static String getWrapperBasicTdType(String domainType) {
+		var type = domainType
+		switch (type){
+			case BOOLEAN:
+			type="Boolean"
+			case INTEGER:
+				type="Integer"
+			case REAL:
+				type="Double"
+			case CHAR:
+				type="Character"
+			case STRING:
+				type="String"
+		}
+		return type
+	}
+	
+	/**
+	 * Get the specific parsing method for the argument type.
+	 */
+	protected def static String getParsingMethod(String domainType) {
+		var type = domainType
+		switch (type){
+			case BOOLEAN:
+			type="Boolean::parseBoolean"
+			case INTEGER:
+				type="Integer::parseInt"
+			case REAL:
+				type="Double::parseDouble"
+			case CHAR:
+				type="e -> e.charAt(0)"
+			case STRING:
+				type="e -> e"
+		}
+		return type
+	}
+	
+	/**
 	 * 	Generate and return the method signature for getter functions
 	 */
 	protected def static String getMethodSignature(String asmName, String methodGetterSignature, String codomain) {
@@ -77,6 +117,44 @@ class AsmMethodsUtil {
 			methodDeclaration += ('''public «asmName».«codomain» «methodGetterSignature»(){''');
 		}
 		
+	}
+	
+	/**
+	 * Generates and returns the getter for a function with sequence codomain.
+	 */
+	protected def static String genSequenceGetter(String functionName, String type, String toStringDef){
+		var sb = new StringBuffer();
+		sb.append('''
+			public String get_«functionName»(){
+				java.util.List<«type»> list = this.execution.«functionName».get();
+				if(list.isEmpty()){
+					return "[]";
+				}
+				return "[" + 
+					list.stream().
+				    map(«toStringDef»).
+				    collect(java.util.stream.Collectors.joining(", ")) 
+				    + "]";
+				    
+			}
+			''');
+		return sb.toString()
+	}
+	
+	/**
+	 * Generates and returns the setter for a function with sequence codomain.
+	 */
+	protected def static String genSequenceSetter(String functionName, String type, String parsingMethod){
+		var sb = new StringBuffer();
+		sb.append('''
+			public void set_«functionName»(String «functionName») {
+				java.util.List<«type»> list = java.util.Arrays.stream(«functionName».split(","))
+					.map(«parsingMethod»)
+					.toList();
+				this.execution.«functionName».set(list);
+				System.out.println("Set «functionName» = " + «functionName»);
+			}''');
+		return sb.toString()
 	}
 	
 	/**

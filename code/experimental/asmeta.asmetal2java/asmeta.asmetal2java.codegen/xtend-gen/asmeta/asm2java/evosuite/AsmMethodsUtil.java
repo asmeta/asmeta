@@ -75,6 +75,60 @@ public class AsmMethodsUtil {
   }
 
   /**
+   * Get the specific wrapper object of the basic domain type under consideration.
+   */
+  protected static String getWrapperBasicTdType(final String domainType) {
+    String type = domainType;
+    if (type != null) {
+      switch (type) {
+        case AsmMethodsUtil.BOOLEAN:
+          type = "Boolean";
+          break;
+        case AsmMethodsUtil.INTEGER:
+          type = "Integer";
+          break;
+        case AsmMethodsUtil.REAL:
+          type = "Double";
+          break;
+        case AsmMethodsUtil.CHAR:
+          type = "Character";
+          break;
+        case AsmMethodsUtil.STRING:
+          type = "String";
+          break;
+      }
+    }
+    return type;
+  }
+
+  /**
+   * Get the specific parsing method for the argument type.
+   */
+  protected static String getParsingMethod(final String domainType) {
+    String type = domainType;
+    if (type != null) {
+      switch (type) {
+        case AsmMethodsUtil.BOOLEAN:
+          type = "Boolean::parseBoolean";
+          break;
+        case AsmMethodsUtil.INTEGER:
+          type = "Integer::parseInt";
+          break;
+        case AsmMethodsUtil.REAL:
+          type = "Double::parseDouble";
+          break;
+        case AsmMethodsUtil.CHAR:
+          type = "e -> e.charAt(0)";
+          break;
+        case AsmMethodsUtil.STRING:
+          type = "e -> e";
+          break;
+      }
+    }
+    return type;
+  }
+
+  /**
    * Generate and return the method signature for getter functions
    */
   protected static String getMethodSignature(final String asmName, final String methodGetterSignature, final String codomain) {
@@ -153,6 +207,101 @@ public class AsmMethodsUtil {
       _xblockexpression = _xifexpression;
     }
     return _xblockexpression;
+  }
+
+  /**
+   * Generates and returns the getter for a function with sequence codomain.
+   */
+  protected static String genSequenceGetter(final String functionName, final String type, final String toStringDef) {
+    StringBuffer sb = new StringBuffer();
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("public String get_");
+    _builder.append(functionName);
+    _builder.append("(){");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t");
+    _builder.append("java.util.List<");
+    _builder.append(type, "\t");
+    _builder.append("> list = this.execution.");
+    _builder.append(functionName, "\t");
+    _builder.append(".get();");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t");
+    _builder.append("if(list.isEmpty()){");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("return \"[]\";");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("return \"[\" + ");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("list.stream().");
+    _builder.newLine();
+    _builder.append("\t    ");
+    _builder.append("map(");
+    _builder.append(toStringDef, "\t    ");
+    _builder.append(").");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t    ");
+    _builder.append("collect(java.util.stream.Collectors.joining(\", \")) ");
+    _builder.newLine();
+    _builder.append("\t    ");
+    _builder.append("+ \"]\";");
+    _builder.newLine();
+    _builder.append("\t    ");
+    _builder.newLine();
+    _builder.append("}");
+    _builder.newLine();
+    sb.append(_builder);
+    return sb.toString();
+  }
+
+  /**
+   * Generates and returns the setter for a function with sequence codomain.
+   */
+  protected static String genSequenceSetter(final String functionName, final String type, final String parsingMethod) {
+    StringBuffer sb = new StringBuffer();
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("public void set_");
+    _builder.append(functionName);
+    _builder.append("(String ");
+    _builder.append(functionName);
+    _builder.append(") {");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t");
+    _builder.append("java.util.List<");
+    _builder.append(type, "\t");
+    _builder.append("> list = java.util.Arrays.stream(");
+    _builder.append(functionName, "\t");
+    _builder.append(".split(\",\"))");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t\t");
+    _builder.append(".map(");
+    _builder.append(parsingMethod, "\t\t");
+    _builder.append(")");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t\t");
+    _builder.append(".toList();");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("this.execution.");
+    _builder.append(functionName, "\t");
+    _builder.append(".set(list);");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t");
+    _builder.append("System.out.println(\"Set ");
+    _builder.append(functionName, "\t");
+    _builder.append(" = \" + ");
+    _builder.append(functionName, "\t");
+    _builder.append(");");
+    _builder.newLineIfNotEmpty();
+    _builder.append("}");
+    sb.append(_builder);
+    return sb.toString();
   }
 
   /**
