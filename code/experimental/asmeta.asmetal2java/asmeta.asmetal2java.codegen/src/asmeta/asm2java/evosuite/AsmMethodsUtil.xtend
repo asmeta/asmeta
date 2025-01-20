@@ -12,9 +12,12 @@ class AsmMethodsUtil {
 	public static val BOOLEAN = "Boolean"
 	public static val INTEGER = "Integer"
 	public static val REAL = "Real"
+	public static val DOUBLE = "Double"
 	public static val STRING = "String"
 	public static val CHAR = "Char"
-	public static val basicTdList = Arrays.asList(BOOLEAN, INTEGER, REAL, STRING, CHAR) 
+	public static val CHARACTER = "Character"
+	public static val basicTdList = Arrays.asList(BOOLEAN, INTEGER, REAL, STRING, CHAR, DOUBLE, CHARACTER) 
+	// Double and Character are the translated domains of Real and Char
 	
 	/**
 	 * Get the specific domain type under consideration.
@@ -69,6 +72,10 @@ class AsmMethodsUtil {
 				type="Character"
 			case STRING:
 				type="String"
+			case DOUBLE:
+				type="Double"
+			case CHARACTER:
+				type="Character"
 		}
 		return type
 	}
@@ -85,7 +92,11 @@ class AsmMethodsUtil {
 				type="Integer::parseInt"
 			case REAL:
 				type="Double::parseDouble"
+			case DOUBLE:
+				type="Double::parseDouble"		
 			case CHAR:
+				type="e -> e.charAt(0)"
+			case CHARACTER:
 				type="e -> e.charAt(0)"
 			case STRING:
 				type="e -> e"
@@ -127,7 +138,7 @@ class AsmMethodsUtil {
 		sb.append('''
 			public String get_«functionName»(){
 				java.util.List<«type»> list = this.execution.«functionName».get();
-				if(list.isEmpty()){
+				if(list == null || list.isEmpty()){
 					return "[]";
 				}
 				return "[" + 
@@ -147,10 +158,11 @@ class AsmMethodsUtil {
 	protected def static String genSequenceSetter(String functionName, String type, String parsingMethod){
 		var sb = new StringBuffer();
 		sb.append('''
-			public void set_«functionName»(String «functionName») {
-				java.util.List<«type»> list = java.util.Arrays.stream(«functionName».split(","))
-					.map(«parsingMethod»)
-					.toList();
+			public void set_sequence_«functionName»(String «functionName») {
+				java.util.List<«type»> list = 
+					java.util.Arrays.stream(«functionName».replaceAll("[\\[\\]]", "").split(","))
+						.map(«parsingMethod»)
+						.collect(java.util.stream.Collectors.toList());
 				this.execution.«functionName».set(list);
 				System.out.println("Set «functionName» = " + «functionName»);
 			}''');

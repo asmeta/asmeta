@@ -66,11 +66,13 @@ default init s0:
 	 function concreteDomainControlledFunction = 5 // OK
 	 function concreteDomain2ControlledFunction = 5	// OK 
 	 function concreteEnumDomainControlledFunction = STATE1 // OK
-	 /* function concreteToEnumControlledFunction($c in ConcreteDomain) = switch($c)
-										case STATE1 : 10
-										case STATE2 : 20
-										case STATE3 : 30
-									endswitch*/ 
+	 /*function concreteToEnumControlledFunction($c in ConcreteDomain) = switch($c)
+										case 1 : STATE1
+										case 2 : STATE2
+										case 3 : STATE3
+										case 4 : STATE1
+										case 5 : STATE2
+									endswitch*/ // init error
 	// function concreteToEnumControlledFunction($c in ConcreteDomain) = STATE1 // init error
 	/*function enumConcreteToEnumControlledFunction($c in ConcreteEnumDomain) = switch($c)
 										case STATE1 : STATE1

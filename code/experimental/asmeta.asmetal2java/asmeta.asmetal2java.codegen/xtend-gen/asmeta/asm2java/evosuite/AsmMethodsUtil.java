@@ -19,11 +19,15 @@ public class AsmMethodsUtil {
 
   public static final String REAL = "Real";
 
+  public static final String DOUBLE = "Double";
+
   public static final String STRING = "String";
 
   public static final String CHAR = "Char";
 
-  public static final List<String> basicTdList = Arrays.<String>asList(AsmMethodsUtil.BOOLEAN, AsmMethodsUtil.INTEGER, AsmMethodsUtil.REAL, AsmMethodsUtil.STRING, AsmMethodsUtil.CHAR);
+  public static final String CHARACTER = "Character";
+
+  public static final List<String> basicTdList = Arrays.<String>asList(AsmMethodsUtil.BOOLEAN, AsmMethodsUtil.INTEGER, AsmMethodsUtil.REAL, AsmMethodsUtil.STRING, AsmMethodsUtil.CHAR, AsmMethodsUtil.DOUBLE, AsmMethodsUtil.CHARACTER);
 
   /**
    * Get the specific domain type under consideration.
@@ -96,6 +100,12 @@ public class AsmMethodsUtil {
         case AsmMethodsUtil.STRING:
           type = "String";
           break;
+        case AsmMethodsUtil.DOUBLE:
+          type = "Double";
+          break;
+        case AsmMethodsUtil.CHARACTER:
+          type = "Character";
+          break;
       }
     }
     return type;
@@ -117,7 +127,13 @@ public class AsmMethodsUtil {
         case AsmMethodsUtil.REAL:
           type = "Double::parseDouble";
           break;
+        case AsmMethodsUtil.DOUBLE:
+          type = "Double::parseDouble";
+          break;
         case AsmMethodsUtil.CHAR:
+          type = "e -> e.charAt(0)";
+          break;
+        case AsmMethodsUtil.CHARACTER:
           type = "e -> e.charAt(0)";
           break;
         case AsmMethodsUtil.STRING:
@@ -227,7 +243,7 @@ public class AsmMethodsUtil {
     _builder.append(".get();");
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
-    _builder.append("if(list.isEmpty()){");
+    _builder.append("if(list == null || list.isEmpty()){");
     _builder.newLine();
     _builder.append("\t\t");
     _builder.append("return \"[]\";");
@@ -266,7 +282,7 @@ public class AsmMethodsUtil {
   protected static String genSequenceSetter(final String functionName, final String type, final String parsingMethod) {
     StringBuffer sb = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("public void set_");
+    _builder.append("public void set_sequence_");
     _builder.append(functionName);
     _builder.append("(String ");
     _builder.append(functionName);
@@ -275,17 +291,20 @@ public class AsmMethodsUtil {
     _builder.append("\t");
     _builder.append("java.util.List<");
     _builder.append(type, "\t");
-    _builder.append("> list = java.util.Arrays.stream(");
-    _builder.append(functionName, "\t");
-    _builder.append(".split(\",\"))");
+    _builder.append("> list = ");
     _builder.newLineIfNotEmpty();
     _builder.append("\t\t");
+    _builder.append("java.util.Arrays.stream(");
+    _builder.append(functionName, "\t\t");
+    _builder.append(".replaceAll(\"[\\\\[\\\\]]\", \"\").split(\",\"))");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t\t\t");
     _builder.append(".map(");
-    _builder.append(parsingMethod, "\t\t");
+    _builder.append(parsingMethod, "\t\t\t");
     _builder.append(")");
     _builder.newLineIfNotEmpty();
-    _builder.append("\t\t");
-    _builder.append(".toList();");
+    _builder.append("\t\t\t");
+    _builder.append(".collect(java.util.stream.Collectors.toList());");
     _builder.newLine();
     _builder.append("\t");
     _builder.append("this.execution.");

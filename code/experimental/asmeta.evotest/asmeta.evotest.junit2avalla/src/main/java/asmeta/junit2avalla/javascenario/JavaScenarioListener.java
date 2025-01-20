@@ -324,6 +324,17 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 				log.debug("new setter: {} ", this.currentJavaVariable.getName());
 				// set primitive to true to remove double quotes
 				this.currentJavaVariable.setPrimitive(true);
+			} else if (setter.contains("set_sequence_")){ 
+				// it's a sequence domain 
+				log.debug("Replacing the sequence flag for the abstract type : {} .", setter);
+				// remove the flag abstract_
+				this.currentJavaVariable.setName(setter.replace("sequence_", ""));
+				log.debug("new setter: {} ", this.currentJavaVariable.getName());
+				// set primitive to true to remove double quotes
+				this.currentJavaVariable.setPrimitive(true);
+				// ensure the sequence domain value in Avalla is always delimited by square brackets
+				// removing existing square brackets and double quotes if present.
+				value = "[" + value.replaceAll("[\\[\\]\"]", "") + "]";
 			} else {
 				// it's a String, set primitive to false to keep double quotes
 				this.currentJavaVariable.setPrimitive(false);

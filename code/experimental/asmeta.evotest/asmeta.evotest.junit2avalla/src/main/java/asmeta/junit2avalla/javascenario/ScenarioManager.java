@@ -134,6 +134,9 @@ class ScenarioManager {
 			// if it's an abstract type remove the double quotes and the abstract_ flag
 			actual = actual.replace("\"", "");
 			actual = actual.replace("abstract_", "");
+		} else if (actual.startsWith("\"[") && actual.endsWith("]\"")) {
+			// if it's a sequence type remove the double quotes
+			actual = actual.replace("\"", "");
 		}
 		return javaAssertionTerm.isPrimitive() ? actual : actual.substring(actual.lastIndexOf(".") + 1);
 	}
