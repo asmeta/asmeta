@@ -56,7 +56,7 @@ public class GeneratorCompilerUtil {
 	 * related to the translation.
 	 */
 	static List<String> errors = List.of("battleship.asm", "fibonacci.asm", "QuickSort.asm", "testSignature.asm",
-			"SIS.asm", "testDefinition3.asm");
+			"SIS.asm");
 
 	/**
 	 * The following files have compilation errors already in the .asm file and
