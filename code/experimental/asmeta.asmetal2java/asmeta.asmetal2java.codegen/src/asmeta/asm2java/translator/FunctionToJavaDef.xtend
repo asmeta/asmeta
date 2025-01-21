@@ -44,7 +44,7 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 
 		if (object.codomain instanceof SequenceDomain || object.domain instanceof SequenceDomain) {
 			sb.append('''
-				«object.name».set(new ArrayList<>(Arrays.asList(«visit(object.initialization.get(0).body)»)));
+				«object.name».oldValue = «object.name».newValue = new ArrayList<>(Arrays.asList(«visit(object.initialization.get(0).body)»));
 			''')
 		} else {
 			if (object.domain !== null) {

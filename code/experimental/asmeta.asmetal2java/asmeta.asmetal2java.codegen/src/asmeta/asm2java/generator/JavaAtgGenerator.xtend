@@ -74,7 +74,6 @@ class JavaAtgGenerator extends AsmToJavaGenerator {
 		    */
 			public «asmName»_ATG(){
 				this.execution = new «asmName»();
-				this.execution.fireUpdateSet();
 				this.state = 0;
 			}
 		

@@ -121,9 +121,6 @@ public class JavaAtgGenerator extends AsmToJavaGenerator {
     _builder.append("();");
     _builder.newLineIfNotEmpty();
     _builder.append("\t\t");
-    _builder.append("this.execution.fireUpdateSet();");
-    _builder.newLine();
-    _builder.append("\t\t");
     _builder.append("this.state = 0;");
     _builder.newLine();
     _builder.append("\t");
