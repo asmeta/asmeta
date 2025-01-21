@@ -264,11 +264,9 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
 
   public String visit(final AbstractTd object) {
     StringBuffer sb = new StringBuffer();
-    String isStatic = "";
     Boolean _isDynamic = object.getIsDynamic();
     boolean _not = (!(_isDynamic).booleanValue());
     if (_not) {
-      isStatic = "static";
     }
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("static class ");
@@ -287,8 +285,7 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
     _builder.append("\t");
     String _isPrivate_1 = this.isPrivate();
     _builder.append(_isPrivate_1, "\t");
-    _builder.append((isStatic + " "), "\t");
-    _builder.append("List<String> val = new ArrayList<>();");
+    _builder.append("static List<String> val = new ArrayList<>();");
     _builder.newLineIfNotEmpty();
     _builder.newLine();
     _builder.append("\t");

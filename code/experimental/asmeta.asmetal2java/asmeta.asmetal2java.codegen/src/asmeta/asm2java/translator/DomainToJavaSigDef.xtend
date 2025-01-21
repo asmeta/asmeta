@@ -170,15 +170,19 @@ class DomainToJavaSigDef extends ReflectiveVisitor<String> {
 	def String visit(AbstractTd object) {
 
 		var StringBuffer sb = new StringBuffer
-		var String isStatic = ""
+		//var String isStatic = ""
 
-		if (!object.isDynamic)
-			isStatic = "static"
+
+		if (!object.isDynamic){
+			// TODO: manage static fields
+			//isStatic = "static"
+		}
+		
 
 		sb.append('''
 			static class «object.name» {
 				«isPrivate»static List<«object.name»> elems = new ArrayList<>();
-				«isPrivate»«isStatic + " "»List<String> val = new ArrayList<>();
+				«isPrivate»static List<String> val = new ArrayList<>();
 			
 				«object.name» (String a) {
 			    	elems.add(this);
