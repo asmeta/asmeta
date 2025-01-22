@@ -44,7 +44,7 @@ public class FunctionToJavaSig extends ReflectiveVisitor<String> {
   public String visit(final StaticFunction object) {
     StringBuffer function = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("//Funzione di tipo statico");
+    _builder.append("//Static Function");
     _builder.newLine();
     function.append(_builder);
     Domain _domain = object.getDomain();
@@ -270,7 +270,7 @@ public class FunctionToJavaSig extends ReflectiveVisitor<String> {
   public String visit(final ControlledFunction object) {
     StringBuffer function = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("//Funzione di tipo Controlled");
+    _builder.append("//Controlled Function");
     _builder.newLine();
     function.append(_builder);
     Domain _domain = object.getDomain();
@@ -451,7 +451,7 @@ public class FunctionToJavaSig extends ReflectiveVisitor<String> {
   public String visit(final MonitoredFunction object) {
     StringBuffer function = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("//Funzione di tipo monitored");
+    _builder.append("//Monitored Function");
     _builder.newLine();
     function.append(_builder);
     Domain _domain = object.getDomain();
@@ -659,7 +659,7 @@ public class FunctionToJavaSig extends ReflectiveVisitor<String> {
   public String visit(final OutFunction object) {
     StringBuffer function = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("//Funzione di tipo out");
+    _builder.append("//Out Function");
     _builder.newLine();
     function.append(_builder);
     Domain _domain = object.getDomain();
@@ -842,7 +842,7 @@ public class FunctionToJavaSig extends ReflectiveVisitor<String> {
   public String visit(final DerivedFunction object) {
     StringBuffer function = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("//Funzione di tipo derived");
+    _builder.append("//Derived Function");
     _builder.newLine();
     function.append(_builder);
     Domain _domain = object.getDomain();

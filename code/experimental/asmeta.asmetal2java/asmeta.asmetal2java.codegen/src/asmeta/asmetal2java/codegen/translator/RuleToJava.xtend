@@ -207,14 +207,18 @@ class RuleToJava extends RuleVisitor<String> {
 					else if (cf instanceof ControlledFunction && cf.domain === null)
 						isZeroC = true
 
-			if (isZeroC)
-				result.
-					append('''«new TermToJavaInAssignments(res,true).visit(object.location)».oldValue = «new TermToJavaInAssignments(res,true).visit(object.location)».newValue;
+			if (isZeroC){
+				result.append('''«new TermToJavaInAssignments(res,true).visit(object.location)».update();
 					''')
-			else
-				result.
-					append('''«new TermToJavaInAssignments(res,true).visit(object.location)».oldValues = «new TermToJavaInAssignments(res,true).visit(object.location)».newValues;
+//				result.append('''«new TermToJavaInAssignments(res,true).visit(object.location)».oldValue = «new TermToJavaInAssignments(res,true).visit(object.location)».newValue;
+//					''')
+				}
+			else{
+				result.append('''«new TermToJavaInAssignments(res,true).visit(object.location)».update();
 					''')
+//				result.append('''«new TermToJavaInAssignments(res,true).visit(object.location)».oldValues = «new TermToJavaInAssignments(res,true).visit(object.location)».newValues;
+//					''')
+				}
 
 		}
 		return result.toString

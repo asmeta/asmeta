@@ -234,11 +234,13 @@ class TermToJava extends ReflectiveVisitor<String> {
 		var valore = app.substring(partenza, limiteS - 2)
 
 		for (var i = 0; i < object.variable.size; i++) {
-			if ((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof AbstractTd)
+			if ((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof AbstractTd){
+				var abstractDomainName = new DomainToJavaString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)
 				sb.append(
 			'''
-					«""»	«new DomainToJavaString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems.stream().anyMatch(c -> c.toString(c).equals(«app.substring(7,app.length-1)».toString(c)))
+					«""»	«abstractDomainName».elems.stream().anyMatch(c -> «abstractDomainName».toString(c).equals(«app.substring(7,app.length-1)».toString(c)))
 				''')
+				}
 			else if ((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof EnumTd)
 				sb.append(
 			'''

@@ -2059,7 +2059,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_5.append(".setText(esecuzione.");
             String _name_12 = ((ControlledFunction)fd).getName();
             _builder_5.append(_name_12);
-            _builder_5.append(".oldValue.name());");
+            _builder_5.append(".get().name());");
             _builder_5.newLineIfNotEmpty();
             _builder_5.append("} catch( NullPointerException errC");
             _builder_5.append(this.NvarC);
@@ -2111,7 +2111,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_6.append("_1.setText(esecuzione.");
             String _name_13 = ((ControlledFunction)fd).getName();
             _builder_6.append(_name_13, " ");
-            _builder_6.append(".oldValues.get(esecuzione.");
+            _builder_6.append(".get().get(esecuzione.");
             String _name_14 = ((ControlledFunction)fd).getDomain().getName();
             _builder_6.append(_name_14, " ");
             _builder_6.append("_elemsList.get(0)).value.toString());");
@@ -2142,7 +2142,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_6.append("_2.setText(esecuzione.");
             String _name_15 = ((ControlledFunction)fd).getName();
             _builder_6.append(_name_15, " ");
-            _builder_6.append(".oldValues.get(esecuzione.");
+            _builder_6.append(".get().get(esecuzione.");
             String _name_16 = ((ControlledFunction)fd).getDomain().getName();
             _builder_6.append(_name_16, " ");
             _builder_6.append("_elemsList.get(1)).value.toString());");
@@ -2174,7 +2174,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_6.append("_3.setText(esecuzione.");
             String _name_17 = ((ControlledFunction)fd).getName();
             _builder_6.append(_name_17, " ");
-            _builder_6.append(".oldValues.get(esecuzione.");
+            _builder_6.append(".get().get(esecuzione.");
             String _name_18 = ((ControlledFunction)fd).getDomain().getName();
             _builder_6.append(_name_18, " ");
             _builder_6.append("_elemsList.get(2)).value.toString());");
@@ -2230,7 +2230,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_7.append("_1.setText(esecuzione.");
             String _name_19 = ((ControlledFunction)fd).getName();
             _builder_7.append(_name_19, " ");
-            _builder_7.append(".oldValues.get(esecuzione.");
+            _builder_7.append(".get().get(esecuzione.");
             String _name_20 = ((ControlledFunction)fd).getDomain().getName();
             _builder_7.append(_name_20, " ");
             _builder_7.append("_elemsList.get(0)).toString());");
@@ -2261,7 +2261,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_7.append("_2.setText(esecuzione.");
             String _name_21 = ((ControlledFunction)fd).getName();
             _builder_7.append(_name_21, " ");
-            _builder_7.append(".oldValues.get(esecuzione.");
+            _builder_7.append(".get().get(esecuzione.");
             String _name_22 = ((ControlledFunction)fd).getDomain().getName();
             _builder_7.append(_name_22, " ");
             _builder_7.append("_elemsList.get(1)).toString());");
@@ -2291,7 +2291,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_7.append("_3.setText(esecuzione.");
             String _name_23 = ((ControlledFunction)fd).getName();
             _builder_7.append(_name_23, " ");
-            _builder_7.append(".oldValues.get(esecuzione.");
+            _builder_7.append(".get().get(esecuzione.");
             String _name_24 = ((ControlledFunction)fd).getDomain().getName();
             _builder_7.append(_name_24, " ");
             _builder_7.append("_elemsList.get(2)).toString());");
@@ -2322,7 +2322,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_7.append("_4.setText(esecuzione.");
             String _name_25 = ((ControlledFunction)fd).getName();
             _builder_7.append(_name_25, " ");
-            _builder_7.append(".oldValues.get(esecuzione.");
+            _builder_7.append(".get().get(esecuzione.");
             String _name_26 = ((ControlledFunction)fd).getDomain().getName();
             _builder_7.append(_name_26, " ");
             _builder_7.append("_elemsList.get(3)).toString());");

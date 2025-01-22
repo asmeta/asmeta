@@ -93,7 +93,7 @@ public class TermToJavaInAssignments extends TermToJava {
           _builder_1.append("\t");
           _builder_1.newLine();
           _builder_1.append("\tif(");
-          String _visit = this.visit(object.getComparedTerm());
+          String _visit = new DomainToJavaString(this.res).visit(object.getComparedTerm().getDomain());
           _builder_1.append(_visit);
           _builder_1.append(".toString(");
           String _visit_1 = this.visit(object.getComparedTerm());
@@ -113,7 +113,7 @@ public class TermToJavaInAssignments extends TermToJava {
         } else {
           StringConcatenation _builder_2 = new StringConcatenation();
           _builder_2.append("\telse if(");
-          String _visit_4 = this.visit(object.getComparedTerm());
+          String _visit_4 = new DomainToJavaString(this.res).visit(object.getComparedTerm().getDomain());
           _builder_2.append(_visit_4);
           _builder_2.append(".toString(");
           String _visit_5 = this.visit(object.getComparedTerm());

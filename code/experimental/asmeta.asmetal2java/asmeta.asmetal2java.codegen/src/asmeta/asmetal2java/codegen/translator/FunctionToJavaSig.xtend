@@ -45,7 +45,7 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 	def String visit(StaticFunction object) {
 
 		var StringBuffer function = new StringBuffer
-		function.append('''//Funzione di tipo statico
+		function.append('''//Static Function
 		''')
 
 		// Caso di studio in cui la funzione ha solo il codominio, quindi non presenta variabili in ingresso alla funzione
@@ -134,7 +134,7 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 	// Metodo per identificare le funzioni controllate
 	def String visit(ControlledFunction object) {
 		var StringBuffer function = new StringBuffer
-		function.append('''//Funzione di tipo Controlled
+		function.append('''//Controlled Function
 		''')
 		if (object.domain === null) {
 			// product domain
@@ -218,7 +218,7 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 	def String visit(MonitoredFunction object) {
 		var StringBuffer function = new StringBuffer
 
-		function.append('''//Funzione di tipo monitored
+		function.append('''//Monitored Function
 		''')
 
 		if (object.domain === null) {
@@ -313,7 +313,7 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 
 		var StringBuffer function = new StringBuffer
 
-		function.append('''//Funzione di tipo out
+		function.append('''//Out Function
 		''')
 
 		if (object.domain === null) {
@@ -402,7 +402,7 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 
 		var StringBuffer function = new StringBuffer
 
-		function.append('''//Funzione di tipo derived
+		function.append('''//Derived Function
 		''')
 
 		if (object.domain === null) {
