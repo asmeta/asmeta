@@ -5,14 +5,14 @@ Bundle-Name: asmeta.asm2java
 Bundle-SymbolicName: asmeta.asm2java
 Bundle-Version: 22.04
 Export-Package: .,
- asmeta.asm2java.application,
- asmeta.asm2java.compiler,
- asmeta.asm2java.config,
- asmeta.asm2java.evosuite,
- asmeta.asm2java.formatter,
- asmeta.asm2java.generator,
- asmeta.asm2java.main,
- asmeta.asm2java.translator
+ asmeta.asmetal2java.codegen.application,
+ asmeta.asmetal2java.codegen.compiler,
+ asmeta.asmetal2java.codegen.config,
+ asmeta.asmetal2java.codegen.evosuite,
+ asmeta.asmetal2java.codegen.formatter,
+ asmeta.asmetal2java.codegen.generator,
+ asmeta.asmetal2java.codegen.main,
+ asmeta.asmetal2java.codegen.translator
 Require-Bundle: org.junit,
  org.eclipse.emf.ecore,
  com.google.inject,
@@ -26,7 +26,7 @@ Require-Bundle: org.junit,
  org.eclipse.core.resources,
  asmeta.asm2java,
  org.eclipse.jdt.core
-Import-Package: asmeta.asm2java.compiler,
+Import-Package: asmeta.asmetal2java.codegen.compiler,
  org.eclipse.jdt.core.formatter,
  org.eclipse.xtext.generator,
  org.eclipse.xtext.resource

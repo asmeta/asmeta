@@ -38,7 +38,7 @@
 							<archive>
 								<manifest>
 									<mainClass>
-										asmeta.evoasmetatg.main.EvoAsmetaTgCLI
+										asmeta.evotest.evoasmetatg.main.EvoAsmetaTgCLI
 									</mainClass>
 								</manifest>
 							</archive>

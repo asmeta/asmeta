@@ -91,7 +91,7 @@
 							<archive>
 								<manifest>
 									<mainClass>
-										asmeta.asm2java.main.Asmeta2JavaCLI
+										asmeta.asmetal2java.codegen.main.Asmeta2JavaCLI
 									</mainClass>
 								</manifest>
 							</archive>

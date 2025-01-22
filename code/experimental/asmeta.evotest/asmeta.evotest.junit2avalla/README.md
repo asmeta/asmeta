@@ -24,7 +24,7 @@ and follow these steps:
 
 2. Navigate into the project directory:
     ```shell
-    cd ./code/experimental/junit2avalla
+    cd ./code/experimental/asmeta.evotest/asmeta.evotest.junit2avalla
     ```
 
 3. Build the Project:

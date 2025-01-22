@@ -26,6 +26,7 @@ Configuration:
           level: "INFO"
     Logger:
       name: "asmeta"
+      # include all logs in the asmeta. package
       level: "DEBUG"
       AppenderRef:
         - ref: "DEBUG_LOG"

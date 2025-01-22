@@ -106,7 +106,7 @@
 			  <archive>
 			    <manifest>
 				  <mainClass>
-					asmeta.junit2avalla.main.Junit2AvallaCLI
+					asmeta.evotest.junit2avalla.main.Junit2AvallaCLI
 				  </mainClass>
 				</manifest>
 			  </archive>
