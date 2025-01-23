@@ -12,7 +12,7 @@ import asmeta.asmetal2java.codegen.evosuite.FunctionToJavaEvosuiteSig
 import asmeta.asmetal2java.codegen.evosuite.DomainToJavaEvosuiteSigDef
 import asmeta.asmetal2java.codegen.evosuite.DomainToJavaStringEvosuite
 import java.util.ArrayList
-
+import asmeta.asmetal2java.codegen.translator.FunctionClassDef
 
 /**
  * This generator creates a translated version of the Java class for testing purposes only,
@@ -98,73 +98,17 @@ class JavaTestGenerator extends JavaGenerator {
 				«abstractClassDef(asm)»
 				«domainSignature(asm)»
 				
-				//Metodi di supporto per l'implementazione delle funzioni controlled
+				//Support methods for implementing controlled functions
+								
+				«FunctionClassDef.getFun0CtrlClass()»
 				
-				class Fun0Ctrl<D> {
-				   
-				   D oldValue;
-				   D newValue;
-				   
-				void set(D d) {
-					
-						newValue = d;
-				}
+				«FunctionClassDef.getFunNCtrlClass()»
 				
-				D get() {
-					
-						return oldValue;
-				}
-				}
+				//Support methods for the implementation of non-controlled functions
 				
-				static class FunNCtrl<D, C> {
-					
-				Map<D, C> oldValues = new HashMap<>();
-				Map<D, C> newValues = new HashMap<>();
+				«FunctionClassDef.getFun0Class()»
 				
-				void set(D d, C c) {
-					
-						newValues.put(d, c);
-				}
-				
-				C get(D d) {
-					
-						return oldValues.get(d);
-				}
-				}
-				
-				
-				//Metodi di supporto per l'implementazione delle funzioni non controlled
-				
-				class Fun0<D> {
-				   
-				   D value;
-				   
-				void set(D d) {
-					
-						value = d;
-				}
-				
-				D get() {
-					
-						return value;
-				}
-				}
-				
-				
-				class FunN<D, C> {
-					
-				Map<D, C> values = new HashMap<>();
-				
-				void set(D d, C c) {
-					
-						values.put(d, c);
-				}
-				
-				C get(D d) {
-					
-						return values.get(d);
-				}
-				}					
+				«FunctionClassDef.getFunNClass()»
 				
 				/////////////////////////////////////////////////
 				/// FUNCTIONS
