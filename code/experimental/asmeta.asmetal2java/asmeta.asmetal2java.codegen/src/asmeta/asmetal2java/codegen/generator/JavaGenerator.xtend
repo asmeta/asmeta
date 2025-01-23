@@ -94,30 +94,7 @@ class JavaGenerator extends AsmToJavaGenerator {
 			
 			// «asmName».java automatically generated from ASM2CODE
 			
-			import java.util.ArrayList;
-			import java.util.Arrays;
-			import java.util.Collections;
-			import java.util.HashMap;
-			import java.util.HashSet;
-			import java.util.Map;
-			import java.util.Set;
-			import java.util.List;
-			import java.util.Scanner;
-			import org.apache.commons.collections4.bag.HashBag;
-			import org.apache.commons.collections4.Bag;
-			import java.util.concurrent.ThreadLocalRandom;
-			import java.util.function.Function;
-			import java.util.stream.Collectors;
-			import org.javatuples.Decade;
-			import org.javatuples.Ennead;
-			import org.javatuples.Octet;
-			import org.javatuples.Pair;
-			import org.javatuples.Quartet;
-			import org.javatuples.Quintet;
-			import org.javatuples.Septet;
-			import org.javatuples.Sextet;
-			import org.javatuples.Triplet;
-			
+			«getImports()»
 			
 			abstract class «asmName»Sig {
 				
@@ -199,12 +176,7 @@ class JavaGenerator extends AsmToJavaGenerator {
 				}
 				
 				//Metodo per l'aggiornamento dell'asm
-				void updateASM()
-				{
-					«asm.mainrule.name»();
-					fireUpdateSet();
-					initControlledWithMonitored();
-				}
+				«getUpdateASM(asm)»
 				
 				public static void main(String[] args) {
 					// TODO: auto-generated main method by Asmeta2Java 
@@ -214,6 +186,45 @@ class JavaGenerator extends AsmToJavaGenerator {
 			
 		'''
 
+	}
+	
+	protected def String getImports(){
+		return	'''
+				import java.util.ArrayList;
+				import java.util.Arrays;
+				import java.util.Collections;
+				import java.util.HashMap;
+				import java.util.HashSet;
+				import java.util.Map;
+				import java.util.Set;
+				import java.util.List;
+				import java.util.Scanner;
+				import org.apache.commons.collections4.bag.HashBag;
+				import org.apache.commons.collections4.Bag;
+				import java.util.concurrent.ThreadLocalRandom;
+				import java.util.function.Function;
+				import java.util.stream.Collectors;
+				import org.javatuples.Decade;
+				import org.javatuples.Ennead;
+				import org.javatuples.Octet;
+				import org.javatuples.Pair;
+				import org.javatuples.Quartet;
+				import org.javatuples.Quintet;
+				import org.javatuples.Septet;
+				import org.javatuples.Sextet;
+				import org.javatuples.Triplet;
+				'''
+	}
+	
+	protected def String getUpdateASM(Asm asm){
+		return	'''
+			void updateASM()
+				{
+					«asm.mainrule.name»();
+					fireUpdateSet();
+					initControlledWithMonitored();
+				}
+			'''
 	}
 
 	// Prima parte dedicata allo studio dei metodi per la creazione della classe astratta che rappresenta la parte
