@@ -141,8 +141,11 @@ class AsmMethodsUtil {
 				if(list == null || list.isEmpty()){
 					return "[]";
 				}
-				return "[" + list.toString() + "]";
-				    
+				return "[" +
+					list.stream().
+					map(Object::toString).
+					collect(java.util.stream.Collectors.joining(", "))
+					+ "]";
 			}
 			''');
 		return sb.toString()
