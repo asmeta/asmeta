@@ -133,7 +133,7 @@ class AsmMethodsUtil {
 	/**
 	 * Generates and returns the getter for a function with sequence codomain.
 	 */
-	protected def static String genSequenceGetter(String functionName, String type, String toStringDef){
+	protected def static String genSequenceGetter(String functionName, String type){
 		var sb = new StringBuffer();
 		sb.append('''
 			public String get_«functionName»(){
@@ -141,11 +141,7 @@ class AsmMethodsUtil {
 				if(list == null || list.isEmpty()){
 					return "[]";
 				}
-				return "[" + 
-					list.stream().
-				    map(«toStringDef»).
-				    collect(java.util.stream.Collectors.joining(", ")) 
-				    + "]";
+				return "[" + list.toString() + "]";
 				    
 			}
 			''');

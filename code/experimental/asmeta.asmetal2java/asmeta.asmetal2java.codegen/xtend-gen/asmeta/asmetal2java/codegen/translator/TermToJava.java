@@ -358,19 +358,17 @@ public class TermToJava extends ReflectiveVisitor<String> {
       Domain _domain = object.getRanges().get(i).getDomain();
       Domain _baseDomain = ((PowersetDomain) _domain).getBaseDomain();
       if ((_baseDomain instanceof AbstractTd)) {
-        Domain _domain_1 = object.getRanges().get(i).getDomain();
-        String abstractDomainName = new DomainToJavaString(this.res).visit(((PowersetDomain) _domain_1).getBaseDomain());
         StringConcatenation _builder_1 = new StringConcatenation();
         _builder_1.append("\t");
-        _builder_1.append(abstractDomainName);
-        _builder_1.append(".elems.stream().anyMatch(c -> ");
-        _builder_1.append(abstractDomainName);
-        _builder_1.append(".toString(c).equals(");
+        Domain _domain_1 = object.getRanges().get(i).getDomain();
+        String _visit_1 = new DomainToJavaString(this.res).visit(((PowersetDomain) _domain_1).getBaseDomain());
+        _builder_1.append(_visit_1);
+        _builder_1.append(".elems.stream().anyMatch(c -> c.toString().equals(");
         int _length = app.length();
         int _minus = (_length - 1);
         String _substring = app.substring(7, _minus);
         _builder_1.append(_substring);
-        _builder_1.append(".toString(c)))");
+        _builder_1.append(".toString()))");
         _builder_1.newLineIfNotEmpty();
         sb.append(_builder_1);
       } else {
@@ -381,8 +379,8 @@ public class TermToJava extends ReflectiveVisitor<String> {
           _builder_2.append("Arrays.stream(");
           _builder_2.append("\t");
           Domain _domain_3 = object.getRanges().get(i).getDomain();
-          String _visit_1 = new DomainToJavaString(this.res).visit(((PowersetDomain) _domain_3).getBaseDomain());
-          _builder_2.append(_visit_1);
+          String _visit_2 = new DomainToJavaString(this.res).visit(((PowersetDomain) _domain_3).getBaseDomain());
+          _builder_2.append(_visit_2);
           _builder_2.append(".values()).anyMatch(c -> ");
           _builder_2.append(valore);
           _builder_2.append("c))");
@@ -395,8 +393,8 @@ public class TermToJava extends ReflectiveVisitor<String> {
             StringConcatenation _builder_3 = new StringConcatenation();
             _builder_3.append("\t");
             Domain _domain_5 = object.getRanges().get(i).getDomain();
-            String _visit_2 = new DomainToJavaString(this.res).visit(((PowersetDomain) _domain_5).getBaseDomain());
-            _builder_3.append(_visit_2);
+            String _visit_3 = new DomainToJavaString(this.res).visit(((PowersetDomain) _domain_5).getBaseDomain());
+            _builder_3.append(_visit_3);
             _builder_3.append(".elems.stream().anyMatch(c -> c.equals(");
             int _length_1 = app.length();
             int _minus_1 = (_length_1 - 7);
@@ -409,8 +407,8 @@ public class TermToJava extends ReflectiveVisitor<String> {
             StringConcatenation _builder_4 = new StringConcatenation();
             _builder_4.append("\t");
             Domain _domain_6 = object.getRanges().get(i).getDomain();
-            String _visit_3 = new DomainToJavaString(this.res).visit(((PowersetDomain) _domain_6).getBaseDomain());
-            _builder_4.append(_visit_3);
+            String _visit_4 = new DomainToJavaString(this.res).visit(((PowersetDomain) _domain_6).getBaseDomain());
+            _builder_4.append(_visit_4);
             _builder_4.append(".elems.stream().anyMatch(c -> c.equals(");
             int _length_2 = app.length();
             int _minus_2 = (_length_2 - 1);

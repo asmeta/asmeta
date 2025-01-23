@@ -58,7 +58,7 @@ class AsmMethods {
 						// return "abstract_" + value for differentiate from string
 						sb.append('''
 								public String get_«fd.name»(){
-									String value = «asmName».«fd.codomain.name».toString(this.execution.«fd.name».get());
+									String value = this.execution.«fd.name».get().toString();
 									return value != null ? "abstract_" + value : null;
 								}
 						 	''');
@@ -67,17 +67,17 @@ class AsmMethods {
 						if(AsmMethodsUtil.basicTdList.contains(type)){
 							 // Seq(BasicTD) example: seq(Integer)
 							type = AsmMethodsUtil.getWrapperBasicTdType(type)
-							sb.append(AsmMethodsUtil.genSequenceGetter(fd.name, type, "Object::toString"))
+							sb.append(AsmMethodsUtil.genSequenceGetter(fd.name, type))
 						} else {
 							// search the domain (EnumTd or AbstractTd)
 							for(cd : asm.headerSection.signature.domain){
 								if(cd.name.equals(type)){
 									if(cd instanceof EnumTd){ // Seq(EnumDomain)
 										type = asm.name.concat(".").concat(type)
-										sb.append(AsmMethodsUtil.genSequenceGetter(fd.name, type, "Object::toString"))
+										sb.append(AsmMethodsUtil.genSequenceGetter(fd.name, type))
 									} else if (cd instanceof AbstractTd){ // Seq(AbstractDomain)
 										type = asm.name.concat(".").concat(type)
-										sb.append(AsmMethodsUtil.genSequenceGetter(fd.name, type, '''e -> «type».toString(e)'''))
+										sb.append(AsmMethodsUtil.genSequenceGetter(fd.name, type))
 									}
 								}
 							}
@@ -140,11 +140,9 @@ class AsmMethods {
 										// return "abstract_" + value for differentiate from string
 										sb.append("\t").append('''public String get_«fd.name»_fromDomain_«symbol»(){''');
 										sb.append(System.lineSeparator)
-										sb.append("\t\t").append('''String value = «asmName».«fd.codomain.name».toString(''')
+										sb.append("\t\t").append('''String value = this.execution.«fd.name».get(''');
 										sb.append(System.lineSeparator)
-										sb.append("\t\t").append('''this.execution.«fd.name».get(''');
-										sb.append(System.lineSeparator)
-										sb.append("\t\t\t").append('''this.execution.«fd.domain.name»_elemsList.get(«i»)));''');
+										sb.append("\t\t\t").append('''this.execution.«fd.domain.name»_elemsList.get(«i»)).toString();''');
 										sb.append(System.lineSeparator)
 										sb.append("\t\t").append('''return value != null ? "abstract_" + value : null;''');
 										sb.append(System.lineSeparator)
@@ -179,11 +177,9 @@ class AsmMethods {
 												// return "abstract_" + value for differentiate from string
 												sb.append("\t").append('''public String get_«fd.name»_fromDomain_«symbol»(){''');
 												sb.append(System.lineSeparator)
-												sb.append("\t\t").append('''String value = «asmName».«fd.codomain.name».toString(''')
+												sb.append("\t\t").append('''String value = this.execution.«fd.name».get(''');
 												sb.append(System.lineSeparator)
-												sb.append("\t\t").append('''this.execution.«fd.name».get(''');
-												sb.append(System.lineSeparator)
-												sb.append("\t\t").append('''«asmName».«fd.domain.name».get("«symbol»")));''');
+												sb.append("\t\t").append('''«asmName».«fd.domain.name».get("«symbol»")).toString();''');
 												sb.append(System.lineSeparator)
 												sb.append("\t\t").append('''return value != null ? "abstract_" + value : null;''');
 												sb.append(System.lineSeparator)
@@ -231,11 +227,9 @@ class AsmMethods {
 												} else if(fd.codomain instanceof AbstractTd){ // ConcreteDomain -> Abstract
 													sb.append("\t\t").append('''public String get_«fd.name»_fromDomain_«elem»(){''');
 													sb.append(System.lineSeparator)
-													sb.append("\t\t").append('''return «asm.name».«fd.codomain.name».toString(''');
+													sb.append("\t\t").append('''return this.execution.«fd.name».get(''');
 													sb.append(System.lineSeparator)
-													sb.append("\t\t").append('''this.execution.«fd.name».get(''');
-													sb.append(System.lineSeparator)
-													sb.append("\t\t\t").append('''«asmName».«fd.domain.name».valueOf(«symbol»)));''');
+													sb.append("\t\t\t").append('''«asmName».«fd.domain.name».valueOf(«symbol»)).toString();''');
 													sb.append(System.lineSeparator)
 													sb.append("\t").append('''}''');
 												} else {

@@ -228,7 +228,7 @@ public class AsmMethodsUtil {
   /**
    * Generates and returns the getter for a function with sequence codomain.
    */
-  protected static String genSequenceGetter(final String functionName, final String type, final String toStringDef) {
+  protected static String genSequenceGetter(final String functionName, final String type) {
     StringBuffer sb = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("public String get_");
@@ -252,21 +252,7 @@ public class AsmMethodsUtil {
     _builder.append("}");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("return \"[\" + ");
-    _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("list.stream().");
-    _builder.newLine();
-    _builder.append("\t    ");
-    _builder.append("map(");
-    _builder.append(toStringDef, "\t    ");
-    _builder.append(").");
-    _builder.newLineIfNotEmpty();
-    _builder.append("\t    ");
-    _builder.append("collect(java.util.stream.Collectors.joining(\", \")) ");
-    _builder.newLine();
-    _builder.append("\t    ");
-    _builder.append("+ \"]\";");
+    _builder.append("return \"[\" + list.toString() + \"]\";");
     _builder.newLine();
     _builder.append("\t    ");
     _builder.newLine();
