@@ -94,16 +94,8 @@ public class GeneratorCompilerUtil {
 		System.out.println(asmname);
 		String name = asmname.substring(0, asmname.lastIndexOf("."));
 		// PARSE THE SPECIFICATION
-		// parse using the asmeta parser - if error ndo not continue
-		AsmCollection model = null;
-		try {
-			model = ASMParser.setUpReadAsm(asmFile);
-		} catch (ParseException e) {
-			System.err.println(e.getMessage());
-			// assuming that the specs are correct
-			fail("error in parsing asmeta example: " + asmspec);
-		}
-		assert model != null;
+		// parse using the asmeta parser - if error do not continue
+		AsmCollection model = parseSpec(asmFile);
 
 		// get the names of the files
 //		String dirEsecuzione = asmFile.getParentFile().getPath() + "/esecuzione";
@@ -183,6 +175,28 @@ public class GeneratorCompilerUtil {
 			return new CompileResultImpl(true, " java generated with success");
 		}
 
+	}
+
+	/**
+	 * Parse the asmeta specification using the asmeta parser and returns the model.
+	 * Asserts that the model is not equal to null.
+	 * Stop the test execution if there is an error during the parsing process.
+	 * 
+	 * @param asmFile the asmeta spec to parse.
+	 * @return the parsed model (!= null).
+	 * @throws Exception if an error occurs during the parsing process.
+	 */
+	public static AsmCollection parseSpec(File asmFile) throws Exception {
+		AsmCollection model = null;
+		try {
+			model = ASMParser.setUpReadAsm(asmFile);
+		} catch (ParseException e) {
+			System.err.println(e.getMessage());
+			// assuming that the specs are correct
+			fail("error in parsing asmeta example: " + asmFile.getAbsolutePath());
+		}
+		assert model != null;
+		return model;
 	}
 
 	/**

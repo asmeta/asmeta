@@ -22,6 +22,9 @@ import asmeta.asmetal2java.codegen.config.TranslatorOptionsImpl;
  */
 public class GeneratorCompilerDomainTest {
 	
+	/**
+	 * Path of the directory where the domain test files are stored
+	 */
 	private Path domainTestPath = GeneratorCompilerUtil.dirExamples.resolve("domainTests");
 	
 	/**

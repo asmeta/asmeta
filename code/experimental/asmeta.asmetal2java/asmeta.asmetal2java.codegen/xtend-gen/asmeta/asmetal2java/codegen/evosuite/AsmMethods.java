@@ -305,7 +305,7 @@ public class AsmMethods {
                       _builder_11.append("return this.execution.");
                       String _name_23 = ((ControlledFunction)fd).getName();
                       _builder_11.append(_name_23);
-                      _builder_11.append(".get().get(");
+                      _builder_11.append(".get(");
                       _append_1.append(_builder_11);
                       sb.append(System.lineSeparator());
                       StringBuffer _append_2 = sb.append("\t\t\t");
@@ -350,7 +350,7 @@ public class AsmMethods {
                         _builder_16.append("this.execution.");
                         String _name_27 = ((ControlledFunction)fd).getName();
                         _builder_16.append(_name_27);
-                        _builder_16.append(".get().get(");
+                        _builder_16.append(".get(");
                         _append_6.append(_builder_16);
                         sb.append(System.lineSeparator());
                         StringBuffer _append_7 = sb.append("\t\t\t");
@@ -381,7 +381,7 @@ public class AsmMethods {
                         _builder_20.append("return this.execution.");
                         String _name_29 = ((ControlledFunction)fd).getName();
                         _builder_20.append(_name_29);
-                        _builder_20.append(".get().get(");
+                        _builder_20.append(".get(");
                         _append_10.append(_builder_20);
                         sb.append(System.lineSeparator());
                         StringBuffer _append_11 = sb.append("\t\t\t");
@@ -430,7 +430,7 @@ public class AsmMethods {
                           _builder_11.append("return this.execution.");
                           String _name_23 = ((ControlledFunction)fd).getName();
                           _builder_11.append(_name_23);
-                          _builder_11.append(".get().get(");
+                          _builder_11.append(".get(");
                           _append_1.append(_builder_11);
                           sb.append(System.lineSeparator());
                           StringBuffer _append_2 = sb.append("\t\t\t");
@@ -476,7 +476,7 @@ public class AsmMethods {
                             _builder_16.append("this.execution.");
                             String _name_27 = ((ControlledFunction)fd).getName();
                             _builder_16.append(_name_27);
-                            _builder_16.append(".get().get(");
+                            _builder_16.append(".get(");
                             _append_6.append(_builder_16);
                             sb.append(System.lineSeparator());
                             StringBuffer _append_7 = sb.append("\t\t");
@@ -508,7 +508,7 @@ public class AsmMethods {
                             _builder_20.append("return this.execution.");
                             String _name_29 = ((ControlledFunction)fd).getName();
                             _builder_20.append(_name_29);
-                            _builder_20.append(".get().get(");
+                            _builder_20.append(".get(");
                             _append_10.append(_builder_20);
                             sb.append(System.lineSeparator());
                             StringBuffer _append_11 = sb.append("\t\t\t");

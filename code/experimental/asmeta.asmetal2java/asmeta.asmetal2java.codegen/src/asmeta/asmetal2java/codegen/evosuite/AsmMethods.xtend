@@ -131,7 +131,7 @@ class AsmMethods {
 										var type = AsmMethodsUtil.getConcreteDomainType(asm, fd, fd.codomain.name)
 										sb.append("\t").append('''public «type» get_«fd.name»_fromDomain_«symbol»(){''');
 										sb.append(System.lineSeparator)
-										sb.append("\t\t").append('''return this.execution.«fd.name».get().get(''');
+										sb.append("\t\t").append('''return this.execution.«fd.name».get(''');
 										sb.append(System.lineSeparator)
 										sb.append("\t\t\t").append('''this.execution.«fd.domain.name»_elemsList.get(«i»)).value;''');
 										sb.append(System.lineSeparator)
@@ -142,7 +142,7 @@ class AsmMethods {
 										sb.append(System.lineSeparator)
 										sb.append("\t\t").append('''String value = «asmName».«fd.codomain.name».toString(''')
 										sb.append(System.lineSeparator)
-										sb.append("\t\t").append('''this.execution.«fd.name».get().get(''');
+										sb.append("\t\t").append('''this.execution.«fd.name».get(''');
 										sb.append(System.lineSeparator)
 										sb.append("\t\t\t").append('''this.execution.«fd.domain.name»_elemsList.get(«i»)));''');
 										sb.append(System.lineSeparator)
@@ -153,7 +153,7 @@ class AsmMethods {
 										var methodGetterSignature = "get_".concat(fd.name).concat("_fromDomain_").concat(symbol)
 										sb.append(AsmMethodsUtil.getMethodSignature(asmName, methodGetterSignature, fd.codomain.name))
 										sb.append(System.lineSeparator)
-										sb.append("\t\t").append('''return this.execution.«fd.name».get().get(''');
+										sb.append("\t\t").append('''return this.execution.«fd.name».get(''');
 										sb.append(System.lineSeparator)
 										sb.append("\t\t\t").append('''this.execution.«fd.domain.name»_elemsList.get(«i»));''');
 										sb.append(System.lineSeparator)
@@ -170,7 +170,7 @@ class AsmMethods {
 												var type = AsmMethodsUtil.getConcreteDomainType(asm, fd, fd.codomain.name)
 												sb.append("\t").append('''public «type» get_«fd.name»_fromDomain_«symbol»(){''');
 												sb.append(System.lineSeparator)
-												sb.append("\t\t").append('''return this.execution.«fd.name».get().get(''');
+												sb.append("\t\t").append('''return this.execution.«fd.name».get(''');
 												sb.append(System.lineSeparator)
 												sb.append("\t\t\t").append('''«asmName».«fd.domain.name».get("«symbol»")).value;''');
 												sb.append(System.lineSeparator)
@@ -181,7 +181,7 @@ class AsmMethods {
 												sb.append(System.lineSeparator)
 												sb.append("\t\t").append('''String value = «asmName».«fd.codomain.name».toString(''')
 												sb.append(System.lineSeparator)
-												sb.append("\t\t").append('''this.execution.«fd.name».get().get(''');
+												sb.append("\t\t").append('''this.execution.«fd.name».get(''');
 												sb.append(System.lineSeparator)
 												sb.append("\t\t").append('''«asmName».«fd.domain.name».get("«symbol»")));''');
 												sb.append(System.lineSeparator)
@@ -192,7 +192,7 @@ class AsmMethods {
 												var methodGetterSignature = "get_".concat(fd.name).concat("_fromDomain_").concat(symbol)
 												sb.append(AsmMethodsUtil.getMethodSignature(asmName, methodGetterSignature, fd.codomain.name))
 												sb.append(System.lineSeparator)
-												sb.append("\t\t").append('''return this.execution.«fd.name».get().get(''');
+												sb.append("\t\t").append('''return this.execution.«fd.name».get(''');
 												sb.append(System.lineSeparator)
 												sb.append("\t\t\t").append('''«asmName».«fd.domain.name».get("«symbol»"));''');
 												sb.append(System.lineSeparator)
