@@ -68,8 +68,8 @@ signature:
 definitions:
 domain State = {0n,1n}
 
-	domain RowsWorld = {1n .. 4n}
-	domain ColumnsWorld = {1n .. 4n}
+	domain RowsWorld = {1n : 4n}
+	domain ColumnsWorld = {1n : 4n}
 
 
 	// MAIN RULE

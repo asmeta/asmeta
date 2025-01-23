@@ -6,9 +6,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.nio.file.Path;
 
-import org.asmeta.asm2java.main.GeneratorCompilerTest;
-import org.asmeta.asm2java.main.TranslatorOptions;
+import org.asmeta.asm2java.config.TranslatorOptions;
+import org.asmeta.asm2java.config.TranslatorOptionsImpl;
+import org.asmeta.asm2java.generator.GeneratorCompilerUtil;
 import org.asmeta.avallaxt.AvallaStandaloneSetup;
 import org.asmeta.avallaxt.avalla.Scenario;
 import org.eclipse.emf.common.util.URI;
@@ -21,6 +23,8 @@ import org.junit.runner.Result;
 import org.junit.runner.notification.RunListener;
 import asmetal2java_junit.AvallaToString;
 import org.asmeta.asm2java.formatter.Formatter;
+import org.asmeta.asm2java.formatter.FormatterImpl;
+
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
@@ -34,6 +38,9 @@ public class Asmetal2JUnit_Generator {
 	public String spec = "";
 	
 	
+	private static final Path JAVA_GEN_path = Path.of("examples/compilazione");
+	
+	private static final Formatter formatter = new FormatterImpl();
 	
 	
 	//Test su ascensore
@@ -120,9 +127,8 @@ public class Asmetal2JUnit_Generator {
 
 	private void generateTest(String asmspec,String avaTest) throws Exception, IOException {
 		
-		GeneratorCompilerTest gen = new GeneratorCompilerTest();
-		TranslatorOptions options = new TranslatorOptions(true, true, true);
-		gen.test(asmspec, options);
+		TranslatorOptions options = new TranslatorOptionsImpl(true, true, true);
+		GeneratorCompilerUtil.genandcompile(asmspec, options, JAVA_GEN_path, JAVA_GEN_path);
 		
 
 		assert new File(avaTest).exists();
@@ -156,7 +162,7 @@ public class Asmetal2JUnit_Generator {
 		
 		
 		FileWriter fileTest = new FileWriter(pathTF + spec + "_Test" + "_" + 1 + JUnit_EXT);
-		fileTest.write(Formatter.formatCode(fileTestForm));
+		fileTest.write(formatter.formatCode(fileTestForm));
 		fileTest.close();
 		
 	}

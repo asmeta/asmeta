@@ -26,11 +26,11 @@
 		<!-- asmeta.validator is a pom project itself-->
 		<module>code/extensions/asmeta.validator</module>
 		<!-- -->
-		<module>code/extensions/asmeta.visualizer/asmeta.visualizer</module>
 		<module>code/extensions/asmetasmv/asmeta.smv</module>
 		<module>code/extensions/asmetasmv/asmeta.smv.test</module>
 		<module>code/experimental/asmetal2cpp/asmetal2cpp_codegen</module>
 		<module>code/experimental/asmetal2cpp/asmetal2cpp_cli</module>
+		<module>code/extensions/asmeta.visualizer/asmeta.visualizer</module>
 		<module>reports/coverage/report.aggregate</module>
 	</modules>
 	<build>
@@ -61,11 +61,6 @@
 			<artifactId>junit</artifactId>
 			<version>4.13.2</version>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.formdev</groupId>
-			<artifactId>flatlaf</artifactId>
-			<version>3.5.4</version>
 		</dependency>
 	</dependencies>
 </project>
