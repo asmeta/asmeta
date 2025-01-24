@@ -84,6 +84,11 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	private JavaAssertionTerm currentJavaAssertionTerm;
 
 	/**
+	 * {@code True} ignore the next listener event, {@code False} otherwise.
+	 */
+	private boolean ignoreEvents;
+
+	/**
 	 * {@code True} ignore the next assertions, {@code False} write the checks.
 	 */
 	private boolean ignoreChecks;
@@ -127,6 +132,7 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 		this.variablesMap = new HashMap<>();
 		this.getterMap = new HashMap<>();
 		this.currenteScenario = new Scenario();
+		this.ignoreEvents = false;
 		this.ignoreChecks = false;
 	}
 
@@ -141,6 +147,8 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	 */
 	@Override
 	public void enterAsmDeclaration(AsmDeclarationContext ctx) {
+		if (ignoreListenerEvent(ctx.getText()))
+			return;
 		log.debug("Entering start_test_scenario_asmDeclaration: {} .", ctx.getText());
 		String text = ctx.ASMID(0).getText();
 		String asmName = text.substring(0, 1).toUpperCase().concat(text.substring(1));
@@ -158,26 +166,29 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	 */
 	@Override
 	public void enterVariableDeclaration(VariableDeclarationContext ctx) {
+		if (ignoreListenerEvent(ctx.getText()))
+			return;
 		log.debug("Entering start_test_scenario_variableDeclaration: {} .", ctx.getText());
 		this.currentJavaVariable = new JavaVariableTerm();
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 * <p>
-	 * Creates a new {@link JavaVariableTerm} with name and type for the 
-	 * declaration with valueOf static method.
+	 * Creates a new {@link JavaVariableTerm} with name and type for the declaration
+	 * with valueOf static method.
 	 * </p>
 	 */
 	@Override
 	public void enterValueOfDeclaration(ValueOfDeclarationContext ctx) {
+		if (ignoreListenerEvent(ctx.getText()))
+			return;
 		log.debug("Entering start_test_scenario_valueOfDeclaration: {} .", ctx.getText());
 		this.currentJavaVariable = new JavaVariableTerm();
 		currentJavaVariable.setType(ctx.ID(0).getText());
 		currentJavaVariable.setName(ctx.ID(1).getText());
 	}
-	
-	
+
 	/**
 	 * {@inheritDoc}
 	 * <p>
@@ -186,6 +197,8 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	 */
 	@Override
 	public void enterConstructorDeclaration(ConstructorDeclarationContext ctx) {
+		if (ignoreListenerEvent(ctx.getText()))
+			return;
 		log.debug("Entering start_test_scenario_constructorDeclaration: {} .", ctx.getText());
 		this.currentJavaVariable = new JavaVariableTerm();
 		currentJavaVariable.setType(ctx.ID(0).getText());
@@ -202,6 +215,8 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	 */
 	@Override
 	public void enterVariableType(VariableTypeContext ctx) {
+		if (ignoreListenerEvent(ctx.getText()))
+			return;
 		log.debug("Entering start_test_scenario_variableDeclaration_variableType: {} .", ctx.getText());
 		this.currentJavaVariable.setType(ctx.getText());
 		this.currentJavaVariable.setPrimitive(false);
@@ -217,6 +232,8 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	 */
 	@Override
 	public void enterVariableName(VariableNameContext ctx) {
+		if (ignoreListenerEvent(ctx.getText()))
+			return;
 		log.debug("Entering start_test_scenario_variableDeclaration_variableName: {} .", ctx.getText());
 		this.currentJavaVariable.setName(ctx.getText());
 	}
@@ -231,9 +248,11 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	 */
 	@Override
 	public void enterVariableValue(VariableValueContext ctx) {
+		if (ignoreListenerEvent(ctx.getText()))
+			return;
 		String value = ctx.getText();
 		log.debug("Entering start_test_scenario_variableDeclaration_variableValue: {} .", value);
-		// Set a function with Domain -> Codomain
+		// Set a function name with Domain -> Codomain
 		value = buildDomainCodomain(value);
 		// example: get_function_fromDomain_STATE1 -> get_function(STATE1)
 		this.currentJavaVariable.setValue(value);
@@ -249,10 +268,12 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	 */
 	@Override
 	public void exitVariableDeclaration(VariableDeclarationContext ctx) {
+		if (ignoreListenerEvent(ctx.getText()))
+			return;
 		log.debug("Exiting start_test_scenario_variableDeclaration: {} .", ctx.getText());
 		this.variablesMap.put(this.currentJavaVariable.getName(), this.currentJavaVariable);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 * <p>
@@ -263,10 +284,12 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	 */
 	@Override
 	public void exitValueOfDeclaration(ValueOfDeclarationContext ctx) {
+		if (ignoreListenerEvent(ctx.getText()))
+			return;
 		log.debug("Exiting start_test_scenario_valueOfDeclaration: {} .", ctx.getText());
 		this.variablesMap.put(this.currentJavaVariable.getName(), this.currentJavaVariable);
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 * <p>
@@ -277,6 +300,8 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	 */
 	@Override
 	public void exitConstructorDeclaration(ConstructorDeclarationContext ctx) {
+		if (ignoreListenerEvent(ctx.getText()))
+			return;
 		log.debug("Exiting start_test_scenario_constructorDeclaration: {} .", ctx.getText());
 		this.variablesMap.put(this.currentJavaVariable.getName(), this.currentJavaVariable);
 	}
@@ -291,6 +316,8 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	 */
 	@Override
 	public void enterSetFunction(SetFunctionContext ctx) {
+		if (ignoreListenerEvent(ctx.getText()))
+			return;
 		String setName = ctx.SetFunc().getText();
 		log.debug("Entering start_test_scenario_setFunction: {} .", setName);
 		this.currentJavaVariable = new JavaVariableTerm();
@@ -311,53 +338,35 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	 */
 	@Override
 	public void enterSetVariableValue(SetVariableValueContext ctx) {
+		if (ignoreListenerEvent(ctx.getText()))
+			return;
 		log.debug("Entering start_test_scenario_setFunction_setVariableValue: {} .", ctx.getText());
 		if (ctx.STRING() != null) {
-			String value = ctx.getText();
-			log.debug("Setting the primitive String value : {} .", value);
-			String setter = this.currentJavaVariable.getName();
-			if (setter.contains("set_abstract_")) {
-				// it's an abstract type
-				log.debug("Replacing the abstract flag for the abstract type : {} .", setter);
-				// remove the flag abstract_
-				this.currentJavaVariable.setName(setter.replace("abstract_", ""));
-				log.debug("new setter: {} ", this.currentJavaVariable.getName());
-				// set primitive to true to remove double quotes
-				this.currentJavaVariable.setPrimitive(true);
-			} else if (setter.contains("set_sequence_")){ 
-				// it's a sequence domain 
-				log.debug("Replacing the sequence flag for the abstract type : {} .", setter);
-				// remove the flag abstract_
-				this.currentJavaVariable.setName(setter.replace("sequence_", ""));
-				log.debug("new setter: {} ", this.currentJavaVariable.getName());
-				// set primitive to true to remove double quotes
-				this.currentJavaVariable.setPrimitive(true);
-				// ensure the sequence domain value in Avalla is always delimited by square brackets
-				// removing existing square brackets and double quotes if present.
-				value = "[" + value.replaceAll("[\\[\\]\"]", "") + "]";
-			} else {
-				// it's a String, set primitive to false to keep double quotes
-				this.currentJavaVariable.setPrimitive(false);
-			}
-			this.currentJavaVariable.setValue(value);
+			setStringVariableValue(ctx);
 		} else if (ctx.number() != null || ctx.Boolean() != null || ctx.CHARACTER() != null) {
 			// if its a primitive type (int, char or boolean)
 			String setter = ctx.getText();
 			log.debug("Setting the primitive type value : {} .", setter);
 			this.currentJavaVariable.setValue(setter);
 			this.currentJavaVariable.setPrimitive(true);
-		} else if(ctx.Identifier() != null) {
+		} else if (ctx.Identifier() != null) {
 			String identifier = ctx.getText();
 			log.debug("Setting the identifier : {} .", identifier);
 			this.currentJavaVariable.setValue(identifier);
 			this.currentJavaVariable.setPrimitive(false);
 		} else {
-			// if its a variable (identifier)
+			// if its a variable
 			log.debug("Setting the variable value : {} .", ctx.getText());
 			log.debug("Searching the value in the variables dictionary.");
+			if (!this.variablesMap.containsKey(ctx.getText())) {
+				// Stop the generation of the current scenario
+				this.ignoreEvents = true;
+				log.error("Unrecognized value {}.", ctx.getText());
+				return;
+			}
 			JavaVariableTerm javaVariableTerm = this.variablesMap.get(ctx.getText());
-			// search in the getters map
 			if (this.getterMap.containsKey(javaVariableTerm.getValue())) {
+				// search in the getters map
 				String value = getterMap.get(javaVariableTerm.getValue());
 				log.debug("Found a getter value in the getterMap: {} .", value);
 				this.currentJavaVariable.setValue(value);
@@ -374,6 +383,43 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	}
 
 	/**
+	 * Sets the value field of a String variable and adds it to the
+	 * currentJavaVariable
+	 * 
+	 * @param ctx the parse tree context.
+	 */
+	private void setStringVariableValue(SetVariableValueContext ctx) {
+		String value = ctx.getText();
+		log.debug("Setting the primitive String value : {} .", value);
+		String setter = this.currentJavaVariable.getName();
+		if (setter.contains("set_abstract_")) {
+			// it's an abstract type
+			log.debug("Replacing the abstract flag for the abstract type : {} .", setter);
+			// remove the flag abstract_
+			this.currentJavaVariable.setName(setter.replace("abstract_", ""));
+			log.debug("new setter: {} ", this.currentJavaVariable.getName());
+			// set primitive to true to remove double quotes
+			this.currentJavaVariable.setPrimitive(true);
+		} else if (setter.contains("set_sequence_")) {
+			// it's a sequence domain
+			log.debug("Replacing the sequence flag for the abstract type : {} .", setter);
+			// remove the flag sequence_
+			this.currentJavaVariable.setName(setter.replace("sequence_", ""));
+			log.debug("new setter: {} ", this.currentJavaVariable.getName());
+			// set primitive to true to remove double quotes
+			this.currentJavaVariable.setPrimitive(true);
+			// ensure the sequence domain value in Avalla is always delimited by square
+			// brackets
+			// removing existing square brackets and double quotes if present.
+			value = "[" + value.replaceAll("[\\[\\]\"]", "") + "]";
+		} else {
+			// it's a String, set primitive to false to keep double quotes
+			this.currentJavaVariable.setPrimitive(false);
+		}
+		this.currentJavaVariable.setValue(value);
+	}
+
+	/**
 	 * {@inheritDoc}
 	 * <p>
 	 * Add the set term to the scenario and ignore the following assertions up to
@@ -384,6 +430,8 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	 */
 	@Override
 	public void exitSetFunction(SetFunctionContext ctx) {
+		if (ignoreListenerEvent(ctx.getText()))
+			return;
 		log.debug("Exiting start_test_scenario_setFunction: {} .", ctx.getText());
 		this.scenarioManager.setSetTerm(this.currenteScenario, this.currentJavaVariable);
 		this.ignoreChecks = true;
@@ -399,6 +447,8 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	 */
 	@Override
 	public void enterStepFunction(StepFunctionContext ctx) {
+		if (ignoreListenerEvent(ctx.getText()))
+			return;
 		log.debug("Entering start_test_scenario_stepFunction: {} .", ctx.getText());
 	}
 
@@ -412,6 +462,8 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	 */
 	@Override
 	public void exitStepFunction(StepFunctionContext ctx) {
+		if (ignoreListenerEvent(ctx.getText()))
+			return;
 		log.debug("Exiting start_test_scenario_stepFunction: {} .", ctx.getText());
 		this.scenarioManager.setStepTerm(this.currenteScenario);
 		this.ignoreChecks = false;
@@ -427,6 +479,8 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	 */
 	@Override
 	public void enterAssertEquals(AssertEqualsContext ctx) {
+		if (ignoreListenerEvent(ctx.getText()))
+			return;
 		log.debug("Entering start_test_scenario_assertEquals: {} .", ctx.getText());
 		this.currentJavaAssertionTerm = new JavaAssertionTerm();
 		this.currentJavaAssertionTerm.setType("AssertEquals");
@@ -442,6 +496,8 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	 */
 	@Override
 	public void enterActual(ActualContext ctx) {
+		if (ignoreListenerEvent(ctx.getText()))
+			return;
 		log.debug("Entering start_test_scenario_assertEquals_actual: {} .", ctx.getText());
 		this.currentJavaAssertionTerm.setActual(ctx.getText());
 		// if it's an identifier --> not primitive
@@ -458,9 +514,18 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	 */
 	@Override
 	public void enterExpected(ExpectedContext ctx) {
+		if (ignoreListenerEvent(ctx.getText()))
+			return;
 		log.debug("Entering start_test_scenario_assertEquals_expected: {} .", ctx.getText());
 		if (ctx.ID() != null) {
 			log.debug("parsing ID: {} .", ctx.getText());
+			log.debug("Search the term {} in the variablesMap", ctx.getText());
+			if (!this.variablesMap.containsKey(ctx.getText())) {
+				// Stop the generation of the current scenario
+				this.ignoreEvents = true;
+				log.error("Unrecognized value {}.", ctx.getText());
+				return;
+			}
 			String expectedValue = this.variablesMap.get(ctx.getText()).getValue();
 			this.currentJavaAssertionTerm.setExpected(expectedValue);
 			log.debug("Expected id: {}", expectedValue);
@@ -491,6 +556,8 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	 */
 	@Override
 	public void exitAssertEquals(AssertEqualsContext ctx) {
+		if (ignoreListenerEvent(ctx.getText()))
+			return;
 		if (this.ignoreChecks) {
 			log.debug("Ignoring the start_test_scenario_assertEquals: {} .", ctx.getText());
 			this.currentJavaAssertionTerm = null;
@@ -505,6 +572,8 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	 */
 	@Override
 	public void enterAssertBoolean(AssertBooleanContext ctx) {
+		if (ignoreListenerEvent(ctx.getText()))
+			return;
 		log.debug("Entering start_test_scenario_assertBoolean: {} .", ctx.getText());
 		this.currentJavaAssertionTerm = new JavaAssertionTerm();
 	}
@@ -514,6 +583,8 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	 */
 	@Override
 	public void enterBooleanAssertion(BooleanAssertionContext ctx) {
+		if (ignoreListenerEvent(ctx.getText()))
+			return;
 		if (ctx.ASSERT_TRUE() != null) {
 			log.debug("parsing ASSERT_TRUE: {} .", ctx.getText());
 			this.currentJavaAssertionTerm.setType("AssertTrue");
@@ -530,6 +601,8 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	 */
 	@Override
 	public void enterBooleanExpected(BooleanExpectedContext ctx) {
+		if (ignoreListenerEvent(ctx.getText()))
+			return;
 		String expected = ctx.getText();
 		log.debug("parsing the expected: {} .", expected);
 		if (ctx.Getter() != null) {
@@ -539,6 +612,12 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 		} else {
 			// search the ID in the dictionary
 			log.debug("Search the term {} in the variablesMap", expected);
+			if (!this.variablesMap.containsKey(expected)) {
+				// Stop the generation of the current scenario
+				this.ignoreEvents = true;
+				log.error("Unrecognized value {} in {}.", expected, ctx.getText());
+				return;
+			}
 			JavaVariableTerm javaVariableTerm = this.variablesMap.get(expected);
 			expected = javaVariableTerm.getValue();
 		}
@@ -547,6 +626,8 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 
 	@Override
 	public void exitAssertBoolean(AssertBooleanContext ctx) {
+		if (ignoreListenerEvent(ctx.getText()))
+			return;
 		if (this.ignoreChecks) {
 			log.debug("Ignoring the start_test_scenario_assertBoolean: {} .", ctx.getText());
 			this.currentJavaAssertionTerm = null;
@@ -555,40 +636,46 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 		log.debug("Exiting start_test_scenario_assertBoolean: {} . Setting AvallaCheckTerm:", ctx.getText());
 		this.scenarioManager.setCheckTerm(this.currenteScenario, this.currentJavaAssertionTerm);
 	}
-	
-	
 
 	@Override
 	public void enterInstanceDeclaration(InstanceDeclarationContext ctx) {
-		// example: Boolean boolean2 = new Boolean(boolean1);
+		if (ignoreListenerEvent(ctx.getText()))
+			return;
+		// example: Boolean boolean2 = new Boolean(boolean1)
 		log.debug("Entering start_test_scenario_instanceDeclaration: {} .", ctx.getText());
 		String name = ctx.ID(1).getText();
 		String val = ctx.ID(3).getText();
 		log.debug("new variable, name : {} , value {} ", name, val);
-		if(this.variablesMap.containsKey(val)) {
-			// get the value of the current variable and add to the map
-			JavaVariableTerm javaVariableTerm = this.variablesMap.get(val);
-			JavaVariableTerm newJavaVariableTerm = new JavaVariableTerm();
-			newJavaVariableTerm.setName(name);
-			newJavaVariableTerm.setType(javaVariableTerm.getType());
-			newJavaVariableTerm.setValue(javaVariableTerm.getValue());
-			this.variablesMap.put(name, newJavaVariableTerm);
+		if (!this.variablesMap.containsKey(val)) {
+			// Stop the generation of the current scenario
+			this.ignoreEvents = true;
+			log.error("Unrecognized value {} in {}.", val, ctx.getText());
+			return;
 		}
-		
+		// get the value of the current variable and add to the map
+		JavaVariableTerm javaVariableTerm = this.variablesMap.get(val);
+		JavaVariableTerm newJavaVariableTerm = new JavaVariableTerm();
+		newJavaVariableTerm.setName(name);
+		newJavaVariableTerm.setType(javaVariableTerm.getType());
+		newJavaVariableTerm.setValue(javaVariableTerm.getValue());
+		this.variablesMap.put(name, newJavaVariableTerm);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 * <p>
-	 * Enter a try-catch block and ignore it.
+	 * Enter a try-catch block, ignore it and stop the generation of the current
+	 * scenario.
 	 * </p>
 	 *
 	 * @param ctx the parse tree context.
 	 */
 	@Override
 	public void enterTrycatchblock(TrycatchblockContext ctx) {
+		if (ignoreListenerEvent(ctx.getText()))
+			return;
 		log.debug("Entering start_test_scenario_trycatchblock: {} .", ctx.getText());
-		// TODO: stop the parsing of the current scenario
+		this.ignoreEvents = true; // ignore the next listener events
 	}
 
 	/**
@@ -615,13 +702,38 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 		return scenarioList;
 	}
 
+	/**
+	 * Build the name of a function with Domain -> Codomain with the avalla
+	 * standard.
+	 * 
+	 * <p>
+	 * example: set_function_fromDomain_STATE1 -> set_function(STATE1)
+	 * <p>
+	 * 
+	 * @param name the current function name to be processed
+	 * @return the processed name
+	 */
 	private String buildDomainCodomain(String name) {
 		if (name.contains(FROM_DOMAIN)) {
-			// example: set_function_fromDomain_STATE1 -> set_function(STATE1)
 			name = name.replace(FROM_DOMAIN, "(").concat(")");
 			log.debug("Building the Domain -> Codomain operator: {} .", name);
 		}
 		return name;
+	}
+
+	/**
+	 * Returns the status of the ignoreEvents flag.
+	 * 
+	 * @param ctx the parse tree context.
+	 * @return {@code True} if the event must be ignored and the execution stopped,
+	 *         {@code False} otherwise
+	 */
+	private boolean ignoreListenerEvent(String ruleName) {
+		if (ignoreEvents) {
+			log.debug("Ignoring the listener event for rule: {}", ruleName);
+			return true;
+		}
+		return false;
 	}
 
 }
