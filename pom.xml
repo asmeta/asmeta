@@ -28,9 +28,9 @@
 		<!-- -->
 		<module>code/extensions/asmetasmv/asmeta.smv</module>
 		<module>code/extensions/asmetasmv/asmeta.smv.test</module>
-		<module>code/experimental/asmetal2cpp/asmetal2cpp_codegen</module>
-		<module>code/experimental/asmetal2cpp/asmetal2cpp_cli</module>
 		<module>code/extensions/asmeta.visualizer/asmeta.visualizer</module>
+		<module>code/experimental/asmetal2cpp/asmetal2cpp.codegen</module>
+		<module>code/experimental/asmetal2cpp/asmetal2cpp.cli</module>
 		<module>reports/coverage/report.aggregate</module>
 	</modules>
 	<build>
