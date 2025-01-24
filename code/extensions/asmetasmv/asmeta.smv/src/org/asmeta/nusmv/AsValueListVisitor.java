@@ -17,6 +17,7 @@ import asmeta.definitions.domains.ConcreteDomain;
 import asmeta.definitions.domains.Domain;
 import asmeta.definitions.domains.EnumTd;
 import asmeta.definitions.domains.ProductDomain;
+import asmeta.definitions.domains.RealDomain;
 
 /** visitor of domains, returns the values in the domain
  * 
@@ -59,7 +60,7 @@ public class AsValueListVisitor extends org.asmeta.parser.util.ReflectiveVisitor
 		ArrayList<Value[]> result = new ArrayList<Value[]>();
 		combineValues(domains, 0, result, new Stack<Value>());
 		return result;
-	}
+	}	
 	
 	/**
 	 * Combine values.
