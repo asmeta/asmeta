@@ -73,7 +73,7 @@
 		</dependency>
 		<dependency>
 			<groupId>asmeta</groupId>
-			<artifactId>asmetal2cpp_codegen</artifactId>
+			<artifactId>asmetal2cpp.codegen</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
@@ -91,6 +91,10 @@
 	<!-- aggiungo questo repo che contiene i jar di eclipse:
 		https://www.p2repository.com/-->
 	<repositories>
+		<repository>
+			<id>eclipse-2024-12</id>
+			<url>https://p2repository.com/mvn4/eclipse-2024-12/</url>
+		</repository>
 		<repository>
 			<id>eclipse-2024-09</id>
 			<url>https://p2repository.com/mvn4/eclipse-2024-09/</url>
