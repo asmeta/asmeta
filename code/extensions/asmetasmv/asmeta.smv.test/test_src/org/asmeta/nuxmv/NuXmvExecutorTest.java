@@ -93,10 +93,15 @@ public class NuXmvExecutorTest {
 
 	@Test
 	public void testExecuteInt() throws Exception {
-
 		NuXmvExecutor.runNuSMV("exampleXMV/timeexample2.smv",true);
-
 	}
+	
+	@Test
+	public void testABZ2025CaseStudy() throws Exception {
+		NuXmvExecutor.runNuSMV("D:\\AgHome\\progettidaSVNGIT\\ricerca\\abz2025_casestudy_autonomous_driving\\asmeta spec\\",true);
+	}
+
+	
 	
 	@Test
 	public void testExecuteUseTime1() throws Exception {
