@@ -342,7 +342,10 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 			return;
 		log.debug("Entering start_test_scenario_setFunction_setVariableValue: {} .", ctx.getText());
 		if (ctx.STRING() != null) {
-			setStringVariableValue(ctx);
+			String value = ctx.getText();
+			log.debug("Setting the primitive String value : {} .", value);
+			String setter = this.currentJavaVariable.getName();
+			setStringVariableValue(value, setter);
 		} else if (ctx.number() != null || ctx.Boolean() != null || ctx.CHARACTER() != null) {
 			// if its a primitive type (int, char or boolean)
 			String setter = ctx.getText();
@@ -375,6 +378,10 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 				// set it primitive to not cut it off after the dot
 				this.currentJavaVariable.setValue(javaVariableTerm.getValue());
 				this.currentJavaVariable.setPrimitive(true);
+			} else if(javaVariableTerm.getType().equalsIgnoreCase("String")){
+				// if its a string
+				String setter = this.currentJavaVariable.getName();
+				setStringVariableValue(javaVariableTerm.getValue(), setter);
 			} else {
 				this.currentJavaVariable.setValue(javaVariableTerm.getValue());
 				this.currentJavaVariable.setPrimitive(false);
@@ -388,10 +395,7 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	 * 
 	 * @param ctx the parse tree context.
 	 */
-	private void setStringVariableValue(SetVariableValueContext ctx) {
-		String value = ctx.getText();
-		log.debug("Setting the primitive String value : {} .", value);
-		String setter = this.currentJavaVariable.getName();
+	private void setStringVariableValue(String value, String setter) {
 		if (setter.contains("set_abstract_")) {
 			// it's an abstract type
 			log.debug("Replacing the abstract flag for the abstract type : {} .", setter);

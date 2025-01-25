@@ -62,6 +62,27 @@ public class AbstractTD_ATG_ESTest extends AbstractTD_ATG_ESTest_scaffolding {
       abstractTD_ATG0.set_abstracttoconcreteMonitoredFunction_fromDomain_value1(int1);
 
       abstractTD_ATG0.step();
+      
+      String string4 = "Hello world";
+      abstractTD_ATG0.set_stringMonitoredFunction(string4);
+      String string5 = "value2";
+      abstractTD_ATG0.set_abstract_enumtoabstractMonitoredFunction_fromDomain_STATE3(string5);
+      abstractTD_ATG0.set_abstract_abstractMonitoredFunction(string5);
+      int int2 = 10;
+      abstractTD_ATG0.set_abstracttointegerMonitoredFunction_fromDomain_value1(int2);
+      boolean boolean0 = false;
+      abstractTD_ATG0.set_abstracttobooleanMonitoredFunction_fromDomain_value1(boolean0);
+      abstractTD_ATG0.set_abstracttostringMonitoredFunction_fromDomain_value1(string4);
+      double double0 = 2.5;
+      abstractTD_ATG0.set_abstracttorealMonitoredFunction_fromDomain_value1(double0);
+      char char0 = 'd';
+      abstractTD_ATG0.set_abstracttocharMonitoredFunction_fromDomain_value1(char0);
+      abstractTD_ATG0.set_abstracttoenumMonitoredFunction_fromDomain_value1(EnumDomain.STATE1);
+      String string3 = "another1";
+      abstractTD_ATG0.set_abstract_abstracttoabstractMonitoredFunction_fromDomain_value1(string3);
+      int int3 = 5;
+      abstractTD_ATG0.set_abstracttoconcreteMonitoredFunction_fromDomain_value2(int3);
+      abstractTD_ATG0.set_abstracttoconcreteMonitoredFunction_fromDomain_value1(int1);
 
   }
 }

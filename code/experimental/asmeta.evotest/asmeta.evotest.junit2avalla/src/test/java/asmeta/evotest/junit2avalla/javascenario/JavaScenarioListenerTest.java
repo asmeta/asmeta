@@ -293,5 +293,5 @@ public class JavaScenarioListenerTest {
 
 		assertTrue(avallaScenario.getScenario().isEmpty());
 	}
-
+	
 }
