@@ -77,11 +77,6 @@ public class GeneratorCompilerEvosuiteTest {
 	 * related to the test generation translation (testGen mode).
 	 */
 	private static final List<String> testGenErrors = List.of("Hemodialysis_ref4_forMC.asm", "testDefinition3.asm");
-	
-	/**
-	 * List of asm (domain test) not supported by the test generator.
-	 */
-	private static final List<String> testGenDomainErrors = List.of("BagDomain.asm", "MapDomain.asm", "PowersetDomain.asm", "ProductDomain.asm");
 
 	@BeforeClass
 	public static void setup() {
@@ -96,7 +91,6 @@ public class GeneratorCompilerEvosuiteTest {
 		excludeFiles.addAll(GeneratorCompilerUtil.errors);
 		// exclude examples with known errors on test generation mode
 		excludeFiles.addAll(testGenErrors);
-		excludeFiles.addAll(testGenDomainErrors);
 		// set the options for the test generation mode
 		options.setValue(TranslatorOptionsImpl.COVER_RULES_OPTION, true);
 		options.setValue(TranslatorOptionsImpl.COVER_OUTPUTS_OPTION, true);
@@ -135,10 +129,6 @@ public class GeneratorCompilerEvosuiteTest {
 		System.out.println("Testing the compiler on all the asmeta specifications with translating (testGen) errors:");
 		for (String asmspec : testGenErrors) {
 			asmspec = path.resolve(asmspec).toString();
-			assertFalse(genandcompileEvosuite(asmspec, options, dirTestGen, GeneratorCompilerUtil.dirCompilazione).getSuccess());
-		}
-		for (String asmspec : testGenDomainErrors) {
-			asmspec = domainTestPath.resolve(asmspec).toString();
 			assertFalse(genandcompileEvosuite(asmspec, options, dirTestGen, GeneratorCompilerUtil.dirCompilazione).getSuccess());
 		}
 	}
