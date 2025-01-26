@@ -16,6 +16,7 @@ class AsmMethodsUtil {
 	public static val STRING = "String"
 	public static val CHAR = "Char"
 	public static val CHARACTER = "Character"
+	public static val NATURAL = "Natural"
 	public static val basicTdList = Arrays.asList(BOOLEAN, INTEGER, REAL, STRING, CHAR, DOUBLE, CHARACTER) 
 	// Double and Character are the translated domains of Real and Char
 	

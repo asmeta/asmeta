@@ -22,7 +22,8 @@ class AsmMethods {
 	public static val REAL = AsmMethodsUtil.REAL
 	public static val STRING = AsmMethodsUtil.STRING
 	public static val CHAR = AsmMethodsUtil.CHAR
-
+	public static val NATURAL = AsmMethodsUtil.NATURAL
+	
 	/** 
 	 * Controlled functions getters (public getters)
 	 * 
@@ -113,7 +114,13 @@ class AsmMethods {
 								return this.execution.«fd.name».get();
 							}
 						''');
-					} else {
+					} else if (fd.codomain.name.equals(NATURAL)) { // [] -> Natural
+						sb.append('''
+							public Integer get_natural_«fd.name»(){
+								return this.execution.«fd.name».get();
+							}
+						''');
+					}else {
 						// If it's a not supported domain, skip
 						println("Domain not supported: " + fd.codomain.name)
 					}
@@ -353,6 +360,12 @@ class AsmMethods {
 								}
 							}
 						}
+					} else if (fd.codomain.name.equals(NATURAL)) { // [] -> Natural
+						sb.append('''
+						public void set_natural_«fd.name»(int «fd.name») {
+							this.execution.«fd.name».set(«fd.name»);
+							System.out.println("Set «fd.name» = " + «fd.name» +"n");
+						}''')
 					} else if (fd.codomain.name.equals(INTEGER) || fd.codomain.name.equals(BOOLEAN) ||
 						fd.codomain.name.equals(STRING) || fd.codomain.name.equals(REAL) ||
 						fd.codomain.name.equals(CHAR)) { // [] -> (Integer|Boolean|String|Real|Char)
@@ -362,7 +375,7 @@ class AsmMethods {
 							this.execution.«fd.name».set(«fd.name»);
 							System.out.println("Set «fd.name» = " + «fd.name»);
 						}''')
-					} else {
+					}else {
 						// If it's a not supported domain, skip
 						println("Domain not supported: " + fd.codomain.name)
 					}

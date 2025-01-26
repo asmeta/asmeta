@@ -1,5 +1,7 @@
 package asmeta.evotest.junit2avalla.javascenario;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -36,6 +38,12 @@ import asmeta.evotest.junit2avalla.antlr.JavaScenarioParser.VariableValueContext
  * Parse the Junit class into a list of Scenario object (Queue of AvallaTerms).
  */
 public class JavaScenarioListener extends JavaScenarioBaseListener {
+
+	private static final String NATURAL_SUFFIX = "n";
+
+	private static final String GET_NATURAL_FLAG = "get_natural_";
+
+	private static final String NATURAL_FLAG = "natural_";
 
 	/* Constants */
 	private static final String FROM_DOMAIN = "_fromDomain_";
@@ -346,11 +354,16 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 			log.debug("Setting the primitive String value : {} .", value);
 			String setter = this.currentJavaVariable.getName();
 			setStringVariableValue(value, setter);
-		} else if (ctx.number() != null || ctx.Boolean() != null || ctx.CHARACTER() != null) {
-			// if its a primitive type (int, char or boolean)
-			String setter = ctx.getText();
-			log.debug("Setting the primitive type value : {} .", setter);
-			this.currentJavaVariable.setValue(setter);
+			// primitive field managed by the setStringVariableValue() function
+		} else if (ctx.number() != null) {
+			// if its a number (int, double, natural)
+			setIntegerVariableValue(ctx.getText());
+			// primitive field managed by the setIntegerVariableValue() function
+		} else if (ctx.Boolean() != null || ctx.CHARACTER() != null) {
+			// if its a primitive type (char or boolean)
+			String value = ctx.getText();
+			log.debug("Setting the primitive type value : {} .", value);
+			this.currentJavaVariable.setValue(value);
 			this.currentJavaVariable.setPrimitive(true);
 		} else if (ctx.Identifier() != null) {
 			String identifier = ctx.getText();
@@ -378,10 +391,16 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 				// set it primitive to not cut it off after the dot
 				this.currentJavaVariable.setValue(javaVariableTerm.getValue());
 				this.currentJavaVariable.setPrimitive(true);
-			} else if(javaVariableTerm.getType().equalsIgnoreCase("String")){
+			} else if (javaVariableTerm.getType().equalsIgnoreCase("String")) {
 				// if its a string
 				String setter = this.currentJavaVariable.getName();
 				setStringVariableValue(javaVariableTerm.getValue(), setter);
+				// primitive field managed by the setStringVariableValue() function
+			} else if (javaVariableTerm.getType().equalsIgnoreCase("Integer")
+					|| javaVariableTerm.getType().equalsIgnoreCase("int")) {
+				// if its an integer
+				setIntegerVariableValue(javaVariableTerm.getValue());
+				// primitive field managed by the setStringVariableValue() function
 			} else {
 				this.currentJavaVariable.setValue(javaVariableTerm.getValue());
 				this.currentJavaVariable.setPrimitive(false);
@@ -421,6 +440,28 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 			this.currentJavaVariable.setPrimitive(false);
 		}
 		this.currentJavaVariable.setValue(value);
+	}
+
+	/**
+	 * Sets the value field of a Integer variable and adds it to the
+	 * currentJavaVariable
+	 * 
+	 * @param ctx the parse tree context.
+	 */
+	private void setIntegerVariableValue(String value) {
+		String function = this.currentJavaVariable.getName();
+		log.debug("Setting the primitive number value : {} .", value);
+		if (function.contains("set_natural_")) {
+			// if it's a natural type domain
+			// replace the natural_ flag
+			this.currentJavaVariable.setName(function.replaceFirst(NATURAL_FLAG, ""));
+			// add the suffix 'n' to the number
+			this.currentJavaVariable.setValue(value + NATURAL_SUFFIX);
+		} else {
+			// integer, double
+			this.currentJavaVariable.setValue(value);
+		}
+		this.currentJavaVariable.setPrimitive(true);
 	}
 
 	/**
@@ -531,6 +572,8 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 				return;
 			}
 			String expectedValue = this.variablesMap.get(ctx.getText()).getValue();
+			// build a getter function with natural type
+			expectedValue = buildNaturalGetter(expectedValue);
 			this.currentJavaAssertionTerm.setExpected(expectedValue);
 			log.debug("Expected id: {}", expectedValue);
 			// add the value to the getters dictionary
@@ -541,10 +584,13 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 		} else {
 			String getter = ctx.getText();
 			log.debug("parsing Getter: {} .", getter);
-			// Set a function with Domain -> Codomain
+			// build a getter function with Domain -> Codomain
 			getter = buildDomainCodomain(getter);
 			// example: get_function_fromDomain_STATE1 -> get_function(STATE1)
+			// build a getter function with natural type
+			getter = buildNaturalGetter(getter);
 			this.currentJavaAssertionTerm.setExpected(getter);
+
 		}
 
 	}
@@ -723,6 +769,27 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 			log.debug("Building the Domain -> Codomain operator: {} .", name);
 		}
 		return name;
+	}
+	
+	/**
+	 * Build the getter in case of a natural type domain
+	 * 
+	 * <p>
+	 * example: get_natural_function -> get_function<br>
+	 * value: 3 -> 3n
+	 * <p>
+	 * 
+	 * @param getter the current function name to be processed
+	 * @return the processed name
+	 */
+	private String buildNaturalGetter(String getter) {
+		if (getter.contains(GET_NATURAL_FLAG)) {
+			// if it's a natural type domain
+			// remove the natural_ flag and add the n suffix
+			getter = getter.replaceFirst(NATURAL_FLAG, "");
+			this.currentJavaAssertionTerm.setActual(this.currentJavaAssertionTerm.getActual() + NATURAL_SUFFIX);
+		}
+		return getter;
 	}
 
 	/**

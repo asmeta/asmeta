@@ -27,6 +27,8 @@ public class AsmMethodsUtil {
 
   public static final String CHARACTER = "Character";
 
+  public static final String NATURAL = "Natural";
+
   public static final List<String> basicTdList = Arrays.<String>asList(AsmMethodsUtil.BOOLEAN, AsmMethodsUtil.INTEGER, AsmMethodsUtil.REAL, AsmMethodsUtil.STRING, AsmMethodsUtil.CHAR, AsmMethodsUtil.DOUBLE, AsmMethodsUtil.CHARACTER);
 
   /**
