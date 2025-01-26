@@ -1,7 +1,5 @@
 package asmeta.evotest.junit2avalla.javascenario;
 
-import static org.junit.Assert.assertEquals;
-
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
