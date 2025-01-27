@@ -19,8 +19,7 @@ import asmeta.terms.furtherterms.IntegerTerm;
 import asmeta.terms.furtherterms.NaturalTerm;
 
 // return the functions that are not static in a term
-// it fills the list given in the costructor
-
+// it fills the list given in the constructor
 public class DynamicInTermFinder extends ReflectiveVisitor<Void> {
 
 	private List<EObject> dynamicEntities;
@@ -163,5 +162,21 @@ public class DynamicInTermFinder extends ReflectiveVisitor<Void> {
 		for(Term t: lt) {
 			visit(t);
 		}
+	}
+	
+	
+	public void visit(asmeta.terms.furtherterms.ExistTerm et) {
+		// (exist v1 in D1,...,vn in Dn 	with Gv1,...,vn)
+		// variables in dynamic domains???? D1... Dn
+		visitTerms(et.getRanges());
+		//
+		visit(et.getGuard());
+	}
+
+	
+	public void visit(asmeta.terms.furtherterms.SequenceCt sct) {
+		// [$x in $seq | $x < $pivot : $x]
+		visitTerms(sct.getRanges());
+		visit(sct.getGuard());
 	}
 }

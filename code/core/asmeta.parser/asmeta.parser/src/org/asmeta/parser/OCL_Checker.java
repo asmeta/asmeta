@@ -488,43 +488,14 @@ public class OCL_Checker {
 
 	// ----------------- FUNCTION DEFINITION --------------//
 	public static boolean checkFunctionDefinition(FunctionDefinition f_def) {
-		return checkStaticDerived(f_def) && B3(f_def) && B6(f_def) && B7_B8_B9(f_def) && B10(f_def);
+		// TODO - introduce a technique to call all the checkers for FunctionDeinitions
+		OCLCheckerResult res = StaticDerivedChecker.eInstance.check(f_def);
+		if (! res.ok()) { MSG_ERR = res.errorMessage(); return false;}
+		// continue
+		return  B3(f_def) && B6(f_def) && B7_B8_B9(f_def) && B10(f_def);
 		// && E21(f_def);
 	}
 
-	// new constraints 31/10/2024
-	// the definition of a static function can contain only static functions
-	// while a derived must contain at least one not static
-	public static boolean checkStaticDerived(FunctionDefinition f_def) {
-		Function fun = f_def.getDefinedFunction();
-		if (fun instanceof StaticFunction || fun instanceof DerivedFunction) {
-			// get the function body
-			Term defBody = f_def.getBody();
-			// collect all the terms in the def Body
-			List<EObject> notStatic = new ArrayList<>();
-			DynamicInTermFinder ns = new DynamicInTermFinder(notStatic);
-			ns.visit(defBody);
-			if (fun instanceof StaticFunction) {
-				if (notStatic.isEmpty())
-					return true;
-				else {
-					MSG_ERR = "Error: static function " + fun.getName() + " contains (dynamic) " + notStatic
-							+ " in its definition";
-					return false;
-				}
-			} else {
-				if (!notStatic.isEmpty())
-					return true;
-				else {
-					MSG_ERR = "Error: derived function " + fun.getName()
-							+ " does not contain dynamic functions in its definition";
-					return false;
-				}
-			}
-
-		}
-		return true;
-	}
 
 	public static boolean B3(FunctionDefinition f_def) {
 		// check constraint B3: definedFunction.oclIsTypeOf(StaticFunction) or
