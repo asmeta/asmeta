@@ -11,7 +11,7 @@ signature:
 	// monitored complexMonitoredFunction: Complex // Not supported by the translator
 	monitored realMonitoredFunction: Real //  OK
 	monitored integerMonitoredFunction: Integer // OK
-	monitored naturalMonitoredFunction: Natural // Not supported by the testGen
+	monitored naturalMonitoredFunction: Natural // OK
 	monitored stringMonitoredFunction: String // OK
 	monitored charMonitoredFunction: Char //  OK
 	monitored booleanMonitoredFunction: Boolean // OK
@@ -21,9 +21,9 @@ signature:
 	// controlled complexControlledFunction: Complex // Not supported by the translator
 	controlled realControlledFunction: Real // OK
 	controlled integerControlledFunction: Integer // OK
-	controlled naturalControlledFunction: Natural // Not supported by the testGen
+	controlled naturalControlledFunction: Natural // OK
 	controlled stringControlledFunction: String // OK
-	controlled charControlledFunction: Char // Initialization error
+	controlled charControlledFunction: Char // OK
 	controlled booleanControlledFunction: Boolean // OK
 	// controlled undefControlledFunction: Undef // Not supported by the translator
 
