@@ -6,8 +6,10 @@ import org.junit.Test;
 
 public class TestReplaceAll {
 
+	private static FormatterImpl formatter = new FormatterImpl();
+	
 	@Test
 	public void test() {
-		assertEquals("a\nb", Formatter.replaceDoubleNL("a\n   \nb"));		
+		assertEquals("a\nb", formatter.replaceDoubleNL("a\n   \nb"));		
 	}
 }

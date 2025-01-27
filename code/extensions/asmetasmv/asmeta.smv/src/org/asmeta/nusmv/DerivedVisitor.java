@@ -40,6 +40,7 @@ import asmeta.terms.furtherterms.ForallTerm;
 import asmeta.terms.furtherterms.IntegerTerm;
 import asmeta.terms.furtherterms.LetTerm;
 import asmeta.terms.furtherterms.NaturalTerm;
+import asmeta.terms.furtherterms.RealTerm;
 
 /**
  * For mapping both derived and static functions.
@@ -413,4 +414,17 @@ public class DerivedVisitor extends org.asmeta.parser.util.ReflectiveVisitor<Str
 	public String visit(DomainTerm term) {
 		return env.tv.visit(term);
 	}
+	
+	/**
+	 * Visit.
+	 * 
+	 * @param term the term
+	 * 
+	 * @return the string
+	 */
+	public String visit(RealTerm term) {
+		return env.tv.visit(term);
+	}
+
+	
 }

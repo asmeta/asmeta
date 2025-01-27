@@ -90,17 +90,14 @@ public class AsmetaSservice implements IAsmetaSservice{
 		String modelName = asm.getMain().getName();
 		Environment env = new Environment(new AsmetaSserviceRun(simulatorMap));
 		SimulatorRT sim = new SimulatorRT(modelName, asm, env);
-		
-		
+		sim.setShuffleFlag(true); // Nico Jan 2025: to make choose rules non deterministic
 
-		
 		int id = getFirstFreeId();
 		
 		if(id != -1) {
 			simulatorMap.put(id, new InfoAsmetaService(sim));
 			simulatorMap.get(id).setModelPath(modelPath);
 		}
-		
 		
 		return id;
 	}
@@ -124,6 +121,7 @@ public class AsmetaSservice implements IAsmetaSservice{
 		String modelName = asm.getMain().getName();
 		Environment env = new Environment(new AsmetaSserviceRun(simulatorMap));
 		SimulatorRT sim = new SimulatorRT(modelName, asm, env, s);
+		sim.setShuffleFlag(true); // Nico Jan 2025: to make choose rules non deterministic
 		
 		int id = oldId;;
 		if (this.id[id-1]) 			//use again the same id if it's free 
@@ -135,7 +133,6 @@ public class AsmetaSservice implements IAsmetaSservice{
 			simulatorMap.put(id, new InfoAsmetaService(sim));
 			simulatorMap.get(id).setModelPath(modelPath);
 		}
-		
 		
 		return id;
 	}
@@ -300,6 +297,7 @@ public class AsmetaSservice implements IAsmetaSservice{
 		checkId(id);
 		SimulatorRT sim = new SimulatorRT(simulatorMap.get(id).getSim().getAsmModel().getName(), 
 				simulatorMap.get(id).getSim().getAsmCollection(), new Environment(new AsmetaSserviceRun(simulatorMap)));
+		sim.setShuffleFlag(true); // Nico Jan 2025: to make choose rules non deterministic
 		
 		simulatorMap.put(id, new InfoAsmetaService(sim));
 	}

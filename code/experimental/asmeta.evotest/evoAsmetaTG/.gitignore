@@ -1,0 +1,12 @@
+!evosuite-1.0.6.jar
+!evosuite-1.2.0.jar
+/evosuite/evosuite-report/
+/evosuite/evosuite-tests/
+/evosuite/evosuite-target/
+/evosuite/evosuite-files/
+/output/
+/input/
+/logs/
+/asmeta2java/
+/junit2avalla/
+/docs/apidocs/

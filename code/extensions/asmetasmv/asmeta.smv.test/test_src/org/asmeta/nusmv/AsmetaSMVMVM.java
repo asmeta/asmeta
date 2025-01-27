@@ -26,6 +26,7 @@ public class AsmetaSMVMVM extends AsmetaSMVtestTranslate{
 		AsmetaSMVOptions.FLATTEN = false; 
 		AsmetaSMVOptions.simplifyDerived  = true;
 		AsmetaSMVOptions.keepNuSMVfile = true;
+		// non metto assert perchè non sono sicroc che questo fiel esista
 		testOneSpec(basePath+"mvm-asmeta\\asm_models\\MVM APPFM\\Ventilatore01.asm", options);
 	}
 

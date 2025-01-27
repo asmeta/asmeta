@@ -46,8 +46,10 @@ test:
   # lo metto per farlo eseguire manualmente
   allow_failure: false
   variables:
-        NUSMV_URL: "https://nusmv.fbk.eu/distrib"
-        NUSMV_FILE: "NuSMV-2.6.0-linux64.tar.gz"
+#        NUSMV_URL: "https://nusmv.fbk.eu/distrib"
+#        NUSMV_FILE: "NuSMV-2.6.0-linux64.tar.gz"
+        NUSMV_URL: "https://nusmv.fbk.eu/distrib/2.7.0"
+        NUSMV_FILE: "NuSMV-2.7.0-linux64.tar.xz"
   before_script:
 #    - apt-get update -y
 #    - apt-get upgrade -y
@@ -55,7 +57,7 @@ test:
   # install nusmv  
 #    - wget -O "$NUSMV_FILE" "${NUSMV_URL}/${NUSMV_FILE}"
     - curl "${NUSMV_URL}/${NUSMV_FILE}" --output ${NUSMV_FILE}
-    - tar -xf "$NUSMV_FILE"
+    - tar -xf "${NUSMV_FILE}"
     #- chmod +x NuSMV-2.6.0-Linux\bin
     #    - chown root:root monteur
     #    - cd ..
@@ -63,7 +65,8 @@ test:
     #    - mv ./tmp/monteur "${MONTEUR_FS}/."
     #    - rm -rf tmp/
     #    - ls -la "${PWD}/${MONTEUR_FS}"
-    - export PATH="$PATH:$PWD/NuSMV-2.6.0-Linux/bin/"
+    # export PATH="$PATH:$PWD/NuSMV-2.6.0-Linux/bin/
+    - export PATH="$PATH:$PWD/NuSMV-2.7.0-linux64/bin"
     # - NuSMV -help
     # installiano il g++ per asmeta2gcc
     - apk add --no-cache g++ make

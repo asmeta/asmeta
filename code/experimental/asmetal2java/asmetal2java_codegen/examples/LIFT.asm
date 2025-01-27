@@ -6,7 +6,7 @@
 //They are cancelled when a lift visits the floor and is either travelling in the desired direction, or visits the floor
 //with no requests outstanding. In the latter case, if both floor request buttons are illuminated, only one should be //cancelled.
 //A lift without requests should remain in its final destination and await further requests.
-//Each lift has an emergency button which, if pressed, causes a warning to be sent to the site manager. The lift is then //deemed �out of service�. Each lift has a mechanism to cancel its �out of service� status.
+//Each lift has an emergency button which, if pressed, causes a warning to be sent to the site manager. The lift is then //deemed  out of service . Each lift has a mechanism to cancel its  out of service  status.
 //
 
 //maggio 2007
@@ -54,7 +54,7 @@ signature:
 
 definitions:
 
-	domain Floor = {0..+2} // e.g. for m=2
+	domain Floor = {0 : +2} // e.g. for m=2
 	function ground = 0
 	function top = 2
 

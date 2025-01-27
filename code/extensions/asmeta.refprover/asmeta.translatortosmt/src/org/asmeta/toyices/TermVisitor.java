@@ -34,6 +34,7 @@ import asmeta.terms.furtherterms.ForallTerm;
 import asmeta.terms.furtherterms.IntegerTerm;
 import asmeta.terms.furtherterms.MapTerm;
 import asmeta.terms.furtherterms.NaturalTerm;
+import asmeta.terms.furtherterms.RealTerm;
 
 public class TermVisitor extends ReflectiveVisitor<String> {
 	//private static Logger logger = LogManager.getLogger(TermVisitor.class.getName());
@@ -289,6 +290,11 @@ public class TermVisitor extends ReflectiveVisitor<String> {
 		return number.getSymbol();
 	}
 
+	public String visit(RealTerm number) {
+		return number.getSymbol();
+	}
+
+	
 	public String visit(EnumTerm term) {
 		//String domainName = term.getDomain().getName();
 		//Pointer enumDomain = yicesModel.enumDomains.get(domainName);
