@@ -21,10 +21,10 @@ signature:
 	controlled tailLampRightStatus: TailLampStatus // Tail lamp right status	
 	monitored threeBlinkingCycle: Boolean // Indicators have flashed for three flashing cycles (true) or less (false)
 		
-	derived tailLampAsIndicator: Boolean //True if the car is sold in USA or CANADA, it does not have a separate direction ndicator at position C	
-	derived pitman5Deflection: PitmanArmUpDown -> Boolean //True if pitman is 5° deflection (UPWARD5 or DOWNWARD5)
-	derived pitman5LongDeflection: PitmanArmUpDown -> Boolean //True if pitman is 5° long deflection (UPWARD5_LONG or DOWNWARD5_LONG)
-	derived pitman7Deflection: PitmanArmUpDown -> Boolean //True if pitman is 7° deflection (UPWARD7 or DOWNWARD7)
+	static tailLampAsIndicator: Boolean //True if the car is sold in USA or CANADA, it does not have a separate direction ndicator at position C
+	static pitman5Deflection: PitmanArmUpDown -> Boolean //True if pitman is 5ï¿½ deflection (UPWARD5 or DOWNWARD5)
+	static pitman5LongDeflection: PitmanArmUpDown -> Boolean //True if pitman is 5ï¿½ long deflection (UPWARD5_LONG or DOWNWARD5_LONG)
+	static pitman7Deflection: PitmanArmUpDown -> Boolean //True if pitman is 7ï¿½ deflection (UPWARD7 or DOWNWARD7)
 	
 	
 definitions:
@@ -32,15 +32,15 @@ definitions:
 	
 	// FUNCTION DEFINITIONS
 	
-	//True if pitman is 5° deflection (UPWARD5 or DOWNWARD5)
+	//True if pitman is 5ï¿½ deflection (UPWARD5 or DOWNWARD5)
 	function pitman5Deflection ($position in PitmanArmUpDown) = 
 		($position = UPWARD5 or $position = DOWNWARD5)
 	
-	//True if pitman is 5° long deflection (UPWARD5_LONG or DOWNWARD5_LONG)
+	//True if pitman is 5ï¿½ long deflection (UPWARD5_LONG or DOWNWARD5_LONG)
 	function pitman5LongDeflection ($position in PitmanArmUpDown) = 
 		($position = UPWARD5_LONG or $position = DOWNWARD5_LONG)
 		
-	//True if pitman is 7° deflection (UPWARD7 or DOWNWARD7)
+	//True if pitman is 7ï¿½ deflection (UPWARD7 or DOWNWARD7)
 	function pitman7Deflection ($position in PitmanArmUpDown) = 
 		($position = UPWARD7 or $position = DOWNWARD7)
 	
@@ -98,11 +98,11 @@ definitions:
 			//when new Direction Blinking starts, delete value in the buffer and set the current value as running request
 			pitmanArmUpDown_Buff := NEUTRAL_UD 
 			pitmanArmUpDown_RunnReq := $position 
-			//If pitman is downward of 5° or 7° turn left
+			//If pitman is downward of 5ï¿½ or 7ï¿½ turn left
 			if (turnLeft($position)) then
 				r_BlinkLeft[100,PULSE11] 	
 			endif
-			//If pitman is downward of 5° or 7° turn right
+			//If pitman is downward of 5ï¿½ or 7ï¿½ turn right
 			if (turnRight($position)) then
 				r_BlinkRight[100,PULSE11] 
 			endif

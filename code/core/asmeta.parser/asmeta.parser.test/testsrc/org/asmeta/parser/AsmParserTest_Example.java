@@ -81,7 +81,7 @@ public class AsmParserTest_Example extends AsmParserTest{
 	    	}
 	    	Collection<File> testSpecInSubFolder = testSpecInSubFolder(d.getName());
 			if (!testSpecInSubFolder.isEmpty())
-				errors.add(d.getName());
+				errors.add(testSpecInSubFolder.toString());
 	    }
 	    assertTrue(errors.size() + ":" + errors.toString(), errors.isEmpty());
 	}

@@ -221,7 +221,7 @@ class BodyNegativeParsingTest {
 				asm prova				
 				signature:
 					abstract domain Philosopher				
-					derived leftNeighbour: Philosopher -> Philosopher
+					static leftNeighbour: Philosopher -> Philosopher
 					static philo1: Philosopher
 					static philo2: Philosopher
 				definitions:
@@ -245,8 +245,8 @@ class BodyNegativeParsingTest {
 				signature:
 					abstract domain Philosopher	
 					abstract domain PhilosopherOther				
-					derived leftNeighbour: Philosopher -> Philosopher
-					derived leftNeighbour: PhilosopherOther -> PhilosopherOther
+					static leftNeighbour: Philosopher -> Philosopher
+					static leftNeighbour: PhilosopherOther -> PhilosopherOther
 					static philo1a: Philosopher
 					static philo2a: Philosopher
 					static philo1b: PhilosopherOther
@@ -269,7 +269,7 @@ class BodyNegativeParsingTest {
 				asm prova				
 				signature:
 					abstract domain Philosopher				
-					derived leftNeighbour: Philosopher -> Philosopher
+					static leftNeighbour: Philosopher -> Philosopher
 					static philo1: Philosopher
 					static philo2: Philosopher
 				definitions:
@@ -335,7 +335,7 @@ class BodyNegativeParsingTest {
 				asm prova				
 				signature:
 					abstract domain Philosopher				
-					derived leftNeighbour: Philosopher -> Philosopher
+					static leftNeighbour: Philosopher -> Philosopher
 					static philo1: Philosopher
 					static philo2: Philosopher
 				definitions:

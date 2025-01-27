@@ -1,7 +1,7 @@
 //
-// this is correct
+// this is not correct
 //
-asm staticVSDerived
+asm staticVSDerived5
 
 import ../../STDL/StandardLibrary
 
@@ -10,15 +10,13 @@ signature:
 	monitored m: Integer
 	static fs: Integer -> Integer
 	derived fd: Integer -> Integer
-	derived fd2: Integer -> Integer
 
 definitions:
 // simple case no indirection
 	function fd($i in Integer) = m + $i
-	function fs($i in Integer) = 2 * $i
+// indirection
+	function fs($i in Integer) = fd($i)
 	
-// indirection	- still derived since it is defined with a derived
-	function fd2($i in Integer) = fd($i) + 2
 	
 	
 default init s0:

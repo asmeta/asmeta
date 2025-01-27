@@ -24,7 +24,7 @@ public class NotStaticInTermFinderTest extends AsmParserTest{
 		EList<FunctionDefinition> defs = x.getMain().getBodySection().getFunctionDefinition();
 		List<EObject> list = new ArrayList<>();
 		DynamicInTermFinder nf = new DynamicInTermFinder(list);
-		for( FunctionDefinition def: defs) {
+		for(FunctionDefinition def: defs) {
 			nf.visit(def);
 		}
 		System.out.println(list);

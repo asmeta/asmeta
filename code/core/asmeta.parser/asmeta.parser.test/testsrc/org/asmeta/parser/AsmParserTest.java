@@ -74,6 +74,7 @@ public class AsmParserTest {
 	 * recursive test test all the specs in the subdirectory of asm_examples called
 	 * dirname if it contains a directory, all the specs in it will be tested. DO
 	 * not stop if one fails.
+	 * @return failed specs
 	 */
 	protected Collection<File> testSpecInSubFolder(String dirname) {
 		Collection<File> failedSpec = new ArrayList<File>();

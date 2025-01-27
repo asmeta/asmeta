@@ -55,8 +55,8 @@ class BodyParsingTest {
 				abstract domain Philosopher
 				domain NumOfCherries subsetof Integer
 			
-				derived leftNeighbour: Philosopher -> Philosopher
-				derived rightNeighbour: Philosopher -> Philosopher
+				static leftNeighbour: Philosopher -> Philosopher
+				static rightNeighbour: Philosopher -> Philosopher
 				
 				static philo1: Philosopher
 				static philo2: Philosopher
@@ -103,14 +103,14 @@ class BodyParsingTest {
 		i = 0
 		var Function func 
 		
-		//derived leftNeighbour: Philosopher -> Philosopher
+		//static leftNeighbour: Philosopher -> Philosopher
 		func = result.headerSection.signature.function.get(i)
 		Assert.assertEquals( typeof(DerivedFunctionImpl), func.class )
 		Assert.assertEquals( "leftNeighbour", func.name )
 		Assert.assertEquals( "Philosopher", func.codomain.name )
 		Assert.assertEquals( "Philosopher", func.domain.name )
 		
-		// derived rightNeighbour: Philosopher -> Philosopher
+		// static rightNeighbour: Philosopher -> Philosopher
 		i++
 		func = result.headerSection.signature.function.get(i)
 		Assert.assertEquals( typeof(DerivedFunctionImpl), func.class )

@@ -10,7 +10,7 @@ signature:
 	dynamic monitored bet: BetDomain
 	dynamic controlled playerBudget: Money
 	dynamic controlled bankBudget: Money
-	derived gain: BetDomain -> Money
+	static gain: BetDomain -> Money
 
 definitions:
 	domain Number = {1 : 6}

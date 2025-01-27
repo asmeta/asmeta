@@ -71,8 +71,7 @@ public class ToString extends ReflectiveVisitor<String> {
   public String visit(final PowersetDomain object) {
     StringBuffer sb = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
-    String _visit = new DomainToH(this.res).visit(object);
-    _builder.append(_visit);
+    _builder.append("�new DomainToH(res).visit(object)�");
     sb.append(_builder);
     return sb.toString();
   }
@@ -80,8 +79,7 @@ public class ToString extends ReflectiveVisitor<String> {
   public String visit(final SequenceDomain object) {
     StringBuffer sb = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
-    String _visit = new DomainToH(this.res).visit(object);
-    _builder.append(_visit);
+    _builder.append("�new DomainToH(res).visit(object)�");
     sb.append(_builder);
     return sb.toString();
   }
@@ -89,8 +87,7 @@ public class ToString extends ReflectiveVisitor<String> {
   public String visit(final AbstractTd object) {
     StringBuffer sb = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
-    String _visit = new DomainToH(this.res, this.pointer).visit(object);
-    _builder.append(_visit);
+    _builder.append("�new DomainToH(res,pointer).visit(object)�");
     sb.append(_builder);
     return sb.toString();
   }

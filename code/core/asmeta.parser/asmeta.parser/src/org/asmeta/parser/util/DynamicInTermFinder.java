@@ -10,13 +10,16 @@ import asmeta.definitions.StaticFunction;
 import asmeta.definitions.domains.ConcreteDomain;
 import asmeta.definitions.domains.Domain;
 import asmeta.definitions.domains.PowersetDomain;
+import asmeta.definitions.domains.ProductDomain;
 import asmeta.definitions.domains.SequenceDomain;
 import asmeta.definitions.domains.StructuredTd;
 import asmeta.terms.basicterms.BooleanTerm;
 import asmeta.terms.basicterms.ConstantTerm;
 import asmeta.terms.basicterms.Term;
+import asmeta.terms.basicterms.UndefTerm;
 import asmeta.terms.furtherterms.IntegerTerm;
 import asmeta.terms.furtherterms.NaturalTerm;
+import asmeta.terms.furtherterms.RealTerm;
 
 // return the functions that are not static in a term
 // it fills the list given in the constructor
@@ -68,6 +71,9 @@ public class DynamicInTermFinder extends ReflectiveVisitor<Void> {
 			if (domain instanceof SequenceDomain sd) {
 				return OCL_Checker.isDomainDynamic(sd.getDomain());				
 			}
+			if (domain instanceof ProductDomain pd) {
+				return OCL_Checker.isDomainDynamic(pd);
+			}
 			throw new RuntimeException("NOT implemented " + domain.getClass());
 		}
 		return false;
@@ -98,6 +104,11 @@ public class DynamicInTermFinder extends ReflectiveVisitor<Void> {
 	public void visit(NaturalTerm it) {
 		visit((ConstantTerm) it);
 	}
+
+	public void visit(RealTerm it) {
+		visit((ConstantTerm) it);
+	}
+
 
 	public void visit(asmeta.terms.furtherterms.CaseTerm ct) {
 		visit(ct.getComparedTerm());
@@ -157,6 +168,11 @@ public class DynamicInTermFinder extends ReflectiveVisitor<Void> {
 	public void  visit(asmeta.terms.basicterms.DomainTerm dt) {
 		visit(dt.getDomain());
 	}
+	
+	public void  visit(UndefTerm ut) {
+		//do nothing
+	}
+	
 	
 	private void visitTerms(List<? extends Term> lt) {
 		for(Term t: lt) {

@@ -26,9 +26,9 @@ signature:
 	dynamic monitored nonce: Prod(Agent, Agent) -> Nonce // nonce
 	dynamic controlled genNonces: Agent -> Powerset(Nonce) // Nonce
 	dynamic controlled recipient: Nonce -> Agent // recipient
-	static inv: PubKey -> PriKey // inv
-	static pubkey: Agent -> PubKey // pubkey
-	static prikey: Agent -> PriKey // prikey
+	derived inv: PubKey -> PriKey // inv
+	derived pubkey: Agent -> PubKey // pubkey
+	derived prikey: Agent -> PriKey // prikey
 	dynamic controlled val: Traffic -> Prod(Agent, Agent, Message) //val
 	derived cont: Traffic -> Message //cont
 
@@ -50,8 +50,8 @@ signature:
 	static agentA: Agent
 	static agentB: Agent
 
-	static pubKeyA: PubKey
-	static pubKeyB: PubKey
+	derived pubKeyA: PubKey
+	derived pubKeyB: PubKey
 	static priKeyA: PriKey
 	static priKeyB: PriKey
 
