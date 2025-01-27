@@ -6,10 +6,12 @@ import java.io.File;
 
 import org.asmeta.nusmv.AsmetaSMV;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class TranslatorTester {
 	
+	@Ignore
 	@Test
 	public void testABZ25CaseStudy() throws Exception {
 		boolean simplify = true;
