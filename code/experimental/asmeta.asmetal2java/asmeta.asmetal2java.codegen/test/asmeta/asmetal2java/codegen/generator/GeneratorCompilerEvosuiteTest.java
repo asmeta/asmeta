@@ -76,7 +76,7 @@ public class GeneratorCompilerEvosuiteTest {
 	 * List of asm files with known issues: these files have compilation errors
 	 * related to the test generation translation (testGen mode).
 	 */
-	private static final List<String> testGenErrors = List.of("Hemodialysis_ref4_forMC.asm", "testDefinition3.asm");
+	private static final List<String> testGenErrors = List.of("Hemodialysis_ref4_forMC.asm");
 
 	@BeforeClass
 	public static void setup() {
