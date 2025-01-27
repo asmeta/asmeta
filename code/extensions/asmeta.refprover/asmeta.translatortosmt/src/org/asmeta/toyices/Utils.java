@@ -18,6 +18,7 @@ import asmeta.definitions.domains.Domain;
 import asmeta.definitions.domains.EnumTd;
 import asmeta.definitions.domains.IntegerDomain;
 import asmeta.definitions.domains.ProductDomain;
+import asmeta.definitions.domains.RealDomain;
 import asmeta.definitions.domains.TypeDomain;
 
 public class Utils {
@@ -148,8 +149,9 @@ public class Utils {
 				}
 			} else if (domain instanceof AbstractTd) {
 				// no value to combine
+			} else if (domain instanceof RealDomain) {
+				// no value to combine
 			} else {
-
 				System.err.println(domain.getClass().getSimpleName());
 				throw new Error(domain.getName() + " not supported");
 			}
