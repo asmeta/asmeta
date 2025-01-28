@@ -155,11 +155,11 @@ signature:
 	derived rr_check_min: Boolean
 	derived rr_check_max: Boolean
 	
-	derived max_attempts: Num -> Boolean
+	static max_attempts: Num -> Boolean
 	
 	derived calc_t: Timer->Integer
 	
-	derived revo: Prod(Integer,Integer) -> Real
+	static revo: Prod(Integer,Integer) -> Real
 	
 	/*Adapt */
 	derived vt_min: Real 
@@ -176,7 +176,7 @@ signature:
 	derived vt: Real
 	derived vd: Real
 	derived rr: Real
-	derived alpha: Real
+	static alpha: Real
 	derived f_resp_target: Real
 	
 	derived otis_boundaries: Boolean
@@ -276,7 +276,7 @@ definitions:
 	function vol_min_target =
 		 (weight_sup * 0.1 * ((vol_min_perc)/100.0)) //problema segnalato
 		 	
-	/*Questa è la lettera C */ 
+	/*Questa ï¿½ la lettera C */ 
 	function freq_max_mode1 = 
 	 	vol_min_target/vt_min
 	 
@@ -297,12 +297,12 @@ definitions:
 	 		endif
 	 	endif
 	 
-	 /*Questa è la lettera A */
+	 /*Questa ï¿½ la lettera A */
 	 function press_max_mode1 =
 	   compliance * (limit_pa - 10.0 - peep)	 	
 	 
 	 function press_max_mode2 =
-	 	(22.0 * weight_sup)/1000.0 /**è peso / 1000 */
+	 	(22.0 * weight_sup)/1000.0 /**ï¿½ peso / 1000 */
 	 	//div(mult(22.0,weight_sup),1000.0)
 	 
 	 function check_press_max =
@@ -601,7 +601,7 @@ definitions:
 		endpar
 					
 	macro rule r_stop_v =
- 		if not(expired(timer_breath)) then // è necessario?
+ 		if not(expired(timer_breath)) then // ï¿½ necessario?
  			par
  			state := VENTILATIONOFF
  			previous_breath := undef

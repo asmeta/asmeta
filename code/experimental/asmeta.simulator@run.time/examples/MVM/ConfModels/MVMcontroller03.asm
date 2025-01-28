@@ -3,7 +3,7 @@ asm MVMcontroller03
 
 import CTLLibrary
 import LTLLibrary
-import TimeLibrary 
+import ../TimeLibrary
 
 signature:
 	//*************************************************

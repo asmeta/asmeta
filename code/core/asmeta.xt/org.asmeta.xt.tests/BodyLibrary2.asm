@@ -1,4 +1,4 @@
-module BodyLibrary
+module BodyLibrary2
 
 export idiv, Philosopher, Integer
 

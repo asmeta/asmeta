@@ -20,6 +20,7 @@ import asmeta.terms.basicterms.UndefTerm;
 import asmeta.terms.furtherterms.IntegerTerm;
 import asmeta.terms.furtherterms.NaturalTerm;
 import asmeta.terms.furtherterms.RealTerm;
+import asmeta.terms.furtherterms.StringTerm;
 
 // return the functions that are not static in a term
 // it fills the list given in the constructor
@@ -109,6 +110,9 @@ public class DynamicInTermFinder extends ReflectiveVisitor<Void> {
 		visit((ConstantTerm) it);
 	}
 
+	public void visit(StringTerm it) {
+		visit((ConstantTerm) it);
+	}
 
 	public void visit(asmeta.terms.furtherterms.CaseTerm ct) {
 		visit(ct.getComparedTerm());

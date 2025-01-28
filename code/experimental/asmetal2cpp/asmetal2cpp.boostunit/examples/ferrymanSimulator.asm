@@ -18,7 +18,7 @@ signature:
 	enum domain Side = {LEFT | RIGHT}
 	dynamic controlled position: Actors -> Side
 	dynamic monitored carry: Actors
-	derived oppositeSide: Side -> Side
+	static oppositeSide: Side -> Side
 
 definitions:
 

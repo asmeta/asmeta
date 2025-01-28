@@ -166,7 +166,7 @@ guardie non in uso*/
 static eval: Prod(Constraint, Transition) -> Boolean
 
 /*Definisce la sola transizione elegibile*/
-static transitionenabled: Prod(Transition, Event, Sc_Thread) -> Boolean
+derived transitionenabled: Prod(Transition, Event, Sc_Thread) -> Boolean
 	
 /*Definisce l'abilitazione alla transizione*/	
 static triggering: Prod(Transition, Event)->Boolean

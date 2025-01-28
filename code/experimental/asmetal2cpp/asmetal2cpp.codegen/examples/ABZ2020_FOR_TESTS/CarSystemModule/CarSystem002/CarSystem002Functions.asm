@@ -33,7 +33,7 @@ signature:
 	controlled brakeLampCenterStatus: TailLampStatus // Brake lamp center is off (0%) or is on with a specific percentage of brightness
 
 		
-	//derived engineOn: KeyPosition -> Boolean // Depending on keyState engineOn is true or false
+	//static engineOn: KeyPosition -> Boolean // Depending on keyState engineOn is true or false
 		
 definitions:
 	

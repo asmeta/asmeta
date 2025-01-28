@@ -3,6 +3,10 @@ package org.asmeta.parser;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -10,6 +14,8 @@ import org.apache.log4j.SimpleLayout;
 import org.asmeta.parser.util.ReflectiveVisitor;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import asmeta.AsmCollection;
 
 // it is too difficult to test a checker in isolation
 public class AsmParserTestStaticDerived extends AsmParserTest {
@@ -68,23 +74,32 @@ public class AsmParserTestStaticDerived extends AsmParserTest {
 	}
 
 	@Test
-	public void testtemp() {
-		String failures[] = {
-				"/examples/sultanSuccessors/sultanGreedy.asm", 
-				"/examples/Yahalom/FlawedYahalom.asm",
-				"/examples/Yahalom/Yahalom.asm", 
-				"/examples/Yahalom/oldVersions/YahalomVerbose.asm",
-				"/examples_for_nuXmv/FunctionInt.asm", 
-				"/examples_for_nuXmv/FunctionInt2.asm", 
-				"/STDL/MAPEpatterns.asm",
-				"/systemc/simple_bus/arbiter.asm", 
-				"/SystemCUMLProfile_metahooking/main.asm",
-				"/SystemCUMLProfile_metahooking/ruleSM.asm",
-				"/SystemCUMLProfile_metahooking/SystemCUMLProfile_INIT.asm", 
-				"/SystemCUMLProfile_metahooking/top.asm" };
-		for (String s : failures) {
-			testOneSpec(s);
-		}
+	public void testtemp() throws IOException {
+		Files.walk(Paths.get("../../../../code/"))
+		.filter(x -> (x.toFile().isDirectory() || x.toString().endsWith(".asm"))).forEach(f -> {
+			String string = f.toFile().toString();
+			if (string.contains("drafts")); else 
+			if (string.contains("DAS")); else
+			if (string.contains("oldVersion")); else
+			if (string.contains("test\\errors")); else				
+			if (string.contains("workspacePatrizia")); else				
+			if (string.contains("template")); else	
+			if (string.contains("safePillboxForPaper")); else	
+			if (string.contains("target\\classes")); else	
+			if (string.contains("asmeta.simulator@run.time")); else	
+				
+			if (string.endsWith(".asm")) {
+				AsmCollection res = testOneSpec(f.toFile(),false,false);
+				if (res == null) {
+					System.err.println(f.toString());
+					fail();
+				}
+			}
+		});
+
+//		for (String s : failures) {
+//			testOneSpec(s);
+//		}
 	}
 
 }

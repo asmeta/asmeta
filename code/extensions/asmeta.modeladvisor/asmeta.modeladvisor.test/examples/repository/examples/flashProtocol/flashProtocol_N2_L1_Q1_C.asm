@@ -48,8 +48,8 @@ signature:
 
 	static home : Line -> AgentDomain
 	static lineInTr: AgentDomain -> Line
-	derived lineInTrR : AgentDomain -> Line
-	derived inLine : AgentDomain -> Line
+	static lineInTrR : AgentDomain -> Line
+	static inLine : AgentDomain -> Line
 
 	static l1: Line
 	static a1: AgentDomain
