@@ -164,7 +164,7 @@ class JavaExeGenerator extends AsmToJavaGenerator {
 						''')
 					if (fd.codomain instanceof EnumTd)
 						sb.append('''
-							System.out.println("«fd.name» = " + esecuzione.«fd.name».oldValue.name());
+							System.out.println("«fd.name» = " + esecuzione.«fd.name».get().name());
 						''')
 				} else {
 
@@ -173,7 +173,7 @@ class JavaExeGenerator extends AsmToJavaGenerator {
 							for(int i=0; i < esecuzione.«fd.domain.name»_elemsList.size(); i++)
 									{
 										System.out.println(" «fd.name» =>  (" + esecuzione.«fd.domain.name»_elemsList.get(i) +
-										") = " + esecuzione.«fd.name».oldValues.get(esecuzione.«fd.domain.name»_elemsList.get(i)).value );
+										") = " + esecuzione.«fd.name».get().get(esecuzione.«fd.domain.name»_elemsList.get(i)).value );
 									}
 						''')
 					}
@@ -183,7 +183,7 @@ class JavaExeGenerator extends AsmToJavaGenerator {
 							for(int i=0; i < esecuzione.«fd.domain.name»_elemsList.size(); i++)
 									{
 										System.out.println("«fd.name» =>  (" + esecuzione.«fd.domain.name»_elemsList.get(i) +
-										") = "+ esecuzione.«fd.name».oldValues.get(esecuzione.«fd.domain.name»_elemsList.get(i)));
+										") = "+ esecuzione.«fd.name».get().get(esecuzione.«fd.domain.name»_elemsList.get(i)));
 									}
 						''')
 					}

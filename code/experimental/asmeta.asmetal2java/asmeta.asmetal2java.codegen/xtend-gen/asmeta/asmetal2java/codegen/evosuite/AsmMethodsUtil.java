@@ -27,7 +27,9 @@ public class AsmMethodsUtil {
 
   public static final String CHARACTER = "Character";
 
-  public static final List<String> basicTdList = Arrays.<String>asList(AsmMethodsUtil.BOOLEAN, AsmMethodsUtil.INTEGER, AsmMethodsUtil.REAL, AsmMethodsUtil.STRING, AsmMethodsUtil.CHAR, AsmMethodsUtil.DOUBLE, AsmMethodsUtil.CHARACTER);
+  public static final String NATURAL = "Natural";
+
+  public static final List<String> basicTdList = Arrays.<String>asList(AsmMethodsUtil.BOOLEAN, AsmMethodsUtil.INTEGER, AsmMethodsUtil.REAL, AsmMethodsUtil.STRING, AsmMethodsUtil.CHAR, AsmMethodsUtil.DOUBLE, AsmMethodsUtil.CHARACTER, AsmMethodsUtil.NATURAL);
 
   /**
    * Get the specific domain type under consideration.
@@ -64,6 +66,9 @@ public class AsmMethodsUtil {
         case AsmMethodsUtil.INTEGER:
           type = "int";
           break;
+        case AsmMethodsUtil.NATURAL:
+          type = "int";
+          break;
         case AsmMethodsUtil.REAL:
           type = "double";
           break;
@@ -89,6 +94,9 @@ public class AsmMethodsUtil {
           type = "Boolean";
           break;
         case AsmMethodsUtil.INTEGER:
+          type = "Integer";
+          break;
+        case AsmMethodsUtil.NATURAL:
           type = "Integer";
           break;
         case AsmMethodsUtil.REAL:
@@ -124,6 +132,9 @@ public class AsmMethodsUtil {
         case AsmMethodsUtil.INTEGER:
           type = "Integer::parseInt";
           break;
+        case AsmMethodsUtil.NATURAL:
+          type = "Integer::parseInt";
+          break;
         case AsmMethodsUtil.REAL:
           type = "Double::parseDouble";
           break;
@@ -152,8 +163,7 @@ public class AsmMethodsUtil {
     {
       String methodDeclaration = "\t";
       String _xifexpression = null;
-      boolean _equals = codomain.equals(AsmMethodsUtil.INTEGER);
-      if (_equals) {
+      if ((codomain.equals(AsmMethodsUtil.INTEGER) || codomain.equals(AsmMethodsUtil.NATURAL))) {
         String _methodDeclaration = methodDeclaration;
         StringConcatenation _builder = new StringConcatenation();
         _builder.append("public Integer ");
@@ -162,8 +172,8 @@ public class AsmMethodsUtil {
         _xifexpression = methodDeclaration = (_methodDeclaration + _builder);
       } else {
         String _xifexpression_1 = null;
-        boolean _equals_1 = codomain.equals(AsmMethodsUtil.REAL);
-        if (_equals_1) {
+        boolean _equals = codomain.equals(AsmMethodsUtil.REAL);
+        if (_equals) {
           String _methodDeclaration_1 = methodDeclaration;
           StringConcatenation _builder_1 = new StringConcatenation();
           _builder_1.append("public Double ");
@@ -172,8 +182,8 @@ public class AsmMethodsUtil {
           _xifexpression_1 = methodDeclaration = (_methodDeclaration_1 + _builder_1);
         } else {
           String _xifexpression_2 = null;
-          boolean _equals_2 = codomain.equals(AsmMethodsUtil.BOOLEAN);
-          if (_equals_2) {
+          boolean _equals_1 = codomain.equals(AsmMethodsUtil.BOOLEAN);
+          if (_equals_1) {
             String _methodDeclaration_2 = methodDeclaration;
             StringConcatenation _builder_2 = new StringConcatenation();
             _builder_2.append("public Boolean ");
@@ -182,8 +192,8 @@ public class AsmMethodsUtil {
             _xifexpression_2 = methodDeclaration = (_methodDeclaration_2 + _builder_2);
           } else {
             String _xifexpression_3 = null;
-            boolean _equals_3 = codomain.equals(AsmMethodsUtil.STRING);
-            if (_equals_3) {
+            boolean _equals_2 = codomain.equals(AsmMethodsUtil.STRING);
+            if (_equals_2) {
               String _methodDeclaration_3 = methodDeclaration;
               StringConcatenation _builder_3 = new StringConcatenation();
               _builder_3.append("public String ");
@@ -192,8 +202,8 @@ public class AsmMethodsUtil {
               _xifexpression_3 = methodDeclaration = (_methodDeclaration_3 + _builder_3);
             } else {
               String _xifexpression_4 = null;
-              boolean _equals_4 = codomain.equals(AsmMethodsUtil.CHAR);
-              if (_equals_4) {
+              boolean _equals_3 = codomain.equals(AsmMethodsUtil.CHAR);
+              if (_equals_3) {
                 String _methodDeclaration_4 = methodDeclaration;
                 StringConcatenation _builder_4 = new StringConcatenation();
                 _builder_4.append("public Character ");
@@ -228,7 +238,7 @@ public class AsmMethodsUtil {
   /**
    * Generates and returns the getter for a function with sequence codomain.
    */
-  protected static String genSequenceGetter(final String functionName, final String type, final String toStringDef) {
+  protected static String genSequenceGetter(final String functionName, final String type) {
     StringBuffer sb = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("public String get_");
@@ -252,23 +262,19 @@ public class AsmMethodsUtil {
     _builder.append("}");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("return \"[\" + ");
+    _builder.append("return \"[\" +");
     _builder.newLine();
     _builder.append("\t\t");
     _builder.append("list.stream().");
     _builder.newLine();
-    _builder.append("\t    ");
-    _builder.append("map(");
-    _builder.append(toStringDef, "\t    ");
-    _builder.append(").");
-    _builder.newLineIfNotEmpty();
-    _builder.append("\t    ");
-    _builder.append("collect(java.util.stream.Collectors.joining(\", \")) ");
+    _builder.append("\t\t");
+    _builder.append("map(Object::toString).");
     _builder.newLine();
-    _builder.append("\t    ");
+    _builder.append("\t\t");
+    _builder.append("collect(java.util.stream.Collectors.joining(\", \"))");
+    _builder.newLine();
+    _builder.append("\t\t");
     _builder.append("+ \"]\";");
-    _builder.newLine();
-    _builder.append("\t    ");
     _builder.newLine();
     _builder.append("}");
     _builder.newLine();

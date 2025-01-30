@@ -20,6 +20,7 @@ import asmeta.asmetal2java.codegen.translator.DomainToJavaString
 import java.util.ArrayList
 import java.util.List
 import org.junit.Assert
+import asmeta.asmetal2java.codegen.translator.FunctionClassDef
 
 /** 
  * Generates the translation of an Asm specification to a java class from an ASMeta specification.
@@ -93,30 +94,7 @@ class JavaGenerator extends AsmToJavaGenerator {
 			
 			// «asmName».java automatically generated from ASM2CODE
 			
-			import java.util.ArrayList;
-			import java.util.Arrays;
-			import java.util.Collections;
-			import java.util.HashMap;
-			import java.util.HashSet;
-			import java.util.Map;
-			import java.util.Set;
-			import java.util.List;
-			import java.util.Scanner;
-			import org.apache.commons.collections4.bag.HashBag;
-			import org.apache.commons.collections4.Bag;
-			import java.util.concurrent.ThreadLocalRandom;
-			import java.util.function.Function;
-			import java.util.stream.Collectors;
-			import org.javatuples.Decade;
-			import org.javatuples.Ennead;
-			import org.javatuples.Octet;
-			import org.javatuples.Pair;
-			import org.javatuples.Quartet;
-			import org.javatuples.Quintet;
-			import org.javatuples.Septet;
-			import org.javatuples.Sextet;
-			import org.javatuples.Triplet;
-			
+			«getImports()»
 			
 			abstract class «asmName»Sig {
 				
@@ -127,74 +105,17 @@ class JavaGenerator extends AsmToJavaGenerator {
 				«abstractClassDef(asm)»
 				«domainSignature(asm)»
 				
-				//Metodi di supporto per l'implementazione delle funzioni controlled
+				//Support methods for implementing controlled functions
 				
-				class Fun0Ctrl<D> {
-				   
-				   D oldValue;
-				   D newValue;
-				   
-				void set(D d) {
-					
-						newValue = d;
-				}
+				«FunctionClassDef.getFun0CtrlClass()»
 				
-				D get() {
-					
-						return oldValue;
-				}
-				}
+				«FunctionClassDef.getFunNCtrlClass()»
 				
-				static class FunNCtrl<D, C> {
-					
-				Map<D, C> oldValues = new HashMap<>();
-				Map<D, C> newValues = new HashMap<>();
+				//Support methods for the implementation of non-controlled functions
 				
-				void set(D d, C c) {
-					
-						newValues.put(d, c);
-				}
+				«FunctionClassDef.getFun0Class()»
 				
-				C get(D d) {
-					
-						return oldValues.get(d);
-				}
-				}
-				
-				
-				
-				//Metodi di supporto per l'implementazione delle funzioni non controlled
-				
-				class Fun0<D> {
-				   
-				   D value;
-				   
-				void set(D d) {
-					
-						value = d;
-				}
-				
-				D get() {
-					
-						return value;
-				}
-				}
-				
-				
-				class FunN<D, C> {
-					
-				Map<D, C> values = new HashMap<>();
-				
-				void set(D d, C c) {
-					
-						values.put(d, c);
-				}
-				
-				C get(D d) {
-					
-						return values.get(d);
-				}
-				}					
+				«FunctionClassDef.getFunNClass()»
 				
 				/////////////////////////////////////////////////
 				/// FUNCTIONS
@@ -255,12 +176,7 @@ class JavaGenerator extends AsmToJavaGenerator {
 				}
 				
 				//Metodo per l'aggiornamento dell'asm
-				void updateASM()
-				{
-					«asm.mainrule.name»();
-					fireUpdateSet();
-					initControlledWithMonitored();
-				}
+				«getUpdateASM(asm)»
 				
 				public static void main(String[] args) {
 					// TODO: auto-generated main method by Asmeta2Java 
@@ -270,6 +186,45 @@ class JavaGenerator extends AsmToJavaGenerator {
 			
 		'''
 
+	}
+	
+	protected def String getImports(){
+		return	'''
+				import java.util.ArrayList;
+				import java.util.Arrays;
+				import java.util.Collections;
+				import java.util.HashMap;
+				import java.util.HashSet;
+				import java.util.Map;
+				import java.util.Set;
+				import java.util.List;
+				import java.util.Scanner;
+				import org.apache.commons.collections4.bag.HashBag;
+				import org.apache.commons.collections4.Bag;
+				import java.util.concurrent.ThreadLocalRandom;
+				import java.util.function.Function;
+				import java.util.stream.Collectors;
+				import org.javatuples.Decade;
+				import org.javatuples.Ennead;
+				import org.javatuples.Octet;
+				import org.javatuples.Pair;
+				import org.javatuples.Quartet;
+				import org.javatuples.Quintet;
+				import org.javatuples.Septet;
+				import org.javatuples.Sextet;
+				import org.javatuples.Triplet;
+				'''
+	}
+	
+	protected def String getUpdateASM(Asm asm){
+		return	'''
+			void updateASM()
+				{
+					«asm.mainrule.name»();
+					fireUpdateSet();
+					initControlledWithMonitored();
+				}
+			'''
 	}
 
 	// Prima parte dedicata allo studio dei metodi per la creazione della classe astratta che rappresenta la parte
@@ -533,13 +488,20 @@ class JavaGenerator extends AsmToJavaGenerator {
 	// Aggiornamento delle variabile controllate di stato in stato
 	def updateSet(Asm asm) {
 		var StringBuffer updateset = new StringBuffer
-		for (cf : asm.headerSection.signature.function)
-			if (cf instanceof ControlledFunction && cf.domain !== null)
-				updateset.append('''«cf.name».oldValues = «cf.name».newValues;
+		for (cf : asm.headerSection.signature.function){
+			if (cf instanceof ControlledFunction && cf.domain !== null){
+				updateset.append('''«cf.name».update();
 				''')
-			else if (cf instanceof ControlledFunction && cf.domain === null)
-				updateset.append('''«cf.name».oldValue = «cf.name».newValue;
+//				updateset.append('''«cf.name».oldValues = «cf.name».newValues;
+//				''')
+			}
+			else if (cf instanceof ControlledFunction && cf.domain === null){
+				updateset.append('''«cf.name».update();
 				''')
+//				updateset.append('''«cf.name».oldValue = «cf.name».newValue;
+//				''')
+			}
+		}
 		return updateset.toString
 	}
 

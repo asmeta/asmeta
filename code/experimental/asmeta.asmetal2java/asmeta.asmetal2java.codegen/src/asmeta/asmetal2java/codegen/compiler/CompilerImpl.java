@@ -89,9 +89,11 @@ public class CompilerImpl implements Compiler {
 			sb.append(System.lineSeparator());
 	    	for (Diagnostic<? extends JavaFileObject> diagnostic : diagnostics.getDiagnostics()) {
 	    		// read error details from the diagnostic object
-	    		sb.append("File: ").append(diagnostic.getSource().getName()).append(System.lineSeparator());
-	    		sb.append("\tLine number: ").append(diagnostic.getLineNumber()).append(", ");
-	    		sb.append("Column number: ").append(diagnostic.getColumnNumber()).append(System.lineSeparator());
+	    		if(diagnostic.getSource() != null) {
+	    			sb.append("File: ").append(diagnostic.getSource().getName()).append(System.lineSeparator());
+	    			sb.append("\tLine number: ").append(diagnostic.getLineNumber()).append(", ");
+	    			sb.append("Column number: ").append(diagnostic.getColumnNumber()).append(System.lineSeparator());
+	    		}
 	    		sb.append("\tCause: ").append(diagnostic.getMessage(null)).append(System.lineSeparator());
 	    	}
 			message = sb.toString();

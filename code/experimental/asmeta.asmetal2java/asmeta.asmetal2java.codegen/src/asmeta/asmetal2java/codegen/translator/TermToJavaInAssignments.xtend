@@ -62,23 +62,23 @@ class TermToJavaInAssignments extends TermToJava {
 
 		if (object.comparedTerm.domain instanceof AbstractTd) {
 			for (var i = 0; i < object.comparingTerm.size; i++) {
-				if (i == 0)
+				if (i == 0){
 					sb.append(
 							'''
 							
-						«""»	if(«visit(object.comparedTerm)».toString(«visit(object.comparedTerm)»).equals("«visit(object.comparingTerm.get(i))»"))
+						«""»	if(«visit(object.comparedTerm)».toString().equals("«visit(object.comparingTerm.get(i))»"))
 								a  «visit(object.resultTerms.get(i))»;
 					''')
-				else
+				} else {
 					sb.append(
 								'''
-						«""»	else if(«visit(object.comparedTerm)».toString(«visit(object.comparedTerm)»).equals("«visit(object.comparingTerm.get(i))»"))
+						«""»	else if(«visit(object.comparedTerm)».toString().equals("«visit(object.comparingTerm.get(i))»"))
 								a  «visit(object.resultTerms.get(i))»;
 					''')
+				}
 			}
 		} else {
 			for (var i = 0; i < object.comparingTerm.size; i++) {
-
 				if (i == 0)
 					sb.append(
 						'''

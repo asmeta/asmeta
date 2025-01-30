@@ -16,7 +16,8 @@ class AsmMethodsUtil {
 	public static val STRING = "String"
 	public static val CHAR = "Char"
 	public static val CHARACTER = "Character"
-	public static val basicTdList = Arrays.asList(BOOLEAN, INTEGER, REAL, STRING, CHAR, DOUBLE, CHARACTER) 
+	public static val NATURAL = "Natural"
+	public static val basicTdList = Arrays.asList(BOOLEAN, INTEGER, REAL, STRING, CHAR, DOUBLE, CHARACTER, NATURAL) 
 	// Double and Character are the translated domains of Real and Char
 	
 	/**
@@ -46,6 +47,8 @@ class AsmMethodsUtil {
 			type="boolean"
 			case INTEGER:
 				type="int"
+			case NATURAL:
+				type="int"
 			case REAL:
 				type="double"
 			case CHAR:
@@ -65,6 +68,8 @@ class AsmMethodsUtil {
 			case BOOLEAN:
 			type="Boolean"
 			case INTEGER:
+				type="Integer"
+			case NATURAL:
 				type="Integer"
 			case REAL:
 				type="Double"
@@ -90,6 +95,8 @@ class AsmMethodsUtil {
 			type="Boolean::parseBoolean"
 			case INTEGER:
 				type="Integer::parseInt"
+			case NATURAL:
+				type="Integer::parseInt"
 			case REAL:
 				type="Double::parseDouble"
 			case DOUBLE:
@@ -109,7 +116,7 @@ class AsmMethodsUtil {
 	 */
 	protected def static String getMethodSignature(String asmName, String methodGetterSignature, String codomain) {
 		var methodDeclaration = "\t"
-		if (codomain.equals(INTEGER)){ // ... -> Integer
+		if (codomain.equals(INTEGER) || codomain.equals(NATURAL)){ // ... -> Integer
 			methodDeclaration += ('''public Integer «methodGetterSignature»(){''');
 		}
 		else if (codomain.equals(REAL)){ // ... -> Real
@@ -133,7 +140,7 @@ class AsmMethodsUtil {
 	/**
 	 * Generates and returns the getter for a function with sequence codomain.
 	 */
-	protected def static String genSequenceGetter(String functionName, String type, String toStringDef){
+	protected def static String genSequenceGetter(String functionName, String type){
 		var sb = new StringBuffer();
 		sb.append('''
 			public String get_«functionName»(){
@@ -141,12 +148,11 @@ class AsmMethodsUtil {
 				if(list == null || list.isEmpty()){
 					return "[]";
 				}
-				return "[" + 
+				return "[" +
 					list.stream().
-				    map(«toStringDef»).
-				    collect(java.util.stream.Collectors.joining(", ")) 
-				    + "]";
-				    
+					map(Object::toString).
+					collect(java.util.stream.Collectors.joining(", "))
+					+ "]";
 			}
 			''');
 		return sb.toString()

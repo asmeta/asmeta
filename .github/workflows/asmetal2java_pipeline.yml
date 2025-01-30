@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - isaac
+      - isaac-experimental
       - master
   pull_request:
     branches:

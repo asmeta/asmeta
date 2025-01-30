@@ -789,7 +789,7 @@ VariabileControlled_Valore_«NvarC».setText(esecuzione.«fd.name».get().value.
 							
 							
 							try{
-							VariabileControlled_Valore_«NvarC».setText(esecuzione.«fd.name».oldValue.name());
+							VariabileControlled_Valore_«NvarC».setText(esecuzione.«fd.name».get().name());
 							} catch( NullPointerException errC«NvarC»)
 							{
 							VariabileControlled_Valore_«NvarC».setText("null");
@@ -815,21 +815,21 @@ VariabileControlled_Valore_«NvarC».setText(esecuzione.«fd.name».get().value.
 							
 							
 							 try{
-							 VariabileControlled_Valore_«NvarC»_1.setText(esecuzione.«fd.name».oldValues.get(esecuzione.«fd.domain.name»_elemsList.get(0)).value.toString());
+							 VariabileControlled_Valore_«NvarC»_1.setText(esecuzione.«fd.name».get().get(esecuzione.«fd.domain.name»_elemsList.get(0)).value.toString());
 							 } catch( NullPointerException errC0«NvarC»)
 							 {
 							  VariabileControlled_Text_«NvarC»_1.setText("null");
 							 }
 							
 							 try{
-							 VariabileControlled_Valore_«NvarC»_2.setText(esecuzione.«fd.name».oldValues.get(esecuzione.«fd.domain.name»_elemsList.get(1)).value.toString());
+							 VariabileControlled_Valore_«NvarC»_2.setText(esecuzione.«fd.name».get().get(esecuzione.«fd.domain.name»_elemsList.get(1)).value.toString());
 							 } catch( NullPointerException errC0«NvarC»)
 							 {
 							 VariabileControlled_Text_«NvarC»_1.setText("null");
 							 }
 							 
 							 try{
-							 VariabileControlled_Valore_«NvarC»_3.setText(esecuzione.«fd.name».oldValues.get(esecuzione.«fd.domain.name»_elemsList.get(2)).value.toString());
+							 VariabileControlled_Valore_«NvarC»_3.setText(esecuzione.«fd.name».get().get(esecuzione.«fd.domain.name»_elemsList.get(2)).value.toString());
 							 } catch( NullPointerException errC0«NvarC»)
 							 {
 							  VariabileControlled_Text_«NvarC»_1.setText("null");
@@ -851,27 +851,27 @@ VariabileControlled_Valore_«NvarC».setText(esecuzione.«fd.name».get().value.
 							
 							
 							 try{
-							 VariabileControlled_Valore_«NvarC»_1.setText(esecuzione.«fd.name».oldValues.get(esecuzione.«fd.domain.name»_elemsList.get(0)).toString());
+							 VariabileControlled_Valore_«NvarC»_1.setText(esecuzione.«fd.name».get().get(esecuzione.«fd.domain.name»_elemsList.get(0)).toString());
 							 } catch( NullPointerException errC0«NvarC»)
 							 {
 							  VariabileControlled_Valore_«NvarC»_1.setText("null");
 							 }
 							
 							 try{
-							 VariabileControlled_Valore_«NvarC»_2.setText(esecuzione.«fd.name».oldValues.get(esecuzione.«fd.domain.name»_elemsList.get(1)).toString());
+							 VariabileControlled_Valore_«NvarC»_2.setText(esecuzione.«fd.name».get().get(esecuzione.«fd.domain.name»_elemsList.get(1)).toString());
 							 } catch( NullPointerException errC0«NvarC»)
 							 {
 							 VariabileControlled_Valore_«NvarC»_2.setText("null");
 							 }
 							 try{
-							 VariabileControlled_Valore_«NvarC»_3.setText(esecuzione.«fd.name».oldValues.get(esecuzione.«fd.domain.name»_elemsList.get(2)).toString());
+							 VariabileControlled_Valore_«NvarC»_3.setText(esecuzione.«fd.name».get().get(esecuzione.«fd.domain.name»_elemsList.get(2)).toString());
 							 } catch( NullPointerException errC0«NvarC»)
 							 {
 							  VariabileControlled_Valore_«NvarC»_3.setText("null");
 							 }
 							
 							 try{
-							 VariabileControlled_Valore_«NvarC»_4.setText(esecuzione.«fd.name».oldValues.get(esecuzione.«fd.domain.name»_elemsList.get(3)).toString());
+							 VariabileControlled_Valore_«NvarC»_4.setText(esecuzione.«fd.name».get().get(esecuzione.«fd.domain.name»_elemsList.get(3)).toString());
 							 } catch( NullPointerException errC0«NvarC»)
 							 {
 							  VariabileControlled_Valore_«NvarC»_4.setText("null");
