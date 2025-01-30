@@ -1,0 +1,33 @@
+scenario BasicTD_scenario0
+
+load BasicTD.asm
+
+check integerControlledFunction = (-5);
+check stringControlledFunction = "hello world";
+check realControlledFunction = 3.4;
+check booleanControlledFunction = true;
+check charControlledFunction = 'a';
+
+step
+
+check integerControlledFunction = (-5);
+check stringControlledFunction = "hello world";
+check realControlledFunction = 3.4;
+check booleanControlledFunction = true;
+check charControlledFunction = 'a';
+
+step
+
+set integerMonitoredFunction := 141;
+set stringMonitoredFunction := "Hello world";
+set realMonitoredFunction := (-1.0);
+set booleanMonitoredFunction := false;
+set charMonitoredFunction := 'w';
+
+step
+
+set integerMonitoredFunction := -25;
+set stringMonitoredFunction := "Hello World!";
+set realMonitoredFunction := 22.2;
+set booleanMonitoredFunction := true;
+set charMonitoredFunction := 'z';
