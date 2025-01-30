@@ -8,7 +8,7 @@ signature:
 
 	abstract domain Orders
 	abstract domain Products
-	domain Quantity subsetof Natural
+	domain Quantity subsetof Integer
 	enum domain OrderStatus = { INVOICED | PENDING }
 
 	dynamic monitored referencedProduct: Orders -> Products
@@ -18,16 +18,16 @@ signature:
 
 	// part added for extensions and variation
 
-	static pendingOrders: Products -> Powerset(Orders)
-	static totalQuantity: Powerset(Orders) -> Quantity
-	static totalOrderedQuantity: Products -> Quantity
+	derived pendingOrders: Products -> Powerset(Orders)
+	derived totalQuantity: Powerset(Orders) -> Quantity
+	derived totalOrderedQuantity: Products -> Quantity
 	// for variating at maximum order
 	// returns all the posible subsets of the pending orders for a product
 	static maxQuantitySubsets: Powerset(Powerset(Orders)) -> Powerset(Powerset(Orders))
 	// it returns if a orderset is invoicable
-	static invoicable: Powerset(Orders) -> Boolean
-	static totalQuantity: Prod(Powerset(Orders),Products) -> Quantity
-	static referencedProducts: Powerset(Orders) -> Powerset(Products)
+	derived invoicable: Powerset(Orders) -> Boolean
+	derived totalQuantity: Prod(Powerset(Orders),Products) -> Quantity
+	derived referencedProducts: Powerset(Orders) -> Powerset(Products)
 
         //Setting the scenario:
         //---------------------
@@ -51,7 +51,7 @@ signature:
 
 	/* given a set of Orders, return the sum of quantity of such orders */
 	function totalQuantity($so in Powerset(Orders)) =
-		if (isEmpty($so)) then 0n 
+		if (isEmpty($so)) then 0
 		else
 			let ( $first =  chooseone($so)) in
 				( orderQuantity($first) + totalQuantity(excluding($so,$first)))
@@ -67,7 +67,7 @@ signature:
 	*/
 
 	function totalQuantity($so in Powerset(Orders), $p in Products) =
- 		if (isEmpty($so)) then 0n 
+ 		if (isEmpty($so)) then 0
 		else
 			//let ( $first = first(asSequence($so)) in
 			//if (referencedProduct($first) = $p) then orderQuantity($first) + totalQuantity(excluding($so,$first),$p)
@@ -178,4 +178,4 @@ main rule r_ordersystem =
 default init s_1:
 
 	function orderState($o in Orders) = PENDING
-	function stockQuantity($p in Products) = 100n
+	function stockQuantity($p in Products) = 100

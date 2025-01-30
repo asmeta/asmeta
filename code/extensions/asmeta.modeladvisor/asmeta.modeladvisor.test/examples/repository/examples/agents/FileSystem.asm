@@ -28,7 +28,7 @@ signature:
 	monitored argParent: Agent -> String
 
 	// convert a file name to a File value
-	static toFile: String -> File
+	derived toFile: String -> File
 
 definitions:
 

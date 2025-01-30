@@ -114,7 +114,7 @@ controlled baseStateMachine: Sc_Thread -> StateMachine
 
 	
 /*/////*Funzioni per la definizione della funzione Tau*/////*/
-/*Restituisce lo stato più interno raggiunto dal thread durante l'attuale stato macchina, 
+/*Restituisce lo stato più interno raggiunto dal thread durante l'attuale stato macchina,
 quindi inizializzando la funzione allo stato iniziale si aggiornerà automaticamente*/
 controlled deepest: Prod(Sc_Thread,StateMachine) -> Vertex
 
@@ -149,27 +149,27 @@ controlled upState: Vertex -> State
 controlled downState: Vertex -> Powerset(Vertex)
 	
 /*Restituisce la sequenza di stati dallo stato più interno(dato) a quello più esterno(dato)*/
-static upChain: Prod(Vertex, Vertex) -> Seq(Vertex)
+derived upChain: Prod(Vertex, Vertex) -> Seq(Vertex)
 	
 /*Restituisce la sequenza di stati dallo stato più esterno(dato) a quello più interno(dato)*/
-static downChain: Prod(Vertex, Vertex) -> Seq(Vertex)
+derived downChain: Prod(Vertex, Vertex) -> Seq(Vertex)
 	
 /*Contiene gli eventi associati ad un Thread*/
 controlled eventqueue: Sc_Thread -> Seq(Event)   		
 
 /*Produce l'elemento di testa della coda degli eventi di un Thread*/
-static dispatched: Sc_Thread -> Event 	
+derived dispatched: Sc_Thread -> Event
 	
 /*Definisce se la guardia è attiva o non attiva.
 Necessita di un meccanismo per settare a false la valutazione delle
 guardie non in uso*/
-static eval: Prod(Constraint, Transition) -> Boolean
+derived eval: Prod(Constraint, Transition) -> Boolean
 
 /*Definisce la sola transizione elegibile*/
 derived transitionenabled: Prod(Transition, Event, Sc_Thread) -> Boolean
 	
 /*Definisce l'abilitazione alla transizione*/	
-static triggering: Prod(Transition, Event)->Boolean
+derived triggering: Prod(Transition, Event)->Boolean
 	
 /*Restituisce l'insieme delle transizioni abilitate dall'evento e*/
 static enabled: Event -> Powerset(Transition)
@@ -187,10 +187,10 @@ controlled andNotHist: Prod(Process, Transition) -> Powerset(Event)
 controlled isCompletionEvent: Event -> Boolean
 	
 /*Verifica il completamento di uno stato attivo*/
-static completed: Vertex -> Boolean
+derived completed: Vertex -> Boolean
 	
 /*Ritorna lo stato finale di uno stato composto o submachine*/
-static final: Vertex -> FinalState
+derived final: Vertex -> FinalState
 	
 /*Dato un evento restituisce l'insieme dei processi a lui sensibili*/
 controlled process: Event -> Powerset(Process)
@@ -202,40 +202,40 @@ controlled isDont_Initialize: Vertex -> Boolean
 controlled isReturn: Vertex -> Boolean
 controlled isBreak: Vertex -> Boolean
 controlled isContinue: Vertex -> Boolean
-static isFinal: Vertex -> Boolean
-static isIf: Vertex -> Boolean
-static isEndif: Vertex -> Boolean
-static isWhile: Vertex -> Boolean
-static isInitial: Vertex -> Boolean
-static isPseudostate: Vertex -> Boolean
+derived isFinal: Vertex -> Boolean
+derived isIf: Vertex -> Boolean
+derived isEndif: Vertex -> Boolean
+derived isWhile: Vertex -> Boolean
+derived isInitial: Vertex -> Boolean
+derived isPseudostate: Vertex -> Boolean
 
 /*Ritorna lo stato comune più interno nelle gerarchia di contenimento*/
-static lca: Prod(Vertex, Vertex)-> Vertex
+derived lca: Prod(Vertex, Vertex)-> Vertex
 
 /*Effettua l’LCA tra stato sorgente e destinazione di una transizione*/
-static anc: Transition -> Vertex
+derived anc: Transition -> Vertex
 
 /*È il solo diretto sottostato di un Vertice v in una sequenza di vertici*/
-static directSubState: Prod(Vertex,Seq(Vertex))-> Vertex
+derived directSubState: Prod(Vertex,Seq(Vertex))-> Vertex
 
 /*Calcola il directSubState tra l’anc di una transizione e l’pChain tra stato sorgente e anc della transizione stessa*/
-static toS: Transition -> Vertex
+derived toS: Transition -> Vertex
 
 /*Calcola il directSubState tra l’anc di una transizione e il downChain tra stato destinazione e anc della transizione stessa*/
-static fromS: Transition -> Vertex
+derived fromS: Transition -> Vertex
 
 /*Inserisce un vertice in una sequenza*/
-static push: Prod(Vertex, Seq(Vertex)) -> Seq(Vertex)
+derived push: Prod(Vertex, Seq(Vertex)) -> Seq(Vertex)
 
 /*Estrae il primo elemento da una sequenza di Vertici*/
-static pop: Seq(Vertex) -> Seq(Vertex)
+derived pop: Seq(Vertex) -> Seq(Vertex)
 
 /*Estrae il primo elemento da una sequenza di Eventi*/
-static pop: Seq(Event) -> Seq(Event)
+derived pop: Seq(Event) -> Seq(Event)
 
 /*Restituisce, senza eliminarlo, il primo elemento di una sequenza*/
-static top: Seq(Vertex) -> Vertex
-static top: Seq(Event) -> Event
+derived top: Seq(Vertex) -> Vertex
+derived top: Seq(Event) -> Event
 
 /*Ritorna lo stato iniziale di uno stato composto o di una sottomacchina*/
 controlled stateinit: Vertex -> Vertex
@@ -286,7 +286,7 @@ function isSubmachine($c in State) = 	if
 else false
 	endif
 
-/*Deve ritornare la sequenza di stati composti e la upChain la realizza a partire dallo stato più interno (contenuto) t a quello più esterno (composto) s*/						
+/*Deve ritornare la sequenza di stati composti e la upChain la realizza a partire dallo stato più interno (contenuto) t a quello più esterno (composto) s*/
 function upChain($t in Vertex, $s in Vertex) = if 
 (upState($t) = asState($s))
 	then [$s,$t]
@@ -352,7 +352,7 @@ then true else false endif
 //Verifica del completamento di uno stato attivo		
 function completed ($v in Vertex) = 
 if isDef(asState($v)) //significa che sicuramente il Vertex è uno State
-/*Sono aggiunti gli stati dont_init e static_wait perchè pur essendo stati 
+/*Sono aggiunti gli stati dont_init e static_wait perchè pur essendo stati
 con un valido asState non rientrando in questi casi non consentivano l'esecuzione*/
     then 
     if isDont_Initialize(asState($v)) then true

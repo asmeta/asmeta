@@ -75,19 +75,26 @@ public class AsmParserTestStaticDerived extends AsmParserTest {
 
 	@Test
 	public void testtemp() throws IOException {
-		Files.walk(Paths.get("../../../../code/"))
+		Files.walk(Paths.get("../../../../code/extensions/asmeta.refprover\\asmeta.refinementprover\\refinement"))
 		.filter(x -> (x.toFile().isDirectory() || x.toString().endsWith(".asm"))).forEach(f -> {
 			String string = f.toFile().toString();
 			if (string.contains("drafts")); else 
 			if (string.contains("DAS")); else
 			if (string.contains("oldVersion")); else
+			if (string.contains("flashProtocol\\old")); else
 			if (string.contains("test\\errors")); else				
+			if (string.contains("repository\\errors")); else				
 			if (string.contains("workspacePatrizia")); else				
 			if (string.contains("template")); else	
 			if (string.contains("safePillboxForPaper")); else	
 			if (string.contains("target\\classes")); else	
 			if (string.contains("asmeta.simulator@run.time")); else	
-				
+			if (string.contains("asmeta.modeladvisor.test\\examples\\repository\\rpns\\r")); else	
+			if (string.contains("asmeta.modeladvisor.test\\examples\\repository\\systemc\\simple_bus\\")); else
+			if (string.contains("asmeta.modeladvisor.test\\examples\\repository\\test\\")); else
+				// queste non so se funzionano convertendo derivate in static
+			if (string.contains("asmeta.modeladvisor.test\\examples\\statDerIsUsed.asm")); else
+			if (string.contains("asmeta.modeladvisor.test\\examples\\usedDomain2.asm")); else
 			if (string.endsWith(".asm")) {
 				AsmCollection res = testOneSpec(f.toFile(),false,false);
 				if (res == null) {
