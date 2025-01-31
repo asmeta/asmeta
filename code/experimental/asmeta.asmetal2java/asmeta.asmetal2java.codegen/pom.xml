@@ -1,0 +1,299 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>asmeta</groupId>
+	<artifactId>asmeta.asmetal2java.codegen</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	
+	<properties>
+    	<maven.compiler.source>17</maven.compiler.source>
+    	<maven.compiler.target>17</maven.compiler.target>
+    	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    
+   		<maven.assembly.version>3.7.1</maven.assembly.version>
+  </properties>
+	
+	<build>
+		<!-- source directory -->
+		<sourceDirectory>src</sourceDirectory>
+		<resources>
+			<!-- xtend generated java files -->
+			<resource>
+				<directory>xtend-gen</directory>
+				<includes>
+					<include>**/*.java</include>
+				</includes>
+			</resource>
+			<!-- additional resource files -->
+			<resource>
+                <directory>resources</directory>
+            </resource>
+		</resources>
+		<!-- test directory -->
+		<testSourceDirectory>test</testSourceDirectory>
+		
+		
+		<plugins>
+		
+			<!-- Maven compiler plugin -->
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.13.0</version>
+			</plugin>
+			
+			<!-- Maven Build helper -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>3.2.0</version>
+				<executions>
+					<execution>
+						<id>add-source</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>xtend-gen</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			
+			<!-- Maven surefire plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.5.2</version>
+                <configuration>
+                    <excludedGroups>org.asmeta.annotations.TestToMavenSkip</excludedGroups>
+                </configuration>
+            </plugin>
+			
+			<!-- Maven Assembly plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>${maven.assembly.version}</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<finalName>asmetal2java</finalName>
+							<appendAssemblyId>false</appendAssemblyId>
+							<outputDirectory>dist</outputDirectory>
+							<archive>
+								<manifest>
+									<mainClass>
+										asmeta.asmetal2java.codegen.main.Asmeta2JavaCLI
+									</mainClass>
+								</manifest>
+							</archive>
+							<descriptorRefs>
+								<descriptorRef>jar-with-dependencies</descriptorRef>
+							</descriptorRefs>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			
+			<!-- Javadoc plugin -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>3.11.1</version>
+				<configuration>
+					<outputDirectory>docs</outputDirectory>
+					<show>private</show>
+					<nohelp>true</nohelp>
+				</configuration>
+			</plugin>
+			
+		</plugins>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-collections4</artifactId>
+			<version>4.4</version>
+		</dependency>
+		<dependency>
+			<groupId>com.flipkart.utils</groupId>
+			<artifactId>javatuples</artifactId>
+			<version>3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.14.0</version>
+		</dependency>
+		
+		<!-- Apache commons cli -->
+		<dependency>
+		  <groupId>commons-cli</groupId>
+		  <artifactId>commons-cli</artifactId>
+		  <version>1.9.0</version>
+		</dependency>
+		
+		<!-- Log4j -->
+	    <dependency>
+	      <groupId>org.apache.logging.log4j</groupId>
+	      <artifactId>log4j-api</artifactId>
+	      <version>2.24.0</version>
+	    </dependency>
+	    <dependency>
+	      <groupId>org.apache.logging.log4j</groupId>
+	      <artifactId>log4j-core</artifactId>
+	      <version>2.24.0</version>
+	    </dependency>
+	    
+	    <!-- Jackson YAML -->
+	    <dependency>
+	      <groupId>com.fasterxml.jackson.dataformat</groupId>
+	      <artifactId>jackson-dataformat-yaml</artifactId>
+	      <version>2.18.2</version>
+	      <scope>runtime</scope>
+	    </dependency>
+		
+		<!-- Eclipse Plugin dependencies -->
+
+	    <!-- JUnit -->
+	    <dependency>
+	      <groupId>junit</groupId>
+	      <artifactId>junit</artifactId>
+	      <version>4.13.2</version>
+	    </dependency>
+	
+	    <!-- Google Guava -->
+	    <dependency>
+	      <groupId>com.google.guava</groupId>
+	      <artifactId>guava</artifactId>
+	      <version>33.2.0-jre</version>
+	    </dependency>
+	
+	    <!-- Google inject -->
+	    <dependency>
+	      <groupId>com.google.inject</groupId>
+	      <artifactId>guice</artifactId>
+	      <version>7.0.0</version>
+	    </dependency>
+	
+	    <!-- EMF Common : inherited from asmeta.emf
+	    <dependency>
+	      <groupId>org.eclipse.emf</groupId>
+	      <artifactId>org.eclipse.emf.common</artifactId>
+	      <version>2.27.0</version>
+	    </dependency> -->
+	
+	    <!-- EMF Ecore : inherited from asmeta.emf
+	    <dependency>
+	      <groupId>org.eclipse.emf</groupId>
+	      <artifactId>org.eclipse.emf.ecore</artifactId>
+	      <version>2.29.0</version>
+	    </dependency>-->
+	
+	    <!-- EMF MWE Utils : inherited from asmeta.emf
+	    <dependency>
+	      <groupId>org.eclipse.emf</groupId>
+	      <artifactId>org.eclipse.emf.mwe.utils</artifactId>
+	      <version>1.12.0</version>
+	    </dependency>-->
+	
+	    <!-- JDT Compiler APT -->
+	    <dependency>
+	      <groupId>org.eclipse.jdt</groupId>
+	      <artifactId>org.eclipse.jdt.compiler.apt</artifactId>
+	      <version>1.4.300</version>
+	    </dependency>
+	
+	    <!-- JDT Compiler Tool -->
+	    <dependency>
+	      <groupId>org.eclipse.jdt</groupId>
+	      <artifactId>org.eclipse.jdt.compiler.tool</artifactId>
+	      <version>1.3.200</version>
+	    </dependency>
+	
+	    <!-- Xtext -->
+	    <dependency>
+	      <groupId>org.eclipse.xtext</groupId>
+	      <artifactId>org.eclipse.xtext</artifactId>
+	      <version>2.35.0</version>
+	    </dependency>
+	
+	    <!-- Xtext JUnit4 -->
+	    <dependency>
+	      <groupId>org.eclipse.xtext</groupId>
+	      <artifactId>org.eclipse.xtext.junit4</artifactId>
+	      <version>2.10.0</version>
+	      <scope>test</scope>
+	    </dependency>
+	
+	    <!-- Xtext Xbase Lib -->
+	    <dependency>
+	      <groupId>org.eclipse.xtext</groupId>
+	      <artifactId>org.eclipse.xtext.xbase.lib</artifactId>
+	      <version>2.37.0</version>
+	    </dependency>
+	
+	    <!-- Hamcrest Core -->
+	    <dependency>
+	      <groupId>org.hamcrest</groupId>
+	      <artifactId>hamcrest-core</artifactId>
+	      <version>1.3</version>
+	      <scope>test</scope>
+	    </dependency>
+	
+	    <!-- OSGi Annotation Bundle -->
+	    <dependency>
+	      <groupId>org.osgi</groupId>
+	      <artifactId>org.osgi.annotation.bundle</artifactId>
+	      <version>2.0.0</version>
+	    </dependency>
+	
+	    <!-- OSGi Annotation Versioning -->
+	    <dependency>
+	      <groupId>org.osgi</groupId>
+	      <artifactId>org.osgi.annotation.versioning</artifactId>
+	      <version>1.1.2</version>
+	    </dependency>
+	
+	    <!-- OSGi Service Component Annotations -->
+	    <dependency>
+	      <groupId>org.osgi</groupId>
+	      <artifactId>org.osgi.service.component.annotations</artifactId>
+	      <version>1.5.0</version>
+	    </dependency>
+	
+	    <!-- OSGi Service Metatype Annotations -->
+	    <dependency>
+	      <groupId>org.osgi</groupId>
+	      <artifactId>org.osgi.service.metatype.annotations</artifactId>
+	      <version>1.4.1</version>
+	    </dependency>
+	    
+	    <!-- ASMETA dependencies -->
+		<dependency>
+			<groupId>asmeta</groupId>
+			<artifactId>asmeta.emf</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>asmeta</groupId>
+			<artifactId>asmeta.parser</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>asmeta</groupId>
+			<artifactId>asmeta.simulator</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+	</dependencies>
+	
+</project>

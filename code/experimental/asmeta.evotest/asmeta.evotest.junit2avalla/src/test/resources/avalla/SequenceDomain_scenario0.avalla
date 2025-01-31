@@ -1,0 +1,41 @@
+scenario SequenceDomain_scenario0
+
+load SequenceDomain.asm
+
+check seqAbstractControlledFunction = [value1, value2];
+check seqEnumControlledFunction = [STATE1, STATE2];
+check seqStringControlledFunction = [Hello,  , world, !];
+check seqBooleanControlledFunction = [true, false];
+check seqIntegerControlledFunction = [2, 2];
+check seqRealControlledFunction = [5.5, 2.2, 7.6];
+check seqCharControlledFunction = [a, b, c];
+
+step
+
+check seqAbstractControlledFunction = [value1, value2];
+check seqEnumControlledFunction = [STATE1, STATE2];
+check seqStringControlledFunction = [Hello,  , world, !];
+check seqBooleanControlledFunction = [true, false];
+check seqIntegerControlledFunction = [2, 2];
+check seqRealControlledFunction = [5.5, 2.2, 7.6];
+check seqCharControlledFunction = [a, b, c];
+
+step
+
+set seqIntegerMonitoredFunction := [1,2,3];
+set seqStringMonitoredFunction := [Hello,world!];
+set seqBooleanMonitoredFunction := [true, false];
+set seqRealMonitoredFunction := [1.1, 2.2, 3.3];
+set seqCharMonitoredFunction := [a,e,i,o,u];
+set seqEnumMonitoredFunction := [STATE1,STATE2];
+set seqAbstractMonitoredFunction := [value1,value2];
+
+step
+
+set seqIntegerMonitoredFunction := [1,2,3];
+set seqStringMonitoredFunction := [Hello,world!];
+set seqBooleanMonitoredFunction := [true, false];
+set seqRealMonitoredFunction := [1.1, 2.2, 3.3];
+set seqCharMonitoredFunction := [a,e,i,o,u];
+set seqEnumMonitoredFunction := [STATE1,STATE2];
+set seqAbstractMonitoredFunction := [value1,value2];
