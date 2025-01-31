@@ -10,6 +10,7 @@ import asmeta.structure.Asm
 import asmeta.asmetal2java.codegen.translator.TermToJava
 import asmeta.asmetal2java.codegen.translator.DomainToJavaString
 import asmeta.definitions.domains.SequenceDomain
+import asmeta.asmetal2java.codegen.config.TranslatorOptions
 
 /**
  * Contains all the methods to control the translated java class as 
@@ -29,7 +30,7 @@ class AsmMethods {
 	 * 
 	 * @param asm the Asm specification
 	 */
-	static def controlledGetter(Asm asm) {
+	static def controlledGetter(Asm asm, TranslatorOptions translatorOptions) {
 
 		val sb = new StringBuffer;
 
@@ -121,8 +122,8 @@ class AsmMethods {
 							}
 						''');
 					} else {
-						// If it's a not supported domain, skip
-						println("Domain not supported: " + fd.codomain.name)
+						// Codomain not supported
+						manageNotSupportedDomain(translatorOptions, fd.codomain.name)
 					}
 				} else { // getter for the Domain -> Codomain functions
 				// add the marker _fromDomain_<domainName> to the getter name
@@ -179,8 +180,8 @@ class AsmMethods {
 												System.lineSeparator)
 										sb.append("\t").append('''}''');
 									} else {
-										// If it's a not supported domain, skip
-										println("Domain not supported: " + fd.codomain.name)
+										// Codomain not supported
+										manageNotSupportedDomain(translatorOptions, fd.codomain.name)
 									}
 									sb.append(System.lineSeparator)
 								}
@@ -239,8 +240,8 @@ class AsmMethods {
 														System.lineSeparator)
 												sb.append("\t").append('''}''');
 											} else {
-												// If it's a not supported domain, skip
-												println("Domain not supported: " + fd.codomain.name)
+												// Codomain not supported
+												manageNotSupportedDomain(translatorOptions, fd.codomain.name)
 											}
 											sb.append(System.lineSeparator)
 										}
@@ -316,16 +317,16 @@ class AsmMethods {
 														append(System.lineSeparator)
 													sb.append("\t").append('''}''');
 												} else {
-													// If it's a not supported domain, skip
-													println("Domain not supported: " + fd.codomain.name)
+													// Codomain not supported
+													manageNotSupportedDomain(translatorOptions, fd.codomain.name)
 												}
 											}
 										}
 									}
 								}
 							} else {
-								// If it's a not supported domain, skip
-								println("Domain not supported: " + fd.codomain.name)
+								// Domain not supported
+								manageNotSupportedDomain(translatorOptions, fd.domain.name)
 							}
 						}
 					}
@@ -342,7 +343,7 @@ class AsmMethods {
 	 * 
 	 * @param asm the Asm specification
 	 */
-	static def monitoredSetters(Asm asm) {
+	static def monitoredSetters(Asm asm, TranslatorOptions translatorOptions) {
 		val sb = new StringBuffer;
 		for (fd : asm.headerSection.signature.function) {
 			if (fd instanceof MonitoredFunction) {
@@ -414,8 +415,8 @@ class AsmMethods {
 							System.out.println("Set «fd.name» = " + «fd.name»);
 						}''')
 					} else {
-						// If it's a not supported domain, skip
-						println("Domain not supported: " + fd.codomain.name)
+						// Codomain not supported
+						manageNotSupportedDomain(translatorOptions, fd.codomain.name)
 					}
 				} else { // (Enum|Abstract|ConcreteDomain) -> (Integer|String|Boolean|ConcreteDomain|Enum|Abstract)
 				// add the marker _fromDomain_ to the setter name
@@ -463,8 +464,8 @@ class AsmMethods {
 									System.out.println("Set «fd.name»_«symbol» = " + «fd.name»_«symbol»);
 								}''');
 							} else {
-								// If it's a not supported domain, skip
-								println("Domain not supported: " + fd.codomain.name)
+								// Codomain not supported
+								manageNotSupportedDomain(translatorOptions, fd.codomain.name)
 							}
 						}
 					} else if (fd.domain instanceof AbstractTd) { // Abstract -> ...
@@ -516,8 +517,8 @@ class AsmMethods {
 											System.out.println("Set «fd.name»_«symbol» = " + «fd.name»_«symbol»);
 										}''')
 									} else {
-										// If it's a not supported domain, skip
-										println("Domain not supported: " + fd.codomain.name)
+										// Codomain not supported
+										manageNotSupportedDomain(translatorOptions, fd.codomain.name)
 									}
 								}
 							}
@@ -577,7 +578,8 @@ class AsmMethods {
 											}''')
 										} else if (fd.codomain.name.equals(INTEGER) ||
 											fd.codomain.name.equals(BOOLEAN) || fd.codomain.name.equals(STRING) ||
-											fd.codomain.name.equals(REAL) || fd.codomain.name.equals(CHAR)) { // ConcreteDomain -> (Integer|String|Boolean|Real|Char)
+											fd.codomain.name.equals(REAL) || fd.codomain.name.equals(CHAR)) {
+											// ConcreteDomain -> (Integer|String|Boolean|Real|Char)
 											var type = AsmMethodsUtil.getBasicTdType(fd.codomain.name)
 											sb.append('''
 											public void set_«fd.name»_fromDomain_«elem»(«type» «fd.name»_«elem») {
@@ -586,19 +588,38 @@ class AsmMethods {
 												System.out.println("Set «fd.name»_«elem» = " + «fd.name»_«elem»);
 											}''')
 										} else {
-											// If it's a not supported domain, skip
-											println("Domain not supported: " + fd.codomain.name)
+											// Codomain not supported
+											manageNotSupportedDomain(translatorOptions, fd.codomain.name)
 										}
 									}
 								}
 							}
 						}
+					} else {
+						// Domain not supported
+						manageNotSupportedDomain(translatorOptions, fd.domain.name)
 					}
 				}
 			}
 		}
 		sb.append(System.lineSeparator)
 		return sb.toString
+	}
+
+	/**
+	 * Handles the case of an unrecognized domain,
+	 * if the ignoreDomainException option is active it prints the error,
+	 * otherwise it throws an exception and blocks the program flow.
+	 * 
+	 * @param translatorOptions translator options
+	 * @param domainName name of the unsupported domain
+	 */
+	static private def manageNotSupportedDomain(TranslatorOptions translatorOptions, String domainName) {
+		if (translatorOptions.ignoreDomainException) {
+			print("ERROR! domain not supported: " + domainName + "\n")
+		} else {
+			throw new DomainNotSupportedException("The Domain " + domainName + " is not supported by the ATG class.");
+		}
 	}
 
 }

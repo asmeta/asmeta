@@ -94,6 +94,8 @@ public class GeneratorCompilerEvosuiteTest {
 		// set the options for the test generation mode
 		options.setValue(TranslatorOptionsImpl.COVER_RULES_OPTION, true);
 		options.setValue(TranslatorOptionsImpl.COVER_OUTPUTS_OPTION, true);
+		// ignore the exception for unsupported domains
+		options.setValue(TranslatorOptionsImpl.IGNORE_NOT_SUPPORTED_DOMAIN_EXCEPTION, true);
 	}
 
 	@Test

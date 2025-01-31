@@ -162,13 +162,13 @@ class JavaAtgGenerator extends AsmToJavaGenerator {
 		sb.append(System.lineSeparator)
 		sb.append("\t\t").append('''// Controlled getters''');
 		sb.append(System.lineSeparator)
-		sb.append(AsmMethods.controlledGetter(asm));
+		sb.append(AsmMethods.controlledGetter(asm, options));
 		
 		// Monitored public setters (to set the values)
 		sb.append(System.lineSeparator)
 		sb.append("\t\t").append('''// Monitored setters''');
 		sb.append(System.lineSeparator)
-		sb.append(AsmMethods.monitoredSetters(asm));
+		sb.append(AsmMethods.monitoredSetters(asm, options));
 		
 		sb.append(System.lineSeparator)
 		sb.append('''}''')

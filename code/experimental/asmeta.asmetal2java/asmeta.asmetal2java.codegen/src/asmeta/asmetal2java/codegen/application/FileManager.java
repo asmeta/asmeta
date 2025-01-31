@@ -28,6 +28,7 @@ import asmeta.asmetal2java.codegen.compiler.CompilerImpl;
 import asmeta.asmetal2java.codegen.config.Mode;
 import asmeta.asmetal2java.codegen.config.ModeConstantsConfig;
 import asmeta.asmetal2java.codegen.config.TranslatorOptions;
+import asmeta.asmetal2java.codegen.evosuite.DomainNotSupportedException;
 import asmeta.asmetal2java.codegen.generator.Generators;
 
 /**
@@ -179,8 +180,9 @@ public class FileManager {
 	 * @param mode        the mode for the translation process.
 	 * @return the generated file.
 	 * @throws IOException if an I/O error occurs during file generation.
+	 * @throws DomainNotSupportedException if a domain is not supported by the Atg generator.
 	 */
-	File generateFile(String name, AsmCollection model, TranslatorOptions userOptions, Mode mode) throws IOException {
+	File generateFile(String name, AsmCollection model, TranslatorOptions userOptions, Mode mode) throws IOException, DomainNotSupportedException {
 
 		File javaFile = null;
 		AsmToJavaGenerator javaGenerator = null;
@@ -241,9 +243,10 @@ public class FileManager {
 	 * @param javaFile           the java file to generate.
 	 * @param asmToJavaGenerator instance of the generator to use.
 	 * @throws IOException if an I/O error occurs.
+	 * @throws DomainNotSupportedException if a domain is not supported by the Atg generator.
 	 */
 	private void generate(AsmCollection model, TranslatorOptions userOptions, File javaFile,
-			AsmToJavaGenerator asmToJavaGenerator) throws IOException {
+			AsmToJavaGenerator asmToJavaGenerator) throws IOException, DomainNotSupportedException {
 		logger.info("Generating {}.", javaFile);
 		asmToJavaGenerator.compileAndWrite(model.getMain(), javaFile.getCanonicalPath(), JAVA, userOptions);
 	}
