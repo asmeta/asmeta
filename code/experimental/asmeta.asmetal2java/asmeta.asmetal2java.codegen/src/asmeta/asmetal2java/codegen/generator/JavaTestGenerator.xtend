@@ -148,7 +148,9 @@ class JavaTestGenerator extends JavaGenerator {
 	}
 
 	override String ruleTranslationDef(RuleDeclaration r, String methodName, Asm asm) { 
-		var rule = new JavaRule(methodName)
+		var rule = new JavaRule()
+		// add the rule to the rules Map and get the rule name
+		rule.name = rules.addRule(methodName, rule)
 		var sb = new StringBuffer();
 		if (r.arity == 0){
 			sb.append('''
@@ -171,11 +173,8 @@ class JavaTestGenerator extends JavaGenerator {
 		// initialize the branches flag
 		var flagInit = coverBranchesFlagInit(rule);
 		
-		// add the flag initialization to the top
+		// add the boolean flag initialization before the method declaration
 		sb.insert(0, flagInit)
-		
-		// add the Rule to the rules Map
-		rules.addRule(rule.getName(), rule)
 		
 		return sb.toString;
 		

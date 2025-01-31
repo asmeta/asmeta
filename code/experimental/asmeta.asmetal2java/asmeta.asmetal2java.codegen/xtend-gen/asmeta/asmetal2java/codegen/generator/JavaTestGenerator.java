@@ -308,7 +308,8 @@ public class JavaTestGenerator extends JavaGenerator {
 
   @Override
   public String ruleTranslationDef(final RuleDeclaration r, final String methodName, final Asm asm) {
-    JavaRule rule = new JavaRule(methodName);
+    JavaRule rule = new JavaRule();
+    rule.setName(this.rules.addRule(methodName, rule));
     StringBuffer sb = new StringBuffer();
     Integer _arity = r.getArity();
     boolean _equals = ((_arity).intValue() == 0);
@@ -357,7 +358,6 @@ public class JavaTestGenerator extends JavaGenerator {
     }
     String flagInit = this.coverBranchesFlagInit(rule);
     sb.insert(0, flagInit);
-    this.rules.addRule(rule.getName(), rule);
     return sb.toString();
   }
 
