@@ -36,6 +36,8 @@ public class JavaTestGeneratorTest {
 	@Before
 	public void setup() {
 		GeneratorCompilerUtil.setupFolders(GeneratorCompilerUtil.dirExamples);
+		// ignore the exception for unsupported domains
+		options.setValue(TranslatorOptionsImpl.IGNORE_NOT_SUPPORTED_DOMAIN_EXCEPTION, true);
 	}
 	
 	@Test
