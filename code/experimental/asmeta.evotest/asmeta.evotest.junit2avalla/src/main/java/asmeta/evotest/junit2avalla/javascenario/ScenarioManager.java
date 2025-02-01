@@ -130,7 +130,7 @@ class ScenarioManager {
 	 */
 	private String retrieveActual(JavaAssertionTerm javaAssertionTerm) {
 		String actual = javaAssertionTerm.getActual();
-		if (actual.contains("abstract_")){
+		if (actual.contains("abstract_")) {
 			// if it's an abstract type remove the double quotes and the abstract_ flag
 			actual = actual.replace("\"", "");
 			actual = actual.replace("abstract_", "");
@@ -148,7 +148,8 @@ class ScenarioManager {
 	 * @return the processed expected value.
 	 */
 	private String retrieveExpected(String expected) {
-		return expected.contains(".get_") ? expected.substring(expected.lastIndexOf(".get_") + 5).replace("()", "") : expected;
+		return expected.contains(".get_") ? expected.substring(expected.lastIndexOf(".get_") + 5).replace("()", "")
+				: expected;
 	}
 
 	/**

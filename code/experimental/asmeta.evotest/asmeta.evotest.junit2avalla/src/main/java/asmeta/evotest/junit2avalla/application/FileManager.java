@@ -17,7 +17,6 @@ import asmeta.evotest.junit2avalla.avallascenario.ScenarioListMapperImpl;
 import asmeta.evotest.junit2avalla.filewriter.FileWriter;
 import asmeta.evotest.junit2avalla.filewriter.FileWriterImpl;
 import asmeta.evotest.junit2avalla.javascenario.ScenarioReader;
-import asmeta.evotest.junit2avalla.javascenario.ScenarioReaderImpl;
 import asmeta.evotest.junit2avalla.model.Scenario;
 import asmeta.evotest.junit2avalla.model.ScenarioFile;
 
@@ -117,12 +116,12 @@ public class FileManager {
 	 * Run the application.
 	 *
 	 * @param inputPath path to the input file.
+	 * @param scenarioReader instance of scenarioReader to parse the JUnit file.
 	 * @throws IOException if an I/O error occurs.
 	 */
-	void runTheApplication(Path inputPath) throws IOException {
+	void runTheApplication(Path inputPath, ScenarioReader scenarioReader) throws IOException {
 
 		logger.info("Processing JavaScenario...");
-		ScenarioReader scenarioReader = new ScenarioReaderImpl();
 		List<Scenario> scenarioList = scenarioReader.readJavaScenario(inputPath);
 
 		logger.info("Mapping Scenario Files...");

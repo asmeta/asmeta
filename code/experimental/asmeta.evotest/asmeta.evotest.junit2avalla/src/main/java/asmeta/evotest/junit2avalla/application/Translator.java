@@ -31,6 +31,14 @@ public interface Translator {
     void setOutput(String outputDir) throws SetupException;
     
     /**
+     * Sets the desired parser (javaParser or custom).
+     * 
+     * @param parser parser to use.
+     * @throws SetupException if an error occurs during the setup process.
+     */
+    void setParser(String parser) throws SetupException;
+    
+    /**
      * Executes the translation process.
      *
      * @throws SetupException if an error occurs during the setup process.

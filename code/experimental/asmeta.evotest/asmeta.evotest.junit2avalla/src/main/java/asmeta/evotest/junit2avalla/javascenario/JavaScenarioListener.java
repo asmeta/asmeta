@@ -65,7 +65,7 @@ public class JavaScenarioListener extends JavaScenarioBaseListener {
 	private Map<String, String> getterMap;
 
 	/**
-	 * The Scenario Manager interface to manage and transform scenario terms.
+	 * The Scenario Manager manages and transforms scenario terms.
 	 */
 	private final ScenarioManager scenarioManager;
 

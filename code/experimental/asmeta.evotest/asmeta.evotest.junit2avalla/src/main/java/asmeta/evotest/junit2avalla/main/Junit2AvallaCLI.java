@@ -19,6 +19,7 @@ import asmeta.evotest.junit2avalla.application.SetupException;
 import asmeta.evotest.junit2avalla.application.TranslationException;
 import asmeta.evotest.junit2avalla.application.Translator;
 import asmeta.evotest.junit2avalla.application.TranslatorImpl;
+import asmeta.evotest.junit2avalla.javascenario.ParserType;
 
 /**
  * This is the main class of the application which serves as the entry point.
@@ -30,6 +31,7 @@ public class Junit2AvallaCLI {
 	public static final String OUTPUT = "output";
 	public static final String WORKING_DIR = "workingDir";
 	public static final String CLEAN = "clean";
+	public static final String PARSER = "parser";
 	public static final String HELP = "help";
 	private static final String DEBUG_LOG = "debug.log";
 	private static final String LOGS = "logs";
@@ -103,7 +105,7 @@ public class Junit2AvallaCLI {
 		String header = "Junit2Avalla\n\n";
 		String footer = "\n";
 		try {
-			if (line == null || line.hasOption(HELP) || line.getOptions().length == 0) {	
+			if (line == null || line.hasOption(HELP) || line.getOptions().length == 0) {
 				formatter.printHelp("Junit2Avalla", header, options, footer, false);
 			} else if (!line.hasOption(INPUT)) {
 				logger.error("Please specify the asm input file path with -{} <path/to/file.asm>.", INPUT);
@@ -127,14 +129,14 @@ public class Junit2AvallaCLI {
 			logger.error(GENERATION_FAILED);
 			logger.error("An error occurred: {}", e.getMessage(), e);
 			updateReturnCode(1); // error code
-		}  finally {
+		} finally {
 			if (line != null && line.hasOption(CLEAN)) {
 				translator.clean();
 			}
 			logger.info("Requested operation completed.");
 		}
 	}
-	
+
 	/**
 	 * Update the static field returnCode from a non-static method.
 	 * 
@@ -167,6 +169,10 @@ public class Junit2AvallaCLI {
 		Option output = Option.builder(OUTPUT).argName(OUTPUT).type(String.class).hasArg(true)
 				.desc("The output folder (optional, defaults to `./output/`)").build();
 
+		// parser
+		Option parser = Option.builder(PARSER).argName(PARSER).type(String.class).hasArg(true)
+				.desc(ParserType.getDescrition() + " (optional, defaults to customParser)").build();
+
 		// clean option
 		Option clean = Option.builder(CLEAN).hasArg(false).desc("Clean the input and the stepFunctionArgs files.")
 				.build();
@@ -175,6 +181,7 @@ public class Junit2AvallaCLI {
 		options.addOption(workingDir);
 		options.addOption(input);
 		options.addOption(output);
+		options.addOption(parser);
 		options.addOption(clean);
 
 		return options;
@@ -219,11 +226,15 @@ public class Junit2AvallaCLI {
 		if (line.hasOption(OUTPUT)) {
 			translator.setOutput(line.getOptionValue(OUTPUT));
 		}
+		
+		if(line.hasOption(PARSER)) {
+			translator.setParser(line.getOptionValue(PARSER));
+		}
 
 		translator.generate();
 
 	}
-	
+
 	/**
 	 * Set the logger properties by Main Argument Lookup:
 	 * <p>
