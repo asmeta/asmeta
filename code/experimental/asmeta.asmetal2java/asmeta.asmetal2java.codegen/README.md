@@ -120,6 +120,7 @@ This section covers all available command-line options for the application and h
  | `-DtestGen` 				| boolean  			| whether to  generate a specific java class designed for test generation with Evosuite. 											|
  | `-DcoverOutputs` 		| boolean  			| whether to  cover the outputs in the testGen class. 																				|
  | `-DcoverRules` 			| boolean			| whether to cover the rules in the testGen class. 																					|
+ | `-DignoreDomainException`| boolean			| whether to ignore exceptions due to domain not supported in the ATG class.														|
  | `-Dexport` 				| boolean 			| export the generated file into the output folder. 																				|
 
  > **Note:** Please use translator, compiler, generateExe, generateWin and testGen options only if you have selected the -mode custom option.

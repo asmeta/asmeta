@@ -91,6 +91,8 @@ final class TranslatorConstants {
 	static final String JUNIT2AVALLA_OUTPUT = DASH + Junit2AvallaCLI.OUTPUT;
 
 	static final String JUNIT2AVALLA_INPUT = DASH + Junit2AvallaCLI.INPUT;
+	
+	static final String JUNIT2AVALLA_PARSER = DASH + Junit2AvallaCLI.PARSER;
 
 	static final String CLEAN = "-clean";
 

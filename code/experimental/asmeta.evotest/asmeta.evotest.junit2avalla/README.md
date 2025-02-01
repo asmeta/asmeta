@@ -45,14 +45,16 @@ and follow these steps:
     - `-input` : The ASM input file (required).
 
     - `-output` : The output folder (optional, defaults to `./output/`).
+    
+    - `-parser` : Select the desired parser to parse the JUnit file. (optional, defaults to `customParser`)
 
     - `-clean` : Delete the files used by the translator in the input folder.
-      
+    
     - `-help` : Displays a help message describing all available options.
 
 6. Example of a use case:
    ```shell
-   java -jar .\dist\junit2avalla.jar -input "input/RegistroDiCassav4_ATG_ESTest.java" -clean
+   java -jar .\dist\junit2avalla.jar -input "input/RegistroDiCassav4_ATG_ESTest.java" -parser customParser -clean 
    ```
 
 ### Using Docker
@@ -86,13 +88,14 @@ After building the project, you can use it with the following command-line optio
 
 ### Command-Line Options
 
-| Option             | Argument Type     | Description                                                                 |
-|--------------------|-------------------|-----------------------------------------------------------------------------|
-| `-help`            | None 			 | Prints the help message with a description of available options.            |
-| `-workingDir`	     | String			 | Specifies the custom working directory path. Defaults to `./input`.		   |
-| `-input`           | String (required) | Path to the Java input file.                                                |
-| `-output`          | String  			 | Specifies the output folder. Defaults to `./output/`.                       |
-| `-clean`           | None				 | Cleans the input and stepFunctionArgs files after the process.              |
+| Option             | Argument Type     | Description                                                                 	|
+|--------------------|-------------------|------------------------------------------------------------------------------|
+| `-help`            | None 			 | Prints the help message with a description of available options.            	|
+| `-workingDir`	     | String			 | Specifies the custom working directory path. Defaults to `./input`.		   	|
+| `-input`           | String (required) | Path to the Java input file.                                                	|
+| `-output`          | String  			 | Specifies the output folder. Defaults to `./output/`.                       	|
+| `-clean`           | None				 | Cleans the input and stepFunctionArgs files after the process.              	|
+| `-parser`          | String			 | Select the desired parser to parse the JUnit file. Defaults to `customParser`|
 
 ## Developer guide
  

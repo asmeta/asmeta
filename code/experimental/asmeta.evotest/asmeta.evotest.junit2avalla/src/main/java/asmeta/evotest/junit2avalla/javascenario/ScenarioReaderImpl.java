@@ -41,29 +41,19 @@ public class ScenarioReaderImpl implements ScenarioReader {
 		this.parserType = ParserType.fromValue(type);
 	}
 
-	/**
-	 * Reads a java scenario from the file at the specified {@code path} and parses
-	 * its content to retrieve a list of {@link Scenario} objects.
-	 *
-	 * @param path the {@link Path} to the file containing the scenario
-	 * @return a list of {@link Scenario} objects parsed from the file, or an empty
-	 *         list if an error occurs
-	 */
 	@Override
-	public List<Scenario> readJavaScenario(Path path) {
+	public List<Scenario> readJavaScenario(Path path) throws IOException {
 		log.info("Reading the Scenario File at the path {}", path);
+		// read the JUnit file
 		String javaFile = null;
-		try {
-			byte[] fileBytes = Files.readAllBytes(path);
-			javaFile = new String(fileBytes, StandardCharsets.UTF_8);
-			log.debug("Content red: {} ", javaFile);
-		} catch (IOException e) {
-			log.error("An exception occurred while reading the file: {}", e.getMessage(), e);
-		}
+		byte[] fileBytes = Files.readAllBytes(path);
+		javaFile = new String(fileBytes, StandardCharsets.UTF_8);
+		log.debug("Content red: {} ", javaFile);
+		// parse the JUnit file
 		List<Scenario> javaScenarios = null;
 		switch (parserType) {
 		case CUSTOM_PARSER:
-			javaScenarios = readJavaScenarioUsingCustomParser(javaFile);
+			javaScenarios = parseJavaScenarioUsingCustomParser(javaFile);
 			break;
 		case JAVA_PARSER:
 			log.error("NOT SUPPORTED YET.");
@@ -73,11 +63,12 @@ public class ScenarioReaderImpl implements ScenarioReader {
 	}
 
 	/**
+	 * Parse the JUnit file using the custom parser.
 	 * 
-	 * @param javaFile
-	 * @return
+	 * @param javaFile string containing the JUnit file to parse.
+	 * @return list of Scenario Objects.
 	 */
-	private List<Scenario> readJavaScenarioUsingCustomParser(String javaFile) {
+	private List<Scenario> parseJavaScenarioUsingCustomParser(String javaFile) {
 		log.info("Parsing the JUnit file using the custom parser.");
 		JavaScenarioLexer javaScenarioLexer = new JavaScenarioLexer(CharStreams.fromString(javaFile));
 		CommonTokenStream tokens = new CommonTokenStream(javaScenarioLexer);

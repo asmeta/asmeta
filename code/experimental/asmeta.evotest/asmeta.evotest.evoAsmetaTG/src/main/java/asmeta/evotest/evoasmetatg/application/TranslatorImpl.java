@@ -16,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 import asmeta.asmetal2java.codegen.main.Asmeta2JavaCLI;
 import asmeta.evotest.evoasmetatg.config.Options;
 import asmeta.evotest.evoasmetatg.config.OptionsImpl;
+import asmeta.evotest.junit2avalla.javascenario.ParserType;
 import asmeta.evotest.junit2avalla.main.Junit2AvallaCLI;
 
 /**
@@ -50,6 +51,9 @@ public class TranslatorImpl implements Translator {
 
 	/** File manager instance for handling file operations. */
 	private FileManager fileManager;
+	
+	/** Parser type of the service junit2avalla */
+	private ParserType parserType = ParserType.CUSTOM_PARSER;
 
 	/**
 	 * No args constructor. Create a new instance of Options, FileManager and
@@ -173,6 +177,16 @@ public class TranslatorImpl implements Translator {
 		}
 		logger.info("Setting the timeBudget for Evosuite: {}.", timeBudget);
 		this.searchBudget = timeBudget;
+	}
+	
+	@Override
+	public void setParserType(String optionValue) throws SetupException {
+		try {
+			this.parserType = ParserType.fromValue(optionValue);
+		} catch (IllegalArgumentException e) {
+			logger.error("Failed to set the parser type");
+			throw new SetupException("Unable to set the parser type", e);
+		}
 	}
 
 	@Override
@@ -337,7 +351,7 @@ public class TranslatorImpl implements Translator {
 
 		listOfOptions.addAll(List.of(TranslatorConstants.JUNIT2AVALLA_WORKING_DIR, junit2AvallaWorkingDir,
 				TranslatorConstants.JUNIT2AVALLA_INPUT, junitInputFile, TranslatorConstants.JUNIT2AVALLA_OUTPUT,
-				fileManager.getOutputFolderToString()));
+				fileManager.getOutputFolderToString(), TranslatorConstants.JUNIT2AVALLA_PARSER, this.parserType.getType()));
 
 		if (clean) {
 			listOfOptions.add(TranslatorConstants.CLEAN);

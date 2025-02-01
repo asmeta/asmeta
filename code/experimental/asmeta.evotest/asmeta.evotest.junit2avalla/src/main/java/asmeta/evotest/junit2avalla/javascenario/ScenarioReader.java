@@ -1,5 +1,6 @@
 package asmeta.evotest.junit2avalla.javascenario;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 
@@ -26,7 +27,8 @@ public interface ScenarioReader {
 	 * @param path the {@link Path} to the file containing the scenario
 	 * @return a list of {@link Scenario} objects parsed from the file, or an empty
 	 *         list if an error occurs
+	 * @throws IOException if an I/O error occurs.
 	 */
-	public List<Scenario> readJavaScenario(Path path);
+	public List<Scenario> readJavaScenario(Path path) throws IOException;
 
 }
