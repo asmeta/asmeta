@@ -35,7 +35,7 @@ public class JavaScenarioListenerTest {
 	private static final CommonTokenStream tokens = new CommonTokenStream(javaScenarioLexer);
 	private static final JavaScenarioParser javaScenarioParser = new JavaScenarioParser(tokens);
 	private static final ParseTreeWalker walker = new ParseTreeWalker();
-	private static final JavaScenarioListener javaScenarioWalker = new JavaScenarioListener();
+	private static final CustomParserListener javaScenarioWalker = new CustomParserListener();
 	private static List<Scenario> scenarioList;
 
 	/**

@@ -25,10 +25,11 @@ public interface ScenarioReader {
 	 * its content to retrieve a list of {@link Scenario} objects.
 	 *
 	 * @param path the {@link Path} to the file containing the scenario
-	 * @return a list of {@link Scenario} objects parsed from the file, or an empty
-	 *         list if an error occurs
-	 * @throws IOException if an I/O error occurs.
+	 * @return a list of {@link Scenario} objects parsed from the file (not null and
+	 *         not empty)
+	 * @throws IOException         if an I/O error occurs.
+	 * @throws JUnitParseException if an error occurs during the parsing process.
 	 */
-	public List<Scenario> readJavaScenario(Path path) throws IOException;
+	public List<Scenario> readJavaScenario(Path path) throws IOException, JUnitParseException;
 
 }

@@ -1,5 +1,5 @@
 /**
- * This package provides the implementation of the {@link JavaScenarioListener},
+ * This package provides the implementation of the {@link CustomParserListener},
  * a crucial component for parsing JUnit scenarios using the grammar defined in
  * the {@code antlr} package. The listener is designed to process JUnit
  * scenarios creating immediately Avalla terms objects that are added to the

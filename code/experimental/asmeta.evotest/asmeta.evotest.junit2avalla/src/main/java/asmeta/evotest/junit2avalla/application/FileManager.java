@@ -16,6 +16,7 @@ import asmeta.evotest.junit2avalla.avallascenario.ScenarioListMapper;
 import asmeta.evotest.junit2avalla.avallascenario.ScenarioListMapperImpl;
 import asmeta.evotest.junit2avalla.filewriter.FileWriter;
 import asmeta.evotest.junit2avalla.filewriter.FileWriterImpl;
+import asmeta.evotest.junit2avalla.javascenario.JUnitParseException;
 import asmeta.evotest.junit2avalla.javascenario.ScenarioReader;
 import asmeta.evotest.junit2avalla.model.Scenario;
 import asmeta.evotest.junit2avalla.model.ScenarioFile;
@@ -118,11 +119,18 @@ public class FileManager {
 	 * @param inputPath path to the input file.
 	 * @param scenarioReader instance of scenarioReader to parse the JUnit file.
 	 * @throws IOException if an I/O error occurs.
+	 * @throws JUnitParseException if an error occurs during the parsing process.
 	 */
-	void runTheApplication(Path inputPath, ScenarioReader scenarioReader) throws IOException {
+	void runTheApplication(Path inputPath, ScenarioReader scenarioReader) throws IOException, JUnitParseException {
 
 		logger.info("Processing JavaScenario...");
-		List<Scenario> scenarioList = scenarioReader.readJavaScenario(inputPath);
+		List<Scenario> scenarioList;
+		try {
+			scenarioList = scenarioReader.readJavaScenario(inputPath);
+		} catch (Exception e) {
+			logger.error("Failed to parse the JUnit file: {}.", inputPath.getFileName());
+			throw new JUnitParseException("Unable to parse the JUnit file: " + inputPath.getFileName(), e);
+		}
 
 		logger.info("Mapping Scenario Files...");
 		ScenarioListMapper scenarioListMapper = new ScenarioListMapperImpl();

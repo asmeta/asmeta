@@ -19,6 +19,7 @@ import asmeta.evotest.junit2avalla.application.SetupException;
 import asmeta.evotest.junit2avalla.application.TranslationException;
 import asmeta.evotest.junit2avalla.application.Translator;
 import asmeta.evotest.junit2avalla.application.TranslatorImpl;
+import asmeta.evotest.junit2avalla.javascenario.JUnitParseException;
 import asmeta.evotest.junit2avalla.javascenario.ParserType;
 
 /**
@@ -50,7 +51,8 @@ public class Junit2AvallaCLI {
 	 * 0: The application terminated without errors.<br>
 	 * 1: The application terminated with errors. 2: The application terminated with
 	 * errors related to the setup process. 3: The application terminated with
-	 * errors related to the translation process.
+	 * errors related to the translation process. 4: The application terminated with
+	 * errors related to the parsing process.
 	 */
 	private static int returnCode = -1;
 
@@ -62,7 +64,8 @@ public class Junit2AvallaCLI {
 	 *         1: The application terminated with errors. 2: The application
 	 *         terminated with errors related to the setup process. 3: The
 	 *         application terminated with errors related to the translation
-	 *         process.
+	 *         process. 4: The application terminated with errors related to the
+	 *         parsing process.
 	 */
 	public static int getReturnedCode() {
 		return returnCode;
@@ -120,6 +123,11 @@ public class Junit2AvallaCLI {
 			logger.warn("Please check the parameters provided and consult the help message with -help:");
 			formatter.printHelp("Junit2Avalla", header, options, footer, false);
 			updateReturnCode(2); // setup error code
+		} catch (JUnitParseException e) {
+			logger.error(GENERATION_FAILED);
+			logger.error("A parse error occurred: {}", e.getMessage(), e);
+			logger.info("Please report an isssue to the Asmeta team: https://github.com/asmeta/asmeta");
+			updateReturnCode(4); // parse error code
 		} catch (TranslationException e) {
 			logger.error(GENERATION_FAILED);
 			logger.error("A translation error occurred: {}", e.getMessage(), e);
@@ -212,8 +220,9 @@ public class Junit2AvallaCLI {
 	 * @throws SetupException       if there are errors during the setup process.
 	 * @throws TranslationException if there was an error during the generation
 	 *                              process.
+	 * @throws JUnitParseException  if an error occurs during the parsing process.
 	 */
-	private void executeTranslation(CommandLine line) throws SetupException, TranslationException {
+	private void executeTranslation(CommandLine line) throws SetupException, TranslationException, JUnitParseException {
 
 		if (line.hasOption(WORKING_DIR)) {
 			translator.setWorkingDir(line.getOptionValue(WORKING_DIR));
@@ -226,8 +235,8 @@ public class Junit2AvallaCLI {
 		if (line.hasOption(OUTPUT)) {
 			translator.setOutput(line.getOptionValue(OUTPUT));
 		}
-		
-		if(line.hasOption(PARSER)) {
+
+		if (line.hasOption(PARSER)) {
 			translator.setParser(line.getOptionValue(PARSER));
 		}
 
