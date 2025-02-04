@@ -94,18 +94,18 @@ variableValue
     ;
 
 assertEquals
-	// Represents the assertEquals instruction block: "assertEquals(actual, expected);".
+	// Represents the assertEquals instruction block: "assertEquals(expected, actual);".
 	// (COMMA number)? represents the delta: assertEquals(2.2, (double)double0, 0.01);
-    : ASSERT_EQUALS LPAREN actual COMMA cast? expected (COMMA number)? RPAREN SEMI
+    : ASSERT_EQUALS LPAREN expected COMMA cast? actual (COMMA number)? RPAREN SEMI
     ;
 
 assertBoolean
 	// Represents the assertTrue or assertFalse instruction blocks: "assertTrue(expected)" or "assertFalse(expected)".
-    : booleanAssertion LPAREN booleanExpected RPAREN SEMI
+    : booleanAssertion LPAREN booleanActual RPAREN SEMI
     ;
 
-actual
-	// The actual value to be tested, which can be an Identifier, an integer, or a string.
+expected
+	// The expected value to be tested, which can be an Identifier, an integer, or a string.
 	// example:
 	// RegistroDiCassav4.Stati.ATTENDI_ORDINAZIONI	--> Identifier
 	// (-20) 										--> number
@@ -114,7 +114,7 @@ actual
     : (Identifier | (LPAREN? number RPAREN?) | STRING | CHARACTER)
     ;
 
-expected
+actual
 	// The expected value in an assertion, which can be a Getter (if the value is retrieved from the asm specification) 
 	// or an ID (if the value is retrieved from a variable in the junit file).
 	// example:
@@ -128,8 +128,8 @@ booleanAssertion
     : (ASSERT_TRUE | ASSERT_FALSE)
     ;
     
-booleanExpected
- 	// Represents the expected boolean value in a boolean assertion.
+booleanActual
+ 	// Represents the actual boolean value in a boolean assertion.
  	// example:
 	// pillbox1_ATG0.get_requestSatisfied()	--> Getter
 	// boolean0 							--> ID

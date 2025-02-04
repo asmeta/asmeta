@@ -15,8 +15,8 @@ import asmeta.evotest.junit2avalla.antlr.JavaScenarioParser.ActualContext;
 import asmeta.evotest.junit2avalla.antlr.JavaScenarioParser.AsmDeclarationContext;
 import asmeta.evotest.junit2avalla.antlr.JavaScenarioParser.AssertBooleanContext;
 import asmeta.evotest.junit2avalla.antlr.JavaScenarioParser.AssertEqualsContext;
+import asmeta.evotest.junit2avalla.antlr.JavaScenarioParser.BooleanActualContext;
 import asmeta.evotest.junit2avalla.antlr.JavaScenarioParser.BooleanAssertionContext;
-import asmeta.evotest.junit2avalla.antlr.JavaScenarioParser.BooleanExpectedContext;
 import asmeta.evotest.junit2avalla.antlr.JavaScenarioParser.ConstructorDeclarationContext;
 import asmeta.evotest.junit2avalla.antlr.JavaScenarioParser.ExpectedContext;
 import asmeta.evotest.junit2avalla.antlr.JavaScenarioParser.InstanceDeclarationContext;
@@ -339,26 +339,24 @@ public class CustomParserListener extends JavaScenarioBaseListener {
 			return;
 		logger.debug("Entering start_test_scenario_setFunction_setVariableValue: {} .", ctx.getText());
 		if (ctx.STRING() != null) {
+			// String type
 			String value = ctx.getText();
 			logger.debug("Setting the primitive String value : {} .", value);
-			String setter = this.currentJavaVariable.getName();
-			setStringVariableValue(value, setter);
-			// primitive field managed by the setStringVariableValue() function
+			ScenarioParserUtil.setStringVariableValue(value, this.currentJavaVariable);
 		} else if (ctx.number() != null) {
 			// if its a number (int, double, natural)
-			setIntegerVariableValue(ctx.getText());
-			// primitive field managed by the setIntegerVariableValue() function
+			logger.debug("Setting the number value : {} .", ctx.getText());
+			ScenarioParserUtil.setIntegerVariableValue(ctx.getText(), this.currentJavaVariable);
 		} else if (ctx.Boolean() != null || ctx.CHARACTER() != null) {
 			// if its a primitive type (char or boolean)
 			String value = ctx.getText();
 			logger.debug("Setting the primitive type value : {} .", value);
-			this.currentJavaVariable.setValue(value);
-			this.currentJavaVariable.setPrimitive(true);
+			ScenarioParserUtil.setPrimitiveVariable(value, this.currentJavaVariable);
 		} else if (ctx.Identifier() != null) {
+			// not primitive type
 			String identifier = ctx.getText();
 			logger.debug("Setting the identifier : {} .", identifier);
-			this.currentJavaVariable.setValue(identifier);
-			this.currentJavaVariable.setPrimitive(false);
+			ScenarioParserUtil.setNotPrimitiveVariable(identifier, this.currentJavaVariable);
 		} else {
 			// if its a variable
 			logger.debug("Setting the variable value : {} .", ctx.getText());
@@ -382,75 +380,18 @@ public class CustomParserListener extends JavaScenarioBaseListener {
 				this.currentJavaVariable.setPrimitive(true);
 			} else if (javaVariableTerm.getType().equalsIgnoreCase("String")) {
 				// if its a string
-				String setter = this.currentJavaVariable.getName();
-				setStringVariableValue(javaVariableTerm.getValue(), setter);
+				ScenarioParserUtil.setStringVariableValue(javaVariableTerm.getValue(), this.currentJavaVariable);
 				// primitive field managed by the setStringVariableValue() function
 			} else if (javaVariableTerm.getType().equalsIgnoreCase("Integer")
 					|| javaVariableTerm.getType().equalsIgnoreCase("int")) {
 				// if its an integer
-				setIntegerVariableValue(javaVariableTerm.getValue());
+				ScenarioParserUtil.setIntegerVariableValue(javaVariableTerm.getValue(), this.currentJavaVariable);
 				// primitive field managed by the setStringVariableValue() function
 			} else {
 				this.currentJavaVariable.setValue(javaVariableTerm.getValue());
 				this.currentJavaVariable.setPrimitive(false);
 			}
 		}
-	}
-
-	/**
-	 * Sets the value field of a String variable and adds it to the
-	 * currentJavaVariable
-	 * 
-	 * @param ctx the parse tree context.
-	 */
-	private void setStringVariableValue(String value, String setter) {
-		if (setter.contains("set_abstract_")) {
-			// it's an abstract type
-			logger.debug("Replacing the abstract flag for the abstract type : {} .", setter);
-			// remove the flag abstract_
-			this.currentJavaVariable.setName(setter.replace("abstract_", ""));
-			logger.debug("new setter: {} ", this.currentJavaVariable.getName());
-			// set primitive to true to remove double quotes
-			this.currentJavaVariable.setPrimitive(true);
-		} else if (setter.contains("set_sequence_")) {
-			// it's a sequence domain
-			logger.debug("Replacing the sequence flag for the abstract type : {} .", setter);
-			// remove the flag sequence_
-			this.currentJavaVariable.setName(setter.replace("sequence_", ""));
-			logger.debug("new setter: {} ", this.currentJavaVariable.getName());
-			// set primitive to true to remove double quotes
-			this.currentJavaVariable.setPrimitive(true);
-			// ensure the sequence domain value in Avalla is always delimited by square
-			// brackets
-			// removing existing square brackets and double quotes if present.
-			value = "[" + value.replaceAll("[\\[\\]\"]", "") + "]";
-		} else {
-			// it's a String, set primitive to false to keep double quotes
-			this.currentJavaVariable.setPrimitive(false);
-		}
-		this.currentJavaVariable.setValue(value);
-	}
-
-	/**
-	 * Sets the value field of a Integer variable and adds it to the
-	 * currentJavaVariable
-	 * 
-	 * @param ctx the parse tree context.
-	 */
-	private void setIntegerVariableValue(String value) {
-		String function = this.currentJavaVariable.getName();
-		logger.debug("Setting the primitive number value : {} .", value);
-		if (function.contains("set_natural_")) {
-			// if it's a natural type domain
-			// replace the natural_ flag
-			this.currentJavaVariable.setName(function.replaceFirst(ScenarioParserUtil.NATURAL_FLAG, ""));
-			// add the suffix 'n' to the number
-			this.currentJavaVariable.setValue(value + ScenarioParserUtil.NATURAL_SUFFIX);
-		} else {
-			// integer, double
-			this.currentJavaVariable.setValue(value);
-		}
-		this.currentJavaVariable.setPrimitive(true);
 	}
 
 	/**
@@ -529,11 +470,11 @@ public class CustomParserListener extends JavaScenarioBaseListener {
 	 * @param ctx the parse tree context.
 	 */
 	@Override
-	public void enterActual(ActualContext ctx) {
+	public void enterExpected(ExpectedContext ctx) {
 		if (ignoreListenerEvent(ctx.getText()))
 			return;
-		logger.debug("Entering start_test_scenario_assertEquals_actual: {} .", ctx.getText());
-		this.currentJavaAssertionTerm.setActual(ctx.getText());
+		logger.debug("Entering start_test_scenario_assertEquals_expected: {} .", ctx.getText());
+		this.currentJavaAssertionTerm.setExpected(ctx.getText());
 		// if it's an identifier --> not primitive
 		this.currentJavaAssertionTerm.setPrimitive(ctx.Identifier() == null);
 	}
@@ -547,10 +488,10 @@ public class CustomParserListener extends JavaScenarioBaseListener {
 	 * @param ctx the parse tree context.
 	 */
 	@Override
-	public void enterExpected(ExpectedContext ctx) {
+	public void enterActual(ActualContext ctx) {
 		if (ignoreListenerEvent(ctx.getText()))
 			return;
-		logger.debug("Entering start_test_scenario_assertEquals_expected: {} .", ctx.getText());
+		logger.debug("Entering start_test_scenario_assertEquals_actual: {} .", ctx.getText());
 		if (ctx.ID() != null) {
 			logger.debug("parsing ID: {} .", ctx.getText());
 			logger.debug("Search the term {} in the variablesMap", ctx.getText());
@@ -560,15 +501,14 @@ public class CustomParserListener extends JavaScenarioBaseListener {
 				logger.error("Unrecognized value {}.", ctx.getText());
 				return;
 			}
-			String expectedValue = this.variablesMap.get(ctx.getText()).getValue();
+			String actualValue = this.variablesMap.get(ctx.getText()).getValue();
 			// build a getter function with natural type
-			expectedValue = ScenarioParserUtil.buildNaturalGetter(expectedValue, this.currentJavaAssertionTerm);
-			this.currentJavaAssertionTerm.setExpected(expectedValue);
-			logger.debug("Expected id: {}", expectedValue);
+			ScenarioParserUtil.buildNaturalGetter(actualValue, this.currentJavaAssertionTerm);
+			logger.debug("Actual id: {}", actualValue);
 			// add the value to the getters dictionary
-			if (expectedValue.contains("get_")) {
-				this.getterMap.put(expectedValue, this.currentJavaAssertionTerm.getActual());
-				logger.debug("Saving the getter {} : {}", expectedValue, this.currentJavaAssertionTerm.getActual());
+			if (actualValue.contains(ScenarioParserUtil.GET_FLAG)) {
+				this.getterMap.put(actualValue, this.currentJavaAssertionTerm.getExpected());
+				logger.debug("Saving the getter {} : {}", actualValue, this.currentJavaAssertionTerm.getExpected());
 			}
 		} else {
 			String getter = ctx.getText();
@@ -577,9 +517,7 @@ public class CustomParserListener extends JavaScenarioBaseListener {
 			getter = ScenarioParserUtil.buildDomainCodomain(getter);
 			// example: get_function_fromDomain_STATE1 -> get_function(STATE1)
 			// build a getter function with natural type
-			getter = ScenarioParserUtil.buildNaturalGetter(getter, this.currentJavaAssertionTerm);
-			this.currentJavaAssertionTerm.setExpected(getter);
-
+			ScenarioParserUtil.buildNaturalGetter(getter, this.currentJavaAssertionTerm);
 		}
 
 	}
@@ -606,9 +544,6 @@ public class CustomParserListener extends JavaScenarioBaseListener {
 		this.scenarioManager.setCheckTerm(this.currenteScenario, this.currentJavaAssertionTerm);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void enterAssertBoolean(AssertBooleanContext ctx) {
 		if (ignoreListenerEvent(ctx.getText()))
@@ -617,50 +552,44 @@ public class CustomParserListener extends JavaScenarioBaseListener {
 		this.currentJavaAssertionTerm = new JavaAssertionTerm();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void enterBooleanAssertion(BooleanAssertionContext ctx) {
 		if (ignoreListenerEvent(ctx.getText()))
 			return;
 		if (ctx.ASSERT_TRUE() != null) {
 			logger.debug("parsing ASSERT_TRUE: {} .", ctx.getText());
-			this.currentJavaAssertionTerm.setType("AssertTrue");
-			this.currentJavaAssertionTerm.setActual("true");
+			this.currentJavaAssertionTerm.setType(ScenarioParserUtil.ASSERT_TRUE);
+			this.currentJavaAssertionTerm.setExpected(Boolean.toString(true));
 		} else {
 			logger.debug("parsing ASSERT_FALSE: {} .", ctx.getText());
-			this.currentJavaAssertionTerm.setType("AssertFalse");
-			this.currentJavaAssertionTerm.setActual("false");
+			this.currentJavaAssertionTerm.setType(ScenarioParserUtil.ASSERT_FALSE);
+			this.currentJavaAssertionTerm.setExpected(Boolean.toString(false));
 		}
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
-	public void enterBooleanExpected(BooleanExpectedContext ctx) {
+	public void enterBooleanActual(BooleanActualContext ctx) {
 		if (ignoreListenerEvent(ctx.getText()))
 			return;
-		String expected = ctx.getText();
-		logger.debug("parsing the expected: {} .", expected);
+		String actual = ctx.getText();
+		logger.debug("parsing the expected: {} .", actual);
 		if (ctx.Getter() != null) {
 			// Set a function with Domain -> Codomain
-			expected = ScenarioParserUtil.buildDomainCodomain(expected);
+			actual = ScenarioParserUtil.buildDomainCodomain(actual);
 			// example: get_function_fromDomain_STATE1 -> get_function(STATE1)
 		} else {
 			// search the ID in the dictionary
-			logger.debug("Search the term {} in the variablesMap", expected);
-			if (!this.variablesMap.containsKey(expected)) {
+			logger.debug("Search the term {} in the variablesMap", actual);
+			if (!this.variablesMap.containsKey(actual)) {
 				// Stop the generation of the current scenario
 				this.ignoreEvents = true;
-				logger.error("Unrecognized value {} in {}.", expected, ctx.getText());
+				logger.error("Unrecognized value {} in {}.", actual, ctx.getText());
 				return;
 			}
-			JavaVariableTerm javaVariableTerm = this.variablesMap.get(expected);
-			expected = javaVariableTerm.getValue();
+			JavaVariableTerm javaVariableTerm = this.variablesMap.get(actual);
+			actual = javaVariableTerm.getValue();
 		}
-		this.currentJavaAssertionTerm.setExpected(expected);
+		this.currentJavaAssertionTerm.setActual(actual);
 	}
 
 	@Override

@@ -12,14 +12,14 @@ package asmeta.evotest.junit2avalla.model.terms;
 public class JavaAssertionTerm extends JavaTerm {
 
 	/**
-	 * The actual value to be compared in the assertion.
-	 */
-	private String actual;
-
-	/**
 	 * The expected value to compare against the actual value in the assertion.
 	 */
 	private String expected;
+
+	/**
+	 * The actual value to be compared in the assertion.
+	 */
+	private String actual;
 
 	/**
 	 * The type of the actual value. (String, Number --> Primitive)
@@ -32,24 +32,6 @@ public class JavaAssertionTerm extends JavaTerm {
 	 */
 	public JavaAssertionTerm() {
 		// Empty constructor
-	}
-
-	/**
-	 * Returns the actual value to be compared in the assertion.
-	 *
-	 * @return the actual value as a {@code String}.
-	 */
-	public String getActual() {
-		return actual;
-	}
-
-	/**
-	 * Sets the actual value to be compared in the assertion.
-	 *
-	 * @param actual the actual value to set.
-	 */
-	public void setActual(String actual) {
-		this.actual = actual;
 	}
 
 	/**
@@ -72,19 +54,37 @@ public class JavaAssertionTerm extends JavaTerm {
 	}
 
 	/**
-	 * Returns {@code True} if the actual field is primitive (string, number),
+	 * Returns the actual value to be compared in the assertion.
+	 *
+	 * @return the actual value as a {@code String}.
+	 */
+	public String getActual() {
+		return actual;
+	}
+
+	/**
+	 * Sets the actual value to be compared in the assertion.
+	 *
+	 * @param actual the actual value to set.
+	 */
+	public void setActual(String actual) {
+		this.actual = actual;
+	}
+
+	/**
+	 * Returns {@code True} if the expected field is primitive (string, number),
 	 * {@code False} otherwise (identifier).
 	 * 
-	 * @return if the actual field is primitive
+	 * @return if the expected field is primitive
 	 */
 	public boolean isPrimitive() {
 		return primitive;
 	}
-	
+
 	/**
-	 * Set the primitive type of the actual value.
+	 * Set the primitive type of the expected value.
 	 * 
-	 * @param primitive {@code True} if the actual field is primitive (string,
+	 * @param primitive {@code True} if the expected field is primitive (string,
 	 *                  number), {@code False} otherwise (identifier)
 	 */
 	public void setPrimitive(boolean primitive) {

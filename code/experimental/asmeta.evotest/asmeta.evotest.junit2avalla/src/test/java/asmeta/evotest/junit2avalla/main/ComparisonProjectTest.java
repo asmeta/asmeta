@@ -17,6 +17,8 @@ import java.util.stream.Collectors;
 import org.junit.Before;
 import org.junit.Test;
 
+import asmeta.evotest.junit2avalla.javascenario.ParserType;
+
 /**
  * Automatically translates all the tests in the junit folder and compares them
  * with the translations in the avalla folder
@@ -43,7 +45,7 @@ public class ComparisonProjectTest {
 	/** Contains the avalla file already translated (correctly) */
 	private static final Path avallaPath = resourcePath.resolve(AVALLA_FOLDER);
 
-	/** Contains the translations of the junit files*/
+	/** Contains the translations of the junit files */
 	private static final Path translationPath = resourcePath.resolve(TRANSLATION_FOLDER);
 
 	/** List of junit files to translate */
@@ -70,13 +72,26 @@ public class ComparisonProjectTest {
 	}
 
 	@Test
-	public void testAll() {
+	public void comparisonTest() {
+		System.out.println("Comparison test using CUSTOM PARSER: ");
+		testAll(ParserType.CUSTOM_PARSER);
+		System.out.println("\n--------------------------------------------------------");
+		System.out.println("Comparison test using JAVA PARSER: ");
+		testAll(ParserType.JAVA_PARSER);
+	}
 
+	/**
+	 * Generate the translation for all the files in the junitFiles list and execute
+	 * the comparison test
+	 * 
+	 * @param parserType type of the parser to use
+	 */
+	private void testAll(ParserType parserType) {
 		for (File junit : junitFiles) {
 			File avalla = avallaFilesMap.get(junit.getName().split(ATG_SPLIT)[0]);
 			if (avalla != null) {
 				System.out.println("\n===" + junit.getName() + "===================");
-				File translation = genTranslation(junit);
+				File translation = genTranslation(junit, parserType.getType());
 				try {
 					assertTrue(comparisonTest(avalla, translation));
 				} catch (IOException e) {
@@ -85,7 +100,6 @@ public class ComparisonProjectTest {
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -94,9 +108,10 @@ public class ComparisonProjectTest {
 	 * @param junitFile junit file to translate
 	 * @return the translated avalla file
 	 */
-	private File genTranslation(File junitFile) {
+	private File genTranslation(File junitFile, String parserType) {
 		List<String> args = List.of(CLIExampleFilesTest.INPUT, "\"" + junitFile.getAbsolutePath() + "\"",
-				CLIExampleFilesTest.OUTPUT, "\"" + translationPath + "\"", CLIExampleFilesTest.CLEAN);
+				CLIExampleFilesTest.OUTPUT, "\"" + translationPath + "\"", CLIExampleFilesTest.CLEAN,
+				CLIExampleFilesTest.PARSER, parserType);
 		Junit2AvallaCLI.main(args.toArray(new String[0]));
 		assertEquals(0, Junit2AvallaCLI.getReturnedCode());
 		File avallaFileTranslated = translationPath
@@ -108,7 +123,7 @@ public class ComparisonProjectTest {
 	/**
 	 * Compare the original avalla file with the translated one line by line.
 	 * 
-	 * @param avallaTest file to be compared with
+	 * @param avallaTest       file to be compared with
 	 * @param avallaTranslated file to compare
 	 * @return {@code True} if the two file are identical, {@code False} otherwise
 	 * @throws IOException if an I/O error occurs

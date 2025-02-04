@@ -1,5 +1,6 @@
 package asmeta.evotest.junit2avalla.javascenario;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -18,12 +19,14 @@ public class JavaParserListener {
 
 	/** List of scenarios parsed and processed. */
 	private final List<Scenario> scenarioList;
-	
-	/** Context */
+
+	/** Context containing shared data for the visitor operations */
 	private final Context context;
 
+	/**
+	 * No args constructor, builds a new context and a new scenarioList
+	 */
 	JavaParserListener() {
-		// NO ARGS CONSTRUCTOR
 		this.scenarioList = new LinkedList<>();
 		this.context = new Context();
 		context.setScenarioManager(new ScenarioManager());
@@ -36,9 +39,17 @@ public class JavaParserListener {
 			Scenario currScenario = new Scenario();
 			context.setScenarioIndex(i++);
 			context.setCurrenteScenario(currScenario);
+			context.setVariablesMap(new HashMap<>());
+			context.setGetterMap(new HashMap<>());
 			logger.info("Parsing the method:\n{}", method);
 			TermsVisitor termsVisitor = new TermsVisitor();
-			method.accept(termsVisitor, context);
+			try {
+				method.accept(termsVisitor, context);
+			} catch (Exception e) {
+				logger.error("Failed to parse the scenario {}, because of: {}", context.getScenarioIndex(),
+						e.getMessage());
+				logger.error("Cutting off the current scenario generation");
+			}
 			this.scenarioList.add(context.getCurrenteScenario());
 		}
 		return this.scenarioList;

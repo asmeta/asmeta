@@ -4,7 +4,7 @@ load Numbers.asm
 
 check double = 20.5;
 check negative = -15.8;
-set insertedPin := (-3188);
+set insertedPin := -3188;
 
 step
 
