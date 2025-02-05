@@ -25,31 +25,30 @@ public class TermsVisitor extends VoidVisitorAdapter<Context> {
 	 */
 	@Override
 	public void visit(VariableDeclarator node, Context context) {
-//		// To ensure child nodes of the current node are also visited
-//		super.visit(node, context);
 
 		// ASM Declaration ( ASM_ATG ASM_ATG0 = new ASM_ATG() )
 		if (node.getTypeAsString().endsWith(ScenarioParserUtil.ATG_CLASS_FLAG)) {
-			handleAsmDeclaration(node, context);
+			String asmName = node.getTypeAsString();
+			logger.debug("ASM DECLARATION: {}.", asmName);
+			ScenarioParserUtil.buildAsmDeclaration(asmName, context);
 			return;
 		}
 
 		logger.info("VARIABLE TERM: {}", node);
-		JavaVariableTerm javaVariableTerm = new JavaVariableTerm();
+		context.setCurrentJavaVariable(new JavaVariableTerm());
 
 		// set the type
 		String type = node.getTypeAsString();
 		logger.info("TYPE: {}", type);
-		javaVariableTerm.setType(type);
+		context.getCurrentJavaVariable().setType(type);
 
 		// set the name
 		String name = node.getNameAsString();
 		logger.info("VARIABLE NAME: {}", name);
-		javaVariableTerm.setName(name);
+		context.getCurrentJavaVariable().setName(name);
 
 		// set the value
 		VariableValueVisitor variableValueVisitor = new VariableValueVisitor();
-		context.setCurrentJavaVariable(javaVariableTerm);
 		node.accept(variableValueVisitor, context);
 
 		// add the current variable to the variable map
@@ -91,21 +90,8 @@ public class TermsVisitor extends VoidVisitorAdapter<Context> {
 
 	}
 
-	/**
-	 * Handles the Asm declaration instruction, generating an Header and Load Term
-	 * 
-	 * @param node    the node to be visited.
-	 * @param context the context containing shared data for the visitor operations
-	 */
-	private void handleAsmDeclaration(VariableDeclarator node, Context context) {
-		String asmName = node.getTypeAsString();
-		logger.debug("ASM DECLARATION: {}.", asmName);
-		context.getScenarioManager().setHeaderTerm(context.getCurrenteScenario(), asmName, context.getScenarioIndex());
-		context.getScenarioManager().setLoadTerm(context.getCurrenteScenario(), asmName);
-	}
-
 	private void handleStepTerm(Context context) {
-		context.getScenarioManager().setStepTerm(context.getCurrenteScenario());
+		context.getScenarioManager().setStepTerm(context.getCurrentScenario());
 		
 		// consider the next checks
 		context.setIgnoreChecks(false);
@@ -123,7 +109,7 @@ public class TermsVisitor extends VoidVisitorAdapter<Context> {
 		node.getArgument(0).accept(new VariableValueVisitor(), context);
 
 		// add term to scenario
-		context.getScenarioManager().setSetTerm(context.getCurrenteScenario(), context.getCurrentJavaVariable());
+		context.getScenarioManager().setSetTerm(context.getCurrentScenario(), context.getCurrentJavaVariable());
 		
 		// ignore the next checks until the next step
 		context.setIgnoreChecks(true);
@@ -162,7 +148,7 @@ public class TermsVisitor extends VoidVisitorAdapter<Context> {
 		node.getArgument(1).accept(new AssertionActualVisitor(), context);
 		
 		// add term to scenario
-		context.getScenarioManager().setCheckTerm(context.getCurrenteScenario(), context.getCurrentJavaAssertionTerm());
+		context.getScenarioManager().setCheckTerm(context.getCurrentScenario(), context.getCurrentJavaAssertionTerm());
 
 	}
 
@@ -192,7 +178,7 @@ public class TermsVisitor extends VoidVisitorAdapter<Context> {
 		node.getArgument(0).accept(new AssertionActualVisitor(), context);
 		
 		// add term to scenario
-		context.getScenarioManager().setCheckTerm(context.getCurrenteScenario(), context.getCurrentJavaAssertionTerm());
+		context.getScenarioManager().setCheckTerm(context.getCurrentScenario(), context.getCurrentJavaAssertionTerm());
 	}
 
 }

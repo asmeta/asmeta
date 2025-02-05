@@ -1,4 +1,4 @@
-package asmeta.evotest.junit2avalla.javascenario;
+ package asmeta.evotest.junit2avalla.javascenario;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

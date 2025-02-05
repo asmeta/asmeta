@@ -1,5 +1,6 @@
 package asmeta.evotest.junit2avalla.javascenario;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import asmeta.evotest.junit2avalla.model.Scenario;
@@ -8,9 +9,10 @@ import asmeta.evotest.junit2avalla.model.terms.JavaVariableTerm;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.AccessLevel;
 
-@Getter
-@Setter
+@Getter(AccessLevel.PACKAGE)
+@Setter(AccessLevel.PACKAGE)
 @NoArgsConstructor
 public class Context {
 
@@ -30,7 +32,7 @@ public class Context {
 	private JavaVariableTerm currentJavaVariable;
 
 	/** The current scenario being processed. */
-	private Scenario currenteScenario;
+	private Scenario currentScenario;
 
 	/** The current Java assertion being processed. */
 	private JavaAssertionTerm currentJavaAssertionTerm;
@@ -40,5 +42,26 @@ public class Context {
 
 	/** {@code True} ignore the next assertions, {@code False} write the checks. */
 	private boolean ignoreChecks;
+	
+	/**
+	 * Initialize the context.
+	 */
+	void initContext() {
+		this.scenarioManager = new ScenarioManager();
+		this.updateContext();
+		this.scenarioIndex = 0;
+	}
+	
+	/**
+	 * Update the context for a new scenario.
+	 */
+	void updateContext() {
+		this.currentScenario = new Scenario();
+		this.variablesMap = new HashMap<>();
+		this.getterMap = new HashMap<>();
+		this.ignoreEvents = false;
+		this.ignoreChecks = false;
+		this.scenarioIndex ++;
+	}
 
 }

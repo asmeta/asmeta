@@ -28,6 +28,17 @@ public class ScenarioParserUtil {
 	private ScenarioParserUtil() {
 		// NO ARGS CONSTRUCTOR
 	}
+	
+	/**
+	 * Handles the Asm declaration instruction, generating an Header and Load Term
+	 * 
+	 * @param asmName the name of the asmeta specification.
+	 * @param context the context containing shared data for the visitor operations
+	 */
+	static void buildAsmDeclaration(String asmName, Context context) {
+		context.getScenarioManager().setHeaderTerm(context.getCurrentScenario(), asmName, context.getScenarioIndex());
+		context.getScenarioManager().setLoadTerm(context.getCurrentScenario(), asmName);
+	}
 
 	/**
 	 * Build the name of a function with Domain -> Codomain with the avalla

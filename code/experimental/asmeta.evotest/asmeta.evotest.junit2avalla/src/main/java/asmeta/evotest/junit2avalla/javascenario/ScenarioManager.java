@@ -118,7 +118,7 @@ class ScenarioManager {
 	 * @return the processed ASM name.
 	 */
 	private String retrieveAsmName(String asmName) {
-		return asmName.substring(0, asmName.lastIndexOf("_ATG"));
+		return asmName.substring(0, asmName.lastIndexOf(ScenarioParserUtil.ATG_CLASS_FLAG));
 	}
 
 	/**
