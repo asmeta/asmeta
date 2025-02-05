@@ -35,7 +35,7 @@ public class ScenarioAvallaUtil {
 
   public static AvallaLoadTerm avallaLoadTerm(){
     AvallaLoadTerm avallaLoadTerm = new AvallaLoadTerm();
-    avallaLoadTerm.setLoad("RegistroDiCassav3");
+    avallaLoadTerm.setAsmName("RegistroDiCassav3");
     return avallaLoadTerm;
   }
 

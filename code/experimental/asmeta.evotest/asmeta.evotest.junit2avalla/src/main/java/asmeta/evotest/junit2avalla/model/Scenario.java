@@ -5,6 +5,7 @@ import java.util.Queue;
 
 import asmeta.evotest.junit2avalla.model.terms.AvallaStepTerm;
 import asmeta.evotest.junit2avalla.model.terms.AvallaTerm;
+import lombok.Getter;
 
 /**
  * The {@code Scenario} class represents a scenario that consists of a queue of
@@ -27,29 +28,20 @@ public class Scenario {
 	/**
 	 * A queue of {@link AvallaTerm} objects representing the scenario.
 	 */
-	private final Queue<AvallaTerm> scenarioObject;
+	@Getter private final Queue<AvallaTerm> scenarioList;
 
 	/**
 	 * Flag indicating whether the scenario contains at least one
 	 * {@link AvallaStepTerm}, making it valid.
 	 */
-	private boolean valid;
+	@Getter private boolean valid;
 
 	/**
 	 * Default constructor that initializes an empty scenario with an invalid state.
 	 */
 	public Scenario() {
-		this.scenarioObject = new LinkedList<>();
+		this.scenarioList = new LinkedList<>();
 		this.valid = false;
-	}
-
-	/**
-	 * Returns the queue of {@link AvallaTerm} objects in the scenario.
-	 *
-	 * @return the scenario queue.
-	 */
-	public Queue<AvallaTerm> getScenario() {
-		return scenarioObject;
 	}
 
 	/**
@@ -66,7 +58,7 @@ public class Scenario {
 		if (avallaTerm instanceof AvallaStepTerm) {
 			this.valid = true;
 		}
-		this.scenarioObject.add(avallaTerm);
+		this.scenarioList.add(avallaTerm);
 	}
 
 	/**
@@ -75,7 +67,7 @@ public class Scenario {
 	 * @return the removed term.
 	 */
 	public AvallaTerm remove() {
-		return this.scenarioObject.remove();
+		return this.scenarioList.remove();
 	}
 
 	/**
@@ -84,17 +76,7 @@ public class Scenario {
 	 * @return the first term in the scenario.
 	 */
 	public AvallaTerm element() {
-		return this.scenarioObject.element();
-	}
-
-	/**
-	 * Returns whether the scenario is valid, i.e., contains at least one
-	 * {@link AvallaStepTerm}.
-	 *
-	 * @return {@code true} if the scenario is valid, {@code false} otherwise.
-	 */
-	public boolean isValid() {
-		return valid;
+		return this.scenarioList.element();
 	}
 
 }

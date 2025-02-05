@@ -1,9 +1,16 @@
 package asmeta.evotest.junit2avalla.model.terms;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 /**
  * The {@code Argument} class represents a function argument with a name and an indicator of whether
  * it is a primitive type or not.
  */
+@Getter
+@Setter
+@NoArgsConstructor
 public class JavaArgumentTerm extends JavaTerm {
 
   /**
@@ -19,48 +26,5 @@ public class JavaArgumentTerm extends JavaTerm {
    * </ul>
    */
   private boolean isPrimitive;
-
-  /**
-   * Default constructor for the {@code Argument} class. Initializes an empty argument.
-   */
-  public JavaArgumentTerm() {
-	// Empty constructor
-  }
-
-  /**
-   * Returns the name of the argument.
-   *
-   * @return the argument's name as a {@code String}.
-   */
-  public String getName() {
-    return name;
-  }
-
-  /**
-   * Sets the name of the Argument.
-   *
-   * @param name the name of the argument.
-   */
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  /**
-   * Returns whether the argument is a primitive type.
-   *
-   * @return {@code true} if the argument is a primitive type, {@code false} otherwise.
-   */
-  public boolean isPrimitive() {
-    return isPrimitive;
-  }
-
-  /**
-   * Sets whether the argument is a primitive type.
-   *
-   * @param primitive {@code true} if the argument is a primitive type, {@code false} otherwise.
-   */
-  public void setPrimitive(boolean primitive) {
-    isPrimitive = primitive;
-  }
 
 }

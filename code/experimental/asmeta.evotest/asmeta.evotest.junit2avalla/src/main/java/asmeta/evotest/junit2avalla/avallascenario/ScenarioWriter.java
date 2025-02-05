@@ -54,7 +54,7 @@ class ScenarioWriter {
 		this.stringBuilder = new StringBuilder();
 		ScenarioFile scenarioFile = new ScenarioFile();
 
-		for (AvallaTerm avallaTerm : scenario.getScenario()) {
+		for (AvallaTerm avallaTerm : scenario.getScenarioList()) {
 			log.debug("Writing the term: {}", avallaTerm.getClass());
 			if (avallaTerm instanceof AvallaHeaderTerm avallaHeaderTerm) {
 				writeHeader(avallaHeaderTerm);
@@ -94,7 +94,7 @@ class ScenarioWriter {
 	 *                       information.
 	 */
 	private void writeLoad(AvallaLoadTerm avallaLoadTerm) {
-		this.stringBuilder.append(LOAD).append(WS).append(avallaLoadTerm.getLoad()).append(ASM_EXTENSION)
+		this.stringBuilder.append(LOAD).append(WS).append(avallaLoadTerm.getAsmName()).append(ASM_EXTENSION)
 				.append(System.lineSeparator()).append(System.lineSeparator());
 	}
 

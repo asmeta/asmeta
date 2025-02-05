@@ -62,7 +62,7 @@ public class JavaScenarioListenerTest {
 	public void whenAddNewScenario_ThenParseAndCreateScenarioAvalla() {
 		Scenario avallaScenario = scenarioList.get(0);
 		assertTrue(avallaScenario.isValid());
-		assertFalse(avallaScenario.getScenario().isEmpty());
+		assertFalse(avallaScenario.getScenarioList().isEmpty());
 
 		AvallaTerm avallaTerm = avallaScenario.remove();
 		assertTrue(avallaTerm instanceof AvallaHeaderTerm);
@@ -70,7 +70,7 @@ public class JavaScenarioListenerTest {
 
 		avallaTerm = avallaScenario.remove();
 		assertTrue(avallaTerm instanceof AvallaLoadTerm);
-		assertEquals(JavaScenarioUtil.NAME, ((AvallaLoadTerm) avallaTerm).getLoad());
+		assertEquals(JavaScenarioUtil.NAME, ((AvallaLoadTerm) avallaTerm).getAsmName());
 
 		avallaTerm = avallaScenario.remove();
 		assertTrue(avallaTerm instanceof AvallaCheckTerm);
@@ -100,7 +100,7 @@ public class JavaScenarioListenerTest {
 		assertEquals(JavaScenarioUtil.SERVIZIO_SELEZIONATO, ((AvallaSetTerm) avallaTerm).getName());
 		assertEquals("NEWORDINE", ((AvallaSetTerm) avallaTerm).getValue());
 
-		assertTrue(avallaScenario.getScenario().isEmpty());
+		assertTrue(avallaScenario.getScenarioList().isEmpty());
 
 	}
 
@@ -111,7 +111,7 @@ public class JavaScenarioListenerTest {
 	public void parseAndCreateScenarioAvalla_TestSetAbstractDomainType() {
 		Scenario avallaScenario = scenarioList.get(1);
 		assertTrue(avallaScenario.isValid());
-		assertFalse(avallaScenario.getScenario().isEmpty());
+		assertFalse(avallaScenario.getScenarioList().isEmpty());
 
 		AvallaTerm avallaTerm = avallaScenario.remove();
 		assertTrue(avallaTerm instanceof AvallaHeaderTerm);
@@ -119,7 +119,7 @@ public class JavaScenarioListenerTest {
 
 		avallaTerm = avallaScenario.remove();
 		assertTrue(avallaTerm instanceof AvallaLoadTerm);
-		assertEquals(JavaScenarioUtil.NAME, ((AvallaLoadTerm) avallaTerm).getLoad());
+		assertEquals(JavaScenarioUtil.NAME, ((AvallaLoadTerm) avallaTerm).getAsmName());
 
 		avallaScenario.remove();
 		avallaScenario.remove();
@@ -159,7 +159,7 @@ public class JavaScenarioListenerTest {
 		assertEquals(JavaScenarioUtil.TOTALE, ((AvallaCheckTerm) avallaTerm).getLeftTerm());
 		assertEquals("0", ((AvallaCheckTerm) avallaTerm).getRightTerm());
 
-		assertTrue(avallaScenario.getScenario().isEmpty());
+		assertTrue(avallaScenario.getScenarioList().isEmpty());
 
 	}
 
@@ -172,7 +172,7 @@ public class JavaScenarioListenerTest {
 	public void parseAndCreateScenarioAvalla_TestTryCatchBlock() {
 		Scenario avallaScenario = scenarioList.get(6);
 		assertTrue(avallaScenario.isValid());
-		assertFalse(avallaScenario.getScenario().isEmpty());
+		assertFalse(avallaScenario.getScenarioList().isEmpty());
 
 		AvallaTerm avallaTerm = avallaScenario.remove();
 		assertTrue(avallaTerm instanceof AvallaHeaderTerm);
@@ -180,7 +180,7 @@ public class JavaScenarioListenerTest {
 
 		avallaTerm = avallaScenario.remove();
 		assertTrue(avallaTerm instanceof AvallaLoadTerm);
-		assertEquals(JavaScenarioUtil.NAME, ((AvallaLoadTerm) avallaTerm).getLoad());
+		assertEquals(JavaScenarioUtil.NAME, ((AvallaLoadTerm) avallaTerm).getAsmName());
 
 		avallaTerm = avallaScenario.remove();
 		assertTrue(avallaTerm instanceof AvallaCheckTerm);
@@ -210,7 +210,7 @@ public class JavaScenarioListenerTest {
 		avallaTerm = avallaScenario.remove();
 		assertTrue(avallaTerm instanceof AvallaStepTerm);
 
-		assertTrue(avallaScenario.getScenario().isEmpty());
+		assertTrue(avallaScenario.getScenarioList().isEmpty());
 
 	}
 
@@ -221,7 +221,7 @@ public class JavaScenarioListenerTest {
 	public void parseAndCreateScenarioAvalla_InvalidScenario() {
 		Scenario avallaScenario = scenarioList.get(4);
 		assertFalse(avallaScenario.isValid());
-		assertFalse(avallaScenario.getScenario().isEmpty());
+		assertFalse(avallaScenario.getScenarioList().isEmpty());
 	}
 
 	/**
@@ -240,7 +240,7 @@ public class JavaScenarioListenerTest {
 
 		Scenario avallaScenario = scenarioList.get(5);
 		assertFalse(avallaScenario.isValid());
-		assertFalse(avallaScenario.getScenario().isEmpty());
+		assertFalse(avallaScenario.getScenarioList().isEmpty());
 
 		avallaScenario.remove();
 		avallaScenario.remove();
@@ -250,14 +250,14 @@ public class JavaScenarioListenerTest {
 		assertEquals(JavaScenarioUtil.OUT_MESS, ((AvallaCheckTerm) avallaTerm).getLeftTerm());
 		assertEquals("\"\"", ((AvallaCheckTerm) avallaTerm).getRightTerm());
 
-		assertFalse(avallaScenario.getScenario().isEmpty());
+		assertFalse(avallaScenario.getScenarioList().isEmpty());
 
 		avallaTerm = avallaScenario.remove();
 		assertTrue(avallaTerm instanceof AvallaCheckTerm);
 		assertEquals(JavaScenarioUtil.OUT_MESS, ((AvallaCheckTerm) avallaTerm).getLeftTerm());
 		assertEquals("\"\"", ((AvallaCheckTerm) avallaTerm).getRightTerm());
 
-		assertTrue(avallaScenario.getScenario().isEmpty());
+		assertTrue(avallaScenario.getScenarioList().isEmpty());
 	}
 
 	/**
@@ -268,7 +268,7 @@ public class JavaScenarioListenerTest {
 	public void parseAndCreateScenarioAvalla_TestUnrecognizedValue() {
 		Scenario avallaScenario = scenarioList.get(7);
 		assertTrue(avallaScenario.isValid());
-		assertFalse(avallaScenario.getScenario().isEmpty());
+		assertFalse(avallaScenario.getScenarioList().isEmpty());
 
 		AvallaTerm avallaTerm = avallaScenario.remove();
 		assertTrue(avallaTerm instanceof AvallaHeaderTerm);
@@ -276,7 +276,7 @@ public class JavaScenarioListenerTest {
 
 		avallaTerm = avallaScenario.remove();
 		assertTrue(avallaTerm instanceof AvallaLoadTerm);
-		assertEquals(JavaScenarioUtil.NAME, ((AvallaLoadTerm) avallaTerm).getLoad());
+		assertEquals(JavaScenarioUtil.NAME, ((AvallaLoadTerm) avallaTerm).getAsmName());
 
 		avallaTerm = avallaScenario.remove();
 		assertTrue(avallaTerm instanceof AvallaCheckTerm);
@@ -291,7 +291,7 @@ public class JavaScenarioListenerTest {
 		avallaTerm = avallaScenario.remove();
 		assertTrue(avallaTerm instanceof AvallaStepTerm);
 
-		assertTrue(avallaScenario.getScenario().isEmpty());
+		assertTrue(avallaScenario.getScenarioList().isEmpty());
 	}
 	
 }

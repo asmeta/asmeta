@@ -38,7 +38,7 @@ public class ScenarioManagerTest {
 
     AvallaTerm avallaTerm = scenario.remove();
     assertTrue(avallaTerm instanceof AvallaLoadTerm);
-    assertEquals("registroDiCassav3",((AvallaLoadTerm) avallaTerm).getLoad());
+    assertEquals("registroDiCassav3",((AvallaLoadTerm) avallaTerm).getAsmName());
   }
 
   @Test
@@ -51,7 +51,7 @@ public class ScenarioManagerTest {
     scenarioManagerImpl.setSetTerm(avallaScenario, VariableUtil.getVariable3());
     scenarioManagerImpl.setSetTerm(avallaScenario, VariableUtil.getVariable4());
     scenarioManagerImpl.setSetTerm(avallaScenario, VariableUtil.getVariable5());
-    assertFalse(avallaScenario.getScenario().isEmpty());
+    assertFalse(avallaScenario.getScenarioList().isEmpty());
 
     AvallaTerm avallaTerm = avallaScenario.remove();
     assertTrue(avallaTerm instanceof AvallaSetTerm);

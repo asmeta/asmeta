@@ -51,8 +51,8 @@ class ScenarioManager {
 	 */
 	void setLoadTerm(Scenario avallaScenario, String asmName) {
 		AvallaLoadTerm avallaLoadTerm = new AvallaLoadTerm();
-		avallaLoadTerm.setLoad(retrieveAsmName(asmName));
-		log.info("Set AvallaLoadTerm_load: {} .", avallaLoadTerm.getLoad());
+		avallaLoadTerm.setAsmName(retrieveAsmName(asmName));
+		log.info("Set AvallaLoadTerm_load: {} .", avallaLoadTerm.getAsmName());
 		avallaScenario.add(avallaLoadTerm);
 	}
 
