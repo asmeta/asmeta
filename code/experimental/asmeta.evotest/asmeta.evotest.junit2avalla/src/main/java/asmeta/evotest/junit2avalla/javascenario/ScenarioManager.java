@@ -39,7 +39,7 @@ class ScenarioManager {
 	void setHeaderTerm(Scenario avallaScenario, String asmName, int scenarioIndex) {
 		AvallaHeaderTerm avallaHeaderTerm = new AvallaHeaderTerm();
 		avallaHeaderTerm.setScenarioName(retrieveAsmName(asmName) + "_scenario" + scenarioIndex);
-		log.info("Set AvallaHeaderTerm_name: {} .", avallaHeaderTerm.getScenarioName());
+		log.debug("Set AvallaHeaderTerm_name: {} .", avallaHeaderTerm.getScenarioName());
 		avallaScenario.add(avallaHeaderTerm);
 	}
 
@@ -52,7 +52,7 @@ class ScenarioManager {
 	void setLoadTerm(Scenario avallaScenario, String asmName) {
 		AvallaLoadTerm avallaLoadTerm = new AvallaLoadTerm();
 		avallaLoadTerm.setAsmName(retrieveAsmName(asmName));
-		log.info("Set AvallaLoadTerm_load: {} .", avallaLoadTerm.getAsmName());
+		log.debug("Set AvallaLoadTerm_load: {} .", avallaLoadTerm.getAsmName());
 		avallaScenario.add(avallaLoadTerm);
 	}
 

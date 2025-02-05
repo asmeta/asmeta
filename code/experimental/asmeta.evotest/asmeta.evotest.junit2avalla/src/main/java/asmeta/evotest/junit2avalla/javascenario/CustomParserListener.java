@@ -496,6 +496,14 @@ public class CustomParserListener extends JavaScenarioBaseListener {
 		context.getScenarioManager().setCheckTerm(context.getCurrentScenario(), context.getCurrentJavaAssertionTerm());
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * Initializes the assertion term for {@code assertBoolean} checks.
+	 * </p>
+	 *
+	 * @param ctx the parse tree context.
+	 */
 	@Override
 	public void enterAssertBoolean(AssertBooleanContext ctx) {
 		if (ignoreListenerEvent(ctx.getText()))
@@ -504,6 +512,14 @@ public class CustomParserListener extends JavaScenarioBaseListener {
 		context.setCurrentJavaAssertionTerm(new JavaAssertionTerm());
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * Sets the assertion type and expected field in the assertion term.
+	 * </p>
+	 *
+	 * @param ctx the parse tree context.
+	 */
 	@Override
 	public void enterBooleanAssertion(BooleanAssertionContext ctx) {
 		if (ignoreListenerEvent(ctx.getText()))
@@ -519,6 +535,14 @@ public class CustomParserListener extends JavaScenarioBaseListener {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * Sets the actual value in the assertion term.
+	 * </p>
+	 *
+	 * @param ctx the parse tree context.
+	 */
 	@Override
 	public void enterBooleanActual(BooleanActualContext ctx) {
 		if (ignoreListenerEvent(ctx.getText()))
@@ -544,6 +568,15 @@ public class CustomParserListener extends JavaScenarioBaseListener {
 		context.getCurrentJavaAssertionTerm().setActual(actual);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * Processes the assertion term for {@code assertBoolean} and adds it to the
+	 * scenario.
+	 * </p>
+	 *
+	 * @param ctx the parse tree context.
+	 */
 	@Override
 	public void exitAssertBoolean(AssertBooleanContext ctx) {
 		if (ignoreListenerEvent(ctx.getText()))
@@ -556,6 +589,14 @@ public class CustomParserListener extends JavaScenarioBaseListener {
 		context.getScenarioManager().setCheckTerm(context.getCurrentScenario(), context.getCurrentJavaAssertionTerm());
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * Set a variable term declared with an instance constructor.
+	 * </p>
+	 *
+	 * @param ctx the parse tree context.
+	 */
 	@Override
 	public void enterInstanceDeclaration(InstanceDeclarationContext ctx) {
 		if (ignoreListenerEvent(ctx.getText()))

@@ -29,6 +29,7 @@ import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
  */
 public class ScenarioReaderImpl implements ScenarioReader {
 
+	/* Constants */
 	private static final String JAVA_EXTENSION = ".java";
 
 	/** Logger */
@@ -64,7 +65,6 @@ public class ScenarioReaderImpl implements ScenarioReader {
 			javaScenarios = parseJavaScenarioUsingCustomParser(javaFile);
 			break;
 		case JAVA_PARSER:
-			log.error("NOT SUPPORTED YET.");
 			String className = path.getFileName().toString().split(JAVA_EXTENSION)[0];
 			log.debug("Class name: {}.", className);
 			javaScenarios = parseJavaScenarioUsingJavaParser(javaFile, className);

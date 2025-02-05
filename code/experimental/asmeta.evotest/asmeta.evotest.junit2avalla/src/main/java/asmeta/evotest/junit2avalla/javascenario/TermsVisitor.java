@@ -11,6 +11,10 @@ import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 import asmeta.evotest.junit2avalla.model.terms.JavaAssertionTerm;
 import asmeta.evotest.junit2avalla.model.terms.JavaVariableTerm;
 
+/**
+ * Visitor class responsible for processing JavaParser AST nodes related to
+ * variable declarations and method calls within a JUnit test class.
+ */
 public class TermsVisitor extends VoidVisitorAdapter<Context> {
 
 	/** Logger */
@@ -34,17 +38,17 @@ public class TermsVisitor extends VoidVisitorAdapter<Context> {
 			return;
 		}
 
-		logger.info("VARIABLE TERM: {}", node);
+		logger.debug("VARIABLE TERM: {}", node);
 		context.setCurrentJavaVariable(new JavaVariableTerm());
 
 		// set the type
 		String type = node.getTypeAsString();
-		logger.info("TYPE: {}", type);
+		logger.debug("TYPE: {}", type);
 		context.getCurrentJavaVariable().setType(type);
 
 		// set the name
 		String name = node.getNameAsString();
-		logger.info("VARIABLE NAME: {}", name);
+		logger.debug("VARIABLE NAME: {}", name);
 		context.getCurrentJavaVariable().setName(name);
 
 		// set the value
@@ -56,40 +60,45 @@ public class TermsVisitor extends VoidVisitorAdapter<Context> {
 
 	}
 
-	/**
-	 * 
-	 * 
-	 * @param node    the node to be visited.
-	 * @param context the context containing shared data for the visitor operations
-	 */
+    /**
+     * Processes a method call by identifying its type and handling it accordingly.
+     * 
+     * @param node    the method call expression node to be visited.
+     * @param context the context containing shared data for the visitor operations.
+     */
 	@Override
 	public void visit(MethodCallExpr node, Context context) {
-		logger.info("METHOD CALL TERM: {}", node);
+		logger.debug("METHOD CALL TERM: {}", node);
 
 		String name = node.getNameAsString();
 
 		// method dispatcher
 		if (name.equals(ScenarioParserUtil.STEP)) {
-			logger.info("STEP: {}", name);
+			logger.debug("STEP: {}", name);
 			this.handleStepTerm(context);
 		} else if (name.startsWith(ScenarioParserUtil.SET_FLAG)) {
-			logger.info("SET: {}", name);
+			logger.debug("SET: {}", name);
 			this.handleSetTerm(node, context);
 		} else if (name.startsWith(ScenarioParserUtil.GET_FLAG)) {
-			logger.info("GET: {} ", name);
+			logger.debug("GET: {} ", name);
 			// ignore the get method since without a variable assignment it is useless
 		} else if (name.equals(ScenarioParserUtil.ASSERT_EQUALS)) {
-			logger.info("ASSERT EQUALS: {} ", name);
+			logger.debug("ASSERT EQUALS: {} ", name);
 			this.handleAssertEqualsTerm(node, context);
 		} else if (name.equals(ScenarioParserUtil.ASSERT_TRUE) || name.equals(ScenarioParserUtil.ASSERT_FALSE)) {
-			logger.info("ASSERT BOOLEAN: {}", name);
+			logger.debug("ASSERT BOOLEAN: {}", name);
 			this.handleAssertBooleanTerm(node, context);
 		} else {
-			logger.info("METHOD CALL TERM NAME: {}", name);
+			logger.debug("METHOD CALL TERM NAME: {}", name);
 		}
 
 	}
 
+    /**
+     * Handles a step method call, updating the scenario context accordingly.
+     * 
+     * @param context the context containing shared data for the visitor operations.
+     */
 	private void handleStepTerm(Context context) {
 		context.getScenarioManager().setStepTerm(context.getCurrentScenario());
 		
@@ -97,6 +106,12 @@ public class TermsVisitor extends VoidVisitorAdapter<Context> {
 		context.setIgnoreChecks(false);
 	}
 
+    /**
+     * Handles a method call representing a variable assignment using a "set" method.
+     * 
+     * @param node    the method call expression node representing the assignment.
+     * @param context the context containing shared data for the visitor operations.
+     */
 	private void handleSetTerm(MethodCallExpr node, Context context) {
 		context.setCurrentJavaVariable(new JavaVariableTerm());
 
@@ -115,6 +130,13 @@ public class TermsVisitor extends VoidVisitorAdapter<Context> {
 		context.setIgnoreChecks(true);
 	}
 
+    /**
+     * Handles an assertEquals method call by extracting expected and actual values
+     * and storing them in the scenario context.
+     * 
+     * @param node    the method call expression node representing the assertion.
+     * @param context the context containing shared data for the visitor operations.
+     */
 	private void handleAssertEqualsTerm(MethodCallExpr node, Context context) {
 		// only 2 or 3 arguments, otherwise stop the generation of the current scenario
 		if (node.getArguments().size() <= 1 || node.getArguments().size() >= 3)
@@ -124,7 +146,7 @@ public class TermsVisitor extends VoidVisitorAdapter<Context> {
 		
 		// if true ignore the current assertion
 		if(context.isIgnoreChecks()) {
-			logger.info("Ignoring the current assertion: {}", node);
+			logger.debug("Ignoring the current assertion: {}", node);
 			return;
 		}
 		
@@ -132,14 +154,14 @@ public class TermsVisitor extends VoidVisitorAdapter<Context> {
 		context.getCurrentJavaAssertionTerm().setType(ScenarioParserUtil.ASSERT_EQUALS);
 
 		// set expected
-		logger.info("EXPECTED: {}", node.getArgument(0));
+		logger.debug("EXPECTED: {}", node.getArgument(0));
 		context.getCurrentJavaAssertionTerm().setExpected(node.getArgument(0).toString());
 		context.getCurrentJavaAssertionTerm().setPrimitive(true);
 		// if it's an identifier --> set not primitive
 		node.getArgument(0).accept(new VoidVisitorAdapter<Void>() {
 			@Override
 			public void visit(FieldAccessExpr node, Void arg) {
-				logger.info("EXPECTED IDENTIFIER: {} ", node.getNameAsString());
+				logger.debug("EXPECTED IDENTIFIER: {} ", node.getNameAsString());
 				context.getCurrentJavaAssertionTerm().setPrimitive(false);
 			}
 		}, null);
@@ -152,6 +174,13 @@ public class TermsVisitor extends VoidVisitorAdapter<Context> {
 
 	}
 
+    /**
+     * Handles an assertTrue or assertFalse method call by extracting the actual
+     * value and storing the assertion result in the scenario context.
+     * 
+     * @param node    the method call expression node representing the boolean assertion.
+     * @param context the context containing shared data for the visitor operations.
+     */
 	private void handleAssertBooleanTerm(MethodCallExpr node, Context context) {
 		// only 1 argument, otherwise stop the generation of the current scenario
 		if (node.getArguments().size() != 1)
@@ -159,7 +188,7 @@ public class TermsVisitor extends VoidVisitorAdapter<Context> {
 		
 		// if true ignore the current assertion
 		if(context.isIgnoreChecks()) {
-			logger.info("Ignoring the current assertion: {}", node);
+			logger.debug("Ignoring the current assertion: {}", node);
 			return;
 		}
 		

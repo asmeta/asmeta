@@ -1,4 +1,4 @@
- package asmeta.evotest.junit2avalla.javascenario;
+package asmeta.evotest.junit2avalla.javascenario;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,6 +17,10 @@ import com.github.javaparser.ast.expr.StringLiteralExpr;
 import com.github.javaparser.ast.expr.UnaryExpr;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
 
+/**
+ * Visitor class responsible for extracting values from variable assignments and
+ * method calls in JavaParser AST nodes.
+ */
 public class VariableValueVisitor extends VoidVisitorAdapter<Context> {
 
 	/** Logger */
@@ -24,25 +28,25 @@ public class VariableValueVisitor extends VoidVisitorAdapter<Context> {
 
 	@Override
 	public void visit(ObjectCreationExpr node, Context context) {
-		logger.info("CONSTRUCTOR: {}.", node);
+		logger.debug("CONSTRUCTOR: {}.", node);
 		context.getCurrentJavaVariable().setValue(node.getArgument(0).toString());
 	}
 
 	@Override
 	public void visit(FieldAccessExpr node, Context context) {
-		logger.info("IDENTIFIER: {}.", node);
+		logger.debug("IDENTIFIER: {}.", node);
 		ScenarioParserUtil.setNotPrimitiveVariable(node.getNameAsString(), context.getCurrentJavaVariable());
 	}
 
 	@Override
 	public void visit(NameExpr node, Context context) {
-		logger.info("VARIABLE: {}.", node);
+		logger.debug("VARIABLE: {}.", node);
 		if (context.getVariablesMap().containsKey(node.getNameAsString())) {
 			context.getCurrentJavaVariable().setValue(context.getVariablesMap().get(node.getNameAsString()).getValue());
 			if (context.getGetterMap().containsKey(context.getCurrentJavaVariable().getValue())) {
 				// search in the getters map
 				String value = context.getGetterMap().get(context.getCurrentJavaVariable().getValue());
-				logger.info("Found a getter value in the getterMap: {} .", value);
+				logger.debug("Found a getter value in the getterMap: {} .", value);
 				context.getCurrentJavaVariable().setValue(value);
 				context.getCurrentJavaVariable().setPrimitive(true);
 			} else {
@@ -57,7 +61,7 @@ public class VariableValueVisitor extends VoidVisitorAdapter<Context> {
 
 	@Override
 	public void visit(MethodCallExpr node, Context context) {
-		logger.info("VALUE METHOD CALL: {}.", node);
+		logger.debug("VALUE METHOD CALL: {}.", node);
 		if (node.getNameAsString().equals(ScenarioParserUtil.VALUE_OF) && node.getArguments().size() == 1) {
 			// valueOf method
 			ScenarioParserUtil.setPrimitiveVariable(node.getArgument(0).toString(), context.getCurrentJavaVariable());
@@ -73,40 +77,40 @@ public class VariableValueVisitor extends VoidVisitorAdapter<Context> {
 
 	@Override
 	public void visit(BooleanLiteralExpr node, Context context) {
-		logger.info("VALUE BOOLEAN: {}.", node);
+		logger.debug("VALUE BOOLEAN: {}.", node);
 		ScenarioParserUtil.setPrimitiveVariable(Boolean.toString(node.getValue()), context.getCurrentJavaVariable());
 	}
 
 	@Override
 	public void visit(CharLiteralExpr node, Context context) {
-		logger.info("VALUE CHAR: {}.", node);
+		logger.debug("VALUE CHAR: {}.", node);
 		ScenarioParserUtil.setPrimitiveVariable(node.getValue(), context.getCurrentJavaVariable());
 	}
 
 	@Override
 	public void visit(DoubleLiteralExpr node, Context context) {
 		String fullValue = getFullLiteralValue(node);
-		logger.info("VALUE DOUBLE: {}.", fullValue);
+		logger.debug("VALUE DOUBLE: {}.", fullValue);
 		ScenarioParserUtil.setPrimitiveVariable(node.getValue(), context.getCurrentJavaVariable());
 	}
 
 	@Override
 	public void visit(IntegerLiteralExpr node, Context context) {
 		String fullValue = getFullLiteralValue(node);
-		logger.info("VALUE INTEGER: {}.", fullValue);
+		logger.debug("VALUE INTEGER: {}.", fullValue);
 		ScenarioParserUtil.setIntegerVariableValue(fullValue, context.getCurrentJavaVariable());
 	}
 
 	@Override
 	public void visit(LongLiteralExpr node, Context context) {
 		String fullValue = getFullLiteralValue(node);
-		logger.info("VALUE LONG: {}.", fullValue);
+		logger.debug("VALUE LONG: {}.", fullValue);
 		ScenarioParserUtil.setIntegerVariableValue(node.getValue(), context.getCurrentJavaVariable());
 	}
 
 	@Override
 	public void visit(StringLiteralExpr node, Context context) {
-		logger.info("VALUE STRING: {}.", node);
+		logger.debug("VALUE STRING: {}.", node);
 		ScenarioParserUtil.setStringVariableValue(node.getValue(), context.getCurrentJavaVariable());
 	}
 

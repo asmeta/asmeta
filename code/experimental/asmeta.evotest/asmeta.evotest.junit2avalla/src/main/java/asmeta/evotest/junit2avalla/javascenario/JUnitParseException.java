@@ -11,7 +11,7 @@ public class JUnitParseException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 
     /**
-     * Constructs a new {@code ParseException} with the detail message.
+     * Constructs a new {@code JUnitParseException} with the detail message.
      *
      * @param message the detail message.
      */
@@ -20,7 +20,7 @@ public class JUnitParseException extends RuntimeException {
     }
 
     /**
-     * Constructs a new {@code ParseException} with the detail message and cause.
+     * Constructs a new {@code JUnitParseException} with the detail message and cause.
      *
      * @param message the detail message.
      * @param cause the cause of the exception.

@@ -11,7 +11,11 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 
 import asmeta.evotest.junit2avalla.model.Scenario;
 
+/**
+ * Listener class responsible for parsing JUnit test classes and extracting scenarios.
+ */
 public class JavaParserListener {
+
 
 	/** Logger */
 	private final Logger logger = LogManager.getLogger(JavaParserListener.class);
@@ -40,10 +44,11 @@ public class JavaParserListener {
 	List<Scenario> parseJUnitClass(ClassOrInterfaceDeclaration cls) {
 		logger.debug("class to parse: \n{}. ", cls);
 		for (MethodDeclaration method : cls.getMethods()) {
-			logger.info("Parsing the method:\n{}", method);
+			logger.debug("Parsing the method:\n{}", method);
 			TermsVisitor termsVisitor = new TermsVisitor();
 			try {
 				method.accept(termsVisitor, context);
+				logger.info("Scenario {} parsed correctly and added to the list.", context.getScenarioIndex());
 			} catch (Exception e) {
 				logger.error("Failed to parse the scenario {}, because of: {}", context.getScenarioIndex(),
 						e.getMessage());

@@ -25,18 +25,15 @@ import asmeta.evotest.junit2avalla.javascenario.ParserType;
  */
 public class ComparisonProjectTest {
 
+	/* Constants */
 	private static final String AVALLA_FOLDER = "avalla";
-
 	private static final String JUNIT_FOLDER = "junit";
-
 	private static final String TRANSLATION_FOLDER = "translation";
-
 	private static final String SCENARIO_NAME_DEFAULT = "_scenario0.avalla";
-
 	private static final String ATG_SPLIT = "_ATG";
-
 	private static final String SCENARIO_SPLIT = "_scenario";
 
+	/** Test resource folder */
 	private static final Path resourcePath = CLIExampleFilesTest.TEST_RESOURCES_DIR_PATH;
 
 	/** Contains the junit files to translate */
@@ -71,6 +68,11 @@ public class ComparisonProjectTest {
 		assert translationFile.exists() && translationFile.isDirectory();
 	}
 
+	/**
+	 * Generates the translation of a list of JUnit files and checks if the
+	 * generated Avalla file is identical to the expected one, first parses with the
+	 * custom parser and then with JavaParser
+	 */
 	@Test
 	public void comparisonTest() {
 		System.out.println("Comparison test using CUSTOM PARSER: ");

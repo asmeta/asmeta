@@ -3,6 +3,9 @@ package asmeta.evotest.junit2avalla.javascenario;
 import asmeta.evotest.junit2avalla.model.terms.JavaAssertionTerm;
 import asmeta.evotest.junit2avalla.model.terms.JavaVariableTerm;
 
+/**
+ * This class contains methods useful for parsing methods of a JUnit file
+ */
 public class ScenarioParserUtil {
 
 	/* Constants */
@@ -155,6 +158,12 @@ public class ScenarioParserUtil {
 		currentJavaVariable.setPrimitive(true);
 	}
 	
+	/**
+	 * Sets the value field of a Natural variable
+	 * 
+	 * @param value               the argument of the setter
+	 * @param currentJavaVariable the current javaVariableTerm
+	 */
 	static void setNaturalVariableValue(String value, JavaVariableTerm currentJavaVariable) {
 		String functionName = currentJavaVariable.getName();
 		if (functionName.contains(SET_NATURAL_FLAG)) {

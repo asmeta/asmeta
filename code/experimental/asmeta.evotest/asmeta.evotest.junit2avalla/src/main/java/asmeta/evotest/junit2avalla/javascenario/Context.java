@@ -11,6 +11,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.AccessLevel;
 
+/**
+ * Represents the parsing context used during the parsing of a test scenario.
+ */
 @Getter(AccessLevel.PACKAGE)
 @Setter(AccessLevel.PACKAGE)
 @NoArgsConstructor
@@ -43,18 +46,21 @@ public class Context {
 	/** {@code True} ignore the next assertions, {@code False} write the checks. */
 	private boolean ignoreChecks;
 	
-	/**
-	 * Initialize the context.
-	 */
+    /**
+     * Initializes the context by setting up the scenario manager and updating the context.
+     */
 	void initContext() {
 		this.scenarioManager = new ScenarioManager();
 		this.updateContext();
 		this.scenarioIndex = 0;
 	}
 	
-	/**
-	 * Update the context for a new scenario.
-	 */
+    /**
+     * Updates the context for a new scenario.
+     * 
+     * <p>This method resets the current scenario, reinitializes the variable and getter maps,
+     * and updates control flags.</p>
+     */
 	void updateContext() {
 		this.currentScenario = new Scenario();
 		this.variablesMap = new HashMap<>();
