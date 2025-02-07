@@ -4,6 +4,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.github.javaparser.ast.body.VariableDeclarator;
+import com.github.javaparser.ast.expr.BinaryExpr;
+import com.github.javaparser.ast.expr.Expression;
 import com.github.javaparser.ast.expr.FieldAccessExpr;
 import com.github.javaparser.ast.expr.MethodCallExpr;
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter;
@@ -192,6 +194,17 @@ public class TermsVisitor extends VoidVisitorAdapter<Context> {
 			return;
 		}
 		
+		// Retrieve the argument expression.
+	    Expression assertionArgument = node.getArgument(0);
+	    
+	    // Inspect the structure of the expression.
+	    if (assertionArgument instanceof BinaryExpr) {
+	        // If it's a binary expression (e.g., int5 == int2),
+	    	// Skip processing 
+	    	logger.debug("Skipping the current check because the argument is a binary expression");
+	        return;
+	    }
+		
 		context.setCurrentJavaAssertionTerm(new JavaAssertionTerm());
 
 		// set type and expected
@@ -204,7 +217,13 @@ public class TermsVisitor extends VoidVisitorAdapter<Context> {
 		}
 
 		// set actual
-		node.getArgument(0).accept(new AssertionActualVisitor(), context);
+		try {
+			assertionArgument.accept(new AssertionActualVisitor(), context);
+		} catch (JUnitParseException e) {
+			// if a JUnitParseException exception occurs, skip the current check only
+			logger.debug("Skipping the current check because: {}", e.getMessage());
+			return;
+		}
 		
 		// add term to scenario
 		context.getScenarioManager().setCheckTerm(context.getCurrentScenario(), context.getCurrentJavaAssertionTerm());

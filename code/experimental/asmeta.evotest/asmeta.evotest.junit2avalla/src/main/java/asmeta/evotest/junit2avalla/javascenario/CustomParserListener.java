@@ -649,8 +649,8 @@ public class CustomParserListener extends JavaScenarioBaseListener {
 	@Override
 	public void exitScenario(ScenarioContext ctx) {
 		this.scenarioList.add(context.getCurrentScenario());
-		context.updateContext();;
-		logger.info("Scenario processing completed. Scenario added to the list.");
+		logger.info("Scenario {} parsed correctly and added to the list.", context.getScenarioIndex());
+		context.updateContext();
 	}
 
 	/**

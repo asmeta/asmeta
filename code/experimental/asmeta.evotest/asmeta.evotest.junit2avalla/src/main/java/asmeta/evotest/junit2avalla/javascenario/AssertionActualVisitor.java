@@ -42,7 +42,7 @@ public class AssertionActualVisitor extends VoidVisitorAdapter<Context> {
 						context.getCurrentJavaAssertionTerm().getExpected());
 			}
 		} else {
-			logger.error("Variable not found int he variable Map: {}", node.getNameAsString());
+			logger.debug("Variable not found int he variable Map: {}", node.getNameAsString());
 			throw new JUnitParseException("Unable to set the actual variable, variable not found int he variable Map: "
 					+ node.getNameAsString());
 		}
@@ -64,7 +64,7 @@ public class AssertionActualVisitor extends VoidVisitorAdapter<Context> {
 			// build a getter function with natural type
 			ScenarioParserUtil.buildNaturalGetter(getter, context.getCurrentJavaAssertionTerm());
 		} else {
-			logger.error("Method call not supported: {}", node.getNameAsString());
+			logger.debug("Method call not supported: {}", node.getNameAsString());
 			throw new JUnitParseException("Method call not supported: " + node.getNameAsString());
 		}
 	}
