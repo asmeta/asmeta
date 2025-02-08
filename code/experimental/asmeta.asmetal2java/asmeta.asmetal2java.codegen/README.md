@@ -57,6 +57,8 @@ generated java file to verify that there are no errors via `-Dcompiler=true`.
     - `-output` : The output folder (optional, defaults to `./output/`).
 
     - `-mode <modeName>` : Set the mode of the application.
+    
+    - `-compilerVersion` : set the java version used by the compiler.
 
     - `-D <property=value>` : Additional translator options.
 
@@ -110,6 +112,7 @@ This section covers all available command-line options for the application and h
  |							| `generateWin` 	| translate the asm file to a java file and generate an executable java class with a Grapical User Interace (GUI)					|
  | 							| `testGen`			| generate a test class suited for test generation with Evosuite 																	|
  | 							| `custom` 			| set a custom behavior by adding properties with -D. 																				|
+ | `-compilerVersion`		| int 				| set the java version used by the compiler																							|
  | `-Dformatter` 			| boolean  			| whether the generated code should be formatted. 																					|
  | `-DshuffleRandom` 		| boolean  			| whether a random shuffle should be applied. 																						|
  | `-DoptimizeSeqMacroRule` | boolean  			| whether to optimize the sequence macro rule. 																						|
