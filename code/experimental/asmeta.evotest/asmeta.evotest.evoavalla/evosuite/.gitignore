@@ -1,0 +1,6 @@
+*.java
+*.class
+*.csv
+/evosuite-target/
+/evosuite-report/
+/evosuite-tests/

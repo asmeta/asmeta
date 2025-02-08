@@ -1,0 +1,18 @@
+name: evoavalla
+
+services:
+    asmetal2java:
+        image: asmetal2java-ng
+        container_name: asmetal2java-container
+        environment:
+            - INPUT=${ASMETAL2JAVA_INPUT:?error}
+            - WORKING_DIR=${ASMETAL2JAVA_WORKING_DIR}
+            - OUTPUT=${ASMETAL2JAVA_OUTPUT}
+            - MODE=${ASMETAL2JAVA_MODE}
+            - COMPILER_VERSION=${ASMETAL2JAVA_COMPILER_VERSION}
+            - CLEAN=${ASMETAL2JAVA_CLEAN}
+            - PROPERTIES=${ASMETAL2JAVA_PROPERTIES}
+            - HELP=${ASMETAL2JAVA_ASMETAL2JAVA_HELP}
+        volumes:
+            - ./asmetal2java:/app/input
+            - ./evosuite/evosuite-target:/app/output
