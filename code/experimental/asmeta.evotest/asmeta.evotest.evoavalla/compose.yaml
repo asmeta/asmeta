@@ -2,7 +2,7 @@ name: evoavalla
 
 services:
     asmetal2java:
-        image: asmetal2java-ng
+        image:  isaacmaffeis/asmetal2java:latest
         container_name: asmetal2java-container
         environment:
             - INPUT=${ASMETAL2JAVA_INPUT:?error}

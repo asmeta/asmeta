@@ -4,16 +4,7 @@ setlocal enabledelayedexpansion
 :: Env file
 set "ENV_FILE=..\.env"
 
-:: Default values for each parameter
-set "DEFAULT_ASMETAL2JAVA_INPUT="
-set "DEFAULT_ASMETAL2JAVA_WORKING_DIR=./input"
-set "DEFAULT_ASMETAL2JAVA_OUTPUT=./output"
-set "DEFAULT_ASMETAL2JAVA_MODE=testGen"
-set "DEFAULT_ASMETAL2JAVA_COMPILER_VERSION=8"
-set "DEFAULT_ASMETAL2JAVA_CLEAN="
-set "DEFAULT_ASMETAL2JAVA_PROPERTIES=-DcopyAsm=true -DignoreDomainException=true"
-set "DEFAULT_ASMETAL2JAVA_HELP="
-
+:: CLI options
 set "ARG_ASMETAL2JAVA_INPUT=-input"
 set "ARG_ASMETAL2JAVA_WORKING_DIR=-workingDir"
 set "ARG_ASMETAL2JAVA_OUTPUT=-output"
@@ -23,10 +14,26 @@ set "ARG_ASMETAL2JAVA_CLEAN=-clean"
 set "ARG_ASMETAL2JAVA_PROPERTIES="
 set "ARG_ASMETAL2JAVA_HELP=-help"
 
+:: Set the fileName parameter
+set "ASMFILE="
+if NOT "%1"=="" (
+    set "ASMFILE=./input/%1"
+    set "ASMETAL2JAVA_INPUT=!ARG_ASMETAL2JAVA_INPUT! "!ASMFILE!""
+)
+
+:: Default values for each parameter
+set "DEFAULT_ASMETAL2JAVA_INPUT=%ASMFILE%"
+set "DEFAULT_ASMETAL2JAVA_WORKING_DIR=./input"
+set "DEFAULT_ASMETAL2JAVA_OUTPUT=./output"
+set "DEFAULT_ASMETAL2JAVA_MODE=testGen"
+set "DEFAULT_ASMETAL2JAVA_COMPILER_VERSION=8"
+set "DEFAULT_ASMETAL2JAVA_CLEAN="
+set "DEFAULT_ASMETAL2JAVA_PROPERTIES=-DcopyAsm=true -DignoreDomainException=true"
+set "DEFAULT_ASMETAL2JAVA_HELP="
+
 :: Load values from .env file if it exists
 if exist "%ENV_FILE%" (
     for /F "usebackq tokens=1,* delims==" %%A in ("%ENV_FILE%") do (
-		if /I "%%A"=="ASMETAL2JAVA_INPUT" set "ASMETAL2JAVA_INPUT=%%B"
         if /I "%%A"=="ASMETAL2JAVA_WORKING_DIR" set "ASMETAL2JAVA_WORKING_DIR=%%B"
         if /I "%%A"=="ASMETAL2JAVA_OUTPUT" set "ASMETAL2JAVA_OUTPUT=%%B"
         if /I "%%A"=="ASMETAL2JAVA_MODE" set "ASMETAL2JAVA_MODE=%%B"
@@ -38,7 +45,6 @@ if exist "%ENV_FILE%" (
 )
 
 :MENU
-cls
 echo ================================
 echo   Current Configuration:
 echo ================================
@@ -52,12 +58,12 @@ if defined ASMETAL2JAVA_PROPERTIES (echo 7. ASMETAL2JAVA_PROPERTIES:        %ASM
 if defined ASMETAL2JAVA_HELP (echo 8. ASMETAL2JAVA_HELP:               %ASMETAL2JAVA_HELP%) else (echo 8. ASMETAL2JAVA_HELP:               [NOT SET])
 echo.
 echo R. Reset to default settings
-echo 0. Save and exit
+echo ENTER. to save and continue
 echo.
-set /p choice="Enter the number of the parameter to modify (0 to save, R to reset defaults): "
+set /p choice="Enter the number of the parameter to modify (R to reset defaults, ENTER to save and continue): "
 
-if /I "%choice%"=="0" goto SAVE
 if /I "%choice%"=="R" goto RESET_DEFAULTS
+if /I "%choice%"=="" goto SAVE
 
 :: Modify parameters
 if "%choice%"=="1" (
