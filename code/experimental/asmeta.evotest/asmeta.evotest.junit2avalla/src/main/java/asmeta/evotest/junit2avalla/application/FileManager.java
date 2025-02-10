@@ -32,6 +32,7 @@ public class FileManager {
 	private static final String OUTPUT = "output";
 	private static final String GITIGNORE = ".gitignore";
 	private static final String STDL = "STDL";
+	private static final String LOGS_DIRECTORY = "logs";
 	
 	/** Files/Directory to exclude from cleaning. */
 	private static final List<String> excludeList = List.of(GITIGNORE,STDL);
@@ -199,6 +200,8 @@ public class FileManager {
 			File[] files = file.listFiles();
 			if (files != null) {
 				for (File f : files) {
+					if (f.getName().equals(LOGS_DIRECTORY))
+						continue;
 					cleanRecursively(f);
 				}
 			}
