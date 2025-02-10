@@ -1,3 +1,4 @@
+[![Static Badge](https://img.shields.io/badge/asmeta-main_repository-black?style=social&logo=github&link=https%3A%2F%2Fgithub.com%2Fasmeta%2Fasmeta)](https://github.com/asmeta/asmeta)
 # EvoAvalla
 
 **EvoAvalla** is an automated tool that uses **Evo**Suite to generate test scenarios in **Avalla** language for an 
@@ -8,6 +9,8 @@ allowing the use of an automatic test generation tool such as EvoSuite to produc
 These scenarios are subsequently translated into Avalla language to test the original ASMETA specification.
 
 To achieve this, EvoAvalla is divided into three microservices:
+
+![image](https://github.com/user-attachments/assets/e7342fd0-2aff-4b74-bf08-18f59ef3c8ad)
 
 1. [**Asmetal2Java**](https://github.com/asmeta/asmeta/tree/master/code/experimental/asmeta.asmetal2java/asmeta.asmetal2java.codegen):  
    This service takes an Asmeta specification as input and translates it into a Java class.
