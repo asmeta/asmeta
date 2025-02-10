@@ -4,6 +4,7 @@ services:
     asmetal2java:
         image:  isaacmaffeis/asmetal2java:latest
         container_name: asmetal2java-container
+        env_file: .env
         environment:
             - INPUT=${ASMETAL2JAVA_INPUT:?error}
             - WORKING_DIR=${ASMETAL2JAVA_WORKING_DIR}
@@ -12,7 +13,38 @@ services:
             - COMPILER_VERSION=${ASMETAL2JAVA_COMPILER_VERSION}
             - CLEAN=${ASMETAL2JAVA_CLEAN}
             - PROPERTIES=${ASMETAL2JAVA_PROPERTIES}
-            - HELP=${ASMETAL2JAVA_ASMETAL2JAVA_HELP}
+            - HELP=${ASMETAL2JAVA_HELP}
         volumes:
-            - ./asmetal2java:/app/input
-            - ./evosuite/evosuite-target:/app/output
+            - ./services/asmetal2java:/app/input
+            - ./services/evosuite/evosuite-target:/app/output
+
+    evosuite:
+        image: evosuite/evosuite:${EVOSUITE_VERSION}-java-${EVOSUITE_JAVA_VERSION}
+        container_name: evosuite-container
+        depends_on:
+            asmetal2java:
+                condition: service_completed_successfully
+        entrypoint: ["/bin/sh", "-c", "java -jar /evosuite-bin/evosuite.jar ${EVOSUITE_TARGET:?error} ${EVOSUITE_CLASS:?error} ${EVOSUITE_CRITERION} ${EVOSUITE_SEARCH_BUDGET} ${EVOSUITE_PROPERTIES}"]
+        volumes:
+            - ./services/evosuite:/evosuite
+
+    junit2avalla:
+        image: isaacmaffeis/junit2avalla:latest
+        container_name: junit2avalla-container
+        depends_on:
+            asmetal2java:
+                condition: service_completed_successfully
+            evosuite:
+                condition: service_completed_successfully
+        env_file: .env
+        environment:
+            - INPUT=${JUNIT2AVALLA_INPUT:?error}
+            - WORKING_DIR=${JUNIT2AVALLA_WORKING_DIR}
+            - OUTPUT=${JUNIT2AVALLA_OUTPUT}
+            - CLEAN=${JUNIT2AVALLA_CLEAN}
+            - PROPERTIES=${JUNIT2AVALLA_PARSER}
+            - HELP=${JUNIT2AVALLA_HELP}
+        volumes:
+            - ./services/evosuite/evosuite-tests:/app/evosuite/evosuite-tests
+            - ./services/junit2avalla:/app/input
+            - ./output:/app/output

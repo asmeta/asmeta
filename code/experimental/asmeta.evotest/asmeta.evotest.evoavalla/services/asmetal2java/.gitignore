@@ -1,4 +1,6 @@
 *.asm
 *.java
 *.class
+*.log
 /STDL/
+/logs/

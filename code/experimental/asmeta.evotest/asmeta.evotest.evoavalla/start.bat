@@ -16,7 +16,7 @@ if not exist "%filePath%" (
     goto START
 )
 
-set "destFolder=asmetal2java"
+set "destFolder=.\services\asmetal2java"
 FOR %%i IN ("%filePath%") DO (
 	set "fileName=%%~ni%%~xi"
 )
@@ -38,7 +38,8 @@ pushd %~dp0\scripts
 call config.bat %fileName%
 popd
 
-docker compose up
+docker compose pull
+docker compose up 
 
 pause
 
