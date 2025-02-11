@@ -2,6 +2,7 @@ package org.asmeta.parser.util;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.asmeta.parser.OCL_Checker;
 import org.eclipse.emf.ecore.EObject;
 
@@ -25,6 +26,8 @@ import asmeta.terms.furtherterms.StringTerm;
 // return the functions that are not static in a term
 // it fills the list given in the constructor
 public class DynamicInTermFinder extends ReflectiveVisitor<Void> {
+	
+	static final Logger logger = Logger.getLogger(DynamicInTermFinder.class); 
 
 	private List<EObject> dynamicEntities;
 
@@ -49,10 +52,10 @@ public class DynamicInTermFinder extends ReflectiveVisitor<Void> {
 	}
 	
 	public void visit(asmeta.terms.basicterms.VariableTerm vt) {
-		System.err.println("VT " + vt + ":" + vt.getDomain().getName() + " " + isDynamic(vt.getDomain()));
+		logger.debug("VariableTerm " + vt + ":" + vt.getDomain().getName() + " " + isDynamic(vt.getDomain()));
 		// check the domain of the vt
 		visit(vt.getDomain());
-		System.err.println("CT " + dynamicEntities);
+		logger.debug(" dynamic entities " + dynamicEntities);
 	}
 
 	public void visit(Domain domain) {
