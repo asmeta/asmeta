@@ -9,7 +9,7 @@ signature:
 	derived der: Boolean
 	
 definitions:
-	domain ConcrDom = {0 .. 5}
+	domain ConcrDom = {0 : 5}
 
 	function der = k > 3
 

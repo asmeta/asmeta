@@ -73,11 +73,13 @@ public class AsmParserTestStaticDerived extends AsmParserTest {
 		testOneSpec("examples/production_cell/Production_Cell_with_agents.asm");
 	}
 
+	// test all the specifications - over all the projects
 	@Test
-	public void testtemp() throws IOException {
-		Files.walk(Paths.get("../../../../code/extensions/asmeta.refprover\\asmeta.refinementprover\\refinement"))
+	public void testALLSPECIFICATIONS() throws IOException {
+		Files.walk(Paths.get("../../../../code/extensions/asmeta.refprover"))
 		.filter(x -> (x.toFile().isDirectory() || x.toString().endsWith(".asm"))).forEach(f -> {
 			String string = f.toFile().toString();
+			// skip many problematic files
 			if (string.contains("drafts")); else 
 			if (string.contains("DAS")); else
 			if (string.contains("oldVersion")); else
@@ -95,6 +97,7 @@ public class AsmParserTestStaticDerived extends AsmParserTest {
 				// queste non so se funzionano convertendo derivate in static
 			if (string.contains("asmeta.modeladvisor.test\\examples\\statDerIsUsed.asm")); else
 			if (string.contains("asmeta.modeladvisor.test\\examples\\usedDomain2.asm")); else
+			if (string.contains("ABZ2016\\old")); else
 			if (string.endsWith(".asm")) {
 				AsmCollection res = testOneSpec(f.toFile(),false,false);
 				if (res == null) {

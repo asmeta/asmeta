@@ -11,8 +11,8 @@ signature:
 	monitored delta  : WaterpressureDeltaType
 
 definitions:
-	domain WaterpressureType = {0 .. 2000}    
-	domain WaterpressureDeltaType = {0  .. 20}
+	domain WaterpressureType = {0 : 2000}    
+	domain WaterpressureDeltaType = {0  : 20}
 	
 	function pressure =
 		if waterpressure < 500 then

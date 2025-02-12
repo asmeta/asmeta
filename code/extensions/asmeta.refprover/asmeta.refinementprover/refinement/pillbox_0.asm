@@ -8,8 +8,8 @@ import StandardLibrary
 signature:
 	//*************************************************
 	// DOMAINS
-	//*************************************
-	************
+	//*************************************************
+
 	enum domain LedLights = {OFF | ON | BLINKING}
 	
 	dynamic controlled redLed: LedLights

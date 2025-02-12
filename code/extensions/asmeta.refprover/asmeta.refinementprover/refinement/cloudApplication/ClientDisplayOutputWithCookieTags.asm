@@ -25,9 +25,9 @@ signature:
 
 	monitored extraResources: Device -> Boolean
 	static htmlTags: Prod(Device, HTMLTag)  -> Boolean //the html tags corresponding to each device; (instead of messages we work directly with the html tags)
-	derived messageArrived: Device -> Boolean
-	derived containsModernizrTests: HTMLTag -> Boolean
-	derived clientTestsAvailable: Device -> Boolean
+	static messageArrived: Device -> Boolean
+	static containsModernizrTests: HTMLTag -> Boolean
+	static clientTestsAvailable: Device -> Boolean
 
 	static device1: Device
 	static device2: Device
