@@ -1,0 +1,11 @@
+#! /usr/bin/env bash
+set -e # exit immediately upon error(s)
+
+# Obtain folder in which this script is located.
+SCRIPT_DIR="$(dirname -- "$(readlink -f -- "$0")")"
+
+# Deduce folder in which Asmeta JARs are located.
+JAR_DIR="$(dirname -- "$SCRIPT_DIR")/asm_dist/lib"
+
+# Execute the respective tools JAR.
+java -jar "$JAR_DIR/AsmetaToSMT.jar" $*
