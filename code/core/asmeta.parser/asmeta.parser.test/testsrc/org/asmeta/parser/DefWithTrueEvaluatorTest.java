@@ -47,9 +47,9 @@ public class DefWithTrueEvaluatorTest extends AsmParserTest{
 		AsmCollection asmC = testOneSpec("test/errors/derBody/derBodyErr.asm");
 		Asm asm = asmC.getMain();
 		Function fa = Defs.searchFunction(asm, "fooA");
-		System.out.println(fa.getDefinition().getBody());
+		System.out.println(fa.getDefinition().getBody()); // true
 		Function fb = Defs.searchFunction(asm, "fooB");
-		System.out.println(fb.getDefinition().getBody());
+		System.out.println(fb.getDefinition().getBody()); // true
 	}
 
 }

@@ -31,6 +31,7 @@ public class DynamicInTermFinder extends ReflectiveVisitor<Void> {
 
 	private List<EObject> dynamicEntities;
 
+	// parameter dynamicEntities: fill with synmiac entites
 	public DynamicInTermFinder(List<EObject> dynamicEntities) {
 		this.dynamicEntities = dynamicEntities;
 	}

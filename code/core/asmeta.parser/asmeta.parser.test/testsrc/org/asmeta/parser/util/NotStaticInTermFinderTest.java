@@ -18,16 +18,35 @@ import asmeta.structure.FunctionDefinition;
 public class NotStaticInTermFinderTest extends AsmParserTest{
 
 	@Test
-	public void testExample1() throws Exception {
-		File spec = new File(FILE_BASE + "/" +"test/errors/staticVSDerived.asm");
+	public void testTest3declarations() throws Exception {
+		File spec = new File(FILE_BASE + "/" +"test/parser/staticVSDerived.asm");
 		AsmCollection x = ASMParser.setUpReadAsm(spec);
 		EList<FunctionDefinition> defs = x.getMain().getBodySection().getFunctionDefinition();
+		assertEquals(3,defs.size());
+		// 1
+		// simple case no indirection
+		// function fd($i in Integer) = m + $i
 		List<EObject> list = new ArrayList<>();
 		DynamicInTermFinder nf = new DynamicInTermFinder(list);
-		for(FunctionDefinition def: defs) {
-			nf.visit(def);
-		}
-		System.out.println(list);
+		nf.visit(defs.get(0).getBody());
+		// only m 
+		assertEquals(1,list.size());
+		// 2		
+		// function fs($i in Integer) = 2 * $i
+		list = new ArrayList<>();
+		nf = new DynamicInTermFinder(list);
+		nf.visit(defs.get(1).getBody());
+		// only m 
+		assertEquals(0,list.size());
+		// 3
+		// indirection	- still derived since it is defined with a derived
+		//function fd2($i in Integer) = fd($i) + 2
+		list = new ArrayList<>();
+		nf = new DynamicInTermFinder(list);
+		nf.visit(defs.get(2).getBody());
+		// only m 
+		assertEquals(1,list.size());
+		
 	}
 
 }
