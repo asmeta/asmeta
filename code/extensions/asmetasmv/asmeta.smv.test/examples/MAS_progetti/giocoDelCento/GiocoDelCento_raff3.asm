@@ -26,7 +26,7 @@ signature:
 	//DICHIARAZIONI FUNZIONI DERIVATE
 	derived giocataBuona: Prod(Giocata, Giocata) -> Boolean
 	derived controllaVincita: Players -> Boolean
-	derived opponent: Players -> Players
+	static opponent: Players -> Players
 	
 
 definitions:

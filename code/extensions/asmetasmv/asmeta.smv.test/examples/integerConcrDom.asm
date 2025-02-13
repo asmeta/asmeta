@@ -7,8 +7,8 @@ signature:
 	controlled foo: Boolean
 	controlled fooA: ConcrDom
 	controlled fooB: ConcrDom
-	derived der: ConcrDom -> ConcrDom
-	derived der2: Prod(ConcrDom, ConcrDom) -> ConcrDom
+	static der: ConcrDom -> ConcrDom
+	static der2: Prod(ConcrDom, ConcrDom) -> ConcrDom
 
 definitions:
 	domain ConcrDom = {-10 : 10}

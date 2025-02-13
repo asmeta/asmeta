@@ -4,8 +4,8 @@ import ../../../../../asm_examples/STDL/CTLLibrary
 
 signature:
 	enum domain EnumDom = {AA | BB }
-	derived foo: EnumDom -> EnumDom
-	derived foo3: EnumDom -> EnumDom
+	static foo: EnumDom -> EnumDom
+	static foo3: EnumDom -> EnumDom
 	controlled cvar : EnumDom -> EnumDom
 	controlled cvar3 : EnumDom -> EnumDom
 	

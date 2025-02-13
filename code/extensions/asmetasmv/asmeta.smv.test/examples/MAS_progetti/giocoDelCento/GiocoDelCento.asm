@@ -15,7 +15,7 @@ signature:
 	dynamic controlled statoVincita: Players -> WinDomain
 	derived giocataBuona: Boolean
 	derived controllaVincita: Players -> Boolean
-	derived opponent: Players -> Players
+	static opponent: Players -> Players
 	dynamic controlled outMess: String	
 	
 

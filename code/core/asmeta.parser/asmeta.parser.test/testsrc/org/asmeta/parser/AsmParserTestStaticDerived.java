@@ -80,7 +80,7 @@ public class AsmParserTestStaticDerived extends AsmParserTest {
 	@Test
 	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testALLSPECIFICATIONS() throws IOException {
-		Files.walk(Paths.get("../../../../code/extensions/asmeta.refprover"))
+		Files.walk(Paths.get("../../../../code/extensions/asmetasmv"))
 		.filter(x -> (x.toFile().isDirectory() || x.toString().endsWith(".asm"))).forEach(f -> {
 			String string = f.toFile().toString();
 			// skip many problematic files
