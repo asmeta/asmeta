@@ -1,71 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<groupId>asmeta</groupId>
-	<artifactId>asmeta.evotest.evoasmetatg</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+    <groupId>asmeta</groupId>
+    <artifactId>asmeta.evotest.evoasmetatg</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
 
-  <properties>
-    <maven.compiler.source>17</maven.compiler.source>
-    <maven.compiler.target>17</maven.compiler.target>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    
-    <maven.assembly.version>3.7.1</maven.assembly.version>
-  </properties>
-  
-	<build>
-		<plugins>
-			<!-- Maven assembly plugin -->
-  			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<version>${maven.assembly.version}</version>
-				<executions>
-					<!-- create the jar with the dependencies -->
-					<execution>
-						<id>create-jar</id>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-						<configuration>
-							<finalName>evoasmetatg</finalName>
-							<appendAssemblyId>false</appendAssemblyId>
-							<outputDirectory>dist</outputDirectory>
-							<archive>
-								<manifest>
-									<mainClass>
-										asmeta.evotest.evoasmetatg.main.EvoAsmetaTgCLI
-									</mainClass>
-								</manifest>
-							</archive>
-							<descriptorRefs>
-								<descriptorRef>jar-with-dependencies</descriptorRef>
-							</descriptorRefs>
-						</configuration>
-					</execution>
-					<!-- create the zip with the jar and support files -->
- 					<execution>
-	                    <id>create-zip</id>
-	                    <phase>package</phase>
-	                    <goals>
-	                        <goal>single</goal>
-	                    </goals>
-	                    <configuration>
-							<finalName>evoasmetatg</finalName>
-							<appendAssemblyId>false</appendAssemblyId>
-							<outputDirectory>dist</outputDirectory>
-	                        <descriptors>
-	                            <descriptor>src/main/resources/evoasmetatg-zip.xml</descriptor>
-	                        </descriptors>
-	                    </configuration>
-	                </execution>
-				</executions>
-			</plugin>
-			<!-- Maven surefire plugin -->
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <maven.assembly.version>3.7.1</maven.assembly.version>
+    </properties>
+
+    <build>
+        <plugins>
+            <!-- Maven assembly plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>${maven.assembly.version}</version>
+                <executions>
+                    <!-- create the jar with the dependencies -->
+                    <execution>
+                        <id>create-jar</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <finalName>evoasmetatg</finalName>
+                            <appendAssemblyId>false</appendAssemblyId>
+                            <outputDirectory>dist</outputDirectory>
+                            <archive>
+                                <manifest>
+                                    <mainClass>
+                                        asmeta.evotest.evoasmetatg.main.EvoAsmetaTgCLI
+                                    </mainClass>
+                                </manifest>
+                            </archive>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                        </configuration>
+                    </execution>
+                    <!-- create the zip with the jar and support files -->
+                    <execution>
+                        <id>create-zip</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <finalName>evoasmetatg</finalName>
+                            <appendAssemblyId>false</appendAssemblyId>
+                            <outputDirectory>dist</outputDirectory>
+                            <descriptors>
+                                <descriptor>
+                                    src/main/resources/evoasmetatg-zip.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Maven surefire plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -76,56 +77,56 @@
             </plugin>
             <!-- Javadoc plugin -->
             <plugin>
-		    	<groupId>org.apache.maven.plugins</groupId>
-		    	<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.11.1</version>
-				<configuration>
-					<outputDirectory>docs</outputDirectory>
-					<show>private</show>
-					<nohelp>true</nohelp>
-				</configuration>
-			</plugin>
-    	</plugins>
-	</build>
-	
-	<dependencies>
-		<!-- Apache commons cli -->
-		<dependency>
-		 	 <groupId>commons-cli</groupId>
-		 	 <artifactId>commons-cli</artifactId>
-		 	 <version>1.9.0</version>
-		</dependency>
-		<!-- Log4j -->
-	    <dependency>
-	     	 <groupId>org.apache.logging.log4j</groupId>
-	     	 <artifactId>log4j-api</artifactId>
-	    	 <version>2.24.0</version>
-	    </dependency>
-	    <dependency>
-	     	 <groupId>org.apache.logging.log4j</groupId>
-	     	 <artifactId>log4j-core</artifactId>
-	     	 <version>2.24.0</version>
-	    </dependency>
-	    <dependency>
-	     <!-- Jackson YAML -->
-	      	<groupId>com.fasterxml.jackson.dataformat</groupId>
-	      	<artifactId>jackson-dataformat-yaml</artifactId>
-	     	<version>2.18.2</version>
-	     	<scope>runtime</scope>
-	    </dependency>
-		<!-- ASMETA dependencies -->
-		<!-- Asmetal2Java -->
-		<dependency>
-			<groupId>asmeta</groupId>
-			<artifactId>asmeta.asmetal2java.codegen</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<!-- Junit2Avalla -->
-		<dependency>
-			<groupId>asmeta</groupId>
-			<artifactId>asmeta.evotest.junit2avalla</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-  </dependencies>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.11.1</version>
+                <configuration>
+                    <outputDirectory>docs</outputDirectory>
+                    <show>private</show>
+                    <nohelp>true</nohelp>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <!-- Apache commons cli -->
+        <dependency>
+            <groupId>commons-cli</groupId>
+            <artifactId>commons-cli</artifactId>
+            <version>1.9.0</version>
+        </dependency>
+        <!-- Log4j -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.24.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.24.0</version>
+        </dependency>
+        <dependency>
+            <!-- Jackson YAML -->
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-yaml</artifactId>
+            <version>2.18.2</version>
+            <scope>runtime</scope>
+        </dependency>
+        <!-- ASMETA dependencies -->
+        <!-- Asmetal2Java -->
+        <dependency>
+            <groupId>asmeta</groupId>
+            <artifactId>asmeta.asmetal2java.codegen</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <!-- Junit2Avalla -->
+        <dependency>
+            <groupId>asmeta</groupId>
+            <artifactId>asmeta.evotest.junit2avalla</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 
 </project>

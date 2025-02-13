@@ -31,15 +31,15 @@ import asmeta.evotest.junit2avalla.main.Junit2AvallaCLI;
 public class EvoAsmetaTgCLI {
 
 	/* Constants */
-	private static final String INPUT = "input";
-	private static final String OUTPUT = "output";
-	private static final String WORKING_DIR = "workingDir";
-	private static final String CLEAN = "clean";
-	private static final String HELP = "help";
-	private static final String JAVA_PATH = "javaPath";
-	private static final String EVOSUITE_PATH = "evosuitePath";
-	private static final String EVOSUITE_VERSION = "evosuiteVersion";
-	private static final String TIME_BUDGET = "timeBudget";
+	public static final String INPUT = "input";
+	public static final String OUTPUT = "output";
+	public static final String WORKING_DIR = "workingDir";
+	public static final String CLEAN = "clean";
+	public static final String HELP = "help";
+	public static final String JAVA_PATH = "javaPath";
+	public static final String EVOSUITE_PATH = "evosuitePath";
+	public static final String EVOSUITE_VERSION = "evosuiteVersion";
+	public static final String TIME_BUDGET = "timeBudget";
 	private static final String GENERATION_FAILED = "Generation failed!";
 	private static final String DEBUG_LOG = "debug.log";
 	private static final String LOGS = "logs";

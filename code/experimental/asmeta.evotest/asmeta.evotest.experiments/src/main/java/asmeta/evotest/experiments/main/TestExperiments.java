@@ -2,6 +2,7 @@ package asmeta.evotest.experiments.main;
 
 import asmeta.AsmCollection;
 import asmeta.definitions.RuleDeclaration;
+import asmeta.evotest.evoasmetatg.main.EvoAsmetaTgCLI;
 import asmeta.structure.Asm;
 import asmeta.transitionrules.basictransitionrules.Rule;
 import asmeta.transitionrules.basictransitionrules.UpdateRule;
@@ -14,6 +15,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.tuple.Pair;
@@ -37,6 +39,8 @@ public class TestExperiments {
 	private static final String MYASM_DIR = "myasm";
 	private static final String RANDOM_DIR = "randomtests";
 	private static final String ATGT_DIR = "atgttests";
+	private static final String EVOAVALLA_DIR = "evoavallatests";
+	private static final String DASH = "-";
 
 	public static void main(String[] args) throws Exception {
 		Logger.getLogger(RuleEvaluator.class).setLevel(Level.INFO);
@@ -124,6 +128,32 @@ public class TestExperiments {
 		}
 
 		// Chiamata al generatore che usa EvoSuite
+		try {
+
+			String evoAavallaTestDir = RESOURCES + "/" +  EVOAVALLA_DIR;
+			String avallaOutputDirectory = evoAavallaTestDir + "/" + asmFileName;
+
+			List<String> evoAsmetaTgArguments = List.of(DASH + EvoAsmetaTgCLI.WORKING_DIR, "./evoAvalla/",
+					DASH + EvoAsmetaTgCLI.INPUT, asmPath, DASH + EvoAsmetaTgCLI.OUTPUT, avallaOutputDirectory,
+					DASH + EvoAsmetaTgCLI.JAVA_PATH, "C:\\Program Files\\Java\\jdk-1.8",
+					DASH + EvoAsmetaTgCLI.EVOSUITE_VERSION, "1.0.6", DASH + EvoAsmetaTgCLI.EVOSUITE_PATH,
+					"..\\asmeta.evotest.evoAsmetaTG\\evosuite\\evosuite-jar", DASH + EvoAsmetaTgCLI.TIME_BUDGET, "10",
+					DASH + EvoAsmetaTgCLI.CLEAN, "-DignoreDomainException=true");
+
+			EvoAsmetaTgCLI.main(evoAsmetaTgArguments.toArray(new String[0]));
+
+			if (EvoAsmetaTgCLI.getReturnedCode() != 0) {
+				throw new IllegalStateException(
+						"EvoAsmetaTgCLI returned an error code:" + EvoAsmetaTgCLI.getReturnedCode());
+			}
+
+			computeCoverageFromAvalla(avallaOutputDirectory, evoAavallaTestDir + "/report.csv");
+
+		} catch (Exception e) {
+			System.err.println("EvoAvalla failed to generate a test suite that can be validated");
+			e.printStackTrace();
+		}
+
 	}
 
 	private static void computeCoverageFromAsmTestSuite(String asmPath, AsmTestSuite suite, String testDir,
