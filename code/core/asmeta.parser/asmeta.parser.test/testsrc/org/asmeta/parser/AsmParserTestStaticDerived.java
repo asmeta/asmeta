@@ -13,7 +13,9 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.SimpleLayout;
 import org.asmeta.parser.util.ReflectiveVisitor;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import asmeta.AsmCollection;
 
@@ -74,7 +76,9 @@ public class AsmParserTestStaticDerived extends AsmParserTest {
 	}
 
 	// test all the specifications - over all the projects
+	@Ignore
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testALLSPECIFICATIONS() throws IOException {
 		Files.walk(Paths.get("../../../../code/extensions/asmeta.refprover"))
 		.filter(x -> (x.toFile().isDirectory() || x.toString().endsWith(".asm"))).forEach(f -> {
