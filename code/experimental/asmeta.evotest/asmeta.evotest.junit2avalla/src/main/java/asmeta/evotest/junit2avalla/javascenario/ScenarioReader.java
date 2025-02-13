@@ -18,7 +18,7 @@ public interface ScenarioReader {
 	 * @param type string containing the type of the parser.
 	 * @throws IllegalArgumentException if no matching type is found
 	 */
-	public void setType(String type) throws IllegalArgumentException;
+	public void setParserType(String type) throws IllegalArgumentException;
 
 	/**
 	 * Reads a java scenario from the file at the specified {@code path} and parses

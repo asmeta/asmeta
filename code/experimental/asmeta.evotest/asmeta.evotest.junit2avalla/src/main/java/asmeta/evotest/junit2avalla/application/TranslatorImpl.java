@@ -63,7 +63,7 @@ public class TranslatorImpl implements Translator {
 	@Override
 	public void setParser(String parser) throws SetupException {
 		try {
-			scenarioReader.setType(parser);
+			scenarioReader.setParserType(parser);
 		} catch (IllegalArgumentException e) {
 			logger.error("Failed to set the parser type");
 			throw new SetupException("Unable to set the parser type", e);
