@@ -1,3 +1,4 @@
 /evoAvalla/
 *.csv
 *.avalla
+/spec/

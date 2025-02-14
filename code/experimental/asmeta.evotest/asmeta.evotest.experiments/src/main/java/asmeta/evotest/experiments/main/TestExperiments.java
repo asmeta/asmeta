@@ -48,7 +48,7 @@ public class TestExperiments {
 		Logger.getLogger(AsmetaV.class).setLevel(Level.DEBUG);
 
 		String targetDir = "./" + RESOURCES + "/" + MYASM_DIR + "/tests";
-		computeCoverageFromAvalla(targetDir, RESOURCES + "/" + MYASM_DIR + "/report.csv");
+		//computeCoverageFromAvalla(targetDir, RESOURCES + "/" + MYASM_DIR + "/report.csv");
 
 		Path dir = Paths.get(RESOURCES);
 		Files.walk(dir).forEach(path -> generateTestsAndComputeCoverage(path.toString()));
@@ -57,7 +57,7 @@ public class TestExperiments {
 	private static void generateTestsAndComputeCoverage(String filePath) {
 		File file = new File(filePath);
 		// Skip directories and file contained in the STDL directory
-		if (file.isDirectory() || file.getParentFile().getName().equals("STDL"))
+		if (file.isDirectory() || file.getParentFile().getName().equals("STDL")  || file.getParentFile().getParentFile().getName().equals(EVOAVALLA_DIR))
 			return;
 		// Look only at .asm files
 		if (file.getName().endsWith(ASMParser.ASM_EXTENSION)) {
@@ -109,7 +109,7 @@ public class TestExperiments {
 			AsmTestGeneratorBySimulation randomTestGenerator = new AsmTestGeneratorBySimulation(asmCollection, 5, 5);
 			AsmTestSuite randomSuite = randomTestGenerator.getTestSuite();
 			computeCoverageFromAsmTestSuite(asmPath, randomSuite, RESOURCES + "/" + RANDOM_DIR + "/" + asmFileName,
-					RESOURCES + "/" + RANDOM_DIR + "/report.csv");
+					RESOURCES + "/" + RANDOM_DIR + "/report_random.csv");
 		} catch (Exception e) {
 			System.err.println("RANDOM failed to generate a test suite that can be validated");
 			e.printStackTrace();
@@ -121,16 +121,24 @@ public class TestExperiments {
 			AsmTestSuite nusmvSuite = nusmvTestGenerator
 					.generateAbstractTests(Collections.singleton(CriteriaEnum.MCDC.criteria), Integer.MAX_VALUE, ".*");
 			computeCoverageFromAsmTestSuite(asmPath, nusmvSuite, RESOURCES + "/" + ATGT_DIR + "/" + asmFileName,
-					RESOURCES + "/" + ATGT_DIR + "/report.csv");
+					RESOURCES + "/" + ATGT_DIR + "/report_atgt.csv");
 		} catch (Exception e) {
 			System.err.println("ATGT failed to generate a test suite that can be validated");
 			e.printStackTrace();
 		}
 
 		// Chiamata al generatore che usa EvoSuite
+		// Problema 1: EvoAvalla attualmente supporta solo asm che iniziano con la
+		// lettera maiuscola
+		// Problema 2: se chiamo direttamente computeCoverageFromAvalla() si aspetta di
+		// trovare la specifica nella cartella del progetto in considerazione,
+		// (esempio per pillbox cerca la specifica .asm in
+		// evoavallatests/pillbox_1/pillbox_1.asm).
+		// Per evitare eccezioni per copio la specifica manualmente, sistemando la
+		// posizione delle STDL e del nome
 		try {
 
-			String evoAavallaTestDir = RESOURCES + "/" +  EVOAVALLA_DIR;
+			String evoAavallaTestDir = "./" + RESOURCES + "/" + EVOAVALLA_DIR;
 			String avallaOutputDirectory = evoAavallaTestDir + "/" + asmFileName;
 
 			List<String> evoAsmetaTgArguments = List.of(DASH + EvoAsmetaTgCLI.WORKING_DIR, "./evoAvalla/",
@@ -146,8 +154,8 @@ public class TestExperiments {
 				throw new IllegalStateException(
 						"EvoAsmetaTgCLI returned an error code:" + EvoAsmetaTgCLI.getReturnedCode());
 			}
-
-			computeCoverageFromAvalla(avallaOutputDirectory, evoAavallaTestDir + "/report.csv");
+			
+			computeCoverageFromAvalla(avallaOutputDirectory, evoAavallaTestDir + "/report_evoavalla.csv");
 
 		} catch (Exception e) {
 			System.err.println("EvoAvalla failed to generate a test suite that can be validated");
