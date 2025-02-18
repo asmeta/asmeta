@@ -10,15 +10,16 @@ import asmeta.transitionrules.basictransitionrules.ConditionalRule;
 import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
 import atgt.coverage.AsmTestSuite;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.asmeta.parser.ASMParser;
@@ -29,35 +30,46 @@ import org.asmeta.atgt.generator.SaveResults;
 import org.asmeta.atgt.generator2.AsmTestGeneratorBySimulation;
 import org.asmeta.simulator.RuleEvaluator;
 import org.asmeta.xt.validator.AsmetaV;
-import org.asmeta.xt.validator.RuleDeclarationUtils;
 import org.asmeta.xt.validator.RuleEvalWCov;
 import org.asmeta.avallaxt.validation.RuleExtractorFromMacroDecl;
 
 public class TestExperiments {
 
+	private static final String REPORT_DIR = "report";
+	private static final String BENCHMARK_CSV = REPORT_DIR + "/benchmark.csv";
 	private static final String RESOURCES = "src/main/resources";
-	private static final String MYASM_DIR = "myasm";
 	private static final String RANDOM_DIR = "randomtests";
 	private static final String ATGT_DIR = "atgttests";
 	private static final String EVOAVALLA_DIR = "evoavallatests";
 	private static final String DASH = "-";
+	
+	// TODO: remove hardcoded path to jdk
+	private static final String JDK_PATH = "C:/Program Files/Java/jdk1.8.0_431"; //"C:/Program Files/Java/jdk-1.8";
 
+	/**
+	 * Run the tests
+	 */
 	public static void main(String[] args) throws Exception {
 		Logger.getLogger(RuleEvaluator.class).setLevel(Level.INFO);
 		Logger.getLogger(RuleEvalWCov.class).setLevel(Level.INFO);
 		Logger.getLogger(AsmetaV.class).setLevel(Level.DEBUG);
 
-		String targetDir = "./" + RESOURCES + "/" + MYASM_DIR + "/tests";
-		//computeCoverageFromAvalla(targetDir, RESOURCES + "/" + MYASM_DIR + "/report.csv");
-
 		Path dir = Paths.get(RESOURCES);
 		Files.walk(dir).forEach(path -> generateTestsAndComputeCoverage(path.toString()));
 	}
 
+	/**
+	 * Determines whether the given path should be a target file for experiments. 
+	 * If so, generates .avalla files using ATGT, Random, and EvoAvalla.
+	 * Then, validates and computes the coverage using the generated .avalla files.
+	 * 
+	 * @param filePath the path of the .asm file
+	 */
 	private static void generateTestsAndComputeCoverage(String filePath) {
 		File file = new File(filePath);
 		// Skip directories and file contained in the STDL directory
-		if (file.isDirectory() || file.getParentFile().getName().equals("STDL")  || file.getParentFile().getParentFile().getName().equals(EVOAVALLA_DIR))
+		if (file.isDirectory() || file.getParentFile().getName().equals("STDL") ||
+				file.getParentFile().getParentFile().getName().equals(EVOAVALLA_DIR))
 			return;
 		// Look only at .asm files
 		if (file.getName().endsWith(ASMParser.ASM_EXTENSION)) {
@@ -65,31 +77,40 @@ public class TestExperiments {
 			try {
 				asms = ASMParser.setUpReadAsm(file);
 				if (asms.getMain().getMainrule() == null) {
-					System.out.println("Skipping " + filePath + " because defines a module");
+					System.err.println("Skipping " + filePath + " because defines a module");
 					return;
 				}
 			} catch (Exception e) {
-				System.out.println("Skipping " + filePath + " because the internal asm cannot be parsed");
+				System.err.println("Skipping " + filePath + " because the internal asm cannot be parsed");
+				e.printStackTrace();
 				return;
 			}
+			System.out.println("Collecting benchmark info");
+			collectBenchmarkInfo(asms);
 			System.out.println("Generating test for " + file.getName());
-			// Dovrei tenermi una lista di tutte le asm così che so se effettivamente sono
-			// presenti nel csv, ossia non ci sono stati problemi
 			generateTestsAndComputeCoverage(filePath, asms);
 		}
 	}
-
-	private static void generateTestsAndComputeCoverage(String asmPath, AsmCollection asmCollection) {
-		System.out.println("Starting generation for" + asmPath);
-		// ottieni tutte le regole contenute nella asm e nelle asm che importa con il
-		// totale di cond e update rules (è utile? per ora non ci faccio niente)
-		Map<String, Pair<Integer, Integer>> allRules = new HashMap<>();
-
-		for (Asm a : asmCollection) {
-			String name = a.getName();
-			if (name.equals("StandardLibrary") || name.equals("CTLLibrary") || name.equals("LTLLibrary"))
+	
+	/**
+	 * Collect and write to csv the information about the macro, conditional, and update rules
+	 * for all asms in a collection
+	 * 
+	 * @param asmCollection
+	 */
+	private static void collectBenchmarkInfo(AsmCollection asmCollection) {
+		List<String> headers = List.of("asm_name", "rule_signature", "tot_conditional_rules", "tot_update_rules");
+		List<String[]> rows = new ArrayList<>();
+		// get all the macro rules in the asm and in the imported asm along with the total number of contidional
+		// and uptade rules in it
+		for (Asm asm : asmCollection) {
+			String asmName = asm.getName();
+			if (asmName.equals("StandardLibrary") || asmName.equals("CTLLibrary") || asmName.equals("LTLLibrary"))
 				continue;
-			for (RuleDeclaration rd : a.getBodySection().getRuleDeclaration()) {
+			for (RuleDeclaration rd : asm.getBodySection().getRuleDeclaration()) {
+				String completeRuleName = rd.getName();
+				String signature = completeRuleName.substring(completeRuleName.lastIndexOf(':')+1);
+				signature = signature.contains(",")? "\"" + signature + "\"": signature;
 				int totCondRules = 0;
 				int totUpdateRules = 0;
 				for (Rule r : RuleExtractorFromMacroDecl.getAllContainedRules((MacroDeclaration) rd)) {
@@ -98,10 +119,34 @@ public class TestExperiments {
 					if (r instanceof UpdateRule)
 						totUpdateRules++;
 				}
-				allRules.put(RuleDeclarationUtils.getCompleteName(rd), Pair.of(totCondRules, totUpdateRules));
+				rows.add(new String[]{asmName, signature, String.valueOf(totCondRules), String.valueOf(totUpdateRules)});
 			}
 		}
+		// Print to csv
+		try {
+        	boolean fileExists = Files.exists(Paths.get(BENCHMARK_CSV));
+        	FileOutputStream fos = new FileOutputStream(BENCHMARK_CSV, true);
+            PrintStream ps = new PrintStream(fos);
+            // If the file did not exist or is empty, start printing the headers
+        	if (!fileExists || Files.size(Paths.get(BENCHMARK_CSV)) == 0)
+        		ps.println(String.join(",", headers));
+        	for (String[] row: rows)
+	        	ps.println(String.join(",", row));
+            ps.close();           
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+	}
 
+	/**
+	 * Generate .avalla files for an ASM specification using ATGT, Random, and EvoAvalla.
+	 * Then, validates and computes the coverage using the generated .avalla files.
+	 * 
+	 * @param asmPath the path of the asm to be validated
+	 * @param asmCollection the <code>AsmCollection<code> that results from parsing the ASM
+	 */
+	private static void generateTestsAndComputeCoverage(String asmPath, AsmCollection asmCollection) {
+		System.out.println("Starting generation for" + asmPath);
 		String asmFileName = new File(asmPath).getName().substring(0, new File(asmPath).getName().indexOf("."));
 		try {
 			// Come decidere i parametri della random simulation? Vedere quanti avalla
@@ -109,7 +154,7 @@ public class TestExperiments {
 			AsmTestGeneratorBySimulation randomTestGenerator = new AsmTestGeneratorBySimulation(asmCollection, 5, 5);
 			AsmTestSuite randomSuite = randomTestGenerator.getTestSuite();
 			computeCoverageFromAsmTestSuite(asmPath, randomSuite, RESOURCES + "/" + RANDOM_DIR + "/" + asmFileName,
-					RESOURCES + "/" + RANDOM_DIR + "/report_random.csv");
+					REPORT_DIR + "/report_random.csv");
 		} catch (Exception e) {
 			System.err.println("RANDOM failed to generate a test suite that can be validated");
 			e.printStackTrace();
@@ -121,7 +166,7 @@ public class TestExperiments {
 			AsmTestSuite nusmvSuite = nusmvTestGenerator
 					.generateAbstractTests(Collections.singleton(CriteriaEnum.MCDC.criteria), Integer.MAX_VALUE, ".*");
 			computeCoverageFromAsmTestSuite(asmPath, nusmvSuite, RESOURCES + "/" + ATGT_DIR + "/" + asmFileName,
-					RESOURCES + "/" + ATGT_DIR + "/report_atgt.csv");
+					REPORT_DIR + "/report_atgt.csv");
 		} catch (Exception e) {
 			System.err.println("ATGT failed to generate a test suite that can be validated");
 			e.printStackTrace();
@@ -143,9 +188,9 @@ public class TestExperiments {
 
 			List<String> evoAsmetaTgArguments = List.of(DASH + EvoAsmetaTgCLI.WORKING_DIR, "./evoAvalla/",
 					DASH + EvoAsmetaTgCLI.INPUT, asmPath, DASH + EvoAsmetaTgCLI.OUTPUT, avallaOutputDirectory,
-					DASH + EvoAsmetaTgCLI.JAVA_PATH, "C:\\Program Files\\Java\\jdk-1.8",
+					DASH + EvoAsmetaTgCLI.JAVA_PATH, JDK_PATH,
 					DASH + EvoAsmetaTgCLI.EVOSUITE_VERSION, "1.0.6", DASH + EvoAsmetaTgCLI.EVOSUITE_PATH,
-					"..\\asmeta.evotest.evoAsmetaTG\\evosuite\\evosuite-jar", DASH + EvoAsmetaTgCLI.TIME_BUDGET, "10",
+					"..\\asmeta.evotest.evoasmetatg\\evosuite\\evosuite-jar", DASH + EvoAsmetaTgCLI.TIME_BUDGET, "10",
 					DASH + EvoAsmetaTgCLI.CLEAN, "-DignoreDomainException=true");
 
 			EvoAsmetaTgCLI.main(evoAsmetaTgArguments.toArray(new String[0]));
@@ -155,7 +200,7 @@ public class TestExperiments {
 						"EvoAsmetaTgCLI returned an error code:" + EvoAsmetaTgCLI.getReturnedCode());
 			}
 			
-			computeCoverageFromAvalla(avallaOutputDirectory, evoAavallaTestDir + "/report_evoavalla.csv");
+			computeCoverageFromAvalla(avallaOutputDirectory, REPORT_DIR + "/report_evoavalla.csv");
 
 		} catch (Exception e) {
 			System.err.println("EvoAvalla failed to generate a test suite that can be validated");
@@ -164,6 +209,15 @@ public class TestExperiments {
 
 	}
 
+	/**
+	 * Validate an ASM specification and compute the coverage given an <code>AsmTestSuite<code>
+	 * 
+	 * @param asmPath the path of the asm to be validated
+	 * @param suite the test suite
+	 * @param testDir where to save the .avalla files
+	 * @param csvPath where to save the experiments stats (it must be a .csv file)
+	 * @throws Exception
+	 */
 	private static void computeCoverageFromAsmTestSuite(String asmPath, AsmTestSuite suite, String testDir,
 			String csvPath) throws Exception {
 		new File(testDir).mkdirs();
@@ -172,8 +226,15 @@ public class TestExperiments {
 		computeCoverageFromAvalla(testDir, csvPath);
 	}
 
-	private static void computeCoverageFromAvalla(String targetDir, String csvPath) throws Exception {
-		AsmetaV.execValidation(targetDir, true, csvPath);
+	/**
+	 * Validate an ASM specification and compute the coverage given the .avalla scenarios
+	 * 
+	 * @param scenarioPath the path of the directory where to look for the .avalla files or the path of a single .avalla file
+	 * @param csvPath where to save the experiments stats (it must be a .csv file)
+	 * @throws Exception
+	 */
+	private static void computeCoverageFromAvalla(String scenarioPath, String csvPath) throws Exception {
+		AsmetaV.execValidation(scenarioPath, true, csvPath);
 		RuleEvalWCov.reset();
 	}
 

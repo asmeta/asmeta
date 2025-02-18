@@ -25,10 +25,10 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry combineaccessrules="false" kind="src" path="/asmetal2java_codegen"/>
-	<classpathentry kind="src" path="/asmeta.parser"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/org.asmeta.avallaxt"/>
-	<classpathentry kind="src" path="/asmeta.simulator"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/asmeta.atgt"/>
+	<classpathentry kind="src" path="/asmeta.simulator"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/org.asmeta.avallaxt"/>
+	<classpathentry kind="src" path="/asmeta.parser"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/asmeta.asmetal2java.codegen"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
