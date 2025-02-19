@@ -1,4 +1,4 @@
-asm pillbox_1
+asm Pillbox_1
 
 import STDL/StandardLibrary
 import STDL/CTLLibrary
