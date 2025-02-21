@@ -46,7 +46,7 @@ public class TestExperiments {
 	private static final String DASH = "-";
 
 	// TODO: remove hardcoded path to jdk
-	private static final String JDK_PATH = "C:/Program Files/Java/jdk1.8.0_431"; // "C:/Program Files/Java/jdk-1.8";
+	private static final String JDK_PATH = /*"C:/Program Files/Java/jdk1.8.0_431"; */ "C:/Program Files/Java/jdk-1.8";
 
 	/**
 	 * Run the tests
