@@ -1,10 +1,14 @@
 package org.asmeta.parser;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.apache.log4j.ConsoleAppender;
@@ -79,8 +83,8 @@ public class AsmParserTestStaticDerived extends AsmParserTest {
 	@Ignore
 	@Test
 	@Category(org.asmeta.annotations.TestToMavenSkip.class)
-	public void testALLSPECIFICATIONS() throws IOException {
-		Files.walk(Paths.get("../../../../code/extensions/asmetasmv"))
+	public void testALLSPECIFICATIONSANDFIX() throws IOException {
+		Files.walk(Paths.get("../../../../code/extensions/"))
 		.filter(x -> (x.toFile().isDirectory() || x.toString().endsWith(".asm"))).forEach(f -> {
 			String string = f.toFile().toString();
 			// skip many problematic files
@@ -102,10 +106,15 @@ public class AsmParserTestStaticDerived extends AsmParserTest {
 			if (string.contains("asmeta.modeladvisor.test\\examples\\statDerIsUsed.asm")); else
 			if (string.contains("asmeta.modeladvisor.test\\examples\\usedDomain2.asm")); else
 			if (string.contains("ABZ2016\\old")); else
-			if (string.endsWith(".asm")) {
-				AsmCollection res = testOneSpec(f.toFile(),false,false);
-				if (res == null) {
-					System.err.println(f.toString());
+			if (string.endsWith(ASMParser.ASM_EXTENSION)) {
+				try {
+					AsmCollection asmcollection = ASMParser.setUpReadAsm(f.toFile());
+				} catch (Exception e) {
+					if (e.getMessage().contains("does not contain dynamic functions in its definition"))
+						fixDerived(f, e.getMessage());
+					if (e.getMessage().contains("contains (dynamic)"))
+						fixStatic(f, e.getMessage());					
+					e.printStackTrace();
 					fail();
 				}
 			}
@@ -114,6 +123,37 @@ public class AsmParserTestStaticDerived extends AsmParserTest {
 //		for (String s : failures) {
 //			testOneSpec(s);
 //		}
+	}
+
+	private void fixStatic(Path x, String msg) {
+		String[] data = msg.split(" ");
+		String location = data[3];
+		System.err.println("fixing " + x + " static: " + location + " must be derived");
+		try {
+			replace(x, "static " + location, "derived " + location);
+		} catch (IOException e) {
+// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void fixDerived(Path x, String msg) {
+		String[] data = msg.split(" ");
+		String location = data[3];
+		System.err.println("fixing " + x + " derived: " + location + " must be static");
+		try {
+			replace(x, "derived " + location, "static " + location);
+		} catch (IOException e) {
+// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	private void replace(Path x, String old, String newS) throws IOException {
+		Charset charset = StandardCharsets.UTF_8;
+		String content = new String(Files.readAllBytes(x), charset);
+		content = content.replaceAll(old, newS);
+		Files.write(x, content.getBytes(charset));
 	}
 
 }

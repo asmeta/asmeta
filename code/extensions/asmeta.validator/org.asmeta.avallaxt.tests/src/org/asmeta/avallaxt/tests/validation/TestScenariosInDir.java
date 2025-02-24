@@ -19,6 +19,7 @@ public class TestScenariosInDir extends TestParserAndValidation {
 	@Test
 	public void testAllExamples() throws IOException {
 		testAvallasInDir("../../../../asm_examples");
+		testAvallasInDir("../../../../asmeta_models");
 	}
 
 	@Test
@@ -60,6 +61,7 @@ public class TestScenariosInDir extends TestParserAndValidation {
 		while (files.hasNext()) {
 			Path fileToRead = files.next();
 			String scenarioName = fileToRead.toString();
+			if (scenarioName.contains("workspacePatrizia")) continue;
 			if (scenarioName.endsWith(".avalla") && Files.isRegularFile(fileToRead)) {
 				if (checkPossibleFaults(scenarioName) != PossibleFaults_NONE) {
 					filexWithErrors.add(scenarioName);

@@ -15,7 +15,7 @@ signature:
 	//For execution behavior
 	monitored playerX: Square  // mossa di X
 	controlled whoWon: Finalres
-	static noSquareLeft : Boolean
+	derived noSquareLeft : Boolean
 
 definitions:
 	domain Square = {1:9}

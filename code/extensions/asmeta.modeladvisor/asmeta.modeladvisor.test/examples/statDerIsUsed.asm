@@ -129,17 +129,17 @@ definitions:
 		endswitch
 
 	function fooDer($b in Boolean) =
-		not(der_Switch) and $b
+		not(der_Switch) and mon1
 		
 	function fooC_Der = false
 	
 	function fooStatA($b in Boolean) = $b
 	function fooStatB($b in Boolean) = $b
 	
-	function fooDerA($b in Boolean) = $b
-	function fooDerB($b in Boolean) = $b
+	function fooDerA($b in Boolean) = mon1
+	function fooDerB($b in Boolean) = mon1
 	
-	function fooDerC = true
+	function fooDerC = true and mon1
 	function fooDerD = fooDerC
 
 	//function fooDerE = false

@@ -8,9 +8,10 @@ signature:
 	domain Num subsetof Integer
 	domain Car subsetof Integer
 	dynamic controlled board: Prod(Coord, Coord) -> Car
-	dynamic chooseVar0: Prod(Car, Dir) -> Boolean
+	//dynamic chooseVar0: Prod(Car, Dir) -> Boolean
 	derived isNextCellFree: Prod(Car, Dir) -> Boolean
 	derived isMovePermitted: Prod(Car, Dir) -> Boolean
+	derived isDirMachine: Prod(Car, Dir) -> Boolean
 	static rMove: Dir -> Num
 	static cMove: Dir -> Num
 	static rMoveP: Dir -> Num
