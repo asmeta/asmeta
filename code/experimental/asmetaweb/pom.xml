@@ -16,6 +16,30 @@
 	<properties>
 		<java.version>17</java.version>
 	</properties>
+	
+	<build>
+		<sourceDirectory>src/main/java</sourceDirectory>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+			        <execution>
+			            <goals>
+			                <goal>repackage</goal>
+			            </goals>
+						<!-- removed because results in a stack overflow exception
+						<configuration>
+							<finalName>AsmetaServer</finalName>
+							<outputDirectory>dist</outputDirectory>
+						</configuration>-->
+			        </execution>
+			    </executions>
+			</plugin>
+		</plugins>
+	</build>
+	
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -39,14 +63,5 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
 
 </project>
