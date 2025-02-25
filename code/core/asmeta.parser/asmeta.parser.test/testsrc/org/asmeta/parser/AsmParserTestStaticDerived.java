@@ -79,12 +79,13 @@ public class AsmParserTestStaticDerived extends AsmParserTest {
 		testOneSpec("examples/production_cell/Production_Cell_with_agents.asm");
 	}
 
-	// test all the specifications - over all the projects
+	// test all the specifications - over all the projects in case fix derived/static
+	@Ignore
 	@Test
 	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testALLSPECIFICATIONSANDFIX() throws IOException {
 		ASMParser.getResultLogger().setLevel(Level.OFF);
-		Files.walk(Paths.get("../../../../code/extensions/asmeta.modeladvisor/asmeta.modeladvisor.test/examples\\repository\\examples\\production_cell\\"))
+		Files.walk(Paths.get("../../../../code/"))
 		.filter(x -> (x.toFile().isDirectory() || x.toString().endsWith(".asm"))).forEach(f -> {
 			String string = f.toFile().toString();
 			// skip many problematic files

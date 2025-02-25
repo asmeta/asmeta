@@ -29,9 +29,7 @@ public class ParseAllExampleTest {
 					!filepath.contains("QUICKSORT")&& 
 					!filepath.contains("systemc")&&
 					!filepath.contains("SystemCUMLProfile") &&
-					!filepath.contains("test\\simulator")
-					
-					
+					!filepath.contains("test"+File.separatorChar+"simulator")										
 					) {
 				System.out.println(x);
 				try {
