@@ -17,7 +17,7 @@ signature:
 
 definitions:
 	
-domain WaterpressureType = {0 .. 2000}    
+domain WaterpressureType = {0 : 2000}    
 
 function low = 900
 

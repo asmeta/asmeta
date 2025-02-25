@@ -22,7 +22,7 @@ signature:
 	//DICHIARAZIONI FUNZIONI DERIVATE
 	derived giocataBuona: Boolean
 	//derived controllaVincita: Boolean
-	derived opponent: Players -> Players
+	static opponent: Players -> Players
 	
 	
 

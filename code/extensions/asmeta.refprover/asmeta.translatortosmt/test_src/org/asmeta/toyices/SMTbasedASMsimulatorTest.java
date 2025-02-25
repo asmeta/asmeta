@@ -6,13 +6,14 @@ import static org.junit.Assert.fail;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class SMTbasedASMsimulatorTest {
 	
 	private static boolean printOutput = true;
 
-	private void test(String asmFile) throws Exception {
+	static public void test(String asmFile) throws Exception {
 		PrintStream standardOut = System.out;
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 	    PrintStream ps = new PrintStream(baos);
@@ -256,4 +257,14 @@ public class SMTbasedASMsimulatorTest {
 		SMTbasedASMsimulator.setLogger();
 		test("../../../../asmeta_models/tutorials/tutorial_FM24/pillbox_ground.asm");
 	}
+	
+	@Test
+	@Ignore
+	// for some reasons this fails
+	public void testABZCaseStudy() throws Exception {
+		String file = "D:\\AgHome\\progettidaSVNGIT\\ricerca\\abz2025_casestudy_autonomous_driving\\asmeta spec\\models\\SafetyEnforcer.asm";
+		SMTbasedASMsimulator.setLogger();
+		test(file);
+	}
+
 }

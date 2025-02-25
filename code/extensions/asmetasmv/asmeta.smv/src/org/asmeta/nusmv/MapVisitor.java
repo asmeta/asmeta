@@ -87,7 +87,7 @@ import asmeta.transitionrules.basictransitionrules.Rule;
 import asmeta.transitionrules.derivedtransitionrules.CaseRule;
 
 /**
- * The Class MapVisitor.
+ * build all the structure needed to translate to NUSMV
  */
 public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 
@@ -160,10 +160,13 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 	public Environment env;
 	public TermVisitor tp;
 	public Map<String, String> nusmvNameToLocation;
-	// private int seqCounter;
-	public ArrayList<String> ctlList, ltlList;
-	public ArrayList<String> ctlListNames, ltlListNames;
-	public ArrayList<String> invariantInAgCTL;
+
+	// private int seqCounter;	
+	record NamedProperty(String name, String prop) {};	
+	public ArrayList<NamedProperty> ctlList;
+	public ArrayList<NamedProperty> ltlList;
+	public ArrayList<NamedProperty> invariantList;
+	
 	private ArrayList<String> justiceConstraintsList;
 	private ArrayList<String[]> compassionConstraintsList;
 	private ArrayList<String> invarConstraintsList;
@@ -255,7 +258,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 		}
 		printSmv(smvFileName, smv);
 		if (!AsmetaSMVOptions.keepNuSMVfile) {
-			// System.out.println("destroy");
+			System.err.println("destroy");
 			smvFile.deleteOnExit();// it should be "delete" (but not here). "delete" here is too early
 		}
 		smv.close();
@@ -548,48 +551,58 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 			}
 		}
 		allProp = new ArrayList<String>();
-		String name;
-		Iterator<String> names;
+		//String name;
+		//Iterator<String> names;
 		if (ltlList.size() > 0) {
-			names = ltlListNames.iterator();
+			//names = ltlListNames.iterator();
 			smv.println("--LTL properties");
 			int ltlCounter = 0;
-			for (String property : ltlList) {
+			for (NamedProperty property : ltlList) {
 				smv.print("LTLSPEC");
-				name = names.next();
+				String name = property.name;
 				if (!name.equals("")) {
 					smv.print(" NAME " + name + (ltlCounter++) + " :=");
 				} else {
 					smv.print(" NAME ltl" + (ltlCounter++) + " :=");
 				}
-				smv.println(" " + property + ";");
-				allProp.add(property);
+				smv.println(" " + property.prop + ";");
+				allProp.add(property.prop);
 			}
 		}
 		if (ctlList.size() > 0) {
 			// System.out.println(ctlListNames);
-			names = ctlListNames.iterator();
+			//names = ctlListNames.iterator();
 			smv.println("--CTL properties");
 			int ctlCounter = 0;
-			for (String property : ctlList) {
+			for (NamedProperty property : ctlList) {
 				smv.print("CTLSPEC");
 				// if(ctlListNames.size() > 0) {
-				name = names.next();
+				String name = property.name;
 				if (!name.equals("")) {
 					smv.print(" NAME " + name + (ctlCounter++) + " :=");
 				} else {
 					smv.print(" NAME ctl" + (ctlCounter++) + " :=");
 				}
 				// }
-				smv.println(" " + property + ";");
-				allProp.add(property);
+				smv.println(" " + property.prop + ";");
+				allProp.add(property.prop);
 			}
 		}
-		if (invariantInAgCTL.size() > 0) {
+		if (invariantList.size() > 0) {
 			smv.println("--AsmetaL invariants");
-			for (String property : invariantInAgCTL) {
-				smv.println("CTLSPEC\t" + property + ";");
-				allProp.add(property);
+			int invCounter = 0;
+			for (NamedProperty property : invariantList) {
+				smv.print("INVARSPEC");
+				// if(ctlListNames.size() > 0) {
+				String name = property.name;
+				if (!name.equals("")) {
+					smv.print(" NAME " + name + " :=");
+				} else {
+					smv.print(" NAME inv" + (invCounter++) + " :=");
+				}
+				// }
+				smv.println(" " + property.prop + ";");
+				allProp.add(property.prop);
 			}
 		}
 	}
@@ -681,14 +694,14 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 			} else if (property instanceof LtlSpec) {
 				ltlSpecs.add((LtlSpec) property);
 			}
-		}
+		}		
 		visitInvariants(invariants);
-		ctlList = new ArrayList<String>();
-		ctlListNames = new ArrayList<String>();
-		visitTemporalSpecs(ctlSpecs, ctlList, ctlListNames);
-		ltlList = new ArrayList<String>();
-		ltlListNames = new ArrayList<String>();
-		visitTemporalSpecs(ltlSpecs, ltlList, ltlListNames);
+		ctlList = new ArrayList<NamedProperty>();
+		//ctlListNames = new ArrayList<String>();
+		visitTemporalSpecs(ctlSpecs, ctlList);
+		ltlList = new ArrayList<NamedProperty>();
+		//ltlListNames = new ArrayList<String>();
+		visitTemporalSpecs(ltlSpecs, ltlList);
 
 		List<JusticeConstraint> justiceConstraints = new ArrayList<JusticeConstraint>();
 		List<CompassionConstraint> compassionConstraints = new ArrayList<CompassionConstraint>();
@@ -1037,33 +1050,29 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 	}
 
 	/**
-	 * It visits the invariants. Invariants become properties in the form AG().
+	 * It visits the invariants. Invariants become properties as INVARSPEC
 	 * 
 	 * @param invariants the ASM invariants
 	 */
 
 	private void visitInvariants(List<Invariant> invariants) {
-		String property;
-		ctlList = new ArrayList<String>();
-		ltlList = new ArrayList<String>();
-		invariantInAgCTL = new ArrayList<String>();
+		invariantList = new ArrayList<NamedProperty>();
 		if (invariants != null) {
 			for (Invariant invariant : invariants) {
-				property = tp.visit(invariant.getBody());
-				// AsmetaL invariants "inv" become CTL properties "AG(inv)"
-				invariantInAgCTL.add("AG(" + property + ")");
+				String property = tp.visit(invariant.getBody());
+				// AsmetaL invariants "inv" become CTL properties "INVARSPEC (inv)"
+				invariantList.add(new NamedProperty(invariant.getName(),property));
 			}
 		}
 	}
 
-	private void visitTemporalSpecs(List<? extends TemporalProperty> specs, ArrayList<String> propertyList,
-			ArrayList<String> names) {
+	private void visitTemporalSpecs(List<? extends TemporalProperty> specs, ArrayList<NamedProperty> propertyList) {
 		String name;
 		if (specs != null) {
 			for (TemporalProperty spec : specs) {
-				propertyList.add(tp.visit(spec.getBody()));
 				name = spec.getName();
-				names.add(name != null ? name : "");
+				name = name != null ? name : "";				
+				propertyList.add(new NamedProperty(name,tp.visit(spec.getBody())));
 			}
 		}
 	}

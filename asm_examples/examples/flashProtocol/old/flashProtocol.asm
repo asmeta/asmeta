@@ -33,8 +33,8 @@ signature:
 
 	static home : Line -> Agent
 	static lineInTr: Agent -> Line
-	static lineInTrR : Agent -> Line
-	static inLine : Agent -> Line
+	derived lineInTrR : Agent -> Line
+	derived inLine : Agent -> Line
 	
 	static l1: Line
 	static a1: Agent

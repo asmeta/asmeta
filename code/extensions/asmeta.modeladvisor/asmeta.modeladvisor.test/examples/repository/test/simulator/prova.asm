@@ -23,7 +23,7 @@ controlled var3: Integer
 
 definitions:
 
-domain A = {1..10}
+domain A = {1 : 10}
 
 macro rule r_swap($x in Integer, $y in Integer) =
 	par

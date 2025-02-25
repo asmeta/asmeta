@@ -22,7 +22,7 @@ signature:
 	//controlled setVehicleSpeed: CurrentSpeed // Cruise control speed
 	monitored brakePedal: BrakePedal //It is discritezed 0 - 0°, 225 - 45° Resolution 0.2°
 			
-	//derived engineOn: KeyPosition -> Boolean // Depending on keyState engineOn is true or false
+	//static engineOn: KeyPosition -> Boolean // Depending on keyState engineOn is true or false
 	
 	
 definitions:	

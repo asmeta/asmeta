@@ -16,7 +16,7 @@
 
 asm LIFT
 
-import StandardLibrary
+import ../libraries/StandardLibrary
 
 signature:
 		

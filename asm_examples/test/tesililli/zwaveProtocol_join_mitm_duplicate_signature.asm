@@ -191,10 +191,10 @@ signature:
 	controlled sendedPubKeyS: ESlave ->  KeyType
 	controlled sendedPubKeyC: EController ->  KeyType
 	
-	derived keyAssociation: Controller -> KeyType
-	derived keyAssociation: Slave -> KeyType
-	derived keyAssociation: EController -> KeyType
-	derived keyAssociation: ESlave -> KeyType
+	static keyAssociation: Controller -> KeyType
+	static keyAssociation: Slave -> KeyType
+	static keyAssociation: EController -> KeyType
+	static keyAssociation: ESlave -> KeyType
 	
 	static messageDecrypt: Prod(AESKeyType,AESKeyType) -> Boolean
 	static aesPinKeyKey: Prod(PinType,KeyType,KeyType) -> AESKeyType	

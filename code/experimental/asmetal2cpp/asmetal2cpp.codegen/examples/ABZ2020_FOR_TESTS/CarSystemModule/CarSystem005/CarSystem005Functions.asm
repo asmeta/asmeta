@@ -15,14 +15,14 @@ signature:
 	//monitored cruiseControlMode: CruiseControlMode // State of cruise control
 	monitored sCSLever: SCSLever // Position of the Cruise control lever
 	controlled sCSLeve_Previous: SCSLever // Position of the Cruise control lever in previous state 
-	//-- sCSLeve_Previous (senza r perchè quando traduce in model checker la vede come regola e dice che non la trova)
+	//-- sCSLeve_Previous (senza r perchï¿½ quando traduce in model checker la vede come regola e dice che non la trova)
 	//monitored currentSpeed: CurrentSpeed // Current speed of the vehicle
 	//monitored keyState: KeyPosition // Position of the key
 	//controlled keyState_Previous: KeyPosition // Position of the key in the previous state
 	//controlled setVehicleSpeed: CurrentSpeed // Cruise control speed
-	monitored brakePedal: BrakePedal //It is discritezed 0 - 0°, 225 - 45° Resolution 0.2°
+	monitored brakePedal: BrakePedal //It is discritezed 0 - 0ï¿½, 225 - 45ï¿½ Resolution 0.2ï¿½
 			
-	//derived engineOn: KeyPosition -> Boolean // Depending on keyState engineOn is true or false
+	//static engineOn: KeyPosition -> Boolean // Depending on keyState engineOn is true or false
 	
 	
 definitions:	

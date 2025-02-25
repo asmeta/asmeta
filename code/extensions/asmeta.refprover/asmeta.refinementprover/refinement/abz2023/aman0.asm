@@ -31,10 +31,10 @@ signature:
 	controlled landingSequenceColor: TimeSlot -> Color
 	
 	// Recursive function
-	static search: Prod(Airplane,TimeSlot) -> TimeSlot
+	derived search: Prod(Airplane,TimeSlot) -> TimeSlot
 	// Function checking whether an airplane can be moved in the new position
-	static canBeMovedUp: Airplane -> Boolean
-	static canBeMovedDown: Airplane -> Boolean
+	derived canBeMovedUp: Airplane -> Boolean
+	derived canBeMovedDown: Airplane -> Boolean
 	
 	static a1: Airplane
 	static a2: Airplane

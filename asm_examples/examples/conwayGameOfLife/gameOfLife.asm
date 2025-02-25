@@ -26,7 +26,7 @@ signature:
 	domain ColumnsWorld subsetof Natural 
 	dynamic controlled alive: Prod(RowsWorld, ColumnsWorld) -> Boolean
 	derived aliveNeighb: Prod(RowsWorld, ColumnsWorld) -> Integer
-	derived neighbours: Prod(RowsWorld, ColumnsWorld) -> Powerset(Prod(RowsWorld, ColumnsWorld))
+	static neighbours: Prod(RowsWorld, ColumnsWorld) -> Powerset(Prod(RowsWorld, ColumnsWorld))
 
 definitions:
 	domain RowsWorld = {1n : 4n}

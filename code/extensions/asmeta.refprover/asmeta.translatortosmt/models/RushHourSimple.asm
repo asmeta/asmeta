@@ -10,12 +10,12 @@ signature:
 	dynamic controlled board: Prod(Coord, Coord) -> Car
 	derived isNextCellFree: Prod(Car, Dir) -> Boolean
 	derived isMovePermitted: Prod(Car, Dir) -> Boolean
-	derived rMove: Dir -> Num
-	derived cMove: Dir -> Num
-	derived rMoveP: Dir -> Num
-	derived cMoveP: Dir -> Num
+	static rMove: Dir -> Num
+	static cMove: Dir -> Num
+	static rMoveP: Dir -> Num
+	static cMoveP: Dir -> Num
 	static redCar: Num
-	static redCarAtExit: Boolean
+	derived redCarAtExit: Boolean
 
 definitions:
 	domain Coord = {0:1}

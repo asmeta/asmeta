@@ -28,6 +28,7 @@ public class CombinedFlattenerTest extends FlattenerTest {
 
 	@Test
 	public void testForallRuleChoose3() throws Exception {
+		//flattenerTest("./examples/forallRuleChoose.asm",ChooseRuleFlattener.class);
 		flattenerTest("./examples/forallRuleChoose.asm", RemoveNestingFlattener.class, ForallRuleFlattener.class, ChooseRuleFlattener.class);
 	}
 

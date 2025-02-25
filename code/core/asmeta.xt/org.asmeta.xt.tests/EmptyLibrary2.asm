@@ -1,4 +1,4 @@
-module EmptyLibrary
+module EmptyLibrary2
 
 export D
 

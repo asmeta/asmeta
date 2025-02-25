@@ -1,3 +1,6 @@
+//
+// error: a static function fs is defined using a dynamic function m
+//
 asm staticVSDerived
 
 import ../../STDL/StandardLibrary

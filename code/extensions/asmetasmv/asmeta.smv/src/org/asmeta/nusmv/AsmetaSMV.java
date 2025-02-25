@@ -16,9 +16,11 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import org.asmeta.nusmv.MapVisitor.NamedProperty;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
 import org.asmeta.nusmv.util.Util;
 import org.asmeta.parser.ASMParser;
@@ -494,29 +496,23 @@ public class AsmetaSMV {
 	}
 
 	// Used by AsmetaMA
+	// to add some extra properties
 	public void addCtlProperties(Set<String> properties) throws Exception {
+		addProperties(mv.ctlList,properties);
+	}		
+	public void addLtlProperties(Set<String> properties) throws Exception {
+		addProperties(mv.ltlList,properties);
+	}
+	private static void addProperties(ArrayList<NamedProperty> tlList, Set<String> properties) throws Exception {
 		assert properties.size() > 0 : "The list is not expected to be empty.";
-		if (properties.size() > 0) {
-			if (!mv.ctlList.addAll(properties)) {
+		int prop = 1;
+		for (String p : properties) {
+			if (! tlList.add(new NamedProperty("ma_added"+ (prop++), p)))
 				throw new Exception("An error occurred while adding properties.");
-			}
-			for (int i = 0; i < properties.size(); i++) {
-				mv.ctlListNames.add("");
-			}
 		}
 	}
 
-	public void addLtlProperties(Set<String> properties) throws Exception {
-		assert properties.size() > 0 : "The list is not expected to be empty.";
-		if (properties.size() > 0) {
-			if (!mv.ltlList.addAll(properties)) {
-				throw new Exception("An error occurred while adding properties.");
-			}
-			for (int i = 0; i < properties.size(); i++) {
-				mv.ltlListNames.add("");
-			}
-		}
-	}
+	
 
 	public HashMap<Integer, String> getPropertiesCounterExample() {
 		return mv.getPropertiesCounterExample();

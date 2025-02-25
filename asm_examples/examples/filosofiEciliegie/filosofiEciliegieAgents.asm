@@ -8,8 +8,8 @@ signature:
 	domain NumOfCherries subsetof Integer
 	controlled cherriesInPlate: Philosopher -> NumOfCherries
 
-	derived leftNeighbour: Philosopher -> Philosopher
-	derived rightNeighbour: Philosopher -> Philosopher
+	static leftNeighbour: Philosopher -> Philosopher
+	static rightNeighbour: Philosopher -> Philosopher
 	
 	static philo1: Philosopher
 	static philo2: Philosopher

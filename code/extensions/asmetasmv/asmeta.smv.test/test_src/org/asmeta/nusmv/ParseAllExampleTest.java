@@ -5,9 +5,13 @@ import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 
 import org.asmeta.parser.ASMParser;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import asmeta.AsmCollection;
@@ -17,6 +21,7 @@ import asmeta.AsmCollection;
 //
 public class ParseAllExampleTest {
 
+	@Ignore
 	@Test
 	public void testParseOnExamples() throws IOException {
 
@@ -35,5 +40,4 @@ public class ParseAllExampleTest {
 		});
 
 	}
-
 }

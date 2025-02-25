@@ -11,7 +11,7 @@ signature:
 	controlled setVehicleSpeed: CurrentSpeed // Cruise control speed
 	monitored cruiseControlMode: CruiseControlMode
 
-	derived engineOn: KeyPosition -> Boolean
+	static engineOn: KeyPosition -> Boolean
 
 definitions:
 

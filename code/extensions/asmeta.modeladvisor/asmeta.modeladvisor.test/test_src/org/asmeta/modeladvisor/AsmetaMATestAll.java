@@ -348,7 +348,7 @@ public class AsmetaMATestAll {
 		for(String domain: asmetaMA.domainAllUsed.notUsedVals.keySet()) {
 			assertTrue(expectedNotUsedVals.containsKey(domain));
 			for(String value: asmetaMA.domainAllUsed.notUsedVals.get(domain)) {
-				assertTrue(expectedNotUsedVals.get(domain).contains(value));
+				assertTrue(value + " in " + domain + " is used instead", expectedNotUsedVals.get(domain).contains(value));
 			}
 		}
 	}

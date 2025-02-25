@@ -30,7 +30,7 @@ static permit : Waterpressuretype
 
 definitions:
 	
-domain Waterpressuretype = {0 .. 2000}    
+domain Waterpressuretype = {0 : 2000}    
 
 function low = 900
 

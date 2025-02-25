@@ -9,7 +9,7 @@ definitions:
 macro rule r_foo($z in Integer) =
 	switch [1,4,9,16]
 		case []: skip
-		case [$x in [1..4] : $x * $x ]:
+		case [$x in [1:4] : $x * $x ]:
 			switch 77
 				case 0: skip
 				otherwise f := 88

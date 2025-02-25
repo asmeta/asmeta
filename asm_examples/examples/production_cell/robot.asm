@@ -22,12 +22,12 @@ signature:
 	dynamic monitored loaddepbeltposreached: Boolean
 	dynamic monitored loadpressposreached: Boolean
 	dynamic monitored unloadtableposreached: Boolean
-	static tablereadyforunloading: Robot -> Boolean
-	static pressreadyforloading: Robot ->Boolean
-	static pressreadyforunloading: Robot ->Boolean
-	static pressinloadposition: Robot ->Boolean
-	static pressinunloadposition: Robot -> Boolean
-	static tableinunloadposition: Robot-> Boolean
+	derived tablereadyforunloading: Robot -> Boolean
+	derived pressreadyforloading: Robot ->Boolean
+	derived pressreadyforunloading: Robot ->Boolean
+	derived pressinloadposition: Robot ->Boolean
+	derived pressinunloadposition: Robot -> Boolean
+	derived tableinunloadposition: Robot-> Boolean
 	dynamic controlled depositbeltreadyforloading: Robot-> Boolean
 	//function for Agent "ROBOT", "PRESS"
 	dynamic shared pressloaded: Boolean

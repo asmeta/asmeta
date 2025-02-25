@@ -24,11 +24,11 @@ dynamic domain State subsetof Vertex
 dynamic domain FinalState subsetof Vertex
 dynamic domain OpaqueBehavior subsetof Behavior
 dynamic domain TimeEvent subsetof Event
-/*TimeEvent non è utilizzato per questa simulazione
+/*TimeEvent non ï¿½ utilizzato per questa simulazione
  *si deve implementare un metodo di navigazione del metamodello
  *che consenta di passare ad una funzione un Event e verificare
  *che appartenga a TimeEvent. Es: contains(TimeEvent, $e2)
- *dove $e2 in realtà è un Event
+ *dove $e2 in realtï¿½ ï¿½ un Event
  */
 
 /*I seguenti stereotipi sostituiscono Pseudostate e 
@@ -114,8 +114,8 @@ controlled baseStateMachine: Sc_Thread -> StateMachine
 
 	
 /*/////*Funzioni per la definizione della funzione Tau*/////*/
-/*Restituisce lo stato più interno raggiunto dal thread durante l'attuale stato macchina, 
-quindi inizializzando la funzione allo stato iniziale si aggiornerà automaticamente*/
+/*Restituisce lo stato piï¿½ interno raggiunto dal thread durante l'attuale stato macchina, 
+quindi inizializzando la funzione allo stato iniziale si aggiornerï¿½ automaticamente*/
 controlled deepest: Prod(Sc_Thread,StateMachine) -> Vertex
 
 /*Restituisce la macchina a stati chiamata*/
@@ -145,31 +145,31 @@ controlled asStateEif: Vertex -> Endif
 controlled upState: Vertex -> State
 	
 /*Restituisce lo stato di cui si compone un dato stato
-è un Powerset, perchè uno stato si può comporre di più stati*/
+ï¿½ un Powerset, perchï¿½ uno stato si puï¿½ comporre di piï¿½ stati*/
 controlled downState: Vertex -> Powerset(Vertex)
 	
-/*Restituisce la sequenza di stati dallo stato più interno(dato) a quello più esterno(dato)*/
-static upChain: Prod(Vertex, Vertex) -> Seq(Vertex)
+/*Restituisce la sequenza di stati dallo stato piï¿½ interno(dato) a quello piï¿½ esterno(dato)*/
+/*static*/ derived upChain: Prod(Vertex, Vertex) -> Seq(Vertex)
 	
-/*Restituisce la sequenza di stati dallo stato più esterno(dato) a quello più interno(dato)*/
-static downChain: Prod(Vertex, Vertex) -> Seq(Vertex)
+/*Restituisce la sequenza di stati dallo stato piï¿½ esterno(dato) a quello piï¿½ interno(dato)*/
+/*static*/ derived downChain: Prod(Vertex, Vertex) -> Seq(Vertex)
 	
 /*Contiene gli eventi associati ad un Thread*/
 controlled eventqueue: Sc_Thread -> Seq(Event)   		
 
 /*Produce l'elemento di testa della coda degli eventi di un Thread*/
-static dispatched: Sc_Thread -> Event 	
+/*static*/ derived dispatched: Sc_Thread -> Event 	
 	
-/*Definisce se la guardia è attiva o non attiva.
+/*Definisce se la guardia ï¿½ attiva o non attiva.
 Necessita di un meccanismo per settare a false la valutazione delle
 guardie non in uso*/
 static eval: Prod(Constraint, Transition) -> Boolean
 
 /*Definisce la sola transizione elegibile*/
-static transitionenabled: Prod(Transition, Event, Sc_Thread) -> Boolean
+derived transitionenabled: Prod(Transition, Event, Sc_Thread) -> Boolean
 	
 /*Definisce l'abilitazione alla transizione*/	
-static triggering: Prod(Transition, Event)->Boolean
+/*static*/ derived triggering: Prod(Transition, Event)->Boolean
 	
 /*Restituisce l'insieme delle transizioni abilitate dall'evento e*/
 static enabled: Event -> Powerset(Transition)
@@ -183,14 +183,14 @@ controlled isAnd: Transition -> Boolean
 /*Restituisce la sequenza di eventi dispatched di una and transition, ma scartati*/	
 controlled andNotHist: Prod(Process, Transition) -> Powerset(Event)
 		
-/*Definisce se l'evento in analisi è completo*/
+/*Definisce se l'evento in analisi ï¿½ completo*/
 controlled isCompletionEvent: Event -> Boolean
 	
 /*Verifica il completamento di uno stato attivo*/
-static completed: Vertex -> Boolean
+/*static*/ derived completed: Vertex -> Boolean
 	
 /*Ritorna lo stato finale di uno stato composto o submachine*/
-static final: Vertex -> FinalState
+/*static*/ derived final: Vertex -> FinalState
 	
 /*Dato un evento restituisce l'insieme dei processi a lui sensibili*/
 controlled process: Event -> Powerset(Process)
@@ -209,19 +209,19 @@ static isWhile: Vertex -> Boolean
 static isInitial: Vertex -> Boolean
 static isPseudostate: Vertex -> Boolean
 
-/*Ritorna lo stato comune più interno nelle gerarchia di contenimento*/
+/*Ritorna lo stato comune piï¿½ interno nelle gerarchia di contenimento*/
 static lca: Prod(Vertex, Vertex)-> Vertex
 
-/*Effettua l’LCA tra stato sorgente e destinazione di una transizione*/
+/*Effettua lï¿½LCA tra stato sorgente e destinazione di una transizione*/
 static anc: Transition -> Vertex
 
-/*È il solo diretto sottostato di un Vertice v in una sequenza di vertici*/
+/*ï¿½ il solo diretto sottostato di un Vertice v in una sequenza di vertici*/
 static directSubState: Prod(Vertex,Seq(Vertex))-> Vertex
 
-/*Calcola il directSubState tra l’anc di una transizione e l’pChain tra stato sorgente e anc della transizione stessa*/
+/*Calcola il directSubState tra lï¿½anc di una transizione e lï¿½pChain tra stato sorgente e anc della transizione stessa*/
 static toS: Transition -> Vertex
 
-/*Calcola il directSubState tra l’anc di una transizione e il downChain tra stato destinazione e anc della transizione stessa*/
+/*Calcola il directSubState tra lï¿½anc di una transizione e il downChain tra stato destinazione e anc della transizione stessa*/
 static fromS: Transition -> Vertex
 
 /*Inserisce un vertice in una sequenza*/
@@ -240,20 +240,20 @@ static top: Seq(Event) -> Event
 /*Ritorna lo stato iniziale di uno stato composto o di una sottomacchina*/
 controlled stateinit: Vertex -> Vertex
 
-/*È lo stack che “memorizza”lo stato a cui il controllo deve tornare dopo un’operazione di Break*/
+/*ï¿½ lo stack che ï¿½memorizzaï¿½lo stato a cui il controllo deve tornare dopo unï¿½operazione di Break*/
 controlled nextAfterBreak: Process -> Seq(Vertex)
 
-/*È lo stack che “memorizza”lo stato a cui il controllo deve tornare dopo un’operazione di Break*/
+/*ï¿½ lo stack che ï¿½memorizzaï¿½lo stato a cui il controllo deve tornare dopo unï¿½operazione di Break*/
 controlled nextAfterContinue: Process -> Seq(Vertex)
 
-/*Restituisce vero se l’esecuzione dell’ttività di uno stato interno restituisce uno stato finale*/
+/*Restituisce vero se lï¿½esecuzione dellï¿½ttivitï¿½ di uno stato interno restituisce uno stato finale*/
 controlled terminated: Prod(Behavior, Vertex) -> Boolean
 
-/*Ritorna la transizione “else” in uscita dallo stato di loop*/
+/*Ritorna la transizione ï¿½elseï¿½ in uscita dallo stato di loop*/
 controlled elseTrans: While -> Transition
 controlled elseTrans: If -> Transition
 
-/*Viene settata a vero quando uno stato finale è il target di una transizione*/
+/*Viene settata a vero quando uno stato finale ï¿½ il target di una transizione*/
 controlled exitRequest: Process -> Boolean
 
 /**********DEFINITION***************/
@@ -286,7 +286,7 @@ function isSubmachine($c in State) = 	if
 else false
 	endif
 
-/*Deve ritornare la sequenza di stati composti e la upChain la realizza a partire dallo stato più interno (contenuto) t a quello più esterno (composto) s*/						
+/*Deve ritornare la sequenza di stati composti e la upChain la realizza a partire dallo stato piï¿½ interno (contenuto) t a quello piï¿½ esterno (composto) s*/						
 function upChain($t in Vertex, $s in Vertex) = if 
 (upState($t) = asState($s))
 	then [$s,$t]
@@ -303,7 +303,7 @@ then [$s,$t]
 else if (isUndef(downState($t))) 
        then []
        /*Non verifico in questa sede, la composizione "composta" 
-         primo: PERCHé PASSO UN POWERSET DI VERTEX COME ARGOMENTO, mentre la downState restituisce un vertex,
+         primo: PERCHï¿½ PASSO UN POWERSET DI VERTEX COME ARGOMENTO, mentre la downState restituisce un vertex,
          secondo: per vecchi problemi di overflow*/
     			//else append(downChain(downState($t),$s),$t)  
        endif
@@ -315,14 +315,14 @@ function dispatched($s in Sc_Thread) = if
 	then first(eventqueue($s)) 
 endif
 											
-//Definisce se una transizione è "elegibile"
+//Definisce se una transizione ï¿½ "elegibile"
 function transitionenabled ($t in Transition, $e in Event, $s in Sc_Thread) =
 eval(guard($t), $t) and contains(currState($s,currStateMachine($s)),source($t)) and triggering($t, $e) 
 
 
 //Definisce l'abilitazione della transizione
 function triggering($t in Transition,$e in Event) = 
-if (//contains(TimeEvent, $e) and //il TimeEvent non è usato
+if (//contains(TimeEvent, $e) and //il TimeEvent non ï¿½ usato
    (eventTime($e) = time) and 
    (exist $e1 in trigger($t) with event($e1) = $e) and 
    size(trigger($t))=1) 
@@ -351,8 +351,8 @@ then true else false endif
 
 //Verifica del completamento di uno stato attivo		
 function completed ($v in Vertex) = 
-if isDef(asState($v)) //significa che sicuramente il Vertex è uno State
-/*Sono aggiunti gli stati dont_init e static_wait perchè pur essendo stati 
+if isDef(asState($v)) //significa che sicuramente il Vertex ï¿½ uno State
+/*Sono aggiunti gli stati dont_init e static_wait perchï¿½ pur essendo stati 
 con un valido asState non rientrando in questi casi non consentivano l'esecuzione*/
     then 
     if isDont_Initialize(asState($v)) then true
@@ -362,13 +362,13 @@ con un valido asState non rientrando in questi casi non consentivano l'esecuzion
 	else if (isSimple(asState($v)) and terminated(doActivity(asState($v)), $v))
 	then true
 	else false endif endif endif endif
-	else //lo stato v non ha definito asState, quindi è uno pseudostato, quindi sicuramente è uno stato completo
+	else //lo stato v non ha definito asState, quindi ï¿½ uno pseudostato, quindi sicuramente ï¿½ uno stato completo
 true endif 
 
 function final($v in Vertex) = 
 if (isFinal($v) and (isDef(upState($v) )))
-/*se il vertex passato è uno stato finale e possiede un upState
-  cioè è contenuto in uno stato composto allora ritornalo*/
+/*se il vertex passato ï¿½ uno stato finale e possiede un upState
+  cioï¿½ ï¿½ contenuto in uno stato composto allora ritornalo*/
 	  then $v
 			else undef 
 		endif 
@@ -423,7 +423,7 @@ endlet
 endif	
 
 
-//Ritorna la regione(stato) più interna che contiene entrambi gli stati
+//Ritorna la regione(stato) piï¿½ interna che contiene entrambi gli stati
 function lca($s in Vertex, $t in Vertex) = if 
 contains(downChain($s,$t), $t)
 	then $s
@@ -441,7 +441,7 @@ function toS($t in Transition) = directSubState(anc($t), upChain(source($t),anc(
 	
 function fromS($t in Transition) = directSubState(anc($t), downChain(anc($t), target($t)))
 									
-function push($v in Vertex, $sv in Seq(Vertex)) = append($sv,$v)//non è implementato il prepend
+function push($v in Vertex, $sv in Seq(Vertex)) = append($sv,$v)//non ï¿½ implementato il prepend
 
 function pop($vs in Seq(Vertex)) = excluding($vs, top($vs))
 
