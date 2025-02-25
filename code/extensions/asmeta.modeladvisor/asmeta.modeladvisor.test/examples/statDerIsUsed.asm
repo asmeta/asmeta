@@ -28,11 +28,11 @@ signature:
 	static fooStatA: Boolean -> Boolean //fooStatA(true) is used only in unreachable code fragments
 	static fooStatB: Boolean -> Boolean //used only in unreachable code fragments
 
-	derived fooDerA: Boolean -> Boolean
-	derived fooDerB: Boolean -> Boolean
+	/*derived*/ static fooDerA: Boolean -> Boolean
+	/*derived*/ static fooDerB: Boolean -> Boolean
 
-	derived fooDerC: Boolean //usata
-	derived fooDerD: Boolean//usata nel body di fooDerC
+	/*derived*/ static fooDerC: Boolean //usata
+	/*derived*/ static fooDerD: Boolean//usata nel body di fooDerC
 
 	//derived fooDerE: Boolean //non usata
 	//derived fooDerF: Boolean //usata nel body di fooDerE
@@ -129,17 +129,17 @@ definitions:
 		endswitch
 
 	function fooDer($b in Boolean) =
-		not(der_Switch) and mon1
+		not(der_Switch) and $b
 		
 	function fooC_Der = false
 	
 	function fooStatA($b in Boolean) = $b
 	function fooStatB($b in Boolean) = $b
 	
-	function fooDerA($b in Boolean) = mon1
-	function fooDerB($b in Boolean) = mon1
+	function fooDerA($b in Boolean) = $b
+	function fooDerB($b in Boolean) = $b
 	
-	function fooDerC = true and mon1
+	function fooDerC = true
 	function fooDerD = fooDerC
 
 	//function fooDerE = false

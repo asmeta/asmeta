@@ -18,16 +18,16 @@ signature:
 
 	// part added for extensions and variation
 
-	derived pendingOrders: Products -> Powerset(Orders)
-	derived totalQuantity: Powerset(Orders) -> Quantity
-	derived totalOrderedQuantity: Products -> Quantity
+	/*static*/ derived pendingOrders: Products -> Powerset(Orders)
+	/*static*/ derived totalQuantity: Powerset(Orders) -> Quantity
+	/*static*/ derived totalOrderedQuantity: Products -> Quantity
 	// for variating at maximum order
 	// returns all the posible subsets of the pending orders for a product
 	static maxQuantitySubsets: Powerset(Powerset(Orders)) -> Powerset(Powerset(Orders))
 	// it returns if a orderset is invoicable
-	derived invoicable: Powerset(Orders) -> Boolean
-	derived totalQuantity: Prod(Powerset(Orders),Products) -> Quantity
-	derived referencedProducts: Powerset(Orders) -> Powerset(Products)
+	/*static*/ derived invoicable: Powerset(Orders) -> Boolean
+	/*static*/ derived totalQuantity: Prod(Powerset(Orders),Products) -> Quantity
+	/*static*/ derived referencedProducts: Powerset(Orders) -> Powerset(Products)
 
         //Setting the scenario:
         //---------------------
@@ -97,7 +97,7 @@ signature:
 
 	/*------------ versione 1 */
 	
-	macro rule  r_DeleteStock($p in Products ,$q in Quantity)= 
+	macro rule  r_DeleteStock($p in Products, $q in Quantity)=
        stockQuantity($p):= stockQuantity($p) - $q
 	
 	rule r_InvoiceSingleOrder = 

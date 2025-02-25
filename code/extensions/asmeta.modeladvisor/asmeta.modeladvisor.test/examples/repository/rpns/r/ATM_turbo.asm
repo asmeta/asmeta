@@ -17,7 +17,7 @@ signature:
 	abstract domain Money
 	enum domain Msg = {ENTERPINMSG|CHOOSESERVICEMSG|WRONGPINMSG|ACCOUNTNOTACCESSIBLE|NOTALLOWEDMSG|EXITMSG| 	OUTOFSERVICE | NOTENOUGHMONEYLEFTMSG}		
 	
-	derived moneyleftbelowrequest: Boolean
+	/*static*/ derived  moneyleftbelowrequest: Boolean
 	dynamic controlled moneyleft: Integer
 	dynamic monitored currin_id: Id -> Integer
 	dynamic monitored currin_m: Money -> Boolean

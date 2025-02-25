@@ -8,7 +8,7 @@ signature:
 
 	dynamic abstract domain Orders
 	abstract domain Products
-	domain Quantity subsetof Integer
+	domain Quantity subsetof Natural
 	enum domain OrderStatus = {INVOICED | PENDING | CANCELLED}
 
 	static p1: Products
@@ -21,18 +21,18 @@ signature:
 	dynamic controlled stockQuantity: Products -> Quantity
 	
 	// new orders to be inserted
-	monitored newOrders: Seq(Prod(Products, Integer))
+	monitored newOrders: Seq(Prod(Products, Natural))
 
 	// orders to be cancelled
 	monitored ordersToCancel: Seq(Orders)
 
 	// items to be inserted
-	monitored newItems: Seq(Prod(Products, Integer))
+	monitored newItems: Seq(Prod(Products, Natural))
 
 definitions:
 	
 	macro rule r_DeleteStock($p in Products ,$q in Quantity) = 
-		stockQuantity($p):= stockQuantity($p) - $q
+		stockQuantity($p):= iton(stockQuantity($p) - $q)
 	
 	rule r_InvoiceSingleOrder = 
 		choose $order in Orders with 
@@ -67,7 +67,7 @@ definitions:
 			endlet
 
 /* properties */
-invariant over stockQuantity: (forall $p in Products with stockQuantity($p) >= 0)
+invariant over stockQuantity: (forall $p in Products with stockQuantity($p) >= 0n)
 invariant over orderState: (forall $o in Orders with isDef(orderState($o)))
 
 /*------- main rule   --------*/	                 	
@@ -82,4 +82,4 @@ main rule r_Main =
 	endseq
 
 default init s0:   
-	function stockQuantity($p in Products) = 100
+	function stockQuantity($p in Products) = 100n

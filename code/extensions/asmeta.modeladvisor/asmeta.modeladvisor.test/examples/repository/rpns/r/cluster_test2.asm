@@ -29,8 +29,8 @@ definitions:
      
 		if isUndef(center(c3)) or isUndef(center(c4)) then 
 			seq
-        		r_setMean[c3]
-        		r_setMean[c4]
+        		r_setCenter[c3]
+        		r_setCenter[c4]
 			endseq
 		else 
         	// move (6.0,10.0) from c3 to c4
