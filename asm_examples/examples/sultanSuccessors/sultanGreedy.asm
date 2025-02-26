@@ -6,7 +6,7 @@ signature:
 	domain Righe subsetof Integer
 	domain Colonne subsetof Integer
 	dynamic controlled matriceRegine: Prod(Righe, Colonne) -> Boolean
-	derived matriceValori: Prod(Righe, Colonne) -> Integer
+	static matriceValori: Prod(Righe, Colonne) -> Integer
 	dynamic controlled massimo: Integer
 	dynamic controlled regineInserite: Integer
 	dynamic controlled sommaValoriRegine: Integer

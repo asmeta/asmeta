@@ -42,7 +42,7 @@ function staticFunction = 5
 function staticFunction2 = (2,5)
 function staticFunction3 ($a in Integer) = 10+$a
 function staticFunction5 ($x in Seq(Prod(Integer,Integer))) = 10 + 5
-function derivedFunction = 10 + staticFunction3(5)
+function derivedFunction = controlledFunction1 + staticFunction3(5)
 
 //function staticFunction2($a in Integer, $b in Integer) = (2,5)
 rule r_Parameter ($param in Integer, $param2 in D5)=

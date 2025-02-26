@@ -11,7 +11,7 @@ signature:
 	dynamic controlled zz: Powerset(Players)
 	dynamic controlled zzz: Integer
 	//derived somma: Integer
-	derived fds: Bag(Players)
+	static fds: Bag(Players)
 	derived fds2: Powerset(Players)
 	derived fds3: Powerset(Integer)
 	

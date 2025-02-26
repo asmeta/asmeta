@@ -7,7 +7,7 @@ signature:
 	controlled foo: Prod(ConcrDom, ConcrDom) -> ConcrDom
 
 definitions:
-	domain ConcrDom = {0 .. 5}
+	domain ConcrDom = {0 : 5}
 
 	rule r_rule($x in ConcrDom) =
 		forall $y in ConcrDom with true do

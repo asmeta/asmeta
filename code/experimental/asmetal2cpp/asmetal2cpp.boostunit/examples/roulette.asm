@@ -10,7 +10,7 @@ signature:
 	controlled houseMoney: Money
 
 	monitored chosenNumber: Number
-	derived color: Number -> Color
+	static color: Number -> Color
 
 definitions:
 	domain Money = {0 : 10}

@@ -1,4 +1,4 @@
-module BodyLibrary
+module BodyLibrary2
 
 export idiv, Philosopher, Integer
 
@@ -19,7 +19,7 @@ signature :
 	static philo1: Philosopher
 	static philo2: Philosopher
 	
-	derived leftNeighbour: Integer -> Philosopher
+	static leftNeighbour: Integer -> Philosopher
 
 	static idiv: Prod(Integer, Integer) -> Integer
 	static mod: Prod(Integer, Integer) -> Integer

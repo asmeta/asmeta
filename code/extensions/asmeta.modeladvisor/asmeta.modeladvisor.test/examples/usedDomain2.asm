@@ -13,7 +13,7 @@ signature:
 	dynamic controlled fooC: Prod(Prod(EnumDom2, Boolean), EnumDom) -> Boolean
 	dynamic controlled fooD: EnumDom3 -> EnumDom3
 	dynamic controlled fooE: EnumDom4
-	derived fooDer: Boolean -> EnumDom4
+	/*derived*/ static fooDer: Boolean -> EnumDom4
 
 definitions:
 	function fooDer($x in Boolean) = if $x then

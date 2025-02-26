@@ -65,7 +65,7 @@ public class AsmParserTest_Example extends AsmParserTest{
 	static String[] dirToSkip = {"test","DAS", "drafts", "workspacePatrizia"};	
 	// test all the examples except the those for tests
 	// too many skip for now
-	//@Ignore	
+	@Ignore	
 	@Test
 	public void testAllExamples(){
 		File examplesPath = new File(FILE_BASE);
@@ -81,7 +81,7 @@ public class AsmParserTest_Example extends AsmParserTest{
 	    	}
 	    	Collection<File> testSpecInSubFolder = testSpecInSubFolder(d.getName());
 			if (!testSpecInSubFolder.isEmpty())
-				errors.add(d.getName());
+				errors.add(testSpecInSubFolder.toString());
 	    }
 	    assertTrue(errors.size() + ":" + errors.toString(), errors.isEmpty());
 	}

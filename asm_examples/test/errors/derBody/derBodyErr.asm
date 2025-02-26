@@ -3,8 +3,8 @@ asm derBodyErr
 import ../../../STDL/StandardLibrary
 
 signature:
-	derived fooA: Integer -> Boolean
-	derived fooB: Integer -> Boolean
+	static fooA: Integer -> Boolean
+	static fooB: Integer -> Boolean
 
 definitions:
 	function fooA($a in Integer) =

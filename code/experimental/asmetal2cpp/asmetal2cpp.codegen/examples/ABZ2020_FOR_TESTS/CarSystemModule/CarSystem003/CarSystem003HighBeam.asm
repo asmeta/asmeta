@@ -38,9 +38,9 @@ signature:
 	derived headlampFlasherDeactivated: Boolean
 	derived headlampFixedActivated: Boolean //Fixed activation of the high beam
 	derived headlampFixedDeactivated: Boolean
-	derived drivesFasterThan: Prod(CurrentSpeed,Integer) -> Boolean
-	derived lightIlluminationDistance: CurrentSpeed -> HighBeamMotor
-	derived luminousStrength: CurrentSpeed -> HighBeamRange
+	static drivesFasterThan: Prod(CurrentSpeed,Integer) -> Boolean
+	static lightIlluminationDistance: CurrentSpeed -> HighBeamMotor
+	static luminousStrength: CurrentSpeed -> HighBeamRange
 	derived calculateSpeed: CurrentSpeed
 	
 	static percentageHBM: Integer -> HighBeamMotor

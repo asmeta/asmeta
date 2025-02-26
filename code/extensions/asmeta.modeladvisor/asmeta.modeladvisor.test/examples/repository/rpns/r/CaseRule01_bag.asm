@@ -10,7 +10,7 @@ definitions:
 main rule r_main =
 	switch <1,4,9,16>
 		case <>: skip
-		case < $x in <1..16> : $x * $x> : 	
+		case < $x in <1 : 16> : $x * $x> :
                         switch 77
 				case 0: skip
 				otherwise f := 88

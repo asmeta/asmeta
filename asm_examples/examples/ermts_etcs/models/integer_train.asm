@@ -45,10 +45,10 @@ signature:
     dynamic controlled vss_states: Vss -> Vss_state		//	Used to handle previous VSS states, e.g. when in the guidelines there 
     	dynamic controlled vss_prestates: Vss -> Vss_state	//  are references to the past state that influence the current state
     	
-	derived last_vss_onthe_ttd: Ttd -> Vss				//  Receives in input a TTD and returns the last VSS of the TTD e.g .: TTD_20 -> VSS_23
+	static last_vss_onthe_ttd: Ttd -> Vss				//  Receives in input a TTD and returns the last VSS of the TTD e.g .: TTD_20 -> VSS_23
 	derived vss_rear_train: Trains -> Vss				//  Given a train returns the VSS behind the train's tail
-	derived vss_related_to_train_position: Vss_Units -> Vss		// Returns the VSS referred to the head of the train, e.g. 55 -> VSS_31
-	derived position_related_to_vss: Vss -> Vss_Count				// Returns the VSS number referred to the position of the train, e.g. VSS_31 -> 6
+	static vss_related_to_train_position: Vss_Units -> Vss		// Returns the VSS referred to the head of the train, e.g. 55 -> VSS_31
+	static position_related_to_vss: Vss -> Vss_Count				// Returns the VSS number referred to the position of the train, e.g. VSS_31 -> 6
 
 //	TTD Functions	
 	dynamic controlled ttd_states: Ttd -> Ttd_state		//	Used to handle previous TTD states, e.g. when in the guidelines there
@@ -57,9 +57,9 @@ signature:
 	derived ttd_rear_train: Trains -> Ttd					//  Given a train, it returns the TTD behind the train
 	derived train_on_ttd: Prod(Ttd, Trains) -> Boolean		//	Given a train and a TTD, it returns true if the train is in the TTD, false otherwise
 	derived lefting_ttd_check_status_free: Ttd -> Ttd_state	//  It puts the TTD to TTD_FREE if the last VSS of the TTD I'm leaving is OCCUPIED and all the others are FREE
-	derived position_related_to_ttd: Ttd -> Ttd_Count			//  Returns the TTD number referring to the position of the train, e.g. TTD_20 -> 2
-	derived ttd_related_to_absolute_position: Vss_Units -> Ttd_Count		//	Returns the number of the TTD referred to the position of the train, e.g. 55 -> 3	
-	derived ttd_related_to_position: Vss_Units -> Ttd						//  Returns the TTD referred to the position of the train, e.g. 55 -> TTD_30	
+	static position_related_to_ttd: Ttd -> Ttd_Count			//  Returns the TTD number referring to the position of the train, e.g. TTD_20 -> 2
+	static ttd_related_to_absolute_position: Vss_Units -> Ttd_Count		//	Returns the number of the TTD referred to the position of the train, e.g. 55 -> 3	
+	static ttd_related_to_position: Vss_Units -> Ttd						//  Returns the TTD referred to the position of the train, e.g. 55 -> TTD_30	
 
 //	TRAIN Functions
 	dynamic controlled trains_lostintegrity: Trains -> Boolean			// 	Returns true if the train has lost integrity, false otherwise

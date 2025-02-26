@@ -1,4 +1,4 @@
-module EmptyLibrary
+module EmptyLibrary1
 
 signature :
 	anydomain Any

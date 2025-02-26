@@ -33,10 +33,10 @@ dynamic controlled n_Numero: Numero
 dynamic monitored act: Attivita
 
 
-derived variabile_uno: Sconto -> Any
-derived variabile_due: Sconto -> Any
-derived variabile_act: Attivita -> Any
-derived variabile_pezzo: ProdottoScelto -> Any
+static variabile_uno: Sconto -> Any
+static variabile_due: Sconto -> Any
+static variabile_act: Attivita -> Any
+static variabile_pezzo: ProdottoScelto -> Any
 
 
 definitions:

@@ -19,10 +19,10 @@ signature:
 definitions:
 
 	invariant inv_Center_x_c3 over center : 
-	  (not firstStep implies ( abs( first(center(c3)) - ( first(sumPoints(c3)) / ntor(size(c3)))) < 0.2 ))
+	  (not firstStep implies ( abs( first(center(c3)) - ( first(sumPoints(c3)) / itor(size(c3)))) < 0.2 ))
 	      
 	invariant inv_Center_x_c4 over center : 
-	  (not firstStep implies ( abs( first(center(c4)) - ( first(sumPoints(c4)) / ntor(size(c4)))) < 0.2 ))
+	  (not firstStep implies ( abs( first(center(c4)) - ( first(sumPoints(c4)) / itor(size(c4)))) < 0.2 ))
 
    main rule r_test =
      	if firstStep then
@@ -33,7 +33,7 @@ definitions:
 			endseq
 		else  
 		    choose $c in {3,4} with true do
-		    if ($c = 3 and size(c3) > 1n) or size(c4) = 1n then 
+		    if ($c = 3 and size(c3) > 1) or size(c4) = 1 then
 		    	choose $p in c3 with true do r_move[$p,c3,c4]
 		    else 	
 		    	choose $p2 in c4 with true do r_move[$p2,c4,c3]

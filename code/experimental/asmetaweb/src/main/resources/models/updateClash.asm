@@ -2,7 +2,7 @@
 
 asm updateClash
 
-import StandardLibrary
+import ../libraries/StandardLibrary
 
 signature:
 

@@ -12,7 +12,7 @@ signature:
 	controlled m_name: Arbiter -> String
 	controlled m_verbose: Arbiter -> Boolean
 	
-	static min: Powerset(Request) -> Request
+	derived min: Powerset(Request) -> Request
 	
 definitions:
 

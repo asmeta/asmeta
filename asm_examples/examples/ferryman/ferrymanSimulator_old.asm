@@ -20,7 +20,7 @@ signature:
 	dynamic controlled position: Actors -> Side
 	dynamic monitored carry: CarryDomain
 	dynamic controlled outMess: String
-	derived oppositeSide: Side -> Side
+	static oppositeSide: Side -> Side
 
 definitions:
 

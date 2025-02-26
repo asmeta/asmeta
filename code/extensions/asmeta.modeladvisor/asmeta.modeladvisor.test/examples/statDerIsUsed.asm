@@ -28,11 +28,11 @@ signature:
 	static fooStatA: Boolean -> Boolean //fooStatA(true) is used only in unreachable code fragments
 	static fooStatB: Boolean -> Boolean //used only in unreachable code fragments
 
-	derived fooDerA: Boolean -> Boolean
-	derived fooDerB: Boolean -> Boolean
+	/*derived*/ static fooDerA: Boolean -> Boolean
+	/*derived*/ static fooDerB: Boolean -> Boolean
 
-	derived fooDerC: Boolean //usata
-	derived fooDerD: Boolean//usata nel body di fooDerC
+	/*derived*/ static fooDerC: Boolean //usata
+	/*derived*/ static fooDerD: Boolean//usata nel body di fooDerC
 
 	//derived fooDerE: Boolean //non usata
 	//derived fooDerF: Boolean //usata nel body di fooDerE

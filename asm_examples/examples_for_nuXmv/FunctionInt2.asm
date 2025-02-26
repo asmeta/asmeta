@@ -8,7 +8,7 @@ signature:
 	monitored numA: Num
 	dynamic controlled numB: Num
 	
-	derived functionprova: Num -> Boolean
+	static functionprova: Num -> Boolean
 	
 
 definitions:

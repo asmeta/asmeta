@@ -8,7 +8,7 @@ signature:
 	monitored funcInc: Integer
 	monitored funcMulti: Integer
 	out funcDec: Integer
-	derived sumOfFunctions: Prod(Integer,Integer)-> Integer
+	static sumOfFunctions: Prod(Integer,Integer)-> Integer
 
 definitions:
 

@@ -18,8 +18,8 @@ signature:
 	domain Minutes subsetof Integer
 	enum domain PhaseDomain = { FULLYCLOSED | FULLYOPEN }
 	dynamic controlled phase: PhaseDomain
-	derived openPeriod: Minutes
-	derived closedPeriod: Minutes
+	static openPeriod: Minutes
+	static closedPeriod: Minutes
 	dynamic monitored passed: Minutes -> Boolean
 
 	
