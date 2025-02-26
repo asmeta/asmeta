@@ -42,7 +42,12 @@ public class Util {
     paramDef.append("");
     for (int i = 0; (i < variables.size()); i++) {
       StringConcatenation _builder = new StringConcatenation();
-      _builder.append("�new ToString(res,true).visit(variables.get(i).domain)� �variables.get(i).name�, ");
+      String _visit = new ToString(res, true).visit(variables.get(i).getDomain());
+      _builder.append(_visit);
+      _builder.append(" ");
+      String _name = variables.get(i).getName();
+      _builder.append(_name);
+      _builder.append(", ");
       paramDef.append(_builder);
     }
     int _length = paramDef.length();
