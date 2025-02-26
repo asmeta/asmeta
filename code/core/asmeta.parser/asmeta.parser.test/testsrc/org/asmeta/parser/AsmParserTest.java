@@ -23,6 +23,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 import org.apache.log4j.SimpleLayout;
 import org.asmeta.parser.util.AsmPrinter;
+import org.asmeta.parser.util.ReflectiveVisitor;
 import org.junit.Before;
 import org.junit.BeforeClass;
 
@@ -61,6 +62,9 @@ public class AsmParserTest {
 			allAppenders.nextElement();
 		// no more appenders !!!
 		assertFalse(allAppenders.hasMoreElements());
+		log.setLevel(Level.INFO);
+		Logger.getLogger("org.asmeta.parser.util").setLevel(Level.INFO);
+		Logger.getLogger(ReflectiveVisitor.class).setLevel(Level.INFO);
 	}
 
 	public static final String FILE_BASE = "../../../../asm_examples/";
