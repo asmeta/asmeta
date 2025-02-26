@@ -34,9 +34,9 @@ public class DomainContainerToH extends ReflectiveVisitor<String> {
    * 		sb.append('''tuple<''')
    * 		for (var int i = 0; i < object.domains.size; i++) {
    * 			if (object.domains.get(i) instanceof StructuredTd)
-   * 				sb.append('''ï¿½visit(object.domains.get(i))ï¿½, ''')
+   * 				sb.append('''«visit(object.domains.get(i))», ''')
    * 			else
-   * 				sb.append('''ï¿½new ToString(res).visit(object.domains.get(i))ï¿½, ''')
+   * 				sb.append('''«new ToString(res).visit(object.domains.get(i))», ''')
    * 		}
    * 
    * 		return sb.toString.substring(0, sb.length - 2).concat(">")
@@ -46,9 +46,9 @@ public class DomainContainerToH extends ReflectiveVisitor<String> {
    * 		var StringBuffer sb = new StringBuffer
    * 		sb.append('''list<''')
    * 		if (object.domain instanceof StructuredTd)
-   * 			sb.append('''ï¿½visit(object.domain)ï¿½''')
+   * 			sb.append('''«visit(object.domain)»''')
    * 		else
-   * 			sb.append('''ï¿½new ToString(res).visit(object.domain)ï¿½''')
+   * 			sb.append('''«new ToString(res).visit(object.domain)»''')
    * 		return sb.toString.substring(0, sb.length).concat(">")
    * 	}
    * 
@@ -56,9 +56,9 @@ public class DomainContainerToH extends ReflectiveVisitor<String> {
    * 		var StringBuffer sb = new StringBuffer
    * 		sb.append('''set<''')
    * 		if (object.baseDomain instanceof StructuredTd)
-   * 			sb.append('''ï¿½visit(object.baseDomain)ï¿½''')
+   * 			sb.append('''«visit(object.baseDomain)»''')
    * 		else
-   * 			sb.append('''ï¿½new ToString(res).visit(object.baseDomain)ï¿½''')
+   * 			sb.append('''«new ToString(res).visit(object.baseDomain)»''')
    * 		return sb.toString.substring(0, sb.length).concat(">")
    * 	}
    * 
@@ -66,9 +66,9 @@ public class DomainContainerToH extends ReflectiveVisitor<String> {
    * 		var StringBuffer sb = new StringBuffer
    * 		sb.append('''multiset<''')
    * 		if (object.domain instanceof StructuredTd)
-   * 			sb.append('''ï¿½visit(object.domain)ï¿½''')
+   * 			sb.append('''«visit(object.domain)»''')
    * 		else
-   * 			sb.append('''ï¿½new ToString(res).visit(object.domain)ï¿½''')
+   * 			sb.append('''«new ToString(res).visit(object.domain)»''')
    * 		return sb.toString.substring(0, sb.length).concat(">")
    * 	}
    * 
@@ -76,13 +76,13 @@ public class DomainContainerToH extends ReflectiveVisitor<String> {
    * 		var StringBuffer sb = new StringBuffer
    * 		sb.append('''map<''')
    * 		if (object.sourceDomain instanceof StructuredTd)
-   * 			sb.append('''ï¿½visit(object.sourceDomain)ï¿½,''')
+   * 			sb.append('''«visit(object.sourceDomain)»,''')
    * 		else
-   * 			sb.append('''ï¿½new ToString(res).visit(object.sourceDomain)ï¿½,''')
+   * 			sb.append('''«new ToString(res).visit(object.sourceDomain)»,''')
    * 		if (object.targetDomain instanceof StructuredTd)
-   * 			sb.append('''ï¿½visit(object.targetDomain)ï¿½,''')
+   * 			sb.append('''«visit(object.targetDomain)»,''')
    * 		else
-   * 			sb.append('''ï¿½new ToString(res).visit(object.targetDomain)ï¿½''')
+   * 			sb.append('''«new ToString(res).visit(object.targetDomain)»''')
    * 		return sb.toString.substring(0, sb.length).concat(">")
    * 	}
    * 
@@ -114,8 +114,13 @@ public class DomainContainerToH extends ReflectiveVisitor<String> {
       sb.append(_builder);
     }
     StringConcatenation _builder_1 = new StringConcatenation();
-    _builder_1.append("set<ï¿½nameï¿½> ï¿½Util.getElemsSetName(name)ï¿½;");
-    _builder_1.newLine();
+    _builder_1.append("set<");
+    _builder_1.append(name);
+    _builder_1.append("> ");
+    String _elemsSetName = Util.getElemsSetName(name);
+    _builder_1.append(_elemsSetName);
+    _builder_1.append(";");
+    _builder_1.newLineIfNotEmpty();
     sb.append(_builder_1);
     return sb.toString();
   }
