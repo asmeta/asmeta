@@ -31,11 +31,11 @@ public class AsmParserTest_OneSpec extends AsmParserTest {
 
 	@BeforeClass
 	public static void setUpLogger() {
-		AsmParserTest.setUpLogger();
-		Logger.getLogger("org.asmeta.parser").setLevel(Level.ALL);
-		// add appender only if empty
-		if (!log.getAllAppenders().hasMoreElements())
-			log.addAppender(new ConsoleAppender(new SimpleLayout()));
+//		AsmParserTest.setUpLogger();
+//		Logger.getLogger("org.asmeta.parser").setLevel(Level.INFO);
+//		// add appender only if empty
+//		if (!log.getAllAppenders().hasMoreElements())
+//			log.addAppender(new ConsoleAppender(new SimpleLayout()));
 	}
 
 	@Test
