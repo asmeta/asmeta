@@ -53,6 +53,9 @@ public class CppCompiler {
 		Map<String, String> env = System.getenv();
 		// windows
 		String path = isWindows()? env.get("Path") : env.get("PATH");
+		// if null, try with PATH even in windows
+		if (path == null)
+			path = env.get("PATH");
 		assertNotNull(path);
 		logger.debug("searching the compiler in the path " + path);
 		for(String dirInPath: path.split(File.pathSeparator)){
