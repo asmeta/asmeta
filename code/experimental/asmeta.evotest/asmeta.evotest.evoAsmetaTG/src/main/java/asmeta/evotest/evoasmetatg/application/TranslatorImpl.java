@@ -321,7 +321,7 @@ public class TranslatorImpl implements Translator {
 		 */
 		listOfOptions.addAll(List.of(fileManager.getJavaExePathToString(), TranslatorConstants.JAR, evosuiteJar,
 				TranslatorConstants.TARGET, evosuiteTargetDir, TranslatorConstants.CLASS, evosuiteJavaInputFile,
-				evosuiteTestsOption, TranslatorConstants.CRITERION, TranslatorConstants.LINE_BRANCH,
+				evosuiteTestsOption, TranslatorConstants.CRITERION, TranslatorConstants.COVERAGE_CRITERION,
 				TranslatorConstants.DMINIMIZE_TRUE, TranslatorConstants.DASSERTION_STRATEGY_ALL, evosuiteReportOption));
 
 		// Set the search budget option

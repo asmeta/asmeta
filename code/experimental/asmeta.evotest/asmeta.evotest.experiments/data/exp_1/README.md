@@ -4,6 +4,7 @@ EvoAvalla:
 - EvoSuite version: 1.0.6
 - JavaVersion: 8
 - Evosuite Budget: No budget (Evosuite defaults)
+- criterion LINE:BRANCH
 
 Random:
 - number of tests and steps based on evoAvalla test suite

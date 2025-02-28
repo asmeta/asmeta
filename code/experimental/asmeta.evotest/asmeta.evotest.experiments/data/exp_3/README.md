@@ -3,8 +3,8 @@ Configurations:
 EvoAvalla:
 - EvoSuite version: 1.0.6
 - JavaVersion: 8
-- Evosuite Budget: 5s
-- criterion LINE:BRANCH
+- Evosuite Budget: No budget (Evosuite defaults)
+- criterion BRANCH:METHODNOEXCEPTION:OUTPUT
 
 Random:
 - number of tests and steps based on evoAvalla test suite

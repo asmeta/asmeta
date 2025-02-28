@@ -12,7 +12,7 @@ import asmeta.evotest.junit2avalla.main.Junit2AvallaCLI;
  */
 final class TranslatorConstants {
 
-	static final String LINE_BRANCH = "LINE:BRANCH";
+	static final String COVERAGE_CRITERION = "LINE:BRANCH";
 
 	static final String DASSERTION_STRATEGY_ALL = "-Dassertion_strategy=all";
 
