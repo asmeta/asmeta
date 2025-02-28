@@ -11,8 +11,8 @@ import java.util.Set;
 
 import org.asmeta.modeladvisor.texpr.Expression;
 import org.asmeta.modeladvisor.texpr.SometimeExpression;
-import org.asmeta.nusmv.AsmetaSMV;
 import org.asmeta.nusmv.UpdateMap;
+import org.asmeta.nusmv.main.AsmetaSMV;
 
 /**
  * Verifica se un aggiornamento e' sempre banale

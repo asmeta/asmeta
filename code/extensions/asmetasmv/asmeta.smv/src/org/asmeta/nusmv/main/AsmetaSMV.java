@@ -1,4 +1,4 @@
-package org.asmeta.nusmv;
+package org.asmeta.nusmv.main;
 
 import static java.lang.System.out;
 
@@ -20,7 +20,7 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-import org.asmeta.nusmv.MapVisitor.NamedProperty;
+import org.asmeta.nusmv.MapVisitor;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
 import org.asmeta.nusmv.util.Util;
 import org.asmeta.parser.ASMParser;
@@ -503,11 +503,11 @@ public class AsmetaSMV {
 	public void addLtlProperties(Set<String> properties) throws Exception {
 		addProperties(mv.ltlList,properties);
 	}
-	private static void addProperties(ArrayList<NamedProperty> tlList, Set<String> properties) throws Exception {
+	private static void addProperties(ArrayList<MapVisitor.NamedProperty> tlList, Set<String> properties) throws Exception {
 		assert properties.size() > 0 : "The list is not expected to be empty.";
 		int prop = 1;
 		for (String p : properties) {
-			if (! tlList.add(new NamedProperty("ma_added"+ (prop++), p)))
+			if (! tlList.add(new MapVisitor.NamedProperty("ma_added"+ (prop++), p)))
 				throw new Exception("An error occurred while adding properties.");
 		}
 	}

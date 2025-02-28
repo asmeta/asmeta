@@ -21,6 +21,8 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.asmeta.nusmv.util.AsmetaSMVOptions;
+import org.asmeta.nusmv.util.Util;
 import org.junit.Test;
 
 public class UtilTest {

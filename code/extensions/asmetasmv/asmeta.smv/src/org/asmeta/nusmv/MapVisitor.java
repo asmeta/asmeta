@@ -161,12 +161,14 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 	public TermVisitor tp;
 	public Map<String, String> nusmvNameToLocation;
 
-	// private int seqCounter;	
-	record NamedProperty(String name, String prop) {};	
+	// private int seqCounter;
+	public record NamedProperty(String name, String prop) {
+	};
+
 	public ArrayList<NamedProperty> ctlList;
 	public ArrayList<NamedProperty> ltlList;
 	public ArrayList<NamedProperty> invariantList;
-	
+
 	private ArrayList<String> justiceConstraintsList;
 	private ArrayList<String[]> compassionConstraintsList;
 	private ArrayList<String> invarConstraintsList;
@@ -188,7 +190,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 
 	private final static String UNDEF_VAL_FOR_NUMBERS = "-2147483647";
 
-	protected MapVisitor() {
+	public MapVisitor() {
 		env = new Environment();
 		tp = new TermVisitor(env, this);
 		chooseVarsDecl = new TreeMap<String, String>();
@@ -247,7 +249,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 	 * @param smvFileName the name of the NuSMV file
 	 * @throws Exception
 	 */
-	void printSmv(String smvFileName) throws Exception {
+	public void printSmv(String smvFileName) throws Exception {
 		File smvFile = new File(smvFileName);
 		PrintWriter smv = null;
 		try {
@@ -286,13 +288,11 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 			// only variables that are actually used are defined in the NuSMV model
 			if (env.usedLoc.contains(var)) {
 				// Silvia 10/05/2021 -> automatically set clock type
-				if (AsmetaSMVOptions.isUseNuXmvTime()
-						&& (var.contains(M_CURR_TIME_SECS))) {
+				if (AsmetaSMVOptions.isUseNuXmvTime() && (var.contains(M_CURR_TIME_SECS))) {
 					assert var.startsWith("TimeLibrary");
 					smv.print("\t\t" + var + ": " + "clock" + "; --");
 				} else if (AsmetaSMVOptions.isUseNuXmvTime()
-						&& (var.startsWith("TimeLibrary")
-								&& var.contains("_start_"))) {
+						&& (var.startsWith("TimeLibrary") && var.contains("_start_"))) {
 					assert var.startsWith("TimeLibrary");
 					smv.print("\t\t" + var + ": " + "real" + "; --");
 				} else
@@ -532,19 +532,19 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 	}
 
 	protected void printSmvPropertiesAndConstraints(PrintWriter smv) {
-		if (invarConstraintsList.size() > 0) {
+		if (!invarConstraintsList.isEmpty()) {
 			smv.println("--INVAR constraints");
 			for (String invarConstr : invarConstraintsList) {
 				smv.println("INVAR " + invarConstr + ";");
 			}
 		}
-		if (justiceConstraintsList.size() > 0) {
+		if (!justiceConstraintsList.isEmpty()) {
 			smv.println("--JUSTICE constraints");
 			for (String justiceConstr : justiceConstraintsList) {
 				smv.println("JUSTICE " + justiceConstr + ";");
 			}
 		}
-		if (compassionConstraintsList.size() > 0) {
+		if (!compassionConstraintsList.isEmpty()) {
 			smv.println("--COMPASSION constraints");
 			for (String[] compassionConstr : compassionConstraintsList) {
 				smv.println("COMPASSION (" + compassionConstr[0] + ", " + compassionConstr[1] + ");");
@@ -553,52 +553,24 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 		allProp = new ArrayList<String>();
 		//String name;
 		//Iterator<String> names;
-		if (ltlList.size() > 0) {
-			//names = ltlListNames.iterator();
-			smv.println("--LTL properties");
-			int ltlCounter = 0;
-			for (NamedProperty property : ltlList) {
-				smv.print("LTLSPEC");
-				String name = property.name;
-				if (!name.equals("")) {
-					smv.print(" NAME " + name + (ltlCounter++) + " :=");
-				} else {
-					smv.print(" NAME ltl" + (ltlCounter++) + " :=");
-				}
-				smv.println(" " + property.prop + ";");
-				allProp.add(property.prop);
-			}
-		}
-		if (ctlList.size() > 0) {
-			// System.out.println(ctlListNames);
-			//names = ctlListNames.iterator();
-			smv.println("--CTL properties");
-			int ctlCounter = 0;
-			for (NamedProperty property : ctlList) {
-				smv.print("CTLSPEC");
-				// if(ctlListNames.size() > 0) {
-				String name = property.name;
-				if (!name.equals("")) {
-					smv.print(" NAME " + name + (ctlCounter++) + " :=");
-				} else {
-					smv.print(" NAME ctl" + (ctlCounter++) + " :=");
-				}
-				// }
-				smv.println(" " + property.prop + ";");
-				allProp.add(property.prop);
-			}
-		}
-		if (invariantList.size() > 0) {
-			smv.println("--AsmetaL invariants");
+		// print LTL, then CTL, then INVARSPEC
+		printInFile(ltlList, smv,"--LTL properties", "LTLSPEC", "ltl"); 
+		printInFile(ctlList, smv,"--CTL properties", "CTLSPEC", "ctl"); 
+		printInFile(invariantList, smv,"--AsmetaL invariants", "INVARSPEC", "inv"); 
+	}
+
+	private void printInFile(List<NamedProperty> nps, PrintWriter smv, String comment, String nusmvComand, String namePrefix) {
+		if (!nps.isEmpty()) {
+			smv.println(comment);
 			int invCounter = 0;
-			for (NamedProperty property : invariantList) {
-				smv.print("INVARSPEC");
+			for (NamedProperty property : nps) {
+				smv.print(nusmvComand);
 				// if(ctlListNames.size() > 0) {
 				String name = property.name;
 				if (!name.equals("")) {
 					smv.print(" NAME " + name + " :=");
 				} else {
-					smv.print(" NAME inv" + (invCounter++) + " :=");
+					smv.print(" NAME "+ namePrefix + (invCounter++) + " :=");
 				}
 				// }
 				smv.println(" " + property.prop + ";");
@@ -614,7 +586,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 	 * 
 	 * @throws Exception the exception
 	 */
-	void visit(Asm asm) throws Exception {
+	public void visit(Asm asm) throws Exception {
 		if (AsmetaSMVOptions.FLATTEN) {
 			asm = new RemoveArgumentsFlattener(asm).flattenASM();
 			FlattenerSetting.simplify = true;
@@ -694,13 +666,13 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 			} else if (property instanceof LtlSpec) {
 				ltlSpecs.add((LtlSpec) property);
 			}
-		}		
+		}
 		visitInvariants(invariants);
 		ctlList = new ArrayList<NamedProperty>();
-		//ctlListNames = new ArrayList<String>();
+		// ctlListNames = new ArrayList<String>();
 		visitTemporalSpecs(ctlSpecs, ctlList);
 		ltlList = new ArrayList<NamedProperty>();
-		//ltlListNames = new ArrayList<String>();
+		// ltlListNames = new ArrayList<String>();
 		visitTemporalSpecs(ltlSpecs, ltlList);
 
 		List<JusticeConstraint> justiceConstraints = new ArrayList<JusticeConstraint>();
@@ -800,7 +772,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 		Value[] value = new BooleanValue[1];
 		domainSmv = new HashMap<String, String>();
 		domainSmvWithUndef = new HashMap<String, String>();
-		undefValue = new  HashMap<String, String>();
+		undefValue = new HashMap<String, String>();
 		domainSet = new HashMap<String, SortedSet<String>>();
 		domainValues = new HashMap<String, List<Value[]>>();
 		setAgentsDomains(new ArrayList<String>());
@@ -859,7 +831,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 		for (DomainInitialization domInit : getDomainInitialization()) {
 			concrDoms.put(domInit.getInitializedDomain(), domInit.getBody());
 		}
-		// domain contrate 
+		// domain contrate
 		for (Entry<ConcreteDomain, Term> concrDomsEntrySet : concrDoms.entrySet()) {
 			ConcreteDomain concreteDomain = concrDomsEntrySet.getKey();
 			if (!concreteDomain.getTypeDomain().getName().equals("Agent")) {
@@ -1061,7 +1033,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 			for (Invariant invariant : invariants) {
 				String property = tp.visit(invariant.getBody());
 				// AsmetaL invariants "inv" become CTL properties "INVARSPEC (inv)"
-				invariantList.add(new NamedProperty(invariant.getName(),property));
+				invariantList.add(new NamedProperty(invariant.getName(), property));
 			}
 		}
 	}
@@ -1071,8 +1043,8 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 		if (specs != null) {
 			for (TemporalProperty spec : specs) {
 				name = spec.getName();
-				name = name != null ? name : "";				
-				propertyList.add(new NamedProperty(name,tp.visit(spec.getBody())));
+				name = name != null ? name : "";
+				propertyList.add(new NamedProperty(name, tp.visit(spec.getBody())));
 			}
 		}
 	}
@@ -1273,7 +1245,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 				String undef = getUndefValue(domain.getName());
 				if (undef != null) {
 					termStr = undef;
-				} //else ???
+				} // else ???
 				else {
 					throw new RuntimeException("undef of " + locStr + " not found (domain:" + domain + ")");
 				}
@@ -1347,7 +1319,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 	 * 
 	 * @return the string
 	 */
-	String visit(PowersetDomain pD) {
+	public String visit(PowersetDomain pD) {
 		return (String) visit(pD.getBaseDomain());
 	}
 
@@ -1516,7 +1488,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 		}
 		order.close();
 	}
-	
+
 	public void putUndefValue(String dom, String undefVa) {
 		String prev = undefValue.put(dom, undefVa);
 		// cannot change
@@ -1524,14 +1496,14 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 	}
 
 	public String getUndefValue(String dom) {
-		return  undefValue.get(dom);
+		return undefValue.get(dom);
 	}
 
 	// returns all the domains that have defined an undef for its value
 	public Set<String> getDomainswithUndef() {
 		return undefValue.keySet();
 	}
-	
+
 //	public void setUndefValue(Map<String, String> undefValue) {
 //		this.undefValue = undefValue;
 //	}

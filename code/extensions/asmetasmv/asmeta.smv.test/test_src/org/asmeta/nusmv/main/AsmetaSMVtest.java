@@ -1,4 +1,4 @@
-package org.asmeta.nusmv;
+package org.asmeta.nusmv.main;
 
 import static java.lang.System.out;
 import static org.junit.Assert.assertEquals;
@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.asmeta.nusmv.main.AsmetaSMV;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
 import org.eclipse.emf.common.util.EList;
 import org.junit.BeforeClass;
@@ -78,7 +79,7 @@ public class AsmetaSMVtest {
 	}
 
 	public List<Boolean> getResults(String file) {
-		return execNuSMV(file).mv.nuSmvPropsResults;
+		return execNuSMV(file).mv.getNuSmvPropsResults();
 	}
 
 	/**

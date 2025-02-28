@@ -12,6 +12,7 @@ Require-Bundle: asmeta.emf,
  org.apache.log4j
 Bundle-Vendor: foselab.unibg.it
 Export-Package: org.asmeta.nusmv,
+ org.asmeta.nusmv.main,
  org.asmeta.nusmv.util
 Automatic-Module-Name: asmeta.smv
 Bundle-RequiredExecutionEnvironment: JavaSE-17

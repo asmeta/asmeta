@@ -387,7 +387,7 @@ public class TermVisitor extends org.asmeta.parser.util.ReflectiveVisitor<String
 	 */
 	public String visit(NaturalTerm number) {
 		String symbol = number.getSymbol();
-		assert symbol.charAt(symbol.length() - 1) == 'n';
+		assert symbol.charAt(symbol.length() - 1) == 'n' : symbol + " is interpreted as natural ";
 		//In AsmetaL, natural numbers terminate with an "n"
 		//To have the integer representation, we need to remove the "n".
 		return symbol.substring(0, symbol.length() - 1);

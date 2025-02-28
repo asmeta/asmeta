@@ -42,7 +42,9 @@ public class ReplaceValueInTerm extends TermFlattenerVisitor {
 				if (values[i] instanceof NaturalTerm) {
 					newValue = ruleFact.createNaturalTerm();
 				} else if (values[i] instanceof IntegerTerm) {
+					// assuming a positive value
 					newValue = ruleFact.createNaturalTerm();
+					assert !((ConstantTerm) values[i]).getSymbol().startsWith("-");
 				} else if (values[i] instanceof BooleanTerm) {
 					newValue = ruleFact.createBooleanTerm();
 				} else if (values[i] instanceof EnumTerm) {
@@ -50,7 +52,11 @@ public class ReplaceValueInTerm extends TermFlattenerVisitor {
 				} else {
 					throw new Error(values[i].getClass().getSimpleName() + " not supported!");
 				}
-				newValue.setSymbol(((ConstantTerm) values[i]).getSymbol());
+				String symbol = ((ConstantTerm) values[i]).getSymbol();
+				// add final "n" if natural Number
+				if (newValue instanceof NaturalTerm)
+					symbol +="n";
+				newValue.setSymbol(symbol);
 				return newValue;
 			}
 			i++;

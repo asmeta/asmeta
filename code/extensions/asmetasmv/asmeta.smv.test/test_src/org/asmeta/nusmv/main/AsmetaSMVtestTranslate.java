@@ -1,4 +1,4 @@
-package org.asmeta.nusmv;
+package org.asmeta.nusmv.main;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -14,6 +14,7 @@ import java.util.Collection;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.asmeta.flattener.nesting.RemoveNestingFlattener;
+import org.asmeta.nusmv.main.AsmetaSMV;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
 import org.asmeta.parser.ASMFileFilter;
 import org.asmeta.parser.util.ReflectiveVisitor;
@@ -358,6 +359,12 @@ public class AsmetaSMVtestTranslate {
 		assertTrue(testOneSpec("examples/caseTerm5.asm"));
 	}
 
+	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	public void testTictactoe_forSMV() {
+		RemoveNestingFlattener.PROPAGATE_EQ = true;
+		assertTrue(testOneSpec("examples/Tictactoe_forSMV.asm"));
+	}
 	
 	
 	@Test

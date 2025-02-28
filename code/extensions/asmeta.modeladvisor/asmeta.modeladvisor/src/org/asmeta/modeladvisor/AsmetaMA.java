@@ -31,9 +31,9 @@ import org.asmeta.modeladvisor.metaproperties.RuleIsReached;
 import org.asmeta.modeladvisor.metaproperties.StatDerIsUsed;
 import org.asmeta.modeladvisor.metaproperties.TrivialUpdate;
 import org.asmeta.modeladvisor.texpr.Expression;
-import org.asmeta.nusmv.AsmetaSMV;
 import org.asmeta.nusmv.Environment;
 import org.asmeta.nusmv.MapVisitor;
+import org.asmeta.nusmv.main.AsmetaSMV;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
 
 /**
