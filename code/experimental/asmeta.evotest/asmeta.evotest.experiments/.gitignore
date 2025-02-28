@@ -3,3 +3,5 @@
 *.avalla
 /spec/
 /src/main/resources/evoavallatests/**/*.asm
+!/data/**/*.csv
+/report/

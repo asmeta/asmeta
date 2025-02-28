@@ -38,6 +38,7 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 	private AsmCollection asm;
 	private IdExpressionCreator icc;
 	private int testNumer;
+	private int testNumberOffset;
 
 	public static tgtlib.definitions.expression.type.Type dummyType = new DummyType("dummy");
 
@@ -63,6 +64,7 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 		this.stepNumber = stepNumber;
 		this.asm = asm;
 		this.testNumer = testNumber;
+		this.testNumberOffset = 0;
 		// to collect info about the spec
 		icc = new IdExpressionCreator();
 		//
@@ -85,7 +87,8 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 				simulator.setShuffleFlag(false);
 				// simulator.createSimulatorRnd(modelName);
 				//
-				AsmTestSequence testsequence = new AsmTestSequence(new AsmTestCondition("test" + test, null));
+				String testName = "test" + Math.addExact(test, testNumberOffset);
+				AsmTestSequence testsequence = new AsmTestSequence(new AsmTestCondition(testName, null));
 				State state;
 				int currentStep = 0;
 				while (true) {
@@ -114,6 +117,7 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 					// restart the env
 					randomMFReader.clear();
 				}
+				testNumberOffset += 1;
 				testSuite.addTest(testsequence);
 			}
 			return testSuite;
@@ -130,7 +134,19 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 			e.printStackTrace();
 			return AsmTestSuite.getEmptyTestSuite();
 		}
+		
+	}
+	
+	public void setStepNumber(int stepNumber) {
+		this.stepNumber = stepNumber;
+	}
 
+	public void setAsm(AsmCollection asm) {
+		this.asm = asm;
+	}
+
+	public void setTestNumer(int testNumer) {
+		this.testNumer = testNumer;
 	}
 
 	// add this state to the test sequence
