@@ -341,7 +341,7 @@ public class TestExperiments {
 				DASH + EvoAsmetaTgCLI.INPUT, asmPath, DASH + EvoAsmetaTgCLI.OUTPUT, avallaOutputDirectory,
 				DASH + EvoAsmetaTgCLI.JAVA_PATH, JDK_PATH, DASH + EvoAsmetaTgCLI.EVOSUITE_VERSION, "1.0.6",
 				DASH + EvoAsmetaTgCLI.EVOSUITE_PATH, "..\\asmeta.evotest.evoasmetatg\\evosuite\\evosuite-jar",
-				DASH + EvoAsmetaTgCLI.TIME_BUDGET, "5", DASH + EvoAsmetaTgCLI.CLEAN,
+				/*DASH + EvoAsmetaTgCLI.TIME_BUDGET, "5",*/ DASH + EvoAsmetaTgCLI.CLEAN,
 				"-DignoreDomainException=true");
 
 		Instant start = Instant.now();
