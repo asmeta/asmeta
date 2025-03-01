@@ -19,6 +19,7 @@ import org.junit.BeforeClass;
 
 import asmeta.definitions.CtlSpec;
 import asmeta.definitions.Property;
+import asmeta.definitions.TemporalProperty;
 
 public class AsmetaSMVtest {
 
@@ -99,10 +100,14 @@ public class AsmetaSMVtest {
 		EList<Property> props = execNuSMV.asm.getBodySection().getProperty();
 		// count how many are CTL
 		long nCTLProp = props.stream().filter(x -> x instanceof CtlSpec).count();
-		Map<String, Boolean> mapResults = execNuSMV.mv.getMapPropResult();
-		//assertEquals(numProperties, nCTLProp);
+		Map<TemporalProperty, Boolean> mapResults = execNuSMV.mv.getMapPropResult();
+		// for every property there is a result
+		// TODO questa fallisce perchè alcune volte diverse proprietà di asmeta sono mappate sulle stesse proprietà di
+		// nusmv (per la semplificazione) quindi quelle con risultati sono di meno
+		// dovrei controllare che ogni propreità ha un risultato.
 		assertEquals(nCTLProp, mapResults.size());
-		for(Entry<String, Boolean> prop: mapResults.entrySet()) {
+		// all are true
+		for(Entry<TemporalProperty, Boolean> prop: mapResults.entrySet()) {
 			assertEquals("The property " + prop.getKey() + " should be "+desiredValue 
 					+", instead is "+ (! desiredValue)+ ".", desiredValue, prop.getValue());
 		}

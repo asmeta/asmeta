@@ -30,7 +30,7 @@ class SeqRuleVisitor {
 	private static Map<String, String> locationValues;
 	private String lastCondition;
 
-	public SeqRuleVisitor(MapVisitor mapVisitor, TermVisitor termPrinter, Environment environment){
+	public SeqRuleVisitor(MapVisitor mapVisitor, TermVisitorToSMV termPrinter, Environment environment){
 		mv = mapVisitor;
 		//tp = termPrinter;
 		env = environment;

@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -104,11 +105,29 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 	private Map<Location, String> locationNameToNusmvVariableName;
 	RuleVisitor rv;
 	public Map<Rule, List<String>> ruleCond;
-	List<String> allProp;
 	public Map<String, List<String>> locationReachabilityConds;
 
-	List<Boolean> nuSmvPropsResults;
-	private Map<String, Boolean> mapPropResult;
+	// a property (string) with its name
+	public record NamedProperty(String name, String prop) {};
+
+	List<NamedProperty> allProp; // all the properties translated in NUSMV
+	// these are public isnce they are used in asmetaMA
+	// map from NUSMV to the original temporal property 
+	public Map<String,List<TemporalProperty>> propertyOrigin = new HashMap<>();
+	// translated to SMV
+	public List<NamedProperty> ctlList;
+	public List<NamedProperty> ltlList;
+	public List<NamedProperty> invariantList;
+
+	private ArrayList<String> justiceConstraintsList;
+	private ArrayList<String[]> compassionConstraintsList;
+	private ArrayList<String> invarConstraintsList;
+	//
+	// about the results
+	List<Boolean> nuSmvPropsResults; // all the results
+	// for every property it's result
+	private Map<TemporalProperty, Boolean> mapPropResult; 
+	//
 	private List<String> agentsDomains;// list of agent domains names
 	Map<String, String> agentDomain;// given an agent name, it gives its domain
 	private List<String> constants;// constants contain agents' names
@@ -158,20 +177,11 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 	protected Map<String, List<Value[]>> domainValues;
 	private List<String> enumDomain;
 	public Environment env;
-	public TermVisitor tp;
+	public TermVisitorToSMV tp;
 	public Map<String, String> nusmvNameToLocation;
 
 	// private int seqCounter;
-	public record NamedProperty(String name, String prop) {
-	};
 
-	public ArrayList<NamedProperty> ctlList;
-	public ArrayList<NamedProperty> ltlList;
-	public ArrayList<NamedProperty> invariantList;
-
-	private ArrayList<String> justiceConstraintsList;
-	private ArrayList<String[]> compassionConstraintsList;
-	private ArrayList<String> invarConstraintsList;
 	// dominio --> il suo valore quando è undef
 	private Map<String, String> undefValue;
 	DerivedVisitor dv;
@@ -192,13 +202,13 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 
 	public MapVisitor() {
 		env = new Environment();
-		tp = new TermVisitor(env, this);
+		tp = new TermVisitorToSMV(env, this);
 		chooseVarsDecl = new TreeMap<String, String>();
 		setConditions(new Stack<String>());
 		invars = new TreeMap<String, String>();
 		setConstants(new ArrayList<String>());
 		ruleCond = new HashMap<Rule, List<String>>();
-		setMapPropResult(new HashMap<String, Boolean>());
+		initMapPropResult();
 		setRv(new RuleVisitor(this));
 
 		if (AsmetaSMVOptions.doAsmetaMA) {
@@ -316,7 +326,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 		Set<String> updatesConditions;
 		Map<String, String> variableUpdates;
 		String variableDomain, domName;
-		if (env.usedDerLoc.size() > 0) {
+		if (!env.usedDerLoc.isEmpty()) {
 			smv.println("\tDEFINE");
 			for (String var : derived) {
 				// if the occurrence of a derived location can be substituted with its
@@ -382,7 +392,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 				}
 			}
 		}
-		if (getConstants().size() > 0) {
+		if (!getConstants().isEmpty()) {
 			smv.print("\tCONSTANTS ");
 			int i = 0;
 			for (; i < getConstants().size() - 1; i++) {
@@ -550,7 +560,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 				smv.println("COMPASSION (" + compassionConstr[0] + ", " + compassionConstr[1] + ");");
 			}
 		}
-		allProp = new ArrayList<String>();
+		allProp = new ArrayList<NamedProperty>();
 		//String name;
 		//Iterator<String> names;
 		// print LTL, then CTL, then INVARSPEC
@@ -567,14 +577,14 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 				smv.print(nusmvComand);
 				// if(ctlListNames.size() > 0) {
 				String name = property.name;
-				if (!name.equals("")) {
-					smv.print(" NAME " + name + " :=");
-				} else {
-					smv.print(" NAME "+ namePrefix + (invCounter++) + " :=");
-				}
-				// }
+				if (name.equals("")) {
+					// assuming that the proper name if set is never ctlxx ...
+					// so there is no clash
+					name = namePrefix + (invCounter++);
+				} 
+				smv.print(" NAME " + name + " :=");
 				smv.println(" " + property.prop + ";");
-				allProp.add(property.prop);
+				allProp.add(new NamedProperty(name,property.prop));
 			}
 		}
 	}
@@ -1026,7 +1036,6 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 	 * 
 	 * @param invariants the ASM invariants
 	 */
-
 	private void visitInvariants(List<Invariant> invariants) {
 		invariantList = new ArrayList<NamedProperty>();
 		if (invariants != null) {
@@ -1037,14 +1046,22 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 			}
 		}
 	}
-
-	private void visitTemporalSpecs(List<? extends TemporalProperty> specs, ArrayList<NamedProperty> propertyList) {
+	// visit the TemporalProperty and translate it, put it in the propertylist
+	private void visitTemporalSpecs(List<? extends TemporalProperty> specs, List<NamedProperty> propertyList) {
 		String name;
 		if (specs != null) {
 			for (TemporalProperty spec : specs) {
 				name = spec.getName();
 				name = name != null ? name : "";
-				propertyList.add(new NamedProperty(name, tp.visit(spec.getBody())));
+				String tpinsmv = tp.visit(spec.getBody());
+				propertyList.add(new NamedProperty(name, tpinsmv));
+				// maintain the map
+				List<TemporalProperty> origin = propertyOrigin.get(tpinsmv);
+				if (origin == null) {
+					 origin = new ArrayList<TemporalProperty>();
+					 propertyOrigin.put(tpinsmv,origin);
+				}
+				origin.add(spec);
 			}
 		}
 	}
@@ -1252,7 +1269,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 			} else {
 				termStr = tp.visit(term);
 				// sometimes it can happen : like a conditional or something
-				if (termStr == TermVisitor.UNDEF_VALUE) {
+				if (termStr == TermVisitorToSMV.UNDEF_VALUE) {
 					termStr = getUndefValue(locationDomain.get(locStr));
 				}
 			}
@@ -1385,8 +1402,9 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 	 * 
 	 */
 	public void getPropertiesResults(String outputRunNuSMV) {
+		System.err.println(outputRunNuSMV);
 		nuSmvPropsResults = new ArrayList<Boolean>();
-		setMapPropResult(new HashMap<String, Boolean>());
+		initMapPropResult();
 		this.propertiesCounterExample = new HashMap<Integer, String>();
 		this.propertiesForPrinting = new HashMap<Integer, String>();
 		int indexResult = outputRunNuSMV.indexOf("\n") + 1;
@@ -1416,9 +1434,12 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 
 			String key = getKey(prop);// we need to look for the correct property
 
-			// System.out.println(prop);
-			// System.out.println(key + "\n");
-			getMapPropResult().put(key, result);
+			// retrace the origin and put the result - allow duplication
+			for (TemporalProperty t: propertyOrigin.get(key)) {
+				Boolean res = mapPropResult.get(t);
+				if (res != null) assert res == result;
+				else mapPropResult.put(t, result); 
+			}
 		}
 	}
 
@@ -1426,7 +1447,8 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 		String charToRem = "[() ]";
 		String simplProp = prop.replaceAll(charToRem, "");
 		String key = null;
-		for (String k : allProp) {
+		for (NamedProperty nameProp : allProp) {
+			String k = nameProp.prop;
 			String simplKey = k.replaceAll(charToRem, "");
 			if (simplKey.equals(simplProp)) {
 				if (key == null) {
@@ -1508,12 +1530,12 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 //		this.undefValue = undefValue;
 //	}
 
-	public Map<String, Boolean> getMapPropResult() {
+	public Map<TemporalProperty, Boolean> getMapPropResult() {
 		return mapPropResult;
 	}
 
-	public void setMapPropResult(Map<String, Boolean> mapPropResult) {
-		this.mapPropResult = mapPropResult;
+	public void initMapPropResult() {
+		this.mapPropResult = new HashMap<TemporalProperty, Boolean>();
 	}
 
 	public List<DomainDefinition> getDomainDefinition() {

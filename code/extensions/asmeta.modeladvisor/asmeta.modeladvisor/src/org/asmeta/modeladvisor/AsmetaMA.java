@@ -158,8 +158,6 @@ public class AsmetaMA {
 		// we don't want to check other CTL/LTL properties
 		asmetaSMV.mv.ctlList.clear();
 		asmetaSMV.mv.ltlList.clear();
-//		asmetaSMV.mv.ctlListNames.clear();
-//		asmetaSMV.mv.ltlListNames.clear();
 
 		for (Entry<Checker, Set<Expression>> entry : nuSmvProperties.entrySet()) {
 			// System.err.println("adding: " + translate(properties));
@@ -341,7 +339,7 @@ public class AsmetaMA {
 		return asmetaSMV;
 	}
 
-	// ehck and updates the results
+	// check and update the results
 	private void check(AsmetaSMV asmetaSMV, Checker checker, Map<String, Boolean> partialResult) {
 		Set<Expression> properties = nuSmvProperties.get(checker);
 		Set<String> translatedProperties = translate(properties);

@@ -159,13 +159,14 @@ public class AsmetaSMVtestTranslate {
 
 	@Test
 	public void testSomeSingle() {
-		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/AdvancedClock.asm"));
-		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/AdvancedClock2.asm"));
-		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/ATM.asm"));
-		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/Axioms.asm"));
-		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/fattoriale.asm"));
-		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/FLIP_FLOP_0.asm"));
-		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/IncosistentUpdate.asm"));
+		assertTrue(testOneSpec(FILE_BASE + "examples/simple_example/AdvancedClock.asm"));
+		assertTrue(testOneSpec(FILE_BASE + "examples/simple_example/AdvancedClock2.asm"));
+		// domain Any not supported
+		// assertTrue(testOneSpec(FILE_BASE + "examples/simple_example/oldATM/ATM.asm"));
+		assertTrue(testOneSpec(FILE_BASE + "examples/simple_example/Axioms.asm"));
+		assertTrue(testOneSpec(FILE_BASE + "examples/simple_example/fattoriale.asm"));
+		assertTrue(testOneSpec(FILE_BASE + "examples/simple_example/FLIP_FLOP_0.asm"));
+		assertTrue(testOneSpec(FILE_BASE + "examples/simple_example/IncosistentUpdate.asm"));
 		assertTrue(testOneSpec(FILE_BASE + "examples/models/lift2.asm"));
 		assertTrue(testOneSpec(FILE_BASE + "examples/models/SIS.asm"));
 		assertTrue(testOneSpec(FILE_BASE + "examples/fsmsemantics/FSM_hooking2.asm"));

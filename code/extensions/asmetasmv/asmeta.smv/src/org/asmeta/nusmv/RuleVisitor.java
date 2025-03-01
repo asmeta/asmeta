@@ -55,7 +55,7 @@ import asmeta.transitionrules.turbotransitionrules.SeqRule;
 public class RuleVisitor extends ReflectiveVisitor<Void> implements IRuleVisitor<Void> {
 	private MapVisitor mv;
 	private Environment env;
-	private TermVisitor tp;
+	private TermVisitorToSMV tp;
 	private Stack<String> conditions;
 
 	private int chooseCounter;

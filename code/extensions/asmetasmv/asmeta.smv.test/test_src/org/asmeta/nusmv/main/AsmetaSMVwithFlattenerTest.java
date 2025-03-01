@@ -441,13 +441,20 @@ public class AsmetaSMVwithFlattenerTest extends AsmetaSMVtest {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void iffTest() {
+		// ANGELO 01.03.25
+		// questi fallivan perchè nella traduzione alcune proprietà sono mappate in NUSMV con la stessa proprietà
+		// ad esempio
+		// CTLSPEC ag(fooFalse iff fooFalse)
+		// CTLSPEC ag(not(fooFalse iff fooTrue))
+		// CTLSPEC ag(not(fooTrue iff fooFalse))
+		// CTLSPEC ag(fooTrue iff fooTrue) 
+		// sono mappate tutte con AG(TRUE) (con nomi diversi)
+		// FIXED
 		testAllCtlPropsAreTrue("examples/iff.asm");
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void impliesTest() {
 		testAllCtlPropsAreTrue("examples/implies.asm");
 	}
@@ -476,7 +483,6 @@ public class AsmetaSMVwithFlattenerTest extends AsmetaSMVtest {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void maxTest() {
 		testAllCtlPropsAreTrue("examples/max.asm");
 	}
