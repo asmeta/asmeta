@@ -80,14 +80,14 @@ public abstract class AsmTestGenerator {
 	}
 
 	/**
-	 * Builds the TP tree and queue all the tp according to the regex
+	 * Builds the TP tree and queue all the termTran according to the regex
 	 *
 	 * @param criteria the criteria
 	 * @param maxTests the max tests
 	 * @param regex the regex
 	 */
 	public void buildTPTree(MBTCoverage criteria, int maxTests, String regex) {
-		logger.debug("generating the tp tree for criteria " + criteria.getCoveragePrefix());
+		logger.debug("generating the termTran tree for criteria " + criteria.getCoveragePrefix());
 		// build the tree depending on the criteria
 		ct = criteria.getTPTree(spec);
 		// queue tps
@@ -133,9 +133,9 @@ public abstract class AsmTestGenerator {
 			if (!name.matches(regex))
 				continue;
 			tc.setToVerify(true);
-			logger.debug("tp " + name + " queued");
+			logger.debug("termTran " + name + " queued");
 			if (i++ > maxNTP) {
-				logger.debug("max number of tp reached");
+				logger.debug("max number of termTran reached");
 				break;
 			}
 		}

@@ -45,10 +45,10 @@ import asmeta.terms.furtherterms.NaturalTerm;
 import asmeta.terms.furtherterms.RealTerm;
 /**
  * 
- * returns the traslation in NUSMV of the term passed 
+ * returns the translation in NUSMV of the term passed 
  *
  */
-public class TermVisitor extends org.asmeta.parser.util.ReflectiveVisitor<String> {
+public class TermVisitorToSMV extends org.asmeta.parser.util.ReflectiveVisitor<String> {
 	
 	// eu and au operators in CTLLibrary
 	private static final String EU_OP = "eu";
@@ -60,11 +60,11 @@ public class TermVisitor extends org.asmeta.parser.util.ReflectiveVisitor<String
 	protected FunctionVisitor fv;
 	private boolean inLocationArguments;
 
-	public TermVisitor(Environment env, MapVisitor mv) {
+	public TermVisitorToSMV(Environment env, MapVisitor mv) {
 		this(env, mv, new FunctionVisitor(env));
 	}
 
-	public TermVisitor(Environment env, MapVisitor mv, FunctionVisitor fv) {
+	public TermVisitorToSMV(Environment env, MapVisitor mv, FunctionVisitor fv) {
 		this.env = env;
 		env.tv = this;
 		this.mv = mv;
@@ -387,7 +387,7 @@ public class TermVisitor extends org.asmeta.parser.util.ReflectiveVisitor<String
 	 */
 	public String visit(NaturalTerm number) {
 		String symbol = number.getSymbol();
-		assert symbol.charAt(symbol.length() - 1) == 'n';
+		assert symbol.charAt(symbol.length() - 1) == 'n' : symbol + " is interpreted as natural ";
 		//In AsmetaL, natural numbers terminate with an "n"
 		//To have the integer representation, we need to remove the "n".
 		return symbol.substring(0, symbol.length() - 1);

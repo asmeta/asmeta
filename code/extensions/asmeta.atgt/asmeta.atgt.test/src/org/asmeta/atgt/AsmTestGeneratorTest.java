@@ -18,7 +18,7 @@ import org.asmeta.atgt.generator.SaveResults;
 import org.asmeta.atgt.generator.TestGenerationWithNuSMV;
 import org.asmeta.atgt.testoptimizer.UnchangedRemover;
 import org.asmeta.atgt.testoptimizer.UnecessaryChangesRemover;
-import org.asmeta.nusmv.AsmetaSMV;
+import org.asmeta.nusmv.main.AsmetaSMV;
 import org.asmeta.parser.ASMParser;
 import org.junit.Test;
 
@@ -60,7 +60,7 @@ public class AsmTestGeneratorTest {
 		for (AsmTestSequence t : result.getTests()) {
 			System.out.println("test sequence generated for " + t.getGeneratedFor().getName());
 			System.out.println("test sequence " + t.toVideo());
-			System.out.print("tp covered: ");
+			System.out.print("termTran covered: ");
 			t.tpCovered().forEach(x -> System.out.print(x.getName()));
 			System.out.println();
 		}
@@ -80,7 +80,7 @@ public class AsmTestGeneratorTest {
 			AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(coverageCriteria,Integer.MAX_VALUE,
 					"BR_r_Main_TBR_r_Unassociated__REQ_ASSOC_REL_T1");
 			System.out.println("test sequence " + result.getTests().get(0).toVideo());
-			System.out.print("tp covered: ");
+			System.out.print("termTran covered: ");
 			result.getTests().get(0).tpCovered().forEach(x -> System.out.print(x.getName()));
 			System.out.println();
 		}

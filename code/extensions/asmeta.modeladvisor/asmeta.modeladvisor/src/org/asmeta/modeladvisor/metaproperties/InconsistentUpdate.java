@@ -12,8 +12,8 @@ import java.util.TreeMap;
 import org.asmeta.modeladvisor.texpr.AlwaysExpression;
 import org.asmeta.modeladvisor.texpr.Expression;
 import org.asmeta.modeladvisor.texpr.TemporalExpression;
-import org.asmeta.nusmv.AsmetaSMV;
 import org.asmeta.nusmv.UpdateMap;
+import org.asmeta.nusmv.main.AsmetaSMV;
 
 /**
  * Verifica degli update inconsistenti

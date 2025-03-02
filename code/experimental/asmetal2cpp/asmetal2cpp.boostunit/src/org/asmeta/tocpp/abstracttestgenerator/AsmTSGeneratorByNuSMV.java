@@ -32,7 +32,7 @@ public class AsmTSGeneratorByNuSMV extends AsmTestGenerator {
 			// queue all the tps
 			for (AsmTestCondition tp : ct.allTPs()) {
 				tp.setToVerify(true);
-				// System.out.println(tp.getCondition().toString());
+				// System.out.println(termTran.getCondition().toString());
 			}
 			boolean coverageTp = false;
 			AsmTestSuite result = JunitNuSMVtestGenerator.generateTests(asmfile, ct, coverageTp, asmSpec);

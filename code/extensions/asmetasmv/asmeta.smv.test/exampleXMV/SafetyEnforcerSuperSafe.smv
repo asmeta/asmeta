@@ -1,4 +1,4 @@
---file exampleXMV/SafetyEnforcerSuperSafe.smv
+--file exampleXMV\SafetyEnforcerSuperSafe.smv
 -- options: flatten? false
 MODULE main
 	VAR

@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 import org.asmeta.atgt.ConvertToAsmeta;
 import org.asmeta.atgt.generator.AsmTestGenerator.MBTCoverage;
-import org.asmeta.nusmv.AsmetaSMV;
+import org.asmeta.nusmv.main.AsmetaSMV;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
 import org.asmeta.parser.ASMParser;
 
@@ -143,7 +143,7 @@ public class GenerateTestsFromFSM {
 		this.asmPath = new File(asmPath).getAbsolutePath();
 		// build the generator
 		generator = new NuSMVtestGenerator(asmPath, useMonitoring);
-		// build the tp tree and do not set to verify
+		// build the termTran tree and do not set to verify
 		List<AsmCoverageBuilder> covBuilders = CriteriaEnum.getCoverageCriteria(criteria);
 		generator.buildTPTree(new MBTCoverage(covBuilders),0,"");
 	}
