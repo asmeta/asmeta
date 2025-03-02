@@ -691,7 +691,6 @@ public class AsmetaSMVwithFlattenerTest extends AsmetaSMVtest {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void taxiSingAgentsTest() {
 		testAllCtlPropsAreTrue("examples/taxiSingAgents.asm");
 	}

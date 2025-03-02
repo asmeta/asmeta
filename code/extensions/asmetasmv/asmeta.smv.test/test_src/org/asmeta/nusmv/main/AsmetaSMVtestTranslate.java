@@ -158,6 +158,7 @@ public class AsmetaSMVtestTranslate {
 
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testSomeSingle() {
 		assertTrue(testOneSpec(FILE_BASE + "examples/simple_example/AdvancedClock.asm"));
 		assertTrue(testOneSpec(FILE_BASE + "examples/simple_example/AdvancedClock2.asm"));

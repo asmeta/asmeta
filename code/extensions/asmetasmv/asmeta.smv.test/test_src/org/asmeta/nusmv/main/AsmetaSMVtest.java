@@ -108,7 +108,7 @@ public class AsmetaSMVtest {
 		assertEquals(nCTLProp, mapResults.size());
 		// all are true
 		for(Entry<TemporalProperty, Boolean> prop: mapResults.entrySet()) {
-			assertEquals("The property " + prop.getKey() + " should be "+desiredValue 
+			assertEquals("The property " + prop.getKey() + " should be "+ desiredValue 
 					+", instead is "+ (! desiredValue)+ ".", desiredValue, prop.getValue());
 		}
 	}

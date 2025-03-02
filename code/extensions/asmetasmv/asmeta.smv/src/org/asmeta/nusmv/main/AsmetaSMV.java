@@ -402,29 +402,6 @@ public class AsmetaSMV {
 		}
 	}
 
-	public Map<String, Boolean> getResults(Set<String> properties) {
-		Map<String, Boolean> result = new HashMap<String, Boolean>();
-		Map<TemporalProperty, Boolean> mapPropResult = mv.getMapPropResult();
-		// System.out.println(properties);
-		// System.out.println(mv.getMapPropResult());
-		all_props: for (String property : properties) {
-			// get the original
-			for (Entry<String, List<TemporalProperty>> props : mv.propertyOrigin.entrySet()) {
-				if (props.getKey().equals(property)) {
-					// take the first for example
-					TemporalProperty tp = props.getValue().get(0);
-					Boolean propRes = mapPropResult.get(tp);
-					assert propRes != null
-							: "property: " + property + "\nnot contained in\nmv.mapPropResult: " + mapPropResult;
-					result.put(property, propRes);
-					continue all_props;
-				}
-			}
-			assert false : "property "  + property + " not found the result";
-		}
-		return result;
-	}
-
 	/**
 	 * It reads from the input and streams of NuSMV the output of the computation.
 	 * 
@@ -523,7 +500,7 @@ public class AsmetaSMV {
 
 	private static void addProperties(List<MapVisitor.NamedProperty> tlList, Set<String> properties)
 			throws Exception {
-		assert properties.size() > 0 : "The list is not expected to be empty.";
+		assert !properties.isEmpty() : "The list is not expected to be empty.";
 		int prop = 1;
 		for (String p : properties) {
 			if (!tlList.add(new MapVisitor.NamedProperty("ma_added" + (prop++), p)))

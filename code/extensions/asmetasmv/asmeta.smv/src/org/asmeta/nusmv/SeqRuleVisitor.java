@@ -19,7 +19,7 @@ import asmeta.transitionrules.turbotransitionrules.SeqRule;
 
 class SeqRuleVisitor {
 	private MapVisitor mv;
-	//AsmetaTermPrinter tp;
+	//AsmetaTermPrinter termTran;
 	private Environment env;
 	private Map<String, Map<List<String>,String>> seqRuleUpdateMap;//tutti gli aggiornamenti della seq rule
 	private Map<String, List<UpdatedValue>> seqRuleCurrentRuleUpdateMap;//tutti gli aggiornamenti della singola rule nella seq rule
@@ -32,7 +32,7 @@ class SeqRuleVisitor {
 
 	public SeqRuleVisitor(MapVisitor mapVisitor, TermVisitorToSMV termPrinter, Environment environment){
 		mv = mapVisitor;
-		//tp = termPrinter;
+		//termTran = termPrinter;
 		env = environment;
 	}
 	

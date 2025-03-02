@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.asmeta.modeladvisor.AsmetaMA.ExecCheck;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
 import org.junit.Test;
@@ -53,6 +55,7 @@ public class AsmetaMATest {
 	
 	@Test
 	public void testChooseBoolean() throws Exception {
+		Logger.getLogger(AsmetaMA.class).setLevel(Level.DEBUG);
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/chooseBoolean.asm");
 		asmetaMA.activateExecCheck(ExecCheck.execRuleIsReached,true);
 		Map<String, Boolean> result = asmetaMA.runCheck();

@@ -143,7 +143,7 @@ public class GenerateTestsFromFSM {
 		this.asmPath = new File(asmPath).getAbsolutePath();
 		// build the generator
 		generator = new NuSMVtestGenerator(asmPath, useMonitoring);
-		// build the tp tree and do not set to verify
+		// build the termTran tree and do not set to verify
 		List<AsmCoverageBuilder> covBuilders = CriteriaEnum.getCoverageCriteria(criteria);
 		generator.buildTPTree(new MBTCoverage(covBuilders),0,"");
 	}

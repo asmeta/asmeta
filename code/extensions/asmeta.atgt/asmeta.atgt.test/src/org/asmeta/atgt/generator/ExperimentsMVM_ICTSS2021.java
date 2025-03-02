@@ -170,7 +170,7 @@ public class ExperimentsMVM_ICTSS2021 {
 		ASMSpecification spec = new AsmetaLLoader().read(new File(asmSpec));
 		AsmCoverage ct = new MBTCoverage(coverageCriteria).getTPTree(spec);
 		for (;;) {
-			// queque just one tp
+			// queque just one termTran
 			AsmTestCondition gentc = null;
 			for (Iterator<AsmTestCondition> iterator = ct.allTPs().iterator(); iterator.hasNext();) {
 				AsmTestCondition tc = iterator.next();
@@ -256,7 +256,7 @@ public class ExperimentsMVM_ICTSS2021 {
 				pKiller.killProcess(processName);
 				AsmetaSMV.proc.destroy();
 				timeout = true;
-				System.out.println("killing the process for tp " + tpid);
+				System.out.println("killing the process for termTran " + tpid);
 			} else {
 				System.out.println("Not able to find the process : " + processName);
 			}
@@ -424,7 +424,7 @@ public class ExperimentsMVM_ICTSS2021 {
 			System.out.println(asmTest.allInstructions());
 
 		}
-		// how may tp are covered
+		// how may termTran are covered
 		System.out.println(StreamSupport.stream(ct.allTPs().spliterator(), false)
 				.filter(x -> x.getStatus() == TestConditionState.Covered).count());
 

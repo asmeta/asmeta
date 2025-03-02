@@ -66,7 +66,7 @@ public class RuleVisitor extends ReflectiveVisitor<Void> implements IRuleVisitor
 	RuleVisitor(MapVisitor mapVisitor) {
 		mv = mapVisitor;
 		env = mapVisitor.env;
-		tp = mapVisitor.tp;
+		tp = mapVisitor.termTran;
 		chooseVar = new HashMap<VariableTerm, String>();
 		chooseCounter = 0;
 		chooseInstance = new HashMap<ChooseRule, String>();
@@ -432,7 +432,7 @@ public class RuleVisitor extends ReflectiveVisitor<Void> implements IRuleVisitor
 			location = tp.visit(loc);
 		}
 		String value;
-		//String location = tp.visit(updateRule.getLocation());
+		//String location = termTran.visit(updateRule.getLocation());
 		Term updatingTerm = updateRule.getUpdatingTerm();
 		// if it is undef
 		if(updatingTerm instanceof UndefTerm) {
