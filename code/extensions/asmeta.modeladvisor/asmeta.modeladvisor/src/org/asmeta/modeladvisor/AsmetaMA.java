@@ -166,6 +166,7 @@ public class AsmetaMA {
 		asmetaSMV.mv.invariantList.clear();
 		// add now the properties for asmetaMA
 		Set<String> translatedAllProperties = new HashSet<>();
+		System.err.println(nuSmvProperties.entrySet());
 		for (Entry<Checker, Set<Expression>> entry : nuSmvProperties.entrySet()) {
 			Set<Expression> properties = entry.getValue();
 			if (!properties.isEmpty()) {
@@ -176,13 +177,16 @@ public class AsmetaMA {
 				// System.out.println(entry.getKey().getClass().getSimpleName() + " "
 				// +translatedProperties);
 			} else {
-				log.debug("no property to add");
+				log.debug("no property to add for " + entry.getKey());
 			}
 		}
-		asmetaSMV.addCtlProperties(translatedAllProperties);
-		asmetaSMV.createTempNuSMVfile();
-		System.err.println(asmetaSMV.getSmvFileName());
-		asmetaSMV.executeNuSMV();
+		
+		if (!translatedAllProperties.isEmpty()) {
+			asmetaSMV.addCtlProperties(translatedAllProperties);
+			asmetaSMV.createTempNuSMVfile();
+			log.debug("executing " + asmetaSMV.getSmvFileName());
+			asmetaSMV.executeNuSMV();
+		}
 	}
 
 	public void setCheckers() {

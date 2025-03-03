@@ -42,7 +42,6 @@ public class AsmetaMATest {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testCaseCertifier() throws Exception {
 		// model advisor applied to the stereoacuity certifier
 		// used to work but now it does not produce anything
@@ -688,13 +687,13 @@ public class AsmetaMATest {
 	
 	@Test
 	public void testIncosistentUpdate() throws Exception {
-		// questo elimina lil consiteupdate durante la traduzione
-		//TOFIX
+		// questo elimina il consiteupdate durante la traduzione
+		// TOFIX
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/inconsistentUpdatesSimple.asm");
 		asmetaMA.activateExecCheck(ExecCheck.execInconsistentUpdates,true);
 		AsmetaSMVOptions.setPrintNuSMVoutput(true);
-		asmetaMA.runCheck();		
-		System.out.println(asmetaMA.inconUpd.inconUpdate);
+		asmetaMA.runCheck();
+		// System.out.println(asmetaMA.inconUpd.inconUpdate); --> it should not be empty
 	}
 
 	@Test
