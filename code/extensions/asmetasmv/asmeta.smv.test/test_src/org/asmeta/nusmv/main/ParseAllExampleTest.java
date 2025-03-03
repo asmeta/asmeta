@@ -1,4 +1,4 @@
-package org.asmeta.nusmv;
+package org.asmeta.nusmv.main;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;

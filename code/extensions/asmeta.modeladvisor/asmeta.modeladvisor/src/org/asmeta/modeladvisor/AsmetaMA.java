@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.asmeta.modeladvisor.metaproperties.CaseRuleIsComplete;
 import org.asmeta.modeladvisor.metaproperties.Checker;
 import org.asmeta.modeladvisor.metaproperties.ChooseRuleIsEmpty;
@@ -31,9 +32,9 @@ import org.asmeta.modeladvisor.metaproperties.RuleIsReached;
 import org.asmeta.modeladvisor.metaproperties.StatDerIsUsed;
 import org.asmeta.modeladvisor.metaproperties.TrivialUpdate;
 import org.asmeta.modeladvisor.texpr.Expression;
-import org.asmeta.nusmv.AsmetaSMV;
 import org.asmeta.nusmv.Environment;
 import org.asmeta.nusmv.MapVisitor;
+import org.asmeta.nusmv.main.AsmetaSMV;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
 
 /**
@@ -41,6 +42,10 @@ import org.asmeta.nusmv.util.AsmetaSMVOptions;
  * l'interpretazione delle metaproprieta' di smv4val.
  */
 public class AsmetaMA {
+	
+	static Logger log = Logger.getLogger(AsmetaMA.class);
+	
+	
 	// some simplification could create problems to the model reviewer (for example,
 	// the substitution of a derived location with its value (inLineFunctions))
 	public static boolean USE_ASMETASMV_SIMPL = false;
@@ -158,22 +163,30 @@ public class AsmetaMA {
 		// we don't want to check other CTL/LTL properties
 		asmetaSMV.mv.ctlList.clear();
 		asmetaSMV.mv.ltlList.clear();
-//		asmetaSMV.mv.ctlListNames.clear();
-//		asmetaSMV.mv.ltlListNames.clear();
-
+		asmetaSMV.mv.invariantList.clear();
+		// add now the properties for asmetaMA
+		Set<String> translatedAllProperties = new HashSet<>();
+		System.err.println(nuSmvProperties.entrySet());
 		for (Entry<Checker, Set<Expression>> entry : nuSmvProperties.entrySet()) {
-			// System.err.println("adding: " + translate(properties));
 			Set<Expression> properties = entry.getValue();
-			if (properties.size() > 0) {
+			if (!properties.isEmpty()) {
 				Set<String> translatedProperties = translate(properties);
+				log.debug("adding: " + translatedProperties);
+				System.err.println("adding: " + translatedProperties);
+				translatedAllProperties.addAll(translatedProperties);
 				// System.out.println(entry.getKey().getClass().getSimpleName() + " "
 				// +translatedProperties);
-				asmetaSMV.addCtlProperties(translatedProperties);
+			} else {
+				log.debug("no property to add for " + entry.getKey());
 			}
 		}
-
-		asmetaSMV.createTempNuSMVfile();
-		asmetaSMV.executeNuSMV();
+		
+		if (!translatedAllProperties.isEmpty()) {
+			asmetaSMV.addCtlProperties(translatedAllProperties);
+			asmetaSMV.createTempNuSMVfile();
+			log.debug("executing " + asmetaSMV.getSmvFileName());
+			asmetaSMV.executeNuSMV();
+		}
 	}
 
 	public void setCheckers() {
@@ -341,12 +354,12 @@ public class AsmetaMA {
 		return asmetaSMV;
 	}
 
-	// ehck and updates the results
+	// check and update the results
 	private void check(AsmetaSMV asmetaSMV, Checker checker, Map<String, Boolean> partialResult) {
 		Set<Expression> properties = nuSmvProperties.get(checker);
 		Set<String> translatedProperties = translate(properties);
-		// System.out.println(translatedProperties);
-		Map<String, Boolean> results = asmetaSMV.getResults(translatedProperties);
+		//System.out.println(translatedProperties);
+		Map<String, Boolean> results = asmetaSMV.mv.getResults(translatedProperties);
 		checker.evaluation(results);
 		checker.printResults();
 		partialResult.putAll(results);

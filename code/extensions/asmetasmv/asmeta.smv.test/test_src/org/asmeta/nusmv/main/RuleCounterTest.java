@@ -1,4 +1,4 @@
-package org.asmeta.nusmv;
+package org.asmeta.nusmv.main;
 
 import org.asmeta.parser.util.RuleCounter;
 

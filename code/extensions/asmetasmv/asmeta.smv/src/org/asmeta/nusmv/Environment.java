@@ -18,7 +18,7 @@ public class Environment {
 
 	boolean inDerivedVisitor;
 	SeqRuleVisitor srv;
-	public TermVisitor tv;
+	public TermVisitorToSMV tv;
 	String self;
 	/**
 	 * It associates derived/static locations with their definitions.

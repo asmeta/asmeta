@@ -1,6 +1,6 @@
 package org.asmeta.nusmv.plugin.handlers;
 
-import org.asmeta.nusmv.AsmetaSMV;
+import org.asmeta.nusmv.main.AsmetaSMV;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
 
 /**

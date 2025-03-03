@@ -1,5 +1,6 @@
-package org.asmeta.nusmv;
+package org.asmeta.nusmv.main;
 
+import org.asmeta.nusmv.main.AsmetaSMV;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
 
 public class ICSA2018 {

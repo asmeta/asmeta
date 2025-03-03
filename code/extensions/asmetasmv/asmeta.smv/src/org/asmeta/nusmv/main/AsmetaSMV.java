@@ -1,4 +1,4 @@
-package org.asmeta.nusmv;
+package org.asmeta.nusmv.main;
 
 import static java.lang.System.out;
 
@@ -16,16 +16,18 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-import org.asmeta.nusmv.MapVisitor.NamedProperty;
+import org.asmeta.nusmv.MapVisitor;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
 import org.asmeta.nusmv.util.Util;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.ParseException;
 
+import asmeta.definitions.TemporalProperty;
 import asmeta.structure.Asm;
 
 /**
@@ -35,8 +37,8 @@ import asmeta.structure.Asm;
 public class AsmetaSMV {
 
 	/** use bounded model checking and LTL */
-	static public boolean useBMC;
-	static public int BMCLength = -1;
+	public static boolean useBMC;
+	public static int BMCLength = -1;
 
 	public MapVisitor mv;
 	public String outputRunNuSMV;
@@ -124,7 +126,7 @@ public class AsmetaSMV {
 
 	void createNuSMVfile(String smvFileName) throws Exception {
 		assert mv != null : "An instance of MapVisitor must have been created previously";
-		assert ! smvFileName.endsWith(".smv");
+		assert !smvFileName.endsWith(".smv");
 		this.smvFileName = smvFileName + ".smv";
 		mv.printSmv(this.smvFileName);
 	}
@@ -153,15 +155,16 @@ public class AsmetaSMV {
 			runNuXMV();
 		else {
 			List<String> commands;
-			// try to get the dir 
+			// try to get the dir
 			// for example it can be absolute or relative like /tmp/kkkk or example/...
 			File smvFile = new File(smvFileName);
-			if (smvFile.exists() && smvFile.getParentFile()!=null) {
+			if (smvFile.exists() && smvFile.getParentFile() != null) {
 				smvFileName = smvFile.getName();
 				commands = buildCommandLine(smvFileName);
-				//System.out.println("*** executic " + commands + "  " + smvFile.getParentFile() );
-				runNuSMV(commands,smvFile.getParentFile());
-			} else { 
+				// System.out.println("*** executic " + commands + " " + smvFile.getParentFile()
+				// );
+				runNuSMV(commands, smvFile.getParentFile());
+			} else {
 				commands = buildCommandLine(smvFileName);
 				runNuSMV(commands);
 			}
@@ -170,7 +173,7 @@ public class AsmetaSMV {
 			 * t.join(); } catch (InterruptedException e) { e.printStackTrace(); } }
 			 */
 			outputRunNuSMV = getOutput(commands);
-			//System.out.println("MY OUTPTU " + outputRunNuSMV + "END MY OUTPUT");
+			// System.out.println("MY OUTPTU " + outputRunNuSMV + "END MY OUTPUT");
 			outputRunNuSMVreplace = replaceVarsWithLocations(outputRunNuSMV);
 			mv.getPropertiesResults(outputRunNuSMV);
 			if (AsmetaSMVOptions.isPrintNuSMVoutput()) {
@@ -197,15 +200,15 @@ public class AsmetaSMV {
 		TimeUnit.SECONDS.sleep(1);
 		// add quotes if needed
 		if (smvFileName.contains(" "))
-			smvFileName = "\""+ smvFileName + "\"";
+			smvFileName = "\"" + smvFileName + "\"";
 		// send some messages
 		System.out.println("read_model -i " + smvFileName + "\n");
 		bw.write("read_model -i " + smvFileName + "\n");
 		bw.flush();
 		bw.write("go_msat\n");
-		//bw.write("msat_check_ltlspec_bmc -k 100\n");
+		// bw.write("msat_check_ltlspec_bmc -k 100\n");
 		bw.write("msat_check_ltlspec_inc_coi -k 100\n");
-		
+
 		// while(!sg.processReady);
 		// now quit
 		TimeUnit.SECONDS.sleep(1);
@@ -236,7 +239,7 @@ public class AsmetaSMV {
 		TimeUnit.SECONDS.sleep(1);
 		// add quotes if needed
 		if (smvFileName.contains(" "))
-			smvFileName = "\""+ smvFileName + "\"";
+			smvFileName = "\"" + smvFileName + "\"";
 		// send some messages
 		System.out.println("read_model -i " + smvFileName + "\n");
 		bw.write("read_model -i " + smvFileName + "\n");
@@ -320,7 +323,7 @@ public class AsmetaSMV {
 		}
 		// add quotes if needed
 		if (smvFileName.contains(" "))
-			smvFileName = "\""+ smvFileName + "\"";
+			smvFileName = "\"" + smvFileName + "\"";
 		commands.add(smvFileName);
 		if (false) {
 			String nusmvCommand = commands.subList(2, commands.size()).toString();
@@ -333,7 +336,8 @@ public class AsmetaSMV {
 		}
 		return commands;
 	}
-	/** 
+
+	/**
 	 * @return the solver name (with the path if necessary)
 	 */
 	public static String getSolverName() {
@@ -352,7 +356,7 @@ public class AsmetaSMV {
 				// commands.add("/bin/sh");
 				// commands.add("-c");
 				solverName = "/Applications/NuSMV/bin/NuSMV";
-			} else if (isWSL){
+			} else if (isWSL) {
 				// assume windows with WSL - exe is needed
 				// solverName = "NuSMV.exe";
 				// OR NOT??? now works without exe
@@ -378,10 +382,12 @@ public class AsmetaSMV {
 	 * @throws Exception
 	 */
 	void runNuSMV(List<String> cmdarray) throws Exception {
-		// use the current dir as working dir 
+		// use the current dir as working dir
 		runNuSMV(cmdarray, null);
 	}
-	// working dir since sometimes running in a different dir may cause some problems
+
+	// working dir since sometimes running in a different dir may cause some
+	// problems
 	// like in WSL
 	void runNuSMV(List<String> cmdarray, File workingDir) throws Exception {
 		// System.out.println(Arrays.toString(cmdarray));
@@ -394,19 +400,6 @@ public class AsmetaSMV {
 			out.println("Execution error\n" + e);
 			throw e;
 		}
-	}
-
-	public Map<String, Boolean> getResults(Set<String> properties) {
-		Map<String, Boolean> result = new HashMap<String, Boolean>();
-		Map<String, Boolean> mapPropResult = mv.getMapPropResult();
-		// System.out.println(properties);
-		// System.out.println(mv.getMapPropResult());
-		for (String property : properties) {
-			Boolean propRes = mapPropResult.get(property);
-			assert propRes != null : "property: " + property + "\nnot contained in\nmv.mapPropResult: " + mapPropResult;
-			result.put(property, propRes);
-		}
-		return result;
 	}
 
 	/**
@@ -498,21 +491,22 @@ public class AsmetaSMV {
 	// Used by AsmetaMA
 	// to add some extra properties
 	public void addCtlProperties(Set<String> properties) throws Exception {
-		addProperties(mv.ctlList,properties);
-	}		
-	public void addLtlProperties(Set<String> properties) throws Exception {
-		addProperties(mv.ltlList,properties);
+		addProperties(mv.ctlList, properties);
 	}
-	private static void addProperties(ArrayList<NamedProperty> tlList, Set<String> properties) throws Exception {
-		assert properties.size() > 0 : "The list is not expected to be empty.";
+
+	public void addLtlProperties(Set<String> properties) throws Exception {
+		addProperties(mv.ltlList, properties);
+	}
+
+	private static void addProperties(List<MapVisitor.NamedProperty> tlList, Set<String> properties)
+			throws Exception {
+		assert !properties.isEmpty() : "The list is not expected to be empty.";
 		int prop = 1;
 		for (String p : properties) {
-			if (! tlList.add(new NamedProperty("ma_added"+ (prop++), p)))
+			if (!tlList.add(new MapVisitor.NamedProperty("ma_added" + (prop++), p)))
 				throw new Exception("An error occurred while adding properties.");
 		}
 	}
-
-	
 
 	public HashMap<Integer, String> getPropertiesCounterExample() {
 		return mv.getPropertiesCounterExample();
@@ -612,8 +606,8 @@ class StreamGobblerNuXmv extends Thread {
 		this.is = is;
 		this.sb = sb;
 	}
-	
-	public StringBuilder  getStringBuilderSb(){
+
+	public StringBuilder getStringBuilderSb() {
 		return sb;
 	}
 
@@ -628,17 +622,17 @@ class StreamGobblerNuXmv extends Thread {
 			 */
 			int ch;
 			String line = null;
-			/*System.out.println("Read started");
-			while ((line = br.readLine()) != null) {
-				sb.append(line + "\n");
-			}*/
+			/*
+			 * System.out.println("Read started"); while ((line = br.readLine()) != null) {
+			 * sb.append(line + "\n"); }
+			 */
 			do {
 				ch = is.read();
 				/*
 				 * if ((char)ch == '>') { processReady = true; System.out.println("READY"); }
 				 */
 				System.out.print((char) ch);
-				line+=(char) ch;
+				line += (char) ch;
 			} while (ch != -1);
 			sb.append(line + "\n");
 			System.out.println("ENDED");

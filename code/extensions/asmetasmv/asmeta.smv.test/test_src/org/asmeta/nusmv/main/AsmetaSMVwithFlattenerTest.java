@@ -1,4 +1,4 @@
-package org.asmeta.nusmv;
+package org.asmeta.nusmv.main;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -9,41 +9,46 @@ import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 
+import org.asmeta.annotations.TestToMavenSkip;
+import org.asmeta.nusmv.main.AsmetaSMV;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
 import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runners.MethodSorters;
 
-public class AsmetaSMVnoFlattenerTest extends AsmetaSMVtest {
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+public class AsmetaSMVwithFlattenerTest extends AsmetaSMVtest {
 
 	private static boolean old;
 
 	@BeforeClass
 	public static void setFlattener() {
 		old = AsmetaSMVOptions.FLATTEN;
-		AsmetaSMVOptions.FLATTEN = false;
+		AsmetaSMVOptions.FLATTEN = true;
 	}
-	
+		
 	@AfterClass
 	public static void setFlattenerOld() {
 		AsmetaSMVOptions.FLATTEN = old;
 	}
 
-
+	
 	@Test
 	public void dirFilesTest() {
+		testAllCtlPropsAreTrue("examples/files/agentsMain.asm");
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void dirFilesConcrDomTest() {
 		testAllCtlPropsAreTrue("examples/filesConcrDom/agentsMain.asm");
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void dirOneWayTrafficLightAgentsTest() {
 		testAllCtlPropsAreTrue("examples/oneWayTrafficLightAgents/owtl_main.asm");
 	}
@@ -53,7 +58,7 @@ public class AsmetaSMVnoFlattenerTest extends AsmetaSMVtest {
 		List<Boolean> results = getResults("examples/sultanSuccessors/sultan.asm");
 		Iterator<Boolean> i = results.iterator();
 		assertTrue(i.next());
-		while(i.hasNext()) {
+		while (i.hasNext()) {
 			assertFalse(i.next());
 		}
 	}
@@ -69,11 +74,13 @@ public class AsmetaSMVnoFlattenerTest extends AsmetaSMVtest {
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void dirSultanSuccessorsGreedyTestBoradSolutionLessK() {
 		testAllCtlPropsAreTrue("examples/sultanSuccessors/sultanGreedyBoardSolutionLessK.asm");
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void dirTaxiTest() {
 		testAllCtlPropsAreTrue("examples/taxi/main.asm");
 	}
@@ -136,7 +143,7 @@ public class AsmetaSMVnoFlattenerTest extends AsmetaSMVtest {
 		Iterator<Boolean> i = results.iterator();
 		assertFalse(i.next());
 		assertFalse(i.next());
-		while(i.hasNext()) {
+		while (i.hasNext()) {
 			assertTrue(i.next());
 		}
 	}
@@ -204,7 +211,7 @@ public class AsmetaSMVnoFlattenerTest extends AsmetaSMVtest {
 	public void conditionalTermTest() {
 		testAllCtlPropsAreTrue("examples/conditionalTerm.asm");
 	}
-	
+
 	@Test
 	public void choose2Test() {
 		testAllCtlPropsAreTrue("examples/choose2.asm");
@@ -221,33 +228,33 @@ public class AsmetaSMVnoFlattenerTest extends AsmetaSMVtest {
 	}
 
 	@Test
-	public void chooseChooseTest(){
-		//per controllare che funzioni sia con la semplificazione, sia senza.
+	public void chooseChooseTest() {
+		// per controllare che funzioni sia con la semplificazione, sia senza.
 		AsmetaSMV as = null;
+		AsmetaSMVOptions options = new AsmetaSMVOptions();
+		options.simplify = true;
 		try {
-			AsmetaSMVOptions opt = new AsmetaSMVOptions();
-			opt.setPrintNuSMVoutput(false);
-			opt.simplify = true;
-			as = new AsmetaSMV(new File("examples/chooseChoose.asm"), opt);
+			as = new AsmetaSMV(new File("examples/chooseChoose.asm"), options);
 			as.translation();
 			as.createNuSMVfile();
+			AsmetaSMVOptions.setPrintNuSMVoutput(false);
 			as.executeNuSMV();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		for(boolean result: as.mv.nuSmvPropsResults) {
+		for (boolean result : as.mv.getNuSmvPropsResults()) {
 			assertTrue(result);
 		}
 
-		for(boolean result: getResults("examples/chooseChoose.asm")) {
+		for (boolean result : getResults("examples/chooseChoose.asm")) {
 			assertTrue(result);
 		}
 	}
 
-	//@Test
-	//public void chooseForChooseTest() {
-	//	testAllCtlPropsAreTrue("examples/chooseForChoose.asm");
-	//}
+	// @Test
+	// public void chooseForChooseTest() {
+	// testAllCtlPropsAreTrue("examples/chooseForChoose.asm");
+	// }
 
 	@Test
 	public void chooseMonTest() {
@@ -276,19 +283,17 @@ public class AsmetaSMVnoFlattenerTest extends AsmetaSMVtest {
 
 	@Test
 	public void condUpdateTest() {
-		//non ci sono proprieta' CTL. Verifica semplicemente che la traduzione
-		//e l'esecuzione non diano problemi
+		// non ci sono proprieta' CTL. Verifica semplicemente che la traduzione
+		// e l'esecuzione non diano problemi
 		execNuSMV("examples/condUpdate.asm");
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void derivedTest() {
 		testAllCtlPropsAreTrue("examples/derived.asm");
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void derivedBehaviourTest() {
 		testAllCtlPropsAreTrue("examples/derivedBehaviour.asm");
 	}
@@ -299,7 +304,11 @@ public class AsmetaSMVnoFlattenerTest extends AsmetaSMVtest {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	public void derivedLocArgsTest() {
+		testAllCtlPropsAreTrue("examples/derivedLocArgs.asm");
+	}
+
+	@Test
 	public void derivedLetTest() {
 		testAllCtlPropsAreTrue("examples/derivedLet.asm");
 	}
@@ -311,8 +320,8 @@ public class AsmetaSMVnoFlattenerTest extends AsmetaSMVtest {
 
 	@Test
 	public void derivedNotExhaustiveTest() {
-		//non ci sono proprieta' CTL. Verifica semplicemente che la traduzione
-		//e l'esecuzione non diano problemi
+		// non ci sono proprieta' CTL. Verifica semplicemente che la traduzione
+		// e l'esecuzione non diano problemi
 		execNuSMV("examples/derivedNotExhaustive.asm");
 	}
 
@@ -321,72 +330,90 @@ public class AsmetaSMVnoFlattenerTest extends AsmetaSMVtest {
 		testAllCtlPropsAreTrue("examples/derivedRecursivelyDef.asm");
 	}
 
-	/*@Test
-	public void esSemplTest() {
-		//non ci sono proprieta' CTL. Verifica semplicemente che la traduzione
-		//e l'esecuzione non diano problemi
-		execNuSMV("examples/esSempl.asm");
-	}
+	/*
+	 * @Test public void esSemplTest() { //non ci sono proprieta' CTL. Verifica
+	 * semplicemente che la traduzione //e l'esecuzione non diano problemi
+	 * execNuSMV("examples/esSempl.asm"); }
+	 * 
+	 * @Test public void esSemplNoTest() { //non ci sono proprieta' CTL.
+	 * Verifica semplicemente che la traduzione //e l'esecuzione non diano
+	 * problemi execNuSMV("examples/esSempl.asm", "examples/esSemplNo", false);
+	 * }
+	 */
 
 	@Test
-	public void esSemplNoTest() {
-		//non ci sono proprieta' CTL. Verifica semplicemente che la traduzione
-		//e l'esecuzione non diano problemi
-		execNuSMV("examples/esSempl.asm", "examples/esSemplNo", false);
-	}*/
-
-	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void existTermTest() {
 		testAllCtlPropsAreTrue("examples/existTerm.asm");
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	public void existTerm2Test() {
+		testAllCtlPropsAreTrue("examples/existTerm2.asm");
+	}
+
+	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void existUniqueTermTest() {
 		testAllCtlPropsAreTrue("examples/existUniqueTerm.asm");
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void ferrymanTest() {
 		testAllCtlPropsAreTrue("examples/ferryman.asm");
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void ferryman_v2Test() {
 		testAllCtlPropsAreTrue("examples/ferryman_v2.asm");
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void ferrymanWrongTest() {
 		testAllCtlPropsAreFalse("examples/ferrymanWrong.asm");
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void forallTest() {
 		testAllCtlPropsAreTrue("examples/forall.asm");
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void forall2Test() {
 		testAllCtlPropsAreTrue("examples/forall2.asm");
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void forall3Test() {
 		testAllCtlPropsAreTrue("examples/forall3.asm");
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void forallRuleTest() {
 		testAllCtlPropsAreTrue("examples/forallRule.asm");
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void forallTermTest() {
 		testAllCtlPropsAreTrue("examples/forallTerm.asm");
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	public void forallTerm2Test() {
+		testAllCtlPropsAreTrue("examples/forallTerm2.asm");
+	}
+
+	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void functionsTest() {
 		testAllCtlPropsAreTrue("examples/functions.asm");
 	}
@@ -408,24 +435,31 @@ public class AsmetaSMVnoFlattenerTest extends AsmetaSMVtest {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void iffTest() {
+		// ANGELO 01.03.25
+		// questi fallivan perchè nella traduzione alcune proprietà sono mappate in NUSMV con la stessa proprietà
+		// ad esempio
+		// CTLSPEC ag(fooFalse iff fooFalse)
+		// CTLSPEC ag(not(fooFalse iff fooTrue))
+		// CTLSPEC ag(not(fooTrue iff fooFalse))
+		// CTLSPEC ag(fooTrue iff fooTrue) 
+		// sono mappate tutte con AG(TRUE) (con nomi diversi)
+		// FIXED
 		testAllCtlPropsAreTrue("examples/iff.asm");
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void impliesTest() {
 		testAllCtlPropsAreTrue("examples/implies.asm");
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void integerConcrDomTest() {
 		testAllCtlPropsAreTrue("examples/integerConcrDom.asm");
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void justiceConstraint() {
 		testAllCtlPropsAreTrue("examples/justiceConstraint.asm");
 		testAllCtlPropsAreFalse("examples/noJusticeConstraint.asm");
@@ -437,6 +471,7 @@ public class AsmetaSMVnoFlattenerTest extends AsmetaSMVtest {
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void mapTest() {
 		testAllCtlPropsAreTrue("examples/map.asm");
 	}
@@ -457,6 +492,7 @@ public class AsmetaSMVnoFlattenerTest extends AsmetaSMVtest {
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void modTest() {
 		testAllCtlPropsAreTrue("examples/mod.asm");
 	}
@@ -479,8 +515,8 @@ public class AsmetaSMVnoFlattenerTest extends AsmetaSMVtest {
 
 	@Test
 	public void notConsistentTest() {
-		//non ci sono proprieta' CTL. Verifica semplicemente che la traduzione
-		//e l'esecuzione non diano problemi
+		// non ci sono proprieta' CTL. Verifica semplicemente che la traduzione
+		// e l'esecuzione non diano problemi
 		execNuSMV("examples/notConsistent.asm");
 	}
 
@@ -546,10 +582,11 @@ public class AsmetaSMVnoFlattenerTest extends AsmetaSMVtest {
 		testAllCtlPropsAreTrue("examples/seq4.asm");
 	}
 
-	//L'eccezione di partenza e' una AsmNotSupportedException (perche' non si
-	//puo' mettere una choose rule in una seq rule). Questa eccezione viene 
-	//catturata nel ReflectiveVisitor e rilanciata come RuntimeException.
-	@Test(expected=RuntimeException.class)
+	// L'eccezione di partenza e' una AsmNotSupportedException (perche' non si
+	// puo' mettere una choose rule in una seq rule). Questa eccezione viene
+	// catturata nel ReflectiveVisitor e rilanciata come RuntimeException.
+
+	@Test(expected = RuntimeException.class)
 	public void seq5Test() throws Exception {
 		try {
 			AsmetaSMV as = new AsmetaSMV("examples/seq5.asm");
@@ -586,7 +623,8 @@ public class AsmetaSMVnoFlattenerTest extends AsmetaSMVtest {
 		testAllCtlPropsAreTrue("examples/seqRule4.asm");
 	}
 
-	//il test verifica che il tool si accorge dell'update inconsistente
+	// il test verifica che il tool si accorge dell'update inconsistente
+
 	@Test
 	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void seqRule5Test() {
@@ -594,16 +632,16 @@ public class AsmetaSMVnoFlattenerTest extends AsmetaSMVtest {
 		try {
 			as = new AsmetaSMV("examples/seqRule5.asm");
 			as.translation();
-		}
-		catch (RuntimeException e) {
+		} catch (RuntimeException e) {
 			assertEquals(e.getCause().getClass().getSimpleName(), "AsmNotSupportedException");
-			assertEquals(e.getCause().getMessage(), "Update inconsistente: la locazione fooB viene aggiornata sia al valore 1 sia al valore 2 sotto la condizione TRUE");
+			assertEquals(e.getCause().getMessage(),
+					"Update inconsistente: la locazione fooB viene aggiornata sia al valore 1 sia al valore 2 sotto la condizione TRUE");
 			return;
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		fail();//se e' arrivato qui vuol dire che l'eccezione non e' stata catturata
+		fail();// se e' arrivato qui vuol dire che l'eccezione non e' stata
+				// catturata
 	}
 
 	@Test
@@ -618,8 +656,8 @@ public class AsmetaSMVnoFlattenerTest extends AsmetaSMVtest {
 
 	@Test
 	public void staticDerivedTest() {
-		//non ci sono proprieta' CTL. Verifica semplicemente che la traduzione
-		//e l'esecuzione non diano problemi
+		// non ci sono proprieta' CTL. Verifica semplicemente che la traduzione
+		// e l'esecuzione non diano problemi
 		execNuSMV("examples/staticDerived.asm");
 	}
 
@@ -639,11 +677,11 @@ public class AsmetaSMVnoFlattenerTest extends AsmetaSMVtest {
 	public void taxiTest() {
 		List<Boolean> results = getResults("examples/taxi.asm");
 		int numProp = results.size();
-		for(int i=0; i < numProp-2; i++) {
+		for (int i = 0; i < numProp - 2; i++) {
 			assertTrue(results.get(i));
 		}
-		assertFalse(results.get(numProp-2));
-		assertTrue(results.get(numProp-1));
+		assertFalse(results.get(numProp - 2));
+		assertTrue(results.get(numProp - 1));
 	}
 
 	@Test
@@ -670,11 +708,6 @@ public class AsmetaSMVnoFlattenerTest extends AsmetaSMVtest {
 	}
 
 	@Test
-	public void undefValueTest2() {
-		testAllCtlPropsAreTrue("examples/UseUndef.asm");
-	}
-
-	@Test
 	public void untilEwAwTest() {
 		testAllCtlPropsAreTrue("examples/untilEwAw.asm");
 	}
@@ -685,45 +718,22 @@ public class AsmetaSMVnoFlattenerTest extends AsmetaSMVtest {
 	}
 
 	@Test
-	public void updateVC() {
-		testAllCtlPropsAreTrue("examples/coffeeVendingMachineNC.asm");
-	}
-
-	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
-	public void trainTest() {
-		testAllCtlPropsAreTrue("telecamere/trainTrack.asm");
-	}
-
-	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
-	public void pillBoxTest() {
-		testAllCtlPropsAreTrue("F:\\Dati-Andrea\\GitHub\\quasmed\\PillboxASM\\pillbox_for_PropertyVerification.asm");
-	}
-
-	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
-	public void pillBoxTestAG() {
-		testAllCtlPropsAreTrue("C:\\Users\\garganti\\Dropbox\\Documenti\\progetti\\quasmed_git\\PillboxASM\\pillbox_for_PropertyVerification.asm");
-	}
-	
-	@Test
 	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void armadioTest() {
-		testAllCtlPropsAreFalse("examples\\tvsw_angelo\\ArmadioCaramelle2.asm");
+		// questa dovrebbe funzionare col fattener
+		testAllCtlPropsAreFalse("examples/tvsw_angelo/ArmadioCaramelle2.asm");
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
-	public void armadioTest2() {
-		testAllCtlPropsAreFalse("examples\\tvsw_angelo\\ArmadioCaramelle3.asm");
+	public void armadioTest_withSolution() {
+		// soluzione temporanea. il flattener non funziona nelle proprieta'
+		testAllCtlPropsAreFalse("examples/tvsw_angelo/ArmadioCaramelle2_withSolution.asm");
 	}
+
 	
-	
-	/*@Test
-	public void updateRuleTest() {
-		//non ci sono proprieta' CTL. Verifica semplicemente che la traduzione
-		//e l'esecuzione non diano problemi
-		execNuSMV("examples/updateRule.asm");
-	}*/
+	/*
+	 * @Test public void updateRuleTest() { //non ci sono proprieta' CTL.
+	 * Verifica semplicemente che la traduzione //e l'esecuzione non diano
+	 * problemi execNuSMV("examples/updateRule.asm"); }
+	 */
 }

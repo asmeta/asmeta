@@ -1,4 +1,4 @@
-package org.asmeta.nusmv;
+package org.asmeta.nusmv.main;
 
 import static java.lang.System.out;
 import static org.junit.Assert.assertEquals;
@@ -12,12 +12,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.asmeta.nusmv.main.AsmetaSMV;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
 import org.eclipse.emf.common.util.EList;
 import org.junit.BeforeClass;
 
 import asmeta.definitions.CtlSpec;
 import asmeta.definitions.Property;
+import asmeta.definitions.TemporalProperty;
 
 public class AsmetaSMVtest {
 
@@ -78,7 +80,7 @@ public class AsmetaSMVtest {
 	}
 
 	public List<Boolean> getResults(String file) {
-		return execNuSMV(file).mv.nuSmvPropsResults;
+		return execNuSMV(file).mv.getNuSmvPropsResults();
 	}
 
 	/**
@@ -98,11 +100,15 @@ public class AsmetaSMVtest {
 		EList<Property> props = execNuSMV.asm.getBodySection().getProperty();
 		// count how many are CTL
 		long nCTLProp = props.stream().filter(x -> x instanceof CtlSpec).count();
-		Map<String, Boolean> mapResults = execNuSMV.mv.getMapPropResult();
-		//assertEquals(numProperties, nCTLProp);
+		Map<TemporalProperty, Boolean> mapResults = execNuSMV.mv.getMapPropResult();
+		// for every property there is a result
+		// TODO questa fallisce perchè alcune volte diverse proprietà di asmeta sono mappate sulle stesse proprietà di
+		// nusmv (per la semplificazione) quindi quelle con risultati sono di meno
+		// dovrei controllare che ogni propreità ha un risultato.
 		assertEquals(nCTLProp, mapResults.size());
-		for(Entry<String, Boolean> prop: mapResults.entrySet()) {
-			assertEquals("The property " + prop.getKey() + " should be "+desiredValue 
+		// all are true
+		for(Entry<TemporalProperty, Boolean> prop: mapResults.entrySet()) {
+			assertEquals("The property " + prop.getKey() + " should be "+ desiredValue 
 					+", instead is "+ (! desiredValue)+ ".", desiredValue, prop.getValue());
 		}
 	}
