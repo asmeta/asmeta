@@ -165,19 +165,23 @@ public class AsmetaMA {
 		asmetaSMV.mv.ltlList.clear();
 		asmetaSMV.mv.invariantList.clear();
 		// add now the properties for asmetaMA
+		Set<String> translatedAllProperties = new HashSet<>();
 		for (Entry<Checker, Set<Expression>> entry : nuSmvProperties.entrySet()) {
 			Set<Expression> properties = entry.getValue();
 			if (!properties.isEmpty()) {
 				Set<String> translatedProperties = translate(properties);
 				log.debug("adding: " + translatedProperties);
+				System.err.println("adding: " + translatedProperties);
+				translatedAllProperties.addAll(translatedProperties);
 				// System.out.println(entry.getKey().getClass().getSimpleName() + " "
 				// +translatedProperties);
-				asmetaSMV.addCtlProperties(translatedProperties);
 			} else {
 				log.debug("no property to add");
 			}
 		}
+		asmetaSMV.addCtlProperties(translatedAllProperties);
 		asmetaSMV.createTempNuSMVfile();
+		System.err.println(asmetaSMV.getSmvFileName());
 		asmetaSMV.executeNuSMV();
 	}
 
