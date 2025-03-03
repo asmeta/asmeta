@@ -131,7 +131,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 		//
 		List<Boolean> nuSmvPropsResults; // all the results
 		// for every property its result
-		// key: translation to SMV value: verified true or false
+		// key: translation to SMV - value: verified true or false
 		private Map<String, Boolean> mapPropResult;
 		// init the results
 		public void initMapPropResult() {

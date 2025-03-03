@@ -27,7 +27,6 @@ import org.junit.experimental.categories.Category;
  * test all the examples in a directory parse and translate DO NOT PROVE
  * 
  */
-@Category(org.asmeta.annotations.TestToMavenSkip.class)
 public class AsmetaSMVtestTranslate {
 
 	static final String FILE_BASE = "../../../../asm_examples/";
@@ -111,6 +110,7 @@ public class AsmetaSMVtestTranslate {
 	
 		
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testFSM_hooking() {
 		assertTrue(testOneSpec(FILE_BASE + "examples/fsmsemantics/FSM_hooking.asm"));
 	}
@@ -121,6 +121,7 @@ public class AsmetaSMVtestTranslate {
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testASM_even() {
 		assertTrue(testOneSpec(FILE_BASE + "examples/fsmsemantics/Sle/ASM_even.asm"));
 	}
@@ -181,6 +182,7 @@ public class AsmetaSMVtestTranslate {
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testAtm() {
 		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/ATM.asm"));
 	}
@@ -191,46 +193,55 @@ public class AsmetaSMVtestTranslate {
 	}
 	
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testAxioms() {
 		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/Axioms.asm"));
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testFattoriale() {
 		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/fattoriale.asm"));
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testAdvancedClock() {
 		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/AdvancedClock.asm"));
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testAdvancedClock2() {
 		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/AdvancedClock2.asm"));
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testFLIP_FLOP_0() {
 		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/FLIP_FLOP_0.asm"));
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testIncosistentUpdate() {
 		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/IncosistentUpdate.asm"));
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testOrdersystem() {
 		assertTrue(testOneSpec(FILE_BASE + "examples/models/ordersystem.asm"));
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testPhilo1() {
 		assertTrue(testOneSpec(FILE_BASE + "examples/philosophers/philosophers1.asm"));
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testPhilo2() {
 		assertTrue(testOneSpec(FILE_BASE + "examples/philosophers/philosophers2.asm"));
 	}
@@ -254,11 +265,13 @@ public class AsmetaSMVtestTranslate {
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testFlipFlop() {
 		assertTrue(testOneSpec(FILE_BASE + "examples/models/FlipFlop.asm"));
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testLift2() {
 		assertTrue(testOneSpec(FILE_BASE + "examples/models/lift2.asm"));
 	}
@@ -281,6 +294,7 @@ public class AsmetaSMVtestTranslate {
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testProduction_Cell_with_agents() {
 		assertTrue(testOneSpec(FILE_BASE + "examples/production_cell/Production_Cell_with_agents.asm"));
 	}
@@ -362,7 +376,6 @@ public class AsmetaSMVtestTranslate {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testTictactoe_forSMV() {
 		RemoveNestingFlattener.PROPAGATE_EQ = true;
 		assertTrue(testOneSpec("examples/Tictactoe_forSMV.asm"));
@@ -397,7 +410,6 @@ public class AsmetaSMVtestTranslate {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testAmanUndef() throws IOException {
 		// it is worng when tralsating undef .. why itis using undef and not UNDEF????
 		testOneSpec("examples/aman.asm");
@@ -438,6 +450,7 @@ public class AsmetaSMVtestTranslate {
 	
 	
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testStudente24() {
 		AsmetaSMVOptions options = new AsmetaSMVOptions();
 		options.keepNuSMVfile = true;

@@ -64,13 +64,11 @@ public class AsmetaSMVwithFlattenerTest extends AsmetaSMVtest {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void dirSultanSuccessorsGreedyTestBoardNoSolution() {
 		testAllCtlPropsAreTrue("examples/sultanSuccessors/sultanGreedyBoardNoSolution.asm");
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void dirSultanSuccessorsGreedyTestBoradSolutionGreaterK() {
 		testAllCtlPropsAreTrue("examples/sultanSuccessors/sultanGreedyBoardSolutionGreaterK.asm");
 	}
@@ -114,7 +112,6 @@ public class AsmetaSMVwithFlattenerTest extends AsmetaSMVtest {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void agentsTest() {
 		testAllCtlPropsAreTrue("examples/agents.asm");
 	}
@@ -226,7 +223,6 @@ public class AsmetaSMVwithFlattenerTest extends AsmetaSMVtest {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void choose4Test() {
 		testAllCtlPropsAreTrue("examples/choose4.asm");
 	}
@@ -293,13 +289,11 @@ public class AsmetaSMVwithFlattenerTest extends AsmetaSMVtest {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void derivedTest() {
 		testAllCtlPropsAreTrue("examples/derived.asm");
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void derivedBehaviourTest() {
 		testAllCtlPropsAreTrue("examples/derivedBehaviour.asm");
 	}
@@ -691,6 +685,7 @@ public class AsmetaSMVwithFlattenerTest extends AsmetaSMVtest {
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void taxiSingAgentsTest() {
 		testAllCtlPropsAreTrue("examples/taxiSingAgents.asm");
 	}
