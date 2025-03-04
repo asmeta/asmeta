@@ -49,7 +49,11 @@ new version 25.03 news:
  - invariant are translated to INVARSPEC
  - other minor bugs fixed
 
-new version 24.06! new TL operators names and minor fixes - multiple architecture (win, lin, macos):
+##### for windows 64 bit:
+https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2025_03_win64.zip
+
+### older version multiplatform
+version 24.06! new TL operators names and minor fixes - multiple architecture (win, lin, macos):
 
 #### for windows 64 bit:
 https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2024_06_win64.zip
