@@ -100,6 +100,31 @@ public class TestExperiments {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Delete a directory recursively
+	 * 
+	 * @param pathToBeDeleted directory path to delete
+	 * @throws IOException if an I/O error occurs.
+	 */
+	private static void cleanDir(Path pathToBeDeleted) throws IOException {
+		if (!pathToBeDeleted.toFile().exists())
+			return;
+		Files.walkFileTree(pathToBeDeleted, new SimpleFileVisitor<Path>() {
+			@Override
+			public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+				Files.delete(dir);
+				return FileVisitResult.CONTINUE;
+			}
+
+			@Override
+			public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+				Files.delete(file);
+				return FileVisitResult.CONTINUE;
+			}
+		});
+		System.out.println("cleaned the directory: " + pathToBeDeleted);
+	}
 
 	/**
 	 * Determines whether the given path should be a target file for experiments. If
@@ -255,8 +280,6 @@ public class TestExperiments {
 			// Nella classe AsmTestGeneratorBySimulation ho aggiunto la variabile
 			// testNumberOffset che viene incrementata a ogni test generato in modo da non
 			// sovrascrivere i futuri test
-			
-			// un problema della random è che genera stringhe senza gli apici che fanno fallire i test
 
 			AsmTestSuite randomSuite = new AsmTestSuite();
 			AsmTestGeneratorBySimulation randomTestGenerator = new AsmTestGeneratorBySimulation(asmCollection, 1, 1);
@@ -280,6 +303,7 @@ public class TestExperiments {
 
 			computeCoverageFromAsmTestSuite(asmPath, randomSuite, RESOURCES + "/" + RANDOM_DIR + "/" + asmFileName,
 					REPORT_DIR + "/report_random.csv");
+			RuleEvalWCov.reset();
 
 			randomExeTime = Duration.between(start, end).toMillis();
 
@@ -341,7 +365,7 @@ public class TestExperiments {
 				DASH + EvoAsmetaTgCLI.INPUT, asmPath, DASH + EvoAsmetaTgCLI.OUTPUT, avallaOutputDirectory,
 				DASH + EvoAsmetaTgCLI.JAVA_PATH, JDK_PATH, DASH + EvoAsmetaTgCLI.EVOSUITE_VERSION, "1.0.6",
 				DASH + EvoAsmetaTgCLI.EVOSUITE_PATH, "..\\asmeta.evotest.evoasmetatg\\evosuite\\evosuite-jar",
-				/*DASH + EvoAsmetaTgCLI.TIME_BUDGET, "5",*/ DASH + EvoAsmetaTgCLI.CLEAN,
+				/* DASH + EvoAsmetaTgCLI.TIME_BUDGET, "5", */DASH + EvoAsmetaTgCLI.CLEAN,
 				"-DignoreDomainException=true");
 
 		Instant start = Instant.now();
@@ -382,7 +406,9 @@ public class TestExperiments {
 		}
 
 		// compute coverage and save results in the csv file
-		computeCoverageFromAvalla(avallaOutputDirectory, REPORT_DIR + "/report_evoavalla.csv");
+		// computeCoverageFromAvalla(avallaOutputDirectory, REPORT_DIR +
+		// "/report_evoavalla.csv");
+		computeCoverageFromSingleAvallaSeparately(avallaOutputDirectory, REPORT_DIR + "/report_evoavalla.csv");
 
 		// extract the step settings to compare with the random
 		extractStepSettings(Path.of(avallaOutputDirectory), stepSettings);
@@ -427,8 +453,33 @@ public class TestExperiments {
 		new File(testDir).mkdirs();
 		SaveResults.saveResults(suite, asmPath, Collections.singleton(FormatsEnum.AVALLA), "",
 				new File(testDir).getAbsolutePath());
-		computeCoverageFromAvalla(testDir, csvPath);
+		// computeCoverageFromAvalla(testDir, csvPath);
+		computeCoverageFromSingleAvallaSeparately(testDir, csvPath);
 	}
+
+	private static void computeCoverageFromSingleAvallaSeparately(String testDir, String csvPath) throws IOException {
+		File tempCsv = new File(Path.of(csvPath).getParent().resolve("temp.csv").toString());
+		try (Stream<Path> files = Files.list(Path.of(testDir))) {
+			files.filter(path -> path.getFileName().toString().endsWith(AVALLA_EXTENSION)).forEach(path -> {
+				System.out.println("Processing: " + path);
+				try {
+					AsmetaV.execValidation(path.toString(), true, tempCsv.getAbsolutePath());
+				} catch (Exception e) {
+					System.err.println("Failed to validate the test: " + path.getFileName());
+					e.printStackTrace();
+				}
+			});
+			System.out.println("Validated all files in: " + testDir);
+			CsvProcessor.agregateTempCsv(tempCsv.getAbsolutePath(), csvPath);
+		} catch (IOException e) {
+			System.err.println("Error accessing directory: " + testDir);
+			e.printStackTrace();
+		} finally {
+			RuleEvalWCov.reset();
+			Files.delete(tempCsv.toPath());
+		}
+	}
+	
 
 	/**
 	 * Validate an ASM specification and compute the coverage given the .avalla
@@ -443,31 +494,6 @@ public class TestExperiments {
 	private static void computeCoverageFromAvalla(String scenarioPath, String csvPath) throws Exception {
 		AsmetaV.execValidation(scenarioPath, true, csvPath);
 		RuleEvalWCov.reset();
-	}
-
-	/**
-	 * Delete a directory recursively
-	 * 
-	 * @param pathToBeDeleted directory path to delete
-	 * @throws IOException if an I/O error occurs.
-	 */
-	private static void cleanDir(Path pathToBeDeleted) throws IOException {
-		if (!pathToBeDeleted.toFile().exists())
-			return;
-		Files.walkFileTree(pathToBeDeleted, new SimpleFileVisitor<Path>() {
-			@Override
-			public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
-				Files.delete(dir);
-				return FileVisitResult.CONTINUE;
-			}
-
-			@Override
-			public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-				Files.delete(file);
-				return FileVisitResult.CONTINUE;
-			}
-		});
-		System.out.println("cleaned the directory: " + pathToBeDeleted);
 	}
 
 }
