@@ -44,6 +44,11 @@ To use the asmeta framework in Eclipse IDE you need to install:
 
 ### eclispe with asmeta ready to use:
 
+new version 25.03 news:
+ - static and derived functions are now distinguished
+ - invariant are translated to INVARSPEC
+ - other minor bugs fixed
+
 new version 24.06! new TL operators names and minor fixes - multiple architecture (win, lin, macos):
 
 #### for windows 64 bit:
