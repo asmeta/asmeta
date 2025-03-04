@@ -7,3 +7,5 @@ The `README.md` file inside each experiment folder specifies the configuration p
 The `Report_Analysis.ipynb` file can be used via [Google Colab](https://colab.google/) and allows you to perform a graphical analysis of the report files, it automatically takes the files from GitHub following the specified format of the folders, so you only need to indicate the experiment number.
 
 You can also access this Report Analysis Notebook via the following [link](https://colab.research.google.com/drive/1ZYboQOTFk3qI3bmtX1S80xa2EDQ4n80U?usp=sharing) with viewer permissions and create a copy on your drive/pc.
+
+The `Aggregate_csv.ipynb` file can be used to produce aggregated csvs containing the mean of multiple experiments, in that case in the subfolder `/exp_/<experiment_number>` include other subfolders with the numeric format (e.g. 01 , 02), the script will automatically produce the csvs with the average values ​​in the root of the folder `/exp_/<experiment_number>`
