@@ -19,3 +19,5 @@ Atgt:
     - COMPLETE_RULE
     - RULE_GUARD
 - maxTest: Integer.MAX_VALUE
+
+The subfolders contain the individual experiments that were used to compose the mean report csvs
