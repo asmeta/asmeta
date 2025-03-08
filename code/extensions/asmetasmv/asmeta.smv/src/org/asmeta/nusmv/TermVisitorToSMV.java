@@ -281,7 +281,7 @@ public class TermVisitorToSMV extends org.asmeta.parser.util.ReflectiveVisitor<S
 			Term term = letTerm.getBody();
 			List<VariableTerm> vars = letTerm.getVariable();
 			ArrayList<String[]> values = new ArrayList<String[]>();
-			mv.rv.combineValues(vars, 0, values, new String[vars.size()]);
+			mv.getRv().combineValues(vars, 0, values, new String[vars.size()]);
 			ArrayList<String> ands = new ArrayList<String>();
 			for(String[] value: values) {
 				env.setVarsValues(vars, value);

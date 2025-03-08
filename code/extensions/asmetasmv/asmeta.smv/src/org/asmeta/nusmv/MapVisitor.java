@@ -104,7 +104,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 			RemoveNestingFlattener.class };
 
 	private Map<Location, String> locationNameToNusmvVariableName;
-	RuleVisitor rv;
+	private NuSMVRuleVisitor rv;
 	public Map<Rule, List<String>> ruleCond;
 	public Map<String, List<String>> locationReachabilityConds;
 
@@ -271,7 +271,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 		setConstants(new ArrayList<String>());
 		ruleCond = new HashMap<Rule, List<String>>();
 		mcresults.initMapPropResult();
-		setRv(new RuleVisitor(this));
+		setRv(new NuSMVRuleVisitor(this));
 
 		if (AsmetaSMVOptions.doAsmetaMA) {
 			locationReachabilityConds = new HashMap<String, List<String>>();
@@ -666,7 +666,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 			String name = asm.getName();
 			asm = AsmetaMultipleFlattener.flatten(asm, ALL_SMV_FLATTENERS);
 			asm.setName(name);
-			// System.out.println(AsmetaMultipleFlattener.printASM(asm));
+			//System.out.println(AsmetaMultipleFlattener.printASM(asm));
 
 			/*
 			 * File tempFile = File.createTempFile("tmp", ASMParser.asmExtension); String
@@ -710,7 +710,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 			// each update contains at least the guard "TRUE"
 			getConditions().push(trueString);
 			Rule mainRuleBody = asm.getMainrule().getRuleBody();
-			getRv().visit(mainRuleBody);// visit starting from the main rule
+			rv.visit(mainRuleBody);// visit starting from the main rule
 			getConditions().pop();// we remove the condition "TRUE" added before visiting the main rule
 			env.inMainRule = false;
 		}
@@ -775,7 +775,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 					// TODO bisogna rimuovere il try
 					// ora alcune funzioni possono contenere altre funzioni
 					try {
-						dv = new DerivedVisitor(env, getRv(), undefValue);
+						dv = new DerivedVisitor(env, rv, undefValue);
 						map = dv.visit(location);
 						if (map.size() == 1) {
 							Entry<String, String> entrySet = map.entrySet().iterator().next();
@@ -817,7 +817,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 					}
 				}
 			}
-			dv = new DerivedVisitor(env, getRv(), undefValue);
+			dv = new DerivedVisitor(env, rv, undefValue);
 			if (derived.contains(locName)) {
 				map = dv.visit(location);
 				if (map.size() > 0) {
@@ -1620,11 +1620,11 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 		this.conditions = conditions;
 	}
 
-	public RuleVisitor getRv() {
+	public NuSMVRuleVisitor getRv() {
 		return rv;
 	}
 
-	public void setRv(RuleVisitor rv) {
+	public void setRv(NuSMVRuleVisitor rv) {
 		this.rv = rv;
 	}
 
