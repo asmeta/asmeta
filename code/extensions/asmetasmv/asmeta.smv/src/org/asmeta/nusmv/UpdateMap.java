@@ -8,10 +8,15 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import org.apache.log4j.Logger;
 import org.asmeta.nusmv.util.AsmNotSupportedException;
 import org.asmeta.nusmv.util.Util;
 
+//
 public class UpdateMap {
+	
+	static final Logger log = Logger.getLogger(UpdateMap.class);
+	
 	private SortedMap<String, LinkedHashMap<String, String>> updateMap;
 
 	UpdateMap() {
@@ -47,11 +52,10 @@ public class UpdateMap {
 	 * @throws Exception
 	 *             the exception
 	 */
-	void update(String location, String cond, String value) {
+	private void update(String location, String cond, String value) {
 		// System.out.println(updateMap);
 		// System.out.println("location " + location + " cond " + cond +
 		// " value " + value);
-		checkUpdate(location, cond, value);
 		if (!cond.equals(Util.falseString)) {
 			// updateMap.get(location).put(cond, value);
 			// System.out.println("location "+location+" updateMap.get(location)
@@ -68,6 +72,13 @@ public class UpdateMap {
 					// AsmNotSupportedException("Update inconsistente: la locazione "+location+
 					// " viene aggiornata sia al valore "+map.get(cond)+" sia al valore "+value+"
 					// sotto la condizione "+cond);
+				}
+			}
+			String alreadySetVal = map.get(cond);
+			if (alreadySetVal != null) {
+				if (!alreadySetVal.equals(value)) {
+					log.fatal("inconsistent update");
+					throw new InconsistentUpdateException(cond,location,value,alreadySetVal);
 				}
 			}
 			map.put(cond, value);
@@ -112,23 +123,6 @@ public class UpdateMap {
 		for (Entry<String, Map<List<String>, String>> location : map.entrySet()) {
 			update(location.getKey(), location.getValue());
 		}
-	}
-
-	void checkUpdate(String location, String cond, String value) throws AsmNotSupportedException {
-		if (!isConsistentUpdate(location, cond, value)) {
-			throw new AsmNotSupportedException("Update inconsistente della " + "location " + location
-					+ " sotto la condizione " + cond + "\nSi vuole aggiornarla contemporaneamente ai valori "
-					+ updateMap.get(location).get(cond) + " e " + value + ".");
-		}
-	}
-
-	boolean isConsistentUpdate(String location, String cond, String value) {
-		return true;
-		// errato
-		/*
-		 * Map<String, String> map = updateMap.get(location); if (map.containsKey(cond)
-		 * && !map.get(cond).equals(value)) return false; else return true;
-		 */
 	}
 
 	int getSize() {

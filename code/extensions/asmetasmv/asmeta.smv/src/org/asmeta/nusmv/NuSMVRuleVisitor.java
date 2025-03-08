@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.SortedSet;
 import java.util.Stack;
 
+import org.apache.log4j.Logger;
 import org.asmeta.nusmv.util.AsmNotSupportedException;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
 import org.asmeta.nusmv.util.ConditionStack;
@@ -52,7 +53,10 @@ import asmeta.transitionrules.basictransitionrules.UpdateRule;
 import asmeta.transitionrules.derivedtransitionrules.CaseRule;
 import asmeta.transitionrules.turbotransitionrules.SeqRule;
 
-public class RuleVisitor extends ReflectiveVisitor<Void> implements IRuleVisitor<Void> {
+public class NuSMVRuleVisitor extends ReflectiveVisitor<Void> implements IRuleVisitor<Void> {
+
+	static final Logger log = Logger.getLogger(NuSMVRuleVisitor.class);
+	
 	private MapVisitor mv;
 	private Environment env;
 	private TermVisitorToSMV tp;
@@ -63,7 +67,7 @@ public class RuleVisitor extends ReflectiveVisitor<Void> implements IRuleVisitor
 	private Map<ChooseRule, String> chooseInstance;
 	private Stack<String> chooseStack;//ha un senso metterlo qui, ma ora non mi ricordo perche'. Credo che sia dovuto ai casi con choose innestate
 
-	RuleVisitor(MapVisitor mapVisitor) {
+	NuSMVRuleVisitor(MapVisitor mapVisitor) {
 		mv = mapVisitor;
 		env = mapVisitor.env;
 		tp = mapVisitor.termTran;
@@ -422,7 +426,7 @@ public class RuleVisitor extends ReflectiveVisitor<Void> implements IRuleVisitor
 	 * @throws Exception the exception
 	 */
 	@Override
-	public Void visit(UpdateRule updateRule){
+	public Void visit(UpdateRule updateRule){		
 		Term loc = updateRule.getLocation();
 		String location;
 		if(loc instanceof LocationTerm) {
@@ -452,6 +456,7 @@ public class RuleVisitor extends ReflectiveVisitor<Void> implements IRuleVisitor
 			// not undef
 			value = tp.visit(updatingTerm);			
 		}
+		log.debug("visiting update rule " + location + ":=" + value);
 		if(env.inSeqRule) {
 			env.srv.seqRuleUpdate(location, value);
 		}
