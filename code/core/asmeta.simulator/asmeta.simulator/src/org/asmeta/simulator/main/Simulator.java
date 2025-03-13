@@ -459,6 +459,7 @@ public class Simulator {
 		// print the next state in controlled part
 		if (logger.isInfoEnabled()) {
 			String monLocState = currentState.getMonLocsState();
+			System.err.println("APPENDERS" + Collections.list(logger.logger.getAllAppenders()));
 			if (monLocState.length() > 0) {
 				logger.info("<State " + numOfState + " (monitored)>");
 				logger.info(monLocState);

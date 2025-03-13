@@ -5,17 +5,21 @@ import java.io.File;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.log4j.Appender;
 import org.apache.log4j.Logger;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.main.AsmModelNotFoundException;
 import org.asmeta.simulator.main.MainRuleNotFoundException;
 import org.asmeta.simulator.main.Simulator;
+import org.asmeta.simulator.main.Simulator.SimulatorLogger;
 import org.asmeta.simulator.value.Value;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
@@ -56,7 +60,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 	private static final int MAX_NUMBER_RND_STEPS = 10000;
 
 	// get the logger form the simulator
-	private static final Logger simulatorLogger = Logger.getLogger(Simulator.class);
+	private static final SimulatorLogger simulatorLogger = Simulator.logger;
 
 	static final int rowHeight = 30;
 	static final String CONTROLLED = "C";
@@ -71,11 +75,13 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 	private Text textStepNumber;
 	private Text textInvError;
 	private AsmCollection asm;
-	private Label lblInvariant, lblInsertStepNumber;
+	
+	
 	private Button btnRndStep, btnInterStep, btnMoveControlledUp, btnMoveControlledDown,
 			btnMoveMonitoredUp, btnMoveMonitoredDown;
 	private Color updateColor, newFunctionColor, red;
-	private Image arrowUp, arrowDown;
+	private Image arrowUp;
+	private Image arrowDown;
 	private String lastMonitoredInteractiveValue;
 
 	
@@ -86,6 +92,24 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		// parse using the asmeta parser
 		assert asmPath.exists();
 		final AsmCollection model = ASMParser.setUpReadAsm(asmPath);
+		System.err.println("appenders A" + Collections.list(simulatorLogger.logger.getAllAppenders()));
+		System.err.println("appenders B" + Collections.list(Logger.getLogger(Simulator.class).getAllAppenders()));
+//		//
+//		// this is just a trick to avoid the double appenders that sometimes happen
+//		// workaround
+//		//
+//		Enumeration<Appender> allAppenders = simulatorLogger.getAllAppenders();
+//		// this should be always true, but sometimes there are no appenders
+//		if (allAppenders.hasMoreElements()) {
+//			Appender firstAppender = (Appender) allAppenders.nextElement();
+//			// check if there is another appender (it should not happen)
+//			if (allAppenders.hasMoreElements()) {
+//				System.err.println("REMOVING APPENDER");
+//				simulatorLogger.removeAllAppenders();
+//				simulatorLogger.addAppender(firstAppender);
+//			}
+//		}
+		//
 		// System.out.println(System.getProperty("user.dir"));
 		simulatorLogger.debug("animating " + asmPath);
 		new VisualizationSimulation(model);
@@ -207,6 +231,8 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 	}
 
 	private void addElementsToLeftPanel(SashForm sashForm) {
+  Label lblInsertStepNumber;
+		Label lblInvariant;
 		// Add panel to the left side
 		Composite panel_monitored = new Composite(sashForm, SWT.BORDER);
 		panel_monitored.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
