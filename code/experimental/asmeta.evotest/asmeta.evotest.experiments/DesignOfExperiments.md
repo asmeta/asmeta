@@ -16,3 +16,6 @@ These are the features of the models
 - with invariants (invariant - INVAR .... qui con INVAR ATGT potrebbe generare test che soddisfano gli inviarinti) - ferryman
 - with reals
 - 
+
+
+requisito: ogni specifica copre una combinazione di features che la stessa identica o inclusa ? non viene coperta da altre modelli 
