@@ -32,6 +32,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
@@ -57,6 +58,12 @@ import asmeta.structure.Asm;
 
 public class VisualizationSimulation implements VisualizationSimulationI {
 
+	// text to be put in the interface
+	private static final String TEXT_MOVE_MONITORED_FUNCTIONS_DOWN = "Move Monitored Functions DOWN";
+	private static final String TEXT_EXPORT_TO_AVALLA = "export to Avalla";
+
+	private static final Font PREFERRED_FONT = SWTResourceManager.getFont("Calibri", 12, SWT.NORMAL);
+
 	private static final int MAX_NUMBER_RND_STEPS = 10000;
 
 	// get the logger form the simulator
@@ -75,47 +82,44 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 	private Text textStepNumber;
 	private Text textInvError;
 	private AsmCollection asm;
-	
-	
-	private Button btnRndStep, btnInterStep, btnMoveControlledUp, btnMoveControlledDown,
-			btnMoveMonitoredUp, btnMoveMonitoredDown;
-	private Color updateColor, newFunctionColor, red;
+
+	private Button btnRndStep;
+	private Button btnInterStep;
+
+	// create the colors here once for ever
+	private Color updateColor = new Color(display, 204, 255, 204);
+	private Color newFunctionColor = new Color(display, 204, 229, 255);
+	private Color red = new Color(display, 255, 0, 0);
+
 	private Image arrowUp;
 	private Image arrowDown;
 	private String lastMonitoredInteractiveValue;
 
-	
-	/** build the viewer from a path 
-	 * sort of a factory */
-	public static void showView(File asmPath) throws Exception {
+	/**
+	 * build the viewer from a path sort of a factory
+	 */
+	public static void startAnimator(File asmPath) throws Exception {
 		// PARSE THE SPECIFICATION (ASM)
 		// parse using the asmeta parser
 		assert asmPath.exists();
 		final AsmCollection model = ASMParser.setUpReadAsm(asmPath);
-		System.err.println("appenders A" + Collections.list(simulatorLogger.logger.getAllAppenders()));
-		System.err.println("appenders B" + Collections.list(Logger.getLogger(Simulator.class).getAllAppenders()));
-//		//
-//		// this is just a trick to avoid the double appenders that sometimes happen
-//		// workaround
-//		//
-//		Enumeration<Appender> allAppenders = simulatorLogger.getAllAppenders();
-//		// this should be always true, but sometimes there are no appenders
-//		if (allAppenders.hasMoreElements()) {
-//			Appender firstAppender = (Appender) allAppenders.nextElement();
-//			// check if there is another appender (it should not happen)
-//			if (allAppenders.hasMoreElements()) {
-//				System.err.println("REMOVING APPENDER");
-//				simulatorLogger.removeAllAppenders();
-//				simulatorLogger.addAppender(firstAppender);
-//			}
-//		}
-		//
+		// since the simulator introduces its own appender and also this action introduce its appender,
+		// remove all the appenders already in the simulator
+		// DEBUG
+		// print logger of the simulator
+		//System.err.println("simulator appenders: " + Collections.list(simulatorLogger.logger.getAllAppenders()));
+		//System.err.println("asmeta appenders: " + Collections.list(Logger.getLogger("org.asmeta").getAllAppenders()));
+		//System.err.println("root appenders: " + Collections.list(Logger.getRootLogger().getAllAppenders()));
+		// work around
+		// remove all the appenders for the simulator
+		// hopefully they will be inserted later the next time the simulator is executed
+		SimulatorLogger.logger.removeAllAppenders();
+
 		// System.out.println(System.getProperty("user.dir"));
-		simulatorLogger.debug("animating " + asmPath);
-		new VisualizationSimulation(model);
+		VisualizationSimulation  sim = new VisualizationSimulation(model);
+		sim.run();
 	}
 
-	
 	/**
 	 * Launch the application. Open the window for interactive simulation.
 	 * 
@@ -123,7 +127,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 	 * 
 	 * @param args
 	 */
-	public VisualizationSimulation(AsmCollection asm) {
+	private VisualizationSimulation(AsmCollection asm) {
 		this.asm = asm;
 		// Display display = PlatformUI.getWorkbench().getDisplay();
 		// String filePath = System.getProperty("user.dir");
@@ -140,13 +144,14 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		createContents(display, shlAsmetaa);
 		shlAsmetaa.open();
 		shlAsmetaa.layout();
+	}
+
+	private void run() {
 		while (!shlAsmetaa.isDisposed()) {
 			if (!display.readAndDispatch()) {
 				display.sleep();
 			}
 		}
-
-		// display.dispose();
 	}
 
 	/**
@@ -156,7 +161,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 	 * @param shlAsmetaa
 	 */
 	protected void createContents(Display display, Shell shlAsmetaa) {
-		generateGraphicalElements(display, shlAsmetaa);
+		generateGraphicalElements(shlAsmetaa);
 		runMixedSimulation();
 	}
 
@@ -204,10 +209,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 
 	}
 
-	private void generateGraphicalElements(Display display, Shell shlAsmetaa) {
-		updateColor = new Color(display, 204, 255, 204);
-		newFunctionColor = new Color(display, 204, 229, 255);
-		red = new Color(display, 255, 0, 0);
+	private void generateGraphicalElements(Shell shlAsmetaa) {
 		// shlAsmetaa = new Shell(display);
 		/*
 		 * shlAsmetaa.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
@@ -227,12 +229,10 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		// name of functions,
 		// the right table the states
 		addElementsToRightPanel(sashForm);
-		sashForm.setWeights(new int[] { 241, 500 });
+		sashForm.setWeights(241, 500);
 	}
 
 	private void addElementsToLeftPanel(SashForm sashForm) {
-  Label lblInsertStepNumber;
-		Label lblInvariant;
 		// Add panel to the left side
 		Composite panel_monitored = new Composite(sashForm, SWT.BORDER);
 		panel_monitored.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
@@ -253,7 +253,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		btnInterStep = new Button(composite, SWT.NONE);
 		btnInterStep.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		btnInterStep.setBackground(SWTResourceManager.getColor(0, 0, 255));
-		btnInterStep.setFont(SWTResourceManager.getFont("Calibri", 12, SWT.NORMAL));
+		btnInterStep.setFont(PREFERRED_FONT);
 		// only text
 		btnInterStep.setText("Do one interactive step");
 		new Label(composite, SWT.NONE);
@@ -261,16 +261,16 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		btnRndStep = new Button(composite, SWT.NONE);
 		btnRndStep.setForeground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		btnRndStep.setBackground(SWTResourceManager.getColor(0, 0, 255));
-		btnRndStep.setFont(SWTResourceManager.getFont("Calibri", 12, SWT.NORMAL));
+		btnRndStep.setFont(PREFERRED_FONT);
 		btnRndStep.setText("Do random step/s");
-		lblInsertStepNumber = new Label(composite, SWT.NONE);
-		lblInsertStepNumber.setFont(SWTResourceManager.getFont("Calibri", 12, SWT.NORMAL));
+		Label lblInsertStepNumber = new Label(composite, SWT.NONE);
+		lblInsertStepNumber.setFont(PREFERRED_FONT);
 		lblInsertStepNumber.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		lblInsertStepNumber.setText("Insert random step number");
 		// text to be executed when push do random step/s
 		textStepNumber = new Text(composite, SWT.BORDER);
 		textStepNumber.setBackground(SWTResourceManager.getColor(245, 245, 245));
-		textStepNumber.setFont(SWTResourceManager.getFont("Calibri", 12, SWT.NORMAL));
+		textStepNumber.setFont(PREFERRED_FONT);
 		textStepNumber.setTouchEnabled(true);
 		textStepNumber.setText("1");
 		GridData gd_textStepNumber = new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1);
@@ -281,27 +281,28 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 			@Override
 			public void verifyText(VerifyEvent e) {
 				try {
-					// build the text as it would be after the event 
+					// build the text as it would be after the event
 					String text = textStepNumber.getText();
 					String newText = text.substring(0, e.start) + e.text + text.substring(e.end);
 					Integer x = Integer.valueOf(newText);
 					// max number of steps ??
-					if (x > MAX_NUMBER_RND_STEPS) e.doit = false;
+					if (x > MAX_NUMBER_RND_STEPS)
+						e.doit = false;
 				} catch (NumberFormatException ex) {
 					e.doit = false;
 				}
 			}
-			
+
 		});
 		new Label(composite, SWT.NONE);
 		// invariant checker
-		lblInvariant = new Label(composite, SWT.WRAP);
-		lblInvariant.setFont(SWTResourceManager.getFont("Calibri", 12, SWT.NORMAL));
+		Label lblInvariant = new Label(composite, SWT.WRAP);
+		lblInvariant.setFont(PREFERRED_FONT);
 		lblInvariant.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		lblInvariant.setLayoutData(new GridData(SWT.FILL, SWT.NONE, true, false, 1, 1));
 		lblInvariant.setText("Inviariant violation / exceptions");
 		textInvError = new Text(composite, SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL);
-		textInvError.setFont(SWTResourceManager.getFont("Calibri", 12, SWT.NORMAL));
+		textInvError.setFont(PREFERRED_FONT);
 		textInvError.setEditable(false);
 		GridData gd_textInvariant = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_textInvariant.heightHint = 66;
@@ -315,7 +316,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		Composite compositeMove = new Composite(composite, SWT.BORDER);
 		compositeMove.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		compositeMove.setLayout(new GridLayout(1, false));
-		btnMoveControlledUp = new Button(compositeMove, SWT.NONE);
+		Button btnMoveControlledUp = new Button(compositeMove, SWT.NONE);
 		GridData gd_btnMoveControlledUp = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_btnMoveControlledUp.heightHint = 33;
 		gd_btnMoveControlledUp.widthHint = 195;
@@ -324,7 +325,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		btnMoveControlledUp.setForeground(SWTResourceManager.getColor(SWT.COLOR_TITLE_INACTIVE_FOREGROUND));
 		btnMoveControlledUp.setFont(SWTResourceManager.getFont("Calibri", 10, SWT.NORMAL));
 		btnMoveControlledUp.setText("Move Controlled Functions UP");
-		btnMoveControlledDown = new Button(compositeMove, SWT.NONE);
+		Button btnMoveControlledDown = new Button(compositeMove, SWT.NONE);
 		GridData gd_btnMoveControlledDown = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_btnMoveControlledDown.widthHint = 195;
 		gd_btnMoveControlledDown.heightHint = 33;
@@ -333,7 +334,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		btnMoveControlledDown.setForeground(SWTResourceManager.getColor(SWT.COLOR_TITLE_INACTIVE_FOREGROUND));
 		btnMoveControlledDown.setFont(SWTResourceManager.getFont("Calibri", 10, SWT.NORMAL));
 		btnMoveControlledDown.setText("Move Controlled Functions DOWN");
-		btnMoveMonitoredUp = new Button(compositeMove, SWT.CENTER);
+		Button btnMoveMonitoredUp = new Button(compositeMove, SWT.CENTER);
 		GridData gd_btnMoveMonitoredUp = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_btnMoveMonitoredUp.heightHint = 33;
 		gd_btnMoveMonitoredUp.widthHint = 195;
@@ -342,7 +343,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		btnMoveMonitoredUp.setForeground(SWTResourceManager.getColor(SWT.COLOR_TITLE_INACTIVE_FOREGROUND));
 		btnMoveMonitoredUp.setFont(SWTResourceManager.getFont("Calibri", 10, SWT.NORMAL));
 		btnMoveMonitoredUp.setText("Move Monitored Functions UP");
-		btnMoveMonitoredDown = new Button(compositeMove, SWT.NONE);
+		Button btnMoveMonitoredDown = new Button(compositeMove, SWT.NONE);
 		GridData gd_btnMoveMonitoredDown = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_btnMoveMonitoredDown.widthHint = 195;
 		gd_btnMoveMonitoredDown.heightHint = 33;
@@ -350,14 +351,10 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		btnMoveMonitoredDown.setBackground(SWTResourceManager.getColor(SWT.COLOR_TITLE_INACTIVE_BACKGROUND_GRADIENT));
 		btnMoveMonitoredDown.setForeground(SWTResourceManager.getColor(SWT.COLOR_TITLE_INACTIVE_FOREGROUND));
 		btnMoveMonitoredDown.setFont(SWTResourceManager.getFont("Calibri", 10, SWT.NORMAL));
-		btnMoveMonitoredDown.setText("Move Monitored Functions DOWN");
+		btnMoveMonitoredDown.setText(TEXT_MOVE_MONITORED_FUNCTIONS_DOWN);
 
 		// add listener to show functions
-		btnMoveMonitoredDown.addSelectionListener(new SelectionListener() {
-
-			@Override
-			public void widgetDefaultSelected(SelectionEvent arg0) {
-			}
+		btnMoveMonitoredDown.addSelectionListener(new SelectionAdapter() {
 
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
@@ -375,7 +372,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 			}
 		});
 		btnMoveControlledDown.addSelectionListener(new SelectionAdapter() {
-			
+
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
 				moveMultipleFunctions(table_functions_left_up, table_states_right_up, table_functions_left_down,
@@ -393,7 +390,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 
 		// export button to avalla
 		Button exportAvalla = new Button(composite, SWT.NONE);
-		exportAvalla.setText("export to Avalla");
+		exportAvalla.setText(TEXT_EXPORT_TO_AVALLA);
 		exportAvalla.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
 				switch (e.type) {
@@ -423,7 +420,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		// get the states in items
 		for (int column = 0; column < table_states_right_down.getColumnCount(); column++) {
 			// all the controlled and then monitored
-			String functionTypes[] = { CONTROLLED, MONITORED };
+			String[] functionTypes = { CONTROLLED, MONITORED };
 			for (String functionT : functionTypes) {
 				addStateToAvalla(states_down, functions_down, column, functionT);
 				addStateToAvalla(states_up, functions_up, column, functionT);
@@ -432,7 +429,6 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 			simulatorLogger.info("step");
 		}
 	}
-
 
 	/**
 	 * @param states_down
@@ -455,13 +451,13 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 				// if the type is a string add the quotes
 				// get the functions of this ASM
 				Collection<Function> functions = new ArrayList<>();
-				for (Asm a: this.asm) {
+				for (Asm a : this.asm) {
 					functions.addAll(a.getHeaderSection().getSignature().getFunction());
 				}
 				// add the quotes AG 04-2022
-				Function function = org.asmeta.parser.Utility.search_funcName(functions, functionName);				
+				Function function = org.asmeta.parser.Utility.search_funcName(functions, functionName);
 				if (function != null && function.getCodomain() instanceof StringDomain) {
-					text = "\""+ text + "\"";
+					text = "\"" + text + "\"";
 				}
 				// print
 				if (functionType.equals(VisualizationSimulation.MONITORED))
@@ -551,9 +547,9 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 
 		// Add listener to alphabetically ordered the functions
 		sortElements(table_functions_left_up, table_states_right_up);
-		sash_tables_up.setWeights(new int[] { 133, 357, 0 });
+		sash_tables_up.setWeights(133, 357, 0);
 		sortElements(table_functions_left_down, table_states_right_down);
-		sash_tables_down.setWeights(new int[] { 133, 357, 0 });
+		sash_tables_down.setWeights(133, 357, 0);
 	}
 
 	private void listenerMoveUpDown(Table table_functions_left_origin, Table table_states_right_origin,
@@ -564,10 +560,10 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 				if (arg0.detail == SWT.CHECK) {
 					TableItem[] itemsL = table_functions_left_origin.getItems();
 					for (int i = 0; i < itemsL.length; i++) {
-						if (check && itemsL[i].getChecked() == true)
+						if (check && itemsL[i].getChecked())
 							moveOneFunction(i, table_functions_left_origin, table_states_right_origin,
 									table_functions_left_dest, table_states_right_dest, arrow, check);
-						if (!check && itemsL[i].getChecked() == false)
+						if (!check && !itemsL[i].getChecked())
 							moveOneFunction(i, table_functions_left_origin, table_states_right_origin,
 									table_functions_left_dest, table_states_right_dest, arrow, check);
 					}
@@ -785,10 +781,11 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		 * table_functions_left_up.getColumn(1).pack();
 		 * table_functions_left_down.getColumn(1).pack();
 		 */
+		updateTables();
 	}
 
 	// Show value of function when interactive simulation is performed
-	void showFunctionsInteractiveSimulation(MyState state) {
+	private void showFunctionsInteractiveSimulation(MyState state) {
 		TableColumn column1_up = new TableColumn(table_states_right_up, SWT.NONE);
 		column1_up.setText("State " + (table_states_right_up.getColumnCount() - 1));
 		TableColumn column1_down = new TableColumn(table_states_right_down, SWT.NONE);
@@ -797,17 +794,18 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		addResizeListener(table_states_right_down, table_states_right_up, table_states_right_down.getColumnCount() - 1);
 		showControlled(state.getControlledValues());
 		showMonitored(state.getMonitoredValues());
-		addMissingValueMoniotrFunctions(table_states_right_up);
-		addMissingValueMoniotrFunctions(table_states_right_down);
+		addMissingValueMonitoredFunctions(table_states_right_up);
+		addMissingValueMonitoredFunctions(table_states_right_down);
 		table_states_right_up.getColumn(table_states_right_up.getColumnCount() - 1).pack();
 		table_states_right_down.getColumn(table_states_right_down.getColumnCount() - 1).pack();
 		table_states_right_down
 				.showColumn(table_states_right_down.getColumn(table_states_right_down.getColumnCount() - 1));
 		table_states_right_up.showColumn(table_states_right_up.getColumn(table_states_right_up.getColumnCount() - 1));
+		updateTables();
 	}
 
 	// Show controlled functions
-	void showControlled(Map<Location, Value> location) {
+	private void showControlled(Map<Location, Value> location) {
 		Set<Location> listKey = location.keySet();
 		for (Iterator<Location> it = listKey.iterator(); it.hasNext();) {
 			Location key = it.next();
@@ -827,10 +825,12 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 
 	private void addElementsToTables(Table table_functions_left, Table table_states_right, String locationValue,
 			String locationName, int existKey, String type, int movePositionMonitored) {
-		int i = movePositionMonitored;
+		// current column
+		int columnCount = table_states_right.getColumnCount();
 		// Se monitorate inserisci nello stato n, le controllate nello stato n+1
-		// perch�
-		// sono i valori dello stato successivo
+		// perche' sono i valori dello stato successivo
+		int currentColumn = columnCount - 1 - movePositionMonitored;
+		int previousColumn = columnCount - 2 - movePositionMonitored;
 		if (existKey == -1) {
 			// When new function is detected add a row in the right table
 			instantiateRowTableRight(table_states_right);
@@ -846,17 +846,25 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 			table_functions_left.getColumn(2).pack();
 			TableItem[] itemsL = table_functions_left.getItems();
 			TableItem itemR = table_states_right.getItem(itemsL.length - 1);
-			itemR.setText(table_states_right.getColumnCount() - 1 - i, locationValue);
-			itemR.setBackground(table_states_right.getColumnCount() - 1 - i, newFunctionColor);
-			table_states_right.getColumn(table_states_right.getColumnCount() - 1 - i).pack();
+			itemR.setText(currentColumn, locationValue);
+			itemR.setBackground(currentColumn, newFunctionColor);
+			// regardless of the color of the theme set the normal text to black 
+			itemR.setForeground(currentColumn,display.getSystemColor(SWT.COLOR_BLACK));
 		} else {
 			TableItem itemR = table_states_right.getItem(existKey);
-			itemR.setText(table_states_right.getColumnCount() - 1 - i, locationValue);
-			if (itemR.getText(table_states_right.getColumnCount() - 2 - i).compareTo(locationValue) != 0) {
-				itemR.setBackground(table_states_right.getColumnCount() - 1 - i, updateColor);
-				table_states_right.getColumn(table_states_right.getColumnCount() - 1 - i).pack();
-			}
+			itemR.setText(currentColumn, locationValue);
+			// no need to set the color, it will take the correct one
+			// itemR.setForeground(display.getSystemColor(SWT.FOREGROUND));
+			if (itemR.getText(previousColumn).compareTo(locationValue) != 0) {
+				itemR.setBackground(currentColumn, updateColor);
+				// regardless of the color of the theme change also the text
+				itemR.setForeground(currentColumn,display.getSystemColor(SWT.COLOR_BLACK));
+			} 
 		}
+		// try to pack if its shows the results 
+		//table_states_right.getColumn(currentColumn).pack();
+		// this for the first column must be checked
+		//table_states_right.getColumn(previousColumn).pack();
 	}
 
 	// Show monitored functions random simulation
@@ -876,8 +884,8 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 				addElementsToTables(table_functions_left_up, table_states_right_up, location.get(key).toString(),
 						key.toString(), existKey_up, MONITORED, 1);
 		}
-		addMissingValueMoniotrFunctions(table_states_right_up);
-		addMissingValueMoniotrFunctions(table_states_right_down);
+		addMissingValueMonitoredFunctions(table_states_right_up);
+		addMissingValueMonitoredFunctions(table_states_right_down);
 	}
 
 	public void showMonitoredInteractiveSimulation(String input, String location) {
@@ -885,14 +893,11 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		int existKey_up = searchKeyInTable(location, table_functions_left_up);
 		int existKey_down = searchKeyInTable(location, table_functions_left_down);
 		if (existKey_up == -1 && existKey_down == -1)
-			addElementsToTables(table_functions_left_down, table_states_right_down, input, location, existKey_down,
-					MONITORED, 0);
+			addElementsToTables(table_functions_left_down, table_states_right_down, input, location, existKey_down,	MONITORED, 0);
 		else if (existKey_down != -1)
-			addElementsToTables(table_functions_left_down, table_states_right_down, input, location, existKey_down,
-					MONITORED, 0);
+			addElementsToTables(table_functions_left_down, table_states_right_down, input, location, existKey_down,	MONITORED, 0);
 		else
-			addElementsToTables(table_functions_left_up, table_states_right_up, input, location, existKey_up, MONITORED,
-					0);
+			addElementsToTables(table_functions_left_up, table_states_right_up, input, location, existKey_up, MONITORED,0);
 	}
 
 	public String getLastMonitoredInteractiveValue() {
@@ -910,7 +915,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 	 * if monitored function is not setted in the current state, it is empty. The
 	 * method rewrite the content of previous column in the current column
 	 */
-	private void addMissingValueMoniotrFunctions(Table table_states_right) {
+	private void addMissingValueMonitoredFunctions(Table table_states_right) {
 		if (table_states_right.getColumnCount() >= 2) {
 			int j = 1;
 			TableItem[] items = table_states_right.getItems();
@@ -940,10 +945,9 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		return -1;
 	}
 
-
 	@Override
 	public void setInvalidIvariantText(String s) {
-		textInvError.setText(s == null? "null" : s);
+		textInvError.setText(s == null ? "null" : s);
 	}
 
 	@Override
@@ -963,8 +967,18 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 				addElementsToTables(table_functions_left_up, table_states_right_up,
 						locationsPrevSet2.get(key).toString(), key.toString(), existKey_up, CONTROLLED, 0);
 		}
-
 		// System.out.println("INIT" + locationsPrevSet2.toString());
+		// does not work ! - I wanted to fix the problem if the values are not 
+		updateTables();
 	}
+	
+	// I hoped that this woudl update the view of the table 
+	private void updateTables() {
+		table_functions_left_up.update();
+		table_functions_left_down.update();
+		table_states_right_up.update();
+		table_states_right_down.update();
+	}
+
 
 }

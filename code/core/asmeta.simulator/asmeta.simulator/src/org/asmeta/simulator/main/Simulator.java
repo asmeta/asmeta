@@ -113,8 +113,14 @@ public class Simulator {
 		// add appender only if needed
 		// only one appender is allowed !!!
 		public void addAppender(Appender outputfromSim) {
-			if (Collections.list(logger.getAllAppenders()).size() == 0)
+			ArrayList<Appender> appenders = Collections.list(logger.getAllAppenders());
+			if (appenders.isEmpty())
 				logger.addAppender(outputfromSim);
+			else {
+				// advise that it is trying to add a new appender !! - it should never occur 
+				if (!appenders.contains(outputfromSim))
+					System.err.println("trying to add a new appender but there is already one");
+			}
 		}
 
 		public void setLevel(Level level) {
@@ -459,7 +465,6 @@ public class Simulator {
 		// print the next state in controlled part
 		if (logger.isInfoEnabled()) {
 			String monLocState = currentState.getMonLocsState();
-			System.err.println("APPENDERS" + Collections.list(logger.logger.getAllAppenders()));
 			if (monLocState.length() > 0) {
 				logger.info("<State " + numOfState + " (monitored)>");
 				logger.info(monLocState);

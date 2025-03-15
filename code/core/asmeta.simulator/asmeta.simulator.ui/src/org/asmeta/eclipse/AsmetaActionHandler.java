@@ -41,7 +41,7 @@ public abstract class AsmetaActionHandler extends AbstractHandler {
 	 * Instantiates a new asmeta action handler.
 	 *
 	 * @param consoleClass the console class
-	 * @param action the action for messages - use gerund like validationg...
+	 * @param action the action for messages - use gerund like validating...
 	 */
 	protected AsmetaActionHandler(Class<? extends AsmetaConsole> consoleClass, String action, boolean addStdOut) {
 		this.consoleClass = consoleClass;
@@ -81,8 +81,9 @@ public abstract class AsmetaActionHandler extends AbstractHandler {
 		setUpLoggers();
 		// execute action
 		try {
-			console.writeMessage( action + " on " + path);			
-			executeAction(path);			
+			console.writeMessage(action + " on " + path);			
+			executeAction(path);
+			console.writeMessage(action + " finished");			
 		} catch (Throwable t) {
 			// show in the console
 			console.writeMessage("Error " + t.getLocalizedMessage());
@@ -138,8 +139,9 @@ public abstract class AsmetaActionHandler extends AbstractHandler {
 	// set the right output to the logger
 	private void setOutput(AsmetaConsole mc) {
 		// SET THE RIGHT OUTPUT
-		// find all the appenders
-		Logger log = Logger.getRootLogger();
+		// find all the appenders from the logger (probably "org.asmeta" would be better)
+		//Logger log = Logger.getRootLogger();
+		Logger log = Logger.getLogger("org.asmeta");
 		// Delete all the appenders of the root logger except a single ConsoleAppender
 		// org.eclipse.xtext.logging.EclipseLogAppender
 		Enumeration<Appender> allAppenders = log.getAllAppenders();
@@ -161,8 +163,8 @@ public abstract class AsmetaActionHandler extends AbstractHandler {
 				log.addAppender(newConsoleApp);
 			}
 		}*/
+		// get the standard output
 		OutputStream out = mc.newOutputStream();
-		ArrayList<Appender> list = Collections.list(allAppenders);
 		// if it is the first time, set up the appender
 		if (consoleAppender == null) {
 			consoleAppender = new AsmetaWriterAppender(new PatternLayout("%m%n"), out);
@@ -170,21 +172,24 @@ public abstract class AsmetaActionHandler extends AbstractHandler {
 // 			only the simulator ... why?
 //			Logger.getLogger("org.asmeta.simulator").addAppender(outputfromSim);
 //			Simulator.logger.addAppender(outputfromSim);
-		} else {			
-			// if it contains already the appender ok
-			// if (list.contains(consoleAppender)) return;
-		}
-		// remove all the console appenders to avoid cross messages among cosoles
+		} 
+		// clean up the appenders.
+		// actually the simulator does not use this framework and it ass its own appender
+		ArrayList<Appender> list = Collections.list(allAppenders);
+		// remove all the console appenders to avoid cross messages among consoles
 		for(Appender a: list) {
-			System.err.println("appender " +  a.getName() +  " " +a.getClass());
-			// remove all the appenders that are asmeta appenders exepct this one
-			if ((a instanceof AsmetaWriterAppender) && (a != consoleAppender)) {
+			System.err.print("["+ this.getClass() + "] appender " +  a.getName() +  " " +a.getClass());
+			// remove all the appenders that are asmeta appenders exepct this one			
+			//	if ((a instanceof AsmetaWriterAppender) && (a != consoleAppender)) {
+			// stronger version: remove all the appenders except this one
+			if (a != consoleAppender) {
+				System.err.println(" removing " + a);
 				log.removeAppender(a);					
+			} else {
+				System.err.println(" console appender - fine");
 			}
 		}
-		// stronger version: remove all the appenders except this one
-//		if (list.size() > 0) log.removeAllAppenders();
-		// add this one
+		// add this one if it is not already in the list
 		if (!list.contains(consoleAppender)) log.addAppender(consoleAppender);
 		// to be done every time? It seems so 
 		// redirect std output to this console
