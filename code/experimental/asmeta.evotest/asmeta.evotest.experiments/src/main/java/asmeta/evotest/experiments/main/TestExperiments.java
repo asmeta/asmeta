@@ -55,7 +55,9 @@ public class TestExperiments {
 	private static final String AVALLA_EXTENSION = ".avalla";
 	private static final String STEP = "step";
 	private static final String EXECUTION_TIME_CSV = REPORT_DIR + "/execution_time.csv";
-
+	private static final String STEP_OCCURRENCES_CSV = REPORT_DIR + "/step_occurrences.csv";
+	private static final String STEP_OCCURRENCES_ATGT_CSV = REPORT_DIR + "/step_occurrences_atgt.csv";
+	
 	// TODO: remove hardcoded path to jdk
 	private static final String JDK_PATH = /* "C:/Program Files/Java/jdk1.8.0_431"; */ "C:/Program Files/Java/jdk-1.8";
 
@@ -76,7 +78,10 @@ public class TestExperiments {
 		cleanCsv();
 
 		// create e new execution_time.csv file
-		setupExecutionTimeCsv();
+		setupCsvFile(EXECUTION_TIME_CSV,"AsmSpec,EvoAvalla,Random,Atgt\n");
+		// create a new step_occurrence.csv file
+		setupCsvFile(STEP_OCCURRENCES_CSV,"AsmSpec,Scenario,Steps\n");
+		setupCsvFile(STEP_OCCURRENCES_ATGT_CSV,"AsmSpec,Scenario,Steps\n");
 
 		Path dir = Paths.get(MODELS);
 		Files.walk(dir).forEach(path -> generateTestsAndComputeCoverage(path.toString()));
@@ -160,13 +165,15 @@ public class TestExperiments {
 	}
 
 	/**
-	 * Create (or overwrite) and initialize a new csv file for tracking the
-	 * execution time
+	 * Create (or overwrite) and initialize a new csv file
+	 * 
+	 * @param fileName 	name of the csv file
+	 * @param signature	signature of the csv file (the first row)
 	 */
-	private static void setupExecutionTimeCsv() {
-		File executionTimeCsv = new File(EXECUTION_TIME_CSV);
+	private static void setupCsvFile(String fileName, String signature) {
+		File executionTimeCsv = new File(fileName);
 		try (FileWriter writer = new FileWriter(executionTimeCsv, false)) {
-			writer.append("AsmSpec,EvoAvalla,Random,Atgt\n");
+			writer.append(signature);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -327,6 +334,10 @@ public class TestExperiments {
 					REPORT_DIR + "/report_atgt.csv");
 
 			atgtExeTime = Duration.between(start, end).toMillis();
+			
+			// save to csv the step occurrences
+			saveStepSettings(Path.of(RESOURCES + "/" + ATGT_DIR + "/" + asmFileName), new ArrayList<Integer>(), asmFileName, STEP_OCCURRENCES_ATGT_CSV);
+			
 		} catch (Exception e) {
 			System.err.println("ATGT failed to generate a test suite that can be validated");
 			e.printStackTrace();
@@ -365,7 +376,7 @@ public class TestExperiments {
 				DASH + EvoAsmetaTgCLI.INPUT, asmPath, DASH + EvoAsmetaTgCLI.OUTPUT, avallaOutputDirectory,
 				DASH + EvoAsmetaTgCLI.JAVA_PATH, JDK_PATH, DASH + EvoAsmetaTgCLI.EVOSUITE_VERSION, "1.0.6",
 				DASH + EvoAsmetaTgCLI.EVOSUITE_PATH, "..\\asmeta.evotest.evoasmetatg\\evosuite\\evosuite-jar",
-				/* DASH + EvoAsmetaTgCLI.TIME_BUDGET, "5", */DASH + EvoAsmetaTgCLI.CLEAN,
+				/*DASH + EvoAsmetaTgCLI.TIME_BUDGET, "5",*/ DASH + EvoAsmetaTgCLI.CLEAN,
 				"-DignoreDomainException=true");
 
 		Instant start = Instant.now();
@@ -410,9 +421,9 @@ public class TestExperiments {
 		// "/report_evoavalla.csv");
 		computeCoverageFromSingleAvallaSeparately(avallaOutputDirectory, REPORT_DIR + "/report_evoavalla.csv");
 
-		// extract the step settings to compare with the random
-		extractStepSettings(Path.of(avallaOutputDirectory), stepSettings);
-
+		// extract the step settings to compare with the random and save to csv
+		saveStepSettings(Path.of(avallaOutputDirectory), stepSettings, asmFileName, STEP_OCCURRENCES_CSV);
+		
 		// return the execution time of EvoAvalla
 		return Duration.between(start, end).toMillis();
 	}
@@ -422,10 +433,12 @@ public class TestExperiments {
 	 * path passed as a parameter
 	 * 
 	 * @param avallaFolder path of the avalla files to process.
+	 * @param stepsList list containing the step occurrences for each avalla.
+	 * @param csvFile csv file where to save the results.
 	 * @return list of step occurrences for each avalla file.
 	 * @throws IOException if an I/O error occurs.
 	 */
-	private static List<Integer> extractStepSettings(Path avallaFolder, List<Integer> stepsList) throws IOException {
+	private static List<Integer> saveStepSettings(Path avallaFolder, List<Integer> stepsList, String asmName, String csvFile) throws IOException {
 		Files.list(avallaFolder).filter(path -> path.toString().endsWith(AVALLA_EXTENSION)).forEach(path -> {
 			try (Stream<String> lines = Files.lines(path)) {
 				int stepCount = (int) lines.flatMap(line -> Stream.of(line.split("\\W+")))
@@ -435,7 +448,32 @@ public class TestExperiments {
 				e.printStackTrace();
 			}
 		});
+		saveToStepsCsv(asmName, stepsList, csvFile);
 		return stepsList;
+	}
+	
+	/**
+	 * Save the step occurrences to a csv file
+	 * 
+	 * @param asmName name of the specification.
+	 * @param stepsList list containing the number of step for each avalla.
+	 * @param csvFile csv file where to save the results.
+	 */
+	private static void saveToStepsCsv(String asmName, List<Integer> stepsList, String csvFile) {
+		File stepOccurenceSCsv = new File(csvFile);
+		try (FileWriter writer = new FileWriter(stepOccurenceSCsv, true)) {
+			int i = 0;
+			for (Integer steps : stepsList) {
+				i += 1;
+				StringBuilder row = new StringBuilder();
+				row.append(asmName).append(",");
+				row.append(i).append(",");
+				row.append(String.valueOf(steps)).append("\n");
+				writer.write(row.toString());
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
