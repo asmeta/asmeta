@@ -2,9 +2,7 @@ package org.asmeta.xt.validator;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -17,16 +15,12 @@ import org.asmeta.parser.util.AsmPrinter;
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.NotCompatibleDomainsException;
 import org.asmeta.simulator.RuleEvaluator;
-import org.asmeta.simulator.RuleSubstitution;
 import org.asmeta.simulator.State;
-import org.asmeta.simulator.TermAssignment;
-import org.asmeta.simulator.TermSubstitution;
 import org.asmeta.simulator.UpdateSet;
 import org.asmeta.simulator.ValueAssignment;
 import org.asmeta.simulator.value.BooleanValue;
 import org.asmeta.simulator.wrapper.RuleFactory;
 
-import asmeta.definitions.RuleDeclaration;
 import asmeta.terms.basicterms.Term;
 import asmeta.terms.basicterms.VariableTerm;
 import asmeta.transitionrules.basictransitionrules.ConditionalRule;
@@ -64,7 +58,7 @@ public class RuleEvalWCov extends RuleEvaluator {
 	public RuleEvalWCov(State state, Environment environment,
 			RuleFactory factory) {
 		super(state, environment, factory);
-		// trying to build the new covered macro only if null (the first time)
+		// trying to build the new covered macro only if null (the first time or after reset)
 		if (coveredMacros == null) coveredMacros = new HashSet<>();
 		if (coveredConRuleT == null) coveredConRuleT = new HashSet<>();
 		if (coveredConRuleF == null) coveredConRuleF = new HashSet<>();
