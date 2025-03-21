@@ -9,3 +9,7 @@ The `Report_Analysis.ipynb` file can be used via [Google Colab](https://colab.go
 You can also access this Report Analysis Notebook via the following [link](https://colab.research.google.com/drive/1ZYboQOTFk3qI3bmtX1S80xa2EDQ4n80U?usp=sharing) with viewer permissions and create a copy on your drive/pc.
 
 The `Aggregate_csv.ipynb` file can be used to produce aggregated csvs containing the mean of multiple experiments, in that case in the subfolder `/exp_/<experiment_number>` include other subfolders with the numeric format (e.g. 01 , 02), the script will automatically produce the csvs with the average values ​​in the root of the folder `/exp_/<experiment_number>`
+
+The `Box_plot_Coverage.ipynb` file can be used to generate a box plot for the distribution analysis of multiple experiments.
+
+The `Step_analysis.ipynb` file can be used to compare the number of generated scenarios and the occurrences of related step operations for EvoAvalla and ATGT.
