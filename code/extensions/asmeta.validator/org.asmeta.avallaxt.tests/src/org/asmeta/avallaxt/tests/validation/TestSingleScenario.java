@@ -82,20 +82,17 @@ public class TestSingleScenario extends TestParserAndValidation {
 	public void checkForFlaky() {
 		// correct scenario
 		assertSame(checkPossibleFaults("../asmeta.validator.test/scenariosfortest/flaky/scenario_noflaky.avalla"),PossibleFaults_NONE);
+		// correct scenario with a pick of a variable defined in a choose rule that defines more than one variable
+		assertSame(checkPossibleFaults("../asmeta.validator.test/scenariosfortest/flaky/scenario_noflaky2.avalla"),PossibleFaults_NONE);
 		// with a missing $
 		assertSame(checkPossibleFaults("../asmeta.validator.test/scenariosfortest/flaky/scenario_noflaky_PARS_ERR.avalla"), PossibleFaults_Parser);
-		// with pick variable not matching any choose variable in the asm
+		// with a pick of a variable in a non existing rule
 		String error_msg = checkPossibleFaults("../asmeta.validator.test/scenariosfortest/flaky/scenario_noflaky_VAL_ERR.avalla");
 		assertNotEquals(error_msg, PossibleFaults_NONE);
 		assertNotEquals(error_msg, PossibleFaults_Parser);
 		assertTrue(error_msg.length() > 0);
-		// with pick variable not matching any choose variable in the asm
+		// with a pick of a variable not matching any choose variable in the asm
 		error_msg = checkPossibleFaults("../asmeta.validator.test/scenariosfortest/flaky/scenario_noflaky_VAL_ERR2.avalla");
-		assertNotEquals(error_msg, PossibleFaults_NONE);
-		assertNotEquals(error_msg, PossibleFaults_Parser);
-		assertTrue(error_msg.length() > 0);
-		// with pick variable not matching any choose variable in the asm
-		error_msg = checkPossibleFaults("../asmeta.validator.test/scenariosfortest/flaky/scenario_noflaky_VAL_ERR3.avalla");
 		assertNotEquals(error_msg, PossibleFaults_NONE);
 		assertNotEquals(error_msg, PossibleFaults_Parser);
 		assertTrue(error_msg.length() > 0);

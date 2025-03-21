@@ -12,11 +12,17 @@ import org.asmeta.avallaxt.avalla.Block;
 import org.asmeta.avallaxt.avalla.Element;
 import org.asmeta.avallaxt.avalla.Pick;
 import org.asmeta.avallaxt.avalla.Scenario;
+import org.asmeta.simulator.InvalidValueException;
+import org.asmeta.simulator.value.SetValue;
+import org.asmeta.simulator.value.UndefValue;
+import org.asmeta.simulator.value.Value;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 
+import asmeta.definitions.domains.ConcreteDomain;
+import asmeta.definitions.domains.Domain;
 import asmeta.structure.Asm;
 import asmeta.transitionrules.basictransitionrules.ChooseRule;
 
@@ -110,7 +116,7 @@ public class ScenarioUtility {
 
 	/**
 	 * check whether the pick variable can be matched with one and only one choose
-	 * variable in the asm) and whether that choose rule defines only one variable
+	 * variable in the asm)
 	 * 
 	 * @param pick        the pick rule
 	 * @param chooseRules the map with all the choose rule in the asm being
@@ -124,16 +130,10 @@ public class ScenarioUtility {
 			// => there must exists one and only one Choose rule with a variable that
 			// matches with the pick variable
 			int nMatch = 0;
-			ChooseRule lastChoose = null;
-			for (Entry<ChooseRule, String> chooseRule : chooseRules.entrySet()) {
+			for (Entry<ChooseRule, String> chooseRule : chooseRules.entrySet())
 				if (chooseRule.getKey().getVariable().stream().anyMatch(v -> v.getName().equals(pick.getVar()))) {
 					nMatch++;
-					lastChoose = chooseRule.getKey();
 				}
-			}
-			if (nMatch == 1 && lastChoose.getVariable().size() > 1)
-				return "the variable " + pick.getVar() + " matched with a choose rule"
-						+ " that defines more than one variable. This feature is not supported yet";
 			if (nMatch == 0)
 				return "no choose rule defines the variable " + pick.getVar();
 			if (nMatch > 1)
@@ -147,11 +147,7 @@ public class ScenarioUtility {
 			for (Entry<ChooseRule, String> chooseRule : chooseRules.entrySet()) {
 				if (chooseRule.getKey().getVariable().stream().anyMatch(var -> var.getName().equals(pick.getVar()))
 						&& chooseRule.getValue().equals(pick.getRule())) {
-					if (chooseRule.getKey().getVariable().size() > 1)
-						return "the variable " + pick.getVar() + " matched with a choose rule"
-								+ " that defines more than one variable. This feature is not supported yet";
-					else
-						return null;
+					return null;
 				}
 			}
 			return "no choose rule in " + pick.getRule() + " defines the variable " + pick.getVar();
@@ -159,22 +155,26 @@ public class ScenarioUtility {
 	}
 
 	/**
-	 * check whether all picks variables are correctly defined (i.e. the variables
-	 * can be matched with one and only one choose variable in the asm and the
-	 * choose variable defines only one variable)
+	 * check whether all picks variables and rules are correctly defined (i.e. the variables
+	 * can be matched with one and only one choose variable in the asm and rule
+	 * declaration defined in the pick rules exists in the asm)
 	 * 
-	 * @param allPickRules the list of all pick rules in the avalla
+	 * @param allPickStatements the list of all pick rules in the avalla
 	 * @param chooseRules  the map with all the choose rule in the asm being
 	 *                     validated as key and the name of the macro rule
 	 *                     declaration in which are defined as value
 	 * @param asm          the asm
-	 * @return false if at least a check on a single pick fails, true otherwise
+	 * @return the message of the first occurrence of an error, null if no errors
 	 */
-	public static Boolean checkAllPicks(List<Pick> allPickRules, Map<ChooseRule, String> allChooseRules, Asm asm) {
-		for (Pick pick : allPickRules) {
-			if (checkPickRule(pick, asm) != null || checkPickVariable(pick, allChooseRules) != null)
-				return false;
+	public static String checkAllPicks(List<Pick> allPickStatements, Map<ChooseRule, String> allChooseRules, Asm asm) {
+		for (Pick pick : allPickStatements) {
+			String checkRule = checkPickRule(pick, asm);
+			if (checkRule != null)
+				return checkRule;
+			String checkValue = checkPickVariable(pick, allChooseRules);
+			if (checkValue != null)
+				return checkValue;
 		}
-		return true;
+		return null;
 	}
 }

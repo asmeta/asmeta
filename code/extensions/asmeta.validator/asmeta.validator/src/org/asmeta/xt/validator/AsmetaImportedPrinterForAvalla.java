@@ -24,8 +24,6 @@ class AsmetaImportedPrinterForAvalla extends AsmetaPrinterForAvalla {
 	AsmetaImportedPrinterForAvalla(File tempAsmPath, Path asmPath, AsmetaFromAvallaBuilder builder)
 			throws FileNotFoundException {
 		super(tempAsmPath, asmPath, builder);
-		// Ignore Pick rules when printing an imported avalla
-		builder.allPickRules.clear();
 	}
 
 	public void visitMain(MacroDeclaration main) {

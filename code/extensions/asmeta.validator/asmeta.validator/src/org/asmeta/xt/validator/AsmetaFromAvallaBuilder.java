@@ -64,8 +64,6 @@ public class AsmetaFromAvallaBuilder {
 
 	List<ArrayList<Command>> allMonitored;// PA: 2017/12/29
 
-	ArrayList<Pick> allPickRules;
-
 	/**
 	 * The map of all ChooseRules in the asm being validated with the name of the
 	 * macro rule in which are contained
@@ -145,11 +143,11 @@ public class AsmetaFromAvallaBuilder {
 		StatementToStringBuffer stb = new StatementToStringBuffer(scenario, oldMainName, scenarioDirectoryPath, this);
 		stb.parseCommands();
 		monitoredInitState = stb.monitoredInitState;// PA: 2017/12/29
-		allMonitored = stb.allMonitored;// PA: 2017/12/29
-		allPickRules = stb.allPickRules;
-		if (!ScenarioUtility.checkAllPicks(allPickRules, allChooseRules, asm))
-			throw new RuntimeException("some pick variables in the avalla can not be correctly matched"
-					+ " with one and only one choose variable in the asm");
+		allMonitored = stb.allMonitoredFromSet;// PA: 2017/12/29
+		// Stop the validation in case of errors in pick statements
+		String checkError = ScenarioUtility.checkAllPicks(stb.allPickStatements, allChooseRules, asm);
+		if (checkError != null)
+			throw new RuntimeException(checkError);
 		List<String> statements = stb.statements;
 		newMain = buildNewMain(statements).toString();
 		asmetaPrinterforAvalla.visit(asm);
