@@ -6,17 +6,10 @@ import java.util.Map;
 import asmeta.evotest.junit2avalla.model.Scenario;
 import asmeta.evotest.junit2avalla.model.terms.JavaAssertionTerm;
 import asmeta.evotest.junit2avalla.model.terms.JavaVariableTerm;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.AccessLevel;
 
 /**
  * Represents the parsing context used during the parsing of a test scenario.
  */
-@Getter(AccessLevel.PACKAGE)
-@Setter(AccessLevel.PACKAGE)
-@NoArgsConstructor
 public class Context {
 
 	/** Map of declared variables within the current scenario. */
@@ -68,6 +61,81 @@ public class Context {
 		this.ignoreEvents = false;
 		this.ignoreChecks = false;
 		this.scenarioIndex ++;
+	}
+	
+	Context() {
+	}
+
+	Map<String, JavaVariableTerm> getVariablesMap() {
+		return variablesMap;
+	}
+
+	void setVariablesMap(Map<String, JavaVariableTerm> variablesMap) {
+		this.variablesMap = variablesMap;
+	}
+
+	Map<String, String> getGetterMap() {
+		return getterMap;
+	}
+
+	void setGetterMap(Map<String, String> getterMap) {
+		this.getterMap = getterMap;
+	}
+
+	ScenarioManager getScenarioManager() {
+		return scenarioManager;
+	}
+
+	void setScenarioManager(ScenarioManager scenarioManager) {
+		this.scenarioManager = scenarioManager;
+	}
+
+	int getScenarioIndex() {
+		return scenarioIndex;
+	}
+
+	void setScenarioIndex(int scenarioIndex) {
+		this.scenarioIndex = scenarioIndex;
+	}
+
+	JavaVariableTerm getCurrentJavaVariable() {
+		return currentJavaVariable;
+	}
+
+	void setCurrentJavaVariable(JavaVariableTerm currentJavaVariable) {
+		this.currentJavaVariable = currentJavaVariable;
+	}
+
+	Scenario getCurrentScenario() {
+		return currentScenario;
+	}
+
+	void setCurrentScenario(Scenario currentScenario) {
+		this.currentScenario = currentScenario;
+	}
+
+	JavaAssertionTerm getCurrentJavaAssertionTerm() {
+		return currentJavaAssertionTerm;
+	}
+
+	void setCurrentJavaAssertionTerm(JavaAssertionTerm currentJavaAssertionTerm) {
+		this.currentJavaAssertionTerm = currentJavaAssertionTerm;
+	}
+
+	boolean isIgnoreEvents() {
+		return ignoreEvents;
+	}
+
+	void setIgnoreEvents(boolean ignoreEvents) {
+		this.ignoreEvents = ignoreEvents;
+	}
+
+	boolean isIgnoreChecks() {
+		return ignoreChecks;
+	}
+
+	void setIgnoreChecks(boolean ignoreChecks) {
+		this.ignoreChecks = ignoreChecks;
 	}
 
 }

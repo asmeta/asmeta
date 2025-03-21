@@ -5,7 +5,6 @@ import java.util.Queue;
 
 import asmeta.evotest.junit2avalla.model.terms.AvallaStepTerm;
 import asmeta.evotest.junit2avalla.model.terms.AvallaTerm;
-import lombok.Getter;
 
 /**
  * The {@code Scenario} class represents a scenario that consists of a queue of
@@ -28,13 +27,13 @@ public class Scenario {
 	/**
 	 * A queue of {@link AvallaTerm} objects representing the scenario.
 	 */
-	@Getter private final Queue<AvallaTerm> scenarioList;
+	private final Queue<AvallaTerm> scenarioList;
 
 	/**
 	 * Flag indicating whether the scenario contains at least one
 	 * {@link AvallaStepTerm}, making it valid.
 	 */
-	@Getter private boolean valid;
+	private boolean valid;
 
 	/**
 	 * Default constructor that initializes an empty scenario with an invalid state.
@@ -77,6 +76,25 @@ public class Scenario {
 	 */
 	public AvallaTerm element() {
 		return this.scenarioList.element();
+	}
+	
+	/**
+	 * Returns the queue of {@link AvallaTerm} objects in the scenario.
+	 *
+	 * @return the scenario queue.
+	 */
+	public Queue<AvallaTerm> getScenarioList() {
+		return scenarioList;
+	}
+	
+	/**
+	 * Returns whether the scenario is valid, i.e., contains at least one
+	 * {@link AvallaStepTerm}.
+	 *
+	 * @return {@code true} if the scenario is valid, {@code false} otherwise.
+	 */
+	public boolean isValid() {
+		return valid;
 	}
 
 }

@@ -1,9 +1,5 @@
 package asmeta.evotest.junit2avalla.model.terms;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 /**
  * Represents a Java variable term, extending the {@code JavaArgumentTerm} class.
  * <p>
@@ -11,13 +7,36 @@ import lombok.Setter;
  * It provides methods to retrieve and set the value of the variable.
  * </p>
  */
-@Getter
-@Setter
-@NoArgsConstructor
 public class JavaVariableTerm extends JavaArgumentTerm {
 
   /** The value of the variable. */
   private String value;
+  
+  /**
+   * Default constructor for the {@code JavaVariableTerm} class.
+   * Initializes an empty variable without a value.
+   */
+  public JavaVariableTerm() {
+	// Empty constructor
+  }
+
+  /**
+   * Returns the value of the variable.
+   *
+   * @return the variable's value as a {@code String}.
+   */
+  public String getValue() {
+    return value;
+  }
+
+  /**
+   * Sets the value of the variable.
+   *
+   * @param value the value of the variable.
+   */
+  public void setValue(String value) {
+    this.value = value;
+  }
 
 }
 
