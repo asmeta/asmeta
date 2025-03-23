@@ -272,19 +272,20 @@ public class AsmetaV {
 		}
 		sim.setShuffleFlag(true);
 		ValidationResult result = new ValidationResult();
-		boolean check_succeded;
+		boolean invariantViolated;
 		try {
 			sim.runUntilEmpty();
 			// sim.runUntilStepNeg();
-			check_succeded = true; // no error in the execution
+			invariantViolated = false; // no error in the execution
 		} catch (InvalidInvariantException iie) {
 			AsmetaTermPrinter tp = AsmetaTermPrinter.getAsmetaTermPrinter(false);
 			logger.info("invariant violation found " + iie.getInvariant().getName() + " "
 					+ tp.visit(iie.getInvariant().getBody()));
-			check_succeded = false;
+			invariantViolated = true;
 		}
 		// check now the value of step
 		//
+		boolean check_succeded = false;
 		for (Entry<Location, Value> cons : sim.getCurrentState().getContrLocs().entrySet()) {
 			// check the value of step var
 			if (cons.getKey().toString().equals(StatementToStringBuffer.STEP_VAR)) {
@@ -295,7 +296,7 @@ public class AsmetaV {
 				break;
 			}
 		}
-		result.setCheckSucceded(check_succeded);
+		result.setCheckSucceded(check_succeded && ! invariantViolated);
 		if (coverage) { // for each scenario insert rules covered
 						// into list if they aren't covered
 			List<RuleDeclaration> ruleDeclaration = sim.getAsmModel().getBodySection().getRuleDeclaration();
