@@ -201,8 +201,11 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 	public Void caseStepUntil(StepUntil untilCmd) {
 		// group the rules before stepuntil
 		enclose();
+		if (pickStatements.size() > state - 1 && pickStatements.get(state - 1).size() > 0) {
+			append("seq");
+			printRulesFromPicks();
+		}
 		// add the step
-		printRulesFromPicks();
 		String cond = untilCmd.getExpression().trim();
 		append("if " + cond + " then");
 		indent();
@@ -213,6 +216,10 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 		append(oldMainName + "[]");
 		unIndent();
 		append("endif");
+		if (pickStatements.size() > state - 1 && pickStatements.get(state - 1).size() > 0) {
+			unIndent();
+			append("endseq");
+		}
 		next();
 		printMonitoredFromSet();// PA: 2017/12/29
 		return null;
@@ -300,7 +307,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 		// a single choose rules for not picked vars
 		for (Entry<ChooseRule, String> mapEntry : this.builder.allChooseRules.entrySet()) {
 			ChooseRule chooseRule = mapEntry.getKey();
-			String macroRuleName = mapEntry.getValue();
+			String macroRuleSignature = mapEntry.getValue();
 			// First element is the picked variable name (String), second is the value
 			// (String), third is the domain (Term)
 			List<Object[]> pickedVars = new ArrayList<>();
@@ -310,7 +317,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 			List<String> notPickedVarsNames = new ArrayList<>();
 			for (int i = 0; i < chooseRule.getVariable().size(); i++) {
 				VariableTerm var = chooseRule.getVariable().get(i);
-				String pickedValue = getPickFromVariable(var, macroRuleName, picks);
+				String pickedValue = getPickFromVariable(var, macroRuleSignature, picks);
 				String domain = printer.visit(chooseRule.getRanges().get(i));
 				if (pickedValue == null) {
 					notPickedVars.add(new String[] { var.getName(), domain });
@@ -329,7 +336,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 				String variable = (String) pickedVar[0];
 				String value = (String) pickedVar[1];
 				Term domain = (Term) pickedVar[2];
-				String controlledFunction = variable.substring(1) + "_" + macroRuleName
+				String controlledFunction = variable.substring(1) + "_" + macroRuleSignature
 						+ AsmetaPrinterForAvalla.ACTUAL_VALUE;
 				VariableTerm term = BasictermsFactory.eINSTANCE.createVariableTerm();
 				term.setName(variable);
@@ -349,7 +356,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 					append("seq");
 					indent();
 					append(controlledFunction + " := undef");
-					append("result := print(\"ERROR: the value picked for " + variable + " in " + macroRuleName
+					append("result := print(\"ERROR: the value picked for " + variable + " in " + macroRuleSignature
 							+ " is not in the domain\")");
 					append("step__ := -2"); // -2 so plus 1 is still < 0
 					unIndent();
@@ -366,14 +373,19 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 			Term newGuardTerm = substitution.visit(chooseRule.getGuard());
 			String newGuardString = printer.visit(newGuardTerm);
 			// First case: all variables are picked, no choose is needed, just a check on
-			// the guard
+			// the guard (if false set all controlled functions to undef)
 			if (notPickedVars.isEmpty()) {
 				append("if not(" + newGuardString + ") then");
 				indent();
 				append("seq");
 				indent();
+				for (String variable : pickedVarsNames) {
+					String controlledFunction = variable.substring(1) + "_" + macroRuleSignature
+							+ AsmetaPrinterForAvalla.ACTUAL_VALUE;
+					append(controlledFunction + " := undef");
+				}
 				append("result := print(\"ERROR: the value(s) picked for " + String.join(", ", pickedVarsNames) + " in "
-						+ macroRuleName + " make the guard evaluate to false \")");
+						+ macroRuleSignature + " make the guard evaluate to false \")");
 				append("step__ := -2"); // -2 so plus 1 is still < 0
 				unIndent();
 				append("endseq");
@@ -383,8 +395,9 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 				List<String> varsWithDomains = new ArrayList<>();
 				for (String[] notPickedVar : notPickedVars) {
 					String var = notPickedVar[0];
-					// Add _stepX to avoid variables with same names in the main rule r_main__
-					String newVar = var + "_step" + (state - 1);
+					// Add _r_RuleName_stepX to avoid variables with same names in the main rule
+					// r_main__
+					String newVar = var + "_" + macroRuleSignature + "_step" + (state - 1);
 					String domain = notPickedVar[1];
 					newGuardString = newGuardString.replace(var, newVar);
 					varsWithDomains.add(newVar + " in " + domain);
@@ -396,9 +409,10 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 					indent();
 				}
 				for (String notPickedVar : notPickedVarsNames) {
-					String controlledFunction = notPickedVar.substring(1) + "_" + macroRuleName
+					String controlledFunction = notPickedVar.substring(1) + "_" + macroRuleSignature
 							+ AsmetaPrinterForAvalla.ACTUAL_VALUE;
-					append(controlledFunction + " := " + notPickedVar + "_step" + (state - 1));
+					append(controlledFunction + " := " + notPickedVar + "_" + macroRuleSignature + "_step"
+							+ (state - 1));
 				}
 				if (notPickedVars.size() > 1) {
 					unIndent();
@@ -410,15 +424,15 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 				append("seq");
 				indent();
 				for (String notPickedVar : notPickedVarsNames) {
-					String controlledFunction = notPickedVar.substring(1) + "_" + macroRuleName
+					String controlledFunction = notPickedVar.substring(1) + "_" + macroRuleSignature
 							+ AsmetaPrinterForAvalla.ACTUAL_VALUE;
 					append(controlledFunction + " := undef");
 				}
 				if (pickedVars.size() != 0)
 					append("result := print(\"ERROR: the value(s) picked for " + String.join(", ", pickedVarsNames)
-							+ " in " + macroRuleName + " make the guard evaluate to false \")");
+							+ " in " + macroRuleSignature + " make the guard evaluate to false \")");
 				else
-					append("result := print(\"ERROR: the guard of a choose rule in " + macroRuleName
+					append("result := print(\"ERROR: the guard of a choose rule in " + macroRuleSignature
 							+ " always evaluates to false \")");
 				append("step__ := -2"); // -2 so plus 1 is still < 0
 				unIndent();
@@ -433,16 +447,16 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 	 * and a list of Pick rules, search and return the value of the last appearance
 	 * of a Pick rule in the list that picks a value for that variable term.
 	 * 
-	 * @param variable            the variable term to search in the list of pick
-	 *                            rules
-	 * @param ruleDeclarationName the name of the rule declaration in which the
-	 *                            variable term is used
-	 * @param pickList            the list of picks where to search the variable
-	 *                            name
+	 * @param variable                 the variable term to search in the list of
+	 *                                 pick rules
+	 * @param ruleDeclarationSignature the signature of the rule declaration in
+	 *                                 which the variable term is used
+	 * @param pickList                 the list of picks where to search the
+	 *                                 variable name
 	 * @return the value of the last Pick that picks a value for the variable term,
 	 *         null if not present
 	 */
-	private String getPickFromVariable(VariableTerm variable, String ruleDeclarationName, List<Pick> pickList) {
+	private String getPickFromVariable(VariableTerm variable, String ruleDeclarationSignature, List<Pick> pickList) {
 		// reversed to get the last, so if pickList is a list of pick
 		// where the same variable is picked multiple times,
 		// only the last pick is considered
@@ -450,8 +464,8 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 		Collections.reverse(pickList);
 		// scan the list
 		for (Pick pick : pickList)
-			if (pick.getVar().equals(variable.getName())
-					&& (pick.getRule() == null || pick.getRule().equals(ruleDeclarationName)))
+			if (pick.getVar().equals(variable.getName()) && (pick.getRule() == null
+					|| pick.getRule().replaceAll("\\(|\\,", "_").replace(")", "").equals(ruleDeclarationSignature)))
 				return pick.getValue();
 		return null;
 	}

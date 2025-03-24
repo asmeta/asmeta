@@ -1,0 +1,22 @@
+scenario OverloadingScenario
+load overloading.asm
+
+check coins1 = 0;
+check coins2 = 0;
+check coins3 = 0;
+
+step
+
+check coins1 > 0;
+check coins2 > 0;
+check coins3 > 0;
+
+pick $i1 in r_chooseRandom(Boolean) := 5;
+pick $i1 in r_chooseRandom(Integer,Prova_Enum) := 10;
+pick $i1 in r_chooseRandom := 1;
+
+step
+
+check coins1 = 5;
+check coins2 = 10;
+check coins3 = 1;

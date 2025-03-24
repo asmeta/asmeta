@@ -18,6 +18,7 @@ import org.apache.log4j.Logger;
 import org.asmeta.avallaxt.avalla.Command;
 import org.asmeta.avallaxt.avalla.Invariant;
 import org.asmeta.avallaxt.avalla.Set;
+import org.asmeta.avallaxt.validation.AsmCollectionUtility;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.Defs;
 import org.asmeta.parser.Utility;
@@ -109,7 +110,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 		Rule doRule = chooseRule.getDoRule();
 		List<String> letVars = new ArrayList<>();
 		for (VariableTerm var: vars) {
-			String actualValueVar = var.getName().substring(1) + "_" + super.currentRuleDeclaration.getName() + ACTUAL_VALUE;
+			String actualValueVar = var.getName().substring(1) + "_" + AsmCollectionUtility.getSignature(super.currentRuleDeclaration) + ACTUAL_VALUE;
 			letVars.add(var.getName() + "=" + actualValueVar);
 		}
 		println("let(" + String.join(", ", letVars) + ") in");

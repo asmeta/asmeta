@@ -12,7 +12,6 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.asmeta.avallaxt.AvallaStandaloneSetup;
 import org.asmeta.avallaxt.avalla.Command;
-import org.asmeta.avallaxt.avalla.Pick;
 import org.asmeta.avallaxt.avalla.Scenario;
 import org.asmeta.avallaxt.validation.AsmCollectionUtility;
 import org.asmeta.avallaxt.validation.ScenarioUtility;

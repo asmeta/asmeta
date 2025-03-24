@@ -12,18 +12,14 @@ import org.asmeta.avallaxt.avalla.Block;
 import org.asmeta.avallaxt.avalla.Element;
 import org.asmeta.avallaxt.avalla.Pick;
 import org.asmeta.avallaxt.avalla.Scenario;
-import org.asmeta.simulator.InvalidValueException;
-import org.asmeta.simulator.value.SetValue;
-import org.asmeta.simulator.value.UndefValue;
-import org.asmeta.simulator.value.Value;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 
-import asmeta.definitions.domains.ConcreteDomain;
-import asmeta.definitions.domains.Domain;
+import asmeta.definitions.RuleDeclaration;
 import asmeta.structure.Asm;
+import asmeta.terms.basicterms.VariableTerm;
 import asmeta.transitionrules.basictransitionrules.ChooseRule;
 
 /** a collection of utility methods */
@@ -107,11 +103,20 @@ public class ScenarioUtility {
 	 * @return the error message, null if there is no error
 	 */
 	static String checkPickRule(Pick pick, Asm asm) {
-		if (pick.getRule() != null && !asm.getBodySection().getRuleDeclaration().stream()
-				.anyMatch(rd -> rd.getName().equals(pick.getRule())))
+		if (pick.getRule() != null) {
+			for (RuleDeclaration rd : asm.getBodySection().getRuleDeclaration()) {
+				String name = rd.getName();
+				List<String> params = new ArrayList<>();
+				for (VariableTerm variable : rd.getVariable()) {
+					params.add(variable.getDomain().getName());
+				}
+				String signature = name + (params.size() > 0 ? ("(" + String.join(",", params)) + ")" : "");
+				if (signature.equals(pick.getRule()))
+					return null;
+			}
 			return pick.getRule() + " is not defined in the main asm";
-		else
-			return null;
+		}
+		return null;
 	}
 
 	/**
@@ -143,10 +148,11 @@ public class ScenarioUtility {
 			// The pick defines the rule declaration
 			// => there must exists, in the defined rule declaration, one Choose rule with a
 			// variable that matches with the pick variable
-			for (Entry<ChooseRule, String> chooseRule : chooseRules.entrySet())
+			for (Entry<ChooseRule, String> chooseRule : chooseRules.entrySet()) {
 				if (chooseRule.getKey().getVariable().stream().anyMatch(var -> var.getName().equals(pick.getVar()))
-						&& chooseRule.getValue().equals(pick.getRule()))
+						&& chooseRule.getValue().equals(pick.getRule().replaceAll("\\(|\\,", "_").replace(")", "")))
 					return null;
+			}
 			return "no choose rule in " + pick.getRule() + " defines the variable " + pick.getVar();
 		}
 	}

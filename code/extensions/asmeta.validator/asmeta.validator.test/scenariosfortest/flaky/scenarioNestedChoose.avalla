@@ -1,0 +1,30 @@
+// Same as the multiple vars scenario (scenarioChooseMultipleVars.avalla)
+scenario nestedChooseScenario
+load nestedChoose.asm
+
+check coins1 = 0;
+
+step
+
+check coins1 > 10;
+
+pick $i1 := 5;
+
+step
+
+check coins1 = 15;
+
+pick $i1 := 10;
+pick $i2 := -3;
+
+step
+
+check coins1 = 20;
+
+pick $i1 := 1;
+pick $i2 := 7;
+pick $i3 := 3;
+
+step
+
+check coins1 = 11;

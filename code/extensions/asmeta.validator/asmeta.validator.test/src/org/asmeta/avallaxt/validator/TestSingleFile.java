@@ -165,11 +165,11 @@ public class TestSingleFile extends TestValidator {
 		test(ASM_EXAMPLES_EXAMPLES + "ABZ2020/CarSystemModule/CarSystem003/scenari/AdaptativeHighBeamDecreasing.avalla", true, true, true);
 	}
 	
-	
 	@Test
 	public void testSLE() throws Exception {		
 		test(ASM_EXAMPLES_EXAMPLES +"fsmsemantics/Sle/testEven1.avalla", false, false, true);
 	}
+	
 	@Test
 	public void testATM1() throws Exception {
 		test("scenariosforexamples/atm/atm1.avalla", false, false, true);
@@ -255,8 +255,23 @@ public class TestSingleFile extends TestValidator {
 	}
 	
 	@Test
-	public void testChooseMultipleVars() throws Exception {
+	public void testPickChooseMultipleVars() throws Exception {
 		test("scenariosfortest/flaky/scenarioChooseMultipleVars.avalla", true, false, true);
+	}
+	
+	@Test
+	public void testPickNestedChoose() throws Exception {
+		test("scenariosfortest/flaky/scenarioNestedChoose.avalla", true, false, true);
+	}
+	
+	@Test
+	public void testPickOverloading() throws Exception {
+		test("scenariosfortest/flaky/scenarioOverloading.avalla", true, false, true);
+	}
+	
+	@Test
+	public void testPickWithStepUntil() throws Exception {
+		test("scenariosfortest/flaky/scenarioPickWithStepUntil.avalla", true, false, true);
 	}
 	
 	@Test

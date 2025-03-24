@@ -1,0 +1,13 @@
+scenario scenarioIncdec
+load incDec.asm
+
+check counter = 0;
+
+set input := 5;
+
+step
+
+set input := 6;
+pick $b := true;
+step until counter = 50;
+check nInc = 50;
