@@ -131,9 +131,8 @@ public class ScenarioUtility {
 			// matches with the pick variable
 			int nMatch = 0;
 			for (Entry<ChooseRule, String> chooseRule : chooseRules.entrySet())
-				if (chooseRule.getKey().getVariable().stream().anyMatch(v -> v.getName().equals(pick.getVar()))) {
+				if (chooseRule.getKey().getVariable().stream().anyMatch(v -> v.getName().equals(pick.getVar())))
 					nMatch++;
-				}
 			if (nMatch == 0)
 				return "no choose rule defines the variable " + pick.getVar();
 			if (nMatch > 1)
@@ -144,12 +143,10 @@ public class ScenarioUtility {
 			// The pick defines the rule declaration
 			// => there must exists, in the defined rule declaration, one Choose rule with a
 			// variable that matches with the pick variable
-			for (Entry<ChooseRule, String> chooseRule : chooseRules.entrySet()) {
+			for (Entry<ChooseRule, String> chooseRule : chooseRules.entrySet())
 				if (chooseRule.getKey().getVariable().stream().anyMatch(var -> var.getName().equals(pick.getVar()))
-						&& chooseRule.getValue().equals(pick.getRule())) {
+						&& chooseRule.getValue().equals(pick.getRule()))
 					return null;
-				}
-			}
 			return "no choose rule in " + pick.getRule() + " defines the variable " + pick.getVar();
 		}
 	}

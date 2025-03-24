@@ -109,8 +109,8 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 		Rule doRule = chooseRule.getDoRule();
 		List<String> letVars = new ArrayList<>();
 		for (VariableTerm var: vars) {
-			String valPicked = var.getName().substring(1) + "_" + super.currentRuleDeclaration.getName() + ACTUAL_VALUE;
-			letVars.add(var.getName() + "=" + valPicked);
+			String actualValueVar = var.getName().substring(1) + "_" + super.currentRuleDeclaration.getName() + ACTUAL_VALUE;
+			letVars.add(var.getName() + "=" + actualValueVar);
 		}
 		println("let(" + String.join(", ", letVars) + ") in");
 		indent();
@@ -361,8 +361,8 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 			for (Entry<ChooseRule, String> cr : this.builder.allChooseRules.entrySet()) {
 				// only choose rules with ONE variable are supported in pick
 				for (VariableTerm variable: cr.getKey().getVariable()) {
-					String varName = variable.getName().substring(1) + "_" + cr.getValue();
-					println("controlled " + varName + ACTUAL_VALUE + ": " + variable.getDomain().getName());
+					String varName = variable.getName().substring(1) + "_" + cr.getValue() + ACTUAL_VALUE;
+					println("controlled " + varName + ": " + variable.getDomain().getName());
 				}
 			}
 		}

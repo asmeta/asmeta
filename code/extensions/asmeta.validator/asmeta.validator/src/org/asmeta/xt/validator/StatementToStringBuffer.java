@@ -95,9 +95,11 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 
 	// the set that must be set in the init state (initial set of the scencario)
 	ArrayList<Command> monitoredInitState;
-	// List of lists: One list for each step, each list contains the set statements for that step
+	// List of lists: One list for each step, each list contains the set statements
+	// for that step
 	List<ArrayList<Command>> allMonitoredFromSet;
-	// List of lists: One list for each step, each list contains the pick statements for that step
+	// List of lists: One list for each step, each list contains the pick statements
+	// for that step
 	List<ArrayList<Pick>> pickStatements;
 	List<Pick> allPickStatements;
 	int state;
@@ -200,7 +202,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 		// group the rules before stepuntil
 		enclose();
 		// add the step
-		printMonitoredFromPick();
+		printRulesFromPicks();
 		String cond = untilCmd.getExpression().trim();
 		append("if " + cond + " then");
 		indent();
@@ -277,7 +279,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 	@Override
 	public Void caseStep(Step stepCmd) {
 		// Set monitored for this step (do not increase state counter)
-		printMonitoredFromPick();
+		printRulesFromPicks();
 		append(oldMainName + "[]");
 		// Set monitored for the next step (increase state counter)
 		printMonitoredFromSet();// PA: 2017/12/29
@@ -289,28 +291,26 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 	 * Append update rules and conditional rules that sets controlled functions
 	 * introuduced for handling non-determinism in choose rule
 	 */
-	private void printMonitoredFromPick() {
+	private void printRulesFromPicks() {
 		AsmetaTermPrinter printer = AsmetaTermPrinter.getAsmetaTermPrinter(false);
-		// Look at state-1 becasue state is increasd by printMonitoredFromSet() and
-		// monitored from sets are updated at the end of the previous state while.
-		List<Pick> pickRules = new ArrayList<>();
+		List<Pick> picks = new ArrayList<>();
 		if (pickStatements.size() > state - 1)
-			pickRules = pickStatements.get(state - 1);
-		// For all vars in all choose rules, add an update rule if it is picked and use
-		// choose rules fot not picked ones
+			picks = pickStatements.get(state - 1);
+		// For all vars in all choose rules, add an update rule if it is picked. Add
+		// a single choose rules for not picked vars
 		for (Entry<ChooseRule, String> mapEntry : this.builder.allChooseRules.entrySet()) {
 			ChooseRule chooseRule = mapEntry.getKey();
 			String macroRuleName = mapEntry.getValue();
-			// First is the picked variable (String), second is the value (String), third is
-			// the domain (Term)
+			// First element is the picked variable name (String), second is the value
+			// (String), third is the domain (Term)
 			List<Object[]> pickedVars = new ArrayList<>();
 			List<String> pickedVarsNames = new ArrayList<>();
-			// First is the picked variable, second is the domain
+			// First element is the picked variable name, second is the domain
 			List<String[]> notPickedVars = new ArrayList<>();
 			List<String> notPickedVarsNames = new ArrayList<>();
 			for (int i = 0; i < chooseRule.getVariable().size(); i++) {
 				VariableTerm var = chooseRule.getVariable().get(i);
-				String pickedValue = getPickFromVariable(var, macroRuleName, pickRules);
+				String pickedValue = getPickFromVariable(var, macroRuleName, picks);
 				String domain = printer.visit(chooseRule.getRanges().get(i));
 				if (pickedValue == null) {
 					notPickedVars.add(new String[] { var.getName(), domain });
@@ -321,7 +321,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 				}
 			}
 			// Start with picked variables, a term substitution from variables to controlled
-			// functions is needed
+			// functions is needed for guards
 			TermAssignment assignment = new TermAssignment();
 			List<VariableTerm> variables = new ArrayList<>();
 			List<Term> controlledFunctions = new ArrayList<>();
@@ -338,8 +338,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 				term.setName(controlledFunction);
 				controlledFunctions.add(term);
 				// when the range is not a DomainTern, check with a conditional rule whether the
-				// picked
-				// value is in the term (e.g. {10:20}) used as range or not
+				// picked value is in the term (e.g. {10:20}) used as range or not
 				if (!(domain instanceof DomainTerm)) {
 					append("if contains(" + printer.visit(domain) + ", " + value + ") then");
 					indent();
@@ -367,7 +366,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 			Term newGuardTerm = substitution.visit(chooseRule.getGuard());
 			String newGuardString = printer.visit(newGuardTerm);
 			// First case: all variables are picked, no choose is needed, just a check on
-			// the guards
+			// the guard
 			if (notPickedVars.isEmpty()) {
 				append("if not(" + newGuardString + ") then");
 				indent();
@@ -384,7 +383,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 				List<String> varsWithDomains = new ArrayList<>();
 				for (String[] notPickedVar : notPickedVars) {
 					String var = notPickedVar[0];
-					// Add _stepX to avoid variables with same names in the r_main__ rule
+					// Add _stepX to avoid variables with same names in the main rule r_main__
 					String newVar = var + "_step" + (state - 1);
 					String domain = notPickedVar[1];
 					newGuardString = newGuardString.replace(var, newVar);
@@ -427,8 +426,6 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 				unIndent();
 			}
 		}
-		// No need to increase state because it will be increased by the next
-		// call to printMonitoredFromSet()
 	}
 
 	/**
@@ -460,7 +457,8 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 	}
 
 	/**
-	 * Append update rules sets controlled functions introuduced by set statments
+	 * Append update rules setting values for controlled functions introuduced by
+	 * set statments and increment state counter
 	 */
 	private void printMonitoredFromSet() {
 		if (state < allMonitoredFromSet.size()) {
