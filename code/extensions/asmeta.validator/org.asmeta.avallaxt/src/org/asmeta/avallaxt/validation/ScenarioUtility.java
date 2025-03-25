@@ -139,9 +139,9 @@ public class ScenarioUtility {
 				if (chooseRule.getKey().getVariable().stream().anyMatch(v -> v.getName().equals(pick.getVar())))
 					nMatch++;
 			if (nMatch == 0)
-				return "no choose rule defines the variable " + pick.getVar();
+				return "no choose rule in the main asm defines the variable " + pick.getVar();
 			if (nMatch > 1)
-				return "more than one choose rule defines the variable " + pick.getVar()
+				return "more than one choose rule in the main asm defines the variable " + pick.getVar()
 						+ ", specify the rule name explicitly by adding in r_ruleName";
 			return null;
 		} else {

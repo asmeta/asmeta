@@ -109,8 +109,9 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 		List<VariableTerm> vars = chooseRule.getVariable();
 		Rule doRule = chooseRule.getDoRule();
 		List<String> letVars = new ArrayList<>();
-		for (VariableTerm var: vars) {
-			String actualValueVar = var.getName().substring(1) + "_" + AsmCollectionUtility.getSignature(super.currentRuleDeclaration) + ACTUAL_VALUE;
+		for (VariableTerm var : vars) {
+			String actualValueVar = var.getName().substring(1) + "_"
+					+ AsmCollectionUtility.getSignature(super.currentRuleDeclaration) + ACTUAL_VALUE;
 			letVars.add(var.getName() + "=" + actualValueVar);
 		}
 		println("let(" + String.join(", ", letVars) + ") in");
@@ -361,7 +362,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 			println("// added by validator to implement determinism in choose rule");
 			for (Entry<ChooseRule, String> cr : this.builder.allChooseRules.entrySet()) {
 				// only choose rules with ONE variable are supported in pick
-				for (VariableTerm variable: cr.getKey().getVariable()) {
+				for (VariableTerm variable : cr.getKey().getVariable()) {
 					String varName = variable.getName().substring(1) + "_" + cr.getValue() + ACTUAL_VALUE;
 					println("controlled " + varName + ": " + variable.getDomain().getName());
 				}

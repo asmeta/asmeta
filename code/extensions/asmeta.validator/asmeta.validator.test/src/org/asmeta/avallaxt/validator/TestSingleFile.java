@@ -260,6 +260,11 @@ public class TestSingleFile extends TestValidator {
 	}
 	
 	@Test
+	public void testPickWithImportss() throws Exception {
+		test("scenariosfortest/flaky/scenarioPickWithImport.avalla", true, false, true);
+	}
+	
+	@Test
 	public void testPickNestedChoose() throws Exception {
 		test("scenariosfortest/flaky/scenarioNestedChoose.avalla", true, false, true);
 	}

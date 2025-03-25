@@ -1,0 +1,10 @@
+scenario scenarioFlakyWithImport
+load Counter.asm
+
+check counter = 0;
+
+pick $b in r_Main := false;
+
+step
+
+check counter = -1;
