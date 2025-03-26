@@ -466,6 +466,8 @@ public class AsmetaSMVtestTranslate {
 		testOneSpec("examples/student2/LightArray2.asm", options);
 	}
 
+
+	
 	
 	/*
 	 * @Test public void testUnibgProva() { assertTrue(testOneSpec(FILE_BASE_UNIBG +
@@ -489,4 +491,6 @@ public class AsmetaSMVtestTranslate {
 	 * assertTrue(testOneSpec(FILE_BASE_UNIBG + "Rubrica.asm"); assertTrue(testOneSpec(FILE_BASE_UNIBG +
 	 * "stufa.asm"); assertTrue(testOneSpec(FILE_BASE_UNIBG + "VideotecaASM.asm"); }
 	 */
+	
+	
 }

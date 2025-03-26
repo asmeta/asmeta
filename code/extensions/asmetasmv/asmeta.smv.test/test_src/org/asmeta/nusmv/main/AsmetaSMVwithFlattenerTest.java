@@ -730,7 +730,11 @@ public class AsmetaSMVwithFlattenerTest extends AsmetaSMVtest {
 		testAllCtlPropsAreFalse("examples/tvsw_angelo/ArmadioCaramelle2_withSolution.asm");
 	}
 
-	
+	@Test
+	public void ferryman() {
+		testAllCtlPropsAreFalse("examples/ferryman_3.asm");
+	}
+
 	/*
 	 * @Test public void updateRuleTest() { //non ci sono proprieta' CTL.
 	 * Verifica semplicemente che la traduzione //e l'esecuzione non diano

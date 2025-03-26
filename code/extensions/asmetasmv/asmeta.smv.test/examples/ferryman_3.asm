@@ -1,6 +1,7 @@
-asm ferryman
-import StandardLibrary
-import CTLlibrary
+asm ferryman_3
+
+import ../../../../../asm_examples/STDL/StandardLibrary
+import ../../../../../asm_examples/STDL/CTLLibrary
 
 signature:
  enum domain Actors = {FERRYMAN, GOAT, CABBAGE, WOLF}
@@ -45,11 +46,11 @@ definitions:
 // non posso portare di l� tutto 	--> FALSA
 //CTLSPEC not(ef(allRight))
 
-// non c'� mai pericolo --> FALSA
+// non c'è mai pericolo --> FALSA
 //CTLSPEC ag(not allRight)
 
 // non posso portare di l� tutto --> FALSA
-CTLSPEC not e(not pericolo, allRight)
+CTLSPEC not eu(not pericolo, allRight)
 
 
 main rule r_main = 
