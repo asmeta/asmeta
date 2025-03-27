@@ -95,9 +95,10 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 		this.builder = builder;
 	}
 
-
-	// The map of all ChooseRules in the asm being validated with at least a variable
-	// picked at least one along with the name of the macro rule in which they are contained
+	// The map of all ChooseRules in the asm being validated with at least a
+	// variable
+	// picked at least one along with the name of the macro rule in which they are
+	// contained
 	Map<ChooseRule, String> pickedChooseRules;
 	// the set that must be set in the init state (initial set of the scencario)
 	ArrayList<Command> monitoredInitState;
@@ -209,7 +210,8 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 	public Void caseStepUntil(StepUntil untilCmd) {
 		// group the rules before stepuntil
 		enclose();
-		if (pickStatements.size() > state - 1 && pickStatements.get(state - 1).size() > 0) {
+		boolean printRulesFromPicks = pickStatements.size() > state - 1 && pickStatements.get(state - 1).size() > 0;
+		if (printRulesFromPicks) {
 			append("seq");
 			printRulesFromPicks();
 		}
@@ -224,7 +226,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 		append(oldMainName + "[]");
 		unIndent();
 		append("endif");
-		if (pickStatements.size() > state - 1 && pickStatements.get(state - 1).size() > 0) {
+		if (printRulesFromPicks) {
 			unIndent();
 			append("endseq");
 		}
@@ -311,7 +313,8 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 		List<Pick> picks = new ArrayList<>();
 		if (pickStatements.size() > state - 1)
 			picks = pickStatements.get(state - 1);
-		// For all vars in all picked choose rules, add an update rule if it is picked. Add
+		// For all vars in all picked choose rules, add an update rule if it is picked.
+		// Add
 		// a single choose rules for not picked vars
 		for (Entry<ChooseRule, String> mapEntry : pickedChooseRules.entrySet()) {
 			ChooseRule chooseRule = mapEntry.getKey();
@@ -364,8 +367,8 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 					append("seq");
 					indent();
 					append(controlledFunction + " := undef");
-					append("result := print(\"ERROR: the value picked for " + variable + " in " + macroRuleSignature
-							+ " is not in the domain\")");
+					append("result := print(\"Error value out of domain: cannot assign " + value + " to " + variable
+							+ " in " + macroRuleSignature + "\")");
 					append("step__ := -2"); // -2 so plus 1 is still < 0
 					unIndent();
 					append("endseq");
@@ -392,8 +395,9 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 							+ AsmetaPrinterForAvalla.ACTUAL_VALUE;
 					append(controlledFunction + " := undef");
 				}
-				append("result := print(\"ERROR: the value(s) picked for " + String.join(", ", pickedVarsNames) + " in "
-						+ macroRuleSignature + " make the guard evaluate to false \")");
+				append("result := print(\"Error unfeasible condition: the values picked for "
+						+ String.join(", ", pickedVarsNames) + " in " + macroRuleSignature
+						+ " make the guard always evaluate to false \")");
 				append("step__ := -2"); // -2 so plus 1 is still < 0
 				unIndent();
 				append("endseq");
@@ -437,11 +441,12 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 					append(controlledFunction + " := undef");
 				}
 				if (pickedVars.size() != 0)
-					append("result := print(\"ERROR: the value(s) picked for " + String.join(", ", pickedVarsNames)
-							+ " in " + macroRuleSignature + " make the guard evaluate to false \")");
+					append("result := print(\"Error unfeasible condition: the values picked for "
+							+ String.join(", ", pickedVarsNames) + " in " + macroRuleSignature
+							+ " make the guard always evaluate to false \")");
 				else
-					append("result := print(\"ERROR: the guard of a choose rule in " + macroRuleSignature
-							+ " always evaluates to false \")");
+					append("result := print(\"Error unfeasuble condition: the guard of a choose rule in "
+							+ macroRuleSignature + " always evaluates to false \")");
 				append("step__ := -2"); // -2 so plus 1 is still < 0
 				unIndent();
 				append("endseq");
