@@ -87,7 +87,7 @@ public abstract class AsmTestGenerator {
 	 * @param regex the regex
 	 */
 	public void buildTPTree(MBTCoverage criteria, int maxTests, String regex) {
-		logger.debug("generating the termTran tree for criteria " + criteria.getCoveragePrefix());
+		logger.debug("generating the tp tree for criteria " + criteria.getCoveragePrefix());
 		// build the tree depending on the criteria
 		ct = criteria.getTPTree(spec);
 		// queue tps

@@ -132,7 +132,7 @@ public class NuSMVtestGenerator extends AsmTestGenerator {
 		AsmCoverageEvaluator coverageEval = new AsmCoverageEvaluator(ct);
 		NavigableAsmInputs inputs = new NavigableAsmInputs(asmTest, spec);
 		Vector<AsmTestCondition> covered = coverageEval.computeCoverage(inputs);
-		logger.info("binding the termTran covered (" + covered.size() + ")");
+		logger.info("binding the tps covered (" + covered.size() + ")");
 		for (AsmTestCondition tc : covered) {
 			assert tc.getStatus() == TestConditionState.Covered; 
 			tc.bindTestSeqTestPred(asmTest);

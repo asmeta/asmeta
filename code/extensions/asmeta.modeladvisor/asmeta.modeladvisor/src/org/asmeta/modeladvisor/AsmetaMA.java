@@ -9,9 +9,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TreeMap;
 
 import org.apache.log4j.Logger;
 import org.asmeta.modeladvisor.metaproperties.CaseRuleIsComplete;
@@ -33,6 +35,7 @@ import org.asmeta.modeladvisor.metaproperties.StatDerIsUsed;
 import org.asmeta.modeladvisor.metaproperties.TrivialUpdate;
 import org.asmeta.modeladvisor.texpr.Expression;
 import org.asmeta.nusmv.Environment;
+import org.asmeta.nusmv.InconsistentUpdateException;
 import org.asmeta.nusmv.MapVisitor;
 import org.asmeta.nusmv.main.AsmetaSMV;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
@@ -153,10 +156,19 @@ public class AsmetaMA {
 	// run the check of all the desired meta properties and return if there is a
 	// violation or not
 	public Map<String, Boolean> runCheck() throws Exception {
-		AsmetaSMV asmetaSMV = loadAsmetaSMV();
-		setCheckers();
-		execCheck(asmetaSMV);
-		return readResults(asmetaSMV);
+		try{ 
+			AsmetaSMV asmetaSMV = loadAsmetaSMV();
+			setCheckers();
+			execCheck(asmetaSMV);
+			return readResults(asmetaSMV);
+		} catch(InconsistentUpdateException e) {
+			inconUpd  = new InconsistentUpdate();			
+			inconUpd.printResults(e);
+			Map<String, Boolean> results = new TreeMap<>();
+			// not sure it is the right property that is violated
+			results.put(e.condition +  "->" + e.val1 + " = " + e.val2, Boolean.FALSE);
+			return results;
+		}
 	}
 
 	public void execCheck(AsmetaSMV asmetaSMV) throws Exception {
@@ -166,13 +178,12 @@ public class AsmetaMA {
 		asmetaSMV.mv.invariantList.clear();
 		// add now the properties for asmetaMA
 		Set<String> translatedAllProperties = new HashSet<>();
-		System.err.println(nuSmvProperties.entrySet());
+		log.debug(nuSmvProperties.entrySet());
 		for (Entry<Checker, Set<Expression>> entry : nuSmvProperties.entrySet()) {
 			Set<Expression> properties = entry.getValue();
 			if (!properties.isEmpty()) {
 				Set<String> translatedProperties = translate(properties);
 				log.debug("adding: " + translatedProperties);
-				System.err.println("adding: " + translatedProperties);
 				translatedAllProperties.addAll(translatedProperties);
 				// System.out.println(entry.getKey().getClass().getSimpleName() + " "
 				// +translatedProperties);

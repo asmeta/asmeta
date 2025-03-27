@@ -1,0 +1,30 @@
+// Testing pick statements for choose rules defining multiple variables
+scenario multipleVarsScenario
+load chooseMultipleVars.asm
+
+check coins1 = 0;
+
+step
+
+check coins1 > 10;
+
+pick $i1 := 5;
+
+step
+
+check coins1 = 15;
+
+pick $i1 := 10;
+pick $i2 := 3;
+
+step
+
+check coins1 = 20;
+
+pick $i1 := 10;
+pick $i2 := 5;
+pick $i3 := 5;
+
+step
+
+check coins1 = 20;
