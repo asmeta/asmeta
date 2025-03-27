@@ -13,7 +13,6 @@ import org.apache.log4j.Logger;
 import org.asmeta.avallaxt.AvallaStandaloneSetup;
 import org.asmeta.avallaxt.avalla.Command;
 import org.asmeta.avallaxt.avalla.Scenario;
-import org.asmeta.avallaxt.validation.AsmCollectionUtility;
 import org.asmeta.avallaxt.validation.ScenarioUtility;
 import org.asmeta.parser.ASMParser;
 import org.eclipse.emf.common.util.URI;
@@ -64,10 +63,10 @@ public class AsmetaFromAvallaBuilder {
 	List<ArrayList<Command>> allMonitored;// PA: 2017/12/29
 
 	/**
-	 * The map of all ChooseRules in the asm being validated with the name of the
-	 * macro rule in which are contained
+	 * The map of all ChooseRules in the asm being validated with at least a variable
+	 * picked at least one along with the name of the macro rule in which they are contained
 	 */
-	Map<ChooseRule, String> allChooseRules;
+	Map<ChooseRule, String> pickedChooseRules;
 
 	private AsmetaPrinterForAvalla asmetaPrinterforAvalla;
 
@@ -122,8 +121,6 @@ public class AsmetaFromAvallaBuilder {
 		// TODO, or just add an empty main rule?
 		if (mainrule == null)
 			throw new RuntimeException("an asm without main cannot be validated by scenarios");
-		// Populate allChoseRules
-		allChooseRules = AsmCollectionUtility.getChooseRules(asmCollection);
 		oldMainName = mainrule.getName();
 		// create a temp file in the directory
 		// File tempAsmPath = File.createTempFile(TEMP_ASMETA_V,
@@ -143,8 +140,9 @@ public class AsmetaFromAvallaBuilder {
 		stb.parseCommands();
 		monitoredInitState = stb.monitoredInitState;// PA: 2017/12/29
 		allMonitored = stb.allMonitoredFromSet;// PA: 2017/12/29
+		pickedChooseRules = stb.pickedChooseRules;
 		// Stop the validation in case of errors in pick statements
-		String checkError = ScenarioUtility.checkAllPicks(stb.allPickStatements, allChooseRules, asm);
+		String checkError = ScenarioUtility.checkAllPicks(stb.allPickStatements, pickedChooseRules, asm);
 		if (checkError != null)
 			throw new RuntimeException(checkError);
 		List<String> statements = stb.statements;
@@ -166,7 +164,7 @@ public class AsmetaFromAvallaBuilder {
 		if (statements.size() == 0) {
 			buff.append("\t\t\tcase 0:\n");
 			buff.append("\t\t\t\tstep__ := step__ + 1\n");
-		}else {
+		} else {
 			for (int i = 0; i < statements.size(); i++) {
 				String stm = statements.get(i);
 				buff.append("\t\t\tcase " + i + ":\n");

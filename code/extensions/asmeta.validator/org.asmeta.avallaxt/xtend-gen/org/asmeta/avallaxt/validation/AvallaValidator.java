@@ -141,7 +141,7 @@ public class AvallaValidator extends AbstractAvallaValidator {
         return y.getName();
       };
       this.sharedFunNames = functions.stream().filter(_function_5).<String>map(_function_6).collect(Collectors.<String>toList());
-      _xblockexpression = this.chooseRules = AsmCollectionUtility.getChooseRules(this.asmCollection);
+      _xblockexpression = this.chooseRules = AsmCollectionUtility.getAllChooseRules(this.asmCollection);
     }
     return _xblockexpression;
   }

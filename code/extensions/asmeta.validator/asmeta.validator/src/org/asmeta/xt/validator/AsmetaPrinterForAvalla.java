@@ -105,20 +105,25 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 	@Override
 	public void visit(ChooseRule chooseRule) {
 		// Change the ChooseRule in a LetRule that sets the variables to
-		// the new controlled functions and keeps the same rule
-		List<VariableTerm> vars = chooseRule.getVariable();
-		Rule doRule = chooseRule.getDoRule();
-		List<String> letVars = new ArrayList<>();
-		for (VariableTerm var : vars) {
-			String actualValueVar = var.getName().substring(1) + "_"
-					+ AsmCollectionUtility.getSignature(super.currentRuleDeclaration) + ACTUAL_VALUE;
-			letVars.add(var.getName() + "=" + actualValueVar);
+		// the new controlled functions and keeps the same rule only if
+		// it contains a variable picked at least once
+		if (this.builder.pickedChooseRules.containsKey(chooseRule)) {
+			List<VariableTerm> vars = chooseRule.getVariable();
+			Rule doRule = chooseRule.getDoRule();
+			List<String> letVars = new ArrayList<>();
+			for (VariableTerm var : vars) {
+				String actualValueVar = var.getName().substring(1) + "_"
+						+ AsmCollectionUtility.getSignature(super.currentRuleDeclaration) + ACTUAL_VALUE;
+				letVars.add(var.getName() + "=" + actualValueVar);
+			}
+			println("let(" + String.join(", ", letVars) + ") in");
+			indent();
+			super.visit(doRule);
+			unIndent();
+			println("endlet");
+		} else {
+			super.visit(chooseRule);
 		}
-		println("let(" + String.join(", ", letVars) + ") in");
-		indent();
-		super.visit(doRule);
-		unIndent();
-		println("endlet");
 	}
 
 	/*
@@ -357,10 +362,10 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 			println("controlled " + STEP + ": Integer");
 		}
 		visitDeclaredFunctions(funcs);
-		// add the controlled functions relative to choose variables
-		if (!this.builder.allChooseRules.isEmpty()) {
+		// add the controlled functions relative to picked variables
+		if (!this.builder.pickedChooseRules.isEmpty()) {
 			println("// added by validator to implement determinism in choose rule");
-			for (Entry<ChooseRule, String> cr : this.builder.allChooseRules.entrySet()) {
+			for (Entry<ChooseRule, String> cr : this.builder.pickedChooseRules.entrySet()) {
 				// only choose rules with ONE variable are supported in pick
 				for (VariableTerm variable : cr.getKey().getVariable()) {
 					String varName = variable.getName().substring(1) + "_" + cr.getValue() + ACTUAL_VALUE;

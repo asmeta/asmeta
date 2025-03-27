@@ -1,4 +1,4 @@
-// Same as the multiple vars scenario (scenarioChooseMultipleVars.avalla)
+// For testing nested choose rules (choose defined in the do rule of another choose)
 scenario nestedChooseScenario
 load nestedChoose.asm
 
@@ -6,25 +6,25 @@ check coins1 = 0;
 
 step
 
-check coins1 > 10;
+check coins1 >= 0;
 
-pick $i1 := 5;
+pick $i1 := 0;
+
+step
+
+check coins1 >= 10;
+
+pick $i1 := -10;
+pick $i2 := 10;
+
+step
+
+check coins1 >= 5;
+
+pick $i1 := -1;
+pick $i2 := 7;
+pick $i3 := 9;
 
 step
 
 check coins1 = 15;
-
-pick $i1 := 10;
-pick $i2 := -3;
-
-step
-
-check coins1 = 20;
-
-pick $i1 := 1;
-pick $i2 := 7;
-pick $i3 := 3;
-
-step
-
-check coins1 = 11;

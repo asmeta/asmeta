@@ -63,6 +63,6 @@ public class AsmetaImportedPrinterForAvalla extends AsmetaPrinterForAvalla {
 	@Override
 	public void visit(ChooseRule chooseRule) {
 		// Do NOT translate the choose in a let if the asm is imported
-		basicChooseVisit(chooseRule);
+		super.basicChooseVisit(chooseRule);
 	}
 }

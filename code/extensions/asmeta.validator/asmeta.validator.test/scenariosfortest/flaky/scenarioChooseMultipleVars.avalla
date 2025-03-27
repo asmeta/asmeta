@@ -1,3 +1,4 @@
+// Testing pick statements for choose rules defining multiple variables
 scenario multipleVarsScenario
 load chooseMultipleVars.asm
 

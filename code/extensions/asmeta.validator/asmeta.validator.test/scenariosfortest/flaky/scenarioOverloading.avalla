@@ -1,3 +1,6 @@
+// Scenario for testing the pick statements in an asm where 
+// choose rules defined in macro rule declarations with same name but different 
+// signatures uses the same variable
 scenario OverloadingScenario
 load overloading.asm
 

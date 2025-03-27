@@ -10,6 +10,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 
 import org.asmeta.avallaxt.AvallaStandaloneSetup;
@@ -24,6 +25,7 @@ import org.asmeta.avallaxt.avalla.Scenario;
 import org.asmeta.avallaxt.avalla.Set;
 import org.asmeta.avallaxt.avalla.Step;
 import org.asmeta.avallaxt.avalla.StepUntil;
+import org.asmeta.avallaxt.validation.AsmCollectionUtility;
 import org.asmeta.parser.util.AsmetaTermPrinter;
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.Environment.TimeMngt;
@@ -93,6 +95,10 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 		this.builder = builder;
 	}
 
+
+	// The map of all ChooseRules in the asm being validated with at least a variable
+	// picked at least one along with the name of the macro rule in which they are contained
+	Map<ChooseRule, String> pickedChooseRules;
 	// the set that must be set in the init state (initial set of the scencario)
 	ArrayList<Command> monitoredInitState;
 	// List of lists: One list for each step, each list contains the set statements
@@ -140,6 +146,8 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 		// there can be sets and picks after last step
 		allMonitoredFromSet.add(sets);
 		pickStatements.add(picks);
+		// Collect picked choose rules
+		pickedChooseRules = AsmCollectionUtility.getPickedChooseRules(this.builder.asmCollection, allPickStatements);
 		state = 0;
 		monitoredInitState = allMonitoredFromSet.get(state++);
 		// add all command in the new order
@@ -303,9 +311,9 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 		List<Pick> picks = new ArrayList<>();
 		if (pickStatements.size() > state - 1)
 			picks = pickStatements.get(state - 1);
-		// For all vars in all choose rules, add an update rule if it is picked. Add
+		// For all vars in all picked choose rules, add an update rule if it is picked. Add
 		// a single choose rules for not picked vars
-		for (Entry<ChooseRule, String> mapEntry : this.builder.allChooseRules.entrySet()) {
+		for (Entry<ChooseRule, String> mapEntry : pickedChooseRules.entrySet()) {
 			ChooseRule chooseRule = mapEntry.getKey();
 			String macroRuleSignature = mapEntry.getValue();
 			// First element is the picked variable name (String), second is the value
