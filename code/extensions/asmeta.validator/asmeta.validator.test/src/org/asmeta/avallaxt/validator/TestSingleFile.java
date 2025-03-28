@@ -157,7 +157,10 @@ public class TestSingleFile extends TestValidator {
 	
 	@Test
 	public void testInvariant() throws Exception {		
-		test("scenariosfortest/invariants/scenario_inv.avalla");
+		// failure because the invariant is violated
+		test("scenariosfortest/invariants/scenario_inv.avalla", true, false, false);
+		// failure because the invariant is violated
+		test("scenariosfortest/invariants/scenario_inv2.avalla", true, false, false);
 	}
 
 	@Test

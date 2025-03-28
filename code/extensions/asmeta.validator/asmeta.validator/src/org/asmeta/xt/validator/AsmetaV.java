@@ -258,7 +258,7 @@ public class AsmetaV {
 	 * @return true if the check have succeeded
 	 * @throws Exception the exception
 	 */
-	static public ValidationResult executeAsmetaFromAvalla(boolean coverage, Map<String, Boolean> coveredRules, File tempAsmPath)
+	public static ValidationResult executeAsmetaFromAvalla(boolean coverage, Map<String, Boolean> coveredRules, File tempAsmPath)
 			throws Exception {
 		assert tempAsmPath.toString().endsWith(ASMParser.ASM_EXTENSION) : " can execute only asmeta files";
 		// create the simulator with the coverage
@@ -271,28 +271,32 @@ public class AsmetaV {
 			sim = Simulator.createSimulator(tempAsmPath.getPath());
 		}
 		sim.setShuffleFlag(true);
+		ValidationResult result = new ValidationResult();
+		boolean invariantViolated;
 		try {
 			sim.runUntilEmpty();
 			// sim.runUntilStepNeg();
+			invariantViolated = false; // no error in the execution
 		} catch (InvalidInvariantException iie) {
 			AsmetaTermPrinter tp = AsmetaTermPrinter.getAsmetaTermPrinter(false);
 			logger.info("invariant violation found " + iie.getInvariant().getName() + " "
 					+ tp.visit(iie.getInvariant().getBody()));
+			invariantViolated = true;
 		}
 		// check now the value of step
 		//
 		boolean check_succeded = false;
 		for (Entry<Location, Value> cons : sim.getCurrentState().getContrLocs().entrySet()) {
+			// check the value of step var
 			if (cons.getKey().toString().equals(StatementToStringBuffer.STEP_VAR)) {
-				if (Integer.parseInt(cons.getValue().toString()) > 0)
-					check_succeded = true;
-				else
+				if (Integer.parseInt(cons.getValue().toString()) <= 0) {
 					logger.info("some checks failed");
+					check_succeded = false;
+				}
 				break;
 			}
 		}
-		ValidationResult result = new ValidationResult();
-		result.setCheckSucceded(check_succeded);
+		result.setCheckSucceded(check_succeded && ! invariantViolated);
 		if (coverage) { // for each scenario insert rules covered
 						// into list if they aren't covered
 			List<RuleDeclaration> ruleDeclaration = sim.getAsmModel().getBodySection().getRuleDeclaration();
