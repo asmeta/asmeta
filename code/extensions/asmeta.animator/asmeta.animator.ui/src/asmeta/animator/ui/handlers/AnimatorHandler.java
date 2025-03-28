@@ -23,7 +23,7 @@ public class AnimatorHandler extends AsmetaActionHandler {
 	@Override
 	protected void executeAction(File path) throws Exception {
 		// run the animator
-		VisualizationSimulation.showView(path);
+		VisualizationSimulation.startAnimator(path);
 	}
 
 	protected void setUpLoggers() {
