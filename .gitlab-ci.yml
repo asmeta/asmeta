@@ -50,6 +50,8 @@ test:
 #        NUSMV_FILE: "NuSMV-2.6.0-linux64.tar.gz"
         NUSMV_URL: "https://nusmv.fbk.eu/distrib/2.7.0"
         NUSMV_FILE: "NuSMV-2.7.0-linux64.tar.xz"
+        NUXMV_URL: "https://nuxmv.fbk.eu/theme/download.php?file=nuXmv-2.1.0-linux64.tar.xz"
+        NUXMV_FILE: "nuXmv-2.1.0-linux64.tar.xz"
   before_script:
 #    - apt-get update -y
 #    - apt-get upgrade -y
@@ -67,7 +69,11 @@ test:
     #    - ls -la "${PWD}/${MONTEUR_FS}"
     # export PATH="$PATH:$PWD/NuSMV-2.6.0-Linux/bin/
     - export PATH="$PATH:$PWD/NuSMV-2.7.0-linux64/bin"
-    # - NuSMV -help
+    # installo nuXmv
+    - curl  "${NUXMV_URL}" --output ${NUXMV_FILE}
+    - tar -xf  "${NUXMV_FILE}"
+    - export PATH="$PATH:$PWD/nuXmv-2.1.0-linux64/bin"
+    # 
     # installiano il g++ per asmeta2gcc
     - apk add --no-cache g++ make
   script:
