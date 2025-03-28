@@ -411,10 +411,11 @@ public class AsmetaSMVtestTranslate {
 
 	@Test
 	public void testAmanUndef() throws IOException {
-		// it is worng when tralsating undef .. why itis using undef and not UNDEF????
+		Path smv_fileName = Path.of("examples/aman.smv");		
+		Files.deleteIfExists(smv_fileName);
+		// it is wrong when translating undef .. why it is using "undef" and not UNDEF????
 		testOneSpec("examples/aman.asm");
-		Path fileName = Path.of("examples/aman.smv");
-		String str = Files.readString(fileName);
+		String str = Files.readString(smv_fileName);
 		System.out.println(str);
 		//it should not translate this as undef
 		assertFalse(str.contains("m_airplane = undef"));
