@@ -416,9 +416,11 @@ public class AsmetaSMVtestTranslate {
 		// it is wrong when translating undef .. why it is using "undef" and not UNDEF????
 		testOneSpec("examples/aman.asm");
 		String str = Files.readString(smv_fileName);
-		System.out.println(str);
+		//System.out.println(str);
 		//it should not translate this as undef
 		assertFalse(str.contains("m_airplane = undef"));
+		// ingeneral, there is no "undef"
+		assertFalse(str.contains("undef"));
 	}
 	
 	@Test

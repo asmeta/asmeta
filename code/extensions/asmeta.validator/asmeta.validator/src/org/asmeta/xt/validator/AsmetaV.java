@@ -289,16 +289,22 @@ public class AsmetaV {
 		// check now the value of step
 		//
 		boolean check_succeded = false;
+		boolean step_found = false;
 		for (Entry<Location, Value> cons : sim.getCurrentState().getContrLocs().entrySet()) {
 			// check the value of step var
 			if (cons.getKey().toString().equals(StatementToStringBuffer.STEP_VAR)) {
+				step_found = true;
 				if (Integer.parseInt(cons.getValue().toString()) <= 0) {
 					logger.info("some checks failed");
 					check_succeded = false;
+				} else{
+					check_succeded = true;
 				}
 				break;
 			}
 		}
+		if (! step_found) logger.error("step not found");
+		// succeed only if step is found, is greater or equal 0 and no invariant is violated
 		result.setCheckSucceded(check_succeded && ! invariantViolated);
 		if (coverage) { // for each scenario insert rules covered
 						// into list if they aren't covered
