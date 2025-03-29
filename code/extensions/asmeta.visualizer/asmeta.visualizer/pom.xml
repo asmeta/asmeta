@@ -20,6 +20,10 @@
 	<!-- aggiungo questo repo che contiene i jar di eclipse: https://www.p2repository.com/ 
 		non è aggiornatissimo ma almeno compila il tutto-->
     <repository>
+        <id>eclipse-2025-03</id>
+        <url>https://p2repository.com/mvn4/eclipse-2025-03/</url>
+    </repository>
+    <repository>
         <id>eclipse-2024-12</id>
         <url>https://p2repository.com/mvn4/eclipse-2024-12/</url>
     </repository>
@@ -72,12 +76,12 @@
 		<dependency>
 			<groupId>org.eclipse.ide</groupId>
 			<artifactId>org.eclipse.xtext.xbase</artifactId>
-			<version>[2.35.0,)</version>
+			<version>[2.38.0,)</version>
 		</dependency>
 		<dependency>
-    <groupId>org.eclipse.ide</groupId>
-    <artifactId>org.apache.batik.css</artifactId>
-    <version>1.17.0.v20231215-1130</version>
-</dependency>
+    		<groupId>org.eclipse.ide</groupId>
+    		<artifactId>org.apache.batik.css</artifactId>
+    		<version>1.17.0.v20231215-1130</version>
+		</dependency>
 	</dependencies>
 </project>
