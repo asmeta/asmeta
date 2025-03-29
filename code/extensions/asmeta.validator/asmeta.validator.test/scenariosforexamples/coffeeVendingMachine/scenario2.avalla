@@ -1,0 +1,11 @@
+scenario scenario2
+load coffeeVendingMachine.asm
+
+check available(MILK) = 10 and available(COFFEE) = 10 and available(TEA) = 10;
+
+set insertedCoin := ONE;
+pick $p in r_Main := COFFEE;
+
+step
+
+check available(MILK) = 10 and available(COFFEE) = 9 and available(TEA) = 10;

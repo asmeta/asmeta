@@ -14,13 +14,13 @@ import org.junit.Test;
  */
 public class AsmetaAnimatorTest { 
 
-	public static void main(String[] args) throws FileNotFoundException, IOException, InterruptedException, Exception {
+	public static void main(String[] args) throws IOException, InterruptedException, Exception {
 	//	testMixGenerateeuclideInit();
 		testMixHemodialysis();
 	}
 
 	@Test
-	public  void testLight() throws FileNotFoundException, IOException, InterruptedException, Exception {
+	public  void testLight() throws IOException, InterruptedException, Exception {
 		String asmspec = "examples/light.asm";
 		testAnimator(asmspec);
 	}
@@ -128,7 +128,7 @@ public class AsmetaAnimatorTest {
 			throws Exception, FileNotFoundException, IOException, InterruptedException {
 		// AsmCollection asm = ExampleTaker.getExample(specpath);
 		// String asmPath = ExampleTaker.getAsmFile(specpath).getAbsolutePath();
-		VisualizationSimulation.showView(new File(specpath));
+		VisualizationSimulation.startAnimator(new File(specpath));
 		// geneate the unit test
 		// AsmToGraphicalR trans = new AsmToGraphicalR();
 		// test name

@@ -48,11 +48,10 @@ public class SimulatorWCov extends Simulator {
 	}
 
 	/**
-	 * Inizializza il valutatore delle regole con quello che valuta anche la
-	 * copertura
+	 * Initialize the rule evalutor with the one that also computes the coverage
 	 *
-	 * @param state stato iniziale
-	 * @return il valutatore delle regole inizializzato
+	 * @param state the initial state
+	 * @return the initialized rule evaluator
 	 */
 	@Override
 	protected void initEvaluator(State state) {
@@ -63,7 +62,7 @@ public class SimulatorWCov extends Simulator {
 	}
 
 	// return the coverage of the branches (conditional rules)
-	// PROBLEM is the branches of the modified ASM not the original one.
+	// PROBLEM uses the branches of the modified ASM not the original one.
 	public Map<String, BranchCovData> getCoveredBranches() {
 		Map<String, BranchCovData> covData = new HashMap<>();
 		for (MacroDeclaration md : RuleEvalWCov.coveredMacros) {
@@ -97,6 +96,7 @@ public class SimulatorWCov extends Simulator {
 	}
 
 	// return the coverage of the update rules
+	// PROBLEM uses the update rules of the modified ASM not the original one.
 	public Map<String, UpdateCovData> getCoveredUpdateRules() {
 		Map<String, UpdateCovData> covData = new HashMap<>();
 		for (MacroDeclaration md : RuleEvalWCov.coveredMacros) {

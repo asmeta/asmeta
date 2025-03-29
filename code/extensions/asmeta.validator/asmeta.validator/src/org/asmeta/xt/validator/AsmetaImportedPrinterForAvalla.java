@@ -9,6 +9,7 @@ import asmeta.definitions.Function;
 import asmeta.definitions.RuleDeclaration;
 import asmeta.structure.FunctionInitialization;
 import asmeta.structure.Initialization;
+import asmeta.transitionrules.basictransitionrules.ChooseRule;
 import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
 
 //
@@ -19,13 +20,11 @@ import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
 // the initialitaion is not traslated
 // the step is not added
 //
-class AsmetaImportedPrinterForAvalla extends AsmetaPrinterForAvalla {
+public class AsmetaImportedPrinterForAvalla extends AsmetaPrinterForAvalla {
 
 	AsmetaImportedPrinterForAvalla(File tempAsmPath, Path asmPath, AsmetaFromAvallaBuilder builder)
 			throws FileNotFoundException {
 		super(tempAsmPath, asmPath, builder);
-		// Ignore Pick rules when printing an imported avalla
-		builder.allPickRules.clear();
 	}
 
 	public void visitMain(MacroDeclaration main) {
@@ -59,5 +58,11 @@ class AsmetaImportedPrinterForAvalla extends AsmetaPrinterForAvalla {
 	public void visitFuncInits(Collection<FunctionInitialization> funcs) {
 		println("// this ASM is imported, FunctionInitialization ignored");
 		return;
+	}
+
+	@Override
+	public void visit(ChooseRule chooseRule) {
+		// Do NOT translate the choose in a let if the asm is imported
+		super.basicChooseVisit(chooseRule);
 	}
 }

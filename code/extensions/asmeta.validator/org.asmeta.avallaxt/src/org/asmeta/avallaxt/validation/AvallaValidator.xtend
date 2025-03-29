@@ -104,7 +104,7 @@ class AvallaValidator extends AbstractAvallaValidator {
 		sharedFunNames = functions.stream().filter(x|x instanceof SharedFunction).map(y|y.name).collect(toList())
 		// get choose rules
 		//TODO for now it takes the choose rules only in the main ASM, in the future it can be also in an imported
-		chooseRules = AsmCollectionUtility.getChooseRules(asmCollection)
+		chooseRules = AsmCollectionUtility.getAllChooseRules(asmCollection)
 	}
 
 	@org.eclipse.xtext.validation.Check

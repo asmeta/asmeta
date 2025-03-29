@@ -58,7 +58,7 @@ public class TestValidator {
 		    }
 		}
 	}
-	// test with and wthout the validator
+	// test with and without the validator but with success
 	protected void test(String scenarioPath) throws IOException, Exception {
 		// without the execution
 		test(scenarioPath,false,false, true);
@@ -66,6 +66,7 @@ public class TestValidator {
 		test(scenarioPath,true,false, true);
 	}
 
+	
 	/**
 	 * 
 	 * @param scenarioPath

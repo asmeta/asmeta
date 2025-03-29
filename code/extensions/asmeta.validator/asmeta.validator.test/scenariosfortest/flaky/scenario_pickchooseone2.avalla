@@ -10,6 +10,8 @@ step
 pick $p := chooseone(Product);
 step
 // actualy chooseone is deterministic and its chooses the first one that satisfies the condition
-//check dispensed = TEA or dispensed = COFFEE;
 check dispensed = TEA;
 step
+// if a variable was picked in a previous step but it is not picked 
+// in this step, the choose return to being non deterministic
+check dispensed = TEA or dispensed = COFFEE or dispensed = MILK;

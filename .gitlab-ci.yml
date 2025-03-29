@@ -55,7 +55,9 @@ test:
   before_script:
 #    - apt-get update -y
 #    - apt-get upgrade -y
-#    - apt-get install wget -y        
+#    - apt-get install wget -y  
+# needed beacuse NUSMV is now distrubuted comepressed as xz instead of gz
+    - apk add xz    
   # install nusmv  
 #    - wget -O "$NUSMV_FILE" "${NUSMV_URL}/${NUSMV_FILE}"
     - curl "${NUSMV_URL}/${NUSMV_FILE}" --output ${NUSMV_FILE}
@@ -69,8 +71,8 @@ test:
     #    - ls -la "${PWD}/${MONTEUR_FS}"
     # export PATH="$PATH:$PWD/NuSMV-2.6.0-Linux/bin/
     - export PATH="$PATH:$PWD/NuSMV-2.7.0-linux64/bin"
-    # installo nuXmv
-    - curl  "${NUXMV_URL}" --output ${NUXMV_FILE}
+    # installo nuXmv - use -L for redirect
+    - curl  -L "${NUXMV_URL}" --output ${NUXMV_FILE}
     - tar -xf  "${NUXMV_FILE}"
     - export PATH="$PATH:$PWD/nuXmv-2.1.0-linux64/bin"
     # 

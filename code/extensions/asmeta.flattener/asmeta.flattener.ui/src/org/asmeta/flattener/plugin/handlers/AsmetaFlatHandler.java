@@ -74,7 +74,7 @@ public class AsmetaFlatHandler extends AsmetaActionHandler {
 			flatteners.add(RemoveNestingFlattener.class);
 		}
 		String refactoredAsm = AsmetaMultipleFlattener.flattenAsStr(path.getAbsolutePath(), flatteners);
-		// write the latten version on the console
+		// write the flatten version on the console
 		console.writeMessage(refactoredAsm);
 	}
 

@@ -87,10 +87,11 @@ public abstract class RunJob extends Job {
 				//new WriterAppender(new XmlToTextLayout(), out)
 				// TO GET THE LOGGER REDIRECTED
 				//Logger.getRootLogger().addAppender(outputfromSim);
-				//Logger.getLogger("org.asmeta.simulator").setAdditivity(false);
-				Simulator.logger.addAppender(outputfromSim);
+				//Logger.getLogger("org.asmeta.simulator").setAdditivity(false);				
 			}
-
+			// ad in any case, so if other processes has removed it, it is now inserted
+			Simulator.logger.addAppender(outputfromSim);
+			
 			LocationSet currentState = asmSimulator.getCurrentState();
 			printOut.println("INITIAL STATE:" + currentState.toString());
 			try {

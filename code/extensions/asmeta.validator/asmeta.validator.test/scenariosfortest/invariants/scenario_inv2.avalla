@@ -1,0 +1,18 @@
+scenario scenario_inv
+
+load AdvancedClock.asm
+
+// Passo di macchina
+step
+check seconds = 1;
+step
+check seconds = 2;
+step
+check seconds = 3;
+step
+check seconds = 4;
+step
+// Viola l'invariante di modello
+
+
+

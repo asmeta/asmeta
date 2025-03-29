@@ -1,8 +1,7 @@
 package validator.plugin.handlers;
 
 import org.asmeta.xt.validator.AsmetaV;
-
-;
+import org.asmeta.xt.validator.RuleEvalWCov;
 
 /**
  * @see org.eclipse.core.commands.IHandler
@@ -16,6 +15,7 @@ public class ValidatorCoverageHandler extends ValidatorHandler {
 
 	@Override
 	void execValidation(String path) throws Exception {
+		RuleEvalWCov.reset();
 		AsmetaV.execValidation(path, true);
 	}
 }

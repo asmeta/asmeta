@@ -148,6 +148,68 @@ public class TestCoverage extends TestValidator {
 		oracles.add(new CoverageOracle("r_grantMoney(Integer)", nBranch, coveredT, coveredF, nUpdate, coveredUpdate));
 		testWithCoverageAndWithout(scenario, oracles.toArray(new CoverageOracle[0]));
 	}
+	
+	@Test
+	public void testWithCoverageAndWithoutCoffeVendingMachine() throws Exception {
+		String baseFolder = "scenariosforexamples/coffeeVendingMachine";
+		String scenario1 = baseFolder + "/scenario1.avalla";
+		String scenario2 = baseFolder + "/scenario2.avalla";
+		List<CoverageOracle> oracles = new ArrayList<>();
+		// scenario1.avalla (without pick)
+		// r_Main()
+		int nBranch = 3;
+		int coveredT = 3;
+		int coveredF = 1;
+		int nUpdate = 1;
+		int coveredUpdate = 1;
+		oracles.add(new CoverageOracle("r_Main()", nBranch, coveredT, coveredF, nUpdate, coveredUpdate));
+		// r_serveProduct()
+		nBranch = 0;
+		coveredT = 0;
+		coveredF = 0;
+		nUpdate = 2;
+		coveredUpdate = 2;
+		oracles.add(new CoverageOracle("r_serveProduct(Product)", nBranch, coveredT, coveredF, nUpdate, coveredUpdate));
+		testWithCoverageAndWithout(scenario1, oracles.toArray(new CoverageOracle[0]));
+		// scenario2.avalla (with pick)
+		RuleEvalWCov.reset();
+		oracles.clear();
+		stringWriter.getBuffer().setLength(0); // Clean the output
+		// r_Main()
+		nBranch = 3;
+		coveredT = 1;
+		coveredF = 1;
+		nUpdate = 1;
+		coveredUpdate = 1;
+		oracles.add(new CoverageOracle("r_Main()", nBranch, coveredT, coveredF, nUpdate, coveredUpdate));
+		// r_serveProduct()
+		nBranch = 0;
+		coveredT = 0;
+		coveredF = 0;
+		nUpdate = 2;
+		coveredUpdate = 2;
+		oracles.add(new CoverageOracle("r_serveProduct(Product)", nBranch, coveredT, coveredF, nUpdate, coveredUpdate));
+		testWithCoverageAndWithout(scenario2, oracles.toArray(new CoverageOracle[0]));
+		// Both
+		RuleEvalWCov.reset();
+		oracles.clear();
+		stringWriter.getBuffer().setLength(0); // Clean the output
+		// r_Main()
+		nBranch = 3;
+		coveredT = 3;
+		coveredF = 1;
+		nUpdate = 1;
+		coveredUpdate = 1;
+		oracles.add(new CoverageOracle("r_Main()", nBranch, coveredT, coveredF, nUpdate, coveredUpdate));
+		// r_serveProduct()
+		nBranch = 0;
+		coveredT = 0;
+		coveredF = 0;
+		nUpdate = 2;
+		coveredUpdate = 2;
+		oracles.add(new CoverageOracle("r_serveProduct(Product)", nBranch, coveredT, coveredF, nUpdate, coveredUpdate));
+		testWithCoverageAndWithout(baseFolder, oracles.toArray(new CoverageOracle[0]));
+	}
 
 	// two test with coverage and without coverage enabled
 	private void testWithCoverageAndWithout(String scenario, CoverageOracle... coveredRules)
