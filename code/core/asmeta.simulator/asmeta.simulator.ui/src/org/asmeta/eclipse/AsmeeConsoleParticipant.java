@@ -98,6 +98,7 @@ public class AsmeeConsoleParticipant implements IConsolePageParticipant {
 				Thread thread = runJob.getThread();
 				if (thread != null) {
 					try {
+						// 03.2025 - it is now unsupported it won't work
 						thread.stop();
 					} catch (ThreadDeath td) {
 						// ignore for now

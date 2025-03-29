@@ -479,6 +479,10 @@ public class AsmPrinter extends ReflectiveVisitor<Void> {
 	}
 
 	public void visit(ChooseRule rule) {
+		basicChooseVisit(rule);
+	}
+
+	protected void basicChooseVisit(ChooseRule rule) {
 		List<VariableTerm> vars = rule.getVariable();
 		List<Term> domains = rule.getRanges();
 		Term cond = rule.getGuard();

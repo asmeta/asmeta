@@ -1,5 +1,4 @@
 // starting scenario
-// with ERROR in validation
 scenario SCENARIO_NAME
 load CoffeeVendingMachineGround2.asm
 // ...

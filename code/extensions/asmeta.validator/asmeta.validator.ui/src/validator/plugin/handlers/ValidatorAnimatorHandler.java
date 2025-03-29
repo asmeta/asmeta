@@ -25,6 +25,6 @@ public class ValidatorAnimatorHandler extends ValidatorHandler {
 		builder.save();
 		File asmPath = builder.getTempAsmPath();
 		// call the animator on it
-		VisualizationSimulation.showView(asmPath);
+		VisualizationSimulation.startAnimator(asmPath);
 	}
 }
