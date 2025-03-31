@@ -44,13 +44,13 @@ public class ExpressionToJava {
 	String evaluateFunction(String function, List<Term> argsTerm) throws InvalidFunctionException {
 		switch (function) {
 		case "<":
-			return lt(argsTerm);
+			return addOperator(argsTerm, "<");
 		case ("<="):
-			return le(argsTerm);
+			return addOperator(argsTerm, "<=");
 		case (">"):
-			return gt(argsTerm);
+			return addOperator(argsTerm, ">");
 		case (">="):
-			return ge(argsTerm);
+			return addOperator(argsTerm, ">=");
 		case ("->"):
 			return implies(argsTerm);
 		case ("chooseone"):
@@ -58,7 +58,7 @@ public class ExpressionToJava {
 		case ("iton"):
 			return iton(argsTerm);
 		case ("="):
-			return eq(argsTerm);
+			return addOperator(argsTerm, "==");
 		case ("at"):
 			return at(argsTerm);
 		case ("length"):
@@ -163,14 +163,8 @@ public class ExpressionToJava {
 		return "! " + arg;
 	}
 
-	/**
-	 * Executes the less than function.
-	 * 
-	 * @param argsTerm the args term
-	 * 
-	 * @return the string
-	 */
-	private String lt(List<Term> argsTerm) {
+	
+	private String addOperator(List<Term> argsTerm, String operator) {
 		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
 		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
 		try {
@@ -182,7 +176,7 @@ public class ExpressionToJava {
 
 		// The two domains are different. In order to make them comparable, we need to
 		// get the value of at least of them
-		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1))) {
+		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1).getDomain())) {
 			if (argsTerm.get(0).getDomain() instanceof ConcreteDomain) {
 				left = left + VALUE_FIELD_NAME;
 			}
@@ -190,132 +184,10 @@ public class ExpressionToJava {
 			if (argsTerm.get(1).getDomain() instanceof ConcreteDomain) {
 				right = right + VALUE_FIELD_NAME;
 			}
-		}
-		return new Util().setPars(left + " < " + right);
+		}		
+		return new Util().setPars(left + " " +operator + " " + right);
 	}
 
-	/**
-	 * Executes the less than or equal function.
-	 * 
-	 * @param argsTerm the args term
-	 * 
-	 * @return the string
-	 */
-	private String le(List<Term> argsTerm) {
-		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
-		try {
-			Integer.parseInt(left);
-			Integer.parseInt(right);
-		} catch (NumberFormatException e) {
-			// Ignore
-		}
-
-		// The two domains are different. In order to make them comparable, we need to
-		// get the value of at least of them
-		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1))) {
-			if (argsTerm.get(0).getDomain() instanceof ConcreteDomain) {
-				left = left + VALUE_FIELD_NAME;
-			}
-
-			if (argsTerm.get(1).getDomain() instanceof ConcreteDomain) {
-				right = right + VALUE_FIELD_NAME;
-			}
-		}
-
-		return new Util().setPars(left + " <= " + right);
-
-	}
-
-	/**
-	 * Executes the greater than function.
-	 * 
-	 * @param argsTerm the args term
-	 * 
-	 * @return the string
-	 */
-	private String gt(List<Term> argsTerm) {
-		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
-		try {
-			Integer.parseInt(left);
-			Integer.parseInt(right);
-		} catch (NumberFormatException e) {
-			// Ignore
-		}
-
-		// The two domains are different. In order to make them comparable, we need to
-		// get the value of at least of them
-		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1))) {
-			if (argsTerm.get(0).getDomain() instanceof ConcreteDomain) {
-				left = left + VALUE_FIELD_NAME;
-			}
-
-			if (argsTerm.get(1).getDomain() instanceof ConcreteDomain) {
-				right = right + VALUE_FIELD_NAME;
-			}
-		}
-		return new Util().setPars(left + " > " + right);
-
-	}
-
-	/**
-	 * Executes the greater than or equal function.
-	 * 
-	 * @param argsTerm the args term
-	 * 
-	 * @return the string
-	 */
-	private String ge(List<Term> argsTerm) {
-		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
-		try {
-			Integer.parseInt(left);
-			Integer.parseInt(right);
-		} catch (NumberFormatException e) {
-			// Ignore
-		}
-
-		// The two domains are different. In order to make them comparable, we need to
-		// get the value of at least of them
-		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1))) {
-			if (argsTerm.get(0).getDomain() instanceof ConcreteDomain) {
-				left = left + VALUE_FIELD_NAME;
-			}
-
-			if (argsTerm.get(1).getDomain() instanceof ConcreteDomain) {
-				right = right + VALUE_FIELD_NAME;
-			}
-		}
-		return new Util().setPars(left + " >= " + right);
-
-	}
-
-	/**
-	 * Executes the equal function.
-	 * 
-	 * @param argsTerm the args term
-	 * 
-	 * @return the string
-	 */
-	private String eq(List<Term> argsTerm) {
-		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
-
-		// The two domains are different. In order to make them comparable, we need to
-		// get the value of at least of them
-		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1))) {
-			if (argsTerm.get(0).getDomain() instanceof ConcreteDomain) {
-				left = left + VALUE_FIELD_NAME;
-			}
-
-			if (argsTerm.get(1).getDomain() instanceof ConcreteDomain) {
-				right = right + VALUE_FIELD_NAME;
-			}
-		}
-
-		return new Util().equals(left, right);
-	}
 
 	/**
 	 * Executes the not equal function.
@@ -325,22 +197,7 @@ public class ExpressionToJava {
 	 * @return the string
 	 */
 	private String notEquals(List<Term> argsTerm) {
-		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
-
-		// The two domains are different. In order to make them comparable, we need to
-		// get the value of at least of them
-		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1))) {
-			if (argsTerm.get(0).getDomain() instanceof ConcreteDomain) {
-				left = left + VALUE_FIELD_NAME;
-			}
-
-			if (argsTerm.get(1).getDomain() instanceof ConcreteDomain) {
-				right = right + VALUE_FIELD_NAME;
-			}
-		}
-
-		return new Util().notEquals(left, right);
+		return addOperator(argsTerm, "!=");
 	}
 
 	/**
@@ -351,9 +208,7 @@ public class ExpressionToJava {
 	 * @return the string
 	 */
 	private String mod(List<Term> argsTerm) {
-		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
-		return new Util().setPars(left + " % " + right);
+		return addOperator(argsTerm, "%");
 	}
 
 	/**
@@ -392,21 +247,7 @@ public class ExpressionToJava {
 	 * @return the string
 	 */
 	String minusBinary(List<Term> argsTerm) {
-		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
-
-		// The two domains are different. In order to make them comparable, we need to
-		// get the value of at least of them
-		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1))) {
-			if (argsTerm.get(0).getDomain() instanceof ConcreteDomain) {
-				left = left + VALUE_FIELD_NAME;
-			}
-
-			if (argsTerm.get(1).getDomain() instanceof ConcreteDomain) {
-				right = right + VALUE_FIELD_NAME;
-			}
-		}
-		return new Util().setPars(left + " - " + right);
+		return addOperator(argsTerm, "-");
 	}
 
 	/**
@@ -428,22 +269,7 @@ public class ExpressionToJava {
 	 * @return the string
 	 */
 	String sum(List<Term> argsTerm) {
-		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
-
-		// The two domains are different. In order to make them comparable, we need to
-		// get the value of at least of them
-		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1))) {
-			if (argsTerm.get(0).getDomain() instanceof ConcreteDomain) {
-				left = left + VALUE_FIELD_NAME;
-			}
-
-			if (argsTerm.get(1).getDomain() instanceof ConcreteDomain) {
-				right = right + VALUE_FIELD_NAME;
-			}
-		}
-
-		return new Util().setPars(left + " + " + right);
+		return addOperator(argsTerm, "+");
 	}
 
 	/**
@@ -454,9 +280,7 @@ public class ExpressionToJava {
 	 * @return the string
 	 */
 	String mult(List<Term> argsTerm) {
-		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
-		return new Util().setPars(left + " * " + right);
+		return addOperator(argsTerm, "*");
 	}
 
 	/**
@@ -480,8 +304,6 @@ public class ExpressionToJava {
 	 * @return the string
 	 */
 	String idiv(List<Term> argsTerm) {
-		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
-		return new Util().setPars(left + " / " + right);
+		return addOperator(argsTerm, "/");
 	}
 }
