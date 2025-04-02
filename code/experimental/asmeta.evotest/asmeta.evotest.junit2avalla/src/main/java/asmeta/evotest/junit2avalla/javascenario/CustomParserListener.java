@@ -95,8 +95,7 @@ public class CustomParserListener extends JavaScenarioBaseListener {
 		if (ignoreListenerEvent(ctx.getText()))
 			return;
 		logger.debug("Entering start_test_scenario_asmDeclaration: {} .", ctx.getText());
-		String text = ctx.ASMID(0).getText();
-		String asmName = text.substring(0, 1).toUpperCase().concat(text.substring(1));
+		String asmName = ctx.ASMID(0).getText();
 		ScenarioParserUtil.buildAsmDeclaration(asmName, context);
 	}
 
