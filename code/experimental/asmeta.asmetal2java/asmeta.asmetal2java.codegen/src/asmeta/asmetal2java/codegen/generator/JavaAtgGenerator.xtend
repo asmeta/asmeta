@@ -125,6 +125,8 @@ class JavaAtgGenerator extends AsmToJavaGenerator {
 			sb.append(CoverRules.coverAllRules(rules))
 			sb.append(System.lineSeparator);
 			
+			sb.append(AsmMethods.expectedAbstractValues(asm));
+			sb.append(System.lineSeparator);
 		}
 		
 		// Cover the outputs 

@@ -606,6 +606,18 @@ class AsmMethods {
 		return sb.toString
 	}
 
+    static def expectedAbstractValues(Asm asm){
+        val sb = new StringBuffer;
+        sb.append('''// Abstract Values Collection''').append(System.lineSeparator)
+        for (fd : asm.headerSection.signature.function) {
+            if (fd instanceof StaticFunction) {
+                var abstractName = fd.name
+                 sb.append('''String static_«abstractName» = "«abstractName»";''').append(System.lineSeparator)
+                }
+        }
+        return sb.toString;
+    }
+
 	/**
 	 * Handles the case of an unrecognized domain,
 	 * if the ignoreDomainException option is active it prints the error,

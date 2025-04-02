@@ -1873,6 +1873,27 @@ public class AsmMethods {
     return sb.toString();
   }
 
+  public static String expectedAbstractValues(final Asm asm) {
+    final StringBuffer sb = new StringBuffer();
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("// Abstract Values Collection");
+    sb.append(_builder).append(System.lineSeparator());
+    EList<Function> _function = asm.getHeaderSection().getSignature().getFunction();
+    for (final Function fd : _function) {
+      if ((fd instanceof StaticFunction)) {
+        String abstractName = ((StaticFunction)fd).getName();
+        StringConcatenation _builder_1 = new StringConcatenation();
+        _builder_1.append("String static_");
+        _builder_1.append(abstractName);
+        _builder_1.append(" = \"");
+        _builder_1.append(abstractName);
+        _builder_1.append("\";");
+        sb.append(_builder_1).append(System.lineSeparator());
+      }
+    }
+    return sb.toString();
+  }
+
   /**
    * Handles the case of an unrecognized domain,
    * if the ignoreDomainException option is active it prints the error,
