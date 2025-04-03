@@ -721,6 +721,7 @@ public class AsmetaSMVnoFlattenerTest extends AsmetaSMVtest {
 	}
 	
 	
+	
 	/*@Test
 	public void updateRuleTest() {
 		//non ci sono proprieta' CTL. Verifica semplicemente che la traduzione

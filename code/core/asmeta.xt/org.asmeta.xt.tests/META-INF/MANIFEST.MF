@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: org.asmeta.xt.tests
 Bundle-Vendor: foselab.unibg.it
-Bundle-Version: 25.03
+Bundle-Version: 25.04
 Bundle-SymbolicName: org.asmeta.xt.tests;singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.asmeta.xt,

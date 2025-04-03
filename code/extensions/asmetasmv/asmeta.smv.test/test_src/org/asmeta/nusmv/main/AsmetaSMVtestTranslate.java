@@ -411,13 +411,16 @@ public class AsmetaSMVtestTranslate {
 
 	@Test
 	public void testAmanUndef() throws IOException {
-		// it is worng when tralsating undef .. why itis using undef and not UNDEF????
+		Path smv_fileName = Path.of("examples/aman.smv");		
+		Files.deleteIfExists(smv_fileName);
+		// it is wrong when translating undef .. why it is using "undef" and not UNDEF????
 		testOneSpec("examples/aman.asm");
-		Path fileName = Path.of("examples/aman.smv");
-		String str = Files.readString(fileName);
-		System.out.println(str);
+		String str = Files.readString(smv_fileName);
+		//System.out.println(str);
 		//it should not translate this as undef
 		assertFalse(str.contains("m_airplane = undef"));
+		// ingeneral, there is no "undef"
+		assertFalse(str.contains("undef"));
 	}
 	
 	@Test
@@ -466,6 +469,8 @@ public class AsmetaSMVtestTranslate {
 		testOneSpec("examples/student2/LightArray2.asm", options);
 	}
 
+
+	
 	
 	/*
 	 * @Test public void testUnibgProva() { assertTrue(testOneSpec(FILE_BASE_UNIBG +
@@ -489,4 +494,6 @@ public class AsmetaSMVtestTranslate {
 	 * assertTrue(testOneSpec(FILE_BASE_UNIBG + "Rubrica.asm"); assertTrue(testOneSpec(FILE_BASE_UNIBG +
 	 * "stufa.asm"); assertTrue(testOneSpec(FILE_BASE_UNIBG + "VideotecaASM.asm"); }
 	 */
+	
+	
 }
