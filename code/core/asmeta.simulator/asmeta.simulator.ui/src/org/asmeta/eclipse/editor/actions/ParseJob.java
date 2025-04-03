@@ -36,7 +36,7 @@ public class ParseJob extends Job {
 
 	private org.eclipse.ui.console.IOConsole console;
 
-	private static String JOB_NAME = "parsing ";
+	private static final String JOB_NAME = "parsing ";
 
 	private AsmCollection asm;
 
@@ -85,7 +85,7 @@ public class ParseJob extends Job {
 			return Status.OK_STATUS;
 		} catch (ParseException t) {
 			parseResult = ASMParser.getResultLogger();
-			new PrintStream(out).print("Error in parsing: " + t.getMessage());
+			new PrintStream(out).println("Error in parsing: " + t.getMessage());
 			// TODO metti lo status con errore
 			asm = null;
 			return Status.CANCEL_STATUS;			
