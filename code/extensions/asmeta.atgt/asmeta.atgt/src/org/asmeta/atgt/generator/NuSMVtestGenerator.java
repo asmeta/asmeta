@@ -114,7 +114,7 @@ public class NuSMVtestGenerator extends AsmTestGenerator {
 			}
 		}
 		tp="# tps " + ct.getNumberofTPs();
-		//System.out.println(tp);
+		//System.out.println(termTran);
 		genTests="# generated tests " + asmTestSuite.size();
 		//System.out.println(genTests);
 		return asmTestSuite;
@@ -132,7 +132,7 @@ public class NuSMVtestGenerator extends AsmTestGenerator {
 		AsmCoverageEvaluator coverageEval = new AsmCoverageEvaluator(ct);
 		NavigableAsmInputs inputs = new NavigableAsmInputs(asmTest, spec);
 		Vector<AsmTestCondition> covered = coverageEval.computeCoverage(inputs);
-		logger.info("binding the tp covered (" + covered.size() + ")");
+		logger.info("binding the tps covered (" + covered.size() + ")");
 		for (AsmTestCondition tc : covered) {
 			assert tc.getStatus() == TestConditionState.Covered; 
 			tc.bindTestSeqTestPred(asmTest);

@@ -18,16 +18,17 @@ signature:
 
 	// part added for extensions and variation
 
-	static pendingOrders: Products -> Powerset(Orders)
-	static totalQuantity: Powerset(Orders) -> Quantity
-	static totalOrderedQuantity: Products -> Quantity
+	derived pendingOrders: Products -> Powerset(Orders)
+	
+	derived totalQuantity: Powerset(Orders) -> Quantity
+	derived totalOrderedQuantity: Products -> Quantity
 	// for variating at maximum order
 	// returns all the posible subsets of the pending orders for a product
 	static maxQuantitySubsets: Powerset(Powerset(Orders)) -> Powerset(Powerset(Orders))
 	// it returns if a orderset is invoicable
-	static invoicable: Powerset(Orders) -> Boolean
-	static totalQuantity: Prod(Powerset(Orders),Products) -> Quantity
-	static referencedProducts: Powerset(Orders) -> Powerset(Products)
+	derived invoicable: Powerset(Orders) -> Boolean
+	derived totalQuantity: Prod(Powerset(Orders),Products) -> Quantity
+	derived referencedProducts: Powerset(Orders) -> Powerset(Products)
 
         //Setting the scenario:
         //---------------------

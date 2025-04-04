@@ -61,9 +61,9 @@ dynamic controlled cpm_label_group_2_1 : Cpm_label_name_group_2_1 -> Prod(Prod(L
 dynamic monitored label_group_3_4 : Label_name_group_3_4 -> Prod(Label_IN14_value,Label_IN3_validity)
 dynamic controlled cpm_label_group_3_4 : Cpm_label_name_group_3_4 -> Prod(Prod(Label_IN14_value,Label_OUT3_validity),Bus) 
    
-derived label_1_3 : Prod(Label_IN3_value, Label_IN1_validity) -> Prod(Label_IN3_value, Label_OUT1_validity)
-derived label_2_1 : Prod(Label_IN8_value, Label_IN2_validity) -> Prod(Label_IN8_value, Label_OUT2_validity)
-derived label_3_4 : Prod(Label_IN14_value, Label_IN3_validity) -> Prod(Label_IN14_value, Label_OUT3_validity)   
+static label_1_3 : Prod(Label_IN3_value, Label_IN1_validity) -> Prod(Label_IN3_value, Label_OUT1_validity)
+static label_2_1 : Prod(Label_IN8_value, Label_IN2_validity) -> Prod(Label_IN8_value, Label_OUT2_validity)
+static label_3_4 : Prod(Label_IN14_value, Label_IN3_validity) -> Prod(Label_IN14_value, Label_OUT3_validity)
 
                    
  //timer per simulare i ms passati   

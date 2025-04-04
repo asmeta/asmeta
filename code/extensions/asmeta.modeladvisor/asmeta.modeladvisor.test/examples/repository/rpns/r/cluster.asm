@@ -30,7 +30,7 @@ signature:
 	static add: Prod(Point,Point) -> Point
 
 	// compute the new ssr when a point i moved
-    static newSSR: Prod(Cluster,Point) -> Real
+    derived newSSR: Prod(Cluster,Point) -> Real
   
     // sum the ssr of cluster, with center c
     static initSSR: Prod(Cluster,Point) -> Real
@@ -70,7 +70,7 @@ definitions:
 	// increase or decrease by adding or deleting $p to $c
    	function newSSR($c in Cluster, $p in Point) =
    	 let ($tmp = if contains($c,$p) then - 1.0 else 1.0 endif) in    
-       (ntor(size($c)) / ( ntor(size($c)) + $tmp )) * distance2($p,center($c)) 
+       (itor(size($c)) / ( itor(size($c)) + $tmp )) * distance2($p,center($c))
      endlet 
 
    	// square of a real number
@@ -103,7 +103,7 @@ definitions:
 
     rule r_setCenter($c in Cluster) = 
     	let ($sum_ps = sumPoints($c)) in
-    	center($c) := ( x($sum_ps) / ntor(size($c)) , y($sum_ps) / ntor(size($c)))
+    	center($c) := ( x($sum_ps) / itor(size($c)) , y($sum_ps) / itor(size($c)))
     	endlet
 
 	// move point p from d_i to d_j
@@ -112,7 +112,7 @@ definitions:
     rule r_move($p in Point, $d_i in Cluster,$d_j in Cluster) =      
     	// store the current values of centers
 	    let ($old_ci = center($d_i), $old_cj = center($d_j), 
-	         $n_i = ntor(size($d_i)), $n_j = ntor(size($d_j)),
+	         $n_i = itor(size($d_i)), $n_j = itor(size($d_j)),
 	         $x_j = x($old_cj), $y_j = y($old_cj),
 	         $x_i = x($old_ci), $y_i = y($old_ci)) in
 	   		seq
@@ -136,7 +136,7 @@ definitions:
 
 	rule r_step = 
 		// take a cluster c1 with at least 2 points 
-		choose $c1 in clusters with size($c1) > 1n do
+		choose $c1 in clusters with size($c1) > 1 do
 			// take a point $p in $c1
 			// take a second cluster such that ... 		
 		   choose $p in $c1, $c2 in clusters with  
@@ -153,7 +153,7 @@ definitions:
 /*	   							
 /////////
 	   							
-	    let ($old_ci = center($c1), $old_cj = center($c2), $n_i = ntor(size($c1)), $n_j = ntor(size($c2))) in
+	    let ($old_ci = center($c1), $old_cj = center($c2), $n_i = itor(size($c1)), $n_j = itor(size($c2))) in
 	   		seq
 	   		// add $p to $c2
 	   		$c2 := including($c2,$p) // $c2($p):= true
@@ -184,11 +184,11 @@ definitions:
 
 	invariant inv_Center_x over center : 
 	  not firstStep implies (forall $c in clusters with 
-    	( abs( x(center($c)) - ( x(sumPoints($c)) / ntor(size($c))))) < 0.2 )
+    	( abs( x(center($c)) - ( x(sumPoints($c)) / itor(size($c))))) < 0.2 )
 
 	invariant inv_Center_y over center :
 	  not firstStep implies (forall $c in clusters with 
-       ( abs( y(center($c)) - ( y(sumPoints($c)) / ntor(size($c))))) < 0.2 )
+       ( abs( y(center($c)) - ( y(sumPoints($c)) / itor(size($c))))) < 0.2 )
 
 
 //Main Rule

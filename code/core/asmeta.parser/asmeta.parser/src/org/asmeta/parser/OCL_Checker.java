@@ -24,6 +24,7 @@ package org.asmeta.parser;
 
 import java.io.PrintStream;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -31,6 +32,8 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.asmeta.parser.util.AsmetaTermPrinter;
+import org.asmeta.parser.util.DynamicInTermFinder;
+import org.eclipse.emf.ecore.EObject;
 
 import asmeta.definitions.DerivedFunction;
 import asmeta.definitions.DynamicFunction;
@@ -168,8 +171,7 @@ public class OCL_Checker {
 	public static boolean A2(ExportClause expCl) {
 		// check constraint A2: exportedDomain->notEmpty() or
 		// exportedFunction->notEmpty() or exportedRule->notEmpty()
-		if (expCl.getExportedDomain() == null
-				&& expCl.getExportedFunction() == null
+		if (expCl.getExportedDomain() == null && expCl.getExportedFunction() == null
 				&& expCl.getExportedRule() == null) {
 			MSG_ERR = "Error: An export clause must contain at least one Domain or one function or one rule.";
 			return false;
@@ -208,9 +210,8 @@ public class OCL_Checker {
 		// check constraint I1/M4: I1: domainInitialization->notEmpty()
 		// or functionInitialization->notEmpty() or
 		// agentInitialization->notEmpty()
-		if (!(i.getDomainInitialization() != null
-				|| i.getFunctionInitialization() != null || i
-				.getAgentInitialization() != null)) {
+		if (!(i.getDomainInitialization() != null || i.getFunctionInitialization() != null
+				|| i.getAgentInitialization() != null)) {
 			MSG_ERR = "Error: An initial state must contain the initialization of at least one domain,"
 					+ "function or agent.";
 			return false;
@@ -229,8 +230,7 @@ public class OCL_Checker {
 		// check constraint I3:
 		// functionInitialization->forAll(f1,f2:FunctionInitialization |
 		// d1<>d2 implies d1.initializedFunction<>d2.initializedFunction)
-		return ((rightFunctionInit(i.getFunctionInitialization())) ? true
-				: false);
+		return ((rightFunctionInit(i.getFunctionInitialization())) ? true : false);
 	}
 
 	private static boolean rightDomainInit(Collection<?> domInitColl) {
@@ -238,10 +238,10 @@ public class OCL_Checker {
 		Iterator<?> iter = domInitColl.iterator();
 		String domName;
 		while (iter.hasNext()) {
-			domName = ((DomainInitialization) iter.next())
-					.getInitializedDomain().getName();
+			domName = ((DomainInitialization) iter.next()).getInitializedDomain().getName();
 			if (domMap.containsKey(domName.hashCode())) {
-				MSG_ERR = "Error: Within an initial state a concrete domain can be initialized only once. Domain " + domName;
+				MSG_ERR = "Error: Within an initial state a concrete domain can be initialized only once. Domain "
+						+ domName;
 				return false;
 			} else
 				domMap.put(domName.hashCode(), domName);
@@ -255,15 +255,14 @@ public class OCL_Checker {
 		String funName;
 		DynamicFunction fun;
 		while (iter.hasNext()) {
-			fun = ((FunctionInitialization) iter.next())
-					.getInitializedFunction();
+			fun = ((FunctionInitialization) iter.next()).getInitializedFunction();
 			funName = fun.getName();
 			if (fun.getDomain() != null)
 				// To distinguish among overloaded function names
-				funName = funName.concat("(").concat(fun.getDomain().getName())
-						.concat(")");
+				funName = funName.concat("(").concat(fun.getDomain().getName()).concat(")");
 			if (funMap.containsKey(funName.hashCode())) {
-				MSG_ERR = "Error: Within an initial state a dynamic function can be initialized only once. Function " + funName;
+				MSG_ERR = "Error: Within an initial state a dynamic function can be initialized only once. Function "
+						+ funName;
 				return false;
 			} else
 				funMap.put(funName.hashCode(), funName);
@@ -290,13 +289,12 @@ public class OCL_Checker {
 		// body.domain.oclAsType(PowersetDomain).baseDomain =
 		// initializedDomain.typeDomain
 		Domain body_td = d_init.getBody().getDomain();
-		if (!((body_td instanceof PowersetDomain) && compatible(d_init
-				.getInitializedDomain().getTypeDomain(),
+		if (!((body_td instanceof PowersetDomain) && compatible(d_init.getInitializedDomain().getTypeDomain(),
 				((PowersetDomain) body_td).getBaseDomain()))) {
 			// TRICK:
 			// If the names of the domains are equal, return true
-			if (((PowersetDomain) body_td).getBaseDomain().getName().equals(
-					d_init.getInitializedDomain().getTypeDomain().getName()))
+			if (((PowersetDomain) body_td).getBaseDomain().getName()
+					.equals(d_init.getInitializedDomain().getTypeDomain().getName()))
 				return true;
 			MSG_ERR = "Error: The body of the domain initialization is ill formed.";
 			return false;
@@ -325,13 +323,11 @@ public class OCL_Checker {
 		Domain body_td = d_def.getBody().getDomain();
 		if (!(body_td instanceof PowersetDomain)) {
 			MSG_ERR = "Error: The type-domain of the body of the domain definition must be a powerset."
-					+ ((PowersetDomain) body_td).getBaseDomain().toString()
-					+ "\n"
+					+ ((PowersetDomain) body_td).getBaseDomain().toString() + "\n"
 					+ d_def.getDefinedDomain().getTypeDomain().toString();
 			return false;
 		}
-		if (!(compatible(d_def.getDefinedDomain().getTypeDomain(),
-				((PowersetDomain) body_td).getBaseDomain())))
+		if (!(compatible(d_def.getDefinedDomain().getTypeDomain(), ((PowersetDomain) body_td).getBaseDomain())))
 		// For testing:
 		// Try with refMofId:
 		// ((PowersetDomain) body_td).getBaseDomain().refMofId()
@@ -342,13 +338,12 @@ public class OCL_Checker {
 		{
 			// TRICK:
 			// If the names of the domains are equal, return true
-			if (((PowersetDomain) body_td).getBaseDomain().getName().equals(
-					d_def.getDefinedDomain().getTypeDomain().getName()))
+			if (((PowersetDomain) body_td).getBaseDomain().getName()
+					.equals(d_def.getDefinedDomain().getTypeDomain().getName()))
 				return true;
 
 			MSG_ERR = "Error: The body of the domain definition is ill formed."
-					+ ((PowersetDomain) body_td).getBaseDomain().toString()
-					+ "\n"
+					+ ((PowersetDomain) body_td).getBaseDomain().toString() + "\n"
 					+ d_def.getDefinedDomain().getTypeDomain().toString();
 			return false;
 		}
@@ -356,16 +351,14 @@ public class OCL_Checker {
 	}
 
 	// ----------------- FUNCTION INITIALIZATION ---------- //
-	public static boolean checkFunctionInitialization(
-			FunctionInitialization f_init) {
+	public static boolean checkFunctionInitialization(FunctionInitialization f_init) {
 		return I6(f_init) && I7_I8_I9(f_init) && I10(f_init);// && E20(f_init);
 	}
 
 	public static boolean I6(FunctionInitialization f_init) {
 		// check constraint I6: variable->size() =
 		// initializedFunction.arity.oclAsType(Integer)
-		if (f_init.getVariable().size() != f_init.getInitializedFunction()
-				.getArity()) {
+		if (f_init.getVariable().size() != f_init.getInitializedFunction().getArity()) {
 			MSG_ERR = "Error: In a function initialization, the number of formal "
 					+ "parameters must be equal to the arity of the function to initialize.";
 			return false;
@@ -405,10 +398,8 @@ public class OCL_Checker {
 			if (D instanceof ProductDomain)
 				return I8_I9aux(f_init.getVariable(), (ProductDomain) D);
 			// or I9
-			else if ((D instanceof ConcreteDomain)
-					&& (((ConcreteDomain) D).getTypeDomain() instanceof ProductDomain))
-				return I8_I9aux(f_init.getVariable(),
-						(ProductDomain) ((ConcreteDomain) D).getTypeDomain());
+			else if ((D instanceof ConcreteDomain) && (((ConcreteDomain) D).getTypeDomain() instanceof ProductDomain))
+				return I8_I9aux(f_init.getVariable(), (ProductDomain) ((ConcreteDomain) D).getTypeDomain());
 		}
 		return true; // case size == 0
 	}
@@ -427,10 +418,7 @@ public class OCL_Checker {
 			if (!(d1.getName().equals(d2.getName()))) { // TRICK! OLD: d1 != d2
 				MSG_ERR = "Error: the domain of the function is a product domain"
 						+ "or a concrete domain whose type-domain is a product domain, but domain components are not equal to the parameters domains"
-						+ "Type mismatch between "
-						+ d1.getName()
-						+ " and "
-						+ d2.getName();
+						+ "Type mismatch between " + d1.getName() + " and " + d2.getName();
 				return false;
 			}
 		}
@@ -440,22 +428,19 @@ public class OCL_Checker {
 	public static boolean I10(FunctionInitialization f_init) {
 		// check constraint I10:
 		// initializedFunction.codomain.compatible(body.domain)
-		TypeDomain TD = getTypeDomain(f_init.getInitializedFunction()
-				.getCodomain());
-		//TypeDomain BTD = getTypeDomain(f_init.getBody().getDomain());
+		TypeDomain TD = getTypeDomain(f_init.getInitializedFunction().getCodomain());
+		// TypeDomain BTD = getTypeDomain(f_init.getBody().getDomain());
 
 		// special case: check if the domain of the function body is a
 		// MapDomain; in this case
 		// the compatibility between the function codomain and the body domain
 		// is extablished
 		// according to E20
-		/* Disabled!
-		if (BTD instanceof MapDomain) {
-			return E20(f_init);
-		}
-		else */
+		/*
+		 * Disabled! if (BTD instanceof MapDomain) { return E20(f_init); } else
+		 */
 		// normal case: I10
-		 if (!(compatible(TD, f_init.getBody().getDomain()))) {
+		if (!(compatible(TD, f_init.getBody().getDomain()))) {
 			MSG_ERR = "Error: The domain of the function body must be compatible with the function codomain "
 					+ TD.getName() + ".";
 			return false;
@@ -463,29 +448,24 @@ public class OCL_Checker {
 		return true;
 	}
 
-	//Disabled for FunctionInitialization/definition in order to allow its use for
-	//0-ary functions. n-ary functions can be defined/initialized also with a map term
-	//by the use of the predefined "at" function defined in the standard library!
-	/*public static boolean E20(FunctionInitialization f_init) {
-		// E20: let M:Domain = body.domain in
-		// if (M.oclIsTypeOf(MapDomain)) then
-		// initializedFunction.domain->notEmpty() and
-		// M.oclAsType(MapDomain).sourceDomain.compatible(initializedFunction.domain)
-		// and
-		// M.oclAsType(MapDomain).targetDomain.compatible(initializedFunction.codomain)
-		// endif
-		if (!body_ok(f_init.getInitializedFunction(), f_init.getBody()))
-			return false;
-		return true;
-	}
-
-	public static boolean E21(FunctionDefinition f_def) {
-		// E21: like in E20
-		if (!body_ok(f_def.getDefinedFunction(), f_def.getBody()))
-			return false;
-		return true;
-	}
-*/
+	// Disabled for FunctionInitialization/definition in order to allow its use for
+	// 0-ary functions. n-ary functions can be defined/initialized also with a map
+	// term
+	// by the use of the predefined "at" function defined in the standard library!
+	/*
+	 * public static boolean E20(FunctionInitialization f_init) { // E20: let
+	 * M:Domain = body.domain in // if (M.oclIsTypeOf(MapDomain)) then //
+	 * initializedFunction.domain->notEmpty() and //
+	 * M.oclAsType(MapDomain).sourceDomain.compatible(initializedFunction.domain) //
+	 * and //
+	 * M.oclAsType(MapDomain).targetDomain.compatible(initializedFunction.codomain)
+	 * // endif if (!body_ok(f_init.getInitializedFunction(), f_init.getBody()))
+	 * return false; return true; }
+	 * 
+	 * public static boolean E21(FunctionDefinition f_def) { // E21: like in E20 if
+	 * (!body_ok(f_def.getDefinedFunction(), f_def.getBody())) return false; return
+	 * true; }
+	 */
 	public static boolean body_ok(Function f, Term body) { // See E20
 		Domain dom = f.getDomain();
 		Domain cod = f.getCodomain();
@@ -508,15 +488,20 @@ public class OCL_Checker {
 
 	// ----------------- FUNCTION DEFINITION --------------//
 	public static boolean checkFunctionDefinition(FunctionDefinition f_def) {
-		return B3(f_def) && B6(f_def) && B7_B8_B9(f_def) && B10(f_def);
-				//&& E21(f_def);
+		// TODO - introduce a technique to call all the checkers for FunctionDeinitions
+		OCLCheckerResult res = StaticDerivedChecker.eInstance.check(f_def);
+		if (! res.ok()) { MSG_ERR = res.errorMessage(); return false;}
+		// continue
+		return  B3(f_def) && B6(f_def) && B7_B8_B9(f_def) && B10(f_def);
+		// && E21(f_def);
 	}
+
 
 	public static boolean B3(FunctionDefinition f_def) {
 		// check constraint B3: definedFunction.oclIsTypeOf(StaticFunction) or
 		// definedFunction.oclIsTypeOf(DerivedFunction)
-		if (!((f_def.getDefinedFunction() instanceof StaticFunction) || (f_def
-				.getDefinedFunction() instanceof DerivedFunction))) {
+		if (!((f_def.getDefinedFunction() instanceof StaticFunction)
+				|| (f_def.getDefinedFunction() instanceof DerivedFunction))) {
 			MSG_ERR = "Error: Only static/derived functions already declared in the ASM signature can be defined.";
 			return false;
 		}
@@ -539,18 +524,17 @@ public class OCL_Checker {
 		// definedFunction.codomain.compatible(body.domain)
 
 		TypeDomain TD = getTypeDomain(f_def.getDefinedFunction().getCodomain());
-		//TypeDomain BTD = getTypeDomain(f_def.getBody().getDomain());
+		// TypeDomain BTD = getTypeDomain(f_def.getBody().getDomain());
 
 		// special case: check if the domain of the function body is a
 		// MapDomain; in this case
 		// the compatibility between the function codomain and the body domain
 		// is extablished
 		// according to E21
-		//Disabled!
-		/* if (BTD instanceof MapDomain) {
-			return E21(f_def);
-		}
-		else */
+		// Disabled!
+		/*
+		 * if (BTD instanceof MapDomain) { return E21(f_def); } else
+		 */
 		// normal case: B10
 		if (!(compatible(TD, f_def.getBody().getDomain()))) {
 			MSG_ERR = "Error: The domain of the function body must be compatible with the function codomain "
@@ -578,10 +562,8 @@ public class OCL_Checker {
 			if (D instanceof ProductDomain)
 				return I8_I9aux(f_def.getVariable(), (ProductDomain) D);
 			// I9
-			else if ((D instanceof ConcreteDomain)
-					&& (((ConcreteDomain) D).getTypeDomain() instanceof ProductDomain))
-				return I8_I9aux(f_def.getVariable(),
-						(ProductDomain) ((ConcreteDomain) D).getTypeDomain());
+			else if ((D instanceof ConcreteDomain) && (((ConcreteDomain) D).getTypeDomain() instanceof ProductDomain))
+				return I8_I9aux(f_def.getVariable(), (ProductDomain) ((ConcreteDomain) D).getTypeDomain());
 		}
 		return true; // case size == 0
 	}
@@ -600,8 +582,7 @@ public class OCL_Checker {
 		// domain.oclAsType(ConcreteDomain).typeDomain.oclIsTypeOf(AgentDomain))
 
 		if (a.getProgram() == null) {
-			MSG_ERR = "Error: No rule is associated as program to agents "
-					+ a.getDomain().getName() + ".";
+			MSG_ERR = "Error: No rule is associated as program to agents " + a.getDomain().getName() + ".";
 			return false;
 		}
 
@@ -612,8 +593,7 @@ public class OCL_Checker {
 				&& (((ConcreteDomain) a.getDomain()).getTypeDomain() instanceof AgentDomain))
 			return true;
 
-		MSG_ERR = "Error: the domain " + a.getDomain().getName()
-				+ " is not the Agent Domain or a subset of it.";
+		MSG_ERR = "Error: the domain " + a.getDomain().getName() + " is not the Agent Domain or a subset of it.";
 		return false;
 
 	}
@@ -626,24 +606,22 @@ public class OCL_Checker {
 	// -----------------------//
 
 	/**
-	 * Computes a number expressing the compatibility between two domains.
-	 * Two domains are compatible if and only if they are the same one or
-	 * one is a subset of the other (i.e. a concrete domain of the other).
-	 * More depth is the chain of subset declarations between the domains,
-	 * lower is the compatibility.
+	 * Computes a number expressing the compatibility between two domains. Two
+	 * domains are compatible if and only if they are the same one or one is a
+	 * subset of the other (i.e. a concrete domain of the other). More depth is the
+	 * chain of subset declarations between the domains, lower is the compatibility.
 	 *
-	 * <br><br>NOTE ON IMPLEMENTATION
-	 * <br>See the method <i>rating(List<Domain>, List<Domain>)</i> for the
-	 * maximum value of the returned rating.
+	 * <br>
+	 * <br>
+	 * NOTE ON IMPLEMENTATION <br>
+	 * See the method <i>rating(List<Domain>, List<Domain>)</i> for the maximum
+	 * value of the returned rating.
 	 *
-	 * @param given 
-	 * 		the given domain
-	 * @param another 
-	 * 		the possible compatible domain
-	 * @return 
-	 * 		0 if the domains are the same one, -1 if they are incompatible,
-	 * 		otherwise a positive number expressing the compatibility (higher is the
-	 * 		number, lower is the compatibility).
+	 * @param given   the given domain
+	 * @param another the possible compatible domain
+	 * @return 0 if the domains are the same one, -1 if they are incompatible,
+	 *         otherwise a positive number expressing the compatibility (higher is
+	 *         the number, lower is the compatibility).
 	 */
 	private static int compatibleRating(Domain given, Domain another) {
 		// FIXME sometimes the method getAsmName() doesn't work.
@@ -656,50 +634,49 @@ public class OCL_Checker {
 		String module1 = Defs.getAsmName(given);
 		String module2 = Defs.getAsmName(another);
 
-		//The comparison between basic type domains is based on their names.
+		// The comparison between basic type domains is based on their names.
 		if (given instanceof BasicTd) {
 			if (another instanceof BasicTd) {
-				return name1.equals(name2)? 0: -1;
+				return name1.equals(name2) ? 0 : -1;
 			}
 			return -1;
 		} else if (given instanceof StructuredTd) {
 			if (another instanceof StructuredTd) {
-				return Defs.equals(another, given)? 0: -1;
+				return Defs.equals(another, given) ? 0 : -1;
 			}
 			return -1;
 		} else if (given instanceof EnumTd) {
 			if (another instanceof EnumTd) {
-				return module1.equals(module2) && name1.equals(name2)? 0: -1;
+				return module1.equals(module2) && name1.equals(name2) ? 0 : -1;
 			}
 			return -1;
 		} else if (given instanceof AbstractTd) {
 			if (another instanceof AbstractTd) {
-				return module1.equals(module2) && name1.equals(name2)? 0: -1;
+				return module1.equals(module2) && name1.equals(name2) ? 0 : -1;
 			}
 			return -1;
-		}
-		else if (given instanceof ConcreteDomain) {
+		} else if (given instanceof ConcreteDomain) {
 			if (another instanceof ConcreteDomain) {
-				//If they are two concrete domains, it is enough to check the name.
-				return module1.equals(module2) && name1.equals(name2)? 0: -1;
-			} else /*if (another instanceof AbstractTd)*/ {
-				//we must check that the type domain of the concrete domain "given" is
-				//equal to "another"
+				// If they are two concrete domains, it is enough to check the name.
+				return module1.equals(module2) && name1.equals(name2) ? 0 : -1;
+			} else /* if (another instanceof AbstractTd) */ {
+				// we must check that the type domain of the concrete domain "given" is
+				// equal to "another"
 				TypeDomain given2 = ((ConcreteDomain) given).getTypeDomain();
 				name1 = given2.getName();
 				module1 = Defs.getAsmName(given2);
 				// NOTE: the distance between the domains is now incremented by 1
-				return module1.equals(module2) && name1.equals(name2)? 1: -1;
+				return module1.equals(module2) && name1.equals(name2) ? 1 : -1;
 			}
 //			return -1;
-		}
-		else if ( (given instanceof AnyDomain && name1.equals(SUPER_ANYDOMAIN)) ||
-				(another instanceof AnyDomain && name2.equals(SUPER_ANYDOMAIN)))
-				return 2; //Added by Patrizia for domain Any
-		                   //FIXME Similarly to function declarations (that not use a rating algorithm for compatibility), also the other concrete domains should be treated!
-		
-		throw new RuntimeException("Unable to compare domains: "
-				+ module1 + "::" + name1 + ", " + module2 + "::" + name2);
+		} else if ((given instanceof AnyDomain && name1.equals(SUPER_ANYDOMAIN))
+				|| (another instanceof AnyDomain && name2.equals(SUPER_ANYDOMAIN)))
+			return 2; // Added by Patrizia for domain Any
+						// FIXME Similarly to function declarations (that not use a rating algorithm for
+						// compatibility), also the other concrete domains should be treated!
+
+		throw new RuntimeException(
+				"Unable to compare domains: " + module1 + "::" + name1 + ", " + module2 + "::" + name2);
 	}
 
 	/**
@@ -709,8 +686,10 @@ public class OCL_Checker {
 	static int rating(Domain given, Domain another) {
 		int r = compatibleRating(given, another);
 		if (r == -1) {
-			logger.debug("In rating. Domains " + given.getName() + " and " + another.getName() + " are incompatible. So we see if " + another.getName() + " and " + given.getName() + " are compatible.");
-			r = compatibleRating(another, given);//why? see definition of compatible
+			logger.debug("In rating. Domains " + given.getName() + " and " + another.getName()
+					+ " are incompatible. So we see if " + another.getName() + " and " + given.getName()
+					+ " are compatible.");
+			r = compatibleRating(another, given);// why? see definition of compatible
 			r *= 10;
 		}
 		return r;
@@ -718,23 +697,22 @@ public class OCL_Checker {
 
 	/**
 	 * Computes a number expressing the compatibility between two list of domains
-	 * (e.g. the domains of the formal parameters of a macro declaration and
-	 * the domains of the actual parameters of a macro invocation).
+	 * (e.g. the domains of the formal parameters of a macro declaration and the
+	 * domains of the actual parameters of a macro invocation).
 	 *
-	 * <br><br>NOTE ON IMPLEMENTATION
-	 * <br>The current implementation assumes the rating returned by the
-	 * <i>rating()</i> method is between 0 and 99. In general, if the
-	 * rating returned is between 0 and <i>x</i>, the value of the local variable
-	 * <i>big100</i> must be <i>x+1</i>.
+	 * <br>
+	 * <br>
+	 * NOTE ON IMPLEMENTATION <br>
+	 * The current implementation assumes the rating returned by the <i>rating()</i>
+	 * method is between 0 and 99. In general, if the rating returned is between 0
+	 * and <i>x</i>, the value of the local variable <i>big100</i> must be
+	 * <i>x+1</i>.
 	 *
-	 * @param givenLst 
-	 * 		a list of domains
-	 * @param anotherLst 
-	 * 		another list of domains
-	 * @return 
-	 * 		0 if the domains are the same ones, -1 if they are incompatible,
-	 * 		otherwise a positive number expressing the compatibility (higher is the
-	 * 		number, lower is the compatibility).
+	 * @param givenLst   a list of domains
+	 * @param anotherLst another list of domains
+	 * @return 0 if the domains are the same ones, -1 if they are incompatible,
+	 *         otherwise a positive number expressing the compatibility (higher is
+	 *         the number, lower is the compatibility).
 	 * 
 	 */
 	static BigInteger rating(List<Domain> givenLst, List<Domain> anotherLst) {
@@ -754,7 +732,8 @@ public class OCL_Checker {
 			Domain given = givenIt.next();
 			Domain another = anotherIt.next();
 			int rating = rating(given, another);
-			logger.debug("In rating. Rating between " + given.getName() + " and " + another.getName() + " is " + rating);
+			logger.debug(
+					"In rating. Rating between " + given.getName() + " and " + another.getName() + " is " + rating);
 			assert rating < big100.intValue();
 			if (rating == -1) {
 				return BigInteger.valueOf(-1);
@@ -770,8 +749,8 @@ public class OCL_Checker {
 	/**
 	 * Compatible.
 	 *
-	 * @param self  e' il dominio della funzione - parametro formale
-	 * @param d e' il dominio degli argomenti della funzione - parametro attuale
+	 * @param self e' il dominio della funzione - parametro formale
+	 * @param d    e' il dominio degli argomenti della funzione - parametro attuale
 	 *
 	 * @return true, if successful
 	 */
@@ -785,63 +764,54 @@ public class OCL_Checker {
 		 * OCL SYNTAX: -- self and d are equals or d is Undef self = d or
 		 * d.oclIsTypeOf(UndefDomain) or
 		 */
-		if ((self == d)
-				|| (d instanceof UndefDomain)
-				|| (self instanceof UndefDomain)
+		if ((self == d) || (d instanceof UndefDomain) || (self instanceof UndefDomain)
 // modified Angelo 29/10/21
 // any AnyDomain is compatible
-				|| (d instanceof AnyDomain) 
-				|| (self instanceof AnyDomain) 				
+				|| (d instanceof AnyDomain) || (self instanceof AnyDomain)
 //				|| ((d instanceof AnyDomain) && d.getName().equals(SUPER_ANYDOMAIN))
 //				|| ((self instanceof AnyDomain) && self.getName().equals(SUPER_ANYDOMAIN))
-						) 
+		)
 			return true;
 		/*
-		 * OCL SYNTAX: -- one is a ConcreteDomain (
-		 * self.oclIsTypeOf(ConcreteDomain) and d.oclIsTypeOf(TypeDomain) and d =
-		 * self.oclAsType(ConcreteDomain).typeDomain ) or (
-		 * d.oclIsTypeOf(ConcreteDomain) and self.oclIsTypeOf(TypeDomain) and
-		 * self = d.oclAsType(ConcreteDomain).typeDomain ) or
+		 * OCL SYNTAX: -- one is a ConcreteDomain ( self.oclIsTypeOf(ConcreteDomain) and
+		 * d.oclIsTypeOf(TypeDomain) and d = self.oclAsType(ConcreteDomain).typeDomain )
+		 * or ( d.oclIsTypeOf(ConcreteDomain) and self.oclIsTypeOf(TypeDomain) and self
+		 * = d.oclAsType(ConcreteDomain).typeDomain ) or
 		 */
 		if (self instanceof ConcreteDomain && d instanceof TypeDomain) {
 			return compatible(d, ((ConcreteDomain) self).getTypeDomain());
 		}
 		if (d instanceof ConcreteDomain && self instanceof TypeDomain) {
-			return compatible(self,((ConcreteDomain) d).getTypeDomain());
+			return compatible(self, ((ConcreteDomain) d).getTypeDomain());
 		}
 		/*
-		 * OCL SYNTAX: -- two PowersetDomain ( self.oclIsTypeOf(PowersetDomain)
-		 * and d.oclIsTypeOf(PowersetDomain) and
-		 * self.oclAsType(PowersetDomain).baseDomain.compatible(d.oclAsType(PowersetDomain).baseDomain))
-		 * or
+		 * OCL SYNTAX: -- two PowersetDomain ( self.oclIsTypeOf(PowersetDomain) and
+		 * d.oclIsTypeOf(PowersetDomain) and
+		 * self.oclAsType(PowersetDomain).baseDomain.compatible(d.oclAsType(
+		 * PowersetDomain).baseDomain)) or
 		 */
-		if (self instanceof PowersetDomain
-				&& d instanceof PowersetDomain)
-			return compatible(((PowersetDomain) self).getBaseDomain(),
-						((PowersetDomain) d).getBaseDomain());
+		if (self instanceof PowersetDomain && d instanceof PowersetDomain)
+			return compatible(((PowersetDomain) self).getBaseDomain(), ((PowersetDomain) d).getBaseDomain());
 		/*
-		 * OCL SYNTAX: -- two ProductDomain ( self.oclIsTypeOf(ProductDomain)
-		 * and d.oclIsTypeOf(ProductDomain) and (let size:Integer =
+		 * OCL SYNTAX: -- two ProductDomain ( self.oclIsTypeOf(ProductDomain) and
+		 * d.oclIsTypeOf(ProductDomain) and (let size:Integer =
 		 * self.oclAsType(ProductDomain).domains->sise() in size =
 		 * d.oclAsType(ProductDomain).domains->sise() and
 		 * Sequence{1..size}->forAll(i:Integer |
-		 * self.oclAsType(ProductDomain).domains->at(i).compatible(d.oclAsType(ProductDomain).domains->at(i))
-		 * endlet) )
+		 * self.oclAsType(ProductDomain).domains->at(i).compatible(d.oclAsType(
+		 * ProductDomain).domains->at(i)) endlet) )
 		 */
-		if ((self instanceof ProductDomain)
-				&& (d instanceof ProductDomain)
+		if ((self instanceof ProductDomain) && (d instanceof ProductDomain)
 				&& compatibleSubDomains((ProductDomain) self, (ProductDomain) d))
 			return true;
 		/*
-		 * OCL SYNTAX: -- two SequenceDomain (self.oclIsTypeOf(SequenceDomain)
-		 * and d.oclIsTypeOf(SequenceDomain) and
-		 * self.oclAsType(SequenceDomain).domain.compatible(d.oclAsType(SequenceDomain).domain))
-		 * or
+		 * OCL SYNTAX: -- two SequenceDomain (self.oclIsTypeOf(SequenceDomain) and
+		 * d.oclIsTypeOf(SequenceDomain) and
+		 * self.oclAsType(SequenceDomain).domain.compatible(d.oclAsType(SequenceDomain).
+		 * domain)) or
 		 */
-		if ((self instanceof SequenceDomain)
-				&& (d instanceof SequenceDomain)
-				&& compatible(((SequenceDomain) self).getDomain(),
-						((SequenceDomain) d).getDomain()))
+		if ((self instanceof SequenceDomain) && (d instanceof SequenceDomain)
+				&& compatible(((SequenceDomain) self).getDomain(), ((SequenceDomain) d).getDomain()))
 			return true;
 		/*
 		 * OCL SYNTAX: -- two BagDomain (self.oclIsTypeOf(BagDomain) and
@@ -849,24 +819,20 @@ public class OCL_Checker {
 		 * self.oclAsType(BagDomain).domain.compatible(d.oclAsType(BagDomain).domain))
 		 * or
 		 */
-		if ((self instanceof BagDomain)
-				&& (d instanceof BagDomain)
-				&& compatible(((BagDomain) self).getDomain(), ((BagDomain) d)
-						.getDomain()))
+		if ((self instanceof BagDomain) && (d instanceof BagDomain)
+				&& compatible(((BagDomain) self).getDomain(), ((BagDomain) d).getDomain()))
 			return true;
 		/*
 		 * OCL SYNTAX: -- two MapDomain (self.oclIsTypeOf(MapDomain) and
 		 * d.oclIsTypeOf(MapDomain) and
-		 * self.oclAsType(MapDomain).sourceDomain.compatible(d.oclAsType(MapDomain).sourceDomain)
-		 * and
-		 * self.oclAsType(MapDomain).targetDomain.compatible(d.oclAsType(MapDomain).targetDomain))
+		 * self.oclAsType(MapDomain).sourceDomain.compatible(d.oclAsType(MapDomain).
+		 * sourceDomain) and
+		 * self.oclAsType(MapDomain).targetDomain.compatible(d.oclAsType(MapDomain).
+		 * targetDomain))
 		 */
-		if ((self instanceof MapDomain)
-				&& (d instanceof MapDomain)
-				&& compatible(((MapDomain) self).getSourceDomain(),
-						((MapDomain) d).getSourceDomain())
-				&& compatible(((MapDomain) self).getTargetDomain(),
-						((MapDomain) d).getTargetDomain()))
+		if ((self instanceof MapDomain) && (d instanceof MapDomain)
+				&& compatible(((MapDomain) self).getSourceDomain(), ((MapDomain) d).getSourceDomain())
+				&& compatible(((MapDomain) self).getTargetDomain(), ((MapDomain) d).getTargetDomain()))
 			return true;
 		// TRICK by Patrizia
 		if (self.getName().equals(d.getName()))
@@ -875,24 +841,22 @@ public class OCL_Checker {
 		return false;
 	}
 
-	private static boolean compatibleSubDomains(ProductDomain self,
-			ProductDomain d) {
+	private static boolean compatibleSubDomains(ProductDomain self, ProductDomain d) {
 		int size = self.getDomains().size();
 		if (size != d.getDomains().size())
 			return false;
 		Iterator<?> dom1_iter = self.getDomains().iterator();
 		Iterator<?> dom2_iter = d.getDomains().iterator();
 		while (dom1_iter.hasNext()) {
-			if (!compatible((Domain) dom1_iter.next(), (Domain) dom2_iter
-					.next()))
+			if (!compatible((Domain) dom1_iter.next(), (Domain) dom2_iter.next()))
 				return false;
 		}
 		return true;
 	}
 
 	/**
-	 * resitituisce il type domain di un domain
-	 * se è un concrete return the type domain altrimenti se stesso
+	 * resitituisce il type domain di un domain se è un concrete return the type
+	 * domain altrimenti se stesso
 	 */
 
 	public static TypeDomain getTypeDomain(Domain d) {
@@ -902,25 +866,23 @@ public class OCL_Checker {
 			return (TypeDomain) d;
 	}
 
-
-
 	public static void printListOfDomains(List<TypeDomain> list, PrintStream out) {
 		for (Iterator<TypeDomain> i = list.iterator(); i.hasNext();)
 			out.println(i.next().getName() + " ");
 	}
 
 	/*
-	 * Modificata che prende due domini e non due type domain, un type domain
-	 * puo' essere un product di domain confronta il dominio formale con
-	 * l'attuale e nel caso sostituisce Any se necessario se i due sono non
-	 * compatibile restituisce false
+	 * Modificata che prende due domini e non due type domain, un type domain puo'
+	 * essere un product di domain confronta il dominio formale con l'attuale e nel
+	 * caso sostituisce Any se necessario se i due sono non compatibile restituisce
+	 * false
 	 *
 	 * vedi definizione su report
 	 */
-	public static boolean compareFixingAnyDomain(Domain formalDom,
-			Domain actualDom, HashMap<String, Domain> genericDomValue) {
-		logger.debug("comparing formal " + formalDom.getName() +  "(" +formalDom.getClass().getSimpleName() +")"
-				   +" with actual " + actualDom.getName() +  "(" +actualDom.getClass().getSimpleName() + ")");
+	public static boolean compareFixingAnyDomain(Domain formalDom, Domain actualDom,
+			HashMap<String, Domain> genericDomValue) {
+		logger.debug("comparing formal " + formalDom.getName() + "(" + formalDom.getClass().getSimpleName() + ")"
+				+ " with actual " + actualDom.getName() + "(" + actualDom.getClass().getSimpleName() + ")");
 		// System.out.println("hash: " + genericDomValue.toString());
 		if (formalDom == actualDom)
 			return true;
@@ -931,32 +893,27 @@ public class OCL_Checker {
 			ConcreteDomain cfd = (ConcreteDomain) formalDom;
 			if (actualDom instanceof TypeDomain) {
 				logger.debug(actualDom + " instanceof TypeDomain");
-				return compareFixingAnyDomain(cfd.getTypeDomain(),actualDom,genericDomValue);
-			}
-			else
+				return compareFixingAnyDomain(cfd.getTypeDomain(), actualDom, genericDomValue);
+			} else
 				return false;
 		}
 		// FIXME 1/4/2009 this code must be rewritten!!!!
 		/*
-		if (formalDom instanceof AnyDomain && actualDom instanceof ConcreteDomain) {
-			genericDomValue.put(formalDom.getName(), actualDom);
-			return true;
-		}
-		*/
+		 * if (formalDom instanceof AnyDomain && actualDom instanceof ConcreteDomain) {
+		 * genericDomValue.put(formalDom.getName(), actualDom); return true; }
+		 */
 		if (actualDom instanceof ConcreteDomain) {
 			logger.debug(actualDom.getName() + " instanceof ConcreteDomain");
 			ConcreteDomain cad = (ConcreteDomain) actualDom;
-			//PA: 30/07/2014
-			//TODO check
+			// PA: 30/07/2014
+			// TODO check
 			if (cad.getTypeDomain() instanceof AgentDomain && formalDom instanceof AnyDomain) {
 				genericDomValue.put(formalDom.getName(), actualDom);
 				return true;
-			}
-			else if (formalDom instanceof TypeDomain) {
+			} else if (formalDom instanceof TypeDomain) {
 				logger.debug(formalDom.getName() + " instanceof TypeDomain");
-				return compareFixingAnyDomain(formalDom,cad.getTypeDomain(),genericDomValue);
-			}
-			else
+				return compareFixingAnyDomain(formalDom, cad.getTypeDomain(), genericDomValue);
+			} else
 				return false;
 		}
 
@@ -972,8 +929,8 @@ public class OCL_Checker {
 
 			// mi assicuro che il num dei domini del product ??? uguale al num
 			// degli elementi della tupla
-			if (formalDom_list.size() != actualDom_list.size()){
-				logger.debug("formal size "+ formalDom_list.size() + "!= actual size " +actualDom_list.size());
+			if (formalDom_list.size() != actualDom_list.size()) {
+				logger.debug("formal size " + formalDom_list.size() + "!= actual size " + actualDom_list.size());
 				return false;
 			}
 			Iterator<Domain> formalDom_iter = formalDom_list.listIterator();
@@ -985,61 +942,47 @@ public class OCL_Checker {
 				if (!compareFixingAnyDomain(fd_i, ad_i, genericDomValue))
 					return false;
 			}
-			logger.debug("product domain :"
-					+ ((ProductDomain) formalDom).getName() + " found");
+			logger.debug("product domain :" + ((ProductDomain) formalDom).getName() + " found");
 			return true;
-		} else if (formalDom instanceof SequenceDomain
-				&& actualDom instanceof SequenceDomain)
-			return compareFixingAnyDomain(((SequenceDomain) formalDom)
-					.getDomain(), ((SequenceDomain) actualDom).getDomain(),
+		} else if (formalDom instanceof SequenceDomain && actualDom instanceof SequenceDomain)
+			return compareFixingAnyDomain(((SequenceDomain) formalDom).getDomain(),
+					((SequenceDomain) actualDom).getDomain(), genericDomValue);
+
+		else if (formalDom instanceof PowersetDomain && actualDom instanceof PowersetDomain)
+			return compareFixingAnyDomain(((PowersetDomain) formalDom).getBaseDomain(),
+					((PowersetDomain) actualDom).getBaseDomain(), genericDomValue);
+
+		else if (formalDom instanceof BagDomain && actualDom instanceof BagDomain)
+			return compareFixingAnyDomain(((BagDomain) formalDom).getDomain(), ((BagDomain) actualDom).getDomain(),
 					genericDomValue);
 
-		else if (formalDom instanceof PowersetDomain
-				&& actualDom instanceof PowersetDomain)
-			return compareFixingAnyDomain(((PowersetDomain) formalDom)
-					.getBaseDomain(), ((PowersetDomain) actualDom)
-					.getBaseDomain(), genericDomValue);
-
-		else if (formalDom instanceof BagDomain
-				&& actualDom instanceof BagDomain)
-			return compareFixingAnyDomain(((BagDomain) formalDom).getDomain(),
-					((BagDomain) actualDom).getDomain(), genericDomValue);
-
-		else if (formalDom instanceof MapDomain
-				&& actualDom instanceof MapDomain)
-			return (compareFixingAnyDomain(((MapDomain) formalDom)
-					.getSourceDomain(), ((MapDomain) actualDom)
-					.getSourceDomain(), genericDomValue) && (compareFixingAnyDomain(
-					((MapDomain) formalDom).getTargetDomain(),
-					((MapDomain) actualDom).getTargetDomain(), genericDomValue)));
+		else if (formalDom instanceof MapDomain && actualDom instanceof MapDomain)
+			return (compareFixingAnyDomain(((MapDomain) formalDom).getSourceDomain(),
+					((MapDomain) actualDom).getSourceDomain(), genericDomValue)
+					&& (compareFixingAnyDomain(((MapDomain) formalDom).getTargetDomain(),
+							((MapDomain) actualDom).getTargetDomain(), genericDomValue)));
 
 		else if (actualDom instanceof AnyDomain)
 			return true;
 
-		else if (formalDom instanceof AnyDomain
-				&& formalDom.getName().equals(SUPER_ANYDOMAIN))
+		else if (formalDom instanceof AnyDomain && formalDom.getName().equals(SUPER_ANYDOMAIN))
 			return true;
 
-		else if (formalDom instanceof AnyDomain
-				&& genericDomValue.get(formalDom.getName()) == null) {
+		else if (formalDom instanceof AnyDomain && genericDomValue.get(formalDom.getName()) == null) {
 			genericDomValue.put(formalDom.getName(), actualDom);
 			return true;
 		}
 
-		else if (formalDom instanceof AnyDomain
-				&& ((TypeDomain) genericDomValue.get(formalDom.getName())) != null) {
+		else if (formalDom instanceof AnyDomain && ((TypeDomain) genericDomValue.get(formalDom.getName())) != null) {
 			// TRICK "compare by name"
 			// NEW: and by "compatibility" for domains made of concrete domains which are
 			// compatible in this context although they have different names
 			//
 			logger.debug("compare by name Any and TD");
-			TypeDomain TD = (TypeDomain) genericDomValue.get(formalDom
-					.getName());
+			TypeDomain TD = (TypeDomain) genericDomValue.get(formalDom.getName());
 			logger.debug("TD= " + TD.getName());
 			logger.debug("ActualDom= " + actualDom.getName());
-			return (actualDom.equals(TD) || actualDom.getName().equals(
-					TD.getName())
-					|| compatible(TD,actualDom));
+			return (actualDom.equals(TD) || actualDom.getName().equals(TD.getName()) || compatible(TD, actualDom));
 		}
 
 		else // formalDom e' un dominio ben preciso
@@ -1061,20 +1004,19 @@ public class OCL_Checker {
 	 * actualDom,HashMap<String,Domain> genericDomValue) {
 	 * System.out.println("comparing " + formalDom.getName() + " with "+
 	 * actualDom.getName()); System.out.println("hash: " +
-	 * genericDomValue.toString()); // TWO PRODUCT DOMAINS if(formalDom
-	 * instanceof ProductDomain && actualDom instanceof ProductDomain) { // only
-	 * for debugging Object o1 = null; Object o2 = null; // both product domains
-	 * List<Domain> formalDom_list = ((ProductDomain)formalDom).getDomains();
-	 * List<Domain> actualDom_list = ((ProductDomain)actualDom).getDomains();
-	 * //mi assicuro che il num dei domini del product ??? uguale al num degli
-	 * elementi della tupla if(formalDom_list.size() != actualDom_list.size())
-	 * return false; Iterator<Domain> formalDom_iter =
-	 * formalDom_list.listIterator(); Iterator<Domain> actualDom_iter =
-	 * actualDom_list.listIterator(); while(formalDom_iter.hasNext()) { o1 =
-	 * formalDom_iter.next(); o2 = actualDom_iter.next(); Domain fd_i; Domain
-	 * ad_i; // this trick is necessary because I get many errors of type
-	 * ClassCast Exception // I use now getByMofID to get the right class of the
-	 * i-th domain try { fd_i = (Domain) o1; } catch
+	 * genericDomValue.toString()); // TWO PRODUCT DOMAINS if(formalDom instanceof
+	 * ProductDomain && actualDom instanceof ProductDomain) { // only for debugging
+	 * Object o1 = null; Object o2 = null; // both product domains List<Domain>
+	 * formalDom_list = ((ProductDomain)formalDom).getDomains(); List<Domain>
+	 * actualDom_list = ((ProductDomain)actualDom).getDomains(); //mi assicuro che
+	 * il num dei domini del product ??? uguale al num degli elementi della tupla
+	 * if(formalDom_list.size() != actualDom_list.size()) return false;
+	 * Iterator<Domain> formalDom_iter = formalDom_list.listIterator();
+	 * Iterator<Domain> actualDom_iter = actualDom_list.listIterator();
+	 * while(formalDom_iter.hasNext()) { o1 = formalDom_iter.next(); o2 =
+	 * actualDom_iter.next(); Domain fd_i; Domain ad_i; // this trick is necessary
+	 * because I get many errors of type ClassCast Exception // I use now getByMofID
+	 * to get the right class of the i-th domain try { fd_i = (Domain) o1; } catch
 	 * (java.lang.ClassCastException cce){
 	 * System.err.println("ClassCastException in compareFixingAnyDomain: " +
 	 * cce.getMessage()); if (o1 != null) System.err.println("i th formal domain
@@ -1083,9 +1025,9 @@ public class OCL_Checker {
 	 * //System.err.println("stack trace:"); //List stack =
 	 * java.util.Arrays.asList(cce.getStackTrace()); //for (Object o: stack)
 	 * System.err.println(o); // trick to build the right object fd_i =
-	 * (Domain)org.netbeans.api.mdr.MDRManager.getDefault().getDefaultRepository().getByMofId(o1.toString());
-	 * System.err.println("by mofid:"+fd_i.getClass()); } try { ad_i = (Domain)
-	 * o2; } catch (java.lang.ClassCastException cce){
+	 * (Domain)org.netbeans.api.mdr.MDRManager.getDefault().getDefaultRepository().
+	 * getByMofId(o1.toString()); System.err.println("by mofid:"+fd_i.getClass()); }
+	 * try { ad_i = (Domain) o2; } catch (java.lang.ClassCastException cce){
 	 * System.err.println("ClassCastException in compareFixingAnyDomain: " +
 	 * cce.getMessage()); if (o2 != null) System.err.println("i th actual domain
 	 * :"+ o2.toString() + " of type "+ o2.getClass()); else
@@ -1093,27 +1035,31 @@ public class OCL_Checker {
 	 * //System.err.println("stack trace:"); //List stack =
 	 * java.util.Arrays.asList(cce.getStackTrace()); //for (Object o: stack)
 	 * System.err.println(o); // trick to build the right object ad_i =
-	 * (Domain)org.netbeans.api.mdr.MDRManager.getDefault().getDefaultRepository().getByMofId(o2.toString());
-	 * System.err.println("by mofid:"+ad_i.getClass()); } if
-	 * (!compareFixingAnyDomain(fd_i,ad_i,genericDomValue)) return false; }
+	 * (Domain)org.netbeans.api.mdr.MDRManager.getDefault().getDefaultRepository().
+	 * getByMofId(o2.toString()); System.err.println("by mofid:"+ad_i.getClass()); }
+	 * if (!compareFixingAnyDomain(fd_i,ad_i,genericDomValue)) return false; }
 	 * System.err.println("product domain :" +
 	 * ((ProductDomain)formalDom).getName()+" found"); return true; } else
 	 * if(formalDom instanceof SequenceDomain && actualDom instanceof
 	 * SequenceDomain) return
-	 * compareFixingAnyDomain(((SequenceDomain)formalDom).getDomain(),((SequenceDomain)actualDom).getDomain(),genericDomValue);
+	 * compareFixingAnyDomain(((SequenceDomain)formalDom).getDomain(),((
+	 * SequenceDomain)actualDom).getDomain(),genericDomValue);
 	 *
 	 * else if(formalDom instanceof PowersetDomain && actualDom instanceof
 	 * PowersetDomain) return
-	 * compareFixingAnyDomain(((PowersetDomain)formalDom).getBaseDomain(),((PowersetDomain)actualDom).getBaseDomain(),genericDomValue);
+	 * compareFixingAnyDomain(((PowersetDomain)formalDom).getBaseDomain(),((
+	 * PowersetDomain)actualDom).getBaseDomain(),genericDomValue);
 	 *
 	 * else if(formalDom instanceof BagDomain && actualDom instanceof BagDomain)
-	 * return
-	 * compareFixingAnyDomain(((BagDomain)formalDom).getDomain(),((BagDomain)actualDom).getDomain(),genericDomValue);
+	 * return compareFixingAnyDomain(((BagDomain)formalDom).getDomain(),((BagDomain)
+	 * actualDom).getDomain(),genericDomValue);
 	 *
 	 * else if(formalDom instanceof MapDomain && actualDom instanceof MapDomain)
 	 * return
-	 * (compareFixingAnyDomain(((MapDomain)formalDom).getSourceDomain(),((MapDomain)actualDom).getSourceDomain(),genericDomValue)&&
-	 * (compareFixingAnyDomain(((MapDomain)formalDom).getTargetDomain(),((MapDomain)actualDom).getTargetDomain(),genericDomValue)));
+	 * (compareFixingAnyDomain(((MapDomain)formalDom).getSourceDomain(),((MapDomain)
+	 * actualDom).getSourceDomain(),genericDomValue)&&
+	 * (compareFixingAnyDomain(((MapDomain)formalDom).getTargetDomain(),((MapDomain)
+	 * actualDom).getTargetDomain(),genericDomValue)));
 	 *
 	 * else if (actualDom instanceof AnyDomain) return true;
 	 *
@@ -1129,8 +1075,7 @@ public class OCL_Checker {
 	 * actualDom == (TypeDomain)genericDomValue.get(formalDom.getName());
 	 *
 	 * else //formalDom ??? un dominio ben preciso return
-	 * actualDom.equals(formalDom);
-	 *  }
+	 * actualDom.equals(formalDom); }
 	 */
 
 	// ----------- FUNCTION -----------//
@@ -1192,9 +1137,8 @@ public class OCL_Checker {
 	public static boolean B5(Invariant a) {
 		// check constraint B5: constrainedRule->notEmpty() or
 		// constrainedFunction->notEmpty() or constrainedDomain->notEmpty()
-		if (!(a.getConstrainedRule() != null
-				|| a.getConstrainedFunction() != null || a
-				.getConstrainedDomain() != null)) {
+		if (!(a.getConstrainedRule() != null || a.getConstrainedFunction() != null
+				|| a.getConstrainedDomain() != null)) {
 			MSG_ERR = "Error: An invariant must refer to at least one rule, one function or one domain.";
 			return false;
 		}
@@ -1218,8 +1162,10 @@ public class OCL_Checker {
 		Term location = r.getLocation();
 		Term updatingTerm = r.getUpdatingTerm();
 		if (!(compatible(location, updatingTerm))) {
-			MSG_ERR = "Error: In an update rule, the term on the right-hand side ("+ AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(updatingTerm) + ") must be compatible "
-					+ "with the one on the left-hand side (" + AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(location) + ").";
+			MSG_ERR = "Error: In an update rule, the term on the right-hand side ("
+					+ AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(updatingTerm) + ") must be compatible "
+					+ "with the one on the left-hand side ("
+					+ AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(location) + ").";
 			return false;
 		}
 		return true;
@@ -1231,10 +1177,10 @@ public class OCL_Checker {
 		// location.oclAsType(LocationTerm).function.oclIsTypeOf(MonitoredFunction))or
 		// (location.oclIsTypeOf(VariableTerm) and
 		// location.oclAsType(VariableTerm).kind = VariableKind::locationVar )
-		if (((r.getLocation() instanceof LocationTerm) && (!(((LocationTerm) r
-				.getLocation()).getFunction() instanceof MonitoredFunction)))
-				|| ((r.getLocation() instanceof VariableTerm) && ((VariableTerm) r
-						.getLocation()).getKind() == VariableKind.LOCATION_VAR))
+		if (((r.getLocation() instanceof LocationTerm)
+				&& (!(((LocationTerm) r.getLocation()).getFunction() instanceof MonitoredFunction)))
+				|| ((r.getLocation() instanceof VariableTerm)
+						&& ((VariableTerm) r.getLocation()).getKind() == VariableKind.LOCATION_VAR))
 			return true;
 		MSG_ERR = "Error: In an update rule, the left-hand side must be either a location term (with a non monitored function) or "
 				+ "a location variable term";
@@ -1269,18 +1215,27 @@ public class OCL_Checker {
 		// extendedDomain.oclAsType(ConcreteDomain).typeDomain.oclIsTypeOf(AbstractTD))
 		// or (extendedDomain.oclIsTypeOf(AbstractTD) and
 		// extendedDomain.oclAsType(AbstractTD).isDynamic = true)
-		if ((r.getExtendedDomain() instanceof ConcreteDomain)
-				&& ((ConcreteDomain) r.getExtendedDomain()).getIsDynamic()
-				&& (((ConcreteDomain) r.getExtendedDomain()).getTypeDomain() instanceof AbstractTd))
-			return true;
-		else if ((r.getExtendedDomain() instanceof AbstractTd)
-				&& (((AbstractTd) r.getExtendedDomain()).getIsDynamic()))
+		if (isDomainDynamic(r.getExtendedDomain()))
 			return true;
 		else {
 			MSG_ERR = "Error: In an extend rule, the domain to extend must be dynamic, and it must be a concrete domain  "
 					+ "subsetting an abstract TD or an abstract TD.";
 			return false;
 		}
+
+	}
+
+	/* check if a domain is dynamic */
+	public static boolean isDomainDynamic(Domain extendedDomain) {
+		if ((extendedDomain instanceof ConcreteDomain) && ((ConcreteDomain) extendedDomain).getIsDynamic()
+				&& (((ConcreteDomain) extendedDomain).getTypeDomain() instanceof AbstractTd))
+			return true;
+		else if ((extendedDomain instanceof AbstractTd) && (((AbstractTd) extendedDomain).getIsDynamic()))
+			return true;
+		else {
+			return false;
+		}
+
 	}
 
 	public static boolean R6(ExtendRule r) {
@@ -1328,10 +1283,8 @@ public class OCL_Checker {
 			Domain bd = ((PowersetDomain) t.getDomain()).getBaseDomain();
 			if (v.getDomain() != bd) {
 				MSG_ERR = "Error: The domain of the variables ranges must be a PowersetDomain"
-						+ "whose base domain must be equal to the variable type domain."
-						+ "Type mismatch between"
-						+ v.getDomain().getName()
-						+ "and" + bd.getName();
+						+ "whose base domain must be equal to the variable type domain." + "Type mismatch between"
+						+ v.getDomain().getName() + "and" + bd.getName();
 				;
 				return false;
 			}
@@ -1381,10 +1334,8 @@ public class OCL_Checker {
 			Domain bd = ((PowersetDomain) t.getDomain()).getBaseDomain();
 			if (v.getDomain() != bd) {
 				MSG_ERR = "Error: The domain of the variables ranges must be a PowersetDomain"
-						+ "whose base domain must be equal to the variable type domain."
-						+ "Type mismatch between"
-						+ v.getDomain().getName()
-						+ "and" + bd.getName();
+						+ "whose base domain must be equal to the variable type domain." + "Type mismatch between"
+						+ v.getDomain().getName() + "and" + bd.getName();
 				return false;
 			}
 		}
@@ -1423,8 +1374,9 @@ public class OCL_Checker {
 		// variable->at(i).kind = VariableKind::logicalVar
 
 		if (r.getInitExpression().size() != r.getVariable().size()) {
-			MSG_ERR = "Error: In a let-rule, the number of variables must be equal to the number of initialization terms."+
-					" variables: " + r.getVariable().size() + r.getVariable().get(0).getName()+ " init terms: "+ r.getInitExpression().size();
+			MSG_ERR = "Error: In a let-rule, the number of variables must be equal to the number of initialization terms."
+					+ " variables: " + r.getVariable().size() + r.getVariable().get(0).getName() + " init terms: "
+					+ r.getInitExpression().size();
 			return false;
 		}
 		Iterator<?> iter1 = r.getVariable().iterator();
@@ -1437,18 +1389,14 @@ public class OCL_Checker {
 			if (v.getDomain() != expr.getDomain()) {
 				MSG_ERR = "Error: In a let-rule, the type-domain associated to each variable"
 						+ "must be equal to the one associated to the corresponding initialization term."
-						+ "Type mismatch between"
-						+ v.getDomain().getName()
-						+ "and" + expr.getDomain().getName();
+						+ "Type mismatch between" + v.getDomain().getName() + "and" + expr.getDomain().getName();
 				return false;
 			}
-			if (v.getKind() != VariableKind.LOGICAL_VAR 
-					&& v.getKind() != VariableKind.LOCATION_VAR) {
+			if (v.getKind() != VariableKind.LOGICAL_VAR && v.getKind() != VariableKind.LOCATION_VAR) {
 				// FIXME
 				// "&& v.getKind() != VariableKind.LOCATION_VAR" added
 				// 1 August 2008 by acarioni
-				MSG_ERR = "Error: In a let-rule, each variable"
-						+ "must be logical." + "Variable " + v.getName()
+				MSG_ERR = "Error: In a let-rule, each variable" + "must be logical." + "Variable " + v.getName()
 						+ " isn't logical.";
 				return false;
 			}
@@ -1485,16 +1433,14 @@ public class OCL_Checker {
 		// parameters->at(i)->oclAsType(VariableTerm).kind =
 		// VariableKind::locationVar))
 		if (r.getCalledMacro().getArity() > 0) {
-			if (!compareParamTD_Rule(r.getParameters(), r.getCalledMacro()
-					.getVariable()))
+			if (!compareParamTD_Rule(r.getParameters(), r.getCalledMacro().getVariable()))
 				return false;
 		}
 		return true;
 	}
 
 	// ---------------For MacroCallRule and TurboCallRule ---------------
-	public static boolean compareParamTD_Rule(List<?> actualParamList,
-			List<?> formalParamList) {
+	public static boolean compareParamTD_Rule(List<?> actualParamList, List<?> formalParamList) {
 		Iterator<?> actualIter = actualParamList.iterator();
 		Iterator<?> formalIter = formalParamList.iterator();
 		Term actualPar;
@@ -1504,10 +1450,8 @@ public class OCL_Checker {
 			formalPar = (VariableTerm) formalIter.next();
 			// check compatibility
 			if (!compatible(actualPar.getDomain(), formalPar.getDomain())) {
-				MSG_ERR = "Error: Wrong type-domain of arguments."
-						+ "Type mismatch between"
-						+ actualPar.getDomain().getName() + "and"
-						+ formalPar.getDomain().getName();
+				MSG_ERR = "Error: Wrong type-domain of arguments." + "Type mismatch between"
+						+ actualPar.getDomain().getName() + "and" + formalPar.getDomain().getName();
 				return false;
 			}
 			// If a formal parameter of a macro[turbo] rule declaration is a
@@ -1515,30 +1459,31 @@ public class OCL_Checker {
 			// then it can be replaced only by an actual parameter which is
 			// either a location
 			// term (with a non monitored function) or a location variable
-			// There is an ** exception **! If the actual parameter is a fresh (logical) variable
+			// There is an ** exception **! If the actual parameter is a fresh (logical)
+			// variable
 			// it is turned in a location variable!!
 			if (formalPar.getKind() == VariableKind.LOCATION_VAR)
-				if (!((actualPar instanceof LocationTerm && !(((FunctionTerm) actualPar)
-						.getFunction() instanceof MonitoredFunction))
-					   || (actualPar instanceof VariableTerm && ((VariableTerm) actualPar)
-						.getKind() == VariableKind.LOCATION_VAR)
-						//The ** exception **!!!
-					   || (actualPar instanceof VariableTerm && ((VariableTerm) actualPar)
-								.getKind() == VariableKind.LOGICAL_VAR) )
+				if (!((actualPar instanceof LocationTerm
+						&& !(((FunctionTerm) actualPar).getFunction() instanceof MonitoredFunction))
+						|| (actualPar instanceof VariableTerm
+								&& ((VariableTerm) actualPar).getKind() == VariableKind.LOCATION_VAR)
+						// The ** exception **!!!
+						|| (actualPar instanceof VariableTerm
+								&& ((VariableTerm) actualPar).getKind() == VariableKind.LOGICAL_VAR))
 
 				) {
 					MSG_ERR = "Error: If a formal parameter of a macro [turbo] rule declaration is a location variable,"
 							+ "it can be replaced only by an actual parameter which is either a location term or a location variable.";
 					return false;
-				  }
-			    else if ( actualPar instanceof VariableTerm && ((VariableTerm) actualPar)
-						.getKind() == VariableKind.LOGICAL_VAR )
-			      {
-                    //The ** exception **!!!
-			    	//the actual logical variable is turned in a location variable!!
-			    	((VariableTerm) actualPar).setKind(VariableKind.LOCATION_VAR);
-			    	logger.debug("\t\t\t"+ ((VariableTerm) actualPar).getName()+" updated: TD=" + ((VariableTerm) actualPar).getDomain().getName()+", kind="+((VariableTerm) actualPar).getKind().toString());
-			      }
+				} else if (actualPar instanceof VariableTerm
+						&& ((VariableTerm) actualPar).getKind() == VariableKind.LOGICAL_VAR) {
+					// The ** exception **!!!
+					// the actual logical variable is turned in a location variable!!
+					((VariableTerm) actualPar).setKind(VariableKind.LOCATION_VAR);
+					logger.debug("\t\t\t" + ((VariableTerm) actualPar).getName() + " updated: TD="
+							+ ((VariableTerm) actualPar).getDomain().getName() + ", kind="
+							+ ((VariableTerm) actualPar).getKind().toString());
+				}
 		}
 		return true;
 	}
@@ -1573,8 +1518,7 @@ public class OCL_Checker {
 		// and parameters->at(i)->oclAsType(VariableTerm).kind =
 		// VariableKind::locationVar)) )
 		if (r.getCalledRule().getArity() > 0) {
-			if (!compareParamTD_Rule(r.getParameters(), r.getCalledRule()
-					.getVariable()))
+			if (!compareParamTD_Rule(r.getParameters(), r.getCalledRule().getVariable()))
 				return false;
 		}
 		return true;
@@ -1592,9 +1536,9 @@ public class OCL_Checker {
 		// t.oclAsTypeOf(VariableTerm).kind=VariableKind::locationVar))
 		for (Term t : (Collection<Term>) r.getLocation()) {
 			if (!((t instanceof LocationTerm)
-					|| ((t instanceof FunctionTerm) && ((FunctionTerm) t)
-							.getFunction() instanceof DynamicFunction) || ((t instanceof VariableTerm) && ((VariableTerm) t)
-					.getKind().equals(VariableKind.LOCATION_VAR)))) {
+					|| ((t instanceof FunctionTerm) && ((FunctionTerm) t).getFunction() instanceof DynamicFunction)
+					|| ((t instanceof VariableTerm)
+							&& ((VariableTerm) t).getKind().equals(VariableKind.LOCATION_VAR)))) {
 				MSG_ERR = "Error: In a try-catch rule, the location set contains only location variables or location terms";
 				return false;
 			}
@@ -1624,9 +1568,8 @@ public class OCL_Checker {
 		// U5: location.oclIsTypeOf(LocationTerm) or
 		// (location.oclIsTypeOf(VariableTerm) and
 		// location.oclAsTypeOf(VariableTerm).kind=VariableKind::locationVar)) )
-		if (!((r.getLocation() instanceof LocationTerm) || ((r.getLocation() instanceof VariableTerm) && ((VariableTerm) r
-				.getLocation()).getKind().equals(
-				VariableKind.LOCATION_VAR)))) {
+		if (!((r.getLocation() instanceof LocationTerm) || ((r.getLocation() instanceof VariableTerm)
+				&& ((VariableTerm) r.getLocation()).getKind().equals(VariableKind.LOCATION_VAR)))) {
 			MSG_ERR = "Error: In a turbo rule with return value, the location in which to store the return value"
 					+ "can be either a location variable term or a location term.";
 			return false;
@@ -1636,15 +1579,11 @@ public class OCL_Checker {
 
 	public static boolean U6(TurboReturnRule r) {
 		// U6: (location.domain.compatible(updateRule.calledRule.resultType))
-		if (!compatible(r.getLocation().getDomain(), r.getUpdateRule()
-				.getCalledRule().getResultType())) {
+		if (!compatible(r.getLocation().getDomain(), r.getUpdateRule().getCalledRule().getResultType())) {
 			MSG_ERR = "Error: In a turbo rule with return value, the domain of the location in which to store the intended"
 					+ "return value must be compatible with the domain of the returned value. "
-					+ "Type mismatch between"
-					+ r.getLocation().getDomain().getName()
-					+ "and"
-					+ r.getUpdateRule().getCalledRule().getResultType()
-							.getName();
+					+ "Type mismatch between" + r.getLocation().getDomain().getName() + "and"
+					+ r.getUpdateRule().getCalledRule().getResultType().getName();
 			return false;
 		}
 		return true;
@@ -1736,25 +1675,24 @@ public class OCL_Checker {
 	 * @return true if ok, false otherwise
 	 */
 	public static boolean K5(TermAsRule r) {
-		/* commented 10 Jan 2008 by acarioni
-		// check constraint k5: term.domain.oclIsTypeOf(RuleDomain)
+		/*
+		 * commented 10 Jan 2008 by acarioni // check constraint k5:
+		 * term.domain.oclIsTypeOf(RuleDomain) if (!(r.getTerm().getDomain() instanceof
+		 * RuleDomain)) { MSG_ERR =
+		 * "Error: the association end term must be an actual rule."; return false; }
+		 * return true;
+		 */
 		if (!(r.getTerm().getDomain() instanceof RuleDomain)) {
-			MSG_ERR = "Error: the association end term must be an actual rule.";
-			return false;
-		}
-		return true;
-		*/
-		if (!(r.getTerm().getDomain() instanceof RuleDomain)) {
-			MSG_ERR = "Expected a rule for term " + AsmetaTermPrinter.getAsmetaTermPrinter(true).visit(r.getTerm()) + " domain " + r.getTerm().getDomain();
+			MSG_ERR = "Expected a rule for term " + AsmetaTermPrinter.getAsmetaTermPrinter(true).visit(r.getTerm())
+					+ " domain " + r.getTerm().getDomain();
 			return false;
 		}
 		RuleDomain domain = (RuleDomain) r.getTerm().getDomain();
 		List<Domain> expected = Utility.getList(domain);
 		List<Domain> actual = Utility.buildDomains(r.getParameters());
 		if (!compatible(expected, actual)) {
-			MSG_ERR = "Expected a rule with parameters "
-				+ Utility.toString(expected)
-				+ " but found " + Utility.toString(actual);
+			MSG_ERR = "Expected a rule with parameters " + Utility.toString(expected) + " but found "
+					+ Utility.toString(actual);
 			return false;
 		}
 		return true;
@@ -1802,10 +1740,8 @@ public class OCL_Checker {
 	public static boolean T11(VariableTerm t) {
 		// Check constraint T11: domain.oclIsTypeOf(RuleDomain) <=>
 		// (kind = VariableKind::ruleVar)
-		if ((t.getDomain() instanceof RuleDomain && !(t.getKind()
-				.equals((VariableKind.RULE_VAR))))
-				|| (!(t.getDomain() instanceof RuleDomain) && t.getKind()
-						.equals((VariableKind.RULE_VAR)))) {
+		if ((t.getDomain() instanceof RuleDomain && !(t.getKind().equals((VariableKind.RULE_VAR))))
+				|| (!(t.getDomain() instanceof RuleDomain) && t.getKind().equals((VariableKind.RULE_VAR)))) {
 			MSG_ERR = "Error: if (and only if) the domain of a VariableTerm is the RuleDomain, then the variable is a rule variable.";
 			return false;
 		}
@@ -1843,104 +1779,97 @@ public class OCL_Checker {
 		}
 
 		if (f.getArity() != 0
-				&& !(t.getArguments() != null && compatible(t.getArguments()
-						.getDomain(), f.getDomain()))) {
+				&& !(t.getArguments() != null && compatible(t.getArguments().getDomain(), f.getDomain()))) {
 			MSG_ERR = "Error: the associated function arity is greater than 0, but the function term"
 					+ "doesn't specify the actual arguments of the function application.";
 			return false;
-			}
+		}
 		logger.debug("Checking applicability...");
-		if (! applicable(t)) return false;
+		if (!applicable(t))
+			return false;
 		return true;
 	}
-
-
 
 	/**
 	 * Applicability criteria
 	 *
 	 * @param t a function term f(t1,..,tn)
 	 *
-	 * @return true, if the function is applicable with respect to the function term's arguments
+	 * @return true, if the function is applicable with respect to the function
+	 *         term's arguments
 	 */
 	static boolean applicable(FunctionTerm t) {
 		/*
-		 * OCL SYNTAX: context FunctionTerm def:
-		 * let applicable(FunctionTerm ft): boolean = applicable(function.domain,arguments.domain)
+		 * OCL SYNTAX: context FunctionTerm def: let applicable(FunctionTerm ft):
+		 * boolean = applicable(function.domain,arguments.domain)
 		 */
 
-	if ((t.getArguments() != null)){
-    		Function f = t.getFunction();
-			String args = Utility.appendInKey(new StringBuffer(),t.getArguments()).toString();
-			if( !args.contains("self")   //Special case: function self:Agent appears in the arguments list
-			 && !applicable(f.getDomain(),t.getArguments().getDomain())
-			) {
-			MSG_ERR = "Error: the function defined on a concrete C subset of an abstract domain can be applied only on"
-				+ " the same domain C ( C = "+ f.getDomain().getName()+" function: "+ f.getName()+" applied to "+t.getArguments().getDomain().getName()+")";
-			return false;
-		}
+		if ((t.getArguments() != null)) {
+			Function f = t.getFunction();
+			String args = Utility.appendInKey(new StringBuffer(), t.getArguments()).toString();
+			if (!args.contains("self") // Special case: function self:Agent appears in the arguments list
+					&& !applicable(f.getDomain(), t.getArguments().getDomain())) {
+				MSG_ERR = "Error: the function defined on a concrete C subset of an abstract domain can be applied only on"
+						+ " the same domain C ( C = " + f.getDomain().getName() + " function: " + f.getName()
+						+ " applied to " + t.getArguments().getDomain().getName() + ")";
+				return false;
+			}
 		}
 		return true;
 	}
 
-
-    //Domain Applicability definition
+	// Domain Applicability definition
 	/**
 	 * Applicability of f(t1,...,tn)
 	 *
-	 * @param self  is the function domain
-	 * @param d is the domain of the arguments
+	 * @param self is the function domain
+	 * @param d    is the domain of the arguments
 	 * @return true, if successful
 	 */
 	public static boolean applicable(Domain self, Domain d) {
 
-	    /*
+		/*
 		 * OCL SYNTAX: context Domain def: let applicable(Domain d): boolean =
 		 */
 
 		/*
 		 * OCL SYNTAX: -- self is a ConcreteDomain subset of an Abstract Domain
 		 * (self.oclIsTypeOf(ConcreteDomain) and
-		    self.oclAsType(ConcreteDomain).typeDomain.oclIsTypeOf(AbstractTd))
-		    implies self = d */
-		if (self instanceof ConcreteDomain &&
-			getTypeDomain(self) instanceof AbstractTd &&
-			(self!= d || !self.getName().equals(d.getName())))
-				return false;
+		 * self.oclAsType(ConcreteDomain).typeDomain.oclIsTypeOf(AbstractTd)) implies
+		 * self = d
+		 */
+		if (self instanceof ConcreteDomain && getTypeDomain(self) instanceof AbstractTd
+				&& (self != d || !self.getName().equals(d.getName())))
+			return false;
 
 		/*
-		 * OCL SYNTAX: -- two PowersetDomain ( self.oclIsTypeOf(PowersetDomain)
-		 * and d.oclIsTypeOf(PowersetDomain) and
-		 * self.oclAsType(PowersetDomain).baseDomain.applicable(d.oclAsType(PowersetDomain).baseDomain))
-		 * or
+		 * OCL SYNTAX: -- two PowersetDomain ( self.oclIsTypeOf(PowersetDomain) and
+		 * d.oclIsTypeOf(PowersetDomain) and
+		 * self.oclAsType(PowersetDomain).baseDomain.applicable(d.oclAsType(
+		 * PowersetDomain).baseDomain)) or
 		 */
-		if (self instanceof PowersetDomain
-				&& d instanceof PowersetDomain)
-			return applicable(((PowersetDomain) self).getBaseDomain(),
-						((PowersetDomain) d).getBaseDomain());
+		if (self instanceof PowersetDomain && d instanceof PowersetDomain)
+			return applicable(((PowersetDomain) self).getBaseDomain(), ((PowersetDomain) d).getBaseDomain());
 		/*
-		 * OCL SYNTAX: -- two ProductDomain ( self.oclIsTypeOf(ProductDomain)
-		 * and d.oclIsTypeOf(ProductDomain) and (let size:Integer =
+		 * OCL SYNTAX: -- two ProductDomain ( self.oclIsTypeOf(ProductDomain) and
+		 * d.oclIsTypeOf(ProductDomain) and (let size:Integer =
 		 * self.oclAsType(ProductDomain).domains->sise() in size =
 		 * d.oclAsType(ProductDomain).domains->sise() and
 		 * Sequence{1..size}->forAll(i:Integer |
-		 * self.oclAsType(ProductDomain).domains->at(i).applicable(d.oclAsType(ProductDomain).domains->at(i))
-		 * endlet) )
+		 * self.oclAsType(ProductDomain).domains->at(i).applicable(d.oclAsType(
+		 * ProductDomain).domains->at(i)) endlet) )
 		 */
-		if ((self instanceof ProductDomain)
-				&& (d instanceof ProductDomain))
-				return applicableSubDomains((ProductDomain) self, (ProductDomain) d);
+		if ((self instanceof ProductDomain) && (d instanceof ProductDomain))
+			return applicableSubDomains((ProductDomain) self, (ProductDomain) d);
 
 		/*
-		 * OCL SYNTAX: -- two SequenceDomain (self.oclIsTypeOf(SequenceDomain)
-		 * and d.oclIsTypeOf(SequenceDomain) and
-		 * self.oclAsType(SequenceDomain).domain.applicable(d.oclAsType(SequenceDomain).domain))
-		 * or
+		 * OCL SYNTAX: -- two SequenceDomain (self.oclIsTypeOf(SequenceDomain) and
+		 * d.oclIsTypeOf(SequenceDomain) and
+		 * self.oclAsType(SequenceDomain).domain.applicable(d.oclAsType(SequenceDomain).
+		 * domain)) or
 		 */
-		if ((self instanceof SequenceDomain)
-				&& (d instanceof SequenceDomain))
-				return applicable(((SequenceDomain) self).getDomain(),
-						((SequenceDomain) d).getDomain());
+		if ((self instanceof SequenceDomain) && (d instanceof SequenceDomain))
+			return applicable(((SequenceDomain) self).getDomain(), ((SequenceDomain) d).getDomain());
 
 		/*
 		 * OCL SYNTAX: -- two BagDomain (self.oclIsTypeOf(BagDomain) and
@@ -1948,33 +1877,30 @@ public class OCL_Checker {
 		 * self.oclAsType(BagDomain).domain.applicable(d.oclAsType(BagDomain).domain))
 		 * or
 		 */
-		if ((self instanceof BagDomain)
-				&& (d instanceof BagDomain))
-				return applicable(((BagDomain) self).getDomain(), ((BagDomain) d)
-						.getDomain());
+		if ((self instanceof BagDomain) && (d instanceof BagDomain))
+			return applicable(((BagDomain) self).getDomain(), ((BagDomain) d).getDomain());
 
 		/*
 		 * OCL SYNTAX: -- two MapDomain (self.oclIsTypeOf(MapDomain) and
 		 * d.oclIsTypeOf(MapDomain) and
-		 * self.oclAsType(MapDomain).sourceDomain.applicable(d.oclAsType(MapDomain).sourceDomain)
-		 * and
-		 * self.oclAsType(MapDomain).targetDomain.applicable(d.oclAsType(MapDomain).targetDomain))
+		 * self.oclAsType(MapDomain).sourceDomain.applicable(d.oclAsType(MapDomain).
+		 * sourceDomain) and
+		 * self.oclAsType(MapDomain).targetDomain.applicable(d.oclAsType(MapDomain).
+		 * targetDomain))
 		 */
-		if ((self instanceof MapDomain)
-				&& (d instanceof MapDomain))
-				return (applicable(((MapDomain) self).getSourceDomain(),((MapDomain) d).getSourceDomain())  &&
-						applicable(((MapDomain) self).getTargetDomain(),((MapDomain) d).getTargetDomain()));
+		if ((self instanceof MapDomain) && (d instanceof MapDomain))
+			return (applicable(((MapDomain) self).getSourceDomain(), ((MapDomain) d).getSourceDomain())
+					&& applicable(((MapDomain) self).getTargetDomain(), ((MapDomain) d).getTargetDomain()));
 
 		return true;
 	}
 
-	private static boolean applicableSubDomains(ProductDomain self,
-			ProductDomain d) {
+	private static boolean applicableSubDomains(ProductDomain self, ProductDomain d) {
 		int size = self.getDomains().size();
 		if (size != d.getDomains().size())
 			return false;
 
-		Object o1,o2;
+		Object o1, o2;
 		Iterator<?> dom1_iter = self.getDomains().listIterator();
 		Iterator<?> dom2_iter = d.getDomains().listIterator();
 		while (dom1_iter.hasNext()) {
@@ -1991,9 +1917,6 @@ public class OCL_Checker {
 		}
 		return true;
 	}
-
-
-
 
 	// --- LOCATION TERM --- //
 	public static boolean checkLocationTerm(LocationTerm t) {
@@ -2296,8 +2219,7 @@ public class OCL_Checker {
 
 	public static boolean E2(TupleTerm t) {
 		// check constraint E2
-		if (t.getArity() == 1
-				&& t.getDomain() != t.getTerms().get(0).getDomain()) {
+		if (t.getArity() == 1 && t.getDomain() != t.getTerms().get(0).getDomain()) {
 			MSG_ERR = "Error: If the arity of a tuple is 1 (this case), then the domain of the tuple"
 					+ "must be that of the component term.";
 			return false;
@@ -2322,9 +2244,7 @@ public class OCL_Checker {
 			while (subTDIter.hasNext()) {
 				if (subTDIter.next() != ((Term) elemIter.next()).getDomain()) {
 					MSG_ERR = "Error: the domain of the tuple is not the Cartesian product of the domains of the corresponding component terms. "
-							+ "Type mismatch between"
-							+ ((TypeDomain) subTDIter.next()).getName()
-							+ "and"
+							+ "Type mismatch between" + ((TypeDomain) subTDIter.next()).getName() + "and"
 							+ ((Term) elemIter.next()).getDomain().getName();
 					return false;
 				}
@@ -2349,11 +2269,10 @@ public class OCL_Checker {
 	}
 
 	/**
-	 * The only terms allowed in tuple terms, map terms, sequence terms, set
-	 * terms, bag terms, and comprehension terms (bags, sets, sequences, and
-	 * maps) are basic terms, collection terms, and extended terms except
-	 * ConditionalTerms, CaseTerms, and VariableBindingTerms To this purpose use
-	 * the following method
+	 * The only terms allowed in tuple terms, map terms, sequence terms, set terms,
+	 * bag terms, and comprehension terms (bags, sets, sequences, and maps) are
+	 * basic terms, collection terms, and extended terms except ConditionalTerms,
+	 * CaseTerms, and VariableBindingTerms To this purpose use the following method
 	 */
 	public static boolean termAccepted(Term t) {
 		/* NOW WE ALLOW Comprehension */
@@ -2626,10 +2545,9 @@ public class OCL_Checker {
 		else {
 			Iterator<?> iter = t.getPair().iterator();
 			while (iter.hasNext()) {
-				List<?> subDomList = ((ProductDomain) ((TupleTerm) iter.next())
-						.getDomain()).getDomains();
-				if (!(compatible(sourceDom, (TypeDomain) subDomList.get(1)) && (compatible(
-						targetDom, (TypeDomain) subDomList.get(2))))) {
+				List<?> subDomList = ((ProductDomain) ((TupleTerm) iter.next()).getDomain()).getDomains();
+				if (!(compatible(sourceDom, (TypeDomain) subDomList.get(1))
+						&& (compatible(targetDom, (TypeDomain) subDomList.get(2))))) {
 					MSG_ERR = "Error: wrong type-domain of some pair of the MapTerm.";
 					return false;
 				}
@@ -2690,8 +2608,7 @@ public class OCL_Checker {
 
 	// ----------------- FINITE QUANTIFICATION TERMS ----------------------- //
 
-	public static boolean checkFiniteQuantificationTerm(
-			FiniteQuantificationTerm t) {
+	public static boolean checkFiniteQuantificationTerm(FiniteQuantificationTerm t) {
 		return Q1(t) && Q4(t) && Q2_Q3(t);
 	}
 
@@ -2721,8 +2638,7 @@ public class OCL_Checker {
 				return false;
 			}
 			v = (VariableTerm) iter1.next();
-			if (v.getDomain() != ((PowersetDomain) d.getDomain())
-					.getBaseDomain()) {
+			if (v.getDomain() != ((PowersetDomain) d.getDomain()).getBaseDomain()) {
 				MSG_ERR = "Error: In a finite-quantification term, the domain of each variable must be equal to the base domain of the dorresponding powerset range.";
 				return false;
 			}
@@ -2783,8 +2699,8 @@ public class OCL_Checker {
 	public static boolean H3(SetCt t) {
 		// H3: domain.oclIsTypeOf(PowersetDomain) and
 		// domain.oclAsType(PowersetDomain).domain = term.domain
-		if (!((t.getDomain() instanceof PowersetDomain) && ((PowersetDomain) t
-				.getDomain()).getBaseDomain() == t.getTerm().getDomain())) {
+		if (!((t.getDomain() instanceof PowersetDomain)
+				&& ((PowersetDomain) t.getDomain()).getBaseDomain() == t.getTerm().getDomain())) {
 			MSG_ERR = "Error: The type-domain of a set comprehension term must be a PowersetDomain over the type-domain of the main term.";
 			return false;
 		}
@@ -2809,8 +2725,7 @@ public class OCL_Checker {
 						+ "the comprehension term. Di must be a set for a set comprehension term and its domain must be a Powerset.";
 				return false;
 			}
-			if (v.getDomain() != ((PowersetDomain) r.getDomain())
-					.getBaseDomain()) {
+			if (v.getDomain() != ((PowersetDomain) r.getDomain()).getBaseDomain()) {
 				MSG_ERR = "Error: In a SetCT, the domains of variables must be set accordingly.";
 				return false;
 			}
@@ -2830,8 +2745,7 @@ public class OCL_Checker {
 		// H9: term.oclIsTypeOf(TupleTerm) and
 		// term.oclAsType(TupleTerm).term->size()=2
 		Term mainT = t.getTerm();
-		if (!((mainT instanceof TupleTerm) && (((TupleTerm) mainT).getTerms()
-				.size() == 2))) {
+		if (!((mainT instanceof TupleTerm) && (((TupleTerm) mainT).getTerms().size() == 2))) {
 			MSG_ERR = "Error: The main term of a map comprehension term must be a pair.";
 			return false;
 		}
@@ -2847,9 +2761,8 @@ public class OCL_Checker {
 		ProductDomain mainD = (ProductDomain) t.getTerm().getDomain();
 		TypeDomain firstDom = (TypeDomain) mainD.getDomains().get(0);
 		TypeDomain secondDom = (TypeDomain) mainD.getDomains().get(1);
-		if (!((t.getDomain() instanceof MapDomain)
-				&& (((MapDomain) t.getDomain()).getSourceDomain() == firstDom) && (((MapDomain) t
-				.getDomain()).getTargetDomain() == secondDom))) {
+		if (!((t.getDomain() instanceof MapDomain) && (((MapDomain) t.getDomain()).getSourceDomain() == firstDom)
+				&& (((MapDomain) t.getDomain()).getTargetDomain() == secondDom))) {
 			MSG_ERR = "Error: Wrong type-domain of the map comprehension.";
 			return false;
 		}
@@ -2872,8 +2785,7 @@ public class OCL_Checker {
 				MSG_ERR = "Error: In a MapCT, terms in ranges, Di, representing where variables vary, must be powersets.";
 				return false;
 			}
-			if (v.getDomain() != ((PowersetDomain) r.getDomain())
-					.getBaseDomain()) {
+			if (v.getDomain() != ((PowersetDomain) r.getDomain()).getBaseDomain()) {
 				MSG_ERR = "Error: In a MapCT, the domains of variables must be set accordingly.";
 				return false;
 			}
@@ -2892,8 +2804,8 @@ public class OCL_Checker {
 	public static boolean H5(BagCt t) {
 		// H5: domain.oclIsTypeOf(BagDomain) and
 		// domain.oclAsType(BagDomain).domain = term.domain
-		if (!((t.getDomain() instanceof BagDomain) && ((BagDomain) t
-				.getDomain()).getDomain() == t.getTerm().getDomain())) {
+		if (!((t.getDomain() instanceof BagDomain)
+				&& ((BagDomain) t.getDomain()).getDomain() == t.getTerm().getDomain())) {
 			MSG_ERR = "Error: The type-domain of a bag comprehension term must be a BagDomain over the type-domain of the main term.";
 			return false;
 		}
@@ -2935,8 +2847,8 @@ public class OCL_Checker {
 	public static boolean H7(SequenceCt t) {
 		// H7: domain.oclIsTypeOf(SequenceDomain) and
 		// domain.oclAsType(SequenceDomain).domain = term.domain
-		if (!((t.getDomain() instanceof SequenceDomain) && ((SequenceDomain) t
-				.getDomain()).getDomain() == t.getTerm().getDomain())) {
+		if (!((t.getDomain() instanceof SequenceDomain)
+				&& ((SequenceDomain) t.getDomain()).getDomain() == t.getTerm().getDomain())) {
 			MSG_ERR = "Error: The type-domain of a sequence comprehension term must be a SequenceDomain over the type-domain of the main term.";
 			return false;
 		}

@@ -63,7 +63,7 @@ class AsmPrinter extends org.asmeta.parser.util.ReflectiveVisitor {
 	boolean expand = true;
 	
 	public AsmPrinter(Environment env) {
-		//tp = new AsmetaTermPrinter(env);
+		//termTran = new AsmetaTermPrinter(env);
 		tp = AsmetaTermPrinter.getAsmetaTermPrinter(false);
 	}
 
@@ -295,7 +295,7 @@ class AsmPrinter extends org.asmeta.parser.util.ReflectiveVisitor {
 		//Collection<VariableTerm> vars = rule.getBoundVar();
 		Domain domain = rule.getExtendedDomain();
 		Rule rule2 = rule.getDoRule();
-		//String varsStr = tp.visit(vars, "", "");
+		//String varsStr = termTran.visit(vars, "", "");
 		print("extend ");
 		visit(domain);
 		print(" with ");
@@ -395,12 +395,12 @@ class AsmPrinter extends org.asmeta.parser.util.ReflectiveVisitor {
 //		StringBuilder str = new StringBuilder();
 //		indent();
 //		str.append(print("switch "));
-//		tp.visit(rule.getTerm());
+//		termTran.visit(rule.getTerm());
 //		List<Term> cases = rule.getCaseTerm();
 //		List<Rule> rules = rule.getCaseBranches();
 //		for (int i = 0; i < cases.size(); i++) {
 //			str.append(print("case "));
-//			str.append(tp.visit(cases.get(i)));
+//			str.append(termTran.visit(cases.get(i)));
 //			str.append(print(":\n"));
 //			str.append(visit(rules.get(i)));
 //		}
@@ -418,7 +418,7 @@ class AsmPrinter extends org.asmeta.parser.util.ReflectiveVisitor {
 //		MacroDeclaration dcl = rule.getCalledMacro();
 //		String name = dcl.getName();
 //		List<Term> params = rule.getParameters();
-//	//	String paramsStr = tp.visit(params, "[", "]");
+//	//	String paramsStr = termTran.visit(params, "[", "]");
 //		return println(name + paramsStr);
 //	}
 //
@@ -427,13 +427,13 @@ class AsmPrinter extends org.asmeta.parser.util.ReflectiveVisitor {
 //		TurboDeclaration dcl = rule.getCalledRule();
 //		String name = dcl.getName();
 //		List<Term> params = rule.getParameters();
-//	//	String paramsStr = tp.visit(params, "(", ")");
+//	//	String paramsStr = termTran.visit(params, "(", ")");
 //		return println(name + paramsStr);
 //	}
 
 //	public String visit(TurboReturnRule rule) {
 //		Term loc = rule.getLocation();
-//		tp.visit(loc);
+//		termTran.visit(loc);
 //		return print("<-") +
 //		visit(rule.getUpdateRule());
 //	}
@@ -441,11 +441,11 @@ class AsmPrinter extends org.asmeta.parser.util.ReflectiveVisitor {
 //	public String visit(TermAsRule rule) {
 //		StringBuilder str = new StringBuilder();
 //		Term term = rule.getTerm();
-//		String termStr = tp.visit(term);
+//		String termStr = termTran.visit(term);
 //		str.append(print(termStr));
 //		List<Term> params = rule.getParameters();
 //		if (params.size() > 0) {
-//		//	String paramsStr = tp.visit(params, "[", "]");
+//		//	String paramsStr = termTran.visit(params, "[", "]");
 //			str.append(println(paramsStr));
 //		} else {
 //			str.append(println());

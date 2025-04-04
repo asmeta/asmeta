@@ -24,9 +24,9 @@ signature:
 	
 	monitored pedestrian: Boolean
 	
-	static timeOut: Boolean
-	static yellow_timeOut: Boolean
-	static interupt: Boolean
+	derived timeOut: Boolean
+	derived yellow_timeOut: Boolean
+	derived interupt: Boolean
 
 definitions:
 	// DOMAIN DEFINITIONS

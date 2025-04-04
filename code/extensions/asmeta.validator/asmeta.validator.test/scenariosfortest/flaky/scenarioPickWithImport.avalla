@@ -1,0 +1,12 @@
+// Counter.asm imports RandomModule.asm, both defines a choose rules
+// but only the one in the main asm can be picked
+scenario scenarioFlakyWithImport
+load Counter.asm
+
+check counter = 0;
+
+pick $b in r_Main := false;
+
+step
+
+check counter = -1;

@@ -7,10 +7,12 @@ signature:
 	domain Coord subsetof Integer
 	domain Car subsetof Integer
 	dynamic controlled board: Prod(Coord, Coord) -> Car
-	static isDirMachine: Prod(Car, Dir) -> Boolean
+	//dynamic chooseVar0: Prod(Car, Dir) -> Boolean
 	derived isNextCellFree: Prod(Car, Dir) -> Boolean
 	derived isMovePermitted: Prod(Car, Dir) -> Boolean
-	static redCarAtExit: Boolean
+	derived redCarAtExit: Boolean
+	derived isDirMachine: Prod(Car, Dir) -> Boolean
+
 
 definitions:
 	domain Coord = {0:1}

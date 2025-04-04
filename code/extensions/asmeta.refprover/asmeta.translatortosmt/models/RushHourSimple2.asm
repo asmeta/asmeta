@@ -11,7 +11,7 @@ signature:
 	derived isNextCellFree: Prod(Car, Dir) -> Boolean
 	derived isMovePermitted: Prod(Car, Dir) -> Boolean
 	static redCar: Num
-	static redCarAtExit: Boolean
+	derived redCarAtExit: Boolean
 
 definitions:
 	domain Coord = {0:1}

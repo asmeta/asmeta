@@ -42,7 +42,8 @@ public class ReplaceValueInTerm extends TermFlattenerVisitor {
 				if (values[i] instanceof NaturalTerm) {
 					newValue = ruleFact.createNaturalTerm();
 				} else if (values[i] instanceof IntegerTerm) {
-					newValue = ruleFact.createNaturalTerm();
+					// modified 01.03.25 - originally was NaturalTerm
+					newValue = ruleFact.createIntegerTerm();
 				} else if (values[i] instanceof BooleanTerm) {
 					newValue = ruleFact.createBooleanTerm();
 				} else if (values[i] instanceof EnumTerm) {
@@ -50,7 +51,8 @@ public class ReplaceValueInTerm extends TermFlattenerVisitor {
 				} else {
 					throw new Error(values[i].getClass().getSimpleName() + " not supported!");
 				}
-				newValue.setSymbol(((ConstantTerm) values[i]).getSymbol());
+				String symbol = ((ConstantTerm) values[i]).getSymbol();
+				newValue.setSymbol(symbol);
 				return newValue;
 			}
 			i++;

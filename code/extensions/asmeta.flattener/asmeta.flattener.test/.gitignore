@@ -2,4 +2,5 @@
 
 # ingore the flat files - automatcially generated from the tests
 *_flat.asm
+*_flattened.asm
 

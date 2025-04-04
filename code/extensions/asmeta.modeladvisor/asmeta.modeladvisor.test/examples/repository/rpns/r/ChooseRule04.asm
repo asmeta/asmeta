@@ -2,7 +2,7 @@
 // e' corretto o sbagliato dal punto di vista semantico?
 
 asm ChooseRule04
-import  ../STDL/StandardLibrary
+import  ../../STDL/StandardLibrary
 
 signature:
 

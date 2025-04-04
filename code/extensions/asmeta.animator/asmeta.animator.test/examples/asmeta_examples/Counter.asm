@@ -3,7 +3,7 @@
 
 asm Counter
 
-import ../byhand/STDL/StandardLibrary
+import ../STDL/StandardLibrary
 
 signature:
 

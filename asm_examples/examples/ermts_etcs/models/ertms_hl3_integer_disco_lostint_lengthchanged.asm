@@ -45,12 +45,12 @@ signature:
 	dynamic controlled vss_prestates: Vss -> Vss_state
 	derived vss_rear_train: Trains -> Vss
 	derived vss_advance_train: Trains -> Vss
-	derived vss_advance_vss: Vss -> Vss
-	derived vss_related_to_train_position: Vss_Units -> Vss
-	derived position_related_to_vss: Vss -> Vss_Count
-	derived vss_absolute_to_relative_position: Vss_Units -> Vss_Count
+	static vss_advance_vss: Vss -> Vss
+	static vss_related_to_train_position: Vss_Units -> Vss
+	static position_related_to_vss: Vss -> Vss_Count
+	static vss_absolute_to_relative_position: Vss_Units -> Vss_Count
 	derived ma_on_vss: Prod(Vss, Trains) -> Boolean
-	derived vss_rear_ttd: Prod(Vss, Ttd) -> Boolean
+	static vss_rear_ttd: Prod(Vss, Ttd) -> Boolean
 
 //	TTD States	
 	dynamic controlled ttd_states: Ttd -> Ttd_state
@@ -58,12 +58,12 @@ signature:
 	derived ttd_rear_train: Trains -> Ttd
 	derived train_on_ttd: Prod(Ttd, Trains) -> Boolean
 	derived ma_on_ttd: Prod(Ttd, Trains) -> Boolean
-	derived vss_on_ttd: Vss -> Ttd
+	static vss_on_ttd: Vss -> Ttd
 	derived ttd_status_free: Ttd -> Ttd_state
 	derived lefting_ttd_check_status_free: Ttd -> Ttd_state
-	derived position_related_to_ttd: Ttd -> Ttd_Count
-	derived ttd_related_to_absolute_position: Vss_Units -> Ttd_Count
-	derived ttd_related_to_position: Vss_Units -> Ttd
+	static position_related_to_ttd: Ttd -> Ttd_Count
+	static ttd_related_to_absolute_position: Vss_Units -> Ttd_Count
+	static ttd_related_to_position: Vss_Units -> Ttd
 
 //	TRAIN States	
 	dynamic controlled trains_integer: Trains -> Boolean
@@ -77,7 +77,7 @@ signature:
 	dynamic controlled train_state: Trains ->  Seq(Train_state)
 	dynamic controlled train_prestate: Trains ->  Seq(Train_state)
 	derived train_left_vss : Trains -> Boolean
-	derived train_is_rear_ttd: Prod(Ttd, Vss_Units) -> Boolean
+	static train_is_rear_ttd: Prod(Ttd, Vss_Units) -> Boolean
 	derived min_safe_rear_end: Trains -> Vss_Units
 	derived train_rear_another_train: Prod(Trains, Trains) -> Boolean
 	

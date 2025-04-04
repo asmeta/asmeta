@@ -17,7 +17,7 @@ signature:
 	
 	dynamic monitored piecefeedbeltlightbarrier : Boolean
 	derived tablereadyforloading: Transport -> Boolean
-	static tableinloadposition: Transport-> Boolean
+	/*static*/ derived tableinloadposition: Transport-> Boolean
 	dynamic controlled currphaset: Transport -> Phasetransport 
 	//function for Agent "ROBOT", "TRANSPORT", "ERT"
 	dynamic shared tableloaded: Boolean

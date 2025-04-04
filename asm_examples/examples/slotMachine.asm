@@ -11,7 +11,7 @@ signature:
 	dynamic monitored insertedMoney: BetDomain
 	dynamic controlled playerBudget: Money
 	dynamic controlled slotMachineBudget: Money
-	derived multFactor: Sign -> MultDomain
+	static multFactor: Sign -> MultDomain
 
 definitions:
 	domain MultDomain = {1 : 3}

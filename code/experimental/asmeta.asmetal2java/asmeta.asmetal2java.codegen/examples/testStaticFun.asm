@@ -29,7 +29,7 @@ signature:
     static encodedPin : Card -> Integer
    static cardAccount : Card -> Account
 
-   derived oppositeSide: Side -> Side
+   static oppositeSide: Side -> Side
 
 
 

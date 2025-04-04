@@ -1,4 +1,4 @@
-asm safePillbox
+asm safePillboxForPaper
 import ../StandardLibrary
 import pillbox_sanitiser
 

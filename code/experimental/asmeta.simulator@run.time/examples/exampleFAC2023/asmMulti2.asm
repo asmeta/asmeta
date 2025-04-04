@@ -1,6 +1,6 @@
 /** at every step multiply the sum of functions by 2
 */
-asm asmMulti
+asm asmMulti2
 
 import StandardLibrary
 

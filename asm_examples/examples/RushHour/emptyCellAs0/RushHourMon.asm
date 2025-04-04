@@ -18,7 +18,7 @@ signature:
 	static rMoveP: Dir -> Num
 	static cMoveP: Dir -> Num
 	static redCar: Num
-	static redCarAtExit: Boolean
+	derived redCarAtExit: Boolean
 
 definitions:
 	domain Coord = {0 : 5}

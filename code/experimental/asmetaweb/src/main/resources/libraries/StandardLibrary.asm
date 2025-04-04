@@ -103,6 +103,8 @@ signature :
 	static minus: Integer -> Integer
 	static minus: Prod(Integer, Integer) -> Integer
 	static mult: Prod(Integer, Integer) -> Integer
+	static mult: Prod(Natural, Integer) -> Integer
+	static mult: Prod(Integer, Natural) -> Integer
 	static div: Prod(Integer, Integer) -> Real
 	static abs: Integer -> Integer
 	static idiv: Prod(Integer, Integer) -> Integer
@@ -114,16 +116,21 @@ signature :
 	static toString: Integer -> String
 	static lt: Prod(Integer, Integer) -> Boolean
 	static gt: Prod(Integer, Integer) -> Boolean
+	static gt: Prod(Natural, Integer) -> Boolean
+	static gt: Prod(Integer, Natural) -> Boolean
 	static le: Prod(Integer, Integer) -> Boolean
 	static ge: Prod(Integer, Integer) -> Boolean
 	//CONVERSION
 	static itor: Integer -> Real
 	static iton: Integer -> Natural
+	static ntor: Natural -> Real
+	static ntoi: Natural -> Integer
 
 /*----------- Basic Functions on Natural --------------*/
 	static plus: Prod(Natural, Natural) -> Natural
 	static minus: Prod(Natural, Natural) -> Integer
 	static mult: Prod(Natural, Natural) -> Natural
+	static abs: Natural -> Natural
 	static div: Prod(Natural, Natural) -> Real
 	static idiv: Prod(Natural, Natural) -> Natural
 	static mod: Prod(Natural, Natural) -> Natural
@@ -134,9 +141,6 @@ signature :
 	static gt: Prod(Natural, Natural) -> Boolean
 	static le: Prod(Natural, Natural) -> Boolean
 	static ge: Prod(Natural, Natural) -> Boolean
-	//CONVERSION
-	static ntoi: Natural -> Integer
-	static ntor: Natural -> Real
 
 /*----------- Basic Functions on Char --------------*/
 	static toString: Char -> String
@@ -187,6 +191,8 @@ signature :
 	static sum: Powerset(D) -> D
 	static union: Prod(Powerset(D), Powerset(D)) -> Powerset(D)
 	static union: Prod(Powerset(D), Bag(D)) -> Bag(D)
+	// add union with 2 different domanin 11/02/2021
+	static union: Prod(Powerset(D), Powerset(D1)) -> Powerset(D2)
 	// ANGELO 2018/7/31 perchè equality e non eq??? - parse rejects "a = {5}"
 	static equality: Prod(Powerset(D), Powerset(D)) -> Boolean
 	static intersection: Prod(Powerset(D), Powerset(D)) -> Powerset(D)
@@ -308,9 +314,12 @@ signature :
 
 	static pre: D -> D
 
-/*----------- Java time--------------*/
+/*----------- Java time  as static function--------------*/
 	static currTimeNanosecs: Integer	
 	static currTimeMillisecs: Integer
 	static currTimeSecs: Integer
+
+
+
 
 definitions:

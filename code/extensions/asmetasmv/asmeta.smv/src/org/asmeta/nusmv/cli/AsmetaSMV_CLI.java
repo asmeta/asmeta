@@ -2,7 +2,7 @@ package org.asmeta.nusmv.cli;
 
 import java.io.File;
 
-import org.asmeta.nusmv.AsmetaSMV;
+import org.asmeta.nusmv.main.AsmetaSMV;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
 import org.asmeta.nusmv.util.Util;
 import org.kohsuke.args4j.CmdLineException;

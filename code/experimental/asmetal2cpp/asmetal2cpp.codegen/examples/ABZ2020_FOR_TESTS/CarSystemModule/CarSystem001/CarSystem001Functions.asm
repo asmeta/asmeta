@@ -24,8 +24,8 @@ signature:
 	controlled tailLampLeftBlinkValue: LightPercentage // Tail lamp left is off (0%) or is on with a specific percentage of brightness
 	controlled tailLampRightBlinkValue: LightPercentage // Tail lamp right is off (0%) or is on with a specific percentage of brightness
 	
-	derived turnLeft: PitmanArmUpDown -> Boolean //True if pitmanArmUpDown_RunnReq is in position turn left (DOWNWARD5 or DOWNWARD5_LONG or DOWNWARD7)
-	derived turnRight: PitmanArmUpDown -> Boolean //True if pitmanArmUpDown_Buff is in position turn right (UPWARD5 or UPWARD5_LONG or UPWARD7)
+	static turnLeft: PitmanArmUpDown -> Boolean //True if pitmanArmUpDown_RunnReq is in position turn left (DOWNWARD5 or DOWNWARD5_LONG or DOWNWARD7)
+	static turnRight: PitmanArmUpDown -> Boolean //True if pitmanArmUpDown_Buff is in position turn right (UPWARD5 or UPWARD5_LONG or UPWARD7)
 	
 definitions:
 	

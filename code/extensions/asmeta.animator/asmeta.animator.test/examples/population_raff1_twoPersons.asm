@@ -37,7 +37,7 @@ definitions:
 			//(age($p) in {13n..50n})
 			age($p) >= 13n and age($p) <= 50n 
 			) then
-			choose $x in {1..100} with true do
+			choose $x in {1:100} with true do
 				if($x <= 20) then //probabilita' di riprodursi
 					choose $father in Person with alive($father) and gender($father) = MALE and age($father) >= 13n and
 													not(areSiblings($p, $father)) and $father!=father($p) and
@@ -55,7 +55,7 @@ definitions:
 		endif
 
 	rule r_dead($p in Person) =
-		choose $x in {1..100} with true do
+		choose $x in {1:100} with true do
 			if($x > 99) then
 				alive($p) := false
 			endif

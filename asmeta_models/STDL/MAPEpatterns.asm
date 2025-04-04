@@ -6,10 +6,10 @@ import LTLLibrary
 export *
 
 signature:
-	derived correctStep: Prod(Boolean, Boolean, Powerset(Boolean)) -> Boolean
-	derived both: Prod(Boolean, Boolean) -> Boolean
-	derived requires: Prod(Boolean, Powerset(Boolean)) -> Boolean
-	derived ensures: Prod(Boolean, Powerset(Boolean)) -> Boolean
+	static correctStep: Prod(Boolean, Boolean, Powerset(Boolean)) -> Boolean
+	static both: Prod(Boolean, Boolean) -> Boolean
+	static requires: Prod(Boolean, Powerset(Boolean)) -> Boolean
+	static ensures: Prod(Boolean, Powerset(Boolean)) -> Boolean
 
 definitions:
 	function correctStep($p in Boolean, $q in Boolean, $s in Powerset(Boolean)) =

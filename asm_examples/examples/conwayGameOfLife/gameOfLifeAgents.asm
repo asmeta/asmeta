@@ -27,7 +27,7 @@ signature:
 	domain Cell subsetof Agent
 	dynamic controlled alive: Cell -> Boolean
 	derived aliveNeighb: Cell -> Integer
-	derived neighbours: Cell -> Powerset(Cell)
+	static neighbours: Cell -> Powerset(Cell)
 	static cell11: Cell
 	static cell12: Cell
 	static cell13: Cell
