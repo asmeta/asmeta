@@ -85,4 +85,13 @@ public class GeneratorCompilerAllLocalExamplesTest {
 		assertTrue(failures.size() + ": " + failures.toString(), failures.isEmpty());
 	}
 
+	//@Test
+	public void testSingleExamplewithproblems() throws Exception {
+		String fileName = "examples\\ATM3.asm";
+		CompileResult genandcompile = GeneratorCompilerUtil.genandcompile(fileName , options,
+				GeneratorCompilerUtil.dirTraduzione, GeneratorCompilerUtil.dirCompilazione);
+		System.out.println(genandcompile);
+	}
+
+	
 }
