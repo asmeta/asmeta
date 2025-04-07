@@ -6,7 +6,9 @@ import java.util.Arrays;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
+@Category(org.asmeta.annotations.TestToMavenSkip.class)
 public class AsmetaSMVMVM extends AsmetaSMVtestTranslate{
 
 	static String basePath = "../../../../../";
