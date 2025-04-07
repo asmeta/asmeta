@@ -244,15 +244,15 @@ class TermToJava extends ReflectiveVisitor<String> {
 			'''
 					«"Arrays.stream("»	«new DomainToJavaString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».values()).anyMatch(c -> «valore»c))
 				''')
-			else if ((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof ConcreteDomain) // devo togliere il .value aggiunto in TermToJavaStandardLibrary.xtend (riga 102)  
+			else if ((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof ConcreteDomain)  
 				sb.append(
 			'''
-					«""»	«new DomainToJavaString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems.stream().anyMatch(c -> c.equals(«app.substring(13,app.length-7)»))
+					«""»	«new DomainToJavaString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems.stream().anyMatch(c -> c.equals(«app.substring(7,app.length-7)»))
 				''')
 			else
 				sb.append(
 			'''
-					«""»	«new DomainToJavaString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems.stream().anyMatch(c -> c.equals(«app.substring(13,app.length-1)»))
+					«""»	«new DomainToJavaString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems.stream().anyMatch(c -> c.equals(«app.substring(7,app.length-1)»))
 				''')
 		}
 

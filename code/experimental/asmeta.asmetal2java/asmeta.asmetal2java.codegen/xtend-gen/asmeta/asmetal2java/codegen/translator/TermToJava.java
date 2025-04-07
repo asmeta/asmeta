@@ -398,7 +398,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
             _builder_3.append(".elems.stream().anyMatch(c -> c.equals(");
             int _length_1 = app.length();
             int _minus_1 = (_length_1 - 7);
-            String _substring_1 = app.substring(13, _minus_1);
+            String _substring_1 = app.substring(7, _minus_1);
             _builder_3.append(_substring_1);
             _builder_3.append("))");
             _builder_3.newLineIfNotEmpty();
@@ -412,7 +412,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
             _builder_4.append(".elems.stream().anyMatch(c -> c.equals(");
             int _length_2 = app.length();
             int _minus_2 = (_length_2 - 1);
-            String _substring_2 = app.substring(13, _minus_2);
+            String _substring_2 = app.substring(7, _minus_2);
             _builder_4.append(_substring_2);
             _builder_4.append("))");
             _builder_4.newLineIfNotEmpty();
