@@ -32,7 +32,7 @@ public class FileWriterImplTest {
         System.getProperty("user.dir"),
         "output",
         scenarioFile.getName(),
-        scenarioFile.getExtension());
+        ScenarioFile.EXTENSION);
     Files.exists(outputFile);
 
   }

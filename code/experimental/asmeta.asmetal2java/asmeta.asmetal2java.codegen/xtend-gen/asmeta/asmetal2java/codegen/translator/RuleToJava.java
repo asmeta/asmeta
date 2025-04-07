@@ -341,20 +341,14 @@ public class RuleToJava extends RuleVisitor<String> {
         StringConcatenation _builder_3 = new StringConcatenation();
         String _visit_8 = new TermToJavaInAssignments(this.res, true).visit(object.getLocation());
         _builder_3.append(_visit_8);
-        _builder_3.append(".oldValue = ");
-        String _visit_9 = new TermToJavaInAssignments(this.res, true).visit(object.getLocation());
-        _builder_3.append(_visit_9);
-        _builder_3.append(".newValue;");
+        _builder_3.append(".update();");
         _builder_3.newLineIfNotEmpty();
         result.append(_builder_3);
       } else {
         StringConcatenation _builder_4 = new StringConcatenation();
-        String _visit_10 = new TermToJavaInAssignments(this.res, true).visit(object.getLocation());
-        _builder_4.append(_visit_10);
-        _builder_4.append(".oldValues = ");
-        String _visit_11 = new TermToJavaInAssignments(this.res, true).visit(object.getLocation());
-        _builder_4.append(_visit_11);
-        _builder_4.append(".newValues;");
+        String _visit_9 = new TermToJavaInAssignments(this.res, true).visit(object.getLocation());
+        _builder_4.append(_visit_9);
+        _builder_4.append(".update();");
         _builder_4.newLineIfNotEmpty();
         result.append(_builder_4);
       }

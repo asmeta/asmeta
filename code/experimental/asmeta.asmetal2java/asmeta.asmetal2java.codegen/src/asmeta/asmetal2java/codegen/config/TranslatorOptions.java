@@ -125,4 +125,12 @@ public interface TranslatorOptions {
 	 */
 	boolean getCopyAsm();
 
+	/**
+	 * Returns the ignoreDomainException property.
+	 *
+	 * @return {@code true} to stop the execution if a domain is not supported by
+	 *         the ATG class, {@code false} otherwise.
+	 */
+	public boolean getIgnoreDomainException();
+
 }

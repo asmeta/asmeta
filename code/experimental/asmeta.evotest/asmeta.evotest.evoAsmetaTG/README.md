@@ -47,7 +47,7 @@
 
 6. Customize execution with additional options:
     ```shell
-   java -jar .\dist\asmetal2java.jar -workingDir <workingDir> -input <input> -output <output> -javaPath <path to the java jdk dir> -evosuitePath <path to the evosuite jars dir> -evosuiteVersion <desired evosuite version> -timeBudget <desired time budget for the evosuite process> -D<property=value> -clean
+   java -jar .\dist\asmetal2java.jar -workingDir <workingDir> -input <input> -output <output> -javaPath <path to the java jdk dir> -evosuitePath <path to the evosuite jars dir> -evosuiteVersion <desired evosuite version> -timeBudget <desired time budget for the evosuite process> -parser customParser -D<property=value> -clean
     ```
     
     - `-workingDir` : The custom working directory path (optional, defaults to `./input/`).
@@ -63,9 +63,11 @@
     - `evosuiteVersion` : Set the version of Evosuite to use for test scenarios generation.
     
     - `timeBudget` :  Set the time budget allocated for the Evosuite process.
+    
+    - `-parser` : Select the desired parser to parse the JUnit file. (optional, defaults to `customParser`).
 
     - `-D <property=value>` : Additional translator options.
-
+    
     - `-clean` : Delete the files used by the translator in the input folder.
       
     - `-help` : Displays a help message describing all available options.
@@ -97,19 +99,22 @@
 
 This section covers all available command-line options for the application and how to use them effectively.
 
- | Option  				| Argument Type 	| Description 																					 |
- |----------------------|-------------------|------------------------------------------------------------------------------------------------|
- | `-workingDir` 		| String 			| Path to the working directory of the application. Defaults to `.`. 							 |
- | `-input` 			| String (required)	| Path to the ASM input file. 																	 |
- | `-javaPath` 			| String (required)	| Set the path of java jdk folder used to run Evosuite. Example: "C:\Program Files\Java\jdk-1.8".|
- | `-evosuiteVersion` 	| String (required) | Set the version of Evosuite to use for test scenarios generation. 							 |
- | `-evosuitePath` 		| String 			| Set the path to the evosuite jars folder. Defaults to `./evosuite/evosuite-jar`. 	 			 |
- | `-output`			| String 			| Specifies the output folder. Defaults to `./output/`. 										 |  
- | `-clean` 			| None				| Delete all intermediate files created and processed by the application. 						 |
- | `-timeBudget` 		| String 			| Set the time budget allocated for the Evosuite process. 										 |
- | `-Dcompiler` 		| boolean 			| whether to translate and compile the generated java class. 									 |
- | `-DcoverOutputs` 	| boolean 			| whether to  cover the outputs in the testGen class. 											 |
- | `-DcoverRules` 		| boolean 			| whether to cover the rules in the testGen class. 												 |
+ | Option  					| Argument Type 	| Description 																					 	|
+ |--------------------------|-------------------|---------------------------------------------------------------------------------------------------|
+ | `-workingDir` 			| String 			| Path to the working directory of the application. Defaults to `.`. 							 	|
+ | `-input` 				| String (required)	| Path to the ASM input file. 																	 	|
+ | `-javaPath` 				| String (required)	| Set the path of java jdk folder used to run Evosuite. Example: "C:\Program Files\Java\jdk-1.8".	|
+ | `-evosuiteVersion` 		| String (required) | Set the version of Evosuite to use for test scenarios generation. 							 	|
+ | `-evosuitePath` 			| String 			| Set the path to the evosuite jars folder. Defaults to `./evosuite/evosuite-jar`. 	 			 	|
+ | `-output`				| String 			| Specifies the output folder. Defaults to `./output/`. 										 	|  
+ | `-clean` 				| None				| Delete all intermediate files created and processed by the application. 							|
+ | `-timeBudget` 			| String 			| Set the time budget allocated for the Evosuite process. 										 	|
+ | `-parser`         		| String			| Select the desired parser to parse the JUnit file. Defaults to `customParser`					 	|
+ | `-Dcompiler` 			| boolean 			| whether to translate and compile the generated java class. 									 	|
+ | `-DcoverOutputs` 		| boolean 			| whether to  cover the outputs in the testGen class. 											 	|
+ | `-DcoverRules` 			| boolean 			| whether to cover the rules in the testGen class. 												 	|
+ | `-DignoreDomainException`| boolean			| whether to ignore exceptions due to domain not supported in the ATG class.	   					|
+ 
  
 ### Example
 

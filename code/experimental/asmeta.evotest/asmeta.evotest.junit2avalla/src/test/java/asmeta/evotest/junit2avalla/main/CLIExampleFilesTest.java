@@ -27,10 +27,12 @@ public class CLIExampleFilesTest {
 
 	/* Constants */
 	static final Path TEST_RESOURCES_DIR_PATH = Paths.get("src", "test", "resources");
-	static final String INPUT = "-input";
-	static final String OUTPUT = "-output";
+	static final String DASH = "-";	
+	static final String INPUT = DASH + Junit2AvallaCLI.INPUT;
+	static final String OUTPUT = DASH + Junit2AvallaCLI.OUTPUT;
+	static final String PARSER = DASH + Junit2AvallaCLI.PARSER;
+	static final String CLEAN = DASH + Junit2AvallaCLI.CLEAN;
 	static final String OUTPUT_DIR = "tempOutput";
-	static final String CLEAN = "-clean";
 	static final String JAVA = ".java";
 
 	/** temp output folder */

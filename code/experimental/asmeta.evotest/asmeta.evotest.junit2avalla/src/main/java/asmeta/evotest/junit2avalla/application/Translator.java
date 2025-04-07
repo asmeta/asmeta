@@ -1,5 +1,7 @@
 package asmeta.evotest.junit2avalla.application;
 
+import asmeta.evotest.junit2avalla.javascenario.JUnitParseException;
+
 /**
  * The {@code Translator} interface defines the contract for configuring and running 
  * a translation process.
@@ -31,12 +33,21 @@ public interface Translator {
     void setOutput(String outputDir) throws SetupException;
     
     /**
+     * Sets the desired parser (javaParser or custom).
+     * 
+     * @param parser parser to use.
+     * @throws SetupException if an error occurs during the setup process.
+     */
+    void setParser(String parser) throws SetupException;
+    
+    /**
      * Executes the translation process.
      *
      * @throws SetupException if an error occurs during the setup process.
      * @throws TranslationException if an error occurs during the translation process.
+	 * @throws JUnitParseException if an error occurs during the parsing process.
      */
-    void generate() throws SetupException, TranslationException;
+    void generate() throws SetupException, TranslationException, JUnitParseException;
     
     /**
      * Cleans up resources.

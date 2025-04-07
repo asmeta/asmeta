@@ -11,7 +11,7 @@ signature:
 	// monitored complexMonitoredFunction: Complex // Not supported by the translator
 	monitored realMonitoredFunction: Real //  OK
 	monitored integerMonitoredFunction: Integer // OK
-	// monitored naturalMonitoredFunction: Natural // Not supported by the testGen
+	monitored naturalMonitoredFunction: Natural // OK
 	monitored stringMonitoredFunction: String // OK
 	monitored charMonitoredFunction: Char //  OK
 	monitored booleanMonitoredFunction: Boolean // OK
@@ -21,9 +21,9 @@ signature:
 	// controlled complexControlledFunction: Complex // Not supported by the translator
 	controlled realControlledFunction: Real // OK
 	controlled integerControlledFunction: Integer // OK
-	// controlled naturalControlledFunction: Natural // Not supported by the testGen
+	controlled naturalControlledFunction: Natural // OK
 	controlled stringControlledFunction: String // OK
-	controlled charControlledFunction: Char // Initialization error
+	controlled charControlledFunction: Char // OK
 	controlled booleanControlledFunction: Boolean // OK
 	// controlled undefControlledFunction: Undef // Not supported by the translator
 
@@ -42,11 +42,11 @@ definitions:
 
 // INITIAL STATE
 default init s0:
-	// function complexControlledFunction = -2-i3 // Not supported by the translator
+	// function complexControlledFunction = -2-i3 //  init error
 	function realControlledFunction = 3.4 // OK (problems with negative values) 
 	function integerControlledFunction = -5 // OK
-	// function naturalControlledFunction = 3n // Not supported by the testGen
+	// function naturalControlledFunction = 3n // init error
 	function stringControlledFunction = "hello world" // OK
 	// function charControlledFunction = 'a' // init error
 	function booleanControlledFunction = true // OK
-	// function undefControlledFunction = undef // Not supported by the translator
+	// function undefControlledFunction = undef //  init error

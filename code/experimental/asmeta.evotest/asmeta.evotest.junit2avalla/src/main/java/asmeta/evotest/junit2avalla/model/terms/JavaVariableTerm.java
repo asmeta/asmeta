@@ -11,7 +11,7 @@ public class JavaVariableTerm extends JavaArgumentTerm {
 
   /** The value of the variable. */
   private String value;
-
+  
   /**
    * Default constructor for the {@code JavaVariableTerm} class.
    * Initializes an empty variable without a value.
@@ -37,5 +37,6 @@ public class JavaVariableTerm extends JavaArgumentTerm {
   public void setValue(String value) {
     this.value = value;
   }
+
 }
 

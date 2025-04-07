@@ -23,6 +23,7 @@ import asmeta.asmetal2java.codegen.application.SetupException;
 import asmeta.asmetal2java.codegen.application.TranslationException;
 import asmeta.asmetal2java.codegen.application.Translator;
 import asmeta.asmetal2java.codegen.application.TranslatorImpl;
+import asmeta.asmetal2java.codegen.evosuite.DomainNotSupportedException;
 
 /**
  * The Asmeta2JavaCLI is the entry point for the Asmetal2Java application, which
@@ -58,7 +59,8 @@ public class Asmeta2JavaCLI {
 	 * 1: The application terminated with errors. 2: The application terminated with
 	 * errors related to the setup process. 3: The application terminated with
 	 * errors related to the translation process. 4: The application terminated with
-	 * errors related to the parsing process.
+	 * errors related to the parsing process. 5: The application terminated with
+	 * errors related to the testGen mode.
 	 */
 	private static int returnCode = -1;
 
@@ -71,7 +73,8 @@ public class Asmeta2JavaCLI {
 	 *         terminated with errors related to the setup process. 3: The
 	 *         application terminated with errors related to the translation
 	 *         process. 4: The application terminated with errors related to the
-	 *         parsing process.
+	 *         parsing process. 5: The application terminated with errors related to
+	 *         the testGen mode.
 	 */
 	public static int getReturnedCode() {
 		return returnCode;
@@ -134,11 +137,16 @@ public class Asmeta2JavaCLI {
 			logger.warn("Please check the parameters provided and consult the help message with -help:");
 			formatter.printHelp("Asmetal2Java", header, options, footer, false);
 			updateReturnCode(2); // setup error code
-		} catch(TranslationException e) {
+		} catch (TranslationException e) {
 			logger.error(GENERATION_FAILED);
 			logger.error("A translation error occurred: {}", e.getMessage(), e);
 			logger.info("Please report an isssue to the Asmeta team: https://github.com/asmeta/asmeta");
 			updateReturnCode(3); // translation error code
+		} catch (DomainNotSupportedException e) {
+			logger.error(GENERATION_FAILED);
+			logger.error("A testGen error occurred: {}", e.getMessage(), e);
+			logger.info("Please report an isssue to the Asmeta team: https://github.com/asmeta/asmeta");
+			updateReturnCode(5); // testGen error code
 		} catch (Exception e) {
 			logger.error(GENERATION_FAILED);
 			logger.error("An error occurred: {}.", e.getMessage(), e);
@@ -147,7 +155,7 @@ public class Asmeta2JavaCLI {
 			if (line != null && line.hasOption(CLEAN)) {
 				translator.clean();
 			}
-			logger.info("Requested operation completed.");
+			logger.info("Requested operation completed with code {}.", getReturnedCode());
 		}
 	}
 
@@ -164,11 +172,17 @@ public class Asmeta2JavaCLI {
 	 * Executes the main process based on the command-line arguments.
 	 *
 	 * @param line the parsed CommandLine object.
-	 * @throws AsmParsingException if an error occurs during the parsing operation.
-	 * @throws TranslationException if an error occurs during the translation operation.
-	 * @throws SetupException      if an error occurs during the setup operation.
+	 * @throws AsmParsingException         if an error occurs during the parsing
+	 *                                     operation.
+	 * @throws SetupException              if an error occurs during the setup
+	 *                                     operation.
+	 * @throws TranslationException        if an error occurs during the translation
+	 *                                     operation.
+	 * @throws DomainNotSupportedException if an error occurs during the testGen
+	 *                                     operation.
 	 */
-	private void executeTranslation(CommandLine line) throws AsmParsingException, SetupException, TranslationException {
+	private void executeTranslation(CommandLine line)
+			throws AsmParsingException, SetupException, TranslationException, DomainNotSupportedException {
 
 		setGlobalProperties(line);
 

@@ -73,6 +73,14 @@ public interface Translator {
 	 * @throws SetupException if there are errors during the setup.
 	 */
 	void setTimeBudget(String timeBudget) throws SetupException;
+	
+    /**
+     * Sets the desired parser type (javaParser or custom).
+     * 
+     * @param parser parser to use.
+     * @throws SetupException if an error occurs during the setup process.
+     */
+	void setParserType(String optionValue) throws SetupException;
 
 	/**
 	 * Executes the translation process:

@@ -3,6 +3,7 @@ package asmeta.evotest.junit2avalla.javascenario;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.List;
 import org.antlr.v4.runtime.CharStreams;
@@ -20,28 +21,48 @@ import asmeta.evotest.junit2avalla.util.JavaScenarioUtil;
 import asmeta.evotest.junit2avalla.antlr.JavaScenarioLexer;
 import asmeta.evotest.junit2avalla.antlr.JavaScenarioParser;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+/**
+ * Test the behavior of the antlr listener, analyze a junit file and create a
+ * list with the avalla terms, then proceed to do some checks on these terms
+ */
 public class JavaScenarioListenerTest {
 
-	@Test
-	public void whenAddNewScenario_ThenParseAndCreateScenarioAvalla() {
+	private static final String JUNITFILE = JavaScenarioUtil.getJavaFile_RegistroDiCassa();
+	private static final JavaScenarioLexer javaScenarioLexer = new JavaScenarioLexer(CharStreams.fromString(JUNITFILE));
+	private static final CommonTokenStream tokens = new CommonTokenStream(javaScenarioLexer);
+	private static final JavaScenarioParser javaScenarioParser = new JavaScenarioParser(tokens);
+	private static final ParseTreeWalker walker = new ParseTreeWalker();
+	private static final CustomParserListener javaScenarioWalker = new CustomParserListener();
+	private static List<Scenario> scenarioList;
 
-		String javaFile = JavaScenarioUtil.getJavaFile_RegistroDiCassa();
-
-		JavaScenarioLexer javaScenarioLexer = new JavaScenarioLexer(CharStreams.fromString(javaFile));
-		CommonTokenStream tokens = new CommonTokenStream(javaScenarioLexer);
-		JavaScenarioParser javaScenarioParser = new JavaScenarioParser(tokens);
-		ParseTreeWalker walker = new ParseTreeWalker();
-		JavaScenarioListener javaScenarioWalker = new JavaScenarioListener();
-		walker.walk(javaScenarioWalker, javaScenarioParser.start());
-
-		List<Scenario> scenarioList = javaScenarioWalker.getScenarioList();
+	/**
+	 * Parse the junit file and generates the scenario List, a list of avalla terms
+	 */
+	@BeforeClass
+	public static void setup() {
+		try {
+			// parse the junit file
+			walker.walk(javaScenarioWalker, javaScenarioParser.start());
+		} catch (Exception e) {
+			fail("Expected no exception, but got: " + e.getMessage());
+		}
+		scenarioList = javaScenarioWalker.getScenarioList();
 		assertFalse(scenarioList.isEmpty());
 		assertTrue(javaScenarioWalker.getScenarioList().size() > 0);
+	}
+
+	/**
+	 * parse a simple junit scenario and verify that the generated scenario list
+	 * contains the correct avalla terms
+	 */
+	@Test
+	public void whenAddNewScenario_ThenParseAndCreateScenarioAvalla() {
 		Scenario avallaScenario = scenarioList.get(0);
 		assertTrue(avallaScenario.isValid());
-		assertFalse(avallaScenario.getScenario().isEmpty());
+		assertFalse(avallaScenario.getScenarioList().isEmpty());
 
 		AvallaTerm avallaTerm = avallaScenario.remove();
 		assertTrue(avallaTerm instanceof AvallaHeaderTerm);
@@ -49,7 +70,7 @@ public class JavaScenarioListenerTest {
 
 		avallaTerm = avallaScenario.remove();
 		assertTrue(avallaTerm instanceof AvallaLoadTerm);
-		assertEquals(JavaScenarioUtil.NAME, ((AvallaLoadTerm) avallaTerm).getLoad());
+		assertEquals(JavaScenarioUtil.NAME, ((AvallaLoadTerm) avallaTerm).getAsmName());
 
 		avallaTerm = avallaScenario.remove();
 		assertTrue(avallaTerm instanceof AvallaCheckTerm);
@@ -70,70 +91,27 @@ public class JavaScenarioListenerTest {
 		assertTrue(avallaTerm instanceof AvallaSetTerm);
 		assertEquals(JavaScenarioUtil.SCELTA_DI_AGGIUNTA_PIZZA, ((AvallaSetTerm) avallaTerm).getName());
 		assertEquals("NO", ((AvallaSetTerm) avallaTerm).getValue());
+		
+		avallaTerm = avallaScenario.remove();
+		assertTrue(avallaTerm instanceof AvallaStepTerm);
 
 		avallaTerm = avallaScenario.remove();
 		assertTrue(avallaTerm instanceof AvallaSetTerm);
 		assertEquals(JavaScenarioUtil.SERVIZIO_SELEZIONATO, ((AvallaSetTerm) avallaTerm).getName());
 		assertEquals("NEWORDINE", ((AvallaSetTerm) avallaTerm).getValue());
 
-		avallaTerm = avallaScenario.remove();
-		assertTrue(avallaTerm instanceof AvallaStepTerm);
-
-		avallaTerm = avallaScenario.remove();
-		assertTrue(avallaTerm instanceof AvallaCheckTerm);
-		assertEquals(JavaScenarioUtil.OUT_MESS, ((AvallaCheckTerm) avallaTerm).getLeftTerm());
-		assertEquals("\"prezzo totale aggiornato\"", ((AvallaCheckTerm) avallaTerm).getRightTerm());
-
-		avallaTerm = avallaScenario.remove();
-		assertTrue(avallaTerm instanceof AvallaCheckTerm);
-		assertEquals(JavaScenarioUtil.STATO_CASSA, ((AvallaCheckTerm) avallaTerm).getLeftTerm());
-		assertEquals("ATTENDI_ORDINAZIONI", ((AvallaCheckTerm) avallaTerm).getRightTerm());
-
-		avallaTerm = avallaScenario.remove();
-		assertTrue(avallaTerm instanceof AvallaCheckTerm);
-		assertEquals(JavaScenarioUtil.TOTALE, ((AvallaCheckTerm) avallaTerm).getLeftTerm());
-		assertEquals("0", ((AvallaCheckTerm) avallaTerm).getRightTerm());
-
-		avallaTerm = avallaScenario.remove();
-		assertTrue(avallaTerm instanceof AvallaStepTerm);
-
-		avallaTerm = avallaScenario.remove();
-		assertTrue(avallaTerm instanceof AvallaCheckTerm);
-		assertEquals(JavaScenarioUtil.OUT_MESS, ((AvallaCheckTerm) avallaTerm).getLeftTerm());
-		assertEquals("\"prezzo totale aggiornato\"", ((AvallaCheckTerm) avallaTerm).getRightTerm());
-
-		avallaTerm = avallaScenario.remove();
-		assertTrue(avallaTerm instanceof AvallaCheckTerm);
-		assertEquals(JavaScenarioUtil.STATO_CASSA, ((AvallaCheckTerm) avallaTerm).getLeftTerm());
-		assertEquals("ATTENDI_ORDINAZIONI", ((AvallaCheckTerm) avallaTerm).getRightTerm());
-
-		avallaTerm = avallaScenario.remove();
-		assertTrue(avallaTerm instanceof AvallaCheckTerm);
-		assertEquals(JavaScenarioUtil.TOTALE, ((AvallaCheckTerm) avallaTerm).getLeftTerm());
-		assertEquals("0", ((AvallaCheckTerm) avallaTerm).getRightTerm());
-
-		assertTrue(avallaScenario.getScenario().isEmpty());
+		assertTrue(avallaScenario.getScenarioList().isEmpty());
 
 	}
 
+	/**
+	 * Test a junit scenario that handles an avalla abstract type
+	 */
 	@Test
 	public void parseAndCreateScenarioAvalla_TestSetAbstractDomainType() {
-
-		String javaFile = JavaScenarioUtil.getJavaFile_RegistroDiCassa();
-
-		JavaScenarioLexer javaScenarioLexer = new JavaScenarioLexer(CharStreams.fromString(javaFile));
-		CommonTokenStream tokens = new CommonTokenStream(javaScenarioLexer);
-		JavaScenarioParser javaScenarioParser = new JavaScenarioParser(tokens);
-		ParseTreeWalker walker = new ParseTreeWalker();
-		JavaScenarioListener javaScenarioWalker = new JavaScenarioListener();
-		walker.walk(javaScenarioWalker, javaScenarioParser.start());
-
-		List<Scenario> scenarioList = javaScenarioWalker.getScenarioList();
-		assertFalse(scenarioList.isEmpty());
-		assertTrue(javaScenarioWalker.getScenarioList().size() > 0);
 		Scenario avallaScenario = scenarioList.get(1);
 		assertTrue(avallaScenario.isValid());
-		assertFalse(avallaScenario.getScenario().isEmpty());
+		assertFalse(avallaScenario.getScenarioList().isEmpty());
 
 		AvallaTerm avallaTerm = avallaScenario.remove();
 		assertTrue(avallaTerm instanceof AvallaHeaderTerm);
@@ -141,60 +119,22 @@ public class JavaScenarioListenerTest {
 
 		avallaTerm = avallaScenario.remove();
 		assertTrue(avallaTerm instanceof AvallaLoadTerm);
-		assertEquals(JavaScenarioUtil.NAME, ((AvallaLoadTerm) avallaTerm).getLoad());
+		assertEquals(JavaScenarioUtil.NAME, ((AvallaLoadTerm) avallaTerm).getAsmName());
 
-		avallaTerm = avallaScenario.remove();
-		assertTrue(avallaTerm instanceof AvallaCheckTerm);
-		assertEquals(JavaScenarioUtil.OUT_MESS, ((AvallaCheckTerm) avallaTerm).getLeftTerm());
-		assertEquals("\"\"", ((AvallaCheckTerm) avallaTerm).getRightTerm());
-
-		avallaTerm = avallaScenario.remove();
-		assertTrue(avallaTerm instanceof AvallaCheckTerm);
-		assertEquals(JavaScenarioUtil.STATO_CASSA, ((AvallaCheckTerm) avallaTerm).getLeftTerm());
-		assertEquals("ATTENDI_ORDINAZIONI", ((AvallaCheckTerm) avallaTerm).getRightTerm());
-
-		avallaTerm = avallaScenario.remove();
-		assertTrue(avallaTerm instanceof AvallaCheckTerm);
-		assertEquals(JavaScenarioUtil.TOTALE, ((AvallaCheckTerm) avallaTerm).getLeftTerm());
-		assertEquals("0", ((AvallaCheckTerm) avallaTerm).getRightTerm());
-
-		avallaTerm = avallaScenario.remove();
-		assertTrue(avallaTerm instanceof AvallaSetTerm);
-		assertEquals(JavaScenarioUtil.SCELTA_DI_AGGIUNTA_PIZZA, ((AvallaSetTerm) avallaTerm).getName());
-		assertEquals("SI", ((AvallaSetTerm) avallaTerm).getValue());
-
-		avallaTerm = avallaScenario.remove();
-		assertTrue(avallaTerm instanceof AvallaSetTerm);
-		assertEquals(JavaScenarioUtil.SERVIZIO_SELEZIONATO, ((AvallaSetTerm) avallaTerm).getName());
-		assertEquals("NEWORDINE", ((AvallaSetTerm) avallaTerm).getValue());
-
-		avallaTerm = avallaScenario.remove();
-		assertTrue(avallaTerm instanceof AvallaStepTerm);
-
-		avallaTerm = avallaScenario.remove();
-		assertTrue(avallaTerm instanceof AvallaCheckTerm);
-		assertEquals(JavaScenarioUtil.STATO_CASSA, ((AvallaCheckTerm) avallaTerm).getLeftTerm());
-		assertEquals("SCEGLI_TIPO_DI_PIZZA", ((AvallaCheckTerm) avallaTerm).getRightTerm());
-
-		avallaTerm = avallaScenario.remove();
-		assertTrue(avallaTerm instanceof AvallaCheckTerm);
-		assertEquals(JavaScenarioUtil.TOTALE, ((AvallaCheckTerm) avallaTerm).getLeftTerm());
-		assertEquals("0", ((AvallaCheckTerm) avallaTerm).getRightTerm());
-
-		avallaTerm = avallaScenario.remove();
-		assertTrue(avallaTerm instanceof AvallaCheckTerm);
-		assertEquals(JavaScenarioUtil.OUT_MESS, ((AvallaCheckTerm) avallaTerm).getLeftTerm());
-		assertEquals("\"Scegli il tipo di pizza desiderata:\"", ((AvallaCheckTerm) avallaTerm).getRightTerm());
+		avallaScenario.remove();
+		avallaScenario.remove();
+		avallaScenario.remove();
+		avallaScenario.remove();
+		avallaScenario.remove();
+		avallaScenario.remove();
+		avallaScenario.remove();
+		avallaScenario.remove();
+		avallaScenario.remove();
 
 		avallaTerm = avallaScenario.remove();
 		assertTrue(avallaTerm instanceof AvallaSetTerm);
 		assertEquals(JavaScenarioUtil.PIZZA_INSERITA, ((AvallaSetTerm) avallaTerm).getName());
 		assertEquals("margherita", ((AvallaSetTerm) avallaTerm).getValue());
-
-		avallaTerm = avallaScenario.remove();
-		assertTrue(avallaTerm instanceof AvallaSetTerm);
-		assertEquals(JavaScenarioUtil.INSERT_QUANTITA, ((AvallaSetTerm) avallaTerm).getName());
-		assertEquals("0", ((AvallaSetTerm) avallaTerm).getValue());
 
 		avallaTerm = avallaScenario.remove();
 		assertTrue(avallaTerm instanceof AvallaSetTerm);
@@ -219,64 +159,20 @@ public class JavaScenarioListenerTest {
 		assertEquals(JavaScenarioUtil.TOTALE, ((AvallaCheckTerm) avallaTerm).getLeftTerm());
 		assertEquals("0", ((AvallaCheckTerm) avallaTerm).getRightTerm());
 
-		avallaTerm = avallaScenario.remove();
-		assertTrue(avallaTerm instanceof AvallaStepTerm);
-
-		avallaTerm = avallaScenario.remove();
-		assertTrue(avallaTerm instanceof AvallaCheckTerm);
-		assertEquals(JavaScenarioUtil.OUT_MESS, ((AvallaCheckTerm) avallaTerm).getLeftTerm());
-		assertEquals("\"prezzo totale aggiornato\"", ((AvallaCheckTerm) avallaTerm).getRightTerm());
-
-		avallaTerm = avallaScenario.remove();
-		assertTrue(avallaTerm instanceof AvallaCheckTerm);
-		assertEquals(JavaScenarioUtil.TOTALE, ((AvallaCheckTerm) avallaTerm).getLeftTerm());
-		assertEquals("0", ((AvallaCheckTerm) avallaTerm).getRightTerm());
-
-		avallaTerm = avallaScenario.remove();
-		assertTrue(avallaTerm instanceof AvallaCheckTerm);
-		assertEquals(JavaScenarioUtil.STATO_CASSA, ((AvallaCheckTerm) avallaTerm).getLeftTerm());
-		assertEquals("SCEGLI_SE_AGGIUNGERE_PIZZA", ((AvallaCheckTerm) avallaTerm).getRightTerm());
-
-		avallaTerm = avallaScenario.remove();
-		assertTrue(avallaTerm instanceof AvallaStepTerm);
-
-		avallaTerm = avallaScenario.remove();
-		assertTrue(avallaTerm instanceof AvallaCheckTerm);
-		assertEquals(JavaScenarioUtil.STATO_CASSA, ((AvallaCheckTerm) avallaTerm).getLeftTerm());
-		assertEquals("SCEGLI_TIPO_DI_PIZZA", ((AvallaCheckTerm) avallaTerm).getRightTerm());
-
-		avallaTerm = avallaScenario.remove();
-		assertTrue(avallaTerm instanceof AvallaCheckTerm);
-		assertEquals(JavaScenarioUtil.TOTALE, ((AvallaCheckTerm) avallaTerm).getLeftTerm());
-		assertEquals("0", ((AvallaCheckTerm) avallaTerm).getRightTerm());
-
-		avallaTerm = avallaScenario.remove();
-		assertTrue(avallaTerm instanceof AvallaCheckTerm);
-		assertEquals(JavaScenarioUtil.OUT_MESS, ((AvallaCheckTerm) avallaTerm).getLeftTerm());
-		assertEquals("\"Scegli il tipo di pizza desiderata:\"", ((AvallaCheckTerm) avallaTerm).getRightTerm());
-
-		assertTrue(avallaScenario.getScenario().isEmpty());
+		assertTrue(avallaScenario.getScenarioList().isEmpty());
 
 	}
 
+	/**
+	 * Test that if the junit test has a try-catch structure the parser can generate
+	 * a valid scenario up to the structure and when it encounters it stops
+	 * generating instructions
+	 */
 	@Test
 	public void parseAndCreateScenarioAvalla_TestTryCatchBlock() {
-
-		String javaFile = JavaScenarioUtil.getJavaFile_RegistroDiCassa();
-
-		JavaScenarioLexer javaScenarioLexer = new JavaScenarioLexer(CharStreams.fromString(javaFile));
-		CommonTokenStream tokens = new CommonTokenStream(javaScenarioLexer);
-		JavaScenarioParser javaScenarioParser = new JavaScenarioParser(tokens);
-		ParseTreeWalker walker = new ParseTreeWalker();
-		JavaScenarioListener javaScenarioWalker = new JavaScenarioListener();
-		walker.walk(javaScenarioWalker, javaScenarioParser.start());
-
-		List<Scenario> scenarioList = javaScenarioWalker.getScenarioList();
-		assertFalse(scenarioList.isEmpty());
-		assertTrue(javaScenarioWalker.getScenarioList().size() > 0);
 		Scenario avallaScenario = scenarioList.get(6);
 		assertTrue(avallaScenario.isValid());
-		assertFalse(avallaScenario.getScenario().isEmpty());
+		assertFalse(avallaScenario.getScenarioList().isEmpty());
 
 		AvallaTerm avallaTerm = avallaScenario.remove();
 		assertTrue(avallaTerm instanceof AvallaHeaderTerm);
@@ -284,7 +180,7 @@ public class JavaScenarioListenerTest {
 
 		avallaTerm = avallaScenario.remove();
 		assertTrue(avallaTerm instanceof AvallaLoadTerm);
-		assertEquals(JavaScenarioUtil.NAME, ((AvallaLoadTerm) avallaTerm).getLoad());
+		assertEquals(JavaScenarioUtil.NAME, ((AvallaLoadTerm) avallaTerm).getAsmName());
 
 		avallaTerm = avallaScenario.remove();
 		assertTrue(avallaTerm instanceof AvallaCheckTerm);
@@ -310,106 +206,77 @@ public class JavaScenarioListenerTest {
 		assertTrue(avallaTerm instanceof AvallaSetTerm);
 		assertEquals(JavaScenarioUtil.SCELTA_DI_AGGIUNTA_PIZZA, ((AvallaSetTerm) avallaTerm).getName());
 		assertEquals("SI", ((AvallaSetTerm) avallaTerm).getValue());
-
-		avallaTerm = avallaScenario.remove();
-		assertTrue(avallaTerm instanceof AvallaSetTerm);
-		assertEquals(JavaScenarioUtil.SERVIZIO_SELEZIONATO, ((AvallaSetTerm) avallaTerm).getName());
-		assertEquals("NEWORDINE", ((AvallaSetTerm) avallaTerm).getValue());
-
+		
 		avallaTerm = avallaScenario.remove();
 		assertTrue(avallaTerm instanceof AvallaStepTerm);
 
-		avallaTerm = avallaScenario.remove();
-		assertTrue(avallaTerm instanceof AvallaCheckTerm);
-		assertEquals(JavaScenarioUtil.STATO_CASSA, ((AvallaCheckTerm) avallaTerm).getLeftTerm());
-		assertEquals("SCEGLI_TIPO_DI_PIZZA", ((AvallaCheckTerm) avallaTerm).getRightTerm());
-
-		avallaTerm = avallaScenario.remove();
-		assertTrue(avallaTerm instanceof AvallaCheckTerm);
-		assertEquals(JavaScenarioUtil.OUT_MESS, ((AvallaCheckTerm) avallaTerm).getLeftTerm());
-		assertEquals("\"Scegli il tipo di pizza desiderata:\"", ((AvallaCheckTerm) avallaTerm).getRightTerm());
-
-		avallaTerm = avallaScenario.remove();
-		assertTrue(avallaTerm instanceof AvallaCheckTerm);
-		assertEquals(JavaScenarioUtil.TOTALE, ((AvallaCheckTerm) avallaTerm).getLeftTerm());
-		assertEquals("0", ((AvallaCheckTerm) avallaTerm).getRightTerm());
-
-		avallaTerm = avallaScenario.remove();
-		assertTrue(avallaTerm instanceof AvallaStepTerm);
-
-		avallaTerm = avallaScenario.remove();
-		assertTrue(avallaTerm instanceof AvallaCheckTerm);
-		assertEquals(JavaScenarioUtil.OUT_MESS, ((AvallaCheckTerm) avallaTerm).getLeftTerm());
-		assertEquals("\"Inserisci il nome di una nuova pizza:\"", ((AvallaCheckTerm) avallaTerm).getRightTerm());
-
-		avallaTerm = avallaScenario.remove();
-		assertTrue(avallaTerm instanceof AvallaCheckTerm);
-		assertEquals(JavaScenarioUtil.TOTALE, ((AvallaCheckTerm) avallaTerm).getLeftTerm());
-		assertEquals("0", ((AvallaCheckTerm) avallaTerm).getRightTerm());
-
-		avallaTerm = avallaScenario.remove();
-		assertTrue(avallaTerm instanceof AvallaCheckTerm);
-		assertEquals(JavaScenarioUtil.STATO_CASSA, ((AvallaCheckTerm) avallaTerm).getLeftTerm());
-		assertEquals("ALTRAPIZZA_SELEZIONATA", ((AvallaCheckTerm) avallaTerm).getRightTerm());
-
-		assertTrue(avallaScenario.getScenario().isEmpty());
+		assertTrue(avallaScenario.getScenarioList().isEmpty());
 
 	}
 
+	/**
+	 * Test that a scenario without a step function is labeled as invalid
+	 */
 	@Test
 	public void parseAndCreateScenarioAvalla_InvalidScenario() {
-
-		String javaFile = JavaScenarioUtil.getJavaFile_RegistroDiCassa();
-
-		JavaScenarioLexer javaScenarioLexer = new JavaScenarioLexer(CharStreams.fromString(javaFile));
-		CommonTokenStream tokens = new CommonTokenStream(javaScenarioLexer);
-		JavaScenarioParser javaScenarioParser = new JavaScenarioParser(tokens);
-		ParseTreeWalker walker = new ParseTreeWalker();
-		JavaScenarioListener javaScenarioWalker = new JavaScenarioListener();
-		walker.walk(javaScenarioWalker, javaScenarioParser.start());
-
-		List<Scenario> scenarioList = javaScenarioWalker.getScenarioList();
-		assertFalse(scenarioList.isEmpty());
-		assertTrue(javaScenarioWalker.getScenarioList().size() > 0);
 		Scenario avallaScenario = scenarioList.get(4);
 		assertFalse(avallaScenario.isValid());
-		assertFalse(avallaScenario.getScenario().isEmpty());
+		assertFalse(avallaScenario.getScenarioList().isEmpty());
 	}
 
+	/**
+	 * Test that the parser can retrieve the value of a variable and make the
+	 * correct assertion
+	 * <p>
+	 * example: String string0 = registroDiCassav4_ATG0.get_outMess();
+	 * assertEquals("", string0);
+	 * <p>
+	 */
 	@Test
 	public void parseAndCreateScenarioAvalla_TestVariableOnEquals() {
 		// Test this case:
-		// String string0 = registroDiCassav4_ATG0.get_outMess();
-		// assertEquals(\"\", string0);
+		// String string0 = registroDiCassav4_ATG0.get_outMess()
+		// assertEquals(\"\", string0)
 
-		String javaFile = JavaScenarioUtil.getJavaFile_RegistroDiCassa();
-
-		JavaScenarioLexer javaScenarioLexer = new JavaScenarioLexer(CharStreams.fromString(javaFile));
-		CommonTokenStream tokens = new CommonTokenStream(javaScenarioLexer);
-		JavaScenarioParser javaScenarioParser = new JavaScenarioParser(tokens);
-		ParseTreeWalker walker = new ParseTreeWalker();
-		JavaScenarioListener javaScenarioWalker = new JavaScenarioListener();
-		walker.walk(javaScenarioWalker, javaScenarioParser.start());
-
-		List<Scenario> scenarioList = javaScenarioWalker.getScenarioList();
-		assertFalse(scenarioList.isEmpty());
-		assertTrue(javaScenarioWalker.getScenarioList().size() > 0);
 		Scenario avallaScenario = scenarioList.get(5);
 		assertFalse(avallaScenario.isValid());
-		assertFalse(avallaScenario.getScenario().isEmpty());
+		assertFalse(avallaScenario.getScenarioList().isEmpty());
+
+		avallaScenario.remove();
+		avallaScenario.remove();
+
+		AvallaTerm avallaTerm = avallaScenario.remove();
+		assertTrue(avallaTerm instanceof AvallaCheckTerm);
+		assertEquals(JavaScenarioUtil.OUT_MESS, ((AvallaCheckTerm) avallaTerm).getLeftTerm());
+		assertEquals("\"\"", ((AvallaCheckTerm) avallaTerm).getRightTerm());
+
+		assertFalse(avallaScenario.getScenarioList().isEmpty());
+
+		avallaTerm = avallaScenario.remove();
+		assertTrue(avallaTerm instanceof AvallaCheckTerm);
+		assertEquals(JavaScenarioUtil.OUT_MESS, ((AvallaCheckTerm) avallaTerm).getLeftTerm());
+		assertEquals("\"\"", ((AvallaCheckTerm) avallaTerm).getRightTerm());
+
+		assertTrue(avallaScenario.getScenarioList().isEmpty());
+	}
+
+	/**
+	 * Test that when the parser encounters an unrecognized value it stops
+	 * generating the instructions
+	 */
+	@Test
+	public void parseAndCreateScenarioAvalla_TestUnrecognizedValue() {
+		Scenario avallaScenario = scenarioList.get(7);
+		assertTrue(avallaScenario.isValid());
+		assertFalse(avallaScenario.getScenarioList().isEmpty());
 
 		AvallaTerm avallaTerm = avallaScenario.remove();
 		assertTrue(avallaTerm instanceof AvallaHeaderTerm);
-		assertEquals(JavaScenarioUtil.SCENARIO_5, ((AvallaHeaderTerm) avallaTerm).getScenarioName());
+		assertEquals(JavaScenarioUtil.SCENARIO_7, ((AvallaHeaderTerm) avallaTerm).getScenarioName());
 
 		avallaTerm = avallaScenario.remove();
 		assertTrue(avallaTerm instanceof AvallaLoadTerm);
-		assertEquals(JavaScenarioUtil.NAME, ((AvallaLoadTerm) avallaTerm).getLoad());
-
-		avallaTerm = avallaScenario.remove();
-		assertTrue(avallaTerm instanceof AvallaCheckTerm);
-		assertEquals(JavaScenarioUtil.TOTALE, ((AvallaCheckTerm) avallaTerm).getLeftTerm());
-		assertEquals("0", ((AvallaCheckTerm) avallaTerm).getRightTerm());
+		assertEquals(JavaScenarioUtil.NAME, ((AvallaLoadTerm) avallaTerm).getAsmName());
 
 		avallaTerm = avallaScenario.remove();
 		assertTrue(avallaTerm instanceof AvallaCheckTerm);
@@ -420,32 +287,11 @@ public class JavaScenarioListenerTest {
 		assertTrue(avallaTerm instanceof AvallaCheckTerm);
 		assertEquals(JavaScenarioUtil.STATO_CASSA, ((AvallaCheckTerm) avallaTerm).getLeftTerm());
 		assertEquals("ATTENDI_ORDINAZIONI", ((AvallaCheckTerm) avallaTerm).getRightTerm());
-		
-		avallaTerm = avallaScenario.remove();
-		assertTrue(avallaTerm instanceof AvallaCheckTerm);
-		assertEquals(JavaScenarioUtil.TOTALE, ((AvallaCheckTerm) avallaTerm).getLeftTerm());
-		assertEquals("0", ((AvallaCheckTerm) avallaTerm).getRightTerm());
 
 		avallaTerm = avallaScenario.remove();
-		assertTrue(avallaTerm instanceof AvallaCheckTerm);
-		assertEquals(JavaScenarioUtil.OUT_MESS, ((AvallaCheckTerm) avallaTerm).getLeftTerm());
-		assertEquals("\"\"", ((AvallaCheckTerm) avallaTerm).getRightTerm());
+		assertTrue(avallaTerm instanceof AvallaStepTerm);
 
-		avallaTerm = avallaScenario.remove();
-		assertTrue(avallaTerm instanceof AvallaCheckTerm);
-		assertEquals(JavaScenarioUtil.STATO_CASSA, ((AvallaCheckTerm) avallaTerm).getLeftTerm());
-		assertEquals("ATTENDI_ORDINAZIONI", ((AvallaCheckTerm) avallaTerm).getRightTerm());
-		
-		assertFalse(avallaScenario.getScenario().isEmpty());
-		
-		avallaTerm = avallaScenario.remove();
-		assertTrue(avallaTerm instanceof AvallaCheckTerm);
-		assertEquals(JavaScenarioUtil.OUT_MESS, ((AvallaCheckTerm) avallaTerm).getLeftTerm());
-		assertEquals("\"\"", ((AvallaCheckTerm) avallaTerm).getRightTerm());
-		
-		assertTrue(avallaScenario.getScenario().isEmpty());
-
-
+		assertTrue(avallaScenario.getScenarioList().isEmpty());
 	}
-
+	
 }

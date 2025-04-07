@@ -17,7 +17,8 @@ import asmeta.evotest.junit2avalla.model.ScenarioFile;
  */
 public class FileWriterImpl implements FileWriter {
 
-	private final Logger log = LogManager.getLogger(FileWriterImpl.class);
+	/** Logger */
+	private final Logger logger = LogManager.getLogger(FileWriterImpl.class);
 
 	/**
 	 * The default output path where files will be written if no specific folder is
@@ -34,7 +35,8 @@ public class FileWriterImpl implements FileWriter {
 
 	/**
 	 * {@inheritDoc}
-	 * @throws IOException 
+	 * 
+	 * @throws IOException
 	 */
 	@Override
 	public boolean writeToFile(ScenarioFile scenarioFile) throws IOException {
@@ -43,7 +45,8 @@ public class FileWriterImpl implements FileWriter {
 
 	/**
 	 * {@inheritDoc}
-	 * @throws IOException 
+	 * 
+	 * @throws IOException
 	 */
 	@Override
 	public boolean writeToFile(ScenarioFile scenarioFile, Path outputFolder) throws IOException {
@@ -58,24 +61,24 @@ public class FileWriterImpl implements FileWriter {
 	 * @param outputFolder The folder where the file will be saved.
 	 * @return {@code true} if the file was successfully written, {@code false}
 	 *         otherwise.
-	 * @throws IOException 
+	 * @throws IOException
 	 * @throws RuntimeException if an I/O error occurs during directory creation or
 	 *                          file writing.
 	 */
 	private boolean write(ScenarioFile scenarioFile, Path outputFolder) throws IOException {
 
-		log.info("Exporting: {} to the folder: {}", scenarioFile.getName(), outputFolder);
+		logger.info("Exporting: {} to the folder: {}", scenarioFile.getName(), outputFolder);
 
 		if (!checkPath(outputFolder)) {
 			createPath(outputFolder);
 		}
 
-		Path fullOutputPath = outputFolder.resolve(scenarioFile.getName() + scenarioFile.getExtension());
-		log.info("Output file path: {} .", fullOutputPath);
+		Path fullOutputPath = outputFolder.resolve(scenarioFile.getName() + ScenarioFile.EXTENSION);
+		logger.info("Output file path: {} .", fullOutputPath);
 
-		log.info("Writing file to path: {} .", fullOutputPath);
+		logger.info("Writing file to path: {} .", fullOutputPath);
 		Files.write(fullOutputPath, scenarioFile.getText().getBytes(StandardCharsets.UTF_8));
-		log.info("File writing operation completed with success.");
+		logger.info("File writing operation completed with success.");
 
 		return true;
 	}
@@ -95,12 +98,12 @@ public class FileWriterImpl implements FileWriter {
 	 * message if the directory is created or an error occurs.
 	 *
 	 * @param path The path where the directory should be created.
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	private void createPath(Path path) throws IOException {
-		log.info("Path {} doesn't exist.", path);
-		log.info("Creating path {} ...", path);
+		logger.info("Path {} doesn't exist.", path);
+		logger.info("Creating path {} ...", path);
 		Files.createDirectories(path);
-		log.info("Path {} created with success.", path);
+		logger.info("Path {} created with success.", path);
 	}
 }

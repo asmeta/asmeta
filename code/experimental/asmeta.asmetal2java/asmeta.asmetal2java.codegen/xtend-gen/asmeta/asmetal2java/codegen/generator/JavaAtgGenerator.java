@@ -191,6 +191,8 @@ public class JavaAtgGenerator extends AsmToJavaGenerator {
       sb.append(System.lineSeparator());
       sb.append(CoverRules.coverAllRules(this.rules));
       sb.append(System.lineSeparator());
+      sb.append(AsmMethods.expectedAbstractValues(asm));
+      sb.append(System.lineSeparator());
     }
     boolean _coverOutputs_1 = this.options.getCoverOutputs();
     if (_coverOutputs_1) {
@@ -230,14 +232,14 @@ public class JavaAtgGenerator extends AsmToJavaGenerator {
     _builder_9.append("// Controlled getters");
     _append_5.append(_builder_9);
     sb.append(System.lineSeparator());
-    sb.append(AsmMethods.controlledGetter(asm));
+    sb.append(AsmMethods.controlledGetter(asm, this.options));
     sb.append(System.lineSeparator());
     StringBuffer _append_6 = sb.append("\t\t");
     StringConcatenation _builder_10 = new StringConcatenation();
     _builder_10.append("// Monitored setters");
     _append_6.append(_builder_10);
     sb.append(System.lineSeparator());
-    sb.append(AsmMethods.monitoredSetters(asm));
+    sb.append(AsmMethods.monitoredSetters(asm, this.options));
     sb.append(System.lineSeparator());
     StringConcatenation _builder_11 = new StringConcatenation();
     _builder_11.append("}");

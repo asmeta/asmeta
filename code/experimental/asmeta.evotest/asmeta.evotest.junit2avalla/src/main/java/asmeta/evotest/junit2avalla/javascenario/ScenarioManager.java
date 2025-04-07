@@ -51,8 +51,8 @@ class ScenarioManager {
 	 */
 	void setLoadTerm(Scenario avallaScenario, String asmName) {
 		AvallaLoadTerm avallaLoadTerm = new AvallaLoadTerm();
-		avallaLoadTerm.setLoad(retrieveAsmName(asmName));
-		log.debug("Set AvallaLoadTerm_load: {} .", avallaLoadTerm.getLoad());
+		avallaLoadTerm.setAsmName(retrieveAsmName(asmName));
+		log.debug("Set AvallaLoadTerm_load: {} .", avallaLoadTerm.getAsmName());
 		avallaScenario.add(avallaLoadTerm);
 	}
 
@@ -93,9 +93,9 @@ class ScenarioManager {
 	 */
 	void setCheckTerm(Scenario avallaScenario, JavaAssertionTerm javaAssertionTerm) {
 		AvallaCheckTerm avallaCheckTerm = new AvallaCheckTerm();
-		avallaCheckTerm.setLeftTerm(retrieveExpected(javaAssertionTerm.getExpected()));
+		avallaCheckTerm.setLeftTerm(retrieveActual(javaAssertionTerm.getActual()));
 		log.debug("Set AvallaCheckTerm_leftTerm: {} .", avallaCheckTerm.getLeftTerm());
-		avallaCheckTerm.setRightTerm(retrieveActual(javaAssertionTerm));
+		avallaCheckTerm.setRightTerm(retrieveExpected(javaAssertionTerm));
 		log.debug("Set AvallaCheckTerm_rightTerm: {} .", avallaCheckTerm.getRightTerm());
 		avallaScenario.add(avallaCheckTerm);
 	}
@@ -118,37 +118,39 @@ class ScenarioManager {
 	 * @return the processed ASM name.
 	 */
 	private String retrieveAsmName(String asmName) {
-		return asmName.substring(0, asmName.lastIndexOf("_ATG"));
+		return asmName.substring(0, asmName.lastIndexOf(ScenarioParserUtil.ATG_CLASS_FLAG));
 	}
 
 	/**
 	 * Retrieves the actual value from a given string. If the value is not
 	 * primitive, extract the last id of the identifier.
 	 *
-	 * @param actual the actual value string.
+	 * @param javaAssertionTerm the current java assertion term
 	 * @return the processed actual value.
 	 */
-	private String retrieveActual(JavaAssertionTerm javaAssertionTerm) {
-		String actual = javaAssertionTerm.getActual();
-		if (actual.contains("abstract_")){
+	private String retrieveExpected(JavaAssertionTerm javaAssertionTerm) {
+		String expected = javaAssertionTerm.getExpected();
+		if (expected.contains("abstract_")) {
 			// if it's an abstract type remove the double quotes and the abstract_ flag
-			actual = actual.replace("\"", "");
-			actual = actual.replace("abstract_", "");
-		} else if (actual.startsWith("\"[") && actual.endsWith("]\"")) {
+			expected = expected.replace("\"", "");
+			expected = expected.replace("abstract_", "");
+		} else if (expected.startsWith("\"[") && expected.endsWith("]\"")) {
 			// if it's a sequence type remove the double quotes
-			actual = actual.replace("\"", "");
+			expected = expected.replace("\"", "");
 		}
-		return javaAssertionTerm.isPrimitive() ? actual : actual.substring(actual.lastIndexOf(".") + 1);
+		return javaAssertionTerm.isPrimitive() ? expected : expected.substring(expected.lastIndexOf(".") + 1);
 	}
 
 	/**
-	 * Retrieves the expected value from a given string.
+	 * Retrieves the actual value from a given string.
 	 *
-	 * @param expected the expected value string.
+	 * @param actual the expected value string.
 	 * @return the processed expected value.
 	 */
-	private String retrieveExpected(String expected) {
-		return expected.contains(".get_") ? expected.substring(expected.lastIndexOf(".get_") + 5).replace("()", "") : expected;
+	private String retrieveActual(String actual) {
+		return actual.contains(ScenarioParserUtil.GET_FLAG)
+				? actual.substring(actual.lastIndexOf(ScenarioParserUtil.GET_FLAG) + 4).replace("()", "")
+				: actual;
 	}
 
 	/**
@@ -158,7 +160,7 @@ class ScenarioManager {
 	 * @return the processed expected value.
 	 */
 	private String retrieveSetter(String setter) {
-		return setter.substring(setter.lastIndexOf(".set_") + 5);
+		return setter.substring(setter.lastIndexOf(ScenarioParserUtil.SET_FLAG) + 4);
 	}
 
 }

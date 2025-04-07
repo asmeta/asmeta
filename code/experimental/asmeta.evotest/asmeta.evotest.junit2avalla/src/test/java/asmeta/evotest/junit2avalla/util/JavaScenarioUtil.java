@@ -11,6 +11,7 @@ public class JavaScenarioUtil {
 	public static final String SCENARIO_4 = "RegistroDiCassav4_scenario4";
 	public static final String SCENARIO_5 = "RegistroDiCassav4_scenario5";
 	public static final String SCENARIO_6 = "RegistroDiCassav4_scenario6";
+	public static final String SCENARIO_7 = "RegistroDiCassav4_scenario7";
 	/* Monitored */
 	public static final String OUT_MESS = "outMess";
 	public static final String STATO_CASSA = "statoCassa";
@@ -56,6 +57,8 @@ public class JavaScenarioUtil {
               assertEquals("", registroDiCassav4_ATG0.get_outMess());
               assertEquals(RegistroDiCassav4.Stati.ATTENDI_ORDINAZIONI, registroDiCassav4_ATG0.get_statoCassa());
               assertEquals(0, registroDiCassav4_ATG0.get_totale());
+              
+              registroDiCassav4_ATG0.step();
         
               RegistroDiCassav4.Servizio registroDiCassav4_Servizio0 = RegistroDiCassav4.Servizio.NEWORDINE;
               registroDiCassav4_ATG0.set_servizioSelezionato(registroDiCassav4_Servizio0);
@@ -63,15 +66,6 @@ public class JavaScenarioUtil {
               assertEquals(RegistroDiCassav4.Stati.ATTENDI_ORDINAZIONI, registroDiCassav4_ATG0.get_statoCassa());
               assertEquals(0, registroDiCassav4_ATG0.get_totale());
         
-              registroDiCassav4_ATG0.step();
-              assertEquals("prezzo totale aggiornato", registroDiCassav4_ATG0.get_outMess());
-              assertEquals(RegistroDiCassav4.Stati.ATTENDI_ORDINAZIONI, registroDiCassav4_ATG0.get_statoCassa());
-              assertEquals(0, registroDiCassav4_ATG0.get_totale());
-        
-              registroDiCassav4_ATG0.step();
-              assertEquals("prezzo totale aggiornato", registroDiCassav4_ATG0.get_outMess());
-              assertEquals(RegistroDiCassav4.Stati.ATTENDI_ORDINAZIONI, registroDiCassav4_ATG0.get_statoCassa());
-              assertEquals(0, registroDiCassav4_ATG0.get_totale());
           }
         
           @Test(timeout = 4000)
@@ -104,11 +98,6 @@ public class JavaScenarioUtil {
               assertEquals(0, registroDiCassav4_ATG0.get_totale());
               assertEquals("Scegli il tipo di pizza desiderata:", registroDiCassav4_ATG0.get_outMess());
         
-              registroDiCassav4_ATG0.set_insertQuantita(0);
-              assertEquals(RegistroDiCassav4.Stati.SCEGLI_TIPO_DI_PIZZA, registroDiCassav4_ATG0.get_statoCassa());
-              assertEquals(0, registroDiCassav4_ATG0.get_totale());
-              assertEquals("Scegli il tipo di pizza desiderata:", registroDiCassav4_ATG0.get_outMess());
-        
               RegistroDiCassav4.SelezioneTipoDiPizza registroDiCassav4_SelezioneTipoDiPizza0 = RegistroDiCassav4.SelezioneTipoDiPizza.STANDARD;
               registroDiCassav4_ATG0.set_sceltaDelTipoPizza(registroDiCassav4_SelezioneTipoDiPizza0);
               assertEquals(RegistroDiCassav4.Stati.SCEGLI_TIPO_DI_PIZZA, registroDiCassav4_ATG0.get_statoCassa());
@@ -120,15 +109,6 @@ public class JavaScenarioUtil {
               assertEquals("Inserisci il nome di una pizza dell'elenco:", registroDiCassav4_ATG0.get_outMess());
               assertEquals(0, registroDiCassav4_ATG0.get_totale());
         
-              registroDiCassav4_ATG0.step();
-              assertEquals("prezzo totale aggiornato", registroDiCassav4_ATG0.get_outMess());
-              assertEquals(0, registroDiCassav4_ATG0.get_totale());
-              assertEquals(RegistroDiCassav4.Stati.SCEGLI_SE_AGGIUNGERE_PIZZA, registroDiCassav4_ATG0.get_statoCassa());
-        
-              registroDiCassav4_ATG0.step();
-              assertEquals(RegistroDiCassav4.Stati.SCEGLI_TIPO_DI_PIZZA, registroDiCassav4_ATG0.get_statoCassa());
-              assertEquals(0, registroDiCassav4_ATG0.get_totale());
-              assertEquals("Scegli il tipo di pizza desiderata:", registroDiCassav4_ATG0.get_outMess());
           }
         
           @Test(timeout = 4000)
@@ -197,16 +177,9 @@ public class JavaScenarioUtil {
           @Test(timeout = 4000)
           public void test05()  throws Throwable  {
              RegistroDiCassav4_ATG registroDiCassav4_ATG0 = new RegistroDiCassav4_ATG();
-              assertNotNull(registroDiCassav4_ATG0);
-              assertEquals(0, registroDiCassav4_ATG0.get_totale());
-              assertEquals("", registroDiCassav4_ATG0.get_outMess());
-              assertEquals(RegistroDiCassav4.Stati.ATTENDI_ORDINAZIONI, registroDiCassav4_ATG0.get_statoCassa());
-
               String string0 = registroDiCassav4_ATG0.get_outMess();
               assertNotNull(string0);
-              assertEquals(0, registroDiCassav4_ATG0.get_totale());
               assertEquals("", registroDiCassav4_ATG0.get_outMess());
-              assertEquals(RegistroDiCassav4.Stati.ATTENDI_ORDINAZIONI, registroDiCassav4_ATG0.get_statoCassa());
               assertEquals("", string0);
           }
         
@@ -228,23 +201,8 @@ public class JavaScenarioUtil {
               registroDiCassav4_ATG0.set_sceltaDiAggiuntaPizza(registroDiCassav4_AggiungiPizza0);
               assertEquals("", registroDiCassav4_ATG0.get_outMess());
               assertEquals(0, registroDiCassav4_ATG0.get_totale());
-              assertEquals(RegistroDiCassav4.Stati.ATTENDI_ORDINAZIONI, registroDiCassav4_ATG0.get_statoCassa());
-              
-              RegistroDiCassav4.Servizio registroDiCassav4_Servizio0 = RegistroDiCassav4.Servizio.NEWORDINE;
-              registroDiCassav4_ATG0.set_servizioSelezionato(registroDiCassav4_Servizio0);
-              assertEquals("", registroDiCassav4_ATG0.get_outMess());
-              assertEquals(0, registroDiCassav4_ATG0.get_totale());
-              assertEquals(RegistroDiCassav4.Stati.ATTENDI_ORDINAZIONI, registroDiCassav4_ATG0.get_statoCassa());
               
               registroDiCassav4_ATG0.step();
-              assertEquals(RegistroDiCassav4.Stati.SCEGLI_TIPO_DI_PIZZA, registroDiCassav4_ATG0.get_statoCassa());
-              assertEquals("Scegli il tipo di pizza desiderata:", registroDiCassav4_ATG0.get_outMess());
-              assertEquals(0, registroDiCassav4_ATG0.get_totale());
-              
-              registroDiCassav4_ATG0.step();
-              assertEquals("Inserisci il nome di una nuova pizza:", registroDiCassav4_ATG0.get_outMess());
-              assertEquals(0, registroDiCassav4_ATG0.get_totale());
-              assertEquals(RegistroDiCassav4.Stati.ALTRAPIZZA_SELEZIONATA, registroDiCassav4_ATG0.get_statoCassa());
               
               // Undeclared exception!
               try { 
@@ -256,7 +214,29 @@ public class JavaScenarioUtil {
                  //
                  verifyException("org.evoservice.wrapper.RegistroDiCassav4", e);
               }
+              
+              // test that the following instructions are not added to the scenario
+              registroDiCassav4_ATG0.step();
+              assertEquals("Inserisci il nome di una nuova pizza:", registroDiCassav4_ATG0.get_outMess());
+              assertEquals(0, registroDiCassav4_ATG0.get_totale());
+              assertEquals(RegistroDiCassav4.Stati.ALTRAPIZZA_SELEZIONATA, registroDiCassav4_ATG0.get_statoCassa());
+              
           }
+          
+          @Test(timeout = 4000)
+          public void test07()  throws Throwable  {
+              RegistroDiCassav4_ATG registroDiCassav4_ATG0 = new RegistroDiCassav4_ATG();
+              assertEquals("", registroDiCassav4_ATG0.get_outMess());
+              assertEquals(RegistroDiCassav4.Stati.ATTENDI_ORDINAZIONI, registroDiCassav4_ATG0.get_statoCassa());
+              registroDiCassav4_ATG0.step();
+              assertEquals(0, integer0); // test no exception is thrown
+              // test that the following instructions are not added to the scenario
+              assertEquals("", registroDiCassav4_ATG0.get_outMess());
+              assertEquals(RegistroDiCassav4.Stati.ATTENDI_ORDINAZIONI, registroDiCassav4_ATG0.get_statoCassa());
+              assertNotNull(registroDiCassav4_ATG0);  
+              registroDiCassav4_ATG0.step();
+          }
+          
         }
         """;
 

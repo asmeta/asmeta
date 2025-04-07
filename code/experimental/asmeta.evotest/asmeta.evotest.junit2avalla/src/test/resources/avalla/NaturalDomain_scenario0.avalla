@@ -1,0 +1,41 @@
+scenario NaturalDomain_scenario0
+
+load NaturalDomain.asm
+
+check naturalControlledFunction = 1n;
+check enumtonaturalControlledFunction(STATE1) = 2n;
+check enumtonaturalControlledFunction(STATE2) = 3n;
+check abstracttonaturalControlledFunction(value1) = 4n;
+check abstracttonaturalControlledFunction(value2) = 5n;
+check concretetonaturalControlledFunction(1) = 6n;
+check concretetonaturalControlledFunction(2) = 7n;
+
+step
+
+check naturalControlledFunction = 1n;
+check enumtonaturalControlledFunction(STATE1) = 2n;
+check enumtonaturalControlledFunction(STATE2) = 3n;
+check abstracttonaturalControlledFunction(value1) = 4n;
+check abstracttonaturalControlledFunction(value2) = 5n;
+check concretetonaturalControlledFunction(1) = 6n;
+check concretetonaturalControlledFunction(2) = 7n;
+
+step
+
+set naturalMonitoredFunction := 1n;
+set enumtonaturalMonitoredFunction(STATE1) := 2n;
+set enumtonaturalMonitoredFunction(STATE2) := 3n;
+set abstracttonaturalMonitoredFunction(value1) := 4n;
+set abstracttonaturalMonitoredFunction(value2) := 5n;
+set concretetonaturalMonitoredFunction(1) := 6n;
+set concretetonaturalMonitoredFunction(5) := 7n;
+
+step
+
+set naturalMonitoredFunction := 1n;
+set enumtonaturalMonitoredFunction(STATE1) := 2n;
+set enumtonaturalMonitoredFunction(STATE2) := 3n;
+set abstracttonaturalMonitoredFunction(value1) := 4n;
+set abstracttonaturalMonitoredFunction(value2) := 5n;
+set concretetonaturalMonitoredFunction(1) := 6n;
+set concretetonaturalMonitoredFunction(5) := 7n;

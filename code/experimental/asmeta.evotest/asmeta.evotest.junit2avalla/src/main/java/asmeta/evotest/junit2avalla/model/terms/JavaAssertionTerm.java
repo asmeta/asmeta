@@ -12,14 +12,14 @@ package asmeta.evotest.junit2avalla.model.terms;
 public class JavaAssertionTerm extends JavaTerm {
 
 	/**
-	 * The actual value to be compared in the assertion.
-	 */
-	private String actual;
-
-	/**
 	 * The expected value to compare against the actual value in the assertion.
 	 */
 	private String expected;
+
+	/**
+	 * The actual value to be compared in the assertion.
+	 */
+	private String actual;
 
 	/**
 	 * The type of the actual value. (String, Number --> Primitive)
@@ -80,7 +80,7 @@ public class JavaAssertionTerm extends JavaTerm {
 	public boolean isPrimitive() {
 		return primitive;
 	}
-	
+
 	/**
 	 * Set the primitive type of the actual value.
 	 * 

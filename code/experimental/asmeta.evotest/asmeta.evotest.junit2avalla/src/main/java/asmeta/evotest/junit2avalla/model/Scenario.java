@@ -27,7 +27,7 @@ public class Scenario {
 	/**
 	 * A queue of {@link AvallaTerm} objects representing the scenario.
 	 */
-	private final Queue<AvallaTerm> scenarioObject;
+	private final Queue<AvallaTerm> scenarioList;
 
 	/**
 	 * Flag indicating whether the scenario contains at least one
@@ -39,17 +39,8 @@ public class Scenario {
 	 * Default constructor that initializes an empty scenario with an invalid state.
 	 */
 	public Scenario() {
-		this.scenarioObject = new LinkedList<>();
+		this.scenarioList = new LinkedList<>();
 		this.valid = false;
-	}
-
-	/**
-	 * Returns the queue of {@link AvallaTerm} objects in the scenario.
-	 *
-	 * @return the scenario queue.
-	 */
-	public Queue<AvallaTerm> getScenario() {
-		return scenarioObject;
 	}
 
 	/**
@@ -66,7 +57,7 @@ public class Scenario {
 		if (avallaTerm instanceof AvallaStepTerm) {
 			this.valid = true;
 		}
-		this.scenarioObject.add(avallaTerm);
+		this.scenarioList.add(avallaTerm);
 	}
 
 	/**
@@ -75,7 +66,7 @@ public class Scenario {
 	 * @return the removed term.
 	 */
 	public AvallaTerm remove() {
-		return this.scenarioObject.remove();
+		return this.scenarioList.remove();
 	}
 
 	/**
@@ -84,9 +75,18 @@ public class Scenario {
 	 * @return the first term in the scenario.
 	 */
 	public AvallaTerm element() {
-		return this.scenarioObject.element();
+		return this.scenarioList.element();
 	}
-
+	
+	/**
+	 * Returns the queue of {@link AvallaTerm} objects in the scenario.
+	 *
+	 * @return the scenario queue.
+	 */
+	public Queue<AvallaTerm> getScenarioList() {
+		return scenarioList;
+	}
+	
 	/**
 	 * Returns whether the scenario is valid, i.e., contains at least one
 	 * {@link AvallaStepTerm}.

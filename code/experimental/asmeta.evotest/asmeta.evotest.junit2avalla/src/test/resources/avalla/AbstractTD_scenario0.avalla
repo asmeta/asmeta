@@ -33,3 +33,15 @@ set abstracttoconcreteMonitoredFunction(value1) := 5;
 
 step
 
+set stringMonitoredFunction := "Hello world";
+set enumtoabstractMonitoredFunction(STATE3) := value2;
+set abstractMonitoredFunction := value2;
+set abstracttointegerMonitoredFunction(value1) := 10;
+set abstracttobooleanMonitoredFunction(value1) := false;
+set abstracttostringMonitoredFunction(value1) := "Hello world";
+set abstracttorealMonitoredFunction(value1) := 2.5;
+set abstracttocharMonitoredFunction(value1) := 'd';
+set abstracttoenumMonitoredFunction(value1) := STATE1;
+set abstracttoabstractMonitoredFunction(value1) := another1;
+set abstracttoconcreteMonitoredFunction(value2) := 5;
+set abstracttoconcreteMonitoredFunction(value1) := 5;

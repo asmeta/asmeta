@@ -22,6 +22,8 @@ import asmeta.evotest.evoasmetatg.application.SetupException;
 import asmeta.evotest.evoasmetatg.application.TranslationException;
 import asmeta.evotest.evoasmetatg.application.Translator;
 import asmeta.evotest.evoasmetatg.application.TranslatorImpl;
+import asmeta.evotest.junit2avalla.javascenario.ParserType;
+import asmeta.evotest.junit2avalla.main.Junit2AvallaCLI;
 
 /**
  * This is the main class of the application which serves as the entry point.
@@ -29,15 +31,15 @@ import asmeta.evotest.evoasmetatg.application.TranslatorImpl;
 public class EvoAsmetaTgCLI {
 
 	/* Constants */
-	private static final String INPUT = "input";
-	private static final String OUTPUT = "output";
-	private static final String WORKING_DIR = "workingDir";
-	private static final String CLEAN = "clean";
-	private static final String HELP = "help";
-	private static final String JAVA_PATH = "javaPath";
-	private static final String EVOSUITE_PATH = "evosuitePath";
-	private static final String EVOSUITE_VERSION = "evosuiteVersion";
-	private static final String TIME_BUDGET = "timeBudget";
+	public static final String INPUT = "input";
+	public static final String OUTPUT = "output";
+	public static final String WORKING_DIR = "workingDir";
+	public static final String CLEAN = "clean";
+	public static final String HELP = "help";
+	public static final String JAVA_PATH = "javaPath";
+	public static final String EVOSUITE_PATH = "evosuitePath";
+	public static final String EVOSUITE_VERSION = "evosuiteVersion";
+	public static final String TIME_BUDGET = "timeBudget";
 	private static final String GENERATION_FAILED = "Generation failed!";
 	private static final String DEBUG_LOG = "debug.log";
 	private static final String LOGS = "logs";
@@ -203,6 +205,10 @@ public class EvoAsmetaTgCLI {
 		if (line.hasOption(TIME_BUDGET)) {
 			translator.setTimeBudget(line.getOptionValue(TIME_BUDGET));
 		}
+		
+		if (line.hasOption(Junit2AvallaCLI.PARSER)) {
+			translator.setParserType(line.getOptionValue(Junit2AvallaCLI.PARSER));
+		}
 
 		translator.generate();
 		logger.info("Generation succeed");
@@ -255,6 +261,10 @@ public class EvoAsmetaTgCLI {
 		// timeBudget property
 		Option timeBudget = Option.builder(TIME_BUDGET).argName(TIME_BUDGET).type(Integer.class).hasArg(true)
 				.desc("Set the time budget allocated for the Evosuite process.").build();
+		
+		// parser type property
+		Option parser = Option.builder(Junit2AvallaCLI.PARSER).argName(Junit2AvallaCLI.PARSER).type(String.class).hasArg(true)
+				.desc(ParserType.getDescrition() + " (optional, defaults to customParser)").build();
 
 		// translator property
 		Option property = Option.builder("D").numberOfArgs(2).argName("property=value").valueSeparator('=')
@@ -269,7 +279,9 @@ public class EvoAsmetaTgCLI {
 		options.addOption(evosuiteVersion);
 		options.addOption(clean);
 		options.addOption(timeBudget);
+		options.addOption(parser);
 		options.addOption(property);
+		
 
 		return options;
 	}

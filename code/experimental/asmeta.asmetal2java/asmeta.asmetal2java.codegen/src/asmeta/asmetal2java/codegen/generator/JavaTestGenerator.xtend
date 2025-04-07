@@ -12,7 +12,7 @@ import asmeta.asmetal2java.codegen.evosuite.FunctionToJavaEvosuiteSig
 import asmeta.asmetal2java.codegen.evosuite.DomainToJavaEvosuiteSigDef
 import asmeta.asmetal2java.codegen.evosuite.DomainToJavaStringEvosuite
 import java.util.ArrayList
-
+import asmeta.asmetal2java.codegen.translator.FunctionClassDef
 
 /**
  * This generator creates a translated version of the Java class for testing purposes only,
@@ -64,30 +64,7 @@ class JavaTestGenerator extends JavaGenerator {
 			
 			// «asmName».java automatically generated from ASM2CODE
 			
-			import java.util.ArrayList;
-			import java.util.Arrays;
-			import java.util.Collections;
-			import java.util.HashMap;
-			import java.util.HashSet;
-			import java.util.Map;
-			import java.util.Set;
-			import java.util.List;
-			import java.util.Scanner;
-			import org.apache.commons.collections4.bag.HashBag;
-			import org.apache.commons.collections4.Bag;
-			import java.util.concurrent.ThreadLocalRandom;
-			import java.util.function.Function;
-			import java.util.stream.Collectors;
-			import org.javatuples.Decade;
-			import org.javatuples.Ennead;
-			import org.javatuples.Octet;
-			import org.javatuples.Pair;
-			import org.javatuples.Quartet;
-			import org.javatuples.Quintet;
-			import org.javatuples.Septet;
-			import org.javatuples.Sextet;
-			import org.javatuples.Triplet;
-			
+			«getImports()»
 			
 			class «asmName» {
 				
@@ -98,73 +75,17 @@ class JavaTestGenerator extends JavaGenerator {
 				«abstractClassDef(asm)»
 				«domainSignature(asm)»
 				
-				//Metodi di supporto per l'implementazione delle funzioni controlled
+				//Support methods for implementing controlled functions
 				
-				class Fun0Ctrl<D> {
-				   
-				   D oldValue;
-				   D newValue;
-				   
-				void set(D d) {
-					
-						newValue = d;
-				}
+				«FunctionClassDef.getFun0CtrlClass()»
 				
-				D get() {
-					
-						return oldValue;
-				}
-				}
+				«FunctionClassDef.getFunNCtrlClass()»
 				
-				static class FunNCtrl<D, C> {
-					
-				Map<D, C> oldValues = new HashMap<>();
-				Map<D, C> newValues = new HashMap<>();
+				//Support methods for the implementation of non-controlled functions
 				
-				void set(D d, C c) {
-					
-						newValues.put(d, c);
-				}
+				«FunctionClassDef.getFun0Class()»
 				
-				C get(D d) {
-					
-						return oldValues.get(d);
-				}
-				}
-				
-				
-				//Metodi di supporto per l'implementazione delle funzioni non controlled
-				
-				class Fun0<D> {
-				   
-				   D value;
-				   
-				void set(D d) {
-					
-						value = d;
-				}
-				
-				D get() {
-					
-						return value;
-				}
-				}
-				
-				
-				class FunN<D, C> {
-					
-				Map<D, C> values = new HashMap<>();
-				
-				void set(D d, C c) {
-					
-						values.put(d, c);
-				}
-				
-				C get(D d) {
-					
-						return values.get(d);
-				}
-				}					
+				«FunctionClassDef.getFunNClass()»
 				
 				/////////////////////////////////////////////////
 				/// FUNCTIONS
@@ -176,7 +97,7 @@ class JavaTestGenerator extends JavaGenerator {
 				«asmName»(){
 				
 				//Definizione iniziale dei domini statici
-				    
+				 
 				 «initialStaticDomainDefinition(asm)»
 				 «initialStaticEnumDomainDefinition(asm)»
 				
@@ -213,12 +134,7 @@ class JavaTestGenerator extends JavaGenerator {
 				}
 				
 				//Metodo per l'aggiornamento dell'asm
-				void updateASM()
-				{
-					«asm.mainrule.name»();
-					fireUpdateSet();
-					initControlledWithMonitored();
-				}
+				«getUpdateASM(asm)»
 				
 			}
 			
@@ -232,7 +148,9 @@ class JavaTestGenerator extends JavaGenerator {
 	}
 
 	override String ruleTranslationDef(RuleDeclaration r, String methodName, Asm asm) { 
-		var rule = new JavaRule(methodName)
+		var rule = new JavaRule()
+		// add the rule to the rules Map and get the rule name
+		rule.name = rules.addRule(methodName, rule)
 		var sb = new StringBuffer();
 		if (r.arity == 0){
 			sb.append('''
@@ -255,11 +173,8 @@ class JavaTestGenerator extends JavaGenerator {
 		// initialize the branches flag
 		var flagInit = coverBranchesFlagInit(rule);
 		
-		// add the flag initialization to the top
+		// add the boolean flag initialization before the method declaration
 		sb.insert(0, flagInit)
-		
-		// add the Rule to the rules Map
-		rules.addRule(rule.getName(), rule)
 		
 		return sb.toString;
 		

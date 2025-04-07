@@ -57,6 +57,8 @@ generated java file to verify that there are no errors via `-Dcompiler=true`.
     - `-output` : The output folder (optional, defaults to `./output/`).
 
     - `-mode <modeName>` : Set the mode of the application.
+    
+    - `-compilerVersion` : set the java version used by the compiler.
 
     - `-D <property=value>` : Additional translator options.
 
@@ -110,6 +112,7 @@ This section covers all available command-line options for the application and h
  |							| `generateWin` 	| translate the asm file to a java file and generate an executable java class with a Grapical User Interace (GUI)					|
  | 							| `testGen`			| generate a test class suited for test generation with Evosuite 																	|
  | 							| `custom` 			| set a custom behavior by adding properties with -D. 																				|
+ | `-compilerVersion`		| int 				| set the java version used by the compiler																							|
  | `-Dformatter` 			| boolean  			| whether the generated code should be formatted. 																					|
  | `-DshuffleRandom` 		| boolean  			| whether a random shuffle should be applied. 																						|
  | `-DoptimizeSeqMacroRule` | boolean  			| whether to optimize the sequence macro rule. 																						|
@@ -120,6 +123,8 @@ This section covers all available command-line options for the application and h
  | `-DtestGen` 				| boolean  			| whether to  generate a specific java class designed for test generation with Evosuite. 											|
  | `-DcoverOutputs` 		| boolean  			| whether to  cover the outputs in the testGen class. 																				|
  | `-DcoverRules` 			| boolean			| whether to cover the rules in the testGen class. 																					|
+ | `-DcopyAsm`				| boolean			| whether to copy the input ASM file into the working directory or parse it directly in its source directory						|
+ | `-DignoreDomainException`| boolean			| whether to ignore exceptions due to domain not supported in the ATG class.														|
  | `-Dexport` 				| boolean 			| export the generated file into the output folder. 																				|
 
  > **Note:** Please use translator, compiler, generateExe, generateWin and testGen options only if you have selected the -mode custom option.

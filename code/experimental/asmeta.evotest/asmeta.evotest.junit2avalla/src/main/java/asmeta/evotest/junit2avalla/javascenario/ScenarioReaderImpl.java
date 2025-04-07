@@ -1,57 +1,76 @@
 package asmeta.evotest.junit2avalla.javascenario;
 
 import asmeta.evotest.junit2avalla.model.Scenario;
-import asmeta.evotest.junit2avalla.antlr.JavaScenarioLexer;
-import asmeta.evotest.junit2avalla.antlr.JavaScenarioParser;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * The {@code ScenarioReaderImpl} class provides functionality to read and parse javaScenario
- * from a file. It uses a lexer and parser generated from the {@code JavaScenario}
- * grammar to convert the contents of the file into a list of {@link Scenario} objects.
+ * The {@code ScenarioReaderImpl} class provides functionality to read and parse
+ * javaScenario from a file. It uses a lexer and parser generated from the
+ * {@code JavaScenario} grammar to convert the contents of the file into a list
+ * of {@link Scenario} objects.
  */
 public class ScenarioReaderImpl implements ScenarioReader {
 
-  private final Logger log = LogManager.getLogger(ScenarioReaderImpl.class);
+	/* Constants */
+	private static final String JAVA_EXTENSION = ".java";
 
-  /**
-   * Reads a java scenario from the file at the specified {@code path} and parses its content to
-   * retrieve a list of {@link Scenario} objects.
-   *
-   * @param path                 the {@link Path} to the file containing the scenario
-   * @return a list of {@link Scenario} objects parsed from the file, or an empty list if an error
-   *         occurs
-   */
-  @Override
-  public List<Scenario> readJavaScenario(Path path) {
-    log.info("Reading the Scenario File at the path {}", path);
-    String javaFile = null;
-    try {
-      byte[] fileBytes = Files.readAllBytes(path);
-      javaFile = new String(fileBytes, StandardCharsets.UTF_8);
-      log.debug("Content red: {} ", javaFile);
-    } catch (IOException e) {
-      log.error("An exception occurred while reading the file: {}", e.getMessage(), e);
-    }
+	/** Logger */
+	private final Logger log = LogManager.getLogger(ScenarioReaderImpl.class);
 
-    JavaScenarioLexer javaScenarioLexer = new JavaScenarioLexer(CharStreams.fromString(javaFile));
-    CommonTokenStream tokens = new CommonTokenStream(javaScenarioLexer);
-    JavaScenarioParser javaScenarioParser = new JavaScenarioParser(tokens);
-    ParseTreeWalker walker = new ParseTreeWalker();
-    JavaScenarioListener javaScenarioWalker = new JavaScenarioListener();
-    walker.walk(javaScenarioWalker, javaScenarioParser.start());
+	/** The type instance of the parser, initialized at javaParser */	
+	private Parser parser = new JavaParser();
 
-    return javaScenarioWalker.getScenarioList();
-  }
+	/**
+	 * Creates a ScenarioReader instance with the javaParser as default parserType
+	 */
+	public ScenarioReaderImpl() {
+		// Empty constructor
+	}
+
+	@Override
+	public void setParserType(String type) throws IllegalArgumentException {
+		switch (ParserType.fromValue(type)) {
+		case CUSTOM_PARSER:
+			this.parser = new CustomParser();
+			break;
+		case JAVA_PARSER:
+			this.parser = new JavaParser();
+			break;
+		default:
+			log.error("NOT SUPPORTED.");
+			throw new IllegalArgumentException(type + " not supported.");
+		}
+	}
+
+	@Override
+	public List<Scenario> readJavaScenario(Path path) throws IOException, JUnitParseException {
+		log.info("Reading the Scenario File at the path {}", path);
+		
+		// read the JUnit file
+		String javaFile = null;
+		byte[] fileBytes = Files.readAllBytes(path);
+		javaFile = new String(fileBytes, StandardCharsets.UTF_8);
+		log.debug("Content red: {} ", javaFile);
+		String fileName = path.getFileName().toString().split(JAVA_EXTENSION)[0];
+		
+		// parse the JUnit file
+		List<Scenario> javaScenarios = parser.parseJavaScenario(fileName, javaFile);
+
+		// check the returned list
+		if (javaScenarios == null || javaScenarios.isEmpty()) {
+			log.error("Failed to parse the Junit file, no scenario found");
+			throw new JUnitParseException("Unable to parse the JUnit file: no scenario found");
+		}
+		
+		return javaScenarios;
+	}
 
 }

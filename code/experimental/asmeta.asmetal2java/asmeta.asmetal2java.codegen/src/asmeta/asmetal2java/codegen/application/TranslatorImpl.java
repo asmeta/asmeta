@@ -13,6 +13,7 @@ import asmeta.AsmCollection;
 import asmeta.asmetal2java.codegen.config.Mode;
 import asmeta.asmetal2java.codegen.config.TranslatorOptions;
 import asmeta.asmetal2java.codegen.config.TranslatorOptionsImpl;
+import asmeta.asmetal2java.codegen.evosuite.DomainNotSupportedException;
 
 /**
  * The {@code TranslatorImpl} class implements the {@link Translator} interface.
@@ -129,7 +130,7 @@ public class TranslatorImpl implements Translator {
 	}
 	
 	@Override
-	public void generate() throws AsmParsingException, SetupException, TranslationException {
+	public void generate() throws AsmParsingException, SetupException, TranslationException, DomainNotSupportedException {
 		
 		File asmFile;
 		try {
@@ -201,12 +202,15 @@ public class TranslatorImpl implements Translator {
      * @param model the parsed ASM model.
      * @param mode the translation mode.
      * @return the generated Java file.
-     * @throws IOException if an I/O error occurs during file generation.
+     * @throws DomainNotSupportedException if a domain is not supported by the testGen operation.
      */
-	private File generateTranslation(String asmName, AsmCollection model, Mode mode) throws TranslationException {
+	private File generateTranslation(String asmName, AsmCollection model, Mode mode) throws TranslationException, DomainNotSupportedException {
 		File generatedFile;
 		try {
 			generatedFile = fileManager.generateFile(asmName, model, translatorOptions, mode);
+		} catch (DomainNotSupportedException e) {
+			logger.error("{} operation completed with errors: {}.", mode.getValue(), e.getMessage());
+			throw new DomainNotSupportedException(e.getMessage());
 		} catch (Exception e) {
 			logger.error("{} operation completed with errors: {}.", mode.getValue(), e.getMessage());
 			throw new TranslationException("Unable to translate the asmeta specification: " + asmName, e);
@@ -260,7 +264,7 @@ public class TranslatorImpl implements Translator {
      * @param model the parsed ASM model.
      * @throws TranslationException if an error occurs during the translation process.
      */
-	private void testGen(String asmName, AsmCollection model) throws TranslationException {				
+	private void testGen(String asmName, AsmCollection model) throws TranslationException, DomainNotSupportedException {				
 		// translate
 		File testGenJavaFile = generateTranslation(asmName, model, Mode.TRANSLATOR_TEST_MODE);			
 		File atgJavaFile = generateTranslation(asmName, model, Mode.TEST_GEN_MODE);

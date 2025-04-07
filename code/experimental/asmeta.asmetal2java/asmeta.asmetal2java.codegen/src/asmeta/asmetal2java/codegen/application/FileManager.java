@@ -28,6 +28,7 @@ import asmeta.asmetal2java.codegen.compiler.CompilerImpl;
 import asmeta.asmetal2java.codegen.config.Mode;
 import asmeta.asmetal2java.codegen.config.ModeConstantsConfig;
 import asmeta.asmetal2java.codegen.config.TranslatorOptions;
+import asmeta.asmetal2java.codegen.evosuite.DomainNotSupportedException;
 import asmeta.asmetal2java.codegen.generator.Generators;
 
 /**
@@ -47,6 +48,11 @@ public class FileManager {
 	private static final String OUTPUT = "output";
 	private static final String STDL = "STDL";
 	private static final String SLASH = "/";
+	private static final String GITIGNORE = ".gitignore";
+	private static final String LOGS_DIRECTORY = "logs";
+
+	/** Files/Directory to exclude from cleaning. */
+	private static final List<String> excludeList = List.of(GITIGNORE, STDL, LOGS_DIRECTORY);
 
 	/** List of required Stdl Libraries. */
 	private static final List<String> requiredStdlLibraries = List.of("StandardLibrary.asm", "LTLLibrary.asm",
@@ -103,8 +109,10 @@ public class FileManager {
 	 */
 	void setInputFolder(String inputWorkingDir) {
 		Path inputWorkingDirPath = Paths.get(inputWorkingDir);
-		if(inputWorkingDirPath.toAbsolutePath().toString().equals(Paths.get(System.getProperty(USER_DIR)).toAbsolutePath().toString()) || 
-				inputWorkingDirPath.toAbsolutePath().toString().equals(Paths.get(System.getProperty(USER_DIR),".").toAbsolutePath().toString())) {
+		if (inputWorkingDirPath.toAbsolutePath().toString()
+				.equals(Paths.get(System.getProperty(USER_DIR)).toAbsolutePath().toString())
+				|| inputWorkingDirPath.toAbsolutePath().toString()
+						.equals(Paths.get(System.getProperty(USER_DIR), ".").toAbsolutePath().toString())) {
 			logger.warn("The current user directory can't be the path of the custom input working directory.");
 			// warning: otherwise the -clean option would erase the entire project directory
 			inputWorkingDirPath = DEFAULT_INPUT_DIR_PATH;
@@ -119,8 +127,8 @@ public class FileManager {
 	}
 
 	/**
-	 * Update the path of subfolders within the input folder (call this method
-	 * every time the input folder path is changed).
+	 * Update the path of subfolders within the input folder (call this method every
+	 * time the input folder path is changed).
 	 */
 	private void updateInputSubFolders() {
 		translationDirPath = Paths.get(inputFolder.toString(), ModeConstantsConfig.TRANSLATOR);
@@ -131,12 +139,13 @@ public class FileManager {
 	}
 
 	/**
-	 * Given a string containing the path to the input file, returns the asmeta specification 
-	 * or copies the file into the input directory and returns the newly generated file, if 
-	 * the copyAsm option is enabled.
+	 * Given a string containing the path to the input file, returns the asmeta
+	 * specification or copies the file into the input directory and returns the
+	 * newly generated file, if the copyAsm option is enabled.
 	 * 
 	 * @param asmspec the path to the input file (relative or absolute).
-	 * @param copyAsm the translator option copyAsm (Indicates to copy the asm specification files to another folder to be processed.)
+	 * @param copyAsm the translator option copyAsm (Indicates to copy the asm
+	 *                specification files to another folder to be processed.)
 	 * @return the retrieved asmeta file.
 	 * @throws IOException    if an I/O error occurs.
 	 * @throws SetupException if an error occurs during the setup process.
@@ -147,13 +156,13 @@ public class FileManager {
 			logger.error("Failed to locate the input file: {}.", asmFile);
 			throw new SetupException("File doesn't exist: " + asmFile.toString());
 		}
-		
+
 		// if the copyAsm option is disabled, return the current file without coping
-		if(!copyAsm) {
+		if (!copyAsm) {
 			return asmFile;
 		}
 		// else copy the asmFile to the working directory
-		
+
 		// Check if the input directory exists and if it contains the required
 		// libraries.
 		// If not, creates a new input directory and adds the missing libraries.
@@ -178,9 +187,13 @@ public class FileManager {
 	 * @param userOptions the translator options to be applied.
 	 * @param mode        the mode for the translation process.
 	 * @return the generated file.
-	 * @throws IOException if an I/O error occurs during file generation.
+	 * @throws IOException                 if an I/O error occurs during file
+	 *                                     generation.
+	 * @throws DomainNotSupportedException if a domain is not supported by the Atg
+	 *                                     generator.
 	 */
-	File generateFile(String name, AsmCollection model, TranslatorOptions userOptions, Mode mode) throws IOException {
+	File generateFile(String name, AsmCollection model, TranslatorOptions userOptions, Mode mode)
+			throws IOException, DomainNotSupportedException {
 
 		File javaFile = null;
 		AsmToJavaGenerator javaGenerator = null;
@@ -240,10 +253,12 @@ public class FileManager {
 	 * @param userOptions        the TranslationOptions selected by the user.
 	 * @param javaFile           the java file to generate.
 	 * @param asmToJavaGenerator instance of the generator to use.
-	 * @throws IOException if an I/O error occurs.
+	 * @throws IOException                 if an I/O error occurs.
+	 * @throws DomainNotSupportedException if a domain is not supported by the Atg
+	 *                                     generator.
 	 */
 	private void generate(AsmCollection model, TranslatorOptions userOptions, File javaFile,
-			AsmToJavaGenerator asmToJavaGenerator) throws IOException {
+			AsmToJavaGenerator asmToJavaGenerator) throws IOException, DomainNotSupportedException {
 		logger.info("Generating {}.", javaFile);
 		asmToJavaGenerator.compileAndWrite(model.getMain(), javaFile.getCanonicalPath(), JAVA, userOptions);
 	}
@@ -253,8 +268,9 @@ public class FileManager {
 	 * compilation process.
 	 * 
 	 * @param javaFile the java file to compile.
-	 * @throws IOException if an I/O error occurs.
-	 * @throws TranslationException if the the result of the compilation is not successful.
+	 * @throws IOException          if an I/O error occurs.
+	 * @throws TranslationException if the the result of the compilation is not
+	 *                              successful.
 	 */
 	void compileFile(File javaFile) throws IOException, TranslationException {
 		logger.info("JavaCompiler: compiling the .java class...");
@@ -273,7 +289,8 @@ public class FileManager {
 	 * 
 	 * @param files list of files to compile.
 	 * @throws IOException if an I/O error occur.
-	 * @throw TranslationException if the the result of the compilation is not successful.
+	 * @throw TranslationException if the the result of the compilation is not
+	 *        successful.
 	 */
 	void compileExportedFiles(List<File> files) throws TranslationException, IOException {
 		if (files.isEmpty()) {
@@ -284,7 +301,8 @@ public class FileManager {
 		String filesString = files.stream().map(File::getName).collect(Collectors.joining(", "));
 		if (!compilerResult.getSuccess()) {
 			logger.error("Failed to compile the file {}", filesString);
-			throw new TranslationException("Unable to compile the exported files: " + filesString + ".\nThe file has compilation errors:\n" + compilerResult);
+			throw new TranslationException("Unable to compile the exported files: " + filesString
+					+ ".\nThe file has compilation errors:\n" + compilerResult);
 		}
 		logger.info("File {} compiled with no errors.", filesString);
 	}
@@ -318,9 +336,10 @@ public class FileManager {
 	void cleanInputDir() {
 		if (inputFolder.toFile().exists() && inputFolder.toFile().isDirectory()) {
 			for (File file : inputFolder.toFile().listFiles()) {
-				if (!file.getName().equals(STDL) && !file.getName().equals(".gitignore")) {
-					this.cleanRecursively(file);
+				if (excludeList.contains(file.getName())) {
+					continue;
 				}
+				this.cleanRecursively(file);
 			}
 		}
 	}

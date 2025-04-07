@@ -1,13 +1,19 @@
-FROM openjdk:17-alpine
+FROM openjdk:17-jdk-alpine
 
 WORKDIR /app
 
-RUN mkdir -p /app/input
-RUN mkdir -p /app/output
+ENV INPUT="" WORKING_DIR="" OUTPUT="" MODE="" COMPILER_VERSION="" CLEAN="" HELP="" PROPERTIES=""
 
-VOLUME ["/app/input"]
-VOLUME ["/app/output"]
+RUN mkdir -p /app/input /app/output
+
+VOLUME ["/app/input", "/app/output"]
 
 COPY ./dist/asmetal2java.jar /app/asmetal2java.jar
+COPY ./entrypoint.sh /app/entrypoint.sh
 
-ENTRYPOINT ["java", "-jar", "asmetal2java.jar"]
+# Convert to UNIX format
+RUN dos2unix /app/entrypoint.sh
+
+RUN chmod +x /app/entrypoint.sh
+
+ENTRYPOINT ["/app/entrypoint.sh"]

@@ -36,6 +36,8 @@ public class JavaTestGeneratorTest {
 	@Before
 	public void setup() {
 		GeneratorCompilerUtil.setupFolders(GeneratorCompilerUtil.dirExamples);
+		// ignore the exception for unsupported domains
+		options.setValue(TranslatorOptionsImpl.IGNORE_NOT_SUPPORTED_DOMAIN_EXCEPTION, true);
 	}
 	
 	@Test
@@ -43,8 +45,8 @@ public class JavaTestGeneratorTest {
 
 		String asmspec = GeneratorCompilerUtil.dirExamples.resolve("RegistroDiCassa.asm").toString();
 
-		options.setValue("coverRules", true);
-		options.setValue("coverOutputs", true);
+		options.setValue(TranslatorOptionsImpl.COVER_RULES_OPTION, true);
+		options.setValue(TranslatorOptionsImpl.COVER_OUTPUTS_OPTION, true);
 
 		File asmFile = new File(asmspec);
 		assert asmFile.exists();

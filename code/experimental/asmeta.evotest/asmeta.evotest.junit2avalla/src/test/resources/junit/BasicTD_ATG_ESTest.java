@@ -39,6 +39,9 @@ public class BasicTD_ATG_ESTest extends BasicTD_ATG_ESTest_scaffolding {
         Character character0 = basicTD_ATG0.get_charControlledFunction();
         assertEquals('a', (char)character0);
 
+        Integer integer1 = basicTD_ATG0.get_natural_naturalControlledFunction();
+        assertEquals(3,(int)integer1);
+
         basicTD_ATG0.step();
 
         assertEquals((-5), (int) basicTD_ATG0.get_integerControlledFunction());
@@ -46,7 +49,7 @@ public class BasicTD_ATG_ESTest extends BasicTD_ATG_ESTest_scaffolding {
         assertEquals(3.4, (double)  basicTD_ATG0.get_realControlledFunction(), 0.01);
         assertTrue(basicTD_ATG0.get_booleanControlledFunction());
         assertEquals('a', (char) basicTD_ATG0.get_charControlledFunction());
-
+        assertEquals(3,(int)basicTD_ATG0.get_natural_naturalControlledFunction());
         basicTD_ATG0.step();
 
         basicTD_ATG0.set_integerMonitoredFunction(141);
@@ -54,12 +57,13 @@ public class BasicTD_ATG_ESTest extends BasicTD_ATG_ESTest_scaffolding {
         basicTD_ATG0.set_realMonitoredFunction((-1.0));
         basicTD_ATG0.set_booleanMonitoredFunction(false);
         basicTD_ATG0.set_charMonitoredFunction('w');
+        basicTD_ATG0.set_natural_naturalMonitoredFunction(5);
 
         basicTD_ATG0.step();
 
         int int1 = -25;
         basicTD_ATG0.set_integerMonitoredFunction(int1);
-        String string1 = "Hello World!";
+        String string1 = "Hello world!";
         basicTD_ATG0.set_stringMonitoredFunction(string1);
         double double1 = 22.2;
         basicTD_ATG0.set_realMonitoredFunction(double1);
@@ -67,6 +71,8 @@ public class BasicTD_ATG_ESTest extends BasicTD_ATG_ESTest_scaffolding {
         basicTD_ATG0.set_booleanMonitoredFunction(boolean1);
         char char1 = 'z';
         basicTD_ATG0.set_charMonitoredFunction(char1);
+        int int2 = 7;
+        basicTD_ATG0.set_natural_naturalMonitoredFunction(int2);
 
     }
 }

@@ -154,6 +154,10 @@ public class ATM3v2_ATG_ESTest extends ATM3v2_ATG_ESTest_scaffolding {
       assertEquals(1000, aTM3v2_ATG0.get_moneyLeft());
       assertEquals(0, aTM3v2_ATG0.get_numOfBalanceChecks());
       assertEquals(ATM3v2.State.AWAITCARD, aTM3v2_ATG0.get_atmState());
+      
+      int int1 = 1;
+      int int2 = int1;
+      assertEquals(int1, int2);
   }
 
 }

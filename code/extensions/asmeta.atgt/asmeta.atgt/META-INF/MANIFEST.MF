@@ -37,4 +37,5 @@ Export-Package: atgt.combinatorial,
  tgtlib.coverage,
  tgtlib.definitions,
  tgtlib.definitions.expression,
+ tgtlib.definitions.expression.type,
  tgtlib.specification
