@@ -148,8 +148,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
     _builder.append(":");
     _builder.newLine();
     _builder.append("\t\t");
-    String _visit_1 = this.visit(object.getElseTerm());
-    _builder.append(_visit_1, "\t\t");
+    _builder.append(elseTerm, "\t\t");
     _builder.newLineIfNotEmpty();
     return _builder.toString();
   }

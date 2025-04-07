@@ -17,6 +17,7 @@ import asmeta.terms.furtherterms.SequenceTerm
 import org.asmeta.parser.util.ReflectiveVisitor
 import java.util.List
 import java.util.ArrayList
+import asmeta.terms.furtherterms.ConditionalTerm
 
 class FunctionToJavaDef extends ReflectiveVisitor<String> {
 
@@ -489,10 +490,11 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 	}
 
 	def String visit(StaticFunction object) {
+	    
 		var StringBuffer sb = new StringBuffer
 
 		if (object.domain !== null) {
-
+            
 			if (object.definition.body instanceof CaseTerm) {
 				sb.
 					append('''«new DomainToJavaString(asm).visit(object.codomain)» «object.name»(«new Util().adaptRuleParam(object.definition.variable,asm)»){ «new TermToJava(asm).visit(object.definition.body)»}''')
@@ -500,7 +502,7 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 				sb.
 					append('''«new DomainToJavaString(asm).visit(object.codomain)» «object.name»( return «new Util().adaptRuleParam(object.definition.variable,asm)»){ «new TermToJava(asm).visit(object.definition.body)»}''')
 			} else {
-
+                
 				if (object.codomain instanceof ConcreteDomain) {
 					sb.
 						append('''«new DomainToJavaString(asm).visit(object.codomain)» «object.name»(«new Util().adaptRuleParam(object.definition.variable,asm)»){
@@ -514,13 +516,12 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 				} else if (object.codomain instanceof SequenceDomain) {
 					sb.
 						append('''ArrayList«new DomainToJavaString(asm).visit(object.codomain)» «object.name»(ArrayList«new Util().adaptRuleParam(object.definition.variable,asm)»){return «new TermToJava(asm).visit(object.definition.body)»;}''')
-				} else
-					sb.
-						append('''«new DomainToJavaString(asm).visit(object.codomain)» «object.name»(«new Util().adaptRuleParam(object.definition.variable,asm)»){return «new TermToJava(asm).visit(object.definition.body)»;}''')
-
+				} else{
+					sb.append('''«new DomainToJavaString(asm).visit(object.codomain)» «object.name»(«new Util().adaptRuleParam(object.definition.variable,asm)»){return «new TermToJava(asm).visit(object.definition.body)»;}''')
+                }
 			}
 		} else {
-
+               
 			if (object.definition.body instanceof CaseTerm) {
 				sb.
 					append('''«new DomainToJavaString(asm).visit(object.codomain)» «object.name»(){ «new TermToJava(asm).visit(object.definition.body)»}''')
@@ -530,6 +531,7 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 			} else {
 
 				if (object.codomain instanceof ConcreteDomain) {
+				    
 					sb.append('''«new DomainToJavaString(asm).visit(object.codomain)» «object.name»(){
 					
 					«object.codomain.name» supp = new «object.codomain.name»();

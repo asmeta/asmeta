@@ -16,8 +16,10 @@ import asmeta.definitions.Function;
 import asmeta.definitions.RuleDeclaration;
 import asmeta.definitions.StaticFunction;
 import asmeta.definitions.domains.AbstractTd;
+import asmeta.definitions.domains.ConcreteDomain;
 import asmeta.definitions.domains.Domain;
 import asmeta.definitions.domains.EnumTd;
+import asmeta.definitions.domains.ProductDomain;
 import asmeta.structure.Asm;
 import asmeta.structure.DomainDefinition;
 import asmeta.structure.DomainInitialization;
@@ -715,11 +717,38 @@ public class JavaGenerator extends AsmToJavaGenerator {
     if (((asm.getBodySection() != null) && (asm.getBodySection().getFunctionDefinition() != null))) {
       EList<FunctionDefinition> _functionDefinition = asm.getBodySection().getFunctionDefinition();
       for (final FunctionDefinition fd : _functionDefinition) {
-        StringConcatenation _builder = new StringConcatenation();
-        String _visit = this.createFunctionToJavaDef(asm).visit(fd.getDefinedFunction());
-        _builder.append(_visit);
-        _builder.newLineIfNotEmpty();
-        sb.append(_builder);
+        {
+          StringConcatenation _builder = new StringConcatenation();
+          String _visit = this.createFunctionToJavaDef(asm).visit(fd.getDefinedFunction());
+          _builder.append(_visit);
+          _builder.newLineIfNotEmpty();
+          sb.append(_builder);
+          Domain pd = fd.getDefinedFunction().getDomain();
+          if ((pd instanceof ProductDomain)) {
+            Domain _get = ((ProductDomain)pd).getDomains().get(0);
+            if ((_get instanceof ConcreteDomain)) {
+              int firstIndex = sb.toString().indexOf("$u");
+              if ((firstIndex != (-1))) {
+                String before = sb.substring(0, (firstIndex + 2));
+                String after = sb.substring((firstIndex + 2));
+                after = after.replaceAll("\\$u", "\\$u.value");
+                StringBuffer _stringBuffer = new StringBuffer((before + after));
+                sb = _stringBuffer;
+              }
+            }
+            Domain _get_1 = ((ProductDomain)pd).getDomains().get(1);
+            if ((_get_1 instanceof ConcreteDomain)) {
+              int firstIndex_1 = sb.toString().indexOf("$p");
+              if ((firstIndex_1 != (-1))) {
+                String before_1 = sb.substring(0, (firstIndex_1 + 2));
+                String after_1 = sb.substring((firstIndex_1 + 2));
+                after_1 = after_1.replaceAll("\\$p", "\\$p.value");
+                StringBuffer _stringBuffer_1 = new StringBuffer((before_1 + after_1));
+                sb = _stringBuffer_1;
+              }
+            }
+          }
+        }
       }
       return sb.toString().replaceAll("\\$", "_");
     }

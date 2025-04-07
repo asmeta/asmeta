@@ -21,6 +21,8 @@ import java.util.ArrayList
 import java.util.List
 import org.junit.Assert
 import asmeta.asmetal2java.codegen.translator.FunctionClassDef
+import asmeta.definitions.domains.ConcreteDomain
+import asmeta.definitions.domains.ProductDomain
 
 /** 
  * Generates the translation of an Asm specification to a java class from an ASMeta specification.
@@ -429,10 +431,33 @@ class JavaGenerator extends AsmToJavaGenerator {
 
 		if (asm.bodySection !== null && asm.bodySection.functionDefinition !== null) {
 
-			for (fd : asm.bodySection.functionDefinition)
+			for (fd : asm.bodySection.functionDefinition){
 				sb.append(
 		  					'''«(createFunctionToJavaDef(asm)).visit(fd.definedFunction)»
 				''')
+				// This is needed to fix the missing .value issue for the Product domain consisting of concrete domains
+			     var pd = fd.definedFunction.domain
+			     if (pd instanceof ProductDomain){
+			         if (pd.domains.get(0) instanceof ConcreteDomain){
+                        var firstIndex = sb.toString.indexOf("$u");
+                        if (firstIndex != -1) {
+                            var before = sb.substring(0, firstIndex + 2);
+                            var after = sb.substring(firstIndex + 2);
+                            after = after.replaceAll("\\$u", "\\$u.value");
+                            sb = new StringBuffer(before + after);
+                        }
+			         }
+			         if (pd.domains.get(1) instanceof ConcreteDomain){
+                        var firstIndex = sb.toString.indexOf("$p");
+                        if (firstIndex != -1) {
+                            var before = sb.substring(0, firstIndex + 2);
+                            var after = sb.substring(firstIndex + 2);
+                            after = after.replaceAll("\\$p", "\\$p.value");
+                            sb = new StringBuffer(before + after);
+                        }
+                     }
+			     }
+			}
 			return sb.toString.replaceAll("\\$", "_")
 		}
 
