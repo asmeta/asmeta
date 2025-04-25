@@ -38,6 +38,15 @@ public class AsmTestGeneratorTest {
 	public static final String FILE_BASE = "../../../../asm_examples/";
 
 	@Test
+	public void generateSafeCombination() throws Exception {
+		String asmPath = "examples\\SafeCombination.asm";
+		NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(asmPath);
+		TestGenerationWithNuSMV.useLTLandBMC = true;
+		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(Integer.MAX_VALUE, "BR_r_Main_T1");
+
+	}
+
+	@Test
 	public void generateTestAllCriteriaPHD() throws Exception {
 		String asmPath = FILE_BASE + "PHD/phd_master_flat2_v1.asm";
 		NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(asmPath);
