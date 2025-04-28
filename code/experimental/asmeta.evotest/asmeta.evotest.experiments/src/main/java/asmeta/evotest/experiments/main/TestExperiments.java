@@ -59,7 +59,7 @@ public class TestExperiments {
 	private static final String STEP_OCCURRENCES_ATGT_CSV = REPORT_DIR + "/step_occurrences_atgt.csv";
 	
 	// TODO: remove hardcoded path to jdk
-	private static final String JDK_PATH = /* "C:/Program Files/Java/jdk1.8.0_431"; */ "C:/Program Files/Java/jdk-1.8";
+	private static final String JDK_PATH = "C:/Program Files/Java/jdk1.8.0_431"; //*/ "C:/Program Files/Java/jdk-1.8";
 
 	/**
 	 * Run the tests
@@ -68,7 +68,12 @@ public class TestExperiments {
 		Logger.getLogger(RuleEvaluator.class).setLevel(Level.INFO);
 		Logger.getLogger(RuleEvalWCov.class).setLevel(Level.INFO);
 		Logger.getLogger(AsmetaV.class).setLevel(Level.DEBUG);
-
+		
+	    // create parent directory (report) if it does not exist
+		File reportDir = new File(REPORT_DIR);
+		if (!reportDir.exists())
+			Files.createDirectories(new File(REPORT_DIR).toPath());
+		
 		// clean the resource directories before executing
 		cleanDir(Path.of(RESOURCES).resolve(ATGT_DIR));
 		cleanDir(Path.of(RESOURCES).resolve(EVOAVALLA_DIR));
