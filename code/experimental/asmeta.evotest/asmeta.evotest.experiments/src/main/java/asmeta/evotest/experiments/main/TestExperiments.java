@@ -143,7 +143,7 @@ public class TestExperiments {
 	 * 
 	 * @param filePath the path of the .asm file
 	 */
-	private static void generateTestsAndComputeCoverage(String filePath) {
+	static void generateTestsAndComputeCoverage(String filePath) {
 		File file = new File(filePath);
 		// Skip directories and file contained in the STDL directory
 		if (file.isDirectory() || file.getParentFile().getName().equals("STDL"))
