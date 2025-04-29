@@ -6,7 +6,7 @@
 asm GuessBigNumber
 
 import STDL/StandardLibrary
-import MessagePrinter
+import GuessBigNumber_MessagePrinter
 
 signature:
 	// DOMAINS
