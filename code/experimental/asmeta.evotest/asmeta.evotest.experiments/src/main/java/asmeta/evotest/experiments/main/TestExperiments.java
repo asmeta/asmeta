@@ -29,6 +29,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.log4j.Level;
@@ -527,7 +528,7 @@ public class TestExperiments {
 	 */
 	private static void writeToCsv(String reportCsv, long exeTime, int nScenario, Map<String, Integer> avallaInfo,
 			Map<String, String> row) throws FileNotFoundException, IOException, CsvException {
-		// read the csv ith coverage data
+		// read the csv with coverage data
 		List<String[]> covRows = readCsv(reportCsv);
 		int coveredMacros = 0, coveredUpdateRules = 0, coveredCondTrue = 0, coveredCondFalse = 0;
 		for (String[] covRow : covRows) {
@@ -538,9 +539,8 @@ public class TestExperiments {
 				coveredCondFalse += Integer.valueOf(covRow[5]);
 			}
 		}
-		// compute the coverage metrics and the number of failing scenarios
+		// compute the coverage metrics and get the number of failing scenarios
 		String failingScenarios = covRows.get(1)[8];
-		int nFailingScenarios = failingScenarios.equals("none") ? 0 : failingScenarios.split(",").length;
 		float macroCoverage = ((float) coveredMacros) / Integer.valueOf(row.get("n_macro"));
 		float branchCoverage = ((float) coveredCondTrue + coveredCondFalse)
 				/ (2 * Integer.valueOf(row.get("n_conditional")));
@@ -555,7 +555,7 @@ public class TestExperiments {
 		row.put("macro_coverage", String.valueOf(macroCoverage));
 		row.put("branch_coverage", String.valueOf(branchCoverage));
 		row.put("update_rule_coverage", String.valueOf(updateRuleCoverage));
-		row.put("n_failing_scenarios", String.valueOf(nFailingScenarios));
+		row.put("n_failing_scenarios", failingScenarios);
 
 		// build the actual row
 		String dataCsv = REPORT_DIR + File.separator + DATA_CSV;
@@ -608,18 +608,27 @@ public class TestExperiments {
 	 */
 	private static void computeCoverageFromAvalla(String scenarioPath, String csvPath)
 			throws IOException, CsvException {
+		int failingScenarios = 0;
 		try (Stream<Path> files = Files.list(Path.of(scenarioPath))) {
-			files.filter(path -> path.getFileName().toString().endsWith(AVALLA_EXTENSION)).forEach(path -> {
+			List<Path> filesList = files.filter(path -> path.getFileName().toString().endsWith(AVALLA_EXTENSION))
+					.collect(Collectors.toList());
+			for (Path path : filesList) {
 				System.out.println("Processing: " + path);
 				try {
 					AsmetaV.execValidation(path.toString(), true, csvPath);
+					// Extract the value from the last column of the last row in the CSV to check if
+					// the scenario fails
+					List<String[]> rows = readCsv(csvPath);
+					String[] lastRow = rows.getLast();
+					if (!lastRow[lastRow.length - 1].equals("none"))
+						failingScenarios++;
 				} catch (Exception e) {
 					System.err.println("Failed to validate the test: " + path.getFileName());
 					e.printStackTrace();
 				}
-			});
+			}
 			System.out.println("Validated all files in: " + scenarioPath);
-			extractLastExecution(csvPath);
+			extractLastExecution(csvPath, failingScenarios);
 		} catch (IOException e) {
 			System.err.println("Error accessing directory: " + scenarioPath);
 			e.printStackTrace();
@@ -629,20 +638,25 @@ public class TestExperiments {
 	}
 
 	/**
-	 * Extract rows regarding the last execution (that mantains all aggregated data)
-	 * and overwrite wiht the input file.
+	 * Extract form the input file the rows regarding the last execution (that
+	 * mantains all aggregated data) and overwrite with them the content of the
+	 * input file itself. Also put in all rows the number of scenarios that fails in
+	 * the last column.
 	 * 
-	 * @param csvPath the path of the target csv
+	 * @param csvPath          the path of the target csv
+	 * @param failingScenarios TODO
 	 * @throws IOException  if any IO Exceptio occurs
 	 * @throws CsvException if any exveption when reading a csv occurs
 	 */
-	private static void extractLastExecution(String csvPath) throws IOException, CsvException {
+	private static void extractLastExecution(String csvPath, int failingScenarios) throws IOException, CsvException {
 		List<String[]> rows = readCsv(csvPath);
 		String extractedContent = String.join(",", rows.getFirst()) + "\n";
 		String lastExecId = rows.getLast()[0];
 		for (String[] row : rows) {
-			if (row[0].equals(lastExecId))
+			if (row[0].equals(lastExecId)) {
+				row[row.length - 1] = String.valueOf(failingScenarios);
 				extractedContent += String.join(",", row) + "\n";
+			}
 		}
 		File newCsv = new File(csvPath);
 		try {
