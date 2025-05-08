@@ -609,6 +609,10 @@ public class TestExperiments {
 	private static void computeCoverageFromAvalla(String scenarioPath, String csvPath)
 			throws IOException, CsvException {
 		int failingScenarios = 0;
+		// To avoid to count the pervious scenario twice if the next one is empty, keep
+		// track of the previous execution id. For the first scenario, the check is done
+		// using the column name
+		String previosExecId = "execution_id";
 		try (Stream<Path> files = Files.list(Path.of(scenarioPath))) {
 			List<Path> filesList = files.filter(path -> path.getFileName().toString().endsWith(AVALLA_EXTENSION))
 					.collect(Collectors.toList());
@@ -620,8 +624,11 @@ public class TestExperiments {
 					// the scenario fails
 					List<String[]> rows = readCsv(csvPath);
 					String[] lastRow = rows.getLast();
-					if (!lastRow[lastRow.length - 1].equals("none"))
+					String execId = lastRow[0];
+					if (!execId.equals(previosExecId) && !lastRow[lastRow.length - 1].equals("none")) {
 						failingScenarios++;
+						previosExecId = execId;
+					}
 				} catch (Exception e) {
 					System.err.println("Failed to validate the test: " + path.getFileName());
 					e.printStackTrace();
@@ -652,20 +659,23 @@ public class TestExperiments {
 		List<String[]> rows = readCsv(csvPath);
 		String extractedContent = String.join(",", rows.getFirst()) + "\n";
 		String lastExecId = rows.getLast()[0];
-		for (String[] row : rows) {
-			if (row[0].equals(lastExecId)) {
-				row[row.length - 1] = String.valueOf(failingScenarios);
-				extractedContent += String.join(",", row) + "\n";
+		// Skip if the csv is empty (all empty scenarios)
+		if (!lastExecId.equals("execution_id")) {
+			for (String[] row : rows) {
+				if (row[0].equals(lastExecId)) {
+					row[row.length - 1] = String.valueOf(failingScenarios);
+					extractedContent += String.join(",", row) + "\n";
+				}
 			}
-		}
-		File newCsv = new File(csvPath);
-		try {
-			FileOutputStream fos = new FileOutputStream(newCsv, false);
-			PrintStream ps = new PrintStream(fos);
-			ps.print(extractedContent);
-			ps.close();
-		} catch (IOException e) {
-			e.printStackTrace();
+			File newCsv = new File(csvPath);
+			try {
+				FileOutputStream fos = new FileOutputStream(newCsv, false);
+				PrintStream ps = new PrintStream(fos);
+				ps.print(extractedContent);
+				ps.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
