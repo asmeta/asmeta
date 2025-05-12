@@ -39,7 +39,10 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 	private int stepNumber;
 	private AsmCollection asm;
 	private IdExpressionCreator icc;
-	private int testNumer;
+	private int numberofTests;
+	/**
+	 * progressive number among succesive test generation runs
+	 */
 	private int testNumberOffset;
 
 	public static tgtlib.definitions.expression.type.Type dummyType = new DummyType("dummy");
@@ -79,7 +82,7 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 	public AsmTestGeneratorBySimulation(AsmCollection asm, int stepNumber, int testNumber, RandomMFReaderMemory rnd) {
 		this.stepNumber = stepNumber;
 		this.asm = asm;
-		this.testNumer = testNumber;
+		this.numberofTests = testNumber;
 		this.testNumberOffset = 0;
 		// to collect info about the spec
 		icc = new IdExpressionCreator();
@@ -92,7 +95,7 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 	public AsmTestSuite getTestSuite() {
 		try {
 			AsmTestSuite testSuite = new AsmTestSuite();
-			for (int test = 0; test < testNumer; test++) {
+			for (int test = 0; test < numberofTests; test++) {
 				// get the name
 				String modelName = asm.getMain().getName();
 				// build the random environment
@@ -161,8 +164,8 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 		this.asm = asm;
 	}
 
-	public void setTestNumer(int testNumer) {
-		this.testNumer = testNumer;
+	public void setNumberofTests(int testNumer) {
+		this.numberofTests = testNumer;
 	}
 
 	// add this state to the test sequence

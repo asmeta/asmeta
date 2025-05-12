@@ -396,7 +396,7 @@ public class TestExperiments {
 		if (stepList == null || stepList.isEmpty()) {
 			// if EvoAvalla fails use default settings (5 tests with 5 steps each)
 			randomTestGenerator.setStepNumber(5);
-			randomTestGenerator.setTestNumer(5);
+			randomTestGenerator.setNumberofTests(5);
 			// generate the test suite
 			randomSuite.addAllTest(randomTestGenerator.getTestSuite());
 		} else {
