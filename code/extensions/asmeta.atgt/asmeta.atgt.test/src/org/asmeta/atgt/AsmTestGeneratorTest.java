@@ -223,7 +223,8 @@ public class AsmTestGeneratorTest {
 		//String ex = folderPath + "TrafficLightv2.asm";
 		// keywords count ( basic_expr_list ) -- count of TRUE boolean expressions
 		// 
-		String ex = folderPath + "CoffeeVendingMachineNC.asm";
+		//String ex = folderPath + "CoffeeVendingMachineNC.asm";
+		String ex = folderPath + "Tcas.asm";
 		
 		var f = new File(ex);
 		assert f.exists() : Paths.get(f.getCanonicalPath()).normalize() + " does not exists";		
