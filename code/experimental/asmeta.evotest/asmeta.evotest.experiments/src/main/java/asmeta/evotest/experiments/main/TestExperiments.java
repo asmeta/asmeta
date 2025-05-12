@@ -293,16 +293,6 @@ public class TestExperiments {
 	 */
 	private static List<Integer> runEvoAvalla(String asmPath, String asmFileName, Map<String, String> row)
 			throws Exception {
-		// Chiamata al generatore che usa EvoSuite
-		// Problema 1: EvoAvalla attualmente supporta solo asm che iniziano con la
-		// lettera maiuscola
-		// Problema 2: se chiamo direttamente computeCoverageFromAvalla() si aspetta di
-		// trovare la specifica nella cartella del progetto in considerazione,
-		// (esempio per pillbox cerca la specifica .asm in
-		// evoavallatests/pillbox_1/pillbox_1.asm).
-		// Per evitare eccezioni per copio la specifica manualmente, sistemando la
-		// posizione delle STDL e del nome
-
 		String evoAavallaTestDir = "./" + RESOURCES + "/" + EVOAVALLA_DIR;
 		String avallaOutputDirectory = evoAavallaTestDir + "/" + asmFileName;
 
@@ -310,7 +300,7 @@ public class TestExperiments {
 				DASH + EvoAsmetaTgCLI.INPUT, asmPath, DASH + EvoAsmetaTgCLI.OUTPUT, avallaOutputDirectory,
 				DASH + EvoAsmetaTgCLI.JAVA_PATH, jdkPath, DASH + EvoAsmetaTgCLI.EVOSUITE_VERSION, "1.0.6",
 				DASH + EvoAsmetaTgCLI.EVOSUITE_PATH, "..\\asmeta.evotest.evoasmetatg\\evosuite\\evosuite-jar",
-				/* DASH + EvoAsmetaTgCLI.TIME_BUDGET, "1", */ DASH + EvoAsmetaTgCLI.CLEAN,
+				/* DASH + EvoAsmetaTgCLI.TIME_BUDGET, "1", */ DASH + EvoAsmetaTgCLI.CLEAN, 
 				"-DignoreDomainException=true");
 
 		Instant start = Instant.now();
@@ -322,8 +312,9 @@ public class TestExperiments {
 			throw new IllegalStateException(
 					"EvoAsmetaTgCLI returned an error code:" + EvoAsmetaTgCLI.getReturnedCode());
 		}
-
-		// Copy the ASM and the libraries in the scenario folder
+		
+		// The generated scenarios load ASM files by filename only. So the ASM and
+		// libraries must be copied into the scenario folder.
 		try {
 			// Copy the ASM file
 			File source = new File(MODELS + "/" + asmFileName + ASMParser.ASM_EXTENSION);
@@ -379,16 +370,6 @@ public class TestExperiments {
 	 */
 	private static void runRandom(String asmPath, AsmCollection asmCollection, String asmFileName,
 			List<Integer> stepList, Map<String, String> row) throws Exception {
-		// Come decidere i parametri della random simulation? Vedere quanti avalla
-		// generano gli altri metodi e con quanti step
-
-		// ho dovuto apportare delle modifiche alla classe AsmTestGeneratorBySimulation
-		// perchè sovrascriveva i test avalla generati, ora creo una istanza della
-		// classe e uso sempre la stessa per creare tutti i test corrispondenti.
-		// Nella classe AsmTestGeneratorBySimulation ho aggiunto la variabile
-		// testNumberOffset che viene incrementata a ogni test generato in modo da non
-		// sovrascrivere i futuri test
-
 		AsmTestSuite randomSuite = new AsmTestSuite();
 		AsmTestGeneratorBySimulation randomTestGenerator = new AsmTestGeneratorBySimulation(asmCollection, 1, 1);
 
@@ -595,12 +576,12 @@ public class TestExperiments {
 	}
 
 	/**
-	 * Validate an ASM specification and compute the coverage given the .avalla
-	 * scenarios. If the validation of an avalla results in an exception, the
-	 * valiadtion continues.
+	 * Validate an ASM specification and compute the coverage given a direcroty
+	 * containing .avalla scenarios. If the validation of an avalla results in an
+	 * exception, the valiadtion continues.
 	 * 
 	 * @param scenarioPath the path of the directory where to look for the .avalla
-	 *                     files or the path of a single .avalla file
+	 *                     files
 	 * @param csvPath      where to save the experiments stats (it must be a .csv
 	 *                     file)
 	 * @throws IOException  if any IO Exceptio occurs
@@ -651,7 +632,7 @@ public class TestExperiments {
 	 * the last column.
 	 * 
 	 * @param csvPath          the path of the target csv
-	 * @param failingScenarios TODO
+	 * @param failingScenarios the number of failing scenarios
 	 * @throws IOException  if any IO Exceptio occurs
 	 * @throws CsvException if any exveption when reading a csv occurs
 	 */
