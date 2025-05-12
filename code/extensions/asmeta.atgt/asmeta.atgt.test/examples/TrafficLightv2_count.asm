@@ -1,6 +1,6 @@
 asm TrafficLightv2_count
 
-import STDL/StandardLibrary
+import StandardLibrary
 
 /*
  * The model includes four states, red, green, yellow, and pending, and an internal variable count.
