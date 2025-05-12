@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.io.PrintStream;
+import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
 
@@ -211,5 +212,26 @@ public class AsmTestGeneratorTest {
 		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(Collections.singleton(CriteriaEnum.BASIC_RULE.criteria),1, ".*");
 		
 	}
+	
+	@Test
+	public void generateASEExperimens() throws Exception {
+		String folderPath = "../../../experimental/asmeta.evotest/asmeta.evotest.experiments/src/main/resources/models/";
+		//
+		//String ex = folderPath + "Contatore_U_DA_H.asm"; //-> h is a keyword in NuSMV
+		// These names are reserved for the LTL temporal operators
+		//
+		//String ex = folderPath + "TrafficLightv2.asm";
+		// keywords count ( basic_expr_list ) -- count of TRUE boolean expressions
+		// 
+		String ex = folderPath + "CoffeeVendingMachineNC.asm";
+		
+		var f = new File(ex);
+		assert f.exists() : Paths.get(f.getCanonicalPath()).normalize() + " does not exists";		
+		asmeta.AsmCollection asms = ASMParser.setUpReadAsm(f);				
+		NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(ex, true);
+		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(Collections.singleton(CriteriaEnum.BASIC_RULE.criteria),1, ".*");
+		
+	}
+
 	
 }

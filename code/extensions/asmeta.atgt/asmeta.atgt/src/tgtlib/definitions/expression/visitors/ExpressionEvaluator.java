@@ -18,6 +18,7 @@ import java.util.Map.Entry;
 import java.util.Optional;
 
 import org.apache.log4j.Logger;
+import org.asmeta.atgt.generator.ExpressionToSMV;
 
 import tgtlib.definitions.expression.AndExpression;
 import tgtlib.definitions.expression.BinaryExpression;
@@ -209,12 +210,20 @@ public class ExpressionEvaluator implements tgtlib.definitions.expression.Expres
 	}
 
 	// eval the two expression assuming that are mathematical expression
-	// return true if they are not
+	// return the comparison value (as the comparator)
 	// throw if part is math and part not
 	private Optional<Integer> evalAsmath(BinaryExpression e) {
 		Expression firstOperand = e.getFirstOperand();
+		if (!(firstOperand instanceof IdExpression)) {
+			//System.err.println(firstOperand.getClass());
+			return Optional.empty();
+		}
 		Expression secondOperand = e.getSecondOperand();
-		// try as math expressions
+		if (!(secondOperand instanceof IdExpression)) {
+			//System.err.println(firstOperand.getClass());
+			return Optional.empty();
+		}
+		// try as math expressions like a = 3 
 		MathExpressionToIntEvaluator mm = new MathExpressionToIntEvaluator(state);
 		Integer ii1 = mathValue(mm, firstOperand);
 		Integer ii2 = mathValue(mm, secondOperand);
@@ -222,11 +231,13 @@ public class ExpressionEvaluator implements tgtlib.definitions.expression.Expres
 			// both are math values, must be equal
 			return Optional.of(ii1.compareTo(ii2));
 		} else if (ii1 != null || ii2 != null) {
+			// System.err.println(firstOperand + " " + secondOperand);
 			// one if math value, the other no
-			// add the case in which one is undef
+			// add the case in which one is undef			
 			if (ii1 != null && state.get(secondOperand).equals(Undef.UNDEF.toString()))
 				return Optional.of(-1);
 			// add the case in which one is undef
+			System.err.println(firstOperand.getClass());
 			if (ii2 != null && state.get(firstOperand).equals(Undef.UNDEF.toString()))
 				return Optional.of(-1);
 			throw new EvaluationNotSupported("evaluation not supported " + ii1 + " != " + ii2);
@@ -235,6 +246,7 @@ public class ExpressionEvaluator implements tgtlib.definitions.expression.Expres
 		assert ii1 == null && ii2 == null;
 		return Optional.empty();
 	}
+		
 
 	private Integer mathValue(MathExpressionToIntEvaluator mm, Expression firstOperand) {
 		Integer ii1 = null;
