@@ -39,18 +39,18 @@ signature:
 	//gearsShockAbsorber is true if and only if the aircfraft is on ground
 	dynamic monitored gearsShockAbsorber: LandingSet -> Boolean
 
-	derived gearsExtended: Boolean
-	derived gearsRetracted: Boolean
-	derived doorsClosed: Boolean
-	derived doorsOpen: Boolean
-	derived gearsShockAbsorber: Boolean
+	derived gearsAllExtended: Boolean
+	derived gearsAllRetracted: Boolean
+	derived doorsAllClosed: Boolean
+	derived doorsAllOpen: Boolean
+	derived gearsAllShockAbsorber: Boolean
 
 definitions:
-	function gearsExtended = (forall $s in LandingSet with gearsExtended($s))
-	function gearsRetracted = (forall $s in LandingSet with gearsRetracted($s))
-	function doorsClosed = (forall $s in LandingSet with doorsClosed($s))
-	function doorsOpen = (forall $s in LandingSet with doorsOpen($s))
-	function gearsShockAbsorber = (forall $s in LandingSet with gearsShockAbsorber($s))
+	function gearsAllExtended = (forall $s in LandingSet with gearsExtended($s))
+	function gearsAllRetracted = (forall $s in LandingSet with gearsRetracted($s))
+	function doorsAllClosed = (forall $s in LandingSet with doorsClosed($s))
+	function doorsAllOpen = (forall $s in LandingSet with doorsOpen($s))
+	function gearsAllShockAbsorber = (forall $s in LandingSet with gearsShockAbsorber($s))
 
 	function cylindersDoors =
 		switch doors
@@ -84,7 +84,7 @@ definitions:
 					doors := CLOSING
 				endpar
 			case CLOSING:
-				if doorsClosed then
+				if doorsAllClosed then
 					par
 						generalElectroValve := false
 						closeDoorsElectroValve := false
@@ -115,7 +115,7 @@ definitions:
 						doors := OPENING
 					endpar
 				case OPENING:
-					if doorsOpen then
+					if doorsAllOpen then
 						par
 							openDoorsElectroValve := false
 							doors := OPEN
@@ -124,14 +124,14 @@ definitions:
 				case OPEN:
 					switch gears
 						case EXTENDED:
-							if gearsShockAbsorber then
+							if gearsAllShockAbsorber then
 								par
 									retractGearsElectroValve := true
 									gears := RETRACTING
 								endpar
 							endif
 						case RETRACTING:
-							if gearsRetracted then
+							if gearsAllRetracted then
 								par
 									retractGearsElectroValve := false
 									gears := RETRACTED
@@ -159,7 +159,7 @@ definitions:
 						doors := OPENING
 					endpar
 				case OPENING:
-					if doorsOpen then
+					if doorsAllOpen then
 						par
 							openDoorsElectroValve := false
 							doors := OPEN
@@ -179,7 +179,7 @@ definitions:
 								gears := EXTENDING
 							endpar
 						case EXTENDING:
-							if gearsExtended then
+							if gearsAllExtended then
 								par
 									extendGearsElectroValve := false
 									gears := EXTENDED
@@ -198,11 +198,11 @@ definitions:
 		endif
 
 	//sensors must be true infinitely often (necessary for property verification)
-	JUSTICE gearsExtended
-	JUSTICE gearsRetracted
-	JUSTICE doorsClosed
-	JUSTICE doorsOpen
-	JUSTICE gearsShockAbsorber
+	JUSTICE gearsAllExtended
+	JUSTICE gearsAllRetracted
+	JUSTICE doorsAllClosed
+	JUSTICE doorsAllOpen
+	JUSTICE gearsAllShockAbsorber
 	//imposing the constraints on the single sensors is to weak 
 	/*JUSTICE gearsExtended(FRONT)
 	JUSTICE gearsExtended(LEFT)

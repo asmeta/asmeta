@@ -163,6 +163,7 @@ public class ExpressionEvaluator implements tgtlib.definitions.expression.Expres
 		}
 		Expression firstOperand = e.getFirstOperand();
 		Expression secondOperand = e.getSecondOperand();
+		//System.err.println(firstOperand.getClass() + " " + secondOperand.getClass());
 		if (firstOperand instanceof IdExpression && secondOperand instanceof IdExpression) {
 			// BOTH IDs
 			// e1 == e2 identical
@@ -213,32 +214,26 @@ public class ExpressionEvaluator implements tgtlib.definitions.expression.Expres
 	// return the comparison value (as the comparator)
 	// throw if part is math and part not
 	private Optional<Integer> evalAsmath(BinaryExpression e) {
+		// note that they can be idexpressions of math expression like 4+5
 		Expression firstOperand = e.getFirstOperand();
-		if (!(firstOperand instanceof IdExpression)) {
-			//System.err.println(firstOperand.getClass());
-			return Optional.empty();
-		}
 		Expression secondOperand = e.getSecondOperand();
-		if (!(secondOperand instanceof IdExpression)) {
-			//System.err.println(firstOperand.getClass());
-			return Optional.empty();
-		}
 		// try as math expressions like a = 3 
 		MathExpressionToIntEvaluator mm = new MathExpressionToIntEvaluator(state);
 		Integer ii1 = mathValue(mm, firstOperand);
 		Integer ii2 = mathValue(mm, secondOperand);
 		if (ii1 != null && ii2 != null) {
-			// both are math values, must be equal
+			// both are math values, compare them as numbers
 			return Optional.of(ii1.compareTo(ii2));
 		} else if (ii1 != null || ii2 != null) {
-			// System.err.println(firstOperand + " " + secondOperand);
+			System.err.println(firstOperand + " " + secondOperand);
 			// one if math value, the other no
 			// add the case in which one is undef			
-			if (ii1 != null && state.get(secondOperand).equals(Undef.UNDEF.toString()))
+			if (ii1 != null && 
+					(secondOperand instanceof IdExpression) && state.get(secondOperand).equals(Undef.UNDEF.toString()))
 				return Optional.of(-1);
 			// add the case in which one is undef
-			System.err.println(firstOperand.getClass());
-			if (ii2 != null && state.get(firstOperand).equals(Undef.UNDEF.toString()))
+			if (ii2 != null && 
+					(firstOperand instanceof IdExpression) && state.get(firstOperand).equals(Undef.UNDEF.toString()))
 				return Optional.of(-1);
 			throw new EvaluationNotSupported("evaluation not supported " + ii1 + " != " + ii2);
 		}
@@ -319,7 +314,7 @@ public class ExpressionEvaluator implements tgtlib.definitions.expression.Expres
 			return false;
 		if (val.equalsIgnoreCase(BoolType.TRUE_CONST.getIdString()))
 			return true;
-		throw new RuntimeException("var " + var.getIdString() + " has no bool value but" + val);
+		throw new RuntimeException("var " + var.getIdString() + " has no bool value but " + val);
 	}
 
 	/*

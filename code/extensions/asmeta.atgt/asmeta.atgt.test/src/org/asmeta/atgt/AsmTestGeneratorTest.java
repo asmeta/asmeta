@@ -214,7 +214,7 @@ public class AsmTestGeneratorTest {
 	}
 	
 	@Test
-	public void generateASEExperimens() throws Exception {
+	public void generateASEExperiments() throws Exception {
 		String folderPath = "../../../experimental/asmeta.evotest/asmeta.evotest.experiments/src/main/resources/models/";
 		//
 		//String ex = folderPath + "Contatore_U_DA_H.asm"; //-> h is a keyword in NuSMV
@@ -224,13 +224,19 @@ public class AsmTestGeneratorTest {
 		// keywords count ( basic_expr_list ) -- count of TRUE boolean expressions
 		// 
 		//String ex = folderPath + "CoffeeVendingMachineNC.asm";
-		String ex = folderPath + "Tcas.asm";
+		//String ex = folderPath + "Tcas.asm";
+		
+		//String ex = folderPath + "SafeCombination.asm";
+		//String ex = folderPath + "Contatore_U_DA_H.asm";
+		//String ex = folderPath + "LGS_3L.asm";
+		//String ex = folderPath + "SmartHome.asm"; // this contain agents, it won't work
+		String ex = folderPath + "SiGistica.asm";
 		
 		var f = new File(ex);
 		assert f.exists() : Paths.get(f.getCanonicalPath()).normalize() + " does not exists";		
 		asmeta.AsmCollection asms = ASMParser.setUpReadAsm(f);				
 		NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(ex, true);
-		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(Collections.singleton(CriteriaEnum.BASIC_RULE.criteria),1, ".*");
+		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(Collections.singleton(CriteriaEnum.RULE_GUARD.criteria),1, ".*");
 		
 	}
 
