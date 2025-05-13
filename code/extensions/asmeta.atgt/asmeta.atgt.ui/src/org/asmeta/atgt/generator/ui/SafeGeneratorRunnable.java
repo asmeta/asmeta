@@ -128,7 +128,7 @@ public class SafeGeneratorRunnable extends Job {
 			public void run() {
 				if (trace != null) {
 					MessageDialog.openError(shell, "ERROR", "Generation ERROR \n" + trace);
-					throw new RuntimeException("Output null problem with citModel parsing");
+					throw new RuntimeException("Output null problem with asmeta parsing");
 				}
 			}
 		});

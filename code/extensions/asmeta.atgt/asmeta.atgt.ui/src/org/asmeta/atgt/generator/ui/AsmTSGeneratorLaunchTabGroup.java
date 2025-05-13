@@ -17,7 +17,7 @@ public class AsmTSGeneratorLaunchTabGroup implements ILaunchConfigurationTabGrou
 
 	public AsmTSGeneratorLaunchTabGroup() {
 		tabs = new ILaunchConfigurationTab[]{ 
-				new AsmTSGeneratorTab(), // new org.eclipse.jdt.debug.ui.launchConfigurations.JavaMainTab();
+				new AsmTSGeneratorTab(), 
 				new AsmTGSimulatorGenTab()};
 				//new CommonTab();
 		

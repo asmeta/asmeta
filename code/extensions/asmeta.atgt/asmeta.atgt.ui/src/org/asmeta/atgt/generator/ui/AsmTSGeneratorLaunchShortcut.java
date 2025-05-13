@@ -25,13 +25,19 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 
+// it executes the generation of the tests
+// it has two modes (see in the plugin.xml file
+//  mcmode: with the model checker
+//  rndmode: with the simulator based generation
+//
 public class AsmTSGeneratorLaunchShortcut implements org.eclipse.debug.ui.ILaunchShortcut {
 
 	private static final String NEW = "New configuration";
 
 	@Override
-	public void launch(ISelection selection, String mode) {
-		System.out.println("AsmTSGeneratorLaunchShortcut:launch ISelection");
+	public void launch(ISelection selection, String mode) {		
+		assert mode.equals("rndmode") || mode.equals("mcmode"); 
+		System.out.println("AsmTSGeneratorLaunchShortcut:launch ISelection - mode:" + mode);
 		ILaunchConfiguration configuration = findConfiguration(mode);
 		// selection like a node in the tree
 		if (selection instanceof TreeSelection) {
