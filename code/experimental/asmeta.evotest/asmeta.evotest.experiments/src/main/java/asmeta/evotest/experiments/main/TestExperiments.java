@@ -300,8 +300,7 @@ public class TestExperiments {
 				DASH + EvoAsmetaTgCLI.INPUT, asmPath, DASH + EvoAsmetaTgCLI.OUTPUT, avallaOutputDirectory,
 				DASH + EvoAsmetaTgCLI.JAVA_PATH, jdkPath, DASH + EvoAsmetaTgCLI.EVOSUITE_VERSION, "1.0.6",
 				DASH + EvoAsmetaTgCLI.EVOSUITE_PATH, "..\\asmeta.evotest.evoasmetatg\\evosuite\\evosuite-jar",
-				/* DASH + EvoAsmetaTgCLI.TIME_BUDGET, "1", */ DASH + EvoAsmetaTgCLI.CLEAN, 
-				"-DignoreDomainException=true");
+				/* DASH + EvoAsmetaTgCLI.TIME_BUDGET, "1", */ DASH + EvoAsmetaTgCLI.CLEAN, "-DignoreDomainException=true");
 
 		Instant start = Instant.now();
 		EvoAsmetaTgCLI.main(evoAsmetaTgArguments.toArray(new String[0]));
@@ -312,7 +311,7 @@ public class TestExperiments {
 			throw new IllegalStateException(
 					"EvoAsmetaTgCLI returned an error code:" + EvoAsmetaTgCLI.getReturnedCode());
 		}
-		
+
 		// The generated scenarios load ASM files by filename only. So the ASM and
 		// libraries must be copied into the scenario folder.
 		try {
@@ -511,21 +510,6 @@ public class TestExperiments {
 			Map<String, String> row) throws FileNotFoundException, IOException, CsvException {
 		// read the csv with coverage data
 		List<String[]> covRows = readCsv(reportCsv);
-		int coveredMacros = 0, coveredUpdateRules = 0, coveredCondTrue = 0, coveredCondFalse = 0;
-		for (String[] covRow : covRows) {
-			if (row.get("asm").equals(covRow[1])) {
-				coveredMacros += 1;
-				coveredUpdateRules += Integer.valueOf(covRow[7]);
-				coveredCondTrue += Integer.valueOf(covRow[4]);
-				coveredCondFalse += Integer.valueOf(covRow[5]);
-			}
-		}
-		// compute the coverage metrics and get the number of failing scenarios
-		String failingScenarios = covRows.get(1)[8];
-		float macroCoverage = ((float) coveredMacros) / Integer.valueOf(row.get("n_macro"));
-		float branchCoverage = ((float) coveredCondTrue + coveredCondFalse)
-				/ (2 * Integer.valueOf(row.get("n_conditional")));
-		float updateRuleCoverage = ((float) coveredUpdateRules) / Integer.valueOf(row.get("n_update"));
 		// build the map representing the row
 		row.put("approach", reportCsv.substring(reportCsv.indexOf("_") + 1, reportCsv.indexOf(".csv")));
 		row.put("exec_time", String.valueOf(exeTime));
@@ -533,11 +517,34 @@ public class TestExperiments {
 		row.put("n_step", String.valueOf(avallaInfo.get("step")));
 		row.put("n_set", String.valueOf(avallaInfo.get("set")));
 		row.put("n_check", String.valueOf(avallaInfo.get("check")));
-		row.put("macro_coverage", String.valueOf(macroCoverage));
-		row.put("branch_coverage", String.valueOf(branchCoverage));
-		row.put("update_rule_coverage", String.valueOf(updateRuleCoverage));
-		row.put("n_failing_scenarios", failingScenarios);
-
+		// If there is only one row (headers row), no scenarios or only empty scenarios
+		// were generated
+		if (covRows.size() == 1) {
+			row.put("macro_coverage", "0.0");
+			row.put("branch_coverage", "0.0");
+			row.put("update_rule_coverage", "0.0");
+			row.put("n_failing_scenarios", "0");
+		} else {
+			int coveredMacros = 0, coveredUpdateRules = 0, coveredCondTrue = 0, coveredCondFalse = 0;
+			for (String[] covRow : covRows) {
+				if (row.get("asm").equals(covRow[1])) {
+					coveredMacros += 1;
+					coveredUpdateRules += Integer.valueOf(covRow[7]);
+					coveredCondTrue += Integer.valueOf(covRow[4]);
+					coveredCondFalse += Integer.valueOf(covRow[5]);
+				}
+			}
+			// compute the coverage metrics and get the number of failing scenarios
+			String failingScenarios = covRows.get(1)[8];
+			float macroCoverage = ((float) coveredMacros) / Integer.valueOf(row.get("n_macro"));
+			float branchCoverage = ((float) coveredCondTrue + coveredCondFalse)
+					/ (2 * Integer.valueOf(row.get("n_conditional")));
+			float updateRuleCoverage = ((float) coveredUpdateRules) / Integer.valueOf(row.get("n_update"));
+			row.put("macro_coverage", String.valueOf(macroCoverage));
+			row.put("branch_coverage", String.valueOf(branchCoverage));
+			row.put("update_rule_coverage", String.valueOf(updateRuleCoverage));
+			row.put("n_failing_scenarios", failingScenarios);
+		}
 		// build the actual row
 		String dataCsv = REPORT_DIR + File.separator + DATA_CSV;
 		String[] actualRow = new String[CSV_HEADERS.size()];
@@ -545,7 +552,6 @@ public class TestExperiments {
 			int index = CSV_HEADERS.indexOf(key);
 			actualRow[index] = row.get(key);
 		}
-
 		// write the actual row to csv
 		try {
 			FileOutputStream fos = new FileOutputStream(dataCsv, true);
@@ -637,10 +643,27 @@ public class TestExperiments {
 	 * @throws CsvException if any exveption when reading a csv occurs
 	 */
 	private static void extractLastExecution(String csvPath, int failingScenarios) throws IOException, CsvException {
+		// If the csv does not exists (no scenarios generated), create a dummy empty csv
+		File csvFile = new File(csvPath);
+		if (!csvFile.exists()) {
+			csvFile.createNewFile();
+			String[] headers = { "execution_id", "asm_name", "rule_signature", "tot_conditional_rules",
+					"covered_true_conditional_rules", "covered_false_conditional_rules", "tot_update_rules",
+					"covered_update_rules", "failing_scenarios" };
+			String headersString = String.join(",", headers);
+			try {
+				FileOutputStream fos = new FileOutputStream(csvPath, false);
+				PrintStream ps = new PrintStream(fos);
+				ps.print(headersString);
+				ps.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 		List<String[]> rows = readCsv(csvPath);
 		String extractedContent = String.join(",", rows.getFirst()) + "\n";
 		String lastExecId = rows.getLast()[0];
-		// Skip if the csv is empty (all empty scenarios)
+		// Skip if the csv is empty (all empty scenarios or no scenarios)
 		if (!lastExecId.equals("execution_id")) {
 			for (String[] row : rows) {
 				if (row[0].equals(lastExecId)) {
