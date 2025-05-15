@@ -1,0 +1,75 @@
+scenario testRG_r_Main_FRG_r_outgoingSequence_T_OPENING_TTRG1
+
+load ./src\main\resources\models\LGS_3L.asm
+
+//// test name test@RG_r_Main_FRG_r_outgoingSequence_T_OPENING_TTRG1
+//// generated for (test goal): RG_r_Main_FRG_r_outgoingSequence_T_OPENING_TTRG1: (handle != UP) and ((gears != EXTENDED) and ((doors = OPENING) and (doorsAllOpen and (openDoorsElectroValve != false))))
+check doorsAllClosed = false;
+check cylindersDoors = CYLINDER_RETRACTED;
+check doorsAllOpen = false;
+check gearsAllShockAbsorber = false;
+check gearsAllRetracted = false;
+check closeDoorsElectroValve = false;
+check cylindersGears = CYLINDER_EXTENDED;
+check doors = CLOSED;
+check extendGearsElectroValve = false;
+check openDoorsElectroValve = false;
+check gears = EXTENDED;
+check gearsAllExtended = false;
+check retractGearsElectroValve = false;
+check generalElectroValve = false;
+set handle := DOWN;
+step
+set handle := UP;
+step
+check cylindersDoors = CYLINDER_EXTENDING;
+check doorsAllOpen = true;
+check doors = OPENING;
+check openDoorsElectroValve = true;
+check generalElectroValve = true;
+set handle := UP;
+set doorsOpen(FRONT) := true;
+set doorsOpen(RIGHT) := true;
+set doorsOpen(LEFT) := true;
+step
+check cylindersDoors = CYLINDER_EXTENDED;
+check doorsAllOpen = false;
+check gearsAllShockAbsorber = true;
+check doors = OPEN;
+check openDoorsElectroValve = false;
+set handle := UP;
+set gearsShockAbsorber(RIGHT) := true;
+set gearsShockAbsorber(LEFT) := true;
+set gearsShockAbsorber(FRONT) := true;
+step
+check gearsAllShockAbsorber = false;
+check gearsAllRetracted = true;
+check cylindersGears = CYLINDER_RETRACTING;
+check gears = RETRACTING;
+check retractGearsElectroValve = true;
+set gearsRetracted(FRONT) := true;
+set handle := UP;
+set gearsRetracted(LEFT) := true;
+set gearsRetracted(RIGHT) := true;
+step
+check gearsAllRetracted = false;
+check cylindersGears = CYLINDER_RETRACTED;
+check gears = RETRACTED;
+check retractGearsElectroValve = false;
+set handle := UP;
+step
+check cylindersDoors = CYLINDER_RETRACTING;
+check closeDoorsElectroValve = true;
+check doors = CLOSING;
+set handle := undef;
+step
+check cylindersDoors = CYLINDER_EXTENDING;
+check doorsAllOpen = true;
+check closeDoorsElectroValve = false;
+check doors = OPENING;
+check openDoorsElectroValve = true;
+set handle := undef;
+set doorsOpen(FRONT) := true;
+set doorsOpen(RIGHT) := true;
+set doorsOpen(LEFT) := true;
+step

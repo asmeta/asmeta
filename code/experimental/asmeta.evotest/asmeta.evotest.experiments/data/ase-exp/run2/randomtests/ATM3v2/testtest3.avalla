@@ -1,0 +1,14 @@
+scenario testtest3
+
+load ./src\main\resources\models\ATM3v2.asm
+
+//// test name test@test3
+//// generated for (test goal): test3: NULL
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+set insertedCard := card1;
+step
+check atmState = AWAITPIN;
+check currCard = card1;
+check moneyLeft = 1000;
+step

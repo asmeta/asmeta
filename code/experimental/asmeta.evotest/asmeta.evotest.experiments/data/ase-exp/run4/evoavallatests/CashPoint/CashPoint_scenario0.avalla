@@ -1,0 +1,13 @@
+scenario CashPoint_scenario0
+
+load CashPoint.asm
+
+
+step
+
+set enteredPin(till1) := 1802;
+set currentDate := ;
+set amount(till1) := (-2740);
+
+step
+

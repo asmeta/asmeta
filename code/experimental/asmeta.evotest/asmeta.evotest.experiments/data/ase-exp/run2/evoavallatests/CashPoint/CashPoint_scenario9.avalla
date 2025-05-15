@@ -1,0 +1,7 @@
+scenario CashPoint_scenario9
+
+load CashPoint.asm
+
+
+step
+

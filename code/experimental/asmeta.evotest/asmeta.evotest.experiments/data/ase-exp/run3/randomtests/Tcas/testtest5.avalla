@@ -1,0 +1,23 @@
+scenario testtest5
+
+load ./src\main\resources\models\Tcas.asm
+
+//// test name test@test5
+//// generated for (test goal): test5: NULL
+set e := true;
+set a := true;
+set b := true;
+set g0 := true;
+set h0 := false;
+set l := true;
+set c := false;
+set m := true;
+set o0 := false;
+set d := true;
+set k := true;
+set f0 := true;
+set n := true;
+set j := false;
+step
+check condition = true;
+step

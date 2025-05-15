@@ -1,0 +1,71 @@
+scenario testtest6
+
+load ./src\main\resources\models\Tcas.asm
+
+//// test name test@test6
+//// generated for (test goal): test6: NULL
+set h0 := true;
+set m := true;
+set f0 := true;
+set n := true;
+set g0 := true;
+set k := false;
+set l := true;
+set a := true;
+set c := true;
+set j := true;
+set b := false;
+set o0 := false;
+set e := true;
+set d := false;
+step
+check condition = true;
+set n := false;
+set o0 := false;
+set k := false;
+set c := false;
+set h0 := false;
+set a := true;
+set j := true;
+set l := true;
+set d := false;
+set b := true;
+set e := false;
+set m := true;
+set g0 := true;
+set f0 := true;
+step
+check condition = true;
+set g0 := true;
+set l := true;
+set a := true;
+set o0 := true;
+set d := false;
+set j := false;
+set c := true;
+set k := true;
+set f0 := true;
+set b := true;
+set n := false;
+set e := true;
+set m := true;
+set h0 := false;
+step
+check condition = true;
+set a := false;
+set g0 := true;
+set b := true;
+set o0 := false;
+set h0 := false;
+set m := true;
+set l := true;
+set k := false;
+set f0 := true;
+set c := true;
+set n := false;
+set j := true;
+set e := false;
+set d := false;
+step
+check condition = true;
+step

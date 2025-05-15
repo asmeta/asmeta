@@ -1,0 +1,6 @@
+scenario testRG_r_Main_TTRG1
+
+load ./src\main\resources\models\Ascensore.asm
+
+//// test name test@RG_r_Main_TTRG1
+//// generated for (test goal): RG_r_Main_TTRG1: signalPorta and (((statoPiano = UNO) and (statoPorta = CHIUSA)) and (statoPiano != UNO))

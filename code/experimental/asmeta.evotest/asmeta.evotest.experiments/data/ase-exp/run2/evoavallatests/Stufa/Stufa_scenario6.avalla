@@ -1,0 +1,17 @@
+scenario Stufa_scenario6
+
+load Stufa.asm
+
+check pellet = 50;
+check potenza = 1;
+check timer = 10;
+check stato_stufa = STANBY;
+check fuliggine = 0;
+
+step
+
+check potenza = 1;
+check pellet = 49;
+check timer = 9;
+check stato_stufa = STANBY;
+check fuliggine = 0;

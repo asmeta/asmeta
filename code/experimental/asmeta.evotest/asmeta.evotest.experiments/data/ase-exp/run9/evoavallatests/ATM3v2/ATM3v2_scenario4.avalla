@@ -1,0 +1,49 @@
+scenario ATM3v2_scenario4
+
+load ATM3v2.asm
+
+check numOfBalanceChecks = 0;
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+check numOfBalanceChecks = 0;
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+check numOfBalanceChecks = 0;
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+set insertMoneySizeOther := (-1);
+set standardOrOther := OTHER;
+set insertedCard := card2;
+set standardOrOther := OTHER;
+set selectedService := EXIT;
+
+step
+
+check numOfBalanceChecks = 0;
+check atmState = AWAITPIN;
+check moneyLeft = 1000;
+set standardOrOther := STANDARD;
+set standardOrOther := OTHER;
+set insertMoneySizeOther := 0;
+
+step
+
+check numOfBalanceChecks = 0;
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+check balance(card1) = 3000;
+check numOfBalanceChecks = 0;
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+check accessible(card2) = true;
+check numOfBalanceChecks = 0;
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+check currCard = card2;
+check numOfBalanceChecks = 0;
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+check currCard = card2;
+check numOfBalanceChecks = 0;
+check moneyLeft = 1000;
+check atmState = AWAITCARD;

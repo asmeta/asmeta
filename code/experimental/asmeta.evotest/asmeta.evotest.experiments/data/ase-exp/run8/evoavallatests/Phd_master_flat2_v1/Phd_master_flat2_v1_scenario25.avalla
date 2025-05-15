@@ -1,0 +1,11 @@
+scenario Phd_master_flat2_v1_scenario25
+
+load Phd_master_flat2_v1.asm
+
+check status = UNASSOCIATED;
+set transition := RX_AARE;
+
+step
+
+check status = UNASSOCIATED;
+check message = MSG_RX_ABRT;

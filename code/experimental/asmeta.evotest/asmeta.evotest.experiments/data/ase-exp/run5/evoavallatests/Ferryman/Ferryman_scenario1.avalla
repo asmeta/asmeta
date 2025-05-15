@@ -1,0 +1,34 @@
+scenario Ferryman_scenario1
+
+load Ferryman.asm
+
+check status = WORKING;
+check position(GOAT) = LEFT;
+check position(WOLF) = LEFT;
+check position(FERRYMAN) = LEFT;
+check position(CABBAGE) = LEFT;
+set carry := GOAT;
+
+step
+
+check status = WORKING;
+check position(FERRYMAN) = RIGHT;
+check position(WOLF) = LEFT;
+check position(CABBAGE) = LEFT;
+check position(GOAT) = RIGHT;
+
+step
+
+check status = WORKING;
+check position(WOLF) = LEFT;
+check position(FERRYMAN) = LEFT;
+check position(CABBAGE) = LEFT;
+check position(GOAT) = RIGHT;
+
+step
+
+check status = WORKING;
+check position(GOAT) = LEFT;
+check position(FERRYMAN) = RIGHT;
+check position(WOLF) = LEFT;
+check position(CABBAGE) = LEFT;

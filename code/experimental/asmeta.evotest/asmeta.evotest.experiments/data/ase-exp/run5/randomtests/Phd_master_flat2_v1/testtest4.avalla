@@ -1,0 +1,12 @@
+scenario testtest4
+
+load ./src\main\resources\models\Phd_master_flat2_v1.asm
+
+//// test name test@test4
+//// generated for (test goal): test4: NULL
+check status = UNASSOCIATED;
+set transition := REQ_ASSOC_REL;
+step
+check message = MSG_NO_RESPONSE;
+check status = UNASSOCIATED;
+step

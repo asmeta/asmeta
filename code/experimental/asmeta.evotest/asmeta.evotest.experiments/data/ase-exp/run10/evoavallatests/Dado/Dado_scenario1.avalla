@@ -1,0 +1,17 @@
+scenario Dado_scenario1
+
+load Dado.asm
+
+check statoGioco = INCORSO;
+check soldi(USER) = 10;
+check soldi(PC) = 10;
+check 5 = 5;
+set lancioUser := 5;
+set lancioPC := 2;
+
+step
+
+check statoGioco = INCORSO;
+check risultatoGiocata = WINUSER;
+check soldi(USER) = 11;
+check soldi(PC) = 9;

@@ -1,0 +1,7 @@
+scenario Contatore_U_DA_H_scenario5
+
+load Contatore_U_DA_H.asm
+
+
+step
+

@@ -1,0 +1,50 @@
+scenario testRG_r_Main__PENDING_TRG_r_pending_TRG1
+
+load ./src\main\resources\models\TrafficLightv2.asm
+
+//// test name test@RG_r_Main__PENDING_TRG_r_pending_TRG1
+//// generated for (test goal): RG_r_Main__PENDING_TRG_r_pending_TRG1: (status = PENDING) and (timeOut and (status != RED))
+check timer = 0;
+check yellow_timeOut = false;
+check timeOut = false;
+check status = RED;
+check interupt = false;
+step
+check timer = 1;
+check yellow_timeOut = true;
+step
+check timer = 2;
+step
+check timer = 3;
+step
+check timer = 4;
+step
+check timer = 5;
+step
+check timer = 6;
+check timeOut = true;
+step
+check timer = 0;
+check yellow_timeOut = false;
+check timeOut = false;
+check status = GREEN;
+check interupt = true;
+set pedestrian := true;
+step
+check status = PENDING;
+check interupt = false;
+step
+check timer = 1;
+check yellow_timeOut = true;
+step
+check timer = 2;
+step
+check timer = 3;
+step
+check timer = 4;
+step
+check timer = 5;
+step
+check timer = 6;
+check timeOut = true;
+step

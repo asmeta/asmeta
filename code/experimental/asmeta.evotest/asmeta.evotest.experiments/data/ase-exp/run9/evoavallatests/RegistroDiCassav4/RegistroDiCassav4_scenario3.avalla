@@ -1,0 +1,14 @@
+scenario RegistroDiCassav4_scenario3
+
+load RegistroDiCassav4.asm
+
+check statoCassa = ATTENDI_ORDINAZIONI;
+check outMess = "";
+check totale = 0;
+set servizioSelezionato := EXIT;
+
+step
+
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+check totale = 0;

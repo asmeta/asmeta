@@ -1,0 +1,6 @@
+scenario testtest1
+
+load ./src\main\resources\models\Ferryman.asm
+
+//// test name test@test1
+//// generated for (test goal): test1: NULL

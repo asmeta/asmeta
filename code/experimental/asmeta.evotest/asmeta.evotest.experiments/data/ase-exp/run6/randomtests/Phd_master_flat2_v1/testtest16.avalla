@@ -1,0 +1,12 @@
+scenario testtest16
+
+load ./src\main\resources\models\Phd_master_flat2_v1.asm
+
+//// test name test@test16
+//// generated for (test goal): test16: NULL
+check status = UNASSOCIATED;
+set transition := REQ_ASSOC_ABORT;
+step
+check message = MSG_RX_ABRT;
+check status = UNASSOCIATED;
+step

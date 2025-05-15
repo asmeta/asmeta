@@ -1,0 +1,19 @@
+scenario Tcas_scenario4
+
+load Tcas.asm
+
+set h0 := true;
+set c := true;
+set g0 := true;
+set l := true;
+set o0 := true;
+set a := false;
+set e := false;
+set b := false;
+set j := false;
+set k := false;
+set f0 := true;
+set d := true;
+
+step
+

@@ -1,0 +1,35 @@
+scenario Contatore_U_DA_H_scenario4
+
+load Contatore_U_DA_H.asm
+
+set click := true;
+
+step
+
+
+step
+
+
+step
+
+
+step
+
+
+step
+
+
+step
+
+
+step
+
+
+step
+
+
+step
+
+
+step
+
