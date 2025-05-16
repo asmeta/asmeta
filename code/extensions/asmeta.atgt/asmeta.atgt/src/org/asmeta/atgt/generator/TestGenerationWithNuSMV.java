@@ -59,7 +59,7 @@ public class TestGenerationWithNuSMV extends AsmetaSMV {
 			addLtlProperties(trapProps);
 		} else {
 			// normal trap property
-			trapProps.add("AG(!(" + tpS + "))");
+			trapProps.add("AG(!(" + tpS + ")) ");
 			addCtlProperties(trapProps);
 		}
 		createNuSMVfile();
@@ -82,8 +82,8 @@ public class TestGenerationWithNuSMV extends AsmetaSMV {
 		//
 		buildNuSMV(tp);
 		//
-		executeNuSMV(); BufferedReader br = new BufferedReader(new
-		StringReader(outputRunNuSMVreplace));
+		executeNuSMV(); 
+		BufferedReader br = new BufferedReader(new	StringReader(outputRunNuSMVreplace));
 		/*
 		 * runNuXMV(); BufferedReader br = new BufferedReader(new StringReader(outputRunNuXMVreplace));
 		 */

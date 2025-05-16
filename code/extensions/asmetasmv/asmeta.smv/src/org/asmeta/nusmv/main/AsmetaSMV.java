@@ -321,6 +321,7 @@ public class AsmetaSMV {
 				commands.add(Integer.toString(BMCLength));
 			}
 		}
+		// TODO add -AG option when it is possible
 		// add quotes if needed
 		if (smvFileName.contains(" "))
 			smvFileName = "\"" + smvFileName + "\"";

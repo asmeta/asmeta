@@ -2,7 +2,9 @@ package org.asmeta.atgt;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.OutputStream;
 import java.io.PrintStream;
 import java.nio.file.Paths;
 import java.util.Collections;
@@ -42,8 +44,19 @@ public class AsmTestGeneratorTest {
 	public void generateSafeCombination() throws Exception {
 		String asmPath = "examples\\SafeCombination.asm";
 		NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(asmPath);
-		TestGenerationWithNuSMV.useLTLandBMC = true;
-		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(Integer.MAX_VALUE, "BR_r_Main_T1");
+		TestGenerationWithNuSMV.useLTLandBMC = false;
+		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(Integer.MAX_VALUE, "BR_r_Main_T2");
+		assertEquals(1, result.getTests().size());
+		assertEquals(6, result.getTests().get(0).allInstructions().size());
+		//
+		System.err.println(result.getTests().get(0).allInstructions().get(5));
+		// translate to avalla
+//		ByteArrayOutputStream output = new ByteArrayOutputStream();
+//		toAvalla ta = new toAvalla(output, result.getTests().get(0), "filename", "scenarioname");
+//		ta.saveToStream();
+//		System.out.println(output.toString());
+		
+		
 
 	}
 
