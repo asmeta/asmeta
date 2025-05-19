@@ -1,6 +1,6 @@
 scenario testRG_r_Main_TRG_r_Unassociated__REQ_ASSOC_ABORT_TRG11
 
-load ./src\main\resources\models\Phd_master_flat2_v1.asm
+load ../../../../../src\main\resources\models\Phd_master_flat2_v1.asm
 
 //// test name test@RG_r_Main_TRG_r_Unassociated__REQ_ASSOC_ABORT_TRG11
 //// generated for (test goal): RG_r_Main_TRG_r_Unassociated__REQ_ASSOC_ABORT_TRG11: (status = UNASSOCIATED) and ((transition = REQ_ASSOC_ABORT) and (status != UNASSOCIATED))

@@ -1,6 +1,6 @@
 scenario testRG_r_Main_TRG_r_retractionSequence_T_CLOSED_F
 
-load ./src\main\resources\models\LGS_3L.asm
+load ../../../../../src\main\resources\models\LGS_3L.asm
 
 //// test name test@RG_r_Main_TRG_r_retractionSequence_T_CLOSED_F
 //// generated for (test goal): RG_r_Main_TRG_r_retractionSequence_T_CLOSED_F: (handle = UP) and ((gears != RETRACTED) and (doors != CLOSED))

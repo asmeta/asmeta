@@ -1,6 +1,6 @@
 scenario testRG_r_Main__RED_F
 
-load ./src\main\resources\models\TrafficLightv2.asm
+load ../../../../../src\main\resources\models\TrafficLightv2.asm
 
 //// test name test@RG_r_Main__RED_F
 //// generated for (test goal): RG_r_Main__RED_F: status != RED
