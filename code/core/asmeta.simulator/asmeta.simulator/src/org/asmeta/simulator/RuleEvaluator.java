@@ -58,6 +58,7 @@ import org.eclipse.emf.common.util.EList;
 
 import asmeta.definitions.Function;
 import asmeta.definitions.RuleDeclaration;
+import asmeta.definitions.domains.AgentDomain;
 import asmeta.definitions.domains.AnyDomain;
 import asmeta.definitions.domains.BagDomain;
 import asmeta.definitions.domains.ConcreteDomain;
@@ -864,13 +865,17 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		 * fun.getArguments().getTerms(); UpdateSet updateSet = visit(program,
 		 * arguments); logger.debug("</TermAsRule>"); return updateSet; } }
 		 */
-		System.err.println("visitopr" + term.getClass());
 		RuleValue ruleValue = (RuleValue) visitTerm(term);
 		AgentValue agent = ruleValue.getAgent();
+		// if agent is null, assume that it is self agent 
+		// with as program the current rule which is evaluated 
+		if (agent == null) {
+			Domain selfvalueDomain = TermEvaluator.self.getSignature().getCodomain();
+			agent = new AgentValue(TermEvaluator.self.getName(),selfvalueDomain, termAsRule);
+		}
 		RuleDeclaration dcl = ruleValue.getRule();
 		List<Term> arguments = termAsRule.getParameters();
 		// set the self location
-		System.err.println(" agent di questa rule: " + agent);
 		termEval.state.applyLocationUpdate(TermEvaluator.self, agent);
 		UpdateSet updateSet = visit(dcl, arguments);
 		logger.debug("</TermAsRule>");

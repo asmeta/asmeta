@@ -44,6 +44,7 @@ invariant inv_neverBoth over sgnOpenWindow, sgnCloseWindow: not(sgnOpenWindow an
 
 main rule r_Main =  
 	par
+		// danger: inconsistent update can occur
 		r_ECA[sgnOpenWindow, true, <<r_openWindow>>, <<r_skip>>]
 		r_ECA[sgnCloseWindow, not badAir, <<r_closeWindow>>, <<r_openWindow>>]
 	endpar
