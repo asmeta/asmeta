@@ -30,7 +30,7 @@ import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 //
 abstract public class AsmTSGeneratorLaunchShortcut implements org.eclipse.debug.ui.ILaunchShortcut {
 
-	private static final String NEW = "New configuration";
+	private static final String NEW = "New ATGT configuration";
 
 	@Override
 	public void launch(ISelection selection, String mode) {			 

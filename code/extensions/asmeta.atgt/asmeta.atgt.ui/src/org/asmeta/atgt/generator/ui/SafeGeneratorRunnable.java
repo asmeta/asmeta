@@ -28,17 +28,17 @@ import atgt.coverage.AsmTestSuite;
 import atgt.parser.asmeta.AsmetaLLoader;
 import jakarta.inject.Inject;
 
-public abstract class SafeGeneratorRunnable<T extends AsmTSGeneratorLaunchConfiguration> extends Job {
+public abstract class SafeGeneratorRunnable extends Job {
 
 	private String trace;
 	protected static AsmeeConsole mc;
 
 	// the AsmTSGeneratorLaunchConfiguration
-	protected T config;
+	protected AsmTSGeneratorLaunchConfiguration config;
 
-	public SafeGeneratorRunnable(T config, IWorkbenchWindow window)
+	public SafeGeneratorRunnable(String name, AsmTSGeneratorLaunchConfiguration config, IWorkbenchWindow window)
 			throws PartInitException {
-		super("Generation of the test suite");
+		super(name);
 		this.config = config;
 		// build/open the console
 		if (mc == null) {

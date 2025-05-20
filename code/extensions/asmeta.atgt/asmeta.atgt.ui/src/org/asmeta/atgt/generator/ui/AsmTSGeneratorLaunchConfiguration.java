@@ -30,19 +30,28 @@ import static org.asmeta.atgt.generator.ui.AsmTSGeneratorTabMC.*;
  * @author garganti
  *
  */
-abstract public class AsmTSGeneratorLaunchConfiguration
+public class AsmTSGeneratorLaunchConfiguration
 		extends LaunchConfigurationDelegate /* implements ILaunchConfigurationDelegate */ {
+	public enum GenerationMode {
+		MOCEL_CHECKER, RANDOM
+	}
 
-	// common 
+	// common
 	public boolean computeCoverage;
 	public IPath asmetaSpecPath;
 	public List<FormatsEnum> formats;
 
-	// it is necessary since it needs the constructor without parameters
-	public AsmTSGeneratorLaunchConfiguration() {}
+	// used only by the model checker
+	public List<CriteriaEnum> coverageCriteria;
+	private GenerationMode mode;
 
-	public AsmTSGeneratorLaunchConfiguration(ILaunchConfiguration configuration) {
+	// it is necessary since it needs the constructor without parameters
+	public AsmTSGeneratorLaunchConfiguration() {
+	}
+
+	public AsmTSGeneratorLaunchConfiguration(ILaunchConfiguration configuration, GenerationMode mode) {
 		try {
+			this.mode = mode;
 			setConfiguration(configuration);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -124,5 +133,11 @@ abstract public class AsmTSGeneratorLaunchConfiguration
 
 	}
 
-	protected abstract Job getJob(IWorkbenchWindow window) throws PartInitException;
+	protected Job getJob(IWorkbenchWindow window) throws PartInitException {
+		if (mode == GenerationMode.MOCEL_CHECKER)
+			return new SafeGeneratorRunnableMC(AsmTSGeneratorLaunchConfiguration.this, window);
+		if (mode == GenerationMode.RANDOM)
+			return new SafeGeneratorRunnableRnd(AsmTSGeneratorLaunchConfiguration.this, window);
+		throw new RuntimeException("mode not found");
+	}
 }

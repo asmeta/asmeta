@@ -11,12 +11,12 @@ import org.eclipse.ui.PartInitException;
 import atgt.coverage.AsmCoverageBuilder;
 import atgt.coverage.AsmTestSuite;
 
-public class SafeGeneratorRunnableMC extends  SafeGeneratorRunnable<AsmTSGeneratorLaunchConfigurationMC>{
+public class SafeGeneratorRunnableMC extends  SafeGeneratorRunnable{
 	
 	
-	public SafeGeneratorRunnableMC(AsmTSGeneratorLaunchConfigurationMC config, IWorkbenchWindow window)
+	public SafeGeneratorRunnableMC(AsmTSGeneratorLaunchConfiguration config, IWorkbenchWindow window)
 			throws PartInitException {
-		super(config, window);
+		super("Generation of the test suite with model checker", config, window);
 	}
 	protected AsmTestSuite generateTestSuite() throws Exception {
 		List<AsmCoverageBuilder> coverageCriteria = CriteriaEnum.getCoverageCriteria(config.coverageCriteria);

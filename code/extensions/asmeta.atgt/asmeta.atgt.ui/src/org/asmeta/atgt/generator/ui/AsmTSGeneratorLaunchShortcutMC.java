@@ -3,6 +3,7 @@ package org.asmeta.atgt.generator.ui;
 import java.util.Arrays;
 import java.util.List;
 
+import org.asmeta.atgt.generator.ui.AsmTSGeneratorLaunchConfiguration.GenerationMode;
 import org.asmeta.eclipse.AsmetaUtility;
 import org.eclipse.core.internal.resources.File;
 import org.eclipse.core.runtime.CoreException;
@@ -29,12 +30,11 @@ import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 // it executes the generation of the tests suing the model checker 
 //
 public class AsmTSGeneratorLaunchShortcutMC extends AsmTSGeneratorLaunchShortcut{
-
-	
 	
 	protected void generateTests(ILaunchConfiguration configuration, IPath filePath, IWorkbenchWindow window)
 			throws Error, PartInitException {
-		new AsmTSGeneratorLaunchConfigurationMC(configuration).generateTests(filePath,window);
+		AsmTSGeneratorLaunchConfiguration asmTSGeneratorLaunchConfiguration = new AsmTSGeneratorLaunchConfiguration(configuration,GenerationMode.MOCEL_CHECKER);
+		asmTSGeneratorLaunchConfiguration.generateTests(filePath,window);
 	}
 
 }
