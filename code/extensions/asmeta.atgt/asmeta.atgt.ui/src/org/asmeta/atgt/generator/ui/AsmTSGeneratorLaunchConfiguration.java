@@ -32,22 +32,23 @@ import static org.asmeta.atgt.generator.ui.AsmTSGeneratorTabMC.*;
  */
 public class AsmTSGeneratorLaunchConfiguration
 		extends LaunchConfigurationDelegate /* implements ILaunchConfigurationDelegate */ {
+	// two generation modes
+	// in the future this can be implements with 2 subclasses
 	public enum GenerationMode {
 		MOCEL_CHECKER, RANDOM
 	}
-
+	private GenerationMode mode;
 	// common
 	public boolean computeCoverage;
 	public IPath asmetaSpecPath;
 	public List<FormatsEnum> formats;
-
 	// used only by the model checker
 	public List<CriteriaEnum> coverageCriteria;
-	private GenerationMode mode;
+	// used by random only
+	int nSteps, nTests;
 
 	// it is necessary since it needs the constructor without parameters
-	public AsmTSGeneratorLaunchConfiguration() {
-	}
+	public AsmTSGeneratorLaunchConfiguration() {}
 
 	public AsmTSGeneratorLaunchConfiguration(ILaunchConfiguration configuration, GenerationMode mode) {
 		try {
@@ -80,13 +81,21 @@ public class AsmTSGeneratorLaunchConfiguration
 	private AsmTSGeneratorLaunchConfiguration setConfiguration(ILaunchConfiguration configuration) {
 		try {
 			System.out.println("Setting launch configuration: " + configuration);
-			boolean computeCoverageConfig = configuration.getAttribute(CONFIG_COMPUTE_COVERAGE,
+			computeCoverage = configuration.getAttribute(CONFIG_COMPUTE_COVERAGE,
 					AsmTestGenerator.DEFAULT_COMPUTE_COVERAGE);
-			System.out.println(computeCoverageConfig + " " + configuration.getAttribute(CONFIG_CRITERIA,
-					CriteriaEnum.toListOfString(AsmTestGenerator.DEFAULT_CRITERIA)));
-//			coverageCriteria = CriteriaEnum.toListOfCriteriaEnum(configuration.getAttribute(
-//					AsmTSGeneratorTabMC.CONFIG_CRITERIA, CriteriaEnum.toListOfString(AsmTestGenerator.DEFAULT_CRITERIA)));
-			computeCoverage = computeCoverageConfig;
+			System.out.println("compute coverage?" + computeCoverage);
+			if (mode == GenerationMode.MOCEL_CHECKER) {
+				List<String> covCriteriaAttr = configuration.getAttribute(
+						AsmTSGeneratorTabMC.CONFIG_CRITERIA, CriteriaEnum.toListOfString(AsmTestGenerator.DEFAULT_CRITERIA));
+				coverageCriteria = CriteriaEnum.toListOfCriteriaEnum(covCriteriaAttr);
+				System.out.println("criteria " + CriteriaEnum.toListOfString(coverageCriteria));
+			}
+			if (mode == GenerationMode.RANDOM) {
+				nSteps = configuration.getAttribute(
+						AsmTSGeneratorTabRnd.CONFIG_NSTEPS, AsmTSGeneratorTabRnd.N_STEPS_DEFAULT);
+				nTests = configuration.getAttribute(
+						AsmTSGeneratorTabRnd.CONFIG_NTESTS, AsmTSGeneratorTabRnd.N_TESTS_DEFAULT);
+			}
 			List<String> attribute = configuration.getAttribute(CONFIG_FORMATS, AsmTestGenerator.DEFAULT_FORMATS);
 			formats = FormatsEnum.toListOfFormatsEnum(attribute);
 			return this;
@@ -95,7 +104,7 @@ public class AsmTSGeneratorLaunchConfiguration
 			return null;
 		}
 	}
-
+	
 	// generate the tests
 	void generateTests(IPath asmetaSpecPath, IWorkbenchWindow window) throws Error, PartInitException {
 		if (asmetaSpecPath == null) {

@@ -5,14 +5,8 @@
    <launchConfigurationType
    	   id="org.asmeta.atgt.asmSpec"
    	   name="ATGT Asmeta"
-	   delegate="org.asmeta.atgt.generator.ui.AsmTSGeneratorLaunchConfigurationMC"
+	   delegate="org.asmeta.atgt.generator.ui.AsmTSGeneratorLaunchConfiguration"
 	   modes="run">
-   </launchConfigurationType>
-   <launchConfigurationType
-         delegate="org.asmeta.atgt.generator.ui.AsmTSGeneratorLaunchConfigurationRnd"
-         id="asmeta.atgt.ui.launchConfigurationType1"
-         modes="run"
-         name="ATGT Asmeta">
    </launchConfigurationType>
 </extension>
 <extension point="org.eclipse.debug.ui.launchConfigurationTabGroups">
