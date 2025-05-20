@@ -1,23 +1,20 @@
 package org.asmeta.atgt.testoptimizer;
 
 import java.io.File;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.asmeta.atgt.generator.AsmTestGenerator;
 import org.asmeta.atgt.generator.ConverterCounterExample;
-import org.asmeta.atgt.generator.CriteriaEnum;
 import org.asmeta.atgt.generator.NuSMVtestGenerator;
 import org.asmeta.atgt.generator.TestGenerationWithNuSMV;
-import org.asmeta.atgt.generator.TestGenerationWithNuSMV.GenerationMode;
+import org.asmeta.nusmv.main.AsmetaSMV.ModelCheckerMode;
 import org.asmeta.parser.ASMParser;
 import org.junit.Test;
 
@@ -40,7 +37,7 @@ public class UnecessaryChangesRemoverTest {
 		Logger.getLogger("org.asmeta.parser").setLevel(Level.OFF);	
 		Logger.getLogger("org.asmeta.simulator.main.Simulator").setLevel(Level.OFF);
 		
-		TestGenerationWithNuSMV.generationMCMode = GenerationMode.LTLandBMC;;
+		TestGenerationWithNuSMV.modelCheckerMode = ModelCheckerMode.LTLandBMC;;
 		
 		//String ex = "D:\\AgDocuments\\progettiDaSVN\\asmeta\\mvm-asmeta\\VentilatoreASM\\Ventilatore2.asm";
 		//String ex = "D:\\AgHome\\progettidaSVNGIT\\asmeta\\mvm-asmeta\\VentilatoreASM\\Ventilatore2.asm";

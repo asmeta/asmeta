@@ -4,10 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.asmeta.atgt.generator.CriteriaEnum;
-import org.asmeta.atgt.generator.NuSMVtestGenerator;
 import org.asmeta.atgt.generator.AsmTestGenerator.MBTCoverage;
-import org.asmeta.parser.ASMParser;
+import org.asmeta.atgt.generator.CriteriaEnum;
 import org.junit.Test;
 
 import atgt.parser.asmeta.AsmetaLLoader;

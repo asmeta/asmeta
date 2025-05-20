@@ -21,13 +21,6 @@ public class TestGenerationWithNuSMV extends AsmetaSMV {
 
 	private static Logger logger = Logger.getLogger(TestGenerationWithNuSMV.class);
 
-	// LTL and BMC means using bounded model checking and LTL (with X for next state)
-	// LTLFMC: forward model checking
-	// CTL: classical model checking - it does not complet the next step
-	public enum GenerationMode {LTLandBMC, LTLFMC, CTL}
-	
-	public static GenerationMode generationMCMode = GenerationMode.LTLandBMC;
-
 	/**
 	 * 
 	 * @param asmPath
@@ -36,7 +29,7 @@ public class TestGenerationWithNuSMV extends AsmetaSMV {
 	 */
 	public TestGenerationWithNuSMV(String asmPath) throws Exception {
 		super(asmPath);
-		// set the options (now statci, in the future could be an object)
+		// set the options (now static, in the future could be an object)
 		AsmetaSMVOptions.keepNuSMVfile = true;
 		AsmetaSMVOptions.simplifyDerived = false;
 		AsmetaSMVOptions.setPrintCounterExample(true);
@@ -58,7 +51,7 @@ public class TestGenerationWithNuSMV extends AsmetaSMV {
 		logger.debug("add cex and remove the other properties");
 		Set<String> trapProps = new HashSet<String>();
 		String tpS = tp.accept(ExpressionToSMV.EXPR_TO_SMV).toString();
-		if (generationMCMode == GenerationMode.LTLandBMC || generationMCMode == GenerationMode.LTLFMC) {
+		if (modelCheckerMode == ModelCheckerMode.LTLandBMC || modelCheckerMode == ModelCheckerMode.LTLFMC) {
 			// use LTL
 			trapProps.add("G(!((" + tpS + ") & X(TRUE)))");
 			addLtlProperties(trapProps);
@@ -80,7 +73,6 @@ public class TestGenerationWithNuSMV extends AsmetaSMV {
 	 * @throws Exception
 	 */
 	public Counterexample checkTpWithModelChecker(Expression tp) throws Exception {
-		useBMC = (generationMCMode == GenerationMode.LTLandBMC);
 		// clear all the previous properties.
 		clearProperties();
 		translation();
@@ -134,7 +126,7 @@ public class TestGenerationWithNuSMV extends AsmetaSMV {
 				loopStart = false;
 			} else if (line.contains("-- Loop starts here")) {
 				loopStart = true;
-			} else if (TestGenerationWithNuSMV.generationMCMode == GenerationMode.LTLandBMC && line.startsWith("--")) {
+			} else if (TestGenerationWithNuSMV.modelCheckerMode == ModelCheckerMode.LTLandBMC && line.startsWith("--")) {
 				continue;
 			} else {
 				String[] varValue = line.replaceAll(" ", "").split("=");
