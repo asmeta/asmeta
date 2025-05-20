@@ -19,7 +19,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
-public class AsmTSGeneratorTab extends AbstractLaunchConfigurationTab {
+public class AsmTSGeneratorTabMC extends AbstractLaunchConfigurationTab {
 
 	public static final String CONFIG_COMPUTE_COVERAGE = "computeCoverage";
 	public static final String CONFIG_CRITERIA = "coverageCriteria";

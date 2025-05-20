@@ -16,9 +16,9 @@ import org.eclipse.swt.widgets.Text;
 
 //
 // this set the variables for the simulation-based test generator
-// number of steps and numer of tests
+// number of steps and number of tests
 //
-public class AsmTGSimulatorGenTab extends AbstractLaunchConfigurationTab {
+public class AsmTSGeneratorTabRnd extends AbstractLaunchConfigurationTab {
 
     private static final String RND_SIM_LAUNCH_TAB = "Random Simulation-based";
 

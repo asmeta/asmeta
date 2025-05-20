@@ -22,7 +22,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
-import static org.asmeta.atgt.generator.ui.AsmTSGeneratorTab.*;
+import static org.asmeta.atgt.generator.ui.AsmTSGeneratorTabMC.*;
 
 /**
  * http://www.vogella.com/tutorials/EclipseLauncherFramework/article.html
@@ -30,17 +30,16 @@ import static org.asmeta.atgt.generator.ui.AsmTSGeneratorTab.*;
  * @author garganti
  *
  */
-public class AsmTSGeneratorLaunchConfiguration
+abstract public class AsmTSGeneratorLaunchConfiguration
 		extends LaunchConfigurationDelegate /* implements ILaunchConfigurationDelegate */ {
 
+	// common 
 	public boolean computeCoverage;
-	public List<CriteriaEnum> coverageCriteria;
 	public IPath asmetaSpecPath;
 	public List<FormatsEnum> formats;
 
-	// necessario perch� ha bisogno del costruttore senza parametri
-	public AsmTSGeneratorLaunchConfiguration() {
-	}
+	// it is necessary since it needs the constructor without parameters
+	public AsmTSGeneratorLaunchConfiguration() {}
 
 	public AsmTSGeneratorLaunchConfiguration(ILaunchConfiguration configuration) {
 		try {
@@ -76,11 +75,11 @@ public class AsmTSGeneratorLaunchConfiguration
 					AsmTestGenerator.DEFAULT_COMPUTE_COVERAGE);
 			System.out.println(computeCoverageConfig + " " + configuration.getAttribute(CONFIG_CRITERIA,
 					CriteriaEnum.toListOfString(AsmTestGenerator.DEFAULT_CRITERIA)));
-			coverageCriteria = CriteriaEnum.toListOfCriteriaEnum(configuration.getAttribute(
-					AsmTSGeneratorTab.CONFIG_CRITERIA, CriteriaEnum.toListOfString(AsmTestGenerator.DEFAULT_CRITERIA)));
+//			coverageCriteria = CriteriaEnum.toListOfCriteriaEnum(configuration.getAttribute(
+//					AsmTSGeneratorTabMC.CONFIG_CRITERIA, CriteriaEnum.toListOfString(AsmTestGenerator.DEFAULT_CRITERIA)));
 			computeCoverage = computeCoverageConfig;
-			formats = FormatsEnum
-					.toListOfFormatsEnum(configuration.getAttribute(CONFIG_FORMATS, AsmTestGenerator.DEFAULT_FORMATS));
+			List<String> attribute = configuration.getAttribute(CONFIG_FORMATS, AsmTestGenerator.DEFAULT_FORMATS);
+			formats = FormatsEnum.toListOfFormatsEnum(attribute);
 			return this;
 		} catch (CoreException e) {
 			e.printStackTrace();
@@ -97,7 +96,7 @@ public class AsmTSGeneratorLaunchConfiguration
 		System.err.println("Call generateTests");
 		this.asmetaSpecPath = asmetaSpecPath;
 		// build the job
-		Job generation = new SafeGeneratorRunnable(AsmTSGeneratorLaunchConfiguration.this, window);
+		Job generation = getJob(window);
 		// run as job
 		BusyIndicator.showWhile(Display.getCurrent(), new Runnable() {
 			@Override
@@ -124,4 +123,6 @@ public class AsmTSGeneratorLaunchConfiguration
 		});
 
 	}
+
+	protected abstract Job getJob(IWorkbenchWindow window) throws PartInitException;
 }

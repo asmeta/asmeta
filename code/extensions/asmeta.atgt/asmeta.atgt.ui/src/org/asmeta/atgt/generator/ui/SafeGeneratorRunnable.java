@@ -1,15 +1,11 @@
 package org.asmeta.atgt.generator.ui;
 
-import java.util.List;
-
 import org.apache.log4j.Appender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.SimpleLayout;
 import org.apache.log4j.WriterAppender;
-import org.asmeta.atgt.generator.CriteriaEnum;
 import org.asmeta.atgt.generator.NuSMVtestGenerator;
-import org.asmeta.atgt.generator.SaveResults;
 import org.asmeta.eclipse.AsmeeConsole;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -28,19 +24,19 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.console.IOConsoleOutputStream;
 
-import atgt.coverage.AsmCoverageBuilder;
 import atgt.coverage.AsmTestSuite;
 import atgt.parser.asmeta.AsmetaLLoader;
 import jakarta.inject.Inject;
 
-public class SafeGeneratorRunnable extends Job {
+public abstract class SafeGeneratorRunnable<T extends AsmTSGeneratorLaunchConfiguration> extends Job {
 
 	private String trace;
-	private static AsmeeConsole mc;
+	protected static AsmeeConsole mc;
 
-	private AsmTSGeneratorLaunchConfiguration config;
+	// the AsmTSGeneratorLaunchConfiguration
+	protected T config;
 
-	public SafeGeneratorRunnable(AsmTSGeneratorLaunchConfiguration config, IWorkbenchWindow window)
+	public SafeGeneratorRunnable(T config, IWorkbenchWindow window)
 			throws PartInitException {
 		super("Generation of the test suite");
 		this.config = config;
@@ -74,15 +70,8 @@ public class SafeGeneratorRunnable extends Job {
 			public void run() {
 				// convert to path as string (do not use ospath)
 				try {
-					List<AsmCoverageBuilder> coverageCriteria = CriteriaEnum.getCoverageCriteria(config.coverageCriteria);
-					System.out.println(config.asmetaSpecPath.toString() + "  -  " + config.computeCoverage + "  -  "
-							+ coverageCriteria);
-					
-					NuSMVtestGenerator generator = new NuSMVtestGenerator(config.asmetaSpecPath.toString(),
-							config.computeCoverage);
-					mc.writeMessage("generating the test with coverage criteria " + coverageCriteria);
-					// generate all the possible tests
-					AsmTestSuite result = generator.generateAbstractTests(coverageCriteria, Integer.MAX_VALUE, ".*");
+					// generat the test suite
+					AsmTestSuite result = generateTestSuite();
 					mc.writeMessage("tests generated, saving to avalla files");
 					// save the results
 					/*
@@ -93,13 +82,12 @@ public class SafeGeneratorRunnable extends Job {
 					 * myConsole.newMessageStream();
 					 */
 					// compute where to save the results
-					SaveResults.saveResults(result, config.asmetaSpecPath.toString(), config.formats, SaveResults
-							.toStringForFile(config.computeCoverage, config.coverageCriteria, config.formats));					
+					savetoavalla(result);					
 				} catch (Exception e) {
 					Logger.getLogger(NuSMVtestGenerator.class).error("ATGT error: "+ e.getMessage());
 					e.printStackTrace();
 				}
-				System.out.println("refershing project");
+				System.out.println("refreshing project");
 				try {
 					IProject project = ResourcesPlugin.getWorkspace().getRoot().findFilesForLocation(config.asmetaSpecPath)[0].getProject();
 					project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
@@ -108,15 +96,13 @@ public class SafeGeneratorRunnable extends Job {
 				}
 				System.out.println("generation finished");
 			}
-		};
 
+		};
 		monitor.beginTask("Generation", IProgressMonitor.UNKNOWN);
 		IsStoppedPolling stopper = new IsStoppedPolling("", monitor, false, config);
 		stopper.setSystem(true);
 		stopper.schedule();
-
 		SafeRunner.run(runnable);
-
 		if (monitor.isCanceled())
 			return Status.CANCEL_STATUS;
 		monitor.done();
@@ -136,4 +122,8 @@ public class SafeGeneratorRunnable extends Job {
 
 		return Status.OK_STATUS;
 	}
+
+	abstract protected AsmTestSuite generateTestSuite() throws Exception;
+
+	abstract protected void savetoavalla(AsmTestSuite result);
 }
