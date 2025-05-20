@@ -77,6 +77,7 @@ public class SafeGeneratorRunnable extends Job {
 					List<AsmCoverageBuilder> coverageCriteria = CriteriaEnum.getCoverageCriteria(config.coverageCriteria);
 					System.out.println(config.asmetaSpecPath.toString() + "  -  " + config.computeCoverage + "  -  "
 							+ coverageCriteria);
+					
 					NuSMVtestGenerator generator = new NuSMVtestGenerator(config.asmetaSpecPath.toString(),
 							config.computeCoverage);
 					mc.writeMessage("generating the test with coverage criteria " + coverageCriteria);

@@ -30,7 +30,8 @@ import static org.asmeta.atgt.generator.ui.AsmTSGeneratorTab.*;
  * @author garganti
  *
  */
-public class AsmTSGeneratorLaunchConfiguration extends LaunchConfigurationDelegate /*implements ILaunchConfigurationDelegate */{
+public class AsmTSGeneratorLaunchConfiguration
+		extends LaunchConfigurationDelegate /* implements ILaunchConfigurationDelegate */ {
 
 	public boolean computeCoverage;
 	public List<CriteriaEnum> coverageCriteria;
@@ -41,7 +42,6 @@ public class AsmTSGeneratorLaunchConfiguration extends LaunchConfigurationDelega
 	public AsmTSGeneratorLaunchConfiguration() {
 	}
 
-	
 	public AsmTSGeneratorLaunchConfiguration(ILaunchConfiguration configuration) {
 		try {
 			setConfiguration(configuration);
@@ -49,8 +49,7 @@ public class AsmTSGeneratorLaunchConfiguration extends LaunchConfigurationDelega
 			e.printStackTrace();
 		}
 	}
-	
-	
+
 	@Override
 	public void launch(ILaunchConfiguration configuration, String mode, ILaunch launch, IProgressMonitor monitor)
 			throws CoreException {
@@ -70,18 +69,23 @@ public class AsmTSGeneratorLaunchConfiguration extends LaunchConfigurationDelega
 		generateTests(path.getFullPath(), window);
 	}
 
-	public AsmTSGeneratorLaunchConfiguration setConfiguration(ILaunchConfiguration configuration) throws CoreException {
-		System.out.println("Setting launch configuration: " + configuration);
-		boolean computeCoverageConfig = configuration.getAttribute(CONFIG_COMPUTE_COVERAGE,
-				AsmTestGenerator.DEFAULT_COMPUTE_COVERAGE);
-		System.out.println(computeCoverageConfig + " " + configuration.getAttribute(CONFIG_CRITERIA,
-				CriteriaEnum.toListOfString(AsmTestGenerator.DEFAULT_CRITERIA)));
-		coverageCriteria = CriteriaEnum.toListOfCriteriaEnum(configuration.getAttribute(
-				AsmTSGeneratorTab.CONFIG_CRITERIA, CriteriaEnum.toListOfString(AsmTestGenerator.DEFAULT_CRITERIA)));
-		computeCoverage = computeCoverageConfig;
-		formats = FormatsEnum.toListOfFormatsEnum(
-				configuration.getAttribute(CONFIG_FORMATS, AsmTestGenerator.DEFAULT_FORMATS));
-		return this;
+	private AsmTSGeneratorLaunchConfiguration setConfiguration(ILaunchConfiguration configuration) {
+		try {
+			System.out.println("Setting launch configuration: " + configuration);
+			boolean computeCoverageConfig = configuration.getAttribute(CONFIG_COMPUTE_COVERAGE,
+					AsmTestGenerator.DEFAULT_COMPUTE_COVERAGE);
+			System.out.println(computeCoverageConfig + " " + configuration.getAttribute(CONFIG_CRITERIA,
+					CriteriaEnum.toListOfString(AsmTestGenerator.DEFAULT_CRITERIA)));
+			coverageCriteria = CriteriaEnum.toListOfCriteriaEnum(configuration.getAttribute(
+					AsmTSGeneratorTab.CONFIG_CRITERIA, CriteriaEnum.toListOfString(AsmTestGenerator.DEFAULT_CRITERIA)));
+			computeCoverage = computeCoverageConfig;
+			formats = FormatsEnum
+					.toListOfFormatsEnum(configuration.getAttribute(CONFIG_FORMATS, AsmTestGenerator.DEFAULT_FORMATS));
+			return this;
+		} catch (CoreException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	// generate the tests
@@ -103,6 +107,7 @@ public class AsmTSGeneratorLaunchConfiguration extends LaunchConfigurationDelega
 					public void handleException(Throwable exception) {
 						System.out.println("Exception in client");
 					}
+
 					@Override
 					public void run() throws Exception {
 						generation.setPriority(Job.SHORT);
@@ -113,8 +118,8 @@ public class AsmTSGeneratorLaunchConfiguration extends LaunchConfigurationDelega
 				SafeRunner.run(runnable);
 				System.err.println("Call generateTests");
 				// now refresh the project
-				//window.ge
-				//project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+				// window.ge
+				// project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 			}
 		});
 

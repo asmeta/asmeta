@@ -49,8 +49,6 @@ public class AsmTGSimulatorGenTab extends AbstractLaunchConfigurationTab {
 		//spinner.setSelection(500);
         spinnerNsteps.setIncrement(1);
         spinnerNsteps.setPageIncrement(100);
-        
-        
     }
 
     @Override
