@@ -17,6 +17,7 @@ import org.asmeta.atgt.generator.ConverterCounterExample;
 import org.asmeta.atgt.generator.CriteriaEnum;
 import org.asmeta.atgt.generator.NuSMVtestGenerator;
 import org.asmeta.atgt.generator.TestGenerationWithNuSMV;
+import org.asmeta.atgt.generator.TestGenerationWithNuSMV.GenerationMode;
 import org.asmeta.parser.ASMParser;
 import org.junit.Test;
 
@@ -39,7 +40,7 @@ public class UnecessaryChangesRemoverTest {
 		Logger.getLogger("org.asmeta.parser").setLevel(Level.OFF);	
 		Logger.getLogger("org.asmeta.simulator.main.Simulator").setLevel(Level.OFF);
 		
-		TestGenerationWithNuSMV.useLTLandBMC = true;
+		TestGenerationWithNuSMV.generationMCMode = GenerationMode.LTLandBMC;;
 		
 		//String ex = "D:\\AgDocuments\\progettiDaSVN\\asmeta\\mvm-asmeta\\VentilatoreASM\\Ventilatore2.asm";
 		//String ex = "D:\\AgHome\\progettidaSVNGIT\\asmeta\\mvm-asmeta\\VentilatoreASM\\Ventilatore2.asm";

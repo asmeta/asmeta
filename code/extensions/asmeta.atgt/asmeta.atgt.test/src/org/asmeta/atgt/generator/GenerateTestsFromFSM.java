@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 import org.asmeta.atgt.ConvertToAsmeta;
 import org.asmeta.atgt.generator.AsmTestGenerator.MBTCoverage;
+import org.asmeta.atgt.generator.TestGenerationWithNuSMV.GenerationMode;
 import org.asmeta.nusmv.main.AsmetaSMV;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
 import org.asmeta.parser.ASMParser;
@@ -108,7 +109,7 @@ public class GenerateTestsFromFSM {
 //			String destinationPath) throws Exception {
 //		String fileOutputName = inputASMName + "_"
 //				+ criteria.stream().map(n -> n.getAbbrvName()).collect(Collectors.joining("_")) + ".avalla";
-//		TestGenerationWithNuSMV.useLTLandBMC = true;
+//		TestGenerationWithNuSMV.useLTLandBMC = GenerationMode.LTLandBMC;;
 //		NuSMVtestGenerator.removeUnaskedChanges = false;
 //		NuSMVtestGenerator.removeUnChangedControlles = false;
 //		ConverterCounterExample.IncludeUnchangedVariables = true;
@@ -132,7 +133,7 @@ public class GenerateTestsFromFSM {
 	 */
 	public GenerateTestsFromFSM(String inputASMName, String asmPath, boolean useMonitoring,
 			boolean removeUnaskedChanges, boolean removeUnChangedControlles, List<CriteriaEnum> criteria) throws Exception {
-		TestGenerationWithNuSMV.useLTLandBMC = true;
+		TestGenerationWithNuSMV.generationMCMode = GenerationMode.LTLandBMC;;
 		NuSMVtestGenerator.removeUnaskedChanges = removeUnaskedChanges;
 		NuSMVtestGenerator.removeUnChangedControlles = removeUnChangedControlles;
 		ConverterCounterExample.IncludeUnchangedVariables = true;
@@ -222,7 +223,7 @@ public class GenerateTestsFromFSM {
 	 */
 	protected String[] getFSMWithTestsFromFSMAndASMfromAvalla(String fsmPath, String asmPath, boolean useMonitoring,
 			List<CriteriaEnum> criteria) throws Exception {
-		TestGenerationWithNuSMV.useLTLandBMC = true;
+		TestGenerationWithNuSMV.generationMCMode = GenerationMode.LTLandBMC;;
 		AsmTestSuite result = new NuSMVtestGenerator(asmPath, useMonitoring)
 				.generateAbstractTests(CriteriaEnum.getCoverageCriteria(criteria), Integer.MAX_VALUE, ".*");
 		String[] tests = SaveResults.getAvallaResults(result, fsmPath, asmPath);
@@ -243,7 +244,7 @@ public class GenerateTestsFromFSM {
 	 */
 	protected String[] getFSMWithTestsFromFSMAndASMfromAvalla(String fsmPath, String asmPath, boolean useMonitoring,
 			List<CriteriaEnum> criteria, String destinationPath) throws Exception {
-		TestGenerationWithNuSMV.useLTLandBMC = true;
+		TestGenerationWithNuSMV.generationMCMode = GenerationMode.LTLandBMC;;
 		AsmTestSuite result = new NuSMVtestGenerator(asmPath, useMonitoring)
 				.generateAbstractTests(CriteriaEnum.getCoverageCriteria(criteria), Integer.MAX_VALUE, ".*");
 		String[] tests = SaveResults.getAvallaResults(result, fsmPath, asmPath, destinationPath);

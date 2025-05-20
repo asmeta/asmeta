@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+import org.asmeta.atgt.generator.TestGenerationWithNuSMV.GenerationMode;
 import org.junit.Test;
 
 public class TestCexParser {
@@ -16,7 +17,7 @@ public class TestCexParser {
 	
 	@Test
 	public void testSMC() throws FileNotFoundException, IOException {
-		TestGenerationWithNuSMV.useLTLandBMC = false;
+		TestGenerationWithNuSMV.generationMCMode = GenerationMode.CTL;
 		String path = "cexes\\cex_mvm1.txt";
 		Counterexample cex = TestGenerationWithNuSMV.parseCounterExample(new BufferedReader(new FileReader(path)));
 		assertEquals(6, cex.length());		
@@ -27,7 +28,7 @@ public class TestCexParser {
 	
 	@Test
 	public void testBMC() throws FileNotFoundException, IOException {
-		TestGenerationWithNuSMV.useLTLandBMC = true;
+		TestGenerationWithNuSMV.generationMCMode = GenerationMode.LTLandBMC;;
 		String path = "cexes\\cex_bmc_mvm.txt";
 		Counterexample cex = TestGenerationWithNuSMV.parseCounterExample(new BufferedReader(new FileReader(path)));
 		//assertEquals(6, cex.length());		

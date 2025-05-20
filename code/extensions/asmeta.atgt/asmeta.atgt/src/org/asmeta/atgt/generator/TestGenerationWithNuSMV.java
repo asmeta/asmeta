@@ -21,7 +21,12 @@ public class TestGenerationWithNuSMV extends AsmetaSMV {
 
 	private static Logger logger = Logger.getLogger(TestGenerationWithNuSMV.class);
 
-	public static boolean useLTLandBMC = false;
+	// LTL and BMC means using bounded model checking and LTL (with X for next state)
+	// LTLFMC: forward model checking
+	// CTL: classical model checking - it does not complet the next step
+	public enum GenerationMode {LTLandBMC, LTLFMC, CTL}
+	
+	public static GenerationMode generationMCMode = GenerationMode.LTLandBMC;
 
 	/**
 	 * 
@@ -53,7 +58,7 @@ public class TestGenerationWithNuSMV extends AsmetaSMV {
 		logger.debug("add cex and remove the other properties");
 		Set<String> trapProps = new HashSet<String>();
 		String tpS = tp.accept(ExpressionToSMV.EXPR_TO_SMV).toString();
-		if (useLTLandBMC) {
+		if (generationMCMode == GenerationMode.LTLandBMC || generationMCMode == GenerationMode.LTLFMC) {
 			// use LTL
 			trapProps.add("G(!((" + tpS + ") & X(TRUE)))");
 			addLtlProperties(trapProps);
@@ -75,7 +80,7 @@ public class TestGenerationWithNuSMV extends AsmetaSMV {
 	 * @throws Exception
 	 */
 	public Counterexample checkTpWithModelChecker(Expression tp) throws Exception {
-		useBMC = useLTLandBMC;
+		useBMC = (generationMCMode == GenerationMode.LTLandBMC);
 		// clear all the previous properties.
 		clearProperties();
 		translation();
@@ -129,7 +134,7 @@ public class TestGenerationWithNuSMV extends AsmetaSMV {
 				loopStart = false;
 			} else if (line.contains("-- Loop starts here")) {
 				loopStart = true;
-			} else if (TestGenerationWithNuSMV.useLTLandBMC && line.startsWith("--")) {
+			} else if (TestGenerationWithNuSMV.generationMCMode == GenerationMode.LTLandBMC && line.startsWith("--")) {
 				continue;
 			} else {
 				String[] varValue = line.replaceAll(" ", "").split("=");

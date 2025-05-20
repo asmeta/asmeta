@@ -26,6 +26,7 @@ import java.util.stream.StreamSupport;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.asmeta.atgt.generator.AsmTestGenerator.MBTCoverage;
+import org.asmeta.atgt.generator.TestGenerationWithNuSMV.GenerationMode;
 import org.asmeta.atgt.generator2.AsmTestGeneratorBySimulation;
 import org.asmeta.atgt.testoptimizer.UnchangedRemover;
 import org.asmeta.atgt.testoptimizer.UnecessaryChangesRemover;
@@ -78,7 +79,7 @@ public class ExperimentsMVM_ICTSS2021 {
 		Logger.getLogger("org.asmeta.parser").setLevel(Level.OFF);
 		Logger.getLogger(AsmMonitoredDataExtractor.class).setLevel(Level.OFF);
 		Logger.getLogger("org.asmeta.simulator").setLevel(Level.OFF);
-		TestGenerationWithNuSMV.useLTLandBMC = true;
+		TestGenerationWithNuSMV.generationMCMode = GenerationMode.LTLandBMC;;
 		NuSMVtestGenerator.removeUnaskedChanges = false;
 		NuSMVtestGenerator.removeUnChangedControlles = false;
 		ConverterCounterExample.IncludeUnchangedVariables = false;
