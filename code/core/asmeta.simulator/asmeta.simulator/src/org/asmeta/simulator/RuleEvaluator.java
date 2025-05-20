@@ -864,11 +864,13 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		 * fun.getArguments().getTerms(); UpdateSet updateSet = visit(program,
 		 * arguments); logger.debug("</TermAsRule>"); return updateSet; } }
 		 */
+		System.err.println("visitopr" + term.getClass());
 		RuleValue ruleValue = (RuleValue) visitTerm(term);
 		AgentValue agent = ruleValue.getAgent();
 		RuleDeclaration dcl = ruleValue.getRule();
 		List<Term> arguments = termAsRule.getParameters();
 		// set the self location
+		System.err.println(" agent di questa rule: " + agent);
 		termEval.state.applyLocationUpdate(TermEvaluator.self, agent);
 		UpdateSet updateSet = visit(dcl, arguments);
 		logger.debug("</TermAsRule>");
