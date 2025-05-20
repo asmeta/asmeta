@@ -58,6 +58,7 @@ import org.eclipse.emf.common.util.EList;
 
 import asmeta.definitions.Function;
 import asmeta.definitions.RuleDeclaration;
+import asmeta.definitions.domains.AgentDomain;
 import asmeta.definitions.domains.AnyDomain;
 import asmeta.definitions.domains.BagDomain;
 import asmeta.definitions.domains.ConcreteDomain;
@@ -866,6 +867,12 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		 */
 		RuleValue ruleValue = (RuleValue) visitTerm(term);
 		AgentValue agent = ruleValue.getAgent();
+		// if agent is null, assume that it is self agent 
+		// with as program the current rule which is evaluated 
+		if (agent == null) {
+			Domain selfvalueDomain = TermEvaluator.self.getSignature().getCodomain();
+			agent = new AgentValue(TermEvaluator.self.getName(),selfvalueDomain, termAsRule);
+		}
 		RuleDeclaration dcl = ruleValue.getRule();
 		List<Term> arguments = termAsRule.getParameters();
 		// set the self location
