@@ -1,0 +1,55 @@
+scenario testtest6
+
+load ./src\main\resources\models\Population.asm
+
+//// test name test@test6
+//// generated for (test goal): test6: NULL
+check mother(female1) = female1;
+check father(male1) = male1;
+check alive(female1) = true;
+check father(female1) = female1;
+check gender(male1) = MALE;
+check age(female1) = 16;
+check age(male1) = 19;
+check mother(male1) = male1;
+check gender(female1) = FEMALE;
+check alive(male1) = true;
+step
+check alive(Person!13) = true;
+check age(Person!13) = 0;
+check gender(Person!13) = MALE;
+check father(Person!13) = male1;
+check age(male1) = 20;
+check age(female1) = 17;
+check mother(Person!13) = female1;
+step
+check mother(Person!14) = female1;
+check age(Person!14) = 0;
+check gender(Person!14) = MALE;
+check age(Person!13) = 1;
+check father(Person!14) = male1;
+check alive(Person!14) = true;
+check age(male1) = 21;
+check age(female1) = 18;
+step
+check mother(Person!15) = female1;
+check age(Person!15) = 0;
+check age(Person!14) = 1;
+check age(Person!13) = 2;
+check father(Person!15) = male1;
+check gender(Person!15) = MALE;
+check alive(Person!15) = true;
+check age(male1) = 22;
+check age(female1) = 19;
+step
+check age(Person!16) = 0;
+check alive(Person!16) = true;
+check age(Person!15) = 1;
+check mother(Person!16) = female1;
+check age(Person!14) = 2;
+check age(Person!13) = 3;
+check father(Person!16) = male1;
+check age(male1) = 23;
+check age(female1) = 20;
+check gender(Person!16) = MALE;
+step

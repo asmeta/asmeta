@@ -1,0 +1,57 @@
+scenario testRG_r_Main_TTF
+
+load ../../../../../src\main\resources\models\CoffeeVendingMachineNC.asm
+
+//// test name test@RG_r_Main_TTF
+//// generated for (test goal): RG_r_Main_TTF: (coins < 25) and ((insertedCoin = HALF) and ((available[MILK]) <= 0))
+check available(COFFEE) = 10;
+check available(TEA) = 10;
+check available(MILK) = 10;
+check coins = 0;
+set insertedCoin := undef;
+set chosenProduct := COFFEE;
+step
+check available(COFFEE) = 9;
+check coins = 1;
+set insertedCoin := HALF;
+step
+check available(MILK) = 9;
+check coins = 2;
+set insertedCoin := HALF;
+step
+check available(MILK) = 8;
+check coins = 3;
+set insertedCoin := HALF;
+step
+check available(MILK) = 7;
+check coins = 4;
+set insertedCoin := HALF;
+step
+check available(MILK) = 6;
+check coins = 5;
+set insertedCoin := HALF;
+step
+check available(MILK) = 5;
+check coins = 6;
+set insertedCoin := HALF;
+step
+check available(MILK) = 4;
+check coins = 7;
+set insertedCoin := HALF;
+step
+check available(MILK) = 3;
+check coins = 8;
+set insertedCoin := HALF;
+step
+check available(MILK) = 2;
+check coins = 9;
+set insertedCoin := HALF;
+step
+check available(MILK) = 1;
+check coins = 10;
+set insertedCoin := HALF;
+step
+check available(MILK) = 0;
+check coins = 11;
+set insertedCoin := HALF;
+step

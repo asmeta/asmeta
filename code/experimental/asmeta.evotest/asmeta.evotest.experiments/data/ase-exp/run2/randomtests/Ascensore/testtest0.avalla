@@ -1,0 +1,20 @@
+scenario testtest0
+
+load ./src\main\resources\models\Ascensore.asm
+
+//// test name test@test0
+//// generated for (test goal): test0: NULL
+check statoPiano = UNO;
+set signalPorta := false;
+step
+check statoPiano = DUE;
+check statoPorta = CHIUSA;
+set signalPorta := false;
+step
+check statoPorta = CHIUSA;
+check statoPiano = UNO;
+set signalPorta := true;
+step
+check statoPiano = UNO;
+check statoPorta = APERTA;
+step

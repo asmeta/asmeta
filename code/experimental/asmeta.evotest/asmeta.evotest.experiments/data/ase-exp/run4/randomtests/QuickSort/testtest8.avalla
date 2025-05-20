@@ -1,0 +1,15 @@
+scenario testtest8
+
+load ./src\main\resources\models\QuickSort.asm
+
+//// test name test@test8
+//// generated for (test goal): test8: NULL
+step
+check f = [1,2,3,4,5,6,7,8,9,10];
+step
+check f = [1,2,3,4,5,6,7,8,9,10];
+step
+check f = [1,2,3,4,5,6,7,8,9,10];
+step
+check f = [1,2,3,4,5,6,7,8,9,10];
+step

@@ -1,0 +1,22 @@
+scenario RegistroDiCassav4_scenario2
+
+load RegistroDiCassav4.asm
+
+check outMess = "";
+check totale = 0;
+check statoCassa = ATTENDI_ORDINAZIONI;
+set sceltaDiAggiuntaPizza := SI;
+set servizioSelezionato := NEWORDINE;
+
+step
+
+check outMess = "Scegli il tipo di pizza desiderata:";
+check statoCassa = SCEGLI_TIPO_DI_PIZZA;
+check totale = 0;
+set sceltaDelTipoPizza := STANDARD;
+
+step
+
+check statoCassa = PIZZASTANDARD_SELEZIONATA;
+check outMess = "Inserisci il nome di una pizza dell'elenco:";
+check totale = 0;

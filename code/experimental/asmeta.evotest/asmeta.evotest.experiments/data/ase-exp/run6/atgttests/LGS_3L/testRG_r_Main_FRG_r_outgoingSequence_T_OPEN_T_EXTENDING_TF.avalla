@@ -1,0 +1,59 @@
+scenario testRG_r_Main_FRG_r_outgoingSequence_T_OPEN_T_EXTENDING_TF
+
+load ../../../../../src\main\resources\models\LGS_3L.asm
+
+//// test name test@RG_r_Main_FRG_r_outgoingSequence_T_OPEN_T_EXTENDING_TF
+//// generated for (test goal): RG_r_Main_FRG_r_outgoingSequence_T_OPEN_T_EXTENDING_TF: (handle != UP) and ((gears != EXTENDED) and ((doors = OPEN) and ((gears = EXTENDING) and not gearsAllExtended)))
+check retractGearsElectroValve = false;
+check gears = EXTENDED;
+check doors = CLOSED;
+check gearsAllShockAbsorber = false;
+check generalElectroValve = false;
+check gearsAllRetracted = false;
+check closeDoorsElectroValve = false;
+check cylindersGears = CYLINDER_EXTENDED;
+check cylindersDoors = CYLINDER_RETRACTED;
+check openDoorsElectroValve = false;
+check extendGearsElectroValve = false;
+check doorsAllOpen = false;
+check gearsAllExtended = false;
+check doorsAllClosed = false;
+set handle := DOWN;
+step
+set handle := UP;
+step
+check doors = OPENING;
+check generalElectroValve = true;
+check cylindersDoors = CYLINDER_EXTENDING;
+check openDoorsElectroValve = true;
+check doorsAllOpen = true;
+set doorsOpen(FRONT) := true;
+set doorsOpen(RIGHT) := true;
+set doorsOpen(LEFT) := true;
+set handle := UP;
+step
+check doors = OPEN;
+check gearsAllShockAbsorber = true;
+check cylindersDoors = CYLINDER_EXTENDED;
+check openDoorsElectroValve = false;
+check doorsAllOpen = false;
+set gearsShockAbsorber(RIGHT) := true;
+set gearsShockAbsorber(LEFT) := true;
+set gearsShockAbsorber(FRONT) := true;
+set handle := UP;
+step
+check retractGearsElectroValve = true;
+check gears = RETRACTING;
+check gearsAllShockAbsorber = false;
+check cylindersGears = CYLINDER_RETRACTING;
+set handle := undef;
+step
+check retractGearsElectroValve = false;
+check gears = EXTENDING;
+check cylindersGears = CYLINDER_EXTENDING;
+check extendGearsElectroValve = true;
+set gearsExtended(RIGHT) := false;
+set gearsExtended(LEFT) := true;
+set gearsExtended(FRONT) := true;
+set handle := undef;
+step

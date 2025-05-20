@@ -1,0 +1,14 @@
+scenario testtest14
+
+load ./src\main\resources\models\Phd_master_flat2_v1.asm
+
+//// test name test@test14
+//// generated for (test goal): test14: NULL
+check status = UNASSOCIATED;
+set transition := RX_AARQ;
+step
+check status = UNASSOCIATED;
+set transition := RX_RORJ;
+step
+check status = UNASSOCIATED;
+step

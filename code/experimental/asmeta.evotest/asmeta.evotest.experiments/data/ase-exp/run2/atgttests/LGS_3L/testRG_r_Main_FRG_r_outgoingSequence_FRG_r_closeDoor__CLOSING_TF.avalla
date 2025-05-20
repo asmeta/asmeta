@@ -1,0 +1,39 @@
+scenario testRG_r_Main_FRG_r_outgoingSequence_FRG_r_closeDoor__CLOSING_TF
+
+load ../../../../../src\main\resources\models\LGS_3L.asm
+
+//// test name test@RG_r_Main_FRG_r_outgoingSequence_FRG_r_closeDoor__CLOSING_TF
+//// generated for (test goal): RG_r_Main_FRG_r_outgoingSequence_FRG_r_closeDoor__CLOSING_TF: (handle != UP) and ((gears = EXTENDED) and ((doors = CLOSING) and not doorsAllClosed))
+check gears = EXTENDED;
+check retractGearsElectroValve = false;
+check cylindersGears = CYLINDER_EXTENDED;
+check doorsAllClosed = false;
+check doors = CLOSED;
+check gearsAllShockAbsorber = false;
+check gearsAllRetracted = false;
+check generalElectroValve = false;
+check extendGearsElectroValve = false;
+check openDoorsElectroValve = false;
+check closeDoorsElectroValve = false;
+check cylindersDoors = CYLINDER_RETRACTED;
+check gearsAllExtended = false;
+check doorsAllOpen = false;
+set handle := DOWN;
+step
+set handle := UP;
+step
+check doors = OPENING;
+check generalElectroValve = true;
+check openDoorsElectroValve = true;
+check cylindersDoors = CYLINDER_EXTENDING;
+set handle := undef;
+step
+check doors = CLOSING;
+check openDoorsElectroValve = false;
+check closeDoorsElectroValve = true;
+check cylindersDoors = CYLINDER_RETRACTING;
+set handle := undef;
+set doorsClosed(FRONT) := true;
+set doorsClosed(LEFT) := true;
+set doorsClosed(RIGHT) := false;
+step

@@ -1,0 +1,21 @@
+scenario LGS_3L_scenario5
+
+load LGS_3L.asm
+
+check extendGearsElectroValve = false;
+check doors = CLOSED;
+check closeDoorsElectroValve = false;
+check openDoorsElectroValve = false;
+check generalElectroValve = false;
+check retractGearsElectroValve = false;
+check gears = EXTENDED;
+
+step
+
+check extendGearsElectroValve = false;
+check doors = CLOSED;
+check closeDoorsElectroValve = false;
+check openDoorsElectroValve = false;
+check generalElectroValve = false;
+check retractGearsElectroValve = false;
+check gears = EXTENDED;

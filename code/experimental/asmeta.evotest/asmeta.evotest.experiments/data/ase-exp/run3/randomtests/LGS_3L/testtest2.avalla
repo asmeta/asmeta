@@ -1,0 +1,22 @@
+scenario testtest2
+
+load ./src\main\resources\models\LGS_3L.asm
+
+//// test name test@test2
+//// generated for (test goal): test2: NULL
+check doors = CLOSED;
+check gears = EXTENDED;
+set handle := UP;
+step
+check openDoorsElectroValve = true;
+check gears = EXTENDED;
+check generalElectroValve = true;
+check doors = OPENING;
+set handle := DOWN;
+step
+check gears = EXTENDED;
+check openDoorsElectroValve = false;
+check doors = CLOSING;
+check generalElectroValve = true;
+check closeDoorsElectroValve = true;
+step

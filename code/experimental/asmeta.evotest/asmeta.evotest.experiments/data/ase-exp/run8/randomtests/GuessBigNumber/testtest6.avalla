@@ -1,0 +1,24 @@
+scenario testtest6
+
+load ./src\main\resources\models\GuessBigNumber.asm
+
+//// test name test@test6
+//// generated for (test goal): test6: NULL
+check attempt = 10;
+set guess := 2175;
+step
+check outMessage = "hidden is bigger";
+check attempt = 9;
+set guess := 7379;
+step
+check attempt = 8;
+check outMessage = "hidden is bigger";
+set guess := 4518;
+step
+check attempt = 7;
+check outMessage = "hidden is bigger";
+set guess := 8337;
+step
+check attempt = 6;
+check outMessage = "hidden is smaller";
+step

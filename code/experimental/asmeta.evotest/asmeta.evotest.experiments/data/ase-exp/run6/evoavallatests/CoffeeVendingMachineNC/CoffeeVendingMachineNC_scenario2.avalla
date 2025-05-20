@@ -1,0 +1,16 @@
+scenario CoffeeVendingMachineNC_scenario2
+
+load CoffeeVendingMachineNC.asm
+
+check coins = 0;
+check available(MILK) = 10;
+check available(TEA) = 10;
+check available(COFFEE) = 10;
+set chosenProduct := TEA;
+
+step
+
+check available(MILK) = 10;
+check coins = 1;
+check available(TEA) = 9;
+check available(COFFEE) = 10;

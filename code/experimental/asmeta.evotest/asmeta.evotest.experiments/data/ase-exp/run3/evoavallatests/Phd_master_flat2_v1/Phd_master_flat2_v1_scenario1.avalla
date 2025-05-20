@@ -1,0 +1,11 @@
+scenario Phd_master_flat2_v1_scenario1
+
+load Phd_master_flat2_v1.asm
+
+check status = UNASSOCIATED;
+set transition := RX_RLRE;
+
+step
+
+check message = MSG_NO_RESPONSE;
+check status = UNASSOCIATED;

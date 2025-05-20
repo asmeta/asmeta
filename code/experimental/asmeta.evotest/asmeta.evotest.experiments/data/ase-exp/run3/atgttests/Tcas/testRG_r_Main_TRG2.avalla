@@ -1,0 +1,22 @@
+scenario testRG_r_Main_TRG2
+
+load ../../../../../src\main\resources\models\Tcas.asm
+
+//// test name test@RG_r_Main_TRG2
+//// generated for (test goal): RG_r_Main_TRG2: (((((((((((a and (((((c or d) or e) and g0) or (a and f0)) or (c and (((f0 or g0) or h0) or o0)))) or (((a or b) and ((c or d) or e)) and o0)) and not(a and b)) and not(c and d)) and not(c and e)) and not(d and e)) and not(f0 and g0)) and not(f0 and h0)) and not(f0 and o0)) and not(g0 and h0)) and not(h0 and o0)) and (condition != true)
+check condition = false;
+set o0 := false;
+set e := false;
+set m := false;
+set n := false;
+set f0 := true;
+set k := false;
+set h0 := false;
+set l := false;
+set j := false;
+set g0 := false;
+set a := true;
+set c := true;
+set b := false;
+set d := false;
+step

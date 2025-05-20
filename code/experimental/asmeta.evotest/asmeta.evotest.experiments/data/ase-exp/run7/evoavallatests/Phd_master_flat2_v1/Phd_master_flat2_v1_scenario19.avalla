@@ -1,0 +1,23 @@
+scenario Phd_master_flat2_v1_scenario19
+
+load Phd_master_flat2_v1.asm
+
+check status = UNASSOCIATED;
+set transition := RX_AARQ_ACCEPTABLE_AND_KNOWN_CONFIGURATION;
+
+step
+
+check status = OPERATING;
+check message = MSG_RX_AARE;
+set transition := REQ_ASSOC_REL;
+
+step
+
+check message = MSG_RX_RLRQ;
+check status = DISASSOCIATING;
+set transition := RX_AARE;
+
+step
+
+check status = UNASSOCIATED;
+check message = MSG_RX_ABRT;

@@ -1,0 +1,15 @@
+scenario RegistroDiCassav4_scenario10
+
+load RegistroDiCassav4.asm
+
+check outMess = "";
+check statoCassa = ATTENDI_ORDINAZIONI;
+check totale = 0;
+set sceltaDiAggiuntaPizza := NO;
+set servizioSelezionato := NEWORDINE;
+
+step
+
+check outMess = "prezzo totale aggiornato";
+check statoCassa = ATTENDI_ORDINAZIONI;
+check totale = 0;

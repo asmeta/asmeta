@@ -1,0 +1,17 @@
+scenario Phd_master_flat2_v1_scenario6
+
+load Phd_master_flat2_v1.asm
+
+check status = UNASSOCIATED;
+set transition := RX_AARQ_ACCEPTABLE_AND_KNOWN_CONFIGURATION;
+
+step
+
+check status = OPERATING;
+check message = MSG_RX_AARE;
+set transition := RX_RORJ;
+
+step
+
+check status = OPERATING;
+check message = MSG_NO_RESPONSE;

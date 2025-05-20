@@ -1,0 +1,11 @@
+scenario testtest1
+
+load ./src\main\resources\models\Contatore_U_DA_H.asm
+
+//// test name test@test1
+//// generated for (test goal): test1: NULL
+check unit = 0;
+set click := true;
+step
+check unit = 1;
+step

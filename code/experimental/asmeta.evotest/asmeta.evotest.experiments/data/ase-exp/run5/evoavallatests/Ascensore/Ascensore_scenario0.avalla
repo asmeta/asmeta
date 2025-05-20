@@ -1,0 +1,17 @@
+scenario Ascensore_scenario0
+
+load Ascensore.asm
+
+check statoPorta = CHIUSA;
+check statoPiano = UNO;
+set signalPorta := false;
+
+step
+
+check statoPorta = CHIUSA;
+check statoPiano = DUE;
+
+step
+
+check statoPorta = CHIUSA;
+check statoPiano = UNO;

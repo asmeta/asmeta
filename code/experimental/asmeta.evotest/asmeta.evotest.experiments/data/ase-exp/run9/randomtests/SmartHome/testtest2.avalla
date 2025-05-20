@@ -1,0 +1,95 @@
+scenario testtest2
+
+load ./src\main\resources\models\SmartHome.asm
+
+//// test name test@test2
+//// generated for (test goal): test2: NULL
+check windowStatus = OPEN;
+check setWindowStatus = undef;
+check setHeaterStatus = undef;
+check heaterStatus = OFF;
+check monitor = true;
+check setWaterHeaterStatus = undef;
+check time = EARLY_MORN;
+check self = waterHeaterManaging;
+set roomTemp := 3;
+set badAir := false;
+set timePassed := false;
+step
+check sgnCloseWindow_AQ = true;
+check setWaterHeaterStatus = undef;
+check sgnHeaterFAIRLY_HOT_CH = false;
+check sgnHeaterVERY_HOT_CH = true;
+check heaterStatus = OFF;
+check setWindowStatus = undef;
+check monitor = false;
+check sgnWaterHeaterOFF_ES = false;
+check setHeaterStatus = undef;
+check sgnCloseWindow_MD = false;
+check time = EARLY_MORN;
+check windowStatus = OPEN;
+check sgnHeaterFAIRLY_HOT_ES = false;
+check self = waterHeaterManaging;
+check sgnWaterHeaterON_MWH = true;
+check sgnHeaterOFF_CH = false;
+check sgnOpenWindow_AQ = false;
+step
+check setWindowStatus = CLOSED;
+check windowStatus = OPEN;
+check sgnWaterHeaterOFF_ES = false;
+check sgnHeaterFAIRLY_HOT_CH = false;
+check self = waterHeaterManaged;
+check sgnHeaterOFF_CH = false;
+check sgnHeaterVERY_HOT_CH = false;
+check sgnCloseWindow_AQ = false;
+check time = EARLY_MORN;
+check sgnHeaterFAIRLY_HOT_ES = false;
+check heaterStatus = OFF;
+check monitor = true;
+check sgnOpenWindow_AQ = false;
+check setWaterHeaterStatus = WE_ON;
+check sgnWaterHeaterON_MWH = false;
+check sgnCloseWindow_MD = false;
+check setHeaterStatus = VERY_HOT;
+step
+check heaterStatus = VERY_HOT;
+check sgnHeaterFAIRLY_HOT_CH = false;
+check sgnHeaterOFF_CH = false;
+check sgnWaterHeaterOFF_ES = false;
+check setWindowStatus = undef;
+check sgnOpenWindow_AQ = false;
+check sgnHeaterFAIRLY_HOT_ES = false;
+check sgnWaterHeaterON_MWH = false;
+check setWaterHeaterStatus = undef;
+check monitor = true;
+check sgnHeaterVERY_HOT_CH = false;
+check sgnCloseWindow_AQ = false;
+check windowStatus = CLOSED;
+check setHeaterStatus = undef;
+check self = waterHeaterManaging;
+check time = EARLY_MORN;
+check waterHeaterStatus = WE_ON;
+check sgnCloseWindow_MD = false;
+set roomTemp := 13;
+set timePassed := false;
+set badAir := false;
+step
+check windowStatus = CLOSED;
+check sgnWaterHeaterON_MWH = true;
+check sgnHeaterOFF_CH = false;
+check time = EARLY_MORN;
+check waterHeaterStatus = WE_ON;
+check heaterStatus = VERY_HOT;
+check sgnCloseWindow_AQ = true;
+check setWaterHeaterStatus = undef;
+check sgnCloseWindow_MD = false;
+check sgnWaterHeaterOFF_ES = false;
+check sgnHeaterVERY_HOT_CH = false;
+check sgnHeaterFAIRLY_HOT_CH = true;
+check monitor = false;
+check sgnOpenWindow_AQ = false;
+check sgnHeaterFAIRLY_HOT_ES = false;
+check setWindowStatus = undef;
+check self = waterHeaterManaging;
+check setHeaterStatus = undef;
+step

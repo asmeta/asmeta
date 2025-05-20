@@ -1,0 +1,14 @@
+scenario testtest1
+
+load ./src\main\resources\models\Dado.asm
+
+//// test name test@test1
+//// generated for (test goal): test1: NULL
+check soldi(PC) = 10;
+check soldi(USER) = 10;
+set lancioPC := 6;
+set lancioUser := 6;
+step
+check statoGioco = INCORSO;
+check risultatoGiocata = PATTA;
+step

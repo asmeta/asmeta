@@ -1,0 +1,16 @@
+scenario testtest8
+
+load ./src\main\resources\models\Phd_master_flat2_v1.asm
+
+//// test name test@test8
+//// generated for (test goal): test8: NULL
+check status = UNASSOCIATED;
+set transition := RX_RLRE;
+step
+check status = UNASSOCIATED;
+check message = MSG_NO_RESPONSE;
+set transition := RX_AARE;
+step
+check status = UNASSOCIATED;
+check message = MSG_RX_ABRT;
+step

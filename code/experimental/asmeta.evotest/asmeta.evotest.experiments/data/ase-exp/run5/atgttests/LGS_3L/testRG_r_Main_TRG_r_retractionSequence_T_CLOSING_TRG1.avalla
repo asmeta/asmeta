@@ -1,0 +1,36 @@
+scenario testRG_r_Main_TRG_r_retractionSequence_T_CLOSING_TRG1
+
+load ../../../../../src\main\resources\models\LGS_3L.asm
+
+//// test name test@RG_r_Main_TRG_r_retractionSequence_T_CLOSING_TRG1
+//// generated for (test goal): RG_r_Main_TRG_r_retractionSequence_T_CLOSING_TRG1: (handle = UP) and ((gears != RETRACTED) and ((doors = CLOSING) and (closeDoorsElectroValve != false)))
+check extendGearsElectroValve = false;
+check gearsAllRetracted = false;
+check openDoorsElectroValve = false;
+check cylindersDoors = CYLINDER_RETRACTED;
+check retractGearsElectroValve = false;
+check doors = CLOSED;
+check gearsAllShockAbsorber = false;
+check doorsAllOpen = false;
+check generalElectroValve = false;
+check gears = EXTENDED;
+check gearsAllExtended = false;
+check doorsAllClosed = false;
+check closeDoorsElectroValve = false;
+check cylindersGears = CYLINDER_EXTENDED;
+set handle := DOWN;
+step
+set handle := UP;
+step
+check openDoorsElectroValve = true;
+check cylindersDoors = CYLINDER_EXTENDING;
+check doors = OPENING;
+check generalElectroValve = true;
+set handle := undef;
+step
+check openDoorsElectroValve = false;
+check cylindersDoors = CYLINDER_RETRACTING;
+check doors = CLOSING;
+check closeDoorsElectroValve = true;
+set handle := UP;
+step

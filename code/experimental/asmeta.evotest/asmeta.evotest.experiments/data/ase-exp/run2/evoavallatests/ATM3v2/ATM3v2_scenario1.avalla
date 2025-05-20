@@ -1,0 +1,25 @@
+scenario ATM3v2_scenario1
+
+load ATM3v2.asm
+
+check numOfBalanceChecks = 0;
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+check accessible(card1) = true;
+check numOfBalanceChecks = 0;
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+check numOfBalanceChecks = 0;
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+set insertedCard := card2;
+
+step
+
+check numOfBalanceChecks = 0;
+check moneyLeft = 1000;
+check atmState = AWAITPIN;
+check currCard = card2;
+check numOfBalanceChecks = 0;
+check moneyLeft = 1000;
+check atmState = AWAITPIN;

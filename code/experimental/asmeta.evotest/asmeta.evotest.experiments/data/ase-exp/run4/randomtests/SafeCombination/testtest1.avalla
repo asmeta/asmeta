@@ -1,0 +1,11 @@
+scenario testtest1
+
+load ./src\main\resources\models\SafeCombination.asm
+
+//// test name test@test1
+//// generated for (test goal): test1: NULL
+check currentLock = 1;
+set digitPad := 0;
+step
+check currentLock = 1;
+step

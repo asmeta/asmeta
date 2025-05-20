@@ -1,0 +1,16 @@
+scenario CoffeeVendingMachineNC_scenario6
+
+load CoffeeVendingMachineNC.asm
+
+check available(TEA) = 10;
+check available(COFFEE) = 10;
+check available(MILK) = 10;
+check coins = 0;
+set insertedCoin := HALF;
+
+step
+
+check available(TEA) = 10;
+check available(COFFEE) = 10;
+check coins = 1;
+check available(MILK) = 9;

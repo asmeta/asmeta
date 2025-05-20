@@ -1,0 +1,31 @@
+scenario testtest8
+
+load ./src\main\resources\models\ATM3v2.asm
+
+//// test name test@test8
+//// generated for (test goal): test8: NULL
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+set insertedCard := card2;
+set insertedPin := -582065744;
+step
+check atmState = AWAITPIN;
+check currCard = card2;
+check accessible(card2) = true;
+check moneyLeft = 1000;
+set insertedPin := -442729194;
+step
+check atmState = AWAITCARD;
+check moneyLeft = 1000;
+check currCard = card2;
+set insertedCard := card2;
+step
+check atmState = AWAITPIN;
+check currCard = card2;
+check moneyLeft = 1000;
+set insertedPin := 634283572;
+step
+check currCard = card2;
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+step
