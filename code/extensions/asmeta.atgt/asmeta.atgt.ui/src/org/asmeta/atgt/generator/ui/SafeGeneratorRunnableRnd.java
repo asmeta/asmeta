@@ -24,12 +24,14 @@ public class SafeGeneratorRunnableRnd  extends  SafeGeneratorRunnable{
 	@Override
 	protected AsmTestSuite generateTestSuite() throws Exception {
 		AsmCollection model = ASMParser.setUpReadAsm(config.asmetaSpecPath.toFile());
-		AsmTestGeneratorBySimulation tg = new AsmTestGeneratorBySimulation(model, nSteps, nTests);// TODO Auto-generated method stub
+		mc.writeMessage("generating randomely " + nTests + " test of lenghth "+ nSteps);
+		AsmTestGeneratorBySimulation tg = new AsmTestGeneratorBySimulation(model, nSteps, nTests);
 		return tg.getTestSuite();
 	}
 
 	@Override
-	protected void savetoavalla(AsmTestSuite result) { 
+	protected void savetoavalla(AsmTestSuite result) {
+		mc.writeMessage("saving to avalla");
 		String stringForFile = "random";
 		SaveResults.saveResults(result, config.asmetaSpecPath.toString(), config.formats, stringForFile);
 	}

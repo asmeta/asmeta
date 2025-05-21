@@ -9,6 +9,12 @@ import org.asmeta.nusmv.plugin.AsmetaSMVActivator;
 import org.asmeta.nusmv.plugin.AsmetaSMVConsole;
 import org.asmeta.nusmv.plugin.AsmetaSMVPreferencePage;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jface.preference.IPreferenceStore;
 
 /**
@@ -42,6 +48,10 @@ abstract class AsmetaSMVHandler extends AsmetaActionHandler {
 		asmetaSMV.translation();
 		asmetaSMV.createNuSMVfile();
 		exec(asmetaSMV);
+		// now refresh the project to show the generated files
+		IPath ipath = Path.fromOSString(path.getCanonicalPath());
+		IProject project = ResourcesPlugin.getWorkspace().getRoot().findFilesForLocation(ipath)[0].getProject();
+		project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 	}
 
 	@Override

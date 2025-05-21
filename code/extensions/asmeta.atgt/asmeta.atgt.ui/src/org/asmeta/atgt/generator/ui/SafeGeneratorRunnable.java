@@ -87,6 +87,7 @@ public abstract class SafeGeneratorRunnable extends Job {
 					Logger.getLogger(NuSMVtestGenerator.class).error("ATGT error: "+ e.getMessage());
 					e.printStackTrace();
 				}
+				// referesh the project to show the generated files
 				System.out.println("refreshing project");
 				try {
 					IProject project = ResourcesPlugin.getWorkspace().getRoot().findFilesForLocation(config.asmetaSpecPath)[0].getProject();
