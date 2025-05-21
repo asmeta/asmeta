@@ -33,6 +33,7 @@ public abstract class RunJob extends Job {
 	static Appender outputfromSim;
 	public static boolean stopSimulationIfUpdateSetEmpty;
 	public static boolean stopSimulationIfUpdateSetTrivial;
+	public static boolean allowUndefValuesMonitored;
 
 	static {
 		Simulator.showUpdateSet = true;

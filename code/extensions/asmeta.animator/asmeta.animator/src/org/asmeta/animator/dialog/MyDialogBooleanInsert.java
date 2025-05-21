@@ -17,7 +17,6 @@ class MyDialogBooleanInsert extends MyDialog {
 	private String message;
 
 	private String input;
-	
 
 	public MyDialogBooleanInsert(Shell parent) {
 		super(parent);
@@ -41,7 +40,7 @@ class MyDialogBooleanInsert extends MyDialog {
 
 	@Override
 	public String open() {
-  Shell shell_1;
+		Shell shell_1;
 		shell_1 = new Shell(getParent(), getStyle());
 		shell_1.setText(getText());
 		createContents(shell_1);
@@ -58,8 +57,8 @@ class MyDialogBooleanInsert extends MyDialog {
 
 	@Override
 	protected void createContents(final Shell shell) {
-  GridData gd_btnFalse;
-  GridData gd_btnTrue;
+		GridData gd_btnFalse;
+		GridData gd_btnTrue;
 		shell.setLayout(new GridLayout(2, true));
 
 		Label label = new Label(shell, SWT.NONE);
@@ -92,13 +91,11 @@ class MyDialogBooleanInsert extends MyDialog {
 			}
 		});
 
-		
 		/*
 		 * shell.addListener(SWT.Close, new Listener() { public void handleEvent(Event
 		 * event) { shell.setVisible(false); } });
 		 */
 		shell.setDefaultButton(btnTrue);
 	}
-
 
 }

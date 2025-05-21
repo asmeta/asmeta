@@ -20,11 +20,14 @@ public class RunRndJob extends RunJob {
 
 	@Override
 	protected MonFuncReader getUI(InputStream is, PrintStream printOut) {
-		return new RandomMFReader(); 
+		RandomMFReader randomMFReader = new RandomMFReader();
+		// check if undef are allowed in preferences
+		if (allowUndefValuesMonitored) randomMFReader.allowUndefValues = true;
+		return randomMFReader; 
 	}
 
 	@Override
 	protected String getRunMessage() {
-		return "Running with random values";
+		return "Running with random values"+ (allowUndefValuesMonitored ? " - including undef values -" : "");
 	}
 }
