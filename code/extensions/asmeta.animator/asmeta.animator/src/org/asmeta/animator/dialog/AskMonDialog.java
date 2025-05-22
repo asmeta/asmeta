@@ -25,13 +25,15 @@ public abstract class AskMonDialog extends Dialog {
 		this.message = message;
 	}
 
-	// open the dialog and returns t
+	// open the dialog and returns the inserted value 
+	// if it is closed, the return null
 	final public String open() {
 		Shell shell = new Shell(getParent(), getStyle());
 		shell.setText(message);
 		shell.addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent event) {
-				System.out.println("CHIUDI");
+				//System.out.println("CHIUDI");
+				input = null;
 				shell.close();
 			}
 		});
@@ -47,6 +49,8 @@ public abstract class AskMonDialog extends Dialog {
 		return input;
 	}
 
+	// create the content
+	// it also must set the value of input according to the widgets in the dialog
 	abstract void createContents(final Shell shell);
 
 }

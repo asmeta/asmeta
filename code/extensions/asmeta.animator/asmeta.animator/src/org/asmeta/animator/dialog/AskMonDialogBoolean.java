@@ -24,7 +24,6 @@ class AskMonDialogBoolean extends AskMonDialog {
 		GridData gd_btnFalse;
 		GridData gd_btnTrue;
 		shell.setLayout(new GridLayout(2, true));
-
 		Label label = new Label(shell, SWT.NONE);
 		label.setText(message);
 		GridData data = new GridData();

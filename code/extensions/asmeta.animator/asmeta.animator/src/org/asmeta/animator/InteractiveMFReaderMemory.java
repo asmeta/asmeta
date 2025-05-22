@@ -28,7 +28,6 @@ import asmeta.definitions.domains.EnumTd;
 
 public class InteractiveMFReaderMemory extends InteractiveMFReader {
 
-
 	private static VisualizationSimulation v;
 
 	public InteractiveMFReaderMemory(InputStream in, PrintStream out, VisualizationSimulation v) {
@@ -59,15 +58,9 @@ public class InteractiveMFReaderMemory extends InteractiveMFReader {
 		AskMonDialog dialog = dg.doSwitch(func.getCodomain());		
 
 		while (value == null) {
-
-			String input = null;
-			input = dialog.open();
-			
+			String input = dialog.open();			
 			if (input != null) {
 				// User clicked OK; set the text into the label
-				//v.setTextMonitored(input);
-				/*v.setLblMonitorFunctionName(location.toString());
-				v.saveMonitorInteractiveSimulation(input, location.toString());*/
 				v.showMonitoredInteractiveSimulation(input, location.toString());
 				value = visit(func.getCodomain());
 			} 
