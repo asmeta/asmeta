@@ -5,49 +5,52 @@ load ./src\main\resources\models\LIFT.asm
 //// test name test@test2
 //// generated for (test goal): test2: NULL
 set outsideCall(1,UP) := true;
-set outsideCall(0,UP) := false;
-set outsideCall(0,DOWN) := true;
-set outsideCall(2,UP) := true;
+set outsideCall(0,UP) := true;
+set outsideCall(0,DOWN) := false;
+set outsideCall(2,UP) := false;
 set outsideCall(2,DOWN) := true;
-set insideCall(lift1,2) := true;
+set insideCall(lift1,2) := false;
 set insideCall(lift1,1) := true;
 set insideCall(lift1,0) := false;
 set outsideCall(1,DOWN) := false;
 step
+check existsCallFromTo(0,UP) = false;
 check existsCallFromTo(1,UP) = true;
 check hasToDeliverAt(lift1,1) = true;
-check hasToDeliverAt(lift1,2) = true;
 check ctlState(lift1) = MOVING;
 check floor(lift1) = 1;
-check existsCallFromTo(0,DOWN) = false;
-check existsCallFromTo(2,UP) = false;
 check existsCallFromTo(2,DOWN) = true;
+set outsideCall(1,UP) := false;
+set outsideCall(0,DOWN) := true;
 set outsideCall(2,DOWN) := false;
-set insideCall(lift1,2) := false;
-set insideCall(lift1,1) := false;
-set outsideCall(1,DOWN) := true;
-step
-check existsCallFromTo(1,UP) = false;
-check hasToDeliverAt(lift1,1) = false;
-check ctlState(lift1) = HALTING;
-check existsCallFromTo(1,DOWN) = true;
-set outsideCall(0,DOWN) := false;
-set insideCall(lift1,2) := true;
-set insideCall(lift1,1) := true;
 set insideCall(lift1,0) := true;
 step
+check existsCallFromTo(0,UP) = true;
+check existsCallFromTo(1,UP) = false;
 check hasToDeliverAt(lift1,0) = true;
+check hasToDeliverAt(lift1,1) = false;
+check ctlState(lift1) = HALTING;
+check existsCallFromTo(0,DOWN) = false;
+set outsideCall(1,UP) := true;
+set outsideCall(0,UP) := false;
+set outsideCall(2,DOWN) := true;
+set insideCall(lift1,2) := true;
+set insideCall(lift1,1) := false;
+set insideCall(lift1,0) := false;
+step
+check hasToDeliverAt(lift1,2) = true;
 check ctlState(lift1) = MOVING;
 check floor(lift1) = 2;
-check existsCallFromTo(1,DOWN) = false;
-set outsideCall(0,DOWN) := true;
-set outsideCall(2,UP) := false;
+set outsideCall(1,UP) := false;
+set outsideCall(0,DOWN) := false;
+set outsideCall(2,UP) := true;
+set outsideCall(2,DOWN) := false;
 set insideCall(lift1,2) := false;
-set insideCall(lift1,0) := false;
-set outsideCall(1,DOWN) := false;
+set insideCall(lift1,0) := true;
+set outsideCall(1,DOWN) := true;
 step
-check existsCallFromTo(1,UP) = true;
-check hasToDeliverAt(lift1,1) = true;
 check hasToDeliverAt(lift1,2) = false;
 check ctlState(lift1) = HALTING;
+check existsCallFromTo(1,DOWN) = true;
+check existsCallFromTo(2,UP) = false;
 step

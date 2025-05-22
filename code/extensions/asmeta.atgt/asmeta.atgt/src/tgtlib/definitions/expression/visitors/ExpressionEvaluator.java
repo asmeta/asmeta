@@ -518,7 +518,8 @@ public class ExpressionEvaluator implements tgtlib.definitions.expression.Expres
 
 	@Override
 	public Boolean forFunctionTerm(FunctionTerm ft) {
-		throw new EvaluationNotSupported(ft.getClass() + "not supported");
+		System.err.println(state);
+		throw new EvaluationNotSupported("class:" + ft.getClass() + " function "+ ft.getFunction().getIdString() + "  not supported");
 	}
 
 	@Override
