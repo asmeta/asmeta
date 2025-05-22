@@ -229,8 +229,9 @@ public class AsmTestGeneratorTest {
 		//String ex = folderPath + "SafeCombination.asm";
 		//String ex = folderPath + "Contatore_U_DA_H.asm";
 		//String ex = folderPath + "LGS_3L.asm";
-		//String ex = folderPath + "SmartHome.asm"; // this contain agents, it won't work
-		String ex = folderPath + "SiGistica.asm";
+		//String ex = folderPath + "SmartHome.asm"; // this contain agents, it won't work		
+		//String ex = folderPath + "SiGistica.asm";
+		String ex = folderPath + "Ferryman.asm";
 		
 		var f = new File(ex);
 		assert f.exists() : Paths.get(f.getCanonicalPath()).normalize() + " does not exists";		
