@@ -13,53 +13,15 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-class MyDialogInsert extends MyDialog {
-	private String message;
+class AskMonDialogGeneric extends AskMonDialog {
 
-	private String input;
 
-	public MyDialogInsert(Shell parent) {
-		super(parent);
-		setText("Insert value of monitor function");
-		setMessage("Please enter a value:");
+	public AskMonDialogGeneric(Shell parent, String msg) {
+		super(parent, msg);
+//		setText("Insert value of monitor function");
+//		setMessage("Please enter a value:");
 	}
 
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
-	public String getInput() {
-		return input;
-	}
-
-	public void setInput(String input) {
-		this.input = input;
-	}
-
-	@Override
-	public String open() {
-		Shell shell = new Shell(getParent(), getStyle());
-		shell.setText(getText());
-		/*
-		 * shell.addDisposeListener(new DisposeListener() { public void
-		 * widgetDisposed(DisposeEvent event) { System.out.println("CHIUDI");
-		 * shell.close(); } });
-		 */
-		createContents(shell);
-		shell.pack();
-		shell.open();
-		Display display = getParent().getDisplay();
-		while (!shell.isDisposed()) {
-			if (!display.readAndDispatch()) {
-				display.sleep();
-			}
-		}
-		return input;
-	}
 
 	@Override
 	void createContents(final Shell shell) {

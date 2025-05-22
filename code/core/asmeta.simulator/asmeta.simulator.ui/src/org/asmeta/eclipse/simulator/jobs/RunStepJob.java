@@ -3,6 +3,7 @@ package org.asmeta.eclipse.simulator.jobs;
 import java.io.InputStream;
 import java.io.PrintStream;
 
+import org.asmeta.simulator.readers.AllowUndefMFReader;
 import org.asmeta.simulator.readers.InteractiveMFReader;
 import org.asmeta.simulator.readers.MonFuncReader;
 import org.asmeta.simulator.util.Parser;
@@ -18,16 +19,13 @@ public class RunStepJob extends RunJob {
 	}
 
 	@Override
-	protected MonFuncReader getUI(InputStream is, PrintStream printOut) {
+	protected AllowUndefMFReader getUI(InputStream is, PrintStream printOut) {
 		InteractiveMFReader interactiveMFReader = new InteractiveMFReader(is, printOut);
-		// like random simulation
-		// check if undef are allowed in preferences
-		interactiveMFReader.allowUndefValues = allowUndefValuesMonitored;
 		return interactiveMFReader;
 	}
 
 	@Override
 	protected String getRunMessage() {
-		return "Running interactively " + (allowUndefValuesMonitored ? "undef values are allowed" : "");
+		return "Running interactively " + (allowUndefValuesMonitored ? " - undef values are allowed - " : "");
 	}
 }

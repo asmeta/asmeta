@@ -18,6 +18,7 @@ import org.asmeta.simulator.UpdateClashException;
 import org.asmeta.simulator.UpdateSet;
 import org.asmeta.simulator.main.AsmModelNotFoundException;
 import org.asmeta.simulator.main.Simulator;
+import org.asmeta.simulator.readers.AllowUndefMFReader;
 import org.asmeta.simulator.readers.MonFuncReader;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -78,7 +79,9 @@ public abstract class RunJob extends Job {
 		try {
 			// build the environment
 			InputStream is = mc.getInputStream();
-			MonFuncReader ui = getUI(is, printOut);
+			AllowUndefMFReader ui = getUI(is, printOut);
+			// check if undef are allowed in preferences
+			if (allowUndefValuesMonitored) ui.allowUndefValues = true;
 			Environment env = new Environment(ui);
 			String specName = asmFile.getName().substring(0, asmFile.getName().length() - 4);
 			asmSimulator = new Simulator(specName, parseJob.getAsm(), env);
@@ -183,5 +186,5 @@ public abstract class RunJob extends Job {
 			(stopSimulationIfUpdateSetTrivial && us != null && us.isTrivial(previousState));
 	}
 
-	protected abstract MonFuncReader getUI(InputStream is, PrintStream printOut);
+	protected abstract AllowUndefMFReader getUI(InputStream is, PrintStream printOut);
 }

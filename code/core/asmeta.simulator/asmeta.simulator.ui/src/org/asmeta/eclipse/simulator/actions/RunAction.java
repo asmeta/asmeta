@@ -63,7 +63,7 @@ public abstract class RunAction implements IWorkbenchWindowActionDelegate {
 
 	/**
 	 * 
-	 * @return the preference store - it sets also all the prferences
+	 * @return the preference store - it sets also all the preferences
 	 */
 	static public IPreferenceStore setSimulationPrecerences() {
 		// get the preferences
@@ -82,7 +82,6 @@ public abstract class RunAction implements IWorkbenchWindowActionDelegate {
 			default: throw new RuntimeException();
 		}
 		Environment.auto_increment_delta = store.getInt(PreferenceConstants.P_AUTO_DELTA);
-		
 		Simulator.checkInvariants = InvariantTreament.valueOf(store.getString(PreferenceConstants.P_CHECK_AXIOMS));
 		RunJob.stopSimulationIfUpdateSetEmpty = store.getBoolean(PreferenceConstants.P_STOP_UPDATESET_EMPTY);
 		RunJob.stopSimulationIfUpdateSetTrivial = store.getBoolean(PreferenceConstants.P_STOP_UPDATESET_TRIVIAL);

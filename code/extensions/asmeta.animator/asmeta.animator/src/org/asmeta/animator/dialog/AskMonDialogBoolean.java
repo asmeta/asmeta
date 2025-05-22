@@ -12,47 +12,11 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
-class MyDialogBooleanInsert extends MyDialog {
+class AskMonDialogBoolean extends AskMonDialog {
 
-	private String message;
 
-	private String input;
-
-	public MyDialogBooleanInsert(Shell parent) {
-		super(parent);
-	}
-
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message;
-	}
-
-	public String getInput() {
-		return input;
-	}
-
-	public void setInput(String input) {
-		this.input = input;
-	}
-
-	@Override
-	public String open() {
-		Shell shell_1;
-		shell_1 = new Shell(getParent(), getStyle());
-		shell_1.setText(getText());
-		createContents(shell_1);
-		shell_1.pack();
-		shell_1.open();
-		Display display = getParent().getDisplay();
-		while (!shell_1.isDisposed()) {
-			if (!display.readAndDispatch()) {
-				display.sleep();
-			}
-		}
-		return input;
+	public AskMonDialogBoolean(Shell parent, String message) {
+		super(parent, message);
 	}
 
 	@Override

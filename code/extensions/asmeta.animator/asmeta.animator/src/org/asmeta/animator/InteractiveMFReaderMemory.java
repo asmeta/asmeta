@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.asmeta.animator.dialog.DialogGenerator;
-import org.asmeta.animator.dialog.MyDialog;
+import org.asmeta.animator.dialog.AskMonDialog;
 import org.asmeta.animator.dialog.MyDialogError;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.State;
@@ -56,7 +56,7 @@ public class InteractiveMFReaderMemory extends InteractiveMFReader {
 		Function func = location.getSignature();
 		// build the right dialog
 		DialogGenerator dg = new DialogGenerator(v.getShell(), domainPrinter.visit(func.getCodomain()), location.toString());
-		MyDialog dialog = dg.doSwitch(func.getCodomain());		
+		AskMonDialog dialog = dg.doSwitch(func.getCodomain());		
 
 		while (value == null) {
 
@@ -71,7 +71,7 @@ public class InteractiveMFReaderMemory extends InteractiveMFReader {
 				v.showMonitoredInteractiveSimulation(input, location.toString());
 				value = visit(func.getCodomain());
 			} 
-			// TODO: se voglio terminare non riesco più --> far sì che si possa interrompere
+			// TODO: se voglio terminare non riesco piï¿½ --> far sï¿½ che si possa interrompere
 			// l'esecuzione
 		}
 		return value;

@@ -12,19 +12,23 @@ import org.eclipse.swt.widgets.Shell;
  * Super class for dialog when asking the user to insert values in the animator
  * to be passed to the simulator
  */
-public abstract class MyDialog extends Dialog {
+public abstract class AskMonDialog extends Dialog {
 
-	Shell shell;
+	// inserted by the user
+	protected String input;
+	
+	// message in the dialog
+	protected String message;
 
-	protected MyDialog(Shell parent) {
+	protected AskMonDialog(Shell parent, String message) {
 		super(parent, SWT.DIALOG_TRIM); // not modal to allow to close | SWT.APPLICATION_MODAL);
+		this.message = message;
 	}
 
-	protected String input;
-
-	public String open() {
-		shell = new Shell(getParent(), getStyle());
-		shell.setText(getText());
+	// open the dialog and returns t
+	final public String open() {
+		Shell shell = new Shell(getParent(), getStyle());
+		shell.setText(message);
 		shell.addDisposeListener(new DisposeListener() {
 			public void widgetDisposed(DisposeEvent event) {
 				System.out.println("CHIUDI");

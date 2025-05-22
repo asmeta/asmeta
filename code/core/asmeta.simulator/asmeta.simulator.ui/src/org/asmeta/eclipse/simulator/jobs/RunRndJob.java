@@ -3,6 +3,7 @@ package org.asmeta.eclipse.simulator.jobs;
 import java.io.InputStream;
 import java.io.PrintStream;
 
+import org.asmeta.simulator.readers.AllowUndefMFReader;
 import org.asmeta.simulator.readers.MonFuncReader;
 import org.asmeta.simulator.readers.RandomMFReader;
 import org.eclipse.core.resources.IFile;
@@ -19,10 +20,8 @@ public class RunRndJob extends RunJob {
 	public RunRndJob(IFile asmFile){super(asmFile, true);}
 
 	@Override
-	protected MonFuncReader getUI(InputStream is, PrintStream printOut) {
+	protected AllowUndefMFReader getUI(InputStream is, PrintStream printOut) {
 		RandomMFReader randomMFReader = new RandomMFReader();
-		// check if undef are allowed in preferences
-		if (allowUndefValuesMonitored) randomMFReader.allowUndefValues = true;
 		return randomMFReader; 
 	}
 
