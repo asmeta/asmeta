@@ -44,7 +44,10 @@ import org.asmeta.simulator.RuleEvaluator;
 import org.asmeta.xt.validator.AsmetaV;
 import org.asmeta.xt.validator.RuleEvalWCov;
 
+import com.opencsv.CSVParser;
+import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvException;
 
 import org.asmeta.avallaxt.validation.RuleExtractorFromMacroDecl;
@@ -300,7 +303,8 @@ public class TestExperiments {
 				DASH + EvoAsmetaTgCLI.INPUT, asmPath, DASH + EvoAsmetaTgCLI.OUTPUT, avallaOutputDirectory,
 				DASH + EvoAsmetaTgCLI.JAVA_PATH, jdkPath, DASH + EvoAsmetaTgCLI.EVOSUITE_VERSION, "1.0.6",
 				DASH + EvoAsmetaTgCLI.EVOSUITE_PATH, "..\\asmeta.evotest.evoasmetatg\\evosuite\\evosuite-jar",
-				/* DASH + EvoAsmetaTgCLI.TIME_BUDGET, "1", */ DASH + EvoAsmetaTgCLI.CLEAN, "-DignoreDomainException=true");
+				/* DASH + EvoAsmetaTgCLI.TIME_BUDGET, "1", */ DASH + EvoAsmetaTgCLI.CLEAN,
+				"-DignoreDomainException=true");
 
 		Instant start = Instant.now();
 		EvoAsmetaTgCLI.main(evoAsmetaTgArguments.toArray(new String[0]));
@@ -616,7 +620,7 @@ public class TestExperiments {
 						failingScenarios++;
 						previosExecId = execId;
 					}
-				} catch (Exception e) {
+				} catch (Throwable e) {
 					System.err.println("Failed to validate the test: " + path.getFileName());
 					e.printStackTrace();
 				}
@@ -667,6 +671,9 @@ public class TestExperiments {
 		if (!lastExecId.equals("execution_id")) {
 			for (String[] row : rows) {
 				if (row[0].equals(lastExecId)) {
+					// if the signature contains commas, surround with double quotes
+					if (row[2].contains(","))
+						row[2] = "\"" + row[2] + "\"";
 					row[row.length - 1] = String.valueOf(failingScenarios);
 					extractedContent += String.join(",", row) + "\n";
 				}
@@ -693,9 +700,15 @@ public class TestExperiments {
 	 * @throws CsvException
 	 */
 	static List<String[]> readCsv(String filePath) throws IOException, CsvException {
-		try (CSVReader reader = new CSVReader(new FileReader(filePath))) {
-			return reader.readAll();
-		}
+		CSVParser parser = new CSVParserBuilder()
+                .withSeparator(',')
+                .withQuoteChar('"')
+                .build();
+        try (CSVReader reader = new CSVReaderBuilder(new FileReader(filePath))
+                .withCSVParser(parser)
+                .build()) {
+            return reader.readAll();
+        }
 	}
 
 }
