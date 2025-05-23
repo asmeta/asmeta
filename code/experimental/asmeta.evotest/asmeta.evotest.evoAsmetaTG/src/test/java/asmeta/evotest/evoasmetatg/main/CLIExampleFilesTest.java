@@ -52,8 +52,8 @@ public class CLIExampleFilesTest {
 	/** temp output folder */
 	private File tempOutputDir;
 
-	/** list of all the asm specification to test. */
-	private List<File> asmFiles;
+	private File testResourcesDir;
+
 
 	/**
 	 * Setup the test environment.
@@ -64,21 +64,13 @@ public class CLIExampleFilesTest {
 	 */
 	@Before
 	public void setup() {
-		File testResourcesDir = TEST_RESOURCES_DIR_PATH.toFile();
+		testResourcesDir = TEST_RESOURCES_DIR_PATH.toFile();
 		assertTrue(testResourcesDir.exists());
 		assertTrue(testResourcesDir.isDirectory());
-		this.asmFiles = new LinkedList<>();
 		this.tempOutputDir = new File(OUTPUT_DIR);
 		this.tempOutputDir.mkdir();
 		assertTrue(tempOutputDir.exists());
 		assertTrue(tempOutputDir.isDirectory());
-		for (File file : testResourcesDir.listFiles()) {
-			if (file.getName().endsWith(ASM_EXTENSION)) {
-				logger.info("Adding the file: {} to the test list.", file.getName());
-				this.asmFiles.add(file);
-			}
-
-		}
 	}
 
 	/**
@@ -86,8 +78,15 @@ public class CLIExampleFilesTest {
 	 */
 	@Test
 	@Category(TestToMavenSkip.class)
-	public void test() {
-
+	public void testAllSpecs() {
+		/** list of all the asm specification to test. */
+		List<File> asmFiles = new LinkedList<>();
+		for (File file : testResourcesDir.listFiles()) {
+			if (file.getName().endsWith(ASM_EXTENSION)) {
+				logger.info("Adding the file: {} to the test list.", file.getName());
+				asmFiles.add(file);
+			}
+		}
 		for (File file : asmFiles) {
 			assertEquals(0, testFile(file));
 		}
@@ -129,4 +128,12 @@ public class CLIExampleFilesTest {
 		tempOutputDir.delete();
 	}
 
+	
+	@Test
+	@Category(TestToMavenSkip.class)
+	public void testOneSpecificfile() {
+		File f = new File("..\\asmeta.evotest.experiments\\src\\main\\resources\\models\\QuickSort.asm");
+		assertTrue(f.exists());
+		testFile(f);
+	}	
 }
