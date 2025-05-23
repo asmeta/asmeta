@@ -37,7 +37,7 @@ public class CLIExampleFilesTest {
 	private static final Path TEST_RESOURCES_DIR_PATH = Paths.get("src", "test", "resources");
 	private static final String JAVA_PATH = "-javaPath";
 	// README: update with you path to the jdk-1.8 folder
-	private static final String JAVA_PATH_VALUE = Paths.get("C:","Program Files","Java","jdk-1.8").toString();
+	private static String JAVA_PATH_VALUE = Paths.get("C:","Program Files","Java","jdk-1.8").toString();
 	private static final String INPUT = "-input";
 	private static final String OUTPUT = "-output";
 	private static final String OUTPUT_DIR = "tempOutput";
@@ -119,7 +119,7 @@ public class CLIExampleFilesTest {
 	/**
 	 * Clean the temp output folder.
 	 */
-	@After
+	//@After
 	public void cleanTemp() {
 		logger.info("Cleaning the temp folder {}. ", tempOutputDir);
 		for (File file : tempOutputDir.listFiles()) {
@@ -132,6 +132,7 @@ public class CLIExampleFilesTest {
 	@Test
 	@Category(TestToMavenSkip.class)
 	public void testOneSpecificfile() {
+		JAVA_PATH_VALUE= "C:\\Program Files (x86)\\Java\\jre1.8.0_451";
 		File f = new File("..\\asmeta.evotest.experiments\\src\\main\\resources\\models\\QuickSort.asm");
 		assertTrue(f.exists());
 		testFile(f);
