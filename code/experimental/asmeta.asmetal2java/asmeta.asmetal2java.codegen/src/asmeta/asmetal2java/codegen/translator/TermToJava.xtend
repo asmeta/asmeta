@@ -603,9 +603,7 @@ class TermToJava extends ReflectiveVisitor<String> {
 
 	// Identifico la tipologia delle variabili e la loro posizione rispetto all'operatore
 	def dispatch String caseFunctionTermSupp(ControlledFunction fd, FunctionTerm ft) {
-
 		var StringBuffer functionTerm = new StringBuffer
-
 		if (ft.arguments === null) {
 			// Identifico Dx o Sx
 			if (ft.domain instanceof ConcreteDomain) {
@@ -615,15 +613,12 @@ class TermToJava extends ReflectiveVisitor<String> {
 						functionTerm.append(".value")
 					}
 				}
-
 			} else if (ft.domain instanceof SequenceDomain) {
-
 				functionTerm.append("_elem = Collections.unmodifiableList(Arrays.asList(");
-
+				// alcune volte sarebeb da mettere
+				//functionTerm.append("_elem = Collections.unmodifiableList(");
 			} else if (ft.domain instanceof MapDomain) {
-
 				functionTerm.append("")
-
 			} else {
 				if (leftHandSide)
 					functionTerm.append(".set(")
@@ -636,12 +631,9 @@ class TermToJava extends ReflectiveVisitor<String> {
 
 				}
 			}
-
 		}
-
 		// Identifico se la funzione dipende da delle variabili in ingresso
 		if (ft.arguments !== null) {
-
 			// Caso di studio con una sola variabile
 			if (ft.arguments.terms.size == 1) {
 

@@ -555,16 +555,15 @@ public class JavaGenerator extends AsmToJavaGenerator {
       EList<DomainDefinition> _domainDefinition = asm.getBodySection().getDomainDefinition();
       for (final DomainDefinition dd : _domainDefinition) {
         {
+          final String sig = this.createDomainToJavaSigDef(asm).visit(dd);
           String _name = dd.getDefinedDomain().getName();
           String _plus = (_name + ".elems = Collections.unmodifiableList(Arrays.asList");
-          String _visit = this.createDomainToJavaSigDef(asm).visit(dd);
-          String _plus_1 = (_plus + _visit);
+          String _plus_1 = (_plus + sig);
           String _plus_2 = (_plus_1 + ");\n");
           initial.append(_plus_2);
           String _name_1 = dd.getDefinedDomain().getName();
           String _plus_3 = (_name_1 + "_elems = Collections.unmodifiableList(Arrays.asList");
-          String _visit_1 = this.createDomainToJavaSigDef(asm).visit(dd);
-          String _plus_4 = (_plus_3 + _visit_1);
+          String _plus_4 = (_plus_3 + sig);
           String _plus_5 = (_plus_4 + ");\n");
           initial.append(_plus_5);
         }
