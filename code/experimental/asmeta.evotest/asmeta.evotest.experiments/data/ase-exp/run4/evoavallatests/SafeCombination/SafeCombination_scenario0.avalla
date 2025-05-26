@@ -1,9 +1,0 @@
-scenario SafeCombination_scenario0
-
-load SafeCombination.asm
-
-check currentLock = 1;
-set digitPad := 1;
-
-step
-

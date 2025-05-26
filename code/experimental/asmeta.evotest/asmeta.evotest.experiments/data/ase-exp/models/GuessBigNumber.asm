@@ -6,7 +6,6 @@
 asm GuessBigNumber
 
 import STDL/StandardLibrary
-import GuessBigNumber_MessagePrinter
 
 signature:
 	// DOMAINS
@@ -16,6 +15,7 @@ signature:
 	static hidden: Number
 	controlled attempt: Attempt
 	controlled win: Boolean
+	controlled smaller: Boolean
 
 definitions:
 	// DOMAIN DEFINITIONS
@@ -34,7 +34,11 @@ definitions:
 				endpar
 			else
 				par
-					r_printGuess[guess > hidden]
+					if guess > hidden then
+						smaller := true
+					else
+						smaller := false
+					endif
 					attempt := attempt - 1
 				endpar
 			endif

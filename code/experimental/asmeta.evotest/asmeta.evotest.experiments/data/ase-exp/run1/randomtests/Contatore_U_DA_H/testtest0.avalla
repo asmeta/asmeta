@@ -1,9 +1,0 @@
-scenario testtest0
-
-load ./src\main\resources\models\Contatore_U_DA_H.asm
-
-//// test name test@test0
-//// generated for (test goal): test0: NULL
-set click := false;
-step
-step

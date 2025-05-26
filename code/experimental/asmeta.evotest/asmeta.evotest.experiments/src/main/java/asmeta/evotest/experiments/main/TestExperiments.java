@@ -32,6 +32,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.asmeta.parser.ASMParser;
@@ -54,10 +55,10 @@ import org.asmeta.avallaxt.validation.RuleExtractorFromMacroDecl;
 
 public class TestExperiments {
 
-	private static final String REPORT_DIR = "report";
 	private static final String DATA_CSV = "data.csv";
-	private static final String RESOURCES = "src/main/resources";
-	private static final String MODELS = RESOURCES + "/models";
+	private static final String EXP_BASE_FOLDER = "data/ase-exp";
+	private static final String RESULTS = "results";
+	private static final String MODELS = EXP_BASE_FOLDER + "/models";
 	private static final String RANDOM_DIR = "randomtests";
 	private static final String ATGT_DIR = "atgttests";
 	private static final String EVOAVALLA_DIR = "evoavallatests";
@@ -69,15 +70,21 @@ public class TestExperiments {
 			"update_rule_coverage", "n_failing_scenarios");
 
 	private static String jdkPath;
+	private static String resultsPath;
 	private static String targetPath;
+	private static String randomDir;
+	private static String atgtDir;
+	private static String evoavallaDir;
 
 	/**
 	 * Run the tests
 	 * 
 	 * @param args The first argument is mandatory and must be the path to the Java
-	 *             JDK version 8, the second argument is the specification on which
-	 *             to run the tests (if not specified, the experiments will be run
-	 *             on all specifications in the model folder).
+	 *             JDK version 8. The second argument is mandatory and is used to
+	 *             set the folder where to store the results. The third argument is
+	 *             otpional and is used to set specification on which to run the
+	 *             tests (if not specified, the experiments will be run on all
+	 *             specifications in the model folder).
 	 * @throws Exception if any exception occurs
 	 */
 	public static void main(String[] args) throws Exception {
@@ -86,18 +93,17 @@ public class TestExperiments {
 		Logger.getLogger(AsmetaV.class).setLevel(Level.DEBUG);
 
 		jdkPath = args[0];
-		targetPath = MODELS + (args.length > 1 ? File.separator + args[1] : "");
-
-		// create parent directory (report) if it does not exist
-		File reportDir = new File(REPORT_DIR);
-		if (!reportDir.exists())
-			Files.createDirectories(new File(REPORT_DIR).toPath());
-
-		// clean the resource directories (possibly containing previous avalla
-		// scenarios) before executing
-		cleanDir(Path.of(RESOURCES).resolve(ATGT_DIR));
-		cleanDir(Path.of(RESOURCES).resolve(EVOAVALLA_DIR));
-		cleanDir(Path.of(RESOURCES).resolve(RANDOM_DIR));
+		resultsPath = EXP_BASE_FOLDER + File.separator + RESULTS + File.separator + args[1];
+		targetPath = MODELS + (args.length > 2 ? File.separator + args[2] : "");
+		randomDir = resultsPath + File.separator + RANDOM_DIR;
+		atgtDir = resultsPath + File.separator + ATGT_DIR;
+		evoavallaDir = resultsPath + File.separator + EVOAVALLA_DIR;
+		
+		// delete existing results and recreate the empty directory
+		File resultsDir = new File(resultsPath);
+		if (resultsDir.exists())
+			FileUtils.deleteDirectory(resultsDir);
+		Files.createDirectories(new File(resultsPath).toPath());
 
 		// eventually clean existing csv files and setup a new data.csv file
 		cleanCsv();
@@ -112,36 +118,11 @@ public class TestExperiments {
 	}
 
 	/**
-	 * Delete a directory recursively
-	 * 
-	 * @param pathToBeDeleted directory path to delete
-	 * @throws IOException if an I/O error occurs.
-	 */
-	private static void cleanDir(Path pathToBeDeleted) throws IOException {
-		if (!pathToBeDeleted.toFile().exists())
-			return;
-		Files.walkFileTree(pathToBeDeleted, new SimpleFileVisitor<Path>() {
-			@Override
-			public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
-				Files.delete(dir);
-				return FileVisitResult.CONTINUE;
-			}
-
-			@Override
-			public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-				Files.delete(file);
-				return FileVisitResult.CONTINUE;
-			}
-		});
-		System.out.println("cleaned the directory: " + pathToBeDeleted);
-	}
-
-	/**
 	 * Delete all the csv files in the report directory except for data.csv
 	 * 
 	 */
 	private static void cleanCsv() {
-		try (Stream<Path> files = Files.list(Path.of(REPORT_DIR))) {
+		try (Stream<Path> files = Files.list(Path.of(resultsPath))) {
 			files.forEach(path -> {
 				try {
 					String fileName = path.getFileName().toString();
@@ -154,7 +135,7 @@ public class TestExperiments {
 				}
 			});
 		} catch (IOException e) {
-			System.err.println("Error accessing directory: " + REPORT_DIR);
+			System.err.println("Error accessing directory: " + resultsPath);
 			e.printStackTrace();
 		}
 	}
@@ -165,7 +146,7 @@ public class TestExperiments {
 	 * 
 	 */
 	private static void setupCsv() {
-		File dataCsv = new File(REPORT_DIR + File.separator + DATA_CSV);
+		File dataCsv = new File(resultsPath + File.separator + DATA_CSV);
 		try {
 			FileOutputStream fos = new FileOutputStream(dataCsv, false);
 			PrintStream ps = new PrintStream(fos);
@@ -296,7 +277,7 @@ public class TestExperiments {
 	 */
 	private static List<Integer> runEvoAvalla(String asmPath, String asmFileName, Map<String, String> row)
 			throws Exception {
-		String evoAavallaTestDir = "./" + RESOURCES + "/" + EVOAVALLA_DIR;
+		String evoAavallaTestDir = evoavallaDir;
 		String avallaOutputDirectory = evoAavallaTestDir + "/" + asmFileName;
 
 		List<String> evoAsmetaTgArguments = List.of(DASH + EvoAsmetaTgCLI.WORKING_DIR, "./evoAvalla/",
@@ -346,7 +327,7 @@ public class TestExperiments {
 		}
 
 		// compute coverage and save results in the csv file
-		String reportCsv = REPORT_DIR + "/report_evoavalla.csv";
+		String reportCsv = resultsPath + "/report_evoavalla.csv";
 		computeCoverageFromAvalla(avallaOutputDirectory, reportCsv);
 
 		// Write to data.csv the info about evoavalla execution
@@ -395,8 +376,8 @@ public class TestExperiments {
 		long exeTime = Duration.between(start, end).toMillis();
 
 		// compute coverage and save results in the csv file
-		String reportCsv = REPORT_DIR + "/report_random.csv";
-		String avallaOutputDirectory = RESOURCES + "/" + RANDOM_DIR + "/" + asmFileName;
+		String reportCsv = resultsPath + "/report_random.csv";
+		String avallaOutputDirectory = randomDir + File.separator + asmFileName;
 		computeCoverageFromAsmTestSuite(asmPath, randomSuite, avallaOutputDirectory, reportCsv);
 		RuleEvalWCov.reset();
 
@@ -428,8 +409,8 @@ public class TestExperiments {
 		long exeTime = Duration.between(start, end).toMillis();
 
 		// compute coverage and save results in the csv file
-		String reportCsv = REPORT_DIR + "/report_atgt.csv";
-		String avallaOutputDirectory = RESOURCES + "/" + ATGT_DIR + "/" + asmFileName;
+		String reportCsv = resultsPath + "/report_atgt.csv";
+		String avallaOutputDirectory = atgtDir + File.separator + asmFileName;
 		computeCoverageFromAsmTestSuite(asmPath, nusmvSuite, avallaOutputDirectory, reportCsv);
 		RuleEvalWCov.reset();
 
@@ -550,7 +531,7 @@ public class TestExperiments {
 			row.put("n_failing_scenarios", failingScenarios);
 		}
 		// build the actual row
-		String dataCsv = REPORT_DIR + File.separator + DATA_CSV;
+		String dataCsv = resultsPath + File.separator + DATA_CSV;
 		String[] actualRow = new String[CSV_HEADERS.size()];
 		for (String key : row.keySet()) {
 			int index = CSV_HEADERS.indexOf(key);
@@ -700,15 +681,10 @@ public class TestExperiments {
 	 * @throws CsvException
 	 */
 	static List<String[]> readCsv(String filePath) throws IOException, CsvException {
-		CSVParser parser = new CSVParserBuilder()
-                .withSeparator(',')
-                .withQuoteChar('"')
-                .build();
-        try (CSVReader reader = new CSVReaderBuilder(new FileReader(filePath))
-                .withCSVParser(parser)
-                .build()) {
-            return reader.readAll();
-        }
+		CSVParser parser = new CSVParserBuilder().withSeparator(',').withQuoteChar('"').build();
+		try (CSVReader reader = new CSVReaderBuilder(new FileReader(filePath)).withCSVParser(parser).build()) {
+			return reader.readAll();
+		}
 	}
 
 }
