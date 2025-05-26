@@ -37,7 +37,7 @@ public class CLIExampleFilesTest {
 	private static final Path TEST_RESOURCES_DIR_PATH = Paths.get("src", "test", "resources");
 	private static final String JAVA_PATH = "-javaPath";
 	// README: update with you path to the jdk-1.8 folder
-	private static final String JAVA_PATH_VALUE = Paths.get("C:","Program Files","Java","jdk-1.8").toString();
+	private static String JAVA_PATH_VALUE = Paths.get("C:","Program Files","Java","jdk-1.8").toString();
 	private static final String INPUT = "-input";
 	private static final String OUTPUT = "-output";
 	private static final String OUTPUT_DIR = "tempOutput";
@@ -52,8 +52,8 @@ public class CLIExampleFilesTest {
 	/** temp output folder */
 	private File tempOutputDir;
 
-	/** list of all the asm specification to test. */
-	private List<File> asmFiles;
+	private File testResourcesDir;
+
 
 	/**
 	 * Setup the test environment.
@@ -64,21 +64,13 @@ public class CLIExampleFilesTest {
 	 */
 	@Before
 	public void setup() {
-		File testResourcesDir = TEST_RESOURCES_DIR_PATH.toFile();
+		testResourcesDir = TEST_RESOURCES_DIR_PATH.toFile();
 		assertTrue(testResourcesDir.exists());
 		assertTrue(testResourcesDir.isDirectory());
-		this.asmFiles = new LinkedList<>();
 		this.tempOutputDir = new File(OUTPUT_DIR);
 		this.tempOutputDir.mkdir();
 		assertTrue(tempOutputDir.exists());
 		assertTrue(tempOutputDir.isDirectory());
-		for (File file : testResourcesDir.listFiles()) {
-			if (file.getName().endsWith(ASM_EXTENSION)) {
-				logger.info("Adding the file: {} to the test list.", file.getName());
-				this.asmFiles.add(file);
-			}
-
-		}
 	}
 
 	/**
@@ -86,8 +78,15 @@ public class CLIExampleFilesTest {
 	 */
 	@Test
 	@Category(TestToMavenSkip.class)
-	public void test() {
-
+	public void testAllSpecs() {
+		/** list of all the asm specification to test. */
+		List<File> asmFiles = new LinkedList<>();
+		for (File file : testResourcesDir.listFiles()) {
+			if (file.getName().endsWith(ASM_EXTENSION)) {
+				logger.info("Adding the file: {} to the test list.", file.getName());
+				asmFiles.add(file);
+			}
+		}
 		for (File file : asmFiles) {
 			assertEquals(0, testFile(file));
 		}
@@ -120,7 +119,7 @@ public class CLIExampleFilesTest {
 	/**
 	 * Clean the temp output folder.
 	 */
-	@After
+	//@After
 	public void cleanTemp() {
 		logger.info("Cleaning the temp folder {}. ", tempOutputDir);
 		for (File file : tempOutputDir.listFiles()) {
@@ -129,4 +128,13 @@ public class CLIExampleFilesTest {
 		tempOutputDir.delete();
 	}
 
+	
+	@Test
+	@Category(TestToMavenSkip.class)
+	public void testOneSpecificfile() {
+		JAVA_PATH_VALUE= "C:\\Program Files (x86)\\Java\\jre1.8.0_451";
+		File f = new File("..\\asmeta.evotest.experiments\\src\\main\\resources\\models\\QuickSort.asm");
+		assertTrue(f.exists());
+		testFile(f);
+	}	
 }

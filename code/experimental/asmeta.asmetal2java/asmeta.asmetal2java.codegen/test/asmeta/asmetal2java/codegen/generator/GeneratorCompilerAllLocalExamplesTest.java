@@ -93,5 +93,12 @@ public class GeneratorCompilerAllLocalExamplesTest {
 		System.out.println(genandcompile);
 	}
 
+	@Test
+	public void testSingleExamplewithproblems2() throws Exception {
+		String fileName = "examples\\QuickSort.asm";
+		CompileResult genandcompile = GeneratorCompilerUtil.genandcompile(fileName , options,
+				GeneratorCompilerUtil.dirTraduzione, GeneratorCompilerUtil.dirCompilazione);
+		System.out.println(genandcompile);
+	}
 	
 }

@@ -1,28 +1,28 @@
 package asmeta.asmetal2java.codegen.generator;
 
-import asmeta.definitions.ControlledFunction
-import asmeta.definitions.DerivedFunction
-import asmeta.definitions.RuleDeclaration
-import asmeta.definitions.StaticFunction
-import asmeta.definitions.domains.AbstractTd
-import asmeta.definitions.domains.EnumTd
-import asmeta.structure.Asm
-import asmeta.transitionrules.basictransitionrules.Rule
 import asmeta.asmetal2java.codegen.config.TranslatorOptions
 import asmeta.asmetal2java.codegen.translator.DomainToJavaSigDef
+import asmeta.asmetal2java.codegen.translator.DomainToJavaString
 import asmeta.asmetal2java.codegen.translator.FindMonitoredInControlledFunct
+import asmeta.asmetal2java.codegen.translator.FunctionClassDef
 import asmeta.asmetal2java.codegen.translator.FunctionToJavaDef
 import asmeta.asmetal2java.codegen.translator.FunctionToJavaSig
 import asmeta.asmetal2java.codegen.translator.RuleToJava
 import asmeta.asmetal2java.codegen.translator.SeqRuleCollector
 import asmeta.asmetal2java.codegen.translator.Util
-import asmeta.asmetal2java.codegen.translator.DomainToJavaString
+import asmeta.definitions.ControlledFunction
+import asmeta.definitions.DerivedFunction
+import asmeta.definitions.RuleDeclaration
+import asmeta.definitions.StaticFunction
+import asmeta.definitions.domains.AbstractTd
+import asmeta.definitions.domains.ConcreteDomain
+import asmeta.definitions.domains.EnumTd
+import asmeta.definitions.domains.ProductDomain
+import asmeta.structure.Asm
+import asmeta.transitionrules.basictransitionrules.Rule
 import java.util.ArrayList
 import java.util.List
 import org.junit.Assert
-import asmeta.asmetal2java.codegen.translator.FunctionClassDef
-import asmeta.definitions.domains.ConcreteDomain
-import asmeta.definitions.domains.ProductDomain
 
 /** 
  * Generates the translation of an Asm specification to a java class from an ASMeta specification.
@@ -316,13 +316,12 @@ class JavaGenerator extends AsmToJavaGenerator {
 
 		if (asm.bodySection !== null && asm.bodySection.domainDefinition !== null) {
 			for (dd : asm.bodySection.domainDefinition) {
-
+				// translate the domain definition
+				val sig = createDomainToJavaSigDef(asm).visit(dd)
 				initial.append(
-					dd.definedDomain.name + ".elems = Collections.unmodifiableList(Arrays.asList" +
-						createDomainToJavaSigDef(asm).visit(dd) + ");\n")
+					dd.definedDomain.name + ".elems = Collections.unmodifiableList(Arrays.asList" +	sig + ");\n")
 				initial.append(
-					dd.definedDomain.name + "_elems = Collections.unmodifiableList(Arrays.asList" +
-						createDomainToJavaSigDef(asm).visit(dd) + ");\n")
+					dd.definedDomain.name + "_elems = Collections.unmodifiableList(Arrays.asList" +	sig + ");\n")
 			}
 		}
 

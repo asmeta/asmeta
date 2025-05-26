@@ -43,6 +43,7 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 		var StringBuffer sb = new StringBuffer
 
 		if (object.codomain instanceof SequenceDomain || object.domain instanceof SequenceDomain) {
+			// example qsort: Seq(Integer) -> Seq(Integer)			
 			sb.append('''
 				«object.name».init(new ArrayList<>(Arrays.asList(«visit(object.initialization.get(0).body)»)));
 			''')
