@@ -133,7 +133,8 @@ public class CLIExampleFilesTest {
 	@Category(TestToMavenSkip.class)
 	public void testOneSpecificfile() {
 		JAVA_PATH_VALUE= "C:\\Program Files (x86)\\Java\\jre1.8.0_451";
-		File f = new File("..\\asmeta.evotest.experiments\\src\\main\\resources\\models\\QuickSort.asm");
+		//File f = new File("..\\asmeta.evotest.experiments\\src\\main\\resources\\models\\QuickSort.asm");
+		File f = new File("..\\asmeta.evotest.experiments\\src\\main\\resources\\models\\Population.asm");
 		assertTrue(f.exists());
 		testFile(f);
 	}	
