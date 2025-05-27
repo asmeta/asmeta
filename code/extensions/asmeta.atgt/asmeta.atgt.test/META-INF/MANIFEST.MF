@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: AsmetaTGT Test
 Bundle-SymbolicName: asmeta.atgt.test
-Bundle-Version: 24.06
+Bundle-Version: 25.04
 Automatic-Module-Name: asmeta.atgt.test
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Require-Bundle: asmeta.atgt,

@@ -18,7 +18,7 @@ signature:
 
     static  referencedProduct : Orders -> Products
     static	orderQuantity : Orders -> Quantity
-    static	pendingOrders: Products -> Powerset(Orders)
+    derived	pendingOrders: Products -> Powerset(Orders)
     controlled  orderState : Orders -> OrderStatus
     controlled  stockQuantity : Products -> Quantity
 

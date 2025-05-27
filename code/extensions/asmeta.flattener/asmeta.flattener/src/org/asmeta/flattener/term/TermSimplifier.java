@@ -424,9 +424,9 @@ public class TermSimplifier extends ReflectiveVisitor<Term> {
 		Term firstArg = visit(args.get(0));
 		Term secondArg = visit(args.get(1));
 		if ((firstArg instanceof IntegerTerm || firstArg instanceof NaturalTerm)
-				&& (secondArg instanceof IntegerTerm || secondArg instanceof NaturalTerm)) {
-			int v1 = Integer.parseInt(((ConstantTerm) firstArg).getSymbol());
-			int v2 = Integer.parseInt(((ConstantTerm) secondArg).getSymbol());
+				&& (secondArg instanceof IntegerTerm || secondArg instanceof NaturalTerm)) {			
+			int v1 = intOrNatToint((ConstantTerm)firstArg);
+			int v2 = intOrNatToint((ConstantTerm) secondArg);
 			IntegerTerm intTerm = ruleFact.createIntegerTerm();
 			intTerm.setSymbol(intRelation.apply(v1, v2).toString());
 			logger.debug("math operator simplified");
@@ -434,6 +434,15 @@ public class TermSimplifier extends ReflectiveVisitor<Term> {
 			return intTerm;
 		}
 		return buildNewFuncTerm(funcTerm, firstArg, secondArg);
+	}
+	
+	private int intOrNatToint(ConstantTerm num) {
+		String sym = num.getSymbol();
+		if (num instanceof NaturalTerm) {
+			assert sym.endsWith("n");
+			sym = sym.substring(0, sym.length()-1);
+		}
+		return Integer.parseInt(sym);
 	}
 
 	public Term visit(MapTerm mapTerm) {

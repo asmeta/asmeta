@@ -19,10 +19,10 @@ signature:
 definitions:
 
 	invariant inv_Center_x_c3 over center : 
-	  (not firstStep implies ( abs( first(center(c3)) - ( first(sumPoints(c3)) / ntor(size(c3)))) < 0.2 ))
+	  (not firstStep implies ( abs( first(center(c3)) - ( first(sumPoints(c3)) / itor(size(c3)))) < 0.2 ))
 	      
 	invariant inv_Center_x_c4 over center : 
-	  (not firstStep implies ( abs( first(center(c4)) - ( first(sumPoints(c4)) / ntor(size(c4)))) < 0.2 ))
+	  (not firstStep implies ( abs( first(center(c4)) - ( first(sumPoints(c4)) / itor(size(c4)))) < 0.2 ))
 
    main rule r_test =
      	if firstStep then

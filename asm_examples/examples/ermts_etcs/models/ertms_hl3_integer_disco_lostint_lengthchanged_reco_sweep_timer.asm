@@ -48,14 +48,14 @@ signature:
 	dynamic controlled integrityloss_propagation_timer: Vss -> Boolean
 	derived vss_rear_train: Trains -> Vss
 	derived vss_advance_train: Trains -> Vss
-	derived vss_advance_vss: Vss -> Vss
-	derived vss_related_to_train_position: Vss_Units -> Vss
-	derived position_related_to_vss: Vss -> Vss_Count
-	derived start_vss_position: Vss -> Vss_Units
-	derived vss_absolute_to_relative_position: Vss_Units -> Vss_Count
+	static vss_advance_vss: Vss -> Vss
+	static vss_related_to_train_position: Vss_Units -> Vss
+	static position_related_to_vss: Vss -> Vss_Count
+	static start_vss_position: Vss -> Vss_Units
+	static vss_absolute_to_relative_position: Vss_Units -> Vss_Count
 	derived ma_on_vss: Prod(Vss, Trains) -> Boolean
-	derived vss_rear_ttd: Prod(Vss, Ttd) -> Boolean
-	derived last_vss_onthe_ttd: Ttd -> Vss
+	static vss_rear_ttd: Prod(Vss, Ttd) -> Boolean
+	static last_vss_onthe_ttd: Ttd -> Vss
 
 //	TTD States	
 	dynamic controlled ttd_states: Ttd -> Ttd_state
@@ -66,12 +66,12 @@ signature:
 	derived ttd_rear_train: Trains -> Ttd
 	derived train_on_ttd: Prod(Ttd, Trains) -> Boolean
 	derived ma_on_ttd: Prod(Ttd, Trains) -> Boolean
-	derived vss_on_ttd: Vss -> Ttd
+	static vss_on_ttd: Vss -> Ttd
 	derived ttd_status_free: Ttd -> Ttd_state
 	derived lefting_ttd_check_status_free: Ttd -> Ttd_state
-	derived position_related_to_ttd: Ttd -> Ttd_Count
-	derived ttd_related_to_absolute_position: Vss_Units -> Ttd_Count
-	derived ttd_related_to_position: Vss_Units -> Ttd
+	static position_related_to_ttd: Ttd -> Ttd_Count
+	static ttd_related_to_absolute_position: Vss_Units -> Ttd_Count
+	static ttd_related_to_position: Vss_Units -> Ttd
 
 //	TRAIN States	
 	dynamic controlled trains_integer: Trains -> Boolean
@@ -89,7 +89,7 @@ signature:
 	derived train_travel_space: Trains -> Vss_Units
 	derived train_left_vss : Trains -> Boolean
 	derived train_has_crossed_ttd: Trains -> Boolean
-	derived train_is_rear_ttd: Prod(Ttd, Vss_Units) -> Boolean
+	static train_is_rear_ttd: Prod(Ttd, Vss_Units) -> Boolean
 	derived min_safe_rear_end: Trains -> Vss_Units
 	derived train_rear_another_train: Prod(Trains, Trains) -> Boolean
 	derived train_inthis_vss: Prod(Trains, Vss) -> Boolean

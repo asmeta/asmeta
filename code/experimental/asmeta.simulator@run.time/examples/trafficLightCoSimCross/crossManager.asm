@@ -8,7 +8,7 @@ signature:
 	enum domain ControllerStatus = {CONTR_OFF | STANDBY | OPERATE}
 	
 	//FUNCTIONS
-	monitored pedestrianCall: Boolean
+	monitored pedestrianComing: Boolean
 	monitored tramComing: Boolean
 	monitored statusC: ControllerStatus
 	

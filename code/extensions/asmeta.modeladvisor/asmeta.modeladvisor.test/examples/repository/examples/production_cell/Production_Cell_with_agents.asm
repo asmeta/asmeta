@@ -42,7 +42,7 @@ signature:
 	
 	dynamic monitored piecefeedbeltlightbarrier : Boolean
 	derived tablereadyforloading: TransportAgent -> Boolean
-	static tableinloadposition: TransportAgent-> Boolean
+	/*static*/ derived tableinloadposition: TransportAgent-> Boolean
 	dynamic controlled currphaseTra:  TransportAgent -> Phasetransport 
 	
 //function for Agent "ERT"
@@ -61,12 +61,12 @@ signature:
 	dynamic monitored loaddepbeltposreached: Boolean
 	dynamic monitored loadpressposreached: Boolean
 	dynamic monitored unloadtableposreached: Boolean
-	static tablereadyforunloading: ROBOTAgent -> Boolean
-	static pressreadyforloading: ROBOTAgent ->Boolean
-	static pressreadyforunloading: ROBOTAgent ->Boolean
-	static pressinloadposition: ROBOTAgent ->Boolean
-	static pressinunloadposition: ROBOTAgent -> Boolean
-	static tableinunloadposition: ROBOTAgent -> Boolean
+	/*static*/ derived tablereadyforunloading: ROBOTAgent -> Boolean
+	/*static*/ derived pressreadyforloading: ROBOTAgent ->Boolean
+	/*static*/ derived pressreadyforunloading: ROBOTAgent ->Boolean
+	/*static*/ derived pressinloadposition: ROBOTAgent ->Boolean
+	/*static*/ derived pressinunloadposition: ROBOTAgent -> Boolean
+	/*static*/ derived tableinunloadposition: ROBOTAgent -> Boolean
 
 //function for Agent "PRESS"	
 	dynamic controlled currphasep : PRESSAgent -> Phasepress

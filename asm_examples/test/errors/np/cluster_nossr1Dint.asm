@@ -48,7 +48,7 @@ definitions:
 
     rule r_setCenter($c in Cluster) = 
     	let ($sum_ps = sumPoints($c)) in
-    	mean($c) :=  itor($sum_ps) / ntor(size($c))
+    	mean($c) :=  itor($sum_ps) / itor(size($c))
     	endlet
 
 	// move point p from d_i to d_j
@@ -57,7 +57,7 @@ definitions:
     rule r_move($p in Integer, $d_i in Cluster,$d_j in Cluster) =      
     	// store the current values of centers
 	    let ($old_ci = mean($d_i), $old_cj = mean($d_j), 
-	         $n_i = ntor(size($d_i)), $n_j = ntor(size($d_j))) in
+	         $n_i = itor(size($d_i)), $n_j = itor(size($d_j))) in
 	   		seq
 	   		// add $p to $c2
 	   		$d_j := including($d_j,$p) // $d_j($p):= true
@@ -72,7 +72,7 @@ definitions:
 
 	rule r_step = 
 		// take a cluster c1 with at least 2 points 
-		choose $c1 in clusters with size($c1) > 1n do
+		choose $c1 in clusters with size($c1) > 1 do
 			// take a point $p in $c1
 			// take a second cluster such that ... 		
 		   choose $p in $c1, $c2 in clusters with $c1 != $c2 do 
@@ -88,7 +88,7 @@ definitions:
 
 	invariant inv_mean over mean: 
 	  not firstStep implies (forall $c in clusters with 
-    	( abs( mean($c) - ( itor(sumPoints($c)) / ntor(size($c))))) < 0.2 )
+    	( abs( mean($c) - ( itor(sumPoints($c)) / itor(size($c))))) < 0.2 )
 
 	
 

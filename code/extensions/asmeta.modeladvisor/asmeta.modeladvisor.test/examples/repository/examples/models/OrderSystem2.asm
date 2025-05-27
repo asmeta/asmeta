@@ -32,7 +32,7 @@ signature:
 definitions:
 	
 	macro rule r_DeleteStock($p in Products ,$q in Quantity) = 
-		stockQuantity($p):= stockQuantity($p) - $q
+		stockQuantity($p):= iton(stockQuantity($p) - $q)
 	
 	rule r_InvoiceSingleOrder = 
 		choose $order in Orders with 

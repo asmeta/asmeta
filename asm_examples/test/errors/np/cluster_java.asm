@@ -68,7 +68,7 @@ definitions:
 	
 /*	function newSSRC($c in Cluster, $p in Point, $cp in Point) =
    	 let ($tmp = if contains($c,$p) then - 1.0 else 1.0 endif) in    
-       ntor(size($c)) / ( ntor(size($c)) + $tmp ) * distance2($p,$cp) 
+       itor(size($c)) / ( itor(size($c)) + $tmp ) * distance2($p,$cp) 
      endlet
 */	
    	function newSSR($c in Cluster, $p in Point) = newSSRC($c, $p , center($c))
@@ -90,7 +90,7 @@ definitions:
 
     rule r_setMean($c in Cluster) = 
     	let ($sum_ps = sumPoints($c)) in
-    	center($c) := ( x($sum_ps) / ntor(size($c)) , y($sum_ps) / ntor(size($c)))
+    	center($c) := ( x($sum_ps) / itor(size($c)) , y($sum_ps) / itor(size($c)))
     	endlet
 
 	// move point p from d_i to d_j
@@ -98,7 +98,7 @@ definitions:
 	
     rule r_move($p in Point, $d_i in Cluster,$d_j in Cluster) =      
     	// store the current values of centers
-	    let ($old_ci = center($d_i), $old_cj = center($d_j), $n_i = ntor(size($d_i)), $n_j = ntor(size($d_j))) in
+	    let ($old_ci = center($d_i), $old_cj = center($d_j), $n_i = itor(size($d_i)), $n_j = itor(size($d_j))) in
 	   		seq
 	   		// add $p to $c2
 	   		$d_j := adding($d_j,$p) // $d_j($p):= true
@@ -125,7 +125,7 @@ definitions:
 		// take a cluster c1 with at least 2 points 
 		// take a point $p in it
 		// take a second cluster such that 		
-		choose $c1 in clusters with size($c1) > 1n do
+		choose $c1 in clusters with size($c1) > 1 do
 		   choose $p in $c1, $c2 in clusters with  
 					(forall $cc in clusters with newSSR($c2,$p) <= newSSR($cc,$p) )do
 					// move p from 
@@ -147,11 +147,11 @@ definitions:
 
 	invariant inv_Center_x over center : 
 	  not firstStep implies (forall $c in clusters with 
-    	( abs( x(center($c)) - ( x(sumPoints($c)) / ntor(size($c))))) < 0.2 )
+    	( abs( x(center($c)) - ( x(sumPoints($c)) / itor(size($c))))) < 0.2 )
 
 /*	invariant inv_Center_y over center :
 	  not firstStep implies (forall $c in clusters with 
-       ( abs( y(center($c)) - ( y(sumPoints($c)) / ntor(size($c))))) < 0.2 )
+       ( abs( y(center($c)) - ( y(sumPoints($c)) / itor(size($c))))) < 0.2 )
 */
 
 

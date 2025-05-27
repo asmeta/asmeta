@@ -22,12 +22,12 @@ signature:
 	dynamic monitored dirMon: Dir
 	static carDir: Car -> CarDir
 	derived isMovePermitted: Prod(Car, Dir) -> Boolean
-	derived rMove: Prod(Car, Dir) -> Num
-	derived cMove: Prod(Car, Dir) -> Num
-	derived rMoveP: Prod(Car, Dir) -> Num
-	derived cMoveP: Prod(Car, Dir) -> Num
+	static rMove: Prod(Car, Dir) -> Num
+	static cMove: Prod(Car, Dir) -> Num
+	static rMoveP: Prod(Car, Dir) -> Num
+	static cMoveP: Prod(Car, Dir) -> Num
 	static redCar: Num
-	static redCarAtExit: Boolean
+	derived redCarAtExit: Boolean
 
 definitions:
 	domain Coord = {0 : 5}

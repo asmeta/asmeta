@@ -44,7 +44,22 @@ To use the asmeta framework in Eclipse IDE you need to install:
 
 ### eclispe with asmeta ready to use:
 
-new version 24.06! new TL operators names and minor fixes - multiple architecture (win, lin, macos):
+new version 25.04 news:
+ - pick command is now introduced (see our NFM paper)
+ - coverage of branches and decisions
+ - some problems with dark theme
+ - double messages in the console
+
+new version 25.03 news:
+ - static and derived functions are now distinguished
+ - invariant are translated to INVARSPEC
+ - other minor bugs fixed
+
+##### for windows 64 bit:
+https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2025_03_win64.zip
+
+### older version multiplatform
+version 24.06! new TL operators names and minor fixes - multiple architecture (win, lin, macos):
 
 #### for windows 64 bit:
 https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2024_06_win64.zip

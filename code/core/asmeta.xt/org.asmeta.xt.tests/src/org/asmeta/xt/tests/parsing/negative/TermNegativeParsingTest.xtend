@@ -328,7 +328,7 @@ class TermNegativeParsingTest {
 			import StandardLibrary
 			signature:
 				abstract domain Philosopher
-				derived leftNeighbour: Philosopher -> Philosopher
+				static leftNeighbour: Philosopher -> Philosopher
 			
 				static philo1: Philosopher
 				static philo2: Philosopher
@@ -356,7 +356,7 @@ class TermNegativeParsingTest {
 				abstract domain Philosopher
 				abstract domain PhilosopherOther
 				
-				derived leftNeighbour: Philosopher -> Philosopher
+				static leftNeighbour: Philosopher -> Philosopher
 			
 				static philo1: Philosopher
 				static philo2: Philosopher
@@ -386,7 +386,7 @@ class TermNegativeParsingTest {
 				abstract domain Philosopher
 				abstract domain PhilosopherOther
 				
-				derived leftNeighbour: Philosopher -> Philosopher
+				static leftNeighbour: Philosopher -> Philosopher
 			
 				static philo1: Philosopher
 				static philo2: Philosopher
@@ -416,7 +416,7 @@ class TermNegativeParsingTest {
 			signature:
 				abstract domain Philosopher
 				abstract domain PhilosopherOther
-				derived leftNeighbour: Philosopher -> Philosopher
+				static leftNeighbour: Philosopher -> Philosopher
 			
 				static philo1: Philosopher
 				static philo2: Philosopher

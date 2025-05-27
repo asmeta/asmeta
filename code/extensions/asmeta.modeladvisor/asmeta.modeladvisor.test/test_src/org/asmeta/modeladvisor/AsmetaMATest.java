@@ -11,7 +11,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.asmeta.modeladvisor.AsmetaMA.ExecCheck;
+import org.asmeta.nusmv.MapVisitor;
+import org.asmeta.nusmv.NuSMVRuleVisitor;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -52,6 +56,7 @@ public class AsmetaMATest {
 	
 	@Test
 	public void testChooseBoolean() throws Exception {
+		Logger.getLogger(AsmetaMA.class).setLevel(Level.DEBUG);
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/chooseBoolean.asm");
 		asmetaMA.activateExecCheck(ExecCheck.execRuleIsReached,true);
 		Map<String, Boolean> result = asmetaMA.runCheck();
@@ -683,25 +688,50 @@ public class AsmetaMATest {
 
 	
 	@Test
-	public void testIncosistentUpdate() throws Exception {
-		// questo elimina lil consiteupdate durante la traduzione
-		//TOFIX
+	public void testInconsistentUpdateSimple() throws Exception {
+		//Logger.getLogger(NuSMVRuleVisitor.class).setLevel(Level.DEBUG);
+		// questo elimina il consiteupdate durante la traduzione
+		// TOFIX
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/inconsistentUpdatesSimple.asm");
 		asmetaMA.activateExecCheck(ExecCheck.execInconsistentUpdates,true);
 		AsmetaSMVOptions.setPrintNuSMVoutput(true);
-		asmetaMA.runCheck();		
-		System.out.println(asmetaMA.inconUpd.inconUpdate);
+		Map<String, Boolean> result = asmetaMA.runCheck();
+		System.err.println(result);
+		assertTrue(result.containsValue(Boolean.FALSE));
+		assertTrue(asmetaMA.inconUpd.inconUpdate.containsKey("fooG"));
 	}
 
 	@Test
-	public void testIncosistentUpdate2() throws Exception {
+	public void testInconsistentUpdateSimple2() throws Exception {
 		// this is correct
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/inconsistentUpdatesSimple2.asm");
 		asmetaMA.activateExecCheck(ExecCheck.execInconsistentUpdates,true);
 		AsmetaSMVOptions.setPrintNuSMVoutput(true);
-		asmetaMA.runCheck();		
+		Map<String, Boolean> result = asmetaMA.runCheck();
+		System.err.println(result);
+		assertTrue(result.containsValue(Boolean.FALSE));
 		assertTrue(asmetaMA.inconUpd.inconUpdate.containsKey("fooG"));
 	}
 
+	@Test
+	public void testInconsistentUpdateSimple3() throws Exception {
+		// this is correct
+		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/inconsistentUpdatesSimple3.asm");
+		asmetaMA.activateExecCheck(ExecCheck.execInconsistentUpdates,true);
+		AsmetaSMVOptions.setPrintNuSMVoutput(true);
+		Map<String, Boolean> result = asmetaMA.runCheck();
+		assertTrue(result.isEmpty());
+		assertTrue(asmetaMA.inconUpd.inconUpdate.isEmpty());
+	}
+	@Test
+	public void testInconsistentUpdateSimple4() throws Exception {
+		// this is correct
+		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/inconsistentUpdatesSimple4.asm");
+		asmetaMA.activateExecCheck(ExecCheck.execInconsistentUpdates,true);
+		AsmetaSMVOptions.setPrintNuSMVoutput(true);
+		Map<String, Boolean> result = asmetaMA.runCheck();
+		assertTrue(result.isEmpty());
+		assertTrue(asmetaMA.inconUpd.inconUpdate.isEmpty());
+	}
 
 }

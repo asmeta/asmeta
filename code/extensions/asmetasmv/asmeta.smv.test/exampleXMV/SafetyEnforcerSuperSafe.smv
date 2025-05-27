@@ -1,0 +1,58 @@
+--file exampleXMV/SafetyEnforcerSuperSafe.smv
+-- options: flatten? false
+MODULE main
+	VAR
+		a_max: real; --controlled
+		actual_distance_contr: real; --controlled
+		b_max: real; --controlled
+		b_min: real; --controlled
+		currentAgentAction: {ACTIONS_UNDEF, FASTER, IDLE, LANE_LEFT, LANE_RIGHT, SLOWER}; --controlled
+		dRSS_contr: real; --controlled
+		dRSS_upper_bound_contr: real; --controlled
+		inputAction: {ACTIONS_UNDEF, FASTER, IDLE, LANE_LEFT, LANE_RIGHT, SLOWER}; --monitored
+		l_vehicle: real; --controlled
+		outAction: {ACTIONS_UNDEF, FASTER, IDLE, LANE_LEFT, LANE_RIGHT, SLOWER}; --controlled
+		resp_time: real; --controlled
+		v_front: real; --monitored
+		v_self: real; --monitored
+		x_front: real; --monitored
+		x_self: real; --monitored
+	DEFINE
+		actual_distance := ((x_front - x_self) - l_vehicle);
+		current_max_acc :=
+			case
+				!(v_self = v_max): a_max;
+				(v_self = v_max): 0.0;
+				TRUE: null;
+			esac;
+		dRSS := (case 0.0 >= ((((v_self * resp_time) + ((0.5 * current_max_acc) * (resp_time * resp_time))) + (((v_self + (resp_time * current_max_acc)) * (v_self + (resp_time * current_max_acc))) / (2.0 * b_min))) - ((v_front * v_front) / (2.0 * b_max))) : 0.0; TRUE: (((((v_self * resp_time) + ((0.5 * current_max_acc) * (resp_time * resp_time))) + (((v_self + (resp_time * current_max_acc)) * (v_self + (resp_time * current_max_acc))) / (2.0 * b_min))) - ((v_front * v_front) / (2.0 * b_max)))); esac);
+		dRSS_upper_bound := (case 0.0 >= (((v_max * resp_time) + ((0.5 * a_max) * (resp_time * resp_time))) + (((v_max + (resp_time * a_max)) * (v_max + (resp_time * a_max))) / (2.0 * b_min))) : 0.0; TRUE: ((((v_max * resp_time) + ((0.5 * a_max) * (resp_time * resp_time))) + (((v_max + (resp_time * a_max)) * (v_max + (resp_time * a_max))) / (2.0 * b_min)))); esac);
+		v_max := 40.0;
+	CONSTANTS ACTIONS_UNDEF, FASTER, IDLE, LANE_LEFT, LANE_RIGHT, SLOWER;
+	ASSIGN
+		init(a_max) := 5.0;
+		init(b_max) := 5.0;
+		init(b_min) := 3.0;
+		init(currentAgentAction) := ACTIONS_UNDEF;
+		init(l_vehicle) := 5.0;
+		init(outAction) := ACTIONS_UNDEF;
+		init(resp_time) := 1.0;
+		next(a_max) := a_max;
+		next(actual_distance_contr) := actual_distance;
+		next(b_max) := b_max;
+		next(b_min) := b_min;
+		next(currentAgentAction) := inputAction;
+		next(dRSS_contr) := dRSS;
+		next(dRSS_upper_bound_contr) := dRSS_upper_bound;
+		next(l_vehicle) := l_vehicle;
+		next(outAction) :=
+			case
+				(TRUE & (actual_distance <= dRSS_upper_bound)): SLOWER;
+				(TRUE & (actual_distance > dRSS_upper_bound)): inputAction;
+				TRUE: outAction;
+			esac;
+		next(resp_time) := resp_time;
+--AsmetaL invariants
+INVARSPEC NAME inv_p0 := (v_self > 0.0);
+INVARSPEC NAME inv_1 := (dRSS_upper_bound > dRSS);
+INVARSPEC NAME inv_2 := (a_max < dRSS);

@@ -23,6 +23,7 @@ import asmeta.terms.furtherterms.IntegerTerm;
 import asmeta.terms.furtherterms.LetTerm;
 import asmeta.terms.furtherterms.MapTerm;
 import asmeta.terms.furtherterms.NaturalTerm;
+import asmeta.terms.furtherterms.RealTerm;
 
 public class DoesTermContainConds extends org.asmeta.parser.util.ReflectiveVisitor<Boolean> {
 	public final static DoesTermContainConds INSTANCE = new DoesTermContainConds();
@@ -73,6 +74,11 @@ public class DoesTermContainConds extends org.asmeta.parser.util.ReflectiveVisit
 		return false;
 	}
 
+	public Boolean visit(RealTerm number) {
+		return false;
+	}
+
+	
 	public Boolean visit(EnumTerm term) {
 		return false;
 	}

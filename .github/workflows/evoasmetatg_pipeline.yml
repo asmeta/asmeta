@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./code/experimental/asmeta.evotest/evoAsmetaTG
+        working-directory: ./code/experimental/asmeta.evotest/asmeta.evotest.evoAsmetaTG
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -26,16 +26,20 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
           
-      - name: Install dependencies
+      - name: Install parent
         working-directory: .
+        run: mvn --batch-mode install -N
+        
+      - name: Install dependencies
+        working-directory: ./code/core
         run: mvn --batch-mode install -DskipTests
-     
+        
       - name: Install asmetal2java
-        working-directory: ./code/experimental/asmetal2java/asmetal2java_codegen
+        working-directory: ./code/experimental/asmeta.asmetal2java/asmeta.asmetal2java.codegen
         run: mvn --batch-mode install -DskipTests
      
       - name: Install junit2avalla
-        working-directory: ./code/experimental/asmeta.evotest/junit2avalla
+        working-directory: ./code/experimental/asmeta.evotest/asmeta.evotest.junit2avalla
         run: mvn --batch-mode install -DskipTests
         
       - name: Test and Build with Maven
@@ -46,7 +50,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: evoasmetatg.zip
-          path: ./code/experimental/asmeta.evotest/evoAsmetaTG/dist/evoasmetatg.zip
+          path: ./code/experimental/asmeta.evotest/asmeta.evotest.evoAsmetaTG/dist/evoasmetatg.zip
           retention-days: 1
   
   deploy:
@@ -62,7 +66,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: evoasmetatg.zip
-          path: ./code/experimental/asmeta.evotest/evoAsmetaTG/dist
+          path: ./code/experimental/asmeta.evotest/asmeta.evotest.evoAsmetaTG/dist
       
       - name: Update the release and upload the assert
         uses: "marvinpinto/action-automatic-releases@latest"
@@ -71,4 +75,4 @@ jobs:
           automatic_release_tag: "latest"
           prerelease: true
           title: "EvoAsmetaTG Latest Release"
-          files: ./code/experimental/asmeta.evotest/evoAsmetaTG/dist/evoasmetatg.zip
+          files: ./code/experimental/asmeta.evotest/asmeta.evotest.evoAsmetaTG/dist/evoasmetatg.zip

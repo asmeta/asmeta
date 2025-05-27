@@ -132,7 +132,7 @@ class RuleNegativeParsingTest {
 				abstract domain Philosopher
 				domain NumOfCherries subsetof Integer
 				controlled cherriesInPlate: Philosopher -> NumOfCherries
-				derived leftNeighbour: Philosopher -> Philosopher
+				static leftNeighbour: Philosopher -> Philosopher
 			definitions:
 				rule r_philoRule($p in Philosopher) =
 					if(cherriesInPlate($p) > 0) then
@@ -157,7 +157,7 @@ class RuleNegativeParsingTest {
 				abstract domain Philosopher
 				domain NumOfCherries subsetof Integer
 				controlled cherriesInPlate: Philosopher -> NumOfCherries
-				derived leftNeighbour: Philosopher -> Philosopher
+				static leftNeighbour: Philosopher -> Philosopher
 			definitions:
 				rule r_philoRule($p in Philosopher) =
 					if(cherriesInPlate($p) > 0) then

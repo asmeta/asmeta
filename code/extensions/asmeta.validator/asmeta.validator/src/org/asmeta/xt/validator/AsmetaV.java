@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,8 +15,6 @@ import java.util.UUID;
 
 import org.apache.log4j.Logger;
 import org.asmeta.parser.ASMParser;
-import org.asmeta.parser.ParseException;
-
 import org.asmeta.parser.util.AsmetaTermPrinter;
 import org.asmeta.simulator.InvalidInvariantException;
 import org.asmeta.simulator.Location;
@@ -222,6 +219,12 @@ public class AsmetaV {
 		}
 	}
 	
+	/**
+	 * Surround with double quotes if the string contains a comma
+	 *
+	 * @param s     the input string
+	 * @return the input string surrounded with double quotes if it contains a comma
+	 */
 	private String formatForCsv(String s) {
 		return s.contains(",")? "\"" + s + "\"": s;
 	}
@@ -254,11 +257,11 @@ public class AsmetaV {
 	 * @param coverage if required
 	 * @param coveredRules the covered rules (till now, once it is covered it is covered forever)
 	 * @param tempAsmPath asmeta path
-	 * @param asmName original asm name
-	 * @return true if the check have succeeded
+	 * @return the result of the validation, i.e. if the check have succeeded and
+	 *         information about coverage (till now)
 	 * @throws Exception the exception
 	 */
-	static public ValidationResult executeAsmetaFromAvalla(boolean coverage, Map<String, Boolean> coveredRules, File tempAsmPath)
+	public static ValidationResult executeAsmetaFromAvalla(boolean coverage, Map<String, Boolean> coveredRules, File tempAsmPath)
 			throws Exception {
 		assert tempAsmPath.toString().endsWith(ASMParser.ASM_EXTENSION) : " can execute only asmeta files";
 		// create the simulator with the coverage
@@ -271,28 +274,38 @@ public class AsmetaV {
 			sim = Simulator.createSimulator(tempAsmPath.getPath());
 		}
 		sim.setShuffleFlag(true);
+		ValidationResult result = new ValidationResult();
+		boolean invariantViolated;
 		try {
 			sim.runUntilEmpty();
 			// sim.runUntilStepNeg();
+			invariantViolated = false; // no error in the execution
 		} catch (InvalidInvariantException iie) {
 			AsmetaTermPrinter tp = AsmetaTermPrinter.getAsmetaTermPrinter(false);
 			logger.info("invariant violation found " + iie.getInvariant().getName() + " "
 					+ tp.visit(iie.getInvariant().getBody()));
+			invariantViolated = true;
 		}
 		// check now the value of step
 		//
 		boolean check_succeded = false;
+		boolean step_found = false;
 		for (Entry<Location, Value> cons : sim.getCurrentState().getContrLocs().entrySet()) {
+			// check the value of step var
 			if (cons.getKey().toString().equals(StatementToStringBuffer.STEP_VAR)) {
-				if (Integer.parseInt(cons.getValue().toString()) > 0)
-					check_succeded = true;
-				else
+				step_found = true;
+				if (Integer.parseInt(cons.getValue().toString()) <= 0) {
 					logger.info("some checks failed");
+					check_succeded = false;
+				} else{
+					check_succeded = true;
+				}
 				break;
 			}
 		}
-		ValidationResult result = new ValidationResult();
-		result.setCheckSucceded(check_succeded);
+		if (! step_found) logger.error("step not found");
+		// succeed only if step is found, is greater or equal 0 and no invariant is violated
+		result.setCheckSucceded(check_succeded && ! invariantViolated);
 		if (coverage) { // for each scenario insert rules covered
 						// into list if they aren't covered
 			List<RuleDeclaration> ruleDeclaration = sim.getAsmModel().getBodySection().getRuleDeclaration();
@@ -300,15 +313,15 @@ public class AsmetaV {
 			ruleDeclaration.forEach(rd -> {
 				String ruleName = rd.getName();
 				String completeRuleName = RuleDeclarationUtils.getCompleteName(rd);
-				// skip the artificial name of the
+				// skip the main rule of the temp ASM as artificially added and not in the validated model
 				if (!ruleName.equals(AsmetaPrinterForAvalla.R_MAIN)) {
 					boolean rdIsCovered = false;
 					// check if it is covered as it is present in the covered rules
 					for(MacroDeclaration md : RuleEvalWCov.coveredMacros) {
-						String asmName3 = md.getAsmBody().getAsm().getName();
+						String asmName = md.getAsmBody().getAsm().getName();
 						String completeMacroName = RuleDeclarationUtils.getCompleteName(md);
 						if (completeMacroName.equals(completeRuleName)
-								&& asmName3.contains(AsmetaFromAvallaBuilder.TEMP_ASMETA_V)) {
+								&& asmName.contains(AsmetaFromAvallaBuilder.TEMP_ASMETA_V)) {
 							coveredRules.put(completeRuleName, Boolean.TRUE);
 							rdIsCovered = true;
 							break;
@@ -323,8 +336,8 @@ public class AsmetaV {
 			});
 			// now put also all the extra rules (not belonging to this ASM)
 			for (MacroDeclaration md : RuleEvalWCov.coveredMacros) {
-				String asmName2 = md.getAsmBody().getAsm().getName();
-				if (!asmName2.contains(AsmetaFromAvallaBuilder.TEMP_ASMETA_V))
+				String asmName = md.getAsmBody().getAsm().getName();
+				if (!asmName.contains(AsmetaFromAvallaBuilder.TEMP_ASMETA_V))
 					coveredRules.put(RuleDeclarationUtils.getCompleteName(md), Boolean.TRUE);
 			}
 			// update the result with the data about branch coverage

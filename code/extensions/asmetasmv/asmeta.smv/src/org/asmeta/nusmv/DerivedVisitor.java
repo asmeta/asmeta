@@ -40,6 +40,7 @@ import asmeta.terms.furtherterms.ForallTerm;
 import asmeta.terms.furtherterms.IntegerTerm;
 import asmeta.terms.furtherterms.LetTerm;
 import asmeta.terms.furtherterms.NaturalTerm;
+import asmeta.terms.furtherterms.RealTerm;
 
 /**
  * For mapping both derived and static functions.
@@ -51,7 +52,7 @@ public class DerivedVisitor extends org.asmeta.parser.util.ReflectiveVisitor<Str
 	
 	private Environment env;
 	Set<String> usedStatDer, usedContrMon;
-	private RuleVisitor rv;
+	private NuSMVRuleVisitor rv;
 	private Map<String, String> undefValue;
 	private Function currentFunction = null;
 
@@ -69,7 +70,7 @@ public class DerivedVisitor extends org.asmeta.parser.util.ReflectiveVisitor<Str
 		}
 	}
 
-	public DerivedVisitor(Environment env, RuleVisitor rv, Map<String, String> undefValue) {
+	public DerivedVisitor(Environment env, NuSMVRuleVisitor rv, Map<String, String> undefValue) {
 		this.env = env;
 		usedStatDer = new HashSet<String>();
 		usedContrMon = new HashSet<String>();
@@ -413,4 +414,17 @@ public class DerivedVisitor extends org.asmeta.parser.util.ReflectiveVisitor<Str
 	public String visit(DomainTerm term) {
 		return env.tv.visit(term);
 	}
+	
+	/**
+	 * Visit.
+	 * 
+	 * @param term the term
+	 * 
+	 * @return the string
+	 */
+	public String visit(RealTerm term) {
+		return env.tv.visit(term);
+	}
+
+	
 }

@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Asmeta Animator UI plugin
 Bundle-SymbolicName: asmeta.animator.ui;singleton:=true
-Bundle-Version: 24.06
+Bundle-Version: 25.04
 Bundle-Activator: asmeta.animator.ui.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,

@@ -51,7 +51,7 @@ signature:
 	dynamic controlled isFresh: Nonce -> Boolean // isFresh
 	dynamic controlled nonce: Agent -> Powerset(Nonce)
 	dynamic controlled receive: Agent -> Packet // receive
-	static shrkey: Agent -> ShrKey // shrkey
+	derived shrkey: Agent -> ShrKey // shrkey
 	dynamic monitored wish2init: Actor -> Boolean
 	dynamic monitored wish2init: Prod(Actor, Actor) -> Boolean
 	derived decryptANNK: Prod(Message, ShrKey) -> Prod(Agent, Nonce, Nonce)
@@ -65,8 +65,8 @@ signature:
 	static agentA: Actor
 	static agentB: Actor
 
-	static shrkeyA: ShrKey
-	static shrkeyB: ShrKey
+	derived shrkeyA: ShrKey
+	derived shrkeyB: ShrKey
 
 definitions:
 	function shrkey($a in Agent) =

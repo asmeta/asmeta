@@ -45,7 +45,7 @@ f u n c t i o n MessInTrR : Agents -> TYPE
  f u n c t i o n InMess : Agents -> TYPE
       i n i t i a l l y { a 1 -> noMess, a2 -> noMess )
 APPENDIX A. COREASM SPECIFICATIONS FROM CASE STUDIES
-function static InLine : Agents -> LINE
+function derived inLine : Agents -> LINE
    initially ( a1 -> 11, a2 -> 11 )
                                  *  LINE -> PHASE
 function CurPhase : Agents

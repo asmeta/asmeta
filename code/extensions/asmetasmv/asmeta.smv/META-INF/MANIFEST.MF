@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Asmeta model checker
 Bundle-SymbolicName: asmeta.smv;singleton:=true
-Bundle-Version: 24.06
+Bundle-Version: 25.04
 Bundle-ClassPath: args4j.jar,
  .
 Require-Bundle: asmeta.emf,
@@ -12,6 +12,7 @@ Require-Bundle: asmeta.emf,
  org.apache.log4j
 Bundle-Vendor: foselab.unibg.it
 Export-Package: org.asmeta.nusmv,
+ org.asmeta.nusmv.main,
  org.asmeta.nusmv.util
 Automatic-Module-Name: asmeta.smv
 Bundle-RequiredExecutionEnvironment: JavaSE-17

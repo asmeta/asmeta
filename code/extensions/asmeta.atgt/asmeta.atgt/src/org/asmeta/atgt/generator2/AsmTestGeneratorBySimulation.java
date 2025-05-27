@@ -28,6 +28,8 @@ import tgtlib.definitions.expression.FunctionTerm;
 import tgtlib.definitions.expression.IdExpression;
 import tgtlib.definitions.expression.IdExpressionCreator;
 import tgtlib.definitions.expression.type.IntegerType;
+import tgtlib.definitions.expression.type.Type;
+import tgtlib.definitions.expression.type.TypeVisitorI;
 
 /**
  * random generation by random simulation 
@@ -38,8 +40,23 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 	private AsmCollection asm;
 	private IdExpressionCreator icc;
 	private int testNumer;
+	private int testNumberOffset;
 
 	public static tgtlib.definitions.expression.type.Type dummyType = new DummyType("dummy");
+
+	public static tgtlib.definitions.expression.type.Type stringType = new tgtlib.definitions.expression.type.Type("String") {
+
+		@Override
+		public int range() {
+			throw new RuntimeException();
+		}
+
+		@Override
+		public <T> T accept(TypeVisitorI<T> ask) {
+			throw new RuntimeException();
+		}
+		
+	};
 
 	RandomMFReaderMemory randomMFReader;
 
@@ -63,6 +80,7 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 		this.stepNumber = stepNumber;
 		this.asm = asm;
 		this.testNumer = testNumber;
+		this.testNumberOffset = 0;
 		// to collect info about the spec
 		icc = new IdExpressionCreator();
 		//
@@ -85,7 +103,8 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 				simulator.setShuffleFlag(false);
 				// simulator.createSimulatorRnd(modelName);
 				//
-				AsmTestSequence testsequence = new AsmTestSequence(new AsmTestCondition("test" + test, null));
+				String testName = "test" + Math.addExact(test, testNumberOffset);
+				AsmTestSequence testsequence = new AsmTestSequence(new AsmTestCondition(testName, null));
 				State state;
 				int currentStep = 0;
 				while (true) {
@@ -114,6 +133,7 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 					// restart the env
 					randomMFReader.clear();
 				}
+				testNumberOffset += 1;
 				testSuite.addTest(testsequence);
 			}
 			return testSuite;
@@ -130,7 +150,19 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 			e.printStackTrace();
 			return AsmTestSuite.getEmptyTestSuite();
 		}
+		
+	}
+	
+	public void setStepNumber(int stepNumber) {
+		this.stepNumber = stepNumber;
+	}
 
+	public void setAsm(AsmCollection asm) {
+		this.asm = asm;
+	}
+
+	public void setTestNumer(int testNumer) {
+		this.testNumer = testNumer;
 	}
 
 	// add this state to the test sequence
@@ -145,15 +177,23 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 			assert monitored || function instanceof ControlledFunction;
 			Value[] elements = location.getElements();
 			boolean isvar = elements.length == 0;
+			String value = stateValues.getValue().toString();
 			if (isvar) {
+				Type type;
+				if (function.getCodomain() instanceof asmeta.definitions.domains.StringDomain){ 
+				 	type = stringType;
+				 	value = "\""+ value + "\"";
+				} else {
+					type = dummyType;
+				}
 				// create ID (with dummy type which is wrong)
-				IdExpression varId = icc.createIdExpression(location.toString(), dummyType);
+				IdExpression varId = icc.createIdExpression(location.toString(), type);
 				atgt.specification.location.Variable var = new atgt.specification.location.Variable(varId, null);
 				if (monitored)
 					var.setMonitored();
-				else
+				else					
 					var.setControlled();
-				testsequence.addAssignment(var, stateValues.getValue().toString());
+				testsequence.addAssignment(var, value);
 			} else {
 				assert elements.length >= 1 : Arrays.toString(elements);
 				List<IdExpression> args = new ArrayList<>();
@@ -169,7 +209,7 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 
 				FunctionTerm ft = new FunctionTerm(name, dummyType, args);
 				try {
-					testsequence.addAssignment(ft, stateValues.getValue().toString(),
+					testsequence.addAssignment(ft, value,
 							monitored ? VarKind.MONITORED : VarKind.CONTROLLED);
 				} catch (NullPointerException npe) {
 					npe.printStackTrace();

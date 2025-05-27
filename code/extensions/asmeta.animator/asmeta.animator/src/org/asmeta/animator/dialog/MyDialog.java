@@ -15,7 +15,7 @@ public abstract class MyDialog extends Dialog {
 
 	Shell shell;
 	
-    public MyDialog(Shell parent) {
+    protected MyDialog(Shell parent) {
 		super(parent,SWT.DIALOG_TRIM); // not modal to allow to close | SWT.APPLICATION_MODAL);
 	}
 

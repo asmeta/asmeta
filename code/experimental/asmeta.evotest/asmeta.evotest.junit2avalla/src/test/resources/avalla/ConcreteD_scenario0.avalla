@@ -1,0 +1,41 @@
+scenario ConcreteD_scenario0
+
+load ConcreteD.asm
+
+check concreteDomainControlledFunction = 5;
+check concreteDomain2ControlledFunction = 10;
+check concreteEnumDomainControlledFunction = STATE2;
+check concreteToEnumControlledFunction(1) = STATE1;
+check concreteToEnumControlledFunction(2) = STATE2;
+check enumConcreteToEnumControlledFunction(STATE1) = STATE1;
+check enumConcreteToEnumControlledFunction(STATE2) = STATE2;
+check enumConcreteToIntegerControlledFunction(STATE1) = 1;
+check enumConcreteToIntegerControlledFunction(STATE2) = 5;
+check enumContreteToAbstractControlledFunction(STATE1) = value1;
+check enumContreteToAbstractControlledFunction(STATE2) = value2;
+check concreteToConcrete2ControlledFunction(1) = 1;
+check concreteToConcrete2ControlledFunction(5) = 2;
+check concretetoAbstractControlledFunction(1) = value1;
+check concretetoAbstractControlledFunction(2) = value2;
+check concrete2toBooleanControlledFunction(1) = true;
+check concrete2toBooleanControlledFunction(5) = false;
+
+step
+
+set concreteDomainMonitoredFunction := 1;
+set concreteDomain2MonitoredFunction := 2;
+set concreteEnumDomainMonitoredFunction := STATE1;
+set contreteToEnumMonitoredFunction(1) := STATE1;
+set contreteToEnumMonitoredFunction(1) := STATE2;
+set enumContreteToEnumMonitoredFunction(STATE1) := STATE3;
+set enumContreteToEnumMonitoredFunction(STATE2) := STATE2;
+set enumContreteToIntegerMonitoredFunction(STATE1) := 5;
+set enumContreteToIntegerMonitoredFunction(STATE1) := 3;
+set enumContreteToAbstractMonitoredFunction(STATE1) := value1;
+set enumContreteToAbstractMonitoredFunction(STATE1) := value2;
+set concreteToConcrete2MonitoredFunction(1) := 2;
+set concreteToConcrete2MonitoredFunction(2) := 5;
+set concretetoAbstractMonitoredFunction(1) := value1;
+set concretetoAbstractMonitoredFunction(1) := value2;
+set concrete2toBooleanMonitoredFunction(1) := true;
+set concrete2toBooleanMonitoredFunction(1) := false;

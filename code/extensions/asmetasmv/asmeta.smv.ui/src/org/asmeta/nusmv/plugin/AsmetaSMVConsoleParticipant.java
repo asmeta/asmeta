@@ -1,6 +1,6 @@
 package org.asmeta.nusmv.plugin;
 
-import org.asmeta.nusmv.AsmetaSMV;
+import org.asmeta.nusmv.main.AsmetaSMV;
 import org.eclipse.jface.action.Action;
 import org.eclipse.ui.console.IConsole;
 import org.eclipse.ui.console.IConsolePageParticipant;
