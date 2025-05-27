@@ -1,0 +1,92 @@
+scenario LandingGearSystem_scenario2
+
+load LandingGearSystem.asm
+
+check doors = CLOSED;
+check extendGearsElectroValve = false;
+check generalElectroValve = false;
+check gears = EXTENDED;
+check openDoorsElectroValve = false;
+check closeDoorsElectroValve = false;
+check retractGearsElectroValve = false;
+set gearsShockAbsorber(FRONT) := true;
+set gearsShockAbsorber(LEFT) := true;
+set handle := UP;
+set gearsRetracted(FRONT) := true;
+
+step
+
+check extendGearsElectroValve = false;
+check gears = EXTENDED;
+check doors = OPENING;
+check openDoorsElectroValve = true;
+check generalElectroValve = true;
+check closeDoorsElectroValve = false;
+check retractGearsElectroValve = false;
+set doorsOpen(LEFT) := true;
+set gearsRetracted(RIGHT) := true;
+set doorsOpen(FRONT) := true;
+set gearsShockAbsorber(RIGHT) := true;
+set gearsRetracted(LEFT) := true;
+set doorsOpen(RIGHT) := true;
+
+step
+
+check extendGearsElectroValve = false;
+check gears = EXTENDED;
+check openDoorsElectroValve = false;
+check doors = OPEN;
+check generalElectroValve = true;
+check closeDoorsElectroValve = false;
+check retractGearsElectroValve = false;
+
+step
+
+check extendGearsElectroValve = false;
+check retractGearsElectroValve = true;
+check openDoorsElectroValve = false;
+check doors = OPEN;
+check generalElectroValve = true;
+check gears = RETRACTING;
+check closeDoorsElectroValve = false;
+
+step
+
+check gears = RETRACTED;
+check extendGearsElectroValve = false;
+check openDoorsElectroValve = false;
+check doors = OPEN;
+check generalElectroValve = true;
+check closeDoorsElectroValve = false;
+check retractGearsElectroValve = false;
+
+step
+
+check gears = RETRACTED;
+check closeDoorsElectroValve = true;
+check extendGearsElectroValve = false;
+check doors = CLOSING;
+check openDoorsElectroValve = false;
+check generalElectroValve = true;
+check retractGearsElectroValve = false;
+set handle := DOWN;
+
+step
+
+check gears = RETRACTED;
+check extendGearsElectroValve = false;
+check doors = OPENING;
+check openDoorsElectroValve = true;
+check generalElectroValve = true;
+check closeDoorsElectroValve = false;
+check retractGearsElectroValve = false;
+
+step
+
+check gears = RETRACTED;
+check extendGearsElectroValve = false;
+check openDoorsElectroValve = false;
+check doors = OPEN;
+check generalElectroValve = true;
+check closeDoorsElectroValve = false;
+check retractGearsElectroValve = false;

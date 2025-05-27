@@ -1,0 +1,11 @@
+scenario testtest0
+
+load ./data\ase-exp\models\SiGistica.asm
+
+//// test name test@test0
+//// generated for (test goal): test0: NULL
+check perInfo = 10;
+set selService := GESTIONE_CLIENTE;
+step
+check perInfo = 9;
+step

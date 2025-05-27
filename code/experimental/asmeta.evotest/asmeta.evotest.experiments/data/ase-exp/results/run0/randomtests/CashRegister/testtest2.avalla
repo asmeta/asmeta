@@ -1,0 +1,12 @@
+scenario testtest2
+
+load ./data\ase-exp\models\CashRegister.asm
+
+//// test name test@test2
+//// generated for (test goal): test2: NULL
+set servizioSelezionato := EXIT;
+set sceltaDiAggiuntaPizza := NO;
+step
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+step

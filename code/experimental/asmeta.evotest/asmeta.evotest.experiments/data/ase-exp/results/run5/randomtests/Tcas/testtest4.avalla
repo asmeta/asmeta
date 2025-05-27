@@ -1,0 +1,71 @@
+scenario testtest4
+
+load ./data\ase-exp\models\Tcas.asm
+
+//// test name test@test4
+//// generated for (test goal): test4: NULL
+set g0 := true;
+set k := true;
+set e := false;
+set f0 := true;
+set b := true;
+set a := true;
+set c := true;
+set n := true;
+set o0 := false;
+set d := true;
+set h0 := false;
+set l := true;
+set j := false;
+set m := true;
+step
+check condition = true;
+set e := false;
+set j := false;
+set g0 := false;
+set l := false;
+set h0 := true;
+set c := false;
+set a := false;
+set o0 := false;
+set m := true;
+set n := true;
+set f0 := false;
+set b := false;
+set k := false;
+set d := false;
+step
+check condition = true;
+set j := false;
+set h0 := true;
+set c := false;
+set a := true;
+set f0 := false;
+set m := false;
+set o0 := true;
+set e := true;
+set k := false;
+set d := true;
+set g0 := true;
+set l := false;
+set n := true;
+set b := false;
+step
+check condition = true;
+set c := true;
+set l := true;
+set g0 := true;
+set e := false;
+set n := false;
+set k := false;
+set b := false;
+set a := false;
+set j := true;
+set o0 := false;
+set d := true;
+set f0 := true;
+set h0 := false;
+set m := true;
+step
+check condition = true;
+step

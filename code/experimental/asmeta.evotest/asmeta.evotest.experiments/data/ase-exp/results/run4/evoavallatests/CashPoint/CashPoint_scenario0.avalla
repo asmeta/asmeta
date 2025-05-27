@@ -1,0 +1,11 @@
+scenario CashPoint_scenario0
+
+load CashPoint.asm
+
+set enteredPin(till1) := 0;
+set currentDate := yp$]5NS]-eq;
+set currentDate := 'Z#Fm;
+set currentDate := abstract_monday;
+
+step
+

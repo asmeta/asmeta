@@ -1,0 +1,34 @@
+scenario ATM_scenario17
+
+load ATM.asm
+
+check numOfBalanceChecks = 0;
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+check numOfBalanceChecks = 0;
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+set insertMoneySizeOther := (-1836);
+set insertedCard := card3;
+
+step
+
+check numOfBalanceChecks = 0;
+check atmState = AWAITPIN;
+check moneyLeft = 1000;
+check accessible(card2) = true;
+check numOfBalanceChecks = 0;
+check atmState = AWAITPIN;
+check moneyLeft = 1000;
+
+step
+
+check numOfBalanceChecks = 0;
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+check moneyLeft = 1000;
+check numOfBalanceChecks = 0;
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+check (-1836) = (-1836);
+set insertMoneySizeStandard := (-1836);

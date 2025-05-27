@@ -1,0 +1,18 @@
+scenario DiceGame_scenario1
+
+load DiceGame.asm
+
+check statoGioco = INCORSO;
+check soldi(PC) = 10;
+check soldi(USER) = 10;
+check 5 = 5;
+check 1 = 1;
+set lancioUser := 5;
+set lancioPC := 1;
+
+step
+
+check statoGioco = INCORSO;
+check risultatoGiocata = WINUSER;
+check soldi(PC) = 9;
+check soldi(USER) = 11;

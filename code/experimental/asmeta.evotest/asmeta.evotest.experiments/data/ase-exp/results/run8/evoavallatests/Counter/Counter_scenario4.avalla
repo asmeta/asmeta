@@ -1,0 +1,35 @@
+scenario Counter_scenario4
+
+load Counter.asm
+
+set click := true;
+
+step
+
+
+step
+
+
+step
+
+
+step
+
+
+step
+
+
+step
+
+
+step
+
+
+step
+
+
+step
+
+
+step
+

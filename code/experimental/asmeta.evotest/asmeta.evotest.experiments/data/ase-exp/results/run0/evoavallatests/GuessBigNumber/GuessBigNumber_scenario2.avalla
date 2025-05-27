@@ -1,0 +1,9 @@
+scenario GuessBigNumber_scenario2
+
+load GuessBigNumber.asm
+
+check 934 = 934;
+set guess := 934;
+
+step
+

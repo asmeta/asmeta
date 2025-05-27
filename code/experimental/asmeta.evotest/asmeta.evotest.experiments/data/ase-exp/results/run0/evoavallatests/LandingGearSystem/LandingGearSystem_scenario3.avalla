@@ -1,0 +1,58 @@
+scenario LandingGearSystem_scenario3
+
+load LandingGearSystem.asm
+
+check openDoorsElectroValve = false;
+check extendGearsElectroValve = false;
+check generalElectroValve = false;
+check gears = EXTENDED;
+check doors = CLOSED;
+check closeDoorsElectroValve = false;
+check retractGearsElectroValve = false;
+set handle := UP;
+set doorsOpen(RIGHT) := true;
+set doorsOpen(LEFT) := true;
+
+step
+
+check generalElectroValve = true;
+check doors = OPENING;
+check extendGearsElectroValve = false;
+check gears = EXTENDED;
+check openDoorsElectroValve = true;
+check closeDoorsElectroValve = false;
+check retractGearsElectroValve = false;
+set gearsShockAbsorber(LEFT) := true;
+set doorsOpen(FRONT) := true;
+
+step
+
+check generalElectroValve = true;
+check doors = OPEN;
+check openDoorsElectroValve = false;
+check extendGearsElectroValve = false;
+check gears = EXTENDED;
+check closeDoorsElectroValve = false;
+check retractGearsElectroValve = false;
+set gearsShockAbsorber(FRONT) := true;
+set gearsShockAbsorber(RIGHT) := true;
+
+step
+
+check generalElectroValve = true;
+check doors = OPEN;
+check openDoorsElectroValve = false;
+check retractGearsElectroValve = true;
+check extendGearsElectroValve = false;
+check gears = RETRACTING;
+check closeDoorsElectroValve = false;
+
+step
+
+check generalElectroValve = true;
+check doors = OPEN;
+check openDoorsElectroValve = false;
+check retractGearsElectroValve = true;
+check extendGearsElectroValve = false;
+check gears = RETRACTING;
+check closeDoorsElectroValve = false;

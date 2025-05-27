@@ -1,0 +1,12 @@
+scenario testtest2
+
+load ./data\ase-exp\models\GuessBigNumber.asm
+
+//// test name test@test2
+//// generated for (test goal): test2: NULL
+check attempt = 10;
+set guess := 824;
+step
+check smaller = true;
+check attempt = 9;
+step

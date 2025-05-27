@@ -1,0 +1,14 @@
+scenario testtest2
+
+load ./data\ase-exp\models\PhdMaster.asm
+
+//// test name test@test2
+//// generated for (test goal): test2: NULL
+check status = UNASSOCIATED;
+set transition := RX_ROER;
+step
+check status = UNASSOCIATED;
+set transition := RX_AARQ;
+step
+check status = UNASSOCIATED;
+step

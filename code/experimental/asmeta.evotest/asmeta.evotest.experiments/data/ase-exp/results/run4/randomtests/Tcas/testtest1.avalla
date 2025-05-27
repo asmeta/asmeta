@@ -1,0 +1,23 @@
+scenario testtest1
+
+load ./data\ase-exp\models\Tcas.asm
+
+//// test name test@test1
+//// generated for (test goal): test1: NULL
+set o0 := true;
+set l := true;
+set c := false;
+set h0 := false;
+set a := false;
+set j := false;
+set d := true;
+set f0 := true;
+set k := false;
+set e := true;
+set n := true;
+set b := false;
+set g0 := true;
+set m := false;
+step
+check condition = true;
+step

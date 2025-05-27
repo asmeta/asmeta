@@ -1,0 +1,17 @@
+scenario testRG_r_Main_TTT
+
+load ./data\ase-exp\models\CoffeeVendingMachine.asm
+
+//// test name test@RG_r_Main_TTT
+//// generated for (test goal): RG_r_Main_TTT: (coins < 25) and ((insertedCoin = HALF) and ((available[MILK]) > 0))
+check coins = 0;
+check available(COFFEE) = 10;
+check available(TEA) = 10;
+check available(MILK) = 10;
+set chosenProduct := COFFEE;
+set insertedCoin := undef;
+step
+check coins = 1;
+check available(COFFEE) = 9;
+set insertedCoin := HALF;
+step

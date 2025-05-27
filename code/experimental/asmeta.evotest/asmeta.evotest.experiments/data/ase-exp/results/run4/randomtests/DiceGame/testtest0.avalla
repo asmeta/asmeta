@@ -1,0 +1,16 @@
+scenario testtest0
+
+load ./data\ase-exp\models\DiceGame.asm
+
+//// test name test@test0
+//// generated for (test goal): test0: NULL
+check soldi(PC) = 10;
+check soldi(USER) = 10;
+set lancioUser := 5;
+set lancioPC := 3;
+step
+check risultatoGiocata = WINUSER;
+check statoGioco = INCORSO;
+check soldi(PC) = 9;
+check soldi(USER) = 11;
+step

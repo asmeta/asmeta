@@ -1,0 +1,16 @@
+scenario testtest3
+
+load ./data\ase-exp\models\LandingGearSystem.asm
+
+//// test name test@test3
+//// generated for (test goal): test3: NULL
+check doors = CLOSED;
+check gears = EXTENDED;
+set handle := UP;
+set doorsOpen(LEFT) := false;
+step
+check gears = EXTENDED;
+check generalElectroValve = true;
+check doors = OPENING;
+check openDoorsElectroValve = true;
+step

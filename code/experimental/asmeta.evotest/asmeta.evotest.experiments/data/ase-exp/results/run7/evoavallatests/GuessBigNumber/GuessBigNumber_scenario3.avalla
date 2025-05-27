@@ -1,0 +1,9 @@
+scenario GuessBigNumber_scenario3
+
+load GuessBigNumber.asm
+
+check 752 = 752;
+set guess := 752;
+
+step
+

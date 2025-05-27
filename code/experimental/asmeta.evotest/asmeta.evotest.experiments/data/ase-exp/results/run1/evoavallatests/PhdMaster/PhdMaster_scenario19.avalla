@@ -1,0 +1,11 @@
+scenario PhdMaster_scenario19
+
+load PhdMaster.asm
+
+check status = UNASSOCIATED;
+set transition := RX_RLRQ;
+
+step
+
+check status = UNASSOCIATED;
+check message = MSG_RX_ABRT;

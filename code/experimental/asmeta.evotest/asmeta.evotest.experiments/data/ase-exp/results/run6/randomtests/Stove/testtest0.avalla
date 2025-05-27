@@ -1,0 +1,12 @@
+scenario testtest0
+
+load ./data\ase-exp\models\Stove.asm
+
+//// test name test@test0
+//// generated for (test goal): test0: NULL
+set tasto_on_off := "fixedrandomestring";
+set tasto_potenza := "fixedrandomestring";
+step
+check pellet = 49;
+check timer = 9;
+step

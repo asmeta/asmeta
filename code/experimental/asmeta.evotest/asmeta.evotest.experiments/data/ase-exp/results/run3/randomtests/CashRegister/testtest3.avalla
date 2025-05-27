@@ -1,0 +1,13 @@
+scenario testtest3
+
+load ./data\ase-exp\models\CashRegister.asm
+
+//// test name test@test3
+//// generated for (test goal): test3: NULL
+set servizioSelezionato := NEWORDINE;
+set sceltaDiAggiuntaPizza := NO;
+step
+check outMess = "prezzo totale aggiornato";
+check statoCassa = ATTENDI_ORDINAZIONI;
+check totale = 0;
+step

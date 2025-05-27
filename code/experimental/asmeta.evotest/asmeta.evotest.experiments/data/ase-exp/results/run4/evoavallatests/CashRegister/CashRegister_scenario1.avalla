@@ -1,0 +1,22 @@
+scenario CashRegister_scenario1
+
+load CashRegister.asm
+
+check outMess = "";
+check totale = 0;
+check statoCassa = ATTENDI_ORDINAZIONI;
+set servizioSelezionato := NEWORDINE;
+set sceltaDiAggiuntaPizza := SI;
+
+step
+
+check outMess = "Scegli il tipo di pizza desiderata:";
+check totale = 0;
+check statoCassa = SCEGLI_TIPO_DI_PIZZA;
+set sceltaDelTipoPizza := OTHER;
+
+step
+
+check statoCassa = ALTRAPIZZA_SELEZIONATA;
+check totale = 0;
+check outMess = "Inserisci il nome di una nuova pizza:";

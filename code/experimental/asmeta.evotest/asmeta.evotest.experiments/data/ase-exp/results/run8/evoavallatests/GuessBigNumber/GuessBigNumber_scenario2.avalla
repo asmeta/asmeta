@@ -1,0 +1,9 @@
+scenario GuessBigNumber_scenario2
+
+load GuessBigNumber.asm
+
+check 1588 = 1588;
+set guess := 1588;
+
+step
+

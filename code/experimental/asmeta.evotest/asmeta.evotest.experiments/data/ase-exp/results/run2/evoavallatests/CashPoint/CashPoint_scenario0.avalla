@@ -1,0 +1,8 @@
+scenario CashPoint_scenario0
+
+load CashPoint.asm
+
+
+step
+
+set amount(till1) := (-1942);

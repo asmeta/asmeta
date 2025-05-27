@@ -1,0 +1,21 @@
+scenario LandingGearSystem_scenario10
+
+load LandingGearSystem.asm
+
+check openDoorsElectroValve = false;
+check closeDoorsElectroValve = false;
+check retractGearsElectroValve = false;
+check doors = CLOSED;
+check gears = EXTENDED;
+check extendGearsElectroValve = false;
+check generalElectroValve = false;
+
+step
+
+check openDoorsElectroValve = false;
+check closeDoorsElectroValve = false;
+check retractGearsElectroValve = false;
+check doors = CLOSED;
+check gears = EXTENDED;
+check extendGearsElectroValve = false;
+check generalElectroValve = false;

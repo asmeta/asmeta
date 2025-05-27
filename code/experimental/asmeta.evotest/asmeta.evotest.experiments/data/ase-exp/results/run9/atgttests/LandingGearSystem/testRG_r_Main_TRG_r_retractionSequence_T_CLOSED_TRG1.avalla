@@ -1,0 +1,24 @@
+scenario testRG_r_Main_TRG_r_retractionSequence_T_CLOSED_TRG1
+
+load ./data\ase-exp\models\LandingGearSystem.asm
+
+//// test name test@RG_r_Main_TRG_r_retractionSequence_T_CLOSED_TRG1
+//// generated for (test goal): RG_r_Main_TRG_r_retractionSequence_T_CLOSED_TRG1: (handle = UP) and ((gears != RETRACTED) and ((doors = CLOSED) and (generalElectroValve != true)))
+check doorsAllOpen = false;
+check gearsAllExtended = false;
+check cylindersDoors = CYLINDER_RETRACTED;
+check doorsAllClosed = false;
+check extendGearsElectroValve = false;
+check closeDoorsElectroValve = false;
+check gearsAllRetracted = false;
+check doors = CLOSED;
+check cylindersGears = CYLINDER_EXTENDED;
+check generalElectroValve = false;
+check openDoorsElectroValve = false;
+check gearsAllShockAbsorber = false;
+check gears = EXTENDED;
+check retractGearsElectroValve = false;
+set handle := DOWN;
+step
+set handle := UP;
+step

@@ -1,0 +1,18 @@
+scenario Lift_scenario1
+
+load Lift.asm
+
+check statoPiano = UNO;
+check statoPorta = CHIUSA;
+set signalPorta := false;
+
+step
+
+check statoPiano = DUE;
+check statoPorta = CHIUSA;
+set signalPorta := true;
+
+step
+
+check statoPorta = APERTA;
+check statoPiano = UNO;

@@ -1,0 +1,55 @@
+scenario ATM_scenario0
+
+load ATM.asm
+
+check numOfBalanceChecks = 0;
+check atmState = AWAITCARD;
+check moneyLeft = 1000;
+set insertedCard := card2;
+
+step
+
+check numOfBalanceChecks = 0;
+check moneyLeft = 1000;
+check atmState = AWAITPIN;
+check currCard = card2;
+check numOfBalanceChecks = 0;
+check moneyLeft = 1000;
+check atmState = AWAITPIN;
+check currCard = card2;
+check numOfBalanceChecks = 0;
+check moneyLeft = 1000;
+check atmState = AWAITPIN;
+check currCard = card2;
+check numOfBalanceChecks = 0;
+check moneyLeft = 1000;
+check atmState = AWAITPIN;
+check currCard = card2;
+check numOfBalanceChecks = 0;
+check moneyLeft = 1000;
+check atmState = AWAITPIN;
+set insertedPin := 97;
+set insertedPin := 0;
+set abstract_insertedCard := abstract_card2;
+
+step
+
+check numOfBalanceChecks = 0;
+check atmState = AWAITCARD;
+check moneyLeft = 1000;
+check accessible(card1) = true;
+check numOfBalanceChecks = 0;
+check atmState = AWAITCARD;
+check moneyLeft = 1000;
+check accessible(card2) = true;
+check numOfBalanceChecks = 0;
+check atmState = AWAITCARD;
+check moneyLeft = 1000;
+check currCard = card2;
+check numOfBalanceChecks = 0;
+check atmState = AWAITCARD;
+check moneyLeft = 1000;
+check currCard = card2;
+check numOfBalanceChecks = 0;
+check atmState = AWAITCARD;
+check moneyLeft = 1000;

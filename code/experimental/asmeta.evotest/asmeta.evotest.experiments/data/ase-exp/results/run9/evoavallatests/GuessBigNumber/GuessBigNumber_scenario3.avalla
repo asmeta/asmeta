@@ -1,0 +1,7 @@
+scenario GuessBigNumber_scenario3
+
+load GuessBigNumber.asm
+
+
+step
+

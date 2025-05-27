@@ -1,0 +1,16 @@
+scenario testtest22
+
+load ./data\ase-exp\models\PhdMaster.asm
+
+//// test name test@test22
+//// generated for (test goal): test22: NULL
+check status = UNASSOCIATED;
+set transition := RX_RLRQ;
+step
+check status = UNASSOCIATED;
+check message = MSG_RX_ABRT;
+set transition := RX_RORJ;
+step
+check status = UNASSOCIATED;
+check message = MSG_RX_ABRT;
+step

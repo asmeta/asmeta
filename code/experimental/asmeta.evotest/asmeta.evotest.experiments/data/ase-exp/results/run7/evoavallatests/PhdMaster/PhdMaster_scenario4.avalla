@@ -1,0 +1,11 @@
+scenario PhdMaster_scenario4
+
+load PhdMaster.asm
+
+check status = UNASSOCIATED;
+set transition := REQ_ASSOC_ABORT;
+
+step
+
+check status = UNASSOCIATED;
+check message = MSG_RX_ABRT;

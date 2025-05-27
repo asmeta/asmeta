@@ -1,0 +1,117 @@
+scenario ATM_scenario0
+
+load ATM.asm
+
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+check numOfBalanceChecks = 0;
+set insertedPin := 4706;
+set insertedPin := 4706;
+set selectedService := EXIT;
+set selectedService := EXIT;
+set insertedCard := card3;
+
+step
+
+check moneyLeft = 1000;
+check numOfBalanceChecks = 0;
+check atmState = AWAITPIN;
+
+step
+
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+check numOfBalanceChecks = 0;
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+check numOfBalanceChecks = 0;
+check currCard = card3;
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+check numOfBalanceChecks = 0;
+check currCard = card3;
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+check numOfBalanceChecks = 0;
+check currCard = card3;
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+check numOfBalanceChecks = 0;
+check currCard = card3;
+
+step
+
+check moneyLeft = 1000;
+check numOfBalanceChecks = 0;
+check atmState = AWAITPIN;
+
+step
+
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+check numOfBalanceChecks = 0;
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+check numOfBalanceChecks = 0;
+check currCard = card3;
+
+step
+
+check moneyLeft = 1000;
+check numOfBalanceChecks = 0;
+check atmState = AWAITPIN;
+
+step
+
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+check numOfBalanceChecks = 0;
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+check numOfBalanceChecks = 0;
+check currCard = card3;
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+check numOfBalanceChecks = 0;
+check currCard = card3;
+
+step
+
+check moneyLeft = 1000;
+check numOfBalanceChecks = 0;
+check atmState = AWAITPIN;
+
+step
+
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+check numOfBalanceChecks = 0;
+
+step
+
+check moneyLeft = 1000;
+check numOfBalanceChecks = 0;
+check atmState = AWAITPIN;
+check moneyLeft = 1000;
+check numOfBalanceChecks = 0;
+check atmState = AWAITPIN;
+check currCard = card3;
+check moneyLeft = 1000;
+check numOfBalanceChecks = 0;
+check atmState = AWAITPIN;
+
+step
+
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+check numOfBalanceChecks = 0;
+
+step
+
+check moneyLeft = 1000;
+check numOfBalanceChecks = 0;
+check atmState = AWAITPIN;
+check moneyLeft = 1000;
+check numOfBalanceChecks = 0;
+check atmState = AWAITPIN;
+check currCard = card3;

@@ -1,0 +1,17 @@
+scenario PhdMaster_scenario12
+
+load PhdMaster.asm
+
+check status = UNASSOCIATED;
+set transition := RX_AARQ_ACCEPTABLE_AND_KNOWN_CONFIGURATION;
+
+step
+
+check status = OPERATING;
+check message = MSG_RX_AARE;
+set transition := RX_RLRE;
+
+step
+
+check status = UNASSOCIATED;
+check message = MSG_RX_ABRT;

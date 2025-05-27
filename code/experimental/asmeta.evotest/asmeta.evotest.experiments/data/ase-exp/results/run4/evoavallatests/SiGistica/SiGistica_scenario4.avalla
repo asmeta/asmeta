@@ -1,0 +1,29 @@
+scenario SiGistica_scenario4
+
+load SiGistica.asm
+
+check pagDomain = 0;
+check qtAutGas(AUTISTA) = 10;
+check checkMezzo(RICH_INFO) = false;
+check perInfo = 10;
+check checkMezzo(OFFICINA) = false;
+check qtAutGas(GASOLIO) = 10;
+set selService := SPEDIZIONE;
+
+step
+
+check pagDomain = 0;
+check checkMezzo(RICH_INFO) = false;
+check perInfo = 10;
+check qtAutGas(GASOLIO) = 9;
+check checkMezzo(OFFICINA) = true;
+check qtAutGas(AUTISTA) = 9;
+
+step
+
+check pagDomain = 0;
+check checkMezzo(RICH_INFO) = false;
+check perInfo = 10;
+check checkMezzo(OFFICINA) = false;
+check qtAutGas(GASOLIO) = 8;
+check qtAutGas(AUTISTA) = 8;

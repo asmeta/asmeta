@@ -1,0 +1,15 @@
+scenario testtest3
+
+load ./data\ase-exp\models\CoffeeVendingMachine.asm
+
+//// test name test@test3
+//// generated for (test goal): test3: NULL
+check available(COFFEE) = 10;
+check available(TEA) = 10;
+check coins = 0;
+set chosenProduct := COFFEE;
+set insertedCoin := ONE;
+step
+check available(COFFEE) = 9;
+check coins = 1;
+step

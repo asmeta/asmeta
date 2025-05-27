@@ -1,0 +1,13 @@
+scenario testtest2
+
+load ./data\ase-exp\models\CashRegister.asm
+
+//// test name test@test2
+//// generated for (test goal): test2: NULL
+set servizioSelezionato := NEWORDINE;
+set sceltaDiAggiuntaPizza := SI;
+step
+check totale = 0;
+check statoCassa = SCEGLI_TIPO_DI_PIZZA;
+check outMess = "Scegli il tipo di pizza desiderata:";
+step

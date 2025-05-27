@@ -1,0 +1,11 @@
+scenario PhdMaster_scenario5
+
+load PhdMaster.asm
+
+check status = UNASSOCIATED;
+set transition := REQ_ASSOC_REL;
+
+step
+
+check status = UNASSOCIATED;
+check message = MSG_NO_RESPONSE;

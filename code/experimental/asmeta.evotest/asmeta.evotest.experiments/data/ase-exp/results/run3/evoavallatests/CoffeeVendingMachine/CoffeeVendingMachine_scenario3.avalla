@@ -1,0 +1,15 @@
+scenario CoffeeVendingMachine_scenario3
+
+load CoffeeVendingMachine.asm
+
+check coins = 0;
+check available(MILK) = 10;
+check available(COFFEE) = 10;
+check available(TEA) = 10;
+
+step
+
+check coins = 0;
+check available(MILK) = 10;
+check available(COFFEE) = 10;
+check available(TEA) = 10;

@@ -1,0 +1,15 @@
+scenario CashRegister_scenario1
+
+load CashRegister.asm
+
+check totale = 0;
+check outMess = "";
+check statoCassa = ATTENDI_ORDINAZIONI;
+set servizioSelezionato := NEWORDINE;
+set sceltaDiAggiuntaPizza := NO;
+
+step
+
+check totale = 0;
+check outMess = "prezzo totale aggiornato";
+check statoCassa = ATTENDI_ORDINAZIONI;

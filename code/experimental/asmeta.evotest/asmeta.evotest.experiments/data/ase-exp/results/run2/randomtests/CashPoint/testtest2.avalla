@@ -1,0 +1,12 @@
+scenario testtest2
+
+load ./data\ase-exp\models\CashPoint.asm
+
+//// test name test@test2
+//// generated for (test goal): test2: NULL
+check tillState(till1) = WAITCARD;
+check balance(account1) = 2000;
+step
+check tillState(till1) = WAITPIN;
+check insertedCard(till1) = card1;
+step

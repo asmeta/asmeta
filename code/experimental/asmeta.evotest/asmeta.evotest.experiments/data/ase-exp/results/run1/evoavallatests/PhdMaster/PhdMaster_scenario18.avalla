@@ -1,0 +1,11 @@
+scenario PhdMaster_scenario18
+
+load PhdMaster.asm
+
+check status = UNASSOCIATED;
+set transition := RX_RLRE;
+
+step
+
+check message = MSG_NO_RESPONSE;
+check status = UNASSOCIATED;

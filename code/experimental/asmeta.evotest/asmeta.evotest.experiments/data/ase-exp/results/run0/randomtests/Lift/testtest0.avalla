@@ -1,0 +1,21 @@
+scenario testtest0
+
+load ./data\ase-exp\models\Lift.asm
+
+//// test name test@test0
+//// generated for (test goal): test0: NULL
+check statoPorta = CHIUSA;
+check statoPiano = UNO;
+set signalPorta := true;
+step
+check statoPorta = APERTA;
+check statoPiano = UNO;
+set signalPorta := true;
+step
+check statoPiano = UNO;
+check statoPorta = APERTA;
+set signalPorta := true;
+step
+check statoPorta = APERTA;
+check statoPiano = UNO;
+step

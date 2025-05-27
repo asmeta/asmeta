@@ -1,0 +1,14 @@
+scenario CashRegister_scenario9
+
+load CashRegister.asm
+
+check statoCassa = ATTENDI_ORDINAZIONI;
+check outMess = "";
+check totale = 0;
+set servizioSelezionato := EXIT;
+
+step
+
+check statoCassa = CHIUSO;
+check totale = 0;
+check outMess = "Registro di cassa chiuso!";

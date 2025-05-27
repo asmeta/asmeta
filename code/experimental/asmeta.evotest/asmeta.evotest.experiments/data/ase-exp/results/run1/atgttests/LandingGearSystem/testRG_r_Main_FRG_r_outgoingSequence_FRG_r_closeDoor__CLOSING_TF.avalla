@@ -1,0 +1,39 @@
+scenario testRG_r_Main_FRG_r_outgoingSequence_FRG_r_closeDoor__CLOSING_TF
+
+load ./data\ase-exp\models\LandingGearSystem.asm
+
+//// test name test@RG_r_Main_FRG_r_outgoingSequence_FRG_r_closeDoor__CLOSING_TF
+//// generated for (test goal): RG_r_Main_FRG_r_outgoingSequence_FRG_r_closeDoor__CLOSING_TF: (handle != UP) and ((gears = EXTENDED) and ((doors = CLOSING) and not doorsAllClosed))
+check generalElectroValve = false;
+check doorsAllOpen = false;
+check gearsAllExtended = false;
+check closeDoorsElectroValve = false;
+check doors = CLOSED;
+check cylindersDoors = CYLINDER_RETRACTED;
+check doorsAllClosed = false;
+check gears = EXTENDED;
+check openDoorsElectroValve = false;
+check gearsAllRetracted = false;
+check retractGearsElectroValve = false;
+check cylindersGears = CYLINDER_EXTENDED;
+check extendGearsElectroValve = false;
+check gearsAllShockAbsorber = false;
+set handle := DOWN;
+step
+set handle := UP;
+step
+check generalElectroValve = true;
+check doors = OPENING;
+check cylindersDoors = CYLINDER_EXTENDING;
+check openDoorsElectroValve = true;
+set handle := undef;
+step
+check closeDoorsElectroValve = true;
+check doors = CLOSING;
+check cylindersDoors = CYLINDER_RETRACTING;
+check openDoorsElectroValve = false;
+set handle := undef;
+set doorsClosed(FRONT) := true;
+set doorsClosed(LEFT) := true;
+set doorsClosed(RIGHT) := false;
+step

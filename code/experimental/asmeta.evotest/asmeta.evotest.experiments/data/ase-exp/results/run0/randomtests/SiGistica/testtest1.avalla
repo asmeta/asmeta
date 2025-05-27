@@ -1,0 +1,18 @@
+scenario testtest1
+
+load ./data\ase-exp\models\SiGistica.asm
+
+//// test name test@test1
+//// generated for (test goal): test1: NULL
+check qtAutGas(GASOLIO) = 10;
+check pagDomain = 0;
+check checkMezzo(OFFICINA) = false;
+check qtAutGas(AUTISTA) = 10;
+set selService := SPEDIZIONE;
+set selPag := YES;
+step
+check qtAutGas(GASOLIO) = 9;
+check checkMezzo(OFFICINA) = true;
+check pagDomain = 1;
+check qtAutGas(AUTISTA) = 9;
+step

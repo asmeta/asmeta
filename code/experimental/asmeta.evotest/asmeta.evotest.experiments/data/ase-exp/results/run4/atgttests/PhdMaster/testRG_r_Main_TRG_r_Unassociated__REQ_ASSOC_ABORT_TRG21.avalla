@@ -1,0 +1,16 @@
+scenario testRG_r_Main_TRG_r_Unassociated__REQ_ASSOC_ABORT_TRG21
+
+load ./data\ase-exp\models\PhdMaster.asm
+
+//// test name test@RG_r_Main_TRG_r_Unassociated__REQ_ASSOC_ABORT_TRG21
+//// generated for (test goal): RG_r_Main_TRG_r_Unassociated__REQ_ASSOC_ABORT_TRG21: (status = UNASSOCIATED) and ((transition = REQ_ASSOC_ABORT) and (message != MSG_RX_ABRT))
+check message = undef;
+check status = UNASSOCIATED;
+set transition := RX_RLRQ;
+step
+check message = MSG_RX_ABRT;
+set transition := RX_ABRT;
+step
+check message = MSG_NO_RESPONSE;
+set transition := REQ_ASSOC_ABORT;
+step

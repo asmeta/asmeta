@@ -1,0 +1,7 @@
+scenario Counter_scenario5
+
+load Counter.asm
+
+
+step
+

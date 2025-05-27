@@ -1,0 +1,22 @@
+scenario testRG_r_Main_TRG3
+
+load ./data\ase-exp\models\Tcas.asm
+
+//// test name test@RG_r_Main_TRG3
+//// generated for (test goal): RG_r_Main_TRG3: (((a and ((not d or not e) or (((d and e) and ((((not f0 and g0) and h0) and not o0) or ((not g0 and h0) and o0))) and ((((not f0 and g0) and l) and k) or ((not g0 and not o0) and k))))) or ((((((not f0 and g0) and h0) and not o0) or ((not g0 and h0) and o0)) and ((((not f0 and g0) and l) and k) or ((not g0 and not o0) and k))) and ((b or (c and not m)) or f0))) and ((((a and not b) and not c) or ((not a and b) and not c)) or ((not a and not b) and c))) and (condition != true)
+check condition = false;
+set m := false;
+set h0 := false;
+set l := false;
+set g0 := false;
+set o0 := false;
+set a := true;
+set f0 := false;
+set j := false;
+set b := false;
+set k := false;
+set n := false;
+set e := false;
+set d := false;
+set c := false;
+step
