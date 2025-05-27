@@ -15,13 +15,10 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.SimpleFileVisitor;
 import java.nio.file.StandardCopyOption;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -67,7 +64,7 @@ public class TestExperiments {
 
 	private static final List<String> CSV_HEADERS = List.of("asm", "n_macro", "n_conditional", "n_update", "approach",
 			"exec_time", "n_scenarios", "n_step", "n_set", "n_check", "macro_coverage", "branch_coverage",
-			"update_rule_coverage", "n_failing_scenarios");
+			"update_rule_coverage", "n_failing_scenarios", "n_val_error_scenarios");
 
 	private static String jdkPath;
 	private static String resultsPath;
@@ -98,7 +95,7 @@ public class TestExperiments {
 		randomDir = resultsPath + File.separator + RANDOM_DIR;
 		atgtDir = resultsPath + File.separator + ATGT_DIR;
 		evoavallaDir = resultsPath + File.separator + EVOAVALLA_DIR;
-		
+
 		// delete existing results and recreate the empty directory
 		File resultsDir = new File(resultsPath);
 		if (resultsDir.exists())
@@ -328,12 +325,12 @@ public class TestExperiments {
 
 		// compute coverage and save results in the csv file
 		String reportCsv = resultsPath + "/report_evoavalla.csv";
-		computeCoverageFromAvalla(avallaOutputDirectory, reportCsv);
+		int errorsInValidation = computeCoverageFromAvalla(avallaOutputDirectory, reportCsv);
 
 		// Write to data.csv the info about evoavalla execution
 		Map<String, Integer> avallaInfo = extractAvallaInfo(avallaOutputDirectory);
 		int nScenario = getNumberOfScenario(avallaOutputDirectory);
-		writeToCsv(reportCsv, exeTime, nScenario, avallaInfo, row);
+		writeToCsv(reportCsv, exeTime, nScenario, errorsInValidation, avallaInfo, row);
 
 		return getStatementCount(avallaOutputDirectory, "step");
 	}
@@ -378,13 +375,13 @@ public class TestExperiments {
 		// compute coverage and save results in the csv file
 		String reportCsv = resultsPath + "/report_random.csv";
 		String avallaOutputDirectory = randomDir + File.separator + asmFileName;
-		computeCoverageFromAsmTestSuite(asmPath, randomSuite, avallaOutputDirectory, reportCsv);
+		int errorsInValidation = computeCoverageFromAsmTestSuite(asmPath, randomSuite, avallaOutputDirectory, reportCsv);
 		RuleEvalWCov.reset();
 
 		// Write to data.csv the info about evoavalla execution
 		Map<String, Integer> avallaInfo = extractAvallaInfo(avallaOutputDirectory);
 		int nScenario = getNumberOfScenario(avallaOutputDirectory);
-		writeToCsv(reportCsv, exeTime, nScenario, avallaInfo, row);
+		writeToCsv(reportCsv, exeTime, nScenario, errorsInValidation, avallaInfo, row);
 	}
 
 	/**
@@ -411,13 +408,13 @@ public class TestExperiments {
 		// compute coverage and save results in the csv file
 		String reportCsv = resultsPath + "/report_atgt.csv";
 		String avallaOutputDirectory = atgtDir + File.separator + asmFileName;
-		computeCoverageFromAsmTestSuite(asmPath, nusmvSuite, avallaOutputDirectory, reportCsv);
+		int errorsInValidation = computeCoverageFromAsmTestSuite(asmPath, nusmvSuite, avallaOutputDirectory, reportCsv);
 		RuleEvalWCov.reset();
 
 		// Write to data.csv the info about evoavalla execution
 		Map<String, Integer> avallaInfo = extractAvallaInfo(avallaOutputDirectory);
 		int nScenario = getNumberOfScenario(avallaOutputDirectory);
-		writeToCsv(reportCsv, exeTime, nScenario, avallaInfo, row);
+		writeToCsv(reportCsv, exeTime, nScenario, errorsInValidation, avallaInfo, row);
 	}
 
 	/**
@@ -482,6 +479,7 @@ public class TestExperiments {
 	 *                   extracted
 	 * @param exeTime    the execcution time
 	 * @param nScenario  the number of scenarios
+	 * @param nScenario  the number of scenarios for which the validation resulted in an error
 	 * @param avallaInfo the map containing the number of scenarios and total number
 	 *                   of step, set and check statements in them
 	 * @param row        the row to be written on data.csv populated with common
@@ -491,7 +489,7 @@ public class TestExperiments {
 	 * @throws IOException           if any IO Exceptio occurs
 	 * @throws CsvException          if any exveption when reading a csv occurs
 	 */
-	private static void writeToCsv(String reportCsv, long exeTime, int nScenario, Map<String, Integer> avallaInfo,
+	private static void writeToCsv(String reportCsv, long exeTime, int nScenario, int errorsInValidation, Map<String, Integer> avallaInfo,
 			Map<String, String> row) throws FileNotFoundException, IOException, CsvException {
 		// read the csv with coverage data
 		List<String[]> covRows = readCsv(reportCsv);
@@ -499,6 +497,7 @@ public class TestExperiments {
 		row.put("approach", reportCsv.substring(reportCsv.indexOf("_") + 1, reportCsv.indexOf(".csv")));
 		row.put("exec_time", String.valueOf(exeTime));
 		row.put("n_scenarios", String.valueOf(nScenario));
+		row.put("n_val_error_scenarios", String.valueOf(errorsInValidation));
 		row.put("n_step", String.valueOf(avallaInfo.get("step")));
 		row.put("n_set", String.valueOf(avallaInfo.get("set")));
 		row.put("n_check", String.valueOf(avallaInfo.get("check")));
@@ -556,14 +555,15 @@ public class TestExperiments {
 	 * @param suite   the test suite
 	 * @param testDir where to save the .avalla files
 	 * @param csvPath where to save the experiments stats (it must be a .csv file)
+	 * @return the number of scenarios for which the validation result in an error
 	 * @throws Exception
 	 */
-	private static void computeCoverageFromAsmTestSuite(String asmPath, AsmTestSuite suite, String testDir,
+	private static int computeCoverageFromAsmTestSuite(String asmPath, AsmTestSuite suite, String testDir,
 			String csvPath) throws Exception {
 		new File(testDir).mkdirs();
 		SaveResults.saveResults(suite, asmPath, Collections.singleton(FormatsEnum.AVALLA), "",
 				new File(testDir).getAbsolutePath());
-		computeCoverageFromAvalla(testDir, csvPath);
+		return computeCoverageFromAvalla(testDir, csvPath);
 	}
 
 	/**
@@ -575,12 +575,13 @@ public class TestExperiments {
 	 *                     files
 	 * @param csvPath      where to save the experiments stats (it must be a .csv
 	 *                     file)
+	 * @return the number of scenarios for which the validation result in an error
 	 * @throws IOException  if any IO Exceptio occurs
 	 * @throws CsvException if any exveption when reading a csv occurs
 	 */
-	private static void computeCoverageFromAvalla(String scenarioPath, String csvPath)
-			throws IOException, CsvException {
+	private static int computeCoverageFromAvalla(String scenarioPath, String csvPath) throws IOException, CsvException {
 		int failingScenarios = 0;
+		int errorsInValidation = 0;
 		// To avoid to count the pervious scenario twice if the next one is empty, keep
 		// track of the previous execution id. For the first scenario, the check is done
 		// using the column name
@@ -602,6 +603,7 @@ public class TestExperiments {
 						previosExecId = execId;
 					}
 				} catch (Throwable e) {
+					errorsInValidation++;
 					System.err.println("Failed to validate the test: " + path.getFileName());
 					e.printStackTrace();
 				}
@@ -614,6 +616,7 @@ public class TestExperiments {
 		} finally {
 			RuleEvalWCov.reset();
 		}
+		return errorsInValidation;
 	}
 
 	/**

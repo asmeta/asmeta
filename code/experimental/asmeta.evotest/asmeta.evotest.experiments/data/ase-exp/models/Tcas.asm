@@ -116,3 +116,4 @@ definitions:
 		endpar
 
 default init s0:
+	function condition = false

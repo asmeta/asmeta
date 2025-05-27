@@ -294,3 +294,9 @@ default init s0:
 	function retractGearsElectroValve = false
 	function openDoorsElectroValve = false
 	function closeDoorsElectroValve = false
+	function handle = DOWN
+	function gearsExtended($l in LandingSet) = false
+	function gearsRetracted($l in LandingSet) = false
+	function doorsClosed($l in LandingSet) = false
+	function doorsOpen($l in LandingSet) = false
+	function gearsShockAbsorber($l in LandingSet) = false
