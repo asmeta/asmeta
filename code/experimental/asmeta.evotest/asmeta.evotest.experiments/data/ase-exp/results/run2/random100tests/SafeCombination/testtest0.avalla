@@ -1,0 +1,305 @@
+scenario testtest0
+
+load ./data\ase-exp\models\SafeCombination.asm
+
+//// test name test@test0
+//// generated for (test goal): test0: NULL
+check currentLock = 1;
+set digitPad := 9;
+step
+check currentLock = 1;
+set digitPad := 8;
+step
+check currentLock = 1;
+set digitPad := 5;
+step
+check currentLock = 1;
+set digitPad := 7;
+step
+check currentLock = 2;
+set digitPad := 8;
+step
+check currentLock = 1;
+set digitPad := 0;
+step
+check currentLock = 1;
+set digitPad := 6;
+step
+check currentLock = 1;
+set digitPad := 6;
+step
+check currentLock = 1;
+set digitPad := 3;
+step
+check currentLock = 1;
+set digitPad := 8;
+step
+check currentLock = 1;
+set digitPad := 4;
+step
+check currentLock = 1;
+set digitPad := 6;
+step
+check currentLock = 1;
+set digitPad := 4;
+step
+check currentLock = 1;
+set digitPad := 4;
+step
+check currentLock = 1;
+set digitPad := 2;
+step
+check currentLock = 1;
+set digitPad := 3;
+step
+check currentLock = 1;
+set digitPad := 4;
+step
+check currentLock = 1;
+set digitPad := 9;
+step
+check currentLock = 1;
+set digitPad := 3;
+step
+check currentLock = 1;
+set digitPad := 8;
+step
+check currentLock = 1;
+set digitPad := 6;
+step
+check currentLock = 1;
+set digitPad := 6;
+step
+check currentLock = 1;
+set digitPad := 8;
+step
+check currentLock = 1;
+set digitPad := 5;
+step
+check currentLock = 1;
+set digitPad := 3;
+step
+check currentLock = 1;
+set digitPad := 3;
+step
+check currentLock = 1;
+set digitPad := 2;
+step
+check currentLock = 1;
+set digitPad := 8;
+step
+check currentLock = 1;
+set digitPad := 9;
+step
+check currentLock = 1;
+set digitPad := 6;
+step
+check currentLock = 1;
+set digitPad := 4;
+step
+check currentLock = 1;
+set digitPad := 3;
+step
+check currentLock = 1;
+set digitPad := 8;
+step
+check currentLock = 1;
+set digitPad := 1;
+step
+check currentLock = 1;
+set digitPad := 0;
+step
+check currentLock = 1;
+set digitPad := 2;
+step
+check currentLock = 1;
+set digitPad := 4;
+step
+check currentLock = 1;
+set digitPad := 7;
+step
+check currentLock = 2;
+set digitPad := 7;
+step
+check currentLock = 3;
+set digitPad := 5;
+step
+check currentLock = 1;
+set digitPad := 5;
+step
+check currentLock = 1;
+set digitPad := 0;
+step
+check currentLock = 1;
+set digitPad := 6;
+step
+check currentLock = 1;
+set digitPad := 8;
+step
+check currentLock = 1;
+set digitPad := 0;
+step
+check currentLock = 1;
+set digitPad := 2;
+step
+check currentLock = 1;
+set digitPad := 5;
+step
+check currentLock = 1;
+set digitPad := 7;
+step
+check currentLock = 2;
+set digitPad := 6;
+step
+check currentLock = 1;
+set digitPad := 2;
+step
+check currentLock = 1;
+set digitPad := 7;
+step
+check currentLock = 2;
+set digitPad := 5;
+step
+check currentLock = 1;
+set digitPad := 3;
+step
+check currentLock = 1;
+set digitPad := 8;
+step
+check currentLock = 1;
+set digitPad := 3;
+step
+check currentLock = 1;
+set digitPad := 1;
+step
+check currentLock = 1;
+set digitPad := 7;
+step
+check currentLock = 2;
+set digitPad := 7;
+step
+check currentLock = 3;
+set digitPad := 9;
+step
+check currentLock = 1;
+set digitPad := 0;
+step
+check currentLock = 1;
+set digitPad := 0;
+step
+check currentLock = 1;
+set digitPad := 1;
+step
+check currentLock = 1;
+set digitPad := 1;
+step
+check currentLock = 1;
+set digitPad := 1;
+step
+check currentLock = 1;
+set digitPad := 5;
+step
+check currentLock = 1;
+set digitPad := 3;
+step
+check currentLock = 1;
+set digitPad := 6;
+step
+check currentLock = 1;
+set digitPad := 0;
+step
+check currentLock = 1;
+set digitPad := 8;
+step
+check currentLock = 1;
+set digitPad := 9;
+step
+check currentLock = 1;
+set digitPad := 3;
+step
+check currentLock = 1;
+set digitPad := 0;
+step
+check currentLock = 1;
+set digitPad := 6;
+step
+check currentLock = 1;
+set digitPad := 1;
+step
+check currentLock = 1;
+set digitPad := 8;
+step
+check currentLock = 1;
+set digitPad := 6;
+step
+check currentLock = 1;
+set digitPad := 4;
+step
+check currentLock = 1;
+set digitPad := 6;
+step
+check currentLock = 1;
+set digitPad := 9;
+step
+check currentLock = 1;
+set digitPad := 7;
+step
+check currentLock = 2;
+set digitPad := 5;
+step
+check currentLock = 1;
+set digitPad := 9;
+step
+check currentLock = 1;
+set digitPad := 9;
+step
+check currentLock = 1;
+set digitPad := 3;
+step
+check currentLock = 1;
+set digitPad := 3;
+step
+check currentLock = 1;
+set digitPad := 9;
+step
+check currentLock = 1;
+set digitPad := 3;
+step
+check currentLock = 1;
+set digitPad := 0;
+step
+check currentLock = 1;
+set digitPad := 6;
+step
+check currentLock = 1;
+set digitPad := 5;
+step
+check currentLock = 1;
+set digitPad := 5;
+step
+check currentLock = 1;
+set digitPad := 4;
+step
+check currentLock = 1;
+set digitPad := 4;
+step
+check currentLock = 1;
+set digitPad := 7;
+step
+check currentLock = 2;
+set digitPad := 9;
+step
+check currentLock = 1;
+set digitPad := 3;
+step
+check currentLock = 1;
+set digitPad := 4;
+step
+check currentLock = 1;
+set digitPad := 5;
+step
+check currentLock = 1;
+set digitPad := 2;
+step
+check currentLock = 1;
+step

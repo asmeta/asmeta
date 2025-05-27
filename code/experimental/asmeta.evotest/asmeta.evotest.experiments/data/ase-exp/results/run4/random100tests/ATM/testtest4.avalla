@@ -1,0 +1,507 @@
+scenario testtest4
+
+load ./data\ase-exp\models\ATM.asm
+
+//// test name test@test4
+//// generated for (test goal): test4: NULL
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+set insertedCard := card1;
+step
+check accessible(card1) = true;
+check moneyLeft = 1000;
+check currCard = card1;
+check atmState = AWAITPIN;
+set insertedPin := -1816088828;
+step
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+check currCard = card1;
+set insertedCard := card1;
+step
+check moneyLeft = 1000;
+check atmState = AWAITPIN;
+check currCard = card1;
+set insertedPin := -1224645016;
+step
+check atmState = AWAITCARD;
+check moneyLeft = 1000;
+check currCard = card1;
+set insertedCard := card1;
+step
+check moneyLeft = 1000;
+check atmState = AWAITPIN;
+check currCard = card1;
+set insertedPin := 1764136462;
+step
+check currCard = card1;
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+set insertedCard := card3;
+step
+check currCard = card3;
+check atmState = AWAITPIN;
+check accessible(card3) = true;
+check moneyLeft = 1000;
+set insertedPin := 570505940;
+step
+check currCard = card3;
+check atmState = AWAITCARD;
+check moneyLeft = 1000;
+set insertedCard := card3;
+step
+check atmState = AWAITPIN;
+check currCard = card3;
+check moneyLeft = 1000;
+set insertedPin := -958128566;
+step
+check moneyLeft = 1000;
+check currCard = card3;
+check atmState = AWAITCARD;
+set insertedCard := card3;
+step
+check currCard = card3;
+check atmState = AWAITPIN;
+check moneyLeft = 1000;
+set insertedPin := -1115982730;
+step
+check atmState = AWAITCARD;
+check currCard = card3;
+check moneyLeft = 1000;
+set insertedCard := card1;
+step
+check currCard = card1;
+check moneyLeft = 1000;
+check atmState = AWAITPIN;
+set insertedPin := -446540654;
+step
+check atmState = AWAITCARD;
+check moneyLeft = 1000;
+check currCard = card1;
+set insertedCard := card2;
+step
+check moneyLeft = 1000;
+check accessible(card2) = true;
+check currCard = card2;
+check atmState = AWAITPIN;
+set insertedPin := 780429463;
+step
+check currCard = card2;
+check atmState = AWAITCARD;
+check moneyLeft = 1000;
+set insertedCard := card2;
+step
+check atmState = AWAITPIN;
+check currCard = card2;
+check moneyLeft = 1000;
+set insertedPin := -1631152688;
+step
+check currCard = card2;
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+set insertedCard := card3;
+step
+check currCard = card3;
+check atmState = AWAITPIN;
+check moneyLeft = 1000;
+set insertedPin := -706359080;
+step
+check atmState = AWAITCARD;
+check moneyLeft = 1000;
+check currCard = card3;
+set insertedCard := card1;
+step
+check atmState = AWAITPIN;
+check moneyLeft = 1000;
+check currCard = card1;
+set insertedPin := -1902126687;
+step
+check atmState = AWAITCARD;
+check moneyLeft = 1000;
+check currCard = card1;
+set insertedCard := card1;
+step
+check atmState = AWAITPIN;
+check currCard = card1;
+check moneyLeft = 1000;
+set insertedPin := -526593927;
+step
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+check currCard = card1;
+set insertedCard := card2;
+step
+check moneyLeft = 1000;
+check currCard = card2;
+check atmState = AWAITPIN;
+set insertedPin := -1957985484;
+step
+check atmState = AWAITCARD;
+check moneyLeft = 1000;
+check currCard = card2;
+set insertedCard := card3;
+step
+check currCard = card3;
+check atmState = AWAITPIN;
+check moneyLeft = 1000;
+set insertedPin := -1478719017;
+step
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+check currCard = card3;
+set insertedCard := card1;
+step
+check atmState = AWAITPIN;
+check moneyLeft = 1000;
+check currCard = card1;
+set insertedPin := 39574648;
+step
+check currCard = card1;
+check atmState = AWAITCARD;
+check moneyLeft = 1000;
+set insertedCard := card3;
+step
+check atmState = AWAITPIN;
+check currCard = card3;
+check moneyLeft = 1000;
+set insertedPin := 359008310;
+step
+check currCard = card3;
+check atmState = AWAITCARD;
+check moneyLeft = 1000;
+set insertedCard := card2;
+step
+check atmState = AWAITPIN;
+check currCard = card2;
+check moneyLeft = 1000;
+set insertedPin := 155754358;
+step
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+check currCard = card2;
+set insertedCard := card3;
+step
+check atmState = AWAITPIN;
+check moneyLeft = 1000;
+check currCard = card3;
+set insertedPin := 919503297;
+step
+check atmState = AWAITCARD;
+check moneyLeft = 1000;
+check currCard = card3;
+set insertedCard := card3;
+step
+check currCard = card3;
+check atmState = AWAITPIN;
+check moneyLeft = 1000;
+set insertedPin := 357839354;
+step
+check atmState = AWAITCARD;
+check moneyLeft = 1000;
+check currCard = card3;
+set insertedCard := card1;
+step
+check moneyLeft = 1000;
+check atmState = AWAITPIN;
+check currCard = card1;
+set insertedPin := 1280914894;
+step
+check atmState = AWAITCARD;
+check moneyLeft = 1000;
+check currCard = card1;
+set insertedCard := card1;
+step
+check moneyLeft = 1000;
+check currCard = card1;
+check atmState = AWAITPIN;
+set insertedPin := -1089046663;
+step
+check moneyLeft = 1000;
+check currCard = card1;
+check atmState = AWAITCARD;
+set insertedCard := card2;
+step
+check moneyLeft = 1000;
+check atmState = AWAITPIN;
+check currCard = card2;
+set insertedPin := 1855613797;
+step
+check currCard = card2;
+check atmState = AWAITCARD;
+check moneyLeft = 1000;
+set insertedCard := card3;
+step
+check moneyLeft = 1000;
+check atmState = AWAITPIN;
+check currCard = card3;
+set insertedPin := 1372085550;
+step
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+check currCard = card3;
+set insertedCard := card1;
+step
+check atmState = AWAITPIN;
+check moneyLeft = 1000;
+check currCard = card1;
+set insertedPin := 627921922;
+step
+check moneyLeft = 1000;
+check currCard = card1;
+check atmState = AWAITCARD;
+set insertedCard := card1;
+step
+check atmState = AWAITPIN;
+check currCard = card1;
+check moneyLeft = 1000;
+set insertedPin := 712606853;
+step
+check atmState = AWAITCARD;
+check currCard = card1;
+check moneyLeft = 1000;
+set insertedCard := card3;
+step
+check currCard = card3;
+check atmState = AWAITPIN;
+check moneyLeft = 1000;
+set insertedPin := -1021389158;
+step
+check currCard = card3;
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+set insertedCard := card3;
+step
+check atmState = AWAITPIN;
+check currCard = card3;
+check moneyLeft = 1000;
+set insertedPin := -1173639235;
+step
+check moneyLeft = 1000;
+check currCard = card3;
+check atmState = AWAITCARD;
+set insertedCard := card3;
+step
+check currCard = card3;
+check atmState = AWAITPIN;
+check moneyLeft = 1000;
+set insertedPin := 340494043;
+step
+check atmState = AWAITCARD;
+check currCard = card3;
+check moneyLeft = 1000;
+set insertedCard := card2;
+step
+check atmState = AWAITPIN;
+check moneyLeft = 1000;
+check currCard = card2;
+set insertedPin := -597306168;
+step
+check atmState = AWAITCARD;
+check currCard = card2;
+check moneyLeft = 1000;
+set insertedCard := card3;
+step
+check atmState = AWAITPIN;
+check moneyLeft = 1000;
+check currCard = card3;
+set insertedPin := -2012263240;
+step
+check currCard = card3;
+check atmState = AWAITCARD;
+check moneyLeft = 1000;
+set insertedCard := card3;
+step
+check atmState = AWAITPIN;
+check moneyLeft = 1000;
+check currCard = card3;
+set insertedPin := -771032459;
+step
+check moneyLeft = 1000;
+check currCard = card3;
+check atmState = AWAITCARD;
+set insertedCard := card1;
+step
+check currCard = card1;
+check moneyLeft = 1000;
+check atmState = AWAITPIN;
+set insertedPin := -1324777436;
+step
+check atmState = AWAITCARD;
+check currCard = card1;
+check moneyLeft = 1000;
+set insertedCard := card1;
+step
+check currCard = card1;
+check atmState = AWAITPIN;
+check moneyLeft = 1000;
+set insertedPin := -1923136560;
+step
+check currCard = card1;
+check atmState = AWAITCARD;
+check moneyLeft = 1000;
+set insertedCard := card2;
+step
+check moneyLeft = 1000;
+check currCard = card2;
+check atmState = AWAITPIN;
+set insertedPin := 1050705180;
+step
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+check currCard = card2;
+set insertedCard := card3;
+step
+check currCard = card3;
+check atmState = AWAITPIN;
+check moneyLeft = 1000;
+set insertedPin := -458764856;
+step
+check atmState = AWAITCARD;
+check moneyLeft = 1000;
+check currCard = card3;
+set insertedCard := card3;
+step
+check atmState = AWAITPIN;
+check moneyLeft = 1000;
+check currCard = card3;
+set insertedPin := -350489621;
+step
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+check currCard = card3;
+set insertedCard := card1;
+step
+check moneyLeft = 1000;
+check atmState = AWAITPIN;
+check currCard = card1;
+set insertedPin := 729301778;
+step
+check atmState = AWAITCARD;
+check moneyLeft = 1000;
+check currCard = card1;
+set insertedCard := card3;
+step
+check currCard = card3;
+check moneyLeft = 1000;
+check atmState = AWAITPIN;
+set insertedPin := 1994226089;
+step
+check atmState = AWAITCARD;
+check moneyLeft = 1000;
+check currCard = card3;
+set insertedCard := card3;
+step
+check moneyLeft = 1000;
+check atmState = AWAITPIN;
+check currCard = card3;
+set insertedPin := 1946896973;
+step
+check atmState = AWAITCARD;
+check moneyLeft = 1000;
+check currCard = card3;
+set insertedCard := card2;
+step
+check moneyLeft = 1000;
+check atmState = AWAITPIN;
+check currCard = card2;
+set insertedPin := -2022499068;
+step
+check atmState = AWAITCARD;
+check currCard = card2;
+check moneyLeft = 1000;
+set insertedCard := card3;
+step
+check moneyLeft = 1000;
+check atmState = AWAITPIN;
+check currCard = card3;
+set insertedPin := 1630614119;
+step
+check currCard = card3;
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+set insertedCard := card3;
+step
+check atmState = AWAITPIN;
+check currCard = card3;
+check moneyLeft = 1000;
+set insertedPin := 179831618;
+step
+check atmState = AWAITCARD;
+check currCard = card3;
+check moneyLeft = 1000;
+set insertedCard := card1;
+step
+check atmState = AWAITPIN;
+check moneyLeft = 1000;
+check currCard = card1;
+set insertedPin := -967671490;
+step
+check moneyLeft = 1000;
+check currCard = card1;
+check atmState = AWAITCARD;
+set insertedCard := card2;
+step
+check moneyLeft = 1000;
+check currCard = card2;
+check atmState = AWAITPIN;
+set insertedPin := -1091350138;
+step
+check currCard = card2;
+check atmState = AWAITCARD;
+check moneyLeft = 1000;
+set insertedCard := card3;
+step
+check moneyLeft = 1000;
+check currCard = card3;
+check atmState = AWAITPIN;
+set insertedPin := -88455030;
+step
+check atmState = AWAITCARD;
+check currCard = card3;
+check moneyLeft = 1000;
+set insertedCard := card3;
+step
+check currCard = card3;
+check moneyLeft = 1000;
+check atmState = AWAITPIN;
+set insertedPin := 1764091473;
+step
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+check currCard = card3;
+set insertedCard := card3;
+step
+check moneyLeft = 1000;
+check atmState = AWAITPIN;
+check currCard = card3;
+set insertedPin := -1976146695;
+step
+check atmState = AWAITCARD;
+check moneyLeft = 1000;
+check currCard = card3;
+set insertedCard := card1;
+step
+check currCard = card1;
+check atmState = AWAITPIN;
+check moneyLeft = 1000;
+set insertedPin := -2034522293;
+step
+check currCard = card1;
+check moneyLeft = 1000;
+check atmState = AWAITCARD;
+set insertedCard := card1;
+step
+check currCard = card1;
+check moneyLeft = 1000;
+check atmState = AWAITPIN;
+set insertedPin := -44430437;
+step
+check moneyLeft = 1000;
+check currCard = card1;
+check atmState = AWAITCARD;
+set insertedCard := card1;
+step
+check currCard = card1;
+check moneyLeft = 1000;
+check atmState = AWAITPIN;
+step

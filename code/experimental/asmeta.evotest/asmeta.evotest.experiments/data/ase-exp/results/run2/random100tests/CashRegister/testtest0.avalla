@@ -1,0 +1,507 @@
+scenario testtest0
+
+load ./data\ase-exp\models\CashRegister.asm
+
+//// test name test@test0
+//// generated for (test goal): test0: NULL
+set sceltaDiAggiuntaPizza := SI;
+set servizioSelezionato := NEWORDINE;
+step
+check totale = 0;
+check statoCassa = SCEGLI_TIPO_DI_PIZZA;
+check outMess = "Scegli il tipo di pizza desiderata:";
+set sceltaDelTipoPizza := STANDARD;
+step
+check totale = 0;
+check statoCassa = PIZZASTANDARD_SELEZIONATA;
+check outMess = "Inserisci il nome di una pizza dell'elenco:";
+set insertQuantita := 0;
+set pizzaInserita := margherita;
+step
+check totale = 0;
+check pizzaCorrente = margherita;
+check outMess = "prezzo totale aggiornato";
+check statoCassa = SCEGLI_SE_AGGIUNGERE_PIZZA;
+set sceltaDiAggiuntaPizza := NO;
+step
+check totale = 0;
+check pizzaCorrente = margherita;
+check outMess = "prezzo totale aggiornato";
+check statoCassa = ATTENDI_ORDINAZIONI;
+set servizioSelezionato := EXIT;
+step
+check pizzaCorrente = margherita;
+check outMess = "Registro di cassa chiuso!";
+check totale = 0;
+check statoCassa = CHIUSO;
+step
+check totale = 0;
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+check pizzaCorrente = margherita;
+step
+check totale = 0;
+check pizzaCorrente = margherita;
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+step
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+check totale = 0;
+check pizzaCorrente = margherita;
+step
+check outMess = "Registro di cassa chiuso!";
+check pizzaCorrente = margherita;
+check statoCassa = CHIUSO;
+check totale = 0;
+step
+check statoCassa = CHIUSO;
+check pizzaCorrente = margherita;
+check totale = 0;
+check outMess = "Registro di cassa chiuso!";
+step
+check pizzaCorrente = margherita;
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+check totale = 0;
+step
+check statoCassa = CHIUSO;
+check pizzaCorrente = margherita;
+check outMess = "Registro di cassa chiuso!";
+check totale = 0;
+step
+check pizzaCorrente = margherita;
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+check totale = 0;
+step
+check outMess = "Registro di cassa chiuso!";
+check totale = 0;
+check statoCassa = CHIUSO;
+check pizzaCorrente = margherita;
+step
+check totale = 0;
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+check pizzaCorrente = margherita;
+step
+check outMess = "Registro di cassa chiuso!";
+check totale = 0;
+check pizzaCorrente = margherita;
+check statoCassa = CHIUSO;
+step
+check statoCassa = CHIUSO;
+check totale = 0;
+check pizzaCorrente = margherita;
+check outMess = "Registro di cassa chiuso!";
+step
+check pizzaCorrente = margherita;
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+check totale = 0;
+step
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+check totale = 0;
+check pizzaCorrente = margherita;
+step
+check outMess = "Registro di cassa chiuso!";
+check totale = 0;
+check statoCassa = CHIUSO;
+check pizzaCorrente = margherita;
+step
+check pizzaCorrente = margherita;
+check totale = 0;
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+step
+check pizzaCorrente = margherita;
+check totale = 0;
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+step
+check totale = 0;
+check outMess = "Registro di cassa chiuso!";
+check pizzaCorrente = margherita;
+check statoCassa = CHIUSO;
+step
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+check pizzaCorrente = margherita;
+check totale = 0;
+step
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+check totale = 0;
+check pizzaCorrente = margherita;
+step
+check pizzaCorrente = margherita;
+check totale = 0;
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+step
+check totale = 0;
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+check pizzaCorrente = margherita;
+step
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+check pizzaCorrente = margherita;
+check totale = 0;
+step
+check statoCassa = CHIUSO;
+check pizzaCorrente = margherita;
+check outMess = "Registro di cassa chiuso!";
+check totale = 0;
+step
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+check pizzaCorrente = margherita;
+check totale = 0;
+step
+check statoCassa = CHIUSO;
+check totale = 0;
+check outMess = "Registro di cassa chiuso!";
+check pizzaCorrente = margherita;
+step
+check pizzaCorrente = margherita;
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+check totale = 0;
+step
+check pizzaCorrente = margherita;
+check totale = 0;
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+step
+check pizzaCorrente = margherita;
+check outMess = "Registro di cassa chiuso!";
+check totale = 0;
+check statoCassa = CHIUSO;
+step
+check statoCassa = CHIUSO;
+check pizzaCorrente = margherita;
+check totale = 0;
+check outMess = "Registro di cassa chiuso!";
+step
+check outMess = "Registro di cassa chiuso!";
+check pizzaCorrente = margherita;
+check statoCassa = CHIUSO;
+check totale = 0;
+step
+check totale = 0;
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+check pizzaCorrente = margherita;
+step
+check outMess = "Registro di cassa chiuso!";
+check pizzaCorrente = margherita;
+check totale = 0;
+check statoCassa = CHIUSO;
+step
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+check pizzaCorrente = margherita;
+check totale = 0;
+step
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+check pizzaCorrente = margherita;
+check totale = 0;
+step
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+check totale = 0;
+check pizzaCorrente = margherita;
+step
+check statoCassa = CHIUSO;
+check pizzaCorrente = margherita;
+check totale = 0;
+check outMess = "Registro di cassa chiuso!";
+step
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+check totale = 0;
+check pizzaCorrente = margherita;
+step
+check pizzaCorrente = margherita;
+check outMess = "Registro di cassa chiuso!";
+check totale = 0;
+check statoCassa = CHIUSO;
+step
+check pizzaCorrente = margherita;
+check outMess = "Registro di cassa chiuso!";
+check totale = 0;
+check statoCassa = CHIUSO;
+step
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+check pizzaCorrente = margherita;
+check totale = 0;
+step
+check pizzaCorrente = margherita;
+check statoCassa = CHIUSO;
+check totale = 0;
+check outMess = "Registro di cassa chiuso!";
+step
+check pizzaCorrente = margherita;
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+check totale = 0;
+step
+check totale = 0;
+check pizzaCorrente = margherita;
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+step
+check pizzaCorrente = margherita;
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+check totale = 0;
+step
+check outMess = "Registro di cassa chiuso!";
+check pizzaCorrente = margherita;
+check statoCassa = CHIUSO;
+check totale = 0;
+step
+check totale = 0;
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+check pizzaCorrente = margherita;
+step
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+check totale = 0;
+check pizzaCorrente = margherita;
+step
+check pizzaCorrente = margherita;
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+check totale = 0;
+step
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+check totale = 0;
+check pizzaCorrente = margherita;
+step
+check statoCassa = CHIUSO;
+check totale = 0;
+check pizzaCorrente = margherita;
+check outMess = "Registro di cassa chiuso!";
+step
+check statoCassa = CHIUSO;
+check totale = 0;
+check pizzaCorrente = margherita;
+check outMess = "Registro di cassa chiuso!";
+step
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+check totale = 0;
+check pizzaCorrente = margherita;
+step
+check statoCassa = CHIUSO;
+check pizzaCorrente = margherita;
+check outMess = "Registro di cassa chiuso!";
+check totale = 0;
+step
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+check totale = 0;
+check pizzaCorrente = margherita;
+step
+check outMess = "Registro di cassa chiuso!";
+check totale = 0;
+check statoCassa = CHIUSO;
+check pizzaCorrente = margherita;
+step
+check statoCassa = CHIUSO;
+check pizzaCorrente = margherita;
+check totale = 0;
+check outMess = "Registro di cassa chiuso!";
+step
+check pizzaCorrente = margherita;
+check totale = 0;
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+step
+check pizzaCorrente = margherita;
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+check totale = 0;
+step
+check statoCassa = CHIUSO;
+check totale = 0;
+check outMess = "Registro di cassa chiuso!";
+check pizzaCorrente = margherita;
+step
+check totale = 0;
+check statoCassa = CHIUSO;
+check pizzaCorrente = margherita;
+check outMess = "Registro di cassa chiuso!";
+step
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+check totale = 0;
+check pizzaCorrente = margherita;
+step
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+check totale = 0;
+check pizzaCorrente = margherita;
+step
+check totale = 0;
+check pizzaCorrente = margherita;
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+step
+check totale = 0;
+check statoCassa = CHIUSO;
+check pizzaCorrente = margherita;
+check outMess = "Registro di cassa chiuso!";
+step
+check outMess = "Registro di cassa chiuso!";
+check pizzaCorrente = margherita;
+check totale = 0;
+check statoCassa = CHIUSO;
+step
+check pizzaCorrente = margherita;
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+check totale = 0;
+step
+check pizzaCorrente = margherita;
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+check totale = 0;
+step
+check totale = 0;
+check pizzaCorrente = margherita;
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+step
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+check pizzaCorrente = margherita;
+check totale = 0;
+step
+check totale = 0;
+check statoCassa = CHIUSO;
+check pizzaCorrente = margherita;
+check outMess = "Registro di cassa chiuso!";
+step
+check pizzaCorrente = margherita;
+check totale = 0;
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+step
+check pizzaCorrente = margherita;
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+check totale = 0;
+step
+check outMess = "Registro di cassa chiuso!";
+check totale = 0;
+check statoCassa = CHIUSO;
+check pizzaCorrente = margherita;
+step
+check outMess = "Registro di cassa chiuso!";
+check totale = 0;
+check statoCassa = CHIUSO;
+check pizzaCorrente = margherita;
+step
+check pizzaCorrente = margherita;
+check outMess = "Registro di cassa chiuso!";
+check totale = 0;
+check statoCassa = CHIUSO;
+step
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+check pizzaCorrente = margherita;
+check totale = 0;
+step
+check pizzaCorrente = margherita;
+check outMess = "Registro di cassa chiuso!";
+check totale = 0;
+check statoCassa = CHIUSO;
+step
+check pizzaCorrente = margherita;
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+check totale = 0;
+step
+check outMess = "Registro di cassa chiuso!";
+check totale = 0;
+check statoCassa = CHIUSO;
+check pizzaCorrente = margherita;
+step
+check pizzaCorrente = margherita;
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+check totale = 0;
+step
+check outMess = "Registro di cassa chiuso!";
+check totale = 0;
+check pizzaCorrente = margherita;
+check statoCassa = CHIUSO;
+step
+check outMess = "Registro di cassa chiuso!";
+check pizzaCorrente = margherita;
+check totale = 0;
+check statoCassa = CHIUSO;
+step
+check pizzaCorrente = margherita;
+check outMess = "Registro di cassa chiuso!";
+check totale = 0;
+check statoCassa = CHIUSO;
+step
+check totale = 0;
+check outMess = "Registro di cassa chiuso!";
+check pizzaCorrente = margherita;
+check statoCassa = CHIUSO;
+step
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+check totale = 0;
+check pizzaCorrente = margherita;
+step
+check statoCassa = CHIUSO;
+check pizzaCorrente = margherita;
+check totale = 0;
+check outMess = "Registro di cassa chiuso!";
+step
+check statoCassa = CHIUSO;
+check totale = 0;
+check pizzaCorrente = margherita;
+check outMess = "Registro di cassa chiuso!";
+step
+check statoCassa = CHIUSO;
+check pizzaCorrente = margherita;
+check outMess = "Registro di cassa chiuso!";
+check totale = 0;
+step
+check pizzaCorrente = margherita;
+check totale = 0;
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+step
+check pizzaCorrente = margherita;
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+check totale = 0;
+step
+check statoCassa = CHIUSO;
+check totale = 0;
+check pizzaCorrente = margherita;
+check outMess = "Registro di cassa chiuso!";
+step
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+check totale = 0;
+check pizzaCorrente = margherita;
+step
+check pizzaCorrente = margherita;
+check outMess = "Registro di cassa chiuso!";
+check totale = 0;
+check statoCassa = CHIUSO;
+step

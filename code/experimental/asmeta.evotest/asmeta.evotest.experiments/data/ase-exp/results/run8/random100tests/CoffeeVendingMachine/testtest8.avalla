@@ -1,0 +1,288 @@
+scenario testtest8
+
+load ./data\ase-exp\models\CoffeeVendingMachine.asm
+
+//// test name test@test8
+//// generated for (test goal): test8: NULL
+check available(TEA) = 10;
+check coins = 0;
+set chosenProduct := TEA;
+set insertedCoin := ONE;
+step
+check coins = 1;
+check available(TEA) = 9;
+check available(MILK) = 10;
+set insertedCoin := HALF;
+step
+check available(COFFEE) = 10;
+check coins = 2;
+check available(MILK) = 9;
+set chosenProduct := COFFEE;
+set insertedCoin := ONE;
+step
+check available(COFFEE) = 9;
+check coins = 3;
+set insertedCoin := HALF;
+step
+check coins = 4;
+check available(MILK) = 8;
+set insertedCoin := ONE;
+set chosenProduct := COFFEE;
+step
+check available(COFFEE) = 8;
+check coins = 5;
+set insertedCoin := ONE;
+set chosenProduct := MILK;
+step
+check coins = 5;
+set insertedCoin := ONE;
+set chosenProduct := COFFEE;
+step
+check coins = 6;
+check available(COFFEE) = 7;
+set insertedCoin := HALF;
+step
+check coins = 7;
+check available(MILK) = 7;
+set insertedCoin := HALF;
+step
+check available(MILK) = 6;
+check coins = 8;
+set chosenProduct := MILK;
+set insertedCoin := ONE;
+step
+check coins = 8;
+set insertedCoin := HALF;
+step
+check available(MILK) = 5;
+check coins = 9;
+set insertedCoin := ONE;
+set chosenProduct := TEA;
+step
+check available(TEA) = 8;
+check coins = 10;
+set chosenProduct := COFFEE;
+set insertedCoin := ONE;
+step
+check available(COFFEE) = 6;
+check coins = 11;
+set chosenProduct := MILK;
+set insertedCoin := ONE;
+step
+check coins = 11;
+set insertedCoin := HALF;
+step
+check available(MILK) = 4;
+check coins = 12;
+set insertedCoin := ONE;
+set chosenProduct := TEA;
+step
+check available(TEA) = 7;
+check coins = 13;
+set chosenProduct := COFFEE;
+set insertedCoin := ONE;
+step
+check available(COFFEE) = 5;
+check coins = 14;
+set insertedCoin := HALF;
+step
+check coins = 15;
+check available(MILK) = 3;
+set insertedCoin := HALF;
+step
+check coins = 16;
+check available(MILK) = 2;
+set insertedCoin := ONE;
+set chosenProduct := COFFEE;
+step
+check available(COFFEE) = 4;
+check coins = 17;
+set chosenProduct := COFFEE;
+set insertedCoin := ONE;
+step
+check available(COFFEE) = 3;
+check coins = 18;
+set insertedCoin := HALF;
+step
+check coins = 19;
+check available(MILK) = 1;
+set insertedCoin := HALF;
+step
+check available(MILK) = 0;
+check coins = 20;
+set insertedCoin := ONE;
+set chosenProduct := TEA;
+step
+check available(TEA) = 6;
+check coins = 21;
+set insertedCoin := HALF;
+step
+check coins = 21;
+set insertedCoin := HALF;
+step
+check coins = 21;
+set insertedCoin := HALF;
+step
+check coins = 21;
+set insertedCoin := HALF;
+step
+check coins = 21;
+set insertedCoin := HALF;
+step
+check coins = 21;
+set insertedCoin := ONE;
+set chosenProduct := TEA;
+step
+check available(TEA) = 5;
+check coins = 22;
+set insertedCoin := HALF;
+step
+check coins = 22;
+set insertedCoin := HALF;
+step
+check coins = 22;
+set chosenProduct := TEA;
+set insertedCoin := ONE;
+step
+check available(TEA) = 4;
+check coins = 23;
+set chosenProduct := TEA;
+set insertedCoin := ONE;
+step
+check coins = 24;
+check available(TEA) = 3;
+set insertedCoin := HALF;
+step
+check coins = 24;
+set insertedCoin := ONE;
+set chosenProduct := COFFEE;
+step
+check available(COFFEE) = 2;
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step
+check coins = 25;
+step

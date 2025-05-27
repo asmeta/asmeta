@@ -1,0 +1,422 @@
+scenario testtest8
+
+load ./data\ase-exp\models\CashRegister.asm
+
+//// test name test@test8
+//// generated for (test goal): test8: NULL
+set sceltaDiAggiuntaPizza := SI;
+set servizioSelezionato := NEWORDINE;
+step
+check outMess = "Scegli il tipo di pizza desiderata:";
+check statoCassa = SCEGLI_TIPO_DI_PIZZA;
+check totale = 0;
+set sceltaDelTipoPizza := OTHER;
+step
+check outMess = "Inserisci il nome di una nuova pizza:";
+check totale = 0;
+check statoCassa = ALTRAPIZZA_SELEZIONATA;
+set insertQuantita := 8;
+set insertPrezzo := 5;
+step
+check totale = 40;
+check outMess = "prezzo totale aggiornato";
+check statoCassa = SCEGLI_SE_AGGIUNGERE_PIZZA;
+set sceltaDiAggiuntaPizza := SI;
+step
+check statoCassa = SCEGLI_TIPO_DI_PIZZA;
+check outMess = "Scegli il tipo di pizza desiderata:";
+check totale = 40;
+set sceltaDelTipoPizza := OTHER;
+step
+check statoCassa = ALTRAPIZZA_SELEZIONATA;
+check outMess = "Inserisci il nome di una nuova pizza:";
+check totale = 40;
+set insertPrezzo := 16;
+set insertQuantita := 10;
+step
+check outMess = "prezzo totale aggiornato";
+check totale = 200;
+check statoCassa = SCEGLI_SE_AGGIUNGERE_PIZZA;
+set sceltaDiAggiuntaPizza := SI;
+step
+check outMess = "Scegli il tipo di pizza desiderata:";
+check statoCassa = SCEGLI_TIPO_DI_PIZZA;
+check totale = 200;
+set sceltaDelTipoPizza := OTHER;
+step
+check outMess = "Inserisci il nome di una nuova pizza:";
+check statoCassa = ALTRAPIZZA_SELEZIONATA;
+check totale = 200;
+set insertPrezzo := 4;
+set insertQuantita := 2;
+step
+check statoCassa = SCEGLI_SE_AGGIUNGERE_PIZZA;
+check outMess = "prezzo totale aggiornato";
+check totale = 208;
+set sceltaDiAggiuntaPizza := SI;
+step
+check statoCassa = SCEGLI_TIPO_DI_PIZZA;
+check totale = 208;
+check outMess = "Scegli il tipo di pizza desiderata:";
+set sceltaDelTipoPizza := OTHER;
+step
+check outMess = "Inserisci il nome di una nuova pizza:";
+check totale = 208;
+check statoCassa = ALTRAPIZZA_SELEZIONATA;
+set insertPrezzo := 12;
+set insertQuantita := 0;
+step
+check outMess = "prezzo totale aggiornato";
+check statoCassa = SCEGLI_SE_AGGIUNGERE_PIZZA;
+check totale = 208;
+set sceltaDiAggiuntaPizza := NO;
+step
+check statoCassa = ATTENDI_ORDINAZIONI;
+check outMess = "prezzo totale aggiornato";
+check totale = 208;
+set servizioSelezionato := EXIT;
+step
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+check totale = 208;
+step
+check totale = 208;
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+step
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+check totale = 208;
+step
+check totale = 208;
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+step
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+check totale = 208;
+step
+check statoCassa = CHIUSO;
+check totale = 208;
+check outMess = "Registro di cassa chiuso!";
+step
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+check totale = 208;
+step
+check statoCassa = CHIUSO;
+check totale = 208;
+check outMess = "Registro di cassa chiuso!";
+step
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+check totale = 208;
+step
+check statoCassa = CHIUSO;
+check totale = 208;
+check outMess = "Registro di cassa chiuso!";
+step
+check outMess = "Registro di cassa chiuso!";
+check totale = 208;
+check statoCassa = CHIUSO;
+step
+check totale = 208;
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+step
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+check totale = 208;
+step
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+check totale = 208;
+step
+check outMess = "Registro di cassa chiuso!";
+check totale = 208;
+check statoCassa = CHIUSO;
+step
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+check totale = 208;
+step
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+check totale = 208;
+step
+check totale = 208;
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+step
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+check totale = 208;
+step
+check outMess = "Registro di cassa chiuso!";
+check totale = 208;
+check statoCassa = CHIUSO;
+step
+check outMess = "Registro di cassa chiuso!";
+check totale = 208;
+check statoCassa = CHIUSO;
+step
+check outMess = "Registro di cassa chiuso!";
+check totale = 208;
+check statoCassa = CHIUSO;
+step
+check totale = 208;
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+step
+check outMess = "Registro di cassa chiuso!";
+check totale = 208;
+check statoCassa = CHIUSO;
+step
+check totale = 208;
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+step
+check statoCassa = CHIUSO;
+check totale = 208;
+check outMess = "Registro di cassa chiuso!";
+step
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+check totale = 208;
+step
+check totale = 208;
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+step
+check statoCassa = CHIUSO;
+check totale = 208;
+check outMess = "Registro di cassa chiuso!";
+step
+check totale = 208;
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+step
+check outMess = "Registro di cassa chiuso!";
+check totale = 208;
+check statoCassa = CHIUSO;
+step
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+check totale = 208;
+step
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+check totale = 208;
+step
+check statoCassa = CHIUSO;
+check totale = 208;
+check outMess = "Registro di cassa chiuso!";
+step
+check statoCassa = CHIUSO;
+check totale = 208;
+check outMess = "Registro di cassa chiuso!";
+step
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+check totale = 208;
+step
+check statoCassa = CHIUSO;
+check totale = 208;
+check outMess = "Registro di cassa chiuso!";
+step
+check totale = 208;
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+step
+check totale = 208;
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+step
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+check totale = 208;
+step
+check totale = 208;
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+step
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+check totale = 208;
+step
+check totale = 208;
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+step
+check outMess = "Registro di cassa chiuso!";
+check totale = 208;
+check statoCassa = CHIUSO;
+step
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+check totale = 208;
+step
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+check totale = 208;
+step
+check outMess = "Registro di cassa chiuso!";
+check totale = 208;
+check statoCassa = CHIUSO;
+step
+check totale = 208;
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+step
+check totale = 208;
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+step
+check totale = 208;
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+step
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+check totale = 208;
+step
+check totale = 208;
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+step
+check outMess = "Registro di cassa chiuso!";
+check totale = 208;
+check statoCassa = CHIUSO;
+step
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+check totale = 208;
+step
+check outMess = "Registro di cassa chiuso!";
+check totale = 208;
+check statoCassa = CHIUSO;
+step
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+check totale = 208;
+step
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+check totale = 208;
+step
+check totale = 208;
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+step
+check totale = 208;
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+step
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+check totale = 208;
+step
+check outMess = "Registro di cassa chiuso!";
+check totale = 208;
+check statoCassa = CHIUSO;
+step
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+check totale = 208;
+step
+check outMess = "Registro di cassa chiuso!";
+check totale = 208;
+check statoCassa = CHIUSO;
+step
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+check totale = 208;
+step
+check totale = 208;
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+step
+check outMess = "Registro di cassa chiuso!";
+check totale = 208;
+check statoCassa = CHIUSO;
+step
+check totale = 208;
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+step
+check statoCassa = CHIUSO;
+check totale = 208;
+check outMess = "Registro di cassa chiuso!";
+step
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+check totale = 208;
+step
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+check totale = 208;
+step
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+check totale = 208;
+step
+check totale = 208;
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+step
+check statoCassa = CHIUSO;
+check totale = 208;
+check outMess = "Registro di cassa chiuso!";
+step
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+check totale = 208;
+step
+check statoCassa = CHIUSO;
+check totale = 208;
+check outMess = "Registro di cassa chiuso!";
+step
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+check totale = 208;
+step
+check totale = 208;
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+step
+check totale = 208;
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+step
+check statoCassa = CHIUSO;
+check totale = 208;
+check outMess = "Registro di cassa chiuso!";
+step
+check statoCassa = CHIUSO;
+check totale = 208;
+check outMess = "Registro di cassa chiuso!";
+step
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+check totale = 208;
+step
+check totale = 208;
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+step
+check statoCassa = CHIUSO;
+check totale = 208;
+check outMess = "Registro di cassa chiuso!";
+step
+check outMess = "Registro di cassa chiuso!";
+check statoCassa = CHIUSO;
+check totale = 208;
+step
+check totale = 208;
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+step
+check statoCassa = CHIUSO;
+check outMess = "Registro di cassa chiuso!";
+check totale = 208;
+step

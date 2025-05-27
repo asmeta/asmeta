@@ -1,0 +1,385 @@
+scenario testtest2
+
+load ./data\ase-exp\models\Counter.asm
+
+//// test name test@test2
+//// generated for (test goal): test2: NULL
+set click := false;
+step
+check unit = 0;
+set click := true;
+step
+check unit = 1;
+set click := true;
+step
+check unit = 2;
+set click := true;
+step
+check unit = 3;
+set click := false;
+step
+check unit = 3;
+set click := false;
+step
+check unit = 3;
+set click := false;
+step
+check unit = 3;
+set click := false;
+step
+check unit = 3;
+set click := true;
+step
+check unit = 4;
+set click := false;
+step
+check unit = 4;
+set click := true;
+step
+check unit = 5;
+set click := false;
+step
+check unit = 5;
+set click := false;
+step
+check unit = 5;
+set click := false;
+step
+check unit = 5;
+set click := true;
+step
+check unit = 6;
+set click := false;
+step
+check unit = 6;
+set click := true;
+step
+check unit = 7;
+set click := true;
+step
+check unit = 8;
+set click := true;
+step
+check unit = 9;
+check da = 0;
+set click := true;
+step
+check da = 1;
+check unit = 0;
+set click := true;
+step
+check da = 1;
+check unit = 1;
+set click := false;
+step
+check unit = 1;
+check da = 1;
+set click := false;
+step
+check da = 1;
+check unit = 1;
+set click := false;
+step
+check da = 1;
+check unit = 1;
+set click := false;
+step
+check da = 1;
+check unit = 1;
+set click := false;
+step
+check unit = 1;
+check da = 1;
+set click := true;
+step
+check unit = 2;
+check da = 1;
+set click := false;
+step
+check da = 1;
+check unit = 2;
+set click := true;
+step
+check da = 1;
+check unit = 3;
+set click := false;
+step
+check unit = 3;
+check da = 1;
+set click := true;
+step
+check unit = 4;
+check da = 1;
+set click := true;
+step
+check unit = 5;
+check da = 1;
+set click := true;
+step
+check da = 1;
+check unit = 6;
+set click := false;
+step
+check da = 1;
+check unit = 6;
+set click := true;
+step
+check da = 1;
+check unit = 7;
+set click := true;
+step
+check da = 1;
+check unit = 8;
+set click := true;
+step
+check unit = 9;
+check da = 1;
+set click := false;
+step
+check unit = 9;
+check da = 1;
+set click := false;
+step
+check unit = 9;
+check da = 1;
+set click := false;
+step
+check da = 1;
+check unit = 9;
+set click := false;
+step
+check da = 1;
+check unit = 9;
+set click := true;
+step
+check unit = 0;
+check da = 2;
+set click := false;
+step
+check unit = 0;
+check da = 2;
+set click := false;
+step
+check da = 2;
+check unit = 0;
+set click := false;
+step
+check da = 2;
+check unit = 0;
+set click := true;
+step
+check unit = 1;
+check da = 2;
+set click := true;
+step
+check unit = 2;
+check da = 2;
+set click := true;
+step
+check da = 2;
+check unit = 3;
+set click := false;
+step
+check da = 2;
+check unit = 3;
+set click := false;
+step
+check unit = 3;
+check da = 2;
+set click := true;
+step
+check da = 2;
+check unit = 4;
+set click := true;
+step
+check da = 2;
+check unit = 5;
+set click := true;
+step
+check unit = 6;
+check da = 2;
+set click := true;
+step
+check da = 2;
+check unit = 7;
+set click := false;
+step
+check unit = 7;
+check da = 2;
+set click := false;
+step
+check da = 2;
+check unit = 7;
+set click := true;
+step
+check da = 2;
+check unit = 8;
+set click := true;
+step
+check da = 2;
+check unit = 9;
+set click := true;
+step
+check da = 3;
+check unit = 0;
+set click := true;
+step
+check da = 3;
+check unit = 1;
+set click := true;
+step
+check unit = 2;
+check da = 3;
+set click := true;
+step
+check unit = 3;
+check da = 3;
+set click := false;
+step
+check da = 3;
+check unit = 3;
+set click := true;
+step
+check unit = 4;
+check da = 3;
+set click := true;
+step
+check da = 3;
+check unit = 5;
+set click := true;
+step
+check da = 3;
+check unit = 6;
+set click := true;
+step
+check da = 3;
+check unit = 7;
+set click := true;
+step
+check unit = 8;
+check da = 3;
+set click := true;
+step
+check unit = 9;
+check da = 3;
+set click := false;
+step
+check unit = 9;
+check da = 3;
+set click := true;
+step
+check da = 4;
+check unit = 0;
+set click := false;
+step
+check unit = 0;
+check da = 4;
+set click := false;
+step
+check da = 4;
+check unit = 0;
+set click := false;
+step
+check unit = 0;
+check da = 4;
+set click := false;
+step
+check unit = 0;
+check da = 4;
+set click := true;
+step
+check unit = 1;
+check da = 4;
+set click := false;
+step
+check da = 4;
+check unit = 1;
+set click := false;
+step
+check da = 4;
+check unit = 1;
+set click := true;
+step
+check da = 4;
+check unit = 2;
+set click := true;
+step
+check unit = 3;
+check da = 4;
+set click := true;
+step
+check unit = 4;
+check da = 4;
+set click := false;
+step
+check da = 4;
+check unit = 4;
+set click := true;
+step
+check unit = 5;
+check da = 4;
+set click := false;
+step
+check da = 4;
+check unit = 5;
+set click := true;
+step
+check da = 4;
+check unit = 6;
+set click := false;
+step
+check da = 4;
+check unit = 6;
+set click := true;
+step
+check unit = 7;
+check da = 4;
+set click := false;
+step
+check da = 4;
+check unit = 7;
+set click := false;
+step
+check unit = 7;
+check da = 4;
+set click := true;
+step
+check unit = 8;
+check da = 4;
+set click := true;
+step
+check da = 4;
+check unit = 9;
+set click := true;
+step
+check da = 5;
+check unit = 0;
+set click := false;
+step
+check unit = 0;
+check da = 5;
+set click := false;
+step
+check unit = 0;
+check da = 5;
+set click := true;
+step
+check da = 5;
+check unit = 1;
+set click := false;
+step
+check unit = 1;
+check da = 5;
+set click := false;
+step
+check unit = 1;
+check da = 5;
+set click := true;
+step
+check da = 5;
+check unit = 2;
+set click := false;
+step
+check unit = 2;
+check da = 5;
+step

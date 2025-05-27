@@ -1,0 +1,210 @@
+scenario testtest6
+
+load ./data\ase-exp\models\CashPoint.asm
+
+//// test name test@test6
+//// generated for (test goal): test6: NULL
+check tillState(till1) = WAITCARD;
+check balance(account1) = 2000;
+set enteredPin(till1) := -1581513397;
+step
+check tillState(till1) = WAITPIN;
+check legalCard(card1) = true;
+check insertedCard(till1) = card1;
+set enteredPin(till1) := -775472090;
+step
+set enteredPin(till1) := 977885572;
+step
+set enteredPin(till1) := -829704139;
+step
+set enteredPin(till1) := 2092682142;
+step
+set enteredPin(till1) := 132725724;
+step
+set enteredPin(till1) := -1680343804;
+step
+set enteredPin(till1) := -2087326899;
+step
+set enteredPin(till1) := 1470953472;
+step
+set enteredPin(till1) := -819106391;
+step
+set enteredPin(till1) := -107019999;
+step
+set enteredPin(till1) := 11346719;
+step
+set enteredPin(till1) := -560886732;
+step
+set enteredPin(till1) := 1075784705;
+step
+set enteredPin(till1) := -65386484;
+step
+set enteredPin(till1) := 553879197;
+step
+set enteredPin(till1) := 187881899;
+step
+set enteredPin(till1) := -1812765283;
+step
+set enteredPin(till1) := -1382406518;
+step
+set enteredPin(till1) := 1539028791;
+step
+set enteredPin(till1) := -223426792;
+step
+set enteredPin(till1) := 312620414;
+step
+set enteredPin(till1) := 1970058658;
+step
+set enteredPin(till1) := 1037587073;
+step
+set enteredPin(till1) := -1709483196;
+step
+set enteredPin(till1) := 1588819760;
+step
+set enteredPin(till1) := -773977198;
+step
+set enteredPin(till1) := -395351533;
+step
+set enteredPin(till1) := 777494814;
+step
+set enteredPin(till1) := -2138449069;
+step
+set enteredPin(till1) := -45182974;
+step
+set enteredPin(till1) := 583210417;
+step
+set enteredPin(till1) := -1124189931;
+step
+set enteredPin(till1) := 1705787479;
+step
+set enteredPin(till1) := -757211268;
+step
+set enteredPin(till1) := -2041674838;
+step
+set enteredPin(till1) := -2032194646;
+step
+set enteredPin(till1) := -364555386;
+step
+set enteredPin(till1) := 1813770778;
+step
+set enteredPin(till1) := -1846989948;
+step
+set enteredPin(till1) := -1398025920;
+step
+set enteredPin(till1) := 1611513415;
+step
+set enteredPin(till1) := -1441171072;
+step
+set enteredPin(till1) := -283638055;
+step
+set enteredPin(till1) := -707206346;
+step
+set enteredPin(till1) := -833264736;
+step
+set enteredPin(till1) := -196367860;
+step
+set enteredPin(till1) := -205589381;
+step
+set enteredPin(till1) := 1701317175;
+step
+set enteredPin(till1) := -1893436932;
+step
+set enteredPin(till1) := 776397644;
+step
+set enteredPin(till1) := -656234018;
+step
+set enteredPin(till1) := 1233878480;
+step
+set enteredPin(till1) := 766856494;
+step
+set enteredPin(till1) := 764865456;
+step
+set enteredPin(till1) := 1330501303;
+step
+set enteredPin(till1) := -1221883582;
+step
+set enteredPin(till1) := 2132055221;
+step
+set enteredPin(till1) := -1171082368;
+step
+set enteredPin(till1) := 49438432;
+step
+set enteredPin(till1) := -1971385959;
+step
+set enteredPin(till1) := 1455737409;
+step
+set enteredPin(till1) := 2037699343;
+step
+set enteredPin(till1) := 1477037694;
+step
+set enteredPin(till1) := 1063598332;
+step
+set enteredPin(till1) := 991386741;
+step
+set enteredPin(till1) := -1671350223;
+step
+set enteredPin(till1) := -1215927195;
+step
+set enteredPin(till1) := -1069524153;
+step
+set enteredPin(till1) := 1606752751;
+step
+set enteredPin(till1) := 160675561;
+step
+set enteredPin(till1) := 1033408186;
+step
+set enteredPin(till1) := -1107943466;
+step
+set enteredPin(till1) := 2104250500;
+step
+set enteredPin(till1) := 951742823;
+step
+set enteredPin(till1) := -1826482727;
+step
+set enteredPin(till1) := 146001059;
+step
+set enteredPin(till1) := -365224753;
+step
+set enteredPin(till1) := 2084195120;
+step
+set enteredPin(till1) := 1412182393;
+step
+set enteredPin(till1) := -194935149;
+step
+set enteredPin(till1) := 2003873261;
+step
+set enteredPin(till1) := -456467554;
+step
+set enteredPin(till1) := 806474766;
+step
+set enteredPin(till1) := 1183927052;
+step
+set enteredPin(till1) := -523730559;
+step
+set enteredPin(till1) := -709192821;
+step
+set enteredPin(till1) := 508786798;
+step
+set enteredPin(till1) := 1667985098;
+step
+set enteredPin(till1) := 714005502;
+step
+set enteredPin(till1) := 1315113545;
+step
+set enteredPin(till1) := -1422975561;
+step
+set enteredPin(till1) := 1692644851;
+step
+set enteredPin(till1) := -1051852508;
+step
+set enteredPin(till1) := -1721719340;
+step
+set enteredPin(till1) := -1151230610;
+step
+set enteredPin(till1) := -929080984;
+step
+set enteredPin(till1) := -285740854;
+step
+set enteredPin(till1) := -1415572918;
+step
+step

@@ -1,0 +1,445 @@
+scenario testtest8
+
+load ./data\ase-exp\models\SiGistica.asm
+
+//// test name test@test8
+//// generated for (test goal): test8: NULL
+check qtAutGas(GASOLIO) = 10;
+check checkMezzo(OFFICINA) = false;
+check qtAutGas(AUTISTA) = 10;
+set selPag := NO;
+set selService := SPEDIZIONE;
+step
+check qtAutGas(GASOLIO) = 9;
+check pagDomain = 0;
+check checkMezzo(OFFICINA) = true;
+check qtAutGas(AUTISTA) = 9;
+set selPag := YES;
+set selService := SPEDIZIONE;
+step
+check qtAutGas(GASOLIO) = 8;
+check pagDomain = 1;
+check checkMezzo(OFFICINA) = false;
+check perInfo = 10;
+check qtAutGas(AUTISTA) = 8;
+set selService := GESTIONE_CLIENTE;
+step
+check perInfo = 9;
+check pagDomain = 1;
+set selService := GESTIONE_CLIENTE;
+step
+check perInfo = 8;
+check pagDomain = 1;
+set selPag := YES;
+set selService := SPEDIZIONE;
+step
+check qtAutGas(GASOLIO) = 7;
+check checkMezzo(OFFICINA) = true;
+check perInfo = 8;
+check qtAutGas(AUTISTA) = 7;
+check pagDomain = 2;
+set selService := SPEDIZIONE;
+set selPag := YES;
+step
+check qtAutGas(GASOLIO) = 6;
+check perInfo = 8;
+check checkMezzo(OFFICINA) = false;
+check qtAutGas(AUTISTA) = 6;
+check pagDomain = 3;
+set selService := GESTIONE_CLIENTE;
+step
+check perInfo = 7;
+check pagDomain = 3;
+set selPag := YES;
+set selService := SPEDIZIONE;
+step
+check qtAutGas(GASOLIO) = 5;
+check perInfo = 7;
+check checkMezzo(OFFICINA) = true;
+check pagDomain = 4;
+check qtAutGas(AUTISTA) = 5;
+set selService := SPEDIZIONE;
+set selPag := YES;
+step
+check qtAutGas(GASOLIO) = 4;
+check perInfo = 7;
+check checkMezzo(OFFICINA) = false;
+check qtAutGas(AUTISTA) = 4;
+check pagDomain = 5;
+set selService := GESTIONE_CLIENTE;
+step
+check pagDomain = 5;
+check perInfo = 6;
+set selService := SPEDIZIONE;
+set selPag := NO;
+step
+check qtAutGas(GASOLIO) = 3;
+check perInfo = 6;
+check checkMezzo(OFFICINA) = true;
+check qtAutGas(AUTISTA) = 3;
+check pagDomain = 5;
+set selService := GESTIONE_CLIENTE;
+step
+check perInfo = 5;
+check pagDomain = 5;
+set selService := GESTIONE_CLIENTE;
+step
+check perInfo = 4;
+check pagDomain = 5;
+set selService := GESTIONE_CLIENTE;
+step
+check perInfo = 3;
+check pagDomain = 5;
+set selService := GESTIONE_CLIENTE;
+step
+check pagDomain = 5;
+check perInfo = 2;
+set selService := SPEDIZIONE;
+set selPag := YES;
+step
+check qtAutGas(GASOLIO) = 2;
+check perInfo = 2;
+check checkMezzo(OFFICINA) = false;
+check qtAutGas(AUTISTA) = 2;
+check pagDomain = 6;
+set selService := GESTIONE_CLIENTE;
+step
+check perInfo = 1;
+check pagDomain = 6;
+set selService := GESTIONE_CLIENTE;
+step
+check perInfo = 0;
+check pagDomain = 6;
+set selService := SPEDIZIONE;
+set selPag := YES;
+step
+check qtAutGas(GASOLIO) = 1;
+check perInfo = 0;
+check checkMezzo(OFFICINA) = true;
+check pagDomain = 7;
+check qtAutGas(AUTISTA) = 1;
+set selPag := NO;
+set selService := SPEDIZIONE;
+step
+check qtAutGas(GASOLIO) = 0;
+check pagDomain = 7;
+check checkMezzo(OFFICINA) = false;
+check perInfo = 0;
+check qtAutGas(AUTISTA) = 0;
+set selService := GESTIONE_CLIENTE;
+step
+check pagDomain = 7;
+check perInfo = 0;
+set selService := GESTIONE_CLIENTE;
+step
+check pagDomain = 7;
+check perInfo = 0;
+set selService := GESTIONE_CLIENTE;
+step
+check perInfo = 0;
+check pagDomain = 7;
+set selService := GESTIONE_CLIENTE;
+step
+check perInfo = 0;
+check pagDomain = 7;
+set selService := GESTIONE_CLIENTE;
+step
+check pagDomain = 7;
+check perInfo = 0;
+set selService := GESTIONE_CLIENTE;
+step
+check perInfo = 0;
+check pagDomain = 7;
+set selService := GESTIONE_CLIENTE;
+step
+check perInfo = 0;
+check pagDomain = 7;
+set selService := SPEDIZIONE;
+step
+check pagDomain = 7;
+check perInfo = 0;
+set selService := GESTIONE_CLIENTE;
+step
+check pagDomain = 7;
+check perInfo = 0;
+set selService := GESTIONE_CLIENTE;
+step
+check perInfo = 0;
+check pagDomain = 7;
+set selService := SPEDIZIONE;
+step
+check perInfo = 0;
+check pagDomain = 7;
+set selService := GESTIONE_CLIENTE;
+step
+check pagDomain = 7;
+check perInfo = 0;
+set selService := GESTIONE_CLIENTE;
+step
+check pagDomain = 7;
+check perInfo = 0;
+set selService := GESTIONE_CLIENTE;
+step
+check pagDomain = 7;
+check perInfo = 0;
+set selService := GESTIONE_CLIENTE;
+step
+check perInfo = 0;
+check pagDomain = 7;
+set selService := GESTIONE_CLIENTE;
+step
+check pagDomain = 7;
+check perInfo = 0;
+set selService := SPEDIZIONE;
+step
+check perInfo = 0;
+check pagDomain = 7;
+set selService := GESTIONE_CLIENTE;
+step
+check perInfo = 0;
+check pagDomain = 7;
+set selService := GESTIONE_CLIENTE;
+step
+check perInfo = 0;
+check pagDomain = 7;
+set selService := GESTIONE_CLIENTE;
+step
+check pagDomain = 7;
+check perInfo = 0;
+set selService := SPEDIZIONE;
+step
+check pagDomain = 7;
+check perInfo = 0;
+set selService := GESTIONE_CLIENTE;
+step
+check pagDomain = 7;
+check perInfo = 0;
+set selService := GESTIONE_CLIENTE;
+step
+check pagDomain = 7;
+check perInfo = 0;
+set selService := GESTIONE_CLIENTE;
+step
+check pagDomain = 7;
+check perInfo = 0;
+set selService := SPEDIZIONE;
+step
+check pagDomain = 7;
+check perInfo = 0;
+set selService := SPEDIZIONE;
+step
+check perInfo = 0;
+check pagDomain = 7;
+set selService := SPEDIZIONE;
+step
+check pagDomain = 7;
+check perInfo = 0;
+set selService := SPEDIZIONE;
+step
+check pagDomain = 7;
+check perInfo = 0;
+set selService := SPEDIZIONE;
+step
+check perInfo = 0;
+check pagDomain = 7;
+set selService := SPEDIZIONE;
+step
+check pagDomain = 7;
+check perInfo = 0;
+set selService := GESTIONE_CLIENTE;
+step
+check pagDomain = 7;
+check perInfo = 0;
+set selService := GESTIONE_CLIENTE;
+step
+check perInfo = 0;
+check pagDomain = 7;
+set selService := SPEDIZIONE;
+step
+check pagDomain = 7;
+check perInfo = 0;
+set selService := SPEDIZIONE;
+step
+check perInfo = 0;
+check pagDomain = 7;
+set selService := SPEDIZIONE;
+step
+check pagDomain = 7;
+check perInfo = 0;
+set selService := GESTIONE_CLIENTE;
+step
+check perInfo = 0;
+check pagDomain = 7;
+set selService := SPEDIZIONE;
+step
+check perInfo = 0;
+check pagDomain = 7;
+set selService := SPEDIZIONE;
+step
+check pagDomain = 7;
+check perInfo = 0;
+set selService := SPEDIZIONE;
+step
+check pagDomain = 7;
+check perInfo = 0;
+set selService := GESTIONE_CLIENTE;
+step
+check perInfo = 0;
+check pagDomain = 7;
+set selService := GESTIONE_CLIENTE;
+step
+check perInfo = 0;
+check pagDomain = 7;
+set selService := GESTIONE_CLIENTE;
+step
+check pagDomain = 7;
+check perInfo = 0;
+set selService := SPEDIZIONE;
+step
+check pagDomain = 7;
+check perInfo = 0;
+set selService := SPEDIZIONE;
+step
+check pagDomain = 7;
+check perInfo = 0;
+set selService := SPEDIZIONE;
+step
+check pagDomain = 7;
+check perInfo = 0;
+set selService := SPEDIZIONE;
+step
+check perInfo = 0;
+check pagDomain = 7;
+set selService := GESTIONE_CLIENTE;
+step
+check perInfo = 0;
+check pagDomain = 7;
+set selService := SPEDIZIONE;
+step
+check pagDomain = 7;
+check perInfo = 0;
+set selService := GESTIONE_CLIENTE;
+step
+check perInfo = 0;
+check pagDomain = 7;
+set selService := SPEDIZIONE;
+step
+check perInfo = 0;
+check pagDomain = 7;
+set selService := GESTIONE_CLIENTE;
+step
+check perInfo = 0;
+check pagDomain = 7;
+set selService := SPEDIZIONE;
+step
+check pagDomain = 7;
+check perInfo = 0;
+set selService := GESTIONE_CLIENTE;
+step
+check perInfo = 0;
+check pagDomain = 7;
+set selService := SPEDIZIONE;
+step
+check pagDomain = 7;
+check perInfo = 0;
+set selService := SPEDIZIONE;
+step
+check pagDomain = 7;
+check perInfo = 0;
+set selService := GESTIONE_CLIENTE;
+step
+check perInfo = 0;
+check pagDomain = 7;
+set selService := SPEDIZIONE;
+step
+check perInfo = 0;
+check pagDomain = 7;
+set selService := GESTIONE_CLIENTE;
+step
+check perInfo = 0;
+check pagDomain = 7;
+set selService := SPEDIZIONE;
+step
+check pagDomain = 7;
+check perInfo = 0;
+set selService := GESTIONE_CLIENTE;
+step
+check pagDomain = 7;
+check perInfo = 0;
+set selService := SPEDIZIONE;
+step
+check pagDomain = 7;
+check perInfo = 0;
+set selService := GESTIONE_CLIENTE;
+step
+check perInfo = 0;
+check pagDomain = 7;
+set selService := SPEDIZIONE;
+step
+check pagDomain = 7;
+check perInfo = 0;
+set selService := GESTIONE_CLIENTE;
+step
+check perInfo = 0;
+check pagDomain = 7;
+set selService := GESTIONE_CLIENTE;
+step
+check pagDomain = 7;
+check perInfo = 0;
+set selService := GESTIONE_CLIENTE;
+step
+check pagDomain = 7;
+check perInfo = 0;
+set selService := SPEDIZIONE;
+step
+check pagDomain = 7;
+check perInfo = 0;
+set selService := SPEDIZIONE;
+step
+check perInfo = 0;
+check pagDomain = 7;
+set selService := SPEDIZIONE;
+step
+check pagDomain = 7;
+check perInfo = 0;
+set selService := GESTIONE_CLIENTE;
+step
+check pagDomain = 7;
+check perInfo = 0;
+set selService := GESTIONE_CLIENTE;
+step
+check pagDomain = 7;
+check perInfo = 0;
+set selService := SPEDIZIONE;
+step
+check perInfo = 0;
+check pagDomain = 7;
+set selService := SPEDIZIONE;
+step
+check pagDomain = 7;
+check perInfo = 0;
+set selService := GESTIONE_CLIENTE;
+step
+check pagDomain = 7;
+check perInfo = 0;
+set selService := GESTIONE_CLIENTE;
+step
+check perInfo = 0;
+check pagDomain = 7;
+set selService := SPEDIZIONE;
+step
+check pagDomain = 7;
+check perInfo = 0;
+set selService := SPEDIZIONE;
+step
+check perInfo = 0;
+check pagDomain = 7;
+set selService := SPEDIZIONE;
+step
+check perInfo = 0;
+check pagDomain = 7;
+set selService := GESTIONE_CLIENTE;
+step
+check pagDomain = 7;
+check perInfo = 0;
+step

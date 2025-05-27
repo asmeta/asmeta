@@ -1,0 +1,315 @@
+scenario testtest6
+
+load ./data\ase-exp\models\GuessBigNumber.asm
+
+//// test name test@test6
+//// generated for (test goal): test6: NULL
+check attempt = 10;
+set guess := 1504;
+step
+check attempt = 9;
+check smaller = true;
+set guess := 421;
+step
+check attempt = 8;
+check smaller = false;
+set guess := 76;
+step
+check smaller = false;
+check attempt = 7;
+set guess := 1600;
+step
+check smaller = true;
+check attempt = 6;
+set guess := 585;
+step
+check attempt = 5;
+check smaller = false;
+set guess := 165;
+step
+check attempt = 4;
+check smaller = false;
+set guess := 240;
+step
+check attempt = 3;
+check smaller = false;
+set guess := 386;
+step
+check smaller = false;
+check attempt = 2;
+set guess := 783;
+step
+check attempt = 1;
+check smaller = true;
+set guess := 1910;
+step
+check attempt = 0;
+check smaller = true;
+step
+check attempt = 0;
+check smaller = true;
+step
+check attempt = 0;
+check smaller = true;
+step
+check attempt = 0;
+check smaller = true;
+step
+check smaller = true;
+check attempt = 0;
+step
+check smaller = true;
+check attempt = 0;
+step
+check smaller = true;
+check attempt = 0;
+step
+check smaller = true;
+check attempt = 0;
+step
+check attempt = 0;
+check smaller = true;
+step
+check smaller = true;
+check attempt = 0;
+step
+check attempt = 0;
+check smaller = true;
+step
+check attempt = 0;
+check smaller = true;
+step
+check attempt = 0;
+check smaller = true;
+step
+check attempt = 0;
+check smaller = true;
+step
+check attempt = 0;
+check smaller = true;
+step
+check attempt = 0;
+check smaller = true;
+step
+check attempt = 0;
+check smaller = true;
+step
+check smaller = true;
+check attempt = 0;
+step
+check smaller = true;
+check attempt = 0;
+step
+check attempt = 0;
+check smaller = true;
+step
+check smaller = true;
+check attempt = 0;
+step
+check smaller = true;
+check attempt = 0;
+step
+check attempt = 0;
+check smaller = true;
+step
+check attempt = 0;
+check smaller = true;
+step
+check smaller = true;
+check attempt = 0;
+step
+check attempt = 0;
+check smaller = true;
+step
+check smaller = true;
+check attempt = 0;
+step
+check attempt = 0;
+check smaller = true;
+step
+check attempt = 0;
+check smaller = true;
+step
+check smaller = true;
+check attempt = 0;
+step
+check attempt = 0;
+check smaller = true;
+step
+check smaller = true;
+check attempt = 0;
+step
+check attempt = 0;
+check smaller = true;
+step
+check smaller = true;
+check attempt = 0;
+step
+check attempt = 0;
+check smaller = true;
+step
+check smaller = true;
+check attempt = 0;
+step
+check smaller = true;
+check attempt = 0;
+step
+check attempt = 0;
+check smaller = true;
+step
+check attempt = 0;
+check smaller = true;
+step
+check attempt = 0;
+check smaller = true;
+step
+check smaller = true;
+check attempt = 0;
+step
+check attempt = 0;
+check smaller = true;
+step
+check attempt = 0;
+check smaller = true;
+step
+check smaller = true;
+check attempt = 0;
+step
+check smaller = true;
+check attempt = 0;
+step
+check smaller = true;
+check attempt = 0;
+step
+check smaller = true;
+check attempt = 0;
+step
+check smaller = true;
+check attempt = 0;
+step
+check attempt = 0;
+check smaller = true;
+step
+check smaller = true;
+check attempt = 0;
+step
+check attempt = 0;
+check smaller = true;
+step
+check attempt = 0;
+check smaller = true;
+step
+check smaller = true;
+check attempt = 0;
+step
+check attempt = 0;
+check smaller = true;
+step
+check smaller = true;
+check attempt = 0;
+step
+check attempt = 0;
+check smaller = true;
+step
+check smaller = true;
+check attempt = 0;
+step
+check attempt = 0;
+check smaller = true;
+step
+check smaller = true;
+check attempt = 0;
+step
+check attempt = 0;
+check smaller = true;
+step
+check attempt = 0;
+check smaller = true;
+step
+check smaller = true;
+check attempt = 0;
+step
+check attempt = 0;
+check smaller = true;
+step
+check smaller = true;
+check attempt = 0;
+step
+check smaller = true;
+check attempt = 0;
+step
+check attempt = 0;
+check smaller = true;
+step
+check smaller = true;
+check attempt = 0;
+step
+check smaller = true;
+check attempt = 0;
+step
+check smaller = true;
+check attempt = 0;
+step
+check smaller = true;
+check attempt = 0;
+step
+check attempt = 0;
+check smaller = true;
+step
+check smaller = true;
+check attempt = 0;
+step
+check smaller = true;
+check attempt = 0;
+step
+check attempt = 0;
+check smaller = true;
+step
+check attempt = 0;
+check smaller = true;
+step
+check smaller = true;
+check attempt = 0;
+step
+check attempt = 0;
+check smaller = true;
+step
+check attempt = 0;
+check smaller = true;
+step
+check smaller = true;
+check attempt = 0;
+step
+check smaller = true;
+check attempt = 0;
+step
+check smaller = true;
+check attempt = 0;
+step
+check smaller = true;
+check attempt = 0;
+step
+check smaller = true;
+check attempt = 0;
+step
+check attempt = 0;
+check smaller = true;
+step
+check smaller = true;
+check attempt = 0;
+step
+check attempt = 0;
+check smaller = true;
+step
+check attempt = 0;
+check smaller = true;
+step
+check smaller = true;
+check attempt = 0;
+step
+check attempt = 0;
+check smaller = true;
+step
+check smaller = true;
+check attempt = 0;
+step
