@@ -50,9 +50,8 @@ public class RuleToCpp extends RuleVisitor<String> {
     _builder.append("{ //par");
     _builder.newLine();
     _builder.append("\t");
-    String _printRules = new RuleToCpp(this.res, false, this.options).printRules(object.getRules());
-    _builder.append(_printRules, "\t");
-    _builder.newLineIfNotEmpty();
+    _builder.append("ï¿½new RuleToCpp(res,false,options).printRules(object.getRules())ï¿½");
+    _builder.newLine();
     _builder.append("}//endpar");
     return _builder.toString();
   }
@@ -76,18 +75,13 @@ public class RuleToCpp extends RuleVisitor<String> {
     boolean _equals = (_size == 0);
     if (_equals) {
       StringConcatenation _builder = new StringConcatenation();
-      _builder.append(methodName);
-      _builder.append("();");
-      _builder.newLineIfNotEmpty();
+      _builder.append("ï¿½methodNameï¿½();");
+      _builder.newLine();
       return _builder.toString();
     } else {
       StringConcatenation _builder_1 = new StringConcatenation();
-      _builder_1.append(methodName);
-      _builder_1.append("(");
-      String _printListTerm = this.printListTerm(object.getParameters());
-      _builder_1.append(_printListTerm);
-      _builder_1.append(");");
-      _builder_1.newLineIfNotEmpty();
+      _builder_1.append("ï¿½methodNameï¿½(ï¿½printListTerm(object.parameters)ï¿½);");
+      _builder_1.newLine();
       return _builder_1.toString();
     }
   }
@@ -96,9 +90,7 @@ public class RuleToCpp extends RuleVisitor<String> {
     StringBuffer sb = new StringBuffer();
     for (int i = 0; (i < term.size()); i++) {
       StringConcatenation _builder = new StringConcatenation();
-      String _visit = new TermToCpp(this.res).visit(term.get(i));
-      _builder.append(_visit);
-      _builder.append(", ");
+      _builder.append("ï¿½new TermToCpp(res).visit(term.get(i))ï¿½, ");
       sb.append(_builder);
     }
     int _length = sb.length();
@@ -121,9 +113,8 @@ public class RuleToCpp extends RuleVisitor<String> {
     _builder.append("{//seq");
     _builder.newLine();
     _builder.append("\t");
-    String _printRules = new RuleToCpp(this.res, true, this.options).printRules(object.getRules());
-    _builder.append(_printRules, "\t");
-    _builder.newLineIfNotEmpty();
+    _builder.append("ï¿½new RuleToCpp(res,true,options).printRules(object.rules)ï¿½");
+    _builder.newLine();
     _builder.append("}//endseq");
     _builder.newLine();
     return _builder.toString();
@@ -133,7 +124,7 @@ public class RuleToCpp extends RuleVisitor<String> {
    * override String visit(SeqNext object) {
    * 		return '''
    * 			{//seqnext
-   * 				«new RuleDefinitionIno(res,true).printRules(object.rules)»
+   * 				ï¿½new RuleDefinitionIno(res,true).printRules(object.rules)ï¿½
    * 			}//endseqnext
    * 		'''
    * }
@@ -142,22 +133,12 @@ public class RuleToCpp extends RuleVisitor<String> {
   public String visit(final UpdateRule object) {
     StringBuffer result = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
-    String _visit = new TermToCpp(this.res, true).visit(object.getLocation());
-    _builder.append(_visit);
-    _builder.append(" = ");
-    String _visit_1 = new TermToCpp(this.res, false).visit(object.getUpdatingTerm());
-    _builder.append(_visit_1);
-    _builder.append(";");
-    _builder.newLineIfNotEmpty();
+    _builder.append("ï¿½new TermToCpp(res,true).visit(object.location)ï¿½ = ï¿½new TermToCpp(res,false).visit(object.updatingTerm)ï¿½;");
+    _builder.newLine();
     result.append(_builder);
     if (this.seqBlock) {
       StringConcatenation _builder_1 = new StringConcatenation();
-      String _visit_2 = new TermToCpp(this.res, false).visit(object.getLocation());
-      _builder_1.append(_visit_2);
-      _builder_1.append(" = ");
-      String _visit_3 = new TermToCpp(this.res, true).visit(object.getLocation());
-      _builder_1.append(_visit_3);
-      _builder_1.append(";");
+      _builder_1.append("ï¿½new TermToCpp(res,false).visit(object.location)ï¿½ = ï¿½new TermToCpp(res,true).visit(object.location)ï¿½;");
       result.append(_builder_1);
     }
     return result.toString();
@@ -174,28 +155,20 @@ public class RuleToCpp extends RuleVisitor<String> {
     for (int i = 0; (i < object.getCaseBranches().size()); i++) {
       if ((i == 0)) {
         StringConcatenation _builder = new StringConcatenation();
-        _builder.append("if(");
-        String _compareTerms = this.compareTerms(object.getTerm(), object.getCaseTerm().get(i));
-        _builder.append(_compareTerms);
-        _builder.append("){");
-        _builder.newLineIfNotEmpty();
+        _builder.append("if(ï¿½compareTerms(object.getTerm,object.getCaseTerm.get(i))ï¿½){");
+        _builder.newLine();
         _builder.append("\t");
-        String _visit = new RuleToCpp(this.res, this.seqBlock, this.options).visit(object.getCaseBranches().get(i));
-        _builder.append(_visit, "\t");
-        _builder.newLineIfNotEmpty();
+        _builder.append("ï¿½new RuleToCpp(res,seqBlock,options).visit(object.getCaseBranches.get(i))ï¿½");
+        _builder.newLine();
         _builder.append("}");
         sb.append(_builder);
       } else {
         StringConcatenation _builder_1 = new StringConcatenation();
-        _builder_1.append("else if(");
-        String _compareTerms_1 = this.compareTerms(object.getTerm(), object.getCaseTerm().get(i));
-        _builder_1.append(_compareTerms_1);
-        _builder_1.append("){");
-        _builder_1.newLineIfNotEmpty();
+        _builder_1.append("else if(ï¿½compareTerms(object.getTerm,object.getCaseTerm.get(i))ï¿½){");
+        _builder_1.newLine();
         _builder_1.append("\t");
-        String _visit_1 = new RuleToCpp(this.res, this.seqBlock, this.options).visit(object.getCaseBranches().get(i));
-        _builder_1.append(_visit_1, "\t");
-        _builder_1.newLineIfNotEmpty();
+        _builder_1.append("ï¿½new RuleToCpp(res,seqBlock,options).visit(object.getCaseBranches().get(i))ï¿½");
+        _builder_1.newLine();
         _builder_1.append("}");
         sb.append(_builder_1);
       }
@@ -207,9 +180,8 @@ public class RuleToCpp extends RuleVisitor<String> {
       _builder.append("else{ ");
       _builder.newLine();
       _builder.append(" \t");
-      String _visit = new RuleToCpp(this.res, this.seqBlock, this.options).visit(object.getOtherwiseBranch());
-      _builder.append(_visit, " \t");
-      _builder.newLineIfNotEmpty();
+      _builder.append("ï¿½new RuleToCpp(res,seqBlock,options).visit(object.getOtherwiseBranch())ï¿½");
+      _builder.newLine();
       _builder.append("}");
       _builder.newLine();
       sb.append(_builder);
@@ -227,20 +199,11 @@ public class RuleToCpp extends RuleVisitor<String> {
     } else {
       if ((leftTerm instanceof StringDomain)) {
         StringConcatenation _builder_1 = new StringConcatenation();
-        String _visit = new TermToCpp(this.res).visit(leftTerm);
-        _builder_1.append(_visit);
-        _builder_1.append(".compare(");
-        String _visit_1 = new TermToCpp(this.res).visit(rightTerm);
-        _builder_1.append(_visit_1);
-        _builder_1.append(")==0");
+        _builder_1.append("ï¿½new TermToCpp(res).visit(leftTerm)ï¿½.compare(ï¿½new TermToCpp(res).visit(rightTerm)ï¿½)==0");
         return _builder_1.toString();
       } else {
         StringConcatenation _builder_2 = new StringConcatenation();
-        String _visit_2 = new TermToCpp(this.res).visit(leftTerm);
-        _builder_2.append(_visit_2);
-        _builder_2.append("==");
-        String _visit_3 = new TermToCpp(this.res).visit(rightTerm);
-        _builder_2.append(_visit_3);
+        _builder_2.append("ï¿½new TermToCpp(res).visit(leftTerm)ï¿½==ï¿½new TermToCpp(res).visit(rightTerm)ï¿½");
         return _builder_2.toString();
       }
     }
@@ -254,14 +217,8 @@ public class RuleToCpp extends RuleVisitor<String> {
       Domain _domain = object.getRanges().get(i).getDomain();
       if ((_domain instanceof PowersetDomain)) {
         StringConcatenation _builder = new StringConcatenation();
-        _builder.append("vector<const ");
-        Domain _domain_1 = object.getRanges().get(i).getDomain();
-        String _visit = new ToString(this.res).visit(((PowersetDomain) _domain_1).getBaseDomain());
-        _builder.append(_visit);
-        _builder.append("*> point");
-        _builder.append(i);
-        _builder.append(";");
-        _builder.newLineIfNotEmpty();
+        _builder.append("vector<const ï¿½new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)ï¿½*> pointï¿½iï¿½;");
+        _builder.newLine();
         sb.append(_builder);
       } else {
         StringConcatenation _builder_1 = new StringConcatenation();
@@ -277,58 +234,26 @@ public class RuleToCpp extends RuleVisitor<String> {
         boolean _isNotNumerable = new Util().isNotNumerable(((PowersetDomain) _domain_1).getBaseDomain());
         if (_isNotNumerable) {
           StringConcatenation _builder = new StringConcatenation();
-          String _visit = new DomainToH(this.res).visit(object.getRanges().get(i).getDomain());
-          _builder.append(_visit);
-          _builder.append(" ");
-          Domain _domain_2 = object.getRanges().get(i).getDomain();
-          String _visit_1 = new ToString(this.res).visit(((PowersetDomain) _domain_2).getBaseDomain());
-          String _plus = (_visit_1 + Integer.valueOf(i));
-          _builder.append(_plus);
-          _builder.append("_elems = ");
-          String _visit_2 = new TermToCpp(this.res).visit(object.getRanges().get(i));
-          _builder.append(_visit_2);
-          _builder.append(";");
-          _builder.newLineIfNotEmpty();
+          _builder.append("ï¿½new DomainToH(res).visit(object.getRanges.get(i).domain)ï¿½ ï¿½new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)+iï¿½_elems = ï¿½new TermToCpp(res).visit(object.getRanges.get(i))ï¿½;");
+          _builder.newLine();
           sb.append(_builder);
           counter = (counter + 1);
           StringConcatenation _builder_1 = new StringConcatenation();
-          _builder_1.append("for(auto const& ");
-          String _visit_3 = new TermToCpp(this.res).visit(object.getVariable().get(i));
-          _builder_1.append(_visit_3);
-          _builder_1.append(" : ");
-          Domain _domain_3 = object.getRanges().get(i).getDomain();
-          String _visit_4 = new ToString(this.res).visit(((PowersetDomain) _domain_3).getBaseDomain());
-          String _plus_1 = (_visit_4 + Integer.valueOf(i));
-          _builder_1.append(_plus_1);
-          _builder_1.append("_elems){");
-          _builder_1.newLineIfNotEmpty();
+          _builder_1.append("for(auto const& ï¿½new TermToCpp(res).visit(object.getVariable.get(i))ï¿½ : ï¿½new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)+iï¿½_elems){");
+          _builder_1.newLine();
           sb.append(_builder_1);
         } else {
-          Domain _domain_4 = object.getRanges().get(i).getDomain();
-          Domain _baseDomain = ((PowersetDomain) _domain_4).getBaseDomain();
+          Domain _domain_2 = object.getRanges().get(i).getDomain();
+          Domain _baseDomain = ((PowersetDomain) _domain_2).getBaseDomain();
           if ((_baseDomain instanceof AbstractTd)) {
             StringConcatenation _builder_2 = new StringConcatenation();
-            _builder_2.append("for(const auto& ");
-            String _visit_5 = new TermToCpp(this.res).visit(object.getVariable().get(i));
-            _builder_2.append(_visit_5);
-            _builder_2.append(" : ");
-            Domain _domain_5 = object.getRanges().get(i).getDomain();
-            String _visit_6 = new ToString(this.res).visit(((PowersetDomain) _domain_5).getBaseDomain());
-            _builder_2.append(_visit_6);
-            _builder_2.append("::elems)");
-            _builder_2.newLineIfNotEmpty();
+            _builder_2.append("for(const auto& ï¿½new TermToCpp(res).visit(object.getVariable.get(i))ï¿½ : ï¿½new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)ï¿½::elems)");
+            _builder_2.newLine();
             sb.append(_builder_2);
           } else {
             StringConcatenation _builder_3 = new StringConcatenation();
-            _builder_3.append("for(auto const& ");
-            String _visit_7 = new TermToCpp(this.res).visit(object.getVariable().get(i));
-            _builder_3.append(_visit_7);
-            _builder_3.append(" : ");
-            Domain _domain_6 = object.getRanges().get(i).getDomain();
-            String _visit_8 = new ToString(this.res).visit(((PowersetDomain) _domain_6).getBaseDomain());
-            _builder_3.append(_visit_8);
-            _builder_3.append("_elems)");
-            _builder_3.newLineIfNotEmpty();
+            _builder_3.append("for(auto const& ï¿½new TermToCpp(res).visit(object.getVariable.get(i))ï¿½ : ï¿½new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)ï¿½_elems)");
+            _builder_3.newLine();
             sb.append(_builder_3);
           }
         }
@@ -343,11 +268,8 @@ public class RuleToCpp extends RuleVisitor<String> {
     boolean _tripleNotEquals = (_guard != null);
     if (_tripleNotEquals) {
       StringConcatenation _builder = new StringConcatenation();
-      _builder.append("if(");
-      String _visit = new TermToCpp(this.res).visit(object.getGuard());
-      _builder.append(_visit);
-      _builder.append("){");
-      _builder.newLineIfNotEmpty();
+      _builder.append("if(ï¿½new TermToCpp(res).visit(object.getGuard)ï¿½){");
+      _builder.newLine();
       sb.append(_builder);
     } else {
       StringConcatenation _builder_1 = new StringConcatenation();
@@ -362,23 +284,14 @@ public class RuleToCpp extends RuleVisitor<String> {
       if ((_baseDomain instanceof AbstractTd)) {
         String termName = new TermToCpp(this.res).visit(object.getVariable().get(i));
         StringConcatenation _builder_2 = new StringConcatenation();
-        _builder_2.append("point");
-        _builder_2.append(i);
-        _builder_2.append(".push_back(&(*");
-        _builder_2.append(termName);
-        _builder_2.append("));");
-        _builder_2.newLineIfNotEmpty();
+        _builder_2.append("pointï¿½iï¿½.push_back(&(*ï¿½termNameï¿½));");
+        _builder_2.newLine();
         sb.append(_builder_2);
         pointerTerms.add(termName);
       } else {
         StringConcatenation _builder_3 = new StringConcatenation();
-        _builder_3.append("point");
-        _builder_3.append(i);
-        _builder_3.append(".push_back(&");
-        String _visit_1 = new TermToCpp(this.res).visit(object.getVariable().get(i));
-        _builder_3.append(_visit_1);
-        _builder_3.append(");");
-        _builder_3.newLineIfNotEmpty();
+        _builder_3.append("pointï¿½iï¿½.push_back(&ï¿½new TermToCpp(res).visit(object.getVariable.get(i))ï¿½);");
+        _builder_3.newLine();
         sb.append(_builder_3);
       }
     }
@@ -409,13 +322,8 @@ public class RuleToCpp extends RuleVisitor<String> {
     sb.append(_builder_5);
     for (int i = 0; (i < object.getVariable().size()); i++) {
       StringConcatenation _builder_6 = new StringConcatenation();
-      _builder_6.append("auto ");
-      String _visit_1 = new TermToCpp(this.res).visit(object.getVariable().get(i));
-      _builder_6.append(_visit_1);
-      _builder_6.append(" = *point");
-      _builder_6.append(i);
-      _builder_6.append("[rndm];");
-      _builder_6.newLineIfNotEmpty();
+      _builder_6.append("auto ï¿½new TermToCpp(res).visit(object.getVariable.get(i))ï¿½ = *pointï¿½iï¿½[rndm];");
+      _builder_6.newLine();
       sb.append(_builder_6);
     }
     Rule _ifnone = object.getIfnone();
@@ -433,15 +341,14 @@ public class RuleToCpp extends RuleVisitor<String> {
       _builder_6.append("if(point0.size()>0){");
       _builder_6.newLine();
       _builder_6.append("\t");
-      _builder_6.append(doRule, "\t");
-      _builder_6.newLineIfNotEmpty();
+      _builder_6.append("ï¿½doRuleï¿½");
+      _builder_6.newLine();
       _builder_6.append("\t ");
       _builder_6.append("}else{");
       _builder_6.newLine();
       _builder_6.append("\t \t");
-      String _visit_1 = this.visit(object.getIfnone());
-      _builder_6.append(_visit_1, "\t \t");
-      _builder_6.newLineIfNotEmpty();
+      _builder_6.append("ï¿½visit(object.getIfnone)ï¿½");
+      _builder_6.newLine();
       _builder_6.append("\t ");
       _builder_6.append("}");
       _builder_6.newLine();
@@ -460,8 +367,8 @@ public class RuleToCpp extends RuleVisitor<String> {
       _builder_7.append("if(point0.size()>0){");
       _builder_7.newLine();
       _builder_7.append("\t");
-      _builder_7.append(doRule_1, "\t");
-      _builder_7.newLineIfNotEmpty();
+      _builder_7.append("ï¿½doRuleï¿½");
+      _builder_7.newLine();
       _builder_7.append("\t ");
       _builder_7.append("}");
       _builder_7.newLine();
@@ -479,27 +386,13 @@ public class RuleToCpp extends RuleVisitor<String> {
       Domain _baseDomain = ((PowersetDomain) _domain).getBaseDomain();
       if ((_baseDomain instanceof AbstractTd)) {
         StringConcatenation _builder = new StringConcatenation();
-        _builder.append("for(auto ");
-        String _visit = new TermToCpp(this.res).visit(object.getVariable().get(i));
-        _builder.append(_visit);
-        _builder.append(" : ");
-        Domain _domain_1 = object.getRanges().get(i).getDomain();
-        String _visit_1 = new ToString(this.res).visit(((PowersetDomain) _domain_1).getBaseDomain());
-        _builder.append(_visit_1);
-        _builder.append("::elems)");
-        _builder.newLineIfNotEmpty();
+        _builder.append("for(auto ï¿½new TermToCpp(res).visit(object.getVariable.get(i))ï¿½ : ï¿½new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)ï¿½::elems)");
+        _builder.newLine();
         sb.append(_builder);
       } else {
         StringConcatenation _builder_1 = new StringConcatenation();
-        _builder_1.append("for(auto ");
-        String _visit_2 = new TermToCpp(this.res).visit(object.getVariable().get(i));
-        _builder_1.append(_visit_2);
-        _builder_1.append(" : ");
-        Domain _domain_2 = object.getRanges().get(i).getDomain();
-        String _visit_3 = new ToString(this.res).visit(((PowersetDomain) _domain_2).getBaseDomain());
-        _builder_1.append(_visit_3);
-        _builder_1.append("_elems)");
-        _builder_1.newLineIfNotEmpty();
+        _builder_1.append("for(auto ï¿½new TermToCpp(res).visit(object.getVariable.get(i))ï¿½ : ï¿½new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)ï¿½_elems)");
+        _builder_1.newLine();
         sb.append(_builder_1);
       }
     }
@@ -507,17 +400,14 @@ public class RuleToCpp extends RuleVisitor<String> {
     boolean _tripleNotEquals = (_guard != null);
     if (_tripleNotEquals) {
       StringConcatenation _builder = new StringConcatenation();
-      _builder.newLineIfNotEmpty();
+      _builder.append("ï¿½\"\"ï¿½");
+      _builder.newLine();
       _builder.append("\t");
-      _builder.append("if(");
-      String _visit = new TermToCpp(this.res).visit(object.getGuard());
-      _builder.append(_visit, "\t");
-      _builder.append("){\t");
-      _builder.newLineIfNotEmpty();
+      _builder.append("if(ï¿½new TermToCpp(res).visit(object.getGuard)ï¿½){\t");
+      _builder.newLine();
       _builder.append("\t\t");
-      String _visit_1 = this.visit(object.getDoRule());
-      _builder.append(_visit_1, "\t\t");
-      _builder.newLineIfNotEmpty();
+      _builder.append("ï¿½visit(object.getDoRule)ï¿½");
+      _builder.newLine();
       _builder.append("\t");
       _builder.append("}");
       _builder.newLine();
@@ -527,9 +417,8 @@ public class RuleToCpp extends RuleVisitor<String> {
       _builder_1.append("{");
       _builder_1.newLine();
       _builder_1.append("\t");
-      String _visit_2 = this.visit(object.getDoRule());
-      _builder_1.append(_visit_2, "\t");
-      _builder_1.newLineIfNotEmpty();
+      _builder_1.append("ï¿½visit(object.getDoRule)ï¿½");
+      _builder_1.newLine();
       _builder_1.append("}");
       _builder_1.newLine();
       sb.append(_builder_1);
@@ -543,20 +432,13 @@ public class RuleToCpp extends RuleVisitor<String> {
     let.append("{\n");
     for (int i = 0; (i < object.getVariable().size()); i++) {
       StringConcatenation _builder = new StringConcatenation();
-      _builder.append("auto ");
-      String _visit = new TermToCpp(this.res).visit(object.getVariable().get(i));
-      _builder.append(_visit);
-      _builder.append(" = ");
-      String _visit_1 = new TermToCpp(this.res).visit(object.getInitExpression().get(i));
-      _builder.append(_visit_1);
-      _builder.append(";");
-      _builder.newLineIfNotEmpty();
+      _builder.append("auto ï¿½new TermToCpp(res).visit(object.getVariable.get(i))ï¿½ = ï¿½new TermToCpp(res).visit(object.getInitExpression.get(i))ï¿½;");
+      _builder.newLine();
       let.append(_builder);
     }
     StringConcatenation _builder = new StringConcatenation();
-    String _visit = new RuleToCpp(this.res, this.seqBlock, this.options).visit(object.getInRule());
-    _builder.append(_visit);
-    _builder.newLineIfNotEmpty();
+    _builder.append("ï¿½new RuleToCpp(res,seqBlock,options).visit(object.getInRule)ï¿½");
+    _builder.newLine();
     _builder.append("}");
     let.append(_builder);
     return let.toString();
@@ -564,15 +446,11 @@ public class RuleToCpp extends RuleVisitor<String> {
 
   public String visit(final IterativeWhileRule object) {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("while (");
-    String _visit = new TermToCpp(this.res, false).visit(object.getGuard());
-    _builder.append(_visit);
-    _builder.append("){");
-    _builder.newLineIfNotEmpty();
+    _builder.append("while (ï¿½new TermToCpp(res,false).visit(object.guard)ï¿½){");
+    _builder.newLine();
     _builder.append("\t");
-    String _visit_1 = new RuleToCpp(this.res, true, this.options).visit(object.getRule());
-    _builder.append(_visit_1, "\t");
-    _builder.newLineIfNotEmpty();
+    _builder.append("ï¿½new RuleToCpp(res,true,options).visit(object.rule)ï¿½");
+    _builder.newLine();
     _builder.append("}");
     return _builder.toString();
   }
@@ -594,15 +472,11 @@ public class RuleToCpp extends RuleVisitor<String> {
     boolean _tripleEquals = (_elseRule == null);
     if (_tripleEquals) {
       StringConcatenation _builder = new StringConcatenation();
-      _builder.append("if (");
-      String _visit = new TermToCpp(this.res).visit(object.getGuard());
-      _builder.append(_visit);
-      _builder.append("){ ");
-      _builder.newLineIfNotEmpty();
+      _builder.append("if (ï¿½new TermToCpp(res).visit(object.guard)ï¿½){ ");
+      _builder.newLine();
       _builder.append("\t");
-      String _visit_1 = new RuleToCpp(this.res, this.seqBlock, this.options).visit(object.getThenRule());
-      _builder.append(_visit_1, "\t");
-      _builder.newLineIfNotEmpty();
+      _builder.append("ï¿½new RuleToCpp(res,seqBlock,options).visit(object.thenRule)ï¿½");
+      _builder.newLine();
       _builder.append("}");
       _builder.newLine();
       return _builder.toString();
@@ -610,39 +484,28 @@ public class RuleToCpp extends RuleVisitor<String> {
       Rule _elseRule_1 = object.getElseRule();
       if ((_elseRule_1 instanceof ConditionalRule)) {
         StringConcatenation _builder_1 = new StringConcatenation();
-        _builder_1.append("if (");
-        String _visit_2 = new TermToCpp(this.res).visit(object.getGuard());
-        _builder_1.append(_visit_2);
-        _builder_1.append("){ ");
-        _builder_1.newLineIfNotEmpty();
+        _builder_1.append("if (ï¿½new TermToCpp(res).visit(object.getGuard)ï¿½){ ");
+        _builder_1.newLine();
         _builder_1.append("\t\t");
-        String _visit_3 = new RuleToCpp(this.res, this.seqBlock, this.options).visit(object.getThenRule());
-        _builder_1.append(_visit_3, "\t\t");
-        _builder_1.newLineIfNotEmpty();
-        _builder_1.append("} else ");
-        String _visit_4 = new RuleToCpp(this.res, this.seqBlock, this.options).visit(object.getElseRule());
-        _builder_1.append(_visit_4);
-        _builder_1.newLineIfNotEmpty();
+        _builder_1.append("ï¿½new RuleToCpp(res,seqBlock,options).visit(object.thenRule)ï¿½");
+        _builder_1.newLine();
+        _builder_1.append("} else ï¿½new RuleToCpp(res,seqBlock,options).visit(object.elseRule)ï¿½");
+        _builder_1.newLine();
         return _builder_1.toString();
       } else {
         StringConcatenation _builder_2 = new StringConcatenation();
         _builder_2.append("\t");
-        _builder_2.append("if (");
-        String _visit_5 = new TermToCpp(this.res).visit(object.getGuard());
-        _builder_2.append(_visit_5, "\t");
-        _builder_2.append("){ ");
-        _builder_2.newLineIfNotEmpty();
+        _builder_2.append("if (ï¿½new TermToCpp(res).visit(object.getGuard)ï¿½){ ");
+        _builder_2.newLine();
         _builder_2.append("\t");
-        String _visit_6 = new RuleToCpp(this.res, this.seqBlock, this.options).visit(object.getThenRule());
-        _builder_2.append(_visit_6, "\t");
-        _builder_2.newLineIfNotEmpty();
+        _builder_2.append("ï¿½new RuleToCpp(res,seqBlock,options).visit(object.thenRule)ï¿½");
+        _builder_2.newLine();
         _builder_2.append("\t");
         _builder_2.append("}else{");
         _builder_2.newLine();
         _builder_2.append("\t");
-        String _visit_7 = new RuleToCpp(this.res, this.seqBlock, this.options).visit(object.getElseRule());
-        _builder_2.append(_visit_7, "\t");
-        _builder_2.newLineIfNotEmpty();
+        _builder_2.append("ï¿½new RuleToCpp(res,seqBlock,options).visit(object.elseRule)ï¿½");
+        _builder_2.newLine();
         _builder_2.append("}");
         _builder_2.newLine();
         return _builder_2.toString();

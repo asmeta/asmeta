@@ -16,7 +16,6 @@ public class AsmetaSimulatorWRTest extends BaseTest{
 	@Test
 	public void testDoOneStep() throws Exception {
 		AsmCollection asmc = ASMParser.setUpReadAsm(new File(ASM_EXAMPLES + "examples/simple_example/AdvancedClock.asm"));
-
 		AsmetaSimulatorWR asm = new AsmetaSimulatorWR("AdvancedClock", asmc, new Environment(new RandomMFReader()));
 		asm.doOneStep();
 		System.out.println(asm.previousState);
