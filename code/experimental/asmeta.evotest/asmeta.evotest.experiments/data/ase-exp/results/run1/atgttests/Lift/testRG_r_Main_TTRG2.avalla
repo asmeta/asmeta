@@ -1,6 +1,6 @@
 scenario testRG_r_Main_TTRG2
 
-load ./..\..\..\..\models\../../../../models/Lift.asm
+load ./../../../../models/Lift.asm
 
 //// test name test@RG_r_Main_TTRG2
 //// generated for (test goal): RG_r_Main_TTRG2: signalPorta and (((statoPiano = UNO) and (statoPorta = CHIUSA)) and (statoPorta != APERTA))
