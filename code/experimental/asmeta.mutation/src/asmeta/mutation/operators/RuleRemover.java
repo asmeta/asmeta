@@ -22,6 +22,9 @@ import asmeta.transitionrules.basictransitionrules.UpdateRule;
 import asmeta.transitionrules.derivedtransitionrules.CaseRule;
 import asmeta.transitionrules.turbotransitionrules.SeqRule;
 
+//
+// removes a rule from a block (to extend?)
+// 
 public class RuleRemover extends RuleBasedMutator {
 
 
