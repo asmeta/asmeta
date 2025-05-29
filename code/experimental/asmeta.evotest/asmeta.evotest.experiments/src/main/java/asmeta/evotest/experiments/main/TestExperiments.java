@@ -53,9 +53,6 @@ import org.asmeta.avallaxt.validation.RuleExtractorFromMacroDecl;
 public class TestExperiments {
 
 	private static final String DATA_CSV = "data.csv";
-	private static final String EXP_BASE_FOLDER = "data/ase-exp";
-	private static final String RESULTS = "results";
-	private static final String MODELS = EXP_BASE_FOLDER + "/models";
 	private static final String RANDOM_DIR = "randomtests";
 	private static final String ATGT_DIR = "atgttests";
 	private static final String EVOAVALLA_DIR = "evoavallatests";
@@ -67,8 +64,10 @@ public class TestExperiments {
 			"update_rule_coverage", "n_failing_scenarios", "n_val_error_scenarios");
 
 	private static String jdkPath;
-	private static String resultsPath;
+	private static String sourcePath;
+	private static String basePath;
 	private static String targetPath;
+	private static String resultsPath;
 	private static String randomDir;
 	private static String atgtDir;
 	private static String evoavallaDir;
@@ -76,12 +75,11 @@ public class TestExperiments {
 	/**
 	 * Run the tests
 	 * 
-	 * @param args The first argument is mandatory and must be the path to the Java
-	 *             JDK version 8. The second argument is mandatory and is used to
-	 *             set the folder where to store the results. The third argument is
-	 *             otpional and is used to set specification on which to run the
-	 *             tests (if not specified, the experiments will be run on all
-	 *             specifications in the model folder).
+	 * @param args The first argument must be the path to the Java JDK version 8.
+	 *             The second argument is used to set the path of source folder
+	 *             where to search for .asm specifications or directly the path of
+	 *             an .asm specification. The third argument is used to set the
+	 *             relative path of the target folder where to store the results.
 	 * @throws Exception if any exception occurs
 	 */
 	public static void main(String[] args) throws Exception {
@@ -89,9 +87,23 @@ public class TestExperiments {
 		Logger.getLogger(RuleEvalWCov.class).setLevel(Level.INFO);
 		Logger.getLogger(AsmetaV.class).setLevel(Level.DEBUG);
 
+		if (args.length < 3)
+			throw new RuntimeException(
+					"Two arguments must be provided: \n\t-the path to the Java JDK version 8\n\t-the source folder or specification\n\t-the target folder");
 		jdkPath = args[0];
-		resultsPath = EXP_BASE_FOLDER + File.separator + RESULTS + File.separator + args[1];
-		targetPath = MODELS + (args.length > 2 ? File.separator + args[2] : "");
+		targetPath = args[1];
+		sourcePath = args[2];
+
+		// Parse the arguments and retrieve the Strings representing the needed paths
+		File targetFile = new File(targetPath);
+		if (!targetFile.exists()
+				|| !(targetFile.getName().endsWith(ASMParser.ASM_EXTENSION) || targetFile.isDirectory()))
+			throw new RuntimeException(
+					targetPath + " is an invalid target file as it is not a directory or a file with .asm extension");
+		basePath = targetFile.isDirectory() ? targetFile.toString()
+				: targetFile.getCanonicalFile().getParentFile().toString();
+		resultsPath = Paths.get(basePath).toAbsolutePath().normalize().resolve(sourcePath).normalize().toString();
+
 		randomDir = resultsPath + File.separator + RANDOM_DIR;
 		atgtDir = resultsPath + File.separator + ATGT_DIR;
 		evoavallaDir = resultsPath + File.separator + EVOAVALLA_DIR;
@@ -107,11 +119,25 @@ public class TestExperiments {
 		setupCsv();
 
 		// generate avalla scenarios, validate them and compute coverage
-		Path dir = Paths.get(targetPath);
+		Path dir = Paths.get(targetFile.getAbsolutePath());
 		Files.walk(dir).forEach(path -> generateTestsAndComputeCoverage(path.toString()));
 
 		// clean the csv files except data.csv
 		cleanCsv();
+	}
+
+	/**
+	 * Computes the relative path from a base directory to a target path.
+	 * 
+	 * @param base   the base path
+	 * @param target the target Path
+	 * @return the resolved path string
+	 */
+	private static String computeRelativePath(String base, String target) {
+		Path basePath = Paths.get(base).toAbsolutePath().normalize();
+		Path targetPath = Paths.get(target).toAbsolutePath().normalize();
+		Path relativePath = basePath.relativize(targetPath);
+		return relativePath.toString();
 	}
 
 	/**
@@ -276,11 +302,12 @@ public class TestExperiments {
 			throws Exception {
 		String evoAavallaTestDir = evoavallaDir;
 		String avallaOutputDirectory = evoAavallaTestDir + "/" + asmFileName;
+		String evosuiteJarFolder = "..\\asmeta.evotest.evoasmetatg\\evosuite\\evosuite-jar";
 
 		List<String> evoAsmetaTgArguments = List.of(DASH + EvoAsmetaTgCLI.WORKING_DIR, "./evoAvalla/",
 				DASH + EvoAsmetaTgCLI.INPUT, asmPath, DASH + EvoAsmetaTgCLI.OUTPUT, avallaOutputDirectory,
 				DASH + EvoAsmetaTgCLI.JAVA_PATH, jdkPath, DASH + EvoAsmetaTgCLI.EVOSUITE_VERSION, "1.0.6",
-				DASH + EvoAsmetaTgCLI.EVOSUITE_PATH, "..\\asmeta.evotest.evoasmetatg\\evosuite\\evosuite-jar",
+				DASH + EvoAsmetaTgCLI.EVOSUITE_PATH, evosuiteJarFolder,
 				/* DASH + EvoAsmetaTgCLI.TIME_BUDGET, "1", */ DASH + EvoAsmetaTgCLI.CLEAN,
 				"-DignoreDomainException=true");
 
@@ -298,12 +325,12 @@ public class TestExperiments {
 		// libraries must be copied into the scenario folder.
 		try {
 			// Copy the ASM file
-			File source = new File(MODELS + "/" + asmFileName + ASMParser.ASM_EXTENSION);
+			File source = new File(basePath + "/" + asmFileName + ASMParser.ASM_EXTENSION);
 			File dest = new File(avallaOutputDirectory + "/" + asmFileName + ASMParser.ASM_EXTENSION);
 			Files.copy(source.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
 			// Copy the STDL directory and its contents
-			source = new File(MODELS + "/STDL");
+			source = new File(basePath + "/STDL");
 			dest = new File(avallaOutputDirectory + "/STDL");
 			Files.createDirectories(dest.toPath());
 
@@ -375,11 +402,9 @@ public class TestExperiments {
 		// compute coverage and save results in the csv file
 		String reportCsv = resultsPath + "/report_random.csv";
 		String avallaOutputDirectory = randomDir + File.separator + asmFileName;
-		Path basePath = Paths.get(avallaOutputDirectory).toAbsolutePath().normalize();
-		Path targetPath = Paths.get(asmPath).toAbsolutePath().normalize();
-		Path relativePath = basePath.relativize(targetPath);
-		int errorsInValidation = computeCoverageFromAsmTestSuite(relativePath.toString(), randomSuite,
-				avallaOutputDirectory, reportCsv);
+		String relativePath = computeRelativePath(asmPath, avallaOutputDirectory);
+		int errorsInValidation = computeCoverageFromAsmTestSuite(relativePath, randomSuite, avallaOutputDirectory,
+				reportCsv);
 		RuleEvalWCov.reset();
 
 		// Write to data.csv the info about evoavalla execution
@@ -412,11 +437,9 @@ public class TestExperiments {
 		// compute coverage and save results in the csv file
 		String reportCsv = resultsPath + "/report_atgt.csv";
 		String avallaOutputDirectory = atgtDir + File.separator + asmFileName;
-		Path basePath = Paths.get(avallaOutputDirectory).toAbsolutePath().normalize();
-		Path targetPath = Paths.get(asmPath).toAbsolutePath().normalize();
-		Path relativePath = basePath.relativize(targetPath);
-		int errorsInValidation = computeCoverageFromAsmTestSuite(relativePath.toString(), nusmvSuite,
-				avallaOutputDirectory, reportCsv);
+		String relativePath = computeRelativePath(asmPath, avallaOutputDirectory);
+		int errorsInValidation = computeCoverageFromAsmTestSuite(relativePath, nusmvSuite, avallaOutputDirectory,
+				reportCsv);
 		RuleEvalWCov.reset();
 
 		// Write to data.csv the info about evoavalla execution
