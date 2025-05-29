@@ -1,6 +1,6 @@
 scenario PhdMaster_scenario21
 
-load PhdMaster.asm
+load ./..\..\..\..\models\PhdMaster.asm
 
 check status = UNASSOCIATED;
 set transition := REQ_ASSOC_REL;

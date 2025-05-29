@@ -1,6 +1,6 @@
 scenario testRG_r_Main_TRG_r_Operating__REQ_ASSOC_ABORT_TRG12
 
-load ./data\ase-exp\models\PhdMaster.asm
+load ./..\..\..\..\models\PhdMaster.asm
 
 //// test name test@RG_r_Main_TRG_r_Operating__REQ_ASSOC_ABORT_TRG12
 //// generated for (test goal): RG_r_Main_TRG_r_Operating__REQ_ASSOC_ABORT_TRG12: (status = OPERATING) and ((transition = REQ_ASSOC_ABORT) and (status != UNASSOCIATED))

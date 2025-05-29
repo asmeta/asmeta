@@ -1,6 +1,6 @@
 scenario testtest8
 
-load ./data\ase-exp\models\DiceGame.asm
+load ./..\..\..\..\models\DiceGame.asm
 
 //// test name test@test8
 //// generated for (test goal): test8: NULL

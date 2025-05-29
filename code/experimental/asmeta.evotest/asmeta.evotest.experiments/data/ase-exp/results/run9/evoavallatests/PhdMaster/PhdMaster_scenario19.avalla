@@ -1,6 +1,6 @@
 scenario PhdMaster_scenario19
 
-load PhdMaster.asm
+load ./..\..\..\..\models\PhdMaster.asm
 
 check status = UNASSOCIATED;
 set transition := RX_RLRQ;

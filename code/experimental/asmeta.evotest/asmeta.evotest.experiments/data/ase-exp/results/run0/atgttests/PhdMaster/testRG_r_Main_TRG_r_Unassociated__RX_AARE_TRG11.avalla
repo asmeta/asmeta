@@ -1,6 +1,6 @@
 scenario testRG_r_Main_TRG_r_Unassociated__RX_AARE_TRG11
 
-load ./data\ase-exp\models\PhdMaster.asm
+load ./..\..\..\..\models\PhdMaster.asm
 
 //// test name test@RG_r_Main_TRG_r_Unassociated__RX_AARE_TRG11
 //// generated for (test goal): RG_r_Main_TRG_r_Unassociated__RX_AARE_TRG11: (status = UNASSOCIATED) and ((transition = RX_AARE) and (status != UNASSOCIATED))

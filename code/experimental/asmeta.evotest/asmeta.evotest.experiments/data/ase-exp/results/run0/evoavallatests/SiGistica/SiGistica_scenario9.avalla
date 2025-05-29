@@ -1,6 +1,6 @@
 scenario SiGistica_scenario9
 
-load SiGistica.asm
+load ./..\..\..\..\models\SiGistica.asm
 
 check qtAutGas(AUTISTA) = 10;
 check qtAutGas(GASOLIO) = 10;

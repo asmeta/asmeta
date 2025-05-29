@@ -1,6 +1,6 @@
 scenario CashPoint_scenario0
 
-load CashPoint.asm
+load ./..\..\..\..\models\CashPoint.asm
 
 set enteredPin(till1) := 0;
 set currentDate := yp$]5NS]-eq;

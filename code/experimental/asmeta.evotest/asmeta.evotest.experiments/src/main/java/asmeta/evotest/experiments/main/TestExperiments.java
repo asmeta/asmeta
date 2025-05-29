@@ -375,7 +375,11 @@ public class TestExperiments {
 		// compute coverage and save results in the csv file
 		String reportCsv = resultsPath + "/report_random.csv";
 		String avallaOutputDirectory = randomDir + File.separator + asmFileName;
-		int errorsInValidation = computeCoverageFromAsmTestSuite(asmPath, randomSuite, avallaOutputDirectory, reportCsv);
+		Path basePath = Paths.get(avallaOutputDirectory).toAbsolutePath().normalize();
+		Path targetPath = Paths.get(asmPath).toAbsolutePath().normalize();
+		Path relativePath = basePath.relativize(targetPath);
+		int errorsInValidation = computeCoverageFromAsmTestSuite(relativePath.toString(), randomSuite,
+				avallaOutputDirectory, reportCsv);
 		RuleEvalWCov.reset();
 
 		// Write to data.csv the info about evoavalla execution
@@ -408,7 +412,11 @@ public class TestExperiments {
 		// compute coverage and save results in the csv file
 		String reportCsv = resultsPath + "/report_atgt.csv";
 		String avallaOutputDirectory = atgtDir + File.separator + asmFileName;
-		int errorsInValidation = computeCoverageFromAsmTestSuite(asmPath, nusmvSuite, avallaOutputDirectory, reportCsv);
+		Path basePath = Paths.get(avallaOutputDirectory).toAbsolutePath().normalize();
+		Path targetPath = Paths.get(asmPath).toAbsolutePath().normalize();
+		Path relativePath = basePath.relativize(targetPath);
+		int errorsInValidation = computeCoverageFromAsmTestSuite(relativePath.toString(), nusmvSuite,
+				avallaOutputDirectory, reportCsv);
 		RuleEvalWCov.reset();
 
 		// Write to data.csv the info about evoavalla execution
@@ -479,7 +487,8 @@ public class TestExperiments {
 	 *                   extracted
 	 * @param exeTime    the execcution time
 	 * @param nScenario  the number of scenarios
-	 * @param nScenario  the number of scenarios for which the validation resulted in an error
+	 * @param nScenario  the number of scenarios for which the validation resulted
+	 *                   in an error
 	 * @param avallaInfo the map containing the number of scenarios and total number
 	 *                   of step, set and check statements in them
 	 * @param row        the row to be written on data.csv populated with common
@@ -489,8 +498,9 @@ public class TestExperiments {
 	 * @throws IOException           if any IO Exceptio occurs
 	 * @throws CsvException          if any exveption when reading a csv occurs
 	 */
-	private static void writeToCsv(String reportCsv, long exeTime, int nScenario, int errorsInValidation, Map<String, Integer> avallaInfo,
-			Map<String, String> row) throws FileNotFoundException, IOException, CsvException {
+	private static void writeToCsv(String reportCsv, long exeTime, int nScenario, int errorsInValidation,
+			Map<String, Integer> avallaInfo, Map<String, String> row)
+			throws FileNotFoundException, IOException, CsvException {
 		// read the csv with coverage data
 		List<String[]> covRows = readCsv(reportCsv);
 		// build the map representing the row

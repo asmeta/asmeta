@@ -1,6 +1,6 @@
 scenario SiGistica_scenario7
 
-load SiGistica.asm
+load ./..\..\..\..\models\SiGistica.asm
 
 check perInfo = 10;
 check checkMezzo(OFFICINA) = false;

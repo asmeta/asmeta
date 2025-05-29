@@ -1,6 +1,6 @@
 scenario LandingGearSystem_scenario7
 
-load LandingGearSystem.asm
+load ./..\..\..\..\models\LandingGearSystem.asm
 
 check openDoorsElectroValve = false;
 check gears = EXTENDED;

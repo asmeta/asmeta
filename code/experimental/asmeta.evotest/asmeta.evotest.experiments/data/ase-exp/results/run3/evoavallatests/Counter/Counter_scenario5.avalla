@@ -1,6 +1,6 @@
 scenario Counter_scenario5
 
-load Counter.asm
+load ./..\..\..\..\models\Counter.asm
 
 
 step

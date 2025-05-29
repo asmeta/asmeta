@@ -1,6 +1,6 @@
 scenario testtest2
 
-load ./data\ase-exp\models\Tcas.asm
+load ./..\..\..\..\models\Tcas.asm
 
 //// test name test@test2
 //// generated for (test goal): test2: NULL

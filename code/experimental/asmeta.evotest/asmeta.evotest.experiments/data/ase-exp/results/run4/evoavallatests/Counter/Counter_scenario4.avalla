@@ -1,6 +1,6 @@
 scenario Counter_scenario4
 
-load Counter.asm
+load ./..\..\..\..\models\Counter.asm
 
 set click := true;
 

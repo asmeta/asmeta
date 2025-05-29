@@ -1,6 +1,6 @@
 scenario testRG_r_Main_TRG_r_retractionSequence_T_OPEN_T_EXTENDED_TF
 
-load ./data\ase-exp\models\LandingGearSystem.asm
+load ./..\..\..\..\models\LandingGearSystem.asm
 
 //// test name test@RG_r_Main_TRG_r_retractionSequence_T_OPEN_T_EXTENDED_TF
 //// generated for (test goal): RG_r_Main_TRG_r_retractionSequence_T_OPEN_T_EXTENDED_TF: (handle = UP) and ((gears != RETRACTED) and ((doors = OPEN) and ((gears = EXTENDED) and not gearsAllShockAbsorber)))

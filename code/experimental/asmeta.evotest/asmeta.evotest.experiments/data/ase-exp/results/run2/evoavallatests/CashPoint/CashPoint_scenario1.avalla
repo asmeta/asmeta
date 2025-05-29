@@ -1,6 +1,6 @@
 scenario CashPoint_scenario1
 
-load CashPoint.asm
+load ./..\..\..\..\models\CashPoint.asm
 
 
 step

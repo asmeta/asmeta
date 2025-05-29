@@ -1,6 +1,6 @@
 scenario CashRegister_scenario2
 
-load CashRegister.asm
+load ./..\..\..\..\models\CashRegister.asm
 
 check totale = 0;
 check outMess = "";
