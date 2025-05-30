@@ -1,6 +1,6 @@
 scenario Stove_scenario7
 
-load Stove.asm
+load ./..\..\..\..\models\Stove.asm
 
 check stato_stufa = STANBY;
 check timer = 10;

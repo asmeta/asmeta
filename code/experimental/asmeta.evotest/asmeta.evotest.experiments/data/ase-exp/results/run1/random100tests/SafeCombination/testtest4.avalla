@@ -1,6 +1,6 @@
 scenario testtest4
 
-load ./data\ase-exp\models\SafeCombination.asm
+load ./..\..\..\..\models\SafeCombination.asm
 
 //// test name test@test4
 //// generated for (test goal): test4: NULL

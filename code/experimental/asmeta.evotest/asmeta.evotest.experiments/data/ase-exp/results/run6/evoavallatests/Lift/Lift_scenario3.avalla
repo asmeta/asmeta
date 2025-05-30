@@ -1,6 +1,6 @@
 scenario Lift_scenario3
 
-load Lift.asm
+load ./..\..\..\..\models\Lift.asm
 
 check statoPorta = CHIUSA;
 check statoPiano = UNO;

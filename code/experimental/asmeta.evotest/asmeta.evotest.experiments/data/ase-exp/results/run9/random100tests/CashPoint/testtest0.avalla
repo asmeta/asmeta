@@ -1,6 +1,6 @@
 scenario testtest0
 
-load ./data\ase-exp\models\CashPoint.asm
+load ./..\..\..\..\models\CashPoint.asm
 
 //// test name test@test0
 //// generated for (test goal): test0: NULL

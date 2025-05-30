@@ -1,6 +1,6 @@
 scenario testtest6
 
-load ./data\ase-exp\models\Counter.asm
+load ./..\..\..\..\models\Counter.asm
 
 //// test name test@test6
 //// generated for (test goal): test6: NULL

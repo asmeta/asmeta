@@ -1,6 +1,6 @@
 scenario Stove_scenario7
 
-load Stove.asm
+load ./..\..\..\..\models\Stove.asm
 
 check timer = 10;
 check pellet = 50;

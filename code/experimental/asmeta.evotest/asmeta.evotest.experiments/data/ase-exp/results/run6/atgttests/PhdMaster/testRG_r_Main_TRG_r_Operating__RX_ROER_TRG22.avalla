@@ -1,6 +1,6 @@
 scenario testRG_r_Main_TRG_r_Operating__RX_ROER_TRG22
 
-load ./data\ase-exp\models\PhdMaster.asm
+load ./..\..\..\..\models\PhdMaster.asm
 
 //// test name test@RG_r_Main_TRG_r_Operating__RX_ROER_TRG22
 //// generated for (test goal): RG_r_Main_TRG_r_Operating__RX_ROER_TRG22: (status = OPERATING) and ((transition = RX_ROER) and (message != MSG_NO_RESPONSE))

@@ -1,6 +1,6 @@
 scenario testRG_r_Main_FRG_r_outgoingSequence_T_OPENING_TTRG1
 
-load ./data\ase-exp\models\LandingGearSystem.asm
+load ./..\..\..\..\models\LandingGearSystem.asm
 
 //// test name test@RG_r_Main_FRG_r_outgoingSequence_T_OPENING_TTRG1
 //// generated for (test goal): RG_r_Main_FRG_r_outgoingSequence_T_OPENING_TTRG1: (handle != UP) and ((gears != EXTENDED) and ((doors = OPENING) and (doorsAllOpen and (openDoorsElectroValve != false))))

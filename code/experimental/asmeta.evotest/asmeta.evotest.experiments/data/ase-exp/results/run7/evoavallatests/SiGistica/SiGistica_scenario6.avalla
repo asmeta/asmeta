@@ -1,6 +1,6 @@
 scenario SiGistica_scenario6
 
-load SiGistica.asm
+load ./..\..\..\..\models\SiGistica.asm
 
 check qtAutGas(GASOLIO) = 10;
 check checkMezzo(RICH_INFO) = false;

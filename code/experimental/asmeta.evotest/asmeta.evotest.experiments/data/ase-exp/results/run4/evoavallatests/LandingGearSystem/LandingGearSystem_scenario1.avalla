@@ -1,6 +1,6 @@
 scenario LandingGearSystem_scenario1
 
-load LandingGearSystem.asm
+load ./..\..\..\..\models\LandingGearSystem.asm
 
 check doors = CLOSED;
 check openDoorsElectroValve = false;

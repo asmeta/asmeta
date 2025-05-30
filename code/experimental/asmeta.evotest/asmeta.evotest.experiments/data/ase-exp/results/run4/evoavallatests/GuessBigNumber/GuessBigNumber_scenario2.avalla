@@ -1,6 +1,6 @@
 scenario GuessBigNumber_scenario2
 
-load GuessBigNumber.asm
+load ./..\..\..\..\models\GuessBigNumber.asm
 
 check 1330 = 1330;
 set guess := 1330;

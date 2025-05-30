@@ -1,6 +1,6 @@
 scenario CoffeeVendingMachine_scenario3
 
-load CoffeeVendingMachine.asm
+load ./..\..\..\..\models\CoffeeVendingMachine.asm
 
 check available(MILK) = 10;
 check coins = 0;

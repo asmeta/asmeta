@@ -1,6 +1,6 @@
 scenario CashRegister_scenario2
 
-load CashRegister.asm
+load ./..\..\..\..\models\CashRegister.asm
 
 check statoCassa = ATTENDI_ORDINAZIONI;
 check outMess = "";

@@ -1,6 +1,6 @@
 scenario DiceGame_scenario1
 
-load DiceGame.asm
+load ./..\..\..\..\models\DiceGame.asm
 
 check soldi(PC) = 10;
 check statoGioco = INCORSO;

@@ -1,6 +1,6 @@
 scenario SiGistica_scenario6
 
-load SiGistica.asm
+load ./..\..\..\..\models\SiGistica.asm
 
 check pagDomain = 0;
 check qtAutGas(AUTISTA) = 10;

@@ -1,6 +1,6 @@
 scenario LandingGearSystem_scenario13
 
-load LandingGearSystem.asm
+load ./..\..\..\..\models\LandingGearSystem.asm
 
 check generalElectroValve = false;
 check extendGearsElectroValve = false;

@@ -1,6 +1,6 @@
 scenario ATM_scenario17
 
-load ATM.asm
+load ./..\..\..\..\models\ATM.asm
 
 check moneyLeft = 1000;
 check atmState = AWAITCARD;

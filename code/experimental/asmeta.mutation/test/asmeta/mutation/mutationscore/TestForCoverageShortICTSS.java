@@ -16,9 +16,10 @@ public class TestForCoverageShortICTSS {
 
 	@Test
 	public void test1file() throws Exception {
-		String avallaTotest = base_dir + "\\run1\\atgttests\\Ascensore\\testRG_r_Main_TTRG2.avalla";
+		String avallaTotest = base_dir + "\\results\\run1\\atgttests\\Lift\\testRG_r_Main_TTRG2.avalla";
 		MutatedScenarioExecutor executor = new MutatedScenarioExecutor();
-		executor.computeMutationScore(avallaTotest);
+		var res = executor.computeMutationScore(avallaTotest);
+		System.out.println(res);
 	}
 	
 	@Test
@@ -34,7 +35,7 @@ public class TestForCoverageShortICTSS {
 						// look for avalla tests
 						if (avalla.toFile().toString().endsWith(".avalla")) {
 							System.out.println(avalla.toFile().toString());
-							// the path of the asnmeta is wrong
+							// the path of the asmeta is wrong
 							// for instance:
 							// load ./src\main\resources\models\Ascensore.asm
 							// must become
@@ -62,7 +63,8 @@ public class TestForCoverageShortICTSS {
 		try {
 			Charset charset = StandardCharsets.UTF_8;
 			String content = new String(Files.readAllBytes(avalla), charset);
-			content = content.replaceAll("load ./src", "load ../../../../../src");
+			content = content.replaceAll("load ./data\\ase-exp\\", "load ../../../../");
+			System.err.println(content);
 			Files.write(avalla, content.getBytes(charset));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

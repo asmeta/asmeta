@@ -1,6 +1,6 @@
 scenario Tcas_scenario2
 
-load Tcas.asm
+load ./..\..\..\..\models\Tcas.asm
 
 set f0 := true;
 set g0 := false;

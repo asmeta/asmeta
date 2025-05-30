@@ -1,6 +1,6 @@
 scenario testtest18
 
-load ./data\ase-exp\models\PhdMaster.asm
+load ./..\..\..\..\models\PhdMaster.asm
 
 //// test name test@test18
 //// generated for (test goal): test18: NULL

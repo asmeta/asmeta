@@ -1,6 +1,6 @@
 scenario testtest8
 
-load ./data\ase-exp\models\SiGistica.asm
+load ./..\..\..\..\models\SiGistica.asm
 
 //// test name test@test8
 //// generated for (test goal): test8: NULL
