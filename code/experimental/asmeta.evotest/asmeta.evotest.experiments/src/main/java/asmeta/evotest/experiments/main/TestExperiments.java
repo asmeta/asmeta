@@ -422,7 +422,7 @@ public class TestExperiments {
 		// compute coverage and save results in the csv file
 		String reportCsv = resultsPath + "/report_random.csv";
 		String avallaOutputDirectory = randomDir + File.separator + asmFileName;
-		String relativePath = computeRelativePath(asmPath, avallaOutputDirectory);
+		String relativePath = computeRelativePath(avallaOutputDirectory, asmPath);
 		int errorsInValidation = computeCoverageFromAsmTestSuite(relativePath, randomSuite, avallaOutputDirectory,
 				reportCsv);
 		RuleEvalWCov.reset();
@@ -457,7 +457,7 @@ public class TestExperiments {
 		// compute coverage and save results in the csv file
 		String reportCsv = resultsPath + "/report_atgt.csv";
 		String avallaOutputDirectory = atgtDir + File.separator + asmFileName;
-		String relativePath = computeRelativePath(asmPath, avallaOutputDirectory);
+		String relativePath = computeRelativePath(avallaOutputDirectory, asmPath);
 		int errorsInValidation = computeCoverageFromAsmTestSuite(relativePath, nusmvSuite, avallaOutputDirectory,
 				reportCsv);
 		RuleEvalWCov.reset();
