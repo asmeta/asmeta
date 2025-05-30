@@ -71,6 +71,7 @@ public class TestExperiments {
 	private static String randomDir;
 	private static String atgtDir;
 	private static String evoavallaDir;
+	private static boolean runningFromJar;
 
 	/**
 	 * Run the tests
@@ -89,10 +90,22 @@ public class TestExperiments {
 
 		if (args.length < 3)
 			throw new RuntimeException(
-					"Two arguments must be provided: \n\t-the path to the Java JDK version 8\n\t-the source folder or specification\n\t-the target folder");
+					"Three arguments must be provided: (i) the path to the Java JDK version 8, (ii) the source folder or specification, and (iii) the target folder");
 		jdkPath = args[0];
 		targetPath = args[1];
 		sourcePath = args[2];
+
+		// If running from jar, check the presence of evosuite-1.0.6.jar in the same directory
+		String className = TestExperiments.class.getName().replace('.', '/');
+		String classJar = TestExperiments.class.getResource("/" + className + ".class").toString();
+		runningFromJar = classJar.startsWith("jar:");
+		if (runningFromJar) {
+			File evosuiteJar = new File("./evosuite-1.0.6.jar");
+			if (!evosuiteJar.exists())
+				throw new RuntimeException(
+						"Missing dependency: 'evosuite-1.0.6.jar' was not found in the application directory. "
+								+ "Please make sure 'evosuite-1.0.6.jar' is located in the same folder as the application's JAR file.");
+		}
 
 		// Parse the arguments and retrieve the Strings representing the needed paths
 		File targetFile = new File(targetPath);
@@ -302,8 +315,15 @@ public class TestExperiments {
 			throws Exception {
 		String evoAavallaTestDir = evoavallaDir;
 		String avallaOutputDirectory = evoAavallaTestDir + "/" + asmFileName;
-		String evosuiteJarFolder = "..\\asmeta.evotest.evoasmetatg\\evosuite\\evosuite-jar";
 
+		String evosuiteJarFolder;
+		if (runningFromJar) {
+			evosuiteJarFolder = new File(
+					TestExperiments.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile()
+					.toString();
+		} else {
+			evosuiteJarFolder = "..\\asmeta.evotest.evoasmetatg\\evosuite\\evosuite-jar";
+		}
 		List<String> evoAsmetaTgArguments = List.of(DASH + EvoAsmetaTgCLI.WORKING_DIR, "./evoAvalla/",
 				DASH + EvoAsmetaTgCLI.INPUT, asmPath, DASH + EvoAsmetaTgCLI.OUTPUT, avallaOutputDirectory,
 				DASH + EvoAsmetaTgCLI.JAVA_PATH, jdkPath, DASH + EvoAsmetaTgCLI.EVOSUITE_VERSION, "1.0.6",
