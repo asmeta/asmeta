@@ -64,10 +64,10 @@ public class TestForCoverageShortICTSS {
 					out.write("\t" + value + "\n");
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
-					// e.printStackTrace();
+					e.printStackTrace();
 				} catch (Error e) {
 					// TODO Auto-generated catch block
-					// e.printStackTrace();
+					e.printStackTrace();
 				}
 			}
 		});

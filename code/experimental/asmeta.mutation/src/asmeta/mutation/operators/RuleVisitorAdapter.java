@@ -27,34 +27,40 @@ import asmeta.transitionrules.turbotransitionrules.SeqRule;
 
 // it makes nothing but it is recurive call
 // if it is not mutated return the same rule // OR NULL TO THNINK !!! OR EMPTY LIST???
-public class RuleVisitorAdapter extends RuleVisitor<List<Rule>> {
+final public class RuleVisitorAdapter extends RuleVisitor<List<Rule>> {
 
+	private RuleVisitor<List<Rule>> rulemutator;
+
+	RuleVisitorAdapter(RuleVisitor<List<Rule>> rulemutator){
+		this.rulemutator = rulemutator;
+	} 
+	
 	@Override
-	public List<Rule> visit(SkipRule rule) {
-		// TODO Auto-generated method stub
-		throw new RuntimeException("not implemented yet");
+	public List<Rule> visit(SkipRule rule) {		
+		return rulemutator.visit(rule);
 	}
 
 	@Override
 	public List<Rule> visit(UpdateRule rule) {
-		// TODO Auto-generated method stub
-		throw new RuntimeException("not implemented yet");
+		return rulemutator.visit(rule);
 	}
 
 	@Override
 	public List<Rule> visit(TermAsRule rule) {
-		// TODO Auto-generated method stub
-		throw new RuntimeException("not implemented yet");
+		return rulemutator.visit(rule);
 	}
 
 	@Override
 	public List<Rule> visit(BlockRule block) {
 		List<Rule> mutatedRules = new ArrayList<>();
+		// first mutate this one
+		mutatedRules.addAll(rulemutator.visit(block));
+		// mutate those inside
 		EList<Rule> rules = block.getRules();
 		for (int i = 0; i < rules.size(); i++) {
 			// mutate the i-the rule 
-			List<Rule> mutatedRule = visit(rules.get(i));
-			if (noMutationOccurred(rules.get(i),mutatedRule)){
+			List<Rule> mutatedRule = this.visit(rules.get(i));
+			if (mutatedRule.isEmpty()){
 				// add the original one
 				// mutatedRules.add(block);
 			} else {
@@ -80,37 +86,33 @@ public class RuleVisitorAdapter extends RuleVisitor<List<Rule>> {
 
 	@Override
 	public List<Rule> visit(ConditionalRule rule) {
-		List<Rule> thenpart = this.visit(rule.getThenRule());
-		List<Rule> elsePart = rule.getElseRule() != null ? this.visit(rule.getElseRule()) : Collections.singletonList(null);
+		List<Rule> mutatedRules = new ArrayList<>();
+		// first mutate this one
+		mutatedRules.addAll(rulemutator.visit(rule));
+		// mutate then and elsepart
+		List<Rule> thenPart = this.visit(rule.getThenRule());
+		// if else is empty, get the empty collection
+		List<Rule> elsePart = rule.getElseRule() != null ? this.visit(rule.getElseRule()) : Collections.EMPTY_LIST;
 		// check if no mutation has been done
-		if (noMutationOccurred(rule.getThenRule(), thenpart)) {
-			// then part immutated and else null
-			if (elsePart == null) 
-				return Collections.singletonList(rule);
-			// elsePart not null and immutated 
-			if (noMutationOccurred(rule.getElseRule(),elsePart))
-				return Collections.singletonList(rule);
+		if (thenPart.isEmpty() && elsePart.isEmpty()) {
+			// finish
+			return mutatedRules;
 		}
-		List<Rule> mutated = new ArrayList<Rule>();
-		// some mutation occurred
-		for (Rule mutThen: thenpart) {
-			for (Rule mutElse: elsePart) {
-				// recreate the if condition with the mutations
-				ConditionalRule newRule = EcoreUtil.copy(rule);
-				newRule.setThenRule(mutThen);
-				if  (mutElse != null) {
-					newRule.setThenRule(mutElse);					
-				} else {
-					newRule.setElseRule(null);
-				}
-				mutated.add(newRule);
-			}			
+		// mutate the then part 
+		for (Rule mutThen: thenPart) {
+			// recreate the if condition with the mutations
+			ConditionalRule newRule = EcoreUtil.copy(rule);
+			newRule.setThenRule(mutThen);
+			mutatedRules.add(newRule);
 		}
-		return mutated;
-	}
-
-	private boolean noMutationOccurred(Rule rule, List<Rule> ruleMutations) {
-		return ruleMutations.size() == 1 && ruleMutations.get(0) == rule;
+		// mutate the else part
+		for (Rule mutElse: elsePart) {
+			// recreate the if condition with the mutations
+			ConditionalRule newRule = EcoreUtil.copy(rule);
+			newRule.setElseRule(mutElse);					
+			mutatedRules.add(newRule);
+		}
+		return mutatedRules;
 	}
 
 	@Override

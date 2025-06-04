@@ -16,20 +16,30 @@ import asmeta.AsmCollection;
 
 public class RuleRemoverTest {
 
-
 	@Test
 	public void testMutatate() throws Exception {
 		String string = "examples/ruletoskip.asm";
-		mutate(string, 2);
+		mutate(string, 3);
 	}
 
 	@Test
 	public void testMutatate2() throws Exception {
 		String string = "examples/ruletoskip2.asm";
-		mutate(string, 2);
+		mutate(string, 4);
+	}
+	@Test
+	public void testMutatate3() throws Exception {
+		String string = "examples/ruletoskip3.asm";
+		mutate(string, 5);
 	}
 
-	
+	@Test
+	public void testMutatate4() throws Exception {
+		// only if
+		String string = "examples/ruletoskip4.asm";
+		mutate(string, 3);
+	}
+
 	private void mutate(String string, int numMutations) throws Exception {
 		File f = new File(string);
 		StringWriter stringWriter = new StringWriter();
@@ -40,16 +50,15 @@ public class RuleRemoverTest {
 		AsmCollection asmeta = ASMParser.setUpReadAsm(f);
 		amPrint.visit(asmeta.getMain().getMainrule());
 //		amPrint.close();
-		System.out.println(stringWriter.toString()); stringWriter.getBuffer().setLength(0);
+//		System.out.println(stringWriter.toString()); stringWriter.getBuffer().setLength(0);
 
 		List<AsmCollection> mutrul = new RuleRemover().mutate(asmeta);
-		assertEquals(numMutations, mutrul.size());
-
-		amPrint.visit(mutrul.get(0).getMain().getMainrule());
-		System.out.println(stringWriter.toString());
-		amPrint.visit(mutrul.get(1).getMain().getMainrule());
-		System.out.println(stringWriter.toString());
+		for (AsmCollection asm : mutrul) {
+			amPrint.visit(asm.getMain().getMainrule());
+			System.out.println(stringWriter.toString());
+		}
 		amPrint.close();
+		assertEquals(numMutations, mutrul.size());
 	}
 
 }

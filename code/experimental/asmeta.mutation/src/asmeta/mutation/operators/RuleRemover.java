@@ -29,11 +29,11 @@ import asmeta.transitionrules.turbotransitionrules.SeqRule;
 public class RuleRemover extends RuleBasedMutator {
 
 	RuleRemover() {
-		super(new RuleToSkip());
+		super(new RuleVisitorAdapter(new RuleToSkip()));
 	}
 
 	// every rule ()except skip) is converted to skip
-	static public class RuleToSkip extends RuleVisitorAdapter {
+	public static class RuleToSkip extends RuleVisitor<List<Rule>> {
 
 		@Override
 		public List<Rule> visit(UpdateRule rule) {
@@ -62,19 +62,16 @@ public class RuleRemover extends RuleBasedMutator {
 
 		@Override
 		public List<Rule> visit(ConditionalRule rule) {
-
 			return Collections.singletonList(BasictransitionrulesFactory.eINSTANCE.createSkipRule());
 		}
 
 		@Override
 		public List<Rule> visit(ExtendRule rule) {
-
 			return Collections.singletonList(BasictransitionrulesFactory.eINSTANCE.createSkipRule());
 		}
 
 		@Override
 		public List<Rule> visit(LetRule rule) {
-
 			return Collections.singletonList(BasictransitionrulesFactory.eINSTANCE.createSkipRule());
 		}
 
@@ -86,19 +83,16 @@ public class RuleRemover extends RuleBasedMutator {
 
 		@Override
 		public List<Rule> visit(ForallRule rule) {
-
 			return Collections.singletonList(BasictransitionrulesFactory.eINSTANCE.createSkipRule());
 		}
 
 		@Override
 		public List<Rule> visit(MacroCallRule rule) throws Exception {
-
 			return Collections.singletonList(BasictransitionrulesFactory.eINSTANCE.createSkipRule());
 		}
 
 		@Override
 		public List<Rule> visit(CaseRule rule) {
-
 			return Collections.singletonList(BasictransitionrulesFactory.eINSTANCE.createSkipRule());
 		}
 	}
