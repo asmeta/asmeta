@@ -19,12 +19,23 @@ public class RuleRemoverTest {
 
 	@Test
 	public void testMutatate() throws Exception {
+		String string = "examples/ruletoskip.asm";
+		mutate(string, 2);
+	}
+
+	@Test
+	public void testMutatate2() throws Exception {
+		String string = "examples/ruletoskip2.asm";
+		mutate(string, 2);
+	}
+
+	
+	private void mutate(String string, int numMutations) throws Exception {
+		File f = new File(string);
 		StringWriter stringWriter = new StringWriter();
 		PrintWriter pw = new PrintWriter(stringWriter, true);
 		pw.println("TEST STRING");
 		AsmPrinter amPrint = new AsmPrinter(pw);
-		String string = "examples/ruletoskip.asm";
-		File f = new File(string);
 		assertTrue(f.exists());
 		AsmCollection asmeta = ASMParser.setUpReadAsm(f);
 		amPrint.visit(asmeta.getMain().getMainrule());
@@ -32,14 +43,13 @@ public class RuleRemoverTest {
 		System.out.println(stringWriter.toString()); stringWriter.getBuffer().setLength(0);
 
 		List<AsmCollection> mutrul = new RuleRemover().mutate(asmeta);
-		assertEquals(2, mutrul.size());
+		assertEquals(numMutations, mutrul.size());
 
 		amPrint.visit(mutrul.get(0).getMain().getMainrule());
 		System.out.println(stringWriter.toString());
 		amPrint.visit(mutrul.get(1).getMain().getMainrule());
 		System.out.println(stringWriter.toString());
 		amPrint.close();
-
 	}
 
 }
