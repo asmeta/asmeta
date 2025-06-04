@@ -2,12 +2,18 @@ package asmeta.mutation.mutationscore;
 
 import static org.junit.Assert.*;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Scanner;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.junit.Test;
 
 public class TestForCoverageShortICTSS {
@@ -21,42 +27,51 @@ public class TestForCoverageShortICTSS {
 		var res = executor.computeMutationScore(avallaTotest);
 		System.out.println(res);
 	}
-	
+
+	// run mutation for all the avalla files for ASE
+	// CESAR
 	@Test
 	public void testAseExperiments() throws IOException {
+		Logger.getLogger("org.asmeta.parser").setLevel(Level.OFF);
+		Logger.getLogger("org.asmeta.simulator").setLevel(Level.OFF);
+		BufferedWriter out = new BufferedWriter(new FileWriter("muationresults.txt"));
 		Path base = Path.of(base_dir);
 		assertTrue(Files.exists(base));
 		// now walk from here
-		Files.walk(base).forEach( d ->{
-        	if (Files.isDirectory(d) && d.toFile().toString().endsWith("atgttests")) {
-        		System.out.println(d.toFile().toString());
-        		try {
-					Files.walk(d).forEach(avalla ->{
-						// look for avalla tests
-						if (avalla.toFile().toString().endsWith(".avalla")) {
-							System.out.println(avalla.toFile().toString());
-							// the path of the asmeta is wrong
-							// for instance:
-							// load ./src\main\resources\models\Ascensore.asm
-							// must become
-							// load ../../../../src ... etc
-							correctLoadSpec(avalla);
-							
-							try {
-								MutatedScenarioExecutor executor = new MutatedScenarioExecutor();
-								executor.computeMutationScore(avalla.toFile().toString());
-							} catch (Exception e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-						}
-					});
-				} catch (IOException e) {
+		Files.walk(base).forEach(avalla -> {
+			if (avalla.toFile().toString().endsWith(".avalla")) {
+				double value;
+				try {
+					out.write(avalla.toFile().toString());
+//        		try {
+//					Files.walk(d).forEach(avalla ->{
+//						// look for avalla tests
+//						if (avalla.toFile().toString().endsWith(".avalla")) {
+//							System.out.println(avalla.toFile().toString());
+//							// the path of the asmeta is wrong
+//							// for instance:
+//							// load ./src\main\resources\models\Ascensore.asm
+//							// must become
+//							// load ../../../../src ... etc
+//							//correctLoadSpec(avalla);
+//						
+					MutatedScenarioExecutor executor = new MutatedScenarioExecutor();
+					try {
+						value = executor.computeMutationScore(avalla.toFile().toString());
+					} catch (Exception e) {
+						value = 0;
+					}
+					out.write("\t" + value + "\n");
+				} catch (Exception e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					// e.printStackTrace();
+				} catch (Error e) {
+					// TODO Auto-generated catch block
+					// e.printStackTrace();
 				}
-        	}	
-        });
+			}
+		});
+		out.close();
 	}
 
 	private void correctLoadSpec(Path avalla) {
