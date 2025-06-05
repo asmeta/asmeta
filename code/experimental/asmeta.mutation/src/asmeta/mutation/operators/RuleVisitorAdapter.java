@@ -80,8 +80,30 @@ final public class RuleVisitorAdapter extends RuleVisitor<List<Rule>> {
 
 	@Override
 	public List<Rule> visit(SeqRule seq) {
-		// TODO Auto-generated method stub
-		throw new RuntimeException("not implemented yet");
+		List<Rule> mutatedRules = new ArrayList<>();
+		// first mutate this one
+		mutatedRules.addAll(rulemutator.visit(seq));
+		// mutate those inside
+		EList<Rule> rules = seq.getRules();
+		for (int i = 0; i < rules.size(); i++) {
+			// mutate the i-the rule 
+			List<Rule> mutatedRule = this.visit(rules.get(i));
+			if (mutatedRule.isEmpty()){
+				// add the original one
+				// mutatedRules.add(block);
+			} else {
+				for (Rule mr: mutatedRule) {
+					List<Rule> rulesN = new ArrayList<>(EcoreUtil.copyAll(rules));
+					// 	TODO call recursively
+					// 	create a skip rule (or it can be reused?) to check
+					rulesN.set(i,mr);
+					SeqRule newSeqRule =  asmeta.transitionrules.turbotransitionrules.TurbotransitionrulesFactory.eINSTANCE.createSeqRule();
+					newSeqRule.getRules().addAll(rulesN);
+					mutatedRules.add(newSeqRule);
+				}
+			}
+		}
+		return mutatedRules;
 	}
 
 	@Override
@@ -141,8 +163,7 @@ final public class RuleVisitorAdapter extends RuleVisitor<List<Rule>> {
 
 	@Override
 	public List<Rule> visit(MacroCallRule rule) throws Exception {
-		// TODO Auto-generated method stub
-		throw new RuntimeException("not implemented yet");
+		return rulemutator.visit(rule);
 	}
 
 	@Override

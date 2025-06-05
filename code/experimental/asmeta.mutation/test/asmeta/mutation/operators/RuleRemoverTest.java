@@ -13,6 +13,7 @@ import org.asmeta.parser.util.AsmPrinter;
 import org.junit.Test;
 
 import asmeta.AsmCollection;
+import asmeta.mutation.mutationscore.TestForCoverageShortICTSS;
 
 public class RuleRemoverTest {
 
@@ -40,6 +41,21 @@ public class RuleRemoverTest {
 		mutate(string, 3);
 	}
 
+	@Test
+	public void testASESPEC() throws Exception {
+		// only if
+		String string = TestForCoverageShortICTSS.base_dir +  "\\models\\ATM.asm";
+		mutate(string, 56);
+	}
+	@Test
+	public void testASESPEC2() throws Exception {
+		// only if
+		String string = TestForCoverageShortICTSS.base_dir +  "\\models\\CoffeeVendingMachine.asm";
+		mutate(string, 12);
+	}
+	
+
+	
 	private void mutate(String string, int numMutations) throws Exception {
 		File f = new File(string);
 		StringWriter stringWriter = new StringWriter();

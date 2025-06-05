@@ -20,7 +20,7 @@ import org.junit.Test;
 
 public class TestForCoverageShortICTSS {
 
-	static String base_dir = "../asmeta.evotest/asmeta.evotest.experiments/data/ase-exp";
+	public static String base_dir = "../asmeta.evotest/asmeta.evotest.experiments/data/ase-exp";
 
 	@Test
 	public void test1file() throws Exception {

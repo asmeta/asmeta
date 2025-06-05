@@ -28,7 +28,7 @@ import asmeta.transitionrules.turbotransitionrules.SeqRule;
 // 
 public class RuleRemover extends RuleBasedMutator {
 
-	RuleRemover() {
+	public RuleRemover() {
 		super(new RuleVisitorAdapter(new RuleToSkip()));
 	}
 

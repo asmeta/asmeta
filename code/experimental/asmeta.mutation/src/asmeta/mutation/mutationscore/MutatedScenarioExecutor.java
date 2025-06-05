@@ -12,6 +12,7 @@ import org.asmeta.xt.validator.ValidationResult;
 
 import asmeta.AsmCollection;
 import asmeta.mutation.operators.ChooseRuleMutate;
+import asmeta.mutation.operators.RuleRemover;
 
 /** it executes a scenario over a mutate set of specifications and return the mutation score*/
 
@@ -26,7 +27,8 @@ public class MutatedScenarioExecutor {
 		AsmetaMutatedFromAvalla asmetaBuilder = new AsmetaMutatedFromAvalla(scenarioPath, temp);
 		// mutate the asmeta
 		//ChooseRuleMutate mut = new ChooseRuleMutate(asmetaBuilder.getAsm().getMain());
-		ChooseRuleMutate mut = new ChooseRuleMutate();
+		//ChooseRuleMutate mut = new ChooseRuleMutate();
+		RuleRemover mut = new RuleRemover();
 		AsmCollection orginalAsm = asmetaBuilder.getAsm();
 		String originalName = orginalAsm.getMain().getName();
 		List<AsmCollection> mutants = mut.mutate(orginalAsm);
