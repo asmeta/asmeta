@@ -17,7 +17,7 @@ import asmeta.mutation.operators.ChooseRuleMutate;
 public class MutatedScenarioExecutor {
 
 
-	public double computeMutationScore(String scenarioPath) throws Exception {
+	public  Map.Entry<Double, Double>  computeMutationScore(String scenarioPath) throws Exception {
 		// TEMP. use a temporary directory		
 		File temp = new File("temp/");
 		assert temp.exists() && temp.isDirectory();
@@ -46,7 +46,7 @@ public class MutatedScenarioExecutor {
 				nKilled++;
 			}
 		}		
-		return ((double)nKilled)/mutants.size();
+		return new  AttributeEntry<Double, Double>(nKilled,mutants.size());
 	}
 
 	
