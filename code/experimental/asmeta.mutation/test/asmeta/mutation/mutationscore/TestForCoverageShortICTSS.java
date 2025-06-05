@@ -10,6 +10,8 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Map.Entry;
+import java.util.AbstractMap;
 import java.util.Scanner;
 
 import org.apache.log4j.Level;
@@ -40,7 +42,7 @@ public class TestForCoverageShortICTSS {
 		// now walk from here
 		Files.walk(base).forEach(avalla -> {
 			if (avalla.toFile().toString().endsWith(".avalla")) {
-				double value;
+				Entry<Integer, Integer> value;
 				try {
 					out.write(avalla.toFile().toString());
 //        		try {
@@ -59,7 +61,7 @@ public class TestForCoverageShortICTSS {
 					try {
 						value = executor.computeMutationScore(avalla.toFile().toString());
 					} catch (Exception e) {
-						value = 0;
+						value = new  AbstractMap.SimpleEntry<Integer, Integer>(0,0);
 					}
 					out.write("\t" + value + "\n");
 				} catch (Exception e) {

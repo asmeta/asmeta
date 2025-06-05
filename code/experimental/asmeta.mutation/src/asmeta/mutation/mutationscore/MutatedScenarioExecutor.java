@@ -1,6 +1,7 @@
 package asmeta.mutation.mutationscore;
 
 import java.io.File;
+import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +18,7 @@ import asmeta.mutation.operators.ChooseRuleMutate;
 public class MutatedScenarioExecutor {
 
 
-	public  Map.Entry<Double, Double>  computeMutationScore(String scenarioPath) throws Exception {
+	public  Map.Entry<Integer, Integer>  computeMutationScore(String scenarioPath) throws Exception {
 		// TEMP. use a temporary directory		
 		File temp = new File("temp/");
 		assert temp.exists() && temp.isDirectory();
@@ -46,7 +47,7 @@ public class MutatedScenarioExecutor {
 				nKilled++;
 			}
 		}		
-		return new  AttributeEntry<Double, Double>(nKilled,mutants.size());
+		return new  AbstractMap.SimpleEntry<Integer, Integer>(nKilled,mutants.size());
 	}
 
 	
