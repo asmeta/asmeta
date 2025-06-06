@@ -10,5 +10,9 @@ public abstract class AsmetaMutationOperator {
 
 	public abstract List<AsmCollection> mutate(AsmCollection asmeta);
 
+	
+	public String getName() {
+		return this.getClass().getSimpleName();
+	}
 
 }

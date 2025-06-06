@@ -55,7 +55,6 @@ public class TestForCoverageShortICTSS {
 				//Next line uncomment if uses macOS, TODO make paths OS independent. 
 				//correctLoadSpec(avalla);
 				System.out.println(avalla.toFile().toString());
-				HashMap<String, Entry<Integer, Integer>> value = new HashMap<>();
 				try {
 					out.write(avalla.toFile().toString());
 //        		try {
@@ -71,18 +70,18 @@ public class TestForCoverageShortICTSS {
 //							//correctLoadSpec(avalla);
 //						
 					MutatedScenarioExecutor executor = new MutatedScenarioExecutor();
+					HashMap<String, Entry<Integer, Integer>> value;
 					try {
 						value = executor.computeMutationScore(avalla.toFile().toString());
+						out.write("\t" + value + "\n");
+						exportToCsv(csvName,avalla.toFile().toString(), value);
 					} catch (Exception e) {
 						// return 0 0 
 						//Map.Entry<Integer, Integer> v = new AbstractMap.SimpleEntry<Integer, Integer>(0,0);
 						//value = new HashMap<String, Entry<Integer, Integer>>();
 						//value.put(avalla.toFile().toString(), v);
 						//TODO Shall we add the case to csv? or cases where it's no possible to compute mutation score are dropped?
-					}
-					out.write("\t" + value + "\n");
-					exportToCsv(csvName,avalla.toFile().toString(), value);
-					
+					}					
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					//e.printStackTrace();
