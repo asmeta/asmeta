@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map.Entry;
 import java.util.AbstractMap;
+import java.util.HashMap;
 import java.util.Scanner;
 
 import org.apache.log4j.Level;
@@ -42,7 +43,7 @@ public class TestForCoverageShortICTSS {
 		// now walk from here
 		Files.walk(base).forEach(avalla -> {
 			if (avalla.toFile().toString().endsWith(".avalla")) {
-				Entry<Integer, Integer> value;
+				HashMap<String, Entry<Integer, Integer>> value = new HashMap<>();
 				try {
 					out.write(avalla.toFile().toString());
 //        		try {
@@ -61,7 +62,8 @@ public class TestForCoverageShortICTSS {
 					try {
 						value = executor.computeMutationScore(avalla.toFile().toString());
 					} catch (Exception e) {
-						value = new  AbstractMap.SimpleEntry<Integer, Integer>(0,0);
+						// TODO CESAR - return 0 0 
+						//value = new  AbstractMap.SimpleEntry<Integer, Integer>(0,0);
 					}
 					out.write("\t" + value + "\n");
 				} catch (Exception e) {

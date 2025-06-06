@@ -32,7 +32,7 @@ public class RuleRemover extends RuleBasedMutator {
 		super(new RuleVisitorAdapter(new RuleToSkip()));
 	}
 
-	// every rule ()except skip) is converted to skip
+	// every rule (except skip) is converted to skip
 	public static class RuleToSkip extends RuleVisitor<List<Rule>> {
 
 		@Override

@@ -48,6 +48,7 @@ public class ChooseRuleMutate extends RuleBasedMutator {
 		
 	}
 
+	// changes a choose rule to a let rule
 	static public class ChoseRuleToLet extends RuleVisitor<List<Rule>> {
 		
 		static NullPrintStream nullPrintStream = new NullPrintStream();

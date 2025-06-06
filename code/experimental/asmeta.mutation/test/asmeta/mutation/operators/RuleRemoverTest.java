@@ -54,6 +54,12 @@ public class RuleRemoverTest {
 		mutate(string, 12);
 	}
 	
+	@Test
+	public void testASESPEC_ATM() throws Exception {
+		// only if
+		String string = TestForCoverageShortICTSS.base_dir +  "\\models\\ATM.asm";
+		mutate(string, 56);
+	}
 
 	
 	private void mutate(String string, int numMutations) throws Exception {

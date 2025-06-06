@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.AbstractMap;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Map.Entry;
 
 import org.apache.log4j.Level;
@@ -66,13 +67,15 @@ public class ScenarioExecutorTest {
 	private void computeMC(String scenarioPath, int nTimes) throws Exception {
 		MutatedScenarioExecutor sc = new MutatedScenarioExecutor();
 		if (nTimes == 1) {
-			Entry<Integer, Integer> res = sc.computeMutationScore(scenarioPath);
+			HashMap<String, Entry<Integer, Integer>> res = sc.computeMutationScore(scenarioPath);
 			System.out.println(scenarioPath + "mutation score " + res);
 		} else {
 			AbstractMap.SimpleEntry<Integer, Integer> res = new  AbstractMap.SimpleEntry<Integer, Integer>(0,0);
 			for (int i = 0; i < nTimes; i++) {
-				Entry<Integer, Integer> res_i = sc.computeMutationScore(scenarioPath);
-				res = new  AbstractMap.SimpleEntry<Integer, Integer>(res.getKey() + res_i.getKey(), res.getValue() + res_i.getValue());
+				HashMap<String, Entry<Integer, Integer>> res_i = sc.computeMutationScore(scenarioPath);
+				// in the results
+				// TODO
+				// res = new  AbstractMap.SimpleEntry<Integer, Integer>(res.getKey() + res_i.getKey(), res.getValue() + res_i.getValue());
 			}
 			System.out.println(scenarioPath + " average mutation score " + res);
 		}
