@@ -304,7 +304,7 @@ public class TestSingleFile extends TestValidator {
 	
 	@Test
 	public void testMultipleChoose() throws Exception {
-		//test("scenariosfortest/flaky/scenario_multiplechoose.avalla", true, false, true);
+		test("scenariosfortest/flaky/scenario_multiplechoose.avalla", true, false, true);
 	}
 	
 	@Test
