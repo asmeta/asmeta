@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalUnit;
@@ -43,13 +44,20 @@ public class TimeTest extends BaseTest {
 		// one monitored variable with time seconds
 		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/time/time1.asm");
 		Environment.timeMngt = TimeMngt.use_java_time;
+		Instant startFrom = Instant.now();
 		sim.run(1);
 		State state = sim.getCurrentState();
-		assertEquals("0", getFunctionValue("time", state));
+		Instant after1Step = Instant.now();
+		long duration1 = Duration.between(startFrom, after1Step).getSeconds();
+ 		assertEquals(Long.toString(duration1), getFunctionValue("time", state));
+ 		System.out.println(duration1);
 		// wait one seconds
 		TimeUnit.SECONDS.sleep(1);
 		sim.run(1);
-		assertEquals("1", getFunctionValue("time", sim.getCurrentState()));
+		// 1 second more because of the sleep
+//		Instant after2Steps = Instant.now();
+//		long duration1 = Duration.between(after1Step, after2Steps).getSeconds();
+		assertEquals(Long.toString(duration1+1), getFunctionValue("time", sim.getCurrentState()));
 	}
 
 	@Test
