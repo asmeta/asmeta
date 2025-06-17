@@ -56,8 +56,13 @@ public class TestGenerationWithNuSMV extends AsmetaSMV {
 			trapProps.add("G(!((" + tpS + ") & X(TRUE)))");
 			addLtlProperties(trapProps);
 		} else {
+			assert modelCheckerMode == ModelCheckerMode.CTL;
 			// normal trap property
-			trapProps.add("AG(!(" + tpS + ")) ");
+			// add a further step to get the last state after the test goal is reached
+			// EX(true) adds an extra step - forces another check (and no deadlock)
+			trapProps.add("AG(!((" + tpS + ") & EX(TRUE)))");
+			//this does not add a further step
+			//trapProps.add("AG(!(" + tpS + ")) ");
 			addCtlProperties(trapProps);
 		}
 		createNuSMVfile();

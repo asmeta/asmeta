@@ -241,7 +241,7 @@ public class GenerateTestsFromFSM {
 	 */
 	protected String[] getFSMWithTestsFromFSMAndASMfromAvalla(String fsmPath, String asmPath, boolean useMonitoring,
 			List<CriteriaEnum> criteria, String destinationPath) throws Exception {
-		TestGenerationWithNuSMV.modelCheckerMode = ModelCheckerMode.LTLandBMC;;
+		TestGenerationWithNuSMV.modelCheckerMode = ModelCheckerMode.LTLandBMC;
 		AsmTestSuite result = new NuSMVtestGenerator(asmPath, useMonitoring)
 				.generateAbstractTests(CriteriaEnum.getCoverageCriteria(criteria), Integer.MAX_VALUE, ".*");
 		String[] tests = SaveResults.getAvallaResults(result, fsmPath, asmPath, destinationPath);

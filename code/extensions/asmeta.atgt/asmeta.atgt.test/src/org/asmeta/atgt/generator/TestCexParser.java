@@ -28,7 +28,7 @@ public class TestCexParser {
 	
 	@Test
 	public void testBMC() throws FileNotFoundException, IOException {
-		TestGenerationWithNuSMV.modelCheckerMode = ModelCheckerMode.LTLandBMC;;
+		TestGenerationWithNuSMV.modelCheckerMode = ModelCheckerMode.LTLandBMC;
 		String path = "cexes\\cex_bmc_mvm.txt";
 		Counterexample cex = TestGenerationWithNuSMV.parseCounterExample(new BufferedReader(new FileReader(path)));
 		//assertEquals(6, cex.length());		

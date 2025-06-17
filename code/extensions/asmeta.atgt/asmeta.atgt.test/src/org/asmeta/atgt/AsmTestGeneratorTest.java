@@ -2,6 +2,7 @@ package org.asmeta.atgt;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.nio.file.Paths;
 import java.util.Collections;
@@ -27,6 +28,7 @@ import atgt.coverage.AsmCoverageBuilder;
 import atgt.coverage.AsmTestSeqContent;
 import atgt.coverage.AsmTestSequence;
 import atgt.coverage.AsmTestSuite;
+import atgt.testseqexport.toAvalla;
 import extgt.coverage.combinatorial.StdPairwiseCovBuild;
 
 /**
@@ -40,21 +42,27 @@ public class AsmTestGeneratorTest {
 	@Test
 	public void generateSafeCombination() throws Exception {
 		String asmPath = "examples\\SafeCombination.asm";
-		NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(asmPath);
+		// in both case we reach openSafe=true
+		// LTL and BMC
+		TestGenerationWithNuSMV.modelCheckerMode = ModelCheckerMode.LTLandBMC;
+		generateSafe(asmPath, 6);
+		// CTL and FMC		
 		TestGenerationWithNuSMV.modelCheckerMode = ModelCheckerMode.CTL;
+		generateSafe(asmPath, 7);
+	}
+
+	private void generateSafe(String asmPath, int exlength) throws Exception {
+		NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(asmPath);
 		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(Integer.MAX_VALUE, "BR_r_Main_T2");
 		assertEquals(1, result.getTests().size());
-		assertEquals(6, result.getTests().get(0).allInstructions().size());
-		//
-		System.err.println(result.getTests().get(0).allInstructions().get(5));
+		int length = result.getTests().get(0).allInstructions().size();
+		System.err.println(result.getTests().get(0).allInstructions().get(length-1));
+		assertEquals(exlength, length);
 		// translate to avalla
-//		ByteArrayOutputStream output = new ByteArrayOutputStream();
-//		toAvalla ta = new toAvalla(output, result.getTests().get(0), "filename", "scenarioname");
-//		ta.saveToStream();
-//		System.out.println(output.toString());
-		
-		
-
+		ByteArrayOutputStream output = new ByteArrayOutputStream();
+		toAvalla ta = new toAvalla(output, result.getTests().get(0), "filename", "scenarioname");
+		ta.saveToStream();
+		System.out.println(output.toString());
 	}
 
 	@Test
