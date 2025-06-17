@@ -18,11 +18,11 @@
 	</build>
 	<repositories>
 	<!-- aggiungo questo repo che contiene i jar di eclipse: https://www.p2repository.com/ 
-		non è aggiornatissimo ma almeno compila il tutto-->
+		non è aggiornatissimo ma almeno compila il tutto
     <repository>
         <id>eclipse-2025-06</id>
         <url>https://p2repository.com/mvn4/eclipse-2025-06/</url>
-    </repository>
+    </repository>-->
     <repository>
         <id>eclipse-2025-03</id>
         <url>https://p2repository.com/mvn4/eclipse-2025-03/</url>
