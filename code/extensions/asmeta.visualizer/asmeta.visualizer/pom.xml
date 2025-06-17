@@ -24,6 +24,10 @@
         <url>https://p2repository.com/mvn4/eclipse-2025-06/</url>
     </repository>-->
     <repository>
+        <id>eclipse-2025-06</id>
+        <url>https://p2repository.com/mvn4/eclipse-2025-06/</url>
+    </repository>
+    <repository>
         <id>eclipse-2025-03</id>
         <url>https://p2repository.com/mvn4/eclipse-2025-03/</url>
     </repository>
@@ -65,7 +69,7 @@
 		<dependency>
 			<groupId>org.eclipse.ide</groupId>
 			<artifactId>org.eclipse.zest.core</artifactId>
-			<version>[1.12.0,)</version>
+			<version>[1.15.0,)</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.ide</groupId>
@@ -85,7 +89,7 @@
 		<dependency>
     		<groupId>org.eclipse.ide</groupId>
     		<artifactId>org.apache.batik.css</artifactId>
-    		<version>1.17.0.v20231215-1130</version>
+    		<version>[1.18.0,)</version>
 		</dependency>
 	</dependencies>
 </project>
