@@ -24,10 +24,6 @@
         <url>https://p2repository.com/mvn4/eclipse-2025-06/</url>
     </repository>-->
     <repository>
-        <id>eclipse-2025-06</id>
-        <url>https://p2repository.com/mvn4/eclipse-2025-06/</url>
-    </repository>
-    <repository>
         <id>eclipse-2025-03</id>
         <url>https://p2repository.com/mvn4/eclipse-2025-03/</url>
     </repository>
