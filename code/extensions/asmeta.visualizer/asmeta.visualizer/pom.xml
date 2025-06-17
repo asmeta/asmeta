@@ -18,11 +18,11 @@
 	</build>
 	<repositories>
 	<!-- aggiungo questo repo che contiene i jar di eclipse: https://www.p2repository.com/ 
-		non è aggiornatissimo ma almeno compila il tutto
+		non è aggiornatissimo ma almeno compila il tutto-->
     <repository>
         <id>eclipse-2025-06</id>
         <url>https://p2repository.com/mvn4/eclipse-2025-06/</url>
-    </repository>-->
+    </repository>
     <repository>
         <id>eclipse-2025-03</id>
         <url>https://p2repository.com/mvn4/eclipse-2025-03/</url>
@@ -65,23 +65,25 @@
 		<dependency>
 			<groupId>org.eclipse.ide</groupId>
 			<artifactId>org.eclipse.zest.core</artifactId>
-			<version>[1.15.0,)</version>
+			<!--<version>[1.15.0,)</version>-->
+			<!--using version old in 2025.03-->
+			<version>1.15.0.202502242203</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.ide</groupId>
 			<artifactId>org.eclipse.swt</artifactId>
-			<version>[3.0.0,)</version>
+			<version>[3.129.0,)</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.ide</groupId>
 			<artifactId>org.eclipse.swt.win32.win32.x86_64</artifactId>
-			<version>[3.0.0,)</version>
+			<version>[3.129.0,)</version>
 		</dependency>
-		<dependency>
+		<!--<dependency>
 			<groupId>org.eclipse.ide</groupId>
 			<artifactId>org.eclipse.xtext.xbase</artifactId>
 			<version>[2.38.0,)</version>
-		</dependency>
+		</dependency>-->
 		<dependency>
     		<groupId>org.eclipse.ide</groupId>
     		<artifactId>org.apache.batik.css</artifactId>
