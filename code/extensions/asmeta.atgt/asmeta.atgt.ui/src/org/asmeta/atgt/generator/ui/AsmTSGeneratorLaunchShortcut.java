@@ -25,19 +25,22 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 
-public class AsmTSGeneratorLaunchShortcut implements org.eclipse.debug.ui.ILaunchShortcut {
+// it executes the generation of the tests
+// it has two subclasses
+//
+abstract public class AsmTSGeneratorLaunchShortcut implements org.eclipse.debug.ui.ILaunchShortcut {
 
-	private static final String NEW = "New configuration";
+	private static final String NEW = "New ATGT configuration";
 
 	@Override
-	public void launch(ISelection selection, String mode) {
-		System.out.println("AsmTSGeneratorLaunchShortcut:launch ISelection");
-		ILaunchConfiguration configuration = findConfiguration(mode);
+	public void launch(ISelection selection, String mode) {			 
+		//System.out.println("AsmTSGeneratorLaunchShortcutMC:launch ISelection - mode:" + mode);
+		ILaunchConfiguration configuration = findConfiguration();
 		// selection like a node in the tree
 		if (selection instanceof TreeSelection) {
 			TreeSelection treeSelections = (TreeSelection) selection;
 			Object select = treeSelections.getFirstElement();
-			System.out.println(select.getClass().getName());
+			//System.out.println(select.getClass().getName());
 			if (select instanceof org.eclipse.core.internal.resources.File) {
 				// add the path of the project
 				// file path is only the last part
@@ -47,7 +50,7 @@ public class AsmTSGeneratorLaunchShortcut implements org.eclipse.debug.ui.ILaunc
 				IWorkbench workbench = PlatformUI.getWorkbench();
 				IWorkbenchWindow window = workbench == null ? null : workbench.getActiveWorkbenchWindow();
 				try {
-					new AsmTSGeneratorLaunchConfiguration(configuration).generateTests(filePath,window);
+					generateTests(configuration, filePath, window);
 				} catch (PartInitException | Error e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -56,17 +59,20 @@ public class AsmTSGeneratorLaunchShortcut implements org.eclipse.debug.ui.ILaunc
 		}
 	}
 
+	protected abstract void generateTests(ILaunchConfiguration configuration, IPath filePath, IWorkbenchWindow window) throws Error, PartInitException;
+
 	@Override
 	public void launch(IEditorPart editor, String mode) {
-		System.out.println("AsmTSGeneratorLaunchShortcut:launch IEditorPart");
-		ILaunchConfiguration configuration = findConfiguration(mode);
+		// mode is always run
+		//System.out.println("AsmTSGeneratorLaunchShortcutMC:launch IEditorPart");
+		ILaunchConfiguration configuration = findConfiguration();
 		// Locates a launchable entity in the given active editor, and launches an
 		// application in the specified mode. This launch configuration shortcut is
 		// responsible for progress reporting as well as error handling, in the event
 		// that a launchable entity cannot be found, or launching fails.
 		IPath fullPath = AsmetaUtility.getEditorIFile(editor).getFullPath();
 		try {
-			new AsmTSGeneratorLaunchConfiguration(configuration).generateTests(fullPath,editor.getSite().getWorkbenchWindow());
+			generateTests(configuration,fullPath,editor.getSite().getWorkbenchWindow());
 		} catch (PartInitException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -95,7 +101,7 @@ public class AsmTSGeneratorLaunchShortcut implements org.eclipse.debug.ui.ILaunc
 		return null;
 	}
 	
-	private ILaunchConfiguration findConfiguration(String mode) {
+	private ILaunchConfiguration findConfiguration() {
 		ILaunchConfigurationWorkingCopy workingCopy;
 		ILaunchManager launchManager = DebugPlugin.getDefault().getLaunchManager();
 		ILaunchConfigurationType type = launchManager.getLaunchConfigurationType("org.asmeta.atgt.asmSpec");

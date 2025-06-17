@@ -1,6 +1,6 @@
 package org.asmeta.atgt.generator2;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
 import java.util.Map;

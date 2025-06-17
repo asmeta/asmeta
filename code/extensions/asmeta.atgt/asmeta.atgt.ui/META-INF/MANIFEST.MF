@@ -18,9 +18,11 @@ Require-Bundle: asmeta.atgt,
  org.eclipse.core.runtime,
  org.eclipse.ui,
  org.apache.log4j,
- jakarta.inject.jakarta.inject-api
+ jakarta.inject.jakarta.inject-api,
+ asmeta.emf
 Export-Package: org.asmeta.atgt.generator.ui
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.asmeta.atgt.generator.ui.ATGTActivator
 Import-Package: org.asmeta.eclipse,
+ org.asmeta.parser,
  org.eclipse.ui.console

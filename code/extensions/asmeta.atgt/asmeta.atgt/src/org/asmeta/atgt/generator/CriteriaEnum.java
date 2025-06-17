@@ -85,7 +85,7 @@ public enum CriteriaEnum {
 	}
 	// criteria --> list of string
 	public static List<String> toListOfString(Collection<CriteriaEnum> criteria) {
-		return toListOfString(criteria.toArray(new CriteriaEnum[0]));
+		return toListOfString(criteria.toArray(new CriteriaEnum[criteria.size()]));
 	}
 	
 	// list of strings --> criteria
