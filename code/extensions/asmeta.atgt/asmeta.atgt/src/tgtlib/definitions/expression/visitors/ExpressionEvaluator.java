@@ -225,7 +225,7 @@ public class ExpressionEvaluator implements tgtlib.definitions.expression.Expres
 			// both are math values, compare them as numbers
 			return Optional.of(ii1.compareTo(ii2));
 		} else if (ii1 != null || ii2 != null) {
-			System.err.println(firstOperand + " " + secondOperand);
+			//System.err.println(firstOperand + " " + secondOperand);
 			// one if math value, the other no
 			// add the case in which one is undef			
 			if (ii1 != null && 
