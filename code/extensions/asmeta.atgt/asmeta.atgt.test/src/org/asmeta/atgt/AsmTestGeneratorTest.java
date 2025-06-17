@@ -51,6 +51,19 @@ public class AsmTestGeneratorTest {
 		generateSafe(asmPath, 7);
 	}
 
+	@Test
+	public void generateTCAS() throws Exception {
+		String asmPath = "examples\\Tcas.asm";
+		// in both case we reach openSafe=true
+		// LTL and BMC
+		TestGenerationWithNuSMV.modelCheckerMode = ModelCheckerMode.LTLandBMC;
+		generateSafe(asmPath, 2);
+		// CTL and FMC		
+		TestGenerationWithNuSMV.modelCheckerMode = ModelCheckerMode.CTL;
+		generateSafe(asmPath, 3);
+	}
+
+	
 	private void generateSafe(String asmPath, int exlength) throws Exception {
 		NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(asmPath);
 		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(Integer.MAX_VALUE, "BR_r_Main_T2");
