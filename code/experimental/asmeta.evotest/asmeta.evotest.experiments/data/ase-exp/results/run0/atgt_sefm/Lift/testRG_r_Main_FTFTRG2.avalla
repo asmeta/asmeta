@@ -1,0 +1,16 @@
+scenario testRG_r_Main_FTFTRG2
+
+load ./..\..\..\..\models\Lift.asm
+
+//// test name test@RG_r_Main_FTFTRG2
+//// generated for (test goal): RG_r_Main_FTFTRG2: not signalPorta and (not signalPorta and ((statoPiano != UNO) and ((statoPiano = DUE) and (statoPiano != UNO))))
+check statoPorta = CHIUSA;
+check statoPiano = UNO;
+set signalPorta := false;
+step
+check statoPiano = DUE;
+set signalPorta := false;
+step
+check statoPiano = UNO;
+set signalPorta := false;
+step

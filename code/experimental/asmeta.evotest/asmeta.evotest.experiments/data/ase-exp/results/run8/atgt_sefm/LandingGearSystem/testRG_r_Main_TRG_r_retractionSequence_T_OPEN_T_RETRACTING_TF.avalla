@@ -1,0 +1,76 @@
+scenario testRG_r_Main_TRG_r_retractionSequence_T_OPEN_T_RETRACTING_TF
+
+load ./..\..\..\..\models\LandingGearSystem.asm
+
+//// test name test@RG_r_Main_TRG_r_retractionSequence_T_OPEN_T_RETRACTING_TF
+//// generated for (test goal): RG_r_Main_TRG_r_retractionSequence_T_OPEN_T_RETRACTING_TF: (handle = UP) and ((gears != RETRACTED) and ((doors = OPEN) and ((gears = RETRACTING) and not gearsAllRetracted)))
+check doorsAllOpen = false;
+check doorsAllClosed = false;
+check extendGearsElectroValve = false;
+check cylindersDoors = CYLINDER_RETRACTED;
+check closeDoorsElectroValve = false;
+check openDoorsElectroValve = false;
+check retractGearsElectroValve = false;
+check gears = EXTENDED;
+check cylindersGears = CYLINDER_EXTENDED;
+check doors = CLOSED;
+check gearsAllShockAbsorber = false;
+check gearsAllExtended = false;
+check gearsAllRetracted = false;
+check generalElectroValve = false;
+set handle := DOWN;
+step
+set handle := UP;
+step
+check doorsAllOpen = true;
+check cylindersDoors = CYLINDER_EXTENDING;
+check openDoorsElectroValve = true;
+check doors = OPENING;
+check generalElectroValve = true;
+set doorsOpen(FRONT) := true;
+set handle := UP;
+set doorsOpen(RIGHT) := true;
+set doorsOpen(LEFT) := true;
+step
+check doorsAllOpen = false;
+check cylindersDoors = CYLINDER_EXTENDED;
+check openDoorsElectroValve = false;
+check doors = OPEN;
+check gearsAllShockAbsorber = true;
+set gearsShockAbsorber(RIGHT) := true;
+set gearsShockAbsorber(LEFT) := true;
+set handle := UP;
+set gearsShockAbsorber(FRONT) := true;
+step
+check retractGearsElectroValve = true;
+check gears = RETRACTING;
+check cylindersGears = CYLINDER_RETRACTING;
+check gearsAllShockAbsorber = false;
+check gearsAllRetracted = true;
+set handle := DOWN;
+step
+check extendGearsElectroValve = true;
+check retractGearsElectroValve = false;
+check gears = EXTENDING;
+check cylindersGears = CYLINDER_EXTENDING;
+check gearsAllExtended = true;
+check gearsAllRetracted = false;
+set handle := UP;
+step
+check doorsAllOpen = true;
+check doorsAllClosed = true;
+check extendGearsElectroValve = false;
+check retractGearsElectroValve = true;
+check gears = RETRACTING;
+check cylindersGears = CYLINDER_RETRACTING;
+check gearsAllShockAbsorber = true;
+check gearsAllExtended = false;
+set gearsRetracted(LEFT) := false;
+set handle := UP;
+step
+check doorsAllOpen = false;
+check doorsAllClosed = false;
+check gearsAllShockAbsorber = false;
+check gearsAllRetracted = true;
+set handle := DOWN;
+step

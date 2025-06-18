@@ -1,0 +1,38 @@
+scenario testRG_r_Main_TRG9
+
+load ./..\..\..\..\models\Tcas.asm
+
+//// test name test@RG_r_Main_TRG9
+//// generated for (test goal): RG_r_Main_TRG9: (not(c and d) and ((((not e and f0) and not g0) and not a) and ((b and c) or (not b and d)))) and (condition != true)
+check condition = false;
+set b := false;
+set n := false;
+set h0 := false;
+set c := false;
+set m := false;
+set g0 := false;
+set o0 := false;
+set l := false;
+set a := false;
+set k := false;
+set e := false;
+set f0 := true;
+set d := true;
+set j := false;
+step
+check condition = true;
+set b := false;
+set n := false;
+set h0 := false;
+set c := false;
+set m := false;
+set g0 := false;
+set o0 := false;
+set l := false;
+set a := false;
+set k := false;
+set e := false;
+set f0 := false;
+set d := false;
+set j := false;
+step

@@ -1,0 +1,17 @@
+scenario testRG_r_Main_TTRG1
+
+load ./..\..\..\..\models\GuessBigNumber.asm
+
+//// test name test@RG_r_Main_TTRG1
+//// generated for (test goal): RG_r_Main_TTRG1: (attempt > 0) and ((guess = 752) and (attempt != 0))
+check smaller = false;
+check attempt = 10;
+check win = false;
+set guess := 0;
+step
+check attempt = 9;
+set guess := 752;
+step
+check attempt = 0;
+check win = true;
+step

@@ -1,0 +1,22 @@
+scenario testCR_r_Main_T3
+
+load ./..\..\..\..\models\PhdMaster.asm
+
+//// test name test@CR_r_Main_T3
+//// generated for (test goal): CR_r_Main_T3: (status = DISASSOCIATING) and (((((((((((transition = REQ_ASSOC_REL) and ((status != DISASSOCIATING) or (message != MSG_NO_RESPONSE))) or ((transition = REQ_ASSOC_ABORT) and ((status != UNASSOCIATED) or (message != MSG_RX_ABRT)))) or ((transition = RX_AARQ) and ((status != UNASSOCIATED) or (message != MSG_RX_ABRT)))) or ((transition = RX_AARE) and ((status != UNASSOCIATED) or (message != MSG_RX_ABRT)))) or ((transition = RX_RLRQ) and ((status != DISASSOCIATING) or (message != MSG_RX_RLRE)))) or ((transition = RX_RLRE) and ((status != UNASSOCIATED) or (message != MSG_NO_RESPONSE)))) or ((transition = RX_ABRT) and ((status != UNASSOCIATED) or (message != MSG_NO_RESPONSE)))) or ((transition = RX_ROIV) and ((status != DISASSOCIATING) or (message != MSG_NO_RESPONSE)))) or ((transition = RX_ROER) and ((status != UNASSOCIATED) or (message != MSG_RX_ABRT)))) or ((transition = RX_RORJ) and ((status != UNASSOCIATED) or (message != MSG_RX_ABRT))))
+check status = UNASSOCIATED;
+check message = undef;
+set transition := RX_AARQ_ACCEPTABLE_AND_KNOWN_CONFIGURATION;
+step
+check status = OPERATING;
+check message = MSG_RX_AARE;
+set transition := REQ_ASSOC_REL;
+step
+check status = DISASSOCIATING;
+check message = MSG_RX_RLRQ;
+set transition := REQ_ASSOC_ABORT;
+step
+check status = UNASSOCIATED;
+check message = MSG_RX_ABRT;
+set transition := REQ_ASSOC_ABORT;
+step
