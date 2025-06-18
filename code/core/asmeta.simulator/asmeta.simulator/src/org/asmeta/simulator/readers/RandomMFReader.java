@@ -27,6 +27,7 @@ import org.asmeta.simulator.value.SequenceValue;
 import org.asmeta.simulator.value.SetValue;
 import org.asmeta.simulator.value.StringValue;
 import org.asmeta.simulator.value.TupleValue;
+import org.asmeta.simulator.value.UndefValue;
 import org.asmeta.simulator.value.Value;
 
 import asmeta.definitions.Function;
@@ -45,8 +46,10 @@ import asmeta.definitions.domains.StringDomain;
 /**
  * simulates a random user
  */
-public class RandomMFReader extends MonFuncReader {
+public class RandomMFReader extends AllowUndefMFReader {
 	
+	// allow undef values to be taken with a certain probability
+	private static final double UNDEF_PROBABILITY = 0.01;
 	
 	protected static final Random random = new Random();
 
@@ -82,6 +85,10 @@ public class RandomMFReader extends MonFuncReader {
 	public Value readValue(Location location, State state) {
 		Function func = location.getSignature();
 		Value rndValue = visit(func.getCodomain());
+		//
+		if (allowUndefValues) {
+			if (Math.random() < UNDEF_PROBABILITY) rndValue = UndefValue.UNDEF;
+		}
 		assert rndValue != null;
 		out.println("taking " + rndValue + " for " + location);
 		return rndValue;
