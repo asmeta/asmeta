@@ -303,7 +303,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		lblInvariant.setFont(PREFERRED_FONT);
 		lblInvariant.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		lblInvariant.setLayoutData(new GridData(SWT.FILL, SWT.NONE, true, false, 1, 1));
-		lblInvariant.setText("Inviariant violation / exceptions");
+		lblInvariant.setText("Inviriant violation / exceptions");
 		textInvError = new Text(composite, SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL);
 		textInvError.setFont(PREFERRED_FONT);
 		textInvError.setEditable(false);
