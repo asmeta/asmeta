@@ -111,20 +111,25 @@ public class TermToCpp extends ReflectiveVisitor<String> {
     _builder.append("/*conditionalTerm*/");
     _builder.newLine();
     _builder.append("\t");
-    _builder.append("(ï¿½visit(object.guard)ï¿½)");
-    _builder.newLine();
+    _builder.append("(");
+    String _visit = this.visit(object.getGuard());
+    _builder.append(_visit, "\t");
+    _builder.append(")");
+    _builder.newLineIfNotEmpty();
     _builder.append("\t");
     _builder.append("?");
     _builder.newLine();
     _builder.append("\t\t");
-    _builder.append("ï¿½visit(object.thenTerm)ï¿½");
-    _builder.newLine();
+    String _visit_1 = this.visit(object.getThenTerm());
+    _builder.append(_visit_1, "\t\t");
+    _builder.newLineIfNotEmpty();
     _builder.append("\t");
     _builder.append(":");
     _builder.newLine();
     _builder.append("\t\t");
-    _builder.append("ï¿½visit(object.elseTerm)ï¿½");
-    _builder.newLine();
+    String _visit_2 = this.visit(object.getElseTerm());
+    _builder.append(_visit_2, "\t\t");
+    _builder.newLineIfNotEmpty();
     return _builder.toString();
   }
 
@@ -137,19 +142,37 @@ public class TermToCpp extends ReflectiveVisitor<String> {
     for (int i = 0; (i < object.getComparingTerm().size()); i++) {
       if ((i == 0)) {
         StringConcatenation _builder_1 = new StringConcatenation();
-        _builder_1.append("ï¿½\"\"ï¿½\tif(ï¿½visit(object.comparedTerm)ï¿½==ï¿½visit(object.comparingTerm.get(i))ï¿½) ");
-        _builder_1.newLine();
+        _builder_1.append("\tif(");
+        String _visit = this.visit(object.getComparedTerm());
+        _builder_1.append(_visit);
+        _builder_1.append("==");
+        String _visit_1 = this.visit(object.getComparingTerm().get(i));
+        _builder_1.append(_visit_1);
+        _builder_1.append(") ");
+        _builder_1.newLineIfNotEmpty();
         _builder_1.append("\t\t");
-        _builder_1.append("return ï¿½visit(object.resultTerms.get(i))ï¿½;");
-        _builder_1.newLine();
+        _builder_1.append("return ");
+        String _visit_2 = this.visit(object.getResultTerms().get(i));
+        _builder_1.append(_visit_2, "\t\t");
+        _builder_1.append(";");
+        _builder_1.newLineIfNotEmpty();
         sb.append(_builder_1);
       } else {
         StringConcatenation _builder_2 = new StringConcatenation();
-        _builder_2.append("ï¿½\"\"ï¿½\telse if(ï¿½visit(object.comparedTerm)ï¿½==ï¿½visit(object.comparingTerm.get(i))ï¿½)");
-        _builder_2.newLine();
+        _builder_2.append("\telse if(");
+        String _visit_3 = this.visit(object.getComparedTerm());
+        _builder_2.append(_visit_3);
+        _builder_2.append("==");
+        String _visit_4 = this.visit(object.getComparingTerm().get(i));
+        _builder_2.append(_visit_4);
+        _builder_2.append(")");
+        _builder_2.newLineIfNotEmpty();
         _builder_2.append("\t\t");
-        _builder_2.append("return ï¿½visit(object.resultTerms.get(i))ï¿½;");
-        _builder_2.newLine();
+        _builder_2.append("return ");
+        String _visit_5 = this.visit(object.getResultTerms().get(i));
+        _builder_2.append(_visit_5, "\t\t");
+        _builder_2.append(";");
+        _builder_2.newLineIfNotEmpty();
         sb.append(_builder_2);
       }
     }
@@ -157,12 +180,15 @@ public class TermToCpp extends ReflectiveVisitor<String> {
     boolean _tripleNotEquals = (_otherwiseTerm != null);
     if (_tripleNotEquals) {
       StringConcatenation _builder_1 = new StringConcatenation();
-      _builder_1.append("ï¿½\"\"ï¿½\telse return ï¿½visit(object.otherwiseTerm)ï¿½; ");
-      _builder_1.newLine();
+      _builder_1.append("\telse return ");
+      String _visit = this.visit(object.getOtherwiseTerm());
+      _builder_1.append(_visit);
+      _builder_1.append("; ");
+      _builder_1.newLineIfNotEmpty();
       sb.append(_builder_1);
     }
     StringConcatenation _builder_2 = new StringConcatenation();
-    _builder_2.append("ï¿½\"\"ï¿½   }()");
+    _builder_2.append("   }()");
     sb.append(_builder_2);
     return sb.toString();
   }
@@ -177,13 +203,16 @@ public class TermToCpp extends ReflectiveVisitor<String> {
     boolean _equals_1 = (_size_1 == 1);
     if (_equals_1) {
       StringConcatenation _builder = new StringConcatenation();
-      _builder.append("(ï¿½visit(object.terms.get(0))ï¿½)");
+      _builder.append("(");
+      String _visit = this.visit(object.getTerms().get(0));
+      _builder.append(_visit);
+      _builder.append(")");
       return _builder.toString();
     }
     StringBuffer initial = new StringBuffer("make_tuple(");
     for (int i = 0; (i < object.getTerms().size()); i++) {
-      String _visit = this.visit(object.getTerms().get(i));
-      String _plus = (_visit + ", ");
+      String _visit_1 = this.visit(object.getTerms().get(i));
+      String _plus = (_visit_1 + ", ");
       initial.append(_plus);
     }
     int _length = initial.length();
@@ -249,11 +278,11 @@ public class TermToCpp extends ReflectiveVisitor<String> {
    * var s = bag.substring(0, bag.length - 2) + "}"
    * return type+s
    * return '''
-   * ï¿½""ï¿½
+   * «""»
    * 
    * [](){
-   * auto v = ï¿½sï¿½;
-   * multiset<decltype(ï¿½visit(object.term.get(0))ï¿½)> ms(v.begin(), v.end());
+   * auto v = «s»;
+   * multiset<decltype(«visit(object.term.get(0))»)> ms(v.begin(), v.end());
    * return ms;
    * }()'''
    * }
@@ -285,15 +314,21 @@ public class TermToCpp extends ReflectiveVisitor<String> {
       throw new RuntimeException("Empty map is not yet implemented");
     } else {
       StringConcatenation _builder = new StringConcatenation();
-      _builder.append("ï¿½\"\"ï¿½");
-      _builder.newLine();
+      _builder.newLineIfNotEmpty();
       _builder.newLine();
       _builder.append("  ");
       _builder.append("[&](){");
       _builder.newLine();
       _builder.append("    ");
-      _builder.append("map<ï¿½domain.substring(0,domain.length-2)ï¿½> v = ï¿½sï¿½;");
-      _builder.newLine();
+      _builder.append("map<");
+      int _length_1 = domain.length();
+      int _minus_1 = (_length_1 - 2);
+      String _substring_1 = domain.substring(0, _minus_1);
+      _builder.append(_substring_1, "    ");
+      _builder.append("> v = ");
+      _builder.append(s, "    ");
+      _builder.append(";");
+      _builder.newLineIfNotEmpty();
       _builder.append("   ");
       _builder.append("return v;");
       _builder.newLine();
@@ -307,21 +342,35 @@ public class TermToCpp extends ReflectiveVisitor<String> {
     StringBuffer sb = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
     _builder.newLine();
-    _builder.append("ï¿½\"\"ï¿½  [&]()->bool{ /*<--- ExistsTerm*/");
-    _builder.newLine();
+    _builder.append("  [&]()->bool{ /*<--- ExistsTerm*/");
+    _builder.newLineIfNotEmpty();
     sb.append(_builder);
     for (int i = 0; (i < object.getVariable().size()); i++) {
       Domain _domain = object.getRanges().get(i).getDomain();
       Domain _baseDomain = ((PowersetDomain) _domain).getBaseDomain();
       if ((_baseDomain instanceof AbstractTd)) {
         StringConcatenation _builder_1 = new StringConcatenation();
-        _builder_1.append("ï¿½\"\"ï¿½\tfor(auto ï¿½visit(object.variable.get(i))ï¿½ : ï¿½new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)ï¿½::elems)");
-        _builder_1.newLine();
+        _builder_1.append("\tfor(auto ");
+        String _visit = this.visit(object.getVariable().get(i));
+        _builder_1.append(_visit);
+        _builder_1.append(" : ");
+        Domain _domain_1 = object.getRanges().get(i).getDomain();
+        String _visit_1 = new ToString(this.res).visit(((PowersetDomain) _domain_1).getBaseDomain());
+        _builder_1.append(_visit_1);
+        _builder_1.append("::elems)");
+        _builder_1.newLineIfNotEmpty();
         sb.append(_builder_1);
       } else {
         StringConcatenation _builder_2 = new StringConcatenation();
-        _builder_2.append("ï¿½\"\"ï¿½\tfor(auto ï¿½visit(object.variable.get(i))ï¿½ : ï¿½new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)ï¿½_elems)");
-        _builder_2.newLine();
+        _builder_2.append("\tfor(auto ");
+        String _visit_2 = this.visit(object.getVariable().get(i));
+        _builder_2.append(_visit_2);
+        _builder_2.append(" : ");
+        Domain _domain_2 = object.getRanges().get(i).getDomain();
+        String _visit_3 = new ToString(this.res).visit(((PowersetDomain) _domain_2).getBaseDomain());
+        _builder_2.append(_visit_3);
+        _builder_2.append("_elems)");
+        _builder_2.newLineIfNotEmpty();
         sb.append(_builder_2);
       }
     }
@@ -329,8 +378,11 @@ public class TermToCpp extends ReflectiveVisitor<String> {
     boolean _tripleNotEquals = (_guard != null);
     if (_tripleNotEquals) {
       StringConcatenation _builder_1 = new StringConcatenation();
-      _builder_1.append("ï¿½\"\"ï¿½\tif(ï¿½visit(object.guard)ï¿½)");
-      _builder_1.newLine();
+      _builder_1.append("\tif(");
+      String _visit = this.visit(object.getGuard());
+      _builder_1.append(_visit);
+      _builder_1.append(")");
+      _builder_1.newLineIfNotEmpty();
       _builder_1.append("\t\t\t");
       _builder_1.append("return true;");
       _builder_1.newLine();
@@ -354,21 +406,35 @@ public class TermToCpp extends ReflectiveVisitor<String> {
     StringBuffer sb = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
     _builder.newLine();
-    _builder.append("ï¿½\"\"ï¿½  [&]()->bool{ /*<--- forAllTerm*/");
-    _builder.newLine();
+    _builder.append("  [&]()->bool{ /*<--- forAllTerm*/");
+    _builder.newLineIfNotEmpty();
     sb.append(_builder);
     for (int i = 0; (i < object.getVariable().size()); i++) {
       Domain _domain = object.getRanges().get(i).getDomain();
       Domain _baseDomain = ((PowersetDomain) _domain).getBaseDomain();
       if ((_baseDomain instanceof AbstractTd)) {
         StringConcatenation _builder_1 = new StringConcatenation();
-        _builder_1.append("ï¿½\"\"ï¿½\tfor(auto ï¿½visit(object.variable.get(i))ï¿½ : ï¿½new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)ï¿½::elems)");
-        _builder_1.newLine();
+        _builder_1.append("\tfor(auto ");
+        String _visit = this.visit(object.getVariable().get(i));
+        _builder_1.append(_visit);
+        _builder_1.append(" : ");
+        Domain _domain_1 = object.getRanges().get(i).getDomain();
+        String _visit_1 = new ToString(this.res).visit(((PowersetDomain) _domain_1).getBaseDomain());
+        _builder_1.append(_visit_1);
+        _builder_1.append("::elems)");
+        _builder_1.newLineIfNotEmpty();
         sb.append(_builder_1);
       } else {
         StringConcatenation _builder_2 = new StringConcatenation();
-        _builder_2.append("ï¿½\"\"ï¿½\tfor(auto ï¿½visit(object.variable.get(i))ï¿½ : ï¿½new ToString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)ï¿½_elems)");
-        _builder_2.newLine();
+        _builder_2.append("\tfor(auto ");
+        String _visit_2 = this.visit(object.getVariable().get(i));
+        _builder_2.append(_visit_2);
+        _builder_2.append(" : ");
+        Domain _domain_2 = object.getRanges().get(i).getDomain();
+        String _visit_3 = new ToString(this.res).visit(((PowersetDomain) _domain_2).getBaseDomain());
+        _builder_2.append(_visit_3);
+        _builder_2.append("_elems)");
+        _builder_2.newLineIfNotEmpty();
         sb.append(_builder_2);
       }
     }
@@ -376,8 +442,11 @@ public class TermToCpp extends ReflectiveVisitor<String> {
     boolean _tripleNotEquals = (_guard != null);
     if (_tripleNotEquals) {
       StringConcatenation _builder_1 = new StringConcatenation();
-      _builder_1.append("ï¿½\"\"ï¿½\tif(!(ï¿½visit(object.guard)ï¿½))");
-      _builder_1.newLine();
+      _builder_1.append("\tif(!(");
+      String _visit = this.visit(object.getGuard());
+      _builder_1.append(_visit);
+      _builder_1.append("))");
+      _builder_1.newLineIfNotEmpty();
       _builder_1.append("\t\t");
       _builder_1.append("return false;");
       _builder_1.newLine();
@@ -397,16 +466,16 @@ public class TermToCpp extends ReflectiveVisitor<String> {
    * var StringBuffer let = new StringBuffer
    * "		let.append(
    * '''
-   * ï¿½"\n"ï¿½
+   * «"\n"»
    * [&](){    **<--- letTerm
    * ''')
    * for (var int i = 0; i < object.variable.size; i++) {
-   * let.append('''	auto ï¿½visit(object.variable.get(i))ï¿½ = ï¿½visit(object.assignmentTerm.get(i))ï¿½;
+   * let.append('''	auto «visit(object.variable.get(i))» = «visit(object.assignmentTerm.get(i))»;
    * ''')
    * }
    * let.append(
    * '''
-   * return ï¿½visit(object.body)ï¿½;
+   * return «visit(object.body)»;
    * }()
    * ''')
    * 
@@ -654,12 +723,21 @@ public class TermToCpp extends ReflectiveVisitor<String> {
     for (int i = 0; (i < ((Object[])Conversions.unwrapArray(term.getVariable(), Object.class)).length); i++) {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append(" ");
-      _builder.append("auto ï¿½visit(term.variable.get(i))ï¿½ = ï¿½visit(term.assignmentTerm.get(i))ï¿½; ");
-      _builder.newLine();
+      _builder.append("auto ");
+      String _visit = this.visit(term.getVariable().get(i));
+      _builder.append(_visit, " ");
+      _builder.append(" = ");
+      String _visit_1 = this.visit(term.getAssignmentTerm().get(i));
+      _builder.append(_visit_1, " ");
+      _builder.append("; ");
+      _builder.newLineIfNotEmpty();
       letTerm.append(_builder);
     }
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("return ï¿½visit(term.body)ï¿½ ");
+    _builder.append("return ");
+    String _visit = this.visit(term.getBody());
+    _builder.append(_visit);
+    _builder.append(" ");
     letTerm.append(_builder);
     return letTerm.toString();
   }

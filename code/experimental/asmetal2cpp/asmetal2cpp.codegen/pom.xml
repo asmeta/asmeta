@@ -40,6 +40,10 @@
 		https://www.p2repository.com/ 
 		non è aggiornatissimo ma almeno compila il tutto-->
 		<repository>
+        	<id>eclipse-2025-06</id>
+        	<url>https://p2repository.com/mvn4/eclipse-2025-06/</url>
+	    </repository>
+		<repository>
         	<id>eclipse-2025-03</id>
         	<url>https://p2repository.com/mvn4/eclipse-2025-03/</url>
 	    </repository>
@@ -71,7 +75,7 @@
 		<dependency>
 			<groupId>org.eclipse.xtext</groupId>
 			<artifactId>org.eclipse.xtext.generator</artifactId>
-			<version>2.32.0</version>
+			<version>${xtext.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>asmeta</groupId>
@@ -86,12 +90,12 @@
 		<dependency>
 			<groupId>org.eclipse.ide</groupId>
 			<artifactId>org.eclipse.xtext.xbase</artifactId>
-			<version>[2.35.0,)</version>
+			<version>${xtext.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.ide</groupId>
 			<artifactId>org.eclipse.xtext.xbase.lib</artifactId>
-			<version>[2.35.0,)</version>
+			<version>${xtext.version}</version>
 		</dependency>
 	</dependencies>
 	<parent>
