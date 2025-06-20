@@ -72,11 +72,11 @@
 			<artifactId>asmeta.parser</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		<dependency>
+<!--		<dependency>
 			<groupId>org.eclipse.xtext</groupId>
 			<artifactId>org.eclipse.xtext.generator</artifactId>
-			<version>${xtext.version}</version>
-		</dependency>
+			<version>[2.39.0,)</version>
+		</dependency>-->
 		<dependency>
 			<groupId>asmeta</groupId>
 			<artifactId>asmeta.simulator</artifactId>
@@ -85,17 +85,23 @@
 		<dependency>
 			<groupId>org.eclipse.ide</groupId>
 			<artifactId>org.eclipse.cdt.core</artifactId>
-			<version>[8.4.0,)</version>
+			<version>[9.1.0,)</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.ide</groupId>
 			<artifactId>org.eclipse.xtext.xbase</artifactId>
-			<version>${xtext.version}</version>
+			<version>[2.39.0,)</version>
+			<exclusions>
+			<exclusion>
+			<groupId>org.eclipse.ide</groupId>
+			<artifactId>org.eclipse.emf.ecore</artifactId>
+			</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.ide</groupId>
 			<artifactId>org.eclipse.xtext.xbase.lib</artifactId>
-			<version>${xtext.version}</version>
+			<version>[2.39.0,)</version>
 		</dependency>
 	</dependencies>
 	<parent>

@@ -32,7 +32,7 @@ public class ParametricRuleTest {
 	public void testSelfisNotNull() throws Exception {
 		Environment env = new Environment(new SimulatedUser());
 		String modelPath = TestOneSpec.FILE_BASE +
-				"\\test\\simulator\\parametricrule\\ECA.asm";
+				"test/simulator/parametricrule/ECA.asm";
 		Simulator sim = Simulator.createSimulator(modelPath,env);
 		
 		sim.doOneStep();

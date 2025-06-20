@@ -80,6 +80,13 @@
 			<groupId>org.eclipse.ide</groupId>
 			<artifactId>org.eclipse.xtext.xbase</artifactId>
 			<version>[${xtext.version},)</version>
+			<exclusions>
+			<exclusion>
+			<groupId>org.eclipse.ide</groupId>
+			<artifactId>org.eclipse.emf.ecore</artifactId>
+			</exclusion>
+			</exclusions>
+
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.ide</groupId>
