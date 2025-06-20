@@ -33,4 +33,15 @@ public class TestForMutScoreSingleFile {
 		System.out.println(res);
 	}
 
+	@Test
+	public void test2file() throws Exception {
+		String avallaTotest = TestForCoverageShortICTSS.base_dir + "/results/run1/atgttests/CoffeeVendingMachine/testRG_r_Main_F.avalla";
+		MutatedScenarioExecutor executor = new MutatedScenarioExecutor();
+		var res = executor.computeMutationScore(avallaTotest);
+		System.out.println(res);
+		avallaTotest = TestForCoverageShortICTSS.base_dir + "/results/run1/randomtests/CoffeeVendingMachine/testtest2.avalla";
+		res = executor.computeMutationScore(avallaTotest);
+		System.out.println(res);
+	}
+
 }
