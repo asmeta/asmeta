@@ -46,7 +46,7 @@
                id="asmeta.animator.ui.toolbar">
             <command
                   commandId="asmeta.animator.ui.commands.animatorCommand"
-                  icon="icons/runAnimatorInt.gif"
+                  icon="icons/runAnimatorInt.png"
                   id="asmeta.animator.ui.toolbar.animatorCommand"
                   tooltip="Animator">
             </command>

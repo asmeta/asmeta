@@ -203,10 +203,20 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		btnInterStep.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
+				// disable this button and also random step
+				btnInterStep.setEnabled(false);
+				btnRndStep.setEnabled(false);
+				// set interactive
 				tg.setInteractive();
 				// System.out.println("INTERACTIVE SIMULATION");
 				MyState state = tg.runSimulation(false); // TODO: get initial state
-				showFunctionsInteractiveSimulation(state);
+				// if it is not closed meanwhile
+				if (!shlAsmetaa.isDisposed()) {
+					showFunctionsInteractiveSimulation(state);
+					// enable again
+					btnInterStep.setEnabled(true);
+					btnRndStep.setEnabled(true);
+				}
 			}
 		});
 
@@ -950,7 +960,8 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 
 	@Override
 	public void setInvalidIvariantText(String s) {
-		textInvError.setText(s == null ? "null" : s);
+		if (!textInvError.isDisposed())
+			textInvError.setText(s == null ? "null" : s);
 	}
 
 	@Override
