@@ -14,7 +14,6 @@ import org.eclipse.swt.widgets.Shell;
 
 class AskMonDialogBoolean extends AskMonDialog {
 
-
 	public AskMonDialogBoolean(Shell parent, String message) {
 		super(parent, message);
 	}

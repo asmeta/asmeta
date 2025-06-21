@@ -56,7 +56,7 @@ public class SimulatorPreferencePage
 		
 		addField(new BooleanFieldEditor(P_STOP_UPDATESET_EMPTY, "Stop simulation if the update set is empty", fieldEdtrPrnt));
 		addField(new BooleanFieldEditor(P_STOP_UPDATESET_TRIVIAL, "Stop simulation if the update set is trivial", fieldEdtrPrnt));
-		addField(new BooleanFieldEditor(P_ALLOW_UNDEF_MON, "Allow undef values for monitored suring simulation", fieldEdtrPrnt));
+		addField(new BooleanFieldEditor(P_ALLOW_UNDEF_MON, "Allow undef values for monitored during simulation", fieldEdtrPrnt));
 		
 		// 
 		//addField(new RadioGroupFieldEditor(P_TIME_MNGT, "Which time for monitored ASM time", null, fieldEdtrPrnt));

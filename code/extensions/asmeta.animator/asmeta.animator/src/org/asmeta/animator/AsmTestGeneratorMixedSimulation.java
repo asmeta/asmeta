@@ -33,7 +33,20 @@ class AsmTestGeneratorMixedSimulation{
 		// get the name of the asm
 		String modelName = asm.getMain().getName();
 		// build the reader for the monitored function
-		mixedMFReader = new MixedMFReader(System.in, System.out, v);
+		mixedMFReader = new MixedMFReader(System.in, System.out, v) {
+			
+			private boolean isReading = false;
+			
+			@Override
+			public Value readValue(Location location, State state) {
+				if (isReading)
+					throw new RuntimeException("cannot reading while already reading");
+				isReading = true;
+				Value val = super.readValue(location, state);
+				isReading = false;
+				return val;
+			}
+		};
 		// 
 		mixedMFReader.setAllowUndefValuesMonitored(t.allowUndefValuesMonitored);
 		Environment env = new Environment(mixedMFReader);

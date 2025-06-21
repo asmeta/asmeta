@@ -46,6 +46,7 @@ class AskMonDialogEnum extends AskMonDialog {
 			@Override
 			public void widgetSelected(SelectionEvent event) {
 				input = combo.getText();
+				if (input.isEmpty()) input = null;
 				shell.close();
 			}
 		});

@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.widgets.Shell;
 
 import asmeta.definitions.domains.BooleanDomain;
+import asmeta.definitions.domains.Domain;
 import asmeta.definitions.domains.EnumElement;
 import asmeta.definitions.domains.EnumTd;
 import asmeta.definitions.domains.util.DomainsSwitch;

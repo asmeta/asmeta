@@ -15,7 +15,7 @@ import org.eclipse.swt.widgets.Shell;
 public abstract class AskMonDialog extends Dialog {
 
 	// inserted by the user
-	protected String input;
+	protected String input = null;
 	
 	// message in the dialog
 	protected String message;
@@ -28,20 +28,21 @@ public abstract class AskMonDialog extends Dialog {
 	// open the dialog and returns the inserted value 
 	// if it is closed, the return null
 	final public String open() {
-		Shell shell = new Shell(getParent(), getStyle());
-		shell.setText(message);
-		shell.addDisposeListener(new DisposeListener() {
+		Shell newShell = new Shell(getParent(), getStyle());
+		newShell.setText(message);
+		newShell.addDisposeListener(new DisposeListener() {
+			// the dialog is disposed
 			public void widgetDisposed(DisposeEvent event) {
-				//System.out.println("CHIUDI");
-				input = null;
-				shell.close();
+				// if input is not set, it will be equal to null
+				newShell.close();
 			}
 		});
-		createContents(shell);
-		shell.pack();
-		shell.open();
+		createContents(newShell);
+		newShell.pack();
+		newShell.open();
+		// wait for response
 		Display display = getParent().getDisplay();
-		while (!shell.isDisposed()) {
+		while (!newShell.isDisposed()) {
 			if (!display.readAndDispatch()) {
 				display.sleep();
 			}
