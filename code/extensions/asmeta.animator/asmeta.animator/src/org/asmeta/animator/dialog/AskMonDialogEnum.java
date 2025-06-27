@@ -15,47 +15,13 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
-class MyDialogEnumInsert extends MyDialog {
-	private String message;
+class AskMonDialogEnum extends AskMonDialog {
+	
+	private ArrayList<String> enumValues;
 
-	private Shell shell_1;
-	ArrayList<String> enumValues;
-
-	public MyDialogEnumInsert(Shell parent, ArrayList<String> enumValues) {
-		super(parent);
+	public AskMonDialogEnum(Shell parent, ArrayList<String> enumValues, String message) {
+		super(parent, message);
 		this.enumValues = enumValues;
-	}
-
-	public String getMessage() {
-		return message;
-	}
-
-	public void setMessage(String message) {
-		this.message = message; 
-	}
-
-	public String getInput() {
-		return input;
-	}
-
-	public void setInput(String input) {
-		this.input = input;
-	}
-
-	@Override
-	public String open() {
-		shell_1 = new Shell(getParent(), getStyle());
-		shell_1.setText(getText());
-		createContents(shell_1);
-		shell_1.pack();
-		shell_1.open();
-		Display display = getParent().getDisplay();
-		while (!shell_1.isDisposed()) {
-			if (!display.readAndDispatch()) {
-				display.sleep();
-			}
-		}
-		return input;
 	}
 
 	@Override
@@ -67,9 +33,9 @@ class MyDialogEnumInsert extends MyDialog {
 		data.horizontalSpan = 2;
 		label.setLayoutData(data);
 
-		Combo combo = new Combo(shell_1,SWT.DROP_DOWN |SWT.READ_ONLY);
+		Combo combo = new Combo(shell,SWT.DROP_DOWN |SWT.READ_ONLY);
 		combo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		new Label(shell_1, SWT.NONE);
+		new Label(shell, SWT.NONE);
 		for (String element : enumValues)
 			combo.add(element);
 		Button ok = new Button(shell, SWT.PUSH);
@@ -80,6 +46,7 @@ class MyDialogEnumInsert extends MyDialog {
 			@Override
 			public void widgetSelected(SelectionEvent event) {
 				input = combo.getText();
+				if (input.isEmpty()) input = null;
 				shell.close();
 			}
 		});

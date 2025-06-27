@@ -2,7 +2,7 @@
 <feature
       id="org.asmeta.atgt.feature"
       label="Asmeta test generator"
-      version="25.04"
+      version="25.06"
       provider-name="https://foselab.unibg.it/">
 
    <description>

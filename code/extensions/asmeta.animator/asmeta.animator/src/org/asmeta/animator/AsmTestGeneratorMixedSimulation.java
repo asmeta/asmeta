@@ -29,11 +29,26 @@ class AsmTestGeneratorMixedSimulation{
 		this.v = v;
 	}
 
-	void initializeSimulation(VisualizationSimulationI t) throws AsmModelNotFoundException, MainRuleNotFoundException {
-		// get the name
+	void initializeSimulation(VisualizationSimulation t) throws AsmModelNotFoundException, MainRuleNotFoundException {
+		// get the name of the asm
 		String modelName = asm.getMain().getName();
-		// build the random environment
-		mixedMFReader = new MixedMFReader(System.in, System.out, v);
+		// build the reader for the monitored function
+		mixedMFReader = new MixedMFReader(System.in, System.out, v) {
+			
+			private boolean isReading = false;
+			
+			@Override
+			public Value readValue(Location location, State state) {
+				if (isReading)
+					throw new RuntimeException("cannot reading while already reading");
+				isReading = true;
+				Value val = super.readValue(location, state);
+				isReading = false;
+				return val;
+			}
+		};
+		// 
+		mixedMFReader.setAllowUndefValuesMonitored(t.allowUndefValuesMonitored);
 		Environment env = new Environment(mixedMFReader);
 		// build the simulator
 		simulator = new SimulatorForAnimator(modelName, asm, env, t);

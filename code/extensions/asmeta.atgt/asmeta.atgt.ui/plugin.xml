@@ -19,10 +19,10 @@
 <extension
     point="org.eclipse.debug.ui.launchShortcuts">
     <shortcut
-        class="org.asmeta.atgt.generator.ui.AsmTSGeneratorLaunchShortcut"
+        class="org.asmeta.atgt.generator.ui.AsmTSGeneratorLaunchShortcutMC"
         icon="icons/gears.png"
         id="org.asmeta.atgt.shortcut"
-        label="ATGT test generator"
+        label="ATGT model checker test generator"
         modes="run">
         <contextualLaunch>
             <enablement>
@@ -41,6 +41,33 @@
                 </with>
             </enablement>
         </contextualLaunch>
+    </shortcut>
+    <shortcut
+          class="org.asmeta.atgt.generator.ui.AsmTSGeneratorLaunchShortcutRnd"
+          icon="icons/gearsRnd.png"
+          id="org.asmeta.atgt.shortcut"
+          label="ATGT Random test generator"
+          modes="run">
+       <contextualLaunch>
+          <enablement>
+             <with
+                   variable="selection">
+                <count
+                      value="+">
+                </count>
+                <iterate
+                      operator="and">
+                   <adapt
+                         type="org.eclipse.core.resources.IFile">
+                      <test
+                            property="org.eclipse.core.resources.extension"
+                            value="asm">
+                      </test>
+                   </adapt>
+                </iterate>
+             </with>
+          </enablement>
+       </contextualLaunch>
     </shortcut>
 </extension>
 <extension

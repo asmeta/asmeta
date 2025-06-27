@@ -103,6 +103,7 @@ public class TimeTest extends BaseTest {
 		// System.out.println( t1 + "*** " + t2);
 	}
 
+	
 	@Test
 	public void test_mix2_jt() throws Exception {
 		// 2 monitored variables
@@ -118,7 +119,7 @@ public class TimeTest extends BaseTest {
 		TimeUnit.MILLISECONDS.sleep(2100);
 		sim.run(2);
 		t1 = getFunctionValue("timeS", state);
-		t2 = getFunctionValue("timeMS", state);
+		t2 = getFunctionValue("timeMS", state); // AG 20.6.25 it may fail and be undef????
 		assertEquals(Double.parseDouble(t1), Double.parseDouble(t2) / 1000, 10);
 		assertTrue(Integer.parseInt(t2) > 2100);
 	}

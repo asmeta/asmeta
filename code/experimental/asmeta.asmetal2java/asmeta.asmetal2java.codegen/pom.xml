@@ -5,7 +5,6 @@
 	<groupId>asmeta</groupId>
 	<artifactId>asmeta.asmetal2java.codegen</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	
 	<properties>
     	<maven.compiler.source>17</maven.compiler.source>
     	<maven.compiler.target>17</maven.compiler.target>
@@ -213,7 +212,7 @@
 	    <dependency>
 	      <groupId>org.eclipse.xtext</groupId>
 	      <artifactId>org.eclipse.xtext</artifactId>
-	      <version>2.35.0</version>
+	      <version>2.39.0</version>
 	    </dependency>
 	
 	    <!-- Xtext JUnit4 -->
