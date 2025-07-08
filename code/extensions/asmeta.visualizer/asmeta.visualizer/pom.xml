@@ -68,6 +68,17 @@
 			<!--<version>[1.15.0,)</version>-->
 			<!--using version old in 2025.03-->
 			<version>1.15.0.202502242203</version>
+			<!-- Excluded to use specific available versions declared below -->
+			<exclusions>
+			    <exclusion>
+			      <groupId>org.eclipse.ide</groupId>
+			      <artifactId>org.eclipse.emf.ecore</artifactId>
+			    </exclusion>
+			    <exclusion>
+			      <groupId>org.eclipse.ide</groupId>
+			      <artifactId>org.eclipse.draw2d</artifactId>
+			    </exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.ide</groupId>
@@ -88,6 +99,16 @@
     		<groupId>org.eclipse.ide</groupId>
     		<artifactId>org.apache.batik.css</artifactId>
     		<version>[1.18.0,)</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.eclipse.ide</groupId>
+		    <artifactId>org.eclipse.emf.ecore</artifactId>
+		    <version>2.38.0.v20241018-1213</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.eclipse.ide</groupId>
+		    <artifactId>org.eclipse.draw2d</artifactId>
+		    <version>3.20.0.202505280821</version>
 		</dependency>
 	</dependencies>
 </project>
