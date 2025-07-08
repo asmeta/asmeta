@@ -54,30 +54,28 @@ public class GeneratorCompilerUtil {
 	 * List of asm files with known issues: these files have compilation errors
 	 * related to the translation.
 	 */
-	static List<String> errors = List.of("battleship.asm", "fibonacci.asm", "QuickSort.asm", "testSignature.asm",
-			"SIS.asm", 
-			"ATM3.asm",
+	static List<String> errors = List.of("battleship.asm", "fibonacci.asm", "QuickSort.asm", "testSignature.asm", "SIS.asm" 
 //			===================================================================================================================================================
-//			FAIL:Failed to compile:
+//			"dado.asm" // FIXED
+//			*FAIL:Failed to compile:
+//			File: examples\traduzione\dado.java
+//				Line number: 347, Column number: 22
+//				Cause: bad operand types for binary operator '>'
+//			  first type:  dadoSig.FacceDado
+//			  second type: dadoSig.FacceDado
+//			File: examples\traduzione\dado.java
+//				Line number: 349, Column number: 38
+//				Cause: bad operand types for binary operator '<'
+//			  first type:  dadoSig.FacceDado
+//			  second type: dadoSig.FacceDado
+// 			===================================================================================================================================================		
+//			"ATM3.asm" // FIXED
 //			File: examples\traduzione\ATM3.java
 //				Line number: 516, Column number: 97
 //				Cause: cannot find symbol
 //			  symbol:   variable MoneySizeStandard
-//			  location: class ATM3			
-			"dado,asm");
-// ===================================================================================================================================================
-//*FAIL:Failed to compile:
-//File: examples\traduzione\dado.java
-//	Line number: 347, Column number: 22
-//	Cause: bad operand types for binary operator '>'
-//  first type:  dadoSig.FacceDado
-//  second type: dadoSig.FacceDado
-//File: examples\traduzione\dado.java
-//	Line number: 349, Column number: 38
-//	Cause: bad operand types for binary operator '<'
-//  first type:  dadoSig.FacceDado
-//  second type: dadoSig.FacceDado
-
+//			  location: class ATM3
+			);
 	
 	/**
 	 * The following files have compilation errors already in the .asm file and
