@@ -22,7 +22,7 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
-import static org.asmeta.atgt.generator.ui.AsmTSGeneratorTab.*;
+import static org.asmeta.atgt.generator.ui.AsmTSGeneratorTabMC.*;
 
 /**
  * http://www.vogella.com/tutorials/EclipseLauncherFramework/article.html
@@ -30,27 +30,35 @@ import static org.asmeta.atgt.generator.ui.AsmTSGeneratorTab.*;
  * @author garganti
  *
  */
-public class AsmTSGeneratorLaunchConfiguration extends LaunchConfigurationDelegate /*implements ILaunchConfigurationDelegate */{
-
+public class AsmTSGeneratorLaunchConfiguration
+		extends LaunchConfigurationDelegate /* implements ILaunchConfigurationDelegate */ {
+	// two generation modes
+	// in the future this can be implements with 2 subclasses
+	public enum GenerationMode {
+		MOCEL_CHECKER, RANDOM
+	}
+	private GenerationMode mode;
+	// common
 	public boolean computeCoverage;
-	public List<CriteriaEnum> coverageCriteria;
 	public IPath asmetaSpecPath;
 	public List<FormatsEnum> formats;
+	// used only by the model checker
+	public List<CriteriaEnum> coverageCriteria;
+	// used by random only
+	int nSteps, nTests;
 
-	// necessario perch� ha bisogno del costruttore senza parametri
-	public AsmTSGeneratorLaunchConfiguration() {
-	}
+	// it is necessary since it needs the constructor without parameters
+	public AsmTSGeneratorLaunchConfiguration() {}
 
-	
-	public AsmTSGeneratorLaunchConfiguration(ILaunchConfiguration configuration) {
+	public AsmTSGeneratorLaunchConfiguration(ILaunchConfiguration configuration, GenerationMode mode) {
 		try {
+			this.mode = mode;
 			setConfiguration(configuration);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
 	@Override
 	public void launch(ILaunchConfiguration configuration, String mode, ILaunch launch, IProgressMonitor monitor)
 			throws CoreException {
@@ -70,20 +78,33 @@ public class AsmTSGeneratorLaunchConfiguration extends LaunchConfigurationDelega
 		generateTests(path.getFullPath(), window);
 	}
 
-	public AsmTSGeneratorLaunchConfiguration setConfiguration(ILaunchConfiguration configuration) throws CoreException {
-		System.out.println("Setting launch configuration: " + configuration);
-		boolean computeCoverageConfig = configuration.getAttribute(CONFIG_COMPUTE_COVERAGE,
-				AsmTestGenerator.DEFAULT_COMPUTE_COVERAGE);
-		System.out.println(computeCoverageConfig + " " + configuration.getAttribute(CONFIG_CRITERIA,
-				CriteriaEnum.toListOfString(AsmTestGenerator.DEFAULT_CRITERIA)));
-		coverageCriteria = CriteriaEnum.toListOfCriteriaEnum(configuration.getAttribute(
-				AsmTSGeneratorTab.CONFIG_CRITERIA, CriteriaEnum.toListOfString(AsmTestGenerator.DEFAULT_CRITERIA)));
-		computeCoverage = computeCoverageConfig;
-		formats = FormatsEnum.toListOfFormatsEnum(
-				configuration.getAttribute(CONFIG_FORMATS, AsmTestGenerator.DEFAULT_FORMATS));
-		return this;
+	private AsmTSGeneratorLaunchConfiguration setConfiguration(ILaunchConfiguration configuration) {
+		try {
+			System.out.println("Setting launch configuration: " + configuration);
+			computeCoverage = configuration.getAttribute(CONFIG_COMPUTE_COVERAGE,
+					AsmTestGenerator.DEFAULT_COMPUTE_COVERAGE);
+			System.out.println("compute coverage?" + computeCoverage);
+			if (mode == GenerationMode.MOCEL_CHECKER) {
+				List<String> covCriteriaAttr = configuration.getAttribute(
+						AsmTSGeneratorTabMC.CONFIG_CRITERIA, CriteriaEnum.toListOfString(AsmTestGenerator.DEFAULT_CRITERIA));
+				coverageCriteria = CriteriaEnum.toListOfCriteriaEnum(covCriteriaAttr);
+				System.out.println("criteria " + CriteriaEnum.toListOfString(coverageCriteria));
+			}
+			if (mode == GenerationMode.RANDOM) {
+				nSteps = configuration.getAttribute(
+						AsmTSGeneratorTabRnd.CONFIG_NSTEPS, AsmTSGeneratorTabRnd.N_STEPS_DEFAULT);
+				nTests = configuration.getAttribute(
+						AsmTSGeneratorTabRnd.CONFIG_NTESTS, AsmTSGeneratorTabRnd.N_TESTS_DEFAULT);
+			}
+			List<String> attribute = configuration.getAttribute(CONFIG_FORMATS, AsmTestGenerator.DEFAULT_FORMATS);
+			formats = FormatsEnum.toListOfFormatsEnum(attribute);
+			return this;
+		} catch (CoreException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
-
+	
 	// generate the tests
 	void generateTests(IPath asmetaSpecPath, IWorkbenchWindow window) throws Error, PartInitException {
 		if (asmetaSpecPath == null) {
@@ -93,7 +114,7 @@ public class AsmTSGeneratorLaunchConfiguration extends LaunchConfigurationDelega
 		System.err.println("Call generateTests");
 		this.asmetaSpecPath = asmetaSpecPath;
 		// build the job
-		Job generation = new SafeGeneratorRunnable(AsmTSGeneratorLaunchConfiguration.this, window);
+		Job generation = getJob(window);
 		// run as job
 		BusyIndicator.showWhile(Display.getCurrent(), new Runnable() {
 			@Override
@@ -103,6 +124,7 @@ public class AsmTSGeneratorLaunchConfiguration extends LaunchConfigurationDelega
 					public void handleException(Throwable exception) {
 						System.out.println("Exception in client");
 					}
+
 					@Override
 					public void run() throws Exception {
 						generation.setPriority(Job.SHORT);
@@ -113,10 +135,18 @@ public class AsmTSGeneratorLaunchConfiguration extends LaunchConfigurationDelega
 				SafeRunner.run(runnable);
 				System.err.println("Call generateTests");
 				// now refresh the project
-				//window.ge
-				//project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+				// window.ge
+				// project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 			}
 		});
 
+	}
+
+	protected Job getJob(IWorkbenchWindow window) throws PartInitException {
+		if (mode == GenerationMode.MOCEL_CHECKER)
+			return new SafeGeneratorRunnableMC(AsmTSGeneratorLaunchConfiguration.this, window);
+		if (mode == GenerationMode.RANDOM)
+			return new SafeGeneratorRunnableRnd(AsmTSGeneratorLaunchConfiguration.this, window);
+		throw new RuntimeException("mode not found");
 	}
 }

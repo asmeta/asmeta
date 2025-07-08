@@ -55,4 +55,9 @@ class MixedMFReader extends  MonFuncReader{
 		return mode == Mode.INTERACTIVE;
 	}
 	
+	
+	public void setAllowUndefValuesMonitored(boolean val) {
+		random.allowUndefValues = val;
+		interactive.allowUndefValues = val;
+	}
 }

@@ -36,8 +36,14 @@ import asmeta.structure.Asm;
  */
 public class AsmetaSMV {
 
-	/** use bounded model checking and LTL */
-	public static boolean useBMC;
+	// LTL and BMC means using bounded model checking and LTL (with X for next state in case of generation of tests)
+	// LTLFMC: forward model checking
+	// CTL: classical model checking - it does not complete the next step
+	public enum ModelCheckerMode {LTLandBMC, LTLFMC, CTL}
+	
+	public static ModelCheckerMode modelCheckerMode = ModelCheckerMode.CTL;
+
+
 	public static int BMCLength = -1;
 
 	public MapVisitor mv;
@@ -313,14 +319,15 @@ public class AsmetaSMV {
 			commands.add("-coi");
 		}
 		commands.add("-quiet");
-		// bounded model checking? LTL and
-		if (useBMC) {
+		// bounded model checking? LTL and BMC
+		if (modelCheckerMode == ModelCheckerMode.LTLandBMC) {
 			commands.add("-bmc");
 			if (BMCLength > 0) {
 				commands.add("-bmc_length");
 				commands.add(Integer.toString(BMCLength));
 			}
-		}
+		}		
+		// TODO add -AG option when it is possible
 		// add quotes if needed
 		if (smvFileName.contains(" "))
 			smvFileName = "\"" + smvFileName + "\"";

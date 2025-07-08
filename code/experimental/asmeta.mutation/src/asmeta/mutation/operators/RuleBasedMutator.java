@@ -12,6 +12,7 @@ import asmeta.definitions.RuleDeclaration;
 import asmeta.structure.Asm;
 import asmeta.transitionrules.basictransitionrules.Rule;
 
+// mutation that modifies the asmeta rules
 public abstract class RuleBasedMutator extends AsmetaMutationOperator {
 
 	private RuleVisitor<List<Rule>> ruleVisitor;
@@ -20,6 +21,7 @@ public abstract class RuleBasedMutator extends AsmetaMutationOperator {
 		this.ruleVisitor = rulevisitor;
 	}
 
+	// takes every rule and mutates it according to the rulevisitor
 	@Override
 	public final List<AsmCollection> mutate(AsmCollection asmeta) {
 		List<AsmCollection> result = new ArrayList<>();

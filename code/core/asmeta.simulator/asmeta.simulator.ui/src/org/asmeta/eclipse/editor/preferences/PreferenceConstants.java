@@ -8,6 +8,8 @@ public class PreferenceConstants {
 	public static final String P_CHECK_AXIOMS = "asmee.editor.checkaxioms";
 	public static final String P_STOP_UPDATESET_EMPTY = "asmee.editor.runtuntilempty";
 	public static final String P_STOP_UPDATESET_TRIVIAL = "asmee.editor.runtuntiltrivial";
+	public static final String P_ALLOW_UNDEF_MON  = "asmee.simulator.allowundefmon";
+	//
 	public static final String P_DEBUG_USE_EXTERNAL_FILE = "asmee.editor.debuglevel.usefileconf";
 	public static final String P_DEBUG_EXTERNAL_FILE = "asmee.editor.debuglevel.fileconf";
 	public static final String P_DEBUG_PARSER = "asmee.editor.debuglevel.parser";

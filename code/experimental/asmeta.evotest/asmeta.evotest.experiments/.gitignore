@@ -1,7 +1,11 @@
+# Office temp files
+~$*
+
 /evoAvalla/
 *.csv
 *.avalla
 /spec/
 /src/main/resources/evoavallatests/**/*.asm
 !/data/**/*.csv
+!/data/**/*.avalla
 /report/

@@ -39,6 +39,7 @@ import org.asmeta.runtime_composer.ModelCreationException;
 import org.asmeta.runtime_simulator.AsmetaSservice;
 import org.asmeta.runtime_simulator.IdNotFoundException;
 import org.asmeta.runtime_simulator.InfoAsmetaService;
+import org.asmeta.simulator.Environment.TimeMngt;
 import org.asmeta.simulator.InvalidInvariantException;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.State;
@@ -91,14 +92,22 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 	
 	private List<String> invarNames;
 	public List<AsmetaModel> loadedModels;
+	private TimeMngt timetype;
 	//private List<String> variables;
 	
 	private RunOutput routTO=null;	//support variable for the timeout methods
 
 
 	
+	public SimulationContainer(TimeMngt timetype) {
+		this.timetype=timetype;
+		asmS = new AsmetaSservice(timetype);
+		loadedModels = new ArrayList<>();
+	}
+	
 	public SimulationContainer() {
-		asmS = new AsmetaSservice();
+		timetype=TimeMngt.ask_user;
+		asmS = new AsmetaSservice(timetype);
 		loadedModels = new ArrayList<>();
 	}
 
@@ -443,7 +452,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 						public void write(int b) {}})); //temporarily blocks system.out prints to console to remove overwhelming messages
 				    System.setErr(new PrintStream(new OutputStream() {
 					  public void write(int b) {}})); //temporarily blocks system.err prints to console to remove overwhelming messages
-					SimulationContainer clone = new SimulationContainer();	//instantiation of a cloned execution
+					SimulationContainer clone = new SimulationContainer(timetype);	//instantiation of a cloned execution
 					clone.init(1);
 					String modelPath = asmS.getSimulatorTable().get(id).getModelPath();
 					org.asmeta.simulator.State stateOrig = asmS.getSimulatorTable().get(id).getSim().getCurrentState();
@@ -762,7 +771,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 				  public void write(int b) {}})); //temporarily blocks system.out prints to console to remove overwhelming messages
 			    System.setErr(new PrintStream(new OutputStream() {
 				  public void write(int b) {}})); //temporarily blocks system.err prints to console to remove overwhelming messages
-				SimulationContainer clone = new SimulationContainer();	//instantiation of a cloned execution
+				SimulationContainer clone = new SimulationContainer(timetype);	//instantiation of a cloned execution
 				clone.init(1);
 				String modelPath = asmS.getSimulatorTable().get(id).getModelPath();
 				org.asmeta.simulator.State stateOrig = asmS.getSimulatorTable().get(id).getSim().getCurrentState();

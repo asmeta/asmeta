@@ -106,19 +106,20 @@ class TermToJava extends ReflectiveVisitor<String> {
 	}
 
 	def String visit(ConditionalTerm object) {
+	      
 		var String thenTerm = visit(object.thenTerm)
 		var String elseTerm = visit(object.elseTerm)
 		
 		if (thenTerm.equals(")")) thenTerm = "null"
 		if (elseTerm.equals(")")) elseTerm = "null"
-		
+	
 		return '''
 			/*conditionalTerm*/
 				(«visit(object.guard)»)
 				?
 					«thenTerm»
 				:
-					«visit(object.elseTerm)»
+					«elseTerm»
 		'''
 	}
 
@@ -244,15 +245,15 @@ class TermToJava extends ReflectiveVisitor<String> {
 			'''
 					«"Arrays.stream("»	«new DomainToJavaString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».values()).anyMatch(c -> «valore»c))
 				''')
-			else if ((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof ConcreteDomain) // devo togliere il .value aggiunto in TermToJavaStandardLibrary.xtend (riga 102)  
+			else if ((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof ConcreteDomain)  
 				sb.append(
 			'''
-					«""»	«new DomainToJavaString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems.stream().anyMatch(c -> c.equals(«app.substring(13,app.length-7)»))
+					«""»	«new DomainToJavaString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems.stream().anyMatch(c -> c.equals(«app.substring(7,app.length-7)»))
 				''')
 			else
 				sb.append(
 			'''
-					«""»	«new DomainToJavaString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems.stream().anyMatch(c -> c.equals(«app.substring(13,app.length-1)»))
+					«""»	«new DomainToJavaString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems.stream().anyMatch(c -> c.equals(«app.substring(7,app.length-1)»))
 				''')
 		}
 
@@ -602,9 +603,7 @@ class TermToJava extends ReflectiveVisitor<String> {
 
 	// Identifico la tipologia delle variabili e la loro posizione rispetto all'operatore
 	def dispatch String caseFunctionTermSupp(ControlledFunction fd, FunctionTerm ft) {
-
 		var StringBuffer functionTerm = new StringBuffer
-
 		if (ft.arguments === null) {
 			// Identifico Dx o Sx
 			if (ft.domain instanceof ConcreteDomain) {
@@ -614,15 +613,12 @@ class TermToJava extends ReflectiveVisitor<String> {
 						functionTerm.append(".value")
 					}
 				}
-
 			} else if (ft.domain instanceof SequenceDomain) {
-
 				functionTerm.append("_elem = Collections.unmodifiableList(Arrays.asList(");
-
+				// alcune volte sarebeb da mettere
+				//functionTerm.append("_elem = Collections.unmodifiableList(");
 			} else if (ft.domain instanceof MapDomain) {
-
 				functionTerm.append("")
-
 			} else {
 				if (leftHandSide)
 					functionTerm.append(".set(")
@@ -635,12 +631,9 @@ class TermToJava extends ReflectiveVisitor<String> {
 
 				}
 			}
-
 		}
-
 		// Identifico se la funzione dipende da delle variabili in ingresso
 		if (ft.arguments !== null) {
-
 			// Caso di studio con una sola variabile
 			if (ft.arguments.terms.size == 1) {
 

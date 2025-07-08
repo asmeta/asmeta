@@ -16,7 +16,7 @@ import asmeta.terms.basicterms.Term;
 public class StaticDerivedChecker implements OCLChecker<FunctionDefinition> {
 
 	
-	static public StaticDerivedChecker eInstance = new StaticDerivedChecker();
+	public static final StaticDerivedChecker eInstance = new StaticDerivedChecker();
 	
 	private StaticDerivedChecker() {}
 	

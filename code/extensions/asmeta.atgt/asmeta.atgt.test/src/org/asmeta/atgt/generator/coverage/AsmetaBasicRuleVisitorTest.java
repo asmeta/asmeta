@@ -1,7 +1,5 @@
 package org.asmeta.atgt.generator.coverage;
 
-import static org.junit.Assert.*;
-
 import java.io.File;
 
 import org.apache.log4j.Level;
@@ -10,6 +8,7 @@ import org.asmeta.atgt.generator.AsmTestGenerator;
 import org.asmeta.atgt.generator.ConverterCounterExample;
 import org.asmeta.atgt.generator.NuSMVtestGenerator;
 import org.asmeta.atgt.generator.TestGenerationWithNuSMV;
+import org.asmeta.nusmv.main.AsmetaSMV.ModelCheckerMode;
 import org.asmeta.parser.ASMParser;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -52,7 +51,7 @@ public class AsmetaBasicRuleVisitorTest {
 		Logger.getLogger(NuSMVtestGenerator.class).setLevel(Level.DEBUG);
 		Logger.getLogger(ConverterCounterExample.class).setLevel(Level.DEBUG);
 		Logger.getLogger("org.asmeta.parser").setLevel(Level.OFF);
-		TestGenerationWithNuSMV.useLTLandBMC = true;
+		TestGenerationWithNuSMV.modelCheckerMode = ModelCheckerMode.LTLandBMC;
 	}
 
 }

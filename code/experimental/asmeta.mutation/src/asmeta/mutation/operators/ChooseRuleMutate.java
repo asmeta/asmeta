@@ -37,6 +37,10 @@ import asmeta.transitionrules.basictransitionrules.*;
 //import org.asmeta.simulator.util.StdlFunction;
 import asmeta.AsmetaFactory;
 
+//
+// it mutates a ChooseRule into a LetRule in which the chosen element is randomly fixed
+// (from non deterministic behavior to deterministic) 
+//
 public class ChooseRuleMutate extends RuleBasedMutator {
 
 	public ChooseRuleMutate() {
@@ -44,6 +48,7 @@ public class ChooseRuleMutate extends RuleBasedMutator {
 		
 	}
 
+	// changes a choose rule to a let rule
 	static public class ChoseRuleToLet extends RuleVisitor<List<Rule>> {
 		
 		static NullPrintStream nullPrintStream = new NullPrintStream();

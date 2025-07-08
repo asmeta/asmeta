@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: AsmetaTGT Ui
 Bundle-SymbolicName: asmeta.atgt.ui;singleton:=true
-Bundle-Version: 25.04
+Bundle-Version: 25.06
 Automatic-Module-Name: asmeta.atgt.ui
 Bundle-RequiredExecutionEnvironment: JavaSE-17
 Require-Bundle: asmeta.atgt,
@@ -18,9 +18,11 @@ Require-Bundle: asmeta.atgt,
  org.eclipse.core.runtime,
  org.eclipse.ui,
  org.apache.log4j,
- jakarta.inject.jakarta.inject-api
+ jakarta.inject.jakarta.inject-api,
+ asmeta.emf
 Export-Package: org.asmeta.atgt.generator.ui
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.asmeta.atgt.generator.ui.ATGTActivator
 Import-Package: org.asmeta.eclipse,
+ org.asmeta.parser,
  org.eclipse.ui.console

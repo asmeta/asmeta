@@ -130,7 +130,11 @@ public class ExpressionToSMV extends MathExpressionTranslator {
 
 	@Override
 	public StringBuffer forFunctionTerm(FunctionTerm ft) {
-		throw new RuntimeException("operator next not supported in NUSMV - to flatten??");
+		// only one argument for now
+		assert ft.getArguments().size() == 1;
+		String fName = ft.getFunction().getIdString();
+		String arg0 =ft.getArguments().get(0).toString();
+		return new StringBuffer(fName + "_" + arg0);
 	}
 	
 	@Override

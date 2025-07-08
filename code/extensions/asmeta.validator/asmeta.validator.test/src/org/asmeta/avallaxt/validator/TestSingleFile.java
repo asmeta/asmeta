@@ -19,6 +19,8 @@ import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.util.AsmetaPrintInfo;
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.Environment.TimeMngt;
+import org.asmeta.simulator.main.Simulator;
+import org.asmeta.simulator.main.Simulator.InvariantTreament;
 import org.asmeta.xt.validator.AsmetaFromAvallaBuilder;
 import org.asmeta.xt.validator.AsmetaPrinterForAvalla;
 import org.asmeta.xt.validator.RuleEvalWCov;
@@ -156,11 +158,14 @@ public class TestSingleFile extends TestValidator {
 	}
 	
 	@Test
-	public void testInvariant() throws Exception {		
+	public void testInvariant() throws Exception {
+		InvariantTreament temp = Simulator.checkInvariants;
+		Simulator.checkInvariants = InvariantTreament.CHECK_STOP;
 		// failure because the invariant is violated
 		test("scenariosfortest/invariants/scenario_inv.avalla", true, false, false);
 		// failure because the invariant is violated
 		test("scenariosfortest/invariants/scenario_inv2.avalla", true, false, false);
+		Simulator.checkInvariants = temp;
 	}
 
 	@Test

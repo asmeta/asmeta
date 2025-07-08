@@ -1,12 +1,9 @@
 package org.asmeta.atgt.generator.combinatorial;
 
-import static org.junit.Assert.fail;
-
 import java.io.File;
 
 import org.junit.Test;
 
-import atgt.combinatorial.AsmCombCovBuilder;
 import atgt.coverage.AsmCoverage;
 import atgt.coverage.AsmCoverageBuilder;
 import atgt.parser.asmeta.AsmetaLLoader;
@@ -55,7 +52,7 @@ public class AsmDataExtractorTest {
 	@Test
 	public void testCarSystem001Blink() throws ParseException {
 		/*
-		 * Non Funziona. Non vede una variabile importata dal modulo precedente, ma se la dichiaro in questo modulo dice che è stata dichiarata due volte.
+		 * Non Funziona. Non vede una variabile importata dal modulo precedente, ma se la dichiaro in questo modulo dice che ï¿½ stata dichiarata due volte.
 		 */
 		String asmPath = "../../asmetal2cpp/asmetal2cpp_codegen/examples/ABZ2020/CarSystemModule/CarSystem001/CarSystem001Blink.asm" ;
 		AsmCoverageBuilder covBuilder = AsmAllDataExtractor.getAsmCombCovBuilder();

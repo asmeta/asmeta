@@ -21,8 +21,6 @@ public class TestGenerationWithNuSMV extends AsmetaSMV {
 
 	private static Logger logger = Logger.getLogger(TestGenerationWithNuSMV.class);
 
-	public static boolean useLTLandBMC = false;
-
 	/**
 	 * 
 	 * @param asmPath
@@ -31,7 +29,7 @@ public class TestGenerationWithNuSMV extends AsmetaSMV {
 	 */
 	public TestGenerationWithNuSMV(String asmPath) throws Exception {
 		super(asmPath);
-		// set the options (now statci, in the future could be an object)
+		// set the options (now static, in the future could be an object)
 		AsmetaSMVOptions.keepNuSMVfile = true;
 		AsmetaSMVOptions.simplifyDerived = false;
 		AsmetaSMVOptions.setPrintCounterExample(true);
@@ -53,13 +51,18 @@ public class TestGenerationWithNuSMV extends AsmetaSMV {
 		logger.debug("add cex and remove the other properties");
 		Set<String> trapProps = new HashSet<String>();
 		String tpS = tp.accept(ExpressionToSMV.EXPR_TO_SMV).toString();
-		if (useLTLandBMC) {
+		if (modelCheckerMode == ModelCheckerMode.LTLandBMC || modelCheckerMode == ModelCheckerMode.LTLFMC) {
 			// use LTL
 			trapProps.add("G(!((" + tpS + ") & X(TRUE)))");
 			addLtlProperties(trapProps);
 		} else {
+			assert modelCheckerMode == ModelCheckerMode.CTL;
 			// normal trap property
-			trapProps.add("AG(!(" + tpS + "))");
+			// add a further step to get the last state after the test goal is reached
+			// EX(true) adds an extra step - forces another check (and no deadlock)
+			trapProps.add("AG(!((" + tpS + ") & EX(TRUE)))");
+			//this does not add a further step
+			//trapProps.add("AG(!(" + tpS + ")) ");
 			addCtlProperties(trapProps);
 		}
 		createNuSMVfile();
@@ -75,15 +78,14 @@ public class TestGenerationWithNuSMV extends AsmetaSMV {
 	 * @throws Exception
 	 */
 	public Counterexample checkTpWithModelChecker(Expression tp) throws Exception {
-		useBMC = useLTLandBMC;
 		// clear all the previous properties.
 		clearProperties();
 		translation();
 		//
 		buildNuSMV(tp);
 		//
-		executeNuSMV(); BufferedReader br = new BufferedReader(new
-		StringReader(outputRunNuSMVreplace));
+		executeNuSMV(); 
+		BufferedReader br = new BufferedReader(new	StringReader(outputRunNuSMVreplace));
 		/*
 		 * runNuXMV(); BufferedReader br = new BufferedReader(new StringReader(outputRunNuXMVreplace));
 		 */
@@ -129,7 +131,7 @@ public class TestGenerationWithNuSMV extends AsmetaSMV {
 				loopStart = false;
 			} else if (line.contains("-- Loop starts here")) {
 				loopStart = true;
-			} else if (TestGenerationWithNuSMV.useLTLandBMC && line.startsWith("--")) {
+			} else if (TestGenerationWithNuSMV.modelCheckerMode == ModelCheckerMode.LTLandBMC && line.startsWith("--")) {
 				continue;
 			} else {
 				String[] varValue = line.replaceAll(" ", "").split("=");

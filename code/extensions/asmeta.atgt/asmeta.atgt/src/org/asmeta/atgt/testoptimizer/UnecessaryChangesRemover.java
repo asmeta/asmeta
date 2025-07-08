@@ -11,6 +11,7 @@ import org.asmeta.simulator.State;
 import org.asmeta.simulator.main.AsmModelNotFoundException;
 import org.asmeta.simulator.main.MainRuleNotFoundException;
 import org.asmeta.simulator.main.Simulator;
+import org.asmeta.simulator.main.Simulator.InvariantTreament;
 import org.asmeta.simulator.readers.MonFuncReader;
 import org.asmeta.simulator.value.BooleanValue;
 import org.asmeta.simulator.value.EnumValue;
@@ -52,10 +53,15 @@ public class UnecessaryChangesRemover extends TestOptimizer {
 			int nSteps = asmTest.allInstructions().size();
 			CheckWhatAsked monFuncReader = new CheckWhatAsked(asmTest);
 			Simulator simulator = new Simulator(asms.getMain().getName(), asms, new Environment(monFuncReader));
+			// supespend the checking of invariants 
+			InvariantTreament temp = Simulator.checkInvariants;
+			simulator.checkInvariants = InvariantTreament.NO_CHECK;
 			for (int i = 0; i < nSteps; i++) {
 				simulator.run(1);
 				monFuncReader.nextState();
 			}
+			// reset the position as before
+			Simulator.checkInvariants = temp;
 		} catch (AsmModelNotFoundException | MainRuleNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

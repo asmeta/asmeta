@@ -2,8 +2,9 @@ package org.asmeta.atgt;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.PrintStream;
+import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import org.asmeta.atgt.generator.TestGenerationWithNuSMV;
 import org.asmeta.atgt.testoptimizer.UnchangedRemover;
 import org.asmeta.atgt.testoptimizer.UnecessaryChangesRemover;
 import org.asmeta.nusmv.main.AsmetaSMV;
+import org.asmeta.nusmv.main.AsmetaSMV.ModelCheckerMode;
 import org.asmeta.parser.ASMParser;
 import org.junit.Test;
 
@@ -38,10 +40,49 @@ public class AsmTestGeneratorTest {
 	public static final String FILE_BASE = "../../../../asm_examples/";
 
 	@Test
+	public void generateSafeCombination() throws Exception {
+		String asmPath = "examples\\SafeCombination.asm";
+		// in both case we reach openSafe=true
+		// LTL and BMC
+		TestGenerationWithNuSMV.modelCheckerMode = ModelCheckerMode.LTLandBMC;
+		generateSafe(asmPath, 6);
+		// CTL and FMC		
+		TestGenerationWithNuSMV.modelCheckerMode = ModelCheckerMode.CTL;
+		generateSafe(asmPath, 7);
+	}
+
+	@Test
+	public void generateTCAS() throws Exception {
+		String asmPath = "examples\\Tcas.asm";
+		// in both case we reach openSafe=true
+		// LTL and BMC
+		TestGenerationWithNuSMV.modelCheckerMode = ModelCheckerMode.LTLandBMC;
+		generateSafe(asmPath, 2);
+		// CTL and FMC		
+		TestGenerationWithNuSMV.modelCheckerMode = ModelCheckerMode.CTL;
+		generateSafe(asmPath, 3);
+	}
+
+	
+	private void generateSafe(String asmPath, int exlength) throws Exception {
+		NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(asmPath);
+		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(Integer.MAX_VALUE, "BR_r_Main_T2");
+		assertEquals(1, result.getTests().size());
+		int length = result.getTests().get(0).allInstructions().size();
+		System.err.println(result.getTests().get(0).allInstructions().get(length-1));
+		assertEquals(exlength, length);
+		// translate to avalla
+		ByteArrayOutputStream output = new ByteArrayOutputStream();
+		toAvalla ta = new toAvalla(output, result.getTests().get(0), "filename", "scenarioname");
+		ta.saveToStream();
+		System.out.println(output.toString());
+	}
+
+	@Test
 	public void generateTestAllCriteriaPHD() throws Exception {
 		String asmPath = FILE_BASE + "PHD/phd_master_flat2_v1.asm";
 		NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(asmPath);
-		TestGenerationWithNuSMV.useLTLandBMC = true;
+		TestGenerationWithNuSMV.modelCheckerMode = ModelCheckerMode.LTLandBMC ;
 		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(Integer.MAX_VALUE, ".*");
 
 	}
@@ -55,7 +96,7 @@ public class AsmTestGeneratorTest {
 		String asmPath = FILE_BASE + "PHD/phd_master_flat2_v6.asm";
 		List<AsmCoverageBuilder> coverageCriteria = CriteriaEnum.getCoverageCriteria(CriteriaEnum.THREEWISE_ALL);
 		NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(asmPath, true);
-		TestGenerationWithNuSMV.useLTLandBMC = true;
+		TestGenerationWithNuSMV.modelCheckerMode = ModelCheckerMode.LTLandBMC ;
 		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(coverageCriteria,Integer.MAX_VALUE, "gg.*");
 		for (AsmTestSequence t : result.getTests()) {
 			System.out.println("test sequence generated for " + t.getGeneratedFor().getName());
@@ -76,7 +117,7 @@ public class AsmTestGeneratorTest {
 		List<AsmCoverageBuilder> coverageCriteria = CriteriaEnum.getCoverageCriteria(CriteriaEnum.BASIC_RULE);
 		for (boolean v : new boolean[] { true, false }) {
 			NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(asmPath, v);
-			TestGenerationWithNuSMV.useLTLandBMC = true;
+			TestGenerationWithNuSMV.modelCheckerMode = ModelCheckerMode.LTLandBMC ;
 			AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(coverageCriteria,Integer.MAX_VALUE,
 					"BR_r_Main_TBR_r_Unassociated__REQ_ASSOC_REL_T1");
 			System.out.println("test sequence " + result.getTests().get(0).toVideo());
@@ -146,7 +187,7 @@ public class AsmTestGeneratorTest {
 		Logger.getLogger(ConverterCounterExample.class).setLevel(Level.DEBUG);
 		Logger.getLogger("org.asmeta.parser").setLevel(Level.OFF);	
 		
-		TestGenerationWithNuSMV.useLTLandBMC = true;
+		TestGenerationWithNuSMV.modelCheckerMode = ModelCheckerMode.LTLandBMC ;
 		AsmetaSMV.BMCLength = 100;
 		
 		//String ex = "D:\\AgDocuments\\progettiDaSVN\\asmeta\\mvm-asmeta\\VentilatoreASM\\Ventilatore2.asm";
@@ -187,7 +228,7 @@ public class AsmTestGeneratorTest {
 		Logger.getLogger(ConverterCounterExample.class).setLevel(Level.DEBUG);
 		Logger.getLogger("org.asmeta.parser").setLevel(Level.OFF);	
 		
-		TestGenerationWithNuSMV.useLTLandBMC = true;
+		TestGenerationWithNuSMV.modelCheckerMode = ModelCheckerMode.LTLandBMC ;
 		
 		//String ex = "D:\\AgDocuments\\progettiDaSVN\\asmeta\\mvm-asmeta\\VentilatoreASM\\Ventilatore2.asm";
 		//String ex = "D:\\AgHome\\progettidaSVNGIT\\asmeta\\mvm-asmeta\\VentilatoreASM\\Ventilatore2.asm";
@@ -202,5 +243,34 @@ public class AsmTestGeneratorTest {
 		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(Collections.singleton(CriteriaEnum.BASIC_RULE.criteria),1, ".*");
 		
 	}
+	
+	@Test
+	public void generateASEExperiments() throws Exception {
+		String folderPath = "../../../experimental/asmeta.evotest/asmeta.evotest.experiments/src/main/resources/models/";
+		//
+		//String ex = folderPath + "Contatore_U_DA_H.asm"; //-> h is a keyword in NuSMV
+		// These names are reserved for the LTL temporal operators
+		//
+		//String ex = folderPath + "TrafficLightv2.asm";
+		// keywords count ( basic_expr_list ) -- count of TRUE boolean expressions
+		// 
+		//String ex = folderPath + "CoffeeVendingMachineNC.asm";
+		//String ex = folderPath + "Tcas.asm";
+		
+		//String ex = folderPath + "SafeCombination.asm";
+		//String ex = folderPath + "Contatore_U_DA_H.asm";
+		//String ex = folderPath + "LGS_3L.asm";
+		//String ex = folderPath + "SmartHome.asm"; // this contain agents, it won't work		
+		//String ex = folderPath + "SiGistica.asm";
+		String ex = folderPath + "Ferryman.asm";
+		
+		var f = new File(ex);
+		assert f.exists() : Paths.get(f.getCanonicalPath()).normalize() + " does not exists";		
+		asmeta.AsmCollection asms = ASMParser.setUpReadAsm(f);				
+		NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(ex, true);
+		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(Collections.singleton(CriteriaEnum.RULE_GUARD.criteria),1, ".*");
+		
+	}
+
 	
 }

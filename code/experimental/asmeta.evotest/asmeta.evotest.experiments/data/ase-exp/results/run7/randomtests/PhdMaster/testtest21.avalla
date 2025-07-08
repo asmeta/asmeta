@@ -1,0 +1,11 @@
+scenario testtest21
+
+load ./..\..\..\..\models\PhdMaster.asm
+
+//// test name test@test21
+//// generated for (test goal): test21: NULL
+check status = UNASSOCIATED;
+set transition := RX_ROER;
+step
+check status = UNASSOCIATED;
+step

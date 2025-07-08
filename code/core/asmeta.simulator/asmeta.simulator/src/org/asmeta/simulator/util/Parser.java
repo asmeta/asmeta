@@ -47,33 +47,22 @@ import asmeta.definitions.domains.StringDomain;
 import asmeta.definitions.domains.UndefDomain;
 
 /**
- * String to value converter.
- * 
+ * String to value converter. this
  */
 public class Parser extends ReflectiveVisitor<Value> {
 
 	/**
 	 * Returns the next input token.
-	 * 
 	 */
 	private Scanner scanner;
 
 	/**
-	 * Parses a reader.
-	 * 
-	 * @param reader a reader
-	 */
-	public Parser(Reader reader) {
-		scanner = new Scanner(reader);
-	}
-
-	/**
-	 * Parses a string.
+	 * Parses a string to be converted to a value (depending on the domain)
 	 * 
 	 * @param reader a string
 	 */
-	public Parser(String reader) {
-		this(new StringReader(reader));
+	public Parser(String line) {
+		scanner = new Scanner(new StringReader(line));
 	}
 
 	/**
@@ -165,8 +154,8 @@ public class Parser extends ReflectiveVisitor<Value> {
 	 */
 	public StringValue visit(StringDomain domain) throws InputMismatchException {
 		String s = scanner.scanQuoted();
-		assert s.startsWith("\""): s;
-		assert s.endsWith("\""): s;
+		assert s.startsWith("\"") : s;
+		assert s.endsWith("\"") : s;
 		return new StringValue(s.substring(1, s.length() - 1));
 	}
 

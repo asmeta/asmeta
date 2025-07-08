@@ -1,20 +1,6 @@
 package org.asmeta.eclipse.editor.preferences;
 
-import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.AUTO;
-import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.HOUR_STRING;
-import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.MILLIS_STRING;
-import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.MINUTES_STRING;
-import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_AUTO_DELTA;
-import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_CHECK_AXIOMS;
-import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_DEBUG_EXTERNAL_FILE;
-import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_DEBUG_PARSER;
-import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_DEBUG_SIMULATOR;
-import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_DEBUG_USE_EXTERNAL_FILE;
-import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_SHUFFLE;
-import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_STOP_UPDATESET_EMPTY;
-import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_STOP_UPDATESET_TRIVIAL;
-import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_TIME_UNIT;
-import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.SECONDS_STRING;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.*;
 
 import org.apache.log4j.Level;
 import org.asmeta.eclipse.AsmeeActivator;
@@ -70,6 +56,8 @@ public class SimulatorPreferencePage
 		
 		addField(new BooleanFieldEditor(P_STOP_UPDATESET_EMPTY, "Stop simulation if the update set is empty", fieldEdtrPrnt));
 		addField(new BooleanFieldEditor(P_STOP_UPDATESET_TRIVIAL, "Stop simulation if the update set is trivial", fieldEdtrPrnt));
+		addField(new BooleanFieldEditor(P_ALLOW_UNDEF_MON, "Allow undef values for monitored during simulation", fieldEdtrPrnt));
+		
 		// 
 		//addField(new RadioGroupFieldEditor(P_TIME_MNGT, "Which time for monitored ASM time", null, fieldEdtrPrnt));
 		addField(new RadioGroupFieldEditor(PreferenceConstants.P_TIME_MNGT,

@@ -43,21 +43,27 @@ public class SimulatorForAnimator extends Simulator {
 			// do the steps
 			updateSet = runNoCatchInv(ntimes);
 			// get the previous state
-			Map<Location, Value> locationsPrevSet2 = (previousState.getContrLocs());
+			Map<Location, Value> locationsPrevSet2 = previousState.getContrLocs();
+			System.err.println(locationsPrevSet2);
 			ArrayList<Location> locationsPrevSet = new ArrayList<>(previousState.getContrLocs().keySet());
 			// is there any difference
 			locationsPrevSet.removeAll(locationsAlreadySet);
 			// System.out.println("SET " + locationsAlreadySet);
 			// System.out.println("INITREM " + locationsPrevSet);
 			Map<Location, Value> locationsPrevNotSet = new HashMap<Location, Value>();
-			for (Location x : locationsPrevSet)
-				locationsPrevNotSet.put(x, locationsPrevSet2.get(x));
+			for (Location x : locationsPrevSet) {
+				Value value = locationsPrevSet2.get(x);
+				locationsPrevNotSet.put(x, value);
+				System.err.println(x + " ccc "+ value);
+				System.err.println(x.getClass() + " " + x.getSignature());
+			}
 			t.setInitValues(locationsPrevNotSet);
 		} catch (InvalidInvariantException e) {
 			// if no check, ignore the message
 			if (checkInvariants != InvariantTreament.NO_CHECK) {
 				AsmetaTermPrinter tp = AsmetaTermPrinter.getAsmetaTermPrinter(false);
-				t.setInvalidIvariantText("Invariant:\n"+ tp.visit(e.getInvariant().getBody()));
+				String visit = tp.visit(e.getInvariant().getBody());
+				t.setInvalidIvariantText("Invariant:\n"+ visit);
 			}
 			if (checkInvariants == InvariantTreament.CHECK_CONTINUE || checkInvariants == InvariantTreament.NO_CHECK)
 				updateSet = e.us;
