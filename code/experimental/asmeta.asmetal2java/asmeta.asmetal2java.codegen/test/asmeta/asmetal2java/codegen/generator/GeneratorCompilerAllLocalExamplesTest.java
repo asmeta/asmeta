@@ -85,7 +85,7 @@ public class GeneratorCompilerAllLocalExamplesTest {
 		assertTrue(failures.size() + ": " + failures.toString(), failures.isEmpty());
 	}
 
-	//@Test
+	@Test
 	public void testSingleExamplewithproblems() throws Exception {
 		String fileName = "examples\\ATM3.asm";
 		CompileResult genandcompile = GeneratorCompilerUtil.genandcompile(fileName , options,
