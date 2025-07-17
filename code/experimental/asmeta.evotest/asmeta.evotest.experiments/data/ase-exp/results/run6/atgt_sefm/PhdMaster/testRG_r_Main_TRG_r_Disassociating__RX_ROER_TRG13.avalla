@@ -1,0 +1,22 @@
+scenario testRG_r_Main_TRG_r_Disassociating__RX_ROER_TRG13
+
+load ./..\..\..\..\models\PhdMaster.asm
+
+//// test name test@RG_r_Main_TRG_r_Disassociating__RX_ROER_TRG13
+//// generated for (test goal): RG_r_Main_TRG_r_Disassociating__RX_ROER_TRG13: (status = DISASSOCIATING) and ((transition = RX_ROER) and (status != UNASSOCIATED))
+check status = UNASSOCIATED;
+check message = undef;
+set transition := RX_AARQ_ACCEPTABLE_AND_KNOWN_CONFIGURATION;
+step
+check status = OPERATING;
+check message = MSG_RX_AARE;
+set transition := REQ_ASSOC_REL;
+step
+check status = DISASSOCIATING;
+check message = MSG_RX_RLRQ;
+set transition := RX_ROER;
+step
+check status = UNASSOCIATED;
+check message = MSG_RX_ABRT;
+set transition := RX_AARQ_ACCEPTABLE_AND_KNOWN_CONFIGURATION;
+step

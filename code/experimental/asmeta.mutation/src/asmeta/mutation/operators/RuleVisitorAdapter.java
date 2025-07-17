@@ -152,7 +152,8 @@ final public class RuleVisitorAdapter extends RuleVisitor<List<Rule>> {
 	@Override
 	public List<Rule> visit(ChooseRule rule) {
 		// TODO Auto-generated method stub
-		throw new RuntimeException("not implemented yet");
+		return rulemutator.visit(rule);
+		//throw new RuntimeException("not implemented yet");
 	}
 
 	@Override
