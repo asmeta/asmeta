@@ -6,7 +6,6 @@ import org.apache.log4j.Level;
 import org.asmeta.animator.VisualizationSimulation;
 import org.asmeta.eclipse.AsmeeConsole;
 import org.asmeta.eclipse.AsmetaActionHandler;
-import org.asmeta.eclipse.simulator.jobs.RunJob;
 import org.asmeta.simulator.main.Simulator;
 
 /**
@@ -23,10 +22,6 @@ public class AnimatorHandler extends AsmetaActionHandler {
 
 	@Override
 	protected void executeAction(File path) throws Exception {
-		//
-		if (RunJob.allowUndefValuesMonitored) {
-			VisualizationSimulation.allowUndefValuesMonitored = true;
-		} 
 		// run the animator
 		VisualizationSimulation.startAnimator(path);
 	}

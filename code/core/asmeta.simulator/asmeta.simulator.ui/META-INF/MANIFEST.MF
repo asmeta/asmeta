@@ -24,6 +24,5 @@ Require-Bundle: asmeta.emf,
  org.asmeta.xt.ide
 Automatic-Module-Name: org.asmeta.asmee
 Export-Package: org.asmeta.eclipse,
- org.asmeta.eclipse.simulator.actions,
- org.asmeta.eclipse.simulator.jobs
+ org.asmeta.eclipse.simulator.actions
 Bundle-RequiredExecutionEnvironment: JavaSE-17

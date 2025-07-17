@@ -37,13 +37,6 @@ public class SimulatorRT extends AsmetaSimulatorWR{
 		env.timeMngt=TimeMngt.ask_user; //2021_12_01 Silvia: Aggiunto per simulare il tempo usando quello settato dall'utente 
 	}
 	
-	public SimulatorRT(String modelName, AsmCollection asmp, Environment env, TimeMngt timeType)
-			throws AsmModelNotFoundException, MainRuleNotFoundException {
-		super(modelName, asmp, env);
-		env.timeMngt=timeType; //2021_12_01 Silvia: Aggiunto per simulare il tempo usando quello settato dall'utente 
-	}
-	
-	
 	public SimulatorRT(String modelName, AsmCollection asmp, Environment env, State s)
 			throws AsmModelNotFoundException, MainRuleNotFoundException {
 		super(modelName, asmp, env, s);

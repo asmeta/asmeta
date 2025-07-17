@@ -10,12 +10,51 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
-public class MyDialogError extends AskMonDialog {	
+public class MyDialogError extends MyDialog {
+	private String message;
+
+	private String input;
+	private Shell shell_1;
+	private GridData gd_btnTrue;
+	private GridData gd_btnFalse;
+	
 
 	public MyDialogError(Shell parent, String error) {
-		super(parent, error);
+		super(parent);
+		setMessage(error);
 	}
 
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public String getInput() {
+		return input;
+	}
+
+	public void setInput(String input) {
+		this.input = input;
+	}
+
+	@Override
+	public String open() {
+		shell_1 = new Shell(getParent(), getStyle());
+		shell_1.setText(getText());
+		createContents(shell_1);
+		shell_1.pack();
+		shell_1.open();
+		Display display = getParent().getDisplay();
+		while (!shell_1.isDisposed()) {
+			if (!display.readAndDispatch()) {
+				display.sleep();
+			}
+		}
+		return input;
+	}
 
 	@Override
 	protected void createContents(final Shell shell) {

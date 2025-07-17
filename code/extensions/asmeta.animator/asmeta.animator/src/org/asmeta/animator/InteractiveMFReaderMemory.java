@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.asmeta.animator.dialog.DialogGenerator;
-import org.asmeta.animator.dialog.AskMonDialog;
+import org.asmeta.animator.dialog.MyDialog;
 import org.asmeta.animator.dialog.MyDialogError;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.State;
@@ -27,6 +27,7 @@ import asmeta.definitions.domains.ConcreteDomain;
 import asmeta.definitions.domains.EnumTd;
 
 public class InteractiveMFReaderMemory extends InteractiveMFReader {
+
 
 	private static VisualizationSimulation v;
 
@@ -55,16 +56,22 @@ public class InteractiveMFReaderMemory extends InteractiveMFReader {
 		Function func = location.getSignature();
 		// build the right dialog
 		DialogGenerator dg = new DialogGenerator(v.getShell(), domainPrinter.visit(func.getCodomain()), location.toString());
-		AskMonDialog dialog = dg.doSwitch(func.getCodomain());		
+		MyDialog dialog = dg.doSwitch(func.getCodomain());		
 
 		while (value == null) {
-			String input = dialog.open();			
+
+			String input = null;
+			input = dialog.open();
+			
 			if (input != null) {
 				// User clicked OK; set the text into the label
+				//v.setTextMonitored(input);
+				/*v.setLblMonitorFunctionName(location.toString());
+				v.saveMonitorInteractiveSimulation(input, location.toString());*/
 				v.showMonitoredInteractiveSimulation(input, location.toString());
 				value = visit(func.getCodomain());
 			} 
-			// TODO: se voglio terminare non riesco piï¿½ --> far sï¿½ che si possa interrompere
+			// TODO: se voglio terminare non riesco più --> far sì che si possa interrompere
 			// l'esecuzione
 		}
 		return value;

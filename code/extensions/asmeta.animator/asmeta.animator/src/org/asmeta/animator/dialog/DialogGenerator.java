@@ -13,11 +13,13 @@ import asmeta.definitions.domains.EnumElement;
 import asmeta.definitions.domains.EnumTd;
 import asmeta.definitions.domains.util.DomainsSwitch;
 
-public class DialogGenerator extends DomainsSwitch<AskMonDialog>{
+public class DialogGenerator extends DomainsSwitch<MyDialog>{
 	
 	private Shell shell;
 	private String locationName;
 	private String domainInfo;
+
+
 
 	public DialogGenerator(Shell s, String domainInfo, String location){
 		shell = s;
@@ -26,17 +28,17 @@ public class DialogGenerator extends DomainsSwitch<AskMonDialog>{
 	}
 
 	@Override
-	public AskMonDialog caseEnumTd(EnumTd dom) {
+	public MyDialog caseEnumTd(EnumTd dom) {
 		ArrayList<String> enumValues = extractEnumValues(dom.getElement());
-		String msg = " Insert a " + domainInfo + " for " + locationName + ":";
-		AskMonDialogEnum dialog = new AskMonDialogEnum(shell,enumValues,msg);
+		MyDialogEnumInsert dialog = new MyDialogEnumInsert(shell,enumValues);
+		dialog.setMessage(" Insert a " + domainInfo + " for " + locationName + ":");
 		return dialog;
 	}
 	 
 	@Override
-	public AskMonDialog caseBooleanDomain(BooleanDomain object) {
-		String msg = " Insert a " + domainInfo + " for " + locationName + ":";
-		AskMonDialogBoolean dialog = new AskMonDialogBoolean(shell,msg);
+	public MyDialog caseBooleanDomain(BooleanDomain object) {
+		MyDialogBooleanInsert dialog = new MyDialogBooleanInsert(shell);
+		dialog.setMessage(" Insert a " + domainInfo + " for " + locationName + ":");
 		return dialog;
 	}
 	
@@ -52,11 +54,11 @@ public class DialogGenerator extends DomainsSwitch<AskMonDialog>{
 	}
 	
 	@Override
-	public AskMonDialog doSwitch(EObject eObject) {
-		AskMonDialog result = super.doSwitch(eObject);
+	public MyDialog doSwitch(EObject eObject) {
+		MyDialog result = super.doSwitch(eObject);
 		if (result == null) {
-			String msg = " Insert a " + domainInfo + " for " + locationName + ":";
-			AskMonDialogGeneric dialog = new AskMonDialogGeneric(shell, msg);
+			MyDialogInsert dialog = new MyDialogInsert(shell);
+			dialog.setMessage(" Insert a " + domainInfo + " for " + locationName + ":");
 			return dialog;
 		}
 		return result;

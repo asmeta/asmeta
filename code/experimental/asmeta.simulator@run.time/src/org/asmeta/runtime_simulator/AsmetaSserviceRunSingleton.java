@@ -103,8 +103,8 @@ public class AsmetaSserviceRunSingleton extends InteractiveMFReader{
 	 * Set the value of location only for monitored
 	 */
 	//Patrizia 2021: il metodo si occupa di settare il valore di una locazione monitorata. 
-	//L'override di questo metodo ï¿½ necessario perchï¿½ di default l'input stream ï¿½ la console. In questo caso invece la
-	//funzione monitorata viene giï¿½ acquisita dalla mappa dell'input fornito dall'utente in AsmetaSservice
+	//L'override di questo metodo è necessario perchè di default l'input stream è la console. In questo caso invece la
+	//funzione monitorata viene già acquisita dalla mappa dell'input fornito dall'utente in AsmetaSservice
 	@Override
 	public void readLine() {
 		Map<String, String> map = AsmetaSserviceSingleton.getInstance().getSimulatorTable().get(id).getLocationValue();
@@ -154,24 +154,30 @@ public class AsmetaSserviceRunSingleton extends InteractiveMFReader{
 	public UndefValue visit(UndefDomain domain) throws InputMismatchException {
 		UndefValue value = null;
 		getOut().println("Insert an undef constant:");
+		
 		readLine();
 		value = new Parser(getLine()).visit(domain);
+		
 		return value;
 	}
 
 	@Override
 	public StringValue visit(StringDomain domain) throws InputMismatchException {
 		StringValue value = null;
+		
 		readLine();
 		value = new Parser(getLine()).visit(domain);
+		
 		return value;
 	}
-	
+
 	@Override
 	public TupleValue visit(ProductDomain domain) throws InputMismatchException {
 		TupleValue value = null;
+
 		readLine();
 		value = new Parser(getLine()).visit(domain);
+		
 		return value;
 	}
 
@@ -179,8 +185,10 @@ public class AsmetaSserviceRunSingleton extends InteractiveMFReader{
 	public SetValue visit(PowersetDomain domain) throws InputMismatchException {
 		SetValue value = null;
 		getOut().println("Insert a set:");
+
 		readLine();
 		value = new Parser(getLine()).visit(domain);
+		
 		return value;
 	}
 
