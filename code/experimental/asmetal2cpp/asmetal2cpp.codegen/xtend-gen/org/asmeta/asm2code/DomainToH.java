@@ -49,13 +49,25 @@ public class DomainToH extends ReflectiveVisitor<String> {
     StringBuffer sb = new StringBuffer();
     if (((object.getTypeDomain() instanceof StructuredTd) || (object.getTypeDomain() instanceof StructuredTdImpl))) {
       StringConcatenation _builder = new StringConcatenation();
-      _builder.append("typedef ï¿½visit(object.typeDomain)ï¿½ ï¿½object.nameï¿½;");
-      _builder.newLine();
+      _builder.append("typedef ");
+      String _visit = this.visit(object.getTypeDomain());
+      _builder.append(_visit);
+      _builder.append(" ");
+      String _name = object.getName();
+      _builder.append(_name);
+      _builder.append(";");
+      _builder.newLineIfNotEmpty();
       sb.append(_builder);
     } else {
       StringConcatenation _builder_1 = new StringConcatenation();
-      _builder_1.append("typedef ï¿½new ToString(res).visit(object.typeDomain)ï¿½ ï¿½object.nameï¿½;");
-      _builder_1.newLine();
+      _builder_1.append("typedef ");
+      String _visit_1 = new ToString(this.res).visit(object.getTypeDomain());
+      _builder_1.append(_visit_1);
+      _builder_1.append(" ");
+      String _name_1 = object.getName();
+      _builder_1.append(_name_1);
+      _builder_1.append(";");
+      _builder_1.newLineIfNotEmpty();
       sb.append(_builder_1);
     }
     return sb.toString();
@@ -75,11 +87,15 @@ public class DomainToH extends ReflectiveVisitor<String> {
       Domain _get = object.getDomains().get(i);
       if ((_get instanceof StructuredTd)) {
         StringConcatenation _builder_1 = new StringConcatenation();
-        _builder_1.append("ï¿½visit(object.domains.get(i))ï¿½, ");
+        String _visit = this.visit(object.getDomains().get(i));
+        _builder_1.append(_visit);
+        _builder_1.append(", ");
         sb.append(_builder_1);
       } else {
         StringConcatenation _builder_2 = new StringConcatenation();
-        _builder_2.append("ï¿½new ToString(res).visit(object.domains.get(i))ï¿½, ");
+        String _visit_1 = new ToString(this.res).visit(object.getDomains().get(i));
+        _builder_2.append(_visit_1);
+        _builder_2.append(", ");
         sb.append(_builder_2);
       }
     }
@@ -98,11 +114,13 @@ public class DomainToH extends ReflectiveVisitor<String> {
     Domain _domain = object.getDomain();
     if ((_domain instanceof StructuredTd)) {
       StringConcatenation _builder_1 = new StringConcatenation();
-      _builder_1.append("ï¿½visit(object.domain)ï¿½");
+      String _visit = this.visit(object.getDomain());
+      _builder_1.append(_visit);
       sb.append(_builder_1);
     } else {
       StringConcatenation _builder_2 = new StringConcatenation();
-      _builder_2.append("ï¿½new ToString(res).visit(object.domain)ï¿½");
+      String _visit_1 = new ToString(this.res).visit(object.getDomain());
+      _builder_2.append(_visit_1);
       sb.append(_builder_2);
     }
     return sb.toString().substring(0, sb.length()).concat(">");
@@ -117,11 +135,13 @@ public class DomainToH extends ReflectiveVisitor<String> {
     Domain _baseDomain = object.getBaseDomain();
     if ((_baseDomain instanceof StructuredTd)) {
       StringConcatenation _builder_1 = new StringConcatenation();
-      _builder_1.append("ï¿½visit(object.baseDomain)ï¿½");
+      String _visit = this.visit(object.getBaseDomain());
+      _builder_1.append(_visit);
       sb.append(_builder_1);
     } else {
       StringConcatenation _builder_2 = new StringConcatenation();
-      _builder_2.append("ï¿½new ToString(res).visit(object.baseDomain)ï¿½");
+      String _visit_1 = new ToString(this.res).visit(object.getBaseDomain());
+      _builder_2.append(_visit_1);
       sb.append(_builder_2);
     }
     return sb.toString().substring(0, sb.length()).concat(">");
@@ -136,11 +156,13 @@ public class DomainToH extends ReflectiveVisitor<String> {
     Domain _domain = object.getDomain();
     if ((_domain instanceof StructuredTd)) {
       StringConcatenation _builder_1 = new StringConcatenation();
-      _builder_1.append("ï¿½visit(object.domain)ï¿½");
+      String _visit = this.visit(object.getDomain());
+      _builder_1.append(_visit);
       sb.append(_builder_1);
     } else {
       StringConcatenation _builder_2 = new StringConcatenation();
-      _builder_2.append("ï¿½new ToString(res).visit(object.domain)ï¿½");
+      String _visit_1 = new ToString(this.res).visit(object.getDomain());
+      _builder_2.append(_visit_1);
       sb.append(_builder_2);
     }
     return sb.toString().substring(0, sb.length()).concat(">");
@@ -155,21 +177,28 @@ public class DomainToH extends ReflectiveVisitor<String> {
     Domain _sourceDomain = object.getSourceDomain();
     if ((_sourceDomain instanceof StructuredTd)) {
       StringConcatenation _builder_1 = new StringConcatenation();
-      _builder_1.append("ï¿½visit(object.sourceDomain)ï¿½,");
+      String _visit = this.visit(object.getSourceDomain());
+      _builder_1.append(_visit);
+      _builder_1.append(",");
       sb.append(_builder_1);
     } else {
       StringConcatenation _builder_2 = new StringConcatenation();
-      _builder_2.append("ï¿½new ToString(res).visit(object.sourceDomain)ï¿½,");
+      String _visit_1 = new ToString(this.res).visit(object.getSourceDomain());
+      _builder_2.append(_visit_1);
+      _builder_2.append(",");
       sb.append(_builder_2);
     }
     Domain _targetDomain = object.getTargetDomain();
     if ((_targetDomain instanceof StructuredTd)) {
       StringConcatenation _builder_3 = new StringConcatenation();
-      _builder_3.append("ï¿½visit(object.targetDomain)ï¿½,");
+      String _visit_2 = this.visit(object.getTargetDomain());
+      _builder_3.append(_visit_2);
+      _builder_3.append(",");
       sb.append(_builder_3);
     } else {
       StringConcatenation _builder_4 = new StringConcatenation();
-      _builder_4.append("ï¿½new ToString(res).visit(object.targetDomain)ï¿½");
+      String _visit_3 = new ToString(this.res).visit(object.getTargetDomain());
+      _builder_4.append(_visit_3);
       sb.append(_builder_4);
     }
     return sb.toString().substring(0, sb.length()).concat(">");
@@ -183,11 +212,16 @@ public class DomainToH extends ReflectiveVisitor<String> {
   public String visit(final EnumTd object) {
     StringBuffer sb = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("enum ï¿½object.nameï¿½ {");
+    _builder.append("enum ");
+    String _name = object.getName();
+    _builder.append(_name);
+    _builder.append(" {");
     sb.append(_builder);
     for (int i = 0; (i < object.getElement().size()); i++) {
       StringConcatenation _builder_1 = new StringConcatenation();
-      _builder_1.append("ï¿½new ToString(res).visit(object.element.get(i))ï¿½, ");
+      String _visit = new ToString(this.res).visit(object.getElement().get(i));
+      _builder_1.append(_visit);
+      _builder_1.append(", ");
       sb.append(_builder_1);
     }
     String _string = sb.toString();
@@ -199,9 +233,9 @@ public class DomainToH extends ReflectiveVisitor<String> {
   /**
    * def String visit(EnumTd object) {
    * 		var StringBuffer sb = new StringBuffer
-   * 		sb.append('''enum ï¿½object.nameï¿½ {''')
+   * 		sb.append('''enum «object.name» {''')
    * 		for (var int i = 0; i < object.element.size; i++) {
-   * 			sb.append('''ï¿½new ToString(res).visit(object.element.get(i))ï¿½, ''')
+   * 			sb.append('''«new ToString(res).visit(object.element.get(i))», ''')
    * 		}
    * 		return sb.toString.substring(0, sb.length - 2).concat("};\n") + setDomainContainer(object.name,false)
    * }

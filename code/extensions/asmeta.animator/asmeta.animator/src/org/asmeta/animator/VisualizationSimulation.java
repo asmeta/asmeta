@@ -73,9 +73,6 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 	static final String CONTROLLED = "C";
 	static final String MONITORED = "M";
 	static final String RANDOM = "R";
-	
-	// allow undef when reading monitored variables
-	public static boolean allowUndefValuesMonitored;
 
 	Display display = Display.getDefault();
 	final Shell shlAsmetaa = new Shell(display);

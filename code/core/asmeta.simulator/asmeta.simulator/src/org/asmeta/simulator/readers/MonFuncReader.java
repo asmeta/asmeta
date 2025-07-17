@@ -32,6 +32,7 @@ public abstract class MonFuncReader extends ReflectiveVisitor<Value> {
 	
 	private static Logger logger = Logger.getLogger(MonFuncReader.class);
 	
+	
 	protected State state;
 
 	/**

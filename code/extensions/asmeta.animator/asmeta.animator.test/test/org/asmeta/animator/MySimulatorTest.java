@@ -44,12 +44,9 @@ public class MySimulatorTest {
 		simulator.run(1);
 		// check that all the variables have been inizialized
 		assertEquals("{available(TEA)=10, available(COFFEE)=10, available(MILK)=10, coins=0}", init);
+		
 	}
 
-	
-	
-	
-	
 	protected void setInit(String string) {
 		init = string;
 	}

@@ -13,7 +13,6 @@ import org.asmeta.animator.MyState;
 import org.asmeta.parser.ASMParser;
 
 import org.asmeta.simulator.Environment;
-import org.asmeta.simulator.Environment.TimeMngt;
 import org.asmeta.simulator.State;
 import org.asmeta.simulator.main.AsmModelNotFoundException;
 import org.asmeta.simulator.main.Simulator;
@@ -34,15 +33,7 @@ public class AsmetaSservice implements IAsmetaSservice{
 	//private static AsmetaSserviceNotSing service;	//For singleton
 	private Map<Integer, InfoAsmetaService> simulatorMap;	//Map id -> created instance of the simulator (see InfoAsmetaService)
 	
-	private TimeMngt timetype;
-	
-	//public AsmetaSservice() {}
-	
-	public AsmetaSservice(TimeMngt timetype) {
-		this.timetype=timetype;
-	}
-	
-	
+	public AsmetaSservice() {}
 	
 	/**
 	 * SINGLETON
@@ -98,8 +89,7 @@ public class AsmetaSservice implements IAsmetaSservice{
 	
 		String modelName = asm.getMain().getName();
 		Environment env = new Environment(new AsmetaSserviceRun(simulatorMap));
-		//SimulatorRT sim = new SimulatorRT(modelName, asm, env);
-		SimulatorRT sim = new SimulatorRT(modelName, asm, env,timetype);
+		SimulatorRT sim = new SimulatorRT(modelName, asm, env);
 		sim.setShuffleFlag(true); // Nico Jan 2025: to make choose rules non deterministic
 
 		int id = getFirstFreeId();

@@ -16,6 +16,8 @@ import org.eclipse.jface.preference.IPreferenceStore;
  */
 public class PreferenceInitializer extends AbstractPreferenceInitializer {
 
+	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -30,7 +32,6 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		Simulator.checkInvariants = InvariantTreament.CHECK_STOP;
 		store.setDefault(PreferenceConstants.P_STOP_UPDATESET_EMPTY, true);
 		store.setDefault(PreferenceConstants.P_STOP_UPDATESET_TRIVIAL, true);
-		store.setDefault(PreferenceConstants.P_ALLOW_UNDEF_MON, false);
 		
 		store.setDefault(PreferenceConstants.P_TIME_MNGT, TimeMngt.use_java_time.toString());
 		Environment.timeMngt = TimeMngt.use_java_time;

@@ -24,7 +24,6 @@ import org.asmeta.runtime_composer.CompositionTreeNode;
 import org.asmeta.runtime_composer.CompositionTreeNodeType;
 import org.asmeta.runtime_container.Esit;
 import org.asmeta.runtime_container.SimulationContainer;
-import org.asmeta.simulator.Environment.TimeMngt;
 
 import asmeta.AsmCollection;
 import asmeta.definitions.Function;
@@ -47,9 +46,6 @@ public class Commander {
 	public static String lastInput = null;																		// Last executed input
 	public static String prompt;																				// Command line prompt text
 	private static Map<String, String> aliases;
-	
-	private TimeMngt timetype;
-	
 	
 	// Argument regular expressions
 	private static final String RUNSTEP_REGEX = "\\s*RUN\\(\\s*([^,]+)\\s*,?\\s*(\\{(.+\\s*=\\s*.+;?)*\\})?\\)";

@@ -17,7 +17,6 @@ import org.asmeta.runtime_commander.CommanderException;
 import org.asmeta.runtime_commander.CommanderOutput;
 import org.asmeta.runtime_commander.CommanderStatus;
 import org.asmeta.runtime_container.SimulationContainer;
-import org.asmeta.simulator.Environment.TimeMngt;
 import org.asmeta.runtime_container.Esit;
 import org.asmeta.runtime_container.InvariantData;
 import org.asmeta.runtime_container.RunOutput;
@@ -288,19 +287,6 @@ public class TestContainerTimeout {
 			imp.runStep(id, monitored);
 			monitored.put("carry", "GOAT"); 
 			imp.runStepTimeout(id, monitored,1000);
-		}
-		
-//===================================END RUNUNTILEMPTY TIMEOUT=========================================		
-		@Test // Simple time management 
-		public void runTimeManagement() throws Exception {
-			System.out.println(" |||||||||||||||||||||  TEST util |||||||||||||||||||||||||||||||||||||||||||||");
-			String model = "examples/simpleTime.asm";
-			SimulationContainer imp = new SimulationContainer(TimeMngt.use_java_time);
-			imp.init(1);
-			int id = imp.startExecution(model);
-			//monitored.put("carry", "GOAT"); 
-			for (int i=1; i<100000; i++)
-				imp.runStep(id);
 		}
 
 }

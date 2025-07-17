@@ -106,8 +106,8 @@ public class AsmetaSserviceRun extends InteractiveMFReader{
 	 * Set the value of location only for monitored
 	 */
 	//Patrizia 2021: il metodo si occupa di settare il valore di una locazione monitorata. 
-	//L'override di questo metodo ï¿½ necessario perchï¿½ di default l'input stream ï¿½ la console. In questo caso invece la
-	//funzione monitorata viene giï¿½ acquisita dalla mappa dell'input fornito dall'utente in AsmetaSservice
+	//L'override di questo metodo è necessario perchè di default l'input stream è la console. In questo caso invece la
+	//funzione monitorata viene già acquisita dalla mappa dell'input fornito dall'utente in AsmetaSservice
 	@Override
 	public void readLine() {
 		Map<String, String> map = simulatorMap.get(id).getLocationValue();
@@ -128,47 +128,59 @@ public class AsmetaSserviceRun extends InteractiveMFReader{
 		IntegerValue value = null;
 		readLine();
 		value = new Parser(getLine()).visit(domain);
+
+
 		return value;
 	}
 
 	@Override
 	public RealValue visit(RealDomain domain) throws InputMismatchException {
 		RealValue value = null;
+
 		readLine();
 		value = new Parser(getLine()).visit(domain);
+
 		return value;
 	}
 
 	@Override
 	public BooleanValue visit(BooleanDomain domain) throws InputMismatchException {
 		BooleanValue value = null;
+
 		readLine();
 		value = new Parser(getLine()).visit(domain);
+		
 		return value;
 	}
 
 	@Override
 	public UndefValue visit(UndefDomain domain) throws InputMismatchException {
 		UndefValue value = null;
-		getOut().println("Insert an undef constant:");	
+		getOut().println("Insert an undef constant:");
+		
 		readLine();
 		value = new Parser(getLine()).visit(domain);
+		
 		return value;
 	}
 
 	@Override
 	public StringValue visit(StringDomain domain) throws InputMismatchException {
-		StringValue value = null;	
+		StringValue value = null;
+		
 		readLine();
 		value = new Parser(getLine()).visit(domain);
+		
 		return value;
 	}
 
 	@Override
 	public TupleValue visit(ProductDomain domain) throws InputMismatchException {
 		TupleValue value = null;
+
 		readLine();
 		value = new Parser(getLine()).visit(domain);
+		
 		return value;
 	}
 
@@ -176,49 +188,63 @@ public class AsmetaSserviceRun extends InteractiveMFReader{
 	public SetValue visit(PowersetDomain domain) throws InputMismatchException {
 		SetValue value = null;
 		getOut().println("Insert a set:");
+
 		readLine();
 		value = new Parser(getLine()).visit(domain);
+		
 		return value;
 	}
 
 	@Override
 	public SequenceValue visit(SequenceDomain domain) throws InputMismatchException {
 		SequenceValue value = null;
+		
 		readLine();
 		value = new Parser(getLine()).visit(domain);
+		
 		return value;
 	}
 
 	@Override
 	public ReserveValue visit(AbstractTd domain) throws InputMismatchException {
 		ReserveValue value = null;
+
 		readLine();
 		value = new Parser(getLine()).visit(domain);
+	
 		if (!checkAbstract(domain, value)) {
 			throw new InputMismatchException("The constant " + value + " doesn't belong to concrete domain " + domain.getName());
 		}
+
 		return value;
 	}
 
 	@Override
 	public EnumValue visit(EnumTd domain) throws InputMismatchException {
 		EnumValue value = null;
+		
+
 		readLine();
 		value = new Parser(getLine()).visit(domain);
+
 		if (!checkEnum(domain, value)) {
 			throw new InputMismatchException("The constant " + value + " doesn't belong to concrete domain " + domain.getName());
 		}
+
 		return value;
 	}
 
 	@Override
 	public Value visit(ConcreteDomain domain) throws InputMismatchException {
 		Value value = null;
+
 		readLine();
 		value = new Parser(getLine()).visit(domain);
+
 		if (!checkConcrete(domain, value)) {
 			throw new InputMismatchException("The constant " + value + " doesn't belong to concrete domain " + domain.getName());
 		}
+			
 		return value;
 	}
 

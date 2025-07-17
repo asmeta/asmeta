@@ -55,34 +55,78 @@ public class FunctionToCpp extends ReflectiveVisitor<String> {
           Domain _domain_1 = object.getInitialization().get(0).getVariable().get(i).getDomain();
           if ((_domain_1 instanceof AbstractTd)) {
             StringConcatenation _builder_1 = new StringConcatenation();
-            _builder_1.append("for(const auto& �new TermToCpp(asm).visit(object.initialization.get(0).variable.get(i))� : �new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)�::elems){");
-            _builder_1.newLine();
+            _builder_1.append("for(const auto& ");
+            String _visit = new TermToCpp(this.asm).visit(object.getInitialization().get(0).getVariable().get(i));
+            _builder_1.append(_visit);
+            _builder_1.append(" : ");
+            String _visit_1 = new ToString(this.asm).visit(object.getInitialization().get(0).getVariable().get(i).getDomain());
+            _builder_1.append(_visit_1);
+            _builder_1.append("::elems){");
+            _builder_1.newLineIfNotEmpty();
             sb.append(_builder_1);
           } else {
             StringConcatenation _builder_2 = new StringConcatenation();
-            _builder_2.append("for(auto const& �new TermToCpp(asm).visit(object.initialization.get(0).variable.get(i))� : �new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)�_elems){");
-            _builder_2.newLine();
+            _builder_2.append("for(auto const& ");
+            String _visit_2 = new TermToCpp(this.asm).visit(object.getInitialization().get(0).getVariable().get(i));
+            _builder_2.append(_visit_2);
+            _builder_2.append(" : ");
+            String _visit_3 = new ToString(this.asm).visit(object.getInitialization().get(0).getVariable().get(i).getDomain());
+            _builder_2.append(_visit_3);
+            _builder_2.append("_elems){");
+            _builder_2.newLineIfNotEmpty();
             sb.append(_builder_2);
           }
         }
       }
       if (((this.options != null) && ((!this.options.useMaps) || (!this.options.initMapsWithInsert)))) {
         StringConcatenation _builder = new StringConcatenation();
-        _builder.append("�object.name�[0][�printVariables(object.initialization.get(0).variable)�] = �new TermToCpp(asm).visit(object.initialization.get(0).body)�;");
-        _builder.newLine();
+        String _name = object.getName();
+        _builder.append(_name);
+        _builder.append("[0][");
+        String _printVariables = this.printVariables(object.getInitialization().get(0).getVariable());
+        _builder.append(_printVariables);
+        _builder.append("] = ");
+        String _visit = new TermToCpp(this.asm).visit(object.getInitialization().get(0).getBody());
+        _builder.append(_visit);
+        _builder.append(";");
+        _builder.newLineIfNotEmpty();
         sb.append(_builder);
         StringConcatenation _builder_1 = new StringConcatenation();
-        _builder_1.append("�object.name�[1][�printVariables(object.initialization.get(0).variable)�] = �new TermToCpp(asm).visit(object.initialization.get(0).body)�;");
-        _builder_1.newLine();
+        String _name_1 = object.getName();
+        _builder_1.append(_name_1);
+        _builder_1.append("[1][");
+        String _printVariables_1 = this.printVariables(object.getInitialization().get(0).getVariable());
+        _builder_1.append(_printVariables_1);
+        _builder_1.append("] = ");
+        String _visit_1 = new TermToCpp(this.asm).visit(object.getInitialization().get(0).getBody());
+        _builder_1.append(_visit_1);
+        _builder_1.append(";");
+        _builder_1.newLineIfNotEmpty();
         sb.append(_builder_1);
       } else {
         StringConcatenation _builder_2 = new StringConcatenation();
-        _builder_2.append("�object.name�[0].insert({�printVariables(object.initialization.get(0).variable)�,�new TermToCpp(asm).visit(object.initialization.get(0).body)�});");
-        _builder_2.newLine();
+        String _name_2 = object.getName();
+        _builder_2.append(_name_2);
+        _builder_2.append("[0].insert({");
+        String _printVariables_2 = this.printVariables(object.getInitialization().get(0).getVariable());
+        _builder_2.append(_printVariables_2);
+        _builder_2.append(",");
+        String _visit_2 = new TermToCpp(this.asm).visit(object.getInitialization().get(0).getBody());
+        _builder_2.append(_visit_2);
+        _builder_2.append("});");
+        _builder_2.newLineIfNotEmpty();
         sb.append(_builder_2);
         StringConcatenation _builder_3 = new StringConcatenation();
-        _builder_3.append("�object.name�[1].insert({�printVariables(object.initialization.get(0).variable)�,�new TermToCpp(asm).visit(object.initialization.get(0).body)�});");
-        _builder_3.newLine();
+        String _name_3 = object.getName();
+        _builder_3.append(_name_3);
+        _builder_3.append("[1].insert({");
+        String _printVariables_3 = this.printVariables(object.getInitialization().get(0).getVariable());
+        _builder_3.append(_printVariables_3);
+        _builder_3.append(",");
+        String _visit_3 = new TermToCpp(this.asm).visit(object.getInitialization().get(0).getBody());
+        _builder_3.append(_visit_3);
+        _builder_3.append("});");
+        _builder_3.newLineIfNotEmpty();
         sb.append(_builder_3);
       }
       for (int i = 0; (i < object.getInitialization().get(0).getVariable().size()); i++) {
@@ -92,7 +136,15 @@ public class FunctionToCpp extends ReflectiveVisitor<String> {
       }
     } else {
       StringConcatenation _builder_4 = new StringConcatenation();
-      _builder_4.append("�object.name�[0] = �object.name�[1] = �new TermToCpp(asm).visit(object.initialization.get(0).body)�;");
+      String _name_4 = object.getName();
+      _builder_4.append(_name_4);
+      _builder_4.append("[0] = ");
+      String _name_5 = object.getName();
+      _builder_4.append(_name_5);
+      _builder_4.append("[1] = ");
+      String _visit_4 = new TermToCpp(this.asm).visit(object.getInitialization().get(0).getBody());
+      _builder_4.append(_visit_4);
+      _builder_4.append(";");
       sb.append(_builder_4);
     }
     return sb.toString();
@@ -107,30 +159,63 @@ public class FunctionToCpp extends ReflectiveVisitor<String> {
         Domain _domain_1 = object.getInitialization().get(0).getVariable().get(i).getDomain();
         if ((_domain_1 instanceof AbstractTd)) {
           StringConcatenation _builder = new StringConcatenation();
-          _builder.append("for(const auto& �new TermToCpp(asm).visit(object.initialization.get(0).variable.get(i))� : �new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)�::elems)");
-          _builder.newLine();
+          _builder.append("for(const auto& ");
+          String _visit = new TermToCpp(this.asm).visit(object.getInitialization().get(0).getVariable().get(i));
+          _builder.append(_visit);
+          _builder.append(" : ");
+          String _visit_1 = new ToString(this.asm).visit(object.getInitialization().get(0).getVariable().get(i).getDomain());
+          _builder.append(_visit_1);
+          _builder.append("::elems)");
+          _builder.newLineIfNotEmpty();
           sb.append(_builder);
         } else {
           StringConcatenation _builder_1 = new StringConcatenation();
-          _builder_1.append("for(auto const& �new TermToCpp(asm).visit(object.initialization.get(0).variable.get(i))� : �new ToString(asm).visit(object.initialization.get(0).variable.get(i).domain)�_elems)");
-          _builder_1.newLine();
+          _builder_1.append("for(auto const& ");
+          String _visit_2 = new TermToCpp(this.asm).visit(object.getInitialization().get(0).getVariable().get(i));
+          _builder_1.append(_visit_2);
+          _builder_1.append(" : ");
+          String _visit_3 = new ToString(this.asm).visit(object.getInitialization().get(0).getVariable().get(i).getDomain());
+          _builder_1.append(_visit_3);
+          _builder_1.append("_elems)");
+          _builder_1.newLineIfNotEmpty();
           sb.append(_builder_1);
         }
       }
       if (((this.options != null) && ((!this.options.useMaps) || (!this.options.initMapsWithInsert)))) {
         StringConcatenation _builder = new StringConcatenation();
-        _builder.append("�object.name�[�printVariables(object.initialization.get(0).variable)�] = �new TermToCpp(asm).visit(object.initialization.get(0).body)�;");
-        _builder.newLine();
+        String _name = object.getName();
+        _builder.append(_name);
+        _builder.append("[");
+        String _printVariables = this.printVariables(object.getInitialization().get(0).getVariable());
+        _builder.append(_printVariables);
+        _builder.append("] = ");
+        String _visit = new TermToCpp(this.asm).visit(object.getInitialization().get(0).getBody());
+        _builder.append(_visit);
+        _builder.append(";");
+        _builder.newLineIfNotEmpty();
         sb.append(_builder);
       } else {
         StringConcatenation _builder_1 = new StringConcatenation();
-        _builder_1.append("�object.name�.insert({�printVariables(object.initialization.get(0).variable)�,�new TermToCpp(asm).visit(object.initialization.get(0).body)�});");
-        _builder_1.newLine();
+        String _name_1 = object.getName();
+        _builder_1.append(_name_1);
+        _builder_1.append(".insert({");
+        String _printVariables_1 = this.printVariables(object.getInitialization().get(0).getVariable());
+        _builder_1.append(_printVariables_1);
+        _builder_1.append(",");
+        String _visit_1 = new TermToCpp(this.asm).visit(object.getInitialization().get(0).getBody());
+        _builder_1.append(_visit_1);
+        _builder_1.append("});");
+        _builder_1.newLineIfNotEmpty();
         sb.append(_builder_1);
       }
     } else {
       StringConcatenation _builder_2 = new StringConcatenation();
-      _builder_2.append("�object.name� = �new TermToCpp(asm).visit(object.initialization.get(0).body)�;");
+      String _name_2 = object.getName();
+      _builder_2.append(_name_2);
+      _builder_2.append(" = ");
+      String _visit_2 = new TermToCpp(this.asm).visit(object.getInitialization().get(0).getBody());
+      _builder_2.append(_visit_2);
+      _builder_2.append(";");
       sb.append(_builder_2);
     }
     return sb.toString();
@@ -145,16 +230,55 @@ public class FunctionToCpp extends ReflectiveVisitor<String> {
       boolean _contains = t.contains(" auto $");
       if (_contains) {
         StringConcatenation _builder = new StringConcatenation();
-        _builder.append("�new ToString(asm).visit(object.codomain)� �asm.name�::�object.name�(�new Util().adaptRuleParam(object.definition.variable,asm)�){�new TermToCpp(asm).visit(object.definition.body)�;}");
+        String _visit = new ToString(this.asm).visit(object.getCodomain());
+        _builder.append(_visit);
+        _builder.append(" ");
+        String _name = this.asm.getName();
+        _builder.append(_name);
+        _builder.append("::");
+        String _name_1 = object.getName();
+        _builder.append(_name_1);
+        _builder.append("(");
+        String _adaptRuleParam = new Util().adaptRuleParam(object.getDefinition().getVariable(), this.asm);
+        _builder.append(_adaptRuleParam);
+        _builder.append("){");
+        String _visit_1 = new TermToCpp(this.asm).visit(object.getDefinition().getBody());
+        _builder.append(_visit_1);
+        _builder.append(";}");
         sb.append(_builder);
       } else {
         StringConcatenation _builder_1 = new StringConcatenation();
-        _builder_1.append("�new ToString(asm).visit(object.codomain)� �asm.name�::�object.name�(�new Util().adaptRuleParam(object.definition.variable,asm)�){return �new TermToCpp(asm).visit(object.definition.body)�;}");
+        String _visit_2 = new ToString(this.asm).visit(object.getCodomain());
+        _builder_1.append(_visit_2);
+        _builder_1.append(" ");
+        String _name_2 = this.asm.getName();
+        _builder_1.append(_name_2);
+        _builder_1.append("::");
+        String _name_3 = object.getName();
+        _builder_1.append(_name_3);
+        _builder_1.append("(");
+        String _adaptRuleParam_1 = new Util().adaptRuleParam(object.getDefinition().getVariable(), this.asm);
+        _builder_1.append(_adaptRuleParam_1);
+        _builder_1.append("){return ");
+        String _visit_3 = new TermToCpp(this.asm).visit(object.getDefinition().getBody());
+        _builder_1.append(_visit_3);
+        _builder_1.append(";}");
         sb.append(_builder_1);
       }
     } else {
       StringConcatenation _builder_2 = new StringConcatenation();
-      _builder_2.append("�new ToString(asm).visit(object.codomain)� �asm.name�::�object.name�(){return �new TermToCpp(asm).visit(object.definition.body)�;}");
+      String _visit_4 = new ToString(this.asm).visit(object.getCodomain());
+      _builder_2.append(_visit_4);
+      _builder_2.append(" ");
+      String _name_4 = this.asm.getName();
+      _builder_2.append(_name_4);
+      _builder_2.append("::");
+      String _name_5 = object.getName();
+      _builder_2.append(_name_5);
+      _builder_2.append("(){return ");
+      String _visit_5 = new TermToCpp(this.asm).visit(object.getDefinition().getBody());
+      _builder_2.append(_visit_5);
+      _builder_2.append(";}");
       sb.append(_builder_2);
     }
     return sb.toString();
@@ -166,11 +290,36 @@ public class FunctionToCpp extends ReflectiveVisitor<String> {
     boolean _tripleNotEquals = (_domain != null);
     if (_tripleNotEquals) {
       StringConcatenation _builder = new StringConcatenation();
-      _builder.append("�new ToString(asm).visit(object.codomain)� �asm.name�::�object.name�(�new Util().adaptRuleParam(object.definition.variable,asm)�){return �new TermToCpp(asm).visit(object.definition.body)�;}");
+      String _visit = new ToString(this.asm).visit(object.getCodomain());
+      _builder.append(_visit);
+      _builder.append(" ");
+      String _name = this.asm.getName();
+      _builder.append(_name);
+      _builder.append("::");
+      String _name_1 = object.getName();
+      _builder.append(_name_1);
+      _builder.append("(");
+      String _adaptRuleParam = new Util().adaptRuleParam(object.getDefinition().getVariable(), this.asm);
+      _builder.append(_adaptRuleParam);
+      _builder.append("){return ");
+      String _visit_1 = new TermToCpp(this.asm).visit(object.getDefinition().getBody());
+      _builder.append(_visit_1);
+      _builder.append(";}");
       sb.append(_builder);
     } else {
       StringConcatenation _builder_1 = new StringConcatenation();
-      _builder_1.append("�new ToString(asm).visit(object.codomain)� �asm.name�::�object.name�(){return �new TermToCpp(asm).visit(object.definition.body)�;}");
+      String _visit_2 = new ToString(this.asm).visit(object.getCodomain());
+      _builder_1.append(_visit_2);
+      _builder_1.append(" ");
+      String _name_2 = this.asm.getName();
+      _builder_1.append(_name_2);
+      _builder_1.append("::");
+      String _name_3 = object.getName();
+      _builder_1.append(_name_3);
+      _builder_1.append("(){return ");
+      String _visit_3 = new TermToCpp(this.asm).visit(object.getDefinition().getBody());
+      _builder_1.append(_visit_3);
+      _builder_1.append(";}");
       sb.append(_builder_1);
     }
     return sb.toString();
@@ -182,7 +331,8 @@ public class FunctionToCpp extends ReflectiveVisitor<String> {
     boolean _equals = (_size == 1);
     if (_equals) {
       StringConcatenation _builder = new StringConcatenation();
-      _builder.append("�new TermToCpp(asm).visit(list.get(i))�");
+      String _visit = new TermToCpp(this.asm).visit(list.get(this.i));
+      _builder.append(_visit);
       sb.append(_builder);
       return sb.toString();
     } else {
@@ -191,7 +341,9 @@ public class FunctionToCpp extends ReflectiveVisitor<String> {
       sb.append(_builder_1);
       for (int i = 0; (i < list.size()); i++) {
         StringConcatenation _builder_2 = new StringConcatenation();
-        _builder_2.append("�new TermToCpp(asm).visit(list.get(i))�,");
+        String _visit_1 = new TermToCpp(this.asm).visit(list.get(i));
+        _builder_2.append(_visit_1);
+        _builder_2.append(",");
         sb.append(_builder_2);
       }
       String _string = sb.toString();

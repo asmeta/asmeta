@@ -60,7 +60,12 @@ import asmeta.definitions.domains.UndefDomain;
  * @author Alessandro Carioni [acarioni@tele2.it]
  *
  */
-public class InteractiveMFReader extends AllowUndefMFReader{
+public class InteractiveMFReader extends MonFuncReader {
+
+	/**
+	 * Keeps the association between a monitored location and the value.
+	 */
+	// Map<Location, Value> monOldMap = new HashMap<Location, Value>();
 
 	/**
 	 * Input stream
@@ -91,7 +96,6 @@ public class InteractiveMFReader extends AllowUndefMFReader{
 		domainPrinter = new DomainPrinter();
 	}
 
-
 	public PrintStream getOut() {
 		return out;
 	}
@@ -110,13 +114,7 @@ public class InteractiveMFReader extends AllowUndefMFReader{
 		// get the old value of location if any
 		// TODO
 		out.println("Insert a " + domainPrinter.visit(func.getCodomain()) + " for " + location.toString() + ":");
-		try {
-			return visit(func.getCodomain());
-		} catch (UndefFoundException e) {
-			// it mnust be allowed
-			assert allowUndefValues;
-			return UndefValue.UNDEF;
-		}
+		return visit(func.getCodomain());
 	}
 
 	// FIXME : to put into read Location
@@ -139,14 +137,11 @@ public class InteractiveMFReader extends AllowUndefMFReader{
 	}
 
 	/**
-	 * reads aline of text and set it ito line
-	 * 	if it is the flag allowe true, when it is found "undef" return immediatley undef value
+	 * Legge una linea di testo.
 	 */
 	public void readLine() {
 		try {
 			line = in.readLine();
-			if (allowUndefValues && line.equals(UndefValue.UNDEF.toString()))
-				throw new UndefFoundException();
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -161,28 +156,11 @@ public class InteractiveMFReader extends AllowUndefMFReader{
 	}
 
 	public IntegerValue visit(IntegerDomain domain) throws InputMismatchException {
-		return readValueInDomain(domain);
-	}
-
-	public IntegerValue visit(NaturalDomain domain) throws InputMismatchException {
-		return visit((IntegerDomain) domain);
-	}
-	public RealValue visit(RealDomain domain) throws InputMismatchException {
-		return readValueInDomain(domain);
-	}
-	private <V extends Value, D extends Domain> V readValueInDomain(D domain) throws InputMismatchException {
-		return readValueInDomain(domain,null);
-	}
-	
-	private <V extends Value, D extends Domain> V readValueInDomain(D domain, String message) throws InputMismatchException {
-		V value = null;
-		if (message != null) out.println(message);
+		IntegerValue value = null;
 		for (;;) {
-			// TODO add here the possibility to stop!
 			try {
 				readLine();
-				Parser parser = new Parser(line);
-				value = (V) parser.visit(domain);
+				value = new Parser(line).visit(domain);
 			} catch (InputMismatchException e) {
 				out.println(e.getMessage());
 				continue;
@@ -191,28 +169,116 @@ public class InteractiveMFReader extends AllowUndefMFReader{
 		}
 		return value;
 	}
+
+	public IntegerValue visit(NaturalDomain domain) throws InputMismatchException {
+		return visit((IntegerDomain) domain);
+	}
+
+	public RealValue visit(RealDomain domain) throws InputMismatchException {
+		RealValue value = null;
+		for (;;) {
+			try {
+				readLine();
+				value = new Parser(line).visit(domain);
+			} catch (InputMismatchException e) {
+				out.println(e.getMessage());
+				continue;
+			}
+			break;
+		}
+		return value;
+	}
+
 	public BooleanValue visit(BooleanDomain domain) throws InputMismatchException {
-		return readValueInDomain(domain);
+		BooleanValue value = null;
+		for (;;) {
+			try {
+				readLine();
+				value = new Parser(line).visit(domain);
+			} catch (InputMismatchException e) {
+				out.println(e.getMessage());
+				continue;
+			}
+			break;
+		}
+		return value;
 	}
 
 	public UndefValue visit(UndefDomain domain) throws InputMismatchException {
-		return readValueInDomain(domain, "Insert an undef constant:");
+		UndefValue value = null;
+		out.println("Insert an undef constant:");
+		for (;;) {
+			try {
+				readLine();
+				value = new Parser(line).visit(domain);
+			} catch (InputMismatchException e) {
+				out.println(e.getMessage());
+				continue;
+			}
+			break;
+		}
+		return value;
 	}
 
 	public StringValue visit(StringDomain domain) throws InputMismatchException {
-		return readValueInDomain(domain);
+		StringValue value = null;
+		for (;;) {
+			try {
+				readLine();
+				value = new Parser(line).visit(domain);
+			} catch (InputMismatchException e) {
+				out.println(e.getMessage());
+				continue;
+			}
+			break;
+		}
+		return value;
 	}
 
 	public TupleValue visit(ProductDomain domain) throws InputMismatchException {
-		return readValueInDomain(domain);
+		TupleValue value = null;
+		for (;;) {
+			try {
+				readLine();
+				value = new Parser(line).visit(domain);
+			} catch (InputMismatchException e) {
+				out.println(e.getMessage());
+				continue;
+			}
+			break;
+		}
+		return value;
 	}
 
 	public SetValue visit(PowersetDomain domain) throws InputMismatchException {
-		return readValueInDomain(domain, "Insert a set:");
+		SetValue value = null;
+		out.println("Insert a set:");
+		for (;;) {
+			try {
+				readLine();
+				value = new Parser(line).visit(domain);
+			} catch (InputMismatchException e) {
+				out.println(e.getMessage());
+				continue;
+			}
+			break;
+		}
+		return value;
 	}
 
 	public SequenceValue visit(SequenceDomain domain) throws InputMismatchException {
-		return readValueInDomain(domain);
+		SequenceValue value = null;
+		for (;;) {
+			try {
+				readLine();
+				value = new Parser(line).visit(domain);
+			} catch (InputMismatchException e) {
+				out.println(e.getMessage());
+				continue;
+			}
+			break;
+		}
+		return value;
 	}
 
 	public ReserveValue visit(AbstractTd domain) throws InputMismatchException {
