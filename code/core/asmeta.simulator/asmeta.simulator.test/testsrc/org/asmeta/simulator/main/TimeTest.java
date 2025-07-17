@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalUnit;
@@ -43,13 +44,20 @@ public class TimeTest extends BaseTest {
 		// one monitored variable with time seconds
 		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/time/time1.asm");
 		Environment.timeMngt = TimeMngt.use_java_time;
+		Instant startFrom = Instant.now();
 		sim.run(1);
 		State state = sim.getCurrentState();
-		assertEquals("0", getFunctionValue("time", state));
+		Instant after1Step = Instant.now();
+		long duration1 = Duration.between(startFrom, after1Step).getSeconds();
+ 		assertEquals(Long.toString(duration1), getFunctionValue("time", state));
+ 		System.out.println(duration1);
 		// wait one seconds
 		TimeUnit.SECONDS.sleep(1);
 		sim.run(1);
-		assertEquals("1", getFunctionValue("time", sim.getCurrentState()));
+		// 1 second more because of the sleep
+//		Instant after2Steps = Instant.now();
+//		long duration1 = Duration.between(after1Step, after2Steps).getSeconds();
+		assertEquals(Long.toString(duration1+1), getFunctionValue("time", sim.getCurrentState()));
 	}
 
 	@Test
@@ -95,6 +103,7 @@ public class TimeTest extends BaseTest {
 		// System.out.println( t1 + "*** " + t2);
 	}
 
+	
 	@Test
 	public void test_mix2_jt() throws Exception {
 		// 2 monitored variables
@@ -110,7 +119,7 @@ public class TimeTest extends BaseTest {
 		TimeUnit.MILLISECONDS.sleep(2100);
 		sim.run(2);
 		t1 = getFunctionValue("timeS", state);
-		t2 = getFunctionValue("timeMS", state);
+		t2 = getFunctionValue("timeMS", state); // AG 20.6.25 it may fail and be undef????
 		assertEquals(Double.parseDouble(t1), Double.parseDouble(t2) / 1000, 10);
 		assertTrue(Integer.parseInt(t2) > 2100);
 	}

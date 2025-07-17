@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.nio.file.Path;
 
-import org.asmeta.annotations.TestToMavenSkip;
 import org.asmeta.parser.ASMParser;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -34,7 +33,7 @@ public class GeneratorCompilerTestInProject {
 	 * Path to a java project containing the translations of the example asmeta
 	 * specs (../asmetal2java_examples/src)
 	 */
-	private static final Path SRC_GEN_path = Path.of("..", "asmetal2java_examples", "src");
+	private static final Path SRC_GEN_path = Path.of("..", "asmeta.asmetal2java.examples", "src");
 
 	/**
 	 * formatter = true, shuffleRandom = true, optimizeSeqRule = true
@@ -63,7 +62,6 @@ public class GeneratorCompilerTestInProject {
 	// -------------------------------------------------------------------------------------------------------------------------------------------------
 
 	@Test
-	@Category(TestToMavenSkip.class)
 	public void testBasicDomain() throws Exception {
 		String asmspec = dirExamples.resolve("RegistroDiCassa.asm").toString();
 		if (!GeneratorCompilerUtil.genandcompile(asmspec, options, SRC_GEN_path, null).getSuccess())
@@ -71,7 +69,6 @@ public class GeneratorCompilerTestInProject {
 	}
 
 	@Test
-	@Category(TestToMavenSkip.class)
 	public void testDado() throws Exception {
 		String asmspec = dirExamples.resolve("dado.asm").toString();
 		if (!GeneratorCompilerUtil.genandcompile(asmspec, options, SRC_GEN_path, null).getSuccess())
@@ -79,7 +76,6 @@ public class GeneratorCompilerTestInProject {
 	}
 
 	@Test
-	@Category(TestToMavenSkip.class)
 	public void testConcreteDom2Init() throws Exception {
 		String asmspec = dirExamples.resolve("ConcreteDom2Init.asm").toString();
 		CompileResult test = GeneratorCompilerUtil.genandcompile(asmspec, options, SRC_GEN_path, null);
@@ -279,7 +275,6 @@ public class GeneratorCompilerTestInProject {
 	 */
 
 	@Test
-	@Category(TestToMavenSkip.class)
 	public void testAll() throws Exception {
 
 		System.out.println("Testing the translation on all the examples (without compiling):");

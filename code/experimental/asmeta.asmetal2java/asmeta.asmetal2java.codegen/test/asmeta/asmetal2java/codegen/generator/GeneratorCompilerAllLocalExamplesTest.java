@@ -5,6 +5,7 @@ import static org.junit.Assert.fail;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
@@ -85,9 +86,9 @@ public class GeneratorCompilerAllLocalExamplesTest {
 		assertTrue(failures.size() + ": " + failures.toString(), failures.isEmpty());
 	}
 
-	//@Test
+	@Test
 	public void testSingleExamplewithproblems() throws Exception {
-		String fileName = "examples\\ATM3.asm";
+		String fileName = Paths.get("examples", "ATM3.asm").toString();
 		CompileResult genandcompile = GeneratorCompilerUtil.genandcompile(fileName , options,
 				GeneratorCompilerUtil.dirTraduzione, GeneratorCompilerUtil.dirCompilazione);
 		System.out.println(genandcompile);
@@ -95,7 +96,7 @@ public class GeneratorCompilerAllLocalExamplesTest {
 
 	@Test
 	public void testSingleExamplewithproblems2() throws Exception {
-		String fileName = "examples\\QuickSort.asm";
+		String fileName = Paths.get("examples", "QuickSort.asm").toString();
 		CompileResult genandcompile = GeneratorCompilerUtil.genandcompile(fileName , options,
 				GeneratorCompilerUtil.dirTraduzione, GeneratorCompilerUtil.dirCompilazione);
 		System.out.println(genandcompile);

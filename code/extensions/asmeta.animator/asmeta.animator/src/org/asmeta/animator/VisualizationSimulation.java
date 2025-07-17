@@ -73,6 +73,9 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 	static final String CONTROLLED = "C";
 	static final String MONITORED = "M";
 	static final String RANDOM = "R";
+	
+	// allow undef when reading monitored variables
+	public static boolean allowUndefValuesMonitored;
 
 	Display display = Display.getDefault();
 	final Shell shlAsmetaa = new Shell(display);
@@ -200,10 +203,20 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		btnInterStep.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
+				// disable this button and also random step
+				btnInterStep.setEnabled(false);
+				btnRndStep.setEnabled(false);
+				// set interactive
 				tg.setInteractive();
 				// System.out.println("INTERACTIVE SIMULATION");
 				MyState state = tg.runSimulation(false); // TODO: get initial state
-				showFunctionsInteractiveSimulation(state);
+				// if it is not closed meanwhile
+				if (!shlAsmetaa.isDisposed()) {
+					showFunctionsInteractiveSimulation(state);
+					// enable again
+					btnInterStep.setEnabled(true);
+					btnRndStep.setEnabled(true);
+				}
 			}
 		});
 
@@ -300,7 +313,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		lblInvariant.setFont(PREFERRED_FONT);
 		lblInvariant.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		lblInvariant.setLayoutData(new GridData(SWT.FILL, SWT.NONE, true, false, 1, 1));
-		lblInvariant.setText("Inviariant violation / exceptions");
+		lblInvariant.setText("Inviriant violation / exceptions");
 		textInvError = new Text(composite, SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL);
 		textInvError.setFont(PREFERRED_FONT);
 		textInvError.setEditable(false);
@@ -947,7 +960,8 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 
 	@Override
 	public void setInvalidIvariantText(String s) {
-		textInvError.setText(s == null ? "null" : s);
+		if (!textInvError.isDisposed())
+			textInvError.setText(s == null ? "null" : s);
 	}
 
 	@Override

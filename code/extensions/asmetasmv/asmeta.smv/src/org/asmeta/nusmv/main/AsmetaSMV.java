@@ -41,7 +41,7 @@ public class AsmetaSMV {
 	// CTL: classical model checking - it does not complete the next step
 	public enum ModelCheckerMode {LTLandBMC, LTLFMC, CTL}
 	
-	public static ModelCheckerMode modelCheckerMode = ModelCheckerMode.LTLandBMC;
+	public static ModelCheckerMode modelCheckerMode = ModelCheckerMode.CTL;
 
 
 	public static int BMCLength = -1;
