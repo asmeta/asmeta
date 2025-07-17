@@ -13,13 +13,11 @@ import asmeta.definitions.domains.EnumElement;
 import asmeta.definitions.domains.EnumTd;
 import asmeta.definitions.domains.util.DomainsSwitch;
 
-public class DialogGenerator extends DomainsSwitch<MyDialog>{
+public class DialogGenerator extends DomainsSwitch<AskMonDialog>{
 	
 	private Shell shell;
 	private String locationName;
 	private String domainInfo;
-
-
 
 	public DialogGenerator(Shell s, String domainInfo, String location){
 		shell = s;
@@ -28,17 +26,17 @@ public class DialogGenerator extends DomainsSwitch<MyDialog>{
 	}
 
 	@Override
-	public MyDialog caseEnumTd(EnumTd dom) {
+	public AskMonDialog caseEnumTd(EnumTd dom) {
 		ArrayList<String> enumValues = extractEnumValues(dom.getElement());
-		MyDialogEnumInsert dialog = new MyDialogEnumInsert(shell,enumValues);
-		dialog.setMessage(" Insert a " + domainInfo + " for " + locationName + ":");
+		String msg = " Insert a " + domainInfo + " for " + locationName + ":";
+		AskMonDialogEnum dialog = new AskMonDialogEnum(shell,enumValues,msg);
 		return dialog;
 	}
 	 
 	@Override
-	public MyDialog caseBooleanDomain(BooleanDomain object) {
-		MyDialogBooleanInsert dialog = new MyDialogBooleanInsert(shell);
-		dialog.setMessage(" Insert a " + domainInfo + " for " + locationName + ":");
+	public AskMonDialog caseBooleanDomain(BooleanDomain object) {
+		String msg = " Insert a " + domainInfo + " for " + locationName + ":";
+		AskMonDialogBoolean dialog = new AskMonDialogBoolean(shell,msg);
 		return dialog;
 	}
 	
@@ -54,11 +52,11 @@ public class DialogGenerator extends DomainsSwitch<MyDialog>{
 	}
 	
 	@Override
-	public MyDialog doSwitch(EObject eObject) {
-		MyDialog result = super.doSwitch(eObject);
+	public AskMonDialog doSwitch(EObject eObject) {
+		AskMonDialog result = super.doSwitch(eObject);
 		if (result == null) {
-			MyDialogInsert dialog = new MyDialogInsert(shell);
-			dialog.setMessage(" Insert a " + domainInfo + " for " + locationName + ":");
+			String msg = " Insert a " + domainInfo + " for " + locationName + ":";
+			AskMonDialogGeneric dialog = new AskMonDialogGeneric(shell, msg);
 			return dialog;
 		}
 		return result;
