@@ -63,7 +63,7 @@ public abstract class RunAction implements IWorkbenchWindowActionDelegate {
 
 	/**
 	 * 
-	 * @return the preference store - it sets also all the prferences
+	 * @return the preference store - it sets also all the preferences
 	 */
 	static public IPreferenceStore setSimulationPrecerences() {
 		// get the preferences
@@ -73,19 +73,19 @@ public abstract class RunAction implements IWorkbenchWindowActionDelegate {
 		Environment.timeMngt = TimeMngt.valueOf(store.getString(PreferenceConstants.P_TIME_MNGT));
 		String timeunit = store.getString(PreferenceConstants.P_TIME_UNIT);
 		switch(timeunit) {
-		case PreferenceConstants.AUTO : Environment.currentTimeUnit = null; break;
-		case PreferenceConstants.MILLIS_STRING : Environment.currentTimeUnit = ChronoUnit.MILLIS; break;
-		case PreferenceConstants.SECONDS_STRING: Environment.currentTimeUnit = ChronoUnit.SECONDS; break;
-		case PreferenceConstants.MINUTES_STRING: Environment.currentTimeUnit = ChronoUnit.MINUTES; break;
-		case PreferenceConstants.HOUR_STRING: Environment.currentTimeUnit = ChronoUnit.HOURS; break;
+			case PreferenceConstants.AUTO : Environment.currentTimeUnit = null; break;
+			case PreferenceConstants.MILLIS_STRING : Environment.currentTimeUnit = ChronoUnit.MILLIS; break;
+			case PreferenceConstants.SECONDS_STRING: Environment.currentTimeUnit = ChronoUnit.SECONDS; break;
+			case PreferenceConstants.MINUTES_STRING: Environment.currentTimeUnit = ChronoUnit.MINUTES; break;
+			case PreferenceConstants.HOUR_STRING: Environment.currentTimeUnit = ChronoUnit.HOURS; break;
 			//MILLISECONDS"Environment.currentTimeUnit = TimeUnit.MILLISECONDS;
-		default: throw new RuntimeException();
+			default: throw new RuntimeException();
 		}
 		Environment.auto_increment_delta = store.getInt(PreferenceConstants.P_AUTO_DELTA);
-		
 		Simulator.checkInvariants = InvariantTreament.valueOf(store.getString(PreferenceConstants.P_CHECK_AXIOMS));
 		RunJob.stopSimulationIfUpdateSetEmpty = store.getBoolean(PreferenceConstants.P_STOP_UPDATESET_EMPTY);
 		RunJob.stopSimulationIfUpdateSetTrivial = store.getBoolean(PreferenceConstants.P_STOP_UPDATESET_TRIVIAL);
+		RunJob.allowUndefValuesMonitored = store.getBoolean(PreferenceConstants.P_ALLOW_UNDEF_MON);
 		return store;
 	}
 

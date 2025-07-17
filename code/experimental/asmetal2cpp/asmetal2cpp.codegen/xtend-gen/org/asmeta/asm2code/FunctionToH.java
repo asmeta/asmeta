@@ -43,55 +43,24 @@ public class FunctionToH extends ReflectiveVisitor<String> {
       Domain _codomain = object.getCodomain();
       if ((_codomain instanceof AbstractTd)) {
         StringConcatenation _builder = new StringConcatenation();
-        _builder.append("static ");
-        String _returnDomain = this.returnDomain(object.getCodomain(), true);
-        _builder.append(_returnDomain);
-        _builder.append(" ");
-        String _name = object.getName();
-        _builder.append(_name);
-        _builder.append(";");
-        _builder.newLineIfNotEmpty();
+        _builder.append("static ï¿½returnDomain(object.codomain,true)ï¿½ ï¿½object.nameï¿½;");
+        _builder.newLine();
         function.append(_builder);
       } else {
         StringConcatenation _builder_1 = new StringConcatenation();
-        _builder_1.append("static ");
-        String _returnDomain_1 = this.returnDomain(object.getCodomain(), false);
-        _builder_1.append(_returnDomain_1);
-        _builder_1.append(" ");
-        String _name_1 = object.getName();
-        _builder_1.append(_name_1);
-        _builder_1.append("();");
-        _builder_1.newLineIfNotEmpty();
+        _builder_1.append("static ï¿½returnDomain(object.codomain,false)ï¿½ ï¿½object.nameï¿½();");
+        _builder_1.newLine();
         function.append(_builder_1);
       }
     } else {
       Domain _domain_1 = object.getDomain();
       if ((_domain_1 instanceof ProductDomain)) {
         StringConcatenation _builder_2 = new StringConcatenation();
-        _builder_2.append("static ");
-        String _returnDomain_2 = this.returnDomain(object.getCodomain(), false);
-        _builder_2.append(_returnDomain_2);
-        _builder_2.append(" ");
-        String _name_2 = object.getName();
-        _builder_2.append(_name_2);
-        _builder_2.append(" (");
-        Domain _domain_2 = object.getDomain();
-        String _adaptProdDomain = this.adaptProdDomain(((ProductDomain) _domain_2), object.getName(), true);
-        _builder_2.append(_adaptProdDomain);
-        _builder_2.append(");");
+        _builder_2.append("static ï¿½returnDomain(object.codomain,false)ï¿½ ï¿½object.nameï¿½ (ï¿½adaptProdDomain(object.domain as ProductDomain, object.name, true)ï¿½);");
         function.append(_builder_2);
       } else {
         StringConcatenation _builder_3 = new StringConcatenation();
-        _builder_3.append("static ");
-        String _returnDomain_3 = this.returnDomain(object.getCodomain(), false);
-        _builder_3.append(_returnDomain_3);
-        _builder_3.append(" ");
-        String _name_3 = object.getName();
-        _builder_3.append(_name_3);
-        _builder_3.append(" (");
-        String _returnParamDefinition = this.returnParamDefinition(object.getDomain(), object.getName(), true);
-        _builder_3.append(_returnParamDefinition);
-        _builder_3.append(");");
+        _builder_3.append("static ï¿½returnDomain(object.codomain,false)ï¿½ ï¿½object.nameï¿½ (ï¿½returnParamDefinition(object.domain, object.name,true)ï¿½);");
         function.append(_builder_3);
       }
     }
@@ -102,13 +71,7 @@ public class FunctionToH extends ReflectiveVisitor<String> {
     int countparameters = 0;
     StringBuffer sb = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
-    String _visit = new ToString(this.res, pointer).visit(domain);
-    _builder.append(_visit);
-    _builder.append(" param");
-    _builder.append(countparameters);
-    _builder.append("_");
-    _builder.append(name);
-    _builder.append(", ");
+    _builder.append("ï¿½new ToString(res,pointer).visit(domain)ï¿½ paramï¿½countparametersï¿½_ï¿½nameï¿½, ");
     sb.append(_builder);
     countparameters++;
     String _string = sb.toString();
@@ -124,13 +87,7 @@ public class FunctionToH extends ReflectiveVisitor<String> {
     for (int i = 0; (i < domain.getDomains().size()); i++) {
       {
         StringConcatenation _builder = new StringConcatenation();
-        String _visit = new ToString(this.res, pointer).visit(domain.getDomains().get(i));
-        _builder.append(_visit);
-        _builder.append(" param");
-        _builder.append(countparameters);
-        _builder.append("_");
-        _builder.append(name);
-        _builder.append(", ");
+        _builder.append("ï¿½new ToString(res,pointer).visit(domain.domains.get(i))ï¿½ paramï¿½countparametersï¿½_ï¿½nameï¿½, ");
         paramDef.append(_builder);
         countparameters++;
       }
@@ -144,9 +101,9 @@ public class FunctionToH extends ReflectiveVisitor<String> {
    * def String returnDomain(Domain domain) {
    * 	var sb = new StringBuffer;
    * 	if (domain instanceof StructuredTd || domain instanceof StructuredTdImpl)
-   * 		sb.append('''«new DomainToH(res,true).visit(domain)»''')
+   * 		sb.append('''ï¿½new DomainToH(res,true).visit(domain)ï¿½''')
    * 	else
-   * 		sb.append('''«new ToString(res).visit(domain)»''')
+   * 		sb.append('''ï¿½new ToString(res).visit(domain)ï¿½''')
    * 	return sb.toString
    * }
    */
@@ -154,13 +111,11 @@ public class FunctionToH extends ReflectiveVisitor<String> {
     StringBuffer sb = new StringBuffer();
     if (((domain instanceof StructuredTd) || (domain instanceof StructuredTdImpl))) {
       StringConcatenation _builder = new StringConcatenation();
-      String _visit = new DomainToH(this.res, pointer).visit(domain);
-      _builder.append(_visit);
+      _builder.append("ï¿½new DomainToH(res,pointer).visit(domain)ï¿½");
       sb.append(_builder);
     } else {
       StringConcatenation _builder_1 = new StringConcatenation();
-      String _visit_1 = new ToString(this.res, pointer).visit(domain);
-      _builder_1.append(_visit_1);
+      _builder_1.append("ï¿½new ToString(res,pointer).visit(domain)ï¿½");
       sb.append(_builder_1);
     }
     return sb.toString();
@@ -174,36 +129,17 @@ public class FunctionToH extends ReflectiveVisitor<String> {
       Domain _codomain = object.getCodomain();
       if ((_codomain instanceof AbstractTd)) {
         StringConcatenation _builder = new StringConcatenation();
-        String _returnDomain = this.returnDomain(object.getCodomain(), true);
-        _builder.append(_returnDomain);
-        _builder.append(" ");
-        String _name = object.getName();
-        _builder.append(_name);
-        _builder.append("[2];");
+        _builder.append("ï¿½returnDomain(object.codomain,true)ï¿½ ï¿½object.nameï¿½[2];");
         function.append(_builder);
       } else {
         StringConcatenation _builder_1 = new StringConcatenation();
-        String _returnDomain_1 = this.returnDomain(object.getCodomain(), false);
-        _builder_1.append(_returnDomain_1);
-        _builder_1.append(" ");
-        String _name_1 = object.getName();
-        _builder_1.append(_name_1);
-        _builder_1.append("[2];");
+        _builder_1.append("ï¿½returnDomain(object.codomain,false)ï¿½ ï¿½object.nameï¿½[2];");
         function.append(_builder_1);
       }
     } else {
       if (((!(object.getDomain() instanceof ConcreteDomain)) || this.options.useMaps)) {
         StringConcatenation _builder_2 = new StringConcatenation();
-        _builder_2.append("map<");
-        String _returnDomain_2 = this.returnDomain(object.getDomain(), true);
-        _builder_2.append(_returnDomain_2);
-        _builder_2.append(", ");
-        String _returnDomain_3 = this.returnDomain(object.getCodomain(), true);
-        _builder_2.append(_returnDomain_3);
-        _builder_2.append("> ");
-        String _name_2 = object.getName();
-        _builder_2.append(_name_2);
-        _builder_2.append("[2];");
+        _builder_2.append("map<ï¿½returnDomain(object.domain,true)ï¿½, ï¿½returnDomain(object.codomain,true)ï¿½> ï¿½object.nameï¿½[2];");
         String _plus = (this.options.stdNamespacePrefix + _builder_2);
         function.append(_plus);
       } else {
@@ -212,15 +148,7 @@ public class FunctionToH extends ReflectiveVisitor<String> {
         Term _body = domain.getDefinition().getBody();
         SetTerm t = ((SetTerm) _body);
         StringConcatenation _builder_3 = new StringConcatenation();
-        String _returnDomain_4 = this.returnDomain(object.getCodomain(), false);
-        _builder_3.append(_returnDomain_4);
-        _builder_3.append(" ");
-        String _name_3 = object.getName();
-        _builder_3.append(_name_3);
-        _builder_3.append("[2][");
-        Integer _size = t.getSize();
-        _builder_3.append(_size);
-        _builder_3.append("];");
+        _builder_3.append("ï¿½returnDomain(object.codomain,false)ï¿½ ï¿½object.nameï¿½[2][ï¿½t.sizeï¿½];");
         function.append(_builder_3);
       }
     }
@@ -233,20 +161,20 @@ public class FunctionToH extends ReflectiveVisitor<String> {
    * 
    * if (object.domain === null) { // 0-ary function
    * if (object.codomain instanceof AbstractTd)
-   * function.append('''«returnDomain(object.codomain,true)» «object.name»[2];''')
+   * function.append('''ï¿½returnDomain(object.codomain,true)ï¿½ ï¿½object.nameï¿½[2];''')
    * else
-   * function.append('''«returnDomain(object.codomain,false)» «object.name»[2];''')
+   * function.append('''ï¿½returnDomain(object.codomain,false)ï¿½ ï¿½object.nameï¿½[2];''')
    * } else {
    * function.
-   * append('''map<«returnDomain(object.domain,true)», «returnDomain(object.codomain,true)»> «object.name»[2];''')
+   * append('''map<ï¿½returnDomain(object.domain,true)ï¿½, ï¿½returnDomain(object.codomain,true)ï¿½> ï¿½object.nameï¿½[2];''')
    * }
    * 		if (object.arity<= 1) { // only 1 parameter
    * 			function.
-   * 				append('''map<«returnDomain(object.domain)», «returnDomain(object.codomain)»> «object.name»[2];''')
+   * 				append('''map<ï¿½returnDomain(object.domain)ï¿½, ï¿½returnDomain(object.codomain)ï¿½> ï¿½object.nameï¿½[2];''')
    * 		} else // multiple parameter
-   * 			//function.append('''map<boost::tuple<«returnDomain(object.domain)»>, «returnDomain(object.codomain)»> «object.name»[2];''')
+   * 			//function.append('''map<boost::tuple<ï¿½returnDomain(object.domain)ï¿½>, ï¿½returnDomain(object.codomain)ï¿½> ï¿½object.nameï¿½[2];''')
    * 			function.
-   * 				append('''map<«returnDomain(object.domain)», «returnDomain(object.codomain)»> «object.name»[2];''')
+   * 				append('''map<ï¿½returnDomain(object.domain)ï¿½, ï¿½returnDomain(object.codomain)ï¿½> ï¿½object.nameï¿½[2];''')
    * 
    * }
    * return function.toString
@@ -260,36 +188,17 @@ public class FunctionToH extends ReflectiveVisitor<String> {
       Domain _codomain = object.getCodomain();
       if ((_codomain instanceof AbstractTd)) {
         StringConcatenation _builder = new StringConcatenation();
-        String _returnDomain = this.returnDomain(object.getCodomain(), true);
-        _builder.append(_returnDomain);
-        _builder.append(" ");
-        String _name = object.getName();
-        _builder.append(_name);
-        _builder.append(";");
+        _builder.append("ï¿½returnDomain(object.codomain,true)ï¿½ ï¿½object.nameï¿½;");
         function.append(_builder);
       } else {
         StringConcatenation _builder_1 = new StringConcatenation();
-        String _returnDomain_1 = this.returnDomain(object.getCodomain(), false);
-        _builder_1.append(_returnDomain_1);
-        _builder_1.append(" ");
-        String _name_1 = object.getName();
-        _builder_1.append(_name_1);
-        _builder_1.append(";");
+        _builder_1.append("ï¿½returnDomain(object.codomain,false)ï¿½ ï¿½object.nameï¿½;");
         function.append(_builder_1);
       }
     } else {
       if (((!(object.getDomain() instanceof ConcreteDomain)) || this.options.useMaps)) {
         StringConcatenation _builder_2 = new StringConcatenation();
-        _builder_2.append("map<");
-        String _returnDomain_2 = this.returnDomain(object.getDomain(), true);
-        _builder_2.append(_returnDomain_2);
-        _builder_2.append(", ");
-        String _returnDomain_3 = this.returnDomain(object.getCodomain(), true);
-        _builder_2.append(_returnDomain_3);
-        _builder_2.append("> ");
-        String _name_2 = object.getName();
-        _builder_2.append(_name_2);
-        _builder_2.append(";");
+        _builder_2.append("map<ï¿½returnDomain(object.domain,true)ï¿½, ï¿½returnDomain(object.codomain,true)ï¿½> ï¿½object.nameï¿½;");
         String _plus = (this.options.stdNamespacePrefix + _builder_2);
         function.append(_plus);
       } else {
@@ -298,15 +207,7 @@ public class FunctionToH extends ReflectiveVisitor<String> {
         Term _body = domain.getDefinition().getBody();
         SetTerm t = ((SetTerm) _body);
         StringConcatenation _builder_3 = new StringConcatenation();
-        String _returnDomain_4 = this.returnDomain(object.getCodomain(), false);
-        _builder_3.append(_returnDomain_4);
-        _builder_3.append(" ");
-        String _name_3 = object.getName();
-        _builder_3.append(_name_3);
-        _builder_3.append("[");
-        Integer _size = t.getSize();
-        _builder_3.append(_size);
-        _builder_3.append("];");
+        _builder_3.append("ï¿½returnDomain(object.codomain,false)ï¿½ ï¿½object.nameï¿½[ï¿½t.sizeï¿½];");
         function.append(_builder_3);
       }
     }
@@ -321,36 +222,17 @@ public class FunctionToH extends ReflectiveVisitor<String> {
       Domain _codomain = object.getCodomain();
       if ((_codomain instanceof AbstractTd)) {
         StringConcatenation _builder = new StringConcatenation();
-        String _returnDomain = this.returnDomain(object.getCodomain(), true);
-        _builder.append(_returnDomain);
-        _builder.append(" ");
-        String _name = object.getName();
-        _builder.append(_name);
-        _builder.append(";");
+        _builder.append("ï¿½returnDomain(object.codomain,true)ï¿½ ï¿½object.nameï¿½;");
         function.append(_builder);
       } else {
         StringConcatenation _builder_1 = new StringConcatenation();
-        String _returnDomain_1 = this.returnDomain(object.getCodomain(), false);
-        _builder_1.append(_returnDomain_1);
-        _builder_1.append(" ");
-        String _name_1 = object.getName();
-        _builder_1.append(_name_1);
-        _builder_1.append(";");
+        _builder_1.append("ï¿½returnDomain(object.codomain,false)ï¿½ ï¿½object.nameï¿½;");
         function.append(_builder_1);
       }
     } else {
       if (this.options.useMaps) {
         StringConcatenation _builder_2 = new StringConcatenation();
-        _builder_2.append("map<");
-        String _returnDomain_2 = this.returnDomain(object.getDomain(), true);
-        _builder_2.append(_returnDomain_2);
-        _builder_2.append(", ");
-        String _returnDomain_3 = this.returnDomain(object.getCodomain(), true);
-        _builder_2.append(_returnDomain_3);
-        _builder_2.append("> ");
-        String _name_2 = object.getName();
-        _builder_2.append(_name_2);
-        _builder_2.append(";");
+        _builder_2.append("map<ï¿½returnDomain(object.domain,true)ï¿½, ï¿½returnDomain(object.codomain,true)ï¿½> ï¿½object.nameï¿½;");
         String _plus = (this.options.stdNamespacePrefix + _builder_2);
         function.append(_plus);
       } else {
@@ -359,15 +241,7 @@ public class FunctionToH extends ReflectiveVisitor<String> {
         Term _body = domain.getDefinition().getBody();
         SetTerm t = ((SetTerm) _body);
         StringConcatenation _builder_3 = new StringConcatenation();
-        String _returnDomain_4 = this.returnDomain(object.getCodomain(), false);
-        _builder_3.append(_returnDomain_4);
-        _builder_3.append(" ");
-        String _name_3 = object.getName();
-        _builder_3.append(_name_3);
-        _builder_3.append("[");
-        Integer _size = t.getSize();
-        _builder_3.append(_size);
-        _builder_3.append("];");
+        _builder_3.append("ï¿½returnDomain(object.codomain,false)ï¿½ ï¿½object.nameï¿½[ï¿½t.sizeï¿½];");
         function.append(_builder_3);
       }
     }
@@ -382,51 +256,24 @@ public class FunctionToH extends ReflectiveVisitor<String> {
       Domain _codomain = object.getCodomain();
       if ((_codomain instanceof AbstractTd)) {
         StringConcatenation _builder = new StringConcatenation();
-        String _returnDomain = this.returnDomain(object.getCodomain(), true);
-        _builder.append(_returnDomain);
-        _builder.append(" ");
-        String _name = object.getName();
-        _builder.append(_name);
-        _builder.append(";");
-        _builder.newLineIfNotEmpty();
+        _builder.append("ï¿½returnDomain(object.codomain,true)ï¿½ ï¿½object.nameï¿½;");
+        _builder.newLine();
         function.append(_builder);
       } else {
         StringConcatenation _builder_1 = new StringConcatenation();
-        String _returnDomain_1 = this.returnDomain(object.getCodomain(), false);
-        _builder_1.append(_returnDomain_1);
-        _builder_1.append(" ");
-        String _name_1 = object.getName();
-        _builder_1.append(_name_1);
-        _builder_1.append("();");
-        _builder_1.newLineIfNotEmpty();
+        _builder_1.append("ï¿½returnDomain(object.codomain,false)ï¿½ ï¿½object.nameï¿½();");
+        _builder_1.newLine();
         function.append(_builder_1);
       }
     } else {
       Domain _domain_1 = object.getDomain();
       if ((_domain_1 instanceof ProductDomain)) {
         StringConcatenation _builder_2 = new StringConcatenation();
-        String _returnDomain_2 = this.returnDomain(object.getCodomain(), true);
-        _builder_2.append(_returnDomain_2);
-        _builder_2.append(" ");
-        String _name_2 = object.getName();
-        _builder_2.append(_name_2);
-        _builder_2.append(" (");
-        Domain _domain_2 = object.getDomain();
-        String _adaptProdDomain = this.adaptProdDomain(((ProductDomain) _domain_2), object.getName(), true);
-        _builder_2.append(_adaptProdDomain);
-        _builder_2.append(");");
+        _builder_2.append("ï¿½returnDomain(object.codomain,true)ï¿½ ï¿½object.nameï¿½ (ï¿½adaptProdDomain(object.domain as ProductDomain, object.name,true)ï¿½);");
         function.append(_builder_2);
       } else {
         StringConcatenation _builder_3 = new StringConcatenation();
-        String _returnDomain_3 = this.returnDomain(object.getCodomain(), true);
-        _builder_3.append(_returnDomain_3);
-        _builder_3.append(" ");
-        String _name_3 = object.getName();
-        _builder_3.append(_name_3);
-        _builder_3.append(" (");
-        String _returnParamDefinition = this.returnParamDefinition(object.getDomain(), object.getName(), true);
-        _builder_3.append(_returnParamDefinition);
-        _builder_3.append(");");
+        _builder_3.append("ï¿½returnDomain(object.codomain,true)ï¿½ ï¿½object.nameï¿½ (ï¿½returnParamDefinition(object.domain, object.name,true)ï¿½);");
         function.append(_builder_3);
       }
     }
