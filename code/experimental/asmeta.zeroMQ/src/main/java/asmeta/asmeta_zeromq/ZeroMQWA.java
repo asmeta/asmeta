@@ -25,8 +25,9 @@ import org.zeromq.ZMQ;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-public class ZeroMQWA {
+public class ZeroMQWA implements Runnable{
 
+	
     // Add a static logger instance
     private static final Logger logger = LogManager.getLogger(ZeroMQWA.class);
 
@@ -264,7 +265,7 @@ public class ZeroMQWA {
         }
     }
 
-    
+    @Override 
     public void run() {
         while (this.asmId == 0) {
             logger.info("Waiting for ASM ID to be set...");
@@ -293,7 +294,7 @@ public class ZeroMQWA {
 
                 // Start Loop
                 while ( true ) {
-                    // Wait for 3 seconds before processing the next step
+					// Wait for 3 seconds before processing the next step
                     Thread.sleep(3000);
 
                     // 1. Handle listen section
@@ -340,6 +341,5 @@ public class ZeroMQWA {
             logger.info("zeroMQW run method finished for {}.", CONFIG_FILE_PATH);
         }
     }
-
     
 }

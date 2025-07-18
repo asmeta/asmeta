@@ -1,17 +1,25 @@
 package asmeta.asmeta_zeromq;
 
-import org.junit.Test;
 
 public class TestComposition {
-
-	@Test
-	public void testProdCons() throws Exception {
+	
+	public static void main(String[] args) {
+		
 		ZeroMQWA producer = new ZeroMQWA("/producerconsumer/zmq_config_producer.properties");
-		producer.run();
+		Thread thread1 = new Thread(producer);
+		
 		ZeroMQWA consumer = new ZeroMQWA("/producerconsumer/zmq_config_consumer.properties");
-		consumer.run();
+		Thread thread2 = new Thread(consumer);
+		
 		EnvironmentZMQ env = new EnvironmentZMQ("producerconsumer/zmq_config_environment.properties");
-		env.startExecution();
+		Thread thread3 = new Thread(env);
+		
+		
+		thread1.start();
+		thread2.start();
+		thread3.start();
 	}
+	
+
 
 }

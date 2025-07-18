@@ -15,7 +15,7 @@ import com.google.gson.Gson;
 
 import asmeta.asmeta_zeromq.producerconsumer.environment;
 
-public class EnvironmentZMQ {
+public class EnvironmentZMQ implements Runnable{
 	
 	   private final static Gson gson = new Gson();
 
@@ -68,7 +68,8 @@ public class EnvironmentZMQ {
 
 	}
 	
-	public void startExecution() {
+	 @Override 
+	public void run() {
 		loadFromProperties();
         try (ZContext context = new ZContext()) {
             // Create & bind the single PUB socket
