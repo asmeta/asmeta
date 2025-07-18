@@ -69,7 +69,7 @@ public class EnvironmentZMQ {
 	}
 	
 	public void startExecution() {
-		
+		loadFromProperties();
         try (ZContext context = new ZContext()) {
             // Create & bind the single PUB socket
             ZMQ.Socket pub = context.createSocket(SocketType.PUB);
