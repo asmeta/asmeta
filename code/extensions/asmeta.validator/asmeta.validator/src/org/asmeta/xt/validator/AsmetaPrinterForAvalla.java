@@ -4,9 +4,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -95,10 +97,12 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 	@Override
 	public void visit(Asm asm) {
 		// add a comment - careful, since the "u" cannot be escaped even in the
-		// comments,
-		// if there is a directory staring with it gets an error
-		String filename = asmPath.normalize().toUri().toString();
-		println("// translation of the asm (for avalla) " + filename);
+		// comments, if there is a directory staring with it gets an error
+		// let's use only ASCII chars
+		String filename = asmPath.normalize().toUri().toASCIIString();
+		// use multi line comments
+		println("/* translation of the asm (for avalla) " + filename);
+		println("   created on " + new Date().toLocaleString() + "*/");
 		super.visit(asm);
 	}
 
