@@ -225,7 +225,6 @@ public class ZeroMQWA implements Runnable {
 				logger.debug("Received message on SUB socket #{}: {}", i, message);
 				System.out.println("Received message on SUB socket #" + i + ": " + message);
 				try {
-					//TODO: cos'è mapStringStringType?
 					Map<String, String> receivedData = gson.fromJson(message, mapStringStringType);
 					if (receivedData != null) {
 						currentMonitoredValues.putAll(receivedData);
@@ -246,10 +245,6 @@ public class ZeroMQWA implements Runnable {
 	private void handlePublisherMessages(RunOutput output) {
 		Map<String, Object> response = new HashMap<>();
 		response.putAll(output.getOutvalues());
-		//TODO: cos'è questo?!?!?!?!?!? DA TOGLIERE ASSOLUTAMENTE!!!
-		if (response.get("ventilatorType") != null) {
-			response.put("ventilatorType", "Volume");
-		}
 		response.put("asm_status", output.getEsit().toString());
 		String jsonResponse = gson.toJson(response);
 		logger.info("Publishing output: {}", jsonResponse);
