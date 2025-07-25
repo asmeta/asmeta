@@ -52,7 +52,7 @@ public class environment {
         }
 
         // 4) Load pause interval
-        int pause = Integer.parseInt(props.getProperty("pause", "1000"));
+        int pause = Integer.parseInt(props.getProperty("pause", "3000"));
         
         try (ZContext context = new ZContext()) {
             // Create & bind the single PUB socket
@@ -84,11 +84,13 @@ public class environment {
                 if (i == 1) {
                     // pub.sendMore("Client");
                     
+                	
                     Map test = new HashMap<>();
                     test.put("message", "input");
                     test.put("ventilatorType", "Volume");
-                    test.put("value", "20");
-                    test.put("unit", "mmHg");
+                    test.put("value", "300");
+                    test.put("unit", "mL/s");
+                    
                     
                     pub.send("Client output " + gson.toJson(test));
                     System.out.println("Sent 100 to "  + address + " at topic Client" + gson.toJson(test));
@@ -96,12 +98,12 @@ public class environment {
                 }
                 if (i == 2) {
                     // pub.sendMore("Client");
-                    
+                	
                     Map test = new HashMap<>();
                     test.put("message", "input");
                     test.put("ventilatorType", "Volume");
-                    test.put("value", "20");
-                    test.put("unit", "mmHg");
+                    test.put("value", "0");
+                    test.put("unit", "mL/s");
                     
                     pub.send("Client output " + gson.toJson(test));
                     System.out.println("Sent 700 to "  + address + " at topic Client" + gson.toJson(test));
@@ -109,12 +111,12 @@ public class environment {
                 }
                 if (i == 3) {
                     // pub.sendMore("Client");
-                    
+                
                     Map test = new HashMap<String, String>();
                     test.put("message", "input");
                     test.put("ventilatorType", "Volume");
-                    test.put("value", "20");
-                    test.put("unit", "mmHg");
+                    test.put("value", "300");
+                    test.put("unit", "mL/s");
                     
                     System.out.println("Test map " + test);
                     pub.send("Client output " + gson.toJson(test));
