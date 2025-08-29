@@ -470,7 +470,14 @@ public class AsmetaSMVtestTranslate {
 	}
 
 
-	
+	@Test
+	public void testStudente_Aug25() {
+		AsmetaSMVOptions options = new AsmetaSMVOptions();
+		options.keepNuSMVfile = true;
+		//AsmetaSMVOptions.FLATTEN = false;
+		testOneSpec("examples/UseAnyDomain.asm", options);
+	}
+
 	
 	/*
 	 * @Test public void testUnibgProva() { assertTrue(testOneSpec(FILE_BASE_UNIBG +
