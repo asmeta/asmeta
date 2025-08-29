@@ -6,14 +6,13 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.util.concurrent.TimeUnit;
 
 import org.asmeta.nusmv.main.AsmetaSMV.ModelCheckerMode;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
 import org.junit.Test;
 
 //
-// example of call of asmetasmv with bounded model checking in a batch mode
+// example of call of asmetasmv with bounded model checking in a batch mode or interactively
 //
 public class AsmetaSMV_BMC {
 
