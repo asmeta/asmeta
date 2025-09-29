@@ -343,7 +343,7 @@ public class Simulator {
 		return runUntil(x -> false, ntimes, InvariantTreament.CHECK_STOP).updateSet;
 	}
 
-	class RunResult {
+	public class RunResult {
 		LocationSet currentstate;
 		UpdateSet updateSet;
 	}
@@ -374,7 +374,7 @@ public class Simulator {
 	// run until f becomes true
 	// throw exception only if check_stop
 	// f: stop condition
-	private RunResult runUntil(StopCondition stopCondition, int maxNTimes, InvariantTreament check) {
+	public RunResult runUntil(StopCondition stopCondition, int maxNTimes, InvariantTreament check) {
 		logger.debug("<Run>");
 		int step = 0;
 		UpdateSet updateSet = new UpdateSet();

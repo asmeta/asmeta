@@ -1,7 +1,8 @@
-package temp;
+package org.asmeta.dbc_composer;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.asmeta.dbc_composer.*;
 import org.asmeta.simulator.main.Simulator;
 import org.junit.Test;
 

@@ -1,9 +1,14 @@
-package org.asmeta.composition.parser;
+package org.asmeta.dbc_composer;
 
 import static org.junit.Assert.*;
 
 import java.io.StringReader;
 
+import org.asmeta.composition.parser.ASTSimplePipe;
+import org.asmeta.composition.parser.CompositionFormulaParser;
+import org.asmeta.composition.parser.Node;
+import org.asmeta.composition.parser.ParseException;
+import org.asmeta.composition.parser.SimpleNode;
 import org.junit.Test;
 
 public class CompositionFormulaParserTest {

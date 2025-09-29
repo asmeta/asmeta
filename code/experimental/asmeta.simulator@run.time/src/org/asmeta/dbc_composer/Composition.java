@@ -1,4 +1,4 @@
-package temp;
+package org.asmeta.dbc_composer;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -7,23 +7,30 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.Defs;
 import org.asmeta.runtime_simulator.SimulatorRT;
 import org.asmeta.simulator.Environment;
+import org.asmeta.simulator.InvalidInvariantException;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.State;
 import org.asmeta.simulator.UpdateSet;
 import org.asmeta.simulator.main.Simulator;
+import org.asmeta.simulator.main.Simulator.InvariantTreament;
 import org.asmeta.simulator.readers.InteractiveMFReader;
 import org.asmeta.simulator.readers.MonFuncReader;
 import org.asmeta.simulator.value.Value;
+import org.eclipse.emf.common.util.EList;
 
 import asmeta.AsmCollection;
+import asmeta.definitions.DynamicFunction;
+import asmeta.definitions.Function;
 import asmeta.structure.FunctionDefinition;
 
 public abstract class Composition {
 
 	//evalbis aggiunta per return multipli
 	abstract UpdateSet eval();
+	abstract UpdateSet eval(boolean dbc);
 
 	abstract void copyMonitored(UpdateSet update);
 }
@@ -118,6 +125,31 @@ class LeafAsm extends Composition {
 		UpdateSet up=s1.run(1);
 		return up;
 	}
+	
+	@Override
+	UpdateSet eval(boolean dbc) {
+		System.out.println("Running " + name);// + " current state" + s1.getCurrentState());
+		UpdateSet up = null;
+		if (dbc){
+		try {up=s1.run(1);}
+		//try {up=s1.runUntil(s1,1,InvariantTreament.CHECK_CONTINUE).updateSet;} TODO continue when invariant violation
+		catch(InvalidInvariantException  e) {
+			System.out.println(e.getInvariant());
+			EList<Function> constFunList = e.getInvariant().getConstrainedFunction();
+			System.out.println(e.getInvariant().getConstrainedFunction());
+			for (Function f: constFunList) {
+				if (Defs.isMonitored(f))
+					System.out.println("Precondition violation over " + f.getName()); //TODO: sollevare eccezioni specifiche per ogni caso
+				else if (Defs.isOut(f))
+					System.out.println("Postcondition violation over " + f.getName());
+				else
+					System.out.println("Invariant violation over " + f.getName());
+			}
+		}}
+		else
+			up=s1.run(1);
+		return up;
+	}
 
 	// copy from updateSet to s2
 	protected void copyMonitored(UpdateSet up) {
@@ -167,6 +199,7 @@ class PipeN extends NComposition {
 		super(asm);
 	}
 	
+	
 	@Override //probabilmente giusto
 	UpdateSet eval() {
 		UpdateSet up =c.get(0).eval();
@@ -180,6 +213,15 @@ class PipeN extends NComposition {
 		return up;
 	}
 	
+	/*UpdateSet eval(boolean dbc) {
+		if dbc
+		//check inv
+		else 
+		eval();
+		return eval();
+	}
+	*/
+	
 	@Override
 	public String toString() {
 		String string=c.get(0).toString();
@@ -190,11 +232,18 @@ class PipeN extends NComposition {
 		}
 		return string;
 	}
+
+
+	@Override
+	UpdateSet eval(boolean dbc) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }
 
 //<|>
-class BiPipeHalfDup extends BiComposition {
+ class BiPipeHalfDup extends BiComposition {
 
 	BiPipeHalfDup(Composition asm1, Composition asm2) throws Exception {
 		super(asm1, asm2);
@@ -217,6 +266,12 @@ class BiPipeHalfDup extends BiComposition {
 	@Override
 	public String toString() {
 		return c1.toString() + "<|>" + c2.toString();
+	}
+
+	@Override
+	UpdateSet eval(boolean dbc) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
 
@@ -265,6 +320,12 @@ class BiPipeFullDup extends BiComposition {
 	public String toString() {
 		return c1.toString() + "<||>" + c2.toString();
 	}
+
+	@Override
+	UpdateSet eval(boolean dbc) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }
 
@@ -311,5 +372,11 @@ class ParN extends NComposition{
 			stringa=stringa+"||"+c.get(i);
 		}
 		return stringa;
+	}
+
+	@Override
+	UpdateSet eval(boolean dbc) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
