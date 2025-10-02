@@ -19,6 +19,7 @@ import org.asmeta.simulator.wrapper.RuleFactory;
 
 import asmeta.AsmCollection;
 import asmeta.transitionrules.basictransitionrules.ConditionalRule;
+import asmeta.transitionrules.basictransitionrules.ForallRule;
 import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
 import asmeta.transitionrules.basictransitionrules.Rule;
 import asmeta.transitionrules.basictransitionrules.UpdateRule;
@@ -48,7 +49,7 @@ public class SimulatorWCov extends Simulator {
 	}
 
 	/**
-	 * Initialize the rule evalutor with the one that also computes the coverage
+	 * Initialize the rule evaluator with the one that also computes the coverage
 	 *
 	 * @param state the initial state
 	 * @return the initialized rule evaluator
@@ -62,7 +63,7 @@ public class SimulatorWCov extends Simulator {
 	}
 
 	// return the coverage of the branches (conditional rules)
-	// PROBLEM uses the branches of the modified ASM not the original one.
+	// NOTE: uses the branches of the modified ASM, not the original one.
 	public Map<String, BranchCovData> getCoveredBranches() {
 		Map<String, BranchCovData> covData = new HashMap<>();
 		for (MacroDeclaration md : RuleEvalWCov.coveredMacros) {
@@ -96,7 +97,7 @@ public class SimulatorWCov extends Simulator {
 	}
 
 	// return the coverage of the update rules
-	// PROBLEM uses the update rules of the modified ASM not the original one.
+	// NOTE: uses the update rules of the modified ASM, not the original one.
 	public Map<String, UpdateCovData> getCoveredUpdateRules() {
 		Map<String, UpdateCovData> covData = new HashMap<>();
 		for (MacroDeclaration md : RuleEvalWCov.coveredMacros) {
@@ -115,6 +116,45 @@ public class SimulatorWCov extends Simulator {
 							|| (RuleEvalWCov.ruleSubstitutions.containsKey(r) && RuleEvalWCov.coveredUpdateRules
 									.stream().anyMatch(RuleEvalWCov.ruleSubstitutions.get(r)::contains)))
 						covData.get(ruleCompleteName).covered.add(i);
+				}
+			}
+			covData.get(ruleCompleteName).tot = tot;
+		}
+		return covData;
+	}
+	
+	// return the coverage of the loops (forall rules)
+	// NOTE: uses the loops of the modified ASM, not the original one.
+	public Map<String, LoopCovData> getCoveredLoops() {
+		Map<String, LoopCovData> covData = new HashMap<>();
+		for (MacroDeclaration md : RuleEvalWCov.coveredMacros) {
+			String ruleCompleteName = RuleDeclarationUtils.getCompleteName(md);
+			if (!covData.containsKey(ruleCompleteName)) {
+				covData.put(ruleCompleteName, new LoopCovData());
+			}
+			List<Rule> rules = RuleExtractorFromMacroDecl.getAllContainedRules(md);
+			int tot = 0;
+			Rule r;
+			for (int i = 0; i < rules.size(); i++) {
+				r = rules.get(i);
+				if (r instanceof ForallRule) {
+					tot++;
+					if (RuleEvalWCov.coveredZeroIterForRule.contains(r)
+							// If a rule obtained as a result of a substitution is covered, the original rule from
+							// which it was derived is considered covered
+							|| (RuleEvalWCov.ruleSubstitutions.containsKey(r) && RuleEvalWCov.coveredZeroIterForRule.stream()
+									.anyMatch(RuleEvalWCov.ruleSubstitutions.get(r)::contains)))
+						covData.get(ruleCompleteName).zeroIterations.add(i);
+
+					if (RuleEvalWCov.coveredOneIterForRule.contains(r)
+							|| (RuleEvalWCov.ruleSubstitutions.containsKey(r) && RuleEvalWCov.coveredOneIterForRule.stream()
+									.anyMatch(RuleEvalWCov.ruleSubstitutions.get(r)::contains)))
+						covData.get(ruleCompleteName).oneIteration.add(i);
+					
+					if (RuleEvalWCov.coveredMulIterForRule.contains(r)
+							|| (RuleEvalWCov.ruleSubstitutions.containsKey(r) && RuleEvalWCov.coveredMulIterForRule.stream()
+									.anyMatch(RuleEvalWCov.ruleSubstitutions.get(r)::contains)))
+						covData.get(ruleCompleteName).multipleIterations.add(i);
 				}
 			}
 			covData.get(ruleCompleteName).tot = tot;

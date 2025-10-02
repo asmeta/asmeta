@@ -13,7 +13,7 @@ public abstract class CovData {
 
 }
 
-// the coverage information about the branches inside a rule
+// the coverage information about the conditional rules (branches) inside a macro rule
 class BranchCovData extends CovData {
 	Set<Integer> coveredT;
 	Set<Integer> coveredF;
@@ -32,10 +32,9 @@ class BranchCovData extends CovData {
 	}
 }
 
-// the coverage information about the branches inside a rule
+// the coverage information about the update rules inside a macro rule
 class UpdateCovData extends CovData {
 	Set<Integer> covered;
-	int tot;
 
 	public UpdateCovData() {
 		super();
@@ -46,6 +45,29 @@ class UpdateCovData extends CovData {
 	public String toString() {
 		String result = "(" + tot + " update rules): ";
 		result += "Covered: " + covered.toString();
+		return result;
+	}
+}
+
+//the coverage information about the forall rules (loops) inside a macro rule
+class LoopCovData extends CovData {
+	Set<Integer> zeroIterations;
+	Set<Integer> oneIteration;
+	Set<Integer> multipleIterations;
+
+	public LoopCovData() {
+		super();
+		zeroIterations = new HashSet<>();
+		oneIteration = new HashSet<>();
+		multipleIterations = new HashSet<>();
+	}
+
+	@Override
+	public String toString() {
+		String result = "(" + tot + " forall rules): ";
+		result += "Executed zero times: " + zeroIterations.toString() + " - ";
+		result += "Executed exactly once: " + oneIteration.toString() + " - ";
+		result += "Executed more than once: " + multipleIterations.toString();
 		return result;
 	}
 }

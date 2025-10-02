@@ -24,6 +24,7 @@ import org.asmeta.simulator.wrapper.RuleFactory;
 import asmeta.terms.basicterms.Term;
 import asmeta.terms.basicterms.VariableTerm;
 import asmeta.transitionrules.basictransitionrules.ConditionalRule;
+import asmeta.transitionrules.basictransitionrules.ForallRule;
 import asmeta.transitionrules.basictransitionrules.MacroCallRule;
 import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
 import asmeta.transitionrules.basictransitionrules.Rule;
@@ -50,6 +51,10 @@ public class RuleEvalWCov extends RuleEvaluator {
 	static Collection<ConditionalRule> coveredConRuleF;
 	// covered updaterules
 	static Collection<UpdateRule> coveredUpdateRules;
+	// covered forall rules
+	static Collection<ForallRule> coveredZeroIterForRule;
+	static Collection<ForallRule> coveredOneIterForRule;
+	static Collection<ForallRule> coveredMulIterForRule;
 	// mapping between the original macro rules (with parameters) and the list of substitute rules created during the visit
 	static Map<Rule, Set<Rule>> ruleSubstitutions;
 	
@@ -63,7 +68,11 @@ public class RuleEvalWCov extends RuleEvaluator {
 		if (coveredConRuleT == null) coveredConRuleT = new HashSet<>();
 		if (coveredConRuleF == null) coveredConRuleF = new HashSet<>();
 		if (coveredUpdateRules == null) coveredUpdateRules = new HashSet<>();
+		if (coveredZeroIterForRule == null) coveredZeroIterForRule = new HashSet<>();
+		if (coveredOneIterForRule == null) coveredOneIterForRule = new HashSet<>();
+		if (coveredMulIterForRule == null) coveredMulIterForRule = new HashSet<>();
 		if (ruleSubstitutions == null) ruleSubstitutions = new HashMap<>();
+		
 	}
 
 	// this is called when a new state requires a new evaluator
@@ -79,6 +88,9 @@ public class RuleEvalWCov extends RuleEvaluator {
 		coveredConRuleF = null;
 		coveredUpdateRules = null;
 		ruleSubstitutions = null;
+		coveredZeroIterForRule = null;
+		coveredOneIterForRule = null;
+		coveredMulIterForRule = null;
 	}
 
 	@Override
@@ -107,6 +119,31 @@ public class RuleEvalWCov extends RuleEvaluator {
 			logger.debug("adding coverage update rule ==> " + out.toString() + " --- " + r);
 		}
 		return super.visit(r);
+	}
+	
+	// count the number or iterations of a forall, must NOT be static.
+	// In case of NESTED forall, a new instance of RuleEvalWCov will be instantiated to evaluate its guard
+	private int nIter; 
+	@Override
+	public UpdateSet visit(ForallRule forRule) {
+		if (logger.isDebugEnabled()) {
+			StringWriter out = new StringWriter();
+			PrintWriter st = new PrintWriter(out);
+			AsmPrinter asmPrint = new AsmPrinter(st);
+			asmPrint.visit(forRule);
+			logger.debug("adding coverage forall rule ==> " + out.toString() + " --- " + forRule);
+		}
+		nIter = 0;
+		UpdateSet updateSet = super.visit(forRule);
+		if (nIter == 0) coveredZeroIterForRule.add(forRule);
+		else if (nIter == 1) coveredOneIterForRule.add(forRule);
+		else coveredMulIterForRule.add(forRule);
+		return updateSet;
+	}
+	
+	@Override
+	public void onGuardTrue(ForallRule forRule) {
+		nIter++;
 	}
 	
 

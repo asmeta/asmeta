@@ -11,6 +11,7 @@ public class ValidationResult {
 	private boolean checkSucceded;
 	Map<String, BranchCovData> branchData;
 	Map<String, UpdateCovData> updateData;
+	Map<String, LoopCovData> loopData;
 	
 	public boolean isCheckSucceded() {
 		return checkSucceded;
@@ -34,5 +35,13 @@ public class ValidationResult {
 
 	public void setUpdateData(Map<String, UpdateCovData> updateData) {
 		this.updateData = updateData;
+	}
+	
+	public Map<String, LoopCovData> getLoopData() {
+		return loopData;
+	}
+
+	public void setLoopData(Map<String, LoopCovData> loopData) {
+		this.loopData = loopData;
 	}
 }
