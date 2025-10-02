@@ -2,7 +2,6 @@ package org.asmeta.xt.validator;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -45,34 +44,24 @@ public class RuleEvalWCov extends RuleEvaluator {
 	// covered macros
 	// FIXME: use of static is due to the fact that several RuleEvaluator
 	// are created for the same run;
-	static Collection<MacroDeclaration> coveredMacros;
+	static Set<MacroDeclaration> coveredMacros = new HashSet<>();
 	// covered guards in conditional rules
-	static Collection<ConditionalRule> coveredConRuleT;
-	static Collection<ConditionalRule> coveredConRuleF;
+	static Set<ConditionalRule> coveredConRuleT = new HashSet<>();
+	static Set<ConditionalRule> coveredConRuleF = new HashSet<>();
 	// covered update rules
-	static Collection<UpdateRule> coveredUpdateRules;
+	static Set<UpdateRule> coveredUpdateRules = new HashSet<>();
 	// covered forall rules
-	static Collection<ForallRule> coveredZeroIterForRule;
-	static Collection<ForallRule> coveredOneIterForRule;
-	static Collection<ForallRule> coveredMulIterForRule;
+	static Set<ForallRule> coveredZeroIterForRule = new HashSet<>();
+	static Set<ForallRule> coveredOneIterForRule = new HashSet<>();
+	static Set<ForallRule> coveredMulIterForRule = new HashSet<>();
 	// mapping between the original macro rules (with parameters) and the list of substitute rules created during the visit
-	static Map<Rule, Set<Rule>> ruleSubstitutions;
+	static Map<Rule, Set<Rule>> ruleSubstitutions = new HashMap<>();
 	
 
 	// this must be called only once for run
 	public RuleEvalWCov(State state, Environment environment,
 			RuleFactory factory) {
 		super(state, environment, factory);
-		// trying to build the new covered macro only if null (the first time or after reset)
-		if (coveredMacros == null) coveredMacros = new HashSet<>();
-		if (coveredConRuleT == null) coveredConRuleT = new HashSet<>();
-		if (coveredConRuleF == null) coveredConRuleF = new HashSet<>();
-		if (coveredUpdateRules == null) coveredUpdateRules = new HashSet<>();
-		if (coveredZeroIterForRule == null) coveredZeroIterForRule = new HashSet<>();
-		if (coveredOneIterForRule == null) coveredOneIterForRule = new HashSet<>();
-		if (coveredMulIterForRule == null) coveredMulIterForRule = new HashSet<>();
-		if (ruleSubstitutions == null) ruleSubstitutions = new HashMap<>();
-		
 	}
 
 	// this is called when a new state requires a new evaluator
@@ -83,14 +72,14 @@ public class RuleEvalWCov extends RuleEvaluator {
 	
 	// this can be called to start collecting coverage data from scratch without considering what has been covered before
 	public static void reset() {
-		coveredMacros = null;
-		coveredConRuleT = null;
-		coveredConRuleF = null;
-		coveredUpdateRules = null;
-		ruleSubstitutions = null;
-		coveredZeroIterForRule = null;
-		coveredOneIterForRule = null;
-		coveredMulIterForRule = null;
+		coveredMacros.clear();
+		coveredConRuleT.clear();
+		coveredConRuleF.clear();
+		coveredUpdateRules.clear();
+		coveredZeroIterForRule.clear();
+		coveredOneIterForRule.clear();
+		coveredMulIterForRule.clear();
+		ruleSubstitutions.clear();
 	}
 
 	@Override

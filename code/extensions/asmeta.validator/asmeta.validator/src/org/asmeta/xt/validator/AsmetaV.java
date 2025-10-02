@@ -133,6 +133,13 @@ public class AsmetaV {
 			logger.info("WARNING: some check failed");
 		return failedScenarios;
 	}
+	
+	private static final String[] HEADERS = {
+		    "execution_id", "asm_name", "rule_signature", "tot_conditional_rules",
+		    "covered_true_conditional_rules", "covered_false_conditional_rules", "tot_update_rules",
+		    "covered_update_rules", "tot_forall_rules", "covered_zero_iter_forall_rule",
+		    "covered_one_iter_forall_rule", "covered_multiple_iter_forall_rule", "failing_scenarios"
+		};
 
 	/**
 	 * print coverage on log and eventually on file in csv format.
@@ -151,17 +158,13 @@ public class AsmetaV {
 	 */
 	private void printCoverage(String execId, Map<String, Boolean> coveredRules, ValidationResult validationResult,
 			boolean printToCsv, String csvPath, List<String> failedScenarios) {
-		String[] headers = { "execution_id", "asm_name", "rule_signature", "tot_conditional_rules",
-				"covered_true_conditional_rules", "covered_false_conditional_rules", "tot_update_rules",
-				"covered_update_rules", "tot_forall_rules", "covered_zero_iter_forall_rule", "covered_one_iter_forall_rule",
-				"covered_multiple_iter_forall_rule", "failing_scenarios" };
 		List<String[]> rows = new ArrayList<>();
 		logger.info("\n** Coverage Info: **");
 		logger.info("** covered rules: **");
 		// Collect and print coverage information for all covered rules
 		for (Entry<String, Boolean> rule : coveredRules.entrySet()) {
 			if (Boolean.TRUE.equals(rule.getValue())) {
-				String[] row = new String[headers.length];
+				String[] row = new String[HEADERS.length];
 				String completeRuleName = rule.getKey();
 				String asmName = completeRuleName.substring(0, completeRuleName.indexOf(':'));
 				String signature = completeRuleName.substring(completeRuleName.lastIndexOf(':') + 1);
@@ -230,7 +233,7 @@ public class AsmetaV {
 				PrintStream ps = new PrintStream(fos);
 				// If the file did not exist or is empty, start printing the headers
 				if (!fileExists || Files.size(Paths.get(csvPath)) == 0)
-					ps.println(String.join(",", headers));
+					ps.println(String.join(",", HEADERS));
 				for (String[] row : rows)
 					ps.println(String.join(",", row));
 				ps.close();
@@ -367,27 +370,24 @@ public class AsmetaV {
 			}
 			// update the result with the data about branch coverage
 			Map<String, BranchCovData> branchData = ((SimulatorWCov) sim).getCoveredBranches();
-			logger.debug("Covered conditional rules (branch coverage):");
-			for (Entry<String, BranchCovData> entry : branchData.entrySet()) {
-				logger.debug(entry.getKey() + " " + entry.getValue());
-			}
+			logCovData("Covered conditional rules (branch coverage):", branchData);
 			result.setBranchData(branchData);
 			// update the result with the data about update rule coverage
 			Map<String, UpdateCovData> updateData = ((SimulatorWCov) sim).getCoveredUpdateRules();
-			logger.debug("Covered update rules:");
-			for (Entry<String, UpdateCovData> entry : updateData.entrySet()) {
-				logger.debug(entry.getKey() + " " + entry.getValue());
-			}
+			logCovData("Covered update rules:", updateData);
 			result.setUpdateData(updateData);
 			// update the result with the data about loop coverage
 			Map<String, LoopCovData> loopData = ((SimulatorWCov) sim).getCoveredLoops();
-			logger.debug("Covered forall rules (loop coverage):");
-			for (Entry<String, LoopCovData> entry : loopData.entrySet()) {
-				logger.debug(entry.getKey() + " " + entry.getValue());
-			}
+			logCovData("Covered forall rules (loop coverage):", loopData);
 			result.setLoopData(loopData);
 		}
 		return result;
+	}
+
+	protected static <T extends CovData> void logCovData(String s, Map<String, T> loopData) {
+		logger.debug(s);
+		for (Entry<String, T> entry : loopData.entrySet())
+			logger.debug(entry.getKey() + " " + entry.getValue());
 	}
 
 }

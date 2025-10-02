@@ -2,9 +2,10 @@ package org.asmeta.xt.validator;
 
 import java.util.Map;
 
-/** This class represents the result of the validation process.
- * It contains information about whether the validation check succeeded,
- * as well as data related to branch and update coverage.
+/**
+ * This class represents the result of the validation process. It contains
+ * information about whether the validation check succeeded, as well as coverage
+ * data.
  *
  */
 public class ValidationResult {
@@ -12,15 +13,15 @@ public class ValidationResult {
 	Map<String, BranchCovData> branchData;
 	Map<String, UpdateCovData> updateData;
 	Map<String, LoopCovData> loopData;
-	
+
 	public boolean isCheckSucceded() {
 		return checkSucceded;
 	}
-	
+
 	public void setCheckSucceded(boolean checkSucceded) {
 		this.checkSucceded = checkSucceded;
 	}
-	
+
 	public Map<String, BranchCovData> getBranchData() {
 		return branchData;
 	}
@@ -28,7 +29,7 @@ public class ValidationResult {
 	public void setBranchData(Map<String, BranchCovData> branchData) {
 		this.branchData = branchData;
 	}
-	
+
 	public Map<String, UpdateCovData> getUpdateData() {
 		return updateData;
 	}
@@ -36,7 +37,7 @@ public class ValidationResult {
 	public void setUpdateData(Map<String, UpdateCovData> updateData) {
 		this.updateData = updateData;
 	}
-	
+
 	public Map<String, LoopCovData> getLoopData() {
 		return loopData;
 	}

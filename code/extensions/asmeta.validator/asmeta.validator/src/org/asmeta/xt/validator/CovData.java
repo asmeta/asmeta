@@ -10,7 +10,9 @@ public abstract class CovData {
 	public CovData() {
 		tot = 0;
 	}
-
+	
+	@Override
+	public abstract String toString();
 }
 
 // the coverage information about the conditional rules (branches) inside a macro rule

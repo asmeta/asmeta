@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.asmeta.avallaxt.validation.RuleExtractorFromMacroDecl;
@@ -66,32 +67,24 @@ public class SimulatorWCov extends Simulator {
 	// NOTE: uses the branches of the modified ASM, not the original one.
 	public Map<String, BranchCovData> getCoveredBranches() {
 		Map<String, BranchCovData> covData = new HashMap<>();
+		Map<Rule, Set<Rule>> ruleSubstitutions = RuleEvalWCov.ruleSubstitutions;
 		for (MacroDeclaration md : RuleEvalWCov.coveredMacros) {
 			String ruleCompleteName = RuleDeclarationUtils.getCompleteName(md);
-			if (!covData.containsKey(ruleCompleteName)) {
-				covData.put(ruleCompleteName, new BranchCovData());
-			}
+			covData.putIfAbsent(ruleCompleteName, new BranchCovData());
 			List<Rule> rules = RuleExtractorFromMacroDecl.getAllContainedRules(md);
+			BranchCovData singleMacroCovData = covData.get(ruleCompleteName);
 			int tot = 0;
-			Rule r;
 			for (int i = 0; i < rules.size(); i++) {
-				r = rules.get(i);
+				Rule r = rules.get(i);
 				if (r instanceof ConditionalRule) {
+					if (isCovered(r, ruleSubstitutions, RuleEvalWCov.coveredConRuleF))
+						singleMacroCovData.coveredF.add(i);
+					if (isCovered(r, ruleSubstitutions, RuleEvalWCov.coveredConRuleT))
+						singleMacroCovData.coveredT.add(i);
 					tot++;
-					if (RuleEvalWCov.coveredConRuleF.contains(r)
-							// If a rule obtained as a result of a substitution is covered, the original rule from
-							// which it was derived is considered covered
-							|| (RuleEvalWCov.ruleSubstitutions.containsKey(r) && RuleEvalWCov.coveredConRuleF.stream()
-									.anyMatch(RuleEvalWCov.ruleSubstitutions.get(r)::contains)))
-						covData.get(ruleCompleteName).coveredF.add(i);
-
-					if (RuleEvalWCov.coveredConRuleT.contains(r)
-							|| (RuleEvalWCov.ruleSubstitutions.containsKey(r) && RuleEvalWCov.coveredConRuleT.stream()
-									.anyMatch(RuleEvalWCov.ruleSubstitutions.get(r)::contains)))
-						covData.get(ruleCompleteName).coveredT.add(i);
 				}
 			}
-			covData.get(ruleCompleteName).tot = tot;
+			singleMacroCovData.tot = tot;
 		}
 		return covData;
 	}
@@ -100,66 +93,62 @@ public class SimulatorWCov extends Simulator {
 	// NOTE: uses the update rules of the modified ASM, not the original one.
 	public Map<String, UpdateCovData> getCoveredUpdateRules() {
 		Map<String, UpdateCovData> covData = new HashMap<>();
+		Map<Rule, Set<Rule>> ruleSubstitutions = RuleEvalWCov.ruleSubstitutions;
 		for (MacroDeclaration md : RuleEvalWCov.coveredMacros) {
 			String ruleCompleteName = RuleDeclarationUtils.getCompleteName(md);
-			if (!covData.containsKey(ruleCompleteName)) {
-				covData.put(ruleCompleteName, new UpdateCovData());
-			}
+			covData.putIfAbsent(ruleCompleteName, new UpdateCovData());
 			List<Rule> rules = RuleExtractorFromMacroDecl.getAllContainedRules(md);
+			UpdateCovData singleMacroCovData = covData.get(ruleCompleteName);
 			int tot = 0;
-			Rule r;
 			for (int i = 0; i < rules.size(); i++) {
-				r = rules.get(i);
+				Rule r = rules.get(i);
 				if (r instanceof UpdateRule) {
+					if (isCovered(r, ruleSubstitutions, RuleEvalWCov.coveredUpdateRules))
+						singleMacroCovData.covered.add(i);
 					tot++;
-					if (RuleEvalWCov.coveredUpdateRules.contains(r)
-							|| (RuleEvalWCov.ruleSubstitutions.containsKey(r) && RuleEvalWCov.coveredUpdateRules
-									.stream().anyMatch(RuleEvalWCov.ruleSubstitutions.get(r)::contains)))
-						covData.get(ruleCompleteName).covered.add(i);
 				}
 			}
-			covData.get(ruleCompleteName).tot = tot;
+			singleMacroCovData.tot = tot;
 		}
 		return covData;
 	}
-	
+
 	// return the coverage of the loops (forall rules)
 	// NOTE: uses the loops of the modified ASM, not the original one.
 	public Map<String, LoopCovData> getCoveredLoops() {
 		Map<String, LoopCovData> covData = new HashMap<>();
+		Map<Rule, Set<Rule>> ruleSubstitutions = RuleEvalWCov.ruleSubstitutions;
 		for (MacroDeclaration md : RuleEvalWCov.coveredMacros) {
 			String ruleCompleteName = RuleDeclarationUtils.getCompleteName(md);
-			if (!covData.containsKey(ruleCompleteName)) {
-				covData.put(ruleCompleteName, new LoopCovData());
-			}
+			covData.putIfAbsent(ruleCompleteName, new LoopCovData());
 			List<Rule> rules = RuleExtractorFromMacroDecl.getAllContainedRules(md);
+			LoopCovData singleMacroCovData = covData.get(ruleCompleteName);
 			int tot = 0;
-			Rule r;
 			for (int i = 0; i < rules.size(); i++) {
-				r = rules.get(i);
+				Rule r = rules.get(i);
 				if (r instanceof ForallRule) {
+					if (isCovered(r, ruleSubstitutions, RuleEvalWCov.coveredZeroIterForRule))
+						singleMacroCovData.zeroIterations.add(i);
+					if (isCovered(r, ruleSubstitutions, RuleEvalWCov.coveredOneIterForRule))
+						singleMacroCovData.oneIteration.add(i);
+					if (isCovered(r, ruleSubstitutions, RuleEvalWCov.coveredMulIterForRule))
+						singleMacroCovData.multipleIterations.add(i);
 					tot++;
-					if (RuleEvalWCov.coveredZeroIterForRule.contains(r)
-							// If a rule obtained as a result of a substitution is covered, the original rule from
-							// which it was derived is considered covered
-							|| (RuleEvalWCov.ruleSubstitutions.containsKey(r) && RuleEvalWCov.coveredZeroIterForRule.stream()
-									.anyMatch(RuleEvalWCov.ruleSubstitutions.get(r)::contains)))
-						covData.get(ruleCompleteName).zeroIterations.add(i);
-
-					if (RuleEvalWCov.coveredOneIterForRule.contains(r)
-							|| (RuleEvalWCov.ruleSubstitutions.containsKey(r) && RuleEvalWCov.coveredOneIterForRule.stream()
-									.anyMatch(RuleEvalWCov.ruleSubstitutions.get(r)::contains)))
-						covData.get(ruleCompleteName).oneIteration.add(i);
-					
-					if (RuleEvalWCov.coveredMulIterForRule.contains(r)
-							|| (RuleEvalWCov.ruleSubstitutions.containsKey(r) && RuleEvalWCov.coveredMulIterForRule.stream()
-									.anyMatch(RuleEvalWCov.ruleSubstitutions.get(r)::contains)))
-						covData.get(ruleCompleteName).multipleIterations.add(i);
 				}
 			}
-			covData.get(ruleCompleteName).tot = tot;
+			singleMacroCovData.tot = tot;
 		}
 		return covData;
+	}
+
+	/**
+	 * Check if a rule is covered. <br>
+	 * If a rule obtained as a result of a substitution is covered, then the
+	 * original rule from which it was derived is considered covered.
+	 */
+	private static <T extends Rule> boolean isCovered(Rule r, Map<Rule, Set<Rule>> ruleSubs, Set<T> coveredRules) {
+		return coveredRules.contains(r)
+				|| (ruleSubs.containsKey(r) && coveredRules.stream().anyMatch(ruleSubs.get(r)::contains));
 	}
 
 }
