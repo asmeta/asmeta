@@ -49,7 +49,7 @@ public class RuleEvalWCov extends RuleEvaluator {
 	// covered guards in conditional rules
 	static Collection<ConditionalRule> coveredConRuleT;
 	static Collection<ConditionalRule> coveredConRuleF;
-	// covered updaterules
+	// covered update rules
 	static Collection<UpdateRule> coveredUpdateRules;
 	// covered forall rules
 	static Collection<ForallRule> coveredZeroIterForRule;
@@ -121,8 +121,10 @@ public class RuleEvalWCov extends RuleEvaluator {
 		return super.visit(r);
 	}
 	
-	// count the number or iterations of a forall, must NOT be static.
-	// In case of NESTED forall, a new instance of RuleEvalWCov will be instantiated to evaluate its guard
+	// Counts iterations (guard-true evaluations) for THIS visit(ForallRule).
+	// Do NOT make static: each evaluator instance keeps its own counter.
+	// Note: nested foralls inside a doRule are evaluated by child evaluators
+	// created via createRuleEvaluator(...)
 	private int nIter; 
 	@Override
 	public UpdateSet visit(ForallRule forRule) {
@@ -164,7 +166,7 @@ public class RuleEvalWCov extends RuleEvaluator {
 	@Override
 	protected Rule buildNewRule(List<Term> arguments, List<VariableTerm> variables, Rule body, String signature) {
 		Rule newRule = super.buildNewRule(arguments, variables, body, signature);
-		//  Add, if not already present, the new rule substitution performed during the visit to the dictionary of rule substitutions
+		// Add, if not already present, the new rule substitution performed during the visit to the dictionary of rule substitutions
 		if (body != null && newRule != null) {
 			List<Rule> oldRules = new RuleExtractor().visit(body);
 			List<Rule> newRules = new RuleExtractor().visit(newRule);

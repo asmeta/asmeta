@@ -508,7 +508,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 				UpdateSet newSet = newEvaluator.visit(forRule.getDoRule());
 				updateSet.union(newSet);
 				logger.debug("</DoRule>");
-				onGuardTrue(forRule);				
+				onGuardTrue(forRule);
 			}
 		}
 	}
