@@ -16,11 +16,17 @@ import org.asmeta.simulator.main.AsmModelNotFoundException;
 import org.asmeta.simulator.main.MainRuleNotFoundException;
 import org.asmeta.simulator.main.Simulator;
 import org.asmeta.simulator.readers.InteractiveMFReader;
+import org.asmeta.simulator.value.Value;
 import org.asmeta.simulator.wrapper.RuleFactory;
+import org.eclipse.emf.common.util.EList;
 
 import asmeta.AsmCollection;
+import asmeta.terms.basicterms.Term;
+import asmeta.terms.basicterms.impl.LocationTermImpl;
+import asmeta.transitionrules.basictransitionrules.ChooseRule;
 import asmeta.transitionrules.basictransitionrules.ConditionalRule;
 import asmeta.transitionrules.basictransitionrules.ForallRule;
+import asmeta.transitionrules.basictransitionrules.LetRule;
 import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
 import asmeta.transitionrules.basictransitionrules.Rule;
 import asmeta.transitionrules.basictransitionrules.UpdateRule;
@@ -76,10 +82,24 @@ public class SimulatorWCov extends Simulator {
 			int tot = 0;
 			for (int i = 0; i < rules.size(); i++) {
 				Rule r = rules.get(i);
-				if (r instanceof ConditionalRule) {
-					if (isCovered(r, ruleSubstitutions, RuleEvalWCov.coveredConRuleF))
+				boolean letFromChoose = false;
+				if (r instanceof LetRule) {
+					EList<Term> initExpr = ((LetRule) r).getInitExpression();
+					for (Term initTerm : initExpr) {
+						if (initTerm instanceof LocationTermImpl) {
+							String loc = ((LocationTermImpl) initTerm).getFunction().getName();
+							if (loc.contains(AsmetaPrinterForAvalla.ACTUAL_VALUE)) {
+								letFromChoose = true;
+								break;
+							}
+						}
+					}
+				}
+				if (r instanceof ConditionalRule || r instanceof ForallRule || r instanceof ChooseRule
+						|| letFromChoose) {
+					if (isCovered(r, ruleSubstitutions, RuleEvalWCov.coveredBranchF))
 						singleMacroCovData.coveredF.add(i);
-					if (isCovered(r, ruleSubstitutions, RuleEvalWCov.coveredConRuleT))
+					if (isCovered(r, ruleSubstitutions, RuleEvalWCov.coveredBranchT))
 						singleMacroCovData.coveredT.add(i);
 					tot++;
 				}

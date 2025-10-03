@@ -135,8 +135,8 @@ public class AsmetaV {
 	}
 	
 	private static final String[] HEADERS = {
-		    "execution_id", "asm_name", "rule_signature", "tot_conditional_rules",
-		    "covered_true_conditional_rules", "covered_false_conditional_rules", "tot_update_rules",
+		    "execution_id", "asm_name", "rule_signature", "tot_branches",
+		    "covered_true_branches", "covered_false_branches", "tot_update_rules",
 		    "covered_update_rules", "tot_forall_rules", "covered_zero_iter_forall_rule",
 		    "covered_one_iter_forall_rule", "covered_multiple_iter_forall_rule", "failing_scenarios"
 		};
@@ -173,7 +173,7 @@ public class AsmetaV {
 				row[1] = asmName;
 				row[2] = formatForCsv(signature);
 				if (validationResult == null) {
-					logger.info("-> no information about branch coverage and update rule coverage can be displayed");
+					logger.info("-> no information coverage metrics can be displayed");
 					for (int i = 3; i < row.length; i++)
 						row[i] = "ERR";
 				} else {
@@ -185,7 +185,7 @@ public class AsmetaV {
 								/ (branchData.tot * 2) * 100;
 						logger.info("-> branch coverage: " + branchCoverage + "%");
 					} else {
-						logger.info("-> branch coverage: - (no conditional rules to be covered)");
+						logger.info("-> branch coverage: - (no branches to be covered)");
 					}
 					if (updateData.tot != 0) {
 						float updateCoverage = ((float) updateData.covered.size() / updateData.tot) * 100;
@@ -370,7 +370,7 @@ public class AsmetaV {
 			}
 			// update the result with the data about branch coverage
 			Map<String, BranchCovData> branchData = ((SimulatorWCov) sim).getCoveredBranches();
-			logCovData("Covered conditional rules (branch coverage):", branchData);
+			logCovData("Covered branches:", branchData);
 			result.setBranchData(branchData);
 			// update the result with the data about update rule coverage
 			Map<String, UpdateCovData> updateData = ((SimulatorWCov) sim).getCoveredUpdateRules();

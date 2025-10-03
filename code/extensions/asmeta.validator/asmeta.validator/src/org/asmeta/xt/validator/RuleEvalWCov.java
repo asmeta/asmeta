@@ -18,20 +18,25 @@ import org.asmeta.simulator.State;
 import org.asmeta.simulator.UpdateSet;
 import org.asmeta.simulator.ValueAssignment;
 import org.asmeta.simulator.value.BooleanValue;
+import org.asmeta.simulator.value.Value;
 import org.asmeta.simulator.wrapper.RuleFactory;
 
 import asmeta.terms.basicterms.Term;
 import asmeta.terms.basicterms.VariableTerm;
+import asmeta.terms.basicterms.impl.LocationTermImpl;
+import asmeta.transitionrules.basictransitionrules.ChooseRule;
 import asmeta.transitionrules.basictransitionrules.ConditionalRule;
 import asmeta.transitionrules.basictransitionrules.ForallRule;
+import asmeta.transitionrules.basictransitionrules.LetRule;
 import asmeta.transitionrules.basictransitionrules.MacroCallRule;
 import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
 import asmeta.transitionrules.basictransitionrules.Rule;
 import asmeta.transitionrules.basictransitionrules.UpdateRule;
 
-/** Questa classe valuta le regole
- * pero' tiene traccia delle macro valutate
- * it is now used!! nov 2023
+/**
+ * Questa classe valuta le regole pero' tiene traccia delle macro valutate it is
+ * now used!! nov 2023
+ * 
  * @author AG
  *
  */
@@ -45,36 +50,36 @@ public class RuleEvalWCov extends RuleEvaluator {
 	// FIXME: use of static is due to the fact that several RuleEvaluator
 	// are created for the same run;
 	static Set<MacroDeclaration> coveredMacros = new HashSet<>();
-	// covered guards in conditional rules
-	static Set<ConditionalRule> coveredConRuleT = new HashSet<>();
-	static Set<ConditionalRule> coveredConRuleF = new HashSet<>();
+	// covered branches (guards in decision points from Conditional, Forall and
+	// Choose rules)
+	static Set<Rule> coveredBranchT = new HashSet<>();
+	static Set<Rule> coveredBranchF = new HashSet<>();
 	// covered update rules
 	static Set<UpdateRule> coveredUpdateRules = new HashSet<>();
 	// covered forall rules
 	static Set<ForallRule> coveredZeroIterForRule = new HashSet<>();
 	static Set<ForallRule> coveredOneIterForRule = new HashSet<>();
 	static Set<ForallRule> coveredMulIterForRule = new HashSet<>();
-	// mapping between the original macro rules (with parameters) and the list of substitute rules created during the visit
+	// mapping between the original macro rules (with parameters) and the list of
+	// substitute rules created during the visit
 	static Map<Rule, Set<Rule>> ruleSubstitutions = new HashMap<>();
-	
 
 	// this must be called only once for run
-	public RuleEvalWCov(State state, Environment environment,
-			RuleFactory factory) {
+	public RuleEvalWCov(State state, Environment environment, RuleFactory factory) {
 		super(state, environment, factory);
 	}
 
 	// this is called when a new state requires a new evaluator
-	private RuleEvalWCov(State state, Environment environment,
-			ValueAssignment assignment) {
+	private RuleEvalWCov(State state, Environment environment, ValueAssignment assignment) {
 		super(state, environment, assignment);
 	}
-	
-	// this can be called to start collecting coverage data from scratch without considering what has been covered before
+
+	// this can be called to start collecting coverage data from scratch without
+	// considering what has been covered before
 	public static void reset() {
 		coveredMacros.clear();
-		coveredConRuleT.clear();
-		coveredConRuleF.clear();
+		coveredBranchT.clear();
+		coveredBranchF.clear();
 		coveredUpdateRules.clear();
 		coveredZeroIterForRule.clear();
 		coveredOneIterForRule.clear();
@@ -92,13 +97,15 @@ public class RuleEvalWCov extends RuleEvaluator {
 			asmPrint.visit(condRule);
 			logger.debug("adding coverage conditional rule ==> " + out.toString() + " --- " + condRule);
 		}
-		if (eval.getValue())   coveredConRuleT.add(condRule);
-		else coveredConRuleF.add(condRule);
+		if (eval.getValue())
+			coveredBranchT.add(condRule);
+		else
+			coveredBranchF.add(condRule);
 		return eval;
 	}
 
 	@Override
-	public UpdateSet visit(UpdateRule r){
+	public UpdateSet visit(UpdateRule r) {
 		coveredUpdateRules.add(r);
 		if (logger.isDebugEnabled()) {
 			StringWriter out = new StringWriter();
@@ -109,12 +116,13 @@ public class RuleEvalWCov extends RuleEvaluator {
 		}
 		return super.visit(r);
 	}
-	
+
 	// Counts iterations (guard-true evaluations) for THIS visit(ForallRule).
 	// Do NOT make static: each evaluator instance keeps its own counter.
 	// Note: nested foralls inside a doRule are evaluated by child evaluators
 	// created via createRuleEvaluator(...)
-	private int nIter; 
+	private int nIter;
+
 	@Override
 	public UpdateSet visit(ForallRule forRule) {
 		if (logger.isDebugEnabled()) {
@@ -126,17 +134,87 @@ public class RuleEvalWCov extends RuleEvaluator {
 		}
 		nIter = 0;
 		UpdateSet updateSet = super.visit(forRule);
-		if (nIter == 0) coveredZeroIterForRule.add(forRule);
-		else if (nIter == 1) coveredOneIterForRule.add(forRule);
-		else coveredMulIterForRule.add(forRule);
+		if (nIter == 0) {
+			coveredZeroIterForRule.add(forRule);
+			coveredBranchT.add(forRule);
+		} else {
+			coveredBranchF.add(forRule);
+			if (nIter == 1)
+				coveredOneIterForRule.add(forRule);
+			else
+				coveredMulIterForRule.add(forRule);
+		}
 		return updateSet;
+	}
+
+	@Override
+	public void onForallGuardTrue() {
+		nIter++;
+	}
+
+	@Override
+	public UpdateSet visit(ChooseRule chooseRule) {
+		if (logger.isDebugEnabled()) {
+			StringWriter out = new StringWriter();
+			PrintWriter st = new PrintWriter(out);
+			AsmPrinter asmPrint = new AsmPrinter(st);
+			asmPrint.visit(chooseRule);
+			logger.debug("adding coverage choose rule ==> " + out.toString() + " --- " + chooseRule);
+		}
+		return super.visit(chooseRule);
+	}
+
+	@Override
+	public void onChooseGuardTrue(ChooseRule chooseRule) {
+		coveredBranchT.add(chooseRule);
+	}
+
+	@Override
+	public void onChooseGuardAlwaysFalse(ChooseRule chooseRule) {
+		coveredBranchF.add(chooseRule);
+	}
+
+	// True if the LetRule visited by THIS visit(LetRule) is derived from a ChooseRule.
+	// Do NOT make static: each evaluator instance keeps its own flag.
+	// Note: nested let inside a inRule are evaluated by child evaluators
+	// created via createRuleEvaluator(...)
+	private boolean letFromChoose;
+	
+	@Override
+	public UpdateSet visit(LetRule letRule) {
+		letFromChoose = false;
+		if (logger.isDebugEnabled()) {
+			StringWriter out = new StringWriter();
+			PrintWriter st = new PrintWriter(out);
+			AsmPrinter asmPrint = new AsmPrinter(st);
+			asmPrint.visit(letRule);
+			logger.debug("adding coverage let rule (for branch coverage of choose rules) ==> " + out.toString()
+					+ " --- " + letRule);
+		}
+		return super.visit(letRule);
+	}
+		
+	@Override
+	protected boolean checkInitTerm(LetRule letRule, Value initValue, Term initTerm) {
+		if (initTerm instanceof LocationTermImpl) {
+			String loc = ((LocationTermImpl) initTerm).getFunction().getName();
+			String val = initValue.toString();
+			if (loc.contains(AsmetaPrinterForAvalla.ACTUAL_VALUE)) {
+				letFromChoose = true;
+				if (val.equals("undef")) {
+					coveredBranchF.add(letRule);
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 	
 	@Override
-	public void onGuardTrue(ForallRule forRule) {
-		nIter++;
+	protected void afterInitExpressionVisit(LetRule letRule) {
+		if (letFromChoose)
+			coveredBranchT.add(letRule);
 	}
-	
 
 	@Override
 	public UpdateSet visit(MacroCallRule macroRule) throws NotCompatibleDomainsException {
@@ -147,15 +225,16 @@ public class RuleEvalWCov extends RuleEvaluator {
 	}
 
 	@Override
-	protected RuleEvalWCov createRuleEvaluator(State nextState, Environment environment, ValueAssignment assignment){
-		RuleEvalWCov newREC =  new RuleEvalWCov(nextState,environment, assignment);
+	protected RuleEvalWCov createRuleEvaluator(State nextState, Environment environment, ValueAssignment assignment) {
+		RuleEvalWCov newREC = new RuleEvalWCov(nextState, environment, assignment);
 		return newREC;
 	}
-	
+
 	@Override
 	protected Rule buildNewRule(List<Term> arguments, List<VariableTerm> variables, Rule body, String signature) {
 		Rule newRule = super.buildNewRule(arguments, variables, body, signature);
-		// Add, if not already present, the new rule substitution performed during the visit to the dictionary of rule substitutions
+		// Add, if not already present, the new rule substitution performed during the
+		// visit to the dictionary of rule substitutions
 		if (body != null && newRule != null) {
 			List<Rule> oldRules = new RuleExtractor().visit(body);
 			List<Rule> newRules = new RuleExtractor().visit(newRule);

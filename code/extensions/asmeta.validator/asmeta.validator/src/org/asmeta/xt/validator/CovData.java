@@ -15,7 +15,7 @@ public abstract class CovData {
 	public abstract String toString();
 }
 
-// the coverage information about the conditional rules (branches) inside a macro rule
+// the coverage information about the branches inside a macro rule
 class BranchCovData extends CovData {
 	Set<Integer> coveredT;
 	Set<Integer> coveredF;
@@ -27,7 +27,7 @@ class BranchCovData extends CovData {
 
 	@Override
 	public String toString() {
-		String result = "(" + tot + " cond rules): ";
+		String result = "(" + tot + " branches): ";
 		result += "Covered true: " + coveredT.toString() + " - ";
 		result += "Covered false: " + coveredF.toString();
 		return result;

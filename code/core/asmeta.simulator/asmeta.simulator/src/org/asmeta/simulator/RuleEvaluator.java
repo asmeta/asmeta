@@ -58,7 +58,6 @@ import org.eclipse.emf.common.util.EList;
 
 import asmeta.definitions.Function;
 import asmeta.definitions.RuleDeclaration;
-import asmeta.definitions.domains.AgentDomain;
 import asmeta.definitions.domains.AnyDomain;
 import asmeta.definitions.domains.BagDomain;
 import asmeta.definitions.domains.ConcreteDomain;
@@ -433,7 +432,13 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 			newAssignment.put(var, initValue);
 			logger.debug("<Value>" + initValue + "</Value>");
 			logger.debug("</VariableTerm>");
+			// Hook method: RuleEvalWCov may decide to stop here
+			if (!checkInitTerm(letRule, initValue, initTerm)) {
+				logger.debug("</InitList>");
+				return new UpdateSet();
+			}
 		}
+		afterInitExpressionVisit(letRule); // Hook method for RuleEvalWCov
 		logger.debug("</InitList>");
 		logger.debug("<InRule>");
 		RuleEvaluator newRuleEvaluator = createRuleEvaluator(termEval.state,termEval.environment,newAssignment);
@@ -442,6 +447,17 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		logger.debug("<UpdateSet>" + updateSet + "</UpdateSet>");
 		logger.debug("</LetRule>");
 		return updateSet;
+	}
+	
+	// Hook method for RuleEvalWCov
+	protected boolean checkInitTerm(LetRule letRule, Value initValue, Term initTerm) {
+		// do no additional operations by default and proceed with the visit
+		return true;
+	}
+	
+	// Hook method for RuleEvalWCov
+	protected void afterInitExpressionVisit(LetRule letRule) {
+		// do no additional operations by default
 	}
 
 	/**
@@ -508,12 +524,13 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 				UpdateSet newSet = newEvaluator.visit(forRule.getDoRule());
 				updateSet.union(newSet);
 				logger.debug("</DoRule>");
-				onGuardTrue(forRule);
+				onForallGuardTrue(); // Hook method for RuleEvalWCov
 			}
 		}
 	}
 	
-	protected void onGuardTrue(ForallRule forRule) {
+	// Hook method for RuleEvalWCov
+	protected void onForallGuardTrue() {
 		// do no additional operations by default
 	}
 
@@ -533,6 +550,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		Value[] boundValues = new Value[chooseRule.getVariable().size()];
 		CollectionValue[] domains = evaluateRanges(chooseRule.getRanges());
 		if (!visitChoose(0, domains, boundValues, chooseRule, updateSet)) {
+			onChooseGuardAlwaysFalse(chooseRule); // Hook method for RuleEvalWCov
 			if (chooseRule.getIfnone() != null) {
 				logger.debug("<IfnoneRule>");
 				updateSet = visit(chooseRule.getIfnone());
@@ -616,9 +634,20 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 				UpdateSet newSet = newEvaluator.visit(chooseRule.getDoRule());
 				updateSet.union(newSet);
 				logger.debug("</DoRule>");
+				onChooseGuardTrue(chooseRule); // Hook method for RuleEvalWCov
 			}
 			return guard.getValue();
 		}
+	}
+	
+	// Hook method for RuleEvalWCov
+	protected void onChooseGuardTrue(ChooseRule chooseRule) {
+		// do no additional operations by default
+	}
+	
+	// Hook method for RuleEvalWCov
+	protected void onChooseGuardAlwaysFalse(ChooseRule chooseRule) {
+		// do no additional operations by default
 	}
 
 	/**
