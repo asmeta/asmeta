@@ -100,7 +100,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 	// picked at least one along with the name of the macro rule in which they are
 	// contained
 	Map<ChooseRule, String> pickedChooseRules;
-	// the set that must be set in the init state (initial set of the scencario)
+	// the set that must be set in the init state (initial set of the scenario)
 	ArrayList<Command> monitoredInitState;
 	// List of lists: One list for each step, each list contains the set statements
 	// for that step
@@ -306,7 +306,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 
 	/**
 	 * Append update rules and conditional rules that sets controlled functions
-	 * introuduced for handling non-determinism in choose rule
+	 * introduced for handling non-determinism in choose rule
 	 */
 	private void printRulesFromPicks() {
 		AsmetaTermPrinter printer = AsmetaTermPrinter.getAsmetaTermPrinter(false);
@@ -347,8 +347,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 				String variable = (String) pickedVar[0];
 				String value = (String) pickedVar[1];
 				Term domain = (Term) pickedVar[2];
-				String controlledFunction = variable.substring(1) + "_" + macroRuleSignature
-						+ AsmetaPrinterForAvalla.ACTUAL_VALUE;
+				String controlledFunction = AsmetaPrinterForAvalla.getControlledFunctionName(variable, macroRuleSignature);
 				VariableTerm term = BasictermsFactory.eINSTANCE.createVariableTerm();
 				term.setName(variable);
 				variables.add(term);
@@ -391,8 +390,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 				append("seq");
 				indent();
 				for (String variable : pickedVarsNames) {
-					String controlledFunction = variable.substring(1) + "_" + macroRuleSignature
-							+ AsmetaPrinterForAvalla.ACTUAL_VALUE;
+					String controlledFunction = AsmetaPrinterForAvalla.getControlledFunctionName(variable, macroRuleSignature);
 					append(controlledFunction + " := undef");
 				}
 				append("result := print(\"Error unfeasible condition: the values picked for "
@@ -421,8 +419,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 					indent();
 				}
 				for (String notPickedVar : notPickedVarsNames) {
-					String controlledFunction = notPickedVar.substring(1) + "_" + macroRuleSignature
-							+ AsmetaPrinterForAvalla.ACTUAL_VALUE;
+					String controlledFunction = AsmetaPrinterForAvalla.getControlledFunctionName(notPickedVar, macroRuleSignature);
 					append(controlledFunction + " := " + notPickedVar + "_" + macroRuleSignature + "_step"
 							+ (state - 1));
 				}
@@ -436,8 +433,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 				append("seq");
 				indent();
 				for (String notPickedVar : notPickedVarsNames) {
-					String controlledFunction = notPickedVar.substring(1) + "_" + macroRuleSignature
-							+ AsmetaPrinterForAvalla.ACTUAL_VALUE;
+					String controlledFunction = AsmetaPrinterForAvalla.getControlledFunctionName(notPickedVar, macroRuleSignature);
 					append(controlledFunction + " := undef");
 				}
 				if (pickedVars.size() != 0)

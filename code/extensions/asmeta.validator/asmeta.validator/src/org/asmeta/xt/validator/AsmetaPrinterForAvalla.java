@@ -116,8 +116,8 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 			Rule doRule = chooseRule.getDoRule();
 			List<String> letVars = new ArrayList<>();
 			for (VariableTerm var : vars) {
-				String actualValueVar = var.getName().substring(1) + "_"
-						+ AsmCollectionUtility.getSignature(super.currentRuleDeclaration) + ACTUAL_VALUE;
+				String actualValueVar = getControlledFunctionName(var.getName(),
+						AsmCollectionUtility.getSignature(super.currentRuleDeclaration));
 				letVars.add(var.getName() + "=" + actualValueVar);
 			}
 			println("let(" + String.join(", ", letVars) + ") in");
@@ -128,6 +128,23 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 		} else {
 			super.visit(chooseRule);
 		}
+	}
+
+	/**
+	 * For pick translation. Returns the name of the controlled function that is
+	 * used to make the choose deterministic
+	 * 
+	 * @param var       the name of the variable term
+	 * @param signature the signature of the macro rule in which the variable term
+	 *                  is picked
+	 * @return the new controlled function name
+	 */
+	public static String getControlledFunctionName(String var, String signature) {
+		String function = var.substring(1) + "_" + signature + ACTUAL_VALUE;
+		// Controlled functions can not start wit r_ (used by macro rules)
+		if (function.startsWith("r_"))
+			function = "var_" + function;
+		return function;
 	}
 
 	/*
@@ -372,7 +389,8 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 			for (Entry<ChooseRule, String> cr : this.builder.pickedChooseRules.entrySet()) {
 				// only choose rules with ONE variable are supported in pick
 				for (VariableTerm variable : cr.getKey().getVariable()) {
-					String varName = variable.getName().substring(1) + "_" + cr.getValue() + ACTUAL_VALUE;
+					String varName = AsmetaPrinterForAvalla.getControlledFunctionName(variable.getName(),
+							cr.getValue());
 					println("controlled " + varName + ": " + variable.getDomain().getName());
 				}
 			}
