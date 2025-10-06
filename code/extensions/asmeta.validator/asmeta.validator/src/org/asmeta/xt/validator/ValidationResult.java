@@ -11,6 +11,7 @@ import java.util.Map;
 public class ValidationResult {
 	private boolean checkSucceded;
 	Map<String, BranchCovData> branchData;
+	Map<String, RuleCovData> ruleData;
 	Map<String, UpdateCovData> updateData;
 	Map<String, LoopCovData> loopData;
 
@@ -28,6 +29,14 @@ public class ValidationResult {
 
 	public void setBranchData(Map<String, BranchCovData> branchData) {
 		this.branchData = branchData;
+	}
+	
+	public Map<String, RuleCovData> getRuleData() {
+		return ruleData;
+	}
+
+	public void setRuleData(Map<String, RuleCovData> ruleData) {
+		this.ruleData = ruleData;
 	}
 
 	public Map<String, UpdateCovData> getUpdateData() {

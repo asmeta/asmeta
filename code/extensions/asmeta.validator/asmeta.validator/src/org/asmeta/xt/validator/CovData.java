@@ -34,6 +34,22 @@ class BranchCovData extends CovData {
 	}
 }
 
+//the coverage information about the rules inside a macro rule
+class RuleCovData extends CovData {
+	Set<Integer> covered;
+	public RuleCovData() {
+		super();
+		covered = new HashSet<>();
+	}
+
+	@Override
+	public String toString() {
+		String result = "(" + tot + " rules): ";
+		result += "Covered: " + covered.toString();
+		return result;
+	}
+}
+
 // the coverage information about the update rules inside a macro rule
 class UpdateCovData extends CovData {
 	Set<Integer> covered;

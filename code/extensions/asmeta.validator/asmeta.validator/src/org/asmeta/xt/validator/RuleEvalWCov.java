@@ -24,13 +24,16 @@ import org.asmeta.simulator.wrapper.RuleFactory;
 import asmeta.terms.basicterms.Term;
 import asmeta.terms.basicterms.VariableTerm;
 import asmeta.terms.basicterms.impl.LocationTermImpl;
+import asmeta.transitionrules.basictransitionrules.BlockRule;
 import asmeta.transitionrules.basictransitionrules.ChooseRule;
 import asmeta.transitionrules.basictransitionrules.ConditionalRule;
+import asmeta.transitionrules.basictransitionrules.ExtendRule;
 import asmeta.transitionrules.basictransitionrules.ForallRule;
 import asmeta.transitionrules.basictransitionrules.LetRule;
 import asmeta.transitionrules.basictransitionrules.MacroCallRule;
 import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
 import asmeta.transitionrules.basictransitionrules.Rule;
+import asmeta.transitionrules.basictransitionrules.SkipRule;
 import asmeta.transitionrules.basictransitionrules.UpdateRule;
 
 /**
@@ -54,6 +57,8 @@ public class RuleEvalWCov extends RuleEvaluator {
 	// Choose rules)
 	static Set<Rule> coveredBranchT = new HashSet<>();
 	static Set<Rule> coveredBranchF = new HashSet<>();
+	// covered rules
+	static Set<Rule> coveredRules = new HashSet<>();
 	// covered update rules
 	static Set<UpdateRule> coveredUpdateRules = new HashSet<>();
 	// covered forall rules
@@ -80,23 +85,19 @@ public class RuleEvalWCov extends RuleEvaluator {
 		coveredMacros.clear();
 		coveredBranchT.clear();
 		coveredBranchF.clear();
+		coveredRules.clear();
 		coveredUpdateRules.clear();
 		coveredZeroIterForRule.clear();
 		coveredOneIterForRule.clear();
 		coveredMulIterForRule.clear();
 		ruleSubstitutions.clear();
 	}
-
+	
 	@Override
 	protected BooleanValue evalGuard(ConditionalRule condRule) {
+		logRuleVisit("adding coverage conditional rule ==> ", condRule);
+		coveredRules.add(condRule);
 		BooleanValue eval = super.evalGuard(condRule);
-		if (logger.isDebugEnabled()) {
-			StringWriter out = new StringWriter();
-			PrintWriter st = new PrintWriter(out);
-			AsmPrinter asmPrint = new AsmPrinter(st);
-			asmPrint.visit(condRule);
-			logger.debug("adding coverage conditional rule ==> " + out.toString() + " --- " + condRule);
-		}
 		if (eval.getValue())
 			coveredBranchT.add(condRule);
 		else
@@ -106,14 +107,9 @@ public class RuleEvalWCov extends RuleEvaluator {
 
 	@Override
 	public UpdateSet visit(UpdateRule r) {
+		logRuleVisit("adding coverage update rule ==> ", r);
+		coveredRules.add(r);
 		coveredUpdateRules.add(r);
-		if (logger.isDebugEnabled()) {
-			StringWriter out = new StringWriter();
-			PrintWriter st = new PrintWriter(out);
-			AsmPrinter asmPrint = new AsmPrinter(st);
-			asmPrint.visit(r);
-			logger.debug("adding coverage update rule ==> " + out.toString() + " --- " + r);
-		}
 		return super.visit(r);
 	}
 
@@ -125,13 +121,8 @@ public class RuleEvalWCov extends RuleEvaluator {
 
 	@Override
 	public UpdateSet visit(ForallRule forRule) {
-		if (logger.isDebugEnabled()) {
-			StringWriter out = new StringWriter();
-			PrintWriter st = new PrintWriter(out);
-			AsmPrinter asmPrint = new AsmPrinter(st);
-			asmPrint.visit(forRule);
-			logger.debug("adding coverage forall rule ==> " + out.toString() + " --- " + forRule);
-		}
+		logRuleVisit("adding coverage forall rule ==> ", forRule);
+		coveredRules.add(forRule);
 		nIter = 0;
 		UpdateSet updateSet = super.visit(forRule);
 		if (nIter == 0) {
@@ -154,13 +145,8 @@ public class RuleEvalWCov extends RuleEvaluator {
 
 	@Override
 	public UpdateSet visit(ChooseRule chooseRule) {
-		if (logger.isDebugEnabled()) {
-			StringWriter out = new StringWriter();
-			PrintWriter st = new PrintWriter(out);
-			AsmPrinter asmPrint = new AsmPrinter(st);
-			asmPrint.visit(chooseRule);
-			logger.debug("adding coverage choose rule ==> " + out.toString() + " --- " + chooseRule);
-		}
+		logRuleVisit("adding coverage choose rule ==> ", chooseRule);
+		coveredRules.add(chooseRule);
 		return super.visit(chooseRule);
 	}
 
@@ -174,26 +160,21 @@ public class RuleEvalWCov extends RuleEvaluator {
 		coveredBranchF.add(chooseRule);
 	}
 
-	// True if the LetRule visited by THIS visit(LetRule) is derived from a ChooseRule.
+	// True if the LetRule visited by this visit(LetRule) is derived from a
+	// ChooseRule.
 	// Do NOT make static: each evaluator instance keeps its own flag.
 	// Note: nested let inside a inRule are evaluated by child evaluators
 	// created via createRuleEvaluator(...)
 	private boolean letFromChoose;
-	
+
 	@Override
 	public UpdateSet visit(LetRule letRule) {
+		logRuleVisit("adding coverage let rule ==> ", letRule);
+		coveredRules.add(letRule);
 		letFromChoose = false;
-		if (logger.isDebugEnabled()) {
-			StringWriter out = new StringWriter();
-			PrintWriter st = new PrintWriter(out);
-			AsmPrinter asmPrint = new AsmPrinter(st);
-			asmPrint.visit(letRule);
-			logger.debug("adding coverage let rule (for branch coverage of choose rules) ==> " + out.toString()
-					+ " --- " + letRule);
-		}
 		return super.visit(letRule);
 	}
-		
+
 	@Override
 	protected boolean checkInitTerm(LetRule letRule, Value initValue, Term initTerm) {
 		if (initTerm instanceof LocationTermImpl) {
@@ -209,18 +190,40 @@ public class RuleEvalWCov extends RuleEvaluator {
 		}
 		return true;
 	}
-	
+
 	@Override
 	protected void afterInitExpressionVisit(LetRule letRule) {
 		if (letFromChoose)
 			coveredBranchT.add(letRule);
 	}
+	
+	@Override
+	public UpdateSet visit(BlockRule blockRule) {
+		logRuleVisit("adding coverage block rule ==> ", blockRule);
+		coveredRules.add(blockRule);
+		return super.visit(blockRule);
+	}
+	
+	@Override
+	public UpdateSet visit(ExtendRule extendRule) {
+		logRuleVisit("adding coverage extend rule ==> ", extendRule);
+		coveredRules.add(extendRule);
+		return super.visit(extendRule);
+	}
+	
+	@Override
+	public UpdateSet visit(SkipRule rule) {
+		logRuleVisit("adding coverage skip rule ==> ", rule);
+		coveredRules.add(rule);
+		return super.visit(rule);
+	}
 
 	@Override
 	public UpdateSet visit(MacroCallRule macroRule) throws NotCompatibleDomainsException {
+		logger.debug("adding coverage " + macroRule.getCalledMacro().getName());
+		coveredRules.add(macroRule);
 		// keep track of all the macro evaluated
 		coveredMacros.add(macroRule.getCalledMacro());
-		logger.debug("adding coverage " + macroRule.getCalledMacro().getName());
 		return super.visit(macroRule);
 	}
 
@@ -249,5 +252,15 @@ public class RuleEvalWCov extends RuleEvaluator {
 			}
 		}
 		return newRule;
+	}
+
+	private void logRuleVisit(String s, Rule r) {
+		if (logger.isDebugEnabled()) {
+			StringWriter out = new StringWriter();
+			PrintWriter st = new PrintWriter(out);
+			AsmPrinter asmPrint = new AsmPrinter(st);
+			asmPrint.visit(r);
+			logger.debug(s + out.toString() + " --- " + r);
+		}
 	}
 }

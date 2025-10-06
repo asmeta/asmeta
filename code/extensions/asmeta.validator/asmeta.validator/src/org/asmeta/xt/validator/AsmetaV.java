@@ -136,7 +136,7 @@ public class AsmetaV {
 	
 	private static final String[] HEADERS = {
 		    "execution_id", "asm_name", "rule_signature", "tot_branches",
-		    "covered_true_branches", "covered_false_branches", "tot_update_rules",
+		    "covered_true_branches", "covered_false_branches", "tot_rules", "covered_rules", "tot_update_rules",
 		    "covered_update_rules", "tot_forall_rules", "covered_zero_iter_forall_rule",
 		    "covered_one_iter_forall_rule", "covered_multiple_iter_forall_rule", "failing_scenarios"
 		};
@@ -178,6 +178,7 @@ public class AsmetaV {
 						row[i] = "ERR";
 				} else {
 					BranchCovData branchData = validationResult.getBranchData().get(rule.getKey());
+					RuleCovData ruleData = validationResult.getRuleData().get(rule.getKey());
 					UpdateCovData updateData = validationResult.getUpdateData().get(rule.getKey());
 					LoopCovData loopData = validationResult.getLoopData().get(rule.getKey());
 					if (branchData.tot != 0) {
@@ -186,6 +187,12 @@ public class AsmetaV {
 						logger.info("-> branch coverage: " + branchCoverage + "%");
 					} else {
 						logger.info("-> branch coverage: - (no branches to be covered)");
+					}
+					if (ruleData.tot != 0) {
+						float ruleCoverage = ((float) ruleData.covered.size() / ruleData.tot) * 100;
+						logger.info("-> rule coverage: " + ruleCoverage + "%");
+					} else {
+						logger.info("-> rule coverage: - (no rules to be covered)");
 					}
 					if (updateData.tot != 0) {
 						float updateCoverage = ((float) updateData.covered.size() / updateData.tot) * 100;
@@ -203,14 +210,16 @@ public class AsmetaV {
 					row[3] = Integer.toString(branchData.tot);
 					row[4] = Integer.toString(branchData.coveredT.size());
 					row[5] = Integer.toString(branchData.coveredF.size());
-					row[6] = Integer.toString(updateData.tot);
-					row[7] = Integer.toString(updateData.covered.size());
-					row[8] = Integer.toString(loopData.tot);
-					row[9] = Integer.toString(loopData.zeroIterations.size());
-					row[10] = Integer.toString(loopData.oneIteration.size());
-					row[11] = Integer.toString(loopData.multipleIterations.size());
+					row[6] = Integer.toString(ruleData.tot);
+					row[7] = Integer.toString(ruleData.covered.size());
+					row[8] = Integer.toString(updateData.tot);
+					row[9] = Integer.toString(updateData.covered.size());
+					row[10] = Integer.toString(loopData.tot);
+					row[11] = Integer.toString(loopData.zeroIterations.size());
+					row[12] = Integer.toString(loopData.oneIteration.size());
+					row[13] = Integer.toString(loopData.multipleIterations.size());
 				}
-				row[12] = failedScenarios.isEmpty() ? "none" : formatForCsv(String.join(",", failedScenarios));
+				row[14] = failedScenarios.isEmpty() ? "none" : formatForCsv(String.join(",", failedScenarios));
 				rows.add(row);
 			}
 		}
@@ -372,6 +381,10 @@ public class AsmetaV {
 			Map<String, BranchCovData> branchData = ((SimulatorWCov) sim).getCoveredBranches();
 			logCovData("Covered branches:", branchData);
 			result.setBranchData(branchData);
+			// update the result with the data about branch coverage
+			Map<String, RuleCovData> ruleData = ((SimulatorWCov) sim).getCoveredRules();
+			logCovData("Covered rules:", ruleData);
+			result.setRuleData(ruleData);
 			// update the result with the data about update rule coverage
 			Map<String, UpdateCovData> updateData = ((SimulatorWCov) sim).getCoveredUpdateRules();
 			logCovData("Covered update rules:", updateData);

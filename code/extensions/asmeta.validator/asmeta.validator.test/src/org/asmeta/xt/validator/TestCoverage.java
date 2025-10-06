@@ -56,33 +56,33 @@ public class TestCoverage extends TestValidator {
 	@Test
 	public void testWithCoverageAndWithoutAdvancedClock() throws Exception {
 		testWithCoverageAndWithout("scenariosforexamples/advancedClock/advancedClock1.avalla", true,
-				cov("r_Main()", branch(1, 0, 1), update(1, 1), loop(0, 0, 0, 0)));
+				cov("r_Main()", branch(1, 0, 1), rule(4, 3), update(1, 1), loop(0, 0, 0, 0)));
 	}
 
 	@Test
 	public void testWithCoverageAndWithoutNestedForall() throws Exception {
 		List<CoverageOracle> oracles = new ArrayList<>();
-		oracles.add(cov("r_Main()", branch(1, 1, 0), update(0, 0), loop(1, 0, 0, 1)));
-		oracles.add(cov("r_inc(Rows)", branch(3, 2, 2), update(1, 1), loop(3, 2, 1, 1)));
-		testWithCoverageAndWithout("scenariosforexamples/nestedForall/nested_forall_scenario.avalla",
-				true, oracles.toArray(new CoverageOracle[0]));
+		oracles.add(cov("r_Main()", branch(1, 1, 0), rule(2, 2), update(0, 0), loop(1, 0, 0, 1)));
+		oracles.add(cov("r_inc(Rows)", branch(3, 2, 2), rule(7, 6), update(1, 1), loop(3, 2, 1, 1)));
+		testWithCoverageAndWithout("scenariosforexamples/nestedForall/nested_forall_scenario.avalla", true,
+				oracles.toArray(new CoverageOracle[0]));
 	}
-	
+
 	@Test
 	public void testWithCoverageAndWithoutNestedChooseAndLet() throws Exception {
 		List<CoverageOracle> oracles = new ArrayList<>();
-		testWithCoverageAndWithout("scenariosforexamples/nestedChooseAndLet/no_pick.avalla",
-				true, cov("r_Main()", branch(2, 2, 0), update(1, 1), loop(0, 0, 0, 0)));
+		testWithCoverageAndWithout("scenariosforexamples/nestedChooseAndLet/no_pick.avalla", true,
+				cov("r_Main()", branch(2, 2, 0), rule(4, 4), update(1, 1), loop(0, 0, 0, 0)));
 		RuleEvalWCov.reset();
 		oracles.clear();
 		stringWriter.getBuffer().setLength(0);
-		testWithCoverageAndWithout("scenariosforexamples/nestedChooseAndLet/all_picked.avalla",
-				true, cov("r_Main()", branch(2, 2, 0), update(1, 1), loop(0, 0, 0, 0)));
+		testWithCoverageAndWithout("scenariosforexamples/nestedChooseAndLet/all_picked.avalla", true,
+				cov("r_Main()", branch(2, 2, 0), rule(4, 4), update(1, 1), loop(0, 0, 0, 0)));
 		RuleEvalWCov.reset();
 		oracles.clear();
 		stringWriter.getBuffer().setLength(0);
-		testWithCoverageAndWithout("scenariosforexamples/nestedChooseAndLet/pick_with_false_guard.avalla",
-				false, cov("r_Main()", branch(2, 1, 0), update(1, 0), loop(0, 0, 0, 0))); // should fail
+		testWithCoverageAndWithout("scenariosforexamples/nestedChooseAndLet/pick_with_false_guard.avalla", false,
+				cov("r_Main()", branch(2, 1, 0), rule(4, 1), update(1, 0), loop(0, 0, 0, 0))); // should fail
 	}
 
 	@Test
@@ -91,9 +91,9 @@ public class TestCoverage extends TestValidator {
 		// scenario 1: forall executed two times, the first with more than one
 		// iteration, the second with zero iterations
 		String scenario = "scenariosforexamples/population/zero_executions.avalla";
-		oracles.add(cov("r_Main()", branch(1, 1, 1), update(3, 3), loop(1, 1, 0, 1)));
-		oracles.add(cov("r_dead(Person)", branch(2, 2, 0), update(1, 1), loop(0, 0, 0, 0)));
-		oracles.add(cov("r_reproduce(Person)", branch(5, 2, 2), update(5, 0), loop(0, 0, 0, 0)));
+		oracles.add(cov("r_Main()", branch(1, 1, 1), rule(5, 5), update(3, 3), loop(1, 1, 0, 1)));
+		oracles.add(cov("r_dead(Person)", branch(2, 2, 0), rule(3, 3), update(1, 1), loop(0, 0, 0, 0)));
+		oracles.add(cov("r_reproduce(Person)", branch(5, 2, 2), rule(12, 3), update(5, 0), loop(0, 0, 0, 0)));
 		testWithCoverageAndWithout(scenario, true, oracles.toArray(new CoverageOracle[0]));
 		// scenario 2: forall executed two times, the first with more than one
 		// iteration, the second with a single iteration
@@ -101,18 +101,18 @@ public class TestCoverage extends TestValidator {
 		RuleEvalWCov.reset();
 		oracles.clear();
 		stringWriter.getBuffer().setLength(0);
-		oracles.add(cov("r_Main()", branch(1, 1, 0), update(3, 3), loop(1, 0, 1, 1)));
-		oracles.add(cov("r_dead(Person)", branch(2, 2, 1), update(1, 1), loop(0, 0, 0, 0)));
-		oracles.add(cov("r_reproduce(Person)", branch(5, 5, 1), update(5, 5), loop(0, 0, 0, 0)));
+		oracles.add(cov("r_Main()", branch(1, 1, 0), rule(5, 5), update(3, 3), loop(1, 0, 1, 1)));
+		oracles.add(cov("r_dead(Person)", branch(2, 2, 1), rule(3, 3), update(1, 1), loop(0, 0, 0, 0)));
+		oracles.add(cov("r_reproduce(Person)", branch(5, 5, 1), rule(12, 12), update(5, 5), loop(0, 0, 0, 0)));
 		testWithCoverageAndWithout(scenario, true, oracles.toArray(new CoverageOracle[0]));
 		// scenario 3: forall executed two times, both with more than one iteration
 		scenario = "scenariosforexamples/population/multiple_executions.avalla";
 		RuleEvalWCov.reset();
 		oracles.clear();
 		stringWriter.getBuffer().setLength(0);
-		oracles.add(cov("r_Main()", branch(1, 1, 0), update(3, 3), loop(1, 0, 0, 1)));
-		oracles.add(cov("r_dead(Person)", branch(2, 1, 1), update(1, 0), loop(0, 0, 0, 0)));
-		oracles.add(cov("r_reproduce(Person)", branch(5, 5, 2), update(5, 5), loop(0, 0, 0, 0)));
+		oracles.add(cov("r_Main()", branch(1, 1, 0), rule(5, 5), update(3, 3), loop(1, 0, 0, 1)));
+		oracles.add(cov("r_dead(Person)", branch(2, 1, 1), rule(3, 2), update(1, 0), loop(0, 0, 0, 0)));
+		oracles.add(cov("r_reproduce(Person)", branch(5, 5, 2), rule(12, 12), update(5, 5), loop(0, 0, 0, 0)));
 		testWithCoverageAndWithout(scenario, true, oracles.toArray(new CoverageOracle[0]));
 	}
 
@@ -120,10 +120,10 @@ public class TestCoverage extends TestValidator {
 	public void testWithCoverageAndWithoutSluiceGate() throws Exception {
 		String scenario = "scenariosforexamples/sluiceGate";
 		List<CoverageOracle> oracles = new ArrayList<>();
-		oracles.add(cov("r_Main()", branch(8, 8, 8), update(4, 4), loop(0, 0, 0, 0)));
-		oracles.add(cov("r_start_to_raise()", branch(0, 0, 0), update(2, 2), loop(0, 0, 0, 0)));
-		oracles.add(cov("r_start_to_lower()", branch(0, 0, 0), update(2, 2), loop(0, 0, 0, 0)));
-		oracles.add(cov("r_stop_motor()", branch(0, 0, 0), update(1, 1), loop(0, 0, 0, 0)));
+		oracles.add(cov("r_Main()", branch(8, 8, 8), rule(21, 21), update(4, 4), loop(0, 0, 0, 0)));
+		oracles.add(cov("r_start_to_raise()", branch(0, 0, 0), rule(3, 3), update(2, 2), loop(0, 0, 0, 0)));
+		oracles.add(cov("r_start_to_lower()", branch(0, 0, 0), rule(3, 3), update(2, 2), loop(0, 0, 0, 0)));
+		oracles.add(cov("r_stop_motor()", branch(0, 0, 0), rule(5, 5), update(1, 1), loop(0, 0, 0, 0)));
 		testWithCoverageAndWithout(scenario, true, oracles.toArray(new CoverageOracle[0]));
 	}
 
@@ -131,13 +131,14 @@ public class TestCoverage extends TestValidator {
 	public void testWithCoverageAndWithoutATM() throws Exception {
 		String scenario = "scenariosforexamples/atm/atm4.avalla";
 		List<CoverageOracle> oracles = new ArrayList<>();
-		oracles.add(cov("r_Main()", branch(2, 1, 2), update(1, 1), loop(0, 0, 0, 0)));
-		oracles.add(cov("r_insertcard()", branch(2, 2, 1), update(3, 3), loop(0, 0, 0, 0)));
-		oracles.add(cov("r_enterPin()", branch(4, 2, 1), update(6, 3), loop(0, 0, 0, 0)));
-		oracles.add(cov("r_chooseService()", branch(5, 2, 3), update(8, 2), loop(0, 0, 0, 0)));
-		oracles.add(cov("r_chooseAmount()", branch(3, 2, 2), update(4, 2), loop(0, 0, 0, 0)));
-		oracles.add(cov("r_prelievo()", branch(6, 3, 2), update(3, 0), loop(0, 0, 0, 0)));
-		oracles.add(cov("r_grantMoney(Integer)", branch(0, 0, 0), update(4, 4), loop(0, 0, 0, 0)));
+		// NOTE: the correctness of the coverage is checked only for a subset of the macro rules in the asm
+		oracles.add(cov("r_Main()", branch(2, 1, 2), rule(10, 9), update(1, 1), loop(0, 0, 0, 0)));
+		oracles.add(cov("r_insertcard()", branch(2, 2, 1), rule(6, 6), update(3, 3), loop(0, 0, 0, 0)));
+		oracles.add(cov("r_enterPin()", branch(4, 2, 1), rule(12, 6), update(6, 3), loop(0, 0, 0, 0)));
+		oracles.add(cov("r_chooseService()", branch(5, 2, 3), rule(18, 8), update(8, 2), loop(0, 0, 0, 0)));
+		oracles.add(cov("r_chooseAmount()", branch(3, 2, 2), rule(10, 7), update(4, 2), loop(0, 0, 0, 0)));
+		oracles.add(cov("r_prelievo()", branch(6, 3, 2), rule(12, 6), update(3, 0), loop(0, 0, 0, 0)));
+		oracles.add(cov("r_grantMoney(Integer)", branch(0, 0, 0), rule(6, 6), update(4, 4), loop(0, 0, 0, 0)));
 		testWithCoverageAndWithout(scenario, true, oracles.toArray(new CoverageOracle[0]));
 	}
 
@@ -148,22 +149,22 @@ public class TestCoverage extends TestValidator {
 		String scenario2 = baseFolder + "/scenario2.avalla";
 		List<CoverageOracle> oracles = new ArrayList<>();
 		// scenario1.avalla (without pick)
-		oracles.add(cov("r_Main()", branch(4, 4, 1), update(1, 1), loop(0, 0, 0, 0)));
-		oracles.add(cov("r_serveProduct(Product)", branch(0, 0, 0), update(2, 2), loop(0, 0, 0, 0)));
+		oracles.add(cov("r_Main()", branch(4, 4, 1), rule(8, 8), update(1, 1), loop(0, 0, 0, 0)));
+		oracles.add(cov("r_serveProduct(Product)", branch(0, 0, 0), rule(3, 3), update(2, 2), loop(0, 0, 0, 0)));
 		testWithCoverageAndWithout(scenario1, true, oracles.toArray(new CoverageOracle[0]));
 		// scenario2.avalla (with pick)
 		RuleEvalWCov.reset();
 		oracles.clear();
 		stringWriter.getBuffer().setLength(0);
-		oracles.add(cov("r_Main()", branch(4, 2, 1), update(1, 1), loop(0, 0, 0, 0)));
-		oracles.add(cov("r_serveProduct(Product)", branch(0, 0, 0), update(2, 2), loop(0, 0, 0, 0)));
+		oracles.add(cov("r_Main()", branch(4, 2, 1), rule(8, 6), update(1, 1), loop(0, 0, 0, 0)));
+		oracles.add(cov("r_serveProduct(Product)", branch(0, 0, 0), rule(3 ,3), update(2, 2), loop(0, 0, 0, 0)));
 		testWithCoverageAndWithout(scenario2, true, oracles.toArray(new CoverageOracle[0]));
-		// Both
+		// Both scenarios
 		RuleEvalWCov.reset();
 		oracles.clear();
 		stringWriter.getBuffer().setLength(0);
-		oracles.add(cov("r_Main()", branch(4, 4, 1), update(1, 1), loop(0, 0, 0, 0)));
-		oracles.add(cov("r_serveProduct(Product)", branch(0, 0, 0), update(2, 2), loop(0, 0, 0, 0)));
+		oracles.add(cov("r_Main()", branch(4, 4, 1), rule(8, 8), update(1, 1), loop(0, 0, 0, 0)));
+		oracles.add(cov("r_serveProduct(Product)", branch(0, 0, 0), rule(3, 3), update(2, 2), loop(0, 0, 0, 0)));
 		testWithCoverageAndWithout(baseFolder, true, oracles.toArray(new CoverageOracle[0]));
 	}
 
@@ -187,25 +188,32 @@ public class TestCoverage extends TestValidator {
 			for (int i = cov + 1; i < nCov; i++) {
 				if (outputs.get(i).contains("::" + oracle.getSignature())) {
 					if (oracle.getBranchNumber() == 0) {
-						assertTrue("wrong branch coverage for " + oracle.getSignature(), outputs.get(i + 1)
-								.contains("-> branch coverage: - (no branches to be covered)"));
+						assertTrue("wrong branch coverage for " + oracle.getSignature(),
+								outputs.get(i + 1).contains("-> branch coverage: - (no branches to be covered)"));
 					} else {
 						assertTrue("wrong branch coverage for " + oracle.getSignature(),
 								outputs.get(i + 1).contains("-> branch coverage: " + oracle.getBranchCoverage() + "%"));
 					}
+					if (oracle.getRuleNumber() == 0) {
+						assertTrue("wrong rule coverage for " + oracle.getSignature(),
+								outputs.get(i + 2).contains("-> rule coverage: - (no rules to be covered)"));
+					} else {
+						assertTrue("wrong rule coverage for " + oracle.getSignature(),
+								outputs.get(i + 2).contains("-> rule coverage: " + oracle.getRuleCoverage() + "%"));
+					}
 					if (oracle.getUpdateRuleNumber() == 0) {
-						assertTrue("wrong update rule coverage for " + oracle.getSignature(), outputs.get(i + 2)
+						assertTrue("wrong update rule coverage for " + oracle.getSignature(), outputs.get(i + 3)
 								.contains("-> update rule coverage: - (no update rules to be covered)"));
 					} else {
-						assertTrue("wrong update rule coverage for " + oracle.getSignature(), outputs.get(i + 2)
+						assertTrue("wrong update rule coverage for " + oracle.getSignature(), outputs.get(i + 3)
 								.contains("-> update rule coverage: " + oracle.getUpdateRuleCoverage() + "%"));
 					}
 					if (oracle.getLoopNumber() == 0) {
 						assertTrue("wrong loop coverage for " + oracle.getSignature(),
-								outputs.get(i + 3).contains("-> loop coverage: - (no forall rules to be covered)"));
+								outputs.get(i + 4).contains("-> loop coverage: - (no forall rules to be covered)"));
 					} else {
 						assertTrue("wrong loop coverage for " + oracle.getSignature(),
-								outputs.get(i + 3).contains("-> loop coverage: " + oracle.getLoopCoverage() + "%"));
+								outputs.get(i + 4).contains("-> loop coverage: " + oracle.getLoopCoverage() + "%"));
 					}
 					found = true;
 					break;
@@ -229,25 +237,33 @@ public class TestCoverage extends TestValidator {
 	private static class CoverageOracle {
 		private final String signature;
 		private final int nBranch;
+		private final int nRule;
 		private final int nUpdate;
 		private final int nLoop;
 		private final float branchCoverage;
+		private final float ruleCoverage;
 		private final float updateRuleCoverage;
 		private final float loopCoverage;
 
-		public CoverageOracle(String signature, int nBranch, int coveredT, int coveredF, int nUpdate, int coveredUpdate,
-				int nLoop, int zeroIter, int oneIter, int multipleIter) {
+		public CoverageOracle(String signature, int nBranch, int coveredT, int coveredF, int nRule, int coveredRule,
+				int nUpdate, int coveredUpdate, int nLoop, int zeroIter, int oneIter, int multipleIter) {
 			this.signature = signature;
 			this.nBranch = nBranch;
+			this.nRule = nRule;
 			this.nUpdate = nUpdate;
 			this.nLoop = nLoop;
 			this.branchCoverage = nBranch == 0 ? 0 : (((float) coveredT + coveredF) / (nBranch * 2)) * 100;
+			this.ruleCoverage = nRule == 0 ? 0 : ((float) coveredRule / nRule) * 100;
 			this.updateRuleCoverage = nUpdate == 0 ? 0 : ((float) coveredUpdate / nUpdate) * 100;
 			this.loopCoverage = nLoop == 0 ? 0 : (((float) zeroIter + oneIter + multipleIter) / (nLoop * 3)) * 100;
 		}
 
 		public int getBranchNumber() {
 			return nBranch;
+		}
+
+		public int getRuleNumber() {
+			return nRule;
 		}
 
 		public int getUpdateRuleNumber() {
@@ -264,6 +280,10 @@ public class TestCoverage extends TestValidator {
 
 		public float getBranchCoverage() {
 			return branchCoverage;
+		}
+
+		public float getRuleCoverage() {
+			return ruleCoverage;
 		}
 
 		public float getUpdateRuleCoverage() {
@@ -285,9 +305,9 @@ public class TestCoverage extends TestValidator {
 	 * 3 update rules (3 of which covered) and 1 forall rule (executed with 0
 	 * iterations and more than one iteration).
 	 */
-	private static CoverageOracle cov(String signature, Branch br, Update up, Loop lp) {
-		return new CoverageOracle(signature, br.total, br.coveredTrue, br.coveredFalse, up.total, up.covered, lp.total,
-				lp.zeroIters, lp.oneIter, lp.multiIters);
+	private static CoverageOracle cov(String signature, Branch br, Rule rl, Update up, Loop lp) {
+		return new CoverageOracle(signature, br.total, br.coveredTrue, br.coveredFalse, rl.total, rl.covered, up.total,
+				up.covered, lp.total, lp.zeroIters, lp.oneIter, lp.multiIters);
 	}
 
 	/** Describes expected branch coverage. */
@@ -300,6 +320,17 @@ public class TestCoverage extends TestValidator {
 			this.total = total;
 			this.coveredTrue = coveredTrue;
 			this.coveredFalse = coveredFalse;
+		}
+	}
+
+	/** Describes expected rule coverage. */
+	static final class Rule {
+		final int total;
+		final int covered;
+
+		Rule(int total, int covered) {
+			this.total = total;
+			this.covered = covered;
 		}
 	}
 
@@ -332,6 +363,10 @@ public class TestCoverage extends TestValidator {
 	// --- Convenience factory methods to avoid 'new' in tests ---
 	private static Branch branch(int total, int coveredTrue, int coveredFalse) {
 		return new Branch(total, coveredTrue, coveredFalse);
+	}
+
+	private static Rule rule(int total, int covered) {
+		return new Rule(total, covered);
 	}
 
 	private static Update update(int total, int covered) {

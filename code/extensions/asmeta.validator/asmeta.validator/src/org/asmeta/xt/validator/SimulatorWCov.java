@@ -16,19 +16,22 @@ import org.asmeta.simulator.main.AsmModelNotFoundException;
 import org.asmeta.simulator.main.MainRuleNotFoundException;
 import org.asmeta.simulator.main.Simulator;
 import org.asmeta.simulator.readers.InteractiveMFReader;
-import org.asmeta.simulator.value.Value;
 import org.asmeta.simulator.wrapper.RuleFactory;
 import org.eclipse.emf.common.util.EList;
 
 import asmeta.AsmCollection;
 import asmeta.terms.basicterms.Term;
 import asmeta.terms.basicterms.impl.LocationTermImpl;
+import asmeta.transitionrules.basictransitionrules.BlockRule;
 import asmeta.transitionrules.basictransitionrules.ChooseRule;
 import asmeta.transitionrules.basictransitionrules.ConditionalRule;
+import asmeta.transitionrules.basictransitionrules.ExtendRule;
 import asmeta.transitionrules.basictransitionrules.ForallRule;
 import asmeta.transitionrules.basictransitionrules.LetRule;
+import asmeta.transitionrules.basictransitionrules.MacroCallRule;
 import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
 import asmeta.transitionrules.basictransitionrules.Rule;
+import asmeta.transitionrules.basictransitionrules.SkipRule;
 import asmeta.transitionrules.basictransitionrules.UpdateRule;
 
 public class SimulatorWCov extends Simulator {
@@ -101,6 +104,42 @@ public class SimulatorWCov extends Simulator {
 						singleMacroCovData.coveredF.add(i);
 					if (isCovered(r, ruleSubstitutions, RuleEvalWCov.coveredBranchT))
 						singleMacroCovData.coveredT.add(i);
+					tot++;
+				}
+			}
+			singleMacroCovData.tot = tot;
+		}
+		return covData;
+	}
+	
+	private static final List<Class<? extends Rule>> CONSIDERED_RULES = List.of(
+			BlockRule.class, 
+			ChooseRule.class, 
+			ConditionalRule.class,
+			ExtendRule.class,
+			ForallRule.class,
+			LetRule.class,
+			MacroCallRule.class,
+			SkipRule.class,
+			UpdateRule.class
+		);
+	
+	// return the coverage of the rules
+	// NOTE: uses the branches of the modified ASM, not the original one.
+	public Map<String, RuleCovData> getCoveredRules() {
+		Map<String, RuleCovData> covData = new HashMap<>();
+		Map<Rule, Set<Rule>> ruleSubstitutions = RuleEvalWCov.ruleSubstitutions;
+		for (MacroDeclaration md : RuleEvalWCov.coveredMacros) {
+			String ruleCompleteName = RuleDeclarationUtils.getCompleteName(md);
+			covData.putIfAbsent(ruleCompleteName, new RuleCovData());
+			List<Rule> rules = RuleExtractorFromMacroDecl.getAllContainedRules(md);
+			RuleCovData singleMacroCovData = covData.get(ruleCompleteName);
+			int tot = 0;
+			for (int i = 0; i < rules.size(); i++) {
+				Rule r = rules.get(i);
+				if (CONSIDERED_RULES.stream().anyMatch(ruleType -> ruleType.isInstance(r))) {
+					if (isCovered(r, ruleSubstitutions, RuleEvalWCov.coveredRules))
+						singleMacroCovData.covered.add(i);
 					tot++;
 				}
 			}
