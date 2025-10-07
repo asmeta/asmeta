@@ -49,5 +49,17 @@ public class ChooseTest {
 			// TODO check that it is alwsys the same
 		}
 	} 
+	
+	@Test
+	public void testRandomIntWithTrue() throws Exception{
+		Simulator sim = Util.getSimulatorForTestSpec("test/simulator/randomInt.asm");
+		sim.setShuffleFlag(false);
+		for(int i = 1; i < 10; i++){
+			UpdateSet updateSet = sim.doOneStep();	
+			System.out.println(updateSet);
+			// TODO check that it is alwsys the same
+		}
+	} 
+	
 
 }
