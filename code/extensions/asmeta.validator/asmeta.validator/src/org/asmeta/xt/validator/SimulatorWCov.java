@@ -33,6 +33,7 @@ import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
 import asmeta.transitionrules.basictransitionrules.Rule;
 import asmeta.transitionrules.basictransitionrules.SkipRule;
 import asmeta.transitionrules.basictransitionrules.UpdateRule;
+import asmeta.transitionrules.turbotransitionrules.SeqRule;
 
 public class SimulatorWCov extends Simulator {
 	/**
@@ -121,7 +122,8 @@ public class SimulatorWCov extends Simulator {
 			LetRule.class,
 			MacroCallRule.class,
 			SkipRule.class,
-			UpdateRule.class
+			UpdateRule.class,
+			SeqRule.class
 		);
 	
 	// return the coverage of the rules
@@ -172,16 +174,16 @@ public class SimulatorWCov extends Simulator {
 		return covData;
 	}
 
-	// return the coverage of the loops (forall rules)
+	// return the coverage of the forall rules
 	// NOTE: uses the loops of the modified ASM, not the original one.
-	public Map<String, LoopCovData> getCoveredLoops() {
-		Map<String, LoopCovData> covData = new HashMap<>();
+	public Map<String, ForallCovData> getCoveredForallRules() {
+		Map<String, ForallCovData> covData = new HashMap<>();
 		Map<Rule, Set<Rule>> ruleSubstitutions = RuleEvalWCov.ruleSubstitutions;
 		for (MacroDeclaration md : RuleEvalWCov.coveredMacros) {
 			String ruleCompleteName = RuleDeclarationUtils.getCompleteName(md);
-			covData.putIfAbsent(ruleCompleteName, new LoopCovData());
+			covData.putIfAbsent(ruleCompleteName, new ForallCovData());
 			List<Rule> rules = RuleExtractorFromMacroDecl.getAllContainedRules(md);
-			LoopCovData singleMacroCovData = covData.get(ruleCompleteName);
+			ForallCovData singleMacroCovData = covData.get(ruleCompleteName);
 			int tot = 0;
 			for (int i = 0; i < rules.size(); i++) {
 				Rule r = rules.get(i);

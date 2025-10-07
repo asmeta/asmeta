@@ -35,6 +35,7 @@ import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
 import asmeta.transitionrules.basictransitionrules.Rule;
 import asmeta.transitionrules.basictransitionrules.SkipRule;
 import asmeta.transitionrules.basictransitionrules.UpdateRule;
+import asmeta.transitionrules.turbotransitionrules.SeqRule;
 
 /**
  * Questa classe valuta le regole pero' tiene traccia delle macro valutate it is
@@ -182,10 +183,8 @@ public class RuleEvalWCov extends RuleEvaluator {
 			String val = initValue.toString();
 			if (loc.contains(AsmetaPrinterForAvalla.ACTUAL_VALUE)) {
 				letFromChoose = true;
-				if (val.equals("undef")) {
-					coveredBranchF.add(letRule);
+				if (val.equals("undef"))
 					return false;
-				}
 			}
 		}
 		return true;
@@ -216,6 +215,13 @@ public class RuleEvalWCov extends RuleEvaluator {
 		logRuleVisit("adding coverage skip rule ==> ", rule);
 		coveredRules.add(rule);
 		return super.visit(rule);
+	}
+	
+	@Override
+	public UpdateSet visit(SeqRule seqRule) {
+		logRuleVisit("adding coverage seq rule ==> ", seqRule);
+		coveredRules.add(seqRule);
+		return super.visit(seqRule);
 	}
 
 	@Override

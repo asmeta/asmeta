@@ -67,13 +67,13 @@ class UpdateCovData extends CovData {
 	}
 }
 
-//the coverage information about the forall rules (loops) inside a macro rule
-class LoopCovData extends CovData {
+//the coverage information about the forall rules inside a macro rule
+class ForallCovData extends CovData {
 	Set<Integer> zeroIterations;
 	Set<Integer> oneIteration;
 	Set<Integer> multipleIterations;
 
-	public LoopCovData() {
+	public ForallCovData() {
 		super();
 		zeroIterations = new HashSet<>();
 		oneIteration = new HashSet<>();

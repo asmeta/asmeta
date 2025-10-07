@@ -13,7 +13,7 @@ public class ValidationResult {
 	Map<String, BranchCovData> branchData;
 	Map<String, RuleCovData> ruleData;
 	Map<String, UpdateCovData> updateData;
-	Map<String, LoopCovData> loopData;
+	Map<String, ForallCovData> forallData;
 
 	public boolean isCheckSucceded() {
 		return checkSucceded;
@@ -47,11 +47,11 @@ public class ValidationResult {
 		this.updateData = updateData;
 	}
 
-	public Map<String, LoopCovData> getLoopData() {
-		return loopData;
+	public Map<String, ForallCovData> getForallData() {
+		return forallData;
 	}
 
-	public void setLoopData(Map<String, LoopCovData> loopData) {
-		this.loopData = loopData;
+	public void setForallData(Map<String, ForallCovData> forallData) {
+		this.forallData = forallData;
 	}
 }

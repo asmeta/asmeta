@@ -441,7 +441,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 							+ String.join(", ", pickedVarsNames) + " in " + macroRuleSignature
 							+ " make the guard always evaluate to false \")");
 				else
-					append("result := print(\"Error unfeasuble condition: the guard of a choose rule in "
+					append("result := print(\"Error unfeasible condition: the guard of a choose rule in "
 							+ macroRuleSignature + " always evaluates to false \")");
 				append("step__ := -2"); // -2 so plus 1 is still < 0
 				unIndent();

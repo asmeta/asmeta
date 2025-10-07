@@ -9,6 +9,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
@@ -133,13 +134,11 @@ public class AsmetaV {
 			logger.info("WARNING: some check failed");
 		return failedScenarios;
 	}
-	
-	private static final String[] HEADERS = {
-		    "execution_id", "asm_name", "rule_signature", "tot_branches",
-		    "covered_true_branches", "covered_false_branches", "tot_rules", "covered_rules", "tot_update_rules",
-		    "covered_update_rules", "tot_forall_rules", "covered_zero_iter_forall_rule",
-		    "covered_one_iter_forall_rule", "covered_multiple_iter_forall_rule", "failing_scenarios"
-		};
+
+	private static final String[] HEADERS = { "execution_id", "asm_name", "rule_signature", "tot_branches",
+			"covered_true_branches", "covered_false_branches", "tot_rules", "covered_rules", "tot_update_rules",
+			"covered_update_rules", "tot_forall_rules", "covered_zero_iter_forall_rule", "covered_one_iter_forall_rule",
+			"covered_multiple_iter_forall_rule", "failing_scenarios" };
 
 	/**
 	 * print coverage on log and eventually on file in csv format.
@@ -180,32 +179,32 @@ public class AsmetaV {
 					BranchCovData branchData = validationResult.getBranchData().get(rule.getKey());
 					RuleCovData ruleData = validationResult.getRuleData().get(rule.getKey());
 					UpdateCovData updateData = validationResult.getUpdateData().get(rule.getKey());
-					LoopCovData loopData = validationResult.getLoopData().get(rule.getKey());
+					ForallCovData forallData = validationResult.getForallData().get(rule.getKey());
 					if (branchData.tot != 0) {
 						float branchCoverage = ((float) branchData.coveredT.size() + branchData.coveredF.size())
 								/ (branchData.tot * 2) * 100;
-						logger.info("-> branch coverage: " + branchCoverage + "%");
+						logger.info(formatCoverage("branch", branchCoverage));
 					} else {
-						logger.info("-> branch coverage: - (no branches to be covered)");
+						logger.info(formatUndefCoverage("branch", "branches"));
 					}
 					if (ruleData.tot != 0) {
 						float ruleCoverage = ((float) ruleData.covered.size() / ruleData.tot) * 100;
-						logger.info("-> rule coverage: " + ruleCoverage + "%");
+						logger.info(formatCoverage("rule", ruleCoverage));
 					} else {
-						logger.info("-> rule coverage: - (no rules to be covered)");
+						logger.info(formatUndefCoverage("rule", "rules"));
 					}
 					if (updateData.tot != 0) {
 						float updateCoverage = ((float) updateData.covered.size() / updateData.tot) * 100;
-						logger.info("-> update rule coverage: " + updateCoverage + "%");
+						logger.info(formatCoverage("update rule", updateCoverage));
 					} else {
-						logger.info("-> update rule coverage: - (no update rules to be covered)");
+						logger.info(formatUndefCoverage("update rule", "update rules"));
 					}
-					if (loopData.tot != 0) {
-						float loopCoverage = ((float) loopData.zeroIterations.size() + loopData.oneIteration.size()
-								+ loopData.multipleIterations.size()) / (loopData.tot * 3) * 100;
-						logger.info("-> loop coverage: " + loopCoverage + "%");
+					if (forallData.tot != 0) {
+						float loopCoverage = ((float) forallData.zeroIterations.size() + forallData.oneIteration.size()
+								+ forallData.multipleIterations.size()) / (forallData.tot * 3) * 100;
+						logger.info(formatCoverage("forall rule", loopCoverage));
 					} else {
-						logger.info("-> loop coverage: - (no forall rules to be covered)");
+						logger.info(formatUndefCoverage("forall rule", "forall rules"));
 					}
 					row[3] = Integer.toString(branchData.tot);
 					row[4] = Integer.toString(branchData.coveredT.size());
@@ -214,10 +213,10 @@ public class AsmetaV {
 					row[7] = Integer.toString(ruleData.covered.size());
 					row[8] = Integer.toString(updateData.tot);
 					row[9] = Integer.toString(updateData.covered.size());
-					row[10] = Integer.toString(loopData.tot);
-					row[11] = Integer.toString(loopData.zeroIterations.size());
-					row[12] = Integer.toString(loopData.oneIteration.size());
-					row[13] = Integer.toString(loopData.multipleIterations.size());
+					row[10] = Integer.toString(forallData.tot);
+					row[11] = Integer.toString(forallData.zeroIterations.size());
+					row[12] = Integer.toString(forallData.oneIteration.size());
+					row[13] = Integer.toString(forallData.multipleIterations.size());
 				}
 				row[14] = failedScenarios.isEmpty() ? "none" : formatForCsv(String.join(",", failedScenarios));
 				rows.add(row);
@@ -250,6 +249,15 @@ public class AsmetaV {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	private String formatCoverage(String covName, float covVal) {
+		return String.format(Locale.US, "-> %-22s %6.2f%%", covName + " coverage:", covVal);
+	}
+
+	private String formatUndefCoverage(String covName, String covElem) {
+		return String.format(Locale.US, "-> %-22s %s", covName + " coverage:",
+				"- (no " + covElem + " to be covered)");
 	}
 
 	/**
@@ -390,9 +398,9 @@ public class AsmetaV {
 			logCovData("Covered update rules:", updateData);
 			result.setUpdateData(updateData);
 			// update the result with the data about loop coverage
-			Map<String, LoopCovData> loopData = ((SimulatorWCov) sim).getCoveredLoops();
-			logCovData("Covered forall rules (loop coverage):", loopData);
-			result.setLoopData(loopData);
+			Map<String, ForallCovData> loopData = ((SimulatorWCov) sim).getCoveredForallRules();
+			logCovData("Covered forall rules:", loopData);
+			result.setForallData(loopData);
 		}
 		return result;
 	}
