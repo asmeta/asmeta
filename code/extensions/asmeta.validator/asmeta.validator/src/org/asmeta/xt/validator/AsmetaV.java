@@ -131,7 +131,7 @@ public class AsmetaV {
 		if (failedScenarios.isEmpty())
 			logger.info("validation terminated without errors");
 		else
-			logger.info("WARNING: some check failed");
+			logger.info("WARNING: validation incomplete - some checks failed or errors occurred");
 		return failedScenarios;
 	}
 
@@ -329,19 +329,13 @@ public class AsmetaV {
 			invariantViolated = true;
 		}
 		// check now the value of step
-		//
 		boolean check_succeded = false;
 		boolean step_found = false;
 		for (Entry<Location, Value> cons : sim.getCurrentState().getContrLocs().entrySet()) {
 			// check the value of step var
 			if (cons.getKey().toString().equals(StatementToStringBuffer.STEP_VAR)) {
 				step_found = true;
-				if (Integer.parseInt(cons.getValue().toString()) <= 0) {
-					logger.info("some checks failed");
-					check_succeded = false;
-				} else {
-					check_succeded = true;
-				}
+				check_succeded = Integer.parseInt(cons.getValue().toString()) > 0;
 				break;
 			}
 		}

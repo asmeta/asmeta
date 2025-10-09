@@ -256,10 +256,27 @@ public class TestSingleFile extends TestValidator {
 	}
 
 
-	// flaky tests
+	/* -- pick tests -- */
 	@Test
-	public void testFlaky() throws Exception {
-		test("scenariosfortest/flaky/scenario_noflaky.avalla", true, false, true);
+	public void testPick() throws Exception {
+		test("scenariosfortest/flaky/coffee_vending_machine/scenario_noflaky.avalla", true, false, true);
+		test("scenariosfortest/flaky/coffee_vending_machine/scenario_noflaky2.avalla", true, false, true);
+	}
+	
+	@Test
+	public void testPickErrors() throws Exception {
+		try {
+			test("scenariosfortest/flaky/coffee_vending_machine/scenario_noflaky_VAL_ERR.avalla", true, false, false); // Macro rule of picked variable not defined
+			fail("Expected RuntimeException to be thrown");
+		} catch (RuntimeException e) {
+			// expected
+		}
+		try {
+			test("scenariosfortest/flaky/coffee_vending_machine/scenario_noflaky_VAL_ERR2.avalla", true, false, false); // Picked variable not defined
+			fail("Expected RuntimeException to be thrown");
+		} catch (RuntimeException e) {
+			// expected
+		}
 	}
 	
 	@Test
@@ -269,7 +286,7 @@ public class TestSingleFile extends TestValidator {
 	
 	@Test
 	public void testPickWithImports() throws Exception {
-		test("scenariosfortest/flaky/scenarioPickWithImport.avalla", true, false, true);
+		test("scenariosfortest/flaky/asm_w_import/scenarioPickWithImport.avalla", true, false, true);
 	}
 	
 	@Test
@@ -289,17 +306,17 @@ public class TestSingleFile extends TestValidator {
 	
 	@Test
 	public void testCoffeVendingMachineFlaky() throws Exception {
-		test("scenariosfortest/flaky/scenario1.avalla", true, false, true);
-		test("scenariosfortest/flaky/scenario2.avalla", true, false, true);
-		test("scenariosfortest/flaky/scenario3.avalla", true, false, true);
-		test("scenariosfortest/flaky/scenario4.avalla", true, false, true);
+		test("scenariosfortest/flaky/coffee_vending_machine/scenario1.avalla", true, false, true);
+		test("scenariosfortest/flaky/coffee_vending_machine/scenario2.avalla", true, false, true);
+		test("scenariosfortest/flaky/coffee_vending_machine/scenario3.avalla", true, false, true);
+		test("scenariosfortest/flaky/coffee_vending_machine/scenario4.avalla", true, false, true);
 	}
 
 	@Test
 	public void testCoffeVendingMachineChooseOne() throws Exception {
-		test("scenariosfortest/flaky/scenario_pickchooseone.avalla", true, false, true);
+		test("scenariosfortest/flaky/coffee_vending_machine/scenario_pickchooseone.avalla", true, false, true);
 		// to unpick the value.
-		test("scenariosfortest/flaky/scenario_pickchooseone2.avalla", true, false, true);
+		test("scenariosfortest/flaky/coffee_vending_machine/scenario_pickchooseone2.avalla", true, false, true);
 	}
 	
 	@Test
@@ -308,9 +325,31 @@ public class TestSingleFile extends TestValidator {
 	}
 	
 	@Test
-	public void testChooseInteger() throws Exception {
-		test("scenariosfortest/flaky/scenario_ci_fail.avalla", true, false, false);
+	public void testChoosePickOutOfDomain() throws Exception {
+		// Out of range only throws an Exception only if the picked variable is used in the guard
+		test("scenariosfortest/flaky/choose_integer/scenario_out_of_range.avalla", true, false, false);
+		try {
+			// Out of DomainTerm always throws an Exception
+			test("scenariosfortest/flaky/choose_integer/scenario_out_of_domain.avalla", true, false, false);
+			fail("Expected RuntimeException to be thrown");
+		} catch (RuntimeException e) {
+			// expected
+		}
 	}
+	
+	@Test
+	public void testPickInTinyScheduler() throws Exception {
+		test("scenariosfortest/flaky/tiny_scheduler/correct_scenarios/check_ifnone_no_pick.avalla", true, false, true);
+		test("scenariosfortest/flaky/tiny_scheduler/correct_scenarios/check_ifnone_w_pick.avalla", true, false, true);
+		test("scenariosfortest/flaky/tiny_scheduler/check_ifnone_w_pick_false_guard.avalla", true, false, false); // must fail
+		try {
+			test("scenariosfortest/flaky/tiny_scheduler/check_ifnone_pick_undef.avalla", true, false, false);
+			fail("Expected RuntimeException to be thrown");
+		} catch (RuntimeException e) {
+			// expected
+		}
+	}
+	/* -- end pick tests -- */
 
 	@Test
 	public void testPillbox() throws Exception {
@@ -320,7 +359,7 @@ public class TestSingleFile extends TestValidator {
 	@Test
 	public void testlampada() throws Exception {
 		ASMParser.getResultLogger().setLevel(Level.OFF);
-		// questo mi d� errori strani
+		// questo mi da errori strani
 		try {
 //			test("D:/AgHome\\Dropbox\\code\\didattica\\tvsw\\unibg_tvsw\\codice_lezioni\\6_atgt\\test.avalla", false, false);		
 			test("scenariosfortest/u_dir/test.avalla", false, false, true);

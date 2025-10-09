@@ -1,6 +1,6 @@
 module RandomModule
 
-import StandardLibrary
+import ../StandardLibrary
 export *
 
 signature:
