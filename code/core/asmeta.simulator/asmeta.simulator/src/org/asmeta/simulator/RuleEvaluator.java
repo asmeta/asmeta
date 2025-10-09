@@ -66,6 +66,7 @@ import asmeta.definitions.domains.Domain;
 import asmeta.definitions.domains.IntegerDomain;
 import asmeta.definitions.domains.MapDomain;
 import asmeta.definitions.domains.PowersetDomain;
+import asmeta.definitions.domains.RealDomain;
 import asmeta.definitions.domains.SequenceDomain;
 import asmeta.definitions.domains.TypeDomain;
 import asmeta.definitions.domains.UndefDomain;
@@ -905,14 +906,27 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 	
 	
 	// this represents an infinite collection - iteration is not possible !!
-	class InfiniteCollection extends CollectionValue {
+	class InfiniteCollection<T extends Number> extends CollectionValue {
+		
 		static Random random = new Random();
-				
+		
+		private Class<T> creator;
+		
+		InfiniteCollection(Class<T> creator){
+			this.creator = creator;
+		}
+		
 		@Override
 		public Iterator iterator() {throw new RuntimeException();}
 
 		public Value getRndValue() {
-			return new org.asmeta.simulator.value.IntegerValue(random.nextInt());
+			if (creator == Integer.class) {
+				return new org.asmeta.simulator.value.IntegerValue(random.nextInt());
+			}
+			if (creator == Double.class) {
+				return new org.asmeta.simulator.value.RealValue(random.nextDouble());
+			}
+			throw new RuntimeException("domain " + creator + " not supported");
 		}
 
 		@Override
@@ -941,7 +955,11 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 				assert baseDomain instanceof PowersetDomain;
 				// VariableTerm var = (VariableTerm) varList.get(i);
 				if (((PowersetDomain)baseDomain).getBaseDomain() instanceof IntegerDomain) {
-					values[i] = new InfiniteCollection() {};
+					values[i] = new InfiniteCollection<Integer>(Integer.class) {};
+					continue;
+				}
+				if (((PowersetDomain)baseDomain).getBaseDomain() instanceof RealDomain) {
+					values[i] = new InfiniteCollection<Double>(Double.class) {};
 					continue;
 				}
 			} 

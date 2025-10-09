@@ -1,12 +1,12 @@
-// integer with a condition
+// integer with a condition -> errore
 asm ChooseOverInteger
 import  ../../../STDL/StandardLibrary
 	
 signature:
-	controlled myInt: Integer
+	controlled myi: Integer
 definitions:
 	main rule r_Main =
-		choose $i in Integer with $i > 0 do
-			myInt := $i
+		choose $i in Integer with $i > 10 do
+			myi := $i
 default init s0:
-	function myInt = 0
+	function myi = 0

@@ -55,7 +55,7 @@ public class ChooseTest extends BaseTest {
 			Value value = sim.currentState.read(new Location(f, new Value[]{}));
 			integers.add((Long) (value.getValue()));
 		}
-		checkRandomIntegers(integers);
+		checkRandomValues(integers);
 		integers.stream().forEach(x -> assertTrue(x > 5));
 	} 
 	
@@ -83,12 +83,24 @@ public class ChooseTest extends BaseTest {
 			Value value = sim.currentState.read(new Location(f, new Value[]{}));
 			integers.add((Long) (value.getValue()));
 		}
-		checkRandomIntegers(integers);
+		checkRandomValues(integers);
+	}
+	@Test
+	public void testRandomRealWithTrue() throws Exception{
+		sim = Util.getSimulatorForTestSpec(TEST_SIMULATOR_CHOOSERULE + "ChooseRandomReal.asm");
+		List<Double> integers = new ArrayList<>();
+		for(int i = 1; i < 10; i++){
+			UpdateSet updateSet = sim.doOneStep();
+			Function f = searchFunction("myR");
+			Value value = sim.currentState.read(new Location(f, new Value[]{}));
+			integers.add((Double) (value.getValue()));
+		}
+		checkRandomValues(integers);
 	}
 
-	private void checkRandomIntegers(List<Long> integers) {
+	private <T> void checkRandomValues(List<T> values) {
 		//there are not two pairs of equals number (itis vwery unlikely) 
-		assertTrue(integers.get(0) != integers.get(1) || integers.get(2) != integers.get(3));
+		assertTrue(values.get(0) != values.get(1) || values.get(2) != values.get(3));
 	} 
 	
 	@Test
@@ -154,6 +166,14 @@ public class ChooseTest extends BaseTest {
 	@Test
 	public void testCondFalseIfNone() throws Exception {
 		sim = Util.getSimulatorForTestSpec(TEST_SIMULATOR_CHOOSERULE + "ChooseRule03IfNone.asm");
+		sim.run(1);		
+		Function f = searchFunction("f");
+		Value<?> v = sim.currentState.read(new Location(f, new Value[0]));
+		assertEquals(new IntegerValue(0), v);
+	}
+	@Test
+	public void testCondFalseIfNoneFALSE() throws Exception {
+		sim = Util.getSimulatorForTestSpec(TEST_SIMULATOR_CHOOSERULE + "ChooseRule03IfNone2.asm");
 		sim.run(1);		
 		Function f = searchFunction("f");
 		Value<?> v = sim.currentState.read(new Location(f, new Value[0]));
