@@ -70,6 +70,7 @@ import asmeta.definitions.domains.SequenceDomain;
 import asmeta.definitions.domains.TypeDomain;
 import asmeta.definitions.domains.UndefDomain;
 import asmeta.terms.basicterms.BooleanTerm;
+import asmeta.terms.basicterms.CollectionTerm;
 import asmeta.terms.basicterms.DomainTerm;
 import asmeta.terms.basicterms.LocationTerm;
 import asmeta.terms.basicterms.Term;
@@ -576,7 +577,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 							return true;
 					}
 				} else {
-					throw new RuntimeException("inifnite domain without \"true\" as guard");
+					throw new RuntimeException("Infinite domain without \"true\" as guard");
 				}
 				// no value found in one visitchoose
 				return false; 
@@ -934,15 +935,17 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		logger.debug("<Domains total=\"" + domains.size() + "\">");
 		for (int i = 0; i < domains.size(); i++) {
 			Term domain = domains.get(i);	
-			assert domain instanceof DomainTerm;
-			Domain baseDomain = ((DomainTerm)domain).getDomain();
-			assert baseDomain instanceof PowersetDomain;
-			// VariableTerm var = (VariableTerm) varList.get(i);
-			if (((PowersetDomain)baseDomain).getBaseDomain() instanceof IntegerDomain) {
-				values[i] = new InfiniteCollection() {};
-			} else {
-				values[i] = (CollectionValue) visitTerm(domain);
-			}
+			assert domain instanceof DomainTerm || domain instanceof CollectionTerm;
+			if (domain instanceof DomainTerm dom) {
+				Domain baseDomain = dom.getDomain();
+				assert baseDomain instanceof PowersetDomain;
+				// VariableTerm var = (VariableTerm) varList.get(i);
+				if (((PowersetDomain)baseDomain).getBaseDomain() instanceof IntegerDomain) {
+					values[i] = new InfiniteCollection() {};
+					continue;
+				}
+			} 
+			values[i] = (CollectionValue) visitTerm(domain);			
 		}
 		logger.debug("</Domains>");
 		return values;

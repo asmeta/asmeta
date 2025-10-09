@@ -1,5 +1,6 @@
-asm randomInt
-import  ../../STDL/StandardLibrary
+// this is with true OK
+asm ChooseRandomInt
+import  ../../../STDL/StandardLibrary
 	
 signature:
 	controlled myInt: Integer

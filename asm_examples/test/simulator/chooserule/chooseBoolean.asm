@@ -1,6 +1,6 @@
 asm chooseBoolean
 
-import ../../STDL/StandardLibrary
+import  ../../../STDL/StandardLibrary
 
 signature:
 	dynamic controlled fooA: Natural
