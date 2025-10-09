@@ -35,6 +35,7 @@ import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
 import asmeta.transitionrules.basictransitionrules.Rule;
 import asmeta.transitionrules.basictransitionrules.SkipRule;
 import asmeta.transitionrules.basictransitionrules.UpdateRule;
+import asmeta.transitionrules.derivedtransitionrules.CaseRule;
 import asmeta.transitionrules.turbotransitionrules.SeqRule;
 
 /**
@@ -93,7 +94,7 @@ public class RuleEvalWCov extends RuleEvaluator {
 		coveredMulIterForRule.clear();
 		ruleSubstitutions.clear();
 	}
-	
+
 	@Override
 	protected BooleanValue evalGuard(ConditionalRule condRule) {
 		logRuleVisit("adding coverage conditional rule ==> ", condRule);
@@ -171,52 +172,73 @@ public class RuleEvalWCov extends RuleEvaluator {
 	@Override
 	public UpdateSet visit(LetRule letRule) {
 		logRuleVisit("adding coverage let rule ==> ", letRule);
-		coveredRules.add(letRule);
 		letFromChoose = false;
 		return super.visit(letRule);
 	}
 
 	@Override
-	protected boolean checkInitTerm(LetRule letRule, Value initValue, Term initTerm) {
+	protected void checkInitTerm(LetRule letRule, Value initValue, Term initTerm) {
 		if (initTerm instanceof LocationTermImpl) {
 			String loc = ((LocationTermImpl) initTerm).getFunction().getName();
-			String val = initValue.toString();
-			if (loc.contains(AsmetaPrinterForAvalla.ACTUAL_VALUE)) {
+			if (loc.contains(AsmetaPrinterForAvalla.ACTUAL_VALUE))
 				letFromChoose = true;
-				if (val.equals("undef"))
-					return false;
-			}
 		}
-		return true;
 	}
 
 	@Override
 	protected void afterInitExpressionVisit(LetRule letRule) {
-		if (letFromChoose)
-			coveredBranchT.add(letRule);
+		if (!letFromChoose)
+			coveredRules.add(letRule);
 	}
-	
+
+	@Override
+	public UpdateSet visit(CaseRule caseRule) {
+		logRuleVisit("adding coverage case rule from choose rule ==> ", caseRule);
+		return super.visit(caseRule);
+	}
+
+	@Override
+	protected void checkComparedValue(CaseRule caseRule, Value comparedValue) {
+		// We look at the compared value and not at the comparing ones because the case
+		// rule might not have the NOT_PICKED_NOT_ASSIGNED case
+		Term term = caseRule.getTerm();
+		if (term instanceof LocationTermImpl) {
+			String functionName = ((LocationTermImpl) term).getFunction().getName();
+			if (functionName.endsWith(AsmetaPrinterForAvalla.STATUS)) {
+				String val = comparedValue.toString();
+				if (val.equals(AsmetaPrinterForAvalla.ASSIGNED)) {
+					coveredRules.add(caseRule);
+					coveredBranchT.add(caseRule);
+				}
+				if (val.equals(AsmetaPrinterForAvalla.NOT_PICKED_NOT_ASSIGNED)) {
+					coveredRules.add(caseRule);
+					coveredBranchF.add(caseRule);
+				}
+			}
+		}
+	}
+
 	@Override
 	public UpdateSet visit(BlockRule blockRule) {
 		logRuleVisit("adding coverage block rule ==> ", blockRule);
 		coveredRules.add(blockRule);
 		return super.visit(blockRule);
 	}
-	
+
 	@Override
 	public UpdateSet visit(ExtendRule extendRule) {
 		logRuleVisit("adding coverage extend rule ==> ", extendRule);
 		coveredRules.add(extendRule);
 		return super.visit(extendRule);
 	}
-	
+
 	@Override
 	public UpdateSet visit(SkipRule rule) {
 		logRuleVisit("adding coverage skip rule ==> ", rule);
 		coveredRules.add(rule);
 		return super.visit(rule);
 	}
-	
+
 	@Override
 	public UpdateSet visit(SeqRule seqRule) {
 		logRuleVisit("adding coverage seq rule ==> ", seqRule);

@@ -71,6 +71,7 @@ import asmeta.terms.basicterms.LocationTerm;
 import asmeta.terms.basicterms.Term;
 import asmeta.terms.basicterms.TupleTerm;
 import asmeta.terms.basicterms.VariableTerm;
+import asmeta.terms.basicterms.impl.LocationTermImpl;
 import asmeta.transitionrules.basictransitionrules.BlockRule;
 import asmeta.transitionrules.basictransitionrules.ChooseRule;
 import asmeta.transitionrules.basictransitionrules.ConditionalRule;
@@ -296,6 +297,8 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		UpdateSet updateset = null;
 		logger.debug("<ComparedTerm>");
 		Value comparedValue = visitTerm(caseRule.getTerm());
+		// Hook method for RuleEvalWCov
+		checkComparedValue(caseRule, comparedValue);
 		logger.debug("</ComparedTerm>");
 		Iterator<Rule> branchRuleIt = caseRule.getCaseBranches().iterator();
 		for (Term comparingTerm : caseRule.getCaseTerm()) {
@@ -323,6 +326,12 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		logger.debug("</CaseRule>");
 		return updateset;
 	}
+	
+	// Hook method for RuleEvalWCov
+	protected void checkComparedValue(CaseRule caseRule, Value comparedValue) {
+		// do no additional operations by default
+	}
+
 
 	/**
 	 * Evaluates a block rule.
@@ -432,13 +441,10 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 			newAssignment.put(var, initValue);
 			logger.debug("<Value>" + initValue + "</Value>");
 			logger.debug("</VariableTerm>");
-			// Hook method: RuleEvalWCov may decide to stop here
-			if (!checkInitTerm(letRule, initValue, initTerm)) {
-				logger.debug("</InitList>");
-				return new UpdateSet();
-			}
+			// Hook method for RuleEvalWCov
+			checkInitTerm(letRule, initValue, initTerm);
 		}
-		afterInitExpressionVisit(letRule); // Hook method for RuleEvalWCov
+		afterInitExpressionVisit(letRule);
 		logger.debug("</InitList>");
 		logger.debug("<InRule>");
 		RuleEvaluator newRuleEvaluator = createRuleEvaluator(termEval.state,termEval.environment,newAssignment);
@@ -450,9 +456,8 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 	}
 	
 	// Hook method for RuleEvalWCov
-	protected boolean checkInitTerm(LetRule letRule, Value initValue, Term initTerm) {
-		// do no additional operations by default and proceed with the visit
-		return true;
+	protected void checkInitTerm(LetRule letRule, Value initValue, Term initTerm) {
+		// do no additional operations by default
 	}
 	
 	// Hook method for RuleEvalWCov

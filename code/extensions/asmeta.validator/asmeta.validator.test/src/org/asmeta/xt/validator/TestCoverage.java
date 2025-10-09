@@ -3,6 +3,7 @@ package org.asmeta.xt.validator;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -29,8 +30,8 @@ public class TestCoverage extends TestValidator {
 
 	@Before
 	public void setupLogger() {
-		Logger.getLogger(RuleEvalWCov.class).setLevel(Level.DEBUG);
-		Logger.getLogger(AsmetaV.class).setLevel(Level.DEBUG);
+		Logger.getLogger(RuleEvalWCov.class).setLevel(Level.INFO);
+		Logger.getLogger(AsmetaV.class).setLevel(Level.INFO);
 		// get the logger output
 		stringWriter = new StringWriter();
 		Layout layout = new PatternLayout();
@@ -71,19 +72,46 @@ public class TestCoverage extends TestValidator {
 
 	@Test
 	public void testWithCoverageAndWithoutNestedChooseAndLet() throws Exception {
-		List<CoverageOracle> oracles = new ArrayList<>();
 		testWithCoverageAndWithout("scenariosforexamples/nestedChooseAndLet/no_pick.avalla", true,
 				cov("r_Main()", branch(2, 2, 0), rule(4, 4), update(1, 1), forall(0, 0, 0, 0)));
 		RuleEvalWCov.reset();
-		oracles.clear();
 		stringWriter.getBuffer().setLength(0);
 		testWithCoverageAndWithout("scenariosforexamples/nestedChooseAndLet/all_picked.avalla", true,
 				cov("r_Main()", branch(2, 2, 0), rule(4, 4), update(1, 1), forall(0, 0, 0, 0)));
 		RuleEvalWCov.reset();
-		oracles.clear();
 		stringWriter.getBuffer().setLength(0);
 		testWithCoverageAndWithout("scenariosforexamples/nestedChooseAndLet/pick_with_false_guard.avalla", false,
-				cov("r_Main()", branch(2, 1, 0), rule(4, 1), update(1, 0), forall(0, 0, 0, 0))); // should fail
+				cov("r_Main()", branch(2, 0, 0), rule(4, 0), update(1, 0), forall(0, 0, 0, 0))); // should fail
+	}
+	
+	@Test
+	public void testWithCoverageAndWithoutTinyScheduler() throws Exception {
+		testWithCoverageAndWithout("scenariosfortest/flaky/tiny_scheduler/correct_scenarios/check_ifnone_no_pick.avalla", true,
+				cov("r_Main()", branch(4, 3, 3), rule(8, 7), update(3, 2), forall(1, 1, 1, 1)));
+		RuleEvalWCov.reset();
+		stringWriter.getBuffer().setLength(0);
+		testWithCoverageAndWithout("scenariosfortest/flaky/tiny_scheduler/correct_scenarios/check_ifnone_w_pick.avalla", true,
+				cov("r_Main()", branch(4, 3, 3), rule(8, 7), update(3, 2), forall(1, 1, 1, 1)));
+		RuleEvalWCov.reset();
+		stringWriter.getBuffer().setLength(0);
+		testWithCoverageAndWithout("scenariosfortest/flaky/tiny_scheduler/check_ifnone_w_pick_false_guard.avalla", false,
+				cov("r_Main()", branch(4, 3, 2), rule(8, 6), update(3, 1), forall(1, 1, 1, 1)));
+		RuleEvalWCov.reset();
+		stringWriter.getBuffer().setLength(0);
+		try {
+			testWithCoverageAndWithout("scenariosfortest/flaky/tiny_scheduler/check_ifnone_w_pick_undef.avalla", false);
+			fail("Expected RuntimeException to be thrown");
+		} catch (RuntimeException e) {
+			// expected
+		}
+		
+	}
+	
+	@Test
+	public void testWithCoverageAndWithoutPickAndNoPick() throws Exception {
+		// Test two scenarios together, one picks the first choose rule and the other does not
+		testWithCoverageAndWithout("scenariosfortest/flaky/tiny_scheduler/correct_scenarios", true,
+				cov("r_Main()", branch(4, 3, 3), rule(8, 7), update(3, 2), forall(1, 1, 1, 1)));
 	}
 
 	@Test

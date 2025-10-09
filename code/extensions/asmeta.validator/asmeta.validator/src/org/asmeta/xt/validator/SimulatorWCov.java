@@ -33,6 +33,7 @@ import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
 import asmeta.transitionrules.basictransitionrules.Rule;
 import asmeta.transitionrules.basictransitionrules.SkipRule;
 import asmeta.transitionrules.basictransitionrules.UpdateRule;
+import asmeta.transitionrules.derivedtransitionrules.CaseRule;
 import asmeta.transitionrules.turbotransitionrules.SeqRule;
 
 public class SimulatorWCov extends Simulator {
@@ -84,48 +85,36 @@ public class SimulatorWCov extends Simulator {
 			List<Rule> rules = RuleExtractorFromMacroDecl.getAllContainedRules(md);
 			BranchCovData singleMacroCovData = covData.get(ruleCompleteName);
 			int tot = 0;
+			int ruleCounter = 0;
+			// Store the covered rules using their position in the rules list as if let
+			// rules translated from choose (and null) were not in the rules list
 			for (int i = 0; i < rules.size(); i++) {
 				Rule r = rules.get(i);
-				boolean letFromChoose = false;
-				if (r instanceof LetRule) {
-					EList<Term> initExpr = ((LetRule) r).getInitExpression();
-					for (Term initTerm : initExpr) {
-						if (initTerm instanceof LocationTermImpl) {
-							String loc = ((LocationTermImpl) initTerm).getFunction().getName();
-							if (loc.contains(AsmetaPrinterForAvalla.ACTUAL_VALUE)) {
-								letFromChoose = true;
-								break;
-							}
-						}
-					}
-				}
+				boolean letFromChoose = letFroomChoose(r);
+				boolean caseFromChoose = caseFromChoose(r);
 				if (r instanceof ConditionalRule || r instanceof ForallRule || r instanceof ChooseRule
-						|| letFromChoose) {
+						|| caseFromChoose) {
 					if (isCovered(r, ruleSubstitutions, RuleEvalWCov.coveredBranchF))
-						singleMacroCovData.coveredF.add(i);
+						singleMacroCovData.coveredF.add(ruleCounter);
 					if (isCovered(r, ruleSubstitutions, RuleEvalWCov.coveredBranchT))
-						singleMacroCovData.coveredT.add(i);
+						singleMacroCovData.coveredT.add(ruleCounter);
 					tot++;
 				}
+				// Do not count let rules translated from choose (and null). This is required
+				// when multiple scenarios are validated together and at least one choose rule
+				// is picked in one scenario but not in another
+				if (!letFromChoose && r != null)
+					ruleCounter++;
 			}
 			singleMacroCovData.tot = tot;
 		}
 		return covData;
 	}
-	
-	private static final List<Class<? extends Rule>> CONSIDERED_RULES = List.of(
-			BlockRule.class, 
-			ChooseRule.class, 
-			ConditionalRule.class,
-			ExtendRule.class,
-			ForallRule.class,
-			LetRule.class,
-			MacroCallRule.class,
-			SkipRule.class,
-			UpdateRule.class,
-			SeqRule.class
-		);
-	
+
+	private static final List<Class<? extends Rule>> CONSIDERED_RULES = List.of(BlockRule.class, ChooseRule.class,
+			ConditionalRule.class, ExtendRule.class, ForallRule.class, LetRule.class, MacroCallRule.class,
+			SkipRule.class, UpdateRule.class, SeqRule.class);
+
 	// return the coverage of the rules
 	// NOTE: uses the branches of the modified ASM, not the original one.
 	public Map<String, RuleCovData> getCoveredRules() {
@@ -137,13 +126,19 @@ public class SimulatorWCov extends Simulator {
 			List<Rule> rules = RuleExtractorFromMacroDecl.getAllContainedRules(md);
 			RuleCovData singleMacroCovData = covData.get(ruleCompleteName);
 			int tot = 0;
+			int ruleCounter = 0;
 			for (int i = 0; i < rules.size(); i++) {
 				Rule r = rules.get(i);
-				if (CONSIDERED_RULES.stream().anyMatch(ruleType -> ruleType.isInstance(r))) {
+				boolean letFromChoose = letFroomChoose(r);
+				boolean caseFroomChoose = caseFromChoose(r);
+				if (!letFromChoose && (caseFroomChoose
+						|| CONSIDERED_RULES.stream().anyMatch(ruleType -> ruleType.isInstance(r)))) {
 					if (isCovered(r, ruleSubstitutions, RuleEvalWCov.coveredRules))
-						singleMacroCovData.covered.add(i);
+						singleMacroCovData.covered.add(ruleCounter);
 					tot++;
 				}
+				if (!letFromChoose && r != null)
+					ruleCounter++;
 			}
 			singleMacroCovData.tot = tot;
 		}
@@ -161,13 +156,17 @@ public class SimulatorWCov extends Simulator {
 			List<Rule> rules = RuleExtractorFromMacroDecl.getAllContainedRules(md);
 			UpdateCovData singleMacroCovData = covData.get(ruleCompleteName);
 			int tot = 0;
+			int ruleCounter = 0;
 			for (int i = 0; i < rules.size(); i++) {
 				Rule r = rules.get(i);
+				boolean letFromChoose = letFroomChoose(r);
 				if (r instanceof UpdateRule) {
 					if (isCovered(r, ruleSubstitutions, RuleEvalWCov.coveredUpdateRules))
-						singleMacroCovData.covered.add(i);
+						singleMacroCovData.covered.add(ruleCounter);
 					tot++;
 				}
+				if (!letFromChoose && r != null)
+					ruleCounter++;
 			}
 			singleMacroCovData.tot = tot;
 		}
@@ -185,21 +184,71 @@ public class SimulatorWCov extends Simulator {
 			List<Rule> rules = RuleExtractorFromMacroDecl.getAllContainedRules(md);
 			ForallCovData singleMacroCovData = covData.get(ruleCompleteName);
 			int tot = 0;
+			int ruleCounter = 0;
 			for (int i = 0; i < rules.size(); i++) {
 				Rule r = rules.get(i);
+				boolean letFromChoose = letFroomChoose(r);
 				if (r instanceof ForallRule) {
 					if (isCovered(r, ruleSubstitutions, RuleEvalWCov.coveredZeroIterForRule))
-						singleMacroCovData.zeroIterations.add(i);
+						singleMacroCovData.zeroIterations.add(ruleCounter);
 					if (isCovered(r, ruleSubstitutions, RuleEvalWCov.coveredOneIterForRule))
-						singleMacroCovData.oneIteration.add(i);
+						singleMacroCovData.oneIteration.add(ruleCounter);
 					if (isCovered(r, ruleSubstitutions, RuleEvalWCov.coveredMulIterForRule))
-						singleMacroCovData.multipleIterations.add(i);
+						singleMacroCovData.multipleIterations.add(ruleCounter);
 					tot++;
 				}
+				if (!letFromChoose && r != null)
+					ruleCounter++;
 			}
 			singleMacroCovData.tot = tot;
 		}
 		return covData;
+	}
+
+	/**
+	 * Return true if the rule is a let rule and is the result of the translation of
+	 * a picked choose rule (i.e. a choose rule for which at least a variable is
+	 * picked at least once in the scenario)
+	 */
+	private boolean letFroomChoose(Rule r) {
+		boolean letFromChoose = false;
+		if (r instanceof LetRule) {
+			EList<Term> initExpr = ((LetRule) r).getInitExpression();
+			for (Term initTerm : initExpr) {
+				if (initTerm instanceof LocationTermImpl) {
+					String loc = ((LocationTermImpl) initTerm).getFunction().getName();
+					if (loc.endsWith(AsmetaPrinterForAvalla.ACTUAL_VALUE)) {
+						letFromChoose = true;
+						break;
+					}
+				}
+			}
+		}
+		return letFromChoose;
+	}
+
+	/**
+	 * Return true if the rule is a case rule and is the result of the translation
+	 * of a picked choose rule (i.e. a choose rule for which at least a variable is
+	 * picked at least once in the scenario)
+	 */
+	protected boolean caseFromChoose(Rule r) {
+		boolean caseFromChoose = false;
+		if (r instanceof CaseRule) {
+			CaseRule caseRule = (CaseRule) r;
+			Term term = caseRule.getTerm();
+			if (term instanceof LocationTermImpl) {
+				String functionName = ((LocationTermImpl) term).getFunction().getName();
+				if (functionName.endsWith(AsmetaPrinterForAvalla.STATUS)) {
+					// Double check looking at the comparing terms
+					EList<Term> caseComparingTerms = caseRule.getCaseTerm();
+					if (caseComparingTerms.stream()
+							.anyMatch(t -> t.toString().contains(AsmetaPrinterForAvalla.ASSIGNED)))
+						caseFromChoose = true;
+				}
+			}
+		}
+		return caseFromChoose;
 	}
 
 	/**
