@@ -1,4 +1,4 @@
-/** at every step increments the seconds 
+/* at every step multiply by 2
 */
 asm asmCPre
 
@@ -22,4 +22,3 @@ default init s0:
 	function funcS = 0
 	function funcH = 0
 	
-	//asmH.asm <|> (asmC.asm <|> asmS.asm)

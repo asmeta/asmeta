@@ -1,4 +1,4 @@
-/** at every step increments the seconds 
+/* at every step multiply by 2
 */
 asm asmCPrePost
 
@@ -22,4 +22,3 @@ invariant inv_1 over funcC: funcC>=0
 default init s0:
 	function funcC = 0
 	
-	//asmH.asm <|> (asmC.asm <|> asmS.asm)

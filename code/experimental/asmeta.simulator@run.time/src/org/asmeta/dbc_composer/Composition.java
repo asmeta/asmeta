@@ -140,8 +140,7 @@ class LeafAsm extends Composition {
 				System.out.println(e.getInvariant().getConstrainedFunction());
 				for (Function f : constFunList) {
 					if (Defs.isMonitored(f))
-						// System.out.println("Precondition violation over " + f.getName()); //TODO:
-						// sollevare eccezioni specifiche per ogni caso
+						// System.out.println("Precondition violation over " + f.getName());
 						throw new PreconditionViolationException("Precondition violation over " + f.getName());
 					else if (Defs.isOut(f))
 						// System.out.println("Postcondition violation over " + f.getName());
@@ -152,7 +151,7 @@ class LeafAsm extends Composition {
 				}
 			}
 		} else
-			up = s1.run(1);
+			up = eval();
 		return up;
 	}
 
@@ -217,10 +216,38 @@ class PipeN extends NComposition {
 		return up;
 	}
 
-	/*
-	 * UpdateSet eval(boolean dbc) { if dbc //check inv else eval(); return eval();
-	 * }
-	 */
+	@Override
+	UpdateSet eval(boolean dbc) throws CompositionException {
+		UpdateSet up = null;
+		if (dbc) {
+			try {
+				up = c.get(0).eval(true);
+				for (int i = 1; i < c.size(); i++) {
+					c.get(i).copyMonitored(up);
+					up = c.get(i).eval(true);
+				}
+				c.get(c.size() - 1).copyMonitored(up);
+			} catch (InvalidInvariantException e) {
+				System.out.println(e.getInvariant());
+				EList<Function> constFunList = e.getInvariant().getConstrainedFunction();
+				System.out.println(e.getInvariant().getConstrainedFunction());
+				for (Function f : constFunList) {
+					if (Defs.isMonitored(f))
+						// System.out.println("Precondition violation over " + f.getName());
+						throw new PreconditionViolationException("Precondition violation over " + f.getName());
+					else if (Defs.isOut(f))
+						// System.out.println("Postcondition violation over " + f.getName());
+						throw new PostconditionViolationException("Postcondition violation over " + f.getName());
+					else
+						// System.out.println("Invariant violation over " + f.getName());
+						throw new InvariantViolationException("Invariant violation over " + f.getName());
+				}
+			}
+		} else {
+			up = eval();
+		}
+		return up;// if dbc check inv else eval(); return eval();
+	}
 
 	@Override
 	public String toString() {
@@ -230,12 +257,6 @@ class PipeN extends NComposition {
 			string = string + "|" + c.get(i).toString();
 		}
 		return string;
-	}
-
-	@Override
-	UpdateSet eval(boolean dbc) {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }
