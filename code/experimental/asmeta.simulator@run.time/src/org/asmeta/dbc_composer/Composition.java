@@ -28,9 +28,10 @@ import asmeta.structure.FunctionDefinition;
 
 public abstract class Composition {
 
-	//evalbis aggiunta per return multipli
+	// evalbis aggiunta per return multipli
 	abstract UpdateSet eval();
-	abstract UpdateSet eval(boolean dbc);
+
+	abstract UpdateSet eval(boolean dbc) throws CompositionException;
 
 	abstract void copyMonitored(UpdateSet update);
 }
@@ -56,19 +57,16 @@ abstract class BiComposition extends Composition {
 //nuovo codice
 abstract class NComposition extends Composition {
 	ArrayList<Composition> c;
-	
-	NComposition(Composition...c)
-	{
-		this.c=new ArrayList<>();
-		for(Composition i:c)
-		{
+
+	NComposition(Composition... c) {
+		this.c = new ArrayList<>();
+		for (Composition i : c) {
 			this.c.add(i);
 		}
 	}
-	
-	protected void copyMonitored(UpdateSet up){
-		for(int i=0; i<c.size(); i++)
-		{
+
+	protected void copyMonitored(UpdateSet up) {
+		for (int i = 0; i < c.size(); i++) {
 			c.get(i).copyMonitored(up);
 		}
 	}
@@ -121,60 +119,68 @@ class LeafAsm extends Composition {
 	@Override
 	UpdateSet eval() {
 		System.out.println("Running " + name);// + " current state" + s1.getCurrentState());
-		//UpdateSet[]up=new UpdateSet[1];
-		UpdateSet up=s1.run(1);
+		// UpdateSet[]up=new UpdateSet[1];
+		UpdateSet up = s1.run(1);
 		return up;
 	}
-	
+
 	@Override
-	UpdateSet eval(boolean dbc) {
+	UpdateSet eval(boolean dbc) throws CompositionException {
 		System.out.println("Running " + name);// + " current state" + s1.getCurrentState());
 		UpdateSet up = null;
-		if (dbc){
-		try {up=s1.run(1);}
-		//try {up=s1.runUntil(s1,1,InvariantTreament.CHECK_CONTINUE).updateSet;} TODO continue when invariant violation
-		catch(InvalidInvariantException  e) {
-			System.out.println(e.getInvariant());
-			EList<Function> constFunList = e.getInvariant().getConstrainedFunction();
-			System.out.println(e.getInvariant().getConstrainedFunction());
-			for (Function f: constFunList) {
-				if (Defs.isMonitored(f))
-					System.out.println("Precondition violation over " + f.getName()); //TODO: sollevare eccezioni specifiche per ogni caso
-				else if (Defs.isOut(f))
-					System.out.println("Postcondition violation over " + f.getName());
-				else
-					System.out.println("Invariant violation over " + f.getName());
+		if (dbc) {
+			try {
+				up = s1.run(1);
 			}
-		}}
-		else
-			up=s1.run(1);
+			// try {up=s1.runUntil(s1,1,InvariantTreament.CHECK_CONTINUE).updateSet;} TODO
+			// continue when invariant violation
+			catch (InvalidInvariantException e) {
+				System.out.println(e.getInvariant());
+				EList<Function> constFunList = e.getInvariant().getConstrainedFunction();
+				System.out.println(e.getInvariant().getConstrainedFunction());
+				for (Function f : constFunList) {
+					if (Defs.isMonitored(f))
+						// System.out.println("Precondition violation over " + f.getName()); //TODO:
+						// sollevare eccezioni specifiche per ogni caso
+						throw new PreconditionViolationException("Precondition violation over " + f.getName());
+					else if (Defs.isOut(f))
+						// System.out.println("Postcondition violation over " + f.getName());
+						throw new PostconditionViolationException("Postcondition violation over " + f.getName());
+					else
+						// System.out.println("Invariant violation over " + f.getName());
+						throw new InvariantViolationException("Invariant violation over " + f.getName());
+				}
+			}
+		} else
+			up = s1.run(1);
 		return up;
 	}
 
 	// copy from updateSet to s2
 	protected void copyMonitored(UpdateSet up) {
 		// System.out.println("copying " + up + " in " + name);
-		//LeafAsm lc = this;
-		//String out = "";
-		//out += "UpdateSet " + name + "= {";
+		// LeafAsm lc = this;
+		// String out = "";
+		// out += "UpdateSet " + name + "= {";
 		for (Entry<Location, Value> l : up) {
-			//Location loc = l.getKey();
-			//String locName = loc.getSignature().getName();
+			// Location loc = l.getKey();
+			// String locName = loc.getSignature().getName();
 			// set the mon funtion to the mon func reader
 			mon.add(l);
-			//out += l + "; ";
+			// out += l + "; ";
 		}
-		/*if (!up.isEmpty())
-			System.out.println(out.substring(0, out.length() - 2) + "}");
-		else
-			System.out.println(out.substring(0, out.length() - 2)+ "{}");*/
+		/*
+		 * if (!up.isEmpty()) System.out.println(out.substring(0, out.length() - 2) +
+		 * "}"); else System.out.println(out.substring(0, out.length() - 2)+ "{}");
+		 */
 	}
 
 	@Override
-	public String toString() { //stampa update set: controlled e out e monitored
-		//return "ASM " + name + ": "+ s1.getCurrentState().getOutLocs() + " "+ s1.getCurrentState().+ " "+ s1.getCurrentState().getContrLocs();
-		return "ASM " + name + ": "+ s1.getCurrentState().getOutLocs();
-		}
+	public String toString() { // stampa update set: controlled e out e monitored
+		// return "ASM " + name + ": "+ s1.getCurrentState().getOutLocs() + " "+
+		// s1.getCurrentState().+ " "+ s1.getCurrentState().getContrLocs();
+		return "ASM " + name + ": " + s1.getCurrentState().getOutLocs();
+	}
 
 }
 
@@ -193,62 +199,54 @@ class LeafAsm extends Composition {
  */
 //new code |
 class PipeN extends NComposition {
-	//we don't know in advance the number of arguments
-	//so we use varargs
-	PipeN(Composition...asm) throws Exception{
+	// we don't know in advance the number of arguments
+	// so we use varargs
+	PipeN(Composition... asm) throws Exception {
 		super(asm);
 	}
-	
-	
-	@Override //probabilmente giusto
+
+	@Override // probabilmente giusto
 	UpdateSet eval() {
-		UpdateSet up =c.get(0).eval();
-		//for starts from 2nd pipe element
-		for(int i=1; i<c.size(); i++)
-		{
+		UpdateSet up = c.get(0).eval();
+		// for starts from 2nd pipe element
+		for (int i = 1; i < c.size(); i++) {
 			c.get(i).copyMonitored(up);
-			up=c.get(i).eval();	
+			up = c.get(i).eval();
 		}
-		c.get(c.size()-1).copyMonitored(up);//così update corretto
+		c.get(c.size() - 1).copyMonitored(up);// così update corretto
 		return up;
 	}
-	
-	/*UpdateSet eval(boolean dbc) {
-		if dbc
-		//check inv
-		else 
-		eval();
-		return eval();
-	}
-	*/
-	
+
+	/*
+	 * UpdateSet eval(boolean dbc) { if dbc //check inv else eval(); return eval();
+	 * }
+	 */
+
 	@Override
 	public String toString() {
-		String string=c.get(0).toString();
-		//for starts from 2nd pipe element
-		for(int i=1; i<c.size(); i++)
-		{
-			string=string+"|"+c.get(i).toString();
+		String string = c.get(0).toString();
+		// for starts from 2nd pipe element
+		for (int i = 1; i < c.size(); i++) {
+			string = string + "|" + c.get(i).toString();
 		}
 		return string;
 	}
-
 
 	@Override
 	UpdateSet eval(boolean dbc) {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 }
 
 //<|>
- class BiPipeHalfDup extends BiComposition {
+class BiPipeHalfDup extends BiComposition {
 
 	BiPipeHalfDup(Composition asm1, Composition asm2) throws Exception {
 		super(asm1, asm2);
 	}
-	
+
 	@Override
 	UpdateSet eval() {
 		// run first node
@@ -300,22 +298,22 @@ class BiPipeFullDup extends BiComposition {
 	BiPipeFullDup(Composition asm1, Composition asm2) throws Exception {
 		super(asm1, asm2);
 	}
-		
+
 	@Override
 	UpdateSet eval() {
-		//double eval to simulate parallel
+		// double eval to simulate parallel
 
-		UpdateSet up1=c1.eval();
-		//TODO: COPIO LE MONITORATE ACQUISITE PER C1 IN C2
-		//POI FA STEP C1 E STEP C2
-		UpdateSet up2=c2.eval();
+		UpdateSet up1 = c1.eval();
+		// TODO: COPIO LE MONITORATE ACQUISITE PER C1 IN C2
+		// POI FA STEP C1 E STEP C2
+		UpdateSet up2 = c2.eval();
 		c2.copyMonitored(up1);
 		c1.copyMonitored(up2);
-		//results union
+		// results union
 		up1.union(up2);
 		return up1;
 	}
-	
+
 	@Override
 	public String toString() {
 		return c1.toString() + "<||>" + c2.toString();
@@ -326,7 +324,7 @@ class BiPipeFullDup extends BiComposition {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 }
 
 /*
@@ -346,30 +344,28 @@ class BiPipeFullDup extends BiComposition {
  */
 
 //nuovo codice
-class ParN extends NComposition{
-	ParN(Composition...asm) throws Exception{
+class ParN extends NComposition {
+	ParN(Composition... asm) throws Exception {
 		super(asm);
 	}
 
 	@Override
 	UpdateSet eval() {
-		UpdateSet up=c.get(0).eval();
-		for(int i = 1; i<c.size();i++)
-		{
-			UpdateSet tempUp=c.get(i).eval();
+		UpdateSet up = c.get(0).eval();
+		for (int i = 1; i < c.size(); i++) {
+			UpdateSet tempUp = c.get(i).eval();
 			up.union(tempUp);
 		}
-		c.get(c.size()-1).copyMonitored(up);
-		//System.out.println(up.toString());
+		c.get(c.size() - 1).copyMonitored(up);
+		// System.out.println(up.toString());
 		return up;
 	}
-	
+
 	@Override
 	public String toString() {
-		String stringa=c.get(0).toString();
-		for(int i=1; i<c.size(); i++)
-		{
-			stringa=stringa+"||"+c.get(i);
+		String stringa = c.get(0).toString();
+		for (int i = 1; i < c.size(); i++) {
+			stringa = stringa + "||" + c.get(i);
 		}
 		return stringa;
 	}
