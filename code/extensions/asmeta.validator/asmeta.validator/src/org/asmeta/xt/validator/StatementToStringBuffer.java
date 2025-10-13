@@ -517,7 +517,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 					+ " make the guard always evaluate to false\")");
 			append("step__ := -2"); // -2 so plus 1 is still < 0
 		} else {
-			append(statusVarName + " := " + AsmetaPrinterForAvalla.NOT_PICKED_NOT_ASSIGNED);
+			append(statusVarName + " := " + AsmetaPrinterForAvalla.NONE);
 		}
 		unIndent();
 		append("endseq");
@@ -532,7 +532,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 	 */
 	private void printFinalIf(String statusVarName) {
 		append("if (" + statusVarName + " != " + AsmetaPrinterForAvalla.ERROR + " and " + statusVarName + " != "
-				+ AsmetaPrinterForAvalla.NOT_PICKED_NOT_ASSIGNED + ") then");
+				+ AsmetaPrinterForAvalla.NONE + ") then");
 		indent();
 		append(statusVarName + " := " + AsmetaPrinterForAvalla.ASSIGNED);
 		unIndent();

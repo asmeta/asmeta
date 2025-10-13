@@ -30,8 +30,8 @@ public class TestCoverage extends TestValidator {
 
 	@Before
 	public void setupLogger() {
-		Logger.getLogger(RuleEvalWCov.class).setLevel(Level.INFO);
-		Logger.getLogger(AsmetaV.class).setLevel(Level.INFO);
+		Logger.getLogger(RuleEvalWCov.class).setLevel(Level.DEBUG);
+		Logger.getLogger(AsmetaV.class).setLevel(Level.DEBUG);
 		// get the logger output
 		stringWriter = new StringWriter();
 		Layout layout = new PatternLayout();

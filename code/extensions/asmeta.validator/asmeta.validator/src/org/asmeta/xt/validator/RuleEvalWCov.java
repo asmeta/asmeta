@@ -210,7 +210,7 @@ public class RuleEvalWCov extends RuleEvaluator {
 					coveredRules.add(caseRule);
 					coveredBranchT.add(caseRule);
 				}
-				if (val.equals(AsmetaPrinterForAvalla.NOT_PICKED_NOT_ASSIGNED)) {
+				if (val.equals(AsmetaPrinterForAvalla.NONE)) {
 					coveredRules.add(caseRule);
 					coveredBranchF.add(caseRule);
 				}

@@ -58,7 +58,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 	public static final String ACTUAL_VALUE = "__actual_value";
 	public static final String STATUS = "__status";
 	public static final String PICKED_VARS_STATUS = "PickedVarsStatus";
-	public static final String NOT_PICKED_NOT_ASSIGNED = "NOT_PICKED_NOT_ASSIGNED";
+	public static final String NONE = "NONE";
 	public static final String ASSIGNED = "ASSIGNED";
 	public static final String ERROR = "ERROR";
 
@@ -139,7 +139,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 			println("endlet");
 			unIndent();
 			if (ifnoneRule != null) {
-				println("case " + NOT_PICKED_NOT_ASSIGNED + ":");
+				println("case " + NONE + ":");
 				indent();
 				super.visit(ifnoneRule);
 				unIndent();
@@ -411,7 +411,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 		// add the controlled functions relative to picked variables
 		if (!this.builder.pickedChooseRules.isEmpty()) {
 			println("// added by validator to implement determinism in choose rule");
-			println("enum domain " + PICKED_VARS_STATUS + " = {" + ASSIGNED + ", " + NOT_PICKED_NOT_ASSIGNED + ", "
+			println("enum domain " + PICKED_VARS_STATUS + " = {" + ASSIGNED + ", " + NONE + ", "
 					+ ERROR + "}");
 		}
 	}

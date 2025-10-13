@@ -444,6 +444,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 			// Hook method for RuleEvalWCov
 			checkInitTerm(letRule, initValue, initTerm);
 		}
+		// Hook method for RuleEvalWCov
 		afterInitExpressionVisit(letRule);
 		logger.debug("</InitList>");
 		logger.debug("<InRule>");
