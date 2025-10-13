@@ -6,7 +6,9 @@ import asmeta.evotest.evoasmetatg.main.EvoAsmetaTgCLI;
 import asmeta.structure.Asm;
 import asmeta.transitionrules.basictransitionrules.Rule;
 import asmeta.transitionrules.basictransitionrules.UpdateRule;
+import asmeta.transitionrules.basictransitionrules.ChooseRule;
 import asmeta.transitionrules.basictransitionrules.ConditionalRule;
+import asmeta.transitionrules.basictransitionrules.ForallRule;
 import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
 import atgt.coverage.AsmTestSuite;
 import java.io.File;
@@ -41,6 +43,7 @@ import org.asmeta.atgt.generator2.AsmTestGeneratorBySimulation;
 import org.asmeta.simulator.RuleEvaluator;
 import org.asmeta.xt.validator.AsmetaV;
 import org.asmeta.xt.validator.RuleEvalWCov;
+import org.asmeta.xt.validator.SimulatorWCov;
 
 import com.opencsv.CSVParser;
 import com.opencsv.CSVParserBuilder;
@@ -59,9 +62,10 @@ public class TestExperiments {
 	private static final String DASH = "-";
 	private static final String AVALLA_EXTENSION = ".avalla";
 
-	private static final List<String> CSV_HEADERS = List.of("asm", "n_macro", "n_conditional", "n_update", "approach",
-			"exec_time", "n_scenarios", "n_step", "n_set", "n_check", "macro_coverage", "branch_coverage",
-			"update_rule_coverage", "n_failing_scenarios", "n_val_error_scenarios");
+	private static final List<String> CSV_HEADERS = List.of("asm", "n_macro", "n_update", "n_forall", "n_branch",
+			"n_rule", "approach", "exec_time", "n_scenarios", "n_step", "n_set", "n_check", "macro_coverage",
+			"update_rule_coverage", "forall_rule_coverage", "branch_coverage", "rule_coverage", "n_failing_scenarios",
+			"n_val_error_scenarios");
 
 	private static String jdkPath;
 	private static String sourcePath;
@@ -95,7 +99,8 @@ public class TestExperiments {
 		targetPath = args[1];
 		sourcePath = args[2];
 
-		// If running from jar, check the presence of evosuite-1.0.6.jar in the same directory
+		// If running from jar, check the presence of evosuite-1.0.6.jar in the same
+		// directory
 		String className = TestExperiments.class.getName().replace('.', '/');
 		String classJar = TestExperiments.class.getResource("/" + className + ".class").toString();
 		runningFromJar = classJar.startsWith("jar:");
@@ -112,7 +117,7 @@ public class TestExperiments {
 		if (!targetFile.exists()
 				|| !(targetFile.getName().endsWith(ASMParser.ASM_EXTENSION) || targetFile.isDirectory()))
 			throw new RuntimeException(
-					targetPath + " is an invalid target file as it is not a directory or a file with .asm extension");
+					targetPath + " is an invalid target as it is not a directory or a file with .asm extension");
 		basePath = targetFile.isDirectory() ? targetFile.toString()
 				: targetFile.getCanonicalFile().getParentFile().toString();
 		resultsPath = Paths.get(basePath).toAbsolutePath().normalize().resolve(sourcePath).normalize().toString();
@@ -231,8 +236,8 @@ public class TestExperiments {
 	}
 
 	/**
-	 * Collect and write to csv the information about the macro, conditional, and
-	 * update rules for the main asm in the collection
+	 * Collect and write to csv the information about the rules in the main asm in
+	 * the collection
 	 * 
 	 * @param asmCollection the asm collection
 	 * @param row           the row to be written on data.csv and to be populated
@@ -241,20 +246,31 @@ public class TestExperiments {
 	private static void collectBenchmarkInfo(AsmCollection asmCollection, Map<String, String> row) {
 		Asm asm = asmCollection.getMain();
 		String asmName = asm.getName();
-		int totCondRules = 0;
+		int totMacroRules = asm.getBodySection().getRuleDeclaration().size();
 		int totUpdateRules = 0;
+		int totForallRules = 0;
+		int totBranches = 0;
+		int totRules = 0;
 		for (RuleDeclaration rd : asm.getBodySection().getRuleDeclaration()) {
 			for (Rule r : RuleExtractorFromMacroDecl.getAllContainedRules((MacroDeclaration) rd)) {
-				if (r instanceof ConditionalRule)
-					totCondRules++;
-				if (r instanceof UpdateRule)
-					totUpdateRules++;
+				if (SimulatorWCov.CONSIDERED_RULES.stream().anyMatch(ruleType -> ruleType.isInstance(r))) {
+					totRules++;
+					if (r instanceof ConditionalRule || r instanceof ForallRule || r instanceof ChooseRule) {
+						totBranches++;
+						if (r instanceof ForallRule)
+							totForallRules++;
+					}
+					if (r instanceof UpdateRule)
+						totUpdateRules++;
+				}
 			}
 		}
 		row.put("asm", String.valueOf(asmName));
-		row.put("n_macro", String.valueOf(asm.getBodySection().getRuleDeclaration().size()));
-		row.put("n_conditional", String.valueOf(totCondRules));
+		row.put("n_macro", String.valueOf(totMacroRules));
 		row.put("n_update", String.valueOf(totUpdateRules));
+		row.put("n_forall", String.valueOf(totForallRules));
+		row.put("n_branch", String.valueOf(totBranches));
+		row.put("n_rule", String.valueOf(totRules));
 	}
 
 	/**
@@ -469,7 +485,7 @@ public class TestExperiments {
 	}
 
 	/**
-	 * Extract the number of step, check and set fot all avalla in the given
+	 * Extract the number of step, check and set for all avalla in the given
 	 * directory
 	 * 
 	 * @param avallaOutputDirectory the path of the directory
@@ -490,8 +506,8 @@ public class TestExperiments {
 	 * the given folder
 	 * 
 	 * @param avallaFolder path of the folder containing the avalla files
-	 * @param statement    the stament to count
-	 * @return the list containg the number of occurrencies for each avalla
+	 * @param statement    the statement to count
+	 * @return the list containing the number of occurrences for each avalla
 	 * @throws IOException if an I/O error occurs.
 	 */
 	private static List<Integer> getStatementCount(String avallaFolder, String statement) throws IOException {
@@ -518,28 +534,28 @@ public class TestExperiments {
 	 */
 	private static int getNumberOfScenario(String avallaFolder) throws IOException {
 		Path avallaPath = Path.of(avallaFolder);
-		Files.list(avallaPath).filter(path -> path.toString().endsWith(AVALLA_EXTENSION)).count();
 		return (int) Files.list(avallaPath).filter(path -> path.toString().endsWith(AVALLA_EXTENSION)).count();
 	}
 
 	/**
-	 * Write a row regarding the validation (with coverage) of the avalla scenarios
-	 * generated by a gvan algorithm to the data.csv file.
+	 * Write a row regarding the validation (with coverage) of the generated avalla
+	 * scenarios to the data.csv file.
 	 * 
-	 * @param reportCsv  the path of the csv file containing the coverage data to be
-	 *                   extracted
-	 * @param exeTime    the execcution time
-	 * @param nScenario  the number of scenarios
-	 * @param nScenario  the number of scenarios for which the validation resulted
-	 *                   in an error
-	 * @param avallaInfo the map containing the number of scenarios and total number
-	 *                   of step, set and check statements in them
-	 * @param row        the row to be written on data.csv populated with common
-	 *                   information on the asm. The key is the column, value is the
-	 *                   cell value.
+	 * @param reportCsv          the path of the csv file containing the coverage
+	 *                           data to be extracted
+	 * @param exeTime            the execution time
+	 * @param nScenario          the number of scenarios
+	 * @param errorsInValidation the number of scenarios for which the validation
+	 *                           resulted in an error
+	 * @param avallaInfo         the map containing the number of scenarios and
+	 *                           total number of step, set and check statements in
+	 *                           them
+	 * @param row                the row to be written on data.csv populated with
+	 *                           common information on the asm. The key is the
+	 *                           column, value is the cell value.
 	 * @throws FileNotFoundException if a file does not exists
-	 * @throws IOException           if any IO Exceptio occurs
-	 * @throws CsvException          if any exveption when reading a csv occurs
+	 * @throws IOException           if any IO Exception occurs
+	 * @throws CsvException          if any exception when reading a csv occurs
 	 */
 	private static void writeToCsv(String reportCsv, long exeTime, int nScenario, int errorsInValidation,
 			Map<String, Integer> avallaInfo, Map<String, String> row)
@@ -558,28 +574,41 @@ public class TestExperiments {
 		// were generated
 		if (covRows.size() == 1) {
 			row.put("macro_coverage", "0.0");
-			row.put("branch_coverage", "0.0");
 			row.put("update_rule_coverage", "0.0");
+			row.put("forall_rule_coverage", "0.0");
+			row.put("branch_coverage", "0.0");
+			row.put("rule_coverage", "0.0");
 			row.put("n_failing_scenarios", "0");
 		} else {
-			int coveredMacros = 0, coveredUpdateRules = 0, coveredCondTrue = 0, coveredCondFalse = 0;
+			int coveredMacros = 0, coveredUpdate = 0, coveredZeroIterForall = 0, coveredOneIterForall = 0,
+					coveredMultIterForall = 0, coveredBranchTrue = 0, coveredBranchFalse = 0, coveredRules = 0;
 			for (String[] covRow : covRows) {
 				if (row.get("asm").equals(covRow[1])) {
 					coveredMacros += 1;
-					coveredUpdateRules += Integer.valueOf(covRow[7]);
-					coveredCondTrue += Integer.valueOf(covRow[4]);
-					coveredCondFalse += Integer.valueOf(covRow[5]);
+					coveredBranchTrue += Integer.valueOf(covRow[4]);
+					coveredBranchFalse += Integer.valueOf(covRow[5]);
+					coveredRules += Integer.valueOf(covRow[7]);
+					coveredUpdate += Integer.valueOf(covRow[9]);
+					coveredZeroIterForall += Integer.valueOf(covRow[11]);
+					coveredOneIterForall += Integer.valueOf(covRow[12]);
+					coveredMultIterForall += Integer.valueOf(covRow[13]);
 				}
 			}
 			// compute the coverage metrics and get the number of failing scenarios
-			String failingScenarios = covRows.get(1)[8];
+			String failingScenarios = covRows.get(1)[14];
+			// May produce NaN if denominator is 0 (undefined 0/0)
 			float macroCoverage = ((float) coveredMacros) / Integer.valueOf(row.get("n_macro"));
-			float branchCoverage = ((float) coveredCondTrue + coveredCondFalse)
-					/ (2 * Integer.valueOf(row.get("n_conditional")));
-			float updateRuleCoverage = ((float) coveredUpdateRules) / Integer.valueOf(row.get("n_update"));
+			float updateRuleCoverage = ((float) coveredUpdate) / Integer.valueOf(row.get("n_update"));
+			float forallRuleCoverage = ((float) coveredZeroIterForall + coveredOneIterForall + coveredMultIterForall)
+					/ (3 * Integer.valueOf(row.get("n_forall")));
+			float branchCoverage = ((float) coveredBranchTrue + coveredBranchFalse)
+					/ (2 * Integer.valueOf(row.get("n_branch")));
+			float ruleCoverage = ((float) coveredRules) / Integer.valueOf(row.get("n_rule"));
 			row.put("macro_coverage", String.valueOf(macroCoverage));
-			row.put("branch_coverage", String.valueOf(branchCoverage));
 			row.put("update_rule_coverage", String.valueOf(updateRuleCoverage));
+			row.put("forall_rule_coverage", String.valueOf(forallRuleCoverage));
+			row.put("branch_coverage", String.valueOf(branchCoverage));
+			row.put("rule_coverage", String.valueOf(ruleCoverage));
 			row.put("n_failing_scenarios", failingScenarios);
 		}
 		// build the actual row
@@ -620,22 +649,22 @@ public class TestExperiments {
 	}
 
 	/**
-	 * Validate an ASM specification and compute the coverage given a direcroty
+	 * Validate an ASM specification and compute the coverage given a directory
 	 * containing .avalla scenarios. If the validation of an avalla results in an
-	 * exception, the valiadtion continues.
+	 * exception, the validation continues.
 	 * 
 	 * @param scenarioPath the path of the directory where to look for the .avalla
 	 *                     files
 	 * @param csvPath      where to save the experiments stats (it must be a .csv
 	 *                     file)
 	 * @return the number of scenarios for which the validation result in an error
-	 * @throws IOException  if any IO Exceptio occurs
-	 * @throws CsvException if any exveption when reading a csv occurs
+	 * @throws IOException  if any IO Exception occurs
+	 * @throws CsvException if any exception when reading a csv occurs
 	 */
 	private static int computeCoverageFromAvalla(String scenarioPath, String csvPath) throws IOException, CsvException {
 		int failingScenarios = 0;
 		int errorsInValidation = 0;
-		// To avoid to count the pervious scenario twice if the next one is empty, keep
+		// To avoid to count a scenario twice if the following one is empty, keep
 		// track of the previous execution id. For the first scenario, the check is done
 		// using the column name
 		String previosExecId = "execution_id";
@@ -673,24 +702,22 @@ public class TestExperiments {
 	}
 
 	/**
-	 * Extract form the input file the rows regarding the last execution (that
-	 * mantains all aggregated data) and overwrite with them the content of the
-	 * input file itself. Also put in all rows the number of scenarios that fails in
-	 * the last column.
+	 * Extract form the input file the rows regarding the last execution (that store
+	 * all aggregated data) and overwrite with them the content of the input file
+	 * itself. Also put in all rows the number of scenarios that fails in the last
+	 * column.
 	 * 
 	 * @param csvPath          the path of the target csv
 	 * @param failingScenarios the number of failing scenarios
-	 * @throws IOException  if any IO Exceptio occurs
-	 * @throws CsvException if any exveption when reading a csv occurs
+	 * @throws IOException  if any IO Exception occurs
+	 * @throws CsvException if any exception when reading a csv occurs
 	 */
 	private static void extractLastExecution(String csvPath, int failingScenarios) throws IOException, CsvException {
 		// If the csv does not exists (no scenarios generated), create a dummy empty csv
 		File csvFile = new File(csvPath);
 		if (!csvFile.exists()) {
 			csvFile.createNewFile();
-			String[] headers = { "execution_id", "asm_name", "rule_signature", "tot_conditional_rules",
-					"covered_true_conditional_rules", "covered_false_conditional_rules", "tot_update_rules",
-					"covered_update_rules", "failing_scenarios" };
+			String[] headers = AsmetaV.HEADERS;
 			String headersString = String.join(",", headers);
 			try {
 				FileOutputStream fos = new FileOutputStream(csvPath, false);

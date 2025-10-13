@@ -111,7 +111,7 @@ public class SimulatorWCov extends Simulator {
 		return covData;
 	}
 
-	private static final List<Class<? extends Rule>> CONSIDERED_RULES = List.of(BlockRule.class, ChooseRule.class,
+	public static final List<Class<? extends Rule>> CONSIDERED_RULES = List.of(BlockRule.class, ChooseRule.class,
 			ConditionalRule.class, ExtendRule.class, ForallRule.class, LetRule.class, MacroCallRule.class,
 			SkipRule.class, UpdateRule.class, SeqRule.class);
 

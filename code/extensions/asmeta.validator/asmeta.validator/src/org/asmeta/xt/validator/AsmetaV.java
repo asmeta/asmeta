@@ -135,7 +135,7 @@ public class AsmetaV {
 		return failedScenarios;
 	}
 
-	private static final String[] HEADERS = { "execution_id", "asm_name", "rule_signature", "tot_branches",
+	public static final String[] HEADERS = { "execution_id", "asm_name", "rule_signature", "tot_branches",
 			"covered_true_branches", "covered_false_branches", "tot_rules", "covered_rules", "tot_update_rules",
 			"covered_update_rules", "tot_forall_rules", "covered_zero_iter_forall_rule", "covered_one_iter_forall_rule",
 			"covered_multiple_iter_forall_rule", "failing_scenarios" };
