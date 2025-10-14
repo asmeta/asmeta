@@ -21,5 +21,5 @@ Import-Package: org.asmeta.animator,
  org.junit
 Bundle-ClassPath: .
 Automatic-Module-Name: asmeta.animator.test
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-Vendor: foselab.unibg.it
