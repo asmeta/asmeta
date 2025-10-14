@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import org.apache.log4j.Logger;
 import org.asmeta.avallaxt.validation.RuleExtractorFromMacroDecl;
@@ -61,7 +62,7 @@ public class SimulatorWCov extends Simulator {
 	}
 
 	/**
-	 * Initialize the rule evaluator with the one that also computes the coverage
+	 * Initialize the rule evaluator with the one that also computes the coverage.
 	 *
 	 * @param state the initial state
 	 * @return the initialized rule evaluator
@@ -74,135 +75,153 @@ public class SimulatorWCov extends Simulator {
 		return;
 	}
 
-	// return the coverage of the branches (conditional rules)
-	// NOTE: uses the branches of the modified ASM, not the original one.
-	public Map<String, BranchCovData> getCoveredBranches() {
-		Map<String, BranchCovData> covData = new HashMap<>();
+
+	@FunctionalInterface
+	private static interface RuleTypeChecker {
+		/**
+		 * Decides whether a rule should be included in coverage counting.
+		 *
+		 * @param r              the rule being checked
+		 * @param letFromChoose  true if the rule is a 'let' from a 'choose'
+		 * @param caseFromChoose true if the rule is a 'case' from a 'choose'
+		 * @return true if the rule is relevant for this coverage type
+		 */
+		boolean checkType(Rule r, boolean letFromChoose, boolean caseFromChoose);
+	}
+
+	@FunctionalInterface
+	private static interface CoverageRecorder<C extends CovData> {
+	    /**
+	     * Updates the given coverage data with information about a covered rule.
+	     *
+	     * @param data         the coverage data object to update
+	     * @param r            the rule being processed
+	     * @param visibleIndex index of the rule in the visible list
+	     * @param ruleSubs     rule substitution mappings
+	     */
+		void recordCoverage(C data, Rule r, int visibleIndex, Map<Rule, Set<Rule>> ruleSubs);
+	}
+
+	/**
+	 * Shared logic for all getCovered_() methods.
+	 * Filters rules using {@code checker} and records coverage with {@code recorder}.
+	 *
+	 * @param <C>          type of coverage data
+	 * @param dataFactory  factory for creating new coverage data objects
+	 * @param checker      decides if a rule counts toward total coverage
+	 * @param recorder     records coverage for counted rules
+	 * @return a map from macro rule names to their computed coverage data
+	 */
+	private <C extends CovData> Map<String, C> computeCoverage(Supplier<C> dataFactory, RuleTypeChecker checker,
+			CoverageRecorder<C> recorder) {
+		Map<String, C> covDataMap = new HashMap<>();
 		Map<Rule, Set<Rule>> ruleSubstitutions = RuleEvalWCov.ruleSubstitutions;
 		for (MacroDeclaration md : RuleEvalWCov.coveredMacros) {
 			String ruleCompleteName = RuleDeclarationUtils.getCompleteName(md);
-			covData.putIfAbsent(ruleCompleteName, new BranchCovData());
+			covDataMap.putIfAbsent(ruleCompleteName, dataFactory.get());
 			List<Rule> rules = RuleExtractorFromMacroDecl.getAllContainedRules(md);
-			BranchCovData singleMacroCovData = covData.get(ruleCompleteName);
+			C covData = covDataMap.get(ruleCompleteName);
 			int tot = 0;
-			int ruleCounter = 0;
-			// Store the covered rules using their position in the rules list as if let
-			// rules translated from choose (and null) were not in the rules list
+			// Index of visible rules (skips let-from-choose and null rules)
+			int visibleIndex = 0;
 			for (int i = 0; i < rules.size(); i++) {
 				Rule r = rules.get(i);
 				boolean letFromChoose = letFroomChoose(r);
 				boolean caseFromChoose = caseFromChoose(r);
-				if (r instanceof ConditionalRule || r instanceof ForallRule || r instanceof ChooseRule
-						|| caseFromChoose) {
+				// Count and record only rules accepted by the checker
+				if (checker.checkType(r, letFromChoose, caseFromChoose)) {
+					recorder.recordCoverage(covData, r, visibleIndex, ruleSubstitutions);
+					tot++;
+				}
+				// Skip let-rules generated from choose (and nulls) so index stays consistent
+	            // across scenarios where choose rules may or may not be picked
+				if (!letFromChoose && r != null)
+					visibleIndex++;
+			}
+			covData.tot = tot;
+		}
+		return covDataMap;
+	}
+
+	/**
+	 * Computes branch coverage for all covered macros.
+	 *
+	 * @return a map with branch coverage data per macro
+	 */
+	public Map<String, BranchCovData> getCoveredBranches() {
+		return computeCoverage(
+				BranchCovData::new, 
+				(r, letFromChoose, caseFromChoose) -> 
+					r instanceof ConditionalRule	|| r instanceof ForallRule || r instanceof ChooseRule || caseFromChoose,
+				(covData, r, ruleCounter, ruleSubstitutions) -> {
 					if (isCovered(r, ruleSubstitutions, RuleEvalWCov.coveredBranchF))
-						singleMacroCovData.coveredF.add(ruleCounter);
+						covData.coveredF.add(ruleCounter);
 					if (isCovered(r, ruleSubstitutions, RuleEvalWCov.coveredBranchT))
-						singleMacroCovData.coveredT.add(ruleCounter);
-					tot++;
-				}
-				// Do not count let rules translated from choose (and null). This is required
-				// when multiple scenarios are validated together and at least one choose rule
-				// is picked in one scenario but not in another
-				if (!letFromChoose && r != null)
-					ruleCounter++;
-			}
-			singleMacroCovData.tot = tot;
-		}
-		return covData;
+						covData.coveredT.add(ruleCounter);
+			});
 	}
 
-	public static final List<Class<? extends Rule>> CONSIDERED_RULES = List.of(BlockRule.class, ChooseRule.class,
-			ConditionalRule.class, ExtendRule.class, ForallRule.class, LetRule.class, MacroCallRule.class,
-			SkipRule.class, UpdateRule.class, SeqRule.class);
+	public static final List<Class<? extends Rule>> CONSIDERED_RULES = List.of(
+			BlockRule.class,
+			ChooseRule.class,
+			ConditionalRule.class,
+			ExtendRule.class,
+			ForallRule.class,
+			LetRule.class,
+			MacroCallRule.class,
+			SkipRule.class,
+			UpdateRule.class,
+			SeqRule.class
+		);
 
-	// return the coverage of the rules
-	// NOTE: uses the branches of the modified ASM, not the original one.
+	/**
+	 * Computes rule coverage for all covered macros.
+	 *
+	 * @return a map with rule coverage data per macro
+	 */
 	public Map<String, RuleCovData> getCoveredRules() {
-		Map<String, RuleCovData> covData = new HashMap<>();
-		Map<Rule, Set<Rule>> ruleSubstitutions = RuleEvalWCov.ruleSubstitutions;
-		for (MacroDeclaration md : RuleEvalWCov.coveredMacros) {
-			String ruleCompleteName = RuleDeclarationUtils.getCompleteName(md);
-			covData.putIfAbsent(ruleCompleteName, new RuleCovData());
-			List<Rule> rules = RuleExtractorFromMacroDecl.getAllContainedRules(md);
-			RuleCovData singleMacroCovData = covData.get(ruleCompleteName);
-			int tot = 0;
-			int ruleCounter = 0;
-			for (int i = 0; i < rules.size(); i++) {
-				Rule r = rules.get(i);
-				boolean letFromChoose = letFroomChoose(r);
-				boolean caseFroomChoose = caseFromChoose(r);
-				if (!letFromChoose && (caseFroomChoose
-						|| CONSIDERED_RULES.stream().anyMatch(ruleType -> ruleType.isInstance(r)))) {
+		return computeCoverage(
+				RuleCovData::new,
+				(r, letFromChoose, caseFromChoose) -> 
+					!letFromChoose && (caseFromChoose || CONSIDERED_RULES.stream().anyMatch(ruleType -> ruleType.isInstance(r))),
+				(covData, r, ruleCounter, ruleSubstitutions) -> {
 					if (isCovered(r, ruleSubstitutions, RuleEvalWCov.coveredRules))
-						singleMacroCovData.covered.add(ruleCounter);
-					tot++;
-				}
-				if (!letFromChoose && r != null)
-					ruleCounter++;
-			}
-			singleMacroCovData.tot = tot;
-		}
-		return covData;
+						covData.covered.add(ruleCounter);
+			});
 	}
 
-	// return the coverage of the update rules
-	// NOTE: uses the update rules of the modified ASM, not the original one.
+	/**
+	 * Computes update rule coverage for all covered macros.
+	 *
+	 * @return a map with update rule coverage data per macro
+	 */
 	public Map<String, UpdateCovData> getCoveredUpdateRules() {
-		Map<String, UpdateCovData> covData = new HashMap<>();
-		Map<Rule, Set<Rule>> ruleSubstitutions = RuleEvalWCov.ruleSubstitutions;
-		for (MacroDeclaration md : RuleEvalWCov.coveredMacros) {
-			String ruleCompleteName = RuleDeclarationUtils.getCompleteName(md);
-			covData.putIfAbsent(ruleCompleteName, new UpdateCovData());
-			List<Rule> rules = RuleExtractorFromMacroDecl.getAllContainedRules(md);
-			UpdateCovData singleMacroCovData = covData.get(ruleCompleteName);
-			int tot = 0;
-			int ruleCounter = 0;
-			for (int i = 0; i < rules.size(); i++) {
-				Rule r = rules.get(i);
-				boolean letFromChoose = letFroomChoose(r);
-				if (r instanceof UpdateRule) {
+		return computeCoverage(
+				UpdateCovData::new, 
+				(r, letFromChoose, caseFromChoose) -> r instanceof UpdateRule,
+				(covData, r, ruleCounter, ruleSubstitutions) -> {
 					if (isCovered(r, ruleSubstitutions, RuleEvalWCov.coveredUpdateRules))
-						singleMacroCovData.covered.add(ruleCounter);
-					tot++;
-				}
-				if (!letFromChoose && r != null)
-					ruleCounter++;
-			}
-			singleMacroCovData.tot = tot;
-		}
-		return covData;
+						covData.covered.add(ruleCounter);
+			});
 	}
 
-	// return the coverage of the forall rules
-	// NOTE: uses the loops of the modified ASM, not the original one.
+	/**
+	 * Computes forall rule coverage for all covered macros.
+	 *
+	 * @return a map with forall rule coverage data per macro
+	 */
 	public Map<String, ForallCovData> getCoveredForallRules() {
-		Map<String, ForallCovData> covData = new HashMap<>();
-		Map<Rule, Set<Rule>> ruleSubstitutions = RuleEvalWCov.ruleSubstitutions;
-		for (MacroDeclaration md : RuleEvalWCov.coveredMacros) {
-			String ruleCompleteName = RuleDeclarationUtils.getCompleteName(md);
-			covData.putIfAbsent(ruleCompleteName, new ForallCovData());
-			List<Rule> rules = RuleExtractorFromMacroDecl.getAllContainedRules(md);
-			ForallCovData singleMacroCovData = covData.get(ruleCompleteName);
-			int tot = 0;
-			int ruleCounter = 0;
-			for (int i = 0; i < rules.size(); i++) {
-				Rule r = rules.get(i);
-				boolean letFromChoose = letFroomChoose(r);
-				if (r instanceof ForallRule) {
+		return computeCoverage(
+				ForallCovData::new, 
+				(r, letFromChoose, caseFromChoose) -> r instanceof ForallRule,
+				(covData, r, ruleCounter, ruleSubstitutions) -> {
 					if (isCovered(r, ruleSubstitutions, RuleEvalWCov.coveredZeroIterForRule))
-						singleMacroCovData.zeroIterations.add(ruleCounter);
+						covData.zeroIterations.add(ruleCounter);
 					if (isCovered(r, ruleSubstitutions, RuleEvalWCov.coveredOneIterForRule))
-						singleMacroCovData.oneIteration.add(ruleCounter);
+						covData.oneIteration.add(ruleCounter);
 					if (isCovered(r, ruleSubstitutions, RuleEvalWCov.coveredMulIterForRule))
-						singleMacroCovData.multipleIterations.add(ruleCounter);
-					tot++;
-				}
-				if (!letFromChoose && r != null)
-					ruleCounter++;
-			}
-			singleMacroCovData.tot = tot;
-		}
-		return covData;
+						covData.multipleIterations.add(ruleCounter);
+			});
 	}
 
 	/**

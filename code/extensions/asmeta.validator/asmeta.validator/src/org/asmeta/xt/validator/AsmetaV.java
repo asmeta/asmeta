@@ -85,7 +85,7 @@ public class AsmetaV {
 	 * @param scenarioPath file containing the scenario or directory containing all
 	 *                     the scenarios
 	 * @param coverage     compute also the coverage?
-	 * @param printToCsv   if the covarage is computed, print it to csv?
+	 * @param printToCsv   if the coverage is computed, print it to csv?
 	 * @param csvPath      path of the file where to write the coverage data in csv
 	 *                     format
 	 * 
@@ -108,7 +108,7 @@ public class AsmetaV {
 				if (element.isFile() && element.getName().endsWith(SCENARIO_EXTENSION)) {
 					String path = element.getPath();
 					result = validateSingleFile(coverage, allCoveredRules, path);
-					if (!result.isCheckSucceded())
+					if (!result.isCheckSucceeded())
 						failedScenarios.add(path);
 				} else {
 					logger.info(element.getName() + " is not a valid file!!");
@@ -120,7 +120,7 @@ public class AsmetaV {
 			}
 			// if the file is not a directory but a file
 			result = validateSingleFile(coverage, allCoveredRules, scenarioPath.getCanonicalPath());
-			if (!result.isCheckSucceded())
+			if (!result.isCheckSucceeded())
 				failedScenarios.add(scenarioPath.getCanonicalPath());
 		}
 		if (coverage) {
@@ -343,7 +343,7 @@ public class AsmetaV {
 			logger.error("step not found");
 		// succeed only if step is found, is greater or equal 0 and no invariant is
 		// violated
-		result.setCheckSucceded(check_succeded && !invariantViolated);
+		result.setCheckSucceeded(check_succeded && !invariantViolated);
 		if (coverage) { // for each scenario insert rules covered
 						// into list if they aren't covered
 			List<RuleDeclaration> ruleDeclaration = sim.getAsmModel().getBodySection().getRuleDeclaration();

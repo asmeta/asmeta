@@ -9,18 +9,18 @@ import java.util.Map;
  *
  */
 public class ValidationResult {
-	private boolean checkSucceded;
+	private boolean checkSucceeded;
 	Map<String, BranchCovData> branchData;
 	Map<String, RuleCovData> ruleData;
 	Map<String, UpdateCovData> updateData;
 	Map<String, ForallCovData> forallData;
 
-	public boolean isCheckSucceded() {
-		return checkSucceded;
+	public boolean isCheckSucceeded() {
+		return checkSucceeded;
 	}
 
-	public void setCheckSucceded(boolean checkSucceded) {
-		this.checkSucceded = checkSucceded;
+	public void setCheckSucceeded(boolean checkSucceeded) {
+		this.checkSucceeded = checkSucceeded;
 	}
 
 	public Map<String, BranchCovData> getBranchData() {

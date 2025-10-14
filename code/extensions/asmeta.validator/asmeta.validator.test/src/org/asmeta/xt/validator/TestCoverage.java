@@ -113,6 +113,14 @@ public class TestCoverage extends TestValidator {
 		testWithCoverageAndWithout("scenariosfortest/flaky/tiny_scheduler/correct_scenarios", true,
 				cov("r_Main()", branch(4, 3, 3), rule(8, 7), update(3, 2), forall(1, 1, 1, 1)));
 	}
+	
+	@Test
+	public void testWithCoverageAndWithoutPickWithImports() throws Exception {
+		List<CoverageOracle> oracles = new ArrayList<>();
+		oracles.add(cov("r_Main()", branch(2, 1, 1), rule(6, 5), update(2, 1), forall(0, 0, 0, 0)));
+		oracles.add(cov("r_random()", branch(1, 1, 0), rule(2, 2), update(1, 1), forall(0, 0, 0, 0))); // From the imported module
+		testWithCoverageAndWithout("scenariosfortest/flaky/asm_w_import/scenarioPickWithImport.avalla", true, oracles.toArray(new CoverageOracle[0]));
+	}
 
 	@Test
 	public void testWithCoverageAndWithoutPopulation() throws Exception {
