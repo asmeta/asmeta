@@ -65,6 +65,7 @@ import asmeta.definitions.domains.ConcreteDomain;
 import asmeta.definitions.domains.Domain;
 import asmeta.definitions.domains.IntegerDomain;
 import asmeta.definitions.domains.MapDomain;
+import asmeta.definitions.domains.NaturalDomain;
 import asmeta.definitions.domains.PowersetDomain;
 import asmeta.definitions.domains.RealDomain;
 import asmeta.definitions.domains.SequenceDomain;
@@ -920,6 +921,9 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		public Iterator iterator() {throw new RuntimeException();}
 
 		public Value getRndValue() {
+			if (creator == NaturalNumber.class) {
+				return new org.asmeta.simulator.value.IntegerValue(random.nextInt(0, Integer.MAX_VALUE));
+			}
 			if (creator == Integer.class) {
 				return new org.asmeta.simulator.value.IntegerValue(random.nextInt());
 			}
@@ -936,6 +940,8 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		public Value clone() {throw new RuntimeException();}
 		
 	}
+	
+	private abstract class NaturalNumber extends Number{}
 	
 	/**
 	 * Evaluates a list of domain terms.
@@ -954,6 +960,10 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 				Domain baseDomain = dom.getDomain();
 				assert baseDomain instanceof PowersetDomain;
 				// VariableTerm var = (VariableTerm) varList.get(i);
+				if (((PowersetDomain)baseDomain).getBaseDomain() instanceof NaturalDomain) {
+					values[i] = new InfiniteCollection<NaturalNumber>(NaturalNumber.class) {};
+					continue;
+				}
 				if (((PowersetDomain)baseDomain).getBaseDomain() instanceof IntegerDomain) {
 					values[i] = new InfiniteCollection<Integer>(Integer.class) {};
 					continue;

@@ -86,6 +86,19 @@ public class ChooseTest extends BaseTest {
 		checkRandomValues(integers);
 	}
 	@Test
+	public void testRandomNatWithTrue() throws Exception{
+		sim = Util.getSimulatorForTestSpec(TEST_SIMULATOR_CHOOSERULE + "ChooseRandomNat.asm");
+		List<Long> integers = new ArrayList<>();
+		for(int i = 1; i < 10; i++){
+			UpdateSet updateSet = sim.doOneStep();
+			Function f = searchFunction("myNat");
+			Value value = sim.currentState.read(new Location(f, new Value[]{}));
+			integers.add((Long) (value.getValue()));
+		}
+		checkRandomValues(integers);
+		integers.stream().forEach(x -> assertTrue(x >= 0));
+	}
+	@Test
 	public void testRandomRealWithTrue() throws Exception{
 		sim = Util.getSimulatorForTestSpec(TEST_SIMULATOR_CHOOSERULE + "ChooseRandomReal.asm");
 		List<Double> integers = new ArrayList<>();
