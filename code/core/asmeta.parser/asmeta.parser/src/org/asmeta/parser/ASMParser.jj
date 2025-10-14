@@ -5426,19 +5426,27 @@ ChooseRule ChooseRule(HashMap localVar, RuleDeclaration c) :
       rangeList.add(inTerm);
       //Constraints R10, R8 granted for construction
     }
-  )*
-  < WITH >
+  )* 
   {
-    Logger.logDebug("\twith");
+    //se la guardia non c'e', creiamo una guardia fittizia "true"
+    guard = termsPack.getBasicTerms().createBooleanTerm(true);
   }
-  guard = Term(localVar, false, c)
+  [
+    < WITH >
+    {
+      Logger.logDebug("\twith");
+    }
+    guard = Term(localVar, false, c)
+    {
+	      //Check constraint R9
+	      if (!OCL_Checker.isBoolean(guard))
+      {
+		        Logger.logErr("Error: In a ChooseRule the type-domain associated to the term after \"with\" must be the Boolean domain");
+      }
+    }
+  ]
   { //set the reference to the guard
     rule.setGuard(guard);
-    //Check constraint R9
-    if (!OCL_Checker.isBoolean(guard))
-    {
-      Logger.logErr("Error: In a ChooseRule the type-domain associated to the term after \"with\" must be the Boolean domain");
-    }
   }
   < DO >
   {

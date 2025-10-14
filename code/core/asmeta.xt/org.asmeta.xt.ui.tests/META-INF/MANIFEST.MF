@@ -14,5 +14,5 @@ Require-Bundle: org.asmeta.xt.ui,
  org.eclipse.ui.workbench;resolution:=optional,
  org.junit,
  org.eclipse.xtext.xbase.ui.testing
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: org.asmeta.xt.ui.tests;x-internal=true

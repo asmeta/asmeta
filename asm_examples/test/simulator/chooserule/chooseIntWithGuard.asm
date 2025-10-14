@@ -1,8 +1,8 @@
 //la funzione "a" assume sempre il valore 6
 
-asm chooseProblem
+asm chooseIntWithGuard
 
-import ../../STDL/StandardLibrary
+import  ../../../STDL/StandardLibrary
 
 signature:
 	domain MyDomain subsetof Integer

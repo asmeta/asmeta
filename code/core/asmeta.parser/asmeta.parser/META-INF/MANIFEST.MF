@@ -13,4 +13,4 @@ Export-Package: org.asmeta.annotations,
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: foselab.unibg.it
 Automatic-Module-Name: asmeta.parser
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
