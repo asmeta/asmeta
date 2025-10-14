@@ -2714,8 +2714,8 @@ public class InternalAsmetaLLexer extends Lexer {
     // $ANTLR start "RULE_DIGIT"
     public final void mRULE_DIGIT() throws RecognitionException {
         try {
-            // InternalAsmetaL.g:12039:21: ( '0' .. '9' )
-            // InternalAsmetaL.g:12039:23: '0' .. '9'
+            // InternalAsmetaL.g:12041:21: ( '0' .. '9' )
+            // InternalAsmetaL.g:12041:23: '0' .. '9'
             {
             matchRange('0','9'); 
 
@@ -2732,10 +2732,10 @@ public class InternalAsmetaLLexer extends Lexer {
         try {
             int _type = RULE_NUMBER_TOKEN;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalAsmetaL.g:12041:19: ( ( RULE_DIGIT )+ )
-            // InternalAsmetaL.g:12041:21: ( RULE_DIGIT )+
+            // InternalAsmetaL.g:12043:19: ( ( RULE_DIGIT )+ )
+            // InternalAsmetaL.g:12043:21: ( RULE_DIGIT )+
             {
-            // InternalAsmetaL.g:12041:21: ( RULE_DIGIT )+
+            // InternalAsmetaL.g:12043:21: ( RULE_DIGIT )+
             int cnt1=0;
             loop1:
             do {
@@ -2749,7 +2749,7 @@ public class InternalAsmetaLLexer extends Lexer {
 
                 switch (alt1) {
             	case 1 :
-            	    // InternalAsmetaL.g:12041:21: RULE_DIGIT
+            	    // InternalAsmetaL.g:12043:21: RULE_DIGIT
             	    {
             	    mRULE_DIGIT(); 
 
@@ -2781,8 +2781,8 @@ public class InternalAsmetaLLexer extends Lexer {
         try {
             int _type = RULE_NATNUMBER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalAsmetaL.g:12043:16: ( RULE_NUMBER_TOKEN 'n' )
-            // InternalAsmetaL.g:12043:18: RULE_NUMBER_TOKEN 'n'
+            // InternalAsmetaL.g:12045:16: ( RULE_NUMBER_TOKEN 'n' )
+            // InternalAsmetaL.g:12045:18: RULE_NUMBER_TOKEN 'n'
             {
             mRULE_NUMBER_TOKEN(); 
             match('n'); 
@@ -2802,8 +2802,8 @@ public class InternalAsmetaLLexer extends Lexer {
         try {
             int _type = RULE_REAL_NUMBER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalAsmetaL.g:12045:18: ( RULE_NUMBER_TOKEN '.' RULE_NUMBER_TOKEN )
-            // InternalAsmetaL.g:12045:20: RULE_NUMBER_TOKEN '.' RULE_NUMBER_TOKEN
+            // InternalAsmetaL.g:12047:18: ( RULE_NUMBER_TOKEN '.' RULE_NUMBER_TOKEN )
+            // InternalAsmetaL.g:12047:20: RULE_NUMBER_TOKEN '.' RULE_NUMBER_TOKEN
             {
             mRULE_NUMBER_TOKEN(); 
             match('.'); 
@@ -2822,8 +2822,8 @@ public class InternalAsmetaLLexer extends Lexer {
     // $ANTLR start "RULE_MAIUSC_ID"
     public final void mRULE_MAIUSC_ID() throws RecognitionException {
         try {
-            // InternalAsmetaL.g:12047:25: ( 'A' .. 'Z' )
-            // InternalAsmetaL.g:12047:27: 'A' .. 'Z'
+            // InternalAsmetaL.g:12049:25: ( 'A' .. 'Z' )
+            // InternalAsmetaL.g:12049:27: 'A' .. 'Z'
             {
             matchRange('A','Z'); 
 
@@ -2838,8 +2838,8 @@ public class InternalAsmetaLLexer extends Lexer {
     // $ANTLR start "RULE_MIN_ID"
     public final void mRULE_MIN_ID() throws RecognitionException {
         try {
-            // InternalAsmetaL.g:12049:22: ( 'a' .. 'z' )
-            // InternalAsmetaL.g:12049:24: 'a' .. 'z'
+            // InternalAsmetaL.g:12051:22: ( 'a' .. 'z' )
+            // InternalAsmetaL.g:12051:24: 'a' .. 'z'
             {
             matchRange('a','z'); 
 
@@ -2854,10 +2854,10 @@ public class InternalAsmetaLLexer extends Lexer {
     // $ANTLR start "RULE_ACCENT_CHR"
     public final void mRULE_ACCENT_CHR() throws RecognitionException {
         try {
-            // InternalAsmetaL.g:12051:26: ( ( '\\u00C3\\u00A0' | '\\u00C3\\u00A8' | '\\u00C3\\u00A9' | '\\u00C3\\u00B2' | '\\u00C3\\u00AC' | '\\u00C3\\u00B9' | '\\u00C3\\u0192' ) )
-            // InternalAsmetaL.g:12051:28: ( '\\u00C3\\u00A0' | '\\u00C3\\u00A8' | '\\u00C3\\u00A9' | '\\u00C3\\u00B2' | '\\u00C3\\u00AC' | '\\u00C3\\u00B9' | '\\u00C3\\u0192' )
+            // InternalAsmetaL.g:12053:26: ( ( '\\u00C3\\u00A0' | '\\u00C3\\u00A8' | '\\u00C3\\u00A9' | '\\u00C3\\u00B2' | '\\u00C3\\u00AC' | '\\u00C3\\u00B9' | '\\u00C3\\u0192' ) )
+            // InternalAsmetaL.g:12053:28: ( '\\u00C3\\u00A0' | '\\u00C3\\u00A8' | '\\u00C3\\u00A9' | '\\u00C3\\u00B2' | '\\u00C3\\u00AC' | '\\u00C3\\u00B9' | '\\u00C3\\u0192' )
             {
-            // InternalAsmetaL.g:12051:28: ( '\\u00C3\\u00A0' | '\\u00C3\\u00A8' | '\\u00C3\\u00A9' | '\\u00C3\\u00B2' | '\\u00C3\\u00AC' | '\\u00C3\\u00B9' | '\\u00C3\\u0192' )
+            // InternalAsmetaL.g:12053:28: ( '\\u00C3\\u00A0' | '\\u00C3\\u00A8' | '\\u00C3\\u00A9' | '\\u00C3\\u00B2' | '\\u00C3\\u00AC' | '\\u00C3\\u00B9' | '\\u00C3\\u0192' )
             int alt2=7;
             int LA2_0 = input.LA(1);
 
@@ -2914,7 +2914,7 @@ public class InternalAsmetaLLexer extends Lexer {
             }
             switch (alt2) {
                 case 1 :
-                    // InternalAsmetaL.g:12051:29: '\\u00C3\\u00A0'
+                    // InternalAsmetaL.g:12053:29: '\\u00C3\\u00A0'
                     {
                     match("\u00C3\u00A0"); 
 
@@ -2922,7 +2922,7 @@ public class InternalAsmetaLLexer extends Lexer {
                     }
                     break;
                 case 2 :
-                    // InternalAsmetaL.g:12051:44: '\\u00C3\\u00A8'
+                    // InternalAsmetaL.g:12053:44: '\\u00C3\\u00A8'
                     {
                     match("\u00C3\u00A8"); 
 
@@ -2930,7 +2930,7 @@ public class InternalAsmetaLLexer extends Lexer {
                     }
                     break;
                 case 3 :
-                    // InternalAsmetaL.g:12051:59: '\\u00C3\\u00A9'
+                    // InternalAsmetaL.g:12053:59: '\\u00C3\\u00A9'
                     {
                     match("\u00C3\u00A9"); 
 
@@ -2938,7 +2938,7 @@ public class InternalAsmetaLLexer extends Lexer {
                     }
                     break;
                 case 4 :
-                    // InternalAsmetaL.g:12051:74: '\\u00C3\\u00B2'
+                    // InternalAsmetaL.g:12053:74: '\\u00C3\\u00B2'
                     {
                     match("\u00C3\u00B2"); 
 
@@ -2946,7 +2946,7 @@ public class InternalAsmetaLLexer extends Lexer {
                     }
                     break;
                 case 5 :
-                    // InternalAsmetaL.g:12051:89: '\\u00C3\\u00AC'
+                    // InternalAsmetaL.g:12053:89: '\\u00C3\\u00AC'
                     {
                     match("\u00C3\u00AC"); 
 
@@ -2954,7 +2954,7 @@ public class InternalAsmetaLLexer extends Lexer {
                     }
                     break;
                 case 6 :
-                    // InternalAsmetaL.g:12051:104: '\\u00C3\\u00B9'
+                    // InternalAsmetaL.g:12053:104: '\\u00C3\\u00B9'
                     {
                     match("\u00C3\u00B9"); 
 
@@ -2962,7 +2962,7 @@ public class InternalAsmetaLLexer extends Lexer {
                     }
                     break;
                 case 7 :
-                    // InternalAsmetaL.g:12051:119: '\\u00C3\\u0192'
+                    // InternalAsmetaL.g:12053:119: '\\u00C3\\u0192'
                     {
                     match("\u00C3\u0192"); 
 
@@ -2986,10 +2986,10 @@ public class InternalAsmetaLLexer extends Lexer {
         try {
             int _type = RULE_ENUM_ID;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalAsmetaL.g:12053:14: ( ( '^' )? RULE_MAIUSC_ID RULE_MAIUSC_ID ( RULE_MAIUSC_ID | RULE_DIGIT | '_' )* )
-            // InternalAsmetaL.g:12053:16: ( '^' )? RULE_MAIUSC_ID RULE_MAIUSC_ID ( RULE_MAIUSC_ID | RULE_DIGIT | '_' )*
+            // InternalAsmetaL.g:12055:14: ( ( '^' )? RULE_MAIUSC_ID RULE_MAIUSC_ID ( RULE_MAIUSC_ID | RULE_DIGIT | '_' )* )
+            // InternalAsmetaL.g:12055:16: ( '^' )? RULE_MAIUSC_ID RULE_MAIUSC_ID ( RULE_MAIUSC_ID | RULE_DIGIT | '_' )*
             {
-            // InternalAsmetaL.g:12053:16: ( '^' )?
+            // InternalAsmetaL.g:12055:16: ( '^' )?
             int alt3=2;
             int LA3_0 = input.LA(1);
 
@@ -2998,7 +2998,7 @@ public class InternalAsmetaLLexer extends Lexer {
             }
             switch (alt3) {
                 case 1 :
-                    // InternalAsmetaL.g:12053:16: '^'
+                    // InternalAsmetaL.g:12055:16: '^'
                     {
                     match('^'); 
 
@@ -3009,7 +3009,7 @@ public class InternalAsmetaLLexer extends Lexer {
 
             mRULE_MAIUSC_ID(); 
             mRULE_MAIUSC_ID(); 
-            // InternalAsmetaL.g:12053:51: ( RULE_MAIUSC_ID | RULE_DIGIT | '_' )*
+            // InternalAsmetaL.g:12055:51: ( RULE_MAIUSC_ID | RULE_DIGIT | '_' )*
             loop4:
             do {
                 int alt4=2;
@@ -3056,10 +3056,10 @@ public class InternalAsmetaLLexer extends Lexer {
     // $ANTLR start "RULE_SPECIAL_CHAR"
     public final void mRULE_SPECIAL_CHAR() throws RecognitionException {
         try {
-            // InternalAsmetaL.g:12055:28: ( ( '!' | '.' | ',' | ':' | '-' | '+' | '$' | '%' | '(' | ')' | '[' | ']' | '=' | '?' | '^' | '_' | ';' | '\\u00C2\\u00A8' | '@' | '>' | '<' | '|' | '\\\\' | '/' ) )
-            // InternalAsmetaL.g:12055:30: ( '!' | '.' | ',' | ':' | '-' | '+' | '$' | '%' | '(' | ')' | '[' | ']' | '=' | '?' | '^' | '_' | ';' | '\\u00C2\\u00A8' | '@' | '>' | '<' | '|' | '\\\\' | '/' )
+            // InternalAsmetaL.g:12057:28: ( ( '!' | '.' | ',' | ':' | '-' | '+' | '$' | '%' | '(' | ')' | '[' | ']' | '=' | '?' | '^' | '_' | ';' | '\\u00C2\\u00A8' | '@' | '>' | '<' | '|' | '\\\\' | '/' ) )
+            // InternalAsmetaL.g:12057:30: ( '!' | '.' | ',' | ':' | '-' | '+' | '$' | '%' | '(' | ')' | '[' | ']' | '=' | '?' | '^' | '_' | ';' | '\\u00C2\\u00A8' | '@' | '>' | '<' | '|' | '\\\\' | '/' )
             {
-            // InternalAsmetaL.g:12055:30: ( '!' | '.' | ',' | ':' | '-' | '+' | '$' | '%' | '(' | ')' | '[' | ']' | '=' | '?' | '^' | '_' | ';' | '\\u00C2\\u00A8' | '@' | '>' | '<' | '|' | '\\\\' | '/' )
+            // InternalAsmetaL.g:12057:30: ( '!' | '.' | ',' | ':' | '-' | '+' | '$' | '%' | '(' | ')' | '[' | ']' | '=' | '?' | '^' | '_' | ';' | '\\u00C2\\u00A8' | '@' | '>' | '<' | '|' | '\\\\' | '/' )
             int alt5=24;
             switch ( input.LA(1) ) {
             case '!':
@@ -3191,126 +3191,126 @@ public class InternalAsmetaLLexer extends Lexer {
 
             switch (alt5) {
                 case 1 :
-                    // InternalAsmetaL.g:12055:31: '!'
+                    // InternalAsmetaL.g:12057:31: '!'
                     {
                     match('!'); 
 
                     }
                     break;
                 case 2 :
-                    // InternalAsmetaL.g:12055:35: '.'
+                    // InternalAsmetaL.g:12057:35: '.'
                     {
                     match('.'); 
 
                     }
                     break;
                 case 3 :
-                    // InternalAsmetaL.g:12055:39: ','
+                    // InternalAsmetaL.g:12057:39: ','
                     {
                     match(','); 
 
                     }
                     break;
                 case 4 :
-                    // InternalAsmetaL.g:12055:43: ':'
+                    // InternalAsmetaL.g:12057:43: ':'
                     {
                     match(':'); 
 
                     }
                     break;
                 case 5 :
-                    // InternalAsmetaL.g:12055:47: '-'
+                    // InternalAsmetaL.g:12057:47: '-'
                     {
                     match('-'); 
 
                     }
                     break;
                 case 6 :
-                    // InternalAsmetaL.g:12055:51: '+'
+                    // InternalAsmetaL.g:12057:51: '+'
                     {
                     match('+'); 
 
                     }
                     break;
                 case 7 :
-                    // InternalAsmetaL.g:12055:55: '$'
+                    // InternalAsmetaL.g:12057:55: '$'
                     {
                     match('$'); 
 
                     }
                     break;
                 case 8 :
-                    // InternalAsmetaL.g:12055:59: '%'
+                    // InternalAsmetaL.g:12057:59: '%'
                     {
                     match('%'); 
 
                     }
                     break;
                 case 9 :
-                    // InternalAsmetaL.g:12055:63: '('
+                    // InternalAsmetaL.g:12057:63: '('
                     {
                     match('('); 
 
                     }
                     break;
                 case 10 :
-                    // InternalAsmetaL.g:12055:67: ')'
+                    // InternalAsmetaL.g:12057:67: ')'
                     {
                     match(')'); 
 
                     }
                     break;
                 case 11 :
-                    // InternalAsmetaL.g:12055:71: '['
+                    // InternalAsmetaL.g:12057:71: '['
                     {
                     match('['); 
 
                     }
                     break;
                 case 12 :
-                    // InternalAsmetaL.g:12055:75: ']'
+                    // InternalAsmetaL.g:12057:75: ']'
                     {
                     match(']'); 
 
                     }
                     break;
                 case 13 :
-                    // InternalAsmetaL.g:12055:79: '='
+                    // InternalAsmetaL.g:12057:79: '='
                     {
                     match('='); 
 
                     }
                     break;
                 case 14 :
-                    // InternalAsmetaL.g:12055:83: '?'
+                    // InternalAsmetaL.g:12057:83: '?'
                     {
                     match('?'); 
 
                     }
                     break;
                 case 15 :
-                    // InternalAsmetaL.g:12055:87: '^'
+                    // InternalAsmetaL.g:12057:87: '^'
                     {
                     match('^'); 
 
                     }
                     break;
                 case 16 :
-                    // InternalAsmetaL.g:12055:91: '_'
+                    // InternalAsmetaL.g:12057:91: '_'
                     {
                     match('_'); 
 
                     }
                     break;
                 case 17 :
-                    // InternalAsmetaL.g:12055:95: ';'
+                    // InternalAsmetaL.g:12057:95: ';'
                     {
                     match(';'); 
 
                     }
                     break;
                 case 18 :
-                    // InternalAsmetaL.g:12055:99: '\\u00C2\\u00A8'
+                    // InternalAsmetaL.g:12057:99: '\\u00C2\\u00A8'
                     {
                     match("\u00C2\u00A8"); 
 
@@ -3318,42 +3318,42 @@ public class InternalAsmetaLLexer extends Lexer {
                     }
                     break;
                 case 19 :
-                    // InternalAsmetaL.g:12055:114: '@'
+                    // InternalAsmetaL.g:12057:114: '@'
                     {
                     match('@'); 
 
                     }
                     break;
                 case 20 :
-                    // InternalAsmetaL.g:12055:118: '>'
+                    // InternalAsmetaL.g:12057:118: '>'
                     {
                     match('>'); 
 
                     }
                     break;
                 case 21 :
-                    // InternalAsmetaL.g:12055:122: '<'
+                    // InternalAsmetaL.g:12057:122: '<'
                     {
                     match('<'); 
 
                     }
                     break;
                 case 22 :
-                    // InternalAsmetaL.g:12055:126: '|'
+                    // InternalAsmetaL.g:12057:126: '|'
                     {
                     match('|'); 
 
                     }
                     break;
                 case 23 :
-                    // InternalAsmetaL.g:12055:130: '\\\\'
+                    // InternalAsmetaL.g:12057:130: '\\\\'
                     {
                     match('\\'); 
 
                     }
                     break;
                 case 24 :
-                    // InternalAsmetaL.g:12055:135: '/'
+                    // InternalAsmetaL.g:12057:135: '/'
                     {
                     match('/'); 
 
@@ -3376,12 +3376,12 @@ public class InternalAsmetaLLexer extends Lexer {
         try {
             int _type = RULE_RULE_ID;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalAsmetaL.g:12057:14: ( 'r_' ( RULE_MAIUSC_ID | RULE_MIN_ID | RULE_DIGIT | '_' )* )
-            // InternalAsmetaL.g:12057:16: 'r_' ( RULE_MAIUSC_ID | RULE_MIN_ID | RULE_DIGIT | '_' )*
+            // InternalAsmetaL.g:12059:14: ( 'r_' ( RULE_MAIUSC_ID | RULE_MIN_ID | RULE_DIGIT | '_' )* )
+            // InternalAsmetaL.g:12059:16: 'r_' ( RULE_MAIUSC_ID | RULE_MIN_ID | RULE_DIGIT | '_' )*
             {
             match("r_"); 
 
-            // InternalAsmetaL.g:12057:21: ( RULE_MAIUSC_ID | RULE_MIN_ID | RULE_DIGIT | '_' )*
+            // InternalAsmetaL.g:12059:21: ( RULE_MAIUSC_ID | RULE_MIN_ID | RULE_DIGIT | '_' )*
             loop6:
             do {
                 int alt6=2;
@@ -3430,10 +3430,10 @@ public class InternalAsmetaLLexer extends Lexer {
         try {
             int _type = RULE_ID;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalAsmetaL.g:12059:9: ( ( '^' )? ( RULE_MAIUSC_ID | RULE_MIN_ID | '_' ) ( RULE_MAIUSC_ID | RULE_MIN_ID | RULE_DIGIT | '_' )* )
-            // InternalAsmetaL.g:12059:11: ( '^' )? ( RULE_MAIUSC_ID | RULE_MIN_ID | '_' ) ( RULE_MAIUSC_ID | RULE_MIN_ID | RULE_DIGIT | '_' )*
+            // InternalAsmetaL.g:12061:9: ( ( '^' )? ( RULE_MAIUSC_ID | RULE_MIN_ID | '_' ) ( RULE_MAIUSC_ID | RULE_MIN_ID | RULE_DIGIT | '_' )* )
+            // InternalAsmetaL.g:12061:11: ( '^' )? ( RULE_MAIUSC_ID | RULE_MIN_ID | '_' ) ( RULE_MAIUSC_ID | RULE_MIN_ID | RULE_DIGIT | '_' )*
             {
-            // InternalAsmetaL.g:12059:11: ( '^' )?
+            // InternalAsmetaL.g:12061:11: ( '^' )?
             int alt7=2;
             int LA7_0 = input.LA(1);
 
@@ -3442,7 +3442,7 @@ public class InternalAsmetaLLexer extends Lexer {
             }
             switch (alt7) {
                 case 1 :
-                    // InternalAsmetaL.g:12059:11: '^'
+                    // InternalAsmetaL.g:12061:11: '^'
                     {
                     match('^'); 
 
@@ -3460,7 +3460,7 @@ public class InternalAsmetaLLexer extends Lexer {
                 recover(mse);
                 throw mse;}
 
-            // InternalAsmetaL.g:12059:49: ( RULE_MAIUSC_ID | RULE_MIN_ID | RULE_DIGIT | '_' )*
+            // InternalAsmetaL.g:12061:49: ( RULE_MAIUSC_ID | RULE_MIN_ID | RULE_DIGIT | '_' )*
             loop8:
             do {
                 int alt8=2;
@@ -3509,11 +3509,11 @@ public class InternalAsmetaLLexer extends Lexer {
         try {
             int _type = RULE_CHAR_LITERAL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalAsmetaL.g:12061:19: ( '\\'' ( RULE_MAIUSC_ID | RULE_MIN_ID | RULE_DIGIT | RULE_SPECIAL_CHAR | RULE_ACCENT_CHR )? '\\'' )
-            // InternalAsmetaL.g:12061:21: '\\'' ( RULE_MAIUSC_ID | RULE_MIN_ID | RULE_DIGIT | RULE_SPECIAL_CHAR | RULE_ACCENT_CHR )? '\\''
+            // InternalAsmetaL.g:12063:19: ( '\\'' ( RULE_MAIUSC_ID | RULE_MIN_ID | RULE_DIGIT | RULE_SPECIAL_CHAR | RULE_ACCENT_CHR )? '\\'' )
+            // InternalAsmetaL.g:12063:21: '\\'' ( RULE_MAIUSC_ID | RULE_MIN_ID | RULE_DIGIT | RULE_SPECIAL_CHAR | RULE_ACCENT_CHR )? '\\''
             {
             match('\''); 
-            // InternalAsmetaL.g:12061:26: ( RULE_MAIUSC_ID | RULE_MIN_ID | RULE_DIGIT | RULE_SPECIAL_CHAR | RULE_ACCENT_CHR )?
+            // InternalAsmetaL.g:12063:26: ( RULE_MAIUSC_ID | RULE_MIN_ID | RULE_DIGIT | RULE_SPECIAL_CHAR | RULE_ACCENT_CHR )?
             int alt9=6;
             switch ( input.LA(1) ) {
                 case 'A':
@@ -3627,35 +3627,35 @@ public class InternalAsmetaLLexer extends Lexer {
 
             switch (alt9) {
                 case 1 :
-                    // InternalAsmetaL.g:12061:27: RULE_MAIUSC_ID
+                    // InternalAsmetaL.g:12063:27: RULE_MAIUSC_ID
                     {
                     mRULE_MAIUSC_ID(); 
 
                     }
                     break;
                 case 2 :
-                    // InternalAsmetaL.g:12061:42: RULE_MIN_ID
+                    // InternalAsmetaL.g:12063:42: RULE_MIN_ID
                     {
                     mRULE_MIN_ID(); 
 
                     }
                     break;
                 case 3 :
-                    // InternalAsmetaL.g:12061:54: RULE_DIGIT
+                    // InternalAsmetaL.g:12063:54: RULE_DIGIT
                     {
                     mRULE_DIGIT(); 
 
                     }
                     break;
                 case 4 :
-                    // InternalAsmetaL.g:12061:65: RULE_SPECIAL_CHAR
+                    // InternalAsmetaL.g:12063:65: RULE_SPECIAL_CHAR
                     {
                     mRULE_SPECIAL_CHAR(); 
 
                     }
                     break;
                 case 5 :
-                    // InternalAsmetaL.g:12061:83: RULE_ACCENT_CHR
+                    // InternalAsmetaL.g:12063:83: RULE_ACCENT_CHR
                     {
                     mRULE_ACCENT_CHR(); 
 
@@ -3681,11 +3681,11 @@ public class InternalAsmetaLLexer extends Lexer {
         try {
             int _type = RULE_STRING_LITERAL;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalAsmetaL.g:12063:21: ( '\"' ( RULE_MAIUSC_ID | RULE_MIN_ID | RULE_DIGIT | RULE_WS | '\\'' | RULE_SPECIAL_CHAR | RULE_ACCENT_CHR )* '\"' )
-            // InternalAsmetaL.g:12063:23: '\"' ( RULE_MAIUSC_ID | RULE_MIN_ID | RULE_DIGIT | RULE_WS | '\\'' | RULE_SPECIAL_CHAR | RULE_ACCENT_CHR )* '\"'
+            // InternalAsmetaL.g:12065:21: ( '\"' ( RULE_MAIUSC_ID | RULE_MIN_ID | RULE_DIGIT | RULE_WS | '\\'' | RULE_SPECIAL_CHAR | RULE_ACCENT_CHR )* '\"' )
+            // InternalAsmetaL.g:12065:23: '\"' ( RULE_MAIUSC_ID | RULE_MIN_ID | RULE_DIGIT | RULE_WS | '\\'' | RULE_SPECIAL_CHAR | RULE_ACCENT_CHR )* '\"'
             {
             match('\"'); 
-            // InternalAsmetaL.g:12063:27: ( RULE_MAIUSC_ID | RULE_MIN_ID | RULE_DIGIT | RULE_WS | '\\'' | RULE_SPECIAL_CHAR | RULE_ACCENT_CHR )*
+            // InternalAsmetaL.g:12065:27: ( RULE_MAIUSC_ID | RULE_MIN_ID | RULE_DIGIT | RULE_WS | '\\'' | RULE_SPECIAL_CHAR | RULE_ACCENT_CHR )*
             loop10:
             do {
                 int alt10=8;
@@ -3815,49 +3815,49 @@ public class InternalAsmetaLLexer extends Lexer {
 
                 switch (alt10) {
             	case 1 :
-            	    // InternalAsmetaL.g:12063:28: RULE_MAIUSC_ID
+            	    // InternalAsmetaL.g:12065:28: RULE_MAIUSC_ID
             	    {
             	    mRULE_MAIUSC_ID(); 
 
             	    }
             	    break;
             	case 2 :
-            	    // InternalAsmetaL.g:12063:43: RULE_MIN_ID
+            	    // InternalAsmetaL.g:12065:43: RULE_MIN_ID
             	    {
             	    mRULE_MIN_ID(); 
 
             	    }
             	    break;
             	case 3 :
-            	    // InternalAsmetaL.g:12063:55: RULE_DIGIT
+            	    // InternalAsmetaL.g:12065:55: RULE_DIGIT
             	    {
             	    mRULE_DIGIT(); 
 
             	    }
             	    break;
             	case 4 :
-            	    // InternalAsmetaL.g:12063:66: RULE_WS
+            	    // InternalAsmetaL.g:12065:66: RULE_WS
             	    {
             	    mRULE_WS(); 
 
             	    }
             	    break;
             	case 5 :
-            	    // InternalAsmetaL.g:12063:74: '\\''
+            	    // InternalAsmetaL.g:12065:74: '\\''
             	    {
             	    match('\''); 
 
             	    }
             	    break;
             	case 6 :
-            	    // InternalAsmetaL.g:12063:79: RULE_SPECIAL_CHAR
+            	    // InternalAsmetaL.g:12065:79: RULE_SPECIAL_CHAR
             	    {
             	    mRULE_SPECIAL_CHAR(); 
 
             	    }
             	    break;
             	case 7 :
-            	    // InternalAsmetaL.g:12063:97: RULE_ACCENT_CHR
+            	    // InternalAsmetaL.g:12065:97: RULE_ACCENT_CHR
             	    {
             	    mRULE_ACCENT_CHR(); 
 
@@ -3886,11 +3886,11 @@ public class InternalAsmetaLLexer extends Lexer {
         try {
             int _type = RULE_STRING;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalAsmetaL.g:12065:13: ( '\"' (~ ( '\"' ) )* '\"' )
-            // InternalAsmetaL.g:12065:15: '\"' (~ ( '\"' ) )* '\"'
+            // InternalAsmetaL.g:12067:13: ( '\"' (~ ( '\"' ) )* '\"' )
+            // InternalAsmetaL.g:12067:15: '\"' (~ ( '\"' ) )* '\"'
             {
             match('\"'); 
-            // InternalAsmetaL.g:12065:19: (~ ( '\"' ) )*
+            // InternalAsmetaL.g:12067:19: (~ ( '\"' ) )*
             loop11:
             do {
                 int alt11=2;
@@ -3903,7 +3903,7 @@ public class InternalAsmetaLLexer extends Lexer {
 
                 switch (alt11) {
             	case 1 :
-            	    // InternalAsmetaL.g:12065:19: ~ ( '\"' )
+            	    // InternalAsmetaL.g:12067:19: ~ ( '\"' )
             	    {
             	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='!')||(input.LA(1)>='#' && input.LA(1)<='\uFFFF') ) {
             	        input.consume();
@@ -3940,8 +3940,8 @@ public class InternalAsmetaLLexer extends Lexer {
         try {
             int _type = RULE_COMPLEX_NUMBER;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalAsmetaL.g:12067:21: ( RULE_IMMAGINARY_NUMBER )
-            // InternalAsmetaL.g:12067:23: RULE_IMMAGINARY_NUMBER
+            // InternalAsmetaL.g:12069:21: ( RULE_IMMAGINARY_NUMBER )
+            // InternalAsmetaL.g:12069:23: RULE_IMMAGINARY_NUMBER
             {
             mRULE_IMMAGINARY_NUMBER(); 
 
@@ -3958,11 +3958,11 @@ public class InternalAsmetaLLexer extends Lexer {
     // $ANTLR start "RULE_IMMAGINARY_NUMBER"
     public final void mRULE_IMMAGINARY_NUMBER() throws RecognitionException {
         try {
-            // InternalAsmetaL.g:12069:33: ( 'i' ( RULE_DIGIT )+ ( '.' ( RULE_DIGIT )+ )? )
-            // InternalAsmetaL.g:12069:35: 'i' ( RULE_DIGIT )+ ( '.' ( RULE_DIGIT )+ )?
+            // InternalAsmetaL.g:12071:33: ( 'i' ( RULE_DIGIT )+ ( '.' ( RULE_DIGIT )+ )? )
+            // InternalAsmetaL.g:12071:35: 'i' ( RULE_DIGIT )+ ( '.' ( RULE_DIGIT )+ )?
             {
             match('i'); 
-            // InternalAsmetaL.g:12069:39: ( RULE_DIGIT )+
+            // InternalAsmetaL.g:12071:39: ( RULE_DIGIT )+
             int cnt12=0;
             loop12:
             do {
@@ -3976,7 +3976,7 @@ public class InternalAsmetaLLexer extends Lexer {
 
                 switch (alt12) {
             	case 1 :
-            	    // InternalAsmetaL.g:12069:39: RULE_DIGIT
+            	    // InternalAsmetaL.g:12071:39: RULE_DIGIT
             	    {
             	    mRULE_DIGIT(); 
 
@@ -3992,7 +3992,7 @@ public class InternalAsmetaLLexer extends Lexer {
                 cnt12++;
             } while (true);
 
-            // InternalAsmetaL.g:12069:51: ( '.' ( RULE_DIGIT )+ )?
+            // InternalAsmetaL.g:12071:51: ( '.' ( RULE_DIGIT )+ )?
             int alt14=2;
             int LA14_0 = input.LA(1);
 
@@ -4001,10 +4001,10 @@ public class InternalAsmetaLLexer extends Lexer {
             }
             switch (alt14) {
                 case 1 :
-                    // InternalAsmetaL.g:12069:52: '.' ( RULE_DIGIT )+
+                    // InternalAsmetaL.g:12071:52: '.' ( RULE_DIGIT )+
                     {
                     match('.'); 
-                    // InternalAsmetaL.g:12069:56: ( RULE_DIGIT )+
+                    // InternalAsmetaL.g:12071:56: ( RULE_DIGIT )+
                     int cnt13=0;
                     loop13:
                     do {
@@ -4018,7 +4018,7 @@ public class InternalAsmetaLLexer extends Lexer {
 
                         switch (alt13) {
                     	case 1 :
-                    	    // InternalAsmetaL.g:12069:56: RULE_DIGIT
+                    	    // InternalAsmetaL.g:12071:56: RULE_DIGIT
                     	    {
                     	    mRULE_DIGIT(); 
 
@@ -4054,12 +4054,12 @@ public class InternalAsmetaLLexer extends Lexer {
         try {
             int _type = RULE_ML_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalAsmetaL.g:12071:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
-            // InternalAsmetaL.g:12071:19: '/*' ( options {greedy=false; } : . )* '*/'
+            // InternalAsmetaL.g:12073:17: ( '/*' ( options {greedy=false; } : . )* '*/' )
+            // InternalAsmetaL.g:12073:19: '/*' ( options {greedy=false; } : . )* '*/'
             {
             match("/*"); 
 
-            // InternalAsmetaL.g:12071:24: ( options {greedy=false; } : . )*
+            // InternalAsmetaL.g:12073:24: ( options {greedy=false; } : . )*
             loop15:
             do {
                 int alt15=2;
@@ -4084,7 +4084,7 @@ public class InternalAsmetaLLexer extends Lexer {
 
                 switch (alt15) {
             	case 1 :
-            	    // InternalAsmetaL.g:12071:52: .
+            	    // InternalAsmetaL.g:12073:52: .
             	    {
             	    matchAny(); 
 
@@ -4114,12 +4114,12 @@ public class InternalAsmetaLLexer extends Lexer {
         try {
             int _type = RULE_SL_COMMENT;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalAsmetaL.g:12073:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )* '\\n' )? )
-            // InternalAsmetaL.g:12073:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )* '\\n' )?
+            // InternalAsmetaL.g:12075:17: ( '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )* '\\n' )? )
+            // InternalAsmetaL.g:12075:19: '//' (~ ( ( '\\n' | '\\r' ) ) )* ( ( '\\r' )* '\\n' )?
             {
             match("//"); 
 
-            // InternalAsmetaL.g:12073:24: (~ ( ( '\\n' | '\\r' ) ) )*
+            // InternalAsmetaL.g:12075:24: (~ ( ( '\\n' | '\\r' ) ) )*
             loop16:
             do {
                 int alt16=2;
@@ -4132,7 +4132,7 @@ public class InternalAsmetaLLexer extends Lexer {
 
                 switch (alt16) {
             	case 1 :
-            	    // InternalAsmetaL.g:12073:24: ~ ( ( '\\n' | '\\r' ) )
+            	    // InternalAsmetaL.g:12075:24: ~ ( ( '\\n' | '\\r' ) )
             	    {
             	    if ( (input.LA(1)>='\u0000' && input.LA(1)<='\t')||(input.LA(1)>='\u000B' && input.LA(1)<='\f')||(input.LA(1)>='\u000E' && input.LA(1)<='\uFFFF') ) {
             	        input.consume();
@@ -4152,7 +4152,7 @@ public class InternalAsmetaLLexer extends Lexer {
                 }
             } while (true);
 
-            // InternalAsmetaL.g:12073:40: ( ( '\\r' )* '\\n' )?
+            // InternalAsmetaL.g:12075:40: ( ( '\\r' )* '\\n' )?
             int alt18=2;
             int LA18_0 = input.LA(1);
 
@@ -4161,9 +4161,9 @@ public class InternalAsmetaLLexer extends Lexer {
             }
             switch (alt18) {
                 case 1 :
-                    // InternalAsmetaL.g:12073:41: ( '\\r' )* '\\n'
+                    // InternalAsmetaL.g:12075:41: ( '\\r' )* '\\n'
                     {
-                    // InternalAsmetaL.g:12073:41: ( '\\r' )*
+                    // InternalAsmetaL.g:12075:41: ( '\\r' )*
                     loop17:
                     do {
                         int alt17=2;
@@ -4176,7 +4176,7 @@ public class InternalAsmetaLLexer extends Lexer {
 
                         switch (alt17) {
                     	case 1 :
-                    	    // InternalAsmetaL.g:12073:41: '\\r'
+                    	    // InternalAsmetaL.g:12075:41: '\\r'
                     	    {
                     	    match('\r'); 
 
@@ -4211,10 +4211,10 @@ public class InternalAsmetaLLexer extends Lexer {
         try {
             int _type = RULE_WS;
             int _channel = DEFAULT_TOKEN_CHANNEL;
-            // InternalAsmetaL.g:12075:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
-            // InternalAsmetaL.g:12075:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            // InternalAsmetaL.g:12077:9: ( ( ' ' | '\\t' | '\\r' | '\\n' )+ )
+            // InternalAsmetaL.g:12077:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
             {
-            // InternalAsmetaL.g:12075:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
+            // InternalAsmetaL.g:12077:11: ( ' ' | '\\t' | '\\r' | '\\n' )+
             int cnt19=0;
             loop19:
             do {

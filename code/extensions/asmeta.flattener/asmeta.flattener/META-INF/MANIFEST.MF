@@ -20,4 +20,4 @@ Import-Package: org.asmeta.parser,
  org.eclipse.osgi.service.datalocation
 Bundle-Vendor: foselab.unibg.it
 Automatic-Module-Name: asmeta.flattener
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21

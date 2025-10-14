@@ -4,7 +4,7 @@ Bundle-Name: AsmetaATGT
 Bundle-SymbolicName: asmeta.atgt;singleton:=true
 Bundle-Version: 25.06
 Automatic-Module-Name: asmeta.atgt
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Require-Bundle: asmeta.smv,
  org.apache.log4j,
  org.eclipse.ui,

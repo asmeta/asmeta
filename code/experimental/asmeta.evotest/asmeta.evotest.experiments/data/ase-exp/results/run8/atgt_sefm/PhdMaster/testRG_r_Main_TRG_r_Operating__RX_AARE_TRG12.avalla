@@ -1,0 +1,18 @@
+scenario testRG_r_Main_TRG_r_Operating__RX_AARE_TRG12
+
+load ./..\..\..\..\models\PhdMaster.asm
+
+//// test name test@RG_r_Main_TRG_r_Operating__RX_AARE_TRG12
+//// generated for (test goal): RG_r_Main_TRG_r_Operating__RX_AARE_TRG12: (status = OPERATING) and ((transition = RX_AARE) and (status != UNASSOCIATED))
+check message = undef;
+check status = UNASSOCIATED;
+set transition := RX_AARQ_ACCEPTABLE_AND_KNOWN_CONFIGURATION;
+step
+check message = MSG_RX_AARE;
+check status = OPERATING;
+set transition := RX_AARE;
+step
+check message = MSG_RX_ABRT;
+check status = UNASSOCIATED;
+set transition := RX_AARQ_ACCEPTABLE_AND_KNOWN_CONFIGURATION;
+step

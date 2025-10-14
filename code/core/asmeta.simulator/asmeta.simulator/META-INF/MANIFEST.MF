@@ -15,4 +15,4 @@ Require-Bundle: asmeta.emf,
  org.apache.log4j
 Bundle-Vendor: foselab.unibg.it
 Automatic-Module-Name: asmeta.simulator
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21

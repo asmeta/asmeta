@@ -1,0 +1,6 @@
+scenario testRG_r_Main_TRG_r_Disassociating__RX_ROIV_TRG13
+
+load ./..\..\..\..\models\PhdMaster.asm
+
+//// test name test@RG_r_Main_TRG_r_Disassociating__RX_ROIV_TRG13
+//// generated for (test goal): RG_r_Main_TRG_r_Disassociating__RX_ROIV_TRG13: (status = DISASSOCIATING) and ((transition = RX_ROIV) and (status != DISASSOCIATING))

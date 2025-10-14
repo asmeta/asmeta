@@ -13,6 +13,7 @@ import org.asmeta.xt.validator.ValidationResult;
 
 import asmeta.AsmCollection;
 import asmeta.mutation.operators.ChooseRuleMutate;
+import asmeta.mutation.operators.CondNegator;
 import asmeta.mutation.operators.CondRemover;
 import asmeta.mutation.operators.RuleRemover;
 import asmeta.mutation.operators.AsmetaMutationOperator;
@@ -25,8 +26,12 @@ public class MutatedScenarioExecutor {
 
 	// mutation operators to be used
 	List<AsmetaMutationOperator> mutOperators = 
-			Arrays.asList(new RuleRemover(), new ChooseRuleMutate(),
-					new CondRemover());
+			Arrays.asList(
+					new RuleRemover(), 
+					new ChooseRuleMutate(),
+					new CondRemover(),
+					new CondNegator()
+					);
 
 	//
 	// applies a set of mutants

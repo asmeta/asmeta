@@ -63,9 +63,9 @@ public class CondRemover extends RuleBasedMutator {
 		@Override
 		public List<Rule> visit(ConditionalRule rule) {
 			List<Rule> mutated  = new ArrayList<Rule>();
-			mutated.add(rule.getThenRule());
+			mutated.add(EcoreUtil.copy(rule.getThenRule()));
 			if (rule.getElseRule() != null)
-				mutated.add(rule.getElseRule());
+				mutated.add(EcoreUtil.copy(rule.getElseRule()));
 			return mutated;
 		}
 

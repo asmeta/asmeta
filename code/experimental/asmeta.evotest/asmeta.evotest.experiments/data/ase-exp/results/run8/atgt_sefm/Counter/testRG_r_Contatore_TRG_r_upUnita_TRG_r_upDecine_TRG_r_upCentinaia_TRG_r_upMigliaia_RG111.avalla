@@ -1,0 +1,6 @@
+scenario testRG_r_Contatore_TRG_r_upUnita_TRG_r_upDecine_TRG_r_upCentinaia_TRG_r_upMigliaia_RG111
+
+load ./..\..\..\..\models\Counter.asm
+
+//// test name test@RG_r_Contatore_TRG_r_upUnita_TRG_r_upDecine_TRG_r_upCentinaia_TRG_r_upMigliaia_RG111
+//// generated for (test goal): RG_r_Contatore_TRG_r_upUnita_TRG_r_upDecine_TRG_r_upCentinaia_TRG_r_upMigliaia_RG111: click and ((unit = 9) and ((da = 9) and ((c = 9) and (m != ((m + 1) % 10)))))

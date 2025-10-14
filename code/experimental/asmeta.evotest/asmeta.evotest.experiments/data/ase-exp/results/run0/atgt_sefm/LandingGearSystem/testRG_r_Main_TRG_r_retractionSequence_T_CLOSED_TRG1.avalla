@@ -1,0 +1,55 @@
+scenario testRG_r_Main_TRG_r_retractionSequence_T_CLOSED_TRG1
+
+load ./..\..\..\..\models\LandingGearSystem.asm
+
+//// test name test@RG_r_Main_TRG_r_retractionSequence_T_CLOSED_TRG1
+//// generated for (test goal): RG_r_Main_TRG_r_retractionSequence_T_CLOSED_TRG1: (handle = UP) and ((gears != RETRACTED) and ((doors = CLOSED) and (generalElectroValve != true)))
+check cylindersGears = CYLINDER_EXTENDED;
+check closeDoorsElectroValve = false;
+check extendGearsElectroValve = false;
+check gears = EXTENDED;
+check doorsAllOpen = false;
+check openDoorsElectroValve = false;
+check gearsAllShockAbsorber = false;
+check retractGearsElectroValve = false;
+check doors = CLOSED;
+check doorsAllClosed = false;
+check gearsAllRetracted = false;
+check generalElectroValve = false;
+check gearsAllExtended = false;
+check cylindersDoors = CYLINDER_RETRACTED;
+set handle := DOWN;
+step
+set handle := UP;
+step
+check openDoorsElectroValve = true;
+check doors = OPENING;
+check generalElectroValve = true;
+check cylindersDoors = CYLINDER_EXTENDING;
+set handle := DOWN;
+step
+check closeDoorsElectroValve = true;
+check doorsAllOpen = true;
+check openDoorsElectroValve = false;
+check gearsAllShockAbsorber = true;
+check doors = CLOSING;
+check doorsAllClosed = true;
+check gearsAllRetracted = true;
+check gearsAllExtended = true;
+check cylindersDoors = CYLINDER_RETRACTING;
+set doorsClosed(FRONT) := true;
+set handle := DOWN;
+set doorsClosed(LEFT) := true;
+set doorsClosed(RIGHT) := true;
+step
+check closeDoorsElectroValve = false;
+check doorsAllOpen = false;
+check gearsAllShockAbsorber = false;
+check doors = CLOSED;
+check doorsAllClosed = false;
+check gearsAllRetracted = false;
+check generalElectroValve = false;
+check gearsAllExtended = false;
+check cylindersDoors = CYLINDER_RETRACTED;
+set handle := DOWN;
+step

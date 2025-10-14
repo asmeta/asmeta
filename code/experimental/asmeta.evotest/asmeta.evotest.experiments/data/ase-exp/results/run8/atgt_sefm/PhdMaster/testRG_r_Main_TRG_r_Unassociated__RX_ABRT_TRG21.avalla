@@ -1,0 +1,13 @@
+scenario testRG_r_Main_TRG_r_Unassociated__RX_ABRT_TRG21
+
+load ./..\..\..\..\models\PhdMaster.asm
+
+//// test name test@RG_r_Main_TRG_r_Unassociated__RX_ABRT_TRG21
+//// generated for (test goal): RG_r_Main_TRG_r_Unassociated__RX_ABRT_TRG21: (status = UNASSOCIATED) and ((transition = RX_ABRT) and (message != MSG_NO_RESPONSE))
+check message = undef;
+check status = UNASSOCIATED;
+set transition := RX_ABRT;
+step
+check message = MSG_NO_RESPONSE;
+set transition := RX_ABRT;
+step

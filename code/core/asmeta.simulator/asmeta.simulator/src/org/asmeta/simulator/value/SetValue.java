@@ -19,6 +19,7 @@ import java.util.Set;
  * 
  */
 public class SetValue<T> extends CollectionValue<T> {
+	
 	private Set<Value<T>> set;
 
 	/**

@@ -13,4 +13,4 @@ Require-Bundle: org.eclipse.zest.core,
 Export-Package: org.asmeta.visualizer.graphViewer
 Bundle-Vendor: foselab.unibg.it
 Automatic-Module-Name: asmeta.visualizer
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21

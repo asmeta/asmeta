@@ -76,7 +76,10 @@ public class RuleExtractorFromMacroDecl {
 		public List<Rule> visit(ConditionalRule rule) {
 			ArrayList<Rule> result = new ArrayList<>();
 			result.add(rule);
-			result.addAll(visit(rule.getThenRule()));
+			assert rule.getThenRule() != null;
+			List<Rule> visit = visit(rule.getThenRule());
+			assert visit != null : rule.getThenRule().getClass();
+			result.addAll(visit);
 			Rule elseR = rule.getElseRule();
 			if (elseR != null) {
 				result.addAll(visit(elseR));

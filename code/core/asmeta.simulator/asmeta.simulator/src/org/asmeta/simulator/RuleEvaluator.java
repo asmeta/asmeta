@@ -63,11 +63,17 @@ import asmeta.definitions.domains.AnyDomain;
 import asmeta.definitions.domains.BagDomain;
 import asmeta.definitions.domains.ConcreteDomain;
 import asmeta.definitions.domains.Domain;
+import asmeta.definitions.domains.IntegerDomain;
 import asmeta.definitions.domains.MapDomain;
+import asmeta.definitions.domains.NaturalDomain;
 import asmeta.definitions.domains.PowersetDomain;
+import asmeta.definitions.domains.RealDomain;
 import asmeta.definitions.domains.SequenceDomain;
 import asmeta.definitions.domains.TypeDomain;
 import asmeta.definitions.domains.UndefDomain;
+import asmeta.terms.basicterms.BooleanTerm;
+import asmeta.terms.basicterms.CollectionTerm;
+import asmeta.terms.basicterms.DomainTerm;
 import asmeta.terms.basicterms.LocationTerm;
 import asmeta.terms.basicterms.Term;
 import asmeta.terms.basicterms.TupleTerm;
@@ -562,6 +568,22 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 			UpdateSet updateSet) {
 		if (varIndex < domains.length) {
 			CollectionValue currentDomain = domains[varIndex];
+			if (currentDomain instanceof InfiniteCollection) {
+				// check the guard - must be true
+				if ((chooseRule.getGuard() instanceof BooleanTerm bt) && 
+						(bt.getSymbol().equals(Boolean.toString(true)))){
+						// take a radom value
+						boundContent[varIndex] = ((InfiniteCollection)currentDomain).getRndValue();
+						// go to next variable
+						if (visitChoose(varIndex + 1, domains, boundContent, chooseRule, updateSet)) {
+							return true;
+					}
+				} else {
+					throw new RuntimeException("Infinite domain without \"true\" as guard");
+				}
+				// no value found in one visitchoose
+				return false; 
+			} 
 			Iterator<Value> values = currentDomain.iterator();
 			// shuffle stuff
 			Object o = currentDomain.getValue();
@@ -592,7 +614,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 			// .getName());
 			return false;
 		} else {
-			// all variables are fixed
+			// all variables have been fixed
 			ValueAssignment newAssignment = new ValueAssignment(termEval.assignment);
 			newAssignment.put(chooseRule.getVariable(), boundContent);
 			RuleEvaluator newEvaluator = createRuleEvaluator(termEval.state,termEval.environment,newAssignment);
@@ -882,6 +904,45 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		return updateSet;
 	}
 
+	
+	
+	// this represents an infinite collection - iteration is not possible !!
+	class InfiniteCollection<T extends Number> extends CollectionValue {
+		
+		static Random random = new Random();
+		
+		private Class<T> creator;
+		
+		InfiniteCollection(Class<T> creator){
+			this.creator = creator;
+		}
+		
+		@Override
+		public Iterator iterator() {throw new RuntimeException();}
+
+		public Value getRndValue() {
+			if (creator == NaturalNumber.class) {
+				return new org.asmeta.simulator.value.IntegerValue(random.nextInt(0, Integer.MAX_VALUE));
+			}
+			if (creator == Integer.class) {
+				return new org.asmeta.simulator.value.IntegerValue(random.nextInt());
+			}
+			if (creator == Double.class) {
+				return new org.asmeta.simulator.value.RealValue(random.nextDouble());
+			}
+			throw new RuntimeException("domain " + creator + " not supported");
+		}
+
+		@Override
+		public Collection getValue() {throw new RuntimeException();}
+
+		@Override
+		public Value clone() {throw new RuntimeException();}
+		
+	}
+	
+	private abstract class NaturalNumber extends Number{}
+	
 	/**
 	 * Evaluates a list of domain terms.
 	 * 
@@ -893,9 +954,26 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		CollectionValue[] values = new CollectionValue[domains.size()];
 		logger.debug("<Domains total=\"" + domains.size() + "\">");
 		for (int i = 0; i < domains.size(); i++) {
-			Term domain = domains.get(i);
-			// VariableTerm var = (VariableTerm) varList.get(i);
-			values[i] = (CollectionValue) visitTerm(domain);
+			Term domain = domains.get(i);	
+			assert domain instanceof DomainTerm || domain instanceof CollectionTerm;
+			if (domain instanceof DomainTerm dom) {
+				Domain baseDomain = dom.getDomain();
+				assert baseDomain instanceof PowersetDomain;
+				// VariableTerm var = (VariableTerm) varList.get(i);
+				if (((PowersetDomain)baseDomain).getBaseDomain() instanceof NaturalDomain) {
+					values[i] = new InfiniteCollection<NaturalNumber>(NaturalNumber.class) {};
+					continue;
+				}
+				if (((PowersetDomain)baseDomain).getBaseDomain() instanceof IntegerDomain) {
+					values[i] = new InfiniteCollection<Integer>(Integer.class) {};
+					continue;
+				}
+				if (((PowersetDomain)baseDomain).getBaseDomain() instanceof RealDomain) {
+					values[i] = new InfiniteCollection<Double>(Double.class) {};
+					continue;
+				}
+			} 
+			values[i] = (CollectionValue) visitTerm(domain);			
 		}
 		logger.debug("</Domains>");
 		return values;

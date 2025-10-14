@@ -10,7 +10,7 @@ Require-Bundle: org.eclipse.ui,
  asmeta.animator,
  org.eclipse.equinox.p2.ui,
  asmeta.simulator.ui
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: foselab.unibg.it
 Import-Package: org.apache.log4j,

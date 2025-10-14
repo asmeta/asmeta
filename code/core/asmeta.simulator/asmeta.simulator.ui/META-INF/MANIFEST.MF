@@ -26,4 +26,4 @@ Automatic-Module-Name: org.asmeta.asmee
 Export-Package: org.asmeta.eclipse,
  org.asmeta.eclipse.simulator.actions,
  org.asmeta.eclipse.simulator.jobs
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
