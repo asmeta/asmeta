@@ -314,20 +314,22 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 	 */
 	private void printRulesFromPicks() {
 		AsmetaTermPrinter printer = AsmetaTermPrinter.getAsmetaTermPrinter(false);
+
 		List<Pick> picks = new ArrayList<>();
 		if (pickStatements.size() > state - 1)
 			picks = pickStatements.get(state - 1);
+
 		for (Entry<ChooseRule, String> mapEntry : pickedChooseRules.entrySet()) {
-			// -- Populate data structures useful for the print --
+			// --- Collect data needed for printing ---
 			ChooseRule chooseRule = mapEntry.getKey();
 			String macroRuleSignature = mapEntry.getValue();
-			// First element is the picked variable name (String), second is the value
-			// (String), third is the domain (Term)
+			// pickedVars: [0]=varName (String), [1]=pickedValue (String), [2]=domain (Term)
 			List<Object[]> pickedVars = new ArrayList<>();
 			List<String> pickedVarsNames = new ArrayList<>();
-			// First element is the picked variable name, second is the domain
+			// notPickedVars: [0]=varName (String), [1]=domainAsString (String)
 			List<String[]> notPickedVars = new ArrayList<>();
 			List<String> notPickedVarsNames = new ArrayList<>();
+			// Split variables into picked vs. not picked, retaining domain info
 			for (int i = 0; i < chooseRule.getVariable().size(); i++) {
 				VariableTerm var = chooseRule.getVariable().get(i);
 				String pickedValue = getPickFromVariable(var, macroRuleSignature, picks);
@@ -343,24 +345,21 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 			List<String> allVarsNames = new ArrayList<>();
 			allVarsNames.addAll(pickedVarsNames);
 			allVarsNames.addAll(notPickedVarsNames);
+			// -- Print rules --
 			String statusVarName = AsmetaPrinterForAvalla.getStatusControlledFunction(allVarsNames, macroRuleSignature);
-			// -- Start the print --
-			// Print the statements that will assign values to picked variables
+			// Assign picked variables (with domain checking)
 			TermAssignment assignment = printPickedVariables(printer, macroRuleSignature, statusVarName, pickedVars);
-			// Substitute the variables in the original guard with the new assigned
-			// variables
+			// Replace picked variables in the guard with their controlled functions
 			RuleSubstitution substitution = new RuleSubstitution(assignment, new RuleFactory());
 			Term newGuardTerm = substitution.visit(chooseRule.getGuard());
 			String newGuardString = printer.visit(newGuardTerm);
+			// Handle remaining variables or check infeasibility
 			if (notPickedVars.isEmpty())
-				// Print the statements that will handle wrong pick in case all variables are
-				// picked
 				printCheckAllPickedVariables(macroRuleSignature, pickedVarsNames, statusVarName, newGuardString);
 			else
-				// Print the statements that will assign values to non picked variables
 				printChooseForNonPickedVariables(macroRuleSignature, pickedVars, pickedVarsNames, notPickedVars,
 						notPickedVarsNames, statusVarName, newGuardString);
-			// Print the statements that will assign values to non picked variables
+			// Set final status if no error occurred
 			printFinalIf(statusVarName);
 		}
 	}
@@ -389,7 +388,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 			Term domain = (Term) pickedVar[2];
 			String controlledFunction = AsmetaPrinterForAvalla.getActualValueControlledFunction(variable,
 					macroRuleSignature);
-			// Put variable assignment in the assignment term
+			// Maps variable to controlledFunction
 			VariableTerm var = BasictermsFactory.eINSTANCE.createVariableTerm();
 			var.setName(variable);
 			variables.add(var);
@@ -398,8 +397,8 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 			controlledFunctions.add(func);
 			assignment.put(variables, controlledFunctions);
 			// -- Start the print --
-			// when the range is not a DomainTern, check with a conditional rule whether the
-			// picked value is in the term (e.g. {10:20}) used as range
+			// Assign value, checking membership if domain is not a DomainTerm (e.g.
+			// {10:20})
 			if (!(domain instanceof DomainTerm)) {
 				append("if contains(" + printer.visit(domain) + ", " + value + ") then");
 				indent();
@@ -479,7 +478,8 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 		List<String> varsWithDomains = new ArrayList<>();
 		for (String[] notPickedVar : notPickedVars) {
 			String var = notPickedVar[0];
-			// Add _r_RuleName_stepX to avoid variables with same names in the main rule
+			// Add "_r_RuleName_stepX" suffix to avoid variables with same names in the main
+			// rule
 			String newVar = var + "_" + macroRuleSignature + "_step" + (state - 1);
 			String domain = notPickedVar[1];
 			newGuardString = newGuardString.replace(var, newVar);

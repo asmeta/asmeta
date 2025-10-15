@@ -325,6 +325,21 @@ public class TestSingleFile extends TestValidator {
 	}
 	
 	@Test
+	public void testChooseUnboundedDomains() throws Exception {
+		// 'with true' guard
+		test("scenariosfortest/flaky/unbounded_domains/pickInt.avalla", true, true, true);
+		// omitted 'with' (default 'true' guard)
+		test("scenariosfortest/flaky/unbounded_domains/pickReal.avalla", true, true, true);
+		// 'with false' guard -> fails
+		test("scenariosfortest/flaky/unbounded_domains/pickNat.avalla", true, true, false);
+	}
+	
+	@Test
+	public void testChooseWithoutGuard() throws Exception {
+		test("scenariosfortest/flaky/scenario_multiplechoose.avalla", true, true, true);
+	}
+	
+	@Test
 	public void testChoosePickOutOfDomain() throws Exception {
 		// Out of range only throws an Exception only if the picked variable is used in the guard
 		test("scenariosfortest/flaky/choose_integer/scenario_out_of_range.avalla", true, false, false);

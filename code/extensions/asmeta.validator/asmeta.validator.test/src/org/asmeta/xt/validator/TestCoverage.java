@@ -83,19 +83,20 @@ public class TestCoverage extends TestValidator {
 		testWithCoverageAndWithout("scenariosforexamples/nestedChooseAndLet/pick_with_false_guard.avalla", false,
 				cov("r_Main()", branch(2, 0, 0), rule(4, 0), update(1, 0), forall(0, 0, 0, 0))); // should fail
 	}
-	
+
 	@Test
 	public void testWithCoverageAndWithoutTinyScheduler() throws Exception {
-		testWithCoverageAndWithout("scenariosfortest/flaky/tiny_scheduler/correct_scenarios/check_ifnone_no_pick.avalla", true,
+		testWithCoverageAndWithout(
+				"scenariosfortest/flaky/tiny_scheduler/correct_scenarios/check_ifnone_no_pick.avalla", true,
 				cov("r_Main()", branch(4, 3, 3), rule(8, 7), update(3, 2), forall(1, 1, 1, 1)));
 		RuleEvalWCov.reset();
 		stringWriter.getBuffer().setLength(0);
-		testWithCoverageAndWithout("scenariosfortest/flaky/tiny_scheduler/correct_scenarios/check_ifnone_w_pick.avalla", true,
-				cov("r_Main()", branch(4, 3, 3), rule(8, 7), update(3, 2), forall(1, 1, 1, 1)));
+		testWithCoverageAndWithout("scenariosfortest/flaky/tiny_scheduler/correct_scenarios/check_ifnone_w_pick.avalla",
+				true, cov("r_Main()", branch(4, 3, 3), rule(8, 7), update(3, 2), forall(1, 1, 1, 1)));
 		RuleEvalWCov.reset();
 		stringWriter.getBuffer().setLength(0);
-		testWithCoverageAndWithout("scenariosfortest/flaky/tiny_scheduler/check_ifnone_w_pick_false_guard.avalla", false,
-				cov("r_Main()", branch(4, 3, 2), rule(8, 6), update(3, 1), forall(1, 1, 1, 1)));
+		testWithCoverageAndWithout("scenariosfortest/flaky/tiny_scheduler/check_ifnone_w_pick_false_guard.avalla",
+				false, cov("r_Main()", branch(4, 3, 2), rule(8, 6), update(3, 1), forall(1, 1, 1, 1)));
 		RuleEvalWCov.reset();
 		stringWriter.getBuffer().setLength(0);
 		try {
@@ -104,22 +105,33 @@ public class TestCoverage extends TestValidator {
 		} catch (RuntimeException e) {
 			// expected
 		}
-		
+
 	}
-	
+
 	@Test
 	public void testWithCoverageAndWithoutPickAndNoPick() throws Exception {
-		// Test two scenarios together, one picks the first choose rule and the other does not
+		// Test two scenarios together, one picks the first choose rule and the other
+		// does not
 		testWithCoverageAndWithout("scenariosfortest/flaky/tiny_scheduler/correct_scenarios", true,
 				cov("r_Main()", branch(4, 3, 3), rule(8, 7), update(3, 2), forall(1, 1, 1, 1)));
 	}
-	
+
+	@Test
+	public void testWithCoverageAndPickChooseWithoutGuard() throws Exception {
+		// Test coverage of pick of a variable in a choose that does not define the
+		// guard (omits 'with', equivalent to 'with true')
+		testWithCoverageAndWithout("scenariosfortest/flaky/unbounded_domains/pickReal.avalla", true,
+				cov("r_Main()", branch(1, 1, 0), rule(3, 2), update(2, 1), forall(0, 0, 0, 0)));
+	}
+
 	@Test
 	public void testWithCoverageAndWithoutPickWithImports() throws Exception {
 		List<CoverageOracle> oracles = new ArrayList<>();
 		oracles.add(cov("r_Main()", branch(2, 1, 1), rule(6, 5), update(2, 1), forall(0, 0, 0, 0)));
-		oracles.add(cov("r_random()", branch(1, 1, 0), rule(2, 2), update(1, 1), forall(0, 0, 0, 0))); // From the imported module
-		testWithCoverageAndWithout("scenariosfortest/flaky/asm_w_import/scenarioPickWithImport.avalla", true, oracles.toArray(new CoverageOracle[0]));
+		// r_random is defined in the imported module
+		oracles.add(cov("r_random()", branch(1, 1, 0), rule(2, 2), update(1, 1), forall(0, 0, 0, 0)));
+		testWithCoverageAndWithout("scenariosfortest/flaky/asm_w_import/scenarioPickWithImport.avalla", true,
+				oracles.toArray(new CoverageOracle[0]));
 	}
 
 	@Test
@@ -298,7 +310,8 @@ public class TestCoverage extends TestValidator {
 			this.branchCoverage = nBranch == 0 ? 0 : (((float) coveredT + coveredF) / (nBranch * 2)) * 100;
 			this.ruleCoverage = nRule == 0 ? 0 : ((float) coveredRule / nRule) * 100;
 			this.updateRuleCoverage = nUpdate == 0 ? 0 : ((float) coveredUpdate / nUpdate) * 100;
-			this.forallRuleCoverage = nForall == 0 ? 0 : (((float) zeroIter + oneIter + multipleIter) / (nForall * 3)) * 100;
+			this.forallRuleCoverage = nForall == 0 ? 0
+					: (((float) zeroIter + oneIter + multipleIter) / (nForall * 3)) * 100;
 		}
 
 		public int getBranchNumber() {
