@@ -40,6 +40,10 @@
 		https://www.p2repository.com/ 
 		non è aggiornatissimo ma almeno compila il tutto-->
 		<repository>
+        	<id>eclipse-2025-09</id>
+        	<url>https://p2repository.com/mvn4/eclipse-2025-09/</url>
+	    </repository>
+		<repository>
         	<id>eclipse-2025-06</id>
         	<url>https://p2repository.com/mvn4/eclipse-2025-06/</url>
 	    </repository>
