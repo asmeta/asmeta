@@ -71,7 +71,7 @@
 			<artifactId>org.eclipse.zest.core</artifactId>
 			<!--<version>[1.15.0,)</version>-->
 			<!--using version old in 2025.03-->
-			<version>1.15.0.202502242203</version>
+			<version>1.15.100.202505280821</version>
 			<!-- Excluded to use specific available versions declared below -->
 			<exclusions>
 			    <exclusion>
@@ -107,12 +107,12 @@
 		<dependency>
 		    <groupId>org.eclipse.ide</groupId>
 		    <artifactId>org.eclipse.emf.ecore</artifactId>
-		    <version>2.38.0.v20241018-1213</version>
+		    <version>2.39.0</version>
 		</dependency>
 		<dependency>
 		    <groupId>org.eclipse.ide</groupId>
 		    <artifactId>org.eclipse.draw2d</artifactId>
-		    <version>3.20.0.202505280821</version>
+		    <version>3.20.0</version>
 		</dependency>
 	</dependencies>
 </project>
