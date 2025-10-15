@@ -1,5 +1,6 @@
 package org.asmeta.modeladvisor.texpr;
 
+// temporal expressions useful for model advisor only
 public abstract class Expression {
 
 	/**
