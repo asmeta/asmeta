@@ -119,9 +119,14 @@ public class TestCoverage extends TestValidator {
 	@Test
 	public void testWithCoverageAndWithoutChooseWithoutGuard() throws Exception {
 		// Test coverage of a choose that does not define the guard, 
+		
 		// with picked variable
 		testWithCoverageAndWithout("scenariosfortest/flaky/unbounded_domains/pickReal.avalla", true,
 				cov("r_Main()", branch(1, 1, 0), rule(3, 2), update(2, 1), forall(0, 0, 0, 0)));
+		
+		RuleEvalWCov.reset();
+		stringWriter.getBuffer().setLength(0);
+		
 		// without pik
 		testWithCoverageAndWithout("scenariosfortest/flaky/unbounded_domains/noPickReal.avalla", true,
 				cov("r_Main()", branch(1, 1, 0), rule(3, 2), update(2, 1), forall(0, 0, 0, 0)));
