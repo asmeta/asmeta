@@ -4,7 +4,7 @@ Bundle-Name: Test
 Bundle-SymbolicName: asmeta.validator.test
 Bundle-Version: 25.06
 Automatic-Module-Name: org.asmeta.avallaxt.validator.test
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Require-Bundle: asmeta.validator,
  org.junit,
  asmeta.parser,

@@ -10,12 +10,28 @@
  ******************************************************************************/
 package org.asmeta.simulator.main;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.asmeta.simulator.Location;
 import org.asmeta.simulator.UpdateSet;
+import org.asmeta.simulator.value.BooleanValue;
+import org.asmeta.simulator.value.IntegerValue;
+import org.asmeta.simulator.value.UndefValue;
+import org.asmeta.simulator.value.Value;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class ChooseTest {
+import asmeta.definitions.Function;
+
+public class ChooseTest extends BaseTest {
 	
+	private static final String TEST_SIMULATOR_CHOOSERULE = "test/simulator/chooserule/";
+
 	@BeforeClass
 	public static void setUpLogger(){
 		//AsmParserTest.setUpLogger();
@@ -26,28 +42,163 @@ public class ChooseTest {
 //		log.setLevel(Level.ALL);
 	}
 	
-	static final String chooseExample = "chooseProblem.asm"; 
+	static final String chooseExample = "chooseIntWithGuard.asm"; 
 	
 	@Test
 	public void testNonDetermistic() throws Exception{
-		Simulator sim = Util.getSimulatorForTestSpec("test/simulator/"+chooseExample);
+		sim = Util.getSimulatorForTestSpec(TEST_SIMULATOR_CHOOSERULE+chooseExample);
 		sim.setShuffleFlag(true);
+		List<Long> integers = new ArrayList<>();
 		for(int i = 1; i < 10; i++){
 			UpdateSet updateSet = sim.doOneStep();	
-			System.out.println(updateSet);
-			// TODO check that it can change
+			Function f = searchFunction("a");
+			Value value = sim.currentState.read(new Location(f, new Value[]{}));
+			integers.add((Long) (value.getValue()));
 		}
+		checkRandomValues(integers);
+		integers.stream().forEach(x -> assertTrue(x > 5));
 	} 
 	
 	@Test
 	public void testDetermistic() throws Exception{
-		Simulator sim = Util.getSimulatorForTestSpec("test/simulator/"+chooseExample);
+		sim = Util.getSimulatorForTestSpec(TEST_SIMULATOR_CHOOSERULE+chooseExample);
 		sim.setShuffleFlag(false);
+		List<Long> integers = new ArrayList<>();
 		for(int i = 1; i < 10; i++){
 			UpdateSet updateSet = sim.doOneStep();	
-			System.out.println(updateSet);
-			// TODO check that it is alwsys the same
+			Function f = searchFunction("a");
+			Value value = sim.currentState.read(new Location(f, new Value[]{}));
+			integers.add((Long) (value.getValue()));
 		}
+		integers.stream().forEach(x -> assertTrue(x == 6));
 	} 
+	
+	@Test
+	public void testRandomIntWithTrue() throws Exception{
+		sim = Util.getSimulatorForTestSpec(TEST_SIMULATOR_CHOOSERULE + "ChooseRandomInt.asm");
+		List<Long> integers = new ArrayList<>();
+		for(int i = 1; i < 10; i++){
+			UpdateSet updateSet = sim.doOneStep();
+			Function f = searchFunction("myInt");
+			Value value = sim.currentState.read(new Location(f, new Value[]{}));
+			integers.add((Long) (value.getValue()));
+		}
+		checkRandomValues(integers);
+	}
+	@Test
+	public void testRandomNatWithTrue() throws Exception{
+		sim = Util.getSimulatorForTestSpec(TEST_SIMULATOR_CHOOSERULE + "ChooseRandomNat.asm");
+		List<Long> integers = new ArrayList<>();
+		for(int i = 1; i < 10; i++){
+			UpdateSet updateSet = sim.doOneStep();
+			Function f = searchFunction("myNat");
+			Value value = sim.currentState.read(new Location(f, new Value[]{}));
+			integers.add((Long) (value.getValue()));
+		}
+		checkRandomValues(integers);
+		integers.stream().forEach(x -> assertTrue(x >= 0));
+	}
+	@Test
+	public void testRandomRealWithTrue() throws Exception{
+		sim = Util.getSimulatorForTestSpec(TEST_SIMULATOR_CHOOSERULE + "ChooseRandomReal.asm");
+		List<Double> integers = new ArrayList<>();
+		for(int i = 1; i < 10; i++){
+			UpdateSet updateSet = sim.doOneStep();
+			Function f = searchFunction("myR");
+			Value value = sim.currentState.read(new Location(f, new Value[]{}));
+			integers.add((Double) (value.getValue()));
+		}
+		checkRandomValues(integers);
+	}
+
+	private <T> void checkRandomValues(List<T> values) {
+		//there are not two pairs of equals number (itis vwery unlikely) 
+		assertTrue(values.get(0) != values.get(1) || values.get(2) != values.get(3));
+	} 
+	
+	@Test
+	public void testIntWithCond() throws Exception{
+		Simulator sim = Util.getSimulatorForTestSpec(TEST_SIMULATOR_CHOOSERULE + "ChooseOverInteger.asm");
+		try{
+			UpdateSet updateSet = sim.doOneStep();	
+		} catch(RuntimeException re) {
+			assertTrue(re.getMessage().contains("Infinite"));
+		}
+	}
+	@Test
+	public void testChooseBoolean() throws Exception {
+		sim = Util.getSimulatorForTestSpec(TEST_SIMULATOR_CHOOSERULE + "chooseBoolean.asm");
+		sim.setShuffleFlag(true);
+		sim.run(1000);//la probabilita' che il test fallisca (anche se il simulatore e' corretto) e' 1/(2^1000)
+		Function f = searchFunction("fooA");
+		Value value = sim.currentState.read(new Location(f, new Value[]{}));
+		//System.out.println("fooA = " + value.toString());
+		assertFalse(value.toString().equals("0"));
+		f = searchFunction("fooB");
+		value = sim.currentState.read(new Location(f, new Value[]{}));
+		//System.out.println("fooB = " + value.toString());
+		assertFalse(value.toString().equals("0"));
+	}
+	@Test
+	public void test34() throws Exception {
+		sim = Util.getSimulatorForTestSpec(TEST_SIMULATOR_CHOOSERULE + "ChooseInConcrete.asm");
+		sim.setShuffleFlag(false);
+		sim.run(1);		
+		Function f = searchFunction("y");
+		Value<?> v = sim.currentState.read(new Location(f, new Value[0]));
+		assertEquals(new IntegerValue(1), v);
+	}
+
+	@Test
+	public void test35() throws Exception {
+		sim = Util.getSimulatorForTestSpec(TEST_SIMULATOR_CHOOSERULE +"ChooseRule01.asm");
+		sim.run(1);		
+		Function f = searchFunction("f");
+		Value<?> v = sim.currentState.read(new Location(f, new Value[0]));
+		assertEquals(new IntegerValue(20), v);
+	}
+
+	@Test
+	public void test36() throws Exception {
+		sim = Util.getSimulatorForTestSpec(TEST_SIMULATOR_CHOOSERULE + "ChooseRule02.asm");
+		sim.run(1);		
+		Function f = searchFunction("f");
+		Value<?> v = sim.currentState.read(new Location(f, new Value[] {
+				new IntegerValue(2), new IntegerValue(5)}));
+		assertEquals(BooleanValue.TRUE, v);
+	}
+
+	@Test
+	public void test37() throws Exception {
+		sim = Util.getSimulatorForTestSpec(TEST_SIMULATOR_CHOOSERULE + "ChooseRule03.asm");
+		sim.run(1);		
+		Function f = searchFunction("f");
+		Value<?> v = sim.currentState.read(new Location(f, new Value[0]));
+		assertEquals(UndefValue.UNDEF, v);
+	}
+	@Test
+	public void testCondFalseIfNone() throws Exception {
+		sim = Util.getSimulatorForTestSpec(TEST_SIMULATOR_CHOOSERULE + "ChooseRule03IfNone.asm");
+		sim.run(1);		
+		Function f = searchFunction("f");
+		Value<?> v = sim.currentState.read(new Location(f, new Value[0]));
+		assertEquals(new IntegerValue(0), v);
+	}
+	@Test
+	public void testCondFalseIfNoneFALSE() throws Exception {
+		sim = Util.getSimulatorForTestSpec(TEST_SIMULATOR_CHOOSERULE + "ChooseRule03IfNone2.asm");
+		sim.run(1);		
+		Function f = searchFunction("f");
+		Value<?> v = sim.currentState.read(new Location(f, new Value[0]));
+		assertEquals(new IntegerValue(0), v);
+	}
+	@Test
+	public void testAD() throws Exception {
+		sim = Util.getSimulatorForTestSpec(TEST_SIMULATOR_CHOOSERULE + "ChooseRuleAD.asm");
+		sim.run(1);		
+		Function f = searchFunction("a");
+		Value<?> v = sim.currentState.read(new Location(f, new Value[0]));
+		assertEquals("o", v.toString());
+	}
 
 }

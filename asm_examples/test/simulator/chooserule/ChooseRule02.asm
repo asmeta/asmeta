@@ -1,5 +1,5 @@
 asm ChooseRule02
-import ../../STDL/StandardLibrary
+import  ../../../STDL/StandardLibrary
 
 signature:
 controlled f: Prod(Integer,Integer)->Boolean

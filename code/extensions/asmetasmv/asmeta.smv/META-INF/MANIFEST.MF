@@ -15,4 +15,4 @@ Export-Package: org.asmeta.nusmv,
  org.asmeta.nusmv.main,
  org.asmeta.nusmv.util
 Automatic-Module-Name: asmeta.smv
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21

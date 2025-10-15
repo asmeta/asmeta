@@ -19,7 +19,7 @@ Require-Bundle: org.eclipse.xtext,
  asmeta.emf,
  asmeta.simulator,
  org.eclipse.core.resources
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: org.asmeta.avallaxt,
  org.asmeta.avallaxt.avalla,
  org.asmeta.avallaxt.avalla.impl,

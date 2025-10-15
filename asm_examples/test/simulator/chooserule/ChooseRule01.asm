@@ -1,5 +1,5 @@
 asm ChooseRule01
-import ../../STDL/StandardLibrary
+import  ../../../STDL/StandardLibrary
 
 signature:
 controlled f: Integer

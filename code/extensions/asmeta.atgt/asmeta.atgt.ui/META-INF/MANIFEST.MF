@@ -4,7 +4,7 @@ Bundle-Name: AsmetaTGT Ui
 Bundle-SymbolicName: asmeta.atgt.ui;singleton:=true
 Bundle-Version: 25.06
 Automatic-Module-Name: asmeta.atgt.ui
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Require-Bundle: asmeta.atgt,
  org.eclipse.equinox.registry,
  org.eclipse.debug.core,
