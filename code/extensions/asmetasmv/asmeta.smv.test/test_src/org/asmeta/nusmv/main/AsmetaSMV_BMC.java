@@ -44,7 +44,7 @@ public class AsmetaSMV_BMC {
 	// still todo the translation from asmeta to nusmv
 	@Test
 	public void testBMCAmanInt() throws IOException, InterruptedException {
-		String solverName = "nusmv";
+		String solverName = AsmetaSMV.getSolverName();
 		ProcessBuilder bp = new ProcessBuilder(solverName, "-int");
 		bp.redirectErrorStream(true);
 		Process proc = bp.start();
