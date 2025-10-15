@@ -26,8 +26,10 @@ public class AsmetaMATestErrors {
 	}
 	
 	// this example passes the test for model checking but not the model advisor
-	// the meta propeties are too long????
+	// the meta properties are too long????
+	// to skip since it takes very long time !!!
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testBenInf() throws Exception {
 //		Logger.getLogger(MapVisitor.class).setLevel(Level.ALL);
 //		Logger.getLogger(AsmetaMA.class).setLevel(Level.ALL);
