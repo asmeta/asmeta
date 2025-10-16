@@ -1,5 +1,5 @@
 asm CoffeeVendingMachineRefined
-import StandardLibrary
+import ../StandardLibrary
 
 signature:
 	enum domain Product = {COFFEE | TEA | MILK}

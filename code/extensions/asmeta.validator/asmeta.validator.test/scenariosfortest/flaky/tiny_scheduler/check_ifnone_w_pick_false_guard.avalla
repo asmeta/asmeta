@@ -1,0 +1,23 @@
+// In this scenario we try to pick a value for which the guard is always false
+scenario check_w_pick_false_guard
+load TinyScheduler.asm
+
+check idle = false;
+
+pick $j1 := JOB3;
+pick $p := 100;
+step
+
+pick $j1 := JOB2;
+pick $p := 100;
+step
+
+pick $j1 := JOB1;
+pick $p := 100;
+step
+
+check idle = false;
+
+pick $p := 100;
+pick $j1 := JOB1; // This makes the guard always evaluate to false -> the scenario fails
+step

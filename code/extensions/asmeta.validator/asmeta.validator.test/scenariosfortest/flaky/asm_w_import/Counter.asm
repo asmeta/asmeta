@@ -1,6 +1,6 @@
 asm Counter
 
-import StandardLibrary
+import ../StandardLibrary
 import RandomModule
 
 signature:

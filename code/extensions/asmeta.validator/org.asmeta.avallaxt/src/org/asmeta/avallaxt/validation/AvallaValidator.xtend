@@ -138,13 +138,17 @@ class AvallaValidator extends AbstractAvallaValidator {
 	
 	@org.eclipse.xtext.validation.Check
 	def checkPick(Pick pick) {
-		var String errorMessage = ScenarioUtility.checkPickRule(pick, asmCollection.main)
+		var String errorMessage = ScenarioUtility.checkPickValue(pick)
 		if (errorMessage !== null)
-			error(errorMessage, AvallaPackage.Literals.PICK__RULE)
+			error(errorMessage, AvallaPackage.Literals.PICK__VALUE)
 		else
-			errorMessage = ScenarioUtility.checkPickVariable(pick, chooseRules)
+			ScenarioUtility.checkPickRule(pick, asmCollection.main)
 			if (errorMessage !== null)
-				error(errorMessage, AvallaPackage.Literals.PICK__VAR)
+				error(errorMessage, AvallaPackage.Literals.PICK__RULE)
+			else
+				errorMessage = ScenarioUtility.checkPickVariable(pick, chooseRules)
+				if (errorMessage !== null)
+					error(errorMessage, AvallaPackage.Literals.PICK__VAR)
 	}
 	
 

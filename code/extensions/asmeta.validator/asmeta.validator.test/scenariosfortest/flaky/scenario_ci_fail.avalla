@@ -1,5 +1,0 @@
-scenario scenario1
-load chooseinteger.asm
-// only 10 would be correct 
-pick $s := 5;
-step
