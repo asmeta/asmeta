@@ -1,4 +1,4 @@
-asm undef
+asm undef_use
 
 import ../../../../../../asm_examples/STDL/StandardLibrary
 

@@ -1,6 +1,6 @@
 asm evo_pop
 
-import ../../../../asm_examples/STDL/StandardLibrary
+import ../../../../../asm_examples/STDL/StandardLibrary
 
 signature:
 	domain Eta subsetof Natural
