@@ -1,0 +1,8 @@
+// In this scenario we pick undef, that is not allowed
+scenario check_w_pick_undef
+load TinyScheduler.asm
+
+check idle = false;
+
+pick $j1:= undef; // Compilation error
+step

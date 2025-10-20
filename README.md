@@ -37,11 +37,17 @@ For more info about asmeta see: https://asmeta.github.io/
 ## Requirements
 To use the asmeta framework in Eclipse IDE you need to install:
 
-* XText SDK >= 2.20
-* GEF Classic Zest SDK (for the visualizer)
-* Eclipse Plug-in Development Environment
-* JavaCC Eclipse Plug-in (optional)
+* Xtext Complete SDK (we use 2.40)
+* GEF Classic Zest SDK (for the visualizer - we use 3.25.0)
+* NuSMV to execute the asmetasmv model checker (https://nusmv.fbk.eu/)
 
+To compile and test the asmeta framework in Eclipse IDE you need to install also:
+
+* Eclipse Plug-in Development Environment
+* JavaCC Eclipse Plug-in Feature (we use 1.6.1 - optional)
+* M2E - Maven Integration for Eclipse
+* M2E - PDE Integration
+ 
 ### eclispe with asmeta ready to use:
 
 **new version 25.06** see https://asmeta.github.io/news.html

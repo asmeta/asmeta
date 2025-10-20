@@ -1,0 +1,15 @@
+scenario nested_forall_scenario
+
+load nested_forall.asm
+
+check tab(RR1, CC1) = 0;
+
+set update := false;
+step
+
+check tab(RR1, CC1) = 0;
+
+set update := true;
+step
+
+check tab(RR1, CC1) = 1;

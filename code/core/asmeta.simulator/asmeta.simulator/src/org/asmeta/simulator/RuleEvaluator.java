@@ -58,7 +58,6 @@ import org.eclipse.emf.common.util.EList;
 
 import asmeta.definitions.Function;
 import asmeta.definitions.RuleDeclaration;
-import asmeta.definitions.domains.AgentDomain;
 import asmeta.definitions.domains.AnyDomain;
 import asmeta.definitions.domains.BagDomain;
 import asmeta.definitions.domains.ConcreteDomain;
@@ -78,6 +77,7 @@ import asmeta.terms.basicterms.LocationTerm;
 import asmeta.terms.basicterms.Term;
 import asmeta.terms.basicterms.TupleTerm;
 import asmeta.terms.basicterms.VariableTerm;
+import asmeta.terms.basicterms.impl.LocationTermImpl;
 import asmeta.transitionrules.basictransitionrules.BlockRule;
 import asmeta.transitionrules.basictransitionrules.ChooseRule;
 import asmeta.transitionrules.basictransitionrules.ConditionalRule;
@@ -303,6 +303,8 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		UpdateSet updateset = null;
 		logger.debug("<ComparedTerm>");
 		Value comparedValue = visitTerm(caseRule.getTerm());
+		// Hook method for RuleEvalWCov
+		checkComparedValue(caseRule, comparedValue);
 		logger.debug("</ComparedTerm>");
 		Iterator<Rule> branchRuleIt = caseRule.getCaseBranches().iterator();
 		for (Term comparingTerm : caseRule.getCaseTerm()) {
@@ -330,6 +332,12 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		logger.debug("</CaseRule>");
 		return updateset;
 	}
+	
+	// Hook method for RuleEvalWCov
+	protected void checkComparedValue(CaseRule caseRule, Value comparedValue) {
+		// do no additional operations by default
+	}
+
 
 	/**
 	 * Evaluates a block rule.
@@ -439,7 +447,11 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 			newAssignment.put(var, initValue);
 			logger.debug("<Value>" + initValue + "</Value>");
 			logger.debug("</VariableTerm>");
+			// Hook method for RuleEvalWCov
+			checkInitTerm(letRule, initValue, initTerm);
 		}
+		// Hook method for RuleEvalWCov
+		afterInitExpressionVisit(letRule);
 		logger.debug("</InitList>");
 		logger.debug("<InRule>");
 		RuleEvaluator newRuleEvaluator = createRuleEvaluator(termEval.state,termEval.environment,newAssignment);
@@ -448,6 +460,16 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		logger.debug("<UpdateSet>" + updateSet + "</UpdateSet>");
 		logger.debug("</LetRule>");
 		return updateSet;
+	}
+	
+	// Hook method for RuleEvalWCov
+	protected void checkInitTerm(LetRule letRule, Value initValue, Term initTerm) {
+		// do no additional operations by default
+	}
+	
+	// Hook method for RuleEvalWCov
+	protected void afterInitExpressionVisit(LetRule letRule) {
+		// do no additional operations by default
 	}
 
 	/**
@@ -514,8 +536,14 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 				UpdateSet newSet = newEvaluator.visit(forRule.getDoRule());
 				updateSet.union(newSet);
 				logger.debug("</DoRule>");
+				onForallGuardTrue(); // Hook method for RuleEvalWCov
 			}
 		}
+	}
+	
+	// Hook method for RuleEvalWCov
+	protected void onForallGuardTrue() {
+		// do no additional operations by default
 	}
 
 	/**
@@ -534,6 +562,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		Value[] boundValues = new Value[chooseRule.getVariable().size()];
 		CollectionValue[] domains = evaluateRanges(chooseRule.getRanges());
 		if (!visitChoose(0, domains, boundValues, chooseRule, updateSet)) {
+			onChooseGuardAlwaysFalse(chooseRule); // Hook method for RuleEvalWCov
 			if (chooseRule.getIfnone() != null) {
 				logger.debug("<IfnoneRule>");
 				updateSet = visit(chooseRule.getIfnone());
@@ -633,9 +662,20 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 				UpdateSet newSet = newEvaluator.visit(chooseRule.getDoRule());
 				updateSet.union(newSet);
 				logger.debug("</DoRule>");
+				onChooseGuardTrue(chooseRule); // Hook method for RuleEvalWCov
 			}
 			return guard.getValue();
 		}
+	}
+	
+	// Hook method for RuleEvalWCov
+	protected void onChooseGuardTrue(ChooseRule chooseRule) {
+		// do no additional operations by default
+	}
+	
+	// Hook method for RuleEvalWCov
+	protected void onChooseGuardAlwaysFalse(ChooseRule chooseRule) {
+		// do no additional operations by default
 	}
 
 	/**
