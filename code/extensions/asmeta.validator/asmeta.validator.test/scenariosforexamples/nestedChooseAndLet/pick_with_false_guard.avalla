@@ -1,0 +1,14 @@
+scenario pick_with_false_guard
+
+load nested_choose_and_let.asm
+
+check tab(RR1, CC1) = 0;
+
+pick $x := 1;
+step
+
+// The previous step results in an error, the next step will not
+// be executed and will not count for coverage
+
+pick $x := 10;
+step

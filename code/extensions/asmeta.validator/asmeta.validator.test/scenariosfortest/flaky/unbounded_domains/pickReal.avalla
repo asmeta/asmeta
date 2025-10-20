@@ -1,0 +1,9 @@
+scenario pickReal
+load ChooseRandomReal.asm
+
+check myR = 0.0;
+
+pick $i := 5.5;
+step
+
+check myR = 5.5;

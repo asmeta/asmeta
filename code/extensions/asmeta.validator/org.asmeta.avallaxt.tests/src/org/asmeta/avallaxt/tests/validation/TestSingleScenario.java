@@ -80,19 +80,20 @@ public class TestSingleScenario extends TestParserAndValidation {
 	
 	@Test
 	public void checkForFlaky() {
+		String baseFolder = "../asmeta.validator.test/scenariosfortest/flaky/coffee_vending_machine/";
 		// correct scenario
-		assertSame(checkPossibleFaults("../asmeta.validator.test/scenariosfortest/flaky/scenario_noflaky.avalla"),PossibleFaults_NONE);
+		assertSame(checkPossibleFaults(baseFolder + "/scenario_noflaky.avalla"),PossibleFaults_NONE);
 		// correct scenario with a pick of a variable defined in a choose rule that defines more than one variable
-		assertSame(checkPossibleFaults("../asmeta.validator.test/scenariosfortest/flaky/scenario_noflaky2.avalla"),PossibleFaults_NONE);
+		assertSame(checkPossibleFaults(baseFolder + "/scenario_noflaky2.avalla"),PossibleFaults_NONE);
 		// with a missing $
-		assertSame(checkPossibleFaults("../asmeta.validator.test/scenariosfortest/flaky/scenario_noflaky_PARS_ERR.avalla"), PossibleFaults_Parser);
+		assertSame(checkPossibleFaults(baseFolder + "/scenario_noflaky_PARS_ERR.avalla"), PossibleFaults_Parser);
 		// with a pick of a variable in a non existing rule
-		String error_msg = checkPossibleFaults("../asmeta.validator.test/scenariosfortest/flaky/scenario_noflaky_VAL_ERR.avalla");
+		String error_msg = checkPossibleFaults(baseFolder + "/scenario_noflaky_VAL_ERR.avalla");
 		assertNotEquals(error_msg, PossibleFaults_NONE);
 		assertNotEquals(error_msg, PossibleFaults_Parser);
 		assertTrue(error_msg.length() > 0);
 		// with a pick of a variable not matching any choose variable in the asm
-		error_msg = checkPossibleFaults("../asmeta.validator.test/scenariosfortest/flaky/scenario_noflaky_VAL_ERR2.avalla");
+		error_msg = checkPossibleFaults(baseFolder + "/scenario_noflaky_VAL_ERR2.avalla");
 		assertNotEquals(error_msg, PossibleFaults_NONE);
 		assertNotEquals(error_msg, PossibleFaults_Parser);
 		assertTrue(error_msg.length() > 0);

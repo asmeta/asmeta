@@ -29,6 +29,7 @@ import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.Environment.TimeMngt;
 import org.asmeta.simulator.util.MonitoredFinder;
 import org.asmeta.simulator.util.StandardLibrary;
+import org.eclipse.emf.common.util.EList;
 
 import asmeta.AsmCollection;
 import asmeta.definitions.Function;
@@ -55,6 +56,11 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 	public static final String R_MAIN = "r_main__";
 
 	public static final String ACTUAL_VALUE = "__actual_value";
+	public static final String STATUS = "__status";
+	public static final String PICKED_VARS_STATUS = "PickedVarsStatus";
+	public static final String NONE = "NONE";
+	public static final String ASSIGNED = "ASSIGNED";
+	public static final String ERROR = "ERROR";
 
 	// ASMs already translated (to avoid over translation
 	// asm path (absolute) of the original asm -> where (path) it has been
@@ -108,23 +114,38 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 
 	@Override
 	public void visit(ChooseRule chooseRule) {
-		// Change the ChooseRule in a LetRule that sets the variables to
-		// the new controlled functions and keeps the same rule only if
-		// it contains a variable picked at least once
+		// If a variable is picked at least once, change the ChooseRule in a CaseRule
 		if (this.builder.pickedChooseRules.containsKey(chooseRule)) {
+			String signature = AsmCollectionUtility.getSignature(super.currentRuleDeclaration);
 			List<VariableTerm> vars = chooseRule.getVariable();
 			Rule doRule = chooseRule.getDoRule();
-			List<String> letVars = new ArrayList<>();
+			Rule ifnoneRule = chooseRule.getIfnone();
+			List<String> chooseVars = new ArrayList<>();
+			List<String> letTerms = new ArrayList<>();
 			for (VariableTerm var : vars) {
-				String actualValueVar = var.getName().substring(1) + "_"
-						+ AsmCollectionUtility.getSignature(super.currentRuleDeclaration) + ACTUAL_VALUE;
-				letVars.add(var.getName() + "=" + actualValueVar);
+				String varName = var.getName();
+				String actualValueVar = getActualValueControlledFunction(var.getName(), signature);
+				chooseVars.add(varName);
+				letTerms.add(varName + "=" + actualValueVar);
 			}
-			println("let(" + String.join(", ", letVars) + ") in");
+			println("switch(" + getStatusControlledFunction(chooseVars, signature) + ")");
+			indent();
+			println("case " + ASSIGNED + ":");
+			indent();
+			println("let(" + String.join(", ", letTerms) + ") in");
 			indent();
 			super.visit(doRule);
 			unIndent();
 			println("endlet");
+			unIndent();
+			if (ifnoneRule != null) {
+				println("case " + NONE + ":");
+				indent();
+				super.visit(ifnoneRule);
+				unIndent();
+			}
+			unIndent();
+			println("endswitch");
 		} else {
 			super.visit(chooseRule);
 		}
@@ -370,12 +391,28 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 		if (!this.builder.pickedChooseRules.isEmpty()) {
 			println("// added by validator to implement determinism in choose rule");
 			for (Entry<ChooseRule, String> cr : this.builder.pickedChooseRules.entrySet()) {
-				// only choose rules with ONE variable are supported in pick
-				for (VariableTerm variable : cr.getKey().getVariable()) {
-					String varName = variable.getName().substring(1) + "_" + cr.getValue() + ACTUAL_VALUE;
-					println("controlled " + varName + ": " + variable.getDomain().getName());
+				EList<VariableTerm> variables = cr.getKey().getVariable();
+				List<String> letVars = new ArrayList<>();
+				for (VariableTerm variable : variables) {
+					String var = variable.getName();
+					String newVarName = getActualValueControlledFunction(var, cr.getValue());
+					letVars.add(var);
+					println("controlled " + newVarName + ": " + variable.getDomain().getName());
 				}
+				String varName = getStatusControlledFunction(letVars, cr.getValue());
+				println("controlled " + varName + ": " + PICKED_VARS_STATUS);
 			}
+		}
+	}
+
+	@Override
+	public void visitDomains(Collection<Domain> doms) {
+		super.visitDomains(doms);
+		// add the controlled functions relative to picked variables
+		if (!this.builder.pickedChooseRules.isEmpty()) {
+			println("// added by validator to implement determinism in choose rule");
+			println("enum domain " + PICKED_VARS_STATUS + " = {" + ASSIGNED + ", " + NONE + ", "
+					+ ERROR + "}");
 		}
 	}
 
@@ -571,5 +608,43 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 			print("// ");
 		}
 		super.visitInit(init);
+	}
+
+	/**
+	 * For pick translation. Returns the name of the controlled function that
+	 * contains the actual value of a single variable defined in a choose rule. It
+	 * is used to make the choose deterministic
+	 * 
+	 * @param var       the name of the variable term
+	 * @param signature the signature of the macro rule in which the variable term
+	 *                  is picked
+	 * @return the new controlled function name
+	 */
+	public static String getActualValueControlledFunction(String var, String signature) {
+		String function = var.substring(1) + "_" + signature + ACTUAL_VALUE;
+		// Controlled functions can not start wit r_ (used by macro rules)
+		if (function.startsWith("r_"))
+			function = "var_" + function;
+		return function;
+	}
+
+	/**
+	 * For pick translation. Returns the name of the controlled function that
+	 * contains the assignment status of the variables defined in a choose rule. It
+	 * is used to make the choose deterministic
+	 * 
+	 * @param vars      the list with the names of the variable terms
+	 * @param signature the signature of the macro rule in which the variable term
+	 *                  is picked
+	 * @return the new controlled function name
+	 */
+	public static String getStatusControlledFunction(List<String> vars, String signature) {
+		List<String> varNames = vars.stream().map(s -> s.substring(1)).collect(Collectors.toList()); // Remove the $
+		Collections.sort(varNames);
+		String function = String.join("_", varNames) + "_" + signature + STATUS;
+		// Controlled functions can not start wit r_ (used by macro rules)
+		if (function.startsWith("r_"))
+			function = "vars_" + function;
+		return function;
 	}
 }

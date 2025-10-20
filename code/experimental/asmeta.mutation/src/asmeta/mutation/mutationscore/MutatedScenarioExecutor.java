@@ -61,7 +61,7 @@ public class MutatedScenarioExecutor {
 				// ValidationResult result = AsmetaV.executeAsmetaFromAvalla(false,
 				// allCoveredRules, tempAsmPath, originalName);
 				ValidationResult result = AsmetaV.executeAsmetaFromAvalla(false, allCoveredRules, tempAsmPath);
-				if (!result.isCheckSucceded()) {
+				if (!result.isCheckSucceeded()) {
 					System.err.println("KILLED !!!");
 					nKilled++;
 				}

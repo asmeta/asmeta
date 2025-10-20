@@ -1,0 +1,21 @@
+// In this scenario the only picked variable is $p. We set it to 100 for avoiding flakiness in coverage.
+scenario check_ifnone_no_pick
+load ../TinyScheduler.asm
+
+check idle = false;
+
+pick $p := 100;
+step
+
+pick $p := 100;
+step
+
+pick $p := 100;
+step
+
+check idle = false;
+
+pick $p := 100;
+step
+
+check idle = true;

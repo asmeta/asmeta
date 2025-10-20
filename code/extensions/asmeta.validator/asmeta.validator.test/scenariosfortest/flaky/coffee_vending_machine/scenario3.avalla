@@ -1,4 +1,4 @@
-scenario scenario2
+scenario scenario3
 load CoffeeVendingMachineRefined.asm
 
 set insertedCoin := 2;
