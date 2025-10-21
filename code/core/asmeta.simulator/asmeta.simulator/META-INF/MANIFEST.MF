@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Asmeta simulator
 Bundle-SymbolicName: asmeta.simulator;singleton:=true
-Bundle-Version: 25.06
+Bundle-Version: 25.09
 Export-Package: org.asmeta.simulator,
  org.asmeta.simulator.main,
  org.asmeta.simulator.readers,
