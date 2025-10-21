@@ -50,7 +50,9 @@ To compile and test the asmeta framework in Eclipse IDE you need to install also
  
 ### eclispe with asmeta ready to use:
 
-**new version 25.06** see https://asmeta.github.io/news.html
+new version 25.09
+
+new version 25.06 see https://asmeta.github.io/news.html
 
 new version 25.04 news:
  - pick command is now introduced (see our NFM paper)
@@ -64,7 +66,7 @@ new version 25.03 news:
  - other minor bugs fixed
 
 ##### for windows 64 bit:
-https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2025_06_win64.zip
+https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2025_09_win64.zip
 
 ### older version multiplatform
 version 24.06! new TL operators names and minor fixes - multiple architecture (win, lin, macos):
@@ -77,6 +79,8 @@ https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2024_06_macOs_aarch64.zip
 https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2024_06_linux_x86_64.zip
 
 ### old versions (only for windows)
+
+https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2025_06_win64.zip
 
 https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2025_03_win64.zip
 
