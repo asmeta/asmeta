@@ -53,6 +53,10 @@ To compile and test the asmeta framework in Eclipse IDE you need to install also
 new version 25.09
  - the with clause in choose is now optional: `choose $x in D do ...` is now correct
  - choose rule can be simulated even with inifinite domain if the condition is true: `choose $x in Integer with true do ...` is now simulated
+ - branch coverage: now also considers forall and choose rules  
+ - new coverage metrics:
+    - rule coverage: measures the percentage of basic transition rules (including seq rules) executed at least once during validation.
+    - forall rule coverage: measures how extensively forall rules were executed during validation.
 
 new version 25.06 see https://asmeta.github.io/news.html
 
