@@ -50,7 +50,7 @@ To compile and test the asmeta framework in Eclipse IDE you need to install also
  
 ### eclispe with asmeta ready to use:
 
-**new version 25.06** see https://asmeta.github.io/news.html
+**new version 25.09** see https://asmeta.github.io/news.html
 
 new version 25.04 news:
  - pick command is now introduced (see our NFM paper)
