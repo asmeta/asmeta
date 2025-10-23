@@ -111,7 +111,7 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 				State state;
 				int currentStep = 0;
 				while (true) {
-					// get the current state
+					// get the current state - duplicate
 					state = new State(simulator.getCurrentState());
 					// execute the step
 					try {
@@ -126,13 +126,18 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 					state.applyLocationUpdates(randomMFReader.getValues());
 					// add this (previous) state to the sequence
 					addState(testsequence, state);
-					// go to the next state
-					currentStep++;
+					// if no step was required
+					if (stepNumber <= 0) {
+						break;						
+					}
+					// reached the end of the sequence steps
 					if (currentStep >= stepNumber - 1) {
 						// add also the last step and exit
 						addState(testsequence, simulator.getCurrentState());
 						break;
 					}
+					// go to the next state
+					currentStep++;
 					// restart the env
 					randomMFReader.clear();
 				}

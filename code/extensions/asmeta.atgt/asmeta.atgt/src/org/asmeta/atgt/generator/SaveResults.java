@@ -1,8 +1,10 @@
 package org.asmeta.atgt.generator;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
+import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.nio.file.Path;
@@ -95,7 +97,14 @@ public class SaveResults {
 						assert  ! asmtoImportPath.startsWith("\"");
 						asmtoImportPath = "\""+ asmtoImportPath  + "\""; 
 					}
-					new toAvalla(ftc,tc,asmtoImportPath).save();
+					String scenarioName = ftc.getName().replaceFirst("[.][^.]+$", "");
+					ByteArrayOutputStream writeto = new ByteArrayOutputStream();
+					new toAvalla(writeto, tc,asmtoImportPath,scenarioName).save();
+					// remove step
+					new String(writeto.toByteArray());
+					// TODO
+					// write to the file
+					// TODO
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
