@@ -1,0 +1,126 @@
+/*import MasterSlaveMAPE
+import AggregateMAPE */
+
+abstract pattern MasterSlaveMAPE {
+	system Sys
+
+	group Master {
+		components A, P
+	} 
+	
+	group Slave {
+		managedSyS Sys
+		components M, E
+	}
+
+	interaction Slave.M -> Master.A [*-ALL,1]
+	interaction Master.P -> Slave.E [1,*-ALL]
+	interaction Master.A -> Master.P [1,1]
+}
+
+abstract pattern AggregateMAPE {
+	system Sys
+
+	group Main {
+		components M, A, P, E
+	} 
+	
+	group Interface {
+		managedSyS Sys
+		components M, E
+	}
+
+	interaction Interface.M -> Main.M [*-ALL,1]
+	interaction Main.E -> Interface.E [1,*-ALL]
+	interaction Main.M -> Main.A [1,1]
+	interaction Main.A -> Main.P [1,1]
+	interaction Main.P -> Main.E [1,1]
+}
+
+abstract pattern AggregateMAPE {
+	system Sys
+
+	group Main {
+		components M, A, P, E
+	} 
+	
+	group Interface {
+		managedSyS Sys
+		components M, E
+	}
+
+
+concrete pattern FD_MAPE concretizationOf MasterSlaveMAPE {
+	system FireDetection: MasterSlaveMAPE.Sys
+    group MasterFD: MasterSlaveMAPE.Master
+    group SlaveFD: MasterSlaveMAPE.Slave
+}
+//Aggregate MAPE loop for the concern Heating Comfort
+concrete pattern HC_MAPE concretizationOf AggregateMAPE {
+	system Heating: AggregateMAPE.Sys
+    group MainHC: AggregateMAPE.Main
+    group IntHC: AggregateMAPE.Interface
+}
+
+
+configuration MySmartHomeFD_HC instanceOf FD_MAPE,HC_MAPE {
+    fd_ff: FD_MAPE.FireDetection //fire detection system for First Floor
+    fd_gf: FD_MAPE.FireDetection //fire detection system for Ground Floor
+    hs_ff: HC_MAPE.Heating //managed heating system for First Floor
+    hs_gf: HC_MAPE.Heating //managed heating system for Ground Floor
+   
+//master
+	fd_master: FD_MAPE.MasterFD {
+		components a_fd:A, p_fd:P
+	}
+    
+    //ground floor slave
+	gf_slave: FD_MAPE.SlaveFD {
+		managedSyS fd_gf
+		components m_gf:M, e_gf:E
+	}
+
+    //first floor slave
+    ff_slave: FD_MAPE.SlaveFD {
+		managedSyS fd_ff
+		components m_ff:M, e_ff:E
+	}
+
+	//main group for the concern Heating Comfort 
+	main_hc: HC_MAPE.MainHC {
+		components m_hc:M, a_hc:A, p_hc:P, e_hc:E
+	}
+
+    //interface group for the ground floor 
+	int_hc_gf: HC_MAPE.IntHC {
+		managedSyS hs_gf //(heatingGF,state),(windowsGF,state),...
+		components m_hc:M, e_hc:E
+	}
+
+    //interface group for the first floor
+    int_hc_ff: HC_MAPE.IntHC {
+		managedSyS hs_ff //(heatingFF,state),(windowsFF,state),...  
+		components m_hc:M, e_hc:E
+	}
+
+	
+	//inter-interactions
+	main_hc.m_hc -> main_hc.a_hc
+	main_hc.a_hc -> main_hc.p_hc
+	main_hc.p_hc -> main_hc.e_hc
+	
+	//intra-interactions
+	int_hc_gf.m_hc -> main_hc.m_hc
+	int_hc_ff.m_hc -> main_hc.m_hc
+	main_hc.e_hc -> int_hc_gf.e_hc
+	main_hc.e_hc -> int_hc_ff.e_hc
+	
+		//interactions
+	fd_master.a_fd -> fd_master.p_fd
+	gf_slave.m_gf -> fd_master.a_fd
+	ff_slave.m_ff -> fd_master.a_fd
+	fd_master.p_fd -> gf_slave.e_gf
+	fd_master.p_fd -> ff_slave.e_ff
+	
+  
+}

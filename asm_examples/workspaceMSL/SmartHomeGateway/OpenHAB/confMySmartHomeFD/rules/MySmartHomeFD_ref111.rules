@@ -1,0 +1,115 @@
+var boolean adaptation_required_gf
+var boolean adaptation_required_ff
+
+rule "StartLoop_MySmartHomeFD"
+when
+	System started
+then
+	start_a_fd.sendCommand(OFF)
+	start_p_fd.sendCommand(OFF)
+	start_m_gf.sendCommand(ON)
+	start_e_gf.sendCommand(OFF)
+	start_m_ff.sendCommand(ON)
+	start_e_ff.sendCommand(OFF)
+    adaptation_required_gf = false
+    adaptation_required_ff = false
+	if (Managing_System_Active.state == ON) Managing_System_Active.postUpdate(OFF)
+end
+
+
+rule "Analyze_a_fd"
+when
+	Item start_a_fd received command ON
+then
+	sendCommand(start_a_fd, OFF)
+ 	var Number cbTemp = FF_Childrenroom_Temperature.state as Number 
+        if (cbTemp > 45)
+          adaptation_required_ff = true   //adaptation required for FF 
+    
+	if (adaptation_required_gf == true || adaptation_required_ff == true) 
+		sendCommand(start_p_fd, ON)   //adaptation required for gf
+    else {
+		sendCommand(start_m_gf, ON) //Loop completed without adaptation!
+		sendCommand(start_m_ff, ON) //Loop completed without adaptation!
+	}
+end
+
+//Refined
+rule "Plan_p_fd"
+when
+	Item start_p_fd received command ON
+then
+	sendCommand(start_p_fd, OFF)
+    if (adaptation_required_gf == true) {
+         adaptation_required_gf = false
+         sendCommand(start_e_gf, ON)
+    }
+	if(adaptation_required_ff == true){
+        adaptation_required_ff = false
+	    sendCommand(start_e_ff, ON)
+    }
+end
+
+rule "Exec_e_gf_slave"
+when
+	Item start_e_gf received command ON
+then
+	sendCommand(start_e_gf, OFF)
+  	if(FF_Children_Bedroom_Fire_Alarm.state == OFF) 
+	  	GF_Bathroom_Fire_Alarm.sendCommand(ON)  
+	if(GF_Kitchen_Fire_Alarm.state == OFF) 
+		GF_Kitchen_Fire_Alarm.sendCommand(ON)
+	if(GF_Living_Fire_Alarm.state == OFF) 
+		GF_Living_Fire_Alarm.sendCommand(ON)
+	sendCommand(start_m_gf, ON)//loop completed
+end
+
+rule "Exec_e_ff_slave"
+when
+	Item start_e_ff received command ON
+then
+	sendCommand(start_e_ff, OFF)
+  	if(FF_Children_Bedroom_Fire_Alarm.state == OFF) 
+	  FF_Children_Bedroom_Fire_Alarm.sendCommand(ON)
+	if(FF_Bedroom_Fire_Alarm.state == OFF) 
+	  FF_Bedroom_Fire_Alarm.sendCommand(ON)
+	sendCommand(start_m_ff, ON) //loop completed
+end
+
+
+rule "Monitor_m_gf"
+when
+    Item GF_Kitchen_Temperature changed or
+	Item GF_LZone1_Temperature changed or
+	Item GF_LZone2_Temperature changed or
+	Item GF_Bathroom_Temperature changed 
+then
+    if (start_m_gf.state == ON){
+        sendCommand(start_m_gf, OFF)
+	    sendCommand(gf_slave_to_fd_master, ON)
+    }
+end
+
+rule "Monitor_m_ff"
+when
+    Item FF_Bedroom_Temperature changed or
+	Item FF_Childrenroom_Temperature changed
+then
+    if (start_m_ff.state == ON) {
+	    sendCommand(start_m_ff, OFF)
+	    sendCommand(ff_slave_to_fd_master, ON)
+    }
+end
+
+rule "Aggregator_m_gf_m_ff_a_fd"
+when
+	Item gf_slaveff_slave_to_fd_master received update ON
+then
+	sendCommand(gf_slave_to_fd_master, OFF)
+	sendCommand(ff_slave_to_fd_master, OFF)
+	sendCommand(start_a_fd, ON)
+end
+
+
+
+

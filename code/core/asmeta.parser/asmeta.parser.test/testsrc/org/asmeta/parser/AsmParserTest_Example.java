@@ -62,7 +62,7 @@ public class AsmParserTest_Example extends AsmParserTest{
 		testDir("examples/library");
 	}
 	
-	static String[] dirToSkip = {"test","DAS", "drafts", "workspacePatrizia"};	
+	static String[] dirToSkip = {"test","DAS", "drafts", "workspaceMSL"};	
 	// test all the examples except the those for tests
 	// too many skip for now
 	@Ignore	

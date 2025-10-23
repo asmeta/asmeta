@@ -1,0 +1,100 @@
+/** https://www.openhab.org/docs/configuration/items.html#introduction */
+/** Items Syntax 
+itemtype itemname "labeltext [stateformat]" <iconname> (group1, group2, ...) ["tag1", "tag2", ...] {bindingconfig} */
+/** Tagging is a new feature and only a few I/O add-ons have implemented it. The easiest way to determine if tags have been implemented in a specific add-on is to see if the add-on documentation explicitly discusses their usage. Tags will be ignored if no Items in the openHAB installation support it.
+*/
+
+/* Floors */
+Group gFF           "First Floor"   <firstfloor>
+Group gGF           "Ground Floor"  <groundfloor>
+/* Rooms */
+Group GF_Living "Living Room" (gGF)
+Group GF_LZone1 "Living Room (zone 1)" (GF_Living)
+Group GF_LZone2 "Living Room (zone 2)" (GF_Living)
+Group GF_Kitchen "Kitchen"	<kitchen>(gGF)
+Group GF_Bathroom "Bathroom" <bath>(gGF)
+Group FF_Childrenroom   "Children' Room" (gFF)
+Group FF_Bedroom    "Bedroom"       (gFF)
+Group FF_Corridor   "Corridor"      (gFF) 
+
+/* active groups: to be used in automation rules */
+//sets the Group state to ON if any of its members has the state ON, OFF if all are off.
+Group:Switch:OR(ON, OFF)        HeatingStatus     "Active Heatings [(%d)]"     <heating>  
+Group:Switch:OR(ON, OFF)        HeatingGF     "Active Heatings in the ground floor[(%d)]"     <heating> 
+Group:Switch:OR(ON, OFF)        HeatingFF     "Active Heatings in the first floor[(%d)]"     <heating>
+//sets the Group state to OPEN if any of its members has the state OPEN, CLOSED if all are off. 
+Group:Contact:OR(OPEN, CLOSED)  WindowsStatus "Open windows in the home [(%d)]"               <contact>
+Group:Contact:OR(OPEN, CLOSED)  WindowsGF     "Open windows in the ground floor [(%d)]"               <contact>
+Group:Contact:OR(OPEN, CLOSED)  WindowsFF     "Open windows in the first floor [(%d)]"               <contact>
+// e.g. "21.3 �C" computes the average temperature of all room temperature Items in the group
+Group:Number:AVG                TemperatureGF "Avg. Room Temperature [%.1f °C]"   <temperature> 
+Group:Number:AVG                TemperatureFF "Avg. Room Temperature [%.1f °C]"   <temperature>
+Group:Number:MAX                maxTemperatureGF "MAX. Room Temperature in the ground floor [%.1f °C]"  <temperature>  
+Group:Number:MAX                maxTemperatureFF "MAX. Room Temperature in the first floor [%.1f °C]"  <temperature>  
+//sets the Group state to ON if any of its members has the state ON, OFF if all are off.
+Group:Switch:OR(ON,OFF)     gSmokeGF   "Alarm Fire"       <fire>
+Group gSmokeFF <fire> 
+
+/* Temperature sensors */
+Number GF_Bathroom_Temperature    "Bathroom temperature [%.1f ºC]" <temperature>   (TemperatureGF, maxTemperatureGF, GF_Bathroom, GF_Thermostat)
+Number GF_Kitchen_Temperature   "Kitchen temperature [%.1f °C]" <temperature>   (TemperatureGF, maxTemperatureGF, GF_Kitchen, GF_Thermostat) 
+Number GF_LZone1_Temperature    "Living 1 temperature [%.1f °C]" <temperature>   (TemperatureGF, maxTemperatureGF, GF_Living, GF_LZone1)
+Number GF_LZone2_Temperature    "Living 2 temperature [%.1f °C]" <temperature>   (TemperatureGF, maxTemperatureGF, GF_Living, GF_LZone2)
+Number FF_Childrenroom_Temperature    "Children's room temperature [%.1f °C]" <temperature>   (TemperatureFF, maxTemperatureFF, FF_Childrenroom, FF_Thermostat)
+Number FF_Bedroom_Temperature       "Bedroom temperature [%.1f °C]" <temperature>   (TemperatureFF, maxTemperatureFF, FF_Bedroom, FF_Thermostat)
+   
+/* Thermostats */
+Group Thermostats
+Group GF_Thermostat                "Ground Floor Thermostat"            <temperature>   (Thermostats)   ["Thermostat"] 
+Number Temperature_Setpoint_GF     "Temperature [%.1f °C]" <temperature>    (GF_Thermostat)    ["TargetTemperature"]
+Number Temperature_Midpoint_GF     "Temperature [%.1f °C]" <temperature>    (GF_Thermostat)    ["TargetMidTemperature"]
+Group FF_Thermostat                "First Floor Thermostat"            <temperature>    (Thermostats)     ["Thermostat"]
+Number Temperature_Setpoint_FF     "Temperature [%.1f °C]" <temperature>    (FF_Thermostat)    ["TargetTemperature"]
+Number Temperature_Midpoint_FF     "Temperature [%.1f °C]" <temperature>    (FF_Thermostat)    ["TargetMidTemperature"]
+
+//The heating system can work on different settings: 0 for off, 5 for fairly hot and 10 for very hot
+Number Heating_Setting_GF     "Heating setting <temperature>    (GF_Thermostat)    ["HeatingSetting"]
+Number Heating_Setting_FF     "Heating setting <temperature>    (FF_Thermostat)    ["HeatingSetting"]
+
+/* Heating radiators */
+Switch GF_Bathroom_heating   "Bathroom heating"        <heating>   (GF_Bathroom,Heating,HeatingGF)
+Switch GF_Living_heating1  "Livingroom 1 heating"   <heating>   (GF_Living,Heating,HeatingGF)
+Switch GF_Living_heating2  "Livingroom 2 heating"   <heating>   (GF_Living,Heating,HeatingGF)
+Switch GF_Kitchen_heating "Kitchen heating"       <heating>  (GF_Kitchen,Heating,HeatingGF)
+Switch FF_Childrenroom_heating  "Children's room heating"          <heating>   (FF_Childrenroom,Heating,HeatingFF)
+Switch Heating_FF_Bedroom "Bedroom heating"       <heating>  (FF_Bedroom,Heating,HeatingFF)
+
+/* Windows */
+Contact GF_Frontdoor     "Frontdoor [%s]"   <frontdoor>  (GF_Living)
+Contact GF_Living_Window     "Living room window [%s]"   <window>  (GF_Living, WindowsStatus, WindowsGF)
+Contact GF_Bathroom_Window     "Bathroom window [%s]"   <window>  (GF_Bathroom, WindowsStatus, WindowsGF)
+Contact GF_Kitchen_Window     "Kitchen window [%s]"   <window>  (GF_Kitchen, WindowsStatus, WindowsGF)
+Contact FF_Bedroom_Window  "Bedroom window [%s]"                    (FF_Bedroom, WindowsStatus, WindowsFF)
+Contact FF_ChildrenRoom_Window "Children's room window [%s]"              (FF_Childrenroom, WindowsStatus, WindowsFF)
+
+
+/*Outside Air Quality items (CO2)*/
+
+Number   OutsideAqi  "Outside Air Quality Index [%d]" <flow> (AQOutsideStatus){channel=""}
+String   OutsideAqi_Description     "AQI Level Outside [MAP(airquality.map):%s]" <flow> (LivingRoom) { channel="" }
+
+/* Inside Air Quality sensors (CO2)*/
+Group:Number:AVG AQInsideCO2 "AQ Inside"  
+Number GF_Bathroom_AqCO2  "Bathroom air [%d]" <flow> (AQInsideCO2)
+Number GF_Kitchen_AqCO2  "Kitchen air [%d]" <flow> (AQInsideCO2)
+Number GF_Living_AqCO2  "Living room air [%d]" <flow> (AQInsideCO2)
+Number FF_Corridor_AqCO2  "First floor air [%d]" <flow> (AQInsideCO2)
+String GF_Bathroom_AqDescription "Bathroom index AQI indoor [%s]"
+String GF_Kitchen_AqDescription "Kitchen index AQI indoor [%s]"
+String GF_Living_AqDescription "Living room index AQI indoor [%s]"
+String FF_Corridor_AqDescription "First floor index AQI indoor [%s]"
+
+
+/* Smoke detectors sensors */
+Switch  GF_Kitchen_Smoke      "Kitchen Smoke"      (gSmokeGF)
+Switch  GF_Living_Smoke       "Living Smoke"       (gSmokeGF)                                      
+Switch  FF_Corridor_Smoke     "First Floor Smoke"  (gSmokeFF) 
+
+/*Fire Allarm*/
+Switch  fireAlarmGF    "Living Fire Alarm"      
+Switch  fireAlarmFF    "Corridor Fire Alarm"      

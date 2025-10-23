@@ -1,0 +1,17 @@
+abstract pattern RegionalPlannerMAPE {
+	system Sys
+
+	group Interface {
+		managedSyS Sys
+		components M, A, E
+	}
+
+	group Main {
+		components P
+	}
+
+	interaction Interface.M -> Interface.A [1,1]
+	interaction Interface.A -> Main.P [*-ALL,1]
+	interaction Main.P -> Interface.E [1,*-ALL]
+	interaction Main.P -> Main.P [*-ALL,*-ALL]
+}

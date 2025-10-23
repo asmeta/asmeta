@@ -1,0 +1,16 @@
+abstract pattern CoordinatedControlMAPE {
+	system Sys
+
+	group Interface {
+		managedSyS Sys
+		components M, A, P, E
+	}
+
+	interaction Interface.M -> Interface.A [1,1]
+	interaction Interface.A -> Interface.P [1,1]
+	interaction Interface.P -> Interface.E [1,1]
+	interaction Interface.M -> Interface.M [*-ALL,*-ALL]
+	interaction Interface.A -> Interface.A [*-ALL,*-ALL]
+	interaction Interface.P -> Interface.P [*-ALL,*-ALL]
+	interaction Interface.E -> Interface.E [*-ALL,*-ALL]
+}

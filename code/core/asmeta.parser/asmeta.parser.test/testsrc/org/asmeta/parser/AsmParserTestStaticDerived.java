@@ -95,7 +95,7 @@ public class AsmParserTestStaticDerived extends AsmParserTest {
 			if (string.contains("flashProtocol\\old")); else
 			if (string.contains("test\\errors")); else				
 			if (string.contains("repository\\errors")); else				
-			if (string.contains("workspacePatrizia")); else				
+			if (string.contains("workspaceMSL")); else				
 			if (string.contains("template")); else	
 			if (string.contains("safePillboxForPaper")); else	
 			if (string.contains("target\\classes")); else	

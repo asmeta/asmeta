@@ -1,0 +1,205 @@
+//Windows conflicts are resolved.
+
+Running interactively MySmartHomeAQ_HC_refined.asm
+INITIAL STATE:HighAQ_HCMgA={high_aq_hs}
+IntHCMgA={int_hc_ff,int_hc_gf}
+MainAQMgA={main_aq}
+MainHCMgA={main_hc}
+SysMdA={aqs,hs_ff,hs_gf}
+Insert a constant in Temperature of type Integer for temperature(hs_gf):
+17
+Insert a constant in Temperature of type Integer for temperature_Setpoint(hs_gf):
+20
+Insert a constant in Temperature of type Integer for temperature_Midpoint(hs_gf):
+8
+Insert a symbol of WindowStatus in [OPEN, CLOSED] for windowsStatus(hs_gf):
+OPEN
+Insert a symbol of HeatingStatus in [ON, OFF] for heatingStatus(hs_gf):
+ON
+Insert a constant in Temperature of type Integer for temperature(hs_ff):
+18
+Insert a constant in Temperature of type Integer for temperature_Setpoint(hs_ff):
+20
+Insert a constant in Temperature of type Integer for temperature_Midpoint(hs_ff):
+8
+Insert a symbol of WindowStatus in [OPEN, CLOSED] for windowsStatus(hs_ff):
+OPEN
+Insert a symbol of HeatingStatus in [ON, OFF] for heatingStatus(hs_ff):
+ON
+Insert a integer constant for outsideAqi(aqs):
+60
+Insert a symbol of WindowStatus in [OPEN, CLOSED] for windowsStatus(aqs):
+OPEN
+Insert a integer constant for aQInsideCO2(aqs):
+1550
+<UpdateSet - 0>
+aQInsideCO2Saved(main_aq)=1550
+heatingStatusSaved(int_hc_ff)=ON
+heatingStatusSaved(int_hc_gf)=ON
+heating_Setting(hs_ff)=undef
+heating_Setting(hs_gf)=undef
+loopAQCompleted(main_aq)=false
+loopHCCompleted(int_hc_ff)=false
+loopHCCompleted(int_hc_gf)=false
+outsideAqiSaved(main_aq)=60
+sgnIntHCMMainHCM(int_hc_ff,main_hc)=true
+sgnIntHCMMainHCM(int_hc_gf,main_hc)=true
+sgnMainAQMtoA(main_aq)=true
+temperatureSaved(int_hc_ff)=18
+temperatureSaved(int_hc_gf)=17
+temperature_MidpointSaved(int_hc_ff)=8
+temperature_MidpointSaved(int_hc_gf)=8
+temperature_SetpointSaved(int_hc_ff)=20
+temperature_SetpointSaved(int_hc_gf)=20
+windowsStatusSaved(int_hc_ff)=OPEN
+windowsStatusSaved(int_hc_gf)=OPEN
+windowsStatusSaved(main_aq)=OPEN
+windows_Setting(hs_ff)=undef
+windows_Setting(hs_gf)=undef
+</UpdateSet>
+<State 1 (controlled)>
+HighAQ_HCMgA={high_aq_hs}
+IntHCMgA={int_hc_ff,int_hc_gf}
+MainAQMgA={main_aq}
+MainHCMgA={main_hc}
+SysMdA={aqs,hs_ff,hs_gf}
+aQInsideCO2Saved(main_aq)=1550
+heatingStatusSaved(int_hc_ff)=ON
+heatingStatusSaved(int_hc_gf)=ON
+heating_Setting(hs_ff)=undef
+heating_Setting(hs_gf)=undef
+loopAQCompleted(main_aq)=false
+loopHCCompleted(int_hc_ff)=false
+loopHCCompleted(int_hc_gf)=false
+outsideAqiSaved(main_aq)=60
+sgnIntHCMMainHCM(int_hc_ff,main_hc)=true
+sgnIntHCMMainHCM(int_hc_gf,main_hc)=true
+sgnMainAQMtoA(main_aq)=true
+temperatureSaved(int_hc_ff)=18
+temperatureSaved(int_hc_gf)=17
+temperature_MidpointSaved(int_hc_ff)=8
+temperature_MidpointSaved(int_hc_gf)=8
+temperature_SetpointSaved(int_hc_ff)=20
+temperature_SetpointSaved(int_hc_gf)=20
+windowsStatusSaved(int_hc_ff)=OPEN
+windowsStatusSaved(int_hc_gf)=OPEN
+windowsStatusSaved(main_aq)=OPEN
+windows_Setting(hs_ff)=undef
+windows_Setting(hs_gf)=undef
+</State 1 (controlled)>
+<UpdateSet - 1>
+desiredHeatingSetting(int_hc_ff)=FAIRLY_HOT
+desiredHeatingSetting(int_hc_gf)=FAIRLY_HOT
+desiredWindowsStatus(int_hc_ff)=CLOSED
+desiredWindowsStatus(int_hc_gf)=CLOSED
+desiredWindowsStatus(main_aq)=OPEN
+heating_Setting(hs_ff)=undef
+heating_Setting(hs_gf)=undef
+nolongerBadAirInside=false
+sgnIntHCMMainHCM(int_hc_ff,main_hc)=false
+sgnIntHCMMainHCM(int_hc_gf,main_hc)=false
+sgnMainAQAtoE(main_aq)=true
+sgnMainAQMtoA(main_aq)=false
+sgnMainHCEIntHCE(main_hc,int_hc_ff)=true
+sgnMainHCEIntHCE(main_hc,int_hc_gf)=true
+windows_Setting(hs_ff)=undef
+windows_Setting(hs_gf)=undef
+</UpdateSet>
+<State 2 (controlled)>
+HighAQ_HCMgA={high_aq_hs}
+IntHCMgA={int_hc_ff,int_hc_gf}
+MainAQMgA={main_aq}
+MainHCMgA={main_hc}
+SysMdA={aqs,hs_ff,hs_gf}
+aQInsideCO2Saved(main_aq)=1550
+desiredHeatingSetting(int_hc_ff)=FAIRLY_HOT
+desiredHeatingSetting(int_hc_gf)=FAIRLY_HOT
+desiredWindowsStatus(int_hc_ff)=CLOSED
+desiredWindowsStatus(int_hc_gf)=CLOSED
+desiredWindowsStatus(main_aq)=OPEN
+heatingStatusSaved(int_hc_ff)=ON
+heatingStatusSaved(int_hc_gf)=ON
+heating_Setting(hs_ff)=undef
+heating_Setting(hs_gf)=undef
+loopAQCompleted(main_aq)=false
+loopHCCompleted(int_hc_ff)=false
+loopHCCompleted(int_hc_gf)=false
+nolongerBadAirInside=false
+outsideAqiSaved(main_aq)=60
+sgnIntHCMMainHCM(int_hc_ff,main_hc)=false
+sgnIntHCMMainHCM(int_hc_gf,main_hc)=false
+sgnMainAQAtoE(main_aq)=true
+sgnMainAQMtoA(main_aq)=false
+sgnMainHCEIntHCE(main_hc,int_hc_ff)=true
+sgnMainHCEIntHCE(main_hc,int_hc_gf)=true
+temperatureSaved(int_hc_ff)=18
+temperatureSaved(int_hc_gf)=17
+temperature_MidpointSaved(int_hc_ff)=8
+temperature_MidpointSaved(int_hc_gf)=8
+temperature_SetpointSaved(int_hc_ff)=20
+temperature_SetpointSaved(int_hc_gf)=20
+windowsStatusSaved(int_hc_ff)=OPEN
+windowsStatusSaved(int_hc_gf)=OPEN
+windowsStatusSaved(main_aq)=OPEN
+windows_Setting(hs_ff)=undef
+windows_Setting(hs_gf)=undef
+</State 2 (controlled)>
+<UpdateSet - 2>
+commands(aqs)=[WindowsGF.sendCommand(OPEN),WindowsFF.sendCommand(OPEN)]
+commands(hs_ff)=[Heating_Setting_FF.sendCommand(5)]
+commands(hs_gf)=[Heating_Setting_GF.sendCommand(5)]
+heating_Setting(hs_ff)=undef
+heating_Setting(hs_gf)=undef
+loopAQCompleted(main_aq)=true
+loopHCCompleted(int_hc_ff)=true
+loopHCCompleted(int_hc_gf)=true
+sgnMainAQAtoE(main_aq)=false
+sgnMainHCEIntHCE(main_hc,int_hc_ff)=false
+sgnMainHCEIntHCE(main_hc,int_hc_gf)=false
+windows_Setting(aqs)=undef
+windows_Setting(hs_ff)=undef
+windows_Setting(hs_gf)=undef
+</UpdateSet>
+<State 3 (controlled)>
+HighAQ_HCMgA={high_aq_hs}
+IntHCMgA={int_hc_ff,int_hc_gf}
+MainAQMgA={main_aq}
+MainHCMgA={main_hc}
+SysMdA={aqs,hs_ff,hs_gf}
+aQInsideCO2Saved(main_aq)=1550
+commands(aqs)=[WindowsGF.sendCommand(OPEN),WindowsFF.sendCommand(OPEN)]
+commands(hs_ff)=[Heating_Setting_FF.sendCommand(5)]
+commands(hs_gf)=[Heating_Setting_GF.sendCommand(5)]
+desiredHeatingSetting(int_hc_ff)=FAIRLY_HOT
+desiredHeatingSetting(int_hc_gf)=FAIRLY_HOT
+desiredWindowsStatus(int_hc_ff)=CLOSED
+desiredWindowsStatus(int_hc_gf)=CLOSED
+desiredWindowsStatus(main_aq)=OPEN
+heatingStatusSaved(int_hc_ff)=ON
+heatingStatusSaved(int_hc_gf)=ON
+heating_Setting(hs_ff)=undef
+heating_Setting(hs_gf)=undef
+loopAQCompleted(main_aq)=true
+loopHCCompleted(int_hc_ff)=true
+loopHCCompleted(int_hc_gf)=true
+nolongerBadAirInside=false
+outsideAqiSaved(main_aq)=60
+sgnIntHCMMainHCM(int_hc_ff,main_hc)=false
+sgnIntHCMMainHCM(int_hc_gf,main_hc)=false
+sgnMainAQAtoE(main_aq)=false
+sgnMainAQMtoA(main_aq)=false
+sgnMainHCEIntHCE(main_hc,int_hc_ff)=false
+sgnMainHCEIntHCE(main_hc,int_hc_gf)=false
+temperatureSaved(int_hc_ff)=18
+temperatureSaved(int_hc_gf)=17
+temperature_MidpointSaved(int_hc_ff)=8
+temperature_MidpointSaved(int_hc_gf)=8
+temperature_SetpointSaved(int_hc_ff)=20
+temperature_SetpointSaved(int_hc_gf)=20
+windowsStatusSaved(int_hc_ff)=OPEN
+windowsStatusSaved(int_hc_gf)=OPEN
+windowsStatusSaved(main_aq)=OPEN
+windows_Setting(aqs)=undef
+windows_Setting(hs_ff)=undef
+windows_Setting(hs_gf)=undef
+</State 3 (controlled)>

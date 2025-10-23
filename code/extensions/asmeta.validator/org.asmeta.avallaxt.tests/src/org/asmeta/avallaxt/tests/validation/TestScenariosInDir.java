@@ -61,7 +61,7 @@ public class TestScenariosInDir extends TestParserAndValidation {
 		while (files.hasNext()) {
 			Path fileToRead = files.next();
 			String scenarioName = fileToRead.toString();
-			if (scenarioName.contains("workspacePatrizia")) continue;
+			if (scenarioName.contains("workspaceMSL")) continue;
 			if (scenarioName.endsWith(".avalla") && Files.isRegularFile(fileToRead)) {
 				if (checkPossibleFaults(scenarioName) != PossibleFaults_NONE) {
 					filexWithErrors.add(scenarioName);

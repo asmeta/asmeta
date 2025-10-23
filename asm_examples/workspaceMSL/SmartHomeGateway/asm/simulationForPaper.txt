@@ -1,0 +1,161 @@
+INFO - parsing file /Users/parcaini/Desktop/Asmeta/asm_examples/workspaceMSL/SmartHomeGateway/asm/MySmartHomeHC_refined.asm
+INFO - file successfully parsed for asm MySmartHomeHC_refined
+Running interactively MySmartHomeHC_refined.asm
+INITIAL STATE:HeatingMdA={hs_ff,hs_gf}
+IntHCMgA={int_hc_ff,int_hc_gf}
+MainHCMgA={main_hc}
+Insert a constant in Temperature of type Integer for temperature(hs_gf):
+18
+Insert a constant in Temperature of type Integer for temperature_Setpoint(hs_gf):
+20
+Insert a constant in Temperature of type Integer for temperature_Midpoint(hs_gf):
+15
+Insert a symbol of WindowStatus in [OPEN, CLOSED] for windowsStatus(hs_gf):
+OPEN
+Insert a symbol of HeatingStatus in [ON, OFF] for heatingStatus(hs_gf):
+ON
+Insert a constant in Temperature of type Integer for temperature(hs_ff):
+18
+Insert a constant in Temperature of type Integer for temperature_Setpoint(hs_ff):
+20
+Insert a constant in Temperature of type Integer for temperature_Midpoint(hs_ff):
+15
+Insert a symbol of WindowStatus in [OPEN, CLOSED] for windowsStatus(hs_ff):
+CLOSED
+Insert a symbol of HeatingStatus in [ON, OFF] for heatingStatus(hs_ff):
+ON
+<UpdateSet - 0>
+commands(hs_ff)=[]
+commands(hs_gf)=[]
+heatingStatusSaved(int_hc_ff)=ON
+heatingStatusSaved(int_hc_gf)=ON
+heating_Setting(hs_ff)=undef
+heating_Setting(hs_gf)=undef
+loopHCCompleted(int_hc_ff)=false
+loopHCCompleted(int_hc_gf)=false
+sgnIntHCMMainHCM(int_hc_ff,main_hc)=true
+sgnIntHCMMainHCM(int_hc_gf,main_hc)=true
+temperatureSaved(int_hc_ff)=18
+temperatureSaved(int_hc_gf)=18
+temperature_MidpointSaved(int_hc_ff)=15
+temperature_MidpointSaved(int_hc_gf)=15
+temperature_SetpointSaved(int_hc_ff)=20
+temperature_SetpointSaved(int_hc_gf)=20
+windowsStatusSaved(int_hc_ff)=CLOSED
+windowsStatusSaved(int_hc_gf)=OPEN
+windows_Setting(hs_ff)=undef
+windows_Setting(hs_gf)=undef
+</UpdateSet>
+<State 1 (controlled)>
+HeatingMdA={hs_ff,hs_gf}
+IntHCMgA={int_hc_ff,int_hc_gf}
+MainHCMgA={main_hc}
+commands(hs_ff)=[]
+commands(hs_gf)=[]
+heatingStatusSaved(int_hc_ff)=ON
+heatingStatusSaved(int_hc_gf)=ON
+heating_Setting(hs_ff)=undef
+heating_Setting(hs_gf)=undef
+loopHCCompleted(int_hc_ff)=false
+loopHCCompleted(int_hc_gf)=false
+sgnIntHCMMainHCM(int_hc_ff,main_hc)=true
+sgnIntHCMMainHCM(int_hc_gf,main_hc)=true
+temperatureSaved(int_hc_ff)=18
+temperatureSaved(int_hc_gf)=18
+temperature_MidpointSaved(int_hc_ff)=15
+temperature_MidpointSaved(int_hc_gf)=15
+temperature_SetpointSaved(int_hc_ff)=20
+temperature_SetpointSaved(int_hc_gf)=20
+windowsStatusSaved(int_hc_ff)=CLOSED
+windowsStatusSaved(int_hc_gf)=OPEN
+windows_Setting(hs_ff)=undef
+windows_Setting(hs_gf)=undef
+</State 1 (controlled)>
+<UpdateSet - 1>
+commands(hs_ff)=[]
+commands(hs_gf)=[]
+desiredHeatingSetting(int_hc_ff)=FAIRLY_HOT
+desiredHeatingSetting(int_hc_gf)=FAIRLY_HOT
+desiredWindowsStatus(int_hc_gf)=CLOSED
+heating_Setting(hs_ff)=undef
+heating_Setting(hs_gf)=undef
+sgnIntHCMMainHCM(int_hc_ff,main_hc)=false
+sgnIntHCMMainHCM(int_hc_gf,main_hc)=false
+sgnMainHCEIntHCE(main_hc,int_hc_ff)=true
+sgnMainHCEIntHCE(main_hc,int_hc_gf)=true
+windows_Setting(hs_ff)=undef
+windows_Setting(hs_gf)=undef
+</UpdateSet>
+<State 2 (controlled)>
+HeatingMdA={hs_ff,hs_gf}
+IntHCMgA={int_hc_ff,int_hc_gf}
+MainHCMgA={main_hc}
+commands(hs_ff)=[]
+commands(hs_gf)=[]
+desiredHeatingSetting(int_hc_ff)=FAIRLY_HOT
+desiredHeatingSetting(int_hc_gf)=FAIRLY_HOT
+desiredWindowsStatus(int_hc_gf)=CLOSED
+heatingStatusSaved(int_hc_ff)=ON
+heatingStatusSaved(int_hc_gf)=ON
+heating_Setting(hs_ff)=undef
+heating_Setting(hs_gf)=undef
+loopHCCompleted(int_hc_ff)=false
+loopHCCompleted(int_hc_gf)=false
+sgnIntHCMMainHCM(int_hc_ff,main_hc)=false
+sgnIntHCMMainHCM(int_hc_gf,main_hc)=false
+sgnMainHCEIntHCE(main_hc,int_hc_ff)=true
+sgnMainHCEIntHCE(main_hc,int_hc_gf)=true
+temperatureSaved(int_hc_ff)=18
+temperatureSaved(int_hc_gf)=18
+temperature_MidpointSaved(int_hc_ff)=15
+temperature_MidpointSaved(int_hc_gf)=15
+temperature_SetpointSaved(int_hc_ff)=20
+temperature_SetpointSaved(int_hc_gf)=20
+windowsStatusSaved(int_hc_ff)=CLOSED
+windowsStatusSaved(int_hc_gf)=OPEN
+windows_Setting(hs_ff)=undef
+windows_Setting(hs_gf)=undef
+</State 2 (controlled)>
+<UpdateSet - 2>
+commands(hs_ff)=[Heating_Setting_FF.sendCommand(5)]
+commands(hs_gf)=[Heating_Setting_GF.sendCommand(5),Windows_GF.sendCommand(CLOSED)]
+heating_Setting(hs_ff)=undef
+heating_Setting(hs_gf)=undef
+loopHCCompleted(int_hc_ff)=true
+loopHCCompleted(int_hc_gf)=true
+sgnMainHCEIntHCE(main_hc,int_hc_ff)=false
+sgnMainHCEIntHCE(main_hc,int_hc_gf)=false
+windows_Setting(hs_ff)=undef
+windows_Setting(hs_gf)=undef
+</UpdateSet>
+<State 3 (controlled)>
+HeatingMdA={hs_ff,hs_gf}
+IntHCMgA={int_hc_ff,int_hc_gf}
+MainHCMgA={main_hc}
+commands(hs_ff)=[Heating_Setting_FF.sendCommand(5)]
+commands(hs_gf)=[Heating_Setting_GF.sendCommand(5),Windows_GF.sendCommand(CLOSED)]
+desiredHeatingSetting(int_hc_ff)=FAIRLY_HOT
+desiredHeatingSetting(int_hc_gf)=FAIRLY_HOT
+desiredWindowsStatus(int_hc_gf)=CLOSED
+heatingStatusSaved(int_hc_ff)=ON
+heatingStatusSaved(int_hc_gf)=ON
+heating_Setting(hs_ff)=undef
+heating_Setting(hs_gf)=undef
+loopHCCompleted(int_hc_ff)=true
+loopHCCompleted(int_hc_gf)=true
+sgnIntHCMMainHCM(int_hc_ff,main_hc)=false
+sgnIntHCMMainHCM(int_hc_gf,main_hc)=false
+sgnMainHCEIntHCE(main_hc,int_hc_ff)=false
+sgnMainHCEIntHCE(main_hc,int_hc_gf)=false
+temperatureSaved(int_hc_ff)=18
+temperatureSaved(int_hc_gf)=18
+temperature_MidpointSaved(int_hc_ff)=15
+temperature_MidpointSaved(int_hc_gf)=15
+temperature_SetpointSaved(int_hc_ff)=20
+temperature_SetpointSaved(int_hc_gf)=20
+windowsStatusSaved(int_hc_ff)=CLOSED
+windowsStatusSaved(int_hc_gf)=OPEN
+windows_Setting(hs_ff)=undef
+windows_Setting(hs_gf)=undef
+</State 3 (controlled)>
+Insert a constant in Temperature of type Integer for temperature(hs_gf):
