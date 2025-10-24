@@ -1,5 +1,0 @@
-AdvancedClock
-The advanced clock is a clock that at each step increment the seconds, 
-when seconds reaches 60 the minutes increment and seconds are reset to 0, 
-when minutes reaches 60 minutes the hours increment.
-
