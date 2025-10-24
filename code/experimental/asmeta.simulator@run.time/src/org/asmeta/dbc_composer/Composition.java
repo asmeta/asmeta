@@ -381,7 +381,41 @@ class ParN extends NComposition {
 		// System.out.println(up.toString());
 		return up;
 	}
+	
+	@Override
+	UpdateSet eval(boolean dbc) throws CompositionException {
+		UpdateSet up = null;
+		if (dbc) {
+			try {
+				up = c.get(0).eval(true);
+				for (int i = 1; i < c.size(); i++) {
+					UpdateSet tempUp = c.get(i).eval(true);
+					up.union(tempUp);
+				}
+				c.get(c.size() - 1).copyMonitored(up);
+			} catch (InvalidInvariantException e) {
+				System.out.println(e.getInvariant());
+				EList<Function> constFunList = e.getInvariant().getConstrainedFunction();
+				System.out.println(e.getInvariant().getConstrainedFunction());
+				for (Function f : constFunList) {
+					if (Defs.isMonitored(f))
+						// System.out.println("Precondition violation over " + f.getName());
+						throw new PreconditionViolationException("Precondition violation over " + f.getName());
+					else if (Defs.isOut(f))
+						// System.out.println("Postcondition violation over " + f.getName());
+						throw new PostconditionViolationException("Postcondition violation over " + f.getName());
+					else
+						// System.out.println("Invariant violation over " + f.getName());
+						throw new InvariantViolationException("Invariant violation over " + f.getName());
+				}
+			}
+		} else {
+			up = eval();
+		}
+		return up;// if dbc check inv else eval(); return eval();
+	}
 
+	
 	@Override
 	public String toString() {
 		String stringa = c.get(0).toString();
@@ -391,9 +425,4 @@ class ParN extends NComposition {
 		return stringa;
 	}
 
-	@Override
-	UpdateSet eval(boolean dbc) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

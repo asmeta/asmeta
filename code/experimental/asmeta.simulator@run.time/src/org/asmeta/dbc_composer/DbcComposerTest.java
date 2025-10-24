@@ -52,7 +52,42 @@ public class DbcComposerTest {
 	@Test
 	public void testPipe() throws Exception {
 		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
-		PipeN c = new PipeN(new LeafAsm(path+"asmCPrePost.asm"), new LeafAsm(path + "asmCPrePostInc.asm"));
+		PipeN c = new PipeN(new LeafAsm(path+"asmCPrePost.asm"), new LeafAsm(path + "asmCPrePostInc.asm"), new LeafAsm(path + "asmCPrePostMult.asm"));
+		try {
+			c.eval(true);
+			System.out.println(c.toString());
+			System.out.println(" ===== new step =====");
+			c.eval(true);
+			System.out.println(c.toString());
+		} catch (CompositionException e) {
+			System.out.println(e.getMessage());
+			System.out.println(c.toString());
+		}
+	}
+	
+	@Test
+	public void testPar() throws Exception {
+		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
+		ParN c = new ParN(new LeafAsm(path+"asmCPrePost.asm"), new LeafAsm(path + "asmCPrePost.asm"));
+		try {
+			c.eval(true);
+			System.out.println(c.toString());
+			System.out.println(" ===== new step =====");
+			c.eval(true);
+			System.out.println(c.toString());
+		} catch (CompositionException e) {
+			System.out.println(e.getMessage());
+			System.out.println(c.toString());
+		}
+	}
+	
+	
+	@Test
+	//asmCPrePostPar | (asmCPrePostInc || asmCPrePostMult)
+	public void testPipePar() throws Exception {
+		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
+		ParN c2 = new ParN(new LeafAsm(path+"asmCPrePostInc.asm"), new LeafAsm(path + "asmCPrePostMult.asm"));
+		PipeN c = new PipeN(new LeafAsm(path+"asmCPrePostPar.asm"),c2);
 		try {
 			c.eval(true);
 			System.out.println(c.toString());

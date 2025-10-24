@@ -170,6 +170,7 @@ public class CompositionTest {
 		PipeN asm = new PipeN(new LeafAsm(path + "asmC.asm"), new LeafAsm(path + "asmS.asm"),
 				new LeafAsm(path + "asmH.asm"));
 		asm.eval();
+		System.out.println(asm.toString());
 	}
 
 	/*
