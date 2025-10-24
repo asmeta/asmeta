@@ -288,9 +288,34 @@ class BiPipeHalfDup extends BiComposition {
 	}
 
 	@Override
-	UpdateSet eval(boolean dbc) {
-		// TODO Auto-generated method stub
-		return null;
+	UpdateSet eval(boolean dbc) throws CompositionException {
+		UpdateSet up = null;
+		if (dbc) {
+			try {
+				up = c1.eval(true);
+				c2.copyMonitored(up);
+				up = c2.eval(true);
+				c1.copyMonitored(up);
+			} catch (InvalidInvariantException e) {
+				System.out.println(e.getInvariant());
+				EList<Function> constFunList = e.getInvariant().getConstrainedFunction();
+				System.out.println(e.getInvariant().getConstrainedFunction());
+				for (Function f : constFunList) {
+					if (Defs.isMonitored(f))
+						// System.out.println("Precondition violation over " + f.getName());
+						throw new PreconditionViolationException("Precondition violation over " + f.getName());
+					else if (Defs.isOut(f))
+						// System.out.println("Postcondition violation over " + f.getName());
+						throw new PostconditionViolationException("Postcondition violation over " + f.getName());
+					else
+						// System.out.println("Invariant violation over " + f.getName());
+						throw new InvariantViolationException("Invariant violation over " + f.getName());
+				}
+			}
+		} else {
+			up = eval();
+		}
+		return up;// if dbc check inv else eval(); return eval();
 	}
 }
 
@@ -325,7 +350,7 @@ class BiPipeFullDup extends BiComposition {
 		// double eval to simulate parallel
 
 		UpdateSet up1 = c1.eval();
-		// TODO: COPIO LE MONITORATE ACQUISITE PER C1 IN C2
+		// COPIO LE MONITORATE ACQUISITE PER C1 IN C2
 		// POI FA STEP C1 E STEP C2
 		UpdateSet up2 = c2.eval();
 		c2.copyMonitored(up1);
@@ -341,9 +366,36 @@ class BiPipeFullDup extends BiComposition {
 	}
 
 	@Override
-	UpdateSet eval(boolean dbc) {
-		// TODO Auto-generated method stub
-		return null;
+	UpdateSet eval(boolean dbc) throws CompositionException {
+		UpdateSet up1 = null;
+		UpdateSet up2 = null;
+		if (dbc) {
+			try {
+				up1 = c1.eval(true);
+				up2 = c2.eval(true);
+				c2.copyMonitored(up1);
+				c1.copyMonitored(up2);
+				up1.union(up2);
+			} catch (InvalidInvariantException e) {
+				System.out.println(e.getInvariant());
+				EList<Function> constFunList = e.getInvariant().getConstrainedFunction();
+				System.out.println(e.getInvariant().getConstrainedFunction());
+				for (Function f : constFunList) {
+					if (Defs.isMonitored(f))
+						// System.out.println("Precondition violation over " + f.getName());
+						throw new PreconditionViolationException("Precondition violation over " + f.getName());
+					else if (Defs.isOut(f))
+						// System.out.println("Postcondition violation over " + f.getName());
+						throw new PostconditionViolationException("Postcondition violation over " + f.getName());
+					else
+						// System.out.println("Invariant violation over " + f.getName());
+						throw new InvariantViolationException("Invariant violation over " + f.getName());
+				}
+			}
+		} else {
+			up1 = eval();
+		}
+		return up1;// if dbc check inv else eval(); return eval();
 	}
 
 }

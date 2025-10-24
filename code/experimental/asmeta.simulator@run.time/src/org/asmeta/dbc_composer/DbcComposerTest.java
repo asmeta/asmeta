@@ -100,4 +100,38 @@ public class DbcComposerTest {
 		}
 	}
 	
+	@Test
+	//asmCPrePost <|> asmCPrePostIncBip
+	public void testBiPipe() throws Exception {
+		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
+		BiPipeHalfDup c = new BiPipeHalfDup(new LeafAsm(path+"asmCPrePost.asm"), new LeafAsm(path + "asmCPrePostIncBip.asm"));
+		try {
+			c.eval(true);
+			System.out.println(c.toString());
+			System.out.println(" ===== new step =====");
+			c.eval(true);
+			System.out.println(c.toString());
+		} catch (CompositionException e) {
+			System.out.println(e.getMessage());
+			System.out.println(c.toString());
+		}
+	}
+	
+	@Test
+	//asmCPrePost <||> asmCPrePostIncBip
+	public void testFullPipe() throws Exception {
+		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
+		BiPipeFullDup c = new BiPipeFullDup(new LeafAsm(path+"asmCPrePost.asm"), new LeafAsm(path + "asmCPrePostIncBip.asm"));
+		try {
+			c.eval(true);
+			System.out.println(c.toString());
+			System.out.println(" ===== new step =====");
+			c.eval(true);
+			System.out.println(c.toString());
+		} catch (CompositionException e) {
+			System.out.println(e.getMessage());
+			System.out.println(c.toString());
+		}
+	}
+	
 }

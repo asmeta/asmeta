@@ -12,7 +12,7 @@ signature:
 
 definitions:
 
-invariant inv_0 over funcS: funcS>=0
+invariant inv_0 over funcS: funcS>=100
 invariant inv_1 over funcC: funcC>=0
 
 	main rule r_Main = 
