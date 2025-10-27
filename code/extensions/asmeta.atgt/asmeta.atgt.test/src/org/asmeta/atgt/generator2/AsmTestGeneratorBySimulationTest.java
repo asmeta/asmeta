@@ -1,7 +1,7 @@
 package org.asmeta.atgt.generator2;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.util.Map;
@@ -11,7 +11,6 @@ import org.junit.Test;
 
 import asmeta.AsmCollection;
 import atgt.coverage.AsmTestSequence;
-import atgt.testseqexport.toAvalla;
 import tgtlib.definitions.expression.type.Variable;
 
 public class AsmTestGeneratorBySimulationTest {
@@ -31,17 +30,39 @@ public class AsmTestGeneratorBySimulationTest {
 	public void testRandomNSTEP() throws Exception {
 		AsmCollection asm = ASMParser.setUpReadAsm(new File("examples/RegistroDiCassav4.asm"));
 		assertNotNull(asm);
-		// if 0, only 1 state
-		AsmTestGeneratorBySimulation gen = new AsmTestGeneratorBySimulation(asm,0,1);
+		// if 0 steps, only 1 state
+		int nSteps = 0;
+		AsmTestGeneratorBySimulation gen = new AsmTestGeneratorBySimulation(asm, nSteps, 1);
 		AsmTestSequence test = gen.getTestSuite().getTests().get(0);
-		assertEquals(test.allInstructions().size(), 1);
-		//
-		gen = new AsmTestGeneratorBySimulation(asm,1,1);
+		test.getState(nSteps); // No exception
+		try {
+			test.getState(nSteps + 1);
+			fail();
+		} catch (IndexOutOfBoundsException e) {
+			// expected
+		}
+		// if 1 step, 2 states
+		nSteps = 1;
+		gen = new AsmTestGeneratorBySimulation(asm, nSteps, 1);
 		test = gen.getTestSuite().getTests().get(0);
-		assertEquals(test.allInstructions().size(), 2);
-
-		toAvalla to = new
-		
+		test.getState(nSteps); // No exception
+		try {
+			test.getState(nSteps + 1);
+			fail();
+		} catch (IndexOutOfBoundsException e) {
+			// expected
+		}
+		// if 10 step, 11 states
+		nSteps = 10;
+		gen = new AsmTestGeneratorBySimulation(asm, nSteps, 1);
+		test = gen.getTestSuite().getTests().get(0);
+		test.getState(nSteps); // No exception
+		try {
+			test.getState(nSteps + 1);
+			fail();
+		} catch (IndexOutOfBoundsException e) {
+			// expected
+		}
 	}
 
 }

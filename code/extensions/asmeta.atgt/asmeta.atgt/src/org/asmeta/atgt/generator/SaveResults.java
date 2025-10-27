@@ -4,9 +4,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
-import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.PrintWriter;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collection;
@@ -98,13 +98,15 @@ public class SaveResults {
 						asmtoImportPath = "\""+ asmtoImportPath  + "\""; 
 					}
 					String scenarioName = ftc.getName().replaceFirst("[.][^.]+$", "");
-					ByteArrayOutputStream writeto = new ByteArrayOutputStream();
-					new toAvalla(writeto, tc,asmtoImportPath,scenarioName).save();
-					// remove step
-					new String(writeto.toByteArray());
-					// TODO
+					ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+					new toAvalla(outputStream, tc, asmtoImportPath, scenarioName).save();
+					// remove last step
+					String avallaContent = outputStream.toString();
+					int lastStepIndex = avallaContent.lastIndexOf("step");
+					if (lastStepIndex != -1)
+						avallaContent = avallaContent.substring(0, lastStepIndex).trim() + System.lineSeparator();
 					// write to the file
-					// TODO
+					Files.writeString(ftc.toPath(), avallaContent);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
