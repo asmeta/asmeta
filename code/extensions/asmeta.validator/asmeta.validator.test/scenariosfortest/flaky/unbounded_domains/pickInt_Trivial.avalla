@@ -1,0 +1,9 @@
+scenario pickInt_Trivial
+load ChooseRandomInt.asm
+
+check myInt = 0;
+
+pick $i := 0;
+step
+
+check myInt = 0;

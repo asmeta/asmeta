@@ -111,8 +111,11 @@ public class RuleEvalWCov extends RuleEvaluator {
 	public UpdateSet visit(UpdateRule r) {
 		logRuleVisit("adding coverage update rule ==> ", r);
 		coveredRules.add(r);
-		coveredUpdateRules.add(r);
-		return super.visit(r);
+		UpdateSet updateSet = super.visit(r);
+		State state = termEval.getState();
+		if (!updateSet.isTrivial(state))
+			coveredUpdateRules.add(r);
+		return updateSet;
 	}
 
 	// Counts iterations (guard-true evaluations) for THIS visit(ForallRule).

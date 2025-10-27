@@ -110,26 +110,28 @@ public class TestCoverage extends TestValidator {
 
 	@Test
 	public void testWithCoverageAndWithoutPickAndNoPick() throws Exception {
-		// Test two scenarios together, one picks the first choose rule and the other
-		// does not
+		// Test two scenarios together, one picks the first choose rule and the other does not
 		testWithCoverageAndWithout("scenariosfortest/flaky/tiny_scheduler/correct_scenarios", true,
 				cov("r_Main()", branch(4, 3, 3), rule(8, 7), update(3, 2), forall(1, 1, 1, 1)));
 	}
 
 	@Test
 	public void testWithCoverageAndWithoutChooseWithoutGuard() throws Exception {
-		// Test coverage of a choose that does not define the guard, 
-		
-		// with picked variable
+		// Test coverage of a choose that does not define the guard, with picked variable
 		testWithCoverageAndWithout("scenariosfortest/flaky/unbounded_domains/pickReal.avalla", true,
 				cov("r_Main()", branch(1, 1, 0), rule(3, 2), update(2, 1), forall(0, 0, 0, 0)));
-		
 		RuleEvalWCov.reset();
 		stringWriter.getBuffer().setLength(0);
-		
-		// without pik
+		// without pick
 		testWithCoverageAndWithout("scenariosfortest/flaky/unbounded_domains/noPickReal.avalla", true,
 				cov("r_Main()", branch(1, 1, 0), rule(3, 2), update(2, 1), forall(0, 0, 0, 0)));
+	}
+	
+	@Test
+	public void testWithCoverageAndWithoutTrivialUpdateCoverage() throws Exception {
+		// If an update rule always fires a trivial update, it is not considered covered in update rule coverage
+		testWithCoverageAndWithout("scenariosfortest/flaky/unbounded_domains/pickInt_Trivial.avalla", true,
+				cov("r_Main()", branch(1, 1, 0), rule(3, 2), update(2, 0), forall(0, 0, 0, 0)));
 	}
 
 	@Test
@@ -145,22 +147,22 @@ public class TestCoverage extends TestValidator {
 	@Test
 	public void testWithCoverageAndWithoutPopulation() throws Exception {
 		List<CoverageOracle> oracles = new ArrayList<>();
-		// scenario 1: forall executed two times, the first with more than one
-		// iteration, the second with zero iterations
+		// scenario 1: forall executed two times, the first with more than one  iteration, the second with zero iterations
 		String scenario = "scenariosforexamples/population/zero_executions.avalla";
 		oracles.add(cov("r_Main()", branch(1, 1, 1), rule(5, 5), update(3, 3), forall(1, 1, 0, 1)));
 		oracles.add(cov("r_dead(Person)", branch(2, 2, 0), rule(3, 3), update(1, 1), forall(0, 0, 0, 0)));
 		oracles.add(cov("r_reproduce(Person)", branch(5, 2, 2), rule(12, 3), update(5, 0), forall(0, 0, 0, 0)));
 		testWithCoverageAndWithout(scenario, true, oracles.toArray(new CoverageOracle[0]));
-		// scenario 2: forall executed two times, the first with more than one
-		// iteration, the second with a single iteration
+		// scenario 2: forall executed two times, the first with more than one iteration, the second with a single iteration
 		scenario = "scenariosforexamples/population/exactly_one_execution.avalla";
 		RuleEvalWCov.reset();
 		oracles.clear();
 		stringWriter.getBuffer().setLength(0);
 		oracles.add(cov("r_Main()", branch(1, 1, 0), rule(5, 5), update(3, 3), forall(1, 0, 1, 1)));
 		oracles.add(cov("r_dead(Person)", branch(2, 2, 1), rule(3, 3), update(1, 1), forall(0, 0, 0, 0)));
-		oracles.add(cov("r_reproduce(Person)", branch(5, 5, 1), rule(12, 12), update(5, 5), forall(0, 0, 0, 0)));
+		// Update rules in r_reproduce(Person) can be trivial (depending on 'extend' random initialization).
+		// To avoid test flakiness, coverage is not checked
+		// oracles.add(cov("r_reproduce(Person)", branch(5, 5, 1), rule(12, 12), update(5, 5), forall(0, 0, 0, 0)));
 		testWithCoverageAndWithout(scenario, true, oracles.toArray(new CoverageOracle[0]));
 		// scenario 3: forall executed two times, both with more than one iteration
 		scenario = "scenariosforexamples/population/multiple_executions.avalla";
@@ -169,7 +171,9 @@ public class TestCoverage extends TestValidator {
 		stringWriter.getBuffer().setLength(0);
 		oracles.add(cov("r_Main()", branch(1, 1, 0), rule(5, 5), update(3, 3), forall(1, 0, 0, 1)));
 		oracles.add(cov("r_dead(Person)", branch(2, 1, 1), rule(3, 2), update(1, 0), forall(0, 0, 0, 0)));
-		oracles.add(cov("r_reproduce(Person)", branch(5, 5, 2), rule(12, 12), update(5, 5), forall(0, 0, 0, 0)));
+		// Update rules in r_reproduce(Person) can be trivial (depending on 'extend' random initialization). 
+		// To avoid test flakiness, coverage is not checked
+		// oracles.add(cov("r_reproduce(Person)", branch(5, 5, 2), rule(12, 12), update(5, 5), forall(0, 0, 0, 0)));
 		testWithCoverageAndWithout(scenario, true, oracles.toArray(new CoverageOracle[0]));
 	}
 
@@ -188,8 +192,7 @@ public class TestCoverage extends TestValidator {
 	public void testWithCoverageAndWithoutATM() throws Exception {
 		String scenario = "scenariosforexamples/atm/atm4.avalla";
 		List<CoverageOracle> oracles = new ArrayList<>();
-		// NOTE: the correctness of the coverage is checked only for a subset of the
-		// macro rules in the asm
+		// NOTE: the correctness of the coverage is checked only for a subset of the macro rules in the asm
 		oracles.add(cov("r_Main()", branch(2, 1, 2), rule(11, 10), update(1, 1), forall(0, 0, 0, 0)));
 		oracles.add(cov("r_insertcard()", branch(2, 2, 1), rule(6, 6), update(3, 3), forall(0, 0, 0, 0)));
 		oracles.add(cov("r_enterPin()", branch(4, 2, 1), rule(12, 6), update(6, 3), forall(0, 0, 0, 0)));

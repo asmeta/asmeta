@@ -328,6 +328,7 @@ public class TestSingleFile extends TestValidator {
 	public void testChooseUnboundedDomains() throws Exception {
 		// 'with true' guard
 		test("scenariosfortest/flaky/unbounded_domains/pickInt.avalla", true, true, true);
+		test("scenariosfortest/flaky/unbounded_domains/pickInt_Trivial.avalla", true, true, true);
 		// omitted 'with' (default 'true' guard)
 		test("scenariosfortest/flaky/unbounded_domains/pickReal.avalla", true, true, true);
 		// 'with false' guard -> fails
