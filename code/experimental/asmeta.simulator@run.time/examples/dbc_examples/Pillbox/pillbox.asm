@@ -1,6 +1,6 @@
 asm pillbox
 
-import  ../STDL/StandardLibrary
+import ../StandardLibrary
 
 // Fourth refinement level of the Pill Box. We further added the function actualConsTime to record the actual assumption time of pills 
 
@@ -15,7 +15,7 @@ signature:
 	//*************************************************
 	// FUNCTIONS
 	//*************************************************
-	//OUT to Reschudeler
+	//OUT to Safe Pillbox
 	out redLed: Compartment -> LedLights
 	out time_consumption: Compartment -> Seq(Natural)
 	out name: Compartment -> String
@@ -26,7 +26,7 @@ signature:
 	out isPillMissed: Compartment -> Boolean
 	out pillTakenWithDelay: Compartment -> Boolean // is true if the patient takes the pill (compartment opened) 
 	
-	//IN from Rescheduler
+	//IN from Safe Pillbox
 	monitored setNewTime: Compartment -> Boolean //if true set new time when pill is missed 
 	monitored setOriginalTime: Compartment -> Boolean //when pill is missed if true reset original time, otherwise set  new time
 	monitored newTime: Compartment -> Natural //new time when pill is missed
@@ -83,7 +83,7 @@ definitions:
 	
 	//These two rules are required because
 	/*if redLed($compartment) = OFF then if (at(time_consumption($compartment),drugIndex($compartment))<systemTime) then r_pillToBeTaken[$compartment] endif endif
-quindi ogni volta controlla se il tempo della medicina ï¿½ inferiore al systemTime e se ï¿½ cosï¿½ dice che ï¿½ da prendere... Perï¿½ se ho medA = 100 e med B=200, a 100 prendo medA ma quando arrivo a 200 mi dice che devo prendere sia medA che medB */	
+quindi ogni volta controlla se il tempo della medicina è inferiore al systemTime e se è così dice che è da prendere... Però se ho medA = 100 e med B=200, a 100 prendo medA ma quando arrivo a 200 mi dice che devo prendere sia medA che medB */	
 		
 	// Rule that implement the writing on the log file
 	rule r_writeToFile($compartment in Compartment) = skip

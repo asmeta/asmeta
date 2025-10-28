@@ -12,7 +12,7 @@ public class DbcComposerTest {
 	 * oggetti Composition C, invocare su C un eval overloaded con controllo
 	 * pre-post e invariants e sollevamento eccezioni dei contratti. Se passa viene
 	 * simulata la composizione, se fallisce deve riportare il msg di errore e l'asm
-	 * che è fallita indicando cosa è fallito (pre-post-invariant)
+	 * che ï¿½ fallita indicando cosa ï¿½ fallito (pre-post-invariant)
 	 */
 
 	String path = "examples/dbc_examples/";
@@ -133,5 +133,48 @@ public class DbcComposerTest {
 			System.out.println(c.toString());
 		}
 	}
+	
+	@Test 
+	public void testParseLeaf() throws Exception {
+		//String a = "( ".concat(path + "asmC.asm").concat(" <|> ").concat(path + "asmCPre.asm").concat(" )");
+		//Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
+		String a = path + "asmCPre.asm";
+		System.out.println(a);
+		Parser asm = new Parser(a);
+		Composition asmC = asm.toComposition();
+		System.out.println(asmC.toString());
+		try {
+			asmC.eval(true);
+			System.out.println(asmC.toString());
+			
+		}
+		catch (CompositionException e) {
+			System.out.println(e.getMessage());
+			System.out.println(asmC.toString());
+		}
+	}
+	
+	@Test 
+	public void testParsePipeN() throws Exception {
+		String a = path + "asmCPrePost.asm";
+		String b = path + "asmCPrePostInc.asm";
+		String c = path + "asmCPrePostInc.asm";
+		String s = "( "+a+" | "+b+" | "+c+" )";
+		//Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
+		System.out.println(s);
+		Parser asm = new Parser(s);
+		Composition asmC = asm.toComposition();
+		System.out.println(asmC.toString());
+		try {
+			asmC.eval(true);
+			System.out.println(asmC.toString());
+			
+		}
+		catch (CompositionException e) {
+			System.out.println(e.getMessage());
+			System.out.println(asmC.toString());
+		}
+	}
+	
 	
 }
