@@ -1,6 +1,6 @@
 asm pillbox
 
-import ../../StandardLibrary
+import ../StandardLibrary
 
 // Fourth refinement level of the Pill Box. We further added the function actualConsTime to record the actual assumption time of pills 
 

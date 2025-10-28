@@ -1,5 +1,5 @@
 asm safePillbox
-import ../../StandardLibrary
+import ../StandardLibrary
 import pillbox_sanitiser
 
 signature:
