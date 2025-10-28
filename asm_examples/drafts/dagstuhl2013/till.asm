@@ -1,6 +1,6 @@
 asm till
 
-import ../STDL/StandardLibrary
+import ../../STDL/StandardLibrary
 
 signature:
 	domain Till subsetof Agent
