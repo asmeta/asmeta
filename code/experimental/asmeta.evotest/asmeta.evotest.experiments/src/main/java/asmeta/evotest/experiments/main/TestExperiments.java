@@ -440,7 +440,7 @@ public class TestExperiments {
 		String avallaOutputDirectory = randomDir + File.separator + asmFileName;
 		String relativePath = computeRelativePath(avallaOutputDirectory, asmPath);
 		int errorsInValidation = computeCoverageFromAsmTestSuite(relativePath, randomSuite, avallaOutputDirectory,
-				reportCsv);
+				reportCsv, false);
 		RuleEvalWCov.reset();
 
 		// Write to data.csv the info about evoavalla execution
@@ -475,7 +475,7 @@ public class TestExperiments {
 		String avallaOutputDirectory = atgtDir + File.separator + asmFileName;
 		String relativePath = computeRelativePath(avallaOutputDirectory, asmPath);
 		int errorsInValidation = computeCoverageFromAsmTestSuite(relativePath, nusmvSuite, avallaOutputDirectory,
-				reportCsv);
+				reportCsv, true);
 		RuleEvalWCov.reset();
 
 		// Write to data.csv the info about evoavalla execution
@@ -633,18 +633,21 @@ public class TestExperiments {
 	 * Validate an ASM specification and compute the coverage given an
 	 * <code>AsmTestSuite<code>
 	 * 
-	 * @param asmPath the path of the asm to be validated
-	 * @param suite   the test suite
-	 * @param testDir where to save the .avalla files
-	 * @param csvPath where to save the experiments stats (it must be a .csv file)
+	 * @param asmPath      the path of the asm to be validated
+	 * @param suite        the test suite
+	 * @param testDir      where to save the .avalla files
+	 * @param csvPath      where to save the experiments stats (it must be a .csv
+	 *                     file)
+	 * @param keepLastStep if true, keep the last step statement, otherwise, remove
+	 *                     it along with all following statements
 	 * @return the number of scenarios for which the validation result in an error
 	 * @throws Exception
 	 */
 	private static int computeCoverageFromAsmTestSuite(String asmPath, AsmTestSuite suite, String testDir,
-			String csvPath) throws Exception {
+			String csvPath, boolean keepLastStep) throws Exception {
 		new File(testDir).mkdirs();
 		SaveResults.saveResults(suite, asmPath, Collections.singleton(FormatsEnum.AVALLA), "",
-				new File(testDir).getAbsolutePath());
+				new File(testDir).getAbsolutePath(), keepLastStep);
 		return computeCoverageFromAvalla(testDir, csvPath);
 	}
 

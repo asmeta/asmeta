@@ -20,181 +20,278 @@ import atgt.testseqexport.toXML;
 public class SaveResults {
 
 	/**
+	 * Save results. Keep last step.
 	 * 
-	 * @param result the already generated test suite
-	 * @param asmetaSpecPath the asmeta file path, the folder containing the .asm file, under which an abstractestsXXX folder is generated, containing the test cases: one file per sequence
-	 * @param formats XML, Avalla
+	 * @param result         the already generated test suite
+	 * @param asmetaSpecPath the asmeta file path, the folder containing the .asm
+	 *                       file, under which an abstractestsXXX folder is
+	 *                       generated, containing the test cases: one file per
+	 *                       sequence
+	 * @param formats        XML, Avalla
+	 * @param config         the config
 	 */
-	public static void saveResults(AsmTestSuite result, String asmetaSpecPath, Collection<FormatsEnum> formats, String config) {
-		saveResults(result, asmetaSpecPath, formats, "abstractests", config, new File(asmetaSpecPath).getParent());
+	public static void saveResults(AsmTestSuite result, String asmetaSpecPath, Collection<FormatsEnum> formats,
+			String config) {
+		saveResults(result, asmetaSpecPath, formats, config, true);
 	}
-	
+
+	/**
+	 * Save results. Keep last step.
+	 *
+	 * @param result         the already generated test suite
+	 * @param asmetaSpecPath the asmeta file path, the folder containing the .asm
+	 *                       file, under which an abstractestsXXX folder is
+	 *                       generated, containing the test cases: one file per
+	 *                       sequence
+	 * @param formats        XML, Avalla
+	 * @param config         the config
+	 * @param outputDir      the output directory
+	 */
+	public static void saveResults(AsmTestSuite result, String asmetaSpecPath, Collection<FormatsEnum> formats,
+			String config, String outputDir) {
+		saveResults(result, asmetaSpecPath, formats, config, outputDir, true);
+	}
+
+	/**
+	 * Save results. Keep last step.
+	 * 
+	 * @param result         the already generated test suite
+	 * @param asmetaSpecPath the asmeta file path, the folder containing the .asm
+	 *                       file, under which an abstractestsXXX folder is
+	 *                       generated, containing the test cases: one file per
+	 *                       sequence
+	 * @param formats        XML, Avalla
+	 * @param foldersuffix   the foldersuffix
+	 * @param config         the config
+	 * @param outputDir      the output directory
+	 */
+	public static void saveResults(AsmTestSuite result, String asmetaSpecPath, Collection<FormatsEnum> formats,
+			String foldersuffix, String config, String outputDir) {
+		saveResults(result, asmetaSpecPath, formats, foldersuffix, config, outputDir, true);
+	}
+
+	/**
+	 * Save results.
+	 * 
+	 * @param result         the already generated test suite
+	 * @param asmetaSpecPath the asmeta file path, the folder containing the .asm
+	 *                       file, under which an abstractestsXXX folder is
+	 *                       generated, containing the test cases: one file per
+	 *                       sequence
+	 * @param formats        XML, Avalla
+	 * @param config         the config
+	 * @param keepLastStep   if true, keep the last step statement, otherwise,
+	 *                       remove it along with all following statements
+	 */
+	public static void saveResults(AsmTestSuite result, String asmetaSpecPath, Collection<FormatsEnum> formats,
+			String config, boolean keepLastStep) {
+		saveResults(result, asmetaSpecPath, formats, "abstractests", config, new File(asmetaSpecPath).getParent(),
+				keepLastStep);
+	}
+
 	/**
 	 * Save results.
 	 *
-	 * @param result the already generated test suite
-	 * @param asmetaSpecPath the asmeta file path, the folder containing the .asm file, under which an abstractestsXXX folder is generated, containing the test cases: one file per sequence
-	 * @param formats XML, Avalla
-	 * @param foldersuffix the foldersuffix
-	 * @param config the config
+	 * @param result         the already generated test suite
+	 * @param asmetaSpecPath the asmeta file path, the folder containing the .asm
+	 *                       file, under which an abstractestsXXX folder is
+	 *                       generated, containing the test cases: one file per
+	 *                       sequence
+	 * @param formats        XML, Avalla
+	 * @param config         the config
+	 * @param outputDir      the output directory
+	 * @param keepLastStep   if true, keep the last step statement, otherwise,
+	 *                       remove it along with all following statements
 	 */
-	public static void saveResults(AsmTestSuite result, String asmetaSpecPath, Collection<FormatsEnum> formats, String config, String outputDir) {
-		saveResults(result, asmetaSpecPath, formats, "", config, outputDir);
+	public static void saveResults(AsmTestSuite result, String asmetaSpecPath, Collection<FormatsEnum> formats,
+			String config, String outputDir, boolean keepLastStep) {
+		saveResults(result, asmetaSpecPath, formats, "", config, outputDir, keepLastStep);
 	}
-	
+
 	/**
+	 * Save results.
 	 * 
-	 * @param result the already generated test suite
-	 * @param asmetaSpecPath the asmeta file path, the folder containing the .asm file, under which an abstractestsXXX folder is generated, containing the test cases: one file per sequence
-	 * @param formats XML, Avalla
+	 * @param result         the already generated test suite
+	 * @param asmetaSpecPath the asmeta file path, the folder containing the .asm
+	 *                       file, under which an abstractestsXXX folder is
+	 *                       generated, containing the test cases: one file per
+	 *                       sequence
+	 * @param formats        XML, Avalla
+	 * @param foldersuffix   the foldersuffix
+	 * @param config         the config
+	 * @param outputDir      the output directory
+	 * @param keepLastStep   if true, keep the last step statement, otherwise,
+	 *                       remove it along with all following statements
 	 */
-	public static void saveResults(AsmTestSuite result, String asmetaSpecPath, Collection<FormatsEnum> formats, String foldersuffix, String config, String outputDir) {
-		if (formats==null || formats.size()==0) {
+	public static void saveResults(AsmTestSuite result, String asmetaSpecPath, Collection<FormatsEnum> formats,
+			String foldersuffix, String config, String outputDir, boolean keepLastStep) {
+		if (formats == null || formats.size() == 0) {
 			System.err.println("No formats specified");
 			return;
 		}
-		if (outputDir==null) outputDir = ".";
-		//System.out.println("Parent: "+parent);		
+		if (outputDir == null)
+			outputDir = ".";
+		// System.out.println("Parent: "+parent);
 		// find new dir where to put files
 		String dirPath = Paths.get(outputDir, foldersuffix).toString();
 		// find new dir where to put files
 		File testFile = new File(dirPath);
 		int i = 1;
-		if (!foldersuffix.equals("")) { 
+		if (!foldersuffix.equals("")) {
 			while (testFile.exists()) {
 				testFile = new File(dirPath + i++);
 			}
 			testFile.mkdir();
 		}
-		//System.out.println("saving tests to " + testFile.getAbsolutePath());
+		// System.out.println("saving tests to " + testFile.getAbsolutePath());
 		// save to output files
 		String allSequences = ""; // used for ProTest, to create a single file with all the sequences
 		for (AsmTestSequence tc : result.getTests()) {
 			try {
 				if (formats.contains(FormatsEnum.XML)) {
-					File ftc = new File(testFile, tc.getName().replace("@","") + ".xml");
+					File ftc = new File(testFile, tc.getName().replace("@", "") + ".xml");
 					PrintStream dst;
 					dst = new PrintStream(new FileOutputStream(ftc));
 					dst.println((new toXML().export(tc)));
 					dst.close();
-				} 
+				}
 				if (formats.contains(FormatsEnum.AVALLA)) {
-					File ftc = new File(testFile, tc.getName().replace("@","") + ".avalla");	
+					File ftc = new File(testFile, tc.getName().replace("@", "") + ".avalla");
 					// get the relative path if possible
 					Path asm_to_import = null;
 					try {
 						asm_to_import = ftc.toPath().getParent().relativize(new File(asmetaSpecPath).toPath());
-					} catch(IllegalArgumentException  ie) {
-						asm_to_import = new File(asmetaSpecPath).toPath().normalize();						
+					} catch (IllegalArgumentException ie) {
+						asm_to_import = new File(asmetaSpecPath).toPath().normalize();
 						try {
-							asm_to_import = new File(ftc.getAbsolutePath()).toPath().getParent().relativize(asm_to_import);
-						} catch(IllegalArgumentException  ie2) {}
-							
-					}	
-					String asmtoImportPath = asm_to_import.toString();
-					// sometimes the path can contain spaces or (1) 
-					if (asmtoImportPath.contains(" ") || asmtoImportPath.contains("(")|| asmtoImportPath.contains(")")) {
-						assert  ! asmtoImportPath.startsWith("\"");
-						asmtoImportPath = "\""+ asmtoImportPath  + "\""; 
+							asm_to_import = new File(ftc.getAbsolutePath()).toPath().getParent()
+									.relativize(asm_to_import);
+						} catch (IllegalArgumentException ie2) {
+						}
+
 					}
-					String scenarioName = ftc.getName().replaceFirst("[.][^.]+$", "");
-					ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-					new toAvalla(outputStream, tc, asmtoImportPath, scenarioName).save();
-					// remove last step
-					String avallaContent = outputStream.toString();
-					int lastStepIndex = avallaContent.lastIndexOf("step");
-					if (lastStepIndex != -1)
-						avallaContent = avallaContent.substring(0, lastStepIndex).trim() + System.lineSeparator();
-					// write to the file
-					Files.writeString(ftc.toPath(), avallaContent);
+					String asmtoImportPath = asm_to_import.toString();
+					// sometimes the path can contain spaces or (1)
+					if (asmtoImportPath.contains(" ") || asmtoImportPath.contains("(")
+							|| asmtoImportPath.contains(")")) {
+						assert !asmtoImportPath.startsWith("\"");
+						asmtoImportPath = "\"" + asmtoImportPath + "\"";
+					}
+					// sometimes (e.g. scenarios from random generation) it is necessary to remove
+					// last step statement
+					if (keepLastStep) {
+						new toAvalla(ftc, tc, asmtoImportPath).save();
+					} else {
+						String scenarioName = ftc.getName().replaceFirst("[.][^.]+$", "");
+						ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+						new toAvalla(outputStream, tc, asmtoImportPath, scenarioName).save();
+						// remove last step
+						String avallaContent = outputStream.toString();
+						int lastStepIndex = avallaContent.lastIndexOf("step");
+						if (lastStepIndex != -1)
+							avallaContent = avallaContent.substring(0, lastStepIndex).trim() + System.lineSeparator();
+						// write to the file
+						Files.writeString(ftc.toPath(), avallaContent);
+					}
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		if (!"".equals(allSequences)) try {
-			File ftc = new File(testFile, config+".protest");
-			PrintWriter fout = new PrintWriter(new FileWriter(ftc));
-			fout.println(allSequences);
-			fout.println("Information of Sequences :\n" + 
-					"2-way");
-			for (i=0; i<result.getTests().size(); i++) fout.print("0 "); // for statistics purposes
-			fout.println();
-			fout.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		if (!"".equals(allSequences))
+			try {
+				File ftc = new File(testFile, config + ".protest");
+				PrintWriter fout = new PrintWriter(new FileWriter(ftc));
+				fout.println(allSequences);
+				fout.println("Information of Sequences :\n" + "2-way");
+				for (i = 0; i < result.getTests().size(); i++)
+					fout.print("0 "); // for statistics purposes
+				fout.println();
+				fout.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 	}
-	
+
 	/** Warning: Avalla is not supported */
 	public static String getResults(AsmTestSuite result, String asmetaSpecPath, FormatsEnum format) {
-		if (format==null) {
+		if (format == null) {
 			throw new RuntimeException("No formats specified");
 		}
 		String parent = new File(asmetaSpecPath).getParent();
-		if (parent==null) parent = ".";
-		//System.out.println("Parent: "+parent);		
+		if (parent == null)
+			parent = ".";
+		// System.out.println("Parent: "+parent);
 		String res = "Set of Sequences :\n";
-		
+
 		for (AsmTestSequence tc : result.getTests()) {
 			switch (format) {
-			case XML: res+= new toXML().export(tc)+"\n"; break;
-			case AVALLA: throw new RuntimeException("Avalla not yet supported as string (only saveToFile");
-			default: throw new RuntimeException("Format not yet supported as string)");
+			case XML:
+				res += new toXML().export(tc) + "\n";
+				break;
+			case AVALLA:
+				throw new RuntimeException("Avalla not yet supported as string (only saveToFile");
+			default:
+				throw new RuntimeException("Format not yet supported as string)");
 			}
 		}
-		res+= "Information of Sequences :\n2-way\n";
-		for (int i=0; i<result.getTests().size(); i++) res+="0 "; // for statistics purposes
+		res += "Information of Sequences :\n2-way\n";
+		for (int i = 0; i < result.getTests().size(); i++)
+			res += "0 "; // for statistics purposes
 		return res;
 	}
-	
+
 	/** Results in Avalla format */
 	public static String[] getAvallaResults(AsmTestSuite result, String baseAvallaName, String asmName) {
-		String[] avallaPath = new String[result.getTests().size()]; 
+		String[] avallaPath = new String[result.getTests().size()];
 		int counter = 0;
-		
+
 		for (AsmTestSequence tc : result.getTests()) {
 			// Create the new avalla file
 			new toAvalla(new File(baseAvallaName.split("\\.avalla")[0] + counter + ".avalla"), tc, asmName).save();
 			avallaPath[counter] = baseAvallaName.split("\\.avalla")[0] + counter + ".avalla";
-			
+
 			counter++;
 		}
-		
+
 		return avallaPath;
 	}
-	
+
 	/** Results in Avalla format */
-	public static String[] getAvallaResults(AsmTestSuite result, String baseAvallaName, String asmName, String destinationPath) {
-		String[] avallaPath = new String[result.getTests().size()]; 
+	public static String[] getAvallaResults(AsmTestSuite result, String baseAvallaName, String asmName,
+			String destinationPath) {
+		String[] avallaPath = new String[result.getTests().size()];
 		File f = new File(baseAvallaName);
 		baseAvallaName = f.getName();
 		int counter = 0;
-		
+
 		for (AsmTestSequence tc : result.getTests()) {
 			// Create the new avalla file
-			new toAvalla(new File(destinationPath + baseAvallaName.split("\\.avalla")[0] + counter + ".avalla"), tc, asmName).save();
+			new toAvalla(new File(destinationPath + baseAvallaName.split("\\.avalla")[0] + counter + ".avalla"), tc,
+					asmName).save();
 			avallaPath[counter] = destinationPath + baseAvallaName.split("\\.avalla")[0] + counter + ".avalla";
-			
+
 			counter++;
 		}
-		
+
 		return avallaPath;
 	}
-	
+
 	static String getRelativePath(String base, String path) {
-		
-		System.out.println("Base dir: "+base);
+
+		System.out.println("Base dir: " + base);
 		String relative = new File(base.toString()).toURI().relativize(new File(path.toString()).toURI()).getPath();
 		return relative;
 	}
-	
-	
+
 	// ***** UTILS *******
 	public static String toAttachedString(List<?> v) {
-		return v.toString().replace(" ","").replace("_","").replace(",","_").replace("[","").replace("]","").replace("{","").replace("}","").replace("(","").replace(")","");
+		return v.toString().replace(" ", "").replace("_", "").replace(",", "_").replace("[", "").replace("]", "")
+				.replace("{", "").replace("}", "").replace("(", "").replace(")", "");
 	}
-	public static String toStringForFile(boolean computeCoverage, List<CriteriaEnum> criteria, List<FormatsEnum> formats) {
-		return computeCoverage+"_"+toAttachedString(criteria)+"_"+toAttachedString(formats);
+
+	public static String toStringForFile(boolean computeCoverage, List<CriteriaEnum> criteria,
+			List<FormatsEnum> formats) {
+		return computeCoverage + "_" + toAttachedString(criteria) + "_" + toAttachedString(formats);
 	}
 }
