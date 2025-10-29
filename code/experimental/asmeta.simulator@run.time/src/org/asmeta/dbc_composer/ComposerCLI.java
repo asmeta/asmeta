@@ -44,7 +44,7 @@ public class ComposerCLI {
 								e.printStackTrace();
 							}
 		                    Composition comp = parser.toComposition();
-		                    System.out.println(comp.toString());
+		                    System.out.println("Composition setup for alias: "+ alias + " -> "+comp.toString());
 		                    compositions.put(alias, comp);
 		                    System.out.println(compositions.toString());
 		                    continue;
