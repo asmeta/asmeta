@@ -181,8 +181,9 @@ public class DbcComposerTest {
 	public void testParsePar() throws Exception {
 		String a = "examples/dbc_examples/Pillbox_DBC/configMgr.asm";
 		String b = "examples/dbc_examples/Pillbox_DBC/rescheduler.asm";
-		String s = a+" || "+b;
-		//Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
+		//String s = "( "+a+" || "+b+" )"; //Questa funziona e richiede gli spazi dopo le parentesi
+		//String s = a+" || "+b; //non funziona senza parentesi
+		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
 		System.out.println(s);
 		Parser asm = new Parser(s);
 		Composition asmC = asm.toComposition();
