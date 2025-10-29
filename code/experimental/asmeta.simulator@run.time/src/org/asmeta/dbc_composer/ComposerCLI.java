@@ -44,7 +44,9 @@ public class ComposerCLI {
 								e.printStackTrace();
 							}
 		                    Composition comp = parser.toComposition();
+		                    System.out.println(comp.toString());
 		                    compositions.put(alias, comp);
+		                    System.out.println(compositions.toString());
 		                    continue;
 		                }
 
@@ -54,13 +56,15 @@ public class ComposerCLI {
 		                    String alias = runMatcher.group(1);
 		                    String parameters = runMatcher.group(2).trim();
 
+		                    System.out.println("Running composition: " + alias);
+		                  
 		                    Composition comp = compositions.get(alias);
 		                    if (comp == null) {
 		                        System.err.println("Composition not found for alias: " + alias);
 		                        continue;
 		                    }
 
-		                    System.out.println("Running composition: " + alias);
+		                    
 		                    try {
 		                        comp.eval(true); // true abilita il DbC checker; TODO eval con parametri per le funz. monitorate libere
 		                        System.out.println(comp.toString());

@@ -176,5 +176,26 @@ public class DbcComposerTest {
 		}
 	}
 	
+
+	@Test 
+	public void testParsePar() throws Exception {
+		String a = "examples/dbc_examples/Pillbox_DBC/configMgr.asm";
+		String b = "examples/dbc_examples/Pillbox_DBC/rescheduler.asm";
+		String s = a+" || "+b;
+		//Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
+		System.out.println(s);
+		Parser asm = new Parser(s);
+		Composition asmC = asm.toComposition();
+		System.out.println(asmC.toString());
+		try {
+			asmC.eval(true);
+			System.out.println(asmC.toString());
+			
+		}
+		catch (CompositionException e) {
+			System.out.println(e.getMessage());
+			System.out.println(asmC.toString());
+		}
+	}
 	
 }
