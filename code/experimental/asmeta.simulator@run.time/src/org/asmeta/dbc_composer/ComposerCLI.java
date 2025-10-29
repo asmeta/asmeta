@@ -1,7 +1,8 @@
 package org.asmeta.dbc_composer;
 import java.io.*;
 import java.util.*;
-import java.util.regex.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ComposerCLI {
 //-Interpreta `setup <alias> as <composition>` anche se la composizione è complessa.
@@ -14,6 +15,7 @@ public class ComposerCLI {
 		        }
 
 		        String filePath = args[0];
+		        Map<String, String> aliases = new HashMap<>(); //Associa alias all'espressione stringa corrispondente
 		        Map<String, Composition> compositions = new HashMap<>(); //Associa alias a oggetto Composition
 
 		        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
@@ -30,10 +32,13 @@ public class ComposerCLI {
 		                    String alias = setupMatcher.group(1);
 		                    String compositionExpr = setupMatcher.group(2).replaceAll("\\\\", "").trim();
 
-		                    System.out.println("Parsing setup for alias: " + alias);
+		                    aliases.put(alias,compositionExpr);
+		                    String replacedExpr = replaceAliasWithValues(compositionExpr, aliases);
+		                    System.out.println("Parsing setup for alias: " + alias + " -> " + compositionExpr);	
+		                    System.out.println("Parsing setup for alias: " + alias + " -> " + replacedExpr);
 		                    Parser parser = null;
 							try {
-								parser = new Parser(compositionExpr);
+								parser = new Parser(replacedExpr);
 							} catch (Exception e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
@@ -70,5 +75,24 @@ public class ComposerCLI {
 		            System.err.println("Error reading file: " + e.getMessage());
 		        }
 		    }
+
+private static String replaceAliasWithValues(String compositionExpr, Map<String, String> alias) {
+
+	// Pattern per identificare parole (chiavi) nella stringa
+	        Pattern pattern = Pattern.compile("\\b\\w+\\b");
+	        Matcher matcher = pattern.matcher(compositionExpr);
+
+	        StringBuffer result = new StringBuffer();
+
+	        while (matcher.find()) {
+	            String key = matcher.group();
+	            String value = alias.getOrDefault(key, key); // Se la chiave non esiste, lascia invariato
+	            matcher.appendReplacement(result, Matcher.quoteReplacement(value));
+	        }
+	        matcher.appendTail(result);
+
+	        return result.toString();
+
+}
 		}
 		

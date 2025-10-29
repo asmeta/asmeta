@@ -1,6 +1,6 @@
 asm configMgr
 
-import  ../STDL/StandardLibrary
+import ../StandardLibrary
 import knowledge
 export *
 
@@ -133,11 +133,11 @@ definitions:
 			>= (minToInterferer(name($compartment),name($c))) and $c=$compartment)
 		)
     ))
-    //$c != $compartment  and --> non serve perch� il next anche se � dello stesso compartment comunque fa riferimento ad un altro orario
-    //se il compartment � uguale uso il nextDrugIndex altrimenti drugIndex
+    //$c != $compartment  and --> non serve perch  il next anche se   dello stesso compartment comunque fa riferimento ad un altro orario
+    //se il compartment   uguale uso il nextDrugIndex altrimenti drugIndex
     	
     //Dynamic interferences checking (pills intake may be delayed; actual time of assumption must be considered)
-    //TODO:Similmente all'invariante precedente, introdurre una funzione actual_time_assumption su Compartment che verr� settata per riportare il tempo effettivo dell'assunzione di una 
+    //TODO:Similmente all'invariante precedente, introdurre una funzione actual_time_assumption su Compartment che verr  settata per riportare il tempo effettivo dell'assunzione di una 
     //pillola in un dato scomparto (drugIndex).
     //Scrivere un invariante per: per tutte le medicine in un dato compartment e slot, la differenza tra tempo effettivo e tempo nominale deve essere
     //maggiore o uguale al minToInterferer con le medicine successive (slot successivo dello stesso compartment o di un altro compartment)

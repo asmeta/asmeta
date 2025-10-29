@@ -1,5 +1,5 @@
 asm rescheduler
-import  ../STDL/StandardLibrary
+import  ../StandardLibrary
 import knowledge
 
 signature:

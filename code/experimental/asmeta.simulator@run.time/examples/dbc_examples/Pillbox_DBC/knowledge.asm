@@ -1,6 +1,6 @@
 module knowledge
 
-import  ../STDL/StandardLibrary
+import  ../StandardLibrary
 export *
 
 signature:
