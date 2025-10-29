@@ -19,6 +19,7 @@ public class Parser {
 		{
 			if(!(i.equals("|")||i.equals("<|>")||i.equals("||")||i.equals("<||>")||i.equals("(")||i.equals(")")))
 			{
+				System.out.println("ciao "+i);
 				tokensComposition.add(new LeafAsm(i));
 			}
 			tokensString.add(i);
