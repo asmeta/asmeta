@@ -3,9 +3,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>asmeta</groupId>
-	<artifactId>asmeta.zeromq</artifactId>
+	<artifactId>asmeta-zeromq</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>asmeta.zeromq</name>
+	<name>asmeta-zeromq</name>
 	<description>0MQ Implementation for the asmeta simulator</description>
 	<url/>
 	<licenses>
@@ -55,7 +55,6 @@
 			<artifactId>gson</artifactId>
 			<version>2.11.0</version>
 		</dependency>
-		
 
 	</dependencies>
 

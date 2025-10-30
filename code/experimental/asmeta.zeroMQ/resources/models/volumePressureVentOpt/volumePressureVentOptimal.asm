@@ -25,6 +25,7 @@ signature:
  
     dynamic out value: Real // is the output volume/pressure based on the ventilation type
 	dynamic out ventilatorType: String // ventilator type: "Pressure" or "Volume"
+	dynamic out message: String // default to input
 	
 definitions:
  
@@ -79,6 +80,8 @@ definitions:
 	      			value := optimal_lung_volume
 	      		endif
 	      	endif
+		message := "input"
+		
 	     r_setVentilatorType[]
 	     endpar
  

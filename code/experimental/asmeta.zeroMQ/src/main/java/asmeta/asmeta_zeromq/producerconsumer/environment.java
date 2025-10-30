@@ -25,7 +25,7 @@ public class environment {
         // 1) Load bind address & pause interval
         Properties props = new Properties();
         try (InputStream in = environment.class.getClassLoader()
-                                          .getResourceAsStream("producerconsumer/zmq_config_environment.properties")) {
+                                          .getResourceAsStream("/configs/producerconsumer/zmq_config_environment.properties")) {
             if (in == null) throw new RuntimeException("zmq_config_environment.properties not found in classpath under producerconsumer/");
             props.load(in);
 

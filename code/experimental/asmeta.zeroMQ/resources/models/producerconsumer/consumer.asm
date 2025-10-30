@@ -1,6 +1,6 @@
 asm consumer
 
-import StandardLibrary
+import ./StandardLibrary
 
 signature:
     enum domain StatusDomain = {IDLE | HELLO_WORLD}

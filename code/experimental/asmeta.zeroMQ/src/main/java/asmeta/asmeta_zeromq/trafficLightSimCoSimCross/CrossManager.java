@@ -5,7 +5,7 @@ import asmeta.asmeta_zeromq.zeroMQW;
 
 public class CrossManager {
     public static void main(String[] args) {
-        String configFile = "/trafficLightSimCoSimCross-config/zmq_config_crossManager.properties";
+        String configFile = "/configs/trafficLightSimCoSimCross-config/zmq_config_crossManager.properties";
         System.out.println("Starting CrossManager ASM with config: " + configFile);
         zeroMQW crossManagerInstance = new zeroMQW(configFile);
         crossManagerInstance.setName("CrossManagerASM-Thread");

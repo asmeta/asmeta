@@ -1,0 +1,43 @@
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+
+# Ignore all java files in the asmeta_zeromq directory
+src/main/java/asmeta/asmeta_zeromq/*.java
+
+# But DO NOT ignore zeroMQW.java in that directory
+!src/main/java/asmeta/asmeta_zeromq/zeroMQWA.java
+!src/main/java/asmeta/asmeta_zeromq/zeroMQW.java
+!src/main/java/asmeta/asmeta_zeromq/ControlRoom.java
+!src/main/java/asmeta/asmeta_zeromq/Starter.java

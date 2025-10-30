@@ -18,7 +18,7 @@ import com.google.gson.Gson;
 public class ControlRoom {
     private static final Logger logger = LogManager.getLogger(ControlRoom.class);
 
-    private static final String CONTROLROOM_CONFIG_PATH = "/controlroom_config.properties";
+    private static final String CONTROLROOM_CONFIG_PATH = "/configs/controlroom_config.properties";
     private static final String listenAddress = "SUB_ADDRESSES";
     private Gson gson;
     private Type mapStringStringType;
