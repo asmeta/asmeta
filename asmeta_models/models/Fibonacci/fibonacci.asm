@@ -1,4 +1,24 @@
-//non recursive fibonacci
+/*Non-Recursive Fibonacci Algorithm – Description
+The Fibonacci sequence is a series of numbers where each number is the sum of the two preceding ones, typically starting with 0 and 1. The non-recursive (iterative) version of the algorithm calculates the Fibonacci number at a given position using a loop instead of recursion.
+Algorithm Logic:
+
+Start with two initial values:
+
+f0 = 0 (Fibonacci(0))
+f1 = 1 (Fibonacci(1))
+
+
+Use a loop to compute the next Fibonacci numbers up to the desired position n.
+At each iteration, update the values:
+
+next = f0 + f1
+f0 = f1
+f1 = next
+
+
+Repeat until reaching the nth Fibonacci number.
+ */
+
 
 asm fibonacci
 
