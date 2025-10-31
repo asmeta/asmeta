@@ -1,10 +1,10 @@
 package asmeta.asmeta_zeromq.digitalTwinExample;
 
-import asmeta.asmeta_zeromq.zeroMQWA;
+import asmeta.asmeta_zeromq.ZeroMQWA;
 
 public class consumerASM {
     public static void main(String[] args) {
-        zeroMQWA consumerASM = new zeroMQWA("/configs/digitalTwinExample/zmq_config_consumer.properties");
+    	ZeroMQWA consumerASM = new ZeroMQWA("/configs/digitalTwinExample/zmq_config_consumer.properties");
         consumerASM.run();
     }
 }

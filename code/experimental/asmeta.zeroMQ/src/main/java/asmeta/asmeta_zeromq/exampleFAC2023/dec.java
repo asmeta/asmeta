@@ -1,11 +1,11 @@
 package asmeta.asmeta_zeromq.exampleFAC2023;
 
-import asmeta.asmeta_zeromq.zeroMQWA;
+import asmeta.asmeta_zeromq.ZeroMQWA;
 
 public class dec {
 
     public static void main(String[] args) {
-        zeroMQWA dec = new zeroMQWA("/configs/exampleFAC2023-config/zmq_config_dec.properties");
+    	ZeroMQWA dec = new ZeroMQWA("/configs/exampleFAC2023-config/zmq_config_dec.properties");
         dec.run();
     }
 

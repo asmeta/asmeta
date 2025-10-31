@@ -1,11 +1,11 @@
 package asmeta.asmeta_zeromq.producerconsumer;
 
-import asmeta.asmeta_zeromq.zeroMQWA;
+import asmeta.asmeta_zeromq.ZeroMQWA;
 
 public class producer {
 
     public static void main(String[] args) {
-        zeroMQWA producer = new zeroMQWA("/configs/producerconsumer/zmq_config_producer.properties");
+    	ZeroMQWA producer = new ZeroMQWA("/configs/producerconsumer/zmq_config_producer.properties");
         producer.run();
     }
 

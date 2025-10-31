@@ -25,10 +25,10 @@ import org.zeromq.ZMQ;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-public class zeroMQWA {
+public class ZeroMQWA {
 
     // Logger
-    private static final Logger logger = LogManager.getLogger(zeroMQWA.class);
+    private static final Logger logger = LogManager.getLogger(ZeroMQWA.class);
 
     // Instance variables matching configuration keys (UPPER_SNAKE_CASE)
     private final String CONFIG_FILE_PATH;
@@ -52,7 +52,7 @@ public class zeroMQWA {
     private Set<String> requiredMonitored;
     private Map<String, String> currentMonitoredValues;
 
-    public zeroMQWA(String config_filepath) {
+    public ZeroMQWA(String config_filepath) {
         this.requiredMonitored = new HashSet<>();
         this.gson = new Gson();
         this.currentMonitoredValues = new HashMap<>();
@@ -89,7 +89,7 @@ public class zeroMQWA {
 
     private Properties loadConfig() throws IOException, NullPointerException {
         properties = new Properties();
-        try (InputStream input = zeroMQWA.class.getResourceAsStream(this.CONFIG_FILE_PATH)) {
+        try (InputStream input = ZeroMQWA.class.getResourceAsStream(this.CONFIG_FILE_PATH)) {
             if (input == null) {
                 logger.error("Config file not found at path: {}", this.CONFIG_FILE_PATH);
                 throw new IOException("Config file not found, path: " + this.CONFIG_FILE_PATH);
