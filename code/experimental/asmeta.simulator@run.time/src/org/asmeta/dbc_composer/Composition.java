@@ -1,6 +1,7 @@
 package org.asmeta.dbc_composer;
 
 import java.io.File;
+import org.asmeta.runtime_container.SimulationContainer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,6 +11,7 @@ import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.Defs;
 import org.asmeta.runtime_simulator.SimulatorRT;
 import org.asmeta.simulator.Environment;
+import org.asmeta.simulator.Environment.TimeMngt;
 import org.asmeta.simulator.InvalidInvariantException;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.State;
@@ -104,6 +106,8 @@ class MFReaderWithSettableMon extends MonFuncReader {
 // terminal node of the composition
 class LeafAsm extends Composition {
 
+	//SimulatorRT s1; FIX 31/10/2025 BY PATRIZIA AND SILVIA
+	//AsmetaSserviceRun???? con id=1
 	SimulatorRT s1;
 	MFReaderWithSettableMon mon;
 	String name;
@@ -114,6 +118,7 @@ class LeafAsm extends Composition {
 		AsmCollection asc1 = ASMParser.setUpReadAsm(new File(asm1));
 		name = asc1.getMain().getName();
 		s1 = new SimulatorRT(name, asc1, env);
+		
 	}
 
 	@Override
@@ -124,6 +129,11 @@ class LeafAsm extends Composition {
 		return up;
 	}
 
+	@Override
+	UpdateSet eval(boolean dbc, Map<String, String> locationValue) throws CompositionException {
+		
+	}
+	
 	@Override
 	UpdateSet eval(boolean dbc) throws CompositionException {
 		System.out.println("Running " + name);// + " current state" + s1.getCurrentState());
