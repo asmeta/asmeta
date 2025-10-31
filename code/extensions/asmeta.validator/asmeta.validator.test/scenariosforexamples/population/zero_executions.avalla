@@ -1,0 +1,17 @@
+scenario zero_executions
+load ../../../../../../asm_examples/examples/simple_example/population.asm
+
+// This scenario covers more than one execution (first step) and zero executions (second step)
+
+check alive(female1) and alive(male1);
+
+pick $x in r_reproduce(Person) := 100; // Force no reproduction
+pick $x in r_dead(Person) := 100; // Force death
+
+step
+
+check not alive(female1) and not alive(male1);
+
+step
+
+check not alive(female1) and not alive(male1);

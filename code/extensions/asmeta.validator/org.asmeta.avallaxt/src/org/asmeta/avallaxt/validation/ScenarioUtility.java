@@ -97,6 +97,19 @@ public class ScenarioUtility {
 			}
 		}
 	}
+	
+	/**
+	 * check whether the picked value is undef
+	 * 
+	 * @param pick the pick rule
+	 * @return the error message, null if there is no error
+	 */
+	static String checkPickValue(Pick pick) {
+		String value = pick.getValue();
+		if (value.equals("undef"))
+			return "picking the 'undef' value is not allowed";
+		return null;
+	}
 
 	/**
 	 * check whether rule declaration defined in the pick rule exists in the asm
@@ -123,8 +136,8 @@ public class ScenarioUtility {
 	}
 
 	/**
-	 * check whether the pick variable can be matched with one and only one choose
-	 * variable in the asm)
+	 * check whether the pick variable can be matched
+	 * with one and only one choose variable in the asm
 	 * 
 	 * @param pick        the pick rule
 	 * @param chooseRules the map with all the choose rule in the asm being
@@ -133,6 +146,7 @@ public class ScenarioUtility {
 	 * @return the error message, null if there is no error
 	 */
 	static String checkPickVariable(Pick pick, Map<ChooseRule, String> chooseRules) {
+		String variable = pick.getVar();
 		if (pick.getRule() == null) {
 			// The pick does not define the rule declaration
 			// => there must exists one and only one Choose rule with a variable that
@@ -140,17 +154,17 @@ public class ScenarioUtility {
 			int nMatch = 0;
 			ChooseRule lastChoose = null;
 			for (Entry<ChooseRule, String> chooseRule : chooseRules.entrySet()) {
-				if (chooseRule.getKey().getVariable().stream().anyMatch(v -> v.getName().equals(pick.getVar()))) {
+				if (chooseRule.getKey().getVariable().stream().anyMatch(v -> v.getName().equals(variable))) {
 					nMatch++;
 					lastChoose = chooseRule.getKey();
 				}
 			}
 			if (nMatch == 0)
-				return "no choose rule in the main asm defines the variable " + pick.getVar();
+				return "no choose rule in the main asm defines the variable " + variable;
 			if (nMatch == 1)
-				return checkVariables(lastChoose, pick.getVar());
+				return checkVariables(lastChoose, variable);
 			// nMatch > 1
-			return "more than one choose rule in the main asm defines the variable " + pick.getVar()
+			return "more than one choose rule in the main asm defines the variable " + variable
 					+ ". Specify the rule explicitly using \"in r_ruleName\", or "
 					+ "\"in r_ruleName(Param1Type,Param2Type,...)\" if it has parameters";
 		} else {
@@ -158,16 +172,16 @@ public class ScenarioUtility {
 			// => there must exists, in the defined rule declaration, one Choose rule with a
 			// variable that matches with the pick variable
 			for (Entry<ChooseRule, String> chooseRule : chooseRules.entrySet()) {
-				if (chooseRule.getKey().getVariable().stream().anyMatch(var -> var.getName().equals(pick.getVar()))
+				if (chooseRule.getKey().getVariable().stream().anyMatch(var -> var.getName().equals(variable))
 						&& chooseRule.getValue().equals(pick.getRule().replaceAll("\\(|\\,", "_").replace(")", "")))
-					return checkVariables(chooseRule.getKey(), pick.getVar());
+					return checkVariables(chooseRule.getKey(), variable);
 			}
-			return "no choose rule in " + pick.getRule() + " defines the variable " + pick.getVar();
+			return "no choose rule in " + pick.getRule() + " defines the variable " + variable;
 		}
 	}
 
 	/**
-	 * check if a Choose Rule uses variables not defined by iteslf in ranges or in
+	 * check if a Choose Rule uses variables not defined by itself in ranges or in
 	 * the guard. If so, return an error message.
 	 * 
 	 * @param chooseRule     the choose rule
@@ -175,7 +189,7 @@ public class ScenarioUtility {
 	 * @return the error string, null if no error occurs
 	 */
 	private static String checkVariables(ChooseRule chooseRule, String pickedVariable) {
-		// The check is perfomed using Strings
+		// The check is performed using Strings
 		AsmetaTermPrinter printer = AsmetaTermPrinter.getAsmetaTermPrinter(false);
 		List<String> definedVars = chooseRule.getVariable().stream().map(var -> var.getName())
 				.collect(Collectors.toList());
@@ -201,9 +215,10 @@ public class ScenarioUtility {
 
 	/**
 	 * check whether all picks variables and rules are correctly defined (i.e. the
-	 * variables can be matched with one and only one choose variable in the asm,
-	 * rule declaration defined in the pick rules exists in the asm, and the choose
-	 * rule does not use variables not defined by iteslf in ranges and guard)
+	 * picked value is NOT undef, the variables can be matched with one and only one
+	 * choose variable in the asm, rule declaration defined in the pick rules exists
+	 * in the asm, and the choose rule does not use variables not defined by iteslf
+	 * in ranges and guard)
 	 * 
 	 * @param allPickStatements the list of all pick rules in the avalla
 	 * @param chooseRules       the map with all the choose rule in the asm being
@@ -214,13 +229,17 @@ public class ScenarioUtility {
 	 */
 	public static String checkAllPicks(List<Pick> allPickStatements, Map<ChooseRule, String> allChooseRules, Asm asm) {
 		for (Pick pick : allPickStatements) {
+			String checkValue = checkPickValue(pick);
+			if (checkValue != null)
+				return checkValue;
 			String checkRule = checkPickRule(pick, asm);
 			if (checkRule != null)
 				return checkRule;
-			String checkValue = checkPickVariable(pick, allChooseRules);
-			if (checkValue != null)
-				return checkValue;
+			String checkVariable = checkPickVariable(pick, allChooseRules);
+			if (checkVariable != null)
+				return checkVariable;
 		}
 		return null;
 	}
+	
 }

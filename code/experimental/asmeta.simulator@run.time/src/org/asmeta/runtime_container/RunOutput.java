@@ -182,5 +182,19 @@ public class RunOutput implements Serializable {
         return equals(obj) && this.message.equals(((RunOutput)obj).message);
 	}
 	
+	//Print string without \" and \"
+	public Map<String, String> getOutvaluesZMQ(){
+		if (ms!=null && ms.getOutValues()!=null) {
+			Map<Location, Value> set=ms.getOutValues();
+			HashMap<String, String> out = new HashMap<String, String>();
+			for (Location key : set.keySet()) {
+			    Value val = set.get(key);
+			    	out.put(key.toString(), val.toString());
+			}
+			return out;
+		}
+		return new HashMap<String,String>();
+	}
+	
 
 }

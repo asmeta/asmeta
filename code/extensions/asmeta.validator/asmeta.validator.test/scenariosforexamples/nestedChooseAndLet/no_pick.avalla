@@ -1,0 +1,7 @@
+scenario no_pick
+
+load nested_choose_and_let.asm
+
+check tab(RR1, CC1) = 0;
+
+step
