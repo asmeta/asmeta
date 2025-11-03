@@ -139,21 +139,32 @@ final public class RuleVisitorAdapter extends RuleVisitor<List<Rule>> {
 
 	@Override
 	public List<Rule> visit(ExtendRule rule) {
-		// TODO Auto-generated method stub
-		throw new RuntimeException("not implemented yet");
+		List<Rule> mutatedRules = new ArrayList<>();
+		// first mutate this one
+		mutatedRules.addAll(rulemutator.visit(rule));
+		// apply inside TO FIX
+		mutatedRules.addAll(this.visit(rule.getDoRule()));
+		return mutatedRules;
 	}
 
 	@Override
 	public List<Rule> visit(LetRule rule) {
-		// TODO Auto-generated method stub
-		throw new RuntimeException("not implemented yet");
+		List<Rule> mutatedRules = new ArrayList<>();
+		// first mutate this one
+		mutatedRules.addAll(rulemutator.visit(rule));
+		// apply inside
+		mutatedRules.addAll(this.visit(rule.getInRule()));
+		return mutatedRules;
 	}
 
 	@Override
 	public List<Rule> visit(ChooseRule rule) {
-		// TODO Auto-generated method stub
-		return rulemutator.visit(rule);
-		//throw new RuntimeException("not implemented yet");
+		List<Rule> mutatedRules = new ArrayList<>();
+		// first mutate this one
+		mutatedRules.addAll(rulemutator.visit(rule));
+		// apply inside
+		mutatedRules.addAll(this.visit(rule.getDoRule()));
+		return mutatedRules;
 	}
 
 	@Override
