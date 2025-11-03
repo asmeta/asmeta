@@ -10,26 +10,27 @@ import ../../STDL/StandardLibrary
 import ../../STDL/LTLLibrary
 
 signature:
-	domain Second subsetof Integer
-	domain Minute subsetof Integer
-	domain Hour subsetof Integer      
+	domain Second subsetof Integer //Domain for seconds
+	domain Minute subsetof Integer //Domain for minutes
+	domain Hour subsetof Integer //Domain for hours
+	controlled seconds: Second // seconds function
+	controlled minutes: Minute  // minutes function  
+	controlled hours: Hour // hours function    
 
-	monitored signal: Boolean  
-	controlled seconds: Second    
-	controlled minutes: Minute    
-	controlled hours: Hour
+	monitored signal: Boolean //functions that if true increments seconds
 
 definitions:
-	domain Second = {0 : 3}
-	domain Minute = {0 : 3}
-	domain Hour = {0 : 3}
+	domain Second = {0 : 3}  //Domain for seconds range
+	domain Minute = {0 : 3} //Domain for minutes range
+	domain Hour = {0 : 3} //Domain for hours range
 
 	macro rule r_IncMinHours =
 		par
+			// when minutes is equal to 2
 			if minutes = 2 then
-				hours := (hours+ 1) mod 3
+				hours := (hours+ 1) mod 3 // increments hours
 			endif
-			minutes := (minutes + 1) mod 3
+			minutes := (minutes + 1) mod 3 // increments minutes
 		endpar
 
 
@@ -45,15 +46,18 @@ LTLSPEC g((hours=3 and minutes=3 and seconds=3) implies x(hours=0 and minutes=0 
 	main rule r_AdvancedClock =
 		if signal then
 			par
+				// when seconds is equal to 2
 				if seconds=2 then
-					r_IncMinHours[] 
+					r_IncMinHours[] // increments minutes and hours
 				endif
-				seconds := (seconds+1) mod 3 
+				seconds := (seconds+1) mod 3 // increments seconds
 			endpar
 		endif
 
-default init s1:    
-	function signal = false
+default init s1:   
+//initialize the external signal to false
+	function signal = false 
+//initialize seconds, minutes and hours to 0
 	function seconds = 0
 	function minutes = 0
 	function hours = 0

@@ -7,28 +7,31 @@ when hours reaches 24, minutes 59 and seconds 59, the clock is reset to 0 and it
 
 asm AdvancedClock
 
+// StandardLibrary with basic signature 
 import ../../STDL/StandardLibrary
+// Library for LTL Properties
 import ../../STDL/LTLLibrary
 
 signature:
-	domain Second subsetof Integer
-	domain Minute subsetof Integer
-	domain Hour subsetof Integer
-	controlled seconds: Second
-	controlled minutes: Minute    
-	controlled hours: Hour
+	domain Second subsetof Integer //Domain for seconds
+	domain Minute subsetof Integer //Domain for minutes
+	domain Hour subsetof Integer //Domain for hours
+	controlled seconds: Second // seconds function
+	controlled minutes: Minute  // minutes function  
+	controlled hours: Hour // hours function  
 
 definitions:
-	domain Second = {0 : 59}
-	domain Minute= {0 : 59}
-	domain Hour = {0 : 23}
+	domain Second = {0 : 59} //Domain for seconds range
+	domain Minute= {0 : 59} //Domain for minutes range
+	domain Hour = {0 : 23} //Domain for hours range
 
 	macro rule r_IncMinHours =  
 		par
+			// when minutes is equal to 59
 			if minutes = 59 then
-				hours := (hours + 1) mod 24
+				hours := (hours + 1) mod 24 // increments hours
 			endif
-			minutes := (minutes + 1) mod 60			
+			minutes := (minutes + 1) mod 60	// increments minutes	
 		endpar
 
 
@@ -43,13 +46,15 @@ LTLSPEC g((hours=23 and minutes=59 and seconds=59) implies x(hours=0 and minutes
 
 	main rule r_Main = 
 		par
+			// when seconds is equal to 59
 			if seconds = 59 then
-				r_IncMinHours[]
+				r_IncMinHours[] // increments minutes and hours
 			endif
-			seconds := (seconds + 1) mod 60
+			seconds := (seconds + 1) mod 60 // increments seconds
 		endpar
 
 default init s0:
+//initialize seconds, minutes and hours to 0
 	function seconds = 0
 	function minutes = 0
 	function hours = 0

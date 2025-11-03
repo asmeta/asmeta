@@ -28,11 +28,11 @@ signature:
 definitions:
 
 	main rule r_Main =
-		if(numA != numB) then
-			if(numA > numB) then
-				numA := numA - numB
+		if(numA != numB) then //if numbers are different
+			if(numA > numB) then // if numA is higher than numB
+				numA := numA - numB //Decrease numA by numB
 			else
-				numB := numB - numA
+				numB := numB - numA //Decrease numB by numA
 			endif
 		endif
 

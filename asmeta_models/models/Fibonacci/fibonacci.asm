@@ -1,5 +1,6 @@
 /*Non-Recursive Fibonacci Algorithm – Description
-The Fibonacci sequence is a series of numbers where each number is the sum of the two preceding ones, typically starting with 0 and 1. The non-recursive (iterative) version of the algorithm calculates the Fibonacci number at a given position using a loop instead of recursion.
+The Fibonacci sequence is a series of numbers where each number is the sum of the two preceding ones, typically starting with 0 and 1. 
+The non-recursive (iterative) version of the algorithm calculates the Fibonacci number at a given position using a loop instead of recursion.
 Algorithm Logic:
 
 Start with two initial values:
@@ -40,17 +41,17 @@ definitions:
 		endif
 	
 	macro rule r_fibonacci =
-		if(indice<num_fibo) then
+		if(indice<num_fibo) then 
 			par
-				succ_fibo := append(succ_fibo, at(succ_fibo,iton(indice-1)) + at(succ_fibo,iton(indice-2)))
+				succ_fibo := append(succ_fibo, at(succ_fibo,iton(indice-1)) + at(succ_fibo,iton(indice-2))) //compute the i-th fibonacci value in the series
 				indice := indice + 1
 			endpar
 		endif
 			
 	main rule r_Main =
 		seq
-			r_insert_number[]
-			r_fibonacci[]
+			r_insert_number[] //insert the number
+			r_fibonacci[] //compute the fibonacci
 		endseq
 	
 

@@ -1,3 +1,8 @@
+/*
+ Until the controlled function contrC is lower than the monitored function,
+ increase the controlled function. Initially the controlled function is equal
+ to 3.
+ */
 asm iterativeWhile
 
 import ../../STDL/StandardLibrary

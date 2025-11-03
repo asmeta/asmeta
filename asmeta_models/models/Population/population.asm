@@ -1,30 +1,33 @@
 /*
- Si vuole modellare in AsmetaL l'evoluzione di una popolazione.
-Di ogni individuo della popolazione vogliamo conoscere:
-- il sesso;
-- l'età;
-- la madre ed il padre.
-Ad ogni passo della macchina (ogni anno della simulazione) un
-individuo:
-- invecchia di un anno;
-- può riprodursi;
-- può morire.
-Riproduzione:
-- una donna può riprodursi dai 13 ai 50 anni; l'uomo a partire dai 13 anni;
-- la donna in età fertile decide con una probabilità del 20% di riprodursi; in tal caso sceglie un uomo in età fertile;
-- il sesso del nascituro à equiprobabile.
-Morte:
-Ogni anno la probabilità di morire di ogni individuo è del 10%.
-* 
-Richieste di modellazione
-- Le persone devono essere modellate con un abstract domain;
-- bisogna utilizzare l'extend rule per creare nuovi individui;
-- inizializzazione con due individui.
-Invarianti
-- l'età dei figli è inferiore di quella dei genitori;
-- i bambini appena nati sono vivi;
-- il padre è diverso dalla madre.
- */
+We want to model the evolution of a population in AsmetaL.
+For each individual in the population, we want to know:
+- their sex;
+- their age;
+- their mother and father.
+
+At each step of the machine (each year of the simulation), an individual:
+- ages by one year;
+- may reproduce;
+- may die.
+
+Reproduction:
+- a woman can reproduce from age 13 to 50; a man from age 13 onward;
+- a woman of reproductive age decides with a 20% probability to reproduce; in that case, she chooses a man of reproductive age;
+- the sex of the newborn is equally probable.
+
+Death:
+Each year, the probability of death for each individual is 10%.
+
+Modeling requirements:
+- People must be modeled with an abstract domain;
+- the `extend` rule must be used to create new individuals;
+- initialization with two individuals.
+
+Invariants:
+- the age of children is less than that of their parents;
+- newborn children are alive;
+- the father is different from the mother.
+*/
  
 asm population
 
@@ -47,7 +50,7 @@ definitions:
 	rule r_reproduce($p in Person) =
 		if( gender($p) = FEMALE and age($p) >= 13n and age($p) <= 50n ) then
 			choose $x in {1 : 100} with true do
-				if($x <= 30) then //probabilita' di riprodursi
+				if($x <= 30) then //probability of reproduction
 					choose $father in Person with alive($father) and gender($father) = MALE and age($father) >= 13n do
 						extend Person with $child do
 							choose $g in GenderDomain with true do
@@ -67,26 +70,17 @@ definitions:
 				alive($p) := false
 			endif
 
-	//l'eta' dei figli e' inferiore di quella dei genitori
-	//E' corretto il seguente invariante? No, perche' un genitore potrebbe essere morto: in tal
-	//caso la sua eta' (di quando e' morto) puo' essere inferiore a quella dei figli.
-	/*invariant over Person: (forall $p in Person with ($p != male1 and $p != female1) implies
-													(age($p) < age(mother($p)) and age($p) < age(father($p)))
-												
-							)*/
-	//versione corretta
+	//the age of the children is lower than that of their parents
 	invariant over Person: (forall $p in Person with ($p != male1 and $p != female1) implies
 														(
 															(alive(mother($p)) implies age($p) < age(mother($p))) and
 															(alive(father($p)) implies age($p) < age(father($p)))
-															//(not(alive(mother($p))) or age($p) < age(mother($p))) and
-															//(not(alive(father($p))) or age($p) < age(father($p)))
 														)
 							)
 
-	//i bambini appena nati sono vivi
+	//Newborn babies are alive.
 	invariant over Person: (forall $p in Person with age($p) = 0 implies alive($p))
-	//il padre e' diverso dalla madre
+	//The father is different from the mother.
 	invariant over Person: (forall $p in Person with ($p != male1 and $p != female1) implies mother($p) != father($p))
 
 	main rule r_Main =

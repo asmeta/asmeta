@@ -1,12 +1,12 @@
-/*Raffinamento del modello population.asm
- evita la riproduzione tra parenti di primo grado o tra fratelli.
- Modello con una popolazione iniziale di quattro individui.
+/*
+Refinement of the model population.asm:
+prevents reproduction between first-degree relatives or between siblings.
+Model with an initial population of four individuals.
 */
 
 asm population_raff1_fourPersons
 
 import ../../STDL/StandardLibrary
-
 signature:
 	dynamic abstract domain Person
 	enum domain GenderDomain = {MALE | FEMALE}
@@ -40,11 +40,10 @@ definitions:
 
 	rule r_reproduce($p in Person) =
 		if( gender($p) = FEMALE and 
-			//(age($p) in {13n : 50n})
 			age($p) >= 13n and age($p) <= 50n 
 			) then
 			choose $x in {1 : 100} with true do
-				if($x <= 20) then //probabilita' di riprodursi
+				if($x <= 20) then //probability of reproduction
 					choose $father in Person with alive($father) and gender($father) = MALE and age($father) >= 13n and
 													not(areSiblings($p, $father)) and $father!=father($p) and
 													mother($father)!=$p do
@@ -57,7 +56,7 @@ definitions:
 									mother($child) := $p
 									father($child) := $father
 								endpar
-				endif
+endif
 		endif
 
 	rule r_dead($p in Person) =
@@ -72,22 +71,19 @@ definitions:
 			r_reproduce[$p]
 			r_dead[$p]
 		endpar
-
-	//l'eta' dei figli e' inferiore di quella dei genitori
-	invariant over Person: (forall $p in Person with ($p != male1 and $p != female1 and $p != male2 and $p != female2) implies
+// the age of the children is lower than that of their parents
+invariant over Person: (forall $p in Person with ($p != male1 and $p != female1 and $p != male2 and $p != female2) implies
 														(
 															(alive(mother($p)) implies age($p) < age(mother($p))) and
 															(alive(father($p)) implies age($p) < age(father($p)))
-															//(not(alive(mother($p))) or age($p) < age(mother($p))) and
-															//(not(alive(father($p))) or age($p) < age(father($p)))
 														)
 							)
-	//i bambini appena nati sono vivi
+	//Newborn babies are alive.
 	invariant over Person: (forall $p in Person with age($p) = 0 implies alive($p))
-	//il padre e' diverso dalla madre
+	//The father is different from the mother.
 	invariant over Person: (forall $p in Person with ($p != male1 and $p != female1 and $p != male2 and $p != female2) implies mother($p) != father($p))
 
-	//I genitori di ogni persona non possono essere fratelli.
+	//The parents of each person cannot be siblings.
 	invariant over Person: (forall $p in Person with ($p != male1 and $p != female1 and $p != male2 and $p != female2) implies not(areSiblings(mother($p), father($p))))
 
 	main rule r_Main =
@@ -95,8 +91,8 @@ definitions:
 			r_lifeRule[$p]
 
 default init s0:
-	function mother($p in Person) = $p //undef //who is the mother of the first individuals?
-	function father($p in Person) = $p //undef //who is the father of the first individuals?
+	function mother($p in Person) = $p  //who is the mother of the first individuals?
+	function father($p in Person) = $p  //who is the father of the first individuals?
 	function alive($p in Person) = true
 	function age($p in Person) = 16n
 
