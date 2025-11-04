@@ -32,5 +32,12 @@
   		<artifactId>asmeta.simulator</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
   	</dependency>
-  </dependencies>
+  	<!-- for this proejct we need assertion also for running the code -->
+	<dependency>
+		<groupId>junit</groupId>
+		<artifactId>junit</artifactId>
+		<version>4.13.2</version>
+		<scope>runtime</scope>
+	</dependency>
+</dependencies>
 </project>

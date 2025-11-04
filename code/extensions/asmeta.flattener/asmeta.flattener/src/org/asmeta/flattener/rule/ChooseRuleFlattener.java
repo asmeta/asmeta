@@ -116,6 +116,12 @@ public class ChooseRuleFlattener extends RuleFlattener {
 		Rule newDoRule = visit(chooseRule.getDoRule());
 		trv.removeMap(map);
 		newCondRule.setThenRule(newDoRule);
+		// add also the else if there ifnone
+		if (chooseRule.getIfnone() != null) {
+			// TODO
+			Rule newIfNoneRule = visit(chooseRule.getIfnone());
+			newCondRule.setElseRule(newIfNoneRule);
+		}
 		return newCondRule;
 	}
 

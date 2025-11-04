@@ -64,5 +64,16 @@ public class AsmTestGeneratorBySimulationTest {
 			// expected
 		}
 	}
+	@Test
+	public void testRandomChoosOne() throws Exception {
+		AsmCollection asm = ASMParser.setUpReadAsm(new File("examples/forallChooseRule_flat.asm"));
+		assertNotNull(asm);
+		AsmTestGeneratorBySimulation gen = new AsmTestGeneratorBySimulation(asm,4,4);
+		AsmTestSequence test = gen.getTestSuite().getTests().get(0);
+		// bug outMess=Scegli il tipo di pizza desiderata:
+		Map<? extends Variable, String> state = test.getState(1);
+		// TODO
+		System.err.println(state);
+	}
 
 }
