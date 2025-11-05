@@ -1,4 +1,4 @@
-package asmeta.evotest.experiments.modelcollector;
+package asmeta.evotest.experiments.model.scanner;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,15 +9,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.asmeta.avallaxt.validation.RuleExtractorFromMacroDecl;
 import org.asmeta.parser.ASMParser;
+import org.eclipse.emf.common.util.EList;
 
 import asmeta.AsmCollection;
+import asmeta.definitions.RuleDeclaration;
+import asmeta.transitionrules.basictransitionrules.BlockRule;
+import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
+import asmeta.transitionrules.basictransitionrules.Rule;
 
-public final class ModelCollector {
-	
-    private ModelCollector() {
-        // Prevent instantiation
-    }
+public final class ModelScanner {
+
+	private ModelScanner() {
+		// Prevent instantiation
+	}
 
 	public enum FileLabel {
 		VALID_ASM(""),
@@ -26,12 +32,15 @@ public final class ModelCollector {
 		PARSE_ERR_ASM("parsing error"),
 		ASM_MODULE("module"),
 		OLD_DIR("old directory"),
-		SKIP_DIR("skip directory");
+		SKIP_DIR("skip directory"),
+		NO_PAR("no par rule");
 
 		private final String comment;
+
 		FileLabel(String comment) {
 			this.comment = comment;
 		}
+
 		public String getComment() {
 			return comment;
 		}
@@ -39,36 +48,32 @@ public final class ModelCollector {
 
 	private static final String OLD = "old";
 
-	private static final List<String> SKIP_DIRS = Arrays.asList(
-			"STDL",
-			"asmetal2cpp",
-			"test",
-			"workspaceMSL",
-			"drafts"
-		);
+	private static final List<String> SKIP_DIRS = Arrays.asList("STDL", "asmetal2cpp", "test", "workspaceMSL",
+			"drafts");
 
 	private static final List<String> DUPLICATES = Arrays.asList(
 			"examples\\landingGearSystem\\LandingGearSystemWithCylAndValves.asm",
 			"examples\\landingGearSystem\\LandingGearSystemWithCylValvesAndSensors3LandSets.asm",
 			"examples\\landingGearSystem\\LandingGearSystemWithCylAndValves_v2.asm",
-			"examples\\landingGearSystem\\LandingGearSystemWithCylValvesAndSensors_v2.asm"
-		);
+			"examples\\landingGearSystem\\LandingGearSystemWithCylValvesAndSensors_v2.asm");
 
 	/**
 	 * Extracts ASM relative file paths from a given directory. Also label each file
 	 * path.
 	 *
-	 * @param baseDir path to the root directory containing ASM files
+	 * @param baseDir     path to the root directory containing ASM files
+	 * @param filterNoPar if true, ASMs that never use PAR rules are commented out
+	 *                    (modules are not inspected); if false, they are kept.
 	 * @return the ASM files along with their labels
 	 * @throws IOException if an I/O error occurs during path resolution
 	 */
-	public static Map<String, FileLabel> collectModels(String baseDir) {
+	public static Map<String, FileLabel> scan(String baseDir, boolean filterNoPar) {
 		try {
 			File dir = new File(baseDir);
 			System.out.println("Base directory: " + dir.getCanonicalPath());
 			Map<String, FileLabel> collectedFiles = new HashMap<>();
 			if (dir.exists())
-				collectModelsRec(dir, collectedFiles, baseDir);
+				collectModelsRec(dir, collectedFiles, baseDir, filterNoPar);
 			else
 				System.err.println("Error: File or directory does not exist: " + dir.getCanonicalPath());
 			List<String> validAsms = getSublistByLabel(collectedFiles, FileLabel.VALID_ASM);
@@ -89,8 +94,7 @@ public final class ModelCollector {
 	 * @return a list of file paths
 	 */
 	protected static List<String> getSublistByLabel(Map<String, FileLabel> collectedFiles, FileLabel label) {
-		return collectedFiles.entrySet().stream()
-				.filter(entry -> entry.getValue() == label)
+		return collectedFiles.entrySet().stream().filter(entry -> entry.getValue() == label)
 				.map(entry -> entry.getKey()).collect(Collectors.toList());
 	}
 
@@ -99,12 +103,16 @@ public final class ModelCollector {
 	 *
 	 * @param file           current file or directory to analyze
 	 * @param collectedFiles map with paths of the files collected so far
+	 * @param baseDir        path to the root directory containing ASM files
+	 * @param filterNoPar    if true, ASMs that never use PAR rules are commented
+	 *                       out (modules are not inspected); if false, they are
+	 *                       kept.
 	 * @throws IOException if an I/O error occurs during path resolution
 	 */
-	private static void collectModelsRec(File file, Map<String, FileLabel> collectedFiles, String basePath)
-			throws IOException {
+	private static void collectModelsRec(File file, Map<String, FileLabel> collectedFiles, String baseDir,
+			boolean filterNoPar) throws IOException {
 		String name = file.getName();
-		String path = getRelativePath(new File(basePath), file);
+		String path = getRelativePath(new File(baseDir), file);
 		if (file.isDirectory()) {
 			if (SKIP_DIRS.contains(name)) {
 				collectedFiles.put(path, FileLabel.SKIP_DIR);
@@ -112,7 +120,7 @@ public final class ModelCollector {
 				collectedFiles.put(path, FileLabel.OLD_DIR);
 			} else {
 				for (File child : file.listFiles())
-					collectModelsRec(child, collectedFiles, basePath);
+					collectModelsRec(child, collectedFiles, baseDir, filterNoPar);
 			}
 		} else {
 			if (name.endsWith(ASMParser.ASM_EXTENSION)) {
@@ -127,7 +135,20 @@ public final class ModelCollector {
 							collectedFiles.put(path, FileLabel.ASM_MODULE);
 							return;
 						}
-						collectedFiles.put(path, FileLabel.VALID_ASM);
+						if (filterNoPar) {
+							boolean noPar = true;
+							EList<RuleDeclaration> ruleDeclarations = asms.getMain().getBodySection().getRuleDeclaration();
+							for (RuleDeclaration ruleDecl : ruleDeclarations) {
+								List<Rule> a = RuleExtractorFromMacroDecl.getAllContainedRules((MacroDeclaration) ruleDecl);
+								if (a.stream().anyMatch(rule -> rule instanceof BlockRule)) {
+									noPar = false;
+									break;
+								}
+							}
+							collectedFiles.put(path, noPar ? FileLabel.NO_PAR : FileLabel.VALID_ASM);
+						} else {
+							collectedFiles.put(path, FileLabel.VALID_ASM);
+						}
 					} catch (Exception e) {
 						collectedFiles.put(path, FileLabel.PARSE_ERR_ASM);
 					}

@@ -1,4 +1,4 @@
-package asmeta.evotest.experiments.modelcollector;
+package asmeta.evotest.experiments.model.scanner;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import asmeta.evotest.experiments.modelcollector.ModelCollector.FileLabel;
+import asmeta.evotest.experiments.model.scanner.ModelScanner.FileLabel;
 
-public final class ModelWriter {
+public final class ModelListWriter {
 
-	private ModelWriter() {
+	private ModelListWriter() {
 		// Prevent instantiation
 	}
 
@@ -36,12 +36,13 @@ public final class ModelWriter {
 	                FileLabel.DUPLICATE_ASM,
 	                FileLabel.ASM_MODULE,
 	                FileLabel.PARSE_ERR_ASM,
+	                FileLabel.NO_PAR,
 	                FileLabel.VALID_ASM
 	        );
 	        // Group by label
 	        Map<FileLabel, List<String>> groupedByLabel = new LinkedHashMap<>();
 	        for (FileLabel label : order) {
-	            groupedByLabel.put(label, ModelCollector.getSublistByLabel(collectedFiles, label));
+	            groupedByLabel.put(label, ModelScanner.getSublistByLabel(collectedFiles, label));
 	        }
 	        // Write each group
 	        for (Entry<FileLabel, List<String>> group : groupedByLabel.entrySet()) {

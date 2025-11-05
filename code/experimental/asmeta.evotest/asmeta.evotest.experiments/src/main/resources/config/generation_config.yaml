@@ -1,0 +1,26 @@
+# --- Input specification ---
+input:
+  mode: "list"   # one of: single | directory | list
+  # --- single file mode ---
+  source_file: "data/ase-exp/models/Lift.asm"
+  # --- directory mode ---
+  source_dir: "data/ase-exp/models/"
+  # --- list mode ---
+  model_list_file: "data/icst-26-exp/model_list.txt"
+  base_dir: "../../../../asm_examples/"
+
+# --- Output configuration ---
+output:
+  target_folder: "data/icst-26-exp/results/"
+
+# --- Algorithms to run ---
+algorithms:
+  random:
+    run: true
+    step_list: [1]
+  atgt:
+    run: true
+  evoavalla:
+    run: true
+    jdk_path: "C:/Program Files/Java/jdk1.8.0_202"
+    budget: 1

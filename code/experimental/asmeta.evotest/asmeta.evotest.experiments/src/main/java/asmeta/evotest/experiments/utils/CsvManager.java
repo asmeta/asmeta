@@ -1,0 +1,159 @@
+package asmeta.evotest.experiments.utils;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Stream;
+
+import com.opencsv.CSVParser;
+import com.opencsv.CSVParserBuilder;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
+
+/**
+ * Utility class for creating, reading, and appending to a CSV file that stores
+ * experimental data.
+ */
+public class CsvManager {
+
+	public static final List<String> CSV_HEADERS = List.of("asm", "n_macro", "n_update", "n_forall", "n_branch",
+			"n_rule", "approach", "exec_time_ms", "n_scenarios", "n_step", "n_set", "n_check", "macro_coverage",
+			"update_rule_coverage", "forall_rule_coverage", "branch_coverage", "rule_coverage", "n_failing_scenarios",
+			"n_val_error_scenarios");
+
+	private String csvPath;
+	private File csvFile;
+	private String csvName;
+
+	/**
+	 * Creates a manager for a specific CSV file path and initializes the file
+	 * (creating or overwriting it) with the header row defined in CSV_HEADERS.
+	 *
+	 * @param csvPath path to the CSV file to manage
+	 */
+	public CsvManager(String csvPath) {
+		this.csvPath = csvPath;
+		setup();
+	}
+
+	/**
+	 * Reads an entire CSV file into memory.
+	 *
+	 * @param filePath path to the CSV file
+	 * @return a list of rows; each row is a {@code String[]} representing the fields in that row
+	 * @throws Exception if the file cannot be opened or parsed
+	 */
+	public static List<String[]> readCsv(String filePath) throws Exception {
+		CSVParser parser = new CSVParserBuilder().withSeparator(',').withQuoteChar('"').build();
+		try (CSVReader reader = new CSVReaderBuilder(new FileReader(filePath)).withCSVParser(parser).build()) {
+			return reader.readAll();
+		}
+	}
+
+	/**
+	 * Creates the managed CSV file and writes the header line defined in
+	 * CSV_HEADERS. Existing content at the target path is overwritten.
+	 */
+	public void setup() {
+		csvFile = new File(this.csvPath);
+		csvName = csvFile.getName();
+		try {
+			FileOutputStream fos = new FileOutputStream(csvFile, false);
+			PrintStream ps = new PrintStream(fos);
+			ps.println(String.join(",", CSV_HEADERS));
+			ps.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Deletes all {@code .csv} files located in the same directory as the managed
+	 * CSV file, except for the managed file itself.
+	 */
+	public void clean() {
+		String dir = csvFile.getParent();
+		try (Stream<Path> files = Files.list(Path.of(dir))) {
+			files.forEach(path -> {
+				try {
+					String fileName = path.getFileName().toString();
+					if (fileName.endsWith(".csv") && !fileName.equals(csvName)) {
+						Files.delete(path);
+						System.out.println("Deleted: " + path);
+					}
+				} catch (IOException e) {
+					System.err.println("Failed to delete: " + path);
+				}
+			});
+		} catch (IOException e) {
+			System.err.println("Error accessing directory: " + dir);
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Returns the path of the parent directory that contains the managed
+	 * CSV file.
+	 *
+	 * @return the parent directory path as a string
+	 */
+	public String getParentDir() {
+		return csvFile.getParent();
+	}
+
+	/**
+	 * Appends a single row of experimental data to the managed CSV file.
+	 * The row is built by merging values from {@code modelData}, {@code scenarioData},
+	 * and {@code covData}, plus the explicit parameters. Values are written in the
+	 * order specified by CSV_HEADERS.
+	 *
+	 * @param modelData   map with model-level counters (e.g., {@code n_macro}, {@code n_update}, ...)
+	 * @param scenarioData map with scenario-level counters (e.g., {@code n_step}, {@code n_set}, {@code n_check})
+	 * @param covData     map with coverage metrics (e.g., {@code macro_coverage}, {@code rule_coverage}, ...)
+	 * @param asmName     name of the ASM under test
+	 * @param approach    name of the generation or validation approach used
+	 * @param exeTime     execution time in milliseconds
+	 * @param nScenario   number of generated scenarios
+	 * @param errorsInValidation number of scenarios with validation errors
+	 */
+	public void writeData(Map<String, String> modelData, Map<String, Integer> scenarioData, Map<String, String> covData,
+			String asmName, String approach, float exeTime, int nScenario, int errorsInValidation) {
+		// construct a row as a Map
+		Map<String, String> row = new HashMap<String, String>();
+		for (Entry<String, String> entry : modelData.entrySet())
+			row.put(entry.getKey(), entry.getValue());
+		for (Entry<String, Integer> entry : scenarioData.entrySet())
+			row.put(entry.getKey(), entry.getValue().toString());
+		for (Entry<String, String> entry : covData.entrySet())
+			row.put(entry.getKey(), entry.getValue());
+		row.put("asm", asmName);
+		row.put("approach", approach);
+		row.put("exec_time_ms", String.valueOf(exeTime));
+		row.put("n_scenarios", String.valueOf(nScenario));
+		row.put("n_val_error_scenarios", String.valueOf(errorsInValidation));
+		// build the actual row (string array)
+		String[] actualRow = new String[CSV_HEADERS.size()];
+		for (String key : row.keySet()) {
+			int index = CSV_HEADERS.indexOf(key);
+			actualRow[index] = row.get(key);
+		}
+		// write the actual row to csv
+		try {
+			FileOutputStream fos = new FileOutputStream(csvPath, true);
+			PrintStream ps = new PrintStream(fos);
+			ps.println(String.join(",", actualRow));
+			ps.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+}

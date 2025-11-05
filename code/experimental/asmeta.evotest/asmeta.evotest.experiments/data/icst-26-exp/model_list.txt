@@ -111,6 +111,8 @@
 //examples\ABZ2020\CarSystemModule\CarSystem001\CarSystem001Functions.asm                                  // module
 //examples\ABZ2020\CarSystemModule\CarSystem003\CarSystem003Domains.asm                                    // module
 
+//examples\simple_example\iterativeWhile.asm                                                               // blocking random execution
+
 examples\simple_example\population.asm
 examples\landingGearSystem\LGS_EV.asm
 PillBox\Level1\pillbox_1.asm
@@ -211,7 +213,6 @@ examples\landingGearSystem\LGS_GM.asm
 examples\TrafficLightYakindu\TrafficLight2\TrafficLight_2.asm
 examples\parking.asm
 PillBox\Level1\pillbox_1_for_RefProv.asm
-examples\simple_example\iterativeWhile.asm
 examples\hemodialysisDevice\ABZ2016\Hemodialysis_ref4.asm
 stereoacuity\certifierGround.asm
 systemc\counterAG\main_user.asm
