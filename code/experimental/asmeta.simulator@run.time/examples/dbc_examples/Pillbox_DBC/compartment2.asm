@@ -18,6 +18,7 @@ monitored redLed: Compartment ->  LedLights
 //OUT to patient 
 out ledStatus: LedLights
 out displayMessage: String
+
 out openSwitch: Compartment -> Boolean
 
 static compartment2: Compartment

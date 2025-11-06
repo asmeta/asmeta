@@ -199,4 +199,24 @@ public class DbcComposerTest {
 		}
 	}
 	
+	@Test
+	public void testBiPipePillbox() throws Exception {
+		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
+		BiPipeHalfDup c = new BiPipeHalfDup(new LeafAsm("examples/dbc_examples/Pillbox_DBC/pillbox.asm"), new LeafAsm("examples/dbc_examples/Pillbox_DBC/compartment.asm"));
+		try {
+			c.eval(true);
+			System.out.println(c.toString());
+			System.out.println(" ===== new step =====");
+			c.eval(true);
+			System.out.println(c.toString());
+			System.out.println(" ===== new step =====");
+			c.eval(true);
+			System.out.println(c.toString());
+		} catch (CompositionException e) {
+			System.out.println(e.getMessage());
+			System.out.println(c.toString());
+		}
+	}
+	
+	
 }

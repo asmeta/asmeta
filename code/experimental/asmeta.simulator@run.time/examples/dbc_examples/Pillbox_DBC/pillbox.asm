@@ -15,7 +15,7 @@ signature:
 	//*************************************************
 	// FUNCTIONS
 	//*************************************************
-	//OUT to Reschudeler
+	//OUT to Rescheduler
 	out redLed: Compartment -> LedLights
 	out time_consumption: Compartment -> Seq(Natural)
 	out name: Compartment -> String
@@ -39,18 +39,23 @@ signature:
 	controlled compartmentTimer: Compartment -> Natural
 	
 	//IN from patient
-	monitored openSwitch: Compartment -> Boolean
+	//monitored openSwitch: Compartment -> Boolean
+	monitored openSwitch: Integer -> Boolean
 	
 	//OUT to patient 
-	out outMess: Compartment -> String
+	//out outMess: Compartment -> String
 	out logMess: Compartment -> String
+	out outMess: Integer -> String
+	out led: Integer -> LedLights
 	
 	//Time management
 	// The systemTime is expressed as the number of hours passed since the 01/01/1970
 	monitored systemTime: Natural //Time in minutes since midnight
 	
-	derived next: Compartment ->  Powerset(Compartment) //Set of next compartmentes
+	derived next: Compartment ->  Powerset(Compartment) //Set of next compartments
 	derived nextDrugIndex: Compartment -> Natural // next drug index of the given compartment 
+	
+	derived openSwitch: Compartment -> Boolean
 	
 	
 	//*************************************************
@@ -58,6 +63,8 @@ signature:
 	//*************************************************
 	static compartment1: Compartment
 	static compartment2: Compartment	
+	
+	static getID: Compartment -> Integer
 	
 	static tenMinutes: Integer
 	
@@ -68,6 +75,18 @@ definitions:
 	//*************************************************
 	// FUNCTIONS DEFINITIONS
 	//*************************************************
+	function openSwitch($i in Compartment)=
+		switch($i)
+			case compartment1: openSwitch(1)
+			case compartment2: openSwitch(2)
+		endswitch
+		
+	function getID($i in Compartment)=
+		switch($i)
+			case compartment1: 1
+			case compartment2: 2
+		endswitch
+	
 	function tenMinutes = 10
 
 	function next($compartment in Compartment) =  
@@ -84,7 +103,8 @@ definitions:
 	//These two rules are required because
 	/*if redLed($compartment) = OFF then if (at(time_consumption($compartment),drugIndex($compartment))<systemTime) then r_pillToBeTaken[$compartment] endif endif
 quindi ogni volta controlla se il tempo della medicina � inferiore al systemTime e se � cos� dice che � da prendere... Per� se ho medA = 100 e med B=200, a 100 prendo medA ma quando arrivo a 200 mi dice che devo prendere sia medA che medB */	
-		
+	
+	
 	// Rule that implement the writing on the log file
 	rule r_writeToFile($compartment in Compartment) = skip
 	
@@ -93,16 +113,18 @@ quindi ogni volta controlla se il tempo della medicina � inferiore al systemTi
 		par
 			if redLed($compartment) != ON then compartmentTimer($compartment) := systemTime endif
 			redLed($compartment) := ON 
-			outMess($compartment) := "Take " + name($compartment)		
+			led(getID($compartment)) := ON 
+			outMess(getID($compartment)) := "Take " + name($compartment)		
 			logMess($compartment) :=""	
 		endpar	
 		
 	// Rule to set the red led blinking, after the compartment opening
 	rule r_compartmentOpened($compartment in Compartment) =
 		par
-			if redLed($compartment) != BLINKING and outMess($compartment) != ("Close " + name($compartment) + " in 10 minutes") then compartmentTimer($compartment) := systemTime endif
+			if redLed($compartment) != BLINKING and outMess(getID($compartment)) != ("Close " + name($compartment) + " in 10 minutes") then compartmentTimer($compartment) := systemTime endif
 			redLed($compartment) := BLINKING
-			outMess($compartment) := "Close " + name($compartment) + " in 10 minutes"	//Pill taken
+			led(getID($compartment)) := BLINKING
+			outMess(getID($compartment)) := "Close " + name($compartment) + " in 10 minutes"	//Pill taken
 			logMess($compartment) := ""
 		endpar
 	
@@ -110,7 +132,8 @@ quindi ogni volta controlla se il tempo della medicina � inferiore al systemTi
 	rule r_pillTaken_compartmentOpened($compartment in Compartment) =
 		par
 			redLed($compartment) := OFF
-			outMess($compartment) := ""
+			led(getID($compartment)) := OFF
+			outMess(getID($compartment)) := ""
 			logMess($compartment) := name($compartment) + " not closed"
 			compartmentTimer($compartment) := systemTime
 			drugIndex($compartment) := nextDrugIndex($compartment)
@@ -122,7 +145,8 @@ quindi ogni volta controlla se il tempo della medicina � inferiore al systemTi
 	rule r_compartmentClosed($compartment in Compartment) =
 		par
 			redLed($compartment) := OFF
-			outMess($compartment) := name($compartment) + " taken"		
+			led(getID($compartment)) := OFF
+			outMess(getID($compartment)) := name($compartment) + " taken"		
 			logMess($compartment) := name($compartment) + " taken"	
 			compartmentTimer($compartment) := systemTime
 			drugIndex($compartment) := nextDrugIndex($compartment)
@@ -137,7 +161,8 @@ quindi ogni volta controlla se il tempo della medicina � inferiore al systemTi
 	rule r_timeOutExpired_missedPill($compartment in Compartment) =
 		par
 			redLed($compartment) := OFF
-			outMess($compartment) := name($compartment) + " missed"
+			led(getID($compartment)) := OFF
+			outMess(getID($compartment)) := name($compartment) + " missed"
 			logMess($compartment) := name($compartment) + " missed"	
 			compartmentTimer($compartment) := systemTime
 			isPillMissed($compartment) := true
@@ -152,7 +177,8 @@ quindi ogni volta controlla se il tempo della medicina � inferiore al systemTi
 	rule r_timeOutExpired_compartmentOpened($compartment in Compartment) =
 		par
 			redLed($compartment) := OFF
-			outMess($compartment) := ""
+			led(getID($compartment)) := OFF
+			outMess(getID($compartment)) := ""
 			logMess($compartment) := name($compartment) + " compartment not closed"
 			compartmentTimer($compartment) := systemTime
 			drugIndex($compartment) := nextDrugIndex($compartment)
@@ -163,9 +189,10 @@ quindi ogni volta controlla se il tempo della medicina � inferiore al systemTi
 	// Rule to set the red led blinking, after the compartment opening
 	rule r_takeInTimeout($compartment in Compartment) =
 		par
-			if redLed($compartment) != BLINKING and outMess($compartment) != ("Take " + name($compartment) + " in 10 minutes") then compartmentTimer($compartment) := systemTime endif
+			if redLed($compartment) != BLINKING and outMess(getID($compartment)) != ("Take " + name($compartment) + " in 10 minutes") then compartmentTimer($compartment) := systemTime endif
 			redLed($compartment) := BLINKING
-			outMess($compartment) := "Take " + name($compartment) + " in 10 minutes"		
+			led(getID($compartment)) := BLINKING
+			outMess(getID($compartment)) := "Take " + name($compartment) + " in 10 minutes"		
 		endpar
 	
 	//Reset all skipPill to false
@@ -189,7 +216,7 @@ quindi ogni volta controlla se il tempo della medicina � inferiore al systemTi
 			else
 				skipPill($c2) := replaceAt(skipPill($c2),nextDrugIndex($c2),true)
 			endif
-			outMess($compartment) := name($c2) + " skipped"		
+			outMess(getID($compartment)) := name($c2) + " skipped"		
 			logMess($compartment) := name($c2) + " skipped"
 			drugIndex($c2) := nextDrugIndex($c2)
 		endpar
@@ -205,13 +232,13 @@ quindi ogni volta controlla se il tempo della medicina � inferiore al systemTi
 							drugIndex($compartment) := nextDrugIndex($compartment)
 							skipPill($compartment) := replaceAt(skipPill($compartment),drugIndex($compartment),true)
 							time_consumption($compartment) := replaceAt(time_consumption($compartment),drugIndex($compartment), newTime($compartment))
-							outMess($compartment) := name($compartment) + " not rescheduled"		
+							outMess(getID($compartment)) := name($compartment) + " not rescheduled"		
 							logMess($compartment) := name($compartment) + " not rescheduled"		
 						endpar
 					else
 						par
 							time_consumption($compartment) := replaceAt(time_consumption($compartment),drugIndex($compartment), newTime($compartment))
-							outMess($compartment) := name($compartment) + " rescheduled"		
+							outMess(getID($compartment)) := name($compartment) + " rescheduled"		
 							logMess($compartment) := name($compartment) + " rescheduled"
 						endpar
 					endif
@@ -232,6 +259,12 @@ quindi ogni volta controlla se il tempo della medicina � inferiore al systemTi
 			if pillTakenWithDelay($compartment) = true then
 				pillTakenWithDelay($compartment) := false
 			endif
+
+//INVARIANT
+//@post
+//The redLed to the compartment must be equal  to the redLed to the rescheduler
+invariant inv_Led over redLed, led: (forall $c in Compartment with (redLed($c) = led(getID($c))))
+
 	
 	//Compartment management rule
 	main rule r_Main =
@@ -298,7 +331,7 @@ default init s0:	//This init state is correct, it does not generate any invarian
 	// Controlled function that indicates the status of the compartment
 	function opened($compartment in Compartment) = false		
 	// Reset the output display message and the log message
-	function outMess($compartment in Compartment) = ""
+	function outMess($id in Integer) = ""
 	function logMess($compartment in Compartment) = ""
 	// Turn-off all the led of the Compartments
 	function redLed($compartment in Compartment) = OFF

@@ -24,6 +24,12 @@ static compartment1: Compartment
 
 definitions:
 
+//Check the status of redLed given the out message
+invariant over outMess: contains(outMess(compartment1), "Take")  implies (redLed(compartment1) = ON or redLed(compartment1) = BLINKING)
+invariant over outMess: contains(outMess(compartment1), "Close")  implies redLed(compartment1) = BLINKING 
+invariant over outMess: (contains(outMess(compartment1), "") or contains(outMess(compartment1), "taken") or contains(outMess(compartment1), "missed")) implies redLed(compartment1) = OFF 
+
+
 	main rule r_Main =
 		par
 			ledStatus := redLed(compartment1)
