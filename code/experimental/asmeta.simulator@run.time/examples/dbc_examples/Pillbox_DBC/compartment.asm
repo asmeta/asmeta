@@ -37,6 +37,3 @@ definitions:
 		endpar
 	
 default init s0:
-function displayMessage = ""
-function ledStatus = OFF
-function openSwitch = false
