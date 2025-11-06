@@ -335,6 +335,7 @@ default init s0:	//This init state is correct, it does not generate any invarian
 	function logMess($compartment in Compartment) = ""
 	// Turn-off all the led of the Compartments
 	function redLed($compartment in Compartment) = OFF
+	function led($id in Integer) = OFF
 	// Initialization of the time consumption for a compartment
 	function time_consumption($compartment in Compartment) = //time(name($compartment))
 		switch($compartment)
