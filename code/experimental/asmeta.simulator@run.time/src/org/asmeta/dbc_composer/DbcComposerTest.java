@@ -201,7 +201,7 @@ public class DbcComposerTest {
 	
 	@Test
 	public void testBiPipePillbox() throws Exception {
-		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
+		//Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
 		BiPipeHalfDup c = new BiPipeHalfDup(new LeafAsm("examples/dbc_examples/Pillbox_DBC/pillbox.asm"), new LeafAsm("examples/dbc_examples/Pillbox_DBC/compartment.asm"));
 		try {
 			c.eval(true);
