@@ -28,7 +28,7 @@ public class DbcComposerTest {
 		Map<String, String> mon = new HashMap<>();
 		try {
 			mon.put("funcS","5");
-			mon.put("funcC","2");
+			mon.put("funcH","2");
 			mon.put("myinput", "10");
 			System.out.print(mon);
 			c.eval(true,mon);
