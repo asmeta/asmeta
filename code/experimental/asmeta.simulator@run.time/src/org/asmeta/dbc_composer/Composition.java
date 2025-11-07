@@ -7,8 +7,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.asmeta.animator.MyState;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.Defs;
+import org.asmeta.runtime_simulator.AsmetaSserviceRun;
+import org.asmeta.runtime_simulator.InfoAsmetaService;
+import org.asmeta.runtime_simulator.RunMode;
 import org.asmeta.runtime_simulator.SimulatorRT;
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.Environment.TimeMngt;
@@ -111,16 +115,36 @@ class LeafAsm extends Composition {
 	SimulatorRT s1;
 	MFReaderWithSettableMon mon;
 	String name;
+	Map<Integer, InfoAsmetaService> simulatorMap; //NEW
+	AsmetaSserviceRun runner; //NEW
 
+	/* Original: monitored functions are handled in an interactive way by CLI
 	LeafAsm(String asm1) throws Exception {
 		mon = new MFReaderWithSettableMon();
 		Environment env = new Environment(mon);
 		AsmCollection asc1 = ASMParser.setUpReadAsm(new File(asm1));
 		name = asc1.getMain().getName();
-		s1 = new SimulatorRT(name, asc1, env);
-		
+		s1 = new SimulatorRT(name, asc1, env);	
 	}
-
+	*/
+	
+	//NEW tentative to allow feeding of monitored functions from a map by using InfoAsmetaService e AsmetaSserviceRun
+	LeafAsm(String asm1) throws Exception {
+	   //mon = new MFReaderWithSettableMon();
+	   //Environment env = new Environment(mon); //Like in the original version
+		
+		simulatorMap = new HashMap<Integer, InfoAsmetaService>();//NEW
+		AsmCollection asc1 = ASMParser.setUpReadAsm(new File(asm1));
+		name = asc1.getMain().getName();
+		runner = new AsmetaSserviceRun(1,simulatorMap);
+		Environment env = new Environment(runner); //NEW 
+		s1 = new SimulatorRT(name, asc1, env);	
+		s1.setShuffleFlag(true); //to allow non-deterministic behavior of choose rule
+		InfoAsmetaService is1 = new InfoAsmetaService(s1);
+		simulatorMap.put(1,is1);
+	
+	}
+	
 	@Override
 	UpdateSet eval() {
 		System.out.println("Running " + name);// + " current state" + s1.getCurrentState());
@@ -129,9 +153,29 @@ class LeafAsm extends Composition {
 		return up;
 	}
 
-	@Override
+	//@Override
 	UpdateSet eval(boolean dbc, Map<String, String> locationValue) throws CompositionException {
 		
+		//SimulationContainer->AsmetaSservice->InfoAsmetaSservice->SimulatorRT
+		//and AsmetaServiceRun that wraps SimulatorRT
+		
+		//InfoAsmetaService is1 = new InfoAsmetaService(s1);
+		//is1.setLocationValue(locationValue);
+		//simulatorMap.put(1,is1);				
+		InfoAsmetaService is1 = simulatorMap.get(1);
+		is1.setLocationValue(locationValue);
+		System.out.println(is1.getSim().toString());
+		//AsmetaSserviceRun runner = new AsmetaSserviceRun(1,simulatorMap);
+		runner.run(RunMode.RUN_ONE_STEP); //run one step
+		is1.incContSim(); //increase counter of simulation steps
+		//MyState state = is1.getState();
+		//Come passare da Mystate a UpdateSet?
+		State state = is1.getSim().getCurrentState();
+		Map<Location,Value> map = state.getLocationMap(); // return the current location map
+		UpdateSet ups = new UpdateSet(); //tricky: create an UpdateSet containing the location set of s1
+		ups.applyLocationUpdates(map);
+
+		return ups; 
 	}
 	
 	@Override

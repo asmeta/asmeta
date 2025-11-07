@@ -1,5 +1,8 @@
 package org.asmeta.dbc_composer;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.asmeta.simulator.main.Simulator;
@@ -16,6 +19,28 @@ public class DbcComposerTest {
 	 */
 
 	String path = "examples/dbc_examples/";
+
+
+	@Test //To test a leaf ASM fed with an hashmap of monitored  functions
+	public void testLeafMon() throws Exception {
+		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
+		LeafAsm c = new LeafAsm(path + "asmCPre.asm");
+		Map<String, String> mon = new HashMap<>();
+		try {
+			mon.put("funcS","5");
+			mon.put("funcC","2");
+			mon.put("myinput", "10");
+			System.out.print(mon);
+			c.eval(true,mon);
+			System.out.println(c.toString());
+			System.out.println(" ===== new step =====");
+			c.eval(true,mon);
+			System.out.println(c.toString());
+		} catch (CompositionException e) {
+			System.out.println(e.getMessage());
+			System.out.println(c.toString());
+		}
+	}
 
 	@Test
 	public void testLeafPre() throws Exception {
