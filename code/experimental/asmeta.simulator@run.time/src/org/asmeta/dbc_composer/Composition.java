@@ -158,24 +158,19 @@ class LeafAsm extends Composition {
 		
 		//SimulationContainer->AsmetaSservice->InfoAsmetaSservice->SimulatorRT
 		//and AsmetaServiceRun that wraps SimulatorRT
-		
-		//InfoAsmetaService is1 = new InfoAsmetaService(s1);
-		//is1.setLocationValue(locationValue);
-		//simulatorMap.put(1,is1);				
+			
 		InfoAsmetaService is1 = simulatorMap.get(1);
 		is1.setLocationValue(locationValue);
 		System.out.println(locationValue.toString());
-		//AsmetaSserviceRun runner = new AsmetaSserviceRun(1,simulatorMap);
 		runner.run(RunMode.RUN_ONE_STEP); //run one step
 		is1.incContSim(); //increase counter of simulation steps
 		//MyState state = is1.getState();
-		//Come passare da Mystate a UpdateSet?
+		//From Mystate to UpdateSet
 		State state = is1.getSim().getCurrentState();
 		Map<Location,Value> map = state.getLocationMap(); // return the current location map
-		System.out.println(locationValue.toString());
 		UpdateSet ups = new UpdateSet(); //tricky: create an UpdateSet containing the location set of s1
 		ups.applyLocationUpdates(map);
-		System.out.println(ups.toString());
+		
 
 		return ups; 
 	}
