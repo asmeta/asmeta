@@ -86,7 +86,8 @@ definitions:
 	  	setNewTime ($compartment):= true
 			//Missed pill check if the new time causes invariant violation
 			 if ((forall $c in next($compartment) with 
-			   	(  (iton((at(time_consumption($c),drugIndex($c)) - at(time_consumption($compartment),drugIndex($compartment))-ntoi(deltaDelay(name($compartment)))))
+			   	(  (iton((at(time_consumption($c),drugIndex($c)) - 
+			   		at(time_consumption($compartment),drugIndex($compartment))-ntoi(deltaDelay(name($compartment)))))
 				>= (minToInterferer(name($compartment),name($c))) and $c!=$compartment) or (iton((at(time_consumption($c),nextDrugIndex($c)) - at(time_consumption($compartment),drugIndex($compartment))-ntoi(deltaDelay(name($compartment))))) 
 				>= (minToInterferer(name($compartment),name($c))) and $c=$compartment)
 				))) then //A
@@ -104,10 +105,12 @@ definitions:
 		endif
 	 	if pillTakenWithDelay($compartment) then
 			//pill taken later compared the timecompartment
-			//for all next pills that cause invariant violation because the current has been taken after set time -> skip pill
+			//for all next pills that cause invariant violation because the current has been 
+			//taken after set time -> skip pill
 			forall $c2 in next($compartment) do 
 			   if	(((iton(at(time_consumption($c2),drugIndex($c2)) - (pillboxSystemTime mod 1440n)) //it should be actual_time_consumption, but since it is updated in the next state I use pillboxSystemTime here
-				<= (minToInterferer(name($compartment),name($c2)))) and $c2!=$compartment) or ((iton(at(time_consumption($c2),nextDrugIndex($c2)) - (pillboxSystemTime mod 1440n))
+				<= (minToInterferer(name($compartment),name($c2)))) and $c2!=$compartment) or 
+				((iton(at(time_consumption($c2),nextDrugIndex($c2)) - (pillboxSystemTime mod 1440n))
 				<= (minToInterferer(name($compartment),name($c2)))) and $c2=$compartment)
 				) then
 					par
@@ -141,8 +144,45 @@ definitions:
 	rule r_NORMAL_FUNCT =  //par r_keepPrevLiths[] r_enforce[] r_resetMidnight[] r_evaluate_output_pill[] endpar //r_CompartmentMgmt[] 
     		par  r_enforce[] r_resetMidnight[] r_evaluate_output_pill[] endpar 
     
-  
-		
+//@post
+//If pill is missed and there is no overlap with next pills, delayed it
+invariant inv_newTime over newTime: (forall $compartment in Compartment with
+ 	((forall $c in next($compartment) with 
+		( isPillMissed($compartment) and (iton((at(time_consumption($c),drugIndex($c)) - at(time_consumption($compartment),drugIndex($compartment))-ntoi(deltaDelay(name($compartment)))))
+		>= (minToInterferer(name($compartment),name($c))) and $c!=$compartment) or (iton((at(time_consumption($c),nextDrugIndex($c)) - at(time_consumption($compartment),drugIndex($compartment))-ntoi(deltaDelay(name($compartment))))) 
+		>= (minToInterferer(name($compartment),name($c))) and $c=$compartment)
+		))
+	 implies ((newTime ($compartment) = at(time_consumption($compartment),drugIndex($compartment))+deltaDelay(name($compartment))))))
+
+//@post
+//If pill overlaps with next pills, skip the next pill that overlaps
+invariant inv_skipNextPill over skipNextPill: (forall $compartment in Compartment with
+ 	((forall $c in next($compartment) with 
+		(((iton(at(time_consumption($c),drugIndex($c)) - (pillboxSystemTime mod 1440n)) //it should be actual_time_consumption, but since it is updated in the next state I use pillboxSystemTime here
+		<= (minToInterferer(name($compartment),name($c)))) and $c!=$compartment) or 
+		((iton(at(time_consumption($c),nextDrugIndex($c)) - (pillboxSystemTime mod 1440n))
+		<= (minToInterferer(name($compartment),name($c)))) and $c=$compartment)
+		) 
+	 implies ((newTime ($compartment) = at(time_consumption($compartment),
+	 	drugIndex($compartment))+deltaDelay(name($compartment)))))))
+ 
+
+//@pre  
+/*Static interferences checking:
+For a medication in a given compartment and slot that has been taken, the difference 
+between its ACTUAL intake time and the intake time of the subsequent medications 
+taken (in the next slot of the same compartment or in another compartment) must be 
+greater than or equal to the medication's minToInterferer value with the subsequent medications */
+invariant inv_actual_time over Compartment: (forall $compartment in Compartment with 
+	(forall $c in next($compartment) with 
+    	((at(actual_time_consumption($c),drugIndex($c))!= 0 and at(actual_time_consumption($compartment),drugIndex($compartment))!= 0 ) implies
+    	(  (iton((at(actual_time_consumption($c),drugIndex($c)) - at(actual_time_consumption($compartment),drugIndex($compartment)))) 
+			>= (minToInterferer(name($compartment),name($c))) and $c!=$compartment) or (iton((at(actual_time_consumption($c),nextDrugIndex($c)) - at(actual_time_consumption($compartment),drugIndex($compartment)))) 
+			>= (minToInterferer(name($compartment),name($c))) and $c=$compartment)
+		))
+    ))
+	
+			
 	
     //*************************************************
 	// MAIN Rule
