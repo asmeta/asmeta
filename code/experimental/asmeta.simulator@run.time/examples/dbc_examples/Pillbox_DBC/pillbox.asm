@@ -23,7 +23,7 @@ signature:
 	out actual_time_consumption: Compartment -> Seq(Natural) //Which time is the pill taken 
 	out day: Integer //Controlled
 	//Patient has missed the pill
-	out isPillMissed: Compartment -> Boolean
+	out isPillMissed: Compartment -> Boolean // is true if the patient miss the pill 
 	out pillTakenWithDelay: Compartment -> Boolean // is true if the patient takes the pill (compartment opened) 
 	
 	//IN from Rescheduler
@@ -265,7 +265,18 @@ quindi ogni volta controlla se il tempo della medicina � inferiore al systemTi
 //The redLed to the compartment must be equal  to the redLed to the rescheduler
 invariant inv_Led over redLed, led: (forall $c in Compartment with (redLed($c) = led(getID($c))))
 
-	
+//@post
+//Check the status of redLed given the out message
+invariant over outMess: (forall $c in Compartment with contains(outMess(getID($c)), "Take")  implies (redLed($c) = ON or redLed($c) = BLINKING))
+invariant over outMess: (forall $c in Compartment with contains(outMess(getID($c)), "Close")  implies redLed($c) = BLINKING) 
+invariant over outMess: (forall $c in Compartment with (contains(outMess(getID($c)), "") or contains(outMess(getID($c)), "taken") or contains(outMess(getID($c)), "missed")) implies redLed($c) = OFF) 
+
+//@post
+//If pill is skipped the actual time consumption is 0
+invariant inv_actual_time over actual_time_consumption: (forall $c in Compartment with ((at(time_consumption($c),drugIndex($c))<systemTime) and at(skipPill($c),drugIndex($c))=true) implies
+	at(actual_time_consumption($c),drugIndex($c))=0n)
+
+
 	//Compartment management rule
 	main rule r_Main =
 	par
