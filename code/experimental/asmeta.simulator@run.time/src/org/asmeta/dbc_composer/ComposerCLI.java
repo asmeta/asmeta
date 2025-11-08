@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 
 public class ComposerCLI {
 //-Interpreta `setup <alias> as <composition>` anche se la composizione è complessa.
-//-Interpreta `run(<alias>, {parametri})` e chiama `eval(true)` sulla `Composition`.
+//-Interpreta `run(<alias>, {param})` e chiama `eval(true,param)` sulla `Composition`.
 
 	public static void main(String[] args) {
 		        if (args.length == 0) {
@@ -55,8 +55,18 @@ public class ComposerCLI {
 		                if (runMatcher.matches()) {
 		                    String alias = runMatcher.group(1);
 		                    String parameters = runMatcher.group(2).trim();
+		                    //Prepare input: transform strings into a map(string,string)
+		                    Map<String,String> mon = new HashMap<>();
+		                    String[] pairs = parameters.split(";");
+		                    for (String pair:pairs) {
+		                    	String[] keyValue = pair.split("=");
+		                    	if (keyValue.length==2) {
+		                    		mon.put(keyValue[0],keyValue[1]);
+		                    	}
+		                    }
 
-		                    System.out.println("Running composition: " + alias);
+		                    System.out.print("Running composition: " + alias);
+		                    System.out.println(" with input: " + mon);
 		                  
 		                    Composition comp = compositions.get(alias);
 		                    if (comp == null) {
@@ -66,7 +76,7 @@ public class ComposerCLI {
 
 		                    
 		                    try {
-		                        comp.eval(true); // true abilita il DbC checker; TODO eval con parametri per le funz. monitorate libere
+		                        comp.eval(true,mon); // true abilita il DbC checker; TODO eval con parametri per le funz. monitorate libere
 		                        System.out.println(comp.toString());
 		                    } catch (CompositionException e) {
 		                        System.err.println("Error in composition " + alias + ": " + e.getMessage());

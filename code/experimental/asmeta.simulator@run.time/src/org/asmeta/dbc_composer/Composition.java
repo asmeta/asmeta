@@ -36,8 +36,8 @@ public abstract class Composition {
 
 	// evalbis aggiunta per return multipli
 	abstract UpdateSet eval();
-
-	abstract UpdateSet eval(boolean dbc) throws CompositionException;
+	abstract UpdateSet eval(boolean dbc) throws CompositionException;	
+	abstract UpdateSet eval(boolean dbc, Map<String, String> mon) throws CompositionException;
 
 	abstract void copyMonitored(UpdateSet update);
 }
@@ -310,6 +310,12 @@ class PipeN extends NComposition {
 		return string;
 	}
 
+	@Override
+	UpdateSet eval(boolean dbc, Map<String, String> mon) throws CompositionException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
 
 //<|>
@@ -367,6 +373,12 @@ class BiPipeHalfDup extends BiComposition {
 			up = eval();
 		}
 		return up;// if dbc check inv else eval(); return eval();
+	}
+
+	@Override
+	UpdateSet eval(boolean dbc, Map<String, String> mon) throws CompositionException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
 
@@ -449,6 +461,12 @@ class BiPipeFullDup extends BiComposition {
 		return up1;// if dbc check inv else eval(); return eval();
 	}
 
+	@Override
+	UpdateSet eval(boolean dbc, Map<String, String> mon) throws CompositionException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
 
 /*
@@ -526,6 +544,12 @@ class ParN extends NComposition {
 			stringa = stringa + "||" + c.get(i);
 		}
 		return stringa;
+	}
+
+	@Override
+	UpdateSet eval(boolean dbc, Map<String, String> mon) throws CompositionException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
