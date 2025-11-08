@@ -5,6 +5,7 @@ import org.asmeta.runtime_container.SimulationContainer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.Map.Entry;
 
 import org.asmeta.animator.MyState;
@@ -16,6 +17,7 @@ import org.asmeta.runtime_simulator.RunMode;
 import org.asmeta.runtime_simulator.SimulatorRT;
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.Environment.TimeMngt;
+//import org.asmeta.simulator.LocationSet.WrappedDomain;
 import org.asmeta.simulator.InvalidInvariantException;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.State;
@@ -24,6 +26,7 @@ import org.asmeta.simulator.main.Simulator;
 import org.asmeta.simulator.main.Simulator.InvariantTreament;
 import org.asmeta.simulator.readers.InteractiveMFReader;
 import org.asmeta.simulator.readers.MonFuncReader;
+import org.asmeta.simulator.value.ReserveValue;
 import org.asmeta.simulator.value.Value;
 import org.eclipse.emf.common.util.EList;
 
@@ -162,7 +165,16 @@ class LeafAsm extends Composition {
 		//SimulationContainer->AsmetaSservice->InfoAsmetaSservice->SimulatorRT
 		//and AsmetaServiceRun to read monitored values from a map
 			
-		InfoAsmetaService is1 = simulatorMap.get(1);
+		InfoAsmetaService is1 = simulatorMap.get(1); 
+		//FIX by Patrizia 8 nov 2025: add mon resulting from copyMonitored() in locationValue
+		if (mon != null) {
+			Map<String, String> tmp = new HashMap<>();
+			//iterate over mon locations and copy the string version of each location in tmp
+			for (Entry<String,Value> pair : mon.monStoredValues.entrySet()) {
+				tmp.put(pair.getKey(), pair.getValue().toString());
+				locationValue.putAll(tmp);
+			}
+		}    
 		is1.setLocationValue(locationValue);
 		System.out.println(locationValue.toString());
 		runner.run(RunMode.RUN_ONE_STEP); //run one step
@@ -173,6 +185,7 @@ class LeafAsm extends Composition {
 		Map<Location,Value> map = state.getLocationMap(); // return the current location map
 		UpdateSet ups = new UpdateSet(); //tricky: create an UpdateSet containing the location set of s1
 		ups.applyLocationUpdates(map);
+		
 		return ups; 
 	}
 	
@@ -292,7 +305,7 @@ class PipeN extends NComposition {
 			}
 			c.get(c.size() - 1).copyMonitored(up);
 			}
-			else { //Patrizia TODO check copyMonitored with mon
+			else { //Patrizia TODO test combination of copyMonitored with mon
 				up = c.get(0).eval(true,mon);
 				for (int i = 1; i < c.size(); i++) {
 					c.get(i).copyMonitored(up);
