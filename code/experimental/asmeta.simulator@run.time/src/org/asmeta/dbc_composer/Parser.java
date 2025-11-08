@@ -11,7 +11,7 @@ public class Parser {
 	ArrayList<String> tokensString=new ArrayList<>();
 	ArrayList<Composition> tokensComposition=new ArrayList<>();
 	
-	Parser(String formula) throws Exception {
+	Parser(String formula, boolean interactive) throws Exception {
 		//split on space
 		tokens=formula.split(" ");
 				
@@ -19,7 +19,8 @@ public class Parser {
 		{
 			if(!(i.equals("|")||i.equals("<|>")||i.equals("||")||i.equals("<||>")||i.equals("(")||i.equals(")")))
 			{
-				tokensComposition.add(new LeafAsm(i));
+				tokensComposition.add(new LeafAsm(i,interactive));
+				
 			}
 			tokensString.add(i);
 		}		

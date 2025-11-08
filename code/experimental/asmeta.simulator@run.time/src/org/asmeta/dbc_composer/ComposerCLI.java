@@ -38,7 +38,7 @@ public class ComposerCLI {
 		                    System.out.println("Parsing setup for alias: " + alias + " -> " + replacedExpr);
 		                    Parser parser = null;
 							try {
-								parser = new Parser(replacedExpr);
+								parser = new Parser(replacedExpr,false);
 							} catch (Exception e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();

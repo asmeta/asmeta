@@ -24,7 +24,7 @@ public class DbcComposerTest {
 	@Test //To test a leaf ASM fed with an hashmap of monitored  functions
 	public void testLeafMon() throws Exception {
 		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
-		LeafAsm c = new LeafAsm(path + "asmCPre.asm");
+		LeafAsm c = new LeafAsm(path + "asmCPre.asm",false);
 		Map<String, String> mon = new HashMap<>();
 		try {
 			mon.put("funcS","5");
@@ -45,7 +45,7 @@ public class DbcComposerTest {
 	@Test
 	public void testLeafPre() throws Exception {
 		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
-		LeafAsm c = new LeafAsm(path + "asmCPre.asm");
+		LeafAsm c = new LeafAsm(path + "asmCPre.asm",true);
 		try {
 			c.eval(true);
 			System.out.println(c.toString());
@@ -61,7 +61,7 @@ public class DbcComposerTest {
 	@Test
 	public void testLeafPrePost() throws Exception {
 		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
-		LeafAsm c = new LeafAsm(path + "asmCPrePost.asm");
+		LeafAsm c = new LeafAsm(path + "asmCPrePost.asm",true);
 		try {
 			c.eval(true);
 			System.out.println(c.toString());
@@ -77,7 +77,7 @@ public class DbcComposerTest {
 	@Test
 	public void testPipe() throws Exception {
 		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
-		PipeN c = new PipeN(new LeafAsm(path+"asmCPrePost.asm"), new LeafAsm(path + "asmCPrePostInc.asm"), new LeafAsm(path + "asmCPrePostMult.asm"));
+		PipeN c = new PipeN(new LeafAsm(path+"asmCPrePost.asm",true), new LeafAsm(path + "asmCPrePostInc.asm",true), new LeafAsm(path + "asmCPrePostMult.asm",true));
 		try {
 			c.eval(true);
 			System.out.println(c.toString());
@@ -93,7 +93,7 @@ public class DbcComposerTest {
 	@Test
 	public void testPar() throws Exception {
 		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
-		ParN c = new ParN(new LeafAsm(path+"asmCPrePost.asm"), new LeafAsm(path + "asmCPrePost.asm"));
+		ParN c = new ParN(new LeafAsm(path+"asmCPrePost.asm",true), new LeafAsm(path + "asmCPrePost.asm",true));
 		try {
 			c.eval(true);
 			System.out.println(c.toString());
@@ -111,8 +111,8 @@ public class DbcComposerTest {
 	//asmCPrePostPar | (asmCPrePostInc || asmCPrePostMult)
 	public void testPipePar() throws Exception {
 		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
-		ParN c2 = new ParN(new LeafAsm(path+"asmCPrePostInc.asm"), new LeafAsm(path + "asmCPrePostMult.asm"));
-		PipeN c = new PipeN(new LeafAsm(path+"asmCPrePostPar.asm"),c2);
+		ParN c2 = new ParN(new LeafAsm(path+"asmCPrePostInc.asm",true), new LeafAsm(path + "asmCPrePostMult.asm",true));
+		PipeN c = new PipeN(new LeafAsm(path+"asmCPrePostPar.asm",true),c2);
 		try {
 			c.eval(true);
 			System.out.println(c.toString());
@@ -129,7 +129,7 @@ public class DbcComposerTest {
 	//asmCPrePost <|> asmCPrePostIncBip
 	public void testBiPipe() throws Exception {
 		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
-		BiPipeHalfDup c = new BiPipeHalfDup(new LeafAsm(path+"asmCPrePost.asm"), new LeafAsm(path + "asmCPrePostIncBip.asm"));
+		BiPipeHalfDup c = new BiPipeHalfDup(new LeafAsm(path+"asmCPrePost.asm",true), new LeafAsm(path + "asmCPrePostIncBip.asm",true));
 		try {
 			c.eval(true);
 			System.out.println(c.toString());
@@ -146,7 +146,7 @@ public class DbcComposerTest {
 	//asmCPrePost <||> asmCPrePostIncBip
 	public void testFullPipe() throws Exception {
 		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
-		BiPipeFullDup c = new BiPipeFullDup(new LeafAsm(path+"asmCPrePost.asm"), new LeafAsm(path + "asmCPrePostIncBip.asm"));
+		BiPipeFullDup c = new BiPipeFullDup(new LeafAsm(path+"asmCPrePost.asm",true), new LeafAsm(path + "asmCPrePostIncBip.asm",true));
 		try {
 			c.eval(true);
 			System.out.println(c.toString());
@@ -165,7 +165,7 @@ public class DbcComposerTest {
 		//Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
 		String a = path + "asmCPre.asm";
 		System.out.println(a);
-		Parser asm = new Parser(a);
+		Parser asm = new Parser(a,true);
 		Composition asmC = asm.toComposition();
 		System.out.println(asmC.toString());
 		try {
@@ -187,7 +187,7 @@ public class DbcComposerTest {
 		String s = "( "+a+" | "+b+" | "+c+" )";
 		//Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
 		System.out.println(s);
-		Parser asm = new Parser(s);
+		Parser asm = new Parser(s,true);
 		Composition asmC = asm.toComposition();
 		System.out.println(asmC.toString());
 		try {
@@ -210,7 +210,7 @@ public class DbcComposerTest {
 		//String s = a+" || "+b; //non funziona senza parentesi
 		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
 		System.out.println(s);
-		Parser asm = new Parser(s);
+		Parser asm = new Parser(s,true);
 		Composition asmC = asm.toComposition();
 		System.out.println(asmC.toString());
 		try {
@@ -227,7 +227,7 @@ public class DbcComposerTest {
 	@Test
 	public void testBiPipePillbox() throws Exception {
 		//Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
-		BiPipeHalfDup c = new BiPipeHalfDup(new LeafAsm("examples/dbc_examples/Pillbox_DBC/pillbox.asm"), new LeafAsm("examples/dbc_examples/Pillbox_DBC/compartment.asm"));
+		BiPipeHalfDup c = new BiPipeHalfDup(new LeafAsm("examples/dbc_examples/Pillbox_DBC/pillbox.asm",true), new LeafAsm("examples/dbc_examples/Pillbox_DBC/compartment.asm",true));
 		try {
 			c.eval(true);
 			System.out.println(c.toString());
