@@ -142,8 +142,18 @@ final public class RuleVisitorAdapter extends RuleVisitor<List<Rule>> {
 		List<Rule> mutatedRules = new ArrayList<>();
 		// first mutate this one
 		mutatedRules.addAll(rulemutator.visit(rule));
-		// apply inside TO FIX
-		mutatedRules.addAll(this.visit(rule.getDoRule()));
+		
+		// apply inside
+		//mutatedRules.addAll(EcoreUtil.copyAll(this.visit(rule.getDoRule()))); //check
+		
+		// apply inside CHECK with angelo.
+		List<Rule> newDoRules = this.visit(rule.getDoRule());
+		for (Rule r : newDoRules) {
+			ExtendRule newMutation = EcoreUtil.copy(rule);
+			newMutation.setDoRule(r);
+			mutatedRules.add(newMutation);
+		}
+		
 		return mutatedRules;
 	}
 
@@ -153,7 +163,16 @@ final public class RuleVisitorAdapter extends RuleVisitor<List<Rule>> {
 		// first mutate this one
 		mutatedRules.addAll(rulemutator.visit(rule));
 		// apply inside
-		mutatedRules.addAll(this.visit(rule.getInRule()));
+		//mutatedRules.addAll(EcoreUtil.copyAll(this.visit(rule.getInRule()))); //check
+		
+		// apply inside CHECK with angelo.
+		List<Rule> newInRules = this.visit(rule.getInRule());
+		for (Rule r : newInRules) {
+			LetRule newMutation = EcoreUtil.copy(rule);
+			newMutation.setInRule(r);
+			mutatedRules.add(newMutation);
+		}
+		
 		return mutatedRules;
 	}
 
@@ -163,14 +182,38 @@ final public class RuleVisitorAdapter extends RuleVisitor<List<Rule>> {
 		// first mutate this one
 		mutatedRules.addAll(rulemutator.visit(rule));
 		// apply inside
-		mutatedRules.addAll(this.visit(rule.getDoRule()));
+		//mutatedRules.addAll(EcoreUtil.copyAll(this.visit(rule.getDoRule()))); //check
+		
+		List<Rule> newDoRules = this.visit(rule.getDoRule());
+		for (Rule r : newDoRules) {
+			ChooseRule newMutation = EcoreUtil.copy(rule);
+			newMutation.setDoRule(r);
+			mutatedRules.add(newMutation);
+		}
+		
 		return mutatedRules;
 	}
 
 	@Override
 	public List<Rule> visit(ForallRule rule) {
 		// TODO Auto-generated method stub
-		throw new RuntimeException("not implemented yet");
+		//throw new RuntimeException("not implemented yet");
+		
+		//first mutate this rule
+		List<Rule> mutatedRules = new ArrayList<>();
+		mutatedRules.addAll(rulemutator.visit(rule));
+		
+		//mutatedRules.addAll(this.visit(rule.getDoRule()));
+		
+		//visit the rule of for-all's body
+		List<Rule> newBodies = this.visit(rule.getDoRule());
+		for (Rule r : newBodies) {
+			ForallRule newMutation = EcoreUtil.copy(rule);
+			newMutation.setDoRule(r);
+			mutatedRules.add(newMutation);
+		}
+		
+		return mutatedRules;
 	}
 
 	@Override
@@ -180,8 +223,26 @@ final public class RuleVisitorAdapter extends RuleVisitor<List<Rule>> {
 
 	@Override
 	public List<Rule> visit(CaseRule rule) {
-		// TODO Auto-generated method stub
-		throw new RuntimeException("not implemented yet");
+		//First mutate this case
+		List<Rule> mutatedRules = new ArrayList<>();
+		mutatedRules.addAll(rulemutator.visit(rule));
+
+		//Now visit each rule for each branch
+		int index = 0;
+		for (Rule r : rule.getCaseBranches()) {
+			List<Rule> mutatedCase = this.visit(r);
+			for (Rule mutatedRule : mutatedCase) {
+				CaseRule newRule = EcoreUtil.copy(rule);				
+				newRule.getCaseBranches().set(index, EcoreUtil.copy(mutatedRule)); //not sure if this copy is required.
+				mutatedRules.add(newRule);
+			}
+			index++;
+		}
+		//if otherwise then visit the rule 
+		if (rule.getOtherwiseBranch() != null )
+			mutatedRules.addAll(this.visit(rule.getOtherwiseBranch()));
+		
+		return mutatedRules;
 	}
 
 }
