@@ -578,18 +578,21 @@ public class RuleToJava extends RuleVisitor<String> {
     _builder_5.newLine();
     sb.append(_builder_5);
     for (int i = 0; (i < object.getVariable().size()); i++) {
-      StringConcatenation _builder_6 = new StringConcatenation();
-      Domain _domain = object.getRanges().get(i).getDomain();
-      String _visit_1 = new DomainToJavaString(this.res).visit(((PowersetDomain) _domain).getBaseDomain());
-      _builder_6.append(_visit_1);
-      _builder_6.append(" ");
-      String _visit_2 = new TermToJava(this.res).visit(object.getVariable().get(i));
-      _builder_6.append(_visit_2);
-      _builder_6.append(" = point");
-      _builder_6.append(i);
-      _builder_6.append(".get(rndm);");
-      _builder_6.newLineIfNotEmpty();
-      sb.append(_builder_6);
+      {
+        Domain _domain = object.getRanges().get(i).getDomain();
+        final Domain baseDomain = ((PowersetDomain) _domain).getBaseDomain();
+        final String type = new DomainToJavaString(this.res).visit(baseDomain);
+        final String variable = new TermToJava(this.res).visit(object.getVariable().get(i));
+        StringConcatenation _builder_6 = new StringConcatenation();
+        _builder_6.append(type);
+        _builder_6.append(" ");
+        _builder_6.append(variable);
+        _builder_6.append(" = point");
+        _builder_6.append(i);
+        _builder_6.append(".get(rndm);");
+        _builder_6.newLineIfNotEmpty();
+        sb.append(_builder_6);
+      }
     }
     Rule _ifnone = object.getIfnone();
     boolean _tripleNotEquals_1 = (_ifnone != null);

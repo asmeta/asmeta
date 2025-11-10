@@ -1,5 +1,6 @@
 package asmeta.asmetal2java.codegen.translator
 
+import asmeta.asmetal2java.codegen.config.TranslatorOptions
 import asmeta.definitions.ControlledFunction
 import asmeta.definitions.domains.AbstractTd
 import asmeta.definitions.domains.BasicTd
@@ -26,7 +27,6 @@ import asmeta.transitionrules.derivedtransitionrules.CaseRule
 import asmeta.transitionrules.derivedtransitionrules.IterativeWhileRule
 import asmeta.transitionrules.turbotransitionrules.IterateRule
 import asmeta.transitionrules.turbotransitionrules.SeqRule
-import asmeta.asmetal2java.codegen.config.TranslatorOptions
 import org.asmeta.simulator.RuleVisitor
 import org.eclipse.emf.common.util.EList
 
@@ -321,10 +321,14 @@ class RuleToJava extends RuleVisitor<String> {
 		sb.append('''
 			{
 		''')
-		for (var i = 0; i < object.getVariable.size; i++)
+		for (var i = 0; i < object.getVariable.size; i++){
+			val baseDomain = (object.getRanges.get(i).domain as PowersetDomain).baseDomain
+			val type = new DomainToJavaString(res).visit(baseDomain)
+			val variable = new TermToJava(res).visit(object.getVariable.get(i))
 			sb.append('''
-				«new DomainToJavaString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» = point«i».get(rndm);
-			''')
+				«type» «variable» = point«i».get(rndm);
+			''')	
+		}
 		if (object.getIfnone !== null) {
 			var doRule = visit(object.getDoRule)
 			/*for (var j=0; j<pointerTerms.size; j++){
