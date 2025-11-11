@@ -1,9 +1,14 @@
+// total: 859
+
+
+// skip directory: 5
 //test                                                                                                     // skip directory
 //workspaceMSL                                                                                             // skip directory
 //STDL                                                                                                     // skip directory
 //asmetal2cpp                                                                                              // skip directory
 //drafts                                                                                                   // skip directory
 
+// old directory: 12
 //examples\smartHome\old                                                                                   // old directory
 //examples\GilbreathCardTrick\old                                                                          // old directory
 //DAS\TrafficMonitoringSystem\validation\old                                                               // old directory
@@ -17,6 +22,7 @@
 //examples\hemodialysisDevice\ABZ2016\old_completedModels                                                  // old directory
 //examples\simple_example\oldATM                                                                           // old directory
 
+// old asm: 6
 //DAS\TrafficMonitoringSystem\OrganizationMiddleware_old_old.asm                                           // old asm
 //DAS\TrafficMonitoringSystem\OrganizationMiddleware_old.asm                                               // old asm
 //DAS\TrafficMonitoringSystem\OrganizationMiddleware_old_old_old.asm                                       // old asm
@@ -24,11 +30,13 @@
 //DAS\TrafficMonitoringSystem\SelfHealingSubsystem_old.asm                                                 // old asm
 //examples\ferryman\ferrymanSimulator_raff1_old.asm                                                        // old asm
 
-//examples\landingGearSystem\LandingGearSystemWithCylAndValves.asm                                         // duplicated
-//examples\landingGearSystem\LandingGearSystemWithCylValvesAndSensors_v2.asm                               // duplicated
-//examples\landingGearSystem\LandingGearSystemWithCylValvesAndSensors3LandSets.asm                         // duplicated
-//examples\landingGearSystem\LandingGearSystemWithCylAndValves_v2.asm                                      // duplicated
+// duplicated asm: 4
+//examples\landingGearSystem\LandingGearSystemWithCylAndValves.asm                                         // duplicated asm
+//examples\landingGearSystem\LandingGearSystemWithCylValvesAndSensors_v2.asm                               // duplicated asm
+//examples\landingGearSystem\LandingGearSystemWithCylValvesAndSensors3LandSets.asm                         // duplicated asm
+//examples\landingGearSystem\LandingGearSystemWithCylAndValves_v2.asm                                      // duplicated asm
 
+// module: 81
 //examples\ABZ2020\CarSystemModule\CarSystem003\CarSystem003HighBeam.asm                                   // module
 //systemc\counterAG\count_stim_user.asm                                                                    // module
 //examples\ABZ2020\CarSystemModule\CarSystem006\CarSystem006Functions.asm                                  // module
@@ -111,6 +119,9 @@
 //examples\ABZ2020\CarSystemModule\CarSystem001\CarSystem001Functions.asm                                  // module
 //examples\ABZ2020\CarSystemModule\CarSystem003\CarSystem003Domains.asm                                    // module
 
+// parsing error: 0
+
+// no par rule: 53
 //examples\petriNets\petriNetEdgeWeightNoPlaceCapacity_NoSeq_Matrix_v2.asm                                 // no par rule
 //examples\landingGearSystem\LGS_GM_withError.asm                                                          // no par rule
 //examples\petriNets\petriNetNoEdgeWeightNoPlaceCapacity_seq.asm                                           // no par rule
@@ -125,6 +136,7 @@
 //examples\simple_example\euclideMCD_init.asm                                                              // no par rule
 //examples\petriNets\forAsmetaSMV\petriNet_forNuSMV.asm                                                    // no par rule
 //examples\landingGearSystem\LGS_GM.asm                                                                    // no par rule
+//examples\simple_example\iterativeWhile.asm                                                               // no par rule
 //systemc\counterAG\main_user.asm                                                                          // no par rule
 //examples\production_cell\ert.asm                                                                         // no par rule
 //examples\petriNets\forAsmetaSMV\petriNet_forNuSMV_notLive_bound1_deadlockFree.asm                        // no par rule
@@ -152,8 +164,10 @@
 //examples\testRanges.asm                                                                                  // no par rule
 //examples\simple_example\QuickSort.asm                                                                    // no par rule
 //RTPatternLibrary\Application\VisualServoing.asm                                                          // no par rule
+//examples\turboRules\turboReturnRule.asm                                                                  // no par rule
 //systemc\orgate\main.asm                                                                                  // no par rule
 //examples\petriNets\forAsmetaSMV\petriNet_forNuSMV_reversable.asm                                         // no par rule
+//examples\turboRules\turboReturnRuleWithExtend.asm                                                        // no par rule
 //examples\petriNets\petriNetEdgeWeightPlaceCapacity_NoSeq_Matrix.asm                                      // no par rule
 //DAS\TrafficMonitoringSystem\main.asm                                                                     // no par rule
 //examples\simple_example\swapSortOnSeq.asm                                                                // no par rule
@@ -161,11 +175,8 @@
 //examples\petriNets\petriNetEdgeWeightNoPlaceCapacity_NoSeq_Matrix_v3.asm                                 // no par rule
 //examples\simpleMinesweeper.asm                                                                           // no par rule
 //examples_for_nuXmv\EuclideInt.asm                                                                        // no par rule
-//examples\turboRules\turboReturnRule.asm                                                                  // no par rule
-//examples\turboRules\turboReturnRuleWithExtend.asm                                                        // no par rule
 
-//examples\simple_example\iterativeWhile.asm                                                               // blocking random execution
-
+// valid asm: 246
 examples\simple_example\population.asm
 examples\landingGearSystem\LGS_EV.asm
 PillBox\Level1\pillbox_1.asm

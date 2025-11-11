@@ -2,7 +2,11 @@ package asmeta.evotest.experiments.model.scanner;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +15,7 @@ import java.util.stream.Collectors;
 
 import org.asmeta.avallaxt.validation.RuleExtractorFromMacroDecl;
 import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.util.AsmPrinter;
 import org.eclipse.emf.common.util.EList;
 
 import asmeta.AsmCollection;
@@ -28,7 +33,7 @@ public final class ModelScanner {
 	public enum FileLabel {
 		VALID_ASM(""),
 		OLD_ASM("old asm"),
-		DUPLICATE_ASM("duplicated"),
+		DUPLICATE_ASM("duplicated asm"),
 		PARSE_ERR_ASM("parsing error"),
 		ASM_MODULE("module"),
 		OLD_DIR("old directory"),
@@ -57,6 +62,25 @@ public final class ModelScanner {
 			"examples\\landingGearSystem\\LandingGearSystemWithCylAndValves_v2.asm",
 			"examples\\landingGearSystem\\LandingGearSystemWithCylValvesAndSensors_v2.asm");
 
+	/**
+	 * Extracts the total number of files with .asm extension
+	 *
+	 * @param baseDir     path to the root directory containing ASM files
+	 * @return the total number of files with .asm extension
+	 * @throws IOException if an I/O error occurs during path resolution
+	 */
+	public static int getTotalNumber(String baseDir) {
+	    try {
+	        return (int) Files.walk(Paths.get(baseDir))
+	                .filter(p -> p.toString().endsWith(ASMParser.ASM_EXTENSION))
+	                .count();
+	    } catch (IOException e) {
+	    	System.err.println("Error while counting the total number of asms");
+	        return 0;
+	    }
+	}
+	
+	
 	/**
 	 * Extracts ASM relative file paths from a given directory. Also label each file
 	 * path.
@@ -94,8 +118,10 @@ public final class ModelScanner {
 	 * @return a list of file paths
 	 */
 	protected static List<String> getSublistByLabel(Map<String, FileLabel> collectedFiles, FileLabel label) {
-		return collectedFiles.entrySet().stream().filter(entry -> entry.getValue() == label)
-				.map(entry -> entry.getKey()).collect(Collectors.toList());
+		return collectedFiles.entrySet().stream()
+				.filter(entry -> entry.getValue() == label)
+				.map(entry -> entry.getKey())
+				.collect(Collectors.toList());
 	}
 
 	/**
@@ -138,11 +164,26 @@ public final class ModelScanner {
 						if (filterNoPar) {
 							boolean noPar = true;
 							EList<RuleDeclaration> ruleDeclarations = asms.getMain().getBodySection().getRuleDeclaration();
-							for (RuleDeclaration ruleDecl : ruleDeclarations) {
-								List<Rule> a = RuleExtractorFromMacroDecl.getAllContainedRules((MacroDeclaration) ruleDecl);
-								if (a.stream().anyMatch(rule -> rule instanceof BlockRule)) {
-									noPar = false;
-									break;
+							try {
+								for (RuleDeclaration ruleDecl : ruleDeclarations) {
+									List<Rule> a = RuleExtractorFromMacroDecl.getAllContainedRules((MacroDeclaration) ruleDecl);
+									if (a.stream().anyMatch(rule -> rule instanceof BlockRule)) {
+										noPar = false;
+										break;
+									}
+								}
+							} catch (Exception e) {
+								// In case of exception while extracting rules, use AsmPrinter
+								// to check if the spec contains "endpar"
+								StringWriter out = new StringWriter();
+								PrintWriter st = new PrintWriter(out);
+								AsmPrinter asmPrint = new AsmPrinter(st);
+								for (RuleDeclaration ruleDecl : ruleDeclarations) {
+									asmPrint.visit(ruleDecl);
+									if (out.toString().contains("endpar")) {
+										noPar = false;
+										break;
+									}
 								}
 							}
 							collectedFiles.put(path, noPar ? FileLabel.NO_PAR : FileLabel.VALID_ASM);

@@ -24,7 +24,8 @@ public class ModelScannerRunner {
 	 */
 	public static void main(String[] args) {
 		Map<String, FileLabel> collectedFiles = ModelScanner.scan(ASM_EXAMPLES, FILTER_NO_PAR);
-		ModelListWriter.writeToFile(collectedFiles, TARGET_FILE);
+		int totalAsms = ModelScanner.getTotalNumber(ASM_EXAMPLES);
+		ModelListWriter.writeToFile(collectedFiles, totalAsms, TARGET_FILE);
 	}
 
 }

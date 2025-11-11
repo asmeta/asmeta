@@ -19,10 +19,11 @@ public final class ModelListWriter {
 	 * Writes a grouped and formatted list of file paths to the specified target file.
 	 *
 	 * @param collectedFiles a map associating file paths with their corresponding {@link FileLabel}
+	 * @param totalAsms      the total number of files with .asm extension
 	 * @param targetPath     the path of the target output file
 	 * @throws IOException if an I/O error occurs during writing
 	 */
-	public static void writeToFile(Map<String, FileLabel> collectedFiles, String targetPath) {
+	public static void writeToFile(Map<String, FileLabel> collectedFiles, int totalAsms, String targetPath) {
 		try (FileOutputStream os = new FileOutputStream(targetPath)) {
 	        // For string formatting
 	        int maxLen = collectedFiles.keySet().stream()
@@ -39,6 +40,10 @@ public final class ModelListWriter {
 	                FileLabel.NO_PAR,
 	                FileLabel.VALID_ASM
 	        );
+	        // Print total number of specs (valid and invalid)
+	        String initialComment = "// total: " + totalAsms + System.lineSeparator() + System.lineSeparator();;
+	        os.write(initialComment.getBytes());
+	        os.write(System.lineSeparator().getBytes());
 	        // Group by label
 	        Map<FileLabel, List<String>> groupedByLabel = new LinkedHashMap<>();
 	        for (FileLabel label : order) {
@@ -68,6 +73,9 @@ public final class ModelListWriter {
 	 */
 	protected static void writeLines(List<String> pathList, FileOutputStream os, String comment, int maxLen)
 			throws IOException {
+		String initialComment = comment.isEmpty() ? "valid asm" : comment;
+        initialComment = "// " + initialComment + ": " + pathList.size() + System.lineSeparator();
+        os.write(initialComment.getBytes());
 		for (String path : pathList) {
 			if (!comment.isEmpty()) {
 				path = String.format("%-" + (maxLen + 1) + "s", path);
@@ -76,8 +84,7 @@ public final class ModelListWriter {
 			path += System.lineSeparator();
 			os.write(path.getBytes());
 		}
-		if (!pathList.isEmpty())
-			os.write(System.lineSeparator().getBytes());
+		os.write(System.lineSeparator().getBytes());
 	}
 
 }

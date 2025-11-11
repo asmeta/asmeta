@@ -1,9 +1,14 @@
+// total: 859
+
+
+// skip directory: 5
 //test                                                                                                     // skip directory
 //workspaceMSL                                                                                             // skip directory
 //STDL                                                                                                     // skip directory
 //asmetal2cpp                                                                                              // skip directory
 //drafts                                                                                                   // skip directory
 
+// old directory: 12
 //examples\smartHome\old                                                                                   // old directory
 //examples\GilbreathCardTrick\old                                                                          // old directory
 //DAS\TrafficMonitoringSystem\validation\old                                                               // old directory
@@ -17,6 +22,7 @@
 //examples\hemodialysisDevice\ABZ2016\old_completedModels                                                  // old directory
 //examples\simple_example\oldATM                                                                           // old directory
 
+// old asm: 6
 //DAS\TrafficMonitoringSystem\OrganizationMiddleware_old_old.asm                                           // old asm
 //DAS\TrafficMonitoringSystem\OrganizationMiddleware_old.asm                                               // old asm
 //DAS\TrafficMonitoringSystem\OrganizationMiddleware_old_old_old.asm                                       // old asm
@@ -24,11 +30,13 @@
 //DAS\TrafficMonitoringSystem\SelfHealingSubsystem_old.asm                                                 // old asm
 //examples\ferryman\ferrymanSimulator_raff1_old.asm                                                        // old asm
 
-//examples\landingGearSystem\LandingGearSystemWithCylAndValves.asm                                         // duplicated
-//examples\landingGearSystem\LandingGearSystemWithCylValvesAndSensors_v2.asm                               // duplicated
-//examples\landingGearSystem\LandingGearSystemWithCylValvesAndSensors3LandSets.asm                         // duplicated
-//examples\landingGearSystem\LandingGearSystemWithCylAndValves_v2.asm                                      // duplicated
+// duplicated asm: 4
+//examples\landingGearSystem\LandingGearSystemWithCylAndValves.asm                                         // duplicated asm
+//examples\landingGearSystem\LandingGearSystemWithCylValvesAndSensors_v2.asm                               // duplicated asm
+//examples\landingGearSystem\LandingGearSystemWithCylValvesAndSensors3LandSets.asm                         // duplicated asm
+//examples\landingGearSystem\LandingGearSystemWithCylAndValves_v2.asm                                      // duplicated asm
 
+// module: 81
 //examples\ABZ2020\CarSystemModule\CarSystem003\CarSystem003HighBeam.asm                                   // module
 //systemc\counterAG\count_stim_user.asm                                                                    // module
 //examples\ABZ2020\CarSystemModule\CarSystem006\CarSystem006Functions.asm                                  // module
@@ -111,8 +119,12 @@
 //examples\ABZ2020\CarSystemModule\CarSystem001\CarSystem001Functions.asm                                  // module
 //examples\ABZ2020\CarSystemModule\CarSystem003\CarSystem003Domains.asm                                    // module
 
+// parsing error: 0
+
+// other invalid asm: 1
 //examples\simple_example\iterativeWhile.asm                                                               // blocking random execution
 
+// valid asm: 298
 examples\simple_example\population.asm
 examples\landingGearSystem\LGS_EV.asm
 PillBox\Level1\pillbox_1.asm

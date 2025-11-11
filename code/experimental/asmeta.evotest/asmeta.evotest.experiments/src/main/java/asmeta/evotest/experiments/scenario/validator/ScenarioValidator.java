@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.asmeta.simulator.RuleEvaluator;
 import org.asmeta.xt.validator.AsmetaV;
 import org.asmeta.xt.validator.RuleEvalWCov;
 
