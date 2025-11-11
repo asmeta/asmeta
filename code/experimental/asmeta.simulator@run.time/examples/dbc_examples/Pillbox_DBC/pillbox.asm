@@ -38,11 +38,11 @@ signature:
 	controlled skipPill: Compartment -> Seq(Boolean) //If true skip pill otherwise no 
 	controlled compartmentTimer: Compartment -> Natural
 	
-	//IN from patient
+	//IN from Compartment
 	//monitored openSwitch: Compartment -> Boolean
 	monitored openSwitch: Integer -> Boolean
 	
-	//OUT to patient 
+	//OUT to Compartment
 	//out outMess: Compartment -> String
 	out logMess: Compartment -> String
 	out outMess: Integer -> String
@@ -102,7 +102,7 @@ definitions:
 	
 	//These two rules are required because
 	/*if redLed($compartment) = OFF then if (at(time_consumption($compartment),drugIndex($compartment))<systemTime) then r_pillToBeTaken[$compartment] endif endif
-quindi ogni volta controlla se il tempo della medicina � inferiore al systemTime e se � cos� dice che � da prendere... Per� se ho medA = 100 e med B=200, a 100 prendo medA ma quando arrivo a 200 mi dice che devo prendere sia medA che medB */	
+quindi ogni volta controlla se il tempo della medicina   inferiore al systemTime e se   cos  dice che   da prendere... Per  se ho medA = 100 e med B=200, a 100 prendo medA ma quando arrivo a 200 mi dice che devo prendere sia medA che medB */	
 	
 	
 	// Rule that implement the writing on the log file
