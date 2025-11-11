@@ -48,7 +48,7 @@ public class ValidationDataCollector {
 					coveredMultIterForall += Integer.valueOf(covRow[13]);
 				}
 			}
-			String failingScenarios = covRows.get(1)[14];
+			String failingScenarios = covRows.getLast()[14];
 			// May produce NaN if denominator is 0 (undefined 0/0)
 			float macroCoverage = ((float) coveredMacros) / Integer.valueOf(modelData.get("n_macro"));
 			float updateRuleCoverage = ((float) coveredUpdate) / Integer.valueOf(modelData.get("n_update"));

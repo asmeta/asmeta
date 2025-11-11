@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -37,6 +38,24 @@ public class ScenarioGenerator {
 
 	private static final String EVOAVALLA_WORKING_DIR = "./evoAvalla/reports/";
 	private static final String DASH = "-";
+	
+	/**
+	 * Run random test generation.
+	 * 
+	 * @param asmPath   the path of the asm to be validated
+	 * @param targetDir the path of the target directory (where to store the
+	 *                  results)
+	 * @param nTest  the number of generated test
+	 * @param nStep the number of step in each test 
+	 * @return random execution time in ms
+	 * @throws Exception if any Exception occurs
+	 */
+	public static float runRandom(String asmPath, String targetDir, int nTest, int nStep) throws Exception {
+		List<Integer> stepList = new ArrayList<>();
+		for (int i = 0; i < nTest; i++)
+			stepList.add(nStep);
+		return runRandom(asmPath, targetDir, stepList);
+	}
 
 	/**
 	 * Run random test generation.
@@ -92,8 +111,7 @@ public class ScenarioGenerator {
 	}
 
 	/**
-	 * Validate an ASM specification and compute the coverage given an
-	 * <code>AsmTestSuite<code>
+	 * Save an test suite into avalla scenarios (with .avalla extension)
 	 * 
 	 * @param asmPath      the path of the asm to be validated
 	 * @param suite        the test suite

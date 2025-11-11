@@ -204,7 +204,7 @@ public class ScenarioGeneratorsRunner {
 	 * @param counter a non-negative integer
 	 * @return the formatted string
 	 */
-	private static String formatCounter(int coutner) {
+	public static String formatCounter(int coutner) {
 		String countString = String.valueOf(coutner);
 		if (coutner < 10)
 			countString = "00" + coutner;

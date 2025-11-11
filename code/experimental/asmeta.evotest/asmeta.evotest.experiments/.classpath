@@ -22,6 +22,7 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
 		<attributes>
+			<attribute name="module" value="true"/>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
@@ -30,13 +31,14 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry combineaccessrules="false" kind="src" path="/asmeta.atgt"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/asmeta.evotest.junit2avalla"/>
 	<classpathentry excluding="**" kind="src" output="target/classes" path="src/main/resources">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
 			<attribute name="optional" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry combineaccessrules="false" kind="src" path="/asmeta.evotest.junit2avalla"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/asmeta.atgt"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/asmeta.mutation"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

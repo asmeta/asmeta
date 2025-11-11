@@ -2,7 +2,7 @@ package asmeta.mutation.mutationscore;
 
 import java.io.File;
 import java.util.AbstractMap;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +15,6 @@ import asmeta.AsmCollection;
 import asmeta.mutation.operators.ChooseRuleMutate;
 import asmeta.mutation.operators.CondNegator;
 import asmeta.mutation.operators.CondRemover;
-import asmeta.mutation.operators.ParToSeqMutator;
 import asmeta.mutation.operators.RuleBasedMutator;
 import asmeta.mutation.operators.RuleRemover;
 import asmeta.mutation.operators.AsmetaMutationOperator;
@@ -27,7 +26,7 @@ import asmeta.mutation.operators.AsmetaMutationOperator;
 public class MutatedScenarioExecutor {
 
 	// mutation operators to be used
-	List<AsmetaMutationOperator> mutOperators = Arrays.asList();
+	List<AsmetaMutationOperator> mutOperators = new ArrayList<>();
 			//Arrays.asList(
 			//		new RuleRemover(), 
 			//		new ChooseRuleMutate(),
