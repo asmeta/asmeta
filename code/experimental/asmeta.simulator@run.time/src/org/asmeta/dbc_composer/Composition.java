@@ -134,10 +134,11 @@ class LeafAsm extends Composition {
 	// using InfoAsmetaService e AsmetaSserviceRun
 	LeafAsm(String asm1, boolean interactive) throws Exception {
 		AsmCollection asc1 = ASMParser.setUpReadAsm(new File(asm1));
-		name = asc1.getMain().getName();
+		name = asc1.getMain().getName(); 
+		mon = new MFReaderWithSettableMon(); //FIX by Patrizia 8 nov 2025 mon is always used (in interactive mode or not) for copyMonitored
 		if (interactive) {
-			mon = new MFReaderWithSettableMon(); // from CLI
-			Environment env = new Environment(mon);
+			//mon = new MFReaderWithSettableMon(); 
+			Environment env = new Environment(mon); // from CLI
 			s1 = new SimulatorRT(name, asc1, env);
 		} else {
 			simulatorMap = new HashMap<Integer, InfoAsmetaService>();// NEW from a map
@@ -168,7 +169,8 @@ class LeafAsm extends Composition {
 			InfoAsmetaService is1 = simulatorMap.get(1);
 			// FIX by Patrizia 8 nov 2025: add mon resulting from copyMonitored() in
 			// locationValue
-			if (mon != null) {
+			System.out.println("Mon stored: "+mon.monStoredValues.toString());
+			if (!mon.monStoredValues.isEmpty()) {
 				Map<String, String> tmp = new HashMap<>();
 				// iterate over mon locations and copy the string version of each location in
 				// tmp
@@ -179,6 +181,7 @@ class LeafAsm extends Composition {
 			}
 			is1.setLocationValue(locationValue);
 			System.out.println(locationValue.toString());
+
 			runner.run(RunMode.RUN_ONE_STEP); // run one step
 			is1.incContSim(); // increase counter of simulation steps
 			// MyState state = is1.getState();
