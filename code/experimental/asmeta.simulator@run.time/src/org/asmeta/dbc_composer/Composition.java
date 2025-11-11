@@ -180,7 +180,7 @@ class LeafAsm extends Composition {
 				}
 			}
 			is1.setLocationValue(locationValue);
-			System.out.println("All monintored locations:"+locationValue.toString());
+			System.out.println("All monitored locations:"+locationValue.toString());
 
 			runner.run(RunMode.RUN_ONE_STEP); // run one step
 			is1.incContSim(); // increase counter of simulation steps
