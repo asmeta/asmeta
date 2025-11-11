@@ -15,6 +15,8 @@ import asmeta.AsmCollection;
 import asmeta.mutation.operators.ChooseRuleMutate;
 import asmeta.mutation.operators.CondNegator;
 import asmeta.mutation.operators.CondRemover;
+import asmeta.mutation.operators.ParToSeqMutator;
+import asmeta.mutation.operators.RuleBasedMutator;
 import asmeta.mutation.operators.RuleRemover;
 import asmeta.mutation.operators.AsmetaMutationOperator;
 
@@ -25,19 +27,24 @@ import asmeta.mutation.operators.AsmetaMutationOperator;
 public class MutatedScenarioExecutor {
 
 	// mutation operators to be used
-	List<AsmetaMutationOperator> mutOperators = 
-			Arrays.asList(
-					new RuleRemover(), 
-					new ChooseRuleMutate(),
-					new CondRemover(),
-					new CondNegator()
-					);
+	List<AsmetaMutationOperator> mutOperators = Arrays.asList();
+			//Arrays.asList(
+			//		new RuleRemover(), 
+			//		new ChooseRuleMutate(),
+			//		new CondRemover(),
+			//		new CondNegator()
+			//		);
 
 	//
 	// applies a set of mutants
 	// return MAP with key: mutation operator (String) -> a pair (killed,n_mutants)
 	//
 	public HashMap<String,Map.Entry<Integer, Integer>> computeMutationScore(String scenarioPath) throws Exception {
+		mutOperators.add(new RuleRemover());
+		mutOperators.add(new ChooseRuleMutate());
+		mutOperators.add(new CondRemover());
+		mutOperators.add(new CondNegator());
+		
 		// TEMP. use a temporary directory
 		File temp = new File("temp/");
 		HashMap<String,Map.Entry<Integer, Integer>> results = new HashMap<String, Map.Entry<Integer,Integer>>();
@@ -87,4 +94,42 @@ public class MutatedScenarioExecutor {
 			asm = asmCollection.getMain();
 		}
 	}
+	
+	public HashMap<String,Map.Entry<Integer, Integer>> computeMutationScore(String scenarioPath, List<RuleBasedMutator> mutationOps) throws Exception {
+		mutOperators.addAll(mutationOps);
+		
+		// TEMP. use a temporary directory
+		File temp = new File("temp/");
+		HashMap<String,Map.Entry<Integer, Integer>> results = new HashMap<String, Map.Entry<Integer,Integer>>();
+		assert temp.exists() && temp.isDirectory();
+		// parse the scenario to get the ref to the asmeta
+		AsmetaMutatedFromAvalla asmetaBuilder = new AsmetaMutatedFromAvalla(scenarioPath, temp);
+		AsmCollection orginalAsm = asmetaBuilder.getAsm();
+		// for every mutation operators
+		for (AsmetaMutationOperator mut : mutOperators) {
+			int nKilled = 0;
+			List<AsmCollection> mutants = mut.mutate(orginalAsm);
+			Map<String, Boolean> allCoveredRules = new HashMap<>();
+			// modify the scenario to ref to the mutated spec
+			for (AsmCollection m : mutants) {
+				// change the asmeta with the mutation
+				asmetaBuilder.setAsmeta(m);
+				// save the scenario
+				asmetaBuilder.save();
+				File tempAsmPath = asmetaBuilder.getTempAsmPath();
+				// execute now the scenario
+				// ValidationResult result = AsmetaV.executeAsmetaFromAvalla(false,
+				// allCoveredRules, tempAsmPath, originalName);
+				ValidationResult result = AsmetaV.executeAsmetaFromAvalla(false, allCoveredRules, tempAsmPath);
+				if (!result.isCheckSucceeded()) {
+					System.err.println("KILLED !!!");
+					nKilled++;
+				}
+			}
+			// name of the operator -> pair (nKilled, mutants)
+			results.put(mut.getName(), new AbstractMap.SimpleEntry<Integer, Integer>(nKilled, mutants.size()));
+		}
+		return  results;
+	}
+	
 }

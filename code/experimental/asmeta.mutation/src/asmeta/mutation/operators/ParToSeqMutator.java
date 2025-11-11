@@ -27,7 +27,7 @@ import asmeta.transitionrules.turbotransitionrules.TurbotransitionrulesFactory;
 public class ParToSeqMutator extends RuleBasedMutator {
 
 	
-	ParToSeqMutator(){
+	public ParToSeqMutator(){
 		super(new RuleVisitorAdapter(new ParToSeq()));
 	}
 	
