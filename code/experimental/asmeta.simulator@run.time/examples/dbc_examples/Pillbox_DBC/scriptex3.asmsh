@@ -1,3 +1,8 @@
-init -n 2
-setup M as examples/dbc_examples/asmCPrePost.asm | examples/dbc_examples/asmCPrePostInc.asm
-run(M, {funcS=10;funcH=2;myinput=10})
+setup M1 as examples/dbc_examples/asmCPrePostPar.asm 
+setup M2 as examples/dbc_examples/asmCPrePostInc.asm
+setup M3 as examples/dbc_examples/asmCPrePostMult.asm 
+setup M4 as examples/dbc_examples/asmCPrePostPar.asm 
+setup M5 as examples/dbc_examples/asmCPrePostInc.asm
+setup M6 as examples/dbc_examples/asmCPrePostMult.asm 
+setup M as ( M1 | ( M2 || M3 ) ) | ( M4 | ( M5 || M6 ) )
+run(M, {funcS=5;funcH=2;myinput=10})

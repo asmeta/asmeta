@@ -39,15 +39,17 @@ public class ComposerCLI {
 		                    Parser parser = null;
 							try {
 								parser = new Parser(replacedExpr,false);
+							    Composition comp = parser.toComposition();
+							    System.out.println("Composition setup for alias: "+ alias + " -> "+comp.toString());
+							    compositions.put(alias, comp);
+							    System.out.println(compositions.toString());
+							    continue;
 							} catch (Exception e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
+							
 							}
-		                    Composition comp = parser.toComposition();
-		                    System.out.println("Composition setup for alias: "+ alias + " -> "+comp.toString());
-		                    compositions.put(alias, comp);
-		                    System.out.println(compositions.toString());
-		                    continue;
+							
 		                }
 
 		                // Gestione RUN
@@ -69,6 +71,7 @@ public class ComposerCLI {
 		                    System.out.println(" with input: " + mon);
 		                  
 		                    Composition comp = compositions.get(alias);
+		                  
 		                    if (comp == null) {
 		                        System.err.println("Composition not found for alias: " + alias);
 		                        continue;
@@ -76,7 +79,8 @@ public class ComposerCLI {
 
 		                    
 		                    try {
-		                        comp.eval(true,mon); // true abilita il DbC checker; TODO eval con parametri per le funz. monitorate libere
+		                        System.out.println(comp.toString());
+		                    	comp.eval(true,mon); // true abilita il DbC checker; TODO eval con parametri per le funz. monitorate libere
 		                        System.out.println(comp.toString());
 		                    } catch (CompositionException e) {
 		                        System.err.println("Error in composition " + alias + ": " + e.getMessage());

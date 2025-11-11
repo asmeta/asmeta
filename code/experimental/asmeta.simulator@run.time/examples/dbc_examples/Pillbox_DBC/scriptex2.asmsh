@@ -1,3 +1,2 @@
-init -n 1
 setup M as examples/dbc_examples/asmCPre.asm
 run(M, {funcS=5;funcH=2;myinput=10})

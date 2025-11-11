@@ -1,10 +1,9 @@
-init -n 4
-setup CM as configMgr.asm
-setup RES as rescheduler.asm
+setup CM as examples/dbc_examples/Pillbox_DBC/configMgr.asm
+setup RES as examples/dbc_examples/Pillbox_DBC/rescheduler.asm
 setup setup_comp as ( CM || RES )
-setup C1 as compartment.asm
-setup C2 as compartment.asm
-setup PB as pillbox.asm
+setup C1 as examples/dbc_examples/Pillbox_DBC/compartment.asm
+setup C2 as examples/dbc_examples/Pillbox_DBC/compartment.asm
+setup PB as examples/dbc_examples/Pillbox_DBC/pillbox.asm
 run(setup_comp, {redLed(compartment1)=OFF;redLed(compartment2)=OFF;name(compartment1)="fosamax";name(compartment2)="moment";time_consumption(compartment1)=[360];time_consumption(compartment2)=[730,1140];drugIndex(compartment1)=0;drugIndex(compartment2)=0})
 setup pillbox_comp as  ( ( PB <|> ( C1 || C2 ) ) <|> ( CM || RES ) )
 run(pillbox_comp, {setNewTime(compartment1)=false;skipNextPill(compartment1)=false;systemTime=361;openSwitch(compartment1)=false;setNewTime(compartment2)=false;skipNextPill(compartment2)=false;openSwitch(compartment2)=false})
