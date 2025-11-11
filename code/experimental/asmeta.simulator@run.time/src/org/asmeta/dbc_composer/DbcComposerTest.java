@@ -244,4 +244,32 @@ public class DbcComposerTest {
 	}
 	
 	
+	@Test
+	public void testBiPipePillboxRescheduler() throws Exception {
+		//Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
+		BiPipeHalfDup c = new BiPipeHalfDup(new LeafAsm("examples/dbc_examples/Pillbox_DBC/rescheduler.asm",false), new LeafAsm("examples/dbc_examples/Pillbox_DBC/pillbox.asm",false));
+		Map<String, String> mon = new HashMap<>();
+		try {
+			mon.put("setNewTime(compartment1)","false");
+			mon.put("skipNextPill(compartment1)","false");
+			mon.put("systemTime","361");
+			mon.put("openSwitch(compartment1)","false");
+			mon.put("setNewTime(compartment2)","false");
+			mon.put("skipNextPill(compartment2)","false");
+			mon.put("openSwitch(compartment2)","false");
+			c.eval(true,mon);
+			System.out.println(c.toString());
+			System.out.println(" ===== new step =====");
+			/*c.eval(true,mon);
+			System.out.println(c.toString());
+			System.out.println(" ===== new step =====");
+			c.eval(true,mon);
+			System.out.println(c.toString());
+			*/
+		} catch (CompositionException e) {
+			System.out.println(e.getMessage());
+			System.out.println(c.toString());
+		}
+	}
+	
 }
