@@ -12,7 +12,6 @@ import org.asmeta.simulator.State;
 import org.asmeta.simulator.main.AsmModelNotFoundException;
 import org.asmeta.simulator.main.MainRuleNotFoundException;
 import org.asmeta.simulator.main.Simulator;
-import org.asmeta.simulator.readers.RandomMFReader;
 import org.asmeta.simulator.value.Value;
 
 import asmeta.AsmCollection;
@@ -90,9 +89,14 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 		randomMFReader = rnd;		
 		// TODO add variables
 	}
-
+	
 	@Override
 	public AsmTestSuite getTestSuite() {
+		// do not use real random values when choosing
+		return getTestSuite(false);
+	}
+	
+	public AsmTestSuite getTestSuite(boolean shuffle) {
 		try {
 			AsmTestSuite testSuite = new AsmTestSuite();
 			for (int test = 0; test < numberofTests; test++) {
@@ -102,10 +106,8 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 				Environment env = new Environment(randomMFReader);
 				// build the simulator
 				Simulator simulator = new Simulator(modelName, asm, env);
-				// do not use real random values when choosing
-				simulator.setShuffleFlag(false);
+				simulator.setShuffleFlag(shuffle);
 				// simulator.createSimulatorRnd(modelName);
-				//
 				String testName = "test" + Math.addExact(test, testNumberOffset);
 				AsmTestSequence testsequence = new AsmTestSequence(new AsmTestCondition(testName, null));
 				State state;
@@ -158,7 +160,6 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 			e.printStackTrace();
 			return AsmTestSuite.getEmptyTestSuite();
 		}
-		
 	}
 	
 	public void setStepNumber(int stepNumber) {

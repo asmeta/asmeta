@@ -59,11 +59,11 @@ public class ScenarioGenerator {
 		if (stepList == null || stepList.isEmpty()) {
 			randomTestGenerator.setStepNumber(DEFAULT_RANDOM_STEPS);
 			randomTestGenerator.setNumberofTests(DEFAULT_RANDOM_TESTS);
-			randomSuite.addAllTest(randomTestGenerator.getTestSuite());
+			randomSuite.addAllTest(randomTestGenerator.getTestSuite(false));
 		} else {
 			stepList.forEach(stepOccurrence -> {
 				randomTestGenerator.setStepNumber(stepOccurrence);
-				randomSuite.addAllTest(randomTestGenerator.getTestSuite());
+				randomSuite.addAllTest(randomTestGenerator.getTestSuite(false));
 			});
 		}
 		Instant end = Instant.now();
