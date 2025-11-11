@@ -4,3 +4,4 @@ setup M2 as examples/dbc_examples/asmCPrePostInc.asm
 setup M3 as examples/dbc_examples/asmCPrePostMult.asm 
 setup M as ( M1 | ( M2 || M3 ) )
 run(M, {funcS=5;funcH=2;myinput=10})
+run(M, {funcS=-4;funcH=2;myinput=10})

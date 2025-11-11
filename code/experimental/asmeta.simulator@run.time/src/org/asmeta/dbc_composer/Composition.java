@@ -169,7 +169,7 @@ class LeafAsm extends Composition {
 			InfoAsmetaService is1 = simulatorMap.get(1);
 			// FIX by Patrizia 8 nov 2025: add mon resulting from copyMonitored() in
 			// locationValue
-			System.out.println("Mon stored: "+mon.monStoredValues.toString());
+			System.out.println("Copied monnitored locations: "+mon.monStoredValues.toString());
 			if (!mon.monStoredValues.isEmpty()) {
 				Map<String, String> tmp = new HashMap<>();
 				// iterate over mon locations and copy the string version of each location in
@@ -180,7 +180,7 @@ class LeafAsm extends Composition {
 				}
 			}
 			is1.setLocationValue(locationValue);
-			System.out.println(locationValue.toString());
+			System.out.println("All monintored locations:"+locationValue.toString());
 
 			runner.run(RunMode.RUN_ONE_STEP); // run one step
 			is1.incContSim(); // increase counter of simulation steps
@@ -360,7 +360,7 @@ class PipeN extends NComposition {
 		String string = c.get(0).toString();
 		// for starts from 2nd pipe element
 		for (int i = 1; i < c.size(); i++) {
-			string = string + "|" + c.get(i).toString();
+			string = " ( "+string + " | " + c.get(i).toString()+" ) ";
 		}
 		return string;
 	}
@@ -390,41 +390,10 @@ class BiPipeHalfDup extends BiComposition {
 
 	@Override
 	public String toString() {
-		return c1.toString() + "<|>" + c2.toString();
+		return " ( "+c1.toString() + " <|> " + c2.toString()+" ) ";
 	}
 
-	//@Override
-	/*UpdateSet eval(boolean dbc) throws CompositionException {
-		UpdateSet up = null;
-		if (dbc) {
-			try {
-				up = c1.eval(true);
-				c2.copyMonitored(up);
-				up = c2.eval(true);
-				c1.copyMonitored(up);
-			} catch (InvalidInvariantException e) {
-				System.out.println(e.getInvariant());
-				EList<Function> constFunList = e.getInvariant().getConstrainedFunction();
-				System.out.println(e.getInvariant().getConstrainedFunction());
-				for (Function f : constFunList) {
-					if (Defs.isMonitored(f))
-						// System.out.println("Precondition violation over " + f.getName());
-						throw new PreconditionViolationException("Precondition violation over " + f.getName());
-					else if (Defs.isOut(f))
-						// System.out.println("Postcondition violation over " + f.getName());
-						throw new PostconditionViolationException("Postcondition violation over " + f.getName());
-					else
-						// System.out.println("Invariant violation over " + f.getName());
-						throw new InvariantViolationException("Invariant violation over " + f.getName());
-				}
-			}
-		} else {
-			up = eval();
-		}
-		return up;// if dbc check inv else eval(); return eval();
-	}*/
-
-		
+	
 	
 	@Override
 	UpdateSet eval(boolean dbc) throws CompositionException {
@@ -522,7 +491,8 @@ class BiPipeFullDup extends BiComposition {
 
 	@Override
 	public String toString() {
-		return c1.toString() + "<||>" + c2.toString();
+		return " ( "+c1.toString() + "<||>" + c2.toString()+" ) ";
+		
 	}
 
 	@Override
@@ -617,42 +587,14 @@ class ParN extends NComposition {
 	@Override
 	UpdateSet eval(boolean dbc) throws CompositionException {
 		return evalByCheckingContract(dbc, null);
-		/*UpdateSet up = null;
-		if (dbc) {
-			try {
-				up = c.get(0).eval(true);
-				for (int i = 1; i < c.size(); i++) {
-					UpdateSet tempUp = c.get(i).eval(true);
-					up.union(tempUp);
-				}
-				c.get(c.size() - 1).copyMonitored(up);
-			} catch (InvalidInvariantException e) {
-				System.out.println(e.getInvariant());
-				EList<Function> constFunList = e.getInvariant().getConstrainedFunction();
-				System.out.println(e.getInvariant().getConstrainedFunction());
-				for (Function f : constFunList) {
-					if (Defs.isMonitored(f))
-						// System.out.println("Precondition violation over " + f.getName());
-						throw new PreconditionViolationException("Precondition violation over " + f.getName());
-					else if (Defs.isOut(f))
-						// System.out.println("Postcondition violation over " + f.getName());
-						throw new PostconditionViolationException("Postcondition violation over " + f.getName());
-					else
-						// System.out.println("Invariant violation over " + f.getName());
-						throw new InvariantViolationException("Invariant violation over " + f.getName());
-				}
-			}
-		} else {
-			up = eval();
-		}
-		return up;// if dbc check inv else eval(); return eval();*/
+		
 	}
 
 	@Override
 	public String toString() {
 		String stringa = c.get(0).toString();
 		for (int i = 1; i < c.size(); i++) {
-			stringa = stringa + "||" + c.get(i);
+			stringa = " ( "+stringa + " || " + c.get(i)+" ) ";
 		}
 		return stringa;
 	}
