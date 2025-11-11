@@ -1,0 +1,3 @@
+init -n 2
+setup M as examples/dbc_examples/asmCPrePost.asm | examples/dbc_examples/asmCPrePostInc.asm
+run(M, {funcS=10;funcH=2;myinput=10})

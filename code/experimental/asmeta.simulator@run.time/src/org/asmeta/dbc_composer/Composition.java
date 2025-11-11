@@ -39,7 +39,9 @@ public abstract class Composition {
 
 	// evalbis aggiunta per return multipli
 	abstract UpdateSet eval();
-	abstract UpdateSet eval(boolean dbc) throws CompositionException;	
+
+	abstract UpdateSet eval(boolean dbc) throws CompositionException;
+
 	abstract UpdateSet eval(boolean dbc, Map<String, String> mon) throws CompositionException;
 
 	abstract void copyMonitored(UpdateSet update);
@@ -112,45 +114,42 @@ class MFReaderWithSettableMon extends MonFuncReader {
 // terminal node of the composition
 class LeafAsm extends Composition {
 
-
 	SimulatorRT s1;
 	MFReaderWithSettableMon mon;
 	String name;
-	//FIX 08/11/2025 BY PATRIZIA
-	Map<Integer, InfoAsmetaService> simulatorMap; 
-	AsmetaSserviceRun runner; 	
-	//AsmetaSserviceRun with id=1 to provide monitored function values via a map
+	// FIX 08/11/2025 BY PATRIZIA
+	Map<Integer, InfoAsmetaService> simulatorMap;
+	AsmetaSserviceRun runner;
+	// AsmetaSserviceRun with id=1 to provide monitored function values via a map
 
-	//monitored functions are handled in an interactive way by CLI
-	/*LeafAsm(String asm1) throws Exception {
-		mon = new MFReaderWithSettableMon();
-		Environment env = new Environment(mon);
+	// monitored functions are handled in an interactive way by CLI
+	/*
+	 * LeafAsm(String asm1) throws Exception { mon = new MFReaderWithSettableMon();
+	 * Environment env = new Environment(mon); AsmCollection asc1 =
+	 * ASMParser.setUpReadAsm(new File(asm1)); name = asc1.getMain().getName(); s1 =
+	 * new SimulatorRT(name, asc1, env); }
+	 */
+
+	// NEW by Patrizia: to read monitored function values from CLI or from a map by
+	// using InfoAsmetaService e AsmetaSserviceRun
+	LeafAsm(String asm1, boolean interactive) throws Exception {
 		AsmCollection asc1 = ASMParser.setUpReadAsm(new File(asm1));
 		name = asc1.getMain().getName();
-		s1 = new SimulatorRT(name, asc1, env);	
-	}*/
-	
-	
-	//NEW by Patrizia: to read monitored function values from CLI or from a map by using InfoAsmetaService e AsmetaSserviceRun
-	LeafAsm(String asm1, boolean interactive) throws Exception {
-	   AsmCollection asc1 = ASMParser.setUpReadAsm(new File(asm1));
-	   name = asc1.getMain().getName();
-	   if (interactive) {
-			mon = new MFReaderWithSettableMon(); //from CLI
+		if (interactive) {
+			mon = new MFReaderWithSettableMon(); // from CLI
 			Environment env = new Environment(mon);
-			s1 = new SimulatorRT(name, asc1, env);	
-	   }
-	   else {
-		simulatorMap = new HashMap<Integer, InfoAsmetaService>();//NEW from a map
-		runner = new AsmetaSserviceRun(1,simulatorMap);
-		Environment env = new Environment(runner); 
-		s1 = new SimulatorRT(name, asc1, env);	
-		InfoAsmetaService is1 = new InfoAsmetaService(s1);
-		simulatorMap.put(1,is1);
-	   }
-	   s1.setShuffleFlag(true); //to allow non-deterministic behavior of choose rule			
+			s1 = new SimulatorRT(name, asc1, env);
+		} else {
+			simulatorMap = new HashMap<Integer, InfoAsmetaService>();// NEW from a map
+			runner = new AsmetaSserviceRun(1, simulatorMap);
+			Environment env = new Environment(runner);
+			s1 = new SimulatorRT(name, asc1, env);
+			InfoAsmetaService is1 = new InfoAsmetaService(s1);
+			simulatorMap.put(1, is1);
+		}
+		s1.setShuffleFlag(true); // to allow non-deterministic behavior of choose rule
 	}
-	
+
 	@Override
 	UpdateSet eval() {
 		System.out.println("Running " + name);// + " current state" + s1.getCurrentState());
@@ -159,36 +158,55 @@ class LeafAsm extends Composition {
 		return up;
 	}
 
-	//@Override by Patrizia
+	// @Override by Patrizia
 	UpdateSet eval(boolean dbc, Map<String, String> locationValue) throws CompositionException {
-		
-		//SimulationContainer->AsmetaSservice->InfoAsmetaSservice->SimulatorRT
-		//and AsmetaServiceRun to read monitored values from a map
-			
-		InfoAsmetaService is1 = simulatorMap.get(1); 
-		//FIX by Patrizia 8 nov 2025: add mon resulting from copyMonitored() in locationValue
-		if (mon != null) {
-			Map<String, String> tmp = new HashMap<>();
-			//iterate over mon locations and copy the string version of each location in tmp
-			for (Entry<String,Value> pair : mon.monStoredValues.entrySet()) {
-				tmp.put(pair.getKey(), pair.getValue().toString());
-				locationValue.putAll(tmp);
+
+		// SimulationContainer->AsmetaSservice->InfoAsmetaSservice->SimulatorRT
+		// and AsmetaServiceRun to read monitored values from a map
+		UpdateSet ups = null;
+		try {
+			InfoAsmetaService is1 = simulatorMap.get(1);
+			// FIX by Patrizia 8 nov 2025: add mon resulting from copyMonitored() in
+			// locationValue
+			if (mon != null) {
+				Map<String, String> tmp = new HashMap<>();
+				// iterate over mon locations and copy the string version of each location in
+				// tmp
+				for (Entry<String, Value> pair : mon.monStoredValues.entrySet()) {
+					tmp.put(pair.getKey(), pair.getValue().toString());
+					locationValue.putAll(tmp);
+				}
 			}
-		}    
-		is1.setLocationValue(locationValue);
-		System.out.println(locationValue.toString());
-		runner.run(RunMode.RUN_ONE_STEP); //run one step
-		is1.incContSim(); //increase counter of simulation steps
-		//MyState state = is1.getState();
-		//From Mystate to UpdateSet
-		State state = is1.getSim().getCurrentState();
-		Map<Location,Value> map = state.getLocationMap(); // return the current location map
-		UpdateSet ups = new UpdateSet(); //tricky: create an UpdateSet containing the location set of s1
-		ups.applyLocationUpdates(map);
-		
-		return ups; 
+			is1.setLocationValue(locationValue);
+			System.out.println(locationValue.toString());
+			runner.run(RunMode.RUN_ONE_STEP); // run one step
+			is1.incContSim(); // increase counter of simulation steps
+			// MyState state = is1.getState();
+			// From Mystate to UpdateSet
+			State state = is1.getSim().getCurrentState();
+			Map<Location, Value> map = state.getLocationMap(); // return the current location map
+			ups = new UpdateSet(); // tricky: create an UpdateSet containing the location set of s1
+			ups.applyLocationUpdates(map);
+		} catch (InvalidInvariantException e) {
+			System.out.println(e.getInvariant());
+			EList<Function> constFunList = e.getInvariant().getConstrainedFunction();
+			System.out.println(e.getInvariant().getConstrainedFunction());
+			for (Function f : constFunList) {
+				if (Defs.isMonitored(f))
+					// System.out.println("Precondition violation over " + f.getName());
+					throw new PreconditionViolationException("Precondition violation over " + f.getName());
+				else if (Defs.isOut(f))
+					// System.out.println("Postcondition violation over " + f.getName());
+					throw new PostconditionViolationException("Postcondition violation over " + f.getName());
+				else
+					// System.out.println("Invariant violation over " + f.getName());
+					throw new InvariantViolationException("Invariant violation over " + f.getName());
+			}
+		}
+
+		return ups;
 	}
-	
+
 	@Override
 	UpdateSet eval(boolean dbc) throws CompositionException {
 		System.out.println("Running " + name);// + " current state" + s1.getCurrentState());
@@ -283,55 +301,52 @@ class PipeN extends NComposition {
 
 	@Override
 	UpdateSet eval(boolean dbc) throws CompositionException {
-		return evalByCheckingContract(dbc,null);
+		return evalByCheckingContract(dbc, null);
 	}
-	
+
 	@Override
 	UpdateSet eval(boolean dbc, Map<String, String> mon) throws CompositionException {
-		if (mon.size()==0)	eval(dbc); //if the map is empty evaluation is done in an interactive way (free monitored values are eventually given via shell
-		else evalByCheckingContract(dbc,mon);
-		return null;
+		return evalByCheckingContract(dbc, mon);
+
 	}
 
 	private UpdateSet evalByCheckingContract(boolean dbc, Map<String, String> mon) throws CompositionException {
 		UpdateSet up = null;
 		if (dbc) {
-		try {
-			if (mon==null) { 
-			up = c.get(0).eval(true);
-			for (int i = 1; i < c.size(); i++) {
-				c.get(i).copyMonitored(up);
-				up = c.get(i).eval(true);
-			}
-			c.get(c.size() - 1).copyMonitored(up);
-			}
-			else { //Patrizia TODO test combination of copyMonitored with mon
-				up = c.get(0).eval(true,mon);
-				for (int i = 1; i < c.size(); i++) {
-					c.get(i).copyMonitored(up);
-					up = c.get(i).eval(true,mon);
+			try {
+				if (mon == null) {
+					up = c.get(0).eval(true);
+					for (int i = 1; i < c.size(); i++) {
+						c.get(i).copyMonitored(up);
+						up = c.get(i).eval(true);
+					}
+					c.get(c.size() - 1).copyMonitored(up);
+				} else {
+					up = c.get(0).eval(true, mon);
+					for (int i = 1; i < c.size(); i++) {
+						c.get(i).copyMonitored(up);
+						up = c.get(i).eval(true, mon);
+					}
+					c.get(c.size() - 1).copyMonitored(up);
 				}
-				c.get(c.size() - 1).copyMonitored(up);
+
+			} catch (InvalidInvariantException e) {
+				System.out.println(e.getInvariant());
+				EList<Function> constFunList = e.getInvariant().getConstrainedFunction();
+				System.out.println(e.getInvariant().getConstrainedFunction());
+				for (Function f : constFunList) {
+					if (Defs.isMonitored(f))
+						// System.out.println("Precondition violation over " + f.getName());
+						throw new PreconditionViolationException("Precondition violation over " + f.getName());
+					else if (Defs.isOut(f))
+						// System.out.println("Postcondition violation over " + f.getName());
+						throw new PostconditionViolationException("Postcondition violation over " + f.getName());
+					else
+						// System.out.println("Invariant violation over " + f.getName());
+						throw new InvariantViolationException("Invariant violation over " + f.getName());
+				}
 			}
-			
-		} catch (InvalidInvariantException e) {
-			System.out.println(e.getInvariant());
-			EList<Function> constFunList = e.getInvariant().getConstrainedFunction();
-			System.out.println(e.getInvariant().getConstrainedFunction());
-			for (Function f : constFunList) {
-				if (Defs.isMonitored(f))
-					// System.out.println("Precondition violation over " + f.getName());
-					throw new PreconditionViolationException("Precondition violation over " + f.getName());
-				else if (Defs.isOut(f))
-					// System.out.println("Postcondition violation over " + f.getName());
-					throw new PostconditionViolationException("Postcondition violation over " + f.getName());
-				else
-					// System.out.println("Invariant violation over " + f.getName());
-					throw new InvariantViolationException("Invariant violation over " + f.getName());
-			}
-		}
-		}
-		else {
+		} else {
 			up = eval();
 		}
 		return up;
@@ -346,8 +361,6 @@ class PipeN extends NComposition {
 		}
 		return string;
 	}
-
-	
 
 }
 
@@ -535,7 +548,7 @@ class ParN extends NComposition {
 		// System.out.println(up.toString());
 		return up;
 	}
-	
+
 	@Override
 	UpdateSet eval(boolean dbc) throws CompositionException {
 		UpdateSet up = null;
@@ -569,7 +582,6 @@ class ParN extends NComposition {
 		return up;// if dbc check inv else eval(); return eval();
 	}
 
-	
 	@Override
 	public String toString() {
 		String stringa = c.get(0).toString();
