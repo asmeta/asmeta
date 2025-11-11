@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.asmeta.simulator.RuleEvaluator;
 import org.asmeta.xt.validator.AsmetaV;
 import org.asmeta.xt.validator.RuleEvalWCov;
 
@@ -26,15 +27,16 @@ public class ScenarioValidator {
 	 *                     files
 	 * @param csvPath      where to save the experiments stats (it must be a .csv
 	 *                     file)
+	 * @param shuffle      if true, run choose rules deterministically (always choose first element)
 	 * @return the number of scenarios for which the validation resulted in an error
 	 */
-	public static int computeCoverageFromAvalla(String scenarioPath, String csvPath) {
-		int failingScenarios = 0;
-		int errorsInValidation = 0;
+	public static int computeCoverageFromAvalla(String scenarioPath, String csvPath, boolean shuffle) {
 		// To avoid to count a scenario twice if the following one is empty, keep
 		// track of the previous execution id. For the first scenario, the check is done
 		// using the column name
 		String previosExecId = "execution_id";
+		int failingScenarios = 0;
+		int errorsInValidation = 0;
 		try (Stream<Path> files = Files.list(Path.of(scenarioPath))) {
 			List<Path> filesList = files
 					.filter(path -> path.getFileName().toString().endsWith(AsmetaV.SCENARIO_EXTENSION))
@@ -42,7 +44,7 @@ public class ScenarioValidator {
 			for (Path path : filesList) {
 				System.out.println("Processing: " + path);
 				try {
-					AsmetaV.execValidation(path.toString(), true, csvPath);
+					AsmetaV.execValidation(path.toString(), true, csvPath, shuffle);
 					// Extract the value from the last column of the last row in the CSV to check if
 					// the scenario fails
 					List<String[]> rows = CsvManager.readCsv(csvPath);

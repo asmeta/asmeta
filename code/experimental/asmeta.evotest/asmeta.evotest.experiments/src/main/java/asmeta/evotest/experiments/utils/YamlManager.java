@@ -37,7 +37,12 @@ public class YamlManager {
 			throws IOException {
 		Path basePath = Path.of(baseFolderPath);
 		Path targetPath = Path.of(asmPath);
-		String relativeAsmPath = basePath.relativize(targetPath).toString();
+		String relativeAsmPath;
+		try {
+			relativeAsmPath = basePath.relativize(targetPath).toString();
+		} catch (IllegalArgumentException e) {
+		    relativeAsmPath = targetPath.toAbsolutePath().toString(); // fallback to absolute
+		}
 		String content = "";
 		content += ASM_NAME + ": " + asmName + System.lineSeparator();
 		content += ASM_PATH + ": " + relativeAsmPath + System.lineSeparator();

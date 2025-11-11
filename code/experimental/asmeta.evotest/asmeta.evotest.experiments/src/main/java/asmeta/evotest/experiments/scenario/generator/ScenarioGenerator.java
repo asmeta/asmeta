@@ -107,7 +107,12 @@ public class ScenarioGenerator {
 		String outputDir = outputFile.getAbsolutePath();
 		Path basePath = Path.of(testDir);
 		Path targetPath = Path.of(asmPath);
-		String relativeAsmPath = basePath.relativize(targetPath).toString();
+		String relativeAsmPath;
+		try {
+			relativeAsmPath = basePath.relativize(targetPath).toString();
+		} catch (IllegalArgumentException e) {
+		    relativeAsmPath = targetPath.toAbsolutePath().toString(); // fallback to absolute
+		}
 		SaveResults.saveResults(suite, relativeAsmPath, Collections.singleton(FormatsEnum.AVALLA), "", outputDir, keepLastStep);
 	}
 

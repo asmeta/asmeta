@@ -21,20 +21,30 @@ public class CoverageAnalysisRunner {
 	private static final String DATA_CSV = "data.csv";
 
 	/**
-	 * Entry point for aggregating scenario-generation and validation results into a CSV.
+	 * Entry point for aggregating scenario-generation and validation results into a
+	 * CSV.
 	 * <p>
 	 * Given a base directory (containing subfolders like {@code randomtests/},
 	 * {@code atgttests/}, {@code evoavallatests/}), this method walks each approach
 	 * directory, then each generated scenario suite directory, and for each suite:
 	 * <ol>
-	 *   <li>Reads {@code metadata.yaml} (ASM name/path and execution time).</li>
-	 *   <li>Parses the ASM model and collects model metrics.</li>
-	 *   <li>Collects Avalla scenario metrics (n_step, n_check, n_set, n_scenarios).</li>
-	 *   <li>Runs validation to produce coverage CSV, then collects coverage metrics.</li>
-	 *   <li>Appends a row with all metrics to {@code data.csv} under {@code baseDir}.</li>
+	 * <li>Reads {@code metadata.yaml} (ASM name/path and execution time).</li>
+	 * <li>Parses the ASM model and collects model metrics.</li>
+	 * <li>Collects Avalla scenario metrics (n_step, n_check, n_set,
+	 * n_scenarios).</li>
+	 * <li>Runs validation to produce coverage CSV, then collects coverage
+	 * metrics.</li>
+	 * <li>Appends a row with all metrics to {@code data.csv} under
+	 * {@code baseDir}.</li>
 	 * </ol>
 	 *
-	 * @param args command-line arguments; {@code args[0]} must be the base directory to scan
+	 * @param args command-line arguments
+	 *             <ul>
+	 *             <li>{@code args[0]} – the base directory to scan</li>
+	 *             <li>{@code args[1]} – {@code true} for deterministic execution of
+	 *             choose rules, {@code false} otherwise; defaults to {@code true}
+	 *             if omitted</li>
+	 *             </ul>
 	 * @throws Exception if file I/O, parsing, or validation fails
 	 */
 	public static void main(String[] args) throws Exception {
@@ -42,6 +52,11 @@ public class CoverageAnalysisRunner {
 		if (args.length < 1)
 			throw new RuntimeException("Missing argument: directory to search for scenarios.");
 		String baseDir = args[0];
+		boolean shuffle;
+		if (args.length < 2)
+			shuffle = true;
+		else
+			shuffle = args[1].equals("true");
 		// Prepare the output CSV (clean sibling temp if present CSVs and write header)
 		CsvManager csvManager = new CsvManager(baseDir + File.separator + DATA_CSV);
 		csvManager.clean();
@@ -58,7 +73,7 @@ public class CoverageAnalysisRunner {
 						// Find and read the metadata YAML (exec time, ASM name, ASM path)
 						File metadataFile = Arrays
 								.stream(scenarioDir.listFiles(file -> file.getName().endsWith(".yaml")))
-								.findFirst() // first (and only) YAML file
+								.findFirst()
 								.orElseThrow(() -> new RuntimeException("No .yaml file found in " + scenarioDir));
 						Map<String, Object> metadata = YamlManager.load(metadataFile);
 						String asmName = (String) metadata.get(YamlManager.ASM_NAME);
@@ -77,7 +92,8 @@ public class CoverageAnalysisRunner {
 						int nScenario = ScenarioDataCollector.getNumberOfScenario(dir);
 						// Run validation to compute coverage, data is stored in a temporary CSV
 						String csvPath = csvManager.getParentDir() + File.separator + "temp.csv";
-						int valErrors = ScenarioValidator.computeCoverageFromAvalla(scenarioDir.getPath(), csvPath);
+						int valErrors = ScenarioValidator.computeCoverageFromAvalla(scenarioDir.getPath(), csvPath,
+								shuffle);
 						// Reset rule evaluation state before processing the next suite
 						RuleEvalWCov.reset();
 						// Aggregate coverage metrics from the temporary CSV
