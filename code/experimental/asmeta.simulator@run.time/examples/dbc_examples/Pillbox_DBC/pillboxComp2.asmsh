@@ -1,0 +1,4 @@
+setup CM as examples/dbc_examples/Pillbox_DBC/configMgr.asm
+setup RES as examples/dbc_examples/Pillbox_DBC/rescheduler.asm
+setup setup_comp as RES
+run(setup_comp, {redLed(compartment1)=OFF;redLed(compartment2)=OFF;name(compartment1)="fosamax";name(compartment2)="moment";time_consumption(compartment1)=[360];time_consumption(compartment2)=[730,1140];drugIndex(compartment1)=0;drugIndex(compartment2)=0})
