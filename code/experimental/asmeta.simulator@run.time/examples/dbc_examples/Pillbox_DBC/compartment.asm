@@ -10,17 +10,18 @@ enum domain LedLights = {OFF | ON | BLINKING}
 
 //IN from patient
 monitored compartmentOpen: Boolean //free monitored variable -> set in the script
-monitored outMess: Integer ->  String
-monitored led: Integer ->  LedLights
+monitored outMess: Natural ->  String
+monitored led: Natural ->  LedLights
 
-monitored myID: Integer //free monitored variable -> set in the script
-controlled myID_Cont: Integer
+//Natural 1..5
+monitored myID: Natural //free monitored variable -> set in the script
+controlled myID_Cont: Natural
 
 //OUT to patient 
 out ledStatus: LedLights
 out displayMessage: String
 // OUT pillbox
-out openSwitch: Integer -> Boolean
+out openSwitch: Natural -> Boolean
 
 
 definitions:
@@ -39,15 +40,17 @@ invariant over displayMessage: (contains(displayMessage, "") or contains(display
 
 
 	main rule r_Main =
-		par
+		seq
 			if (myID_Cont=undef) then
 				myID_Cont := myID
 			endif
+		par
 			ledStatus := led(myID_Cont)
 			displayMessage := outMess(myID_Cont)
 			openSwitch(myID_Cont) := compartmentOpen
 		endpar
+		endseq
 	
 default init s0:
-	function outMess($myID_Cont in Integer)=""
-	function led($myID_Cont in Integer)=OFF
+	function outMess($myID_Cont in Natural)=""
+	function led($myID_Cont in Natural)=OFF

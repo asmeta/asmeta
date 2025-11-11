@@ -85,24 +85,10 @@ definitions:
 	  par
 	  	if isPillMissed($compartment) then //M
 	  	par
-	  	setNewTime ($compartment):= true
-			//Missed pill check if the new time causes invariant violation
-			 if ((forall $c in next($compartment) with 
-			   	(  (iton((at(time_consumption($c),drugIndex($c)) - 
-			   		at(time_consumption($compartment),drugIndex($compartment))-ntoi(deltaDelay(name($compartment)))))
-				>= (minToInterferer(name($compartment),name($c))) and $c!=$compartment) or (iton((at(time_consumption($c),nextDrugIndex($c)) - at(time_consumption($compartment),drugIndex($compartment))-ntoi(deltaDelay(name($compartment))))) 
-				>= (minToInterferer(name($compartment),name($c))) and $c=$compartment)
-				))) then //A
-			  			par
-			  				setOriginalTime ($compartment):= false
-			  				newTime ($compartment):= at(time_consumption($compartment),drugIndex($compartment))+deltaDelay(name($compartment))
-			  			endpar //if not update new time of pill otherwise skip the pill
-			  else
-			  	par
-			  		setOriginalTime ($compartment):= true
-			  		newTime ($compartment):= at(time(name($compartment)),drugIndex($compartment))
-			  	endpar 
-			 endif
+	  		setNewTime ($compartment):= true
+			//Missed pill update new consumption time
+			setOriginalTime ($compartment):= false
+			newTime ($compartment):= at(time_consumption($compartment),drugIndex($compartment))+deltaDelay(name($compartment))
 		endpar
 		endif
 	 	if pillTakenWithDelay($compartment) then
