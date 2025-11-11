@@ -39,16 +39,16 @@ public class ComposerCLI {
 		                    Parser parser = null;
 							try {
 								parser = new Parser(replacedExpr,false);
+							    Composition comp = parser.toComposition();
+							    System.out.println("Composition setup for alias: "+ alias + " -> "+comp.toString());
+							    compositions.put(alias, comp);
+							    System.out.println(compositions.toString());
+							    continue;
 							} catch (Exception e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							
 							}
-		                    Composition comp = parser.toComposition();
-		                    System.out.println("Composition setup for alias: "+ alias + " -> "+comp.toString());
-		                    compositions.put(alias, comp);
-		                    System.out.println(compositions.toString());
-		                    continue;
 							
 		                }
 
