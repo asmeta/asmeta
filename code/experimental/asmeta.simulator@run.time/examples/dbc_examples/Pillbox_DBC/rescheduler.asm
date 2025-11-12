@@ -77,7 +77,7 @@ definitions:
 	// RULE DEFINITIONS
 	//*************************************************
 
-	/* Il rescheduler fa delay della pillola senza verificare se c'è sovrapposizione	
+	/* Il rescheduler fa delay della pillola senza verificare se c'è sovrapposizione
 	 * Fare un secondo modello per il rescheduler con il nuovo principio
 	 r_rescheduler*/ 
 	rule r_rescheduler = 
@@ -177,7 +177,7 @@ taken (in the next slot of the same compartment or in another compartment) must 
 greater than or equal to the medication's minToInterferer value with the subsequent medications */
 invariant inv_actual_time over Compartment: (forall $compartment in Compartment with 
 	(forall $c in next($compartment) with 
-    	((at(actual_time_consumption($c),drugIndex($c))!= 0 and at(actual_time_consumption($compartment),drugIndex($compartment))!= 0 ) implies
+    	((at(actual_time_consumption($c),drugIndex($c))!= 0n and at(actual_time_consumption($compartment),drugIndex($compartment))!= 0n ) implies
     	(  (iton((at(actual_time_consumption($c),drugIndex($c)) - at(actual_time_consumption($compartment),drugIndex($compartment)))) 
 			>= (minToInterferer(name($compartment),name($c))) and $c!=$compartment) or (iton((at(actual_time_consumption($c),nextDrugIndex($c)) - at(actual_time_consumption($compartment),drugIndex($compartment)))) 
 			>= (minToInterferer(name($compartment),name($c))) and $c=$compartment)
