@@ -67,6 +67,7 @@ public class FMMutationScoreExecutor {
 		File temp = new File("temp/");
 		//HashMap<String,Map.Entry<Integer, Integer>> results = new HashMap<String, Map.Entry<Integer,Integer>>();
 		assert temp.exists() && temp.isDirectory();
+		temp.mkdir();
 		AtomicInteger totalKilled = new AtomicInteger(0);
 		AtomicInteger totalMutants = new AtomicInteger(0);
 		//From here cycle over the testSuite folder.

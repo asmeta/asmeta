@@ -10,7 +10,6 @@ import java.nio.file.StandardOpenOption;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -24,24 +23,22 @@ import asmeta.evotest.experiments.scenario.generator.ScenarioGenerator;
 import asmeta.evotest.experiments.scenario.generator.ScenarioGeneratorsRunner;
 import asmeta.evotest.experiments.scenario.validator.ScenarioValidator;
 import asmeta.evotest.experiments.utils.CsvManager;
-import asmeta.mutation.mutationscore.MutatedScenarioExecutor;
-import asmeta.mutation.operators.ParToSeqMutator;
-import asmeta.mutation.operators.RuleBasedMutator;
+import asmeta.mutation.mutationscore.FMMutationScoreExecutor;
 
 public class FMExperiments {
 
 	private static final String MODEL_LSIT = "data\\fm-short-26-exp\\model_list.txt";
 	private static final String SOURCE_DIR = "..\\..\\..\\..\\asm_examples";
-	private static final String TARGET_DIR = "data\\fm-short-26-exp\\results";
+	private static final String TARGET_DIR = "data\\fm-short-26-exp\\scenarios";
 
-	private static final String TEMP_CSV = "temp.csv";
-	private static final String RESULTS_CSV = "results.csv";
+	private static final String TEMP_CSV = "validation_data_temp.csv";
+	private static final String RESULTS_CSV = "data\\fm-short-26-exp\\result.csv";
 
 	private static final List<String> CSV_HEADERS = List.of("asm_path", "status", "total_exec_time_ms",
 			"generation_exec_time_ms", "n_scenarios", "n_step", "n_set", "n_check", "n_failing_scenarios",
 			"n_val_error_scenarios", "tot_mutants", "killed_mutants");
 
-	private static final int BUDGET = 1; // Time budget in seconds
+	private static final int BUDGET = 0; // Time budget in seconds
 
 	public static void main(String[] args) throws IOException {
 		// Delete existing results
@@ -97,15 +94,13 @@ public class FMExperiments {
 			while (!allKilled && elapsedTime <= BUDGET * 1000) {
 				try {
 					// Run test generation (iteration*10 tests each with iteration*10 steps)
-					executionTime += ScenarioGenerator.runRandom(asmPath, avallaDir, iteration * 1, iteration * 1);
+					executionTime += ScenarioGenerator.runRandom(asmPath, avallaDir, iteration * 10, iteration * 10,
+							false);
 					// Avoid future overwriting renaming the generated files
 					renameAvallaScenarios(avallaDir, iteration);
-				} catch (Exception e) {
+				} catch (Throwable e) {
 					status = "GENERATION_ERROR";
 					break;
-				} finally {
-					// Reset rule evaluation state before processing the next suite
-					RuleEvalWCov.reset();
 				}
 
 				// Collect scenario data (total number of n_step, n_set, n_check)
@@ -114,20 +109,38 @@ public class FMExperiments {
 				nSet = avallaData.get("n_set");
 				nCheck = avallaData.get("n_check");
 				nScenario = ScenarioDataCollector.getNumberOfScenario(avallaDir);
+				if (nScenario == 0) {
+					// It is unlikely but still possible that in the next iteration
+					// some scenarios will be generated
+					endTime = Instant.now();
+					elapsedTime = Duration.between(startTime, endTime).toMillis();
+					continue;
+				}
 
 				// Run validation, data is stored in the temporary CSV
 				valErrors = ScenarioValidator.computeCoverageFromAvalla(avallaDir, validationCsvPath, false);
+				// Reset rule evaluation state before processing the next suite
+				RuleEvalWCov.reset();
+				
+				if (valErrors > 0) {
+					status = "VAL_ERROR";
+					break;
+				}
 
 				// Read the csv with validation data
 				try {
 					List<String[]> covRows = CsvManager.readCsv(validationCsvPath);
-					if (covRows.size() > 1) {
+					if (covRows.size() > 1) { // Should always be true
 						// We just need the number of failing scenarios (each row contains the same
 						// value)
 						int i = Arrays.asList(AsmetaV.HEADERS).indexOf("failing_scenarios");
 						failingScenarios = Integer.valueOf(covRows.getLast()[i]);
+						if (failingScenarios > 0) {
+							status = "FAILING_SCENARIOS_ERROR";
+							break;
+						}
 					}
-				} catch (Exception e) {
+				} catch (Throwable e) {
 					status = "CSV_ERROR";
 					break;
 				} finally {
@@ -137,17 +150,13 @@ public class FMExperiments {
 
 				// Run mutation
 				try {
-					MutatedScenarioExecutor mutationExecutor = new MutatedScenarioExecutor();
-					RuleBasedMutator mutator = new ParToSeqMutator();
-					// FIXME: computeMutationScore works with single avalla, not test suite (avalla in a dir)
-					String absolutePath = new File(avallaDir + "\\001iter_testtest0.avalla").getAbsolutePath();
-					HashMap<String, Entry<Integer, Integer>> mutationResult = mutationExecutor
-							.computeMutationScore(absolutePath, List.of(mutator));
-					Entry<Integer, Integer> entry = mutationResult.get(mutator.getName());
-					killedMutants = entry.getKey();
-					totMutants = entry.getValue();
+					FMMutationScoreExecutor mutationExecutor = new FMMutationScoreExecutor();
+					String absolutePath = new File(avallaDir).getAbsolutePath();
+					Entry<Integer, Integer> mutationResult = mutationExecutor.computeMutationScore(absolutePath);
+					killedMutants = mutationResult.getKey();
+					totMutants = mutationResult.getValue();
 					allKilled = killedMutants == totMutants;
-				} catch (Exception e) {
+				} catch (Throwable e) {
 					e.printStackTrace();
 					status = "MUTATION_ERROR";
 					break;
@@ -161,7 +170,7 @@ public class FMExperiments {
 			endTime = Instant.now();
 			elapsedTime = Duration.between(startTime, endTime).toMillis();
 
-			// Delete temp.csv
+			// Delete temporary csv
 			new File(validationCsvPath).delete();
 
 			// Write data to the csv file with the final results
