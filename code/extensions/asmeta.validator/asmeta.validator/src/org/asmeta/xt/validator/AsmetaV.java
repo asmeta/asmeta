@@ -57,7 +57,7 @@ public class AsmetaV {
 	 * @param scenarioPath path of the file containing the scenario or directory
 	 *                     containing all the scenarios
 	 * @param coverage     compute also the coverage?
-	 * @param shuffle      if true, run choose rules deterministically (always choose first element)
+	 * @param shuffle      if false, run choose rules deterministically (always choose first element)
 	 * @return the list of scenarios that fail
 	 * @throws Exception the exception
 	 */
@@ -88,7 +88,7 @@ public class AsmetaV {
 	 * @param coverage     compute also the coverage?
 	 * @param csvPath      path of the file where to write the coverage data in csv
 	 *                     format
-	 * @param shuffle      if true, run choose rules deterministically (always choose first element)
+	 * @param shuffle      if false, run choose rules deterministically (always choose first element)
 	 * @return the list of scenarios that fail
 	 * @throws Exception the exception
 	 */
@@ -117,7 +117,7 @@ public class AsmetaV {
 	 * @param printToCsv   if the coverage is computed, print it to csv?
 	 * @param csvPath      path of the file where to write the coverage data in csv
 	 *                     format
-	 * @param shuffle      if true, run choose rules deterministically (always choose first element)
+	 * @param shuffle      if false, run choose rules deterministically (always choose first element)
 	 * @return true, if successful
 	 * @throws Exception the exception
 	 */
@@ -306,7 +306,7 @@ public class AsmetaV {
 	 * @param coveredRules the covered rules (till now, once it is covered it is
 	 *                     covered forever)
 	 * @param path         scenario path
-	 * @param shuffle      if true, run choose rules deterministically (always choose first element)
+	 * @param shuffle      if false, run choose rules deterministically (always choose first element)
 	 * @return the result of the validation, i.e. if the check have succeeded and
 	 *         information about coverage (till now)
 	 * @throws Exception the exception
@@ -346,7 +346,7 @@ public class AsmetaV {
 	 * @param coveredRules the covered rules (till now, once it is covered it is
 	 *                     covered forever)
 	 * @param tempAsmPath  asmeta path
-	 * @param shuffle      if true, run choose rules deterministically (always choose first element)
+	 * @param shuffle      if false, run choose rules deterministically (always choose first element)
 	 * @return the result of the validation, i.e. if the check have succeeded and
 	 *         information about coverage (till now)
 	 * @throws Exception the exception

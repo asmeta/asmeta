@@ -38,23 +38,26 @@ public class ScenarioGenerator {
 
 	private static final String EVOAVALLA_WORKING_DIR = "./evoAvalla/reports/";
 	private static final String DASH = "-";
-	
+
 	/**
 	 * Run random test generation.
 	 * 
 	 * @param asmPath   the path of the asm to be validated
 	 * @param targetDir the path of the target directory (where to store the
 	 *                  results)
-	 * @param nTest  the number of generated test
-	 * @param nStep the number of step in each test 
+	 * @param nTest     the number of generated test
+	 * @param nStep     the number of step in each test
+	 * @param shuffle   if false, run choose rules deterministically (always choose
+	 *                  first element)
 	 * @return random execution time in ms
 	 * @throws Exception if any Exception occurs
 	 */
-	public static float runRandom(String asmPath, String targetDir, int nTest, int nStep) throws Exception {
+	public static float runRandom(String asmPath, String targetDir, int nTest, int nStep, boolean shuffle)
+			throws Exception {
 		List<Integer> stepList = new ArrayList<>();
 		for (int i = 0; i < nTest; i++)
 			stepList.add(nStep);
-		return runRandom(asmPath, targetDir, stepList);
+		return runRandom(asmPath, targetDir, stepList, shuffle);
 	}
 
 	/**
@@ -65,10 +68,13 @@ public class ScenarioGenerator {
 	 *                  results)
 	 * @param stepList  the list with the number of steps for each scenario to be
 	 *                  generated
+	 * @param shuffle   if false, run choose rules deterministically (always choose
+	 *                  first element)
 	 * @return random execution time in ms
 	 * @throws Exception if any Exception occurs
 	 */
-	public static float runRandom(String asmPath, String targetDir, List<Integer> stepList) throws Exception {
+	public static float runRandom(String asmPath, String targetDir, List<Integer> stepList, boolean shuffle)
+			throws Exception {
 		// Parse the asm
 		AsmCollection asms = ASMParser.setUpReadAsm(new File(asmPath));
 		// Run random test generation
@@ -78,11 +84,11 @@ public class ScenarioGenerator {
 		if (stepList == null || stepList.isEmpty()) {
 			randomTestGenerator.setStepNumber(DEFAULT_RANDOM_STEPS);
 			randomTestGenerator.setNumberofTests(DEFAULT_RANDOM_TESTS);
-			randomSuite.addAllTest(randomTestGenerator.getTestSuite(false));
+			randomSuite.addAllTest(randomTestGenerator.getTestSuite(shuffle));
 		} else {
 			stepList.forEach(stepOccurrence -> {
 				randomTestGenerator.setStepNumber(stepOccurrence);
-				randomSuite.addAllTest(randomTestGenerator.getTestSuite(false));
+				randomSuite.addAllTest(randomTestGenerator.getTestSuite(shuffle));
 			});
 		}
 		Instant end = Instant.now();
@@ -129,9 +135,10 @@ public class ScenarioGenerator {
 		try {
 			relativeAsmPath = basePath.relativize(targetPath).toString();
 		} catch (IllegalArgumentException e) {
-		    relativeAsmPath = targetPath.toAbsolutePath().toString(); // fallback to absolute
+			relativeAsmPath = targetPath.toAbsolutePath().toString(); // fallback to absolute
 		}
-		SaveResults.saveResults(suite, relativeAsmPath, Collections.singleton(FormatsEnum.AVALLA), "", outputDir, keepLastStep);
+		SaveResults.saveResults(suite, relativeAsmPath, Collections.singleton(FormatsEnum.AVALLA), "", outputDir,
+				keepLastStep);
 	}
 
 	/**
@@ -143,10 +150,13 @@ public class ScenarioGenerator {
 	 *                  results)
 	 * @param jdkPath   path to jdk 1.8
 	 * @param budget    EvoSuite budget
+	 * @param shuffle   if false, run choose rules deterministically (always choose
+	 *                  first element)
 	 * @return evoavalla execution time in ms
 	 * @throws Exception if any Exception occurs
 	 */
-	public static float runEvoAvalla(String asmPath, String targetDir, String jdkPath, int budget) throws Exception {
+	public static float runEvoAvalla(String asmPath, String targetDir, String jdkPath, int budget, boolean shuffle)
+			throws Exception {
 		// If running from jar, check the presence of evosuite-1.0.6.jar in the same
 		// directory
 		Class<ScenarioGenerator> runningClass = ScenarioGenerator.class;
@@ -170,7 +180,8 @@ public class ScenarioGenerator {
 				DASH + EvoAsmetaTgCLI.INPUT, asmPath, DASH + EvoAsmetaTgCLI.OUTPUT, targetDir,
 				DASH + EvoAsmetaTgCLI.JAVA_PATH, jdkPath, DASH + EvoAsmetaTgCLI.EVOSUITE_VERSION, "1.0.6",
 				DASH + EvoAsmetaTgCLI.EVOSUITE_PATH, evosuiteJarFolder, DASH + EvoAsmetaTgCLI.TIME_BUDGET,
-				String.valueOf(budget), DASH + EvoAsmetaTgCLI.CLEAN, "-DignoreDomainException=true");
+				String.valueOf(budget), DASH + EvoAsmetaTgCLI.CLEAN, "-DignoreDomainException=true",
+				"-DshuffleRandom=" + (shuffle ? "true" : "false"));
 		Instant start = Instant.now();
 		EvoAsmetaTgCLI.main(evoAsmetaTgArguments.toArray(new String[0]));
 		Instant end = Instant.now();
@@ -217,7 +228,13 @@ public class ScenarioGenerator {
 			Path scenarioFolder = scenario.getParent();
 			Path asm = Paths.get(asmPath);
 			// Compute relative path from scenario's parent folder to asm file
-			String relativePath = scenarioFolder.relativize(asm).toString().replace('\\', '/'); // OS-independent text
+			String relativePath;
+			try {
+				relativePath = scenarioFolder.relativize(asm).toString();
+			} catch (IllegalArgumentException e) {
+				relativePath = asm.toAbsolutePath().toString(); // fallback to absolute
+			}
+			relativePath = relativePath.replace('\\', '/'); // OS-independent text
 			// Read content
 			String content = Files.readString(scenario, StandardCharsets.UTF_8);
 			// Modify load statement

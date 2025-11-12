@@ -41,8 +41,8 @@ public class CoverageAnalysisRunner {
 	 * @param args command-line arguments
 	 *             <ul>
 	 *             <li>{@code args[0]} – the base directory to scan</li>
-	 *             <li>{@code args[1]} – {@code true} for deterministic execution of
-	 *             choose rules, {@code false} otherwise; defaults to {@code true}
+	 *             <li>{@code args[1]} – shuffle: {@code false} for deterministic execution of
+	 *             choose rules, {@code true} otherwise; defaults to {@code false}
 	 *             if omitted</li>
 	 *             </ul>
 	 * @throws Exception if file I/O, parsing, or validation fails
@@ -54,7 +54,7 @@ public class CoverageAnalysisRunner {
 		String baseDir = args[0];
 		boolean shuffle;
 		if (args.length < 2)
-			shuffle = true;
+			shuffle = false;
 		else
 			shuffle = args[1].equals("true");
 		// Prepare the output CSV (clean sibling temp if present CSVs and write header)

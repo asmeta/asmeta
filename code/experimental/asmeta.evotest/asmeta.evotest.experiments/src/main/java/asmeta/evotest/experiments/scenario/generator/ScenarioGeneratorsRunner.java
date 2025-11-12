@@ -127,7 +127,8 @@ public class ScenarioGeneratorsRunner {
 				String target = targetFolder + File.separator + EVOAVALLA_DIR + File.separator
 						+ formatCounter(evoavallaCount) + "_" + asmName;
 				int budget = (int) evoavallaCfg.get("budget");
-				float exeTime = ScenarioGenerator.runEvoAvalla(asmFilePath, target, jdkPath, budget);
+				boolean shuffle = (boolean) evoavallaCfg.get("shuffle");
+				float exeTime = ScenarioGenerator.runEvoAvalla(asmFilePath, target, jdkPath, budget, shuffle);
 				YamlManager.write(target, asmName, asmFilePath, exeTime, LocalDateTime.now().toString());
 			} catch (Throwable e) {
 				System.err.println("EvoAvalla failed to generate a test suite");
@@ -186,7 +187,8 @@ public class ScenarioGeneratorsRunner {
 				String target = targetFolder + File.separator + RANDOM_DIR + File.separator + formatCounter(randomCount)
 						+ "_" + asmName;
 				List<Integer> stepList = (List<Integer>) randomCfg.get("step_list");
-				float exeTime = ScenarioGenerator.runRandom(asmFilePath, target, stepList);
+				boolean shuffle = (boolean) randomCfg.get("shuffle");
+				float exeTime = ScenarioGenerator.runRandom(asmFilePath, target, stepList, shuffle);
 				YamlManager.write(target, asmName, asmFilePath, exeTime, LocalDateTime.now().toString());
 			} catch (Throwable e) {
 				System.err.println("Random failed to generate a test suite");

@@ -22,6 +22,7 @@ public class TranslatorOptionsImpl implements TranslatorOptions {
 	private static final String EXPORT_OPTION = "export";
 	public static final String COPY_ASM_OPTION = "copyAsm";
 	public static final String IGNORE_NOT_SUPPORTED_DOMAIN_EXCEPTION = "ignoreDomainException";
+	public static final String SHUFFLE_RANDOM = "shuffleRandom";
 
 	/** Logger */
 	private final Logger logger = LogManager.getLogger(TranslatorOptionsImpl.class);

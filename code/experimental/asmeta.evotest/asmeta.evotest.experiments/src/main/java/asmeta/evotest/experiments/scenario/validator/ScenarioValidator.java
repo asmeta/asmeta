@@ -26,7 +26,7 @@ public class ScenarioValidator {
 	 *                     files
 	 * @param csvPath      where to save the experiments stats (it must be a .csv
 	 *                     file)
-	 * @param shuffle      if true, run choose rules deterministically (always choose first element)
+	 * @param shuffle      if false, run choose rules deterministically (always choose first element)
 	 * @return the number of scenarios for which the validation resulted in an error
 	 */
 	public static int computeCoverageFromAvalla(String scenarioPath, String csvPath, boolean shuffle) {
