@@ -1,10 +1,12 @@
 package asmeta.mutation.mutationscore;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,12 +17,7 @@ import org.asmeta.xt.validator.AsmetaV;
 import org.asmeta.xt.validator.ValidationResult;
 
 import asmeta.AsmCollection;
-import asmeta.mutation.operators.ChooseRuleMutate;
-import asmeta.mutation.operators.CondNegator;
-import asmeta.mutation.operators.CondRemover;
 import asmeta.mutation.operators.ParToSeqMutator;
-import asmeta.mutation.operators.RuleBasedMutator;
-import asmeta.mutation.operators.RuleRemover;
 import asmeta.mutation.operators.AsmetaMutationOperator;
 
 /**
@@ -65,9 +62,13 @@ public class FMMutationScoreExecutor {
 		
 		// TEMP. use a temporary directory
 		File temp = new File("temp/");
+		if (!temp.exists()) {
+		    temp.mkdir();
+		}
+		
 		//HashMap<String,Map.Entry<Integer, Integer>> results = new HashMap<String, Map.Entry<Integer,Integer>>();
 		assert temp.exists() && temp.isDirectory();
-		temp.mkdir();
+		
 		AtomicInteger totalKilled = new AtomicInteger(0);
 		AtomicInteger totalMutants = new AtomicInteger(0);
 		//From here cycle over the testSuite folder.
@@ -111,6 +112,17 @@ public class FMMutationScoreExecutor {
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+				} finally {
+					try {
+						if (temp.exists()) {
+							Files.walk(temp.toPath())
+								.sorted(Comparator.reverseOrder())
+								.map(Path::toFile)
+								.forEach(File::delete);
+						}
+					} catch (IOException ex) {
+						ex.printStackTrace();
+					}
 				}
 				
 			}

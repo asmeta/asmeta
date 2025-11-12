@@ -26,13 +26,13 @@
 							<goal>single</goal>
 						</goals>
 						<configuration>
-							<finalName>experiments-runner</finalName>
+							<finalName>fm-experiments-runner</finalName>
 							<appendAssemblyId>false</appendAssemblyId>
-							<outputDirectory>dist</outputDirectory>
+							<outputDirectory>data/fm-short-26-exp</outputDirectory>
 							<archive>
 								<manifest>
 									<mainClass>
-										asmeta.evotest.experiments.main.TestExperiments
+										asmeta.evotest.experiments.FMExperiments
 									</mainClass>
 								</manifest>
 							</archive>
@@ -63,12 +63,22 @@
         </dependency>
         <dependency>
             <groupId>asmeta</groupId>
+            <artifactId>asmeta.parser</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>asmeta</groupId>
             <artifactId>org.asmeta.avallaxt</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
 		    <groupId>asmeta</groupId>
 		    <artifactId>asmeta.atgt</artifactId>
+		    <version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+		    <groupId>asmeta</groupId>
+		    <artifactId>asmeta.mutation</artifactId>
 		    <version>0.0.1-SNAPSHOT</version>
 		</dependency>
         <dependency>
