@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.asmeta.xt.validator.AsmetaFromAvallaBuilder;
 import org.asmeta.xt.validator.AsmetaV;
@@ -59,14 +60,15 @@ public class FMMutationScoreExecutor {
 	 * See parallel to seq study.
 	 * Only applies the parallel to sequential mutation operator.
 	 * */
-	public HashMap<String,Map.Entry<Integer, Integer>> computeMutationScore(String testSuitePath) throws Exception {
+	public Map.Entry<Integer, Integer> computeMutationScore(String testSuitePath) throws Exception {
 		//mutOperators.addAll(mutationOps);
 		
 		// TEMP. use a temporary directory
 		File temp = new File("temp/");
-		HashMap<String,Map.Entry<Integer, Integer>> results = new HashMap<String, Map.Entry<Integer,Integer>>();
+		//HashMap<String,Map.Entry<Integer, Integer>> results = new HashMap<String, Map.Entry<Integer,Integer>>();
 		assert temp.exists() && temp.isDirectory();
-		
+		AtomicInteger totalKilled = new AtomicInteger(0);
+		AtomicInteger totalMutants = new AtomicInteger(0);
 		//From here cycle over the testSuite folder.
 		Path base = Path.of(testSuitePath);
 		Files.walk(base).forEach(avalla -> {
@@ -74,14 +76,13 @@ public class FMMutationScoreExecutor {
 				//correctLoadSpec(avalla);
 				// parse the scenario to get the ref to the asmeta
 				AsmetaMutatedFromAvalla asmetaBuilder;
-				int nKilled = 0;
-				int nMutants = 0;
+				
 				try {
 					asmetaBuilder = new AsmetaMutatedFromAvalla(avalla.toFile().toString(), temp);
 					AsmCollection orginalAsm = asmetaBuilder.getAsm();
 					// for every mutation operators
 					//for (AsmetaMutationOperator mut : mutOperators) {
-						//int nKilled = 0;
+					int nKilled = 0;
 					ParToSeqMutator mut = new ParToSeqMutator();
 					List<AsmCollection> mutants = mut.mutate(orginalAsm);
 					Map<String, Boolean> allCoveredRules = new HashMap<>();
@@ -100,13 +101,12 @@ public class FMMutationScoreExecutor {
 							System.err.println("KILLED !!!");
 							nKilled++;
 						}
-							
 					}
-					nMutants += mutants.size();
+					totalKilled.addAndGet(nKilled);
+					totalMutants.addAndGet(mutants.size());
 					// name of the operator -> pair (nKilled, mutants)
-						
 					//}
-					results.put(avalla.toFile().toString(), new AbstractMap.SimpleEntry<Integer, Integer>(nKilled, nMutants));
+					//results.put(avalla.toFile().toString(), new AbstractMap.SimpleEntry<Integer, Integer>(nKilled, nMutants));
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -115,6 +115,7 @@ public class FMMutationScoreExecutor {
 			}
 		});
 		
+		Map.Entry<Integer, Integer> results = new AbstractMap.SimpleEntry<Integer,Integer>(totalKilled.get(), totalMutants.get());
 		
 		return  results;
 	}
