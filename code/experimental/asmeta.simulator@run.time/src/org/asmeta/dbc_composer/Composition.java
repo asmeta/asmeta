@@ -176,7 +176,7 @@ class LeafAsm extends Composition {
 				// tmp
 				for (Entry<String, Value> pair : mon.monStoredValues.entrySet()) {
 					tmp.put(pair.getKey(), pair.getValue().toString());
-					locationValue.putAll(tmp);
+					locationValue.putAll(tmp); //TODO: ADD "" when the function is string
 				}
 			}
 			is1.setLocationValue(locationValue);
