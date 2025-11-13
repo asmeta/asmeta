@@ -22,7 +22,8 @@ public class ParToSeqTest {
 		pw.println("TEST STRING");
 		AsmPrinter amPrint = new AsmPrinter(pw);
 		//String string = "examples/SafeCombination.asm";
-		String string = "experiments_nfm25/CoffeeVendingMachineRefined.asm";
+		//String string = "experiments_nfm25/CoffeeVendingMachineRefined.asm";
+		String string = "..\\..\\..\\asm_examples\\examples\\traffic_light\\Timer\\oneWayTrafficLight_refinedMillisecSec.asm";
 		File f = new File(string);
 		assertTrue(f.exists());
 		AsmCollection asmeta = ASMParser.setUpReadAsm(f);
