@@ -6,7 +6,7 @@
 # Keep experiment results
 !/data/**/*.csv
 !/data/**/*.avalla
+!/data/**/*.zip
 
 # Keep jar used for run experiments
-!/data/ase-exp/evosuite-1.0.6.jar
-!/data/ase-exp/experiments-runner.jar
+!/data/**/*.jar

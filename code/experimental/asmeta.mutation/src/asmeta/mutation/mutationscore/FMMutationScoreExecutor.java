@@ -1,7 +1,6 @@
 package asmeta.mutation.mutationscore;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.AbstractMap;
@@ -61,9 +60,9 @@ public class FMMutationScoreExecutor {
 		//mutOperators.addAll(mutationOps);
 		
 		// TEMP. use a temporary directory
-		File temp = new File("temp/");
+		File temp = new File("temp").getAbsoluteFile();
 		if (!temp.exists()) {
-		    temp.mkdir();
+			Files.createDirectories(temp.toPath());
 		}
 		
 		//HashMap<String,Map.Entry<Integer, Integer>> results = new HashMap<String, Map.Entry<Integer,Integer>>();
@@ -112,23 +111,20 @@ public class FMMutationScoreExecutor {
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				} finally {
-					try {
-						if (temp.exists()) {
-							Files.walk(temp.toPath())
-								.sorted(Comparator.reverseOrder())
-								.map(Path::toFile)
-								.forEach(File::delete);
-						}
-					} catch (IOException ex) {
-						ex.printStackTrace();
-					}
 				}
 				
 			}
 		});
 		
 		Map.Entry<Integer, Integer> results = new AbstractMap.SimpleEntry<Integer,Integer>(totalKilled.get(), totalMutants.get());
+		
+		// Delete temp directory
+		if (temp.exists()) {
+			Files.walk(temp.toPath())
+				.sorted(Comparator.reverseOrder())
+				.map(Path::toFile)
+				.forEach(File::delete);
+		}
 		
 		return  results;
 	}

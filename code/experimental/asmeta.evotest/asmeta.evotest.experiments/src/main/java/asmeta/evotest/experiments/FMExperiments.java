@@ -30,12 +30,14 @@ public class FMExperiments {
 	private static final String MODEL_LIST = "data\\fm-short-26-exp\\model_list.txt";
 	private static final String TARGET_DIR = "data\\fm-short-26-exp\\scenarios";
 	private static final String RESULTS_CSV = "data\\fm-short-26-exp\\result.csv";
+	private static final String SCENARIOS_ZIP = "data\\fm-short-26-exp\\scenarios.zip";
 	
 	/*
 	// When building the jar
 	private static final String MODEL_LIST = "model_list.txt";
 	private static final String TARGET_DIR = "scenarios";
 	private static final String RESULTS_CSV = "result.csv";
+	private static final String SCENARIOS_ZIP = "scenarios.zip";
 	*/
 
 	private static final List<String> CSV_HEADERS = List.of("asm_path", "status", "total_exec_time_ms",
@@ -55,9 +57,9 @@ public class FMExperiments {
 		int budget = Integer.valueOf(args[1]);
 		
 		// Delete existing results
-		File resultsDir = new File(TARGET_DIR);
-		if (resultsDir.exists())
-			FileUtils.deleteDirectory(resultsDir);
+		File scenariosDir = new File(TARGET_DIR);
+		if (scenariosDir.exists())
+			FileUtils.deleteDirectory(scenariosDir);
 		Files.createDirectories(new File(TARGET_DIR).toPath());
 		new File(RESULTS_CSV).delete();
 
@@ -70,9 +72,9 @@ public class FMExperiments {
 		// Read the file with the list of asms to be processed
 		List<String> lines = Files.readAllLines(Paths.get(MODEL_LIST));
 
-		// For each asm in the list: generate tests -> run validation -> run mutation
+		
 		int specCounter = 0;
-
+		// For each asm in the list: generate tests -> run validation -> run mutation
 		for (String line : lines) {
 			// Skip commented asms
 			if (line.isEmpty() || line.startsWith("//"))
@@ -174,10 +176,20 @@ public class FMExperiments {
 			elapsedTime = Duration.between(startTime, endTime).toMillis();
 
 			// Write data to the csv file with the final results
-			String row = String.join(",", asmPath, status, String.valueOf(elapsedTime), String.valueOf(executionTime),
-					String.valueOf(nCorrectScenario), String.valueOf(nStep), String.valueOf(nSet),
-					String.valueOf(nCheck), String.valueOf(failingScenarios), String.valueOf(valErrors),
-					String.valueOf(totMutants), String.valueOf(killedMutants));
+			String row = String.join(",", 
+					asmPath,
+					status,
+					String.valueOf(elapsedTime),
+					String.valueOf(executionTime),
+					String.valueOf(nCorrectScenario),
+					String.valueOf(nStep),
+					String.valueOf(nSet),
+					String.valueOf(nCheck), 
+					String.valueOf(failingScenarios),
+					String.valueOf(valErrors),
+					String.valueOf(totMutants),
+					String.valueOf(killedMutants)
+				);
 			row += System.lineSeparator();
 			Files.write(resultsCsvPath, row.getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE,
 					StandardOpenOption.APPEND);
@@ -188,7 +200,7 @@ public class FMExperiments {
 
 		// Zip scenario directory (if scenarios.zip already exists, it overwrites it)
 		Path targetDir = Paths.get(TARGET_DIR);
-		Path zipFile = Paths.get("scenarios.zip");
+		Path zipFile = Paths.get(SCENARIOS_ZIP);
 		try (ZipOutputStream zs = new ZipOutputStream(Files.newOutputStream(zipFile))) {
 			Files.walk(targetDir).filter(path -> !Files.isDirectory(path)).forEach(path -> 
 			{
