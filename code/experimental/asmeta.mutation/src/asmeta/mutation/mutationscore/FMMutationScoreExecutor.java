@@ -97,7 +97,7 @@ public class FMMutationScoreExecutor {
 						// execute now the scenario
 						// ValidationResult result = AsmetaV.executeAsmetaFromAvalla(false,
 						// allCoveredRules, tempAsmPath, originalName);
-						ValidationResult result = AsmetaV.executeAsmetaFromAvalla(false, allCoveredRules, tempAsmPath);
+						ValidationResult result = AsmetaV.executeAsmetaFromAvalla(false, allCoveredRules, tempAsmPath, false);
 						if (!result.isCheckSucceeded()) {
 							System.err.println("KILLED !!!");
 							nKilled++;

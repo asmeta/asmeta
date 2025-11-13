@@ -18,6 +18,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.io.FileUtils;
+import org.asmeta.simulator.Environment;
+import org.asmeta.simulator.Environment.TimeMngt;
 import org.asmeta.xt.validator.AsmetaV;
 
 import asmeta.evotest.experiments.scenario.ScenarioDataCollector;
@@ -44,7 +46,7 @@ public class FMExperiments {
 			"generation_exec_time_ms", "n_correct_scenarios", "n_step", "n_set", "n_check", "n_failing_scenarios",
 			"n_val_error_scenarios", "tot_mutants", "killed_mutants");
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException {		
 		// Parse args
 		if (args.length < 2) {
 			System.out.println("Two arguments are required:\n"
@@ -72,6 +74,9 @@ public class FMExperiments {
 		// Read the file with the list of asms to be processed
 		List<String> lines = Files.readAllLines(Paths.get(MODEL_LIST));
 
+		// For Asmeta models that use TimeLibrary, TimeMngt.use_java_time
+		// may results in flaky scenarios
+		Environment.timeMngt = TimeMngt.auto_increment;
 		
 		int specCounter = 0;
 		// For each asm in the list: generate tests -> run validation -> run mutation
@@ -160,6 +165,10 @@ public class FMExperiments {
 					Entry<Integer, Integer> mutationResult = mutationExecutor.computeMutationScore(absolutePath);
 					killedMutants = mutationResult.getKey();
 					totMutants = mutationResult.getValue();
+					if (totMutants == 0) {
+						status = "MUTATION_ERROR";
+						break;
+					}
 					allKilled = killedMutants == totMutants;
 				} catch (Throwable e) {
 					e.printStackTrace();
