@@ -201,10 +201,10 @@ class LeafAsm extends Composition {
 			for (Function f : constFunList) {
 				if (Defs.isMonitored(f))
 					// System.out.println("Precondition violation over " + f.getName());
-					throw new PreconditionViolationException("Precondition violation over " + f.getName());
+					throw new PreconditionViolationException("Precondition violation over " + e.getInvariant().getName() + " " + f.getName());
 				else if (Defs.isOut(f))
 					// System.out.println("Postcondition violation over " + f.getName());
-					throw new PostconditionViolationException("Postcondition violation over " + f.getName());
+					throw new PostconditionViolationException("Postcondition violation over "+ e.getInvariant().getName() + " " + f.getName());
 				else
 					// System.out.println("Invariant violation over " + f.getName());
 					throw new InvariantViolationException("Invariant violation over " + f.getName());
