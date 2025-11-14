@@ -4,6 +4,8 @@ import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.asmeta.simulator.UpdateSet;
+
 public class ComposerCLI {
 //-Interpreta `setup <alias> as <composition>` anche se la composizione è complessa.
 //-Interpreta `run(<alias>, {param})` e chiama `eval(true,param)` sulla `Composition`.

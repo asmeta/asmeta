@@ -161,7 +161,6 @@ class LeafAsm extends Composition {
 
 	// @Override by Patrizia
 	UpdateSet eval(boolean dbc, Map<String, String> locationValue) throws CompositionException {
-
 		// SimulationContainer->AsmetaSservice->InfoAsmetaSservice->SimulatorRT
 		// and AsmetaServiceRun to read monitored values from a map
 		UpdateSet ups = null;
@@ -194,6 +193,10 @@ class LeafAsm extends Composition {
 			Map<Location, Value> map = state.getLocationMap(); // return the current location map
 			ups = new UpdateSet(); // tricky: create an UpdateSet containing the location set of s1
 			ups.applyLocationUpdates(map);
+			//Print out locations
+			System.out.println("PRINT OUT LOCATIONS: ");
+			for (Entry<Location, Value> pair : state.getOutLocs().entrySet())
+				System.out.println(pair.getKey() + " " + pair.getValue().toString());
 		} catch (InvalidInvariantException e) {
 			System.out.println(e.getInvariant());
 			EList<Function> constFunList = e.getInvariant().getConstrainedFunction();
