@@ -167,7 +167,7 @@ definitions:
     
 
 //If pill is missed and there is no overlap with next pills, delayed it
-invariant inv_post_newTime over newTime: (forall $compartment in Compartment with
+/*invariant inv_post_newTime over newTime: (forall $compartment in Compartment with
  	((forall $c in next($compartment) with 
 		( isPillMissed($compartment) and ((iton((at(time_consumption($c),drugIndex($c)) - 
 			at(time_consumption($compartment),drugIndex($compartment))-ntoi(deltaDelay(name($compartment)))
@@ -181,7 +181,7 @@ invariant inv_post_newTime over newTime: (forall $compartment in Compartment wit
 		))
 	 //implies ((newTime ($compartment) = at(time_consumption($compartment),drugIndex($compartment))+deltaDelay(name($compartment))))
 	 implies setNewTime ($compartment)= true
-	 ))
+	 ))*/
 
 
 //If pill overlaps with next pills, skip the next pill that overlaps

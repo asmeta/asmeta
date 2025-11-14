@@ -8,8 +8,11 @@ signature:
 
 enum domain LedLights = {OFF | ON | BLINKING}
 
+	enum domain States = {INIT | NORMAL}
+	controlled state: States
+	
 //IN from patient
-monitored compartmentOpen: Boolean //free monitored variable -> set in the script
+monitored compartmentOpen:Natural -> Boolean //free monitored variable -> set in the script
 monitored outMess: Natural ->  String
 monitored led: Natural ->  LedLights
 
@@ -18,8 +21,8 @@ monitored myID: Natural //free monitored variable -> set in the script
 controlled myID_Cont: Natural
 
 //OUT to patient 
-out ledStatus: LedLights
-out displayMessage: String
+out ledStatus: Natural -> LedLights
+out displayMessage: Natural -> String
 // OUT pillbox
 out openSwitch: Natural -> Boolean
 
@@ -34,23 +37,26 @@ invariant over outMess: (contains(outMess(myID_Cont), "") or contains(outMess(my
 
 //@post
 //Check semantic consistency between the status of redLed and the given out message
-invariant over displayMessage: contains(displayMessage, "Take")  implies (ledStatus = ON or ledStatus = BLINKING)
-invariant over displayMessage: contains(displayMessage, "Close")  implies ledStatus = BLINKING 
-invariant over displayMessage: (contains(displayMessage, "") or contains(displayMessage, "taken") or contains(displayMessage, "missed")) implies ledStatus = OFF 
+invariant over displayMessage: contains(displayMessage(myID_Cont), "Take")  implies (ledStatus(myID_Cont) = ON or ledStatus(myID_Cont) = BLINKING)
+invariant over displayMessage: contains(displayMessage(myID_Cont), "Close")  implies ledStatus(myID_Cont) = BLINKING 
+invariant over displayMessage: (contains(displayMessage(myID_Cont), "") or contains(displayMessage(myID_Cont), "taken") or contains(displayMessage(myID_Cont), "missed")) implies ledStatus(myID_Cont) = OFF 
 
 
 	main rule r_Main =
-		seq
-			if (myID_Cont=undef) then
-				myID_Cont := myID
-			endif
-		par
-			ledStatus := led(myID_Cont)
-			displayMessage := outMess(myID_Cont)
-			openSwitch(myID_Cont) := compartmentOpen
-		endpar
-		endseq
+		if state = INIT then
+			par
+				if (myID_Cont=undef) then
+						myID_Cont := myID
+				endif
+				state:=NORMAL
+			endpar
+		else
+					par
+						ledStatus(myID_Cont) := led(myID_Cont)
+						displayMessage(myID_Cont) := outMess(myID_Cont)
+						openSwitch(myID_Cont) := compartmentOpen(myID_Cont)
+					endpar
+		endif
 	
 default init s0:
-	function outMess($myID_Cont in Natural)=""
-	function led($myID_Cont in Natural)=OFF
+	function state = INIT
