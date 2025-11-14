@@ -18,8 +18,12 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.Environment.TimeMngt;
+import org.asmeta.simulator.RuleEvaluator;
+import org.asmeta.simulator.main.Simulator;
 import org.asmeta.xt.validator.AsmetaV;
 
 import asmeta.evotest.experiments.scenario.ScenarioDataCollector;
@@ -46,7 +50,12 @@ public class FMExperiments {
 			"generation_exec_time_ms", "n_correct_scenarios", "n_step", "n_set", "n_check", "n_failing_scenarios",
 			"n_val_error_scenarios", "tot_mutants", "killed_mutants");
 
-	public static void main(String[] args) throws IOException {		
+	public static void main(String[] args) throws IOException {
+		// Set logging
+		Logger.getLogger(Simulator.class).setLevel(Level.ERROR);
+		Logger.getLogger(RuleEvaluator.class).setLevel(Level.ERROR);
+		Logger.getLogger(AsmetaV.class).setLevel(Level.ERROR);
+		
 		// Parse args
 		if (args.length < 2) {
 			System.out.println("Two arguments are required:\n"
@@ -165,11 +174,7 @@ public class FMExperiments {
 					Entry<Integer, Integer> mutationResult = mutationExecutor.computeMutationScore(absolutePath);
 					killedMutants = mutationResult.getKey();
 					totMutants = mutationResult.getValue();
-					if (totMutants == 0) {
-						status = "MUTATION_ERROR";
-						break;
-					}
-					allKilled = killedMutants == totMutants;
+					allKilled = totMutants != 0 && killedMutants == totMutants;
 				} catch (Throwable e) {
 					e.printStackTrace();
 					status = "MUTATION_ERROR";
@@ -183,6 +188,10 @@ public class FMExperiments {
 			// We may exit from the while via break, we need to update elapsedTime
 			endTime = Instant.now();
 			elapsedTime = Duration.between(startTime, endTime).toMillis();
+			
+			// Mutation was never able to generate a mutant
+			if (totMutants == 0)
+				status = "MUTATION_ERROR";
 
 			// Write data to the csv file with the final results
 			String row = String.join(",", 

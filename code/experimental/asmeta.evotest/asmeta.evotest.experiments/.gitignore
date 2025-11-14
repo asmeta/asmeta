@@ -2,6 +2,7 @@
 ~$*
 
 /evoAvalla/
+/temp
 
 # Keep experiment results
 !/data/**/*.csv
