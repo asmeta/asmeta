@@ -175,8 +175,12 @@ class LeafAsm extends Composition {
 				// iterate over mon locations and copy the string version of each location in
 				// tmp
 				for (Entry<String, Value> pair : mon.monStoredValues.entrySet()) {
-					tmp.put(pair.getKey(), pair.getValue().toString());
-					locationValue.putAll(tmp); //TODO: ADD "" when the function is string
+					if (pair.getValue() instanceof org.asmeta.simulator.value.StringValue)
+						//add "" when the function is string
+						tmp.put(pair.getKey(), "\""+ pair.getValue().toString()+"\"");
+					else
+						tmp.put(pair.getKey(), pair.getValue().toString());
+					locationValue.putAll(tmp); 
 				}
 			}
 			is1.setLocationValue(locationValue);
