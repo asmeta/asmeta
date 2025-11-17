@@ -196,7 +196,7 @@ class LeafAsm extends Composition {
 			//Print out locations
 			System.out.println("PRINT OUT LOCATIONS: ");
 			for (Entry<Location, Value> pair : state.getOutLocs().entrySet())
-				System.out.println(pair.getKey() + " " + pair.getValue().toString());
+				System.out.println(pair.getKey() + " " + pair.toString());
 		} catch (InvalidInvariantException e) {
 			System.out.println(e.getInvariant());
 			EList<Function> constFunList = e.getInvariant().getConstrainedFunction();
@@ -492,7 +492,7 @@ class BiPipeFullDup extends BiComposition {
 		c2.copyMonitored(up1);
 		c1.copyMonitored(up2);
 		// results union
-		up1.union(up2);
+		up1.unionOnlyOutFun(up2);
 		return up1;
 	}
 
@@ -522,14 +522,14 @@ class BiPipeFullDup extends BiComposition {
 					up2 = c2.eval(true);
 					c2.copyMonitored(up1);
 					c1.copyMonitored(up2);
-					up1.union(up2);
+					up1.unionOnlyOutFun(up2);
 				}
 				else {
 					up1 = c1.eval(true,mon);
 					up2 = c2.eval(true,mon);
 					c2.copyMonitored(up1);
 					c1.copyMonitored(up2);
-					up1.union(up2);
+					up1.unionOnlyOutFun(up2);
 				}
 		}
 		catch (InvalidInvariantException e) {
@@ -584,7 +584,7 @@ class ParN extends NComposition {
 		UpdateSet up = c.get(0).eval();
 		for (int i = 1; i < c.size(); i++) {
 			UpdateSet tempUp = c.get(i).eval();
-			up.union(tempUp);
+			up.unionOnlyOutFun(tempUp);
 		}
 		c.get(c.size() - 1).copyMonitored(up);
 		// System.out.println(up.toString());
@@ -619,7 +619,7 @@ class ParN extends NComposition {
 					up = c.get(0).eval(true);
 					for (int i = 1; i < c.size(); i++) {
 						UpdateSet tempUp = c.get(i).eval(true);
-						up.union(tempUp);
+						up.unionOnlyOutFun(tempUp);
 					}
 					c.get(c.size() - 1).copyMonitored(up);
 				}
@@ -627,7 +627,7 @@ class ParN extends NComposition {
 					up = c.get(0).eval(true,mon);
 					for (int i = 1; i < c.size(); i++) {
 						UpdateSet tempUp = c.get(i).eval(true,mon);
-						up.union(tempUp);
+						up.unionOnlyOutFun(tempUp);
 					}
 					c.get(c.size() - 1).copyMonitored(up);
 				}

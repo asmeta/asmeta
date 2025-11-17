@@ -280,6 +280,8 @@ invariant inv_actual_time over actual_time_consumption: (forall $c in Compartmen
 	//Compartment management rule
 	main rule r_Main =
 	par
+	//outMess(undef):=""
+	//led(undef):=OFF
 	pillboxSystemTime := systemTime
 	forall $compartment in Compartment do
 		if setNewTime($compartment) or skipNextPill($compartment) then

@@ -31,6 +31,7 @@
  */
 
 package org.asmeta.simulator;
+
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -41,9 +42,10 @@ import org.asmeta.simulator.value.UndefValue;
 import org.asmeta.simulator.value.Value;
 
 import asmeta.definitions.Function;
+import asmeta.definitions.OutFunction;
 
 /**
- * An update set. 
+ * An update set.
  * 
  */
 public class UpdateSet extends LocationSet {
@@ -54,19 +56,20 @@ public class UpdateSet extends LocationSet {
 	 * Adds a new update.
 	 * 
 	 * @param location a location
-	 * @param content a new content
+	 * @param content  a new content
 	 * @throws UpdateClashException if the update set becames inconsistent
 	 */
 	public void putUpdate(Location location, Value content) {
 		assert content != null : "updated value to a location cannot be null";
 		Value currentVal = getCurrentValue(location);
-		if (currentVal != null){
+		if (currentVal != null) {
 			if (!currentVal.equals(content)) {
 				logger.debug("<UpdateClash>");
 				logger.debug("<UpdateSet>" + this + "</UpdateSet>");
 				logger.debug("<Update>" + location + "=" + content + "</Update>");
 				logger.debug("</UpdateClash>");
-				//System.out.println("location = " + location + "\noldContent="+oldContent+"\ncontent="+content);
+				// System.out.println("location = " + location +
+				// "\noldContent="+oldContent+"\ncontent="+content);
 				throw new UpdateClashException(location, currentVal, content);
 			}
 		}
@@ -74,9 +77,9 @@ public class UpdateSet extends LocationSet {
 	}
 
 	/**
-	 * Merges two update sets. If a location belongs to both the update sets,
-	 * the final content is that in the second update set.
-	 *  
+	 * Merges two update sets. If a location belongs to both the update sets, the
+	 * final content is that in the second update set.
+	 * 
 	 * @param updateSet an update set
 	 */
 	public void merge(UpdateSet updateSet) {
@@ -103,48 +106,62 @@ public class UpdateSet extends LocationSet {
 		// manages the abstract sets
 		add(anotherSet.abstractSets);
 	}
-
-
-	/*public UpdateSet clone() {
-		UpdateSet newUpdateSet = new UpdateSet();
-		newUpdateSet.abstractSets = new HashMap<WrappedDomain, Set<ReserveValue>>();
-		for(Entry<WrappedDomain, Set<ReserveValue>> entry: abstractSets.entrySet()) {
-			newUpdateSet.abstractSets.put(entry.getKey(), new HashSet<ReserveValue>());
-			for(ReserveValue rv: entry.getValue()) {
-				newUpdateSet.abstractSets.get(entry.getKey()).add(rv);
+	
+	//Silvia-Angelo: merge only out functions to update set for the out used in the next Leaf
+	//to avoid inconsistent update to functions with the same name on different simulators
+	public void unionOnlyOutFun(UpdateSet anotherSet) {
+		// manages the locations
+		for (Map.Entry<Location, Value> entry : anotherSet.getLocationMap().entrySet()) {
+			Function fun = entry.getKey().getSignature();
+			if (fun instanceof OutFunction) {
+				Location location = entry.getKey();
+				Value value = entry.getValue();
+				putUpdate(location, value);
+			}
+			else {
+				//TEMP PRINT CONTROLLED FUNCTIONS
+				System.out.println("C: " + entry);
 			}
 		}
-		newUpdateSet.locationMap = new HashMap<Location, Value>();
-		for(Entry<Location, Value> entry: locationMap.entrySet()) {
-			newUpdateSet.locationMap.put(entry.getKey(), entry.getValue());
-		}
-		return newUpdateSet;
-	}*/
+		// manages the abstract sets
+		add(anotherSet.abstractSets);
+	}
+
+	/*
+	 * public UpdateSet clone() { UpdateSet newUpdateSet = new UpdateSet();
+	 * newUpdateSet.abstractSets = new HashMap<WrappedDomain, Set<ReserveValue>>();
+	 * for(Entry<WrappedDomain, Set<ReserveValue>> entry: abstractSets.entrySet()) {
+	 * newUpdateSet.abstractSets.put(entry.getKey(), new HashSet<ReserveValue>());
+	 * for(ReserveValue rv: entry.getValue()) {
+	 * newUpdateSet.abstractSets.get(entry.getKey()).add(rv); } }
+	 * newUpdateSet.locationMap = new HashMap<Location, Value>();
+	 * for(Entry<Location, Value> entry: locationMap.entrySet()) {
+	 * newUpdateSet.locationMap.put(entry.getKey(), entry.getValue()); } return
+	 * newUpdateSet; }
+	 */
 
 	@Override
 	public boolean equals(Object o) {
-		if(o instanceof UpdateSet) {
-			UpdateSet updateSet = (UpdateSet)o;
-			if(getLocationMap().size() != updateSet.getLocationMap().size()) {
-				//if the two update sets do not have the  same number of elements,
-				//it means that they are not equal. Are we sure?
+		if (o instanceof UpdateSet) {
+			UpdateSet updateSet = (UpdateSet) o;
+			if (getLocationMap().size() != updateSet.getLocationMap().size()) {
+				// if the two update sets do not have the same number of elements,
+				// it means that they are not equal. Are we sure?
 				return false;
 			}
-			for(Location location: getLocationMap().keySet()) {
+			for (Location location : getLocationMap().keySet()) {
 				Value value = updateSet.getCurrentValue(location);
-				if(value == null || !value.equals(getCurrentValue(location))) {
-					return false; 
-				}	
+				if (value == null || !value.equals(getCurrentValue(location))) {
+					return false;
+				}
 			}
 			return true;
-		}
-		else {
+		} else {
 			return false;
 		}
 		// AG 2023 why abstracts sets are ignored????
 	}
-	
-	
+
 	public Set<Location> getLocationsUpdated() {
 		return getLocationMap().keySet();
 	}
@@ -152,7 +169,7 @@ public class UpdateSet extends LocationSet {
 	public Set<Function> getFunctionsUpdated() {
 		Set<Location> locations = getLocationsUpdated();
 		Set<Function> functions = new HashSet<Function>();
-		for(Location location: locations) {
+		for (Location location : locations) {
 			functions.add(location.getSignature());
 		}
 		return functions;

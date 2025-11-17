@@ -91,12 +91,18 @@ public class AsmetaSserviceRun extends InteractiveMFReader{
 		Function func = location.getSignature(); //e.g.: isPillMissed; location.getElements() e.g. (compartment2)
 		locationToFind = location.toString(); //e.g.: isPillMissed(compartment2)
 		//System.out.println("Patrizia func "+func.getName()+" codomain: "+func.getCodomain().getName() +" locationToFind: " + locationToFind);
-		Value value =  visit(func.getCodomain());
-		//System.out.println("Patrizia value found: "+ value.toString());
-		monitored.put(location, value);
-		//System.out.println("Patrizia monitored: "+monitored.toString()+"\n");
-		return value;
+		try{
+			Value value =  visit(func.getCodomain());
+			//System.out.println("Patrizia value found: "+ value.toString());
+			monitored.put(location, value);
+			//System.out.println("Patrizia monitored: "+monitored.toString()+"\n");
+			return value;
+		} catch (Exception e) {
+			//Angelo: show the location name that causes exception
+			throw new  RuntimeException(e.getMessage() + " for location " + location);
+		}
 	}
+	
 	//Not overriden version of readValue:
 	//Function func = location.getSignature();
 	//out.println("Insert a " + domainPrinter.visit(func.getCodomain()) + " for " + location.toString() + ":");

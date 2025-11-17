@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.asmeta.simulator.RuleEvaluator;
 import org.asmeta.simulator.main.Simulator;
 import org.junit.Test;
 
@@ -19,6 +20,62 @@ public class DbcComposerTest {
 	 */
 
 	String path = "examples/dbc_examples/";
+
+	
+	@Test //To test a leaf ASM fed with an hashmap of monitored  functions
+	public void testPillboxComp() throws Exception {
+		Logger.getLogger(Simulator.class).setLevel(Level.ALL);
+		Logger.getLogger(RuleEvaluator.class).setLevel(Level.ALL);
+		LeafAsm c1 = new LeafAsm(path + "Pillbox_DBC/compartment.asm",false);
+		LeafAsm c2 = new LeafAsm(path + "Pillbox_DBC/compartment.asm",false);
+		LeafAsm pb = new LeafAsm(path + "Pillbox_DBC/pillbox.asm",false);
+		ParN c1c2 = new ParN(c1,c2);
+		BiPipeHalfDup comp = new BiPipeHalfDup(pb, c1c2);
+		Map<String, String> mon = new HashMap<>();
+		try {	
+			System.out.println(" ===== new step ===== " + c1.name);
+			mon.put("myID", "1");
+			mon.put("outMess(undef)", "\"\"");
+			mon.put("led(undef)", "OFF");
+			System.out.print(mon);
+			c1.eval(true, mon);
+			System.out.print(mon);
+			System.out.println(c1.toString());
+			
+			System.out.println(" ===== new step ===== " + c2.name);
+			mon.clear();
+			mon.put("myID", "2");
+			mon.put("outMess(undef)", "\"\"");
+			mon.put("led(undef)", "OFF");
+			System.out.print(mon);
+			c2.eval(true, mon);
+			System.out.print(mon);
+			System.out.println(c2.toString());
+			
+			System.out.println(" ===== new step ===== bipipe");
+			mon.clear();
+			mon.put("compartmentOpen(1)","false");
+			mon.put("compartmentOpen(2)","false");
+			mon.put("skipNextPill(compartment1,compartment2)","false");
+			mon.put("skipNextPill(compartment2,compartment1)","false");
+			mon.put("newTime(compartment1)", "0n");
+			mon.put("newTime(compartment2)", "0n");
+			mon.put("setOriginalTime(compartment1)", "false");
+			mon.put("setOriginalTime(compartment2)", "false");
+			mon.put("setNewTime(compartment1)", "false");
+			mon.put("setNewTime(compartment2)", "false");
+			mon.put("systemTime", "0n");
+			mon.put("outMess(undef)", "\"\"");
+			mon.put("led(undef)", "OFF");
+			mon.put("myID", "1");
+			System.out.print(mon);
+			comp.eval(true, mon);
+			System.out.print(mon);
+			System.out.println(comp.toString());
+		}catch (CompositionException e) {
+			System.out.println(e.getMessage());
+		}
+	}
 
 
 	@Test //To test a leaf ASM fed with an hashmap of monitored  functions
