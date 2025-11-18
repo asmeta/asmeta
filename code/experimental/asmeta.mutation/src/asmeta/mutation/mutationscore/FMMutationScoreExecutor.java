@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.asmeta.parser.ASMParser;
 import org.asmeta.xt.validator.AsmetaFromAvallaBuilder;
 import org.asmeta.xt.validator.AsmetaV;
 import org.asmeta.xt.validator.ValidationResult;
@@ -52,11 +53,24 @@ public class FMMutationScoreExecutor {
 	}
 	
 	/**
+	 * Given a path to an Asm file, mutates it for parallel to sequential experiments
+	 * @param pathToAsm
+	 * @return
+	 * @throws Exception
+	 */
+	public List<AsmCollection> generateMutants(String pathToAsm) throws Exception{
+		AsmCollection originalAsm = ASMParser.setUpReadAsm(new File(pathToAsm));
+		ParToSeqMutator mut = new ParToSeqMutator();
+		List<AsmCollection> mutants = mut.mutate(originalAsm);
+		return mutants;
+	}
+	
+	/**
 	 * Computes the mutation score for FM experiments
 	 * See parallel to seq study.
 	 * Only applies the parallel to sequential mutation operator.
 	 * */
-	public Map.Entry<Integer, Integer> computeMutationScore(String testSuitePath) throws Exception {
+	public List<Integer> computeMutationScore(List<AsmCollection> mutants, List<Integer> killedMutations, String testSuitePath) throws Exception {
 		//mutOperators.addAll(mutationOps);
 		
 		// TEMP. use a temporary directory
@@ -68,55 +82,62 @@ public class FMMutationScoreExecutor {
 		//HashMap<String,Map.Entry<Integer, Integer>> results = new HashMap<String, Map.Entry<Integer,Integer>>();
 		assert temp.exists() && temp.isDirectory();
 		
-		AtomicInteger totalKilled = new AtomicInteger(0);
-		AtomicInteger totalMutants = new AtomicInteger(0);
-		//From here cycle over the testSuite folder.
+		//AtomicInteger totalKilled = new AtomicInteger(0);
+		//AtomicInteger totalMutants = new AtomicInteger(0);
+		
+		//base to the test suit folder
 		Path base = Path.of(testSuitePath);
-		Files.walk(base).forEach(avalla -> {
-			if (avalla.toFile().toString().endsWith(".avalla")) {
-				//correctLoadSpec(avalla);
-				// parse the scenario to get the ref to the asmeta
-				AsmetaMutatedFromAvalla asmetaBuilder;
+		
+		//check for each mutant if it is killed with the test suite
+		for (int i = 0; i < mutants.size(); i++) {
+			
+			//check if the index is in the list, if it is we just skip it.
+			if (killedMutations.contains(i)) 
+				continue;
+			
+			final int idx = i;
+			AsmCollection m = mutants.get(i);
+			
+			//From here cycle over the testSuite folder.
+			Files.walk(base).forEach(avalla -> {
+				if (avalla.toFile().toString().endsWith(".avalla")) {
+					//correctLoadSpec(avalla);
+					// parse the scenario to get the ref to the asmeta
+					AsmetaMutatedFromAvalla asmetaBuilder;
 				
-				try {
-					asmetaBuilder = new AsmetaMutatedFromAvalla(avalla.toFile().toString(), temp);
-					AsmCollection orginalAsm = asmetaBuilder.getAsm();
-					// for every mutation operators
-					//for (AsmetaMutationOperator mut : mutOperators) {
-					int nKilled = 0;
-					ParToSeqMutator mut = new ParToSeqMutator();
-					List<AsmCollection> mutants = mut.mutate(orginalAsm);
-					Map<String, Boolean> allCoveredRules = new HashMap<>();
-					// modify the scenario to ref to the mutated spec
-					for (AsmCollection m : mutants) {
+					try {
+						asmetaBuilder = new AsmetaMutatedFromAvalla(avalla.toFile().toString(), temp);
+						//int nKilled = 0;
+					
+						Map<String, Boolean> allCoveredRules = new HashMap<>();
+						// modify the scenario to ref to the mutated spec
 						// change the asmeta with the mutation
 						asmetaBuilder.setAsmeta(m);
 						// save the scenario
 						asmetaBuilder.save();
 						File tempAsmPath = asmetaBuilder.getTempAsmPath();
 						// execute now the scenario
-						// ValidationResult result = AsmetaV.executeAsmetaFromAvalla(false,
-						// allCoveredRules, tempAsmPath, originalName);
 						ValidationResult result = AsmetaV.executeAsmetaFromAvalla(false, allCoveredRules, tempAsmPath, false);
 						if (!result.isCheckSucceeded()) {
-							System.err.println("KILLED !!!");
-							nKilled++;
+							//add the index to a list of integer of the ones that were killed.
+							killedMutations.add(idx);
+							//System.err.println("KILLED !!!");
+							//nKilled++;
 						}
+						//totalKilled.addAndGet(nKilled);
+						//totalMutants.addAndGet(mutants.size());
+						// name of the operator -> pair (nKilled, mutants)
+						//}
+						//results.put(avalla.toFile().toString(), new AbstractMap.SimpleEntry<Integer, Integer>(nKilled, nMutants));
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
-					totalKilled.addAndGet(nKilled);
-					totalMutants.addAndGet(mutants.size());
-					// name of the operator -> pair (nKilled, mutants)
-					//}
-					//results.put(avalla.toFile().toString(), new AbstractMap.SimpleEntry<Integer, Integer>(nKilled, nMutants));
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 				
-			}
-		});
-		
-		Map.Entry<Integer, Integer> results = new AbstractMap.SimpleEntry<Integer,Integer>(totalKilled.get(), totalMutants.get());
+				}
+			});
+		}
+		//Map.Entry<Integer, Integer> results = new AbstractMap.SimpleEntry<Integer,Integer>(totalKilled.get(), totalMutants.get());
 		
 		// Delete temp directory
 		if (temp.exists()) {
@@ -126,7 +147,7 @@ public class FMMutationScoreExecutor {
 				.forEach(File::delete);
 		}
 		
-		return  results;
+		return  killedMutations;
 	}
 	
 }
