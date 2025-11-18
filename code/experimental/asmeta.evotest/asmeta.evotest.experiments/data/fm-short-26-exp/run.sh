@@ -59,10 +59,14 @@ while IFS= read -r line; do
 
     echo "--------------------------------------------------"
     echo "Running ASM #${spec_counter}: $asm_path"
+    
+    
+    log_file="logs/run_${spec_counter}.log"
+	mkdir -p logs
 
     # Run the jar in single-file mode:
     #   java -jar <jar> <asm-path> <budget> <numerical-prefix>
-    java -jar "${JAR}" "${asm_path}" "${BUDGET}" "${spec_counter}" >> log.txt 2>&1 || true
+    java -jar "${JAR}" "${asm_path}" "${BUDGET}" "${spec_counter}" >> "$log_file" 2>&1 < /dev/null || true
 
     ((spec_counter++))
 

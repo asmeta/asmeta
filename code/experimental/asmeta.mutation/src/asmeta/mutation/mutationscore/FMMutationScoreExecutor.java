@@ -3,14 +3,16 @@ package asmeta.mutation.mutationscore;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.Set;
+import java.util.stream.Stream;
 
+import org.apache.log4j.Logger;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.xt.validator.AsmetaFromAvallaBuilder;
 import org.asmeta.xt.validator.AsmetaV;
@@ -35,6 +37,7 @@ public class FMMutationScoreExecutor {
 			//		new CondNegator()
 			//		);
 
+	private static final Logger LOG = Logger.getLogger(FMMutationScoreExecutor.class);
 
 	static class AsmetaMutatedFromAvalla extends AsmetaFromAvallaBuilder {
 
@@ -70,7 +73,7 @@ public class FMMutationScoreExecutor {
 	 * See parallel to seq study.
 	 * Only applies the parallel to sequential mutation operator.
 	 * */
-	public List<Integer> computeMutationScore(List<AsmCollection> mutants, List<Integer> killedMutations, String testSuitePath) throws Exception {
+	public Set<Integer> computeMutationScore(List<AsmCollection> mutants, Set<Integer> killedMutations, String testSuitePath) throws Exception {
 		//mutOperators.addAll(mutationOps);
 		
 		// TEMP. use a temporary directory
@@ -95,47 +98,49 @@ public class FMMutationScoreExecutor {
 			if (killedMutations.contains(i)) 
 				continue;
 			
-			final int idx = i;
 			AsmCollection m = mutants.get(i);
 			
 			//From here cycle over the testSuite folder.
-			Files.walk(base).forEach(avalla -> {
-				if (avalla.toFile().toString().endsWith(".avalla")) {
-					//correctLoadSpec(avalla);
-					// parse the scenario to get the ref to the asmeta
-					AsmetaMutatedFromAvalla asmetaBuilder;
-				
-					try {
-						asmetaBuilder = new AsmetaMutatedFromAvalla(avalla.toFile().toString(), temp);
-						//int nKilled = 0;
+			try (Stream<Path> stream = Files.walk(base)) {
+			    Iterator<Path> it = stream.iterator();
+			    while (it.hasNext()) {
+			        Path avalla = it.next();
+			        if (avalla.toString().endsWith(".avalla")) {
+						//correctLoadSpec(avalla);
+						// parse the scenario to get the ref to the asmeta
+						AsmetaMutatedFromAvalla asmetaBuilder;
 					
-						Map<String, Boolean> allCoveredRules = new HashMap<>();
-						// modify the scenario to ref to the mutated spec
-						// change the asmeta with the mutation
-						asmetaBuilder.setAsmeta(m);
-						// save the scenario
-						asmetaBuilder.save();
-						File tempAsmPath = asmetaBuilder.getTempAsmPath();
-						// execute now the scenario
-						ValidationResult result = AsmetaV.executeAsmetaFromAvalla(false, allCoveredRules, tempAsmPath, false);
-						if (!result.isCheckSucceeded()) {
-							//add the index to a list of integer of the ones that were killed.
-							killedMutations.add(idx);
-							//System.err.println("KILLED !!!");
-							//nKilled++;
+						try {
+							asmetaBuilder = new AsmetaMutatedFromAvalla(avalla.toFile().toString(), temp);
+							//int nKilled = 0;
+						
+							Map<String, Boolean> allCoveredRules = new HashMap<>();
+							// modify the scenario to ref to the mutated spec
+							// change the asmeta with the mutation
+							asmetaBuilder.setAsmeta(m);
+							// save the scenario
+							asmetaBuilder.save();
+							File tempAsmPath = asmetaBuilder.getTempAsmPath();
+							// execute now the scenario
+							ValidationResult result = AsmetaV.executeAsmetaFromAvalla(false, allCoveredRules, tempAsmPath, false);
+							if (!result.isCheckSucceeded()) {
+								//add the index to a set of integer of the ones that were killed.
+								killedMutations.add(i);
+								break;
+								//System.err.println("KILLED !!!");
+								//nKilled++;
+							}
+							//totalKilled.addAndGet(nKilled);
+							//totalMutants.addAndGet(mutants.size());
+							// name of the operator -> pair (nKilled, mutants)
+							//}
+							//results.put(avalla.toFile().toString(), new AbstractMap.SimpleEntry<Integer, Integer>(nKilled, nMutants));
+						} catch (Exception e) {
+							LOG.error("Mutation analysis failed.\n" + e.getClass().getSimpleName() + ": " + e.getMessage());
 						}
-						//totalKilled.addAndGet(nKilled);
-						//totalMutants.addAndGet(mutants.size());
-						// name of the operator -> pair (nKilled, mutants)
-						//}
-						//results.put(avalla.toFile().toString(), new AbstractMap.SimpleEntry<Integer, Integer>(nKilled, nMutants));
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
 					}
-				
-				}
-			});
+			    }
+			};
 		}
 		//Map.Entry<Integer, Integer> results = new AbstractMap.SimpleEntry<Integer,Integer>(totalKilled.get(), totalMutants.get());
 		

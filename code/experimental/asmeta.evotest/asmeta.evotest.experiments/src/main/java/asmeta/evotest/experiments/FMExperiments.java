@@ -13,9 +13,10 @@ import java.nio.file.StandardOpenOption;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
+import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -29,6 +30,7 @@ import org.asmeta.simulator.RuleEvaluator;
 import org.asmeta.simulator.main.Simulator;
 import org.asmeta.xt.validator.AsmetaV;
 
+import asmeta.AsmCollection;
 import asmeta.evotest.experiments.scenario.ScenarioDataCollector;
 import asmeta.evotest.experiments.scenario.generator.ScenarioGenerator;
 import asmeta.evotest.experiments.scenario.generator.ScenarioGeneratorsRunner;
@@ -40,7 +42,7 @@ public class FMExperiments {
 	private static final String TARGET_DIR = "data\\fm-short-26-exp\\scenarios";
 	private static final String RESULTS_CSV = "data\\fm-short-26-exp\\result.csv";
 	private static final String SCENARIOS_ZIP = "data\\fm-short-26-exp\\scenarios.zip";
-
+	
 	/*
 	// When building the jar
 	private static final String MODEL_LIST = "model_list.txt";
@@ -49,7 +51,7 @@ public class FMExperiments {
 	private static final String SCENARIOS_ZIP = "scenarios.zip";
 	*/
 
-	private static final List<String> CSV_HEADERS = List.of("asm_path", "status", "total_exec_time_ms",
+	private static final List<String> CSV_HEADERS = List.of("asm_path", "iteration", "status", "total_exec_time_ms",
 			"generation_exec_time_ms", "n_correct_scenarios", "n_step", "n_set", "n_check", "n_failing_scenarios",
 			"n_val_error_scenarios", "tot_mutants", "killed_mutants");
 
@@ -58,9 +60,10 @@ public class FMExperiments {
 	public static void main(String[] args) {
 		// Set logging and silence stdout
 		LOG.setLevel(Level.INFO);
-		Logger.getLogger(Simulator.class).setLevel(Level.ERROR);
 		Logger.getLogger(RuleEvaluator.class).setLevel(Level.ERROR);
+		Logger.getLogger(Simulator.class).setLevel(Level.ERROR);
 		Logger.getLogger(AsmetaV.class).setLevel(Level.ERROR);
+		Logger.getLogger(FMMutationScoreExecutor.class).setLevel(Level.ERROR);
 		ASMParser.getResultLogger().setLevel(Level.ERROR);
 		System.setOut(new PrintStream(OutputStream.nullOutputStream()));
 
@@ -124,7 +127,6 @@ public class FMExperiments {
 			List<String> lines;
 			try {
 				lines = Files.readAllLines(Paths.get(MODEL_LIST));
-				LOG.info("Loaded " + lines.size() + " entries from model list.");
 			} catch (IOException e) {
 				LOG.error("Falied to load " + MODEL_LIST + ".", e);
 				return;
@@ -220,35 +222,60 @@ public class FMExperiments {
 	private static void evaluateAsm(int budget, Path resultsCsvPath, int numercalPrefix, String asmPath) {
 		String asmName = new File(asmPath).getName().replace(".asm", "");
 		String prefix = ScenarioGeneratorsRunner.formatCounter(numercalPrefix);
-		String avallaDir = TARGET_DIR + File.separator + prefix + "_" + asmName;
+		String avallaBaseDir = TARGET_DIR + File.separator + prefix + "_" + asmName;
 
 		LOG.info("------------------------------------");
 		LOG.info("Processing ASM: " + asmName);
 
+		// Generate mutants
+		LOG.info("Mutating the ASM...");
+		FMMutationScoreExecutor mutationExecutor = new FMMutationScoreExecutor();
+		List<AsmCollection> mutants;
+		try {
+			mutants = mutationExecutor.generateMutants(asmPath);
+		} catch (Throwable e) {
+			throw new RuntimeException(
+					"Mutation analysis failed.\n" + e.getClass().getSimpleName() + ": " + e.getMessage());
+		}
+
 		String status = "OK";
-		long executionTime = 0;
-		long elapsedTime = 0;
-		int nCorrectScenario = 0;
-		int nStep = 0;
-		int nSet = 0;
-		int nCheck = 0;
-		int valErrors = 0;
-		int failingScenarios = 0;
-		int killedMutants = 0;
-		int totMutants = 0;
+		long totalExecutionTime = 0;
+		long totalElapsedTime = 0;
+		int totalCorrectScenario = 0;
+		int totalStep = 0;
+		int totalSet = 0;
+		int totalCheck = 0;
+		int totalValErrors = 0;
+		int totalFailingScenarios = 0;
 
 		int iteration = 1;
 
+		// The set with the mutants killed so far
+		Set<Integer> allKilledMutants = new HashSet<>();
 		boolean allKilled = false;
-		Instant startTime = Instant.now();
-		Instant endTime = startTime;
 		// Generate test cases until all mutants are killed or time budget expired
-		while (!allKilled && elapsedTime <= budget * 1000) {
+		while (!allKilled && totalElapsedTime <= budget * 1000) {
+			String avallaDir = avallaBaseDir + File.separator + "iteration" + ScenarioGeneratorsRunner.formatCounter(iteration);
+			
+			
+			Instant startTime = Instant.now();
+			Instant endTime;
+
+			long executionTime = 0;
+			long elapsedTime = 0;
+			int nCorrectScenario = 0;
+			int nStep = 0;
+			int nSet = 0;
+			int nCheck = 0;
+			int valErrors = 0;
+			int failingScenarios = 0;
+
 			try {
 				// Run test generation
 				int n = iteration * 10;
 				LOG.info("Generating " + n + " test scenarios with " + n + " steps...");
-				executionTime += ScenarioGenerator.runRandom(asmPath, avallaDir, n, n, false);
+				executionTime = (long) ScenarioGenerator.runRandom(asmPath, avallaDir, n, n, false);
+				totalExecutionTime += executionTime;
 			} catch (Throwable e) {
 				LOG.error("Test generation failed.\n" + e.getClass().getSimpleName() + ": " + e.getMessage());
 				status = "GENERATION_ERROR";
@@ -258,7 +285,6 @@ public class FMExperiments {
 			// Run validation to identify and delete failing scenarios and scenario that
 			// results in validation error
 			LOG.info("Validating scenarios...");
-			String testPrefix = ScenarioGeneratorsRunner.formatCounter(iteration) + "iter_";
 			File[] files = new File(avallaDir).listFiles();
 			for (File f : files) {
 				String name = f.getName();
@@ -268,18 +294,17 @@ public class FMExperiments {
 						List<String> failing = AsmetaV.execValidation(f.toString(), false, false);
 						if (failing.size() > 0) {
 							LOG.error(name + ": validation failed.");
+							totalFailingScenarios++;
 							failingScenarios++;
 							f.delete();
 						}
 					} catch (Throwable e) {
 						LOG.error(name + ": Error in validation.\n" + e.getClass().getSimpleName() + ": "
 								+ e.getMessage());
+						totalValErrors++;
 						valErrors++;
 						f.delete();
 					}
-					// Avoid future overwriting renaming the generated files
-					File newFile = new File(f.getParent(), testPrefix + f.getName());
-					f.renameTo(newFile);
 				}
 			}
 
@@ -291,11 +316,16 @@ public class FMExperiments {
 				nSet = avallaData.get("n_set");
 				nCheck = avallaData.get("n_check");
 				nCorrectScenario = ScenarioDataCollector.getNumberOfScenario(avallaDir);
-				if (nCorrectScenario == 0) {
+				totalStep += nStep;
+				totalSet += nSet;
+				totalCheck += nCheck;
+				totalCorrectScenario += nCorrectScenario;
+				if (totalCorrectScenario == 0) {
 					// It is unlikely but still possible that in the next iteration
 					// some scenarios will be generated
 					endTime = Instant.now();
 					elapsedTime = Duration.between(startTime, endTime).toMillis();
+					totalElapsedTime += elapsedTime;
 					iteration++;
 					continue;
 				}
@@ -306,13 +336,14 @@ public class FMExperiments {
 
 			// Run mutation
 			LOG.info("Running mutation...");
+			Set<Integer> killedMutants = new HashSet<>();
 			try {
-				FMMutationScoreExecutor mutationExecutor = new FMMutationScoreExecutor();
 				String absolutePath = new File(avallaDir).getAbsolutePath();
-				Entry<Integer, Integer> mutationResult = mutationExecutor.computeMutationScore(absolutePath);
-				killedMutants = mutationResult.getKey();
-				totMutants = mutationResult.getValue();
-				allKilled = totMutants != 0 && killedMutants == totMutants;
+				killedMutants = mutationExecutor.computeMutationScore(mutants, allKilledMutants,
+						absolutePath);
+				LOG.info("Killed " + killedMutants.size() + " mutants");
+				allKilledMutants.addAll(killedMutants);
+				allKilled = mutants.size() != 0 && allKilledMutants.size() == mutants.size();
 			} catch (Throwable e) {
 				LOG.error("Mutation analysis failed.\n" + e.getClass().getSimpleName() + ": " + e.getMessage());
 				status = "MUTATION_ERROR";
@@ -321,23 +352,34 @@ public class FMExperiments {
 
 			endTime = Instant.now();
 			elapsedTime = Duration.between(startTime, endTime).toMillis();
+			totalElapsedTime += elapsedTime;
+
+			// Write data to the csv file with the final results
+			LOG.info("Wrting row to csv...");
+			try {
+				String row = String.join(",", asmPath, "IT" + iteration, status, String.valueOf(elapsedTime),
+						String.valueOf(executionTime), String.valueOf(nCorrectScenario), String.valueOf(nStep),
+						String.valueOf(nSet), String.valueOf(nCheck), String.valueOf(failingScenarios),
+						String.valueOf(valErrors), String.valueOf(mutants.size()),
+						String.valueOf(killedMutants.size()));
+				row += System.lineSeparator();
+				Files.write(resultsCsvPath, row.getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE,
+						StandardOpenOption.APPEND);
+			} catch (Throwable e) {
+				LOG.error("Falied to write data for " + asmName + " to csv.\n" + e.getClass().getSimpleName() + ": "
+						+ e.getMessage());
+			}
 			iteration++;
 		}
-		// We may exit from the while via break, we need to update elapsedTime
-		endTime = Instant.now();
-		elapsedTime = Duration.between(startTime, endTime).toMillis();
-
-		// Mutation was never able to generate a mutant
-		if (totMutants == 0 && nCorrectScenario != 0)
-			status = "MUTATION_ERROR";
 
 		// Write data to the csv file with the final results
-		LOG.info("Wrting row to csv...");
+		LOG.info("Wrting aggregate row to csv...");
 		try {
-			String row = String.join(",", asmPath, status, String.valueOf(elapsedTime), String.valueOf(executionTime),
-					String.valueOf(nCorrectScenario), String.valueOf(nStep), String.valueOf(nSet),
-					String.valueOf(nCheck), String.valueOf(failingScenarios), String.valueOf(valErrors),
-					String.valueOf(totMutants), String.valueOf(killedMutants));
+			String row = String.join(",", asmPath, "ALL", status, String.valueOf(totalElapsedTime),
+					String.valueOf(totalExecutionTime), String.valueOf(totalCorrectScenario), String.valueOf(totalStep),
+					String.valueOf(totalSet), String.valueOf(totalCheck), String.valueOf(totalFailingScenarios),
+					String.valueOf(totalValErrors), String.valueOf(mutants.size()),
+					String.valueOf(allKilledMutants.size()));
 			row += System.lineSeparator();
 			Files.write(resultsCsvPath, row.getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE,
 					StandardOpenOption.APPEND);
