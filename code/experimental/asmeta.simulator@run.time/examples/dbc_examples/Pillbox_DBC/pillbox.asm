@@ -40,13 +40,13 @@ signature:
 	
 	//IN from Compartment
 	//monitored openSwitch: Compartment -> Boolean
-	monitored openSwitch: Integer -> Boolean
+	monitored openSwitch: Natural -> Boolean
 	
 	//OUT to Compartment
 	//out outMess: Compartment -> String
 	out logMess: Compartment -> String
-	out outMess: Integer -> String
-	out led: Integer -> LedLights
+	out outMess: Natural -> String
+	out led: Natural -> LedLights
 	
 	//Time management
 	// The systemTime is expressed as the number of hours passed since the 01/01/1970
@@ -64,7 +64,7 @@ signature:
 	static compartment1: Compartment
 	static compartment2: Compartment	
 	
-	static getID: Compartment -> Integer
+	static getID: Compartment -> Natural
 	
 	static tenMinutes: Integer
 	
@@ -77,14 +77,14 @@ definitions:
 	//*************************************************
 	function openSwitch($i in Compartment)=
 		switch($i)
-			case compartment1: openSwitch(1)
-			case compartment2: openSwitch(2)
+			case compartment1: openSwitch(1n)
+			case compartment2: openSwitch(2n)
 		endswitch
 		
 	function getID($i in Compartment)=
 		switch($i)
-			case compartment1: 1
-			case compartment2: 2
+			case compartment1: 1n
+			case compartment2: 2n
 		endswitch
 	
 	function tenMinutes = 10
@@ -267,9 +267,9 @@ invariant inv_Led over redLed, led: (forall $c in Compartment with (redLed($c) =
 
 //@post
 //Check the status of redLed given the out message
-invariant over outMess: (forall $c in Compartment with contains(outMess(getID($c)), "Take")  implies (redLed($c) = ON or redLed($c) = BLINKING))
-invariant over outMess: (forall $c in Compartment with contains(outMess(getID($c)), "Close")  implies redLed($c) = BLINKING) 
-invariant over outMess: (forall $c in Compartment with (contains(outMess(getID($c)), "") or contains(outMess(getID($c)), "taken") or contains(outMess(getID($c)), "missed")) implies redLed($c) = OFF) 
+invariant inv_pillboxOutMess1 over outMess: (forall $c in Compartment with contains(outMess(getID($c)), "Take")  implies (redLed($c) = ON or redLed($c) = BLINKING))
+invariant inv_pillboxOutMess2 over outMess: (forall $c in Compartment with contains(outMess(getID($c)), "Close")  implies redLed($c) = BLINKING) 
+invariant inv_pillboxOutMess3 over outMess: (forall $c in Compartment with (outMess(getID($c))="" or contains(outMess(getID($c)), "taken") or contains(outMess(getID($c)), "missed")) implies redLed($c) = OFF) 
 
 //@post
 //If pill is skipped the actual time consumption is 0
@@ -344,11 +344,11 @@ default init s0:	//This init state is correct, it does not generate any invarian
 	// Controlled function that indicates the status of the compartment
 	function opened($compartment in Compartment) = false		
 	// Reset the output display message and the log message
-	function outMess($id in Integer) = ""
+	function outMess($id in Natural) = ""
 	function logMess($compartment in Compartment) = ""
 	// Turn-off all the led of the Compartments
 	function redLed($compartment in Compartment) = OFF
-	function led($id in Integer) = OFF
+	function led($id in Natural) = OFF
 	// Initialization of the time consumption for a compartment
 	function time_consumption($compartment in Compartment) = //time(name($compartment))
 		switch($compartment)

@@ -194,9 +194,9 @@ class LeafAsm extends Composition {
 			ups = new UpdateSet(); // tricky: create an UpdateSet containing the location set of s1
 			ups.applyLocationUpdates(map);
 			//Print out locations
-			System.out.println("PRINT OUT LOCATIONS: ");
+			System.out.println("PRINT OUT LOCATIONS: " + name );
 			for (Entry<Location, Value> pair : state.getOutLocs().entrySet())
-				System.out.println(pair.getKey() + " " + pair.toString());
+				System.out.println(pair.getKey() + " " + pair.getValue().toString());
 		} catch (InvalidInvariantException e) {
 			System.out.println(e.getInvariant());
 			EList<Function> constFunList = e.getInvariant().getConstrainedFunction();

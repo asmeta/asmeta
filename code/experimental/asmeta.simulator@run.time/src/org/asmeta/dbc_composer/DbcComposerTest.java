@@ -88,7 +88,7 @@ public class DbcComposerTest {
 			mon.put("setOriginalTime(compartment2)", "false");
 			mon.put("setNewTime(compartment1)", "false");
 			mon.put("setNewTime(compartment2)", "false");
-			mon.put("systemTime", "0n");
+			mon.put("systemTime", "10n");
 			mon.put("outMess(undef)", "\"\"");
 			mon.put("led(undef)", "OFF");
 			mon.put("myID", "1");

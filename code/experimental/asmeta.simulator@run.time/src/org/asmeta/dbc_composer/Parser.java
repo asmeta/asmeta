@@ -37,9 +37,8 @@ public class Parser {
 				Composition currentLeaf = compositions.get(i);
 				if (currentLeaf == null) { // If the leaf doesn't exist create new Leaf
 					currentLeaf = new LeafAsm(i, interactive);
-					System.out.println("CREATE NEW LEAF " + i + " " + currentLeaf.toString());
-
-					System.out.println("PRINT MAP " + compositions.toString());
+					//System.out.println("CREATE NEW LEAF " + i + " " + currentLeaf.toString());
+					//System.out.println("PRINT MAP " + compositions.toString());
 				}tokensComposition.add(currentLeaf);
 
 			}
@@ -99,12 +98,12 @@ public class Parser {
 					} else {
 						appo = new BiPipeFullDup(argomenti[0], argomenti[1]);
 					}
-					System.out.println("");
-					System.out.println(tokensComposition);
+					//System.out.println("");
+					//System.out.println(tokensComposition);
 					// system.out da eliminare
-					System.out.println("tokensComposition");
+					//System.out.println("tokensComposition");
 					this.tokensComposition.set(pos - c, appo);
-					System.out.println(tokensComposition);
+					//System.out.println(tokensComposition);
 					// system.out da eliminare
 					// [j=3]? verifica significato j
 					// [asm1,asm2,asm3]
@@ -112,42 +111,42 @@ public class Parser {
 					{
 						tokensComposition.set(j, tokensComposition.get(j - 1 + c));
 						//
-						System.out.print(j);
-						System.out.print(" - ");
-						System.out.println(this.tokensComposition.size() + 1 - c);
+						//System.out.print(j);
+						//System.out.print(" - ");
+						//System.out.println(this.tokensComposition.size() + 1 - c);
 						// 3 righe da eliminare
 						// corretto?
-						System.out.println(tokensComposition);
+						//System.out.println(tokensComposition);
 						// system.out da eliminare
 					}
 
 					for (int j = 0; j < c - 1; j++) {
 						tokensComposition.remove(tokensComposition.size() - 1);
-						System.out.println(tokensComposition);
+						//System.out.println(tokensComposition);
 						// system.out da eliminare
 					}
 					c = c * 2; // c=6
 					// [ ( + asm1 + | + asm2 + | + asm3 ) ]
 					// [ i-6 i-5 i-4 i-3 i-2 i-1 i ]
-					System.out.println("");
-					System.out.println(tokensString);
+					//System.out.println("");
+					//System.out.println(tokensString);
 					// system.out da eliminare
 					this.tokensString.set(i - c, appo.toString());
 					// system.out da eliminare
-					System.out.println("tokensString");
-					System.out.println(tokensString);
+					//System.out.println("tokensString");
+					//System.out.println(tokensString);
 					int p = i + 1 - c; // posso modificare direttamente i? Sì?
 					// [ appo + asm1 + | + asm2 + | + asm3 ) ]
 					// [ p-1 p p+1 p+2 p+3 p+4 p+5 ]
 					while (this.tokensString.size() - c > p) {
 						this.tokensString.set(p, this.tokensString.get(p + c));
 						p++;
-						System.out.println(tokensString);
+						//System.out.println(tokensString);
 						// system.out da eliminare
 					}
 					while (this.tokensString.size() > p) {
 						this.tokensString.remove(this.tokensString.size() - 1);
-						System.out.println(tokensString);
+						//System.out.println(tokensString);
 						// system.out da eliminare
 					}
 				}

@@ -31,15 +31,15 @@ definitions:
 
 //@pre
 //Check semantic consistency between the status of redLed and the given the out message
-invariant over outMess: contains(outMess(myID_Cont), "Take")  implies (led(myID_Cont) = ON or led(myID_Cont) = BLINKING)
-invariant over outMess: contains(outMess(myID_Cont), "Close")  implies led(myID_Cont) = BLINKING 
-invariant over outMess: (contains(outMess(myID_Cont), "") or contains(outMess(myID_Cont), "taken") or contains(outMess(myID_Cont), "missed")) implies led(myID_Cont) = OFF 
+invariant inv_compOutMess1 over outMess: contains(outMess(myID_Cont), "Take")  implies (led(myID_Cont) = ON or led(myID_Cont) = BLINKING)
+invariant inv_compOutMess2 over outMess: contains(outMess(myID_Cont), "Close")  implies led(myID_Cont) = BLINKING 
+invariant inv_compOutMess3 over outMess: (outMess(myID_Cont)="" or contains(outMess(myID_Cont), "taken") or contains(outMess(myID_Cont), "missed")) implies led(myID_Cont) = OFF 
 
 //@post
 //Check semantic consistency between the status of redLed and the given out message
-invariant over displayMessage: contains(displayMessage(myID_Cont), "Take")  implies (ledStatus(myID_Cont) = ON or ledStatus(myID_Cont) = BLINKING)
-invariant over displayMessage: contains(displayMessage(myID_Cont), "Close")  implies ledStatus(myID_Cont) = BLINKING 
-invariant over displayMessage: (contains(displayMessage(myID_Cont), "") or contains(displayMessage(myID_Cont), "taken") or contains(displayMessage(myID_Cont), "missed")) implies ledStatus(myID_Cont) = OFF 
+invariant inv_compDispMess1 over displayMessage: contains(displayMessage(myID_Cont), "Take")  implies (ledStatus(myID_Cont) = ON or ledStatus(myID_Cont) = BLINKING)
+invariant inv_compDispMess2 over displayMessage: contains(displayMessage(myID_Cont), "Close")  implies ledStatus(myID_Cont) = BLINKING 
+invariant inv_compDispMess3 over displayMessage: (displayMessage(myID_Cont)="" or contains(displayMessage(myID_Cont), "taken") or contains(displayMessage(myID_Cont), "missed")) implies ledStatus(myID_Cont) = OFF 
 
 
 	main rule r_Main =

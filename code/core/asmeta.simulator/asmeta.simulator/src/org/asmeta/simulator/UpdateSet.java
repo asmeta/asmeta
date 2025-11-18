@@ -117,6 +117,7 @@ public class UpdateSet extends LocationSet {
 				Location location = entry.getKey();
 				Value value = entry.getValue();
 				putUpdate(location, value);
+				System.out.println("O: " + entry);
 			}
 			else {
 				//TEMP PRINT CONTROLLED FUNCTIONS
@@ -125,6 +126,7 @@ public class UpdateSet extends LocationSet {
 		}
 		// manages the abstract sets
 		add(anotherSet.abstractSets);
+		
 	}
 
 	/*
