@@ -30,12 +30,7 @@ public class FMMutationScoreExecutor {
 
 	// mutation operators to be used
 	List<AsmetaMutationOperator> mutOperators = new ArrayList<>();
-			//Arrays.asList(
-			//		new RuleRemover(), 
-			//		new ChooseRuleMutate(),
-			//		new CondRemover(),
-			//		new CondNegator()
-			//		);
+	
 
 	private static final Logger LOG = Logger.getLogger(FMMutationScoreExecutor.class);
 
@@ -74,7 +69,6 @@ public class FMMutationScoreExecutor {
 	 * Only applies the parallel to sequential mutation operator.
 	 * */
 	public void computeMutationScore(List<AsmCollection> mutants, Set<Integer> killedMutations, String testSuitePath) throws Exception {
-		//mutOperators.addAll(mutationOps);
 		
 		// TEMP. use a temporary directory
 		File temp = new File("temp").getAbsoluteFile();
@@ -82,11 +76,8 @@ public class FMMutationScoreExecutor {
 			Files.createDirectories(temp.toPath());
 		}
 		
-		//HashMap<String,Map.Entry<Integer, Integer>> results = new HashMap<String, Map.Entry<Integer,Integer>>();
 		assert temp.exists() && temp.isDirectory();
 		
-		//AtomicInteger totalKilled = new AtomicInteger(0);
-		//AtomicInteger totalMutants = new AtomicInteger(0);
 		
 		//base to the test suit folder
 		Path base = Path.of(testSuitePath);
@@ -94,7 +85,7 @@ public class FMMutationScoreExecutor {
 		//check for each mutant if it is killed with the test suite
 		for (int i = 0; i < mutants.size(); i++) {
 			
-			//check if the index is in the list, if it is we just skip it.
+			//check if the index is in the list, if true skip it.
 			if (killedMutations.contains(i))
 				continue;
 			
@@ -106,15 +97,15 @@ public class FMMutationScoreExecutor {
 			    while (it.hasNext()) {
 			        Path avalla = it.next();
 			        if (avalla.toString().endsWith(".avalla")) {
-						//correctLoadSpec(avalla);
-						// parse the scenario to get the ref to the asmeta
+						
+			        	// parse the scenario to get the ref to the asmeta
 						AsmetaMutatedFromAvalla asmetaBuilder;
 					
 						try {
 							asmetaBuilder = new AsmetaMutatedFromAvalla(avalla.toFile().toString(), temp);
-							//int nKilled = 0;
 						
 							Map<String, Boolean> allCoveredRules = new HashMap<>();
+						
 							// modify the scenario to ref to the mutated spec
 							// change the asmeta with the mutation
 							asmetaBuilder.setAsmeta(m);
@@ -127,22 +118,14 @@ public class FMMutationScoreExecutor {
 								//add the index to a set of integer of the ones that were killed.
 								killedMutations.add(i);
 								break;
-								//System.err.println("KILLED !!!");
-								//nKilled++;
 							}
-							//totalKilled.addAndGet(nKilled);
-							//totalMutants.addAndGet(mutants.size());
-							// name of the operator -> pair (nKilled, mutants)
-							//}
-							//results.put(avalla.toFile().toString(), new AbstractMap.SimpleEntry<Integer, Integer>(nKilled, nMutants));
 						} catch (Exception e) {
 							LOG.error("Mutation analysis failed.\n" + e.getClass().getSimpleName() + ": " + e.getMessage());
 						}
 					}
 			    }
-			};
+			}
 		}
-		//Map.Entry<Integer, Integer> results = new AbstractMap.SimpleEntry<Integer,Integer>(totalKilled.get(), totalMutants.get());
 		
 		// Delete temp directory
 		if (temp.exists()) {
