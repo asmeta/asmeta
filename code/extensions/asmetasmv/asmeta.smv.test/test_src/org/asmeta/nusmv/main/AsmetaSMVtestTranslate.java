@@ -478,6 +478,19 @@ public class AsmetaSMVtestTranslate {
 		testOneSpec("examples/UseAnyDomain.asm", options);
 	}
 
+	@Test
+	public void testINVAR() throws IOException {
+		AsmetaSMVOptions options = new AsmetaSMVOptions();
+		options.keepNuSMVfile = true;
+		testOneSpec("examples/UseInvar.asm", options);
+		Path fileName = Path.of("examples/UseInvar.smv");
+		String str = Files.readString(fileName);
+		System.err.println(str);
+		//it should not translate this as undef
+		assertTrue(str.contains("INVAR NAME inv0 := !(mon);"));
+		assertTrue(str.contains("INVARSPEC NAME inv1 := !(foo);"));
+	}
+	
 	
 	/*
 	 * @Test public void testUnibgProva() { assertTrue(testOneSpec(FILE_BASE_UNIBG +

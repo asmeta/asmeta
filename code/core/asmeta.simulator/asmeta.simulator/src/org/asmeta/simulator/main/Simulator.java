@@ -117,7 +117,7 @@ public class Simulator {
 			if (appenders.isEmpty())
 				logger.addAppender(outputfromSim);
 			else {
-				// advise that it is trying to add a new appender !! - it should never occur 
+				// advise that it is trying to add a new appender !! - it should never occur
 				if (!appenders.contains(outputfromSim))
 					System.err.println("trying to add a new appender but there is already one");
 			}
@@ -199,13 +199,13 @@ public class Simulator {
 	 */
 	public Simulator(String modelName, AsmCollection asmp, Environment env)
 			throws AsmModelNotFoundException, MainRuleNotFoundException {
-		set(modelName,asmp,env);
-		//		
+		set(modelName, asmp, env);
+		//
 		currentState = initState();
 		initEvaluator(currentState);
 		currentState.previousLocationValues.putAll(currentState.getLocationMap());// PA: 10 giugno 2010
-	}	
-	
+	}
+
 	/**
 	 * Instantiates a new simulator.
 	 *
@@ -218,7 +218,7 @@ public class Simulator {
 	 */
 	public Simulator(String modelName, AsmCollection asmp, Environment env, State s)
 			throws AsmModelNotFoundException, MainRuleNotFoundException {
-		set(modelName,asmp,env);
+		set(modelName, asmp, env);
 		//
 		currentState = s;
 		initEvaluator(currentState);
@@ -227,20 +227,22 @@ public class Simulator {
 
 	// common part of the simulator
 	// TODO build only two constructors
-	void set(String modelName, AsmCollection asmp, Environment env) throws AsmModelNotFoundException, MainRuleNotFoundException{
+	void set(String modelName, AsmCollection asmp, Environment env)
+			throws AsmModelNotFoundException, MainRuleNotFoundException {
 		assert env != null;
 		assert !modelName.endsWith(ASMParser.ASM_EXTENSION);
 		asmCollection = asmp;
 		initAsmModel(modelName);
-		environment = env;		
+		environment = env;
 		numOfState = 0;// PA: 10 giugno 2010
 		controlledInvariants = new ArrayList<Invariant>();
 		monitoredInvariants = new ArrayList<Invariant>();
-		// if the MF readrs supports the lazy evaluation
+		// if the MF readers supports the lazy evaluation
 		TermEvaluator.setAllowLazyEval(env.supportsLazyTermEval());
+		// sort out the type of invariants
+		getContrMonInvariants(asmCollection, controlledInvariants, monitoredInvariants);
 	}
 
-	
 	/**
 	 * Returns a simulator ready to execute the given model. The environment is read
 	 * by the standard input.
@@ -351,7 +353,7 @@ public class Simulator {
 	private interface StopCondition {
 		public boolean stop(UpdateSet us);
 	}
-	
+
 // TODO
 // sun untile the variable step takes a value, useful for validation asmetaV
 //	public UpdateSet runUntilStepNeg() {
@@ -369,7 +371,6 @@ public class Simulator {
 //		};
 //		return runUntil(stepNegative,  Integer.MAX_VALUE, InvariantTreament.CHECK_CONTINUE).updateSet;
 //	}
-	
 
 	// run until f becomes true
 	// throw exception only if check_stop
@@ -378,7 +379,6 @@ public class Simulator {
 		logger.debug("<Run>");
 		int step = 0;
 		UpdateSet updateSet = new UpdateSet();
-		getContrMonInvariants();
 		//
 		if (check != InvariantTreament.NO_CHECK) {
 			Invariant invariant = checkInvariants(ruleEvaluator.termEval, controlledInvariants);
@@ -692,7 +692,10 @@ public class Simulator {
 	 * contain at least a monitored function) from controlled invariants (invariants
 	 * which do not contain any monitored function).
 	 */
-	protected void getContrMonInvariants() {
+	static protected void getContrMonInvariants(AsmCollection asmCollection, List<Invariant> controlledInvariants,
+			List<Invariant> monitoredInvariants) {
+		assert controlledInvariants.isEmpty();
+		assert monitoredInvariants.isEmpty();
 		MonitoredFinder mf = new MonitoredFinder();
 		boolean isMonitoredInvariant;
 		for (Iterator<Asm> i = asmCollection.iterator(); i.hasNext();) {

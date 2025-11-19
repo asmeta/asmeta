@@ -688,6 +688,14 @@ public class AsmetaSMVnoFlattenerTest extends AsmetaSMVtest {
 	}
 
 	@Test
+	public void useINVAR() {
+		PRINT_NU_SM_VOUTPUT = true;
+		testAllPropsAre(true, "examples/UseInvar.asm", (x->true));
+		PRINT_NU_SM_VOUTPUT = false;
+	}
+
+	
+	@Test
 	public void updateVC() {
 		testAllCtlPropsAreTrue("examples/coffeeVendingMachineNC.asm");
 	}
