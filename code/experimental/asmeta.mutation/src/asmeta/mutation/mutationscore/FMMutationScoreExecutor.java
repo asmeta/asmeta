@@ -73,7 +73,7 @@ public class FMMutationScoreExecutor {
 	 * See parallel to seq study.
 	 * Only applies the parallel to sequential mutation operator.
 	 * */
-	public Set<Integer> computeMutationScore(List<AsmCollection> mutants, Set<Integer> killedMutations, String testSuitePath) throws Exception {
+	public void computeMutationScore(List<AsmCollection> mutants, Set<Integer> killedMutations, String testSuitePath) throws Exception {
 		//mutOperators.addAll(mutationOps);
 		
 		// TEMP. use a temporary directory
@@ -95,7 +95,7 @@ public class FMMutationScoreExecutor {
 		for (int i = 0; i < mutants.size(); i++) {
 			
 			//check if the index is in the list, if it is we just skip it.
-			if (killedMutations.contains(i)) 
+			if (killedMutations.contains(i))
 				continue;
 			
 			AsmCollection m = mutants.get(i);
@@ -151,8 +151,6 @@ public class FMMutationScoreExecutor {
 				.map(Path::toFile)
 				.forEach(File::delete);
 		}
-		
-		return  killedMutations;
 	}
 	
 }
