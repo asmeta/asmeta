@@ -273,7 +273,9 @@ invariant inv_pillboxOutMess3 over outMess: (forall $c in Compartment with (outM
 
 //@post
 //If pill is skipped the actual time consumption is 0
-invariant inv_actual_time over actual_time_consumption: (forall $c in Compartment with ((at(time_consumption($c),drugIndex($c))<systemTime) and at(skipPill($c),drugIndex($c))=true) implies
+invariant inv_actual_time over actual_time_consumption: 
+(forall $c in Compartment with ((at(time_consumption($c),drugIndex($c))<=systemTime) and at(skipPill($c),drugIndex($c))=true) 
+implies
 	at(actual_time_consumption($c),drugIndex($c))=0n)
 
 

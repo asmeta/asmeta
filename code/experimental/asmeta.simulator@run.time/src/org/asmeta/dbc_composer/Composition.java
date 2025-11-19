@@ -168,7 +168,7 @@ class LeafAsm extends Composition {
 			InfoAsmetaService is1 = simulatorMap.get(1);
 			// FIX by Patrizia 8 nov 2025: add mon resulting from copyMonitored() in
 			// locationValue
-			System.out.println("Copied monnitored locations: "+mon.monStoredValues.toString());
+			//System.out.println("Copied monnitored locations: "+mon.monStoredValues.toString());
 			if (!mon.monStoredValues.isEmpty()) {
 				Map<String, String> tmp = new HashMap<>();
 				// iterate over mon locations and copy the string version of each location in
@@ -194,8 +194,11 @@ class LeafAsm extends Composition {
 			ups = new UpdateSet(); // tricky: create an UpdateSet containing the location set of s1
 			ups.applyLocationUpdates(map);
 			//Print out locations
-			System.out.println("PRINT OUT LOCATIONS: " + name );
+			/*System.out.println("PRINT OUT LOCATIONS: " + name );
 			for (Entry<Location, Value> pair : state.getOutLocs().entrySet())
+				System.out.println(pair.getKey() + " " + pair.getValue().toString());*/
+			System.out.println("PRINT STATE: " + name );
+			for (Entry<Location, Value> pair : state.getLocationMap().entrySet())
 				System.out.println(pair.getKey() + " " + pair.getValue().toString());
 		} catch (InvalidInvariantException e) {
 			System.out.println(e.getInvariant());

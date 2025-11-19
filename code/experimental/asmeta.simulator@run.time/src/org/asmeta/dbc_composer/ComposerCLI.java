@@ -11,6 +11,8 @@ public class ComposerCLI {
 //-Interpreta `setup <alias> as <composition>` anche se la composizione è complessa.
 //-Interpreta `run(<alias>, {param})` e chiama `eval(true,param)` sulla `Composition`.
 
+	static int runNum=0;
+	
 	public static void main(String[] args) {
 		if (args.length == 0) {
 			System.err.println("Usage: java ConfigParserApp <config_file.asmsh>");
@@ -62,6 +64,8 @@ public class ComposerCLI {
 				// Gestione RUN
 				Matcher runMatcher = runPattern.matcher(line);
 				if (runMatcher.matches()) {
+					runNum++;
+					System.out.println("RUN STEP " + runNum);
 					String alias = runMatcher.group(1);
 					String parameters = runMatcher.group(2).trim();
 					// Prepare input: transform strings into a map(string,string)

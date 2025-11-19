@@ -92,7 +92,9 @@ public class AsmetaSserviceRun extends InteractiveMFReader{
 		locationToFind = location.toString(); //e.g.: isPillMissed(compartment2)
 		//System.out.println("Patrizia func "+func.getName()+" codomain: "+func.getCodomain().getName() +" locationToFind: " + locationToFind);
 		try{
+			
 			Value value =  visit(func.getCodomain());
+			//System.out.println("FUNCTION " + func.getName()+" "+locationToFind + " "+value);
 			//System.out.println("Patrizia value found: "+ value.toString());
 			monitored.put(location, value);
 			//System.out.println("Patrizia monitored: "+monitored.toString()+"\n");
