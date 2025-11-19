@@ -17,6 +17,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -37,12 +38,11 @@ import asmeta.evotest.experiments.scenario.generator.ScenarioGeneratorsRunner;
 import asmeta.mutation.mutationscore.FMMutationScoreExecutor;
 
 public class FMExperiments {
-
+	
 	private static final String MODEL_LIST = "data\\fm-short-26-exp\\model_list.txt";
 	private static final String TARGET_DIR = "data\\fm-short-26-exp\\scenarios";
 	private static final String RESULTS_CSV = "data\\fm-short-26-exp\\result.csv";
 	private static final String SCENARIOS_ZIP = "data\\fm-short-26-exp\\scenarios.zip";
-
 	/*
 	// When building the jar
 	private static final String MODEL_LIST = "model_list.txt";
@@ -50,10 +50,10 @@ public class FMExperiments {
 	private static final String RESULTS_CSV = "result.csv";
 	private static final String SCENARIOS_ZIP = "scenarios.zip";
 	*/
-
-	private static final List<String> CSV_HEADERS = List.of("asm_path", "iteration", "status", "total_exec_time_ms",
-			"generation_exec_time_ms", "n_correct_scenarios", "n_step", "n_set", "n_check", "n_failing_scenarios",
-			"n_val_error_scenarios", "tot_mutants", "killed_mutants");
+	private static final List<String> CSV_HEADERS = List.of("asm_path", "iteration", "status", "iteration_exec_time_ms",
+			"generation_exec_time_ms", "correct_scenarios", "n_step", "n_set", "n_check", "failing_scenarios",
+			"validation_error_scenarios", "tot_mutants", "n_killed_mutants_cumulativa",
+			"idx_killed_mutants_cumulative");
 
 	private static final int MAX_ITERATIONS = 20;
 	private static final int MAX_ITERATIONS_WITHOUT_SCENARIOS = 5;
@@ -258,8 +258,7 @@ public class FMExperiments {
 		Set<Integer> allKilledMutants = new HashSet<>();
 		boolean allKilled = false;
 		// Generate test cases until all mutants are killed or time budget expired or
-		// max iterations reached or no correct scenario is still generated and the max
-		// iteration with no file generated is reached
+		// max iterations reached or the max iteration with no file generated is reached
 		while (!allKilled && totalElapsedTime <= budget * 1000 && iteration <= MAX_ITERATIONS
 				&& !(totalCorrectScenario == 0 && iteration > MAX_ITERATIONS_WITHOUT_SCENARIOS)) {
 			String avallaDir = avallaBaseDir + File.separator + "iteration"
@@ -356,13 +355,15 @@ public class FMExperiments {
 			totalElapsedTime += elapsedTime;
 
 			// Write data to the csv file with the final results
-			LOG.info("Wrting row to csv...");
+			LOG.info("Writing row to csv...");
 			try {
+				String killedMutantsList = allKilledMutants.stream().map(String::valueOf)
+						.collect(Collectors.joining(";"));
 				String row = String.join(",", asmPath, "IT" + iteration, status, String.valueOf(elapsedTime),
 						String.valueOf(executionTime), String.valueOf(nCorrectScenario), String.valueOf(nStep),
 						String.valueOf(nSet), String.valueOf(nCheck), String.valueOf(failingScenarios),
 						String.valueOf(valErrors), String.valueOf(mutants.size()),
-						String.valueOf(allKilledMutants.size()));
+						String.valueOf(allKilledMutants.size()), killedMutantsList);
 				row += System.lineSeparator();
 				Files.write(resultsCsvPath, row.getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE,
 						StandardOpenOption.APPEND);
@@ -376,11 +377,12 @@ public class FMExperiments {
 		// Write data to the csv file with the final results
 		LOG.info("Wrting aggregate row to csv...");
 		try {
+			String killedMutantsList = allKilledMutants.stream().map(String::valueOf).collect(Collectors.joining(";"));
 			String row = String.join(",", asmPath, "ALL", status, String.valueOf(totalElapsedTime),
 					String.valueOf(totalExecutionTime), String.valueOf(totalCorrectScenario), String.valueOf(totalStep),
 					String.valueOf(totalSet), String.valueOf(totalCheck), String.valueOf(totalFailingScenarios),
 					String.valueOf(totalValErrors), String.valueOf(mutants.size()),
-					String.valueOf(allKilledMutants.size()));
+					String.valueOf(allKilledMutants.size()), killedMutantsList);
 			row += System.lineSeparator();
 			Files.write(resultsCsvPath, row.getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE,
 					StandardOpenOption.APPEND);
