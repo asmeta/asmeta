@@ -122,7 +122,7 @@ class Util {
 	}
 
 	// Return true if domain is one of those listed in the condition
-	def boolean isNotNumerable(Domain domain) {
+	static def boolean isNotNumerable(Domain domain) {
 		if (domain instanceof StringDomain || domain instanceof CharDomain || domain instanceof IntegerDomain ||
 			domain instanceof RealDomain || domain instanceof NaturalDomain || domain instanceof BooleanDomain)
 			return true

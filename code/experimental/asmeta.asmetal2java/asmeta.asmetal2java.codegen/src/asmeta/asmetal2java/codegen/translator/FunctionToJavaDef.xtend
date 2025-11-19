@@ -56,7 +56,7 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 
 					// Controllo quali domini sono implementabili, quindi traducibili nel linguaggio di riferimento
 					/* */
-					if (new Util().isNotNumerable((object.initialization.get(0).variable.get(i).domain))) {
+					if (Util.isNotNumerable((object.initialization.get(0).variable.get(i).domain))) {
 						// In questo caso sono comandi non accettati
 						sb.append('''
 							//NOT IMPLEMENTED IN Java (FunctionToCpp line 50)

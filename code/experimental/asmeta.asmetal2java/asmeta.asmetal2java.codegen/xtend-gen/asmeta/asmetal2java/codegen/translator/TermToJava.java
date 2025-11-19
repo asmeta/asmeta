@@ -7,6 +7,7 @@ import asmeta.definitions.MonitoredFunction;
 import asmeta.definitions.StaticFunction;
 import asmeta.definitions.domains.AbstractTd;
 import asmeta.definitions.domains.BagDomain;
+import asmeta.definitions.domains.BooleanDomain;
 import asmeta.definitions.domains.ConcreteDomain;
 import asmeta.definitions.domains.Domain;
 import asmeta.definitions.domains.EnumTd;
@@ -17,6 +18,7 @@ import asmeta.definitions.domains.SequenceDomain;
 import asmeta.definitions.domains.StructuredTd;
 import asmeta.structure.Asm;
 import asmeta.terms.basicterms.BooleanTerm;
+import asmeta.terms.basicterms.DomainTerm;
 import asmeta.terms.basicterms.FunctionTerm;
 import asmeta.terms.basicterms.LocationTerm;
 import asmeta.terms.basicterms.RuleAsTerm;
@@ -87,6 +89,16 @@ public class TermToJava extends ReflectiveVisitor<String> {
 
   public String visit(final RealTerm term) {
     return term.getSymbol();
+  }
+
+  public String visit(final DomainTerm term) {
+    Domain _domain = term.getDomain();
+    final Domain domain = ((PowersetDomain) _domain).getBaseDomain();
+    if ((domain instanceof BooleanDomain)) {
+      return "(Boolean.FALSE, Boolean.TRUE)";
+    } else {
+      throw new RuntimeException((("domain " + domain) + " cannot be translated to Java"));
+    }
   }
 
   public String visit(final NaturalTerm term) {
@@ -700,10 +712,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
         _builder.append("@SuppressWarnings(\"serial\") //");
         functionTerm.append(_builder);
       }
-    }
-    TupleTerm _arguments_1 = ft.getArguments();
-    boolean _tripleNotEquals = (_arguments_1 != null);
-    if (_tripleNotEquals) {
+    } else {
       int _size = ft.getArguments().getTerms().size();
       boolean _equals = (_size == 1);
       if (_equals) {
