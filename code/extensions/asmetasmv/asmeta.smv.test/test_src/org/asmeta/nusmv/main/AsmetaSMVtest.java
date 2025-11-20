@@ -110,16 +110,18 @@ public class AsmetaSMVtest {
 		AsmetaSMV execNuSMV = execNuSMV(asm);
 		// check that the number of properties is correct
 		EList<Property> props = execNuSMV.asm.getBodySection().getProperty();
-		// count how many saftify the predicate
-		long nCTLProp = props.stream().filter(predicate).count();
-		Map<TemporalProperty, Boolean> mapResults = execNuSMV.mv.getMapPropResult();
+		// count how many satisfy the predicate
+		long nProp = props.stream().filter(predicate).count();
+		// makes no sense if there no properties
+		assertTrue(nProp>0);
+		Map<Property, Boolean> mapResults = execNuSMV.mv.getMapPropResult();
 		// for every property there is a result
 		// TODO questa fallisce perchè alcune volte diverse proprietà di asmeta sono mappate sulle stesse proprietà di
 		// nusmv (per la semplificazione) quindi quelle con risultati sono di meno
 		// dovrei controllare che ogni propreità ha un risultato.
-		assertEquals(nCTLProp, mapResults.size());
+		assertEquals(nProp, mapResults.size());
 		// all are true
-		for(Entry<TemporalProperty, Boolean> prop: mapResults.entrySet()) {
+		for(Entry<Property, Boolean> prop: mapResults.entrySet()) {
 			assertEquals("The property " + prop.getKey() + " should be "+ desiredValue 
 					+", instead is "+ (! desiredValue)+ ".", desiredValue, prop.getValue());
 		}

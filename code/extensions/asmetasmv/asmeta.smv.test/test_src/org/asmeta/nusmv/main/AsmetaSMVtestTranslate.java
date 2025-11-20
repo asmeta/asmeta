@@ -61,7 +61,7 @@ public class AsmetaSMVtestTranslate {
 			// the file exists
 			if (!Files.exists(Paths.get(a.smvFileName)))
 				return false;
-			System.out.println(Paths.get(a.smvFileName));
+			//System.out.println(Paths.get(a.smvFileName));
 			// TODO parse the file with nusmv
 			if (options.isRunNuSMV()) a.executeNuSMV();
 			return true;

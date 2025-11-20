@@ -180,6 +180,7 @@ public class AsmetaMA {
 		asmetaSMV.mv.ctlList.clear();
 		asmetaSMV.mv.ltlList.clear();
 		asmetaSMV.mv.invariantList.clear();
+		asmetaSMV.mv.invariantOverMonitoredList.clear();
 		// add now the properties for asmetaMA
 		Set<String> translatedAllProperties = new HashSet<>();
 		log.debug("LT Properties\n" + 

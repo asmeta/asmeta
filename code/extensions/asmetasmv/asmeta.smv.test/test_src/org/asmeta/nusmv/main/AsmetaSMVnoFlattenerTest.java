@@ -8,10 +8,12 @@ import static org.junit.Assert.fail;
 import java.io.File;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Predicate;
 
 import org.asmeta.nusmv.main.AsmetaSMV;
 import org.asmeta.nusmv.main.AsmetaSMV.ModelCheckerMode;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
+import org.asmeta.simulator.util.MonitoredFinder;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -19,6 +21,10 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.junit.runners.MethodSorters;
+
+import asmeta.definitions.Invariant;
+import asmeta.definitions.Property;
+import asmeta.definitions.TemporalProperty;
 
 public class AsmetaSMVnoFlattenerTest extends AsmetaSMVtest {
 
@@ -690,7 +696,18 @@ public class AsmetaSMVnoFlattenerTest extends AsmetaSMVtest {
 	@Test
 	public void useINVAR() {
 		PRINT_NU_SM_VOUTPUT = true;
-		testAllPropsAre(true, "examples/UseInvar.asm", (x->true));
+		MonitoredFinder mf = new MonitoredFinder();
+		Predicate<Property> predicate  = new Predicate<Property>() {
+			@Override
+			public boolean test(Property t) {
+				if (t instanceof Invariant) {
+					MonitoredFinder mf = new MonitoredFinder();
+					return mf.visit(((Invariant)t).getBody());
+				}
+				return false;
+			}			
+		};
+		testAllPropsAre(true, "examples/UseInvar.asm", predicate);
 		PRINT_NU_SM_VOUTPUT = false;
 	}
 

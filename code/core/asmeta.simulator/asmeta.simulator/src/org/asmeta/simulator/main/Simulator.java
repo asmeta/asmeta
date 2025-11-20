@@ -691,6 +691,11 @@ public class Simulator {
 	 * PA: 31/10/2010 It separates the monitored invariants (invariants which
 	 * contain at least a monitored function) from controlled invariants (invariants
 	 * which do not contain any monitored function).
+	 *
+	 * @param asmCollection the asm collection
+	 * @param controlledInvariants the controlled invariants, to be filled
+	 * @param monitoredInvariants the monitored invariants, to be filled
+	 * @return the contr mon invariants
 	 */
 	static protected void getContrMonInvariants(AsmCollection asmCollection, List<Invariant> controlledInvariants,
 			List<Invariant> monitoredInvariants) {
