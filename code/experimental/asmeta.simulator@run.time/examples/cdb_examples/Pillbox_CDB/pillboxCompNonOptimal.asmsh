@@ -17,5 +17,4 @@ run(pillbox_comp, {myID=undef;outMess(undef)="";led(undef)=OFF;compartmentOpen(1
 run(pillbox_comp, {myID=undef;outMess(undef)="";led(undef)=OFF;compartmentOpen(1)=false;compartmentOpen(2)=false;systemTime=731n})
 run(pillbox_comp, {myID=undef;outMess(undef)="";led(undef)=OFF;compartmentOpen(1)=false;compartmentOpen(2)=false;systemTime=742n})
 run(pillbox_comp, {myID=undef;outMess(undef)="";led(undef)=OFF;compartmentOpen(1)=false;compartmentOpen(2)=false;systemTime=753n})
-run(pillbox_comp, {myID=undef;outMess(undef)="";led(undef)=OFF;compartmentOpen(1)=false;compartmentOpen(2)=false;systemTime=754n})
 
