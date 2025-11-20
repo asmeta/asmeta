@@ -1,4 +1,4 @@
-package org.asmeta.dbc_composer;
+package org.asmeta.cdb_composer;
 
 import java.util.Map;
 

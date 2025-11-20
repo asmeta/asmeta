@@ -1,15 +1,23 @@
-package org.asmeta.dbc_composer;
+package org.asmeta.cdb_composer;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.asmeta.cdb_composer.BiPipeFullDup;
+import org.asmeta.cdb_composer.BiPipeHalfDup;
+import org.asmeta.cdb_composer.Composition;
+import org.asmeta.cdb_composer.CompositionException;
+import org.asmeta.cdb_composer.LeafAsm;
+import org.asmeta.cdb_composer.ParN;
+import org.asmeta.cdb_composer.Parser;
+import org.asmeta.cdb_composer.PipeN;
 import org.asmeta.simulator.RuleEvaluator;
 import org.asmeta.simulator.main.Simulator;
 import org.junit.Test;
 
-public class DbcComposerTest {
+public class CdBComposerTest {
 
 	/*
 	 * Data una formula da args, chiamare il parser, che resituisce la gerarchia di

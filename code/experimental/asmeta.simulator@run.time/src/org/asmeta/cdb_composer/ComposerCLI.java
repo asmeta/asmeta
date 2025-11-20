@@ -1,4 +1,4 @@
-package org.asmeta.dbc_composer;
+package org.asmeta.cdb_composer;
 
 import java.io.*;
 import java.util.*;
@@ -65,7 +65,7 @@ public class ComposerCLI {
 				Matcher runMatcher = runPattern.matcher(line);
 				if (runMatcher.matches()) {
 					runNum++;
-					System.out.println("RUN STEP " + runNum);
+					System.out.println("\nRUN STEP " + runNum);
 					String alias = runMatcher.group(1);
 					String parameters = runMatcher.group(2).trim();
 					// Prepare input: transform strings into a map(string,string)
@@ -90,8 +90,7 @@ public class ComposerCLI {
 
 					try {
 						System.out.println(comp.toString());
-						comp.eval(true, mon); // true abilita il DbC checker; TODO eval con parametri per le funz.
-												// monitorate libere
+						comp.eval(true, mon); // true abilita il CdB checker;
 						System.out.println(comp.toString());
 					} catch (CompositionException e) {
 						System.err.println("Error in composition " + alias + ": " + e.getMessage());

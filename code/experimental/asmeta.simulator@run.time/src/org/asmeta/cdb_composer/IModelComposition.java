@@ -1,4 +1,4 @@
-package org.asmeta.dbc_composer;
+package org.asmeta.cdb_composer;
 
 /**
  * @author Michele Zenoni
@@ -31,7 +31,7 @@ public interface IModelComposition {
 	 */
 	public void runStep(int id, Map<String, String> locationValue) throws CompositionException;
 	
-	public void runStep(int id, Map<String, String> locationValue, boolean dbc) throws CompositionException;
+	public void runStep(int id, Map<String, String> locationValue, boolean cdb) throws CompositionException;
 	
 	/**
 	 * Simulation container's runUntilEmpty(...) method on the composed simulation.

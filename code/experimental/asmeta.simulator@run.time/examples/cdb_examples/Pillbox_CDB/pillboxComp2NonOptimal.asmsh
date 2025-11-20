@@ -1,11 +1,11 @@
 //Fosamax is taken on time
 //Moment is rescheduled and then taken at rescheduled time
-setup CM as examples/dbc_examples/Pillbox_DBC/configMgr.asm
-setup RES as examples/dbc_examples/Pillbox_DBC/rescheduler.asm
+setup CM as examples/cdb_examples/Pillbox_CDB/configMgr.asm
+setup RES as examples/cdb_examples/Pillbox_CDB/reschedulerNonOptimal.asm
 setup setup_comp as ( CM || RES )
-setup C1 as examples/dbc_examples/Pillbox_DBC/compartment.asm
-setup C2 as examples/dbc_examples/Pillbox_DBC/compartment.asm
-setup PB as examples/dbc_examples/Pillbox_DBC/pillbox.asm
+setup C1 as examples/cdb_examples/Pillbox_CDB/compartment.asm
+setup C2 as examples/cdb_examples/Pillbox_CDB/compartment.asm
+setup PB as examples/cdb_examples/Pillbox_CDB/pillbox.asm
 run(setup_comp, {pillboxSystemTime=0;day=0;isPillMissed(compartment1)=false;pillTakenWithDelay(compartment1)=false;isPillMissed(compartment2)=false;pillTakenWithDelay(compartment2)=false;redLed(compartment1)=OFF;redLed(compartment2)=OFF;name(compartment1)="fosamax";name(compartment2)="moment";time_consumption(compartment1)=[360];time_consumption(compartment2)=[730,1140];actual_time_consumption(compartment1)=[0];actual_time_consumption(compartment2)=[0,0];drugIndex(compartment1)=0;drugIndex(compartment2)=0})
 run(C1, {compartmentOpen(1)=false;outMess(1)="";led(1)=OFF;myID=1;outMess(undef)="";led(undef)=OFF})
 run(C2, {myID=2;compartmentOpen(2)=false;outMess(2)="";led(2)=OFF;outMess(undef)="";led(undef)=OFF})

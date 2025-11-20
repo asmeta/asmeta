@@ -1,7 +1,6 @@
-asm reschedulerNonOptimal
+asm rescheduler
 import  ../StandardLibrary
 import knowledge
-
 signature:
 	//*************************************************
 	// DOMAINS
@@ -41,11 +40,7 @@ signature:
 	controlled medicine_list: Seq(String)
 	controlled deltaDelay: String -> Natural
 	controlled nextDrugIndexN: Compartment ->Natural
-	
-	//Time management
-	// The pillboxSystemTime is expressed as the number of hours passed since the 01/01/1970
-	//monitored pillboxSystemTime: Natural //Time in minutes since midnight
-	
+
 	//*************************************************
 	// STATIC VARIABLES
 	//*************************************************
@@ -55,11 +50,27 @@ signature:
 	//COMPOSITION
 	monitored pillboxSystemTime: Natural
 
+
+	controlled tempComputation: Boolean
+	derived computeDer: Boolean
 	
 definitions:
 	//*************************************************
 	// FUNCTIONS DEFINITIONS
 	//*************************************************
+	
+	function computeDer = (forall $compartment in Compartment with
+ 	((forall $c in next($compartment) with 
+		( isPillMissed($compartment) and ((iton((at(time_consumption($c),drugIndex($c)) - 
+			at(time_consumption($compartment),drugIndex($compartment))-ntoi(deltaDelay(name($compartment)))
+		))
+		>= (minToInterferer(name($compartment),name($c))) and $c!=$compartment) or 
+		(iton((at(time_consumption($c),nextDrugIndex($c)) - at(time_consumption($compartment),drugIndex($compartment))-
+			ntoi(deltaDelay(name($compartment)))
+		)) 
+		>= (minToInterferer(name($compartment),name($c))) and $c=$compartment))
+		))
+	 implies ((newTime ($compartment) = at(time_consumption($compartment),drugIndex($compartment))+deltaDelay(name($compartment))))))
 	
 	function next($compartment in Compartment) =  
 		{$c in Compartment | (at(time_consumption($c),drugIndex($c)) > at(time_consumption($compartment),drugIndex($compartment))) : $c}
@@ -73,21 +84,40 @@ definitions:
 		if  $i < iton(length(time_consumption($compartment)))  then $i else 0n endif
 		endlet 
 	
+ 
     //*************************************************
 	// RULE DEFINITIONS
 	//*************************************************
 
-	
 	rule r_rescheduler = 
 	  forall $compartment in Compartment do 
 	  par
 	  	if isPillMissed($compartment) then //M
-	  	par
-	  		setNewTime ($compartment):= true
-			//Missed pill update new consumption time without checking overlap with next pills
-			setOriginalTime ($compartment):= false
-			newTime ($compartment):= at(time_consumption($compartment),drugIndex($compartment))+deltaDelay(name($compartment))
-		endpar
+		  	par
+		  		setNewTime ($compartment):= true
+				//Missed pill check if the new time causes invariant violation
+				 if ((forall $c in next($compartment) with 
+				   	(  (iton((at(time_consumption($c),drugIndex($c)) - 
+				   		at(time_consumption($compartment),drugIndex($compartment))-ntoi(deltaDelay(name($compartment)))))
+					>= (minToInterferer(name($compartment),name($c))) and $c!=$compartment) or 
+					(iton((at(time_consumption($c),nextDrugIndex($c)) - at(time_consumption($compartment),drugIndex($compartment))-
+						ntoi(deltaDelay(name($compartment)))
+					)) 
+					>= (minToInterferer(name($compartment),name($c))) and $c=$compartment)
+					))) then //A
+				  			par
+				  				setOriginalTime ($compartment):= false
+				  				newTime ($compartment):= at(time_consumption($compartment),drugIndex($compartment))+deltaDelay(name($compartment))
+				  			endpar // if not update new time of pill otherwise skip the pill
+					else
+					  	par
+					  		setOriginalTime ($compartment):= true
+					  		newTime ($compartment):= at(time(name($compartment)),drugIndex($compartment))
+					  	endpar
+					endif
+			endpar
+		else
+			setNewTime ($compartment):= false	
 		endif
 	 	if pillTakenWithDelay($compartment) then
 			//pill taken later compared the timecompartment
@@ -103,35 +133,42 @@ definitions:
 						skipNextPill($compartment, $c2):= true
 						skipNextPill($compartment) := true
 					endpar
-					//skip next pill -> rule must be in pillbox
+				// skip next pill -> rule must be in pillbox
 				endif
+		else
+			par
+				forall $c3 in next($compartment) do 
+					skipNextPill($compartment, $c3):= false
+				skipNextPill($compartment) := false
+			endpar
 		endif
-		endpar
-	 
-	//Reset all skipPill to false
-	rule r_resetMidnight =
+	endpar
+	
+// Reset all skipPill to false
+rule r_resetMidnight =
 		if (rtoi(pillboxSystemTime/1440n))> day then
 			forall $c in Compartment do
 				par
 					setNewTime($c) := false 
+					skipNextPill($c) := false
 					forall $c2 in Compartment with $c!=$c2 do
 						skipNextPill ($c, $c2) := false
 				endpar
-		endif
+endif
 	
 	rule r_evaluate_output_pill=
 		 forall $compartment in Compartment do 
 			 forall $c2 in next($compartment) do 
-				 if setNewTime($compartment) and skipNextPill($compartment) and skipNextPill($compartment, $c2) then
+				 if skipNextPill($compartment) and setNewTime($compartment) and skipNextPill($compartment, $c2) then
 					skip
 				 endif
 	
 				
 	rule r_NORMAL_FUNCT =  //par r_keepPrevLiths[] r_enforce[] r_resetMidnight[] r_evaluate_output_pill[] endpar //r_CompartmentMgmt[] 
-    		par  r_rescheduler[] r_resetMidnight[] r_evaluate_output_pill[] endpar 
-    
+    		par  r_rescheduler[] r_resetMidnight[] r_evaluate_output_pill[] endpar
+
 //If pill is missed and there is no overlap with next pills, delayed it
-invariant inv_post_newTime over newTime: (forall $compartment in Compartment with
+invariant inv_G_newTime over newTime: (forall $compartment in Compartment with
  	(
  		(forall $c in next($compartment) with 
  			(isPillMissed($compartment) and 
@@ -147,7 +184,7 @@ invariant inv_post_newTime over newTime: (forall $compartment in Compartment wit
 
 
 //If pill overlaps with next pills, skip the next pill that overlaps
-invariant inv_post_skipNextPill over skipNextPill(Compartment): (forall $compartment in Compartment with
+invariant inv_G_skipNextPill over skipNextPill(Compartment): (forall $compartment in Compartment with
  	(
  		(forall $c in next($compartment) with 
 		(pillTakenWithDelay($compartment) and ((iton(at(time_consumption($c),drugIndex($c)) - (pillboxSystemTime mod 1440n)) //it should be actual_time_consumption, but since it is updated in the next state I use pillboxSystemTime here
@@ -160,12 +197,11 @@ invariant inv_post_skipNextPill over skipNextPill(Compartment): (forall $compart
  
 
 
-/*Static interferences checking:
-For a medication in a given compartment and slot that has been taken, the difference 
+/*For a medication in a given compartment and slot that has been taken, the difference 
 between its ACTUAL intake time and the intake time of the subsequent medications 
 taken (in the next slot of the same compartment or in another compartment) must be 
 greater than or equal to the medication's minToInterferer value with the subsequent medications */
-invariant inv_pre_actual_time over Compartment: (forall $compartment in Compartment with 
+invariant inv_A_actual_time over Compartment: (forall $compartment in Compartment with 
 	(forall $c in next($compartment) with 
     	((at(actual_time_consumption($c),drugIndex($c))!= 0n and at(actual_time_consumption($compartment),drugIndex($compartment))!= 0n ) implies
     	(  (iton((at(actual_time_consumption($c),drugIndex($c)) - at(actual_time_consumption($compartment),drugIndex($compartment)))) 
@@ -174,20 +210,34 @@ invariant inv_pre_actual_time over Compartment: (forall $compartment in Compartm
 		))
     ))
 	
+			
+	
     //*************************************************
 	// MAIN Rule
 	//*************************************************	
-	main rule r_Main =  
-		r_NORMAL_FUNCT[]
-	  //transition from INIT to NORMAL
-	  /* if state = INIT then
-			r_INIT[] //Medicine knowledge initialization depending on how the pillbox has been filled
-		else 
-			r_NORMAL_FUNCT[]
-		endif */
-
-
+	main rule r_Main = 
+		if state=INIT then
+		par
+			forall $c in Compartment do
+			 	par
+			 		skipNextPill($c):=false	 
+			 		setNewTime($c):=false
+			 	endpar
+			state:=NORMAL
+		endpar
+		else
+		par 
+		 tempComputation:=computeDer
+		 r_NORMAL_FUNCT[]
+		endpar
+	endif
 		
+// transition from INIT to NORMAL
+/* if state = INIT then
+ * 			r_INIT[] //Medicine knowledge initialization depending on how the pillbox has been filled
+ * 		else 
+ * 			r_NORMAL_FUNCT[]
+ endif */
 default init s0:	//This init state is correct, it does not generate any invariant violation
 	//Controlled function that indicates the status of the system
 	function state = INIT

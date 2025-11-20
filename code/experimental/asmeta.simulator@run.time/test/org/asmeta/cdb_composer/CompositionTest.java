@@ -1,8 +1,8 @@
-package org.asmeta.dbc_composer;
+package org.asmeta.cdb_composer;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.asmeta.dbc_composer.*;
+import org.asmeta.cdb_composer.*;
 import org.asmeta.simulator.main.Simulator;
 import org.junit.Test;
 
@@ -17,8 +17,8 @@ public class CompositionTest {
 	@Test
 	public void test3() throws Exception {
 		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
-		BiPipeHalfDup asm2 = new BiPipeHalfDup(new LeafAsm(path + "asmC.asm"), new LeafAsm(path + "asmS.asm"));
-		BiPipeHalfDup b1 = new BiPipeHalfDup(new LeafAsm(path + "asmH.asm"), asm2);
+		BiPipeHalfDup asm2 = new BiPipeHalfDup(new LeafAsm(path + "asmC.asm",true), new LeafAsm(path + "asmS.asm",true));
+		BiPipeHalfDup b1 = new BiPipeHalfDup(new LeafAsm(path + "asmH.asm",true), asm2);
 		b1.eval();
 		System.out.println(" ===== new step =====");
 		asm2.eval();
@@ -27,7 +27,7 @@ public class CompositionTest {
 	@Test
 	public void test2() throws Exception {
 		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
-		BiPipeHalfDup asm2 = new BiPipeHalfDup(new LeafAsm(path + "asmC.asm"), new LeafAsm(path + "asmS.asm"));
+		BiPipeHalfDup asm2 = new BiPipeHalfDup(new LeafAsm(path + "asmC.asm",true), new LeafAsm(path + "asmS.asm",true));
 		asm2.eval();
 		System.out.println(" ===== new step =====");
 		asm2.eval();
@@ -36,9 +36,9 @@ public class CompositionTest {
 	@Test
 	public void testTrafficLight() throws Exception {
 		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
-		ParN asm2 = new ParN(new LeafAsm(pathTrafficLight + "trafficlightA.asm"),
-				new LeafAsm(pathTrafficLight + "trafficlightB.asm"));
-		PipeN b1 = new PipeN(new LeafAsm(pathTrafficLight + "controller.asm"), asm2);
+		ParN asm2 = new ParN(new LeafAsm(pathTrafficLight + "trafficlightA.asm",true),
+				new LeafAsm(pathTrafficLight + "trafficlightB.asm",true));
+		PipeN b1 = new PipeN(new LeafAsm(pathTrafficLight + "controller.asm",true), asm2);
 		while (true) {
 			b1.eval();
 			System.out.println(" ===== new step =====");
@@ -48,11 +48,11 @@ public class CompositionTest {
 	@Test
 	public void testTrafficLight2() throws Exception {
 		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
-		ParN asm1 = new ParN(new LeafAsm(pathTrafficLight + "trafficlightB.asm"),
-				new LeafAsm(pathTrafficLight + "trafficlightB.asm"));
-		ParN asm2 = new ParN(new LeafAsm(pathTrafficLight + "trafficlightA.asm"), asm1);
-		ParN asm3 = new ParN(new LeafAsm(pathTrafficLight + "trafficlightA.asm"), asm2);
-		PipeN b1 = new PipeN(new LeafAsm(pathTrafficLight + "controller.asm"), asm3);
+		ParN asm1 = new ParN(new LeafAsm(pathTrafficLight + "trafficlightB.asm",true),
+				new LeafAsm(pathTrafficLight + "trafficlightB.asm",true));
+		ParN asm2 = new ParN(new LeafAsm(pathTrafficLight + "trafficlightA.asm",true), asm1);
+		ParN asm3 = new ParN(new LeafAsm(pathTrafficLight + "trafficlightA.asm",true), asm2);
+		PipeN b1 = new PipeN(new LeafAsm(pathTrafficLight + "controller.asm",true), asm3);
 		while (true) {
 			b1.eval();
 			System.out.println(" ===== new step =====");
@@ -64,14 +64,14 @@ public class CompositionTest {
 	public void testTrafficLightCrossManager2() throws Exception {
 		//	SBAGLIATA (pedestrian || controllerTram) <|> crossmanager <||> (controller | (trafficlightA || trafficlightA || trafficlightB || trafficlightB))
 		//(pedestrian || controllerTram) <|> crossmanager <||> controller | (trafficlightA || trafficlightA || trafficlightB || trafficlightB)
-		LeafAsm pedestrian = new LeafAsm(pathTrafficLightCrossManager + "pedestrian.asm");
-		LeafAsm controllerTram = new LeafAsm(pathTrafficLightCrossManager + "tram.asm");
-		LeafAsm crossManager = new LeafAsm(pathTrafficLightCrossManager + "crossManager.asm"); 
-		LeafAsm trafficLightA1 = new LeafAsm(pathTrafficLightCrossManager + "trafficlightA.asm");
-		LeafAsm trafficLightA2 = new LeafAsm(pathTrafficLightCrossManager + "trafficlightA.asm");
-		LeafAsm trafficLightB1 = new LeafAsm(pathTrafficLightCrossManager + "trafficlightB.asm");
-		LeafAsm trafficLightB2 = new LeafAsm(pathTrafficLightCrossManager + "trafficlightB.asm");
-		LeafAsm controller = new LeafAsm(pathTrafficLightCrossManager + "controller.asm");
+		LeafAsm pedestrian = new LeafAsm(pathTrafficLightCrossManager + "pedestrian.asm",true);
+		LeafAsm controllerTram = new LeafAsm(pathTrafficLightCrossManager + "tram.asm",true);
+		LeafAsm crossManager = new LeafAsm(pathTrafficLightCrossManager + "crossManager.asm",true); 
+		LeafAsm trafficLightA1 = new LeafAsm(pathTrafficLightCrossManager + "trafficlightA.asm",true);
+		LeafAsm trafficLightA2 = new LeafAsm(pathTrafficLightCrossManager + "trafficlightA.asm",true);
+		LeafAsm trafficLightB1 = new LeafAsm(pathTrafficLightCrossManager + "trafficlightB.asm",true);
+		LeafAsm trafficLightB2 = new LeafAsm(pathTrafficLightCrossManager + "trafficlightB.asm",true);
+		LeafAsm controller = new LeafAsm(pathTrafficLightCrossManager + "controller.asm",true);
 		ParN tram = new ParN(pedestrian, controllerTram);
 		BiPipeHalfDup manager = new BiPipeHalfDup(tram, crossManager);
 		ParN trafficLights = new ParN(trafficLightA1,trafficLightA2,trafficLightB1,trafficLightB2);
@@ -99,9 +99,9 @@ public class CompositionTest {
 	@Test
 	public void testMVM() throws Exception {
 		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
-		BiPipeHalfDup asm2 = new BiPipeHalfDup(new LeafAsm(path2 + "MVMcontroller04.asm"),
-				new LeafAsm(path2 + "supervisor03.asm"));
-		BiPipeHalfDup b1 = new BiPipeHalfDup(new LeafAsm(path2 + "MVMHardware.asm"), asm2);
+		BiPipeHalfDup asm2 = new BiPipeHalfDup(new LeafAsm(path2 + "MVMcontroller04.asm",true),
+				new LeafAsm(path2 + "supervisor03.asm",true));
+		BiPipeHalfDup b1 = new BiPipeHalfDup(new LeafAsm(path2 + "MVMHardware.asm",true), asm2);
 		int count = 1;
 		while (true) {
 			System.out.println(" ===== I/O  ASM  assembly " + count + " =====");
@@ -114,7 +114,7 @@ public class CompositionTest {
 	@Test
 	public void testHalfDup() throws Exception {
 		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
-		BiPipeHalfDup asm2 = new BiPipeHalfDup(new LeafAsm(path + "asmC.asm"), new LeafAsm(path + "asmS.asm"));
+		BiPipeHalfDup asm2 = new BiPipeHalfDup(new LeafAsm(path + "asmC.asm",true), new LeafAsm(path + "asmS.asm",true));
 		asm2.eval();
 		System.out.println(" ===== new step =====");
 		asm2.eval();
@@ -131,7 +131,7 @@ public class CompositionTest {
 	@Test // asmC <||> asmS
 	public void testFullDup() throws Exception {
 		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
-		BiPipeFullDup asmTest = new BiPipeFullDup(new LeafAsm(path + "asmC.asm"), new LeafAsm(path + "asmS.asm"));
+		BiPipeFullDup asmTest = new BiPipeFullDup(new LeafAsm(path + "asmC.asm",true), new LeafAsm(path + "asmS.asm",true));
 		asmTest.eval();
 		asmTest.eval();
 	}
@@ -139,24 +139,24 @@ public class CompositionTest {
 	@Test // asmC <||> asmS <||> asmH giustamente non funziona
 	public void testFullDup2() throws Exception {
 		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
-		BiPipeFullDup asmTest1 = new BiPipeFullDup(new LeafAsm(path + "asmC.asm"), new LeafAsm(path + "asmS.asm"));
-		BiPipeFullDup asmTest2 = new BiPipeFullDup(asmTest1, new LeafAsm(path + "asmH.asm"));
+		BiPipeFullDup asmTest1 = new BiPipeFullDup(new LeafAsm(path + "asmC.asm",true), new LeafAsm(path + "asmS.asm",true));
+		BiPipeFullDup asmTest2 = new BiPipeFullDup(asmTest1, new LeafAsm(path + "asmH.asm",true));
 		asmTest2.eval();
 	}
 
 	@Test // asmH <||> asmC <||> asmS giustamente non funziona
 	public void testFullDup3() throws Exception {
 		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
-		BiPipeFullDup asmTest1 = new BiPipeFullDup(new LeafAsm(path + "asmC.asm"), new LeafAsm(path + "asmS.asm"));
-		BiPipeFullDup asmTest2 = new BiPipeFullDup(new LeafAsm(path + "asmH.asm"), asmTest1);
+		BiPipeFullDup asmTest1 = new BiPipeFullDup(new LeafAsm(path + "asmC.asm",true), new LeafAsm(path + "asmS.asm",true));
+		BiPipeFullDup asmTest2 = new BiPipeFullDup(new LeafAsm(path + "asmH.asm",true), asmTest1);
 		asmTest2.eval();
 	}
 
 	@Test
 	public void testParN() throws Exception {
 		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
-		ParN asm = new ParN(new LeafAsm(path + "asmC.asm"), new LeafAsm(path + "asmS.asm"),
-				new LeafAsm(path + "asmH.asm"));
+		ParN asm = new ParN(new LeafAsm(path + "asmC.asm",true), new LeafAsm(path + "asmS.asm",true),
+				new LeafAsm(path + "asmH.asm",true));
 		asm.eval();
 	}
 
@@ -167,8 +167,8 @@ public class CompositionTest {
 	@Test // asmC | asmS | asmH
 	public void testPipeN() throws Exception {
 		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
-		PipeN asm = new PipeN(new LeafAsm(path + "asmC.asm"), new LeafAsm(path + "asmS.asm"),
-				new LeafAsm(path + "asmH.asm"));
+		PipeN asm = new PipeN(new LeafAsm(path + "asmC.asm",true), new LeafAsm(path + "asmS.asm",true),
+				new LeafAsm(path + "asmH.asm",true));
 		asm.eval();
 		System.out.println(asm.toString());
 	}
@@ -200,7 +200,7 @@ public class CompositionTest {
 		String a = "( ".concat(path + "asmC.asm").concat(" | ").concat(path + "asmS.asm").concat(" | ")
 				.concat(path + "asmH.asm").concat(" )");
 		System.out.println(a);
-		Parser asm = new Parser(a);
+		Parser asm = new Parser(a,true);
 		Composition asmI = asm.toComposition();
 		asmI.eval();
 	}
@@ -210,7 +210,7 @@ public class CompositionTest {
 		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
 		String a = "( ".concat(path + "asmC.asm").concat(" <|> ").concat(path + "asmS.asm").concat(" )");
 		System.out.println(a);
-		Parser asm = new Parser(a);
+		Parser asm = new Parser(a,true);
 		Composition asmI = asm.toComposition();
 		asmI.eval();
 	}
@@ -221,7 +221,7 @@ public class CompositionTest {
 		String a = "( ".concat(path + "asmC.asm").concat(" <|> ").concat(path + "asmS.asm").concat(" <|> ")
 				.concat(path + "asmH.asm").concat(" )");
 		System.out.println(a);
-		Parser asm = new Parser(a);
+		Parser asm = new Parser(a,true);
 		Composition asmI = asm.toComposition();
 		asmI.eval();
 	}
@@ -231,7 +231,7 @@ public class CompositionTest {
 		Logger.getLogger(Simulator.class).setLevel(Level.DEBUG);
 		String a = "( ".concat(path + "asmC.asm").concat(" <||> ").concat(path + "asmS.asm").concat(" )");
 		System.out.println(a);
-		Parser asm = new Parser(a);
+		Parser asm = new Parser(a,true);
 		Composition asmI = asm.toComposition();
 		while (true) {
 			asmI.eval();
@@ -246,7 +246,7 @@ public class CompositionTest {
 		String a = "( ".concat(path + "asmC.asm").concat(" <||> ").concat("( ").concat(path + "asmS.asm")
 				.concat(" <||> ").concat(path + "asmH.asm").concat(" )").concat(" )");
 		System.out.println(a);
-		Parser asm = new Parser(a);
+		Parser asm = new Parser(a,true);
 		Composition asmI = asm.toComposition();
 		asmI.eval();
 	}
@@ -258,7 +258,7 @@ public class CompositionTest {
 		String a = "( ".concat(path + "asmC.asm").concat(" <|> ").concat("( ").concat(path + "asmS.asm")
 				.concat(" <||> ").concat(path + "asmH.asm").concat(" )").concat(" )");
 		System.out.println(a);
-		Parser asm = new Parser(a);
+		Parser asm = new Parser(a,true);
 		Composition asmI = asm.toComposition();
 		asmI.eval();
 	}
@@ -270,7 +270,7 @@ public class CompositionTest {
 		String a = "( ".concat("( ").concat(path + "asmS.asm").concat(" <||> ").concat(path + "asmH.asm").concat(" )")
 				.concat(" <|> ").concat(path + "asmC.asm").concat(" )");
 		System.out.println(a);
-		Parser asm = new Parser(a);
+		Parser asm = new Parser(a,true);
 		Composition asmI = asm.toComposition();
 		asmI.eval();
 	}
@@ -282,7 +282,7 @@ public class CompositionTest {
 		String a = "( ".concat(path + "asmC.asm").concat(" <||> ").concat("( ").concat(path + "asmS.asm")
 				.concat(" <|> ").concat(path + "asmH.asm").concat(" )").concat(" )");
 		System.out.println(a);
-		Parser asm = new Parser(a);
+		Parser asm = new Parser(a,true);
 		Composition asmI = asm.toComposition();
 		asmI.eval();
 	}
@@ -294,7 +294,7 @@ public class CompositionTest {
 		String a = "( ".concat("( ").concat(path + "asmS.asm").concat(" <|> ").concat(path + "asmH.asm").concat(" )")
 				.concat(" <||> ").concat(path + "asmC.asm").concat(" )");
 		System.out.println(a);
-		Parser asm = new Parser(a);
+		Parser asm = new Parser(a,true);
 		Composition asmI = asm.toComposition();
 		asmI.eval();
 	}
@@ -306,7 +306,7 @@ public class CompositionTest {
 		String a = "( ".concat(path + "asmC.asm").concat(" || ").concat(path + "asmS.asm").concat(" || ")
 				.concat(path + "asmH.asm").concat(" )");
 		System.out.println(a);
-		Parser asm = new Parser(a);
+		Parser asm = new Parser(a,true);
 		Composition asmI = asm.toComposition();
 		asmI.eval();
 	}
@@ -320,7 +320,7 @@ public class CompositionTest {
 				.concat(path + "asmS.asm").concat(" )");
 		// .concat(" || ").concat(path+"asmC.asm").concat(" )");
 		System.out.println(a);
-		Parser asm = new Parser(a);
+		Parser asm = new Parser(a,true);
 		Composition asmI = asm.toComposition();
 		asmI.eval();
 	}
@@ -338,7 +338,7 @@ public class CompositionTest {
 		// ").concat(path+"asmS.asm").concat(" || ").concat(path+"asmH.asm").concat("
 		// )").concat(" )");
 		System.out.println(a);
-		Parser asm = new Parser(a);
+		Parser asm = new Parser(a,true);
 		Composition asmI = asm.toComposition();
 		asmI.eval();
 	}
@@ -352,7 +352,7 @@ public class CompositionTest {
 				.concat(" || ").concat(path + "asmS.asm").concat(" || ").concat(path + "asmH.asm").concat(" )")
 				.concat(" )");
 		System.out.println(a);
-		Parser asm = new Parser(a);
+		Parser asm = new Parser(a,true);
 		Composition asmI = asm.toComposition();
 		asmI.eval();
 	}
@@ -364,7 +364,7 @@ public class CompositionTest {
 		String a = "( ".concat(path + "asmC.asm").concat(" <||> ").concat("( ").concat(path + "asmS.asm").concat(" || ")
 				.concat(path + "asmH.asm").concat(" )").concat(" )");
 		System.out.println(a);
-		Parser asm = new Parser(a);
+		Parser asm = new Parser(a,true);
 		Composition asmI = asm.toComposition();
 		asmI.eval();
 	}
@@ -376,7 +376,7 @@ public class CompositionTest {
 		String a = "( ".concat("( ").concat(path + "asmC.asm").concat(" <||> ").concat(path + "asmS.asm").concat(" )")
 				.concat(" | ").concat(path + "asmH.asm").concat(" )");
 		System.out.println(a);
-		Parser asm = new Parser(a);
+		Parser asm = new Parser(a,true);
 		Composition asmI = asm.toComposition();
 		asmI.eval();
 	}
@@ -388,7 +388,7 @@ public class CompositionTest {
 		String a = "( ".concat("( ").concat(path + "asmC.asm").concat(" <|> ").concat(path + "asmS.asm").concat(" )")
 				.concat(" || ").concat(path + "asmH.asm").concat(" )");
 		System.out.println(a);
-		Parser asm = new Parser(a);
+		Parser asm = new Parser(a,true);
 		Composition asmI = asm.toComposition();
 		asmI.eval();
 	}
@@ -401,7 +401,7 @@ public class CompositionTest {
 				.concat(path + "asmS.asm").concat(" || ").concat(path + "asmH.asm").concat(" )").concat(" | ")
 				.concat(path + "asmH.asm").concat(" )");
 		System.out.println(a);
-		Parser asm = new Parser(a);
+		Parser asm = new Parser(a,true);
 		Composition asmI = asm.toComposition();
 		asmI.eval();
 	}
@@ -415,7 +415,7 @@ public class CompositionTest {
 				.concat(" || ").concat(path + "asmS.asm").concat(" || ").concat(path + "asmH.asm").concat(" )")
 				.concat(" )");
 		System.out.println(a);
-		Parser asm = new Parser(a);
+		Parser asm = new Parser(a,true);
 		Composition asmI = asm.toComposition();
 		asmI.eval();
 	}
@@ -430,7 +430,7 @@ public class CompositionTest {
 				.concat(" || ").concat(path + "asmS.asm").concat(" || ").concat(path + "asmH.asm").concat(" )")
 				.concat(" )");
 		System.out.println(a);
-		Parser asm = new Parser(a);
+		Parser asm = new Parser(a,true);
 		Composition asmI = asm.toComposition();
 		asmI.eval();
 	}
@@ -446,7 +446,7 @@ public class CompositionTest {
 				.concat(" | ").concat("( ").concat(path + "asmC.asm").concat(" || ").concat(path + "asmS.asm")
 				.concat(" || ").concat(path + "asmH.asm").concat(" )").concat(" )");
 		System.out.println(a);
-		Parser asm = new Parser(a);
+		Parser asm = new Parser(a,true);
 		Composition asmI = asm.toComposition();
 		asmI.eval();
 	}
@@ -462,7 +462,7 @@ public class CompositionTest {
 				.concat(" <|> ").concat("( ").concat(path + "asmC.asm").concat(" || ").concat(path + "asmS.asm")
 				.concat(" || ").concat(path + "asmH.asm").concat(" )").concat(" )");
 		System.out.println(a);
-		Parser asm = new Parser(a);
+		Parser asm = new Parser(a,true);
 		Composition asmI = asm.toComposition();
 		asmI.eval();
 	}
@@ -478,7 +478,7 @@ public class CompositionTest {
 				.concat(" <|> ").concat("( ").concat(path + "asmC.asm").concat(" || ").concat(path + "asmH.asm")
 				.concat(" || ").concat(path + "asmS.asm").concat(" )").concat(" )");
 		System.out.println(a);
-		Parser asm = new Parser(a);
+		Parser asm = new Parser(a,true);
 		Composition asmI = asm.toComposition();
 		asmI.eval();
 	}
@@ -495,7 +495,7 @@ public class CompositionTest {
 				.concat(" || ").concat(path + "asmH.asm").concat(" || ").concat(path + "asmS.asm").concat(" )")
 				.concat(" )").concat(" )");
 		System.out.println(a);
-		Parser asm = new Parser(a);
+		Parser asm = new Parser(a,true);
 		Composition asmI = asm.toComposition();
 		asmI.eval();
 	}
@@ -508,9 +508,9 @@ public class CompositionTest {
 //		Parser asm = new Parser(comp);
 //		Composition asmI = asm.toComposition();
 //		asmI.eval();		
-		BiPipeHalfDup asm2 = new BiPipeHalfDup(new LeafAsm(pathFAC + "asmInc.asm"),
-				new LeafAsm(pathFAC + "asmDec.asm"));
-		PipeN asmF = new PipeN(new LeafAsm(pathFAC + "asmMulti.asm"), asm2);
+		BiPipeHalfDup asm2 = new BiPipeHalfDup(new LeafAsm(pathFAC + "asmInc.asm",true),
+				new LeafAsm(pathFAC + "asmDec.asm",true));
+		PipeN asmF = new PipeN(new LeafAsm(pathFAC + "asmMulti.asm",true), asm2);
 		asmF.eval();
 		System.out.println(" ===== new step =====");
 		asmF.eval();

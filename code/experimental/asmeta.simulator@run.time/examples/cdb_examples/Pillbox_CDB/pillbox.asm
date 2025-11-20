@@ -100,11 +100,6 @@ definitions:
 	// RULE DEFINITIONS
 	//*************************************************
 	
-	//These two rules are required because
-	/*if redLed($compartment) = OFF then if (at(time_consumption($compartment),drugIndex($compartment))<systemTime) then r_pillToBeTaken[$compartment] endif endif
-quindi ogni volta controlla se il tempo della medicina   inferiore al systemTime e se   cos  dice che   da prendere... Per  se ho medA = 100 e med B=200, a 100 prendo medA ma quando arrivo a 200 mi dice che devo prendere sia medA che medB */	
-	
-	
 	// Rule that implement the writing on the log file
 	rule r_writeToFile($compartment in Compartment) = skip
 	
@@ -166,9 +161,6 @@ quindi ogni volta controlla se il tempo della medicina   inferiore al systemTime
 			logMess($compartment) := name($compartment) + " missed"	
 			compartmentTimer($compartment) := systemTime
 			isPillMissed($compartment) := true
-			//In case of missed pill the index is updated in pillbox_sanitizer only if the new pill time violates the invariant (See SafePillbox)
-			//drugIndex($compartment) := drugIndex($compartment) + 1n
-			//r_PillMissed[$compartment]
 			r_writeToFile[$compartment] 
 			
 		endpar	
@@ -208,7 +200,7 @@ quindi ogni volta controlla se il tempo della medicina   inferiore al systemTime
 		endpar
 		endif
 	
-		//Set skip pill to true	
+	//Set skip pill to true	
 	rule r_skipNextPill($compartment in Compartment, $c2 in Compartment) =
 		par
 			if $c2!=$compartment then
@@ -223,7 +215,6 @@ quindi ogni volta controlla se il tempo della medicina   inferiore al systemTime
 			
 			
 	rule r_checkTimeUpdates($compartment in Compartment)=
-	//NEW
 		par
 			if setNewTime($compartment) then
 				par	
@@ -260,30 +251,26 @@ quindi ogni volta controlla se il tempo della medicina   inferiore al systemTime
 				pillTakenWithDelay($compartment) := false
 			endif
 
-//INVARIANT
-//@post
 //The redLed to the compartment must be equal  to the redLed to the rescheduler
-invariant inv_Led over redLed, led: (forall $c in Compartment with (redLed($c) = led(getID($c))))
+invariant inv_G_Led over redLed, led: (forall $c in Compartment with (redLed($c) = led(getID($c))))
 
 //@post
 //Check the status of redLed given the out message
-invariant inv_pillboxOutMess1 over outMess: (forall $c in Compartment with contains(outMess(getID($c)), "Take")  implies (redLed($c) = ON or redLed($c) = BLINKING))
-invariant inv_pillboxOutMess2 over outMess: (forall $c in Compartment with contains(outMess(getID($c)), "Close")  implies redLed($c) = BLINKING) 
-invariant inv_pillboxOutMess3 over outMess: (forall $c in Compartment with (outMess(getID($c))="" or contains(outMess(getID($c)), "taken") or contains(outMess(getID($c)), "missed")) implies redLed($c) = OFF) 
+invariant inv_G_pillboxOutMess1 over outMess: (forall $c in Compartment with contains(outMess(getID($c)), "Take")  implies (redLed($c) = ON or redLed($c) = BLINKING))
+invariant inv_G_pillboxOutMess2 over outMess: (forall $c in Compartment with contains(outMess(getID($c)), "Close")  implies redLed($c) = BLINKING) 
+invariant inv_G_pillboxOutMess3 over outMess: (forall $c in Compartment with (outMess(getID($c))="" or contains(outMess(getID($c)), "taken") or contains(outMess(getID($c)), "missed")) implies redLed($c) = OFF) 
 
-//@post
+
 //If pill is skipped the actual time consumption is 0
-invariant inv_actual_time over actual_time_consumption: 
+invariant inv_G_actual_time over actual_time_consumption: 
 (forall $c in Compartment with ((at(time_consumption($c),drugIndex($c))<=systemTime) and at(skipPill($c),drugIndex($c))=true) 
 implies
 	at(actual_time_consumption($c),drugIndex($c))=0n)
 
 
 	//Compartment management rule
-	main rule r_Main =
+main rule r_Main =
 	par
-	//outMess(undef):=""
-	//led(undef):=OFF
 	pillboxSystemTime := systemTime
 	forall $compartment in Compartment do
 		if setNewTime($compartment) or skipNextPill($compartment) then
@@ -330,13 +317,7 @@ implies
 							endif 
 						endif
 					endpar
-		/*		else
-				//Added because if the next pill that generates invariant violation because of delay in taking previous pill is the same type the index needed to be updated
-				//Ex: 0 - 1 - 2 ->  0 is late index is moved to 1 (r_compartmentClosed) but 1 has skipPill equals to true so I need to increment the index again
-				//furthermore drugIndex must be different from nextdrugindex because means that there is only one pill for that compartment
-					if (at(skipPill($compartment),drugIndex($compartment))=true) and (drugIndex($compartment) != nextDrugIndex($compartment))then
-						drugIndex($compartment) := nextDrugIndex($compartment)
-					endif*/
+
 				endif
 			endpar
 		endif

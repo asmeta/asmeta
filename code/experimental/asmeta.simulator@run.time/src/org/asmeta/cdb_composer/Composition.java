@@ -1,4 +1,4 @@
-package org.asmeta.dbc_composer;
+package org.asmeta.cdb_composer;
 
 import java.io.File;
 import org.asmeta.runtime_container.SimulationContainer;
@@ -41,11 +41,38 @@ public abstract class Composition {
 	// evalbis aggiunta per return multipli
 	abstract UpdateSet eval();
 
-	abstract UpdateSet eval(boolean dbc) throws CompositionException;
+	abstract UpdateSet eval(boolean cdb) throws CompositionException;
 
-	abstract UpdateSet eval(boolean dbc, Map<String, String> mon) throws CompositionException;
+	abstract UpdateSet eval(boolean cdb, Map<String, String> mon) throws CompositionException;
 
 	abstract void copyMonitored(UpdateSet update);
+	
+	protected void checkInvariantException(InvalidInvariantException e)
+			throws PreconditionViolationException, PostconditionViolationException, InvariantViolationException {
+		System.out.println(e.getInvariant());
+		EList<Function> constFunList = e.getInvariant().getConstrainedFunction();
+		System.out.println(e.getInvariant().getConstrainedFunction());
+		boolean isMon= false;
+		boolean isOut=false;
+		boolean isOther=false;
+		for (Function f : constFunList) {
+			if (Defs.isMonitored(f))
+				isMon=true;
+			else if (Defs.isOut(f))
+				isOut=true;
+			else
+				isOther=true;
+		}
+		if (isMon==true && isOut==false && isOther==false)
+			// System.out.println("Precondition violation over " + f.getName());
+			throw new PreconditionViolationException("Assumption violation over " + e.getInvariant().getName());
+		else if (isMon==false && isOut==true && isOther==false)
+			// System.out.println("Postcondition violation over " + f.getName());
+			throw new PostconditionViolationException("Guarantee violation over "+ e.getInvariant().getName());
+		else
+			// System.out.println("Invariant violation over " + f.getName());
+			throw new InvariantViolationException("Invariant violation over " + e.getInvariant().getName());
+	}
 }
 
 abstract class BiComposition extends Composition {
@@ -161,7 +188,7 @@ class LeafAsm extends Composition {
 	}
 
 	// @Override by Patrizia
-	UpdateSet eval(boolean dbc, Map<String, String> locationValue) throws CompositionException {
+	UpdateSet eval(boolean cdb, Map<String, String> locationValue) throws CompositionException {
 		// SimulationContainer->AsmetaSservice->InfoAsmetaSservice->SimulatorRT
 		// and AsmetaServiceRun to read monitored values from a map
 		UpdateSet ups = null;
@@ -202,59 +229,26 @@ class LeafAsm extends Composition {
 			for (Entry<Location, Value> pair : state.getLocationMap().entrySet())
 				System.out.println(pair.getKey() + " " + pair.getValue().toString());
 		} catch (InvalidInvariantException e) {
-			System.out.println(e.getInvariant());
-			EList<Function> constFunList = e.getInvariant().getConstrainedFunction();
-			System.out.println(e.getInvariant().getConstrainedFunction());
-			boolean isMon= false;
-			boolean isOut=false;
-			boolean isOther=false;
-			for (Function f : constFunList) {
-				if (Defs.isMonitored(f))
-					isMon=true;
-				else if (Defs.isOut(f))
-					isOut=true;
-				else
-					isOther=true;
-			}
-			if (isMon==true && isOut==false && isOther==false)
-				// System.out.println("Precondition violation over " + f.getName());
-				throw new PreconditionViolationException("Precondition violation over " + e.getInvariant().getName());
-			else if (isMon==false && isOut==true && isOther==false)
-				// System.out.println("Postcondition violation over " + f.getName());
-				throw new PostconditionViolationException("Postcondition violation over "+ e.getInvariant().getName());
-			else
-				// System.out.println("Invariant violation over " + f.getName());
-				throw new InvariantViolationException("Invariant violation over " + e.getInvariant().getName());
+			checkInvariantException(e);
 		}
 
 		return ups;
 	}
 
+	
+
 	@Override
-	UpdateSet eval(boolean dbc) throws CompositionException {
+	UpdateSet eval(boolean cdb) throws CompositionException {
 		System.out.println("Running " + name);// + " current state" + s1.getCurrentState());
 		UpdateSet up = null;
-		if (dbc) {
+		if (cdb) {
 			try {
 				up = s1.run(1);
 			}
 			// try {up=s1.runUntil(s1,1,InvariantTreament.CHECK_CONTINUE).updateSet;} TODO
 			// continue when invariant violation
 			catch (InvalidInvariantException e) {
-				System.out.println(e.getInvariant());
-				EList<Function> constFunList = e.getInvariant().getConstrainedFunction();
-				System.out.println(e.getInvariant().getConstrainedFunction());
-				for (Function f : constFunList) {
-					if (Defs.isMonitored(f))
-						// System.out.println("Precondition violation over " + f.getName());
-						throw new PreconditionViolationException("Precondition violation over " + f.getName());
-					else if (Defs.isOut(f))
-						// System.out.println("Postcondition violation over " + f.getName());
-						throw new PostconditionViolationException("Postcondition violation over " + f.getName());
-					else
-						// System.out.println("Invariant violation over " + f.getName());
-						throw new InvariantViolationException("Invariant violation over " + f.getName());
-				}
+				checkInvariantException(e);
 			}
 		} else
 			up = eval();
@@ -323,19 +317,19 @@ class PipeN extends NComposition {
 	}
 
 	@Override
-	UpdateSet eval(boolean dbc) throws CompositionException {
-		return evalByCheckingContract(dbc, null);
+	UpdateSet eval(boolean cdb) throws CompositionException {
+		return evalByCheckingContract(cdb, null);
 	}
 
 	@Override
-	UpdateSet eval(boolean dbc, Map<String, String> mon) throws CompositionException {
-		return evalByCheckingContract(dbc, mon);
+	UpdateSet eval(boolean cdb, Map<String, String> mon) throws CompositionException {
+		return evalByCheckingContract(cdb, mon);
 
 	}
 
-	private UpdateSet evalByCheckingContract(boolean dbc, Map<String, String> mon) throws CompositionException {
+	private UpdateSet evalByCheckingContract(boolean cdb, Map<String, String> mon) throws CompositionException {
 		UpdateSet up = null;
-		if (dbc) {
+		if (cdb) {
 			try {
 				if (mon == null) {
 					up = c.get(0).eval(true);
@@ -354,29 +348,7 @@ class PipeN extends NComposition {
 				}
 
 			} catch (InvalidInvariantException e) {
-				System.out.println(e.getInvariant());
-				EList<Function> constFunList = e.getInvariant().getConstrainedFunction();
-				System.out.println(e.getInvariant().getConstrainedFunction());
-				boolean isMon= false;
-				boolean isOut=false;
-				boolean isOther=false;
-				for (Function f : constFunList) {
-					if (Defs.isMonitored(f))
-						isMon=true;
-					else if (Defs.isOut(f))
-						isOut=true;
-					else
-						isOther=true;
-				}
-				if (isMon==true && isOut==false && isOther==false)
-					// System.out.println("Precondition violation over " + f.getName());
-					throw new PreconditionViolationException("Precondition violation over " + e.getInvariant().getName());
-				else if (isMon==false && isOut==true && isOther==false)
-					// System.out.println("Postcondition violation over " + f.getName());
-					throw new PostconditionViolationException("Postcondition violation over "+ e.getInvariant().getName());
-				else
-					// System.out.println("Invariant violation over " + f.getName());
-					throw new InvariantViolationException("Invariant violation over " + e.getInvariant().getName());
+				checkInvariantException(e);
 			}
 		} else {
 			up = eval();
@@ -425,19 +397,19 @@ class BiPipeHalfDup extends BiComposition {
 	
 	
 	@Override
-	UpdateSet eval(boolean dbc) throws CompositionException {
-		return evalByCheckingContract(dbc, null);
+	UpdateSet eval(boolean cdb) throws CompositionException {
+		return evalByCheckingContract(cdb, null);
 	}
 
 	@Override
-	UpdateSet eval(boolean dbc, Map<String, String> mon) throws CompositionException {
-		return evalByCheckingContract(dbc, mon);
+	UpdateSet eval(boolean cdb, Map<String, String> mon) throws CompositionException {
+		return evalByCheckingContract(cdb, mon);
 
 	}
 
-	private UpdateSet evalByCheckingContract(boolean dbc, Map<String, String> mon) throws CompositionException {
+	private UpdateSet evalByCheckingContract(boolean cdb, Map<String, String> mon) throws CompositionException {
 		UpdateSet up = null;
-		if (dbc) {
+		if (cdb) {
 			try {
 				if (mon == null) {
 					up = c1.eval(true);
@@ -453,35 +425,13 @@ class BiPipeHalfDup extends BiComposition {
 				}
 		}
 		catch (InvalidInvariantException e) {
-			System.out.println(e.getInvariant());
-			EList<Function> constFunList = e.getInvariant().getConstrainedFunction();
-			System.out.println(e.getInvariant().getConstrainedFunction());
-			boolean isMon= false;
-			boolean isOut=false;
-			boolean isOther=false;
-			for (Function f : constFunList) {
-				if (Defs.isMonitored(f))
-					isMon=true;
-				else if (Defs.isOut(f))
-					isOut=true;
-				else
-					isOther=true;
-			}
-			if (isMon==true && isOut==false && isOther==false)
-				// System.out.println("Precondition violation over " + f.getName());
-				throw new PreconditionViolationException("Precondition violation over " + e.getInvariant().getName());
-			else if (isMon==false && isOut==true && isOther==false)
-				// System.out.println("Postcondition violation over " + f.getName());
-				throw new PostconditionViolationException("Postcondition violation over "+ e.getInvariant().getName());
-			else
-				// System.out.println("Invariant violation over " + f.getName());
-				throw new InvariantViolationException("Invariant violation over " + e.getInvariant().getName());
+			checkInvariantException(e);
 		}
 			
 		} else {
 			up = eval();
 		}
-		return up;// if dbc check inv else eval(); return eval();
+		return up;// if cdb check inv else eval(); return eval();
 	
 	}
 }
@@ -534,19 +484,19 @@ class BiPipeFullDup extends BiComposition {
 	}
 
 	@Override
-	UpdateSet eval(boolean dbc) throws CompositionException {
-		return evalByCheckingContract(dbc, null);
+	UpdateSet eval(boolean cdb) throws CompositionException {
+		return evalByCheckingContract(cdb, null);
 	}
 
 	@Override
-	UpdateSet eval(boolean dbc, Map<String, String> mon) throws CompositionException {
-		return evalByCheckingContract(dbc, mon);
+	UpdateSet eval(boolean cdb, Map<String, String> mon) throws CompositionException {
+		return evalByCheckingContract(cdb, mon);
 	}
 
-	private UpdateSet evalByCheckingContract(boolean dbc, Map<String, String> mon) throws CompositionException {
+	private UpdateSet evalByCheckingContract(boolean cdb, Map<String, String> mon) throws CompositionException {
 		UpdateSet up1 = null;
 		UpdateSet up2 = null;
-		if (dbc) {
+		if (cdb) {
 			try {
 				if (mon == null) {
 					up1 = c1.eval(true);
@@ -564,35 +514,13 @@ class BiPipeFullDup extends BiComposition {
 				}
 		}
 		catch (InvalidInvariantException e) {
-			System.out.println(e.getInvariant());
-			EList<Function> constFunList = e.getInvariant().getConstrainedFunction();
-			System.out.println(e.getInvariant().getConstrainedFunction());
-			boolean isMon= false;
-			boolean isOut=false;
-			boolean isOther=false;
-			for (Function f : constFunList) {
-				if (Defs.isMonitored(f))
-					isMon=true;
-				else if (Defs.isOut(f))
-					isOut=true;
-				else
-					isOther=true;
-			}
-			if (isMon==true && isOut==false && isOther==false)
-				// System.out.println("Precondition violation over " + f.getName());
-				throw new PreconditionViolationException("Precondition violation over " + e.getInvariant().getName());
-			else if (isMon==false && isOut==true && isOther==false)
-				// System.out.println("Postcondition violation over " + f.getName());
-				throw new PostconditionViolationException("Postcondition violation over "+ e.getInvariant().getName());
-			else
-				// System.out.println("Invariant violation over " + f.getName());
-				throw new InvariantViolationException("Invariant violation over " + e.getInvariant().getName());
+			checkInvariantException(e);
 		}
 			
 		} else {
 			up1 = eval();
 		}
-		return up1;// if dbc check inv else eval(); return eval();
+		return up1;// if cdb check inv else eval(); return eval();
 	
 	}
 }
@@ -632,8 +560,8 @@ class ParN extends NComposition {
 	}
 
 	@Override
-	UpdateSet eval(boolean dbc) throws CompositionException {
-		return evalByCheckingContract(dbc, null);
+	UpdateSet eval(boolean cdb) throws CompositionException {
+		return evalByCheckingContract(cdb, null);
 		
 	}
 
@@ -647,13 +575,13 @@ class ParN extends NComposition {
 	}
 
 	@Override
-	UpdateSet eval(boolean dbc, Map<String, String> mon) throws CompositionException {
-		return evalByCheckingContract(dbc, mon);
+	UpdateSet eval(boolean cdb, Map<String, String> mon) throws CompositionException {
+		return evalByCheckingContract(cdb, mon);
 	}
 
-	private UpdateSet evalByCheckingContract(boolean dbc, Map<String, String> mon) throws CompositionException {
+	private UpdateSet evalByCheckingContract(boolean cdb, Map<String, String> mon) throws CompositionException {
 		UpdateSet up = null;
-		if (dbc) {
+		if (cdb) {
 			try {
 				if (mon == null) {
 					up = c.get(0).eval(true);
@@ -673,35 +601,13 @@ class ParN extends NComposition {
 				}
 		}
 		catch (InvalidInvariantException e) {
-			System.out.println(e.getInvariant());
-			EList<Function> constFunList = e.getInvariant().getConstrainedFunction();
-			System.out.println(e.getInvariant().getConstrainedFunction());
-			boolean isMon= false;
-			boolean isOut=false;
-			boolean isOther=false;
-			for (Function f : constFunList) {
-				if (Defs.isMonitored(f))
-					isMon=true;
-				else if (Defs.isOut(f))
-					isOut=true;
-				else
-					isOther=true;
-			}
-			if (isMon==true && isOut==false && isOther==false)
-				// System.out.println("Precondition violation over " + f.getName());
-				throw new PreconditionViolationException("Precondition violation over " + e.getInvariant().getName());
-			else if (isMon==false && isOut==true && isOther==false)
-				// System.out.println("Postcondition violation over " + f.getName());
-				throw new PostconditionViolationException("Postcondition violation over "+ e.getInvariant().getName());
-			else
-				// System.out.println("Invariant violation over " + f.getName());
-				throw new InvariantViolationException("Invariant violation over " + e.getInvariant().getName());
+			checkInvariantException(e);
 		}
 			
 		} else {
 			up = eval();
 		}
-		return up;// if dbc check inv else eval(); return eval();
+		return up;// if cdb check inv else eval(); return eval();
 	
 	}
 }
