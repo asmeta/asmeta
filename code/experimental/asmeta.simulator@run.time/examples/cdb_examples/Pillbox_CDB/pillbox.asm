@@ -41,9 +41,11 @@ signature:
 	monitored openSwitch: Natural -> Boolean
 	
 	//OUT to Compartment
-	out logMess: Compartment -> String
 	out outMess: Natural -> String
 	out led: Natural -> LedLights
+	
+	
+	out logMess: Compartment -> String
 	
 	//Time management
 	// The systemTime is expressed as the number of hours passed since the 01/01/1970
@@ -63,7 +65,7 @@ signature:
 	
 	static getID: Compartment -> Natural
 	
-	static tenMinutes: Integer
+	static ledTimer: Integer
 	
 	//COMPOSITION
 	out pillboxSystemTime: Natural
@@ -84,7 +86,7 @@ definitions:
 			case compartment2: 2n
 		endswitch
 	
-	function tenMinutes = 10
+	function ledTimer = 10
 
 	function next($compartment in Compartment) =  
 		{$c in Compartment | (at(time_consumption($c),drugIndex($c)) > at(time_consumption($compartment),drugIndex($compartment))) : $c}
@@ -293,12 +295,12 @@ main rule r_Main =
 							endif 
 						endif //systemTime
 						// It is open, drug to be taken, it becomes closed
-						if redLed($compartment) = ON and not(systemTime-compartmentTimer($compartment)>=tenMinutes) and opened($compartment) and not openSwitch($compartment) then r_pillTaken_compartmentOpened[$compartment] endif
+						if redLed($compartment) = ON and not(systemTime-compartmentTimer($compartment)>=ledTimer) and opened($compartment) and not openSwitch($compartment) then r_pillTaken_compartmentOpened[$compartment] endif
 						// It is closed drug to be taken and it becomes open     
 						if redLed($compartment) = ON and not opened($compartment) and openSwitch($compartment) then r_compartmentOpened[$compartment] endif
 						// It is closed drug to be taken and timeout     
 						if redLed($compartment) = ON then 
-							if systemTime-compartmentTimer($compartment)>=tenMinutes then 
+							if systemTime-compartmentTimer($compartment)>=ledTimer then 
 								if opened($compartment) then r_compartmentOpened[$compartment] else if not openSwitch($compartment) then r_takeInTimeout[$compartment] endif endif 
 							endif 
 						endif
@@ -306,7 +308,7 @@ main rule r_Main =
 						if redLed($compartment) = BLINKING then 
 							if not openSwitch($compartment) and opened($compartment) then r_compartmentClosed[$compartment] 
 							else 
-								if systemTime-compartmentTimer($compartment)>tenMinutes then
+								if systemTime-compartmentTimer($compartment)>ledTimer then
 									if openSwitch($compartment) then r_timeOutExpired_compartmentOpened[$compartment] else r_timeOutExpired_missedPill[$compartment] endif
 								else 
 									if openSwitch($compartment) then r_compartmentOpened[$compartment] endif
@@ -368,12 +370,4 @@ default init s0:	//This init state is correct, it does not generate any invarian
 	
 	function pillTakenWithDelay($compartment in Compartment) = false
 	function isPillMissed($compartment in Compartment) = false
-	/*function isPillMissed ($compartment in Compartment) =  (drugIndex($compartment)<iton(length(time_consumption($compartment)))) and
-		  		 redLed($compartment) = BLINKING and 
-		  			(not(not openSwitch($compartment) and opened($compartment))) and
-		  				(systemTime-compartmentTimer($compartment)>tenMinutes) and
-		  					(not openSwitch($compartment))
-
-	// Assuming pill is taken when compartment is closed
-	function pillTakenWithDelay($compartment in Compartment) =  ((drugIndex($compartment)<iton(length(time_consumption($compartment)))) and (at(skipPill($compartment),drugIndex($compartment))=false))
-	and redLed($compartment) = BLINKING and (not openSwitch($compartment) and opened($compartment))*/
+	
