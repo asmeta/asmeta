@@ -47,7 +47,7 @@ signature:
 	static compartment1: Compartment
 	static compartment2: Compartment	
 	
-	//COMPOSITION
+	//time
 	monitored pillboxSystemTime: Natural
 
 

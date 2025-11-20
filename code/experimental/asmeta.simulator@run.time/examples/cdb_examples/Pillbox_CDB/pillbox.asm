@@ -21,8 +21,7 @@ signature:
 	out name: Compartment -> String
 	out drugIndex: Compartment -> Natural 
 	out actual_time_consumption: Compartment -> Seq(Natural) //Which time is the pill taken 
-	out day: Integer //Controlled
-	//Patient has missed the pill
+	out day: Integer 
 	out isPillMissed: Compartment -> Boolean // is true if the patient miss the pill 
 	out pillTakenWithDelay: Compartment -> Boolean // is true if the patient takes the pill (compartment opened) 
 	
@@ -39,11 +38,9 @@ signature:
 	controlled compartmentTimer: Compartment -> Natural
 	
 	//IN from Compartment
-	//monitored openSwitch: Compartment -> Boolean
 	monitored openSwitch: Natural -> Boolean
 	
 	//OUT to Compartment
-	//out outMess: Compartment -> String
 	out logMess: Compartment -> String
 	out outMess: Natural -> String
 	out led: Natural -> LedLights
