@@ -99,30 +99,32 @@ definitions:
 	  forall $compartment in Compartment do 
 	  par
 	  	if isPillMissed($compartment) then //M
-	  	par
-	  	setNewTime ($compartment):= true
-			//Missed pill check if the new time causes invariant violation
-			 if ((forall $c in next($compartment) with 
-			   	(  (iton((at(time_consumption($c),drugIndex($c)) - 
-			   		at(time_consumption($compartment),drugIndex($compartment))-ntoi(deltaDelay(name($compartment)))))
-				>= (minToInterferer(name($compartment),name($c))) and $c!=$compartment) or 
-				(iton((at(time_consumption($c),nextDrugIndex($c)) - at(time_consumption($compartment),drugIndex($compartment))-
-					ntoi(deltaDelay(name($compartment)))
-				)) 
-				>= (minToInterferer(name($compartment),name($c))) and $c=$compartment)
-				))) then //A
-			  			par
-			  				setOriginalTime ($compartment):= false
-			  				newTime ($compartment):= at(time_consumption($compartment),drugIndex($compartment))+deltaDelay(name($compartment))
-			  			endpar // if not update new time of pill otherwise skip the pill
+		  	par
+		  		setNewTime ($compartment):= true
+				//Missed pill check if the new time causes invariant violation
+				 if ((forall $c in next($compartment) with 
+				   	(  (iton((at(time_consumption($c),drugIndex($c)) - 
+				   		at(time_consumption($compartment),drugIndex($compartment))-ntoi(deltaDelay(name($compartment)))))
+					>= (minToInterferer(name($compartment),name($c))) and $c!=$compartment) or 
+					(iton((at(time_consumption($c),nextDrugIndex($c)) - at(time_consumption($compartment),drugIndex($compartment))-
+						ntoi(deltaDelay(name($compartment)))
+					)) 
+					>= (minToInterferer(name($compartment),name($c))) and $c=$compartment)
+					))) then //A
+				  			par
+				  				setOriginalTime ($compartment):= false
+				  				newTime ($compartment):= at(time_consumption($compartment),drugIndex($compartment))+deltaDelay(name($compartment))
+				  			endpar // if not update new time of pill otherwise skip the pill
+					else
+					  	par
+					  		setOriginalTime ($compartment):= true
+					  		newTime ($compartment):= at(time(name($compartment)),drugIndex($compartment))
+					  	endpar
+					endif
+			endpar
 		else
-			  	par
-			  		setOriginalTime ($compartment):= true
-			  		newTime ($compartment):= at(time(name($compartment)),drugIndex($compartment))
-			  	endpar
+			setNewTime ($compartment):= false	
 		endif
-		endpar
-	endif
 	 	if pillTakenWithDelay($compartment) then
 			//pill taken later compared the timecompartment
 			//for all next pills that cause invariant violation because the current has been 
@@ -137,10 +139,16 @@ definitions:
 						skipNextPill($compartment, $c2):= true
 						skipNextPill($compartment) := true
 					endpar
-	// skip next pill -> rule must be in pillbox
-	endif
+				// skip next pill -> rule must be in pillbox
+				endif
+		else
+			par
+				forall $c3 in next($compartment) do 
+					skipNextPill($compartment, $c3):= false
+				skipNextPill($compartment) := false
+			endpar
 		endif
-		endpar
+	endpar
 // Reset all skipPill to false
 rule r_resetMidnight =
 		if (rtoi(pillboxSystemTime/1440n))> day then
@@ -213,12 +221,21 @@ invariant inv_pre_actual_time over Compartment: (forall $compartment in Compartm
 	// MAIN Rule
 	//*************************************************	
 	main rule r_Main = 
+		if state=INIT then
+		par
+			forall $c in Compartment do
+			 	par
+			 		skipNextPill($c):=false	 
+			 		setNewTime($c):=false
+			 	endpar
+			state:=NORMAL
+		endpar
+		else
 		par 
 		 tempComputation:=computeDer
 		 r_NORMAL_FUNCT[]
-		 forall $c in Compartment do
-		 	skipNextPill($c):=false	 
 		endpar
+	endif
 		
 // transition from INIT to NORMAL
 /* if state = INIT then

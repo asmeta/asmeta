@@ -26,6 +26,7 @@ import org.asmeta.simulator.main.Simulator;
 import org.asmeta.simulator.main.Simulator.InvariantTreament;
 import org.asmeta.simulator.readers.InteractiveMFReader;
 import org.asmeta.simulator.readers.MonFuncReader;
+import org.asmeta.simulator.util.MonitoredFinder;
 import org.asmeta.simulator.value.ReserveValue;
 import org.asmeta.simulator.value.Value;
 import org.eclipse.emf.common.util.EList;
@@ -204,17 +205,26 @@ class LeafAsm extends Composition {
 			System.out.println(e.getInvariant());
 			EList<Function> constFunList = e.getInvariant().getConstrainedFunction();
 			System.out.println(e.getInvariant().getConstrainedFunction());
+			boolean isMon= false;
+			boolean isOut=false;
+			boolean isOther=false;
 			for (Function f : constFunList) {
 				if (Defs.isMonitored(f))
-					// System.out.println("Precondition violation over " + f.getName());
-					throw new PreconditionViolationException("Precondition violation over " + e.getInvariant().getName() + " " + f.getName());
+					isMon=true;
 				else if (Defs.isOut(f))
-					// System.out.println("Postcondition violation over " + f.getName());
-					throw new PostconditionViolationException("Postcondition violation over "+ e.getInvariant().getName() + " " + f.getName());
+					isOut=true;
 				else
-					// System.out.println("Invariant violation over " + f.getName());
-					throw new InvariantViolationException("Invariant violation over " + f.getName());
+					isOther=true;
 			}
+			if (isMon==true && isOut==false && isOther==false)
+				// System.out.println("Precondition violation over " + f.getName());
+				throw new PreconditionViolationException("Precondition violation over " + e.getInvariant().getName());
+			else if (isMon==false && isOut==true && isOther==false)
+				// System.out.println("Postcondition violation over " + f.getName());
+				throw new PostconditionViolationException("Postcondition violation over "+ e.getInvariant().getName());
+			else
+				// System.out.println("Invariant violation over " + f.getName());
+				throw new InvariantViolationException("Invariant violation over " + e.getInvariant().getName());
 		}
 
 		return ups;
@@ -347,17 +357,26 @@ class PipeN extends NComposition {
 				System.out.println(e.getInvariant());
 				EList<Function> constFunList = e.getInvariant().getConstrainedFunction();
 				System.out.println(e.getInvariant().getConstrainedFunction());
+				boolean isMon= false;
+				boolean isOut=false;
+				boolean isOther=false;
 				for (Function f : constFunList) {
 					if (Defs.isMonitored(f))
-						// System.out.println("Precondition violation over " + f.getName());
-						throw new PreconditionViolationException("Precondition violation over " + f.getName());
+						isMon=true;
 					else if (Defs.isOut(f))
-						// System.out.println("Postcondition violation over " + f.getName());
-						throw new PostconditionViolationException("Postcondition violation over " + f.getName());
+						isOut=true;
 					else
-						// System.out.println("Invariant violation over " + f.getName());
-						throw new InvariantViolationException("Invariant violation over " + f.getName());
+						isOther=true;
 				}
+				if (isMon==true && isOut==false && isOther==false)
+					// System.out.println("Precondition violation over " + f.getName());
+					throw new PreconditionViolationException("Precondition violation over " + e.getInvariant().getName());
+				else if (isMon==false && isOut==true && isOther==false)
+					// System.out.println("Postcondition violation over " + f.getName());
+					throw new PostconditionViolationException("Postcondition violation over "+ e.getInvariant().getName());
+				else
+					// System.out.println("Invariant violation over " + f.getName());
+					throw new InvariantViolationException("Invariant violation over " + e.getInvariant().getName());
 			}
 		} else {
 			up = eval();
@@ -437,17 +456,26 @@ class BiPipeHalfDup extends BiComposition {
 			System.out.println(e.getInvariant());
 			EList<Function> constFunList = e.getInvariant().getConstrainedFunction();
 			System.out.println(e.getInvariant().getConstrainedFunction());
+			boolean isMon= false;
+			boolean isOut=false;
+			boolean isOther=false;
 			for (Function f : constFunList) {
 				if (Defs.isMonitored(f))
-					// System.out.println("Precondition violation over " + f.getName());
-					throw new PreconditionViolationException("Precondition violation over " + f.getName());
+					isMon=true;
 				else if (Defs.isOut(f))
-					// System.out.println("Postcondition violation over " + f.getName());
-					throw new PostconditionViolationException("Postcondition violation over " + f.getName());
+					isOut=true;
 				else
-					// System.out.println("Invariant violation over " + f.getName());
-					throw new InvariantViolationException("Invariant violation over " + f.getName());
+					isOther=true;
 			}
+			if (isMon==true && isOut==false && isOther==false)
+				// System.out.println("Precondition violation over " + f.getName());
+				throw new PreconditionViolationException("Precondition violation over " + e.getInvariant().getName());
+			else if (isMon==false && isOut==true && isOther==false)
+				// System.out.println("Postcondition violation over " + f.getName());
+				throw new PostconditionViolationException("Postcondition violation over "+ e.getInvariant().getName());
+			else
+				// System.out.println("Invariant violation over " + f.getName());
+				throw new InvariantViolationException("Invariant violation over " + e.getInvariant().getName());
 		}
 			
 		} else {
@@ -539,17 +567,26 @@ class BiPipeFullDup extends BiComposition {
 			System.out.println(e.getInvariant());
 			EList<Function> constFunList = e.getInvariant().getConstrainedFunction();
 			System.out.println(e.getInvariant().getConstrainedFunction());
+			boolean isMon= false;
+			boolean isOut=false;
+			boolean isOther=false;
 			for (Function f : constFunList) {
 				if (Defs.isMonitored(f))
-					// System.out.println("Precondition violation over " + f.getName());
-					throw new PreconditionViolationException("Precondition violation over " + f.getName());
+					isMon=true;
 				else if (Defs.isOut(f))
-					// System.out.println("Postcondition violation over " + f.getName());
-					throw new PostconditionViolationException("Postcondition violation over " + f.getName());
+					isOut=true;
 				else
-					// System.out.println("Invariant violation over " + f.getName());
-					throw new InvariantViolationException("Invariant violation over " + f.getName());
+					isOther=true;
 			}
+			if (isMon==true && isOut==false && isOther==false)
+				// System.out.println("Precondition violation over " + f.getName());
+				throw new PreconditionViolationException("Precondition violation over " + e.getInvariant().getName());
+			else if (isMon==false && isOut==true && isOther==false)
+				// System.out.println("Postcondition violation over " + f.getName());
+				throw new PostconditionViolationException("Postcondition violation over "+ e.getInvariant().getName());
+			else
+				// System.out.println("Invariant violation over " + f.getName());
+				throw new InvariantViolationException("Invariant violation over " + e.getInvariant().getName());
 		}
 			
 		} else {
@@ -639,17 +676,26 @@ class ParN extends NComposition {
 			System.out.println(e.getInvariant());
 			EList<Function> constFunList = e.getInvariant().getConstrainedFunction();
 			System.out.println(e.getInvariant().getConstrainedFunction());
+			boolean isMon= false;
+			boolean isOut=false;
+			boolean isOther=false;
 			for (Function f : constFunList) {
 				if (Defs.isMonitored(f))
-					// System.out.println("Precondition violation over " + f.getName());
-					throw new PreconditionViolationException("Precondition violation over " + f.getName());
+					isMon=true;
 				else if (Defs.isOut(f))
-					// System.out.println("Postcondition violation over " + f.getName());
-					throw new PostconditionViolationException("Postcondition violation over " + f.getName());
+					isOut=true;
 				else
-					// System.out.println("Invariant violation over " + f.getName());
-					throw new InvariantViolationException("Invariant violation over " + f.getName());
+					isOther=true;
 			}
+			if (isMon==true && isOut==false && isOther==false)
+				// System.out.println("Precondition violation over " + f.getName());
+				throw new PreconditionViolationException("Precondition violation over " + e.getInvariant().getName());
+			else if (isMon==false && isOut==true && isOther==false)
+				// System.out.println("Postcondition violation over " + f.getName());
+				throw new PostconditionViolationException("Postcondition violation over "+ e.getInvariant().getName());
+			else
+				// System.out.println("Invariant violation over " + f.getName());
+				throw new InvariantViolationException("Invariant violation over " + e.getInvariant().getName());
 		}
 			
 		} else {

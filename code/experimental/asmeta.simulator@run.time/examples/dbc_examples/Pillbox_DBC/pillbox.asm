@@ -153,7 +153,7 @@ quindi ogni volta controlla se il tempo della medicina   inferiore al systemTime
 			//Hypothesis: the pill is taken when compartment is closed
 			actual_time_consumption($compartment) := replaceAt(actual_time_consumption($compartment),drugIndex($compartment),(systemTime mod 1440n))	
 			pillTakenWithDelay($compartment) := true
-			skipPill($compartment) := replaceAt(skipPill($compartment),drugIndex($compartment),true)
+			skipPill($compartment) := replaceAt(skipPill($compartment),drugIndex($compartment),false)
 		endpar
 	
  		
@@ -302,7 +302,12 @@ implies
 						if not opened($compartment) and openSwitch($compartment) then opened($compartment) := true endif
 						if opened($compartment) and not openSwitch($compartment) then opened($compartment) := false endif
 						// Starting from the IDLE state, the pill has to be taken 
-						if redLed($compartment) = OFF then if (at(time_consumption($compartment),drugIndex($compartment))<(systemTime mod 1440n)) then r_pillToBeTaken[$compartment] endif endif //systemTime
+						if redLed($compartment) = OFF then 
+							if ((at(time_consumption($compartment),drugIndex($compartment))<(systemTime mod 1440n)) and 
+								(at(actual_time_consumption($compartment),drugIndex($compartment))=0)) then 
+								r_pillToBeTaken[$compartment] 
+							endif 
+						endif //systemTime
 						// It is open, drug to be taken, it becomes closed
 						if redLed($compartment) = ON and not(systemTime-compartmentTimer($compartment)>=tenMinutes) and opened($compartment) and not openSwitch($compartment) then r_pillTaken_compartmentOpened[$compartment] endif
 						// It is closed drug to be taken and it becomes open     
