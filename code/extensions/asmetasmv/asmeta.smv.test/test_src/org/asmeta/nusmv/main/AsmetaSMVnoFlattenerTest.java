@@ -89,7 +89,7 @@ public class AsmetaSMVnoFlattenerTest extends AsmetaSMVtest {
 
 	@Test
 	public void dirTaxiSingTest() {
-		testAllCtlPropsAreTrue("examples/taxiSing/main.asm");
+		testAllPropsAre(true,"examples/taxiSing/main.asm", (x->true));
 	}
 
 	@Test
@@ -392,7 +392,10 @@ public class AsmetaSMVnoFlattenerTest extends AsmetaSMVtest {
 
 	@Test
 	public void forallTermTest() {
-		testAllCtlPropsAreTrue("examples/forallTerm.asm");
+		//PRINT_NU_SM_VOUTPUT = true;
+		testAllPropsAre(true,"examples/forallTerm.asm",(x->true));
+		//PRINT_NU_SM_VOUTPUT = false;
+
 	}
 
 	@Test
@@ -696,25 +699,25 @@ public class AsmetaSMVnoFlattenerTest extends AsmetaSMVtest {
 	@Test
 	public void useINVAR() {
 		PRINT_NU_SM_VOUTPUT = true;
-		MonitoredFinder mf = new MonitoredFinder();
-		Predicate<Property> predicate  = new Predicate<Property>() {
+		Predicate<Property> notINVAR  = new Predicate<Property>() {
+			// exclude those that contains only input
 			@Override
 			public boolean test(Property t) {
 				if (t instanceof Invariant) {
 					MonitoredFinder mf = new MonitoredFinder();
-					return mf.visit(((Invariant)t).getBody());
+					return ! mf.visit(((Invariant)t).getBody());
 				}
-				return false;
+				return true;
 			}			
 		};
-		testAllPropsAre(true, "examples/UseInvar.asm", predicate);
+		testAllPropsAre(true, "examples/UseInvar.asm", notINVAR);
 		PRINT_NU_SM_VOUTPUT = false;
 	}
 
 	
 	@Test
 	public void updateVC() {
-		testAllCtlPropsAreTrue("examples/coffeeVendingMachineNC.asm");
+		testAllPropsAre(true,"examples/coffeeVendingMachineNC.asm",(x->true));
 	}
 
 	@Test

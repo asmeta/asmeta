@@ -9,6 +9,9 @@ signature:
 
 definitions:
 
+	// TODO
+    invariant over client: true
+
 	main rule r_Main =
 		par
 			program(client)

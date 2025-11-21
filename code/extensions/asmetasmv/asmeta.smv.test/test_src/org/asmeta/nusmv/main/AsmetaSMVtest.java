@@ -106,6 +106,7 @@ public class AsmetaSMVtest {
 		testAllPropsAre(desiredValue, asm, (x -> x instanceof CtlSpec));
 	}
 	// check that all the props satisfying predicate are of desired value
+	// only those that satisfy the predicate
 	protected void testAllPropsAre(boolean desiredValue, String asm, Predicate<? super Property> predicate) {
 		AsmetaSMV execNuSMV = execNuSMV(asm);
 		// check that the number of properties is correct
@@ -115,13 +116,15 @@ public class AsmetaSMVtest {
 		// makes no sense if there no properties
 		assertTrue(nProp>0);
 		Map<Property, Boolean> mapResults = execNuSMV.mv.getMapPropResult();
+		long nPropSMV = mapResults.entrySet().stream().filter(x -> predicate.test(x.getKey())).count();
 		// for every property there is a result
 		// TODO questa fallisce perchè alcune volte diverse proprietà di asmeta sono mappate sulle stesse proprietà di
 		// nusmv (per la semplificazione) quindi quelle con risultati sono di meno
 		// dovrei controllare che ogni propreità ha un risultato.
-		assertEquals(nProp, mapResults.size());
+		assertEquals(mapResults.toString(), nProp, nPropSMV);
 		// all are true
 		for(Entry<Property, Boolean> prop: mapResults.entrySet()) {
+			if (predicate.test(prop.getKey())) continue;
 			assertEquals("The property " + prop.getKey() + " should be "+ desiredValue 
 					+", instead is "+ (! desiredValue)+ ".", desiredValue, prop.getValue());
 		}

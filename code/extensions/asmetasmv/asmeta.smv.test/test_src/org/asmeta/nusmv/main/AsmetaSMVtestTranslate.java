@@ -487,10 +487,23 @@ public class AsmetaSMVtestTranslate {
 		String str = Files.readString(fileName);
 		System.err.println(str);
 		//it should not translate this as undef
-		assertTrue(str.contains("INVAR NAME inv0 := !(mon);"));
-		assertTrue(str.contains("INVARSPEC NAME inv1 := !(foo);"));
+		assertTrue(str.contains("INVAR !(mon);"));
+		assertTrue(str.contains("INVARSPEC NAME inv0 := !(foo);"));
 	}
-	
+
+	@Test
+	public void testForall() throws IOException {
+		AsmetaSMVOptions options = new AsmetaSMVOptions();
+		options.keepNuSMVfile = true;
+		testOneSpec("examples/forallTerm.asm", options);
+		Path fileName = Path.of("examples/forallTerm.smv");
+		String str = Files.readString(fileName);
+		System.err.println(str);
+		//it should not translate this as undef
+		assertTrue(str.contains("INVARSPEC NAME"));
+		assertTrue(str.contains("CTLSPEC NAME"));
+	}
+
 	
 	/*
 	 * @Test public void testUnibgProva() { assertTrue(testOneSpec(FILE_BASE_UNIBG +
