@@ -101,18 +101,18 @@ public class FMMutationScoreExecutor {
 			        	// parse the scenario to get the ref to the asmeta
 						AsmetaMutatedFromAvalla asmetaBuilder;
 					
-						try {
-							asmetaBuilder = new AsmetaMutatedFromAvalla(avalla.toFile().toString(), temp);
-						
-							Map<String, Boolean> allCoveredRules = new HashMap<>();
-						
-							// modify the scenario to ref to the mutated spec
-							// change the asmeta with the mutation
-							asmetaBuilder.setAsmeta(m);
-							// save the scenario
-							asmetaBuilder.save();
-							File tempAsmPath = asmetaBuilder.getTempAsmPath();
-							// execute now the scenario
+						asmetaBuilder = new AsmetaMutatedFromAvalla(avalla.toFile().toString(), temp);
+					
+						Map<String, Boolean> allCoveredRules = new HashMap<>();
+					
+						// modify the scenario to ref to the mutated spec
+						// change the asmeta with the mutation
+						asmetaBuilder.setAsmeta(m);
+						// save the scenario
+						asmetaBuilder.save();
+						File tempAsmPath = asmetaBuilder.getTempAsmPath();
+						// execute now the scenario
+						try {	
 							ValidationResult result = AsmetaV.executeAsmetaFromAvalla(false, allCoveredRules, tempAsmPath, false);
 							if (!result.isCheckSucceeded()) {
 								//add the index to a set of integer of the ones that were killed.
@@ -120,7 +120,10 @@ public class FMMutationScoreExecutor {
 								break;
 							}
 						} catch (Exception e) {
-							LOG.error("Mutation analysis failed.\n" + e.getClass().getSimpleName() + ": " + e.getMessage());
+							LOG.info("Validation of the mutated ASM failed => killed mutant.\n"
+									+ e.getClass().getSimpleName() + ": " + e.getMessage());
+							killedMutations.add(i);
+							break;
 						}
 					}
 			    }
