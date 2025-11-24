@@ -3,6 +3,7 @@ package asmeta.evotest.experiments.scenario.generator;
 import java.io.File;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -31,13 +32,26 @@ public class ScenarioGeneratorsRunner {
 	 * @throws RuntimeException if the config file cannot be found or read
 	 */
 	private static Map<String, Object> loadConfig() {
-		try (InputStream in = ScenarioGeneratorsRunner.class.getResourceAsStream("/config/generation_config.yaml")) {
-			if (in == null)
-				throw new IllegalStateException("generation_config.yaml not found");
-			return new Yaml().load(in); // Map<String, Object>
-		} catch (Exception e) {
-			throw new RuntimeException("Failed to load YAML", e);
+		Class<ScenarioGenerator> runningClass = ScenarioGenerator.class;
+		String className = runningClass.getName().replace('.', '/');
+		String classJar = runningClass.getResource("/" + className + ".class").toString();
+		boolean runningFromJar = classJar.startsWith("jar:");
+		Path configPath;
+		if (runningFromJar) {
+		    configPath = Paths.get("generation_config.yaml");
+		} else {
+			configPath = Paths.get("data/icst-26-exp/generation_config.yaml");
 		}
+
+	    if (!Files.exists(configPath)) {
+	        throw new IllegalStateException("Config file not found at: " + configPath.toAbsolutePath());
+	    }
+
+	    try (InputStream in = Files.newInputStream(configPath)) {
+	        return new Yaml().load(in);
+	    } catch (Exception e) {
+	        throw new RuntimeException("Failed to load YAML from " + configPath.toAbsolutePath(), e);
+	    }
 	}
 
 	/**

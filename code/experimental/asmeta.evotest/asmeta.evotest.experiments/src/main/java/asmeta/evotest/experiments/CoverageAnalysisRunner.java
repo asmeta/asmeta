@@ -41,9 +41,9 @@ public class CoverageAnalysisRunner {
 	 * @param args command-line arguments
 	 *             <ul>
 	 *             <li>{@code args[0]} – the base directory to scan</li>
-	 *             <li>{@code args[1]} – shuffle: {@code false} for deterministic execution of
-	 *             choose rules, {@code true} otherwise; defaults to {@code false}
-	 *             if omitted</li>
+	 *             <li>{@code args[0]} – {@code --shuffle}: optional flag that
+	 *             enables shuffled, non-deterministic execution of choose rules
+	 *             when present; if omitted, execution is deterministic</li>
 	 *             </ul>
 	 * @throws Exception if file I/O, parsing, or validation fails
 	 */
@@ -53,10 +53,14 @@ public class CoverageAnalysisRunner {
 			throw new RuntimeException("Missing argument: directory to search for scenarios.");
 		String baseDir = args[0];
 		boolean shuffle;
-		if (args.length < 2)
+		if (args.length == 1) {
 			shuffle = false;
-		else
-			shuffle = args[1].equals("true");
+		} else {
+			if (args[1].equals("--shuffle"))
+				shuffle = true;
+			else
+				throw new RuntimeException("Error in second argument: it must be --shuffle or not be present.");
+		}
 		// Prepare the output CSV (clean sibling temp if present CSVs and write header)
 		CsvManager csvManager = new CsvManager(baseDir + File.separator + DATA_CSV);
 		csvManager.clean();
@@ -72,8 +76,7 @@ public class CoverageAnalysisRunner {
 					if (scenarioDir.isDirectory() && scenarioDir.listFiles().length > 0) {
 						// Find and read the metadata YAML (exec time, ASM name, ASM path)
 						File metadataFile = Arrays
-								.stream(scenarioDir.listFiles(file -> file.getName().endsWith(".yaml")))
-								.findFirst()
+								.stream(scenarioDir.listFiles(file -> file.getName().endsWith(".yaml"))).findFirst()
 								.orElseThrow(() -> new RuntimeException("No .yaml file found in " + scenarioDir));
 						Map<String, Object> metadata = YamlManager.load(metadataFile);
 						String asmName = (String) metadata.get(YamlManager.ASM_NAME);

@@ -41,6 +41,50 @@
 							</descriptorRefs>
 						</configuration>
 					</execution>
+					<execution>
+	                    <id>test-generator-jar</id>
+	                    <phase>package</phase>
+	                    <goals>
+	                        <goal>single</goal>
+	                    </goals>
+	                    <configuration>
+	                        <finalName>test-generator</finalName>
+	                        <appendAssemblyId>false</appendAssemblyId>
+	                        <outputDirectory>data/icst-26-exp</outputDirectory>
+	                        <archive>
+	                            <manifest>
+	                                <mainClass>
+	                                    asmeta.evotest.experiments.scenario.generator.ScenarioGeneratorsRunner
+	                                </mainClass>
+	                            </manifest>
+	                        </archive>
+	                        <descriptorRefs>
+	                            <descriptorRef>jar-with-dependencies</descriptorRef>
+	                        </descriptorRefs>
+	                    </configuration>
+                		</execution>
+                		<execution>
+		                    <id>coverage-analysis-jar</id>
+		                    <phase>package</phase>
+		                    <goals>
+		                        <goal>single</goal>
+		                    </goals>
+		                    <configuration>
+		                        <finalName>coverage-analysis</finalName>
+		                        <appendAssemblyId>false</appendAssemblyId>
+		                        <outputDirectory>data/icst-26-exp</outputDirectory>
+		                        <archive>
+		                            <manifest>
+		                                <mainClass>
+		                                    asmeta.evotest.experiments.CoverageAnalysisRunner
+		                                </mainClass>
+		                            </manifest>
+		                        </archive>
+		                        <descriptorRefs>
+		                            <descriptorRef>jar-with-dependencies</descriptorRef>
+		                        </descriptorRefs>
+		                    </configuration>
+                		</execution>
 				</executions>
 			</plugin>
         </plugins>

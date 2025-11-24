@@ -63,6 +63,8 @@ final class TranslatorConstants {
 	static final String EVOSUITE_JAR_DIR = "evosuite-jar";
 	
 	static final String JAVA_EXE = "java.exe";
+	
+	static final String JAVA = "java";
 
 	static final String BIN = "bin";
 	

@@ -202,8 +202,17 @@ public class FileManager {
 			throw new FileNotFoundException("Java jdk folder not found: " + javaPath);
 		}
 		logger.info("Java jdk directory found at: {}.", javaJdkFolder.getAbsolutePath());
-		File javaFile = new File(Paths.get(javaPath, TranslatorConstants.BIN, TranslatorConstants.JAVA_EXE).toString());
-		if (!javaFile.exists() || !javaFile.isFile()) {
+		String osName = System.getProperty("os.name").toLowerCase();
+		boolean isWindows = osName.contains("win");
+		boolean isMac = osName.contains("mac");
+		String javaExecName = isWindows ? TranslatorConstants.JAVA_EXE : TranslatorConstants.JAVA;
+		// Normal layout: <javaPath>/bin/java(.exe)
+		File javaFile = Paths.get(javaPath, TranslatorConstants.BIN, javaExecName).toFile();
+		// macOS bundle layout: <javaPath>/Contents/Home/bin/java
+		if (!javaFile.exists() && isMac) {
+			javaFile = Paths.get(javaPath, "Contents", "Home", TranslatorConstants.BIN, javaExecName).toFile();
+		}
+		if (!javaFile.exists() || !javaFile.isFile() || !javaFile.canExecute()) {
 			logger.error("Java exe file location not valid: {}.", javaFile.getAbsolutePath());
 			throw new FileNotFoundException("Java exe not found: " + javaFile);
 		}

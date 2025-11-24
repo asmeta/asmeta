@@ -36,7 +36,7 @@ public class ScenarioGenerator {
 	private static final List<AsmCoverageBuilder> ATGT_CRITERIA = List.of(CriteriaEnum.COMPLETE_RULE.criteria,
 			CriteriaEnum.RULE_GUARD.criteria);
 
-	private static final String EVOAVALLA_WORKING_DIR = "./evoAvalla/reports/";
+	private static final String EVOAVALLA_WORKING_DIR = "./evoAvalla/";
 	private static final String DASH = "-";
 
 	/**
