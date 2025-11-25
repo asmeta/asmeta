@@ -38,18 +38,18 @@ import asmeta.evotest.experiments.scenario.generator.ScenarioGeneratorsRunner;
 import asmeta.mutation.mutationscore.FMMutationScoreExecutor;
 
 public class FMExperiments {
-	
+	/*
 	private static final String MODEL_LIST = "data\\fm-short-26-exp\\model_list.txt";
 	private static final String TARGET_DIR = "data\\fm-short-26-exp\\scenarios";
 	private static final String RESULTS_CSV = "data\\fm-short-26-exp\\result.csv";
 	private static final String SCENARIOS_ZIP = "data\\fm-short-26-exp\\scenarios.zip";
-	/*
+	*/
 	// When building the jar
 	private static final String MODEL_LIST = "model_list.txt";
 	private static final String TARGET_DIR = "scenarios";
 	private static final String RESULTS_CSV = "result.csv";
 	private static final String SCENARIOS_ZIP = "scenarios.zip";
-	*/
+	
 	private static final List<String> CSV_HEADERS = List.of("asm_path", "iteration", "status", "iteration_exec_time_ms",
 			"generation_exec_time_ms", "correct_scenarios", "n_step", "n_set", "n_check", "failing_scenarios",
 			"validation_error_scenarios", "tot_mutants", "n_killed_mutants_cumulativa",
@@ -66,7 +66,7 @@ public class FMExperiments {
 		Logger.getLogger(RuleEvaluator.class).setLevel(Level.ERROR);
 		Logger.getLogger(Simulator.class).setLevel(Level.ERROR);
 		Logger.getLogger(AsmetaV.class).setLevel(Level.ERROR);
-		Logger.getLogger(FMMutationScoreExecutor.class).setLevel(Level.ERROR);
+		Logger.getLogger(FMMutationScoreExecutor.class).setLevel(Level.INFO);
 		ASMParser.getResultLogger().setLevel(Level.ERROR);
 		System.setOut(new PrintStream(OutputStream.nullOutputStream()));
 
