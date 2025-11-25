@@ -226,7 +226,6 @@ final public class RuleVisitorAdapter extends RuleVisitor<List<Rule>> {
 		//First mutate this case
 		List<Rule> mutatedRules = new ArrayList<>();
 		mutatedRules.addAll(rulemutator.visit(rule));
-
 		//Now visit each rule for each branch
 		int index = 0;
 		for (Rule r : rule.getCaseBranches()) {
@@ -239,9 +238,14 @@ final public class RuleVisitorAdapter extends RuleVisitor<List<Rule>> {
 			index++;
 		}
 		//if otherwise then visit the rule 
-		if (rule.getOtherwiseBranch() != null )
-			mutatedRules.addAll(this.visit(rule.getOtherwiseBranch()));
-		
+		if (rule.getOtherwiseBranch() != null ) {
+			List<Rule> mutatedOW = this.visit(rule.getOtherwiseBranch());
+			for (Rule mutatedRule: mutatedOW) {
+				CaseRule newRule = EcoreUtil.copy(rule);
+				newRule.setOtherwiseBranch(EcoreUtil.copy(mutatedRule)); 
+				mutatedRules.add(newRule);
+			}
+		}		
 		return mutatedRules;
 	}
 
