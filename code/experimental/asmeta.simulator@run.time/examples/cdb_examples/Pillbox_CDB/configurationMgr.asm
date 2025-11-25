@@ -1,4 +1,4 @@
-asm configMgr
+asm configurationMgr
 
 import ../StandardLibrary
 import knowledge

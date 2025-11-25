@@ -1,6 +1,6 @@
 //Fosamax is taken on time
 //Moment is rescheduled and then taken at rescheduled time
-setup CM as examples/cdb_examples/Pillbox_CDB/configMgr.asm
+setup CM as examples/cdb_examples/Pillbox_CDB/configurationMgr.asm
 setup RES as examples/cdb_examples/Pillbox_CDB/reschedulerNonOptimal.asm
 setup setup_comp as ( CM || RES )
 setup C1 as examples/cdb_examples/Pillbox_CDB/compartment.asm
