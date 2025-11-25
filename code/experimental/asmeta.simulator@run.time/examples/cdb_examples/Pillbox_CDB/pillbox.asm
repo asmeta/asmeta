@@ -250,15 +250,14 @@ definitions:
 				pillTakenWithDelay($compartment) := false
 			endif
 
+
 //The redLed to the compartment must be equal  to the redLed to the rescheduler
 invariant inv_G_Led over redLed, led: (forall $c in Compartment with (redLed($c) = led(getID($c))))
 
-//@post
 //Check the status of redLed given the out message
 invariant inv_G_pillboxOutMess1 over outMess: (forall $c in Compartment with contains(outMess(getID($c)), "Take")  implies (redLed($c) = ON or redLed($c) = BLINKING))
 invariant inv_G_pillboxOutMess2 over outMess: (forall $c in Compartment with contains(outMess(getID($c)), "Close")  implies redLed($c) = BLINKING) 
 invariant inv_G_pillboxOutMess3 over outMess: (forall $c in Compartment with (outMess(getID($c))="" or contains(outMess(getID($c)), "taken") or contains(outMess(getID($c)), "missed")) implies redLed($c) = OFF) 
-
 
 //If pill is skipped the actual time consumption is 0
 invariant inv_G_actual_time over actual_time_consumption: 

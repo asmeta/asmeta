@@ -179,7 +179,6 @@ invariant inv_G_newTime over newTime: (forall $compartment in Compartment with
 			ntoi(deltaDelay(name($compartment))))) 
 		>= (minToInterferer(name($compartment),name($c))) and $c=$compartment)))
 	 implies ((newTime ($compartment) = at(time_consumption($compartment),drugIndex($compartment))+deltaDelay(name($compartment))))
-	 //implies setNewTime ($compartment)= true
 	 )))
 
 
