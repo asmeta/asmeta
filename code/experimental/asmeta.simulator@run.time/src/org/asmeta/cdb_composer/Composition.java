@@ -211,7 +211,7 @@ class LeafAsm extends Composition {
 				}
 			}
 			is1.setLocationValue(locationValue);
-			System.out.println("All monitored locations:"+locationValue.toString());
+			System.out.println("Monitored locations " + name + ": " + locationValue.toString());
 
 			runner.run(RunMode.RUN_ONE_STEP); // run one step
 			is1.incContSim(); // increase counter of simulation steps
@@ -222,14 +222,15 @@ class LeafAsm extends Composition {
 			ups = new UpdateSet(); // tricky: create an UpdateSet containing the location set of s1
 			ups.applyLocationUpdates(map);
 			//Print out locations
-			/*System.out.println("PRINT OUT LOCATIONS: " + name );
-			for (Entry<Location, Value> pair : state.getOutLocs().entrySet())
-				System.out.println(pair.getKey() + " " + pair.getValue().toString());*/
-			System.out.println("PRINT STATE: " + name );
-			for (Entry<Location, Value> pair : state.getLocationMap().entrySet())
+			System.out.println("Out locations: " + name  + ": " + state.getOutLocs().toString());
+			/*for (Entry<Location, Value> pair : state.getOutLocs().entrySet())
 				System.out.println(pair.getKey() + " " + pair.getValue().toString());
+			/*System.out.println("PRINT STATE: " + name );
+			for (Entry<Location, Value> pair : state.getLocationMap().entrySet())
+				System.out.println(pair.getKey() + " " + pair.getValue().toString());*/
 		} catch (InvalidInvariantException e) {
 			checkInvariantException(e);
+			throw e;
 		}
 
 		return ups;

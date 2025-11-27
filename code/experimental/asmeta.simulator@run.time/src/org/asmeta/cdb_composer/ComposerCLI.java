@@ -95,6 +95,9 @@ public class ComposerCLI {
 					} catch (CompositionException e) {
 						System.err.println("Error in composition " + alias + ": " + e.getMessage());
 						System.out.println(comp.toString());
+						if (e instanceof CBDException)
+							System.err.println("Composition script interrupted due to contract violation.");
+						break;
 					}
 				}
 			}

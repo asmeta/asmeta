@@ -93,7 +93,7 @@ definitions:
     
     //Knowledge consistency:
     //Pills type consistency between the prescription and the compartments of the pillbox
-    invariant inv_A_medicineList over medicine_list:  ( forall $c in Compartment with ( contains(medicine_list,name($c))))
+    invariant inv_A_medicineList over name(Compartment):  ( forall $c in Compartment with ( contains(medicine_list,name($c))))
     invariant inv_A_compName over Compartment: (forall $m in asSet(medicine_list) with (exist $c in Compartment with name($c)=$m))
 
     
@@ -109,7 +109,7 @@ definitions:
     	))))
    
     /*For a medication in a given compartment and slot that has been taken, the difference 
-between its ACTUAL intake time and the intake time of the subsequent medications 
+between its intake time and the intake time of the subsequent medications 
 taken (in the next slot of the same compartment or in another compartment) must be 
 greater than or equal to the medication's minToInterferer value with the subsequent medications */
    invariant inv_A_timeConsumption over Compartment: (forall $compartment in Compartment with 
@@ -175,24 +175,6 @@ greater than or equal to the medication's minToInterferer value with the subsequ
 			otherwise 0n
 		endswitch 
 	
-	/* Compartment knowledge initialization  */
-	
-	// Turn-off all the led of the Compartments
-	function redLed($compartment in Compartment) = OFF
-	// Initialization of the time consumption for a compartment
-	function time_consumption($compartment in Compartment) = //time(name($compartment))
-		switch($compartment)
-			case compartment1 : [360n]
-			case compartment2 : [730n, 1140n]
-		endswitch 
-	// Insert a drug in each compartment	
-	function name($compartment in Compartment) = //id(medicineIn($compartment))
-		switch($compartment)
-			case compartment1 : "fosamax"
-			case compartment2 : "moment"
-		endswitch
-	// Every compartment has an index starting from 0
-	function drugIndex($compartment in Compartment) = 0n
 
 	
 	

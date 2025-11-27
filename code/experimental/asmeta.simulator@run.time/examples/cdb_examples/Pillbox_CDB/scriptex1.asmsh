@@ -1,5 +1,0 @@
-init -n 2
-setup CM as examples/dbc_examples/Pillbox_DBC/configMgr.asm
-setup RES as examples/dbc_examples/Pillbox_DBC/rescheduler.asm
-setup setup_comp as ( CM || RES )
-run(setup_comp, {})
