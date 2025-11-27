@@ -1,7 +1,10 @@
-package asmeta.evotest.experiments.scenario.generator;
+package asmeta.evotest.experiments;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -10,19 +13,31 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.asmeta.atgt.generator.NuSMVtestGenerator;
 import org.asmeta.parser.ASMParser;
+import org.asmeta.simulator.RuleEvaluator;
+import org.asmeta.simulator.main.Simulator;
 import org.yaml.snakeyaml.Yaml;
 
+import asmeta.evotest.evoasmetatg.main.EvoAsmetaTgCLI;
+import asmeta.evotest.experiments.scenario.generator.ScenarioGenerator;
+import asmeta.evotest.experiments.utils.Utils;
 import asmeta.evotest.experiments.utils.YamlManager;
 
-public class ScenarioGeneratorsRunner {
+public class ScenarioGeneratorRunner {
 	public static final String RANDOM_DIR = "randomtests";
 	public static final String ATGT_DIR = "atgttests";
 	public static final String EVOAVALLA_DIR = "evoavallatests";
+	
+	private static final String CONFIG_PATH = "data/icst-26-exp/generation_config.yaml";
 
 	private static int randomCount = 0;
 	private static int atgtCount = 0;
 	private static int evoavallaCount = 0;
+	
+	private static final Logger LOG = Logger.getLogger(ScenarioGeneratorRunner.class);
 
 	/**
 	 * Loads the YAML configuration file {@code config/generation_config.yaml} from
@@ -31,26 +46,25 @@ public class ScenarioGeneratorsRunner {
 	 * @return the parsed configuration as a map
 	 * @throws RuntimeException if the config file cannot be found or read
 	 */
-	private static Map<String, Object> loadConfig() {
+	private static Map<String, Object> loadConfig() throws Exception {
 		Class<ScenarioGenerator> runningClass = ScenarioGenerator.class;
 		String className = runningClass.getName().replace('.', '/');
 		String classJar = runningClass.getResource("/" + className + ".class").toString();
 		boolean runningFromJar = classJar.startsWith("jar:");
 		Path configPath;
 		if (runningFromJar) {
-		    configPath = Paths.get("generation_config.yaml");
+		    configPath = Paths.get("generation_config.yaml").toAbsolutePath();
 		} else {
-			configPath = Paths.get("data/icst-26-exp/generation_config.yaml");
+			configPath = Paths.get(CONFIG_PATH).toAbsolutePath();
 		}
-
+		LOG.info("Loading confifuration file: " + configPath);
 	    if (!Files.exists(configPath)) {
-	        throw new IllegalStateException("Config file not found at: " + configPath.toAbsolutePath());
+	        throw new IllegalStateException("Configuration file not found at: " + configPath);
 	    }
-
 	    try (InputStream in = Files.newInputStream(configPath)) {
 	        return new Yaml().load(in);
 	    } catch (Exception e) {
-	        throw new RuntimeException("Failed to load YAML from " + configPath.toAbsolutePath(), e);
+	        throw new RuntimeException("Failed to load YAML from " + configPath, e);
 	    }
 	}
 
@@ -63,21 +77,49 @@ public class ScenarioGeneratorsRunner {
 	 * @throws Exception if file operations fail
 	 */
 	@SuppressWarnings("unchecked")
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args) {
+		// Set logging and silence stdout
+		LOG.setLevel(Level.INFO);
+		Logger.getLogger(RuleEvaluator.class).setLevel(Level.ERROR);
+		Logger.getLogger(Simulator.class).setLevel(Level.ERROR);
+		Logger.getLogger(NuSMVtestGenerator.class).setLevel(Level.ERROR);
+		Logger.getLogger(EvoAsmetaTgCLI.class).setLevel(Level.INFO);
+		ASMParser.getResultLogger().setLevel(Level.ERROR);
+		System.setOut(new PrintStream(OutputStream.nullOutputStream()));
+		
+		LOG.info("Starting test generation...");
+		
 		// Load configuration
-		Map<String, Object> cfg = loadConfig();
+		Map<String, Object> cfg;
+		try {
+			cfg = loadConfig();
+		} catch (Throwable t) {
+			LOG.error("Falied to load configuration file.", t);
+			return;
+		}
+		
 		// delete existing target folder and recreate the empty directory
-		String targetFolder = (String) ((Map<String, Object>) cfg.get("output")).get("target_folder");
-		File resultsDir = new File(targetFolder);
-		if (resultsDir.exists())
-			FileUtils.deleteDirectory(resultsDir);
-		Files.createDirectories(new File(targetFolder).toPath());
+		try {
+			String targetFolder = (String) ((Map<String, Object>) cfg.get("output")).get("target_folder");
+			File targetFolderFile = new File(targetFolder);
+			if (targetFolderFile.exists()) {
+				FileUtils.deleteDirectory(targetFolderFile);
+				LOG.info("Old scenarios removed.");
+			}
+			Files.createDirectories(new File(targetFolder).toPath());
+		} catch (Throwable t) {
+			LOG.error("Falied to delete existing results.", t);
+			return;
+		}
+		
 		// Run test generation with the input as defined in the configuration
 		Map<String, Object> sourceCfg = (Map<String, Object>) cfg.get("input");
 		String mode = (String) sourceCfg.get("mode");
+		LOG.info("Starting generation with mode: "+ mode + ".");
 		switch (mode) {
 		case "single":
 			String sourceFile = (String) sourceCfg.get("source_file");
+			LOG.info("Generating test for: " + sourceFile + ".");
 			generateTests(sourceFile, cfg);
 			break;
 		case "directory":
@@ -85,21 +127,32 @@ public class ScenarioGeneratorsRunner {
 			File[] children = new File(sourceDir).listFiles();
 			for (File child : children) {
 				sourceFile = child.getPath();
-				if (sourceFile.endsWith(ASMParser.ASM_EXTENSION))
+				if (sourceFile.endsWith(ASMParser.ASM_EXTENSION)) {
+					LOG.info("Generating test for: " + sourceFile + ".");
 					generateTests(sourceFile, cfg);
+				}
 			}
 			break;
 		case "list":
 			sourceDir = (String) sourceCfg.get("base_dir");
 			String listFile = (String) sourceCfg.get("model_list_file");
-			List<String> lines = Files.readAllLines(Paths.get(listFile));
+			List<String> lines;
+			try {
+				lines = Files.readAllLines(Paths.get(listFile));
+			} catch (IOException e) {
+				LOG.error("Falied to read " + listFile + ".", e);
+				return;
+			}
 			for (String line : lines) {
 				if (line.isEmpty() || line.startsWith("//"))
 					continue;
-				generateTests(Paths.get(sourceDir).resolve(line).toString(), cfg);
+				sourceFile = Paths.get(sourceDir).resolve(line).toString();
+				LOG.info("Generating test for: " + sourceFile + ".");
+				generateTests(sourceFile, cfg);
 			}
 			break;
 		}
+		LOG.info("Test generation completed");
 	}
 
 	/**
@@ -113,6 +166,11 @@ public class ScenarioGeneratorsRunner {
 	 */
 	@SuppressWarnings("unchecked")
 	private static void generateTests(String asmFilePath, Map<String, Object> cfg) {
+		File asmFile = new File(asmFilePath);
+		if (!asmFile.exists()) {
+			LOG.error("File not found: " + asmFile.getAbsolutePath());
+			return;
+		}
 		String asmName = new File(asmFilePath).getName().replace(".asm", "");
 		String targetFolder = (String) ((Map<String, Object>) cfg.get("output")).get("target_folder");
 		Map<String, Object> algorithms = (Map<String, Object>) cfg.get("algorithms");
@@ -136,17 +194,17 @@ public class ScenarioGeneratorsRunner {
 			Map<String, Object> algorithms) {
 		Map<String, Object> evoavallaCfg = (Map<String, Object>) algorithms.get("evoavalla");
 		if ((Boolean) evoavallaCfg.get("run")) {
+			LOG.info("Running EvoAvalla...");
 			try {
 				String jdkPath = (String) evoavallaCfg.get("jdk_path");
 				String target = targetFolder + File.separator + EVOAVALLA_DIR + File.separator
-						+ formatCounter(evoavallaCount) + "_" + asmName;
+						+ Utils.formatCounter(evoavallaCount) + "_" + asmName;
 				int budget = (int) evoavallaCfg.get("budget");
 				boolean shuffle = (boolean) evoavallaCfg.get("shuffle");
 				float exeTime = ScenarioGenerator.runEvoAvalla(asmFilePath, target, jdkPath, budget, shuffle);
 				YamlManager.write(target, asmName, asmFilePath, exeTime, LocalDateTime.now().toString());
-			} catch (Throwable e) {
-				System.err.println("EvoAvalla failed to generate a test suite");
-				e.printStackTrace();
+			} catch (Throwable t) {
+				LOG.error("EvoAvalla failed to generate a test suite.\n" + t.getClass().getSimpleName() + ": " + t.getMessage());
 			} finally {
 				evoavallaCount++;
 			}
@@ -168,14 +226,14 @@ public class ScenarioGeneratorsRunner {
 			Map<String, Object> algorithms) {
 		Map<String, Object> atgtCfg = (Map<String, Object>) algorithms.get("atgt");
 		if ((Boolean) atgtCfg.get("run")) {
+			LOG.info("Running ATGT...");
 			try {
-				String target = targetFolder + File.separator + ATGT_DIR + File.separator + formatCounter(atgtCount)
+				String target = targetFolder + File.separator + ATGT_DIR + File.separator + Utils.formatCounter(atgtCount)
 						+ "_" + asmName;
 				float exeTime = ScenarioGenerator.runATGT(asmFilePath, target);
 				YamlManager.write(target, asmName, asmFilePath, exeTime, LocalDateTime.now().toString());
-			} catch (Throwable e) {
-				System.err.println("ATGT failed to generate a test suite");
-				e.printStackTrace();
+			} catch (Throwable t) {
+				LOG.error("ATGT failed to generate a test suite.\n" + t.getClass().getSimpleName() + ": " + t.getMessage());
 			} finally {
 				atgtCount++;
 			}
@@ -197,36 +255,20 @@ public class ScenarioGeneratorsRunner {
 			Map<String, Object> algorithms) {
 		Map<String, Object> randomCfg = (Map<String, Object>) algorithms.get("random");
 		if ((Boolean) randomCfg.get("run")) {
+			LOG.info("Running Random...");
 			try {
-				String target = targetFolder + File.separator + RANDOM_DIR + File.separator + formatCounter(randomCount)
+				String target = targetFolder + File.separator + RANDOM_DIR + File.separator + Utils.formatCounter(randomCount)
 						+ "_" + asmName;
 				List<Integer> stepList = (List<Integer>) randomCfg.get("step_list");
 				boolean shuffle = (boolean) randomCfg.get("shuffle");
 				float exeTime = ScenarioGenerator.runRandom(asmFilePath, target, stepList, shuffle);
 				YamlManager.write(target, asmName, asmFilePath, exeTime, LocalDateTime.now().toString());
-			} catch (Throwable e) {
-				System.err.println("Random failed to generate a test suite");
-				e.printStackTrace();
+			} catch (Throwable t) {
+				LOG.error("Random failed to generate a test suite.\n" + t.getClass().getSimpleName() + ": " + t.getMessage());
 			} finally {
 				randomCount++;
 			}
 		}
-	}
-
-	/**
-	 * Formats the numeric counter as a zero-padded three-digit string
-	 * (e.g., 0 → "000", 7 → "007", 42 → "042").
-	 *
-	 * @param counter a non-negative integer
-	 * @return the formatted string
-	 */
-	public static String formatCounter(int coutner) {
-		String countString = String.valueOf(coutner);
-		if (coutner < 10)
-			countString = "00" + coutner;
-		else if (coutner < 100)
-			countString = "0" + coutner;
-		return countString;
 	}
 
 }

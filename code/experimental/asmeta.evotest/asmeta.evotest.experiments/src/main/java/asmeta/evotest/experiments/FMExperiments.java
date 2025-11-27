@@ -34,7 +34,7 @@ import org.asmeta.xt.validator.AsmetaV;
 import asmeta.AsmCollection;
 import asmeta.evotest.experiments.scenario.ScenarioDataCollector;
 import asmeta.evotest.experiments.scenario.generator.ScenarioGenerator;
-import asmeta.evotest.experiments.scenario.generator.ScenarioGeneratorsRunner;
+import asmeta.evotest.experiments.utils.Utils;
 import asmeta.mutation.mutationscore.FMMutationScoreExecutor;
 
 public class FMExperiments {
@@ -169,7 +169,7 @@ public class FMExperiments {
 				return;
 			}
 			String asmName = new File(source).getName().replace(".asm", "");
-			String prefix = ScenarioGeneratorsRunner.formatCounter(numericalPrefix);
+			String prefix = Utils.formatCounter(numericalPrefix);
 			Path targetDir = Paths.get(TARGET_DIR, prefix + "_" + asmName);
 			Path zipFile = Paths.get(TARGET_DIR, prefix + "_" + asmName + ".zip");
 			try {
@@ -224,7 +224,7 @@ public class FMExperiments {
 	 */
 	private static void evaluateAsm(int budget, Path resultsCsvPath, int numercalPrefix, String asmPath) {
 		String asmName = new File(asmPath).getName().replace(".asm", "");
-		String prefix = ScenarioGeneratorsRunner.formatCounter(numercalPrefix);
+		String prefix = Utils.formatCounter(numercalPrefix);
 		String avallaBaseDir = TARGET_DIR + File.separator + prefix + "_" + asmName;
 
 		LOG.info("------------------------------------");
@@ -262,7 +262,7 @@ public class FMExperiments {
 		while (!allKilled && totalElapsedTime <= budget * 1000 && iteration <= MAX_ITERATIONS
 				&& !(totalCorrectScenario == 0 && iteration > MAX_ITERATIONS_WITHOUT_SCENARIOS)) {
 			String avallaDir = avallaBaseDir + File.separator + "iteration"
-					+ ScenarioGeneratorsRunner.formatCounter(iteration);
+					+ Utils.formatCounter(iteration);
 
 			Instant startTime = Instant.now();
 			Instant endTime;
