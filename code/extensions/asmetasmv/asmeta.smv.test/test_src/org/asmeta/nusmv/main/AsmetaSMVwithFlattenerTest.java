@@ -89,7 +89,7 @@ public class AsmetaSMVwithFlattenerTest extends AsmetaSMVtest {
 
 	@Test
 	public void dirTaxiSingTest() {
-		testAllCtlPropsAreTrue("examples/taxiSing/main.asm");
+		testAllPropsAre(true,"examples/taxiSing/main.asm", (x->true));
 	}
 
 	@Test

@@ -42,6 +42,9 @@ definitions:
 			coins := coins + 1
 		endpar
 
+	// TODO add an interesting property
+    invariant over insertedCoin: true
+
 	main rule r_Main =
 		if(coins < 25) then
 			if(insertedCoin = HALF) then

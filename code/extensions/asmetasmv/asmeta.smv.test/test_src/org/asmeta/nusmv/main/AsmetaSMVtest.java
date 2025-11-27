@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.function.Predicate;
 
 import org.asmeta.nusmv.main.AsmetaSMV;
 import org.asmeta.nusmv.main.AsmetaSMV.ModelCheckerMode;
@@ -24,6 +25,9 @@ import asmeta.definitions.TemporalProperty;
 
 // standard SMV test with CTL properties!
 public class AsmetaSMVtest {
+
+	protected static boolean PRINT_NU_SM_VOUTPUT = false;
+
 
 	@BeforeClass
 	public static void testNuSMVInstallation(){
@@ -59,7 +63,7 @@ public class AsmetaSMVtest {
 			as = new AsmetaSMV(new File(file),asmetaOptions);
 			as.translation();
 			as.createNuSMVfile();
-			AsmetaSMVOptions.setPrintNuSMVoutput(false);
+			AsmetaSMVOptions.setPrintNuSMVoutput(PRINT_NU_SM_VOUTPUT);
 			as.executeNuSMV();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -67,14 +71,14 @@ public class AsmetaSMVtest {
 		}
 		return as;
 	}
-
+	
 	protected AsmetaSMV execNuSMV(String file, String nusmvFileName, boolean simplify) {
 		AsmetaSMV as = null;
 		try {
 			as = new AsmetaSMV(file, simplify);
 			as.translation();
 			as.createNuSMVfile(nusmvFileName);
-			AsmetaSMVOptions.setPrintNuSMVoutput(false);
+			AsmetaSMVOptions.setPrintNuSMVoutput(PRINT_NU_SM_VOUTPUT);
 			as.executeNuSMV();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -99,19 +103,28 @@ public class AsmetaSMVtest {
 
 	
 	private void testAllCtlPropsAre(boolean desiredValue, String asm) {
+		testAllPropsAre(desiredValue, asm, (x -> x instanceof CtlSpec));
+	}
+	// check that all the props satisfying predicate are of desired value
+	// only those that satisfy the predicate
+	protected void testAllPropsAre(boolean desiredValue, String asm, Predicate<? super Property> predicate) {
 		AsmetaSMV execNuSMV = execNuSMV(asm);
 		// check that the number of properties is correct
 		EList<Property> props = execNuSMV.asm.getBodySection().getProperty();
-		// count how many are CTL
-		long nCTLProp = props.stream().filter(x -> x instanceof CtlSpec).count();
-		Map<TemporalProperty, Boolean> mapResults = execNuSMV.mv.getMapPropResult();
+		// count how many satisfy the predicate
+		long nProp = props.stream().filter(predicate).count();
+		// makes no sense if there no properties
+		assertTrue(nProp>0);
+		Map<Property, Boolean> mapResults = execNuSMV.mv.getMapPropResult();
+		long nPropSMV = mapResults.entrySet().stream().filter(x -> predicate.test(x.getKey())).count();
 		// for every property there is a result
 		// TODO questa fallisce perchè alcune volte diverse proprietà di asmeta sono mappate sulle stesse proprietà di
 		// nusmv (per la semplificazione) quindi quelle con risultati sono di meno
 		// dovrei controllare che ogni propreità ha un risultato.
-		assertEquals(nCTLProp, mapResults.size());
+		assertEquals(mapResults.toString(), nProp, nPropSMV);
 		// all are true
-		for(Entry<TemporalProperty, Boolean> prop: mapResults.entrySet()) {
+		for(Entry<Property, Boolean> prop: mapResults.entrySet()) {
+			if (predicate.test(prop.getKey())) continue;
 			assertEquals("The property " + prop.getKey() + " should be "+ desiredValue 
 					+", instead is "+ (! desiredValue)+ ".", desiredValue, prop.getValue());
 		}

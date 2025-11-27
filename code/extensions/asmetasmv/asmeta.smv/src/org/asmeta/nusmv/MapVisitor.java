@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -47,6 +48,7 @@ import org.asmeta.nusmv.util.Util;
 import org.asmeta.parser.Defs;
 import org.asmeta.parser.util.ImportFlattener;
 import org.asmeta.simulator.Location;
+import org.asmeta.simulator.util.MonitoredFinder;
 import org.asmeta.simulator.value.BooleanValue;
 import org.asmeta.simulator.value.EnumValue;
 import org.asmeta.simulator.value.IntegerValue;
@@ -115,11 +117,12 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 	List<NamedProperty> allProp; // all the properties translated in NUSMV
 	// these are public since they are used in asmetaMA
 	// map from NUSMV to the original temporal property
-	public Map<String, List<TemporalProperty>> propertyOrigin = new HashMap<>();
+	public Map<String, List<Property>> propertyOrigin = new HashMap<>();
 	// translated to SMV
 	public List<NamedProperty> ctlList;
 	public List<NamedProperty> ltlList;
 	public List<NamedProperty> invariantList;
+	public List<NamedProperty> invariantOverMonitoredList;
 
 	private ArrayList<String> justiceConstraintsList;
 	private ArrayList<String[]> compassionConstraintsList;
@@ -144,21 +147,21 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 			mapPropResult.put(prop, result);
 			nuSmvPropsResults.add(result);
 		}		
-		// in terms of temporal properties of the original spec
-		public Map<TemporalProperty, Boolean> getMapPropResult() {
+		// in terms of temporal properties + invarspecs of the original spec
+		public Map<Property, Boolean> getMapPropResult() {
 			//System.err.println(propertyOrigin);
 			//System.err.println(mapPropResult);
-			Map<TemporalProperty, Boolean> result = new HashMap<>();
+			Map<Property, Boolean> result = new HashMap<>();
 			for (Entry<String, Boolean> sp : mapPropResult.entrySet()) {
 				// get the original tps - if any
-				List<TemporalProperty> tps = propertyOrigin.get(sp.getKey());
+				List<Property> tps = propertyOrigin.get(sp.getKey());
 				// the output can contain some extra properties add for example by the model
 				// advisor
 				if (tps == null || tps.isEmpty()) {
 					//assert false;
 					// this property has not tp associated
 				} else {
-					for (TemporalProperty t : tps) {
+					for (Property t : tps) {
 						// if present, must be equal, if not present add
 						Boolean res = result.get(t);
 						if (res != null)
@@ -622,10 +625,15 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 				smv.println("COMPASSION (" + compassionConstr[0] + ", " + compassionConstr[1] + ");");
 			}
 		}
-		allProp = new ArrayList<NamedProperty>();
-		// String name;
-		// Iterator<String> names;
+		// INVAR
+		if (!invariantOverMonitoredList.isEmpty()) {
+			smv.println("--AsmetaL invariants over monitored");
+			for (NamedProperty property: invariantOverMonitoredList) {
+				smv.println("INVAR " + property.prop + ";");
+			}
+		}
 		// print LTL, then CTL, then INVARSPEC
+		allProp = new ArrayList<NamedProperty>();
 		printInFile(ltlList, smv, "--LTL properties", "LTLSPEC", "ltl");
 		printInFile(ctlList, smv, "--CTL properties", "CTLSPEC", "ctl");
 		printInFile(invariantList, smv, "--AsmetaL invariants", "INVARSPEC", "inv");
@@ -742,10 +750,8 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 		}
 		visitInvariants(invariants);
 		ctlList = new ArrayList<NamedProperty>();
-		// ctlListNames = new ArrayList<String>();
 		visitTemporalSpecs(ctlSpecs, ctlList);
 		ltlList = new ArrayList<NamedProperty>();
-		// ltlListNames = new ArrayList<String>();
 		visitTemporalSpecs(ltlSpecs, ltlList);
 
 		List<JusticeConstraint> justiceConstraints = new ArrayList<JusticeConstraint>();
@@ -1100,12 +1106,21 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 	 * @param invariants the ASM invariants
 	 */
 	private void visitInvariants(List<Invariant> invariants) {
+		MonitoredFinder mf = new MonitoredFinder();
 		invariantList = new ArrayList<NamedProperty>();
+		invariantOverMonitoredList = new ArrayList<NamedProperty>();
 		if (invariants != null) {
 			for (Invariant invariant : invariants) {
-				String property = termTran.visit(invariant.getBody());
+				String inv_in_smv = termTran.visit(invariant.getBody());
+				boolean isoverMonitored = mf.visit(invariant.getBody());
+				// AsmetaL invariants over monitored "inv" become assumption "INVAR (inv)"
+				if (isoverMonitored)
+					invariantOverMonitoredList.add(new NamedProperty(invariant.getName(), inv_in_smv));
 				// AsmetaL invariants "inv" become CTL properties "INVARSPEC (inv)"
-				invariantList.add(new NamedProperty(invariant.getName(), property));
+				else {
+					invariantList.add(new NamedProperty(invariant.getName(), inv_in_smv));
+					addPropertyTranslation(invariant,inv_in_smv);
+				}
 			}
 		}
 	}
@@ -1119,15 +1134,19 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 				name = name != null ? name : "";
 				String tpinsmv = termTran.visit(spec.getBody());
 				propertyList.add(new NamedProperty(name, tpinsmv));
-				// maintain the map
-				List<TemporalProperty> origin = propertyOrigin.get(tpinsmv);
-				if (origin == null) {
-					origin = new ArrayList<TemporalProperty>();
-					propertyOrigin.put(tpinsmv, origin);
-				}
-				origin.add(spec);
+				addPropertyTranslation(spec, tpinsmv);
 			}
 		}
+	}
+
+	private void addPropertyTranslation(Property spec, String tpinsmv) {
+		// maintain the map
+		List<Property> origin = propertyOrigin.get(tpinsmv);
+		if (origin == null) {
+			origin = new ArrayList<Property>();
+			propertyOrigin.put(tpinsmv, origin);
+		}
+		origin.add(spec);
 	}
 
 	private void visitJusticeConstraints(List<JusticeConstraint> justiceConstraints) {
@@ -1466,19 +1485,21 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 	 * 
 	 */
 	public void getPropertiesResults(String outputRunNuSMV) {
-		log.debug("NUSMV OUTPUT \n" + outputRunNuSMV);
-		
+		log.debug("NUSMV OUTPUT \n" + outputRunNuSMV);		
 		mcresults.initMapPropResult();
 		this.propertiesCounterExample = new HashMap<Integer, String>();
 		this.propertiesForPrinting = new HashMap<Integer, String>();
 		int indexResult = outputRunNuSMV.indexOf("\n") + 1;
-		String[] results = outputRunNuSMV.substring(indexResult).split("\\-\\- specification ");
+		// specification or invariant is used
+		String[] results = outputRunNuSMV.substring(indexResult).split("\\-\\- specification |\\-\\- invariant ");
+		//System.out.println(Arrays.toString(results));
 		for (int i = 1; i < results.length; i++) {
 			Integer index = new Integer(i - 1);
 			String[] lines = results[i].split("\n");
 			boolean result;
 			String[] strRes = lines[0].split("  is ");
 			String prop = strRes[0];
+			//System.err.println(Arrays.toString(strRes));
 			getPropertiesForPrinting().put(index, prop);
 			if (strRes[1].trim().equals("true")) {
 				result = true;
@@ -1494,7 +1515,6 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 			// it is not working anymore with NuSMV 2.6 (the order of properties is not
 			// preserved in the results)
 			// String key = allProp.get(i - 1);
-
 			String key = getKey(prop);// we need to look for the correct property
 			// retrace the origin and put the result - allow duplications
 //			System.err.println(key);
@@ -1664,7 +1684,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 		return Collections.unmodifiableList(mcresults.nuSmvPropsResults);
 	}
 
-	public Map<TemporalProperty, Boolean> getMapPropResult() {
+	public Map<Property, Boolean> getMapPropResult() {
 		return mcresults.getMapPropResult();
 	}
 

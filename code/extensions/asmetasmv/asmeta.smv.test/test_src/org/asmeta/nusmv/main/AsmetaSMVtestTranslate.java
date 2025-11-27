@@ -61,7 +61,7 @@ public class AsmetaSMVtestTranslate {
 			// the file exists
 			if (!Files.exists(Paths.get(a.smvFileName)))
 				return false;
-			System.out.println(Paths.get(a.smvFileName));
+			//System.out.println(Paths.get(a.smvFileName));
 			// TODO parse the file with nusmv
 			if (options.isRunNuSMV()) a.executeNuSMV();
 			return true;
@@ -476,6 +476,32 @@ public class AsmetaSMVtestTranslate {
 		options.keepNuSMVfile = true;
 		//AsmetaSMVOptions.FLATTEN = false;
 		testOneSpec("examples/UseAnyDomain.asm", options);
+	}
+
+	@Test
+	public void testINVAR() throws IOException {
+		AsmetaSMVOptions options = new AsmetaSMVOptions();
+		options.keepNuSMVfile = true;
+		testOneSpec("examples/UseInvar.asm", options);
+		Path fileName = Path.of("examples/UseInvar.smv");
+		String str = Files.readString(fileName);
+		System.err.println(str);
+		//it should not translate this as undef
+		assertTrue(str.contains("INVAR !(mon);"));
+		assertTrue(str.contains("INVARSPEC NAME inv0 := !(foo);"));
+	}
+
+	@Test
+	public void testForall() throws IOException {
+		AsmetaSMVOptions options = new AsmetaSMVOptions();
+		options.keepNuSMVfile = true;
+		testOneSpec("examples/forallTerm.asm", options);
+		Path fileName = Path.of("examples/forallTerm.smv");
+		String str = Files.readString(fileName);
+		System.err.println(str);
+		//it should not translate this as undef
+		assertTrue(str.contains("INVARSPEC NAME"));
+		assertTrue(str.contains("CTLSPEC NAME"));
 	}
 
 	
