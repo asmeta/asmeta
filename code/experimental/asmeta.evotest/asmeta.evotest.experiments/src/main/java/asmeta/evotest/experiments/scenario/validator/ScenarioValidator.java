@@ -2,7 +2,6 @@ package asmeta.evotest.experiments.scenario.validator;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -10,12 +9,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.apache.log4j.Logger;
 import org.asmeta.xt.validator.AsmetaV;
-import org.asmeta.xt.validator.RuleEvalWCov;
 
 import asmeta.evotest.experiments.utils.CsvManager;
 
 public class ScenarioValidator {
+
+	private static final Logger LOG = Logger.getLogger(ScenarioValidator.class);
 
 	/**
 	 * Validate an ASM specification and compute the coverage given a directory
@@ -26,10 +27,12 @@ public class ScenarioValidator {
 	 *                     files
 	 * @param csvPath      where to save the experiments stats (it must be a .csv
 	 *                     file)
-	 * @param shuffle      if false, run choose rules deterministically (always choose first element)
+	 * @param shuffle      if false, run choose rules deterministically (always
+	 *                     choose first element)
 	 * @return the number of scenarios for which the validation resulted in an error
+	 * @throws Exception 
 	 */
-	public static int computeCoverageFromAvalla(String scenarioPath, String csvPath, boolean shuffle) {
+	public static int computeCoverageFromAvalla(String scenarioPath, String csvPath, boolean shuffle) throws Exception {
 		// To avoid to count a scenario twice if the following one is empty, keep
 		// track of the previous execution id. For the first scenario, the check is done
 		// using the column name
@@ -41,7 +44,7 @@ public class ScenarioValidator {
 					.filter(path -> path.getFileName().toString().endsWith(AsmetaV.SCENARIO_EXTENSION))
 					.collect(Collectors.toList());
 			for (Path path : filesList) {
-				System.out.println("Processing: " + path);
+				LOG.info("Processing: " + path);
 				try {
 					AsmetaV.execValidation(path.toString(), true, csvPath, shuffle);
 					// Extract the value from the last column of the last row in the CSV to check if
@@ -53,19 +56,14 @@ public class ScenarioValidator {
 						failingScenarios++;
 						previosExecId = execId;
 					}
-				} catch (Throwable e) {
+				} catch (Throwable t) {
 					errorsInValidation++;
-					System.err.println("Failed to validate the test: " + path.getFileName());
-					e.printStackTrace();
+					LOG.error("Failed to validate the test: " + path.getFileName() + "\n" + t.getClass().getSimpleName()
+							+ ": " + t.getMessage());
 				}
 			}
-			System.out.println("Validated all files in: " + scenarioPath);
+			LOG.info("Validated all files in: " + scenarioPath);
 			extractLastExecution(csvPath, failingScenarios);
-		} catch (Exception e) {
-			System.err.println("Error accessing directory: " + scenarioPath);
-			e.printStackTrace();
-		} finally {
-			RuleEvalWCov.reset();
 		}
 		return errorsInValidation;
 	}
@@ -87,14 +85,10 @@ public class ScenarioValidator {
 			csvFile.createNewFile();
 			String[] headers = AsmetaV.HEADERS;
 			String headersString = String.join(",", headers);
-			try {
-				FileOutputStream fos = new FileOutputStream(csvPath, false);
-				PrintStream ps = new PrintStream(fos);
-				ps.print(headersString);
-				ps.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			FileOutputStream fos = new FileOutputStream(csvPath, false);
+			PrintStream ps = new PrintStream(fos);
+			ps.print(headersString);
+			ps.close();
 		}
 		List<String[]> rows = CsvManager.readCsv(csvPath);
 		String extractedContent = String.join(",", rows.getFirst()) + "\n";
@@ -111,14 +105,10 @@ public class ScenarioValidator {
 				}
 			}
 			File newCsv = new File(csvPath);
-			try {
-				FileOutputStream fos = new FileOutputStream(newCsv, false);
-				PrintStream ps = new PrintStream(fos);
-				ps.print(extractedContent);
-				ps.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			FileOutputStream fos = new FileOutputStream(newCsv, false);
+			PrintStream ps = new PrintStream(fos);
+			ps.print(extractedContent);
+			ps.close();
 		}
 	}
 
