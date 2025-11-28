@@ -222,9 +222,9 @@ class LeafAsm extends Composition {
 			ups = new UpdateSet(); // tricky: create an UpdateSet containing the location set of s1
 			ups.applyLocationUpdates(map);
 			//Print out locations
-			System.out.println("Out locations: " + name  + ": " + state.getOutLocs().toString());
+			System.out.println("Out locations " + name  + ": " + state.getOutLocs().toString());
 			/*for (Entry<Location, Value> pair : state.getOutLocs().entrySet())
-				System.out.println(pair.getKey() + " " + pair.getValue().toString());
+				System.out.println(pair.getKey() + " " + pair.getValue().toString());*/
 			/*System.out.println("PRINT STATE: " + name );
 			for (Entry<Location, Value> pair : state.getLocationMap().entrySet())
 				System.out.println(pair.getKey() + " " + pair.getValue().toString());*/
