@@ -161,7 +161,11 @@ class LeafAsm extends Composition {
 	// NEW by Patrizia: to read monitored function values from CLI or from a map by
 	// using InfoAsmetaService e AsmetaSserviceRun
 	LeafAsm(String asm1, boolean interactive) throws Exception {
-		AsmCollection asc1 = ASMParser.setUpReadAsm(new File(asm1));
+		File asm = new File(asm1);
+		if (!asm.exists()) {
+			throw new RuntimeException("asm file " + asm1 + " not found");
+		}
+		AsmCollection asc1 = ASMParser.setUpReadAsm(asm);
 		name = asc1.getMain().getName(); 
 		mon = new MFReaderWithSettableMon(); //FIX by Patrizia 8 nov 2025 mon is always used (in interactive mode or not) for copyMonitored
 		if (interactive) {

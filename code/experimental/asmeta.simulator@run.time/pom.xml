@@ -19,16 +19,35 @@
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.13.0</version>
-        <configuration>
-                <archive>
-                    <manifest>
-                        <mainClass>org.asmeta.cbd_composer.ComposerCLI</mainClass>
-                    </manifest>
-                </archive>               
-          <release>17</release>
-        </configuration>
+        <version>3.14.0</version>
       </plugin>
+	 	<plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-assembly-plugin</artifactId>
+			<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<finalName>AsmetaComp</finalName>
+							<appendAssemblyId>false</appendAssemblyId>
+							<outputDirectory>dist</outputDirectory>
+							<archive>
+								<manifest>
+									<mainClass>
+										org.asmeta.cbd_composer.ComposerCLI
+									</mainClass>
+								</manifest>
+							</archive>
+							<descriptorRefs>
+								<descriptorRef>jar-with-dependencies</descriptorRef>
+							</descriptorRefs>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
     </plugins>
   </build>
   <dependencies>
