@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -15,6 +16,7 @@ import asmeta.definitions.ControlledFunction;
 import asmeta.definitions.DerivedFunction;
 import asmeta.definitions.Function;
 import asmeta.definitions.MonitoredFunction;
+import asmeta.definitions.OutFunction;
 import asmeta.definitions.StaticFunction;
 import asmeta.structure.Asm;
 import asmeta.structure.Body;
@@ -30,6 +32,11 @@ public class AsmetaPrintInfo {
 	public class AsmInfo {
 
 		public Map<String, Integer> infoMap = new HashMap<String, Integer>();
+
+		public Map<String, Integer> infoMapOrderd() {
+			return infoMap.entrySet().stream().sorted((i1, i2) -> i1.getKey().compareTo(i2.getKey())).collect(
+					Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+		}
 
 		public List<String> ruleNamesList;
 
@@ -79,6 +86,8 @@ public class AsmetaPrintInfo {
 					info.inc("derived");
 				} else if (f instanceof StaticFunction) {
 					info.inc("static");
+				} else if (f instanceof OutFunction) {
+					info.inc("out");
 				} else {
 					throw new RuntimeException(f.getClass().getCanonicalName());
 				}
@@ -90,7 +99,8 @@ public class AsmetaPrintInfo {
 			Body bodySection = asm.getBodySection();
 			info.infoMap.put("nrulesdeclarations", bodySection.getRuleDeclaration().size());
 			// rule names
-			info.ruleNamesList = bodySection.getRuleDeclaration().stream().map(x -> x.getName()).collect(Collectors.toList());
+			info.ruleNamesList = bodySection.getRuleDeclaration().stream().map(x -> x.getName())
+					.collect(Collectors.toList());
 			// properties
 			info.infoMap.put("nproperties", bodySection.getProperty().size());
 		}

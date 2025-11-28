@@ -11,6 +11,7 @@ import asmeta.structure.Asm;
 import asmeta.transitionrules.basictransitionrules.BlockRule;
 import asmeta.transitionrules.basictransitionrules.ChooseRule;
 import asmeta.transitionrules.basictransitionrules.ConditionalRule;
+import asmeta.transitionrules.basictransitionrules.ExtendRule;
 import asmeta.transitionrules.basictransitionrules.ForallRule;
 import asmeta.transitionrules.basictransitionrules.LetRule;
 import asmeta.transitionrules.basictransitionrules.MacroCallRule;
@@ -21,8 +22,9 @@ import asmeta.transitionrules.basictransitionrules.UpdateRule;
 import asmeta.transitionrules.derivedtransitionrules.CaseRule;
 import asmeta.transitionrules.turbotransitionrules.SeqRule;
 
-/** it counts the number of rules (not only the declarations
- * */
+/** 
+ * it counts the number of rules (not only the declarations
+ */
 public class RuleCounter extends org.asmeta.parser.util.ReflectiveVisitor<Void> {
 
 	private Set<Rule> rules;
@@ -122,4 +124,10 @@ public class RuleCounter extends org.asmeta.parser.util.ReflectiveVisitor<Void> 
 
 	public void visit(TermAsRule termAsRule) {
 	}
+	
+	public void visit(ExtendRule eRule) {
+		visit(eRule.getDoRule());
+		
+	}
+
 }

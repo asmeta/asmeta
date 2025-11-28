@@ -27,7 +27,7 @@ public class CdBComposerTest {
 	 * che � fallita indicando cosa � fallito (pre-post-invariant)
 	 */
 
-	String path = "examples/dbc_examples/";
+	static String path = "examples/cbd_examples/";
 
 	@Test //To test rescheduler and configuration manager with pillbox and compartments
 	public void testPillboxCompWithRes() throws Exception {
