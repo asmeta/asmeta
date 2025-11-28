@@ -1,4 +1,4 @@
-package org.asmeta.cdb_composer;
+package org.asmeta.cbd_composer;
 
 import java.util.ArrayList;
 import java.util.HashMap;

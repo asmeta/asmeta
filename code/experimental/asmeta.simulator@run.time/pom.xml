@@ -21,6 +21,11 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.13.0</version>
         <configuration>
+                <archive>
+                    <manifest>
+                        <mainClass>org.asmeta.cbd_composer.ComposerCLI</mainClass>
+                    </manifest>
+                </archive>               
           <release>17</release>
         </configuration>
       </plugin>

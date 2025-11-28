@@ -1,4 +1,4 @@
-package org.asmeta.cdb_composer;
+package org.asmeta.cbd_composer;
 
 public class CBDException extends CompositionException{
 

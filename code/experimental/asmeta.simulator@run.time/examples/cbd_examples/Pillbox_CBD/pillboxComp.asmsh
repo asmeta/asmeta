@@ -1,6 +1,5 @@
-//Scenario MP1
-//Fosamax is missed and it is not possible to reschedule it otherwise the minToInterfer is not satisfied
-//Moment is skipped and rescheduled
+//Fosamax is missed and it is not possible to reschedule it otherwise the minToInterfer is not satisfied (MP2)
+//Moment is skipped and rescheduled (MP1)
 setup CM as examples/cbd_examples/Pillbox_CBD/configurationMgr.asm
 setup RES as examples/cbd_examples/Pillbox_CBD/rescheduler.asm
 setup setup_comp as ( CM || RES )

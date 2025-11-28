@@ -112,7 +112,7 @@ definitions:
 between its intake time and the intake time of the subsequent medications 
 taken (in the next slot of the same compartment or in another compartment) must be 
 greater than or equal to the medication's minToInterferer value with the subsequent medications */
-   invariant inv_A_timeConsumption over Compartment: (forall $compartment in Compartment with 
+   invariant inv_A_timeConsumption over time_consumption(Compartment): (forall $compartment in Compartment with 
 	(forall $c in next($compartment) with 
     	((at(time_consumption($c),drugIndex($c))!= 0n and at(time_consumption($compartment),drugIndex($compartment))!= 0n ) implies
     	(  (iton((at(time_consumption($c),drugIndex($c)) - at(time_consumption($compartment),drugIndex($compartment)))) 

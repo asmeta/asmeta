@@ -1,18 +1,18 @@
-package org.asmeta.cdb_composer;
+package org.asmeta.cbd_composer;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.asmeta.cdb_composer.BiPipeFullDup;
-import org.asmeta.cdb_composer.BiPipeHalfDup;
-import org.asmeta.cdb_composer.Composition;
-import org.asmeta.cdb_composer.CompositionException;
-import org.asmeta.cdb_composer.LeafAsm;
-import org.asmeta.cdb_composer.ParN;
-import org.asmeta.cdb_composer.Parser;
-import org.asmeta.cdb_composer.PipeN;
+import org.asmeta.cbd_composer.BiPipeFullDup;
+import org.asmeta.cbd_composer.BiPipeHalfDup;
+import org.asmeta.cbd_composer.Composition;
+import org.asmeta.cbd_composer.CompositionException;
+import org.asmeta.cbd_composer.LeafAsm;
+import org.asmeta.cbd_composer.ParN;
+import org.asmeta.cbd_composer.Parser;
+import org.asmeta.cbd_composer.PipeN;
 import org.asmeta.simulator.RuleEvaluator;
 import org.asmeta.simulator.main.Simulator;
 import org.junit.Test;
