@@ -289,28 +289,3 @@ default init s0:	//This init state is correct, it does not generate any invarian
 	function day = 0	
 	// Initialization of the SystemTime
 	function pillboxSystemTime = 0n
-
-	// Turn-off all the led of the Compartments
-	function redLed($compartment in Compartment) = OFF
-	// Initialization of the time consumption for a compartment
-	function time_consumption($compartment in Compartment) = //time(name($compartment))
-		switch($compartment)
-			case compartment1 : [360n]
-			case compartment2 : [730n, 1140n]
-		endswitch 
-	// Insert a drug in each compartment	
-	function name($compartment in Compartment) = //id(medicineIn($compartment))
-		switch($compartment)
-			case compartment1 : "fosamax"
-			case compartment2 : "moment"
-		endswitch
-	// Every compartment has an index starting from 0
-	function drugIndex($compartment in Compartment) = 0n
-
-	// Initialization of the actual time consumption for a compartment
-	function actual_time_consumption($compartment in Compartment) = //time(name($compartment))
-		switch($compartment)
-			case compartment1 : [0n]
-			case compartment2 : [0n, 0n]
-		endswitch 	
-		

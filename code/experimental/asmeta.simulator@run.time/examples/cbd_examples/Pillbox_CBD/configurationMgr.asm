@@ -15,8 +15,9 @@ signature:
 	// FUNCTIONS
 	//*************************************************
 	
-	controlled state: States
 	controlled prevRedLed: Compartment -> LedLights
+	
+	controlled state: States
 	controlled amount: String -> Natural
 	controlled minTimeToIntake: String -> Natural 
 	controlled minToInterferer: Prod(String,String) -> Natural
