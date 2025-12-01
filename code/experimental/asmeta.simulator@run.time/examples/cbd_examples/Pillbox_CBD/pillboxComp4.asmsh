@@ -1,10 +1,10 @@
 //Fosamax an moment are taken at prescribed time.
-setup CM as examples/cbd_examples/Pillbox_CBD/configurationMgr.asm
-setup RES as examples/cbd_examples/Pillbox_CBD/rescheduler.asm
+setup CM as examples/cbd_examples/Pillbox_CBD/configurationMgrWrongConfig.asm
+setup RES as examples/cbd_examples/Pillbox_CBD/reschedulerWrongConfig.asm
 setup setup_comp as ( CM || RES )
 setup C1 as examples/cbd_examples/Pillbox_CBD/compartment.asm
 setup C2 as examples/cbd_examples/Pillbox_CBD/compartment.asm
-setup PB as examples/cbd_examples/Pillbox_CBD/pillbox.asm
+setup PB as examples/cbd_examples/Pillbox_CBD/pillboxWrongConfig.asm
 run(setup_comp, {pillboxSystemTime=0;day=0;isPillMissed(compartment1)=false;pillTakenWithDelay(compartment1)=false;isPillMissed(compartment2)=false;pillTakenWithDelay(compartment2)=false;redLed(compartment1)=OFF;redLed(compartment2)=OFF;name(compartment1)="fosamax";name(compartment2)="moment";time_consumption(compartment1)=[390];time_consumption(compartment2)=[730,1140];actual_time_consumption(compartment1)=[0];actual_time_consumption(compartment2)=[0,0];drugIndex(compartment1)=0;drugIndex(compartment2)=0})
 run(C1, {compartmentOpen(1)=false;outMess(1)="";led(1)=OFF;myID=1;outMess(undef)="";led(undef)=OFF})
 run(C2, {myID=2;compartmentOpen(2)=false;outMess(2)="";led(2)=OFF;outMess(undef)="";led(undef)=OFF})

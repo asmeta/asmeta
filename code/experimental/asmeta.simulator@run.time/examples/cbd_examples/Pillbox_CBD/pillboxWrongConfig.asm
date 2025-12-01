@@ -1,0 +1,373 @@
+asm pillboxWrongConfig
+
+import  ../StandardLibrary
+
+// Fourth refinement level of the Pill Box. We further added the function actualConsTime to record the actual assumption time of pills 
+
+signature:
+	//*************************************************
+	// DOMAINS
+	//*************************************************
+	abstract domain Compartment
+	
+	enum domain LedLights = {OFF | ON | BLINKING}
+
+	//*************************************************
+	// FUNCTIONS
+	//*************************************************
+	//OUT to Rescheduler
+	out redLed: Compartment -> LedLights
+	out time_consumption: Compartment -> Seq(Natural)
+	out name: Compartment -> String
+	out drugIndex: Compartment -> Natural 
+	out actual_time_consumption: Compartment -> Seq(Natural) //Which time is the pill taken 
+	out day: Integer 
+	out isPillMissed: Compartment -> Boolean // is true if the patient miss the pill 
+	out pillTakenWithDelay: Compartment -> Boolean // is true if the patient takes the pill (compartment opened) 
+	
+	//IN from Rescheduler
+	monitored setNewTime: Compartment -> Boolean //if true set new time when pill is missed 
+	monitored setOriginalTime: Compartment -> Boolean //when pill is missed if true reset original time, otherwise set  new time
+	monitored newTime: Compartment -> Natural //new time when pill is missed
+	monitored skipNextPill: Prod(Compartment,Compartment) -> Boolean //pill taken with delay if next pill causes minToInterfer violation is true
+	monitored skipNextPill: Compartment -> Boolean //SafePillbox detected that pill taken with delay
+	
+	//System functions
+	controlled opened: Compartment -> Boolean 
+	controlled skipPill: Compartment -> Seq(Boolean) //If true skip pill otherwise no 
+	controlled compartmentTimer: Compartment -> Natural
+	
+	//IN from Compartment
+	monitored openSwitch: Natural -> Boolean
+	
+	//OUT to Compartment
+	out outMess: Natural -> String
+	out led: Natural -> LedLights
+	
+	
+	out logMess: Compartment -> String
+	
+	//Time management
+	// The systemTime is expressed as the number of hours passed since the 01/01/1970
+	monitored systemTime: Natural //Time in minutes since midnight
+	
+	derived next: Compartment ->  Powerset(Compartment) //Set of next compartments
+	derived nextDrugIndex: Compartment -> Natural // next drug index of the given compartment 
+	
+	derived openSwitch: Compartment -> Boolean
+	
+	
+	//*************************************************
+	// STATIC VARIABLES
+	//*************************************************
+	static compartment1: Compartment
+	static compartment2: Compartment	
+	
+	static getID: Compartment -> Natural
+	
+	static ledTimer: Integer
+	
+	//COMPOSITION
+	out pillboxSystemTime: Natural
+	
+definitions:
+	//*************************************************
+	// FUNCTIONS DEFINITIONS
+	//*************************************************
+	function openSwitch($i in Compartment)=
+		switch($i)
+			case compartment1: openSwitch(1n)
+			case compartment2: openSwitch(2n)
+		endswitch
+		
+	function getID($i in Compartment)=
+		switch($i)
+			case compartment1: 1n
+			case compartment2: 2n
+		endswitch
+	
+	function ledTimer = 10
+
+	function next($compartment in Compartment) =  
+		{$c in Compartment | (at(time_consumption($c),drugIndex($c)) > at(time_consumption($compartment),drugIndex($compartment))) : $c}
+	
+	function nextDrugIndex($compartment in Compartment) = 	let ( $i = drugIndex($compartment) + 1n ) in 
+		if  $i < iton(length(time_consumption($compartment)))  then $i else 0n endif
+		endlet 
+		
+	//*************************************************
+	// RULE DEFINITIONS
+	//*************************************************
+	
+	// Rule that implement the writing on the log file
+	rule r_writeToFile($compartment in Compartment) = skip
+	
+	// Rule to set the led red ON when the pill has to be taken
+	rule r_pillToBeTaken($compartment in Compartment) =
+		par
+			if redLed($compartment) != ON then compartmentTimer($compartment) := systemTime endif
+			redLed($compartment) := ON 
+			led(getID($compartment)) := ON 
+			outMess(getID($compartment)) := "Take " + name($compartment)		
+			logMess($compartment) :=""	
+		endpar	
+		
+	// Rule to set the red led blinking, after the compartment opening
+	rule r_compartmentOpened($compartment in Compartment) =
+		par
+			if redLed($compartment) != BLINKING and outMess(getID($compartment)) != ("Close " + name($compartment) + " in 10 minutes") then compartmentTimer($compartment) := systemTime endif
+			redLed($compartment) := BLINKING
+			led(getID($compartment)) := BLINKING
+			outMess(getID($compartment)) := "Close " + name($compartment) + " in 10 minutes"	//Pill taken
+			logMess($compartment) := ""
+		endpar
+	
+	// Rule to take the system back to the initial state when the compartment is open and redLed is ON
+	rule r_pillTaken_compartmentOpened($compartment in Compartment) =
+		par
+			redLed($compartment) := OFF
+			led(getID($compartment)) := OFF
+			outMess(getID($compartment)) := ""
+			logMess($compartment) := name($compartment) + " not closed"
+			compartmentTimer($compartment) := systemTime
+			drugIndex($compartment) := nextDrugIndex($compartment)
+			skipPill($compartment) := replaceAt(skipPill($compartment),drugIndex($compartment),true)
+		endpar
+	
+				  	
+	// Rule to handle the closing of a compartment when the RED Led is blinking
+	rule r_compartmentClosed($compartment in Compartment) =
+		par
+			redLed($compartment) := OFF
+			led(getID($compartment)) := OFF
+			outMess(getID($compartment)) := name($compartment) + " taken"		
+			logMess($compartment) := name($compartment) + " taken"	
+			compartmentTimer($compartment) := systemTime
+			drugIndex($compartment) := nextDrugIndex($compartment)
+			//Hypothesis: the pill is taken when compartment is closed
+			actual_time_consumption($compartment) := replaceAt(actual_time_consumption($compartment),drugIndex($compartment),(systemTime mod 1440n))	
+			pillTakenWithDelay($compartment) := true
+			skipPill($compartment) := replaceAt(skipPill($compartment),drugIndex($compartment),false)
+		endpar
+	
+ 		
+	// Rule to take the system back to the initial state when the Blinking timeout is passed
+	rule r_timeOutExpired_missedPill($compartment in Compartment) =
+		par
+			redLed($compartment) := OFF
+			led(getID($compartment)) := OFF
+			outMess(getID($compartment)) := name($compartment) + " missed"
+			logMess($compartment) := name($compartment) + " missed"	
+			compartmentTimer($compartment) := systemTime
+			isPillMissed($compartment) := true
+			r_writeToFile[$compartment] 
+			
+		endpar	
+		
+	// Rule to take the system back to the initial state when the Blinking timeout is passed and the compartment has not been closed
+	rule r_timeOutExpired_compartmentOpened($compartment in Compartment) =
+		par
+			redLed($compartment) := OFF
+			led(getID($compartment)) := OFF
+			outMess(getID($compartment)) := ""
+			logMess($compartment) := name($compartment) + " compartment not closed"
+			compartmentTimer($compartment) := systemTime
+			drugIndex($compartment) := nextDrugIndex($compartment)
+			skipPill($compartment) := replaceAt(skipPill($compartment),drugIndex($compartment),true)
+			r_writeToFile[$compartment]
+		endpar	
+		
+	// Rule to set the red led blinking, after the compartment opening
+	rule r_takeInTimeout($compartment in Compartment) =
+		par
+			if redLed($compartment) != BLINKING and outMess(getID($compartment)) != ("Take " + name($compartment) + " in 10 minutes") then compartmentTimer($compartment) := systemTime endif
+			redLed($compartment) := BLINKING
+			led(getID($compartment)) := BLINKING
+			outMess(getID($compartment)) := "Take " + name($compartment) + " in 10 minutes"		
+		endpar
+	
+	//Reset all skipPill to false
+	rule r_resetMidnight =
+		if (rtoi(systemTime/1440n))> day then
+		par
+		forall $c in Compartment do
+			switch($c)
+				case compartment1 : skipPill($c):=[false]
+				case compartment2 : skipPill($c):=[false, false]
+			endswitch 
+			day := day+1
+		endpar
+		endif
+	
+	//Set skip pill to true	
+	rule r_skipNextPill($compartment in Compartment, $c2 in Compartment) =
+		par
+			if $c2!=$compartment then
+				skipPill($c2) := replaceAt(skipPill($c2),drugIndex($c2),true)	
+			else
+				skipPill($c2) := replaceAt(skipPill($c2),nextDrugIndex($c2),true)
+			endif
+			outMess(getID($compartment)) := name($c2) + " skipped"		
+			logMess($compartment) := name($c2) + " skipped"
+			drugIndex($c2) := nextDrugIndex($c2)
+		endpar
+			
+			
+	rule r_checkTimeUpdates($compartment in Compartment)=
+		par
+			if setNewTime($compartment) then
+				par	
+					if setOriginalTime($compartment) then
+						par
+							drugIndex($compartment) := nextDrugIndex($compartment)
+							skipPill($compartment) := replaceAt(skipPill($compartment),drugIndex($compartment),true)
+							time_consumption($compartment) := replaceAt(time_consumption($compartment),drugIndex($compartment), newTime($compartment))
+							outMess(getID($compartment)) := name($compartment) + " not rescheduled"		
+							logMess($compartment) := name($compartment) + " not rescheduled"		
+						endpar
+					else
+						par
+							time_consumption($compartment) := replaceAt(time_consumption($compartment),drugIndex($compartment), newTime($compartment))
+							outMess(getID($compartment)) := name($compartment) + " rescheduled"		
+							logMess($compartment) := name($compartment) + " rescheduled"
+						endpar
+					endif
+					isPillMissed($compartment):=false
+				endpar
+			endif
+			if skipNextPill($compartment) then
+				par
+					pillTakenWithDelay($compartment) := false
+					forall $c2 in next($compartment) with skipNextPill($compartment, $c2) do
+						r_skipNextPill[$compartment,  $c2]
+				endpar
+			endif
+		endpar
+	
+	rule r_resetDelay=
+		forall $compartment in Compartment do
+			if pillTakenWithDelay($compartment) = true then
+				pillTakenWithDelay($compartment) := false
+			endif
+
+
+//The redLed to the compartment must be equal  to the redLed to the rescheduler
+invariant inv_G_Led over redLed, led: (forall $c in Compartment with (redLed($c) = led(getID($c))))
+
+//Check the status of redLed given the out message
+invariant inv_G_pillboxOutMess1 over outMess: (forall $c in Compartment with contains(outMess(getID($c)), "Take")  implies (redLed($c) = ON or redLed($c) = BLINKING))
+invariant inv_G_pillboxOutMess2 over outMess: (forall $c in Compartment with contains(outMess(getID($c)), "Close")  implies redLed($c) = BLINKING) 
+invariant inv_G_pillboxOutMess3 over outMess: (forall $c in Compartment with (outMess(getID($c))="" or contains(outMess(getID($c)), "taken") or contains(outMess(getID($c)), "missed")) implies redLed($c) = OFF) 
+
+//If pill is skipped the actual time consumption is 0
+invariant inv_G_actual_time over actual_time_consumption: 
+(forall $c in Compartment with ((at(time_consumption($c),drugIndex($c))<=systemTime) and at(skipPill($c),drugIndex($c))=true) 
+implies
+	at(actual_time_consumption($c),drugIndex($c))=0n)
+
+
+	//Compartment management rule
+main rule r_Main =
+	par
+	pillboxSystemTime := systemTime
+	forall $compartment in Compartment do
+		if setNewTime($compartment) or skipNextPill($compartment) then
+			r_checkTimeUpdates[$compartment]
+		else
+		par
+			if (pillTakenWithDelay($compartment) = true) then skip endif
+			if (isPillMissed($compartment) = true) then skip endif
+			if (name($compartment) = "") then skip endif
+			r_resetMidnight[]
+			r_resetDelay[]
+			//new: (at(skipPill($compartment),drugIndex($compartment))=true) -> do only if pill must be taken (it is not skipped)
+				if (drugIndex($compartment)<iton(length(time_consumption($compartment)))) and (at(skipPill($compartment),drugIndex($compartment))=false) then
+					par					
+						// Set the status of the compartment
+						if not opened($compartment) and openSwitch($compartment) then opened($compartment) := true endif
+						if opened($compartment) and not openSwitch($compartment) then opened($compartment) := false endif
+						// Starting from the IDLE state, the pill has to be taken 
+						if redLed($compartment) = OFF then 
+							if ((at(time_consumption($compartment),drugIndex($compartment))<(systemTime mod 1440n)) and 
+								(at(actual_time_consumption($compartment),drugIndex($compartment))=0)) then 
+								r_pillToBeTaken[$compartment] 
+							endif 
+						endif //systemTime
+						// It is open, drug to be taken, it becomes closed
+						if redLed($compartment) = ON and not(systemTime-compartmentTimer($compartment)>=ledTimer) and opened($compartment) and not openSwitch($compartment) then r_pillTaken_compartmentOpened[$compartment] endif
+						// It is closed drug to be taken and it becomes open     
+						if redLed($compartment) = ON and not opened($compartment) and openSwitch($compartment) then r_compartmentOpened[$compartment] endif
+						// It is closed drug to be taken and timeout     
+						if redLed($compartment) = ON then 
+							if systemTime-compartmentTimer($compartment)>=ledTimer then 
+								if opened($compartment) then r_compartmentOpened[$compartment] else if not openSwitch($compartment) then r_takeInTimeout[$compartment] endif endif 
+							endif 
+						endif
+						// It is blinking, and it becomes closed (or remains closed) or timeout   
+						if redLed($compartment) = BLINKING then 
+							if not openSwitch($compartment) and opened($compartment) then r_compartmentClosed[$compartment] 
+							else 
+								if systemTime-compartmentTimer($compartment)>ledTimer then
+									if openSwitch($compartment) then r_timeOutExpired_compartmentOpened[$compartment] else r_timeOutExpired_missedPill[$compartment] endif
+								else 
+									if openSwitch($compartment) then r_compartmentOpened[$compartment] endif
+								endif 
+							endif 
+						endif
+					endpar
+
+				endif
+			endpar
+		endif
+		endpar
+				
+default init s0:	//This init state is correct, it does not generate any invariant violation
+	/* PillBox initialization */
+	// Initialization of the SystemTime
+	function systemTime = 0n
+	// Each compartment's timer starts from 0
+	function compartmentTimer($compartment in Compartment) = 0n
+	// Controlled function that indicates the status of the compartment
+	function opened($compartment in Compartment) = false		
+	// Reset the output display message and the log message
+	function outMess($id in Natural) = ""
+	function logMess($compartment in Compartment) = ""
+	// Turn-off all the led of the Compartments
+	function redLed($compartment in Compartment) = OFF
+	function led($id in Natural) = OFF
+	// Initialization of the time consumption for a compartment
+	function time_consumption($compartment in Compartment) = //time(name($compartment))
+		switch($compartment)
+			case compartment1 : [390n]
+			case compartment2 : [730n, 1140n]
+		endswitch 
+	// Insert a drug in each compartment	
+	function name($compartment in Compartment) = //id(medicineIn($compartment))
+		switch($compartment)
+			case compartment1 : "fosamax"
+			case compartment2 : "moment"
+			//case compartment2 : "pantoprazole" //-> this is to emulate assumption violation in medicine name
+		endswitch
+	// Every compartment has an index starting from 0
+	function drugIndex($compartment in Compartment) = 0n
+
+	// Initialization of the actual time consumption for a compartment
+	function actual_time_consumption($compartment in Compartment) = //time(name($compartment))
+		switch($compartment)
+			case compartment1 : [0n]
+			case compartment2 : [0n, 0n]
+		endswitch 
+	
+	// Initialization of the skip pill for a compartment
+	function skipPill($compartment in Compartment) = //time(name($compartment))
+		switch($compartment)
+			case compartment1 : [false]
+			case compartment2 : [false, false]
+		endswitch 
+	
+	//Initialization of day	
+	function day = 0	
+	
+	function pillTakenWithDelay($compartment in Compartment) = false
+	function isPillMissed($compartment in Compartment) = false
+	
