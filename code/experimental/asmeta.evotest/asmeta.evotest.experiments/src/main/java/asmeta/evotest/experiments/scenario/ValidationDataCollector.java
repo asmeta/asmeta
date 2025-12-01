@@ -1,4 +1,4 @@
-package asmeta.evotest.experiments.scenario.validator;
+package asmeta.evotest.experiments.scenario;
 
 import java.util.HashMap;
 import java.util.List;

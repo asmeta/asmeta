@@ -22,7 +22,7 @@ import org.asmeta.simulator.main.Simulator;
 import org.yaml.snakeyaml.Yaml;
 
 import asmeta.evotest.evoasmetatg.main.EvoAsmetaTgCLI;
-import asmeta.evotest.experiments.scenario.generator.ScenarioGenerator;
+import asmeta.evotest.experiments.scenario.ScenarioGenerator;
 import asmeta.evotest.experiments.utils.Utils;
 import asmeta.evotest.experiments.utils.YamlManager;
 
@@ -151,6 +151,8 @@ public class ScenarioGeneratorRunner {
 				generateTests(sourceFile, cfg);
 			}
 			break;
+		default:
+			LOG.info(mode + " is not supported, use: single, directory, or list");
 		}
 		LOG.info("Test generation completed");
 	}

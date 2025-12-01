@@ -1,4 +1,4 @@
-package asmeta.evotest.experiments.model.scanner;
+package asmeta.evotest.experiments.model;
 
 import java.io.File;
 import java.io.IOException;

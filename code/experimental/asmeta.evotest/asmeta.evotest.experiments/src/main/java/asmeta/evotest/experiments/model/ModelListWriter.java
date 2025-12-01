@@ -1,4 +1,4 @@
-package asmeta.evotest.experiments.model.scanner;
+package asmeta.evotest.experiments.model;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import asmeta.evotest.experiments.model.scanner.ModelScanner.FileLabel;
+import asmeta.evotest.experiments.model.ModelScanner.FileLabel;
 
 public final class ModelListWriter {
 

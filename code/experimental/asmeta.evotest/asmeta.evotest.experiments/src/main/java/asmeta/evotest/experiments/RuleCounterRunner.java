@@ -1,4 +1,4 @@
-package asmeta.evotest.experiments.model.scanner;
+package asmeta.evotest.experiments;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -18,7 +18,7 @@ import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
 import asmeta.transitionrules.basictransitionrules.Rule;
 import asmeta.transitionrules.derivedtransitionrules.CaseRule;
 
-public class RuleCounter {
+public class RuleCounterRunner {
 	
 	private static final String ASM_EXAMPLES = "../../../../asm_examples";
 	

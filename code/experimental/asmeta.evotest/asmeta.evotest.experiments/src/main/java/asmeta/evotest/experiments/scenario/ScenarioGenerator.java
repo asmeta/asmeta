@@ -1,4 +1,4 @@
-package asmeta.evotest.experiments.scenario.generator;
+package asmeta.evotest.experiments.scenario;
 
 import java.io.File;
 import java.io.IOException;

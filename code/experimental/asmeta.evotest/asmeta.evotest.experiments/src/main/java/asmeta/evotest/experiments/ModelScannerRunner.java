@@ -1,8 +1,10 @@
-package asmeta.evotest.experiments.model.scanner;
+package asmeta.evotest.experiments;
 
 import java.util.Map;
 
-import asmeta.evotest.experiments.model.scanner.ModelScanner.FileLabel;
+import asmeta.evotest.experiments.model.ModelListWriter;
+import asmeta.evotest.experiments.model.ModelScanner;
+import asmeta.evotest.experiments.model.ModelScanner.FileLabel;
 
 /**
  * Entrypoint for the generation of a list of models starting from asm_examples

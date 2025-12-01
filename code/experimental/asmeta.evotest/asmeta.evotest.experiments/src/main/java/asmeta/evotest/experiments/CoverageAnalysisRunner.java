@@ -19,8 +19,8 @@ import org.asmeta.xt.validator.SimulatorWCov;
 import asmeta.AsmCollection;
 import asmeta.evotest.experiments.model.ModelDataCollector;
 import asmeta.evotest.experiments.scenario.ScenarioDataCollector;
-import asmeta.evotest.experiments.scenario.validator.ScenarioValidator;
-import asmeta.evotest.experiments.scenario.validator.ValidationDataCollector;
+import asmeta.evotest.experiments.scenario.ScenarioValidator;
+import asmeta.evotest.experiments.scenario.ValidationDataCollector;
 import asmeta.evotest.experiments.utils.CsvManager;
 import asmeta.evotest.experiments.utils.YamlManager;
 

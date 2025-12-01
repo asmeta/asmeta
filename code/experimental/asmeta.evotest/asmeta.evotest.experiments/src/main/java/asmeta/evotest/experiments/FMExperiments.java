@@ -33,7 +33,7 @@ import org.asmeta.xt.validator.AsmetaV;
 
 import asmeta.AsmCollection;
 import asmeta.evotest.experiments.scenario.ScenarioDataCollector;
-import asmeta.evotest.experiments.scenario.generator.ScenarioGenerator;
+import asmeta.evotest.experiments.scenario.ScenarioGenerator;
 import asmeta.evotest.experiments.utils.Utils;
 import asmeta.mutation.mutationscore.FMMutationScoreExecutor;
 
