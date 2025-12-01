@@ -197,16 +197,22 @@ public class ScenarioGeneratorRunner {
 		Map<String, Object> evoavallaCfg = (Map<String, Object>) algorithms.get("evoavalla");
 		if ((Boolean) evoavallaCfg.get("run")) {
 			LOG.info("Running EvoAvalla...");
+			String jdkPath = (String) evoavallaCfg.get("jdk_path");
+			String target = targetFolder + File.separator + EVOAVALLA_DIR + File.separator
+					+ Utils.formatCounter(evoavallaCount) + "_" + asmName;
+			new File(target).mkdirs();
 			try {
-				String jdkPath = (String) evoavallaCfg.get("jdk_path");
-				String target = targetFolder + File.separator + EVOAVALLA_DIR + File.separator
-						+ Utils.formatCounter(evoavallaCount) + "_" + asmName;
 				int budget = (int) evoavallaCfg.get("budget");
 				boolean shuffle = (boolean) evoavallaCfg.get("shuffle");
 				float exeTime = ScenarioGenerator.runEvoAvalla(asmFilePath, target, jdkPath, budget, shuffle);
 				YamlManager.write(target, asmName, asmFilePath, exeTime, LocalDateTime.now().toString());
 			} catch (Throwable t) {
 				LOG.error("EvoAvalla failed to generate a test suite.\n" + t.getClass().getSimpleName() + ": " + t.getMessage());
+				try {
+					YamlManager.write(target, asmName, asmFilePath, Float.NaN, LocalDateTime.now().toString());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			} finally {
 				evoavallaCount++;
 			}
@@ -229,13 +235,19 @@ public class ScenarioGeneratorRunner {
 		Map<String, Object> atgtCfg = (Map<String, Object>) algorithms.get("atgt");
 		if ((Boolean) atgtCfg.get("run")) {
 			LOG.info("Running ATGT...");
+			String target = targetFolder + File.separator + ATGT_DIR + File.separator + Utils.formatCounter(atgtCount)
+			+ "_" + asmName;
+			new File(target).mkdirs();
 			try {
-				String target = targetFolder + File.separator + ATGT_DIR + File.separator + Utils.formatCounter(atgtCount)
-						+ "_" + asmName;
 				float exeTime = ScenarioGenerator.runATGT(asmFilePath, target);
 				YamlManager.write(target, asmName, asmFilePath, exeTime, LocalDateTime.now().toString());
 			} catch (Throwable t) {
 				LOG.error("ATGT failed to generate a test suite.\n" + t.getClass().getSimpleName() + ": " + t.getMessage());
+				try {
+					YamlManager.write(target, asmName, asmFilePath, Float.NaN, LocalDateTime.now().toString());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			} finally {
 				atgtCount++;
 			}
@@ -258,15 +270,21 @@ public class ScenarioGeneratorRunner {
 		Map<String, Object> randomCfg = (Map<String, Object>) algorithms.get("random");
 		if ((Boolean) randomCfg.get("run")) {
 			LOG.info("Running Random...");
+			String target = targetFolder + File.separator + RANDOM_DIR + File.separator + Utils.formatCounter(randomCount)
+			+ "_" + asmName;
+			List<Integer> stepList = (List<Integer>) randomCfg.get("step_list");
+			new File(target).mkdirs();
 			try {
-				String target = targetFolder + File.separator + RANDOM_DIR + File.separator + Utils.formatCounter(randomCount)
-						+ "_" + asmName;
-				List<Integer> stepList = (List<Integer>) randomCfg.get("step_list");
 				boolean shuffle = (boolean) randomCfg.get("shuffle");
 				float exeTime = ScenarioGenerator.runRandom(asmFilePath, target, stepList, shuffle);
 				YamlManager.write(target, asmName, asmFilePath, exeTime, LocalDateTime.now().toString());
 			} catch (Throwable t) {
 				LOG.error("Random failed to generate a test suite.\n" + t.getClass().getSimpleName() + ": " + t.getMessage());
+				try {
+					YamlManager.write(target, asmName, asmFilePath, Float.NaN, LocalDateTime.now().toString());
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			} finally {
 				randomCount++;
 			}

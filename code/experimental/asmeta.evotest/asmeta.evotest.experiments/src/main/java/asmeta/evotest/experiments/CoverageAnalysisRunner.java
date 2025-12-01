@@ -5,6 +5,8 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Level;
@@ -28,6 +30,28 @@ public class CoverageAnalysisRunner {
 	private static final String DATA_CSV = "data.csv";
 
 	private static final Logger LOG = Logger.getLogger(CoverageAnalysisRunner.class);
+
+	public enum STATUS {
+		OK("OK"),
+		NO_VALID_SCENARIOS("NO_VALID_SCENARIOS"),
+		METADATA_ERROR("META_ERR"),
+		ASM_PARSE_ERROR("ASM_PARSE_ERR"),
+		MODEL_DATA_ERROR("MODEL_DATA_ERR"),
+		SCENARIO_DATA_ERROR("SCENARIO_DATA_ERR"),
+		COVERAGE_ERROR("COVERAGE_ERR"),
+		DATA_AGGREGATION_ERROR("DATA_AGGREGATION_ERR"),
+		REMAINING_PROBLEMATIC_SCENARIOS("REMAINING_PROBLEMATIC_SCENARIOS");
+
+		private final String csvValue;
+
+		STATUS(String comment) {
+			this.csvValue = comment;
+		}
+
+		public String getCsvValue() {
+			return csvValue;
+		}
+	}
 
 	/**
 	 * Entry point for aggregating scenario-generation and validation results into a
@@ -54,7 +78,7 @@ public class CoverageAnalysisRunner {
 		Logger.getLogger(AsmetaV.class).setLevel(Level.ERROR);
 		ASMParser.getResultLogger().setLevel(Level.ERROR);
 		System.setOut(new PrintStream(OutputStream.nullOutputStream()));
-		
+
 		// Validate input directory argument
 		if (args.length < 1)
 			LOG.error("Missing argument: directory to search for scenarios.");
@@ -74,6 +98,7 @@ public class CoverageAnalysisRunner {
 		// Prepare the output CSV (clean sibling temp if present CSVs and write header)
 		String csvPath = baseDir + File.separator + DATA_CSV;
 		CsvManager csvManager;
+
 		try {
 			csvManager = new CsvManager(csvPath);
 			csvManager.clean();
@@ -94,107 +119,171 @@ public class CoverageAnalysisRunner {
 				// Iterate over individual scenario-suite directories
 				File[] scenarioDirs = approachDir.listFiles();
 				for (File scenarioDir : scenarioDirs) {
-					if (scenarioDir.isDirectory() && scenarioDir.listFiles().length > 0) {
+					if (scenarioDir.isDirectory()) {
+						Map<String, String> modelData = new HashMap<>();
+						Map<String, Integer> avallaData = new HashMap<>();
+						Map<String, String> covData = new HashMap<>();
+						String asmName = scenarioDir.toString();
+						asmName = asmName.substring(asmName.lastIndexOf("_") + 1);
+						STATUS status = STATUS.OK;
+						float execTime = 0;
+						int nScenario = 0;
+						int valErrors = 0;
+						int failing = 0;
+
 						LOG.info("\nAnalysing " + scenarioDir);
-						
+
 						// Find and read the metadata YAML
-						String asmName;
 						String asmPath;
-						float execTime;
 						try {
-							LOG.info("Reading metadata YAML file.");
-						    File[] yamlFiles = scenarioDir.listFiles(file ->
-						        file.isFile() && file.getName().toLowerCase().endsWith(".yaml")
-						    );
-						    File metadataFile = yamlFiles[0];						    		
+							LOG.info("Reading metadata YAML file...");
+							File[] yamlFiles = scenarioDir
+									.listFiles(file -> file.isFile() && file.getName().toLowerCase().endsWith(".yaml"));
+							File metadataFile = yamlFiles[0];
 							Map<String, Object> metadata = YamlManager.load(metadataFile);
 							asmName = (String) metadata.get(YamlManager.ASM_NAME);
 							asmPath = (String) metadata.get(YamlManager.ASM_PATH);
-							execTime = ((Number) metadata.get(YamlManager.EXEC_TIME)).floatValue();
+							Object execTimeValue = metadata.get(YamlManager.EXEC_TIME);
+							if (execTimeValue instanceof Number)
+								execTime = ((Number) execTimeValue).floatValue();
+							else
+								execTime = Float.NaN;
 						} catch (Throwable t) {
-							LOG.error("Error while trying to access metadata YAML file.\n" + t.getClass().getSimpleName() + ": "
-									+ t.getMessage());
+							LOG.error("Error while trying to access metadata YAML file.\n"
+									+ t.getClass().getSimpleName() + ": " + t.getMessage());
+							status = STATUS.METADATA_ERROR;
+							writeToCsv(csvManager, modelData, avallaData, covData, asmName, approach, status, execTime,
+									nScenario, failing, valErrors);
 							continue;
 						}
-						
+
 						// Resolve ASM absolute path and parse the model
 						AsmCollection asm;
 						try {
-							LOG.info("Parsing " + asmName + ".");
+							LOG.info("Parsing " + asmName + "...");
 							Path basePath = Path.of(scenarioDir.getCanonicalPath());
 							String asmAbsolutePath = basePath.resolve(Paths.get(asmPath)).normalize().toAbsolutePath()
 									.toString();
 							asm = ASMParser.setUpReadAsm(new File(asmAbsolutePath));
 						} catch (Throwable t) {
+							// It should never happens: if the asm is not parsable, test generation would
+							// have failed
 							LOG.error("Error while parsing " + asmName + ".\n" + t.getClass().getSimpleName() + ": "
 									+ t.getMessage());
+							status = STATUS.ASM_PARSE_ERROR;
+							writeToCsv(csvManager, modelData, avallaData, covData, asmName, approach, status, execTime,
+									nScenario, failing, valErrors);
 							continue;
 						}
-						
+
 						// Collect model data
-						Map<String, String> modelData;
 						try {
-							LOG.info("Collecting model data.");
+							LOG.info("Collecting model data...");
 							modelData = ModelDataCollector.collectModelData(asm);
 						} catch (Throwable t) {
 							LOG.error("Error while collecting model data.\n" + t.getClass().getSimpleName() + ": "
 									+ t.getMessage());
+							status = STATUS.MODEL_DATA_ERROR;
+							writeToCsv(csvManager, modelData, avallaData, covData, asmName, approach, status, execTime,
+									nScenario, failing, valErrors);
 							continue;
 						}
-						
-						// Collect scenario data
-						int nScenario;
-						Map<String, Integer> avallaData;
+
+						// Run validation to identify and delete failing scenarios and scenario that
+						// results in validation error
+						LOG.info("Removing problematic scenarios...");
+						String dir = scenarioDir.toString();
+						File[] files = new File(dir).listFiles();
+						for (File f : files) {
+							String name = f.getName();
+							// Validate and rename only the .avalla files generated during this iteration
+							if (f.isFile() && name.endsWith(AsmetaV.SCENARIO_EXTENSION)) {
+								try {
+									List<String> failingScenarios = AsmetaV.execValidation(f.toString(), true, false);
+									if (failingScenarios.size() > 0) {
+										LOG.info("removing " + name + ": validation failed.");
+										failing++;
+										f.delete();
+									}
+								} catch (Throwable e) {
+									LOG.info("removing " + name + ": error in validation.\n"
+											+ e.getClass().getSimpleName() + ": " + e.getMessage());
+									valErrors++;
+									f.delete();
+								}
+							}
+						}
+						LOG.info(valErrors + failing + " scenarios removed.");
+
+						// After cleaning problematic scenarios, collect scenario data
+						LOG.info("Collecting test suite data...");
 						try {
-							LOG.info("Collecting test suite data.");
-							String dir = scenarioDir.toString();
 							avallaData = ScenarioDataCollector.collectAvallaData(dir);
 							nScenario = ScenarioDataCollector.getNumberOfScenario(dir);
 						} catch (Throwable t) {
 							LOG.error("Error while collecting test suite data.\n" + t.getClass().getSimpleName() + ": "
 									+ t.getMessage());
+							status = STATUS.SCENARIO_DATA_ERROR;
+							writeToCsv(csvManager, modelData, avallaData, covData, asmName, approach, status, execTime,
+									nScenario, failing, valErrors);
 							continue;
 						}
-						
+
+						// If no correct scenario is generated
+						if (Float.isNaN(execTime) || nScenario == 0) {
+							LOG.info("No correct scenarios to use for running the analysis.");
+							status = STATUS.NO_VALID_SCENARIOS;
+							writeToCsv(csvManager, modelData, avallaData, covData, asmName, approach, status, execTime,
+									nScenario, failing, valErrors);
+							continue;
+						}
+
 						// Run validation to compute coverage, data is stored in a temporary CSV
-						int valErrors;
 						String tempCsvPath;
+						int valErrorsAfterFiltering;
 						try {
-							LOG.info("Running validation, saving temporary results in temp.csv.");
+							LOG.info("Computing coverage, saving temporary results in temp.csv.");
 							tempCsvPath = csvManager.getParentDir() + File.separator + "temp.csv";
-							valErrors = ScenarioValidator.computeCoverageFromAvalla(scenarioDir.getPath(), tempCsvPath,
-									shuffle);
+							valErrorsAfterFiltering = ScenarioValidator.computeCoverageFromAvalla(scenarioDir.getPath(),
+									tempCsvPath, shuffle);
 						} catch (Throwable t) {
-							LOG.error("Error while running validation.\n" + t.getClass().getSimpleName() + ": "
+							LOG.error("Error while computing coverage.\n" + t.getClass().getSimpleName() + ": "
 									+ t.getMessage());
+							status = STATUS.COVERAGE_ERROR;
+							writeToCsv(csvManager, modelData, avallaData, covData, asmName, approach, status, execTime,
+									nScenario, failing, valErrors);
 							continue;
 						} finally {
-							// Reset rule evaluation state before processing the next suite
+							// Reset rule evaluation state before  the next suite
 							RuleEvalWCov.reset();
 						}
-						
+
 						// Aggregate coverage metrics from the temporary CSV
-						Map<String, String> covData;
 						try {
 							LOG.info("Aggregating validation data.");
 							covData = ValidationDataCollector.collectCoverageData(tempCsvPath, asmName, modelData);
 						} catch (Throwable t) {
-							LOG.error("Error aggregating validation data.\n" + t.getClass().getSimpleName() + ": "
+							LOG.error("Error while aggregating validation data.\n" + t.getClass().getSimpleName() + ": "
 									+ t.getMessage());
+							status = STATUS.DATA_AGGREGATION_ERROR;
+							writeToCsv(csvManager, modelData, avallaData, covData, asmName, approach, status, execTime,
+									nScenario, failing, valErrors);
 							continue;
 						}
-						
+
+						// Check no validation errors and no failing test cases
+						if (valErrorsAfterFiltering > 0 || Integer.valueOf(covData.get("n_failing_scenarios")) > 0) {
+							LOG.error("At least one scenario is still failing or resulting in validation error.");
+							status = STATUS.REMAINING_PROBLEMATIC_SCENARIOS;
+							writeToCsv(csvManager, modelData, avallaData, covData, asmName, approach, status, execTime,
+									nScenario, failing, valErrors);
+							continue;
+						}
+
 						// Append a consolidated row to data.csv
-						try {
-							LOG.info("Writing to " + DATA_CSV + ".");
-							csvManager.writeData(modelData, avallaData, covData, asmName, approach, execTime, nScenario,
-									valErrors);
-						} catch (Throwable t) {
-							LOG.error("Error while writing to" + DATA_CSV + ".\n" + t.getClass().getSimpleName() + ": "
-									+ t.getMessage());
-							continue;
-						}
-						
+						writeToCsv(csvManager, modelData, avallaData, covData, asmName, approach, status, execTime,
+								nScenario, failing, valErrors);
+
 						// Clean the temporary CSV
 						try {
 							LOG.info("Deleting temporary csv.");
@@ -207,7 +296,20 @@ public class CoverageAnalysisRunner {
 				}
 			}
 		}
-		LOG.info("\nAnalysis completed.");
+		LOG.info("\n\nAnalysis completed.");
+	}
+
+	private static void writeToCsv(CsvManager csvManager, Map<String, String> modelData,
+			Map<String, Integer> avallaData, Map<String, String> covData, String asmName, String approach,
+			STATUS status, float execTime, int nScenario, int failing, int valErrors) {
+		try {
+			LOG.info("Writing to " + DATA_CSV + ".");
+			csvManager.writeData(modelData, avallaData, covData, asmName, approach, status, execTime, nScenario,
+					failing, valErrors);
+		} catch (Throwable t) {
+			LOG.error(
+					"Error while writing to" + DATA_CSV + ".\n" + t.getClass().getSimpleName() + ": " + t.getMessage());
+		}
 	}
 
 }

@@ -17,6 +17,8 @@ import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 
+import asmeta.evotest.experiments.CoverageAnalysisRunner.STATUS;
+
 /**
  * Utility class for creating, reading, and appending to a CSV file that stores
  * experimental data.
@@ -24,9 +26,9 @@ import com.opencsv.CSVReaderBuilder;
 public class CsvManager {
 
 	public static final List<String> CSV_HEADERS = List.of("asm", "n_macro", "n_update", "n_forall", "n_branch",
-			"n_rule", "approach", "exec_time_ms", "n_scenarios", "n_step", "n_set", "n_check", "macro_coverage",
-			"update_rule_coverage", "forall_rule_coverage", "branch_coverage", "rule_coverage", "n_failing_scenarios",
-			"n_val_error_scenarios");
+			"n_rule", "approach", "status", "exec_time_ms", "n_scenarios", "n_step", "n_set", "n_check",
+			"macro_coverage", "update_rule_coverage", "forall_rule_coverage", "branch_coverage", "rule_coverage",
+			"n_failing_scenarios", "n_val_error_scenarios");
 
 	private String csvPath;
 	private File csvFile;
@@ -112,13 +114,18 @@ public class CsvManager {
 	 *                           {@code macro_coverage}, {@code rule_coverage}, ...)
 	 * @param asmName            name of the ASM under test
 	 * @param approach           name of the generation or validation approach used
+	 * @param status             the status
 	 * @param exeTime            execution time in milliseconds
 	 * @param nScenario          number of generated scenarios
+	 * @param failing            number of failing scenarios (if <0, the value in
+	 *                           {@code covData} map with key
+	 *                           {@code "n_failing_scenarios"} is kept)
 	 * @param errorsInValidation number of scenarios with validation errors
 	 * @throws Exception
 	 */
 	public void writeData(Map<String, String> modelData, Map<String, Integer> scenarioData, Map<String, String> covData,
-			String asmName, String approach, float exeTime, int nScenario, int errorsInValidation) throws Exception {
+			String asmName, String approach, STATUS status, float exeTime, int nScenario, int failing,
+			int errorsInValidation) throws Exception {
 		// construct a row as a Map
 		Map<String, String> row = new HashMap<String, String>();
 		for (Entry<String, String> entry : modelData.entrySet())
@@ -129,8 +136,11 @@ public class CsvManager {
 			row.put(entry.getKey(), entry.getValue());
 		row.put("asm", asmName);
 		row.put("approach", approach);
+		row.put("status", status.getCsvValue());
 		row.put("exec_time_ms", String.valueOf(exeTime));
 		row.put("n_scenarios", String.valueOf(nScenario));
+		if (failing >= 0)
+			row.put("n_failing_scenarios", String.valueOf(failing)); // will
 		row.put("n_val_error_scenarios", String.valueOf(errorsInValidation));
 		// build the actual row (string array)
 		String[] actualRow = new String[CSV_HEADERS.size()];

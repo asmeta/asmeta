@@ -44,7 +44,7 @@ public class ScenarioValidator {
 					.filter(path -> path.getFileName().toString().endsWith(AsmetaV.SCENARIO_EXTENSION))
 					.collect(Collectors.toList());
 			for (Path path : filesList) {
-				LOG.info("Processing: " + path);
+				LOG.info("validating " + path);
 				try {
 					AsmetaV.execValidation(path.toString(), true, csvPath, shuffle);
 					// Extract the value from the last column of the last row in the CSV to check if
