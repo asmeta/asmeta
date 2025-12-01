@@ -20,6 +20,8 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<executions>
+					<!-- FM Experiments jar -->
+					<!-- use: java -jar fm-experiments-runner.jar -->
 					<execution>
 						<phase>package</phase>
 						<goals>
@@ -41,6 +43,11 @@
 							</descriptorRefs>
 						</configuration>
 					</execution>
+					<!-- ICST Experiments jar  -->
+					<!-- use: 
+					java -cp icst-experiments-runner.jar asmeta.evotest.experiments.ScenarioGeneratorRunner
+					java -cp icst-experiments-runner.jar asmeta.evotest.experiments.CoverageAnalysisRunner [arguments]
+					-->
 					<execution>
 	                    <id>test-generator-jar</id>
 	                    <phase>package</phase>
@@ -48,13 +55,14 @@
 	                        <goal>single</goal>
 	                    </goals>
 	                    <configuration>
-	                        <finalName>test-generator</finalName>
+	                        <finalName>icst-experiments-runner</finalName>
 	                        <appendAssemblyId>false</appendAssemblyId>
 	                        <outputDirectory>data/icst-26-exp</outputDirectory>
+	                        <!-- when using java -jar icst-experiments-runner.jar, run scenario generation -->
 	                        <archive>
 	                            <manifest>
 	                                <mainClass>
-	                                    asmeta.evotest.experiments.scenario.generator.ScenarioGeneratorsRunner
+	                                    asmeta.evotest.experiments.ScenarioGeneratorRunner
 	                                </mainClass>
 	                            </manifest>
 	                        </archive>
@@ -62,28 +70,6 @@
 	                            <descriptorRef>jar-with-dependencies</descriptorRef>
 	                        </descriptorRefs>
 	                    </configuration>
-                		</execution>
-                		<execution>
-		                    <id>coverage-analysis-jar</id>
-		                    <phase>package</phase>
-		                    <goals>
-		                        <goal>single</goal>
-		                    </goals>
-		                    <configuration>
-		                        <finalName>coverage-analysis</finalName>
-		                        <appendAssemblyId>false</appendAssemblyId>
-		                        <outputDirectory>data/icst-26-exp</outputDirectory>
-		                        <archive>
-		                            <manifest>
-		                                <mainClass>
-		                                    asmeta.evotest.experiments.CoverageAnalysisRunner
-		                                </mainClass>
-		                            </manifest>
-		                        </archive>
-		                        <descriptorRefs>
-		                            <descriptorRef>jar-with-dependencies</descriptorRef>
-		                        </descriptorRefs>
-		                    </configuration>
                 		</execution>
 				</executions>
 			</plugin>
