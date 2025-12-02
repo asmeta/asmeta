@@ -18,6 +18,7 @@ public class CoverageTest {
 	public void testGetTPTreeMVM() throws Exception {
 		generateCoverageFor("examples\\mvm0.asm");
 	}
+	
 	/**
 	 * @param ex
 	 * @throws Exception

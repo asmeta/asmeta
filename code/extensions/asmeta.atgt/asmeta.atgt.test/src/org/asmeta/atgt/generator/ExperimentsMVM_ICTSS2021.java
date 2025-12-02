@@ -146,6 +146,12 @@ public class ExperimentsMVM_ICTSS2021 {
 	public void generateMVM_0() throws Exception {
 		generatetTestsFor("examples\\mvm0.asm");
 	}
+	
+	@Test
+	public void generateChoose() throws Exception {
+		generatetTestsFor("examples\\SpecWithChoose.asm");
+	}
+
 
 	/**
 	 * @param asmSpec TODO
