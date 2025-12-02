@@ -25,7 +25,7 @@ import asmeta.evotest.experiments.CoverageAnalysisRunner.STATUS;
  */
 public class CsvManager {
 
-	public static final List<String> CSV_HEADERS = List.of("asm", "n_macro", "n_update", "n_forall", "n_branch",
+	public static final List<String> CSV_HEADERS = List.of("asm_path", "asm_name", "n_macro", "n_update", "n_forall", "n_branch",
 			"n_rule", "approach", "status", "exec_time_ms", "n_scenarios", "n_step", "n_set", "n_check",
 			"macro_coverage", "update_rule_coverage", "forall_rule_coverage", "branch_coverage", "rule_coverage",
 			"n_failing_scenarios", "n_val_error_scenarios");
@@ -113,6 +113,7 @@ public class CsvManager {
 	 * @param covData            map with coverage metrics (e.g.,
 	 *                           {@code macro_coverage}, {@code rule_coverage}, ...)
 	 * @param asmName            name of the ASM under test
+	 * @param asmPath            path of the ASM under test
 	 * @param approach           name of the generation or validation approach used
 	 * @param status             the status
 	 * @param exeTime            execution time in milliseconds
@@ -124,7 +125,7 @@ public class CsvManager {
 	 * @throws Exception
 	 */
 	public void writeData(Map<String, String> modelData, Map<String, Integer> scenarioData, Map<String, String> covData,
-			String asmName, String approach, STATUS status, float exeTime, int nScenario, int failing,
+			String asmName, String asmPath, String approach, STATUS status, float exeTime, int nScenario, int failing,
 			int errorsInValidation) throws Exception {
 		// construct a row as a Map
 		Map<String, String> row = new HashMap<String, String>();
@@ -134,7 +135,9 @@ public class CsvManager {
 			row.put(entry.getKey(), entry.getValue().toString());
 		for (Entry<String, String> entry : covData.entrySet())
 			row.put(entry.getKey(), entry.getValue());
-		row.put("asm", asmName);
+		row.remove("asm");
+		row.put("asm_name", asmName);
+		row.put("asm_path", asmPath);
 		row.put("approach", approach);
 		row.put("status", status.getCsvValue());
 		row.put("exec_time_ms", String.valueOf(exeTime));
