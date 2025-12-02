@@ -16,8 +16,8 @@ public class ModelScannerRunner {
 	/*
 	 * Change the following private fields as needed
 	 */
-	private static final boolean FILTER_NO_PAR = true;
-	private static final String TARGET_FILE = "data/fm-short-26-exp/model_list_temp.txt";
+	private static final boolean FILTER_NO_PAR = false;
+	private static final String TARGET_FILE = "data/icst-26-exp/model_list_temp.txt";
 	
 	/**
 	 * Entry point.

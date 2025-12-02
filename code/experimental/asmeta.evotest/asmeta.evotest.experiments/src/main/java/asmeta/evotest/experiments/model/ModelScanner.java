@@ -54,7 +54,7 @@ public final class ModelScanner {
 	private static final String OLD = "old";
 
 	private static final List<String> SKIP_DIRS = Arrays.asList("STDL", "asmetal2cpp", "test", "workspaceMSL",
-			"drafts");
+			"drafts", "turboRules");
 
 	private static final List<String> DUPLICATES = Arrays.asList(
 			"examples\\landingGearSystem\\LandingGearSystemWithCylAndValves.asm",

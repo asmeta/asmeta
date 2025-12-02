@@ -1,9 +1,10 @@
 // total: 859
 
 
-// skip directory: 5
+// skip directory: 6
 //test                                                                                                     // skip directory
 //workspaceMSL                                                                                             // skip directory
+//examples\turboRules                                                                                      // skip directory
 //STDL                                                                                                     // skip directory
 //asmetal2cpp                                                                                              // skip directory
 //drafts                                                                                                   // skip directory
@@ -121,10 +122,7 @@
 
 // parsing error: 0
 
-// other invalid asm: 1
-//examples\simple_example\iterativeWhile.asm                                                               // blocking random execution
-
-// valid asm: 298
+// valid asm: 297
 examples\simple_example\population.asm
 examples\landingGearSystem\LGS_EV.asm
 PillBox\Level1\pillbox_1.asm
@@ -372,7 +370,6 @@ examples\testRanges.asm
 examples\models\OrderSystem2.asm
 examples\simple_example\QuickSort.asm
 RTPatternLibrary\Application\VisualServoing.asm
-examples\turboRules\turboReturnRule.asm
 examples\ABZ2020\CarSystemModule\CarSystem003\CarSystem003main.asm
 systemc\orgate\main.asm
 examples\landingGearSystem\LGS_3L.asm
@@ -388,7 +385,6 @@ examples\RushHour\RushHourForAsmetaSMV.asm
 stereoacuity\certifierRaff5ForSMTproof.asm
 examples\hemodialysisDevice\ABZ2016\Hemodialysis_ref2_forMC.asm
 examples\models\ordersystem.asm
-examples\turboRules\turboReturnRuleWithExtend.asm
 examples\traffic_light\forAsmetaSMV\oneWayTrafficLight_refined_with_agents.asm
 examples\TrafficLightYakindu\TrafficLight1\TrafficLight_1.asm
 examples\traffic_light\oneWayTrafficLight_refined.asm
@@ -423,4 +419,5 @@ examples\hemodialysisDevice\SCP2017\HemodialysisRef2.asm
 examples\flashProtocol\flashProtocol_N2_L2_Q1_C.asm
 examples\RushHour\emptyCellAs0\RushHourMonSimplForAsmetaSMV.asm
 examples_for_nuXmv\EuclideInt.asm
+examples\simple_example\iterativeWhile.asm
 
