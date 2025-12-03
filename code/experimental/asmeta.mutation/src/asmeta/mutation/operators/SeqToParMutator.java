@@ -28,7 +28,7 @@ public class SeqToParMutator extends RuleBasedMutator {
 static Asm asm;
 	
 	
-	SeqToParMutator(RuleVisitor<List<Rule>> rulevisitor){
+	public SeqToParMutator(){
 		super(new RuleVisitorAdapter(new SeqToPar()));
 	}
 	

@@ -31,7 +31,7 @@ public class ForAllMutator extends RuleBasedMutator {
 
 	static Asm asm;
 	
-	ForAllMutator(Asm asm) {
+	public ForAllMutator(Asm asm) {
 		super(new RuleVisitorAdapter(new ForAllMut()));
 		this.asm = asm;
 	}

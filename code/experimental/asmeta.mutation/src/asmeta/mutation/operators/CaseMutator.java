@@ -30,7 +30,7 @@ import asmeta.transitionrules.turbotransitionrules.TurbotransitionrulesFactory;
 public class CaseMutator extends RuleBasedMutator {
 
 	
-	CaseMutator(){
+	public CaseMutator(){
 		super(new RuleVisitorAdapter(new CaseMutOp()));
 	}
 	
