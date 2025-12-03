@@ -288,7 +288,7 @@ public class CoverageAnalysisRunner {
 						// Clean the temporary CSV
 						try {
 							LOG.info("Deleting temporary csv.");
-//							csvManager.clean();
+							csvManager.clean();
 						} catch (Throwable t) {
 							LOG.error("Error while deleting temporary csv.\n" + t.getClass().getSimpleName() + ": "
 									+ t.getMessage());
