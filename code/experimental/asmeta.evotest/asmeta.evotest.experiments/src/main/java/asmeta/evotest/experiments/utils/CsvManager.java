@@ -17,7 +17,7 @@ import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 
-import asmeta.evotest.experiments.CoverageAnalysisRunner.STATUS;
+import asmeta.evotest.experiments.AnalysisRunner.STATUS;
 
 /**
  * Utility class for creating, reading, and appending to a CSV file that stores
@@ -25,10 +25,12 @@ import asmeta.evotest.experiments.CoverageAnalysisRunner.STATUS;
  */
 public class CsvManager {
 
-	public static final List<String> CSV_HEADERS = List.of("asm_path", "asm_name", "n_macro", "n_update", "n_forall", "n_branch",
-			"n_rule", "approach", "status", "exec_time_ms", "n_scenarios", "n_step", "n_set", "n_check",
+	public static final List<String> CSV_HEADERS = List.of("asm_path", "asm_name", "n_macro", "n_update", "n_forall",
+			"n_branch", "n_rule", "approach", "status", "exec_time_ms", "n_scenarios", "n_step", "n_set", "n_check",
 			"macro_coverage", "update_rule_coverage", "forall_rule_coverage", "branch_coverage", "rule_coverage",
-			"n_failing_scenarios", "n_val_error_scenarios");
+			"n_failing_scenarios", "n_val_error_scenarios", "casemutator_score", "chooserulemutate_score",
+			"condnegator_score", "condremover_score", "forallmutator_score", "partoseqmutator_score",
+			"seqtoparmutator_score", "ruleremover_score");
 
 	private String csvPath;
 	private File csvFile;
@@ -112,6 +114,9 @@ public class CsvManager {
 	 *                           {@code n_step}, {@code n_set}, {@code n_check})
 	 * @param covData            map with coverage metrics (e.g.,
 	 *                           {@code macro_coverage}, {@code rule_coverage}, ...)
+	 * @param mutationData       map with mutation scores (e.g.,
+	 *                           {@code condremover_score},
+	 *                           {@code casemutator_score}, ...)
 	 * @param asmName            name of the ASM under test
 	 * @param asmPath            path of the ASM under test
 	 * @param approach           name of the generation or validation approach used
@@ -125,8 +130,8 @@ public class CsvManager {
 	 * @throws Exception
 	 */
 	public void writeData(Map<String, String> modelData, Map<String, Integer> scenarioData, Map<String, String> covData,
-			String asmName, String asmPath, String approach, STATUS status, float exeTime, int nScenario, int failing,
-			int errorsInValidation) throws Exception {
+			Map<String, String> mutationData, String asmName, String asmPath, String approach, STATUS status,
+			float exeTime, int nScenario, int failing, int errorsInValidation) throws Exception {
 		// construct a row as a Map
 		Map<String, String> row = new HashMap<String, String>();
 		for (Entry<String, String> entry : modelData.entrySet())
@@ -134,6 +139,8 @@ public class CsvManager {
 		for (Entry<String, Integer> entry : scenarioData.entrySet())
 			row.put(entry.getKey(), entry.getValue().toString());
 		for (Entry<String, String> entry : covData.entrySet())
+			row.put(entry.getKey(), entry.getValue());
+		for (Entry<String, String> entry : mutationData.entrySet())
 			row.put(entry.getKey(), entry.getValue());
 		row.remove("asm");
 		row.put("asm_name", asmName);

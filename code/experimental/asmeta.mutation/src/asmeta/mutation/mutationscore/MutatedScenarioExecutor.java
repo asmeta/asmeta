@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +32,6 @@ import asmeta.mutation.operators.RuleBasedMutator;
 import asmeta.mutation.operators.RuleRemover;
 import asmeta.mutation.operators.SeqToParMutator;
 import asmeta.structure.Asm;
-import asmeta.mutation.mutationscore.FMMutationScoreExecutor.AsmetaMutatedFromAvalla;
 import asmeta.mutation.operators.AsmetaMutationOperator;
 import asmeta.mutation.operators.CaseMutator;
 
@@ -40,6 +40,8 @@ import asmeta.mutation.operators.CaseMutator;
  * mutation score
  */
 public class MutatedScenarioExecutor {
+	
+	private static final Logger LOG = Logger.getLogger(MutatedScenarioExecutor.class);
 
 	// mutation operators to be used
 	List<AsmetaMutationOperator> mutOperators = new ArrayList<AsmetaMutationOperator>();
@@ -164,7 +166,8 @@ public class MutatedScenarioExecutor {
 	 * @return
 	 * @throws Exception
 	 */
-	public HashMap<String,List<AsmCollection>> generateMutants(String pathToAsm, Asm asm) throws Exception{
+	public HashMap<String,List<AsmCollection>> generateMutants(AsmCollection asms) throws Exception{
+		Asm asm = asms.getMain();
 		//mutOperators.addAll(
 		mutOperators = Arrays.asList(		
 				new CaseMutator(),
@@ -177,10 +180,9 @@ public class MutatedScenarioExecutor {
 				new SeqToParMutator()
 				);
 		
-		AsmCollection originalAsm = ASMParser.setUpReadAsm(new File(pathToAsm));
 		HashMap<String, List<AsmCollection>> allMutants = new HashMap<String, List<AsmCollection>>();
 		for (AsmetaMutationOperator mutOp : mutOperators) {
-			List<AsmCollection> mutants = mutOp.mutate(originalAsm);
+			List<AsmCollection> mutants = mutOp.mutate(asms);
 			allMutants.put(mutOp.getName(), mutants);
 		}
 		return allMutants;
@@ -190,13 +192,12 @@ public class MutatedScenarioExecutor {
 	/**
 	 * Given a list of mutants (ASM models), and a Test Suite. Computes the amount of killedMutations 
 	 * @param mutants
-	 * @param killedMutations
 	 * @param testSuitePath
+	 * @return 
 	 * @throws Exception
 	 */
-	public void computeMutationScore(List<AsmCollection> mutants, Set<Integer> killedMutations, String testSuitePath) throws Exception {
-		
-		
+	public Set<Integer> computeMutationScore(List<AsmCollection> mutants, String testSuitePath) throws Exception {
+		Set<Integer> killedMutations = new HashSet<>();
 		
 		// TEMP. use a temporary directory
 		File temp = new File("temp").getAbsoluteFile();
@@ -211,12 +212,7 @@ public class MutatedScenarioExecutor {
 		Path base = Path.of(testSuitePath);
 		
 		//check for each mutant if it is killed with the test suite
-		for (int i = 0; i < mutants.size(); i++) {
-			
-			//check if the index is in the list, if true skip it.
-			if (killedMutations.contains(i))
-				continue;
-			
+		for (int i = 0; i < mutants.size(); i++) {			
 			AsmCollection m = mutants.get(i);
 			
 			//From here cycle over the testSuite folder.
@@ -244,12 +240,13 @@ public class MutatedScenarioExecutor {
 							ValidationResult result = AsmetaV.executeAsmetaFromAvalla(false, allCoveredRules, tempAsmPath, false);
 							if (!result.isCheckSucceeded()) {
 								//add the index to a set of integer of the ones that were killed.
+								LOG.info("Validation failed => killed mutant.");
 								killedMutations.add(i);
 								break;
 							}
 						} catch (Exception e) {
-						//	LOG.info("Validation of the mutated ASM failed => killed mutant.\n"
-						//			+ e.getClass().getSimpleName() + ": " + e.getMessage());
+							LOG.info("Validation error for the mutated ASM => killed mutant.\n"
+									+ e.getClass().getSimpleName() + ": " + e.getMessage());
 							killedMutations.add(i);
 							break;
 						}
@@ -265,6 +262,8 @@ public class MutatedScenarioExecutor {
 				.map(Path::toFile)
 				.forEach(File::delete);
 		}
+		
+		return killedMutations;
 	}
 	
 	

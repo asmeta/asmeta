@@ -8,6 +8,8 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -25,11 +27,12 @@ import asmeta.evotest.experiments.scenario.ScenarioValidator;
 import asmeta.evotest.experiments.scenario.ValidationDataCollector;
 import asmeta.evotest.experiments.utils.CsvManager;
 import asmeta.evotest.experiments.utils.YamlManager;
+import asmeta.mutation.mutationscore.MutatedScenarioExecutor;
 
-public class CoverageAnalysisRunner {
+public class AnalysisRunner {
 	private static final String DATA_CSV = "data.csv";
 
-	private static final Logger LOG = Logger.getLogger(CoverageAnalysisRunner.class);
+	private static final Logger LOG = Logger.getLogger(AnalysisRunner.class);
 
 	public enum STATUS {
 		OK("OK"),
@@ -40,6 +43,7 @@ public class CoverageAnalysisRunner {
 		SCENARIO_DATA_ERROR("SCENARIO_DATA_ERR"),
 		COVERAGE_ERROR("COVERAGE_ERR"),
 		DATA_AGGREGATION_ERROR("DATA_AGGREGATION_ERR"),
+		MUTATION_ERROR("MUTATION_ERR"),
 		REMAINING_PROBLEMATIC_SCENARIOS("REMAINING_PROBLEMATIC_SCENARIOS");
 
 		private final String csvValue;
@@ -123,6 +127,7 @@ public class CoverageAnalysisRunner {
 						Map<String, String> modelData = new HashMap<>();
 						Map<String, Integer> avallaData = new HashMap<>();
 						Map<String, String> covData = new HashMap<>();
+						Map<String, String> mutationData = new HashMap<>();
 						String asmName = scenarioDir.toString();
 						asmName = asmName.substring(asmName.lastIndexOf("_") + 1);
 						String asmPath = "";
@@ -152,8 +157,8 @@ public class CoverageAnalysisRunner {
 							LOG.error("Error while trying to access metadata YAML file.\n"
 									+ t.getClass().getSimpleName() + ": " + t.getMessage());
 							status = STATUS.METADATA_ERROR;
-							writeToCsv(csvManager, modelData, avallaData, covData, asmName, asmPath, approach, status, execTime,
-									nScenario, failing, valErrors);
+							writeToCsv(csvManager, modelData, avallaData, covData, mutationData, asmName, asmPath,
+									approach, status, execTime, nScenario, failing, valErrors);
 							continue;
 						}
 
@@ -171,8 +176,8 @@ public class CoverageAnalysisRunner {
 							LOG.error("Error while parsing " + asmName + ".\n" + t.getClass().getSimpleName() + ": "
 									+ t.getMessage());
 							status = STATUS.ASM_PARSE_ERROR;
-							writeToCsv(csvManager, modelData, avallaData, covData, asmName, asmPath, approach, status, execTime,
-									nScenario, failing, valErrors);
+							writeToCsv(csvManager, modelData, avallaData, covData, mutationData, asmName, asmPath,
+									approach, status, execTime, nScenario, failing, valErrors);
 							continue;
 						}
 
@@ -184,8 +189,8 @@ public class CoverageAnalysisRunner {
 							LOG.error("Error while collecting model data.\n" + t.getClass().getSimpleName() + ": "
 									+ t.getMessage());
 							status = STATUS.MODEL_DATA_ERROR;
-							writeToCsv(csvManager, modelData, avallaData, covData, asmName, asmPath, approach, status, execTime,
-									nScenario, failing, valErrors);
+							writeToCsv(csvManager, modelData, avallaData, covData, mutationData, asmName, asmPath,
+									approach, status, execTime, nScenario, failing, valErrors);
 							continue;
 						}
 
@@ -224,8 +229,8 @@ public class CoverageAnalysisRunner {
 							LOG.error("Error while collecting test suite data.\n" + t.getClass().getSimpleName() + ": "
 									+ t.getMessage());
 							status = STATUS.SCENARIO_DATA_ERROR;
-							writeToCsv(csvManager, modelData, avallaData, covData, asmName, asmPath, approach, status, execTime,
-									nScenario, failing, valErrors);
+							writeToCsv(csvManager, modelData, avallaData, covData, mutationData, asmName, asmPath,
+									approach, status, execTime, nScenario, failing, valErrors);
 							continue;
 						}
 
@@ -234,8 +239,8 @@ public class CoverageAnalysisRunner {
 						if (Float.isNaN(execTime) || nScenario == 0 || nStep == 0) {
 							LOG.info("No correct scenarios to use for running the analysis.");
 							status = STATUS.NO_VALID_SCENARIOS;
-							writeToCsv(csvManager, modelData, avallaData, covData, asmName, asmPath, approach, status, execTime,
-									nScenario, failing, valErrors);
+							writeToCsv(csvManager, modelData, avallaData, covData, mutationData, asmName, asmPath,
+									approach, status, execTime, nScenario, failing, valErrors);
 							continue;
 						}
 
@@ -243,7 +248,7 @@ public class CoverageAnalysisRunner {
 						String tempCsvPath;
 						int valErrorsAfterFiltering;
 						try {
-							LOG.info("Computing coverage, saving temporary results in temp.csv.");
+							LOG.info("Computing coverage (temporary results will be stored in temp.csv)...");
 							tempCsvPath = csvManager.getParentDir() + File.separator + "temp.csv";
 							valErrorsAfterFiltering = ScenarioValidator.computeCoverageFromAvalla(scenarioDir.getPath(),
 									tempCsvPath, shuffle);
@@ -251,24 +256,26 @@ public class CoverageAnalysisRunner {
 							LOG.error("Error while computing coverage.\n" + t.getClass().getSimpleName() + ": "
 									+ t.getMessage());
 							status = STATUS.COVERAGE_ERROR;
-							writeToCsv(csvManager, modelData, avallaData, covData, asmName, asmPath, approach, status, execTime,
-									nScenario, failing, valErrors);
+							writeToCsv(csvManager, modelData, avallaData, covData, mutationData, asmName, asmPath,
+									approach, status, execTime, nScenario, failing, valErrors);
+							cleanTempCsv(csvManager);
 							continue;
 						} finally {
-							// Reset rule evaluation state before  the next suite
+							// Reset rule evaluation state before the next suite
 							RuleEvalWCov.reset();
 						}
 
 						// Aggregate coverage metrics from the temporary CSV
 						try {
-							LOG.info("Aggregating validation data.");
+							LOG.info("Aggregating validation data...");
 							covData = ValidationDataCollector.collectCoverageData(tempCsvPath, asmName, modelData);
 						} catch (Throwable t) {
 							LOG.error("Error while aggregating validation data.\n" + t.getClass().getSimpleName() + ": "
 									+ t.getMessage());
 							status = STATUS.DATA_AGGREGATION_ERROR;
-							writeToCsv(csvManager, modelData, avallaData, covData, asmName, asmPath, approach, status, execTime,
-									nScenario, failing, valErrors);
+							writeToCsv(csvManager, modelData, avallaData, covData, mutationData, asmName, asmPath,
+									approach, status, execTime, nScenario, failing, valErrors);
+							cleanTempCsv(csvManager);
 							continue;
 						}
 
@@ -276,23 +283,42 @@ public class CoverageAnalysisRunner {
 						if (valErrorsAfterFiltering > 0 || Integer.valueOf(covData.get("n_failing_scenarios")) > 0) {
 							LOG.error("At least one scenario is still failing or resulting in validation error.");
 							status = STATUS.REMAINING_PROBLEMATIC_SCENARIOS;
-							writeToCsv(csvManager, modelData, avallaData, covData, asmName, asmPath, approach, status, execTime,
-									nScenario, failing, valErrors);
+							writeToCsv(csvManager, modelData, avallaData, covData, mutationData, asmName, asmPath,
+									approach, status, execTime, nScenario, failing, valErrors);
+							cleanTempCsv(csvManager);
 							continue;
 						}
 
-						// Append a consolidated row to data.csv
-						writeToCsv(csvManager, modelData, avallaData, covData, asmName, asmPath, approach, status, execTime,
-								nScenario, failing, valErrors);
-
-						// Clean the temporary CSV
+						// Run mutation
 						try {
-							LOG.info("Deleting temporary csv.");
-							csvManager.clean();
+							LOG.info("Running mutation...");
+							MutatedScenarioExecutor mutationExecutor = new MutatedScenarioExecutor();
+							HashMap<String, List<AsmCollection>> allMutantions = mutationExecutor.generateMutants(asm);
+							for (Entry<String, List<AsmCollection>> mutation : allMutantions.entrySet()) {
+								String mutantionName = mutation.getKey().toLowerCase() + "_score";
+								List<AsmCollection> mutatedAsms = mutation.getValue();
+								int nMutants = mutatedAsms.size();
+								if (nMutants > 0) {
+									Set<Integer> killed = mutationExecutor.computeMutationScore(mutatedAsms,
+											scenarioDir.getPath());
+									float mutationScore = ((float) killed.size()) / nMutants;
+									mutationData.put(mutantionName, String.valueOf(mutationScore));
+								} else {
+									mutationData.put(mutantionName, "NaN");
+								}
+							}
 						} catch (Throwable t) {
-							LOG.error("Error while deleting temporary csv.\n" + t.getClass().getSimpleName() + ": "
+							status = STATUS.MUTATION_ERROR;
+							LOG.error("Error while running the mutation.\n" + t.getClass().getSimpleName() + ": "
 									+ t.getMessage());
 						}
+
+						// Append a consolidated row to data.csv
+						writeToCsv(csvManager, modelData, avallaData, covData, mutationData, asmName, asmPath, approach,
+								status, execTime, nScenario, failing, valErrors);
+
+						// Clean the temporary CSV
+						cleanTempCsv(csvManager);
 					}
 				}
 			}
@@ -300,16 +326,28 @@ public class CoverageAnalysisRunner {
 		LOG.info("\n\nAnalysis completed.");
 	}
 
+	protected static void cleanTempCsv(CsvManager csvManager) {
+		// Clean the temporary CSV
+		try {
+			LOG.info("Deleting temporary csv.");
+			csvManager.clean();
+		} catch (Throwable t) {
+			LOG.error("Error while deleting temporary csv.\n" + t.getClass().getSimpleName() + ": "
+					+ t.getMessage());
+		}
+	}
+
 	private static void writeToCsv(CsvManager csvManager, Map<String, String> modelData,
-			Map<String, Integer> avallaData, Map<String, String> covData, String asmName, String asmPath, String approach,
-			STATUS status, float execTime, int nScenario, int failing, int valErrors) {
+			Map<String, Integer> avallaData, Map<String, String> covData, Map<String, String> mutationData,
+			String asmName, String asmPath, String approach, STATUS status, float execTime, int nScenario, int failing,
+			int valErrors) {
 		try {
 			LOG.info("Writing to " + DATA_CSV + ".");
-			csvManager.writeData(modelData, avallaData, covData, asmName, asmPath, approach, status, execTime,
-					nScenario, failing, valErrors);
+			csvManager.writeData(modelData, avallaData, covData, mutationData, asmName, asmPath, approach, status,
+					execTime, nScenario, failing, valErrors);
 		} catch (Throwable t) {
-			LOG.error(
-					"Error while writing to " + DATA_CSV + ".\n" + t.getClass().getSimpleName() + ": " + t.getMessage());
+			LOG.error("Error while writing to " + DATA_CSV + ".\n" + t.getClass().getSimpleName() + ": "
+					+ t.getMessage());
 		}
 	}
 
