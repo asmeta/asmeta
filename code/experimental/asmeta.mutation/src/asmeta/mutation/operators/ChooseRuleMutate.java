@@ -11,8 +11,6 @@ import java.util.List;
 import org.asmeta.simulator.RuleVisitor;
 import org.asmeta.simulator.readers.RandomMFReader;
 import org.asmeta.simulator.value.Value;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import asmeta.transitionrules.basictransitionrules.BlockRule;
 import asmeta.transitionrules.basictransitionrules.ChooseRule;
@@ -25,17 +23,12 @@ import asmeta.transitionrules.basictransitionrules.Rule;
 import asmeta.transitionrules.basictransitionrules.SkipRule;
 import asmeta.transitionrules.basictransitionrules.TermAsRule;
 import asmeta.transitionrules.basictransitionrules.UpdateRule;
-import asmeta.transitionrules.basictransitionrules.impl.LetRuleImpl;
 import asmeta.transitionrules.derivedtransitionrules.CaseRule;
 import asmeta.transitionrules.turbotransitionrules.SeqRule;
-import asmeta.definitions.domains.StringDomain;
-import asmeta.structure.Asm;
 import asmeta.terms.basicterms.ConstantTerm;
 import asmeta.terms.basicterms.SetTerm;
-import asmeta.terms.furtherterms.StringTerm;
 import asmeta.transitionrules.basictransitionrules.*;
 //import org.asmeta.simulator.util.StdlFunction;
-import asmeta.AsmetaFactory;
 
 //
 // it mutates a ChooseRule into a LetRule in which the chosen element is randomly fixed
@@ -59,86 +52,42 @@ public class ChooseRuleMutate extends RuleBasedMutator {
 
 		@Override
 		public List<Rule> visit(SkipRule rule) {
-			throw new RuntimeException("not implemented yet");
+			return Collections.EMPTY_LIST;
 		}
 
 		@Override
 		public List<Rule> visit(UpdateRule rule) {
-			return Collections.singletonList(rule);
+			return Collections.EMPTY_LIST;
 		}
 
 		@Override
 		public List<Rule> visit(TermAsRule rule) {
-			throw new RuntimeException("not implemented yet");
+			return Collections.EMPTY_LIST;
 		}
 
 		@Override
 		public List<Rule> visit(BlockRule block) {
-			List<Rule> mutatedRules = visitAll(block.getRules());
-			if (mutatedRules.equals(block.getRules())) return Collections.singletonList(block);
-			// build teh new block rule
-			BlockRule br = AsmetaFactory.eINSTANCE.getTransitionRules().getBasicTransitionRules().createBlockRule();
-			br.getRules().addAll(mutatedRules);
-			return Collections.singletonList(br);
-		}
-
-		// mutate every rule in the list and build the list of mutations
-		// TODO mutate and then take the combination of mutants
-		// TODO works only if the mutation is 1
-		private List<Rule> visitAll(EList<Rule> rules) {
-			List<Rule> mutated = new ArrayList<>();
-			for (Rule er: rules) {
-				List<Rule> m = visit(er);
-				if (m.size() == 1) {
-					mutated.add(m.get(0));
-				} else {
-					throw new RuntimeException("not implemented yet");					
-				}
-			}
-			return mutated;
+			return Collections.EMPTY_LIST;
 		}
 
 		@Override
 		public List<Rule> visit(SeqRule seq) {
-			throw new RuntimeException("not implemented yet");
+			return Collections.EMPTY_LIST;
 		}
 
 		@Override
 		public List<Rule> visit(ConditionalRule rule) {
-			Rule thenRule = rule.getThenRule();
-			Rule elseRule = rule.getElseRule();
-			List<Rule> ifm = visit(thenRule);
-			List<Rule> thenm = elseRule != null ? visit(elseRule) : null;
-			// assuming only 1 mutation
-			if (ifm.size() == 1 && (thenm== null || thenm.size() == 1)) {
-				// if the mutation did not change
-				// identical
-				if (ifm.get(0) == thenRule && 
-						// both null
-						((thenm == null && elseRule == null) ||
-								(thenm.get(0) ==elseRule)))
-								return Collections.singletonList(rule);
-				else {
-					// changed
-					ConditionalRule cr = AsmetaFactory.eINSTANCE.getTransitionRules().getBasicTransitionRules().createConditionalRule();
-					cr.setThenRule(ifm.get(0));
-					cr.setElseRule(thenm != null? thenm.get(0): null);
-					cr.setGuard(rule.getGuard());
-					return Collections.singletonList(cr);
-				}
-						
-			}
-			throw new RuntimeException("not implemented yet");
+			return Collections.EMPTY_LIST;
 		}
 
 		@Override
 		public List<Rule> visit(ExtendRule rule) {
-			throw new RuntimeException("not implemented yet");
+			return Collections.EMPTY_LIST;
 		}
 
 		@Override
 		public List<Rule> visit(LetRule rule) {
-			throw new RuntimeException("not implemented yet");
+			return Collections.EMPTY_LIST;
 		}
 
 		@Override
@@ -177,18 +126,17 @@ public class ChooseRuleMutate extends RuleBasedMutator {
 
 		@Override
 		public List<Rule> visit(ForallRule rule) {
-			throw new RuntimeException("not implemented yet");
+			return Collections.EMPTY_LIST;
 		}
 
 		@Override
 		public List<Rule> visit(MacroCallRule rule) throws Exception {
-			// do not change
-			return Collections.singletonList(EcoreUtil.copy(rule));
+			return Collections.EMPTY_LIST;
 		}
 
 		@Override
 		public List<Rule> visit(CaseRule rule) {
-			throw new RuntimeException("not implemented yet");
+			return Collections.EMPTY_LIST;
 		}
 
 	}

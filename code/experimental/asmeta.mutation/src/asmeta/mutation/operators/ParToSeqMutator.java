@@ -88,7 +88,7 @@ public class ParToSeqMutator extends RuleBasedMutator {
 		}
 
 		@Override
-		public List<Rule> visit(MacroCallRule rule) throws Exception {
+		public List<Rule> visit(MacroCallRule rule) {
 			return Collections.EMPTY_LIST;
 		}
 
