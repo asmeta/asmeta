@@ -146,7 +146,7 @@ public class ScenarioGeneratorRunner {
 			for (String line : lines) {
 				if (line.isEmpty() || line.startsWith("//"))
 					continue;
-				sourceFile = Paths.get(sourceDir).resolve(line).toString();
+				sourceFile = Paths.get(sourceDir).resolve(line).toString().replace('\\', '/');
 				LOG.info("Generating test for: " + sourceFile + ".");
 				generateTests(sourceFile, cfg);
 			}
