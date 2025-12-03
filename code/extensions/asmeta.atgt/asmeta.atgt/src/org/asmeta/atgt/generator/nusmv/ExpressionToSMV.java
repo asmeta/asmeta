@@ -1,4 +1,4 @@
-package org.asmeta.atgt.generator;
+package org.asmeta.atgt.generator.nusmv;
 
 import tgtlib.definitions.expression.AndExpression;
 import tgtlib.definitions.expression.CaseExpression;
@@ -26,7 +26,7 @@ public class ExpressionToSMV extends MathExpressionTranslator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atgt.specification.expression.AsmExpressionVisitor#forIdExpression(atgt.specification.expression.IdExpression)
 	 */
 	@Override
@@ -36,7 +36,7 @@ public class ExpressionToSMV extends MathExpressionTranslator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atgt.specification.expression.AsmExpressionVisitor#forAndExpression(atgt.specification.expression.AndExpression)
 	 */
 	@Override
@@ -46,7 +46,7 @@ public class ExpressionToSMV extends MathExpressionTranslator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atgt.specification.expression.AsmExpressionVisitor#forOrExpression(atgt.specification.expression.OrExpression)
 	 */
 	@Override
@@ -56,7 +56,7 @@ public class ExpressionToSMV extends MathExpressionTranslator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atgt.specification.expression.AsmExpressionVisitor#forXOrExpression(atgt.specification.expression.XOrExpression)
 	 */
 	@Override
@@ -66,7 +66,7 @@ public class ExpressionToSMV extends MathExpressionTranslator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atgt.specification.expression.AsmExpressionVisitor#forNotExpression(atgt.specification.expression.NotExpression)
 	 */
 	@Override
@@ -76,7 +76,7 @@ public class ExpressionToSMV extends MathExpressionTranslator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atgt.specification.expression.AsmExpressionVisitor#forEqualsExpression(atgt.specification.expression.EqualsExpression)
 	 */
 	@Override
@@ -86,7 +86,7 @@ public class ExpressionToSMV extends MathExpressionTranslator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atgt.specification.expression.AsmExpressionVisitor#forNotEqualsExpression(atgt.specification.expression.NotEqualsExpression)
 	 */
 	@Override
@@ -96,7 +96,7 @@ public class ExpressionToSMV extends MathExpressionTranslator {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atgt.specification.expression.AsmExpressionVisitor#forImpliesExpression(atgt.specification.expression.ImpliesExpression)
 	 */
 	@Override
@@ -107,10 +107,10 @@ public class ExpressionToSMV extends MathExpressionTranslator {
 
 	/**
 	 * assuming that the translation is to LTL, otherwise I should use '.
-	 * 
+	 *
 	 * @param nextExpression
 	 *            the next expression
-	 * 
+	 *
 	 * @return the string buffer
 	 */
 	@Override
@@ -136,7 +136,7 @@ public class ExpressionToSMV extends MathExpressionTranslator {
 		String arg0 =ft.getArguments().get(0).toString();
 		return new StringBuffer(fName + "_" + arg0);
 	}
-	
+
 	@Override
 	public StringBuffer forCaseExpression(CaseExpression caseExpression) {
 		throw new RuntimeException("operator next not supported in NUSMV");

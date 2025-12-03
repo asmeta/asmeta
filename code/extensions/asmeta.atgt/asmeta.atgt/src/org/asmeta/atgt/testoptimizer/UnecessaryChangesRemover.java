@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+
 import org.apache.log4j.Logger;
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.State;
@@ -36,8 +37,8 @@ import tgtlib.definitions.expression.type.Variable;
 // removes changes of monitored values that are unnecessary
 // i.e. that are asked by the simulator
 public class UnecessaryChangesRemover extends TestOptimizer {
-	
-	static private Logger log = Logger.getLogger(UnecessaryChangesRemover.class); 
+
+	static private Logger log = Logger.getLogger(UnecessaryChangesRemover.class);
 
 	private AsmCollection asms;
 
@@ -53,9 +54,9 @@ public class UnecessaryChangesRemover extends TestOptimizer {
 			int nSteps = asmTest.allInstructions().size();
 			CheckWhatAsked monFuncReader = new CheckWhatAsked(asmTest);
 			Simulator simulator = new Simulator(asms.getMain().getName(), asms, new Environment(monFuncReader));
-			// supespend the checking of invariants 
+			// supespend the checking of invariants
 			InvariantTreament temp = Simulator.checkInvariants;
-			simulator.checkInvariants = InvariantTreament.NO_CHECK;
+			Simulator.checkInvariants = InvariantTreament.NO_CHECK;
 			for (int i = 0; i < nSteps; i++) {
 				simulator.run(1);
 				monFuncReader.nextState();
@@ -93,7 +94,7 @@ public class UnecessaryChangesRemover extends TestOptimizer {
 			log.debug("asking for " + location  + " value " + val);
 			asked.add(location.toString());
 			// if it is undef
-			if (val.equals(UndefValue.UNDEF.toString())) { 
+			if (val.equals(UndefValue.UNDEF.toString())) {
 				return UndefValue.UNDEF;
 			}
 			//
@@ -141,9 +142,9 @@ public class UnecessaryChangesRemover extends TestOptimizer {
 
 		StringToValue(String s) {
 			this.s = s;
-		}				
-		
-		
+		}
+
+
 
 		@Override
 		public Value caseConcreteDomain(ConcreteDomain cd) {
@@ -151,13 +152,13 @@ public class UnecessaryChangesRemover extends TestOptimizer {
 			assert val != null;
 			return val;
 		}
-		
+
 		@Override
 		public Value caseAbstractTd(AbstractTd atd) {
 			return new ReserveValue(s);
 		}
-		
-		
+
+
 		@Override
 		public Value caseIntegerDomain(IntegerDomain object) {
 			return new IntegerValue(Integer.parseInt(s));
@@ -171,12 +172,14 @@ public class UnecessaryChangesRemover extends TestOptimizer {
 		@Override
 		public Value caseEnumTd(EnumTd en) {
 			for (EnumElement e : en.getElement()) {
-				if (e.getSymbol().equals(s))
+				if (e.getSymbol().equals(s)) {
 					return new EnumValue(s);
+				}
 			}
 			// if it is undef
-			if (s.equals(Undef.UNDEF.toString()))
+			if (s.equals(Undef.UNDEF.toString())) {
 				return UndefValue.UNDEF;
+			}
 			throw new RuntimeException("enum " + s +  " not found in domain "+ en.getName() + " elements " + en.getElement());
 		}
 

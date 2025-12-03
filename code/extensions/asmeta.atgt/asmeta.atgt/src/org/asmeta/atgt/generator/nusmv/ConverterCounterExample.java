@@ -1,9 +1,6 @@
-package org.asmeta.atgt.generator;
+package org.asmeta.atgt.generator.nusmv;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -26,22 +23,22 @@ import tgtlib.definitions.expression.type.IntegerType;
 /** convert a counter example of the model checker to a test sequence
  */
 public class ConverterCounterExample {
-	
-	
+
+
 	private static final EnumConstCreator ENUM_CONST_CREATOR = new EnumConstCreator();
 
 
-	public static boolean IncludeUnchangedVariables = false;  
-	
-	
+	public static boolean IncludeUnchangedVariables = false;
+
+
 	private final static Logger LOG = Logger.getLogger(ConverterCounterExample.class);
-	
+
 
 	public static AsmTestSequence convert(Counterexample test, ASMSpecification spec, AsmTestCondition tc) {
 		return convert(test, spec, tc, IncludeUnchangedVariables);
 	}
 //	static List<IdExpression> functions = new ArrayList<>();
-	
+
 	public static AsmTestSequence convert(Counterexample test, ASMSpecification spec, AsmTestCondition tc, boolean includeUnchangedVariables) {
 		//
 		LOG.debug("converting cex with " + test.length() + " states to ASM test");
@@ -73,7 +70,7 @@ public class ConverterCounterExample {
 						asmTestSequence.addAssignment(var, val, Location.VarKind.CONTROLLED);
 						continue;
 					}
-				} 
+				}
 				if (var.contains("(")) {
 					String funName = var.substring(0, var.indexOf('('));
 					Function function = spec.getFunction(funName);
@@ -86,7 +83,7 @@ public class ConverterCounterExample {
 //					functions.stream().forEach(x -> System.out.println(System.identityHashCode(x.getType())));
 					if (function != null){
 						FunctionTerm ft = ConverterCounterExample.extractFunctionTerm(var, spec);
-						// TODO let asmtest sequence accept also function		
+						// TODO let asmtest sequence accept also function
 						asmTestSequence.addAssignment(ft, val, function.getVarKind());
 						continue;
 					}
@@ -98,10 +95,10 @@ public class ConverterCounterExample {
 					asmTestSequence.addAssignment(var, val, Location.VarKind.CONTROLLED);
 					continue;
 				}
-				// static functions, 
+				// static functions,
 				Constant constant = spec.getConstantByName(var);
 				if (constant != null){
-					// add as controlled - so to be checked 
+					// add as controlled - so to be checked
 					asmTestSequence.addAssignment(var,val, Location.VarKind.CONTROLLED);
 					continue;
 				}
@@ -115,7 +112,7 @@ public class ConverterCounterExample {
 	/**
 	 * given a location of tuple foo(kkk) build the funtionTerm (subtype of
 	 * Expression for ATGT)
-	 * 
+	 *
 	 * @param location
 	 * @return
 	 */

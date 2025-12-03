@@ -1,4 +1,4 @@
-package org.asmeta.atgt.generator;
+package org.asmeta.atgt.generator.nusmv;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -22,7 +22,7 @@ public class TestGenerationWithNuSMV extends AsmetaSMV {
 	private static Logger logger = Logger.getLogger(TestGenerationWithNuSMV.class);
 
 	/**
-	 * 
+	 *
 	 * @param asmPath
 	 * @param expression
 	 * @throws Exception
@@ -49,7 +49,7 @@ public class TestGenerationWithNuSMV extends AsmetaSMV {
 
 	private void buildNuSMV(Expression tp) throws Exception {
 		logger.debug("add cex and remove the other properties");
-		Set<String> trapProps = new HashSet<String>();
+		Set<String> trapProps = new HashSet<>();
 		String tpS = tp.accept(ExpressionToSMV.EXPR_TO_SMV).toString();
 		if (modelCheckerMode == ModelCheckerMode.LTLandBMC || modelCheckerMode == ModelCheckerMode.LTLFMC) {
 			// use LTL
@@ -72,7 +72,7 @@ public class TestGenerationWithNuSMV extends AsmetaSMV {
 	/**
 	 * It checks the test predicate with id "tpId". If the test predicate is
 	 * infeasible it returns null, otherwise counterexample.
-	 * 
+	 *
 	 * @param tpId
 	 * @return
 	 * @throws Exception
@@ -84,7 +84,7 @@ public class TestGenerationWithNuSMV extends AsmetaSMV {
 		//
 		buildNuSMV(tp);
 		//
-		executeNuSMV(); 
+		executeNuSMV();
 		BufferedReader br = new BufferedReader(new	StringReader(outputRunNuSMVreplace));
 		/*
 		 * runNuXMV(); BufferedReader br = new BufferedReader(new StringReader(outputRunNuXMVreplace));
@@ -94,7 +94,7 @@ public class TestGenerationWithNuSMV extends AsmetaSMV {
 
 	/**
 	 * reads the counter example from the reader
-	 * 
+	 *
 	 * @param br
 	 * @return
 	 * @throws IOException
@@ -107,7 +107,7 @@ public class TestGenerationWithNuSMV extends AsmetaSMV {
 			if (line == null) {
 				br.close();
 				return Counterexample.EMPTY;
-			}	
+			}
 			if (line.contains("is true")) {
 				assert line.startsWith("-- specification");
 				br.close();
@@ -131,7 +131,7 @@ public class TestGenerationWithNuSMV extends AsmetaSMV {
 				loopStart = false;
 			} else if (line.contains("-- Loop starts here")) {
 				loopStart = true;
-			} else if (TestGenerationWithNuSMV.modelCheckerMode == ModelCheckerMode.LTLandBMC && line.startsWith("--")) {
+			} else if (AsmetaSMV.modelCheckerMode == ModelCheckerMode.LTLandBMC && line.startsWith("--")) {
 				continue;
 			} else {
 				String[] varValue = line.replaceAll(" ", "").split("=");
@@ -153,7 +153,7 @@ public class TestGenerationWithNuSMV extends AsmetaSMV {
 	 * It completes a counterexample trace. Indeed, if the value of a variable is
 	 * unchanged passing from state s_{i} to state s_{i+1}, in state s_{i+1} it is
 	 * not printed.
-	 * 
+	 *
 	 * non so se � necessario che adesso il generatore pu� farlo lui ....
 	 */
 	protected static void completeCounterExample(Counterexample counterexample) {

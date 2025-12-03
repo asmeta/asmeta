@@ -1,4 +1,4 @@
-package org.asmeta.atgt.generator2;
+package org.asmeta.atgt.rndgenerator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,7 +31,7 @@ import tgtlib.definitions.expression.type.Type;
 import tgtlib.definitions.expression.type.TypeVisitorI;
 
 /**
- * random generation by random simulation 
+ * random generation by random simulation
  */
 public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 
@@ -57,13 +57,13 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 		public <T> T accept(TypeVisitorI<T> ask) {
 			throw new RuntimeException();
 		}
-		
+
 	};
 
 	RandomMFReaderMemory randomMFReader;
 
 	/**
-	 * 
+	 *
 	 * @param asm
 	 * @param stepNumber
 	 * @param testNumber
@@ -73,7 +73,7 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param asm
 	 * @param stepNumber
 	 * @param testNumber
@@ -86,16 +86,16 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 		// to collect info about the spec
 		icc = new IdExpressionCreator();
 		//
-		randomMFReader = rnd;		
+		randomMFReader = rnd;
 		// TODO add variables
 	}
-	
+
 	@Override
 	public AsmTestSuite getTestSuite() {
 		// do not use real random values when choosing
 		return getTestSuite(false);
 	}
-	
+
 	public AsmTestSuite getTestSuite(boolean shuffle) {
 		try {
 			AsmTestSuite testSuite = new AsmTestSuite();
@@ -130,7 +130,7 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 					addState(testsequence, state);
 					// if no step was required
 					if (stepNumber <= 0) {
-						break;						
+						break;
 					}
 					// reached the end of the sequence steps
 					if (currentStep >= stepNumber - 1) {
@@ -161,7 +161,7 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 			return AsmTestSuite.getEmptyTestSuite();
 		}
 	}
-	
+
 	public void setStepNumber(int stepNumber) {
 		this.stepNumber = stepNumber;
 	}
@@ -189,7 +189,7 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 			String value = stateValues.getValue().toString();
 			if (isvar) {
 				Type type;
-				if (function.getCodomain() instanceof asmeta.definitions.domains.StringDomain){ 
+				if (function.getCodomain() instanceof asmeta.definitions.domains.StringDomain){
 				 	type = stringType;
 				 	value = "\""+ value + "\"";
 				} else {
@@ -198,20 +198,22 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 				// create ID (with dummy type which is wrong)
 				IdExpression varId = icc.createIdExpression(location.toString(), type);
 				atgt.specification.location.Variable var = new atgt.specification.location.Variable(varId, null);
-				if (monitored)
+				if (monitored) {
 					var.setMonitored();
-				else					
+				} else {
 					var.setControlled();
+				}
 				testsequence.addAssignment(var, value);
 			} else {
 				assert elements.length >= 1 : Arrays.toString(elements);
 				List<IdExpression> args = new ArrayList<>();
 				for (Value v : elements) {
 					Number n = IdExpressionCreator.parse(v.toString());
-					if (v == null)
+					if (v == null) {
 						args.add(icc.createIdExpression(v.toString(), dummyType));
-					else
+					} else {
 						args.add(icc.createIdExpression(v.toString(), IntegerType.INTEGER_TYPE));
+					}
 				}
 				IdExpression name = icc.createIdExpression(location.getSignature().getName(), dummyType);
 				// type

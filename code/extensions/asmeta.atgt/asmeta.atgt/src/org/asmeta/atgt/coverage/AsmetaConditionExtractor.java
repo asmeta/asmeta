@@ -1,13 +1,15 @@
-package org.asmeta.atgt.generator.coverage;
+package org.asmeta.atgt.coverage;
+
 
 import java.util.List;
 import java.util.Vector;
 
-import org.asmeta.flattener.rule.ForallRuleFlattener;
-import org.asmeta.parser.util.ReflectiveVisitor;
 import org.asmeta.simulator.RuleVisitor;
 
-import asmeta.structure.Asm;
+import asmeta.terms.basicterms.BasictermsFactory;
+import asmeta.terms.basicterms.BooleanTerm;
+import asmeta.terms.basicterms.impl.BasictermsFactoryImpl;
+import asmeta.terms.basicterms.impl.BooleanTermImpl;
 import asmeta.transitionrules.basictransitionrules.BlockRule;
 import asmeta.transitionrules.basictransitionrules.ExtendRule;
 import asmeta.transitionrules.basictransitionrules.ForallRule;
@@ -24,22 +26,22 @@ import tgtlib.definitions.expression.AndExpression;
 import tgtlib.definitions.expression.Expression;
 
 public class AsmetaConditionExtractor extends RuleVisitor<List<NamedTerm>>{
-	
-	
+
+
 	public AsmetaConditionExtractor() {
 	}
-	
-	AsmetaToExprTrans translator = new AsmetaToExprTrans(); 
+
+	AsmetaToExprTrans translator = new AsmetaToExprTrans();
 
 
 	@Override
 	public List<NamedTerm> visit(SkipRule rule) {
-		return new Vector<NamedTerm>();
+		return new Vector<>();
 	}
 
 	@Override
 	public List<NamedTerm> visit(asmeta.transitionrules.basictransitionrules.UpdateRule rule) {
-		return new Vector<NamedTerm>();
+		return new Vector<>();
 	}
 
 	@Override
@@ -74,7 +76,9 @@ public class AsmetaConditionExtractor extends RuleVisitor<List<NamedTerm>>{
 
 	@Override
 	public List<NamedTerm> visit(asmeta.transitionrules.basictransitionrules.ChooseRule rule) {
-		throw new RuntimeException("not implemented yet");
+		// assuming no condition in the choose
+		assert(rule.getGuard() == BasictermsFactoryImpl.eINSTANCE.createBooleanTerm(true));
+		return visit(rule.getDoRule());
 	}
 
 	@Override
@@ -92,17 +96,17 @@ public class AsmetaConditionExtractor extends RuleVisitor<List<NamedTerm>>{
 	public List<NamedTerm> visit(CaseRule rule) {
 		throw new RuntimeException("not implemented yet");
 	}
-	
-	
+
+
 	/** calls the visitor for every rule in the do statement and returns the results
-	 * 
+	 *
 	 * @param d
 	 * @param visitor
-	 * @param block 
+	 * @param block
 	 * @return
 	 */
 	private List<NamedTerm> addResults(RuleVisitor<List<NamedTerm>> visitor, BlockRule block) {
-		Vector<NamedTerm> list = new Vector<NamedTerm>();
+		Vector<NamedTerm> list = new Vector<>();
 		int i = 1;
 		for (Rule r : block.getRules()) {
 			System.out.println("rule " + r.getClass());
@@ -118,14 +122,14 @@ public class AsmetaConditionExtractor extends RuleVisitor<List<NamedTerm>>{
 	}
 
 	/** distribute the visitor over the two conditions
-	 * 
+	 *
 	 * @param ite
 	 * @param ignoreElse: ignore the else (also if else is not null). if not ignore, consider also if it si null
 	 * @param visitor
 	 * @return
 	 */
 	protected List<NamedTerm> distributeOverConditional(asmeta.transitionrules.basictransitionrules.ConditionalRule ite) {
-		List<NamedTerm> result = new Vector<NamedTerm>();
+		List<NamedTerm> result = new Vector<>();
 
 		// get the guard
 		Expression guard = translator.visit(ite.getGuard());
@@ -144,7 +148,7 @@ public class AsmetaConditionExtractor extends RuleVisitor<List<NamedTerm>>{
 		// for else part: get the decisions in the else part
 		Rule elseR = ite.getElseRule();
 		if (elseR != null) {
-			// else 
+			// else
 			Expression notGuard = guard.accept(ShallowExpressionNegator.negate);
 			List<NamedTerm> else_list = null;
 			// if contains else
@@ -156,10 +160,10 @@ public class AsmetaConditionExtractor extends RuleVisitor<List<NamedTerm>>{
 						new AndExpression(notGuard, tc.getCondition()));
 					result.add(tc_i);
 				}
-				
-			} 
-			// if else list was empty because 
-			// if else was something but gave an empty list 
+
+			}
+			// if else list was empty because
+			// if else was something but gave an empty list
 			if (else_list == null || else_list.isEmpty()) {
 				result.add(new NamedTerm("F", notGuard));
 			}

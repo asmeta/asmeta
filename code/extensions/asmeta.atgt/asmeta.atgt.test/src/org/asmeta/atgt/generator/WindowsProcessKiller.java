@@ -53,7 +53,7 @@ public class WindowsProcessKiller {
 		System.out.println("is " + processName + " running : " + isRunning);
 
 		if (isRunning) {
-			pKiller.killProcess(processName);
+			WindowsProcessKiller.killProcess(processName);
 		}
 		else {
 			System.out.println("Not able to find the process : "+processName);

@@ -1,4 +1,4 @@
-package org.asmeta.atgt.generator2;
+package org.asmeta.atgt.rndgenerator;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;

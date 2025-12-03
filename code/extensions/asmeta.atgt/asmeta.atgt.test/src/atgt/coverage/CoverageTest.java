@@ -11,26 +11,25 @@ import org.junit.Test;
 import atgt.parser.asmeta.AsmetaLLoader;
 import atgt.specification.ASMSpecification;
 
+// coverage test for the ATGT original coverage using AsmetaLLoader
 public class CoverageTest {
 
-	
 	@Test
 	public void testGetTPTreeMVM() throws Exception {
 		generateCoverageFor("examples\\mvm0.asm");
 	}
-	
+
 	/**
 	 * @param ex
 	 * @throws Exception
 	 */
-	private void generateCoverageFor(String asmSpec) throws Exception {		
+	private void generateCoverageFor(String asmSpec) throws Exception {
 		List<AsmCoverageBuilder> coverageCriteria = new ArrayList<>();
 		for (CriteriaEnum c : CriteriaEnum.values()) {
 			// skip 3 wise and two wise monitored
-			if (c == CriteriaEnum.COMBINATORIAL_ALL)
+			if ((c == CriteriaEnum.COMBINATORIAL_ALL) || (c == CriteriaEnum.THREEWISE_ALL)) {
 				continue;
-			if (c == CriteriaEnum.THREEWISE_ALL)
-				continue;
+			}
 			coverageCriteria.add(c.criteria);
 		}
 		// build the tree depending on the criteria
@@ -39,5 +38,4 @@ public class CoverageTest {
 		ct.allTPs().forEach(x -> System.out.println(x.getName() + " " + x.getCondition()));
 	}
 
-	
 }

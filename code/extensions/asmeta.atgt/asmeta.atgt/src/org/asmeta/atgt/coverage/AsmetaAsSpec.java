@@ -1,4 +1,4 @@
-package org.asmeta.atgt.generator.coverage;
+package org.asmeta.atgt.coverage;
 
 import java.util.Collection;
 
@@ -11,17 +11,16 @@ import tgtlib.definitions.expression.type.Variable;
 import tgtlib.specification.Axiom;
 import tgtlib.specification.Specification;
 
-// should implement Specification
-//class AsmetaAsSpec extends ASMSpecification{
-	
-class AsmetaAsSpec implements Specification{
-	
-	
+// should implement Specification instead of ASMSpecification
+// class AsmetaAsSpec extends ASMSpecification{
+
+public class AsmetaAsSpec implements Specification {
+
 	Asm asm;
 
-	public AsmetaAsSpec(AsmCollection asm) throws Exception {		
+	public AsmetaAsSpec(AsmCollection asm) throws Exception {
 		// flatten the spec
-		this.asm = AsmetaMultipleFlattener.flatten(asm.getMain(), MapVisitor.ALL_SMV_FLATTENERS); 
+		this.asm = AsmetaMultipleFlattener.flatten(asm.getMain(), MapVisitor.ALL_SMV_FLATTENERS);
 	}
 
 	@Override
@@ -37,5 +36,5 @@ class AsmetaAsSpec implements Specification{
 	@Override
 	public Collection<Axiom> getAxiom() {
 		throw new RuntimeException("not implemented");
-	}	
+	}
 }

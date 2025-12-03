@@ -1,4 +1,4 @@
-package org.asmeta.atgt.generator.coverage;
+package org.asmeta.atgt.coverage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,7 +31,7 @@ import tgtlib.definitions.expression.type.EnumConstCreator;
 import tgtlib.definitions.expression.type.Type;
 
 /**
- * 
+ *
  * returns the
  *
  */
@@ -43,9 +43,9 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 
 	/**
 	 * Visita un termine.
-	 * 
+	 *
 	 * @param term the term
-	 * 
+	 *
 	 * @return the string
 	 */
 	public Expression visit(Term term) {
@@ -55,9 +55,9 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 
 	/**
 	 * Visita una VariableTerm.
-	 * 
+	 *
 	 * @param variable the variable
-	 * 
+	 *
 	 * @return the string
 	 */
 	public Expression visit(VariableTerm variable) {
@@ -77,18 +77,18 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 
 	/**
 	 * Visita un FunctionTerm.
-	 * 
+	 *
 	 * @param funcTerm il FunctionTerm
-	 * 
+	 *
 	 * @return the string
-	 * 
+	 *
 	 * @throws Exception the exception
 	 */
-	public Expression visit(FunctionTerm funcTerm) throws Exception {	
+	public Expression visit(FunctionTerm funcTerm) throws Exception {
 		assert !(funcTerm.getArguments() == null): "function term without arguments " + AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(funcTerm);
 		assert !(funcTerm.getArguments().getTerms().isEmpty());
 		List<Expression> args = funcTerm.getArguments().getTerms().stream().map( x -> this.visit(x)).collect(Collectors.toList());
-		// dominio o codominio?? 
+		// dominio o codominio??
 		Type t = getType(funcTerm.getDomain());
 		IdExpression fid = icc.createIdExpression(funcTerm.getFunction().getName(), t);
 		return  new tgtlib.definitions.expression.FunctionTerm(fid, t, args);
@@ -96,9 +96,9 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 
 	/**
 	 * Visit.
-	 * 
+	 *
 	 * @param tupleTerm the tuple term
-	 * 
+	 *
 	 * @return the string
 	 */
 	public Expression visit(TupleTerm tupleTerm) {
@@ -145,7 +145,7 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 			// convert to type AsmetaLLoader.
 			return icc.createIdExpression(location.getFunction().getName(), getType(location.getDomain()));
 		}
-		//throw new RuntimeException("not implemented yet location: " + AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(location));				
+		//throw new RuntimeException("not implemented yet location: " + AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(location));
 		IdExpression funName = icc.createIdExpression(location.getFunction().getName(), getType(location.getDomain()));
 		Type type = getType(location.getFunction().getCodomain());
 		List<Expression> args = new ArrayList<>();
@@ -181,9 +181,9 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 
 	/**
 	 * Visit a natural term.
-	 * 
+	 *
 	 * @param number the number
-	 * 
+	 *
 	 * @return the string
 	 */
 	public Expression visit(NaturalTerm number) {
@@ -196,9 +196,9 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 
 	/**
 	 * Visit.
-	 * 
+	 *
 	 * @param number the number
-	 * 
+	 *
 	 * @return the string
 	 */
 	public Expression visit(IntegerTerm number) {
@@ -207,9 +207,9 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 
 	/**
 	 * Visit.
-	 * 
+	 *
 	 * @param number the number
-	 * 
+	 *
 	 * @return the string
 	 */
 	public Expression visit(RealTerm number) {
@@ -220,9 +220,9 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 
 	/**
 	 * Visit an enum term.
-	 * 
+	 *
 	 * @param term the term
-	 * 
+	 *
 	 * @return the string
 	 */
 	public Expression visit(EnumTerm term) {
@@ -231,25 +231,27 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 
 	/**
 	 * Visit a boolean term. In NuSMV the symbolic constants are uppercase.
-	 * 
+	 *
 	 * @param bool the bool
-	 * 
+	 *
 	 * @return the string
 	 */
 	public Expression visit(BooleanTerm bool) {
-		String s = bool.getSymbol();		
-		if (s.equalsIgnoreCase("true"))
+		String s = bool.getSymbol();
+		if (s.equalsIgnoreCase("true")) {
 			return BoolType.TRUE_CONST;
-		if (s.equalsIgnoreCase("false"))
+		}
+		if (s.equalsIgnoreCase("false")) {
 			return BoolType.FALSE_CONST;
-		throw new RuntimeException("not implemented yet");		
+		}
+		throw new RuntimeException("not implemented yet");
 	}
 
 	/**
 	 * Visit.
-	 * 
+	 *
 	 * @param undef the undef
-	 * 
+	 *
 	 * @return the string
 	 */
 	public Expression visit(UndefTerm undef) {
@@ -258,9 +260,9 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 
 	/**
 	 * Visit.
-	 * 
+	 *
 	 * @param term the term
-	 * 
+	 *
 	 * @return the string
 	 */
 	public Expression visit(DomainTerm term) {
@@ -269,11 +271,11 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 
 //	/**
 //	 * Visits an existTerm.
-//	 * 
+//	 *
 //	 * @param existTerm the exist term
-//	 * 
+//	 *
 //	 * @return the string
-//	 * 
+//	 *
 //	 * @throws Exception the exception
 //	 */
 //	public Expression visit(ExistTerm existTerm) throws Exception {
@@ -282,11 +284,11 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 //
 //	/**
 //	 * Visit an ExistUniqueTerm.
-//	 * 
+//	 *
 //	 * @param exitUniqueTerm the exit unique term
-//	 * 
+//	 *
 //	 * @return the string
-//	 * 
+//	 *
 //	 * @throws Exception the exception
 //	 */
 //	public Expression visit(ExistUniqueTerm exitUniqueTerm) throws Exception {
@@ -297,16 +299,16 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 //
 //	/**
 //	 * Visits a forall term
-//	 * 
+//	 *
 //	 * @param forallTerm the forall term
-//	 * 
+//	 *
 //	 * @return the string
-//	 * 
+//	 *
 //	 * @throws Exception the exception
 //	 */
 //	public String visit(ForallTerm forallTerm) throws Exception {
 //		/*List<VariableTerm> vars = forallTerm.getVariable();
-//		List<Domain> domains = new ArrayList<Domain>(); 
+//		List<Domain> domains = new ArrayList<Domain>();
 //		Term guard = forallTerm.getGuard();
 //		ArrayList<String[]> values = new ArrayList<String[]>();
 //		Stack<String> conds = new Stack<String>();
@@ -326,9 +328,9 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 //
 //	/**
 //	 * Visit.
-//	 * 
+//	 *
 //	 * @param mapTerm the map term
-//	 * 
+//	 *
 //	 * @return the map< string, string>
 //	 */
 //	public Map<String, String> visit(MapTerm mapTerm) {

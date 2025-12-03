@@ -1,24 +1,24 @@
-package org.asmeta.atgt.generator;
+package org.asmeta.atgt.generator.nusmv;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-/** 
+/**
  * counter example ad list of states
- * 
+ *
  *
  */
 public class Counterexample implements Iterable<ModelCheckerState> {
-	
+
 	// empty counter example: there is no counter example
 	public static final Counterexample EMPTY = new Counterexample();
 
 	// teh counter example is aempty beacuse the test is unfeasible
 	public static final Counterexample INFEASIBLE = new Counterexample();
-	
+
 	private ArrayList<ModelCheckerState> counterexample;
 
 	public Counterexample() {
-		counterexample = new ArrayList<ModelCheckerState>();
+		counterexample = new ArrayList<>();
 	}
 
 	public void addState(ModelCheckerState state) {

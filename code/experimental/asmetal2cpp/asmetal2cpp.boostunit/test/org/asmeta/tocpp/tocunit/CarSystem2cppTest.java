@@ -10,8 +10,8 @@ import org.asmeta.asm2code.compiler.CompileResult;
 import org.asmeta.asm2code.compiler.CppCompiler;
 import org.asmeta.asm2code.main.CppGenerator;
 import org.asmeta.asm2code.main.HeaderGenerator;
-import org.asmeta.atgt.generator2.AsmTestGenerator;
-import org.asmeta.atgt.generator2.AsmTestGeneratorBySimulation;
+import org.asmeta.atgt.rndgenerator.AsmTestGenerator;
+import org.asmeta.atgt.rndgenerator.AsmTestGeneratorBySimulation;
 import org.asmeta.simulator.main.Simulator;
 import org.asmeta.tocpp.abstracttestgenerator.AsmTSGeneratorByNuSMV;
 import org.junit.BeforeClass;
@@ -78,7 +78,7 @@ public class CarSystem2cppTest extends AsmToUnitModuleTest{
 	
 	
 	/**
-	 * Non funziona. Da un warning su RuleEvaluator.visit e il file test.cpp è vuoto.
+	 * Non funziona. Da un warning su RuleEvaluator.visit e il file test.cpp ï¿½ vuoto.
 	 * Da CarSystem007 a CarSystem008
 	 * @throws Exception
 	 */

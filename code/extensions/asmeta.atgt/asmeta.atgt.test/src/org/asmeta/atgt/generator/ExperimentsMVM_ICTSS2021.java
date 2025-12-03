@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Timer;
@@ -26,7 +25,9 @@ import java.util.stream.StreamSupport;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.asmeta.atgt.generator.AsmTestGenerator.MBTCoverage;
-import org.asmeta.atgt.generator2.AsmTestGeneratorBySimulation;
+import org.asmeta.atgt.generator.nusmv.ConverterCounterExample;
+import org.asmeta.atgt.generator.nusmv.TestGenerationWithNuSMV;
+import org.asmeta.atgt.rndgenerator.AsmTestGeneratorBySimulation;
 import org.asmeta.atgt.testoptimizer.UnchangedRemover;
 import org.asmeta.atgt.testoptimizer.UnecessaryChangesRemover;
 import org.asmeta.nusmv.main.AsmetaSMV;
@@ -79,7 +80,7 @@ public class ExperimentsMVM_ICTSS2021 {
 		Logger.getLogger("org.asmeta.parser").setLevel(Level.OFF);
 		Logger.getLogger(AsmMonitoredDataExtractor.class).setLevel(Level.OFF);
 		Logger.getLogger("org.asmeta.simulator").setLevel(Level.OFF);
-		TestGenerationWithNuSMV.modelCheckerMode = ModelCheckerMode.LTLandBMC;;
+		AsmetaSMV.modelCheckerMode = ModelCheckerMode.LTLandBMC;
 		NuSMVtestGenerator.removeUnaskedChanges = false;
 		NuSMVtestGenerator.removeUnChangedControlles = false;
 		ConverterCounterExample.IncludeUnchangedVariables = false;
@@ -97,10 +98,9 @@ public class ExperimentsMVM_ICTSS2021 {
 		List<AsmCoverageBuilder> allcriteria = new ArrayList<>();
 		for (CriteriaEnum c : CriteriaEnum.values()) {
 			// skip 3 wise and two wise monitored
-			if (c == CriteriaEnum.COMBINATORIAL_ALL)
+			if ((c == CriteriaEnum.COMBINATORIAL_ALL) || (c == CriteriaEnum.THREEWISE_ALL)) {
 				continue;
-			if (c == CriteriaEnum.THREEWISE_ALL)
-				continue;
+			}
 			criteria.add(Collections.singleton(c.criteria));
 			allcriteria.add(c.criteria);
 		}
@@ -110,8 +110,9 @@ public class ExperimentsMVM_ICTSS2021 {
 
 		for (Collection<AsmCoverageBuilder> asmcb : criteria) {
 			String name = asmcb.stream().map(x -> x.getCoveragePrefix()).collect(Collectors.joining());
-			if (name.length() > 8)
+			if (name.length() > 8) {
 				name = "ALL";
+			}
 			println(name);
 			// generate the tests
 			Instant start = Instant.now();
@@ -126,9 +127,9 @@ public class ExperimentsMVM_ICTSS2021 {
 			// the same tests polished
 			List<AsmTestSequence> tests = result.getTests();
 			UnecessaryChangesRemover eucr = new UnecessaryChangesRemover(asms);
-			for (int i = 0; i < tests.size(); i++) {
-				UnchangedRemover.conRemover.optimize(tests.get(i));
-				eucr.optimize(tests.get(i));
+			for (AsmTestSequence test : tests) {
+				UnchangedRemover.conRemover.optimize(test);
+				eucr.optimize(test);
 			}
 			SaveResults.saveResults(result, ex, Collections.singleton(FormatsEnum.AVALLA), name + "opt", "");
 		}
@@ -146,7 +147,7 @@ public class ExperimentsMVM_ICTSS2021 {
 	public void generateMVM_0() throws Exception {
 		generatetTestsFor("examples\\mvm0.asm");
 	}
-	
+
 	@Test
 	public void generateChoose() throws Exception {
 		generatetTestsFor("examples\\SpecWithChoose.asm");
@@ -164,10 +165,9 @@ public class ExperimentsMVM_ICTSS2021 {
 		List<AsmCoverageBuilder> coverageCriteria = new ArrayList<>();
 		for (CriteriaEnum c : CriteriaEnum.values()) {
 			// skip 3 wise and two wise monitored
-			if (c == CriteriaEnum.COMBINATORIAL_ALL)
+			if ((c == CriteriaEnum.COMBINATORIAL_ALL) || (c == CriteriaEnum.THREEWISE_ALL)) {
 				continue;
-			if (c == CriteriaEnum.THREEWISE_ALL)
-				continue;
+			}
 			coverageCriteria.add(c.criteria);
 		}
 		// build the generator
@@ -179,8 +179,7 @@ public class ExperimentsMVM_ICTSS2021 {
 		for (;;) {
 			// queque just one termTran
 			AsmTestCondition gentc = null;
-			for (Iterator<AsmTestCondition> iterator = ct.allTPs().iterator(); iterator.hasNext();) {
-				AsmTestCondition tc = iterator.next();
+			for (AsmTestCondition tc : ct.allTPs()) {
 				if (tc.getStatus() == TestConditionState.TODO) {
 					tc.setToVerify(true);
 					println("generation for " + tc.getUniqueID() + "" + tc.getName());
@@ -188,8 +187,9 @@ public class ExperimentsMVM_ICTSS2021 {
 					break;
 				}
 			}
-			if (gentc == null)
+			if (gentc == null) {
 				break;
+			}
 			// generate the tests
 			Instant start = Instant.now();
 			NuSMVKillerTask task = new NuSMVKillerTask(gentc.getUniqueID());
@@ -220,8 +220,9 @@ public class ExperimentsMVM_ICTSS2021 {
 			// System.out.println("Parent: "+parent);
 			// find new dir where to put files
 			File dir = Paths.get(parent, "experiments" + data).toAbsolutePath().toFile();
-			if (!dir.exists())
+			if (!dir.exists()) {
 				dir.mkdir();
+			}
 			// same not optimezed
 			File ftc = new File(dir, gentc.getName().replace("@", "") + ".avalla");
 			new toAvalla(ftc, ts2, asmSpec).save();
@@ -230,8 +231,9 @@ public class ExperimentsMVM_ICTSS2021 {
 			UnchangedRemover.conRemover.optimize(ts2);
 			eucr.optimize(ts2);
 			dir = Paths.get(parent, "experiments_optimized" + data).toFile();
-			if (!dir.exists())
+			if (!dir.exists()) {
 				dir.mkdir();
+			}
 			ftc = new File(dir, gentc.getName().replace("@", "") + ".avalla");
 			new toAvalla(ftc, ts2, asmSpec).save();
 		}
@@ -260,7 +262,7 @@ public class ExperimentsMVM_ICTSS2021 {
 			boolean isRunning = pKiller.isProcessRunning(processName);
 			System.out.println("is " + processName + "running : " + isRunning);
 			if (isRunning) {
-				pKiller.killProcess(processName);
+				WindowsProcessKiller.killProcess(processName);
 				AsmetaSMV.proc.destroy();
 				timeout = true;
 				System.out.println("killing the process for termTran " + tpid);
@@ -268,7 +270,7 @@ public class ExperimentsMVM_ICTSS2021 {
 				System.out.println("Not able to find the process : " + processName);
 			}
 		}
-	};
+	}
 
 	@Test
 	public void generateStatistics() throws Exception {
@@ -311,15 +313,19 @@ public class ExperimentsMVM_ICTSS2021 {
 		while (true) {
 			line = br.readLine();
 
-			if (line == null)
+			if (line == null) {
 				break;
+			}
 
-			if (line.startsWith("set "))
+			if (line.startsWith("set ")) {
 				results[0]++;
-			if (line.startsWith("check "))
+			}
+			if (line.startsWith("check ")) {
 				results[1]++;
-			if (line.startsWith("step"))
+			}
+			if (line.startsWith("step")) {
 				results[2]++;
+			}
 		}
 
 		br.close();
@@ -340,10 +346,9 @@ public class ExperimentsMVM_ICTSS2021 {
 		List<AsmCoverageBuilder> coverageCriteria = new ArrayList<>();
 		for (CriteriaEnum c : CriteriaEnum.values()) {
 			// skip 3 wise and two wise monitored
-			if (c == CriteriaEnum.COMBINATORIAL_ALL)
+			if ((c == CriteriaEnum.COMBINATORIAL_ALL) || (c == CriteriaEnum.THREEWISE_ALL)) {
 				continue;
-			if (c == CriteriaEnum.THREEWISE_ALL)
-				continue;
+			}
 			coverageCriteria.add(c.criteria);
 		}
 		// read and transform the spec
@@ -414,11 +419,13 @@ public class ExperimentsMVM_ICTSS2021 {
 					"TIMER_MAX_INSP_TIME_PSV", "TIMER_MIN_EXP_TIME_PSV", "TIMER_APNEALAG", "TIMER_MAX_INS_PAUSE",
 					"TIMER_MAX_RM_TIME", "TIMER_MAX_EXP_PAUSE", "TIMER_TRIGGERWINDOWDELAY_MS",
 					"TIMER_MIN_INSP_TIME_MS" };
-			for (String s : timers)
+			for (String s : timers) {
 				addInitialState(asmTest, ASMSpecification, "start[" + s + "]", "0");
+			}
 			// expiredTIMER_MIN_INSP_TIME_MS
-			for (String s : timers)
+			for (String s : timers) {
 				addInitialState(asmTest, ASMSpecification, "expired" + s, "false");
+			}
 			// now compute coverage
 			NuSMVtestGenerator.computeCoverage(ct, asmTest, ASMSpecification);
 			System.out.println(asmTest.allInstructions());
@@ -457,10 +464,11 @@ public class ExperimentsMVM_ICTSS2021 {
 			Variable variable = ASMSpecification.getVariable(var);
 			if (variable != null) {
 				String val = initialState.get(variable);
-				if (val == null)
+				if (val == null) {
 					initialState.put(variable, value);
-				else
+				} else {
 					System.out.println("***********************");
+				}
 				return;
 			}
 			DerivedFunction derived = ASMSpecification.getDerivedFunction(var);
@@ -488,16 +496,16 @@ public class ExperimentsMVM_ICTSS2021 {
 		}
 	}
 
-	
+
 	@Test
 	public void test() throws Exception {
 		// questo falliva perch� creo due volte il test generator
 		Logger.getLogger(AsmTestGenerator.class).setLevel(Level.DEBUG);
 		Logger.getLogger(NuSMVtestGenerator.class).setLevel(Level.DEBUG);
-		List<CriteriaEnum> criteria = Arrays.asList(CriteriaEnum.COMPLETE_RULE,CriteriaEnum.MCDC);		
+		List<CriteriaEnum> criteria = Arrays.asList(CriteriaEnum.COMPLETE_RULE,CriteriaEnum.MCDC);
 		GenerateTestsFromFSM gen = new GenerateTestsFromFSM("mvm0", "examples/mvm0.asm",true,false, false, criteria);
 		//
 		gen.generate("temp", CriteriaEnum.COMPLETE_RULE.getAbbrvName()+".*", Integer.MAX_VALUE);
 	}
-	
+
 }

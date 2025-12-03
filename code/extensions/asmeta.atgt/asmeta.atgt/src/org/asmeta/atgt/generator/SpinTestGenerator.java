@@ -1,6 +1,5 @@
 package org.asmeta.atgt.generator;
 
-import atgt.coverage.AsmCoverage;
 import atgt.coverage.AsmTestSuite;
 import atgt.coverage.TestCondition;
 import atgt.generator.SpinTSuiteGenForTC;
@@ -9,7 +8,7 @@ import atgt.project.AsmProject;
 import tgtlib.specification.ParseException;
 
 /**
- * 
+ *
  * generate a JUnit test case for a given Java SUT. It generates the asmeta tests using SPIN
  *
  */
@@ -20,7 +19,7 @@ public class SpinTestGenerator extends AsmTestGenerator {
 	}
 
 	protected static final boolean SEARCH_COMMON_COVERAGE = false;
-	
+
 	/**
 	 * Generate testfor asm.
 	 *
@@ -28,14 +27,14 @@ public class SpinTestGenerator extends AsmTestGenerator {
 	 *            the asmfile
 	 * @param maxNTP
 	 *            the max number of test predicates
-	 * @param generator 
+	 * @param generator
 	 * @return the asm test suite
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@Override
 	protected AsmTestSuite generateTestforASM() throws Exception {
 		// specific to SPIN
-		AsmProject pro = new AsmProject(getSpec(), ct);
+		AsmProject pro = new AsmProject(spec, ct);
 		// ATGToolPreferences.BFS.setChecked(true);
 		ATGToolPreferences.minusILowerCase.setChecked(false);
 		SpinTSuiteGenForTC spt = SpinTSuiteGenForTC.createFlatSpinTSuiteGenForTC(pro);

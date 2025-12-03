@@ -1,4 +1,4 @@
-package org.asmeta.atgt.generator2;
+package org.asmeta.atgt.rndgenerator;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -10,13 +10,13 @@ import org.asmeta.simulator.readers.RandomMFReader;
 import org.asmeta.simulator.value.Value;
 
 
-/** 
+/**
  * keep the memory of the monitored variables
  */
 public class RandomMFReaderMemory extends RandomMFReader{
 
-	protected Map<Location,Value> values = new HashMap<Location, Value>();
-		
+	protected Map<Location,Value> values = new HashMap<>();
+
 	@Override
 	public Value readValue(Location location, State state) {
 		Value v = super.readValue(location, state);

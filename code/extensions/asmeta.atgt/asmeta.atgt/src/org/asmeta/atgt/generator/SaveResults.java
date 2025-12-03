@@ -21,7 +21,7 @@ public class SaveResults {
 
 	/**
 	 * Save results. Keep last step.
-	 * 
+	 *
 	 * @param result         the already generated test suite
 	 * @param asmetaSpecPath the asmeta file path, the folder containing the .asm
 	 *                       file, under which an abstractestsXXX folder is
@@ -54,7 +54,7 @@ public class SaveResults {
 
 	/**
 	 * Save results. Keep last step.
-	 * 
+	 *
 	 * @param result         the already generated test suite
 	 * @param asmetaSpecPath the asmeta file path, the folder containing the .asm
 	 *                       file, under which an abstractestsXXX folder is
@@ -72,7 +72,7 @@ public class SaveResults {
 
 	/**
 	 * Save results.
-	 * 
+	 *
 	 * @param result         the already generated test suite
 	 * @param asmetaSpecPath the asmeta file path, the folder containing the .asm
 	 *                       file, under which an abstractestsXXX folder is
@@ -110,7 +110,7 @@ public class SaveResults {
 
 	/**
 	 * Save results.
-	 * 
+	 *
 	 * @param result         the already generated test suite
 	 * @param asmetaSpecPath the asmeta file path, the folder containing the .asm
 	 *                       file, under which an abstractestsXXX folder is
@@ -129,8 +129,9 @@ public class SaveResults {
 			System.err.println("No formats specified");
 			return;
 		}
-		if (outputDir == null)
+		if (outputDir == null) {
 			outputDir = ".";
+		}
 		// System.out.println("Parent: "+parent);
 		// find new dir where to put files
 		String dirPath = Paths.get(outputDir, foldersuffix).toString();
@@ -188,8 +189,9 @@ public class SaveResults {
 						// remove last step
 						String avallaContent = outputStream.toString();
 						int lastStepIndex = avallaContent.lastIndexOf("step");
-						if (lastStepIndex != -1)
+						if (lastStepIndex != -1) {
 							avallaContent = avallaContent.substring(0, lastStepIndex).trim() + System.lineSeparator();
+						}
 						// write to the file
 						Files.writeString(ftc.toPath(), avallaContent);
 					}
@@ -198,19 +200,21 @@ public class SaveResults {
 				e.printStackTrace();
 			}
 		}
-		if (!"".equals(allSequences))
+		if (!"".equals(allSequences)) {
 			try {
 				File ftc = new File(testFile, config + ".protest");
 				PrintWriter fout = new PrintWriter(new FileWriter(ftc));
 				fout.println(allSequences);
 				fout.println("Information of Sequences :\n" + "2-way");
-				for (i = 0; i < result.getTests().size(); i++)
+				for (i = 0; i < result.getTests().size(); i++) {
 					fout.print("0 "); // for statistics purposes
+				}
 				fout.println();
 				fout.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		}
 	}
 
 	/** Warning: Avalla is not supported */
@@ -219,8 +223,9 @@ public class SaveResults {
 			throw new RuntimeException("No formats specified");
 		}
 		String parent = new File(asmetaSpecPath).getParent();
-		if (parent == null)
+		if (parent == null) {
 			parent = ".";
+		}
 		// System.out.println("Parent: "+parent);
 		String res = "Set of Sequences :\n";
 
@@ -236,8 +241,9 @@ public class SaveResults {
 			}
 		}
 		res += "Information of Sequences :\n2-way\n";
-		for (int i = 0; i < result.getTests().size(); i++)
+		for (int i = 0; i < result.getTests().size(); i++) {
 			res += "0 "; // for statistics purposes
+		}
 		return res;
 	}
 

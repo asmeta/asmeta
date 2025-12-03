@@ -1,4 +1,4 @@
-package org.asmeta.atgt.generator.coverage;
+package org.asmeta.atgt.coverage;
 
 import java.util.List;
 import java.util.Vector;
@@ -20,13 +20,13 @@ public class AsmetaBasicRuleVisitor implements AsmetaCoverageBuilder {
 
 	@Override
 	public String getCoveragePrefix() {
-		return "ABR";		
+		return "ABR";
 	}
 
 	@Override
 	public AsmCoverage getTPTree(AsmetaAsSpec spec) {
 		AsmetaConditionExtractor ce = new AsmetaConditionExtractor();
-		List<AsmTestCondition> list = new Vector<AsmTestCondition>();
+		List<AsmTestCondition> list = new Vector<>();
 		List<NamedTerm> conditions = ce.visit(spec.asm.getMainrule().getRuleBody());
 		for (NamedTerm ne : conditions) {
 				list.add(new AsmTestCondition(ne.getName(), ne.getCondition()));

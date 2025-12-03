@@ -1,4 +1,4 @@
-package org.asmeta.atgt.generator;
+package org.asmeta.atgt.generator.nusmv;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +11,7 @@ public class ModelCheckerState {
 
 	public ModelCheckerState(boolean loopStart) {
 		this.loopStart = loopStart;
-		varValue = new HashMap<String, String>();
+		varValue = new HashMap<>();
 	}
 
 	public void addVarValue(String var, String value) {

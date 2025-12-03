@@ -1,6 +1,6 @@
 package org.asmeta.atgt.ui.preferences;
 
-import org.asmeta.atgt.generator.ConverterCounterExample;
+import org.asmeta.atgt.generator.nusmv.ConverterCounterExample;
 import org.asmeta.atgt.generator.ui.ATGTActivator;
 import org.eclipse.core.runtime.preferences.AbstractPreferenceInitializer;
 import org.eclipse.jface.preference.IPreferenceStore;

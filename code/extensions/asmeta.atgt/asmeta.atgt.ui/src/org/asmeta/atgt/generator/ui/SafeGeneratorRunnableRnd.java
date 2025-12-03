@@ -1,7 +1,7 @@
 package org.asmeta.atgt.generator.ui;
 
 import org.asmeta.atgt.generator.SaveResults;
-import org.asmeta.atgt.generator2.AsmTestGeneratorBySimulation;
+import org.asmeta.atgt.rndgenerator.AsmTestGeneratorBySimulation;
 import org.asmeta.parser.ASMParser;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;

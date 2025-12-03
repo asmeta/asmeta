@@ -3,6 +3,7 @@ package org.asmeta.atgt.generator2;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.asmeta.atgt.rndgenerator.RandomMFReaderMemory;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.State;
 import org.asmeta.simulator.value.UndefValue;

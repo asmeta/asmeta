@@ -1,4 +1,4 @@
-package org.asmeta.atgt.generator.coverage;
+package org.asmeta.atgt.coverage;
 
 import atgt.coverage.AsmCoverage;
 import tgtlib.coverage.CoverageBuilder;
@@ -12,10 +12,10 @@ import tgtlib.coverage.CoverageBuilder;
 
 
 public interface AsmetaCoverageBuilder extends CoverageBuilder<AsmetaAsSpec, AsmCoverage>{
-	
-	
+
+
 	@Override
 	public AsmCoverage getTPTree(AsmetaAsSpec spec);
-	
+
 
 }

@@ -1,4 +1,4 @@
-package org.asmeta.atgt;
+package org.asmeta.atgt.generator;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,7 +32,7 @@ public class ComputeStats {
 //			System.out.println(file.getAbsolutePath());
 			if (file.isFile() && file.getAbsolutePath().endsWith("protest")) {
 //				System.out.println(file.getAbsolutePath());
-				try {					
+				try {
 //					statList.add(directory+sep+file.getName()+sep+computeStatistics(readFile(file.getAbsolutePath())));
 					String methods = file.getName();
 					methods = methods.substring(methods.indexOf("["), methods.indexOf("]"));
@@ -50,7 +50,7 @@ public class ComputeStats {
 
 		return statList;
 	}
-	
+
 	static String readFile(String path) throws IOException {
 		byte[] encoded = Files.readAllBytes(Paths.get(path));
 		return new String(encoded);
@@ -62,17 +62,21 @@ public class ComputeStats {
 		int nseq = 0, total = 0, min = -1, max = -1;
 		for (String line : lines) {
 //			System.out.println(line);
-			if (line.isEmpty())
+			if (line.isEmpty()) {
 				continue;
-			if (line.contains("Information"))
+			}
+			if (line.contains("Information")) {
 				break;
+			}
 			int steps = line.split(" ").length;
 			//System.out.println(steps);
 			total += steps;
-			if (min == -1 || steps < min)
+			if (min == -1 || steps < min) {
 				min = steps;
-			if (max == -1 || steps > max)
+			}
+			if (max == -1 || steps > max) {
 				max = steps;
+			}
 			nseq++;
 		}
 		String res = nseq + sep + min + sep + max + sep + total + sep + String.format("%,.2f", (double) total / (double) nseq).replace(",",".");
