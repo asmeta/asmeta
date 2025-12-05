@@ -1,0 +1,55 @@
+scenario certifierRaff4_scenario9
+load ../../../../../../../../../asm_examples/stereoacuity/certifierRaff4.asm
+
+check test = true;
+check answerError = false;
+check levelTest = 6;
+check answerSkip = false;
+check levelCertificate = 7;
+check rightAnswer = 0;
+check loop = false;
+
+step
+
+check test = true;
+check answerError = false;
+check levelTest = 6;
+check answerSkip = false;
+check currentAnswer = AA;
+check levelCertificate = 7;
+check rightAnswer = 0;
+check loop = false;
+
+step
+
+check test = true;
+check levelTest = 6;
+check answerError = true;
+check answerSkip = false;
+check currentAnswer = AA;
+check levelCertificate = 7;
+check rightAnswer = 0;
+check loop = false;
+
+step
+
+check loop = true;
+check levelTest = 6;
+check answerError = true;
+check answerSkip = false;
+check currentAnswer = AA;
+check test = false;
+check levelCertificate = 7;
+check rightAnswer = 0;
+
+step
+
+check loop = true;
+check levelTest = 6;
+check answerError = true;
+check answerSkip = false;
+check currentAnswer = AA;
+check test = false;
+check levelCertificate = 7;
+check rightAnswer = 0;
+check outMessage = NOTCERTIFICATE;

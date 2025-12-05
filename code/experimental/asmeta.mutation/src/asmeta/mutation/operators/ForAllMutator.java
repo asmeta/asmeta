@@ -23,6 +23,7 @@ import asmeta.transitionrules.basictransitionrules.Rule;
 import asmeta.transitionrules.basictransitionrules.SkipRule;
 import asmeta.transitionrules.basictransitionrules.TermAsRule;
 import asmeta.transitionrules.basictransitionrules.UpdateRule;
+import asmeta.transitionrules.basictransitionrules.impl.ForallRuleImpl;
 import asmeta.transitionrules.derivedtransitionrules.CaseRule;
 import asmeta.transitionrules.turbotransitionrules.SeqRule;
 import asmeta.transitionrules.turbotransitionrules.TurbotransitionrulesFactory;
@@ -90,22 +91,31 @@ public class ForAllMutator extends RuleBasedMutator {
 			
 			//mutation that negate the guard
 			ForallRule notGuardRule = BasictransitionrulesFactory.eINSTANCE.createForallRule();
-			notGuardRule.setDoRule(rule.getDoRule());
+			Rule doRule = EcoreUtil.copy(rule.getDoRule());
+			notGuardRule.setDoRule(doRule);
 			Term guard = EcoreUtil.copy(rule.getGuard());
 			StdlFunction f = new StdlFunction(asm);
 			notGuardRule.setGuard(f.not(guard));
+			notGuardRule.getRanges().addAll(rule.getRanges());
+			notGuardRule.getVariable().addAll(rule.getVariable());
 			mutated.add(notGuardRule);
 			
 			//mutation that set guard as true
-			ForallRule trueGuardRule = BasictransitionrulesFactory.eINSTANCE.createForallRule();
-			trueGuardRule.setDoRule(rule.getDoRule());
+			ForallRule trueGuardRule =  BasictransitionrulesFactory.eINSTANCE.createForallRule();
+			doRule = EcoreUtil.copy(rule.getDoRule());
+			trueGuardRule.setDoRule(doRule);
 			trueGuardRule.setGuard(BasictermsFactoryImpl.eINSTANCE.createBooleanTerm(true));
+			trueGuardRule.getRanges().addAll(rule.getRanges());
+			trueGuardRule.getVariable().addAll(rule.getVariable());
 			mutated.add(trueGuardRule);
 			
 			//mutation that set guard as false
-			ForallRule falseGuardRule = BasictransitionrulesFactory.eINSTANCE.createForallRule();
-			falseGuardRule.setDoRule(rule.getDoRule());
+			ForallRule falseGuardRule =  BasictransitionrulesFactory.eINSTANCE.createForallRule();
+			doRule = EcoreUtil.copy(rule.getDoRule());
+			falseGuardRule.setDoRule(doRule);
 			falseGuardRule.setGuard(BasictermsFactoryImpl.eINSTANCE.createBooleanTerm(false));
+			falseGuardRule.getRanges().addAll(rule.getRanges());
+			falseGuardRule.getVariable().addAll(rule.getVariable());
 			mutated.add(falseGuardRule);
 			
 			return mutated;

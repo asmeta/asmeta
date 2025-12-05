@@ -81,7 +81,7 @@ public class AnalysisRunner {
 		Logger.getLogger(SimulatorWCov.class).setLevel(Level.ERROR);
 		Logger.getLogger(AsmetaV.class).setLevel(Level.ERROR);
 		ASMParser.getResultLogger().setLevel(Level.ERROR);
-		System.setOut(new PrintStream(OutputStream.nullOutputStream()));
+//		System.setOut(new PrintStream(OutputStream.nullOutputStream()));
 
 		// Validate input directory argument
 		if (args.length < 1)
@@ -309,8 +309,9 @@ public class AnalysisRunner {
 							}
 						} catch (Throwable t) {
 							status = STATUS.MUTATION_ERROR;
-							LOG.error("Error while running the mutation.\n" + t.getClass().getSimpleName() + ": "
-									+ t.getMessage());
+							t.printStackTrace();
+//							LOG.error("Error while running the mutation.\n" + t.getClass().getSimpleName() + ": "
+//									+ t.getMessage());
 						}
 
 						// Append a consolidated row to data.csv
