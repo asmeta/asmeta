@@ -1,8 +1,8 @@
 # --- Input specification ---
 input:
-  mode: "list"   # one of: single | directory | list
+  mode: "directory"   # one of: single | directory | list
   # --- single file mode ---
-  source_file: "../../../../asm_examples/PHD/phd_master_flat2_v1.asm"
+  source_file: "../../../../asm_examples/examples/sensorVotingSimpleVersion.asm"
   # --- directory mode ---
   source_dir: "data/ase-exp/models/"
   # --- list mode ---
@@ -16,13 +16,13 @@ output:
 # --- Algorithms to run ---
 algorithms:
   random:
-    run: true
+    run: false
     shuffle: false
-    step_list: [1]
+    step_list: [10,10,10]
   atgt:
     run: true
   evoavalla:
-    run: true
+    run: false
     shuffle: false
     jdk_path: "C:/Program Files/Java/jdk1.8.0_202"
-    budget: 1
+    budget: 2

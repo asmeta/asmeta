@@ -46,7 +46,7 @@
 					<!-- ICST Experiments jar  -->
 					<!-- use: 
 					java -cp icst-experiments-runner.jar asmeta.evotest.experiments.ScenarioGeneratorRunner
-					java -cp icst-experiments-runner.jar asmeta.evotest.experiments.CoverageAnalysisRunner [arguments]
+					java -cp icst-experiments-runner.jar asmeta.evotest.experiments.AnalysisRunner [arguments]
 					-->
 					<execution>
 	                    <id>test-generator-jar</id>

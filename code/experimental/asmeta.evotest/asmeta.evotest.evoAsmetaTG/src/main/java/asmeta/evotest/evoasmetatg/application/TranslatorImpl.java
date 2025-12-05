@@ -292,8 +292,8 @@ public class TranslatorImpl implements Translator {
 		// be generated
 		// -Dtest_dir="<<workingDir>/evosuite/evosuite-tests>"
 		String evosuiteTestsOption = TranslatorConstants.EVOSUITE_TEST_DIR_OPTION + TranslatorConstants.EQ
-				+ TranslatorConstants.DOUBLE_QUOTES + fileManager.getEvosuiteTestsPathToString()
-				+ TranslatorConstants.DOUBLE_QUOTES;
+				/*+ TranslatorConstants.DOUBLE_QUOTES*/ + fileManager.getEvosuiteTestsPathToString()
+				/*+ TranslatorConstants.DOUBLE_QUOTES*/;
 
 		// Set the location of the report.csv file
 		// -Dreport_dir="<<workingDir>/evosuite/evosuite-report>"
