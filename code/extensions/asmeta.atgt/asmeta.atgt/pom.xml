@@ -52,5 +52,10 @@
 	  <artifactId>asmeta.smv</artifactId>
 	  <version>0.0.1-SNAPSHOT</version>
 	</dependency>
+	<dependency>
+	  	<artifactId>org.asmeta.avallaxt</artifactId>
+		<groupId>asmeta</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+	</dependency>
   </dependencies>
 </project>
