@@ -3,7 +3,7 @@
    created on 26 Nov 2025, 18:47:48
  */
 asm population__tempAsmetaV6005497458607192670
-import C:\\Users\\angel\\Documents\\codefromrepos\\asmeta\\asmeta\\asm_examples\\STDL\\StandardLibrary
+import ../../../../../../asm_examples/STDL/StandardLibrary
 
 signature:
     dynamic abstract domain Person
