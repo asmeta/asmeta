@@ -15,14 +15,24 @@ import org.junit.Test;
 import asmeta.AsmCollection;
 
 public class ChooseRuleMutatorTest {
+	
 	@Test
-	public void testMutatate() throws Exception {
+	public void testMutateSimpleChoose() throws Exception {
+		testChooseMutator("examples/chooseToLet.asm", 1);
+	}
+	
+	@Test
+	public void testMutateCoffeVendingMachine() throws Exception {
+		testChooseMutator("experiments_nfm25/CoffeeVendingMachineRefined.asm", 1);
+	}
+	
+	private void testChooseMutator(String asmFile, int nChoose) throws Exception {
 		StringWriter stringWriter = new StringWriter();
 		PrintWriter pw = new PrintWriter(stringWriter, true);
 		pw.println("TEST STRING");
 		AsmPrinter amPrint = new AsmPrinter(pw);
-		String string = "experiments_nfm25/CoffeeVendingMachineRefined.asm";
-		File f = new File(string);
+		
+		File f = new File(asmFile);
 		assertTrue(f.exists());
 		AsmCollection asmeta = ASMParser.setUpReadAsm(f);
 		amPrint.visit(asmeta.getMain().getMainrule());
@@ -33,10 +43,11 @@ public class ChooseRuleMutatorTest {
 		ChooseRuleMutator mutator = new ChooseRuleMutator();
 		List<AsmCollection> mutrul = mutator.mutate(asmeta);
 		
-		assertEquals(1, mutrul.size());
+		assertEquals(nChoose, mutrul.size());
 		amPrint.visit(mutrul.get(0).getMain().getMainrule());
 		System.out.println(stringWriter.toString());
 		amPrint.close();
 	}
+	
 
 }

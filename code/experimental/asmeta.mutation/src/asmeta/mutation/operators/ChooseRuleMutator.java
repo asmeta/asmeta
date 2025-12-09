@@ -8,9 +8,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.RuleVisitor;
+import org.asmeta.simulator.State;
 import org.asmeta.simulator.readers.RandomMFReader;
 import org.asmeta.simulator.value.Value;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import asmeta.transitionrules.basictransitionrules.BlockRule;
@@ -26,9 +29,12 @@ import asmeta.transitionrules.basictransitionrules.TermAsRule;
 import asmeta.transitionrules.basictransitionrules.UpdateRule;
 import asmeta.transitionrules.derivedtransitionrules.CaseRule;
 import asmeta.transitionrules.turbotransitionrules.SeqRule;
+import asmeta.definitions.domains.Domain;
 import asmeta.terms.basicterms.ConstantTerm;
+import asmeta.terms.basicterms.DomainTerm;
 import asmeta.terms.basicterms.SetTerm;
 import asmeta.terms.basicterms.Term;
+import asmeta.terms.basicterms.VariableTerm;
 import asmeta.terms.basicterms.impl.BasictermsFactoryImpl;
 import asmeta.transitionrules.basictransitionrules.*;
 //import org.asmeta.simulator.util.StdlFunction;
@@ -48,7 +54,7 @@ public class ChooseRuleMutator extends RuleBasedMutator {
 		
 		static NullPrintStream nullPrintStream = new NullPrintStream();
 		
-		static RandomMFReader rndReader = new RandomMFReader(nullPrintStream);
+		static RandomMFReader rndReader = new RandomMFReader(new State(null, new Environment(null)), nullPrintStream);
 		
 		static ValueToTerm valtoterm = new ValueToTerm();
 
@@ -92,37 +98,31 @@ public class ChooseRuleMutator extends RuleBasedMutator {
 			return Collections.EMPTY_LIST;
 		}
 
-		// The visit return a choose rule that behaves as a let rule:
-		// - the guard is set to true
-		// - each domain is restricted to a single element domain
 		@Override
 		public List<Rule> visit(ChooseRule rule) {
 			List<Rule> mutated = new ArrayList<>();
-			// convert to choose rule which does not chose
-			ChooseRule cr = BasictransitionrulesFactory.eINSTANCE.createChooseRule();
-			cr.getVariable().addAll(rule.getVariable());
-			cr.getRanges().clear();
-			// set the domain as one element with a random value for each variable
-			for (Term varibale : cr.getVariable()) {
-				// get a random value
-				Value value = rndReader.visit(varibale.getDomain());
-				// convert it to a set term containing only one constant term
-				SetTerm in = asmeta.terms.basicterms.BasictermsFactory.eINSTANCE.createSetTerm();
-				ConstantTerm domainTerm = valtoterm.visit(value);
-				in.getTerm().add(domainTerm);
-				// add the set term to the list of ranges
-				cr.getRanges().add(in);
+			EList<Term> chooseRanges = rule.getRanges();
+			EList<VariableTerm> chooseVariables = rule.getVariable();
+			// Create an empty let to be populated
+			LetRule lr = BasictransitionrulesFactory.eINSTANCE.createLetRule();
+			// For each range, get a random element
+			List<ConstantTerm> initTerms = new ArrayList<>();
+			for (int i = 0; i < chooseRanges.size(); i++) {
+				Term range = chooseRanges.get(i);
+				ConstantTerm randomTerm;
+				if (range instanceof SetTerm st) {
+					randomTerm = rndReader.visit(st);
+				} else {
+					Value randomValue = rndReader.visit(chooseVariables.get(i).getDomain());
+					randomTerm = valtoterm.visit(randomValue);
+				}
+				initTerms.add(randomTerm);
 			}
-			// Keep the same doRule
-			Rule doRuleCopy = EcoreUtil.copy(rule.getDoRule());
-			cr.setDoRule(doRuleCopy);
-			// Put ifnone rule to null (guard always true)
-			cr.setIfnone(null);
-			// Change the guard to true
-			Term guardCopy = EcoreUtil.copy(rule.getGuard());
-			cr.setGuard(guardCopy);
-			cr.setGuard(BasictermsFactoryImpl.eINSTANCE.createBooleanTerm(true));
-			mutated.add(cr);
+			// Populate the let with same variables, same in rule, and the random terms
+			lr.getVariable().addAll(chooseVariables);
+			lr.getInitExpression().addAll(initTerms);
+			lr.setInRule(EcoreUtil.copy(rule.getDoRule()));
+			mutated.add(lr);
 			return mutated;
 		}
 

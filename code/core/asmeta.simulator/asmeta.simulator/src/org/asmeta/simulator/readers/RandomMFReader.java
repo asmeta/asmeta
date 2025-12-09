@@ -42,6 +42,8 @@ import asmeta.definitions.domains.ProductDomain;
 import asmeta.definitions.domains.RealDomain;
 import asmeta.definitions.domains.SequenceDomain;
 import asmeta.definitions.domains.StringDomain;
+import asmeta.terms.basicterms.ConstantTerm;
+import asmeta.terms.basicterms.SetTerm;
 
 /**
  * simulates a random user
@@ -168,6 +170,16 @@ public class RandomMFReader extends AllowUndefMFReader {
 	/** returns null if the abstract domain is empty */
 	public ReserveValue visit(AbstractTd domain) {
 		return (ReserveValue) getRndElement(domain);
+	}
+	
+	/** returns null if the set term is empty */
+	public ConstantTerm visit(SetTerm set) {
+		int nElem = set.getSize();
+		if (nElem > 0) {
+			int numEl = random.nextInt(set.getSize());
+			return (ConstantTerm) set.getTerm().get(numEl);
+		}
+		return null;
 	}
 
 	private Value getRndElement(Domain domain) {
