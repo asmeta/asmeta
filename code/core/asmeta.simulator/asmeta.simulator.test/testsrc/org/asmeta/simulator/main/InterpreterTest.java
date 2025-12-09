@@ -538,6 +538,9 @@ public class InterpreterTest extends BaseTest {
 		f = searchFunction("f2");
 		v = sim.currentState.read(new Location(f, new Value[0]));
 		assertEquals(new IntegerValue(2), v);
+		ConcreteDomain dom1 = (ConcreteDomain) searchDomain("Dom1");
+		// TODO the dom1 should be Dom1={dom1!2} or something similar
+		
 	}
 
 	@Test

@@ -54,6 +54,11 @@ public class ReserveValue extends Value<String> {
 	 * @return a new unique name
 	 */
 	protected static String mangleName(String name) {
+		assert name.length() >= 1;
+		// new AG 09/12: convert to lowercase the first lettere
+		if (Character.isUpperCase(name.charAt(0))) {
+			name = Character.toLowerCase(name.charAt(0)) + name.substring(1);
+		}
 		//old version: il suffisso e' incrementale, senza tenere conto di domini diversi.
 		//Siano dati due domini DomA e DomB. Due extend rule sui due domini (prima su DomA
 		//e poi su DomB) hanno come risultato la creazione di "DomA!1" e "DomB!2".
