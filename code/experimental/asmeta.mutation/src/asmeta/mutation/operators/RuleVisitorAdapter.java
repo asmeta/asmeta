@@ -191,6 +191,16 @@ final public class RuleVisitorAdapter extends RuleVisitor<List<Rule>> {
 			mutatedRules.add(newMutation);
 		}
 		
+		Rule ifnoneRule = rule.getIfnone();
+		if (ifnoneRule != null) {
+			List<Rule> newIfnoneRules = this.visit(ifnoneRule);
+			for (Rule r : newIfnoneRules) {
+				ChooseRule newMutation = EcoreUtil.copy(rule);
+				newMutation.setIfnone(r);
+				mutatedRules.add(newMutation);
+			}
+		}
+		
 		return mutatedRules;
 	}
 

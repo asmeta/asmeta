@@ -28,7 +28,7 @@ public class CsvManager {
 	public static final List<String> CSV_HEADERS = List.of("asm_path", "asm_name", "n_macro", "n_update", "n_forall",
 			"n_branch", "n_rule", "approach", "status", "exec_time_ms", "n_scenarios", "n_step", "n_set", "n_check",
 			"macro_coverage", "update_rule_coverage", "forall_rule_coverage", "branch_coverage", "rule_coverage",
-			"n_failing_scenarios", "n_val_error_scenarios", "casemutator_score", "chooserulemutate_score",
+			"n_failing_scenarios", "n_val_error_scenarios", "casemutator_score", "chooserulemutator_score",
 			"condnegator_score", "condremover_score", "forallmutator_score", "partoseqmutator_score",
 			"seqtoparmutator_score", "ruleremover_score");
 

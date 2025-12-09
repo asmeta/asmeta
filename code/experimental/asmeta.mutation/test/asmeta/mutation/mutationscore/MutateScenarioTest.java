@@ -12,7 +12,7 @@ import org.junit.Test;
 
 import asmeta.AsmCollection;
 import asmeta.mutation.mutationscore.MutatedScenarioExecutor.AsmetaMutatedFromAvalla;
-import asmeta.mutation.operators.ChooseRuleMutate;
+import asmeta.mutation.operators.ChooseRuleMutator;
 
 public class MutateScenarioTest {
 	@Test
@@ -24,7 +24,7 @@ public class MutateScenarioTest {
 		AsmetaMutatedFromAvalla asmetaBuilder = new AsmetaMutatedFromAvalla(scenarioPath , temp);
 		// mutate the asmeta
 		//ChooseRuleMutate mut = new ChooseRuleMutate(asmetaBuilder.getAsm().getMain());
-		ChooseRuleMutate mut = new ChooseRuleMutate();
+		ChooseRuleMutator mut = new ChooseRuleMutator();
 		AsmCollection orginalAsm = asmetaBuilder.getAsm();
 		List<AsmCollection> mutants = mut.mutate(orginalAsm);
 		assertEquals(1, mutants.size());

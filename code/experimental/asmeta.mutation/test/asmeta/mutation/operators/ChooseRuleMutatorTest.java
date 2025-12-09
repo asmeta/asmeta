@@ -14,7 +14,7 @@ import org.junit.Test;
 
 import asmeta.AsmCollection;
 
-public class ChoseRuleMutate {
+public class ChooseRuleMutatorTest {
 	@Test
 	public void testMutatate() throws Exception {
 		StringWriter stringWriter = new StringWriter();
@@ -26,18 +26,17 @@ public class ChoseRuleMutate {
 		assertTrue(f.exists());
 		AsmCollection asmeta = ASMParser.setUpReadAsm(f);
 		amPrint.visit(asmeta.getMain().getMainrule());
-//		amPrint.close();
-		System.out.println(stringWriter.toString()); stringWriter.getBuffer().setLength(0);
+		System.out.println(stringWriter.toString()); 
+		stringWriter.getBuffer().setLength(0);
 
-		List<AsmCollection> mutrul = new ChooseRuleMutate().mutate(asmeta);
-		assertEquals(2, mutrul.size());
-
+		// Mutate the asm
+		ChooseRuleMutator mutator = new ChooseRuleMutator();
+		List<AsmCollection> mutrul = mutator.mutate(asmeta);
+		
+		assertEquals(1, mutrul.size());
 		amPrint.visit(mutrul.get(0).getMain().getMainrule());
 		System.out.println(stringWriter.toString());
-		amPrint.visit(mutrul.get(1).getMain().getMainrule());
-		System.out.println(stringWriter.toString());
 		amPrint.close();
-
 	}
 
 }

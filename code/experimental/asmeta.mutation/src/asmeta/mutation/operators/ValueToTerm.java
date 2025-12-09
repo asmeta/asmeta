@@ -1,9 +1,11 @@
 package asmeta.mutation.operators;
 
 import org.asmeta.parser.util.ReflectiveVisitor;
+import org.asmeta.simulator.value.BooleanValue;
 import org.asmeta.simulator.value.EnumValue;
 import org.asmeta.simulator.value.IntegerValue;
 
+import asmeta.terms.basicterms.BooleanTerm;
 import asmeta.terms.basicterms.ConstantTerm;
 import asmeta.terms.furtherterms.EnumTerm;
 import asmeta.terms.furtherterms.IntegerTerm;
@@ -14,6 +16,13 @@ public class ValueToTerm extends ReflectiveVisitor<ConstantTerm> {
 	public IntegerTerm visit(IntegerValue iv) {
 		IntegerTerm i = asmeta.terms.furtherterms.FurthertermsFactory.eINSTANCE.createIntegerTerm();
 		i.setSymbol(iv.toString());
+		return i;
+	}
+	
+	public BooleanTerm visit(BooleanValue bv) {
+		asmeta.terms.basicterms.BasictermsFactory.eINSTANCE.createBooleanTerm();
+		BooleanTerm i = asmeta.terms.basicterms.BasictermsFactory.eINSTANCE.createBooleanTerm();
+		i.setSymbol(bv.toString());
 		return i;
 	}
 	

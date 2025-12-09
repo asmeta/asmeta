@@ -81,7 +81,7 @@ public class AnalysisRunner {
 		Logger.getLogger(SimulatorWCov.class).setLevel(Level.ERROR);
 		Logger.getLogger(AsmetaV.class).setLevel(Level.ERROR);
 		ASMParser.getResultLogger().setLevel(Level.ERROR);
-//		System.setOut(new PrintStream(OutputStream.nullOutputStream()));
+		System.setOut(new PrintStream(OutputStream.nullOutputStream()));
 
 		// Validate input directory argument
 		if (args.length < 1)
@@ -295,6 +295,7 @@ public class AnalysisRunner {
 							MutatedScenarioExecutor mutationExecutor = new MutatedScenarioExecutor();
 							HashMap<String, List<AsmCollection>> allMutantions = mutationExecutor.generateMutants(asm);
 							for (Entry<String, List<AsmCollection>> mutation : allMutantions.entrySet()) {
+								LOG.info("Mutant operator: " + mutation.getKey());
 								String mutantionName = mutation.getKey().toLowerCase() + "_score";
 								List<AsmCollection> mutatedAsms = mutation.getValue();
 								int nMutants = mutatedAsms.size();
@@ -309,9 +310,8 @@ public class AnalysisRunner {
 							}
 						} catch (Throwable t) {
 							status = STATUS.MUTATION_ERROR;
-							t.printStackTrace();
-//							LOG.error("Error while running the mutation.\n" + t.getClass().getSimpleName() + ": "
-//									+ t.getMessage());
+							LOG.error("Error while running the mutation.\n" + t.getClass().getSimpleName() + ": "
+									+ t.getMessage());
 						}
 
 						// Append a consolidated row to data.csv
