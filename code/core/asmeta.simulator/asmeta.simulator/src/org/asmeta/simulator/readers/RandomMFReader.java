@@ -154,7 +154,6 @@ public class RandomMFReader extends AllowUndefMFReader {
 	}
 
 	/** returns null if an element is null */
-
 	public TupleValue visit(ProductDomain domain) {
 //		int n = domain.getDomains().size();
 		List<Value> value = new ArrayList<Value>();

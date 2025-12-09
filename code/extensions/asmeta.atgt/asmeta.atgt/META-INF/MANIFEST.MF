@@ -43,3 +43,4 @@ Export-Package: atgt.combinatorial,
  tgtlib.definitions.expression.type,
  tgtlib.definitions.expression.visitors,
  tgtlib.specification
+Import-Package: tgtlib.definitions.expression.type

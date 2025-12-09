@@ -1,0 +1,44 @@
+scenario scenarioname
+
+load concreteDomain2.asm
+
+//// test name test@test0
+//// generated for (test goal): test0: NULL
+
+step
+check f(a!1) = 9;
+check f(b!1) = 9;
+check f(b!2) = 9;
+check f(b!3) = 9;
+step
+check f(a!2) = 9;
+check f(b!4) = 9;
+check f(b!5) = 9;
+check f(b!6) = 9;
+step
+check f(a!3) = 9;
+check f(b!7) = 9;
+check f(b!8) = 9;
+check f(b!9) = 9;
+step
+check contains(B,b!11) = true;
+check contains(B,b!12) = true;
+check contains(A,a!2) = true;
+check contains(A,a!3) = true;
+check contains(A,a!4) = true;
+check contains(B,b!10) = true;
+check contains(A,a!1) = true;
+check contains(B,b!3) = true;
+check contains(B,b!2) = true;
+check contains(B,b!1) = true;
+check f(b!12) = 9;
+check f(a!4) = 9;
+check f(b!11) = 9;
+check contains(B,b!9) = true;
+check f(b!10) = 9;
+check contains(B,b!8) = true;
+check contains(B,b!7) = true;
+check contains(B,b!6) = true;
+check contains(B,b!5) = true;
+check contains(B,b!4) = true;
+step
