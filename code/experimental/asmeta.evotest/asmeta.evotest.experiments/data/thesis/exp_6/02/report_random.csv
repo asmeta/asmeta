@@ -1,2 +1,0 @@
-execution_id,asm_name,rule_signature,tot_conditional_rules,covered_true_conditional_rules,covered_false_conditional_rules,tot_update_rules,covered_update_rules,failing_scenarios
-exec_Ascensore_1,Ascensore,r_Main(),6,5,4,7,5,none

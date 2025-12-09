@@ -1,8 +1,0 @@
-scenario CashPoint_scenario0
-
-load ./..\..\..\..\models\CashPoint.asm
-
-
-step
-
-set amount(till1) := (-1942);

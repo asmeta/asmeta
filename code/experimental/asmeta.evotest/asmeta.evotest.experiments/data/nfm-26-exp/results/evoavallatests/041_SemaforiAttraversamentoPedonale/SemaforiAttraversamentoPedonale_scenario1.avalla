@@ -1,0 +1,11 @@
+scenario SemaforiAttraversamentoPedonale_scenario1
+load ../../../../../../../../../asm_examples/examples/SemaforiAttraversamentoPedonale.asm
+
+check semaforoMacchine = VERDE;
+check semaforoPedoni = ROSSO;
+set prenotazione := true;
+
+step
+
+check semaforoMacchine = ROSSO;
+check semaforoPedoni = VERDE;

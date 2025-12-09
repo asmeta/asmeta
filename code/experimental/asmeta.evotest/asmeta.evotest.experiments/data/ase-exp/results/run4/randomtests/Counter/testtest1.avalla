@@ -1,9 +1,0 @@
-scenario testtest1
-
-load ./..\..\..\..\models\Counter.asm
-
-//// test name test@test1
-//// generated for (test goal): test1: NULL
-set click := false;
-step
-step

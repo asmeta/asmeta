@@ -1,6 +1,0 @@
-scenario testRG_r_Main_F
-
-load ./..\..\..\..\models\CoffeeVendingMachine.asm
-
-//// test name test@RG_r_Main_F
-//// generated for (test goal): RG_r_Main_F: coins >= 25

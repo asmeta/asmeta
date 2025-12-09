@@ -43,10 +43,10 @@
 							</descriptorRefs>
 						</configuration>
 					</execution>
-					<!-- ICST Experiments jar  -->
+					<!-- ICST and NFM Experiments jar  -->
 					<!-- use: 
-					java -cp icst-experiments-runner.jar asmeta.evotest.experiments.ScenarioGeneratorRunner
-					java -cp icst-experiments-runner.jar asmeta.evotest.experiments.AnalysisRunner [arguments]
+					java -cp experiments-runner.jar asmeta.evotest.experiments.ScenarioGeneratorRunner
+					java -cp experiments-runner.jar asmeta.evotest.experiments.AnalysisRunner [arguments]
 					-->
 					<execution>
 	                    <id>test-generator-jar</id>
@@ -55,9 +55,9 @@
 	                        <goal>single</goal>
 	                    </goals>
 	                    <configuration>
-	                        <finalName>icst-experiments-runner</finalName>
+	                        <finalName>experiments-runner</finalName>
 	                        <appendAssemblyId>false</appendAssemblyId>
-	                        <outputDirectory>data/icst-26-exp</outputDirectory>
+	                        <outputDirectory>data</outputDirectory>
 	                        <!-- when using java -jar icst-experiments-runner.jar, run scenario generation -->
 	                        <archive>
 	                            <manifest>

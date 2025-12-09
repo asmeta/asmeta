@@ -1,8 +1,0 @@
-scenario Counter_scenario4
-
-load ./..\..\..\..\models\Counter.asm
-
-set click := true;
-
-step
-

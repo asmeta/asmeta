@@ -1,0 +1,122 @@
+scenario certifierRaff4_scenario5
+load ../../../../../../../../../asm_examples/stereoacuity/certifierRaff4.asm
+
+check rightAnswer = 0;
+check test = true;
+check answerError = false;
+check loop = false;
+check levelCertificate = 7;
+check levelTest = 6;
+check answerSkip = false;
+
+step
+
+check rightAnswer = 0;
+check test = true;
+check answerError = false;
+check loop = false;
+check levelCertificate = 7;
+check currentAnswer = AA;
+check levelTest = 6;
+check answerSkip = false;
+set getAnswer := AA;
+
+step
+
+check rightAnswer = 0;
+check test = true;
+check answerError = false;
+check loop = false;
+check levelCertificate = 6;
+check currentAnswer = AA;
+check levelTest = 5;
+check answerSkip = false;
+
+step
+
+check rightAnswer = 0;
+check test = true;
+check answerError = false;
+check loop = false;
+check levelCertificate = 5;
+check currentAnswer = AA;
+check levelTest = 4;
+check answerSkip = false;
+
+step
+
+check levelTest = 3;
+check rightAnswer = 0;
+check test = true;
+check answerError = false;
+check loop = false;
+check levelCertificate = 4;
+check currentAnswer = AA;
+check answerSkip = false;
+
+step
+
+check levelTest = 2;
+check rightAnswer = 0;
+check test = true;
+check answerError = false;
+check loop = false;
+check levelCertificate = 3;
+check currentAnswer = AA;
+check answerSkip = false;
+
+step
+
+check levelTest = 1;
+check rightAnswer = 0;
+check test = true;
+check answerError = false;
+check levelCertificate = 2;
+check loop = false;
+check currentAnswer = AA;
+check answerSkip = false;
+
+step
+
+check levelTest = 1;
+check test = true;
+check rightAnswer = 1;
+check answerError = false;
+check levelCertificate = 2;
+check loop = false;
+check currentAnswer = AA;
+check answerSkip = false;
+
+step
+
+check levelTest = 1;
+check test = true;
+check answerError = false;
+check levelCertificate = 2;
+check loop = false;
+check rightAnswer = 2;
+check currentAnswer = AA;
+check answerSkip = false;
+
+step
+
+check levelTest = 1;
+check levelCertificate = 1;
+check answerError = false;
+check loop = false;
+check rightAnswer = 2;
+check test = false;
+check currentAnswer = AA;
+check answerSkip = false;
+
+step
+
+check levelTest = 1;
+check levelCertificate = 1;
+check answerError = false;
+check loop = false;
+check rightAnswer = 2;
+check test = false;
+check currentAnswer = AA;
+check outMessage = CERTIFICATE;
+check answerSkip = false;

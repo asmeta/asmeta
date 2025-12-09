@@ -1,7 +1,0 @@
-scenario GuessBigNumber_scenario4
-
-load ./..\..\..\..\models\GuessBigNumber.asm
-
-
-step
-

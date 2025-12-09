@@ -1,9 +1,0 @@
-scenario GuessBigNumber_scenario2
-
-load ./..\..\..\..\models\GuessBigNumber.asm
-
-check 1171 = 1171;
-set guess := 1171;
-
-step
-
