@@ -38,6 +38,7 @@ public final class ModelScanner {
 		ASM_MODULE("module"),
 		OLD_DIR("old directory"),
 		SKIP_DIR("skip directory"),
+		SKIP_ASM("skip asm"),
 		NO_PAR("no par rule");
 
 		private final String comment;
@@ -55,6 +56,8 @@ public final class ModelScanner {
 
 	private static final List<String> SKIP_DIRS = Arrays.asList("STDL", "asmetal2cpp", "test", "workspaceMSL",
 			"drafts", "turboRules");
+	
+	private static final List<String> SKIP_ASMS = Arrays.asList("iterativeWhile");
 
 	private static final List<String> DUPLICATES = Arrays.asList(
 			"examples\\landingGearSystem\\LandingGearSystemWithCylAndValves.asm",
@@ -154,6 +157,8 @@ public final class ModelScanner {
 					collectedFiles.put(path, FileLabel.OLD_ASM);
 				} else if (DUPLICATES.contains(path)) {
 					collectedFiles.put(path, FileLabel.DUPLICATE_ASM);
+				} else if (SKIP_ASMS.contains(name.replace(ASMParser.ASM_EXTENSION, ""))) {
+					collectedFiles.put(path, FileLabel.SKIP_ASM);
 				} else {
 					try {
 						AsmCollection asms = ASMParser.setUpReadAsm(file);

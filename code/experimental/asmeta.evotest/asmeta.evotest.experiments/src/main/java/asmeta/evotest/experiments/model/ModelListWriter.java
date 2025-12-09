@@ -31,14 +31,15 @@ public final class ModelListWriter {
 	                .max().orElse(0);
 	        // Write groups in a fixed order
 	        List<FileLabel> order = List.of(
-	                FileLabel.SKIP_DIR,
-	                FileLabel.OLD_DIR,
-	                FileLabel.OLD_ASM,
-	                FileLabel.DUPLICATE_ASM,
-	                FileLabel.ASM_MODULE,
-	                FileLabel.PARSE_ERR_ASM,
-	                FileLabel.NO_PAR,
-	                FileLabel.VALID_ASM
+	        		FileLabel.SKIP_DIR,
+	        		FileLabel.OLD_DIR,
+	        		FileLabel.SKIP_ASM,
+	        		FileLabel.OLD_ASM,
+	        		FileLabel.DUPLICATE_ASM,
+	        		FileLabel.ASM_MODULE,
+	        		FileLabel.PARSE_ERR_ASM,
+	        		FileLabel.NO_PAR,
+	        		FileLabel.VALID_ASM
 	        );
 	        // Print total number of specs (valid and invalid)
 	        String initialComment = "// total: " + totalAsms + System.lineSeparator() + System.lineSeparator();;
