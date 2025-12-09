@@ -23,7 +23,7 @@ import org.asmeta.xt.validator.AsmetaV;
 import org.asmeta.xt.validator.ValidationResult;
 
 import asmeta.AsmCollection;
-import asmeta.mutation.operators.ChooseRuleMutate;
+import asmeta.mutation.operators.ChooseRuleMutator;
 import asmeta.mutation.operators.CondNegator;
 import asmeta.mutation.operators.CondRemover;
 import asmeta.mutation.operators.ForAllMutator;
@@ -64,7 +64,7 @@ public class MutatedScenarioExecutor {
 	//
 	public HashMap<String,Map.Entry<Integer, Integer>> computeMutationScore(String scenarioPath) throws Exception {
 		mutOperators.add(new RuleRemover());
-		mutOperators.add(new ChooseRuleMutate());
+		mutOperators.add(new ChooseRuleMutator());
 		mutOperators.add(new CondRemover());
 		mutOperators.add(new CondNegator());
 		
@@ -171,7 +171,7 @@ public class MutatedScenarioExecutor {
 		//mutOperators.addAll(
 		mutOperators = Arrays.asList(		
 				new CaseMutator(),
-				new ChooseRuleMutate(),
+				new ChooseRuleMutator(),
 				new CondNegator(),
 				new CondRemover(),
 				new ForAllMutator(asm),
