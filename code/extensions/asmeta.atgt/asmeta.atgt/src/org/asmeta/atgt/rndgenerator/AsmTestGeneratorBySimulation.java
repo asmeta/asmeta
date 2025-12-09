@@ -2,6 +2,7 @@ package org.asmeta.atgt.rndgenerator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -12,12 +13,17 @@ import org.asmeta.simulator.State;
 import org.asmeta.simulator.main.AsmModelNotFoundException;
 import org.asmeta.simulator.main.MainRuleNotFoundException;
 import org.asmeta.simulator.main.Simulator;
+import org.asmeta.simulator.value.SetValue;
 import org.asmeta.simulator.value.Value;
+import org.eclipse.emf.common.util.EList;
 
 import asmeta.AsmCollection;
 import asmeta.definitions.ControlledFunction;
 import asmeta.definitions.Function;
 import asmeta.definitions.MonitoredFunction;
+import asmeta.definitions.domains.AbstractTd;
+import asmeta.definitions.domains.ConcreteDomain;
+import asmeta.definitions.domains.Domain;
 import atgt.coverage.AsmTestCondition;
 import atgt.coverage.AsmTestSequence;
 import atgt.coverage.AsmTestSuite;
@@ -26,6 +32,7 @@ import atgt.specification.type.DummyType;
 import tgtlib.definitions.expression.FunctionTerm;
 import tgtlib.definitions.expression.IdExpression;
 import tgtlib.definitions.expression.IdExpressionCreator;
+import tgtlib.definitions.expression.type.BoolType;
 import tgtlib.definitions.expression.type.IntegerType;
 import tgtlib.definitions.expression.type.Type;
 import tgtlib.definitions.expression.type.TypeVisitorI;
@@ -46,7 +53,8 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 
 	public static tgtlib.definitions.expression.type.Type dummyType = new DummyType("dummy");
 
-	public static tgtlib.definitions.expression.type.Type stringType = new tgtlib.definitions.expression.type.Type("String") {
+	private static tgtlib.definitions.expression.type.Type stringType = new tgtlib.definitions.expression.type.Type(
+			"String") {
 
 		@Override
 		public int range() {
@@ -60,7 +68,7 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 
 	};
 
-	RandomMFReaderMemory randomMFReader;
+	private RandomMFReaderMemory randomMFReader;
 
 	/**
 	 *
@@ -88,6 +96,7 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 		//
 		randomMFReader = rnd;
 		// TODO add variables
+		idContains = icc.createIdExpression("contains", BoolType.BOOLTYPE);
 	}
 
 	@Override
@@ -144,6 +153,14 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 					randomMFReader.clear();
 				}
 				testNumberOffset += 1;
+				// add all the dynamic sets in the last state for now
+				EList<Domain> domains = asm.getMain().getHeaderSection().getSignature().getDomain();
+				for (Domain d : domains) {
+					if ((d instanceof ConcreteDomain cd) && cd.getIsDynamic())
+						addDomainElementsInStateAsContains(simulator.getCurrentState(), testsequence, cd);
+					else if ((d instanceof AbstractTd atd) && atd.getIsDynamic())
+						addDomainElementsInStateAsContains(simulator.getCurrentState(), testsequence, atd);
+				}
 				testSuite.addTest(testsequence);
 			}
 			return testSuite;
@@ -160,6 +177,25 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 			e.printStackTrace();
 			return AsmTestSuite.getEmptyTestSuite();
 		}
+	}
+
+	private IdExpression idContains;
+
+	private void addDomainElementsInStateAsContains(State state, AsmTestSequence testsequence, Domain d) {
+		// create the Id for the set
+		IdExpression idSet = icc.createIdExpression(d.getName(), dummyType);
+		// get the values in domain d
+		SetValue setV = state.read(d);
+		setV.forEach(x -> {
+			// if the element and the domain start with the name letters
+			// then add as element of the domain
+			if (x.toString().toLowerCase().startsWith(d.getName().toLowerCase())) {
+				IdExpression idx = icc.createIdExpression(x.toString(), null);
+				// contains(Set,elementx)
+				FunctionTerm ft = new FunctionTerm(idContains, BoolType.BOOLTYPE, Arrays.asList(idSet, idx));
+				testsequence.addAssignment(ft, "true", VarKind.CONTROLLED);
+			}
+		});
 	}
 
 	public void setStepNumber(int stepNumber) {
@@ -189,9 +225,9 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 			String value = stateValues.getValue().toString();
 			if (isvar) {
 				Type type;
-				if (function.getCodomain() instanceof asmeta.definitions.domains.StringDomain){
-				 	type = stringType;
-				 	value = "\""+ value + "\"";
+				if (function.getCodomain() instanceof asmeta.definitions.domains.StringDomain) {
+					type = stringType;
+					value = "\"" + value + "\"";
 				} else {
 					type = dummyType;
 				}
@@ -220,8 +256,7 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 
 				FunctionTerm ft = new FunctionTerm(name, dummyType, args);
 				try {
-					testsequence.addAssignment(ft, value,
-							monitored ? VarKind.MONITORED : VarKind.CONTROLLED);
+					testsequence.addAssignment(ft, value, monitored ? VarKind.MONITORED : VarKind.CONTROLLED);
 				} catch (NullPointerException npe) {
 					npe.printStackTrace();
 					System.err.println(" ft " + ft + " id " + ft.getFunction() + " domain " + ft.getCoDomain());

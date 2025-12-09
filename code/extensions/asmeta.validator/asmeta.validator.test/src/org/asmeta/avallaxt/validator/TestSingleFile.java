@@ -421,5 +421,12 @@ public class TestSingleFile extends TestValidator {
 			}
 		}
 	}	
+
+	// this is failing since it is not possible to test extend rules with avalla
+	@Test @Ignore
+	public void testExtend() throws Exception {
+		test("scenariosfortest/use_extend/useextend.avalla", false, false, true);		
+	}
+
 	
 }
