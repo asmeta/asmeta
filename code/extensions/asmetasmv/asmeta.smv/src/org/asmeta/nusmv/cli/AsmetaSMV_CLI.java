@@ -35,6 +35,12 @@ public class AsmetaSMV_CLI extends AsmetaCLI {
 	@Option(name="-nusmvpath", usage =  "nusmv path", required = false)
 	public String nusmvPath;
 	
+	@Option(name = "-xm", usage = "use NuXMV instead of NuSMV")
+	public boolean useNuXmv;
+	
+	@Option(name = "-xt", usage = "use NuXMV with time functions")
+	public boolean useNuXmvTime;
+	
 
 	/**
 	 * The main method.
@@ -59,13 +65,15 @@ public class AsmetaSMV_CLI extends AsmetaCLI {
 		AsmetaSMVOptions.setPrintCounterExample(!disableCounterExampleComputation);
 		AsmetaSMVOptions.keepNuSMVfile = !executeNuSMVmodel || keepFile;
 		AsmetaSMVOptions.setPrintNuSMVoutput(AsmetaSMVOptions.isRunNuSMV()); //stampa l'ouput solo se il modello viene eseguito (ovviamente)
+		AsmetaSMVOptions.setUseNuXmv(useNuXmv);
+		AsmetaSMVOptions.setUseNuXmvTime(useNuXmvTime);		
 		Util.setPath(asmFile.getPath());//percorso relativo del file asm comprensivo del nome del file
 		Util.setDir(asmFile.getParent());//percorso relativo del file senza il nome del file
 		// set the path if needed
 		if (nusmvPath!= null)
 			AsmetaSMVOptions.setSolverPath(nusmvPath);		
 		if(asmFile != null) {
-			AsmetaSMV asmetaSMV = new AsmetaSMV(asmFile, !doNotSimplify, executeNuSMVmodel, !doNotCheckConcrete, false,false);
+			AsmetaSMV asmetaSMV = new AsmetaSMV(asmFile, !doNotSimplify, executeNuSMVmodel, !doNotCheckConcrete, useNuXmv,useNuXmvTime);
 			asmetaSMV.translation();
 			asmetaSMV.createNuSMVfile();
 			if(executeNuSMVmodel) {

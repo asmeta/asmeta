@@ -94,6 +94,7 @@ definitions:
 	// INVARIANTS AND TEMPORAL PROPERTIES
 	//*************************************************
 	invariant inv_drawer1 over Drawer: (forall $d in Drawer with isOn($d) implies not areOthersOn($d)) 	
+	LTLSPEC g(drawerLed(drawer1)=ON or drawerLed(drawer1)=OFF)
 	//*************************************************
 	// MAIN Rule
 	//*************************************************	
