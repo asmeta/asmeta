@@ -73,7 +73,7 @@ public class AsmetaSMV_CLI extends AsmetaCLI {
 		if (nusmvPath!= null)
 			AsmetaSMVOptions.setSolverPath(nusmvPath);		
 		if(asmFile != null) {
-			AsmetaSMV asmetaSMV = new AsmetaSMV(asmFile, !doNotSimplify, executeNuSMVmodel, !doNotCheckConcrete, false,false);
+			AsmetaSMV asmetaSMV = new AsmetaSMV(asmFile, !doNotSimplify, executeNuSMVmodel, !doNotCheckConcrete, useNuXmv,useNuXmvTime);
 			asmetaSMV.translation();
 			asmetaSMV.createNuSMVfile();
 			if(executeNuSMVmodel) {
