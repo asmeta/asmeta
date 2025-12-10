@@ -1,5 +1,6 @@
 package org.asmeta.parser.util;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.function.Predicate;
@@ -33,7 +34,9 @@ public class AsmetaFeatureChecker {
 			LOGGER.debug("checking " + next);
 			if (pred.test(next))
 				return true;
-			check(getContentExtended(next));
+			if (check(getContentExtended(next))) {
+				return true;
+			}
 		}
 		return false;
 	}
@@ -44,6 +47,9 @@ public class AsmetaFeatureChecker {
 		// ruls contained in a macro declaration are not contained
 		if (obj instanceof asmeta.transitionrules.basictransitionrules.MacroDeclaration macro) {
 			return Collections.singletonList(macro.getRuleBody()).iterator();
+		}
+		if (obj instanceof asmeta.transitionrules.basictransitionrules.BlockRule block) {
+			return block.getRules().iterator();
 		}
 		return obj.eAllContents();
 	}
