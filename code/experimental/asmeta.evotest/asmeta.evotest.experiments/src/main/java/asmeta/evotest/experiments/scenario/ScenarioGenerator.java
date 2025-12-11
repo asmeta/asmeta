@@ -84,7 +84,7 @@ public class ScenarioGenerator {
 		AsmTestSuite randomSuite = new AsmTestSuite();
 		AsmTestGeneratorBySimulation randomTestGenerator = new AsmTestGeneratorBySimulation(asms, 1, 1);
 		Instant start = Instant.now();
-		if (stepList == null || stepList.isEmpty()) {
+		if (stepList == null /*|| stepList.isEmpty()*/) {
 			randomTestGenerator.setStepNumber(DEFAULT_RANDOM_STEPS);
 			randomTestGenerator.setNumberofTests(DEFAULT_RANDOM_TESTS);
 			randomSuite.addAllTest(randomTestGenerator.getTestSuite(shuffle));

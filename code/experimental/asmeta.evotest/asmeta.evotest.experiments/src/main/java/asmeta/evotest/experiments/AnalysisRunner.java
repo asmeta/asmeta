@@ -26,6 +26,7 @@ import asmeta.evotest.experiments.scenario.ScenarioDataCollector;
 import asmeta.evotest.experiments.scenario.ScenarioValidator;
 import asmeta.evotest.experiments.scenario.ValidationDataCollector;
 import asmeta.evotest.experiments.utils.CsvManager;
+import asmeta.evotest.experiments.utils.CsvManager.STATUS;
 import asmeta.evotest.experiments.utils.YamlManager;
 import asmeta.mutation.mutationscore.MutatedScenarioExecutor;
 
@@ -33,29 +34,6 @@ public class AnalysisRunner {
 	private static final String DATA_CSV = "data.csv";
 
 	private static final Logger LOG = Logger.getLogger(AnalysisRunner.class);
-
-	public enum STATUS {
-		OK("OK"),
-		NO_VALID_SCENARIOS("NO_VALID_SCENARIOS"),
-		METADATA_ERROR("META_ERR"),
-		ASM_PARSE_ERROR("ASM_PARSE_ERR"),
-		MODEL_DATA_ERROR("MODEL_DATA_ERR"),
-		SCENARIO_DATA_ERROR("SCENARIO_DATA_ERR"),
-		COVERAGE_ERROR("COVERAGE_ERR"),
-		DATA_AGGREGATION_ERROR("DATA_AGGREGATION_ERR"),
-		MUTATION_ERROR("MUTATION_ERR"),
-		REMAINING_PROBLEMATIC_SCENARIOS("REMAINING_PROBLEMATIC_SCENARIOS");
-
-		private final String csvValue;
-
-		STATUS(String comment) {
-			this.csvValue = comment;
-		}
-
-		public String getCsvValue() {
-			return csvValue;
-		}
-	}
 
 	/**
 	 * Entry point for aggregating scenario-generation and validation results into a

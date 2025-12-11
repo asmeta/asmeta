@@ -51,15 +51,20 @@ public class ScenarioDataCollector {
 	 * @return the list containing the number of occurrences for each avalla
 	 * @throws IOException if an I/O error occurs.
 	 */
-	private static List<Integer> getStatementCount(String avallaFolder, String statement) throws IOException {
+	public static List<Integer> getStatementCount(String avallaFolder, String statement) throws IOException {
 		Path avallaPath = Path.of(avallaFolder);
 		List<Integer> statementCountList = new ArrayList<>();
+		
 		Iterable<Path> avallaIterator = Files.list(avallaPath)
-				.filter(p -> p.toString().endsWith(AsmetaV.SCENARIO_EXTENSION))::iterator;
+				.filter(p -> p.toString().endsWith(AsmetaV.SCENARIO_EXTENSION))
+				::iterator;
+		
 		for (Path path : avallaIterator) {
 			try (Stream<String> lines = Files.lines(path)) {
-				int count = (int) lines.flatMap(line -> Stream.of(line.split("\\W+")))
-						.filter(word -> word.equals(statement)).count();
+				int count = (int) lines
+						.flatMap(line -> Stream.of(line.split("\\W+")))
+						.filter(word -> word.equals(statement))
+						.count();
 				statementCountList.add(count);
 			}
 		}
