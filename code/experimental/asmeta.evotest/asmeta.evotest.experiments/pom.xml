@@ -46,6 +46,7 @@
 					<!-- ICST and NFM Experiments jar  -->
 					<!-- use: 
 					java -cp experiments-runner.jar asmeta.evotest.experiments.ScenarioGeneratorRunner
+					java -cp experiments-runner.jar asmeta.evotest.experiments.RandomGeneratorRunner [arguments]
 					java -cp experiments-runner.jar asmeta.evotest.experiments.AnalysisRunner [arguments]
 					-->
 					<execution>

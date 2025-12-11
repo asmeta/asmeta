@@ -17,7 +17,6 @@ import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 
-import asmeta.evotest.experiments.AnalysisRunner.STATUS;
 
 /**
  * Utility class for creating, reading, and appending to a CSV file that stores
@@ -31,6 +30,29 @@ public class CsvManager {
 			"n_failing_scenarios", "n_val_error_scenarios", "casemutator_score", "chooserulemutator_score",
 			"condnegator_score", "condremover_score", "forallmutator_score", "partoseqmutator_score",
 			"seqtoparmutator_score", "ruleremover_score");
+	
+	public enum STATUS {
+		OK("OK"),
+		NO_VALID_SCENARIOS("NO_VALID_SCENARIOS"),
+		METADATA_ERROR("META_ERR"),
+		ASM_PARSE_ERROR("ASM_PARSE_ERR"),
+		MODEL_DATA_ERROR("MODEL_DATA_ERR"),
+		SCENARIO_DATA_ERROR("SCENARIO_DATA_ERR"),
+		COVERAGE_ERROR("COVERAGE_ERR"),
+		DATA_AGGREGATION_ERROR("DATA_AGGREGATION_ERR"),
+		MUTATION_ERROR("MUTATION_ERR"),
+		REMAINING_PROBLEMATIC_SCENARIOS("REMAINING_PROBLEMATIC_SCENARIOS");
+
+		private final String csvValue;
+
+		STATUS(String comment) {
+			this.csvValue = comment;
+		}
+
+		public String getCsvValue() {
+			return csvValue;
+		}
+	}
 
 	private String csvPath;
 	private File csvFile;

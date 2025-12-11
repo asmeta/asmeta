@@ -31,7 +31,7 @@ public class ScenarioGeneratorRunner {
 	public static final String ATGT_DIR = "atgttests";
 	public static final String EVOAVALLA_DIR = "evoavallatests";
 	
-	private static final String CONFIG_PATH = "data/icst-26-exp/generation_config.yaml";
+	private static final String CONFIG_PATH = "data/generation_config.yaml";
 
 	private static int randomCount = 0;
 	private static int atgtCount = 0;
