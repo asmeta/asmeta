@@ -20,17 +20,16 @@ public class TestSuiteAggregator {
 	 */
 	private final static String RESULTS_DIR = "data/icst-26-exp/results";
 	private final static String ASM_EXAMPLES = "../../../../asm_examples";
-	private static final String MODEL_LIST = "data/icst-26-exp/model_list_all_ok.txt";
+	private static final String MODEL_LIST = "data/icst-26-exp/model_lists/model_list_all_valid.txt";
 	private static final List<List<String>> AGGREGATED_TEST_SUITES = List.of(
 			List.of(
-					ScenarioGeneratorRunner.ATGT_DIR,
 					ScenarioGeneratorRunner.EVOAVALLA_DIR,
-					RandomGeneratorRunner.RANDOM_ATGT_DIR
+					ScenarioGeneratorRunner.ATGT_DIR
 					),
-			List.of(ScenarioGeneratorRunner.ATGT_DIR,
-					ScenarioGeneratorRunner.EVOAVALLA_DIR
+			List.of(ScenarioGeneratorRunner.EVOAVALLA_DIR,
+					RandomGeneratorRunner.RANDOM_EVOAVALLA_DIR
 					),
-			List.of(ScenarioGeneratorRunner.ATGT_DIR,
+			List.of(ScenarioGeneratorRunner.EVOAVALLA_DIR,
 					RandomGeneratorRunner.RANDOM_ATGT_DIR
 					)
 		);
