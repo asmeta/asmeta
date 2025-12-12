@@ -64,7 +64,7 @@ public class AsmetaFeatureCheckerTest {
 //			"StructuredDomain", x -> ((x instanceof Function) && ((Function) x).getCodomain() instanceof StructuredTd),
 //			"LetRule", x -> (x instanceof LetRule),
 //			"ExtendRule", x -> (x instanceof ExtendRule),
-//			"ForallRule", x -> (x instanceof ForallRule),
+			"ForallRule", x -> (x instanceof ForallRule),
 //			"MacroRuleWithParams", x -> (x instanceof MacroCallRule && !((MacroCallRule) x).getParameters().isEmpty()),
 //			"Invariant", x -> (x instanceof Invariant),
 //			"ChooseRule", x -> (x instanceof ChooseRule),
@@ -176,6 +176,37 @@ public class AsmetaFeatureCheckerTest {
 		}
 	}
 
+	@Test
+	public void testVisitAsmResults() throws Exception {
+		// move to setup before class
+		Logger.getLogger(AsmetaFeatureChecker.class).setLevel(Level.OFF);
+		Logger.getLogger(AsmetaFeatureChecker.class).addAppender(new ConsoleAppender(new SimpleLayout()));
+		AsmetaFeatureChecker spr;
+
+		List<String> modelList = readResultsFile(Paths.get(
+				"/Users/andrea/Documents/GitHub/asmeta/code/experimental/asmeta.evotest/asmeta.evotest.experiments/data/icst-26-exp/data.csv"),
+				"random");
+
+		// Fetch all files in the directory and all features
+		for (String featureName : featurePredicates.keySet()) {
+			int count = 0;
+			spr = new AsmetaFeatureChecker(featurePredicates.get(featureName));
+			for (String model : modelList) {
+				File f = new File("../" + model.replace("\\", File.separator));
+				try {
+					if (spr.checkFeature(ASMParser.setUpReadAsm(f).getMain())) {
+						count++;
+					}
+				} catch (ParseException e) {
+					System.out.println("-> ERROR processing file: " + e.getMessage());
+				} catch (IndexOutOfBoundsException e) {
+					System.out.println("-> ERROR processing file: " + e.getMessage());
+				}
+			}
+			System.out.println("Total ASMs with " + featureName + ": " + count + " out of " + modelList.size());
+		}
+	}
+
 	/**
 	 * Reads the model list and exclude those having problems, created just for
 	 * testing purposes, etc.
@@ -203,6 +234,26 @@ public class AsmetaFeatureCheckerTest {
 				if (!line.trim().isEmpty()) {
 					result.add(line.trim());
 				}
+			}
+		}
+
+		return result;
+	}
+
+	public static List<String> readResultsFile(Path filePath, String method) throws IOException {
+		List<String> result = new ArrayList<>();
+
+		try (BufferedReader br = Files.newBufferedReader(filePath)) {
+			String line;
+			int lineCount = 0;
+			while ((line = br.readLine()) != null) {
+				if (lineCount == 0) {
+					lineCount++;
+					continue; // skip header
+				}
+				if (line.trim().split(",")[8].equals("OK") && line.trim().split(",")[7].equals(method))
+					result.add(line.trim().split(",")[0]);
+				lineCount++;
 			}
 		}
 
