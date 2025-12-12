@@ -9,6 +9,9 @@ import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
 
 import asmeta.structure.Asm;
+import asmeta.structure.Body;
+import asmeta.structure.Header;
+import asmeta.structure.ImportClause;
 
 // check if an ASM (or more) contains a feature - given as predicate over EObject 
 public class AsmetaFeatureChecker {
@@ -50,6 +53,9 @@ public class AsmetaFeatureChecker {
 		}
 		if (obj instanceof asmeta.transitionrules.basictransitionrules.BlockRule block) {
 			return block.getRules().iterator();
+		}
+		if (obj instanceof Header header) {
+			return header.eAllContents();
 		}
 		return obj.eAllContents();
 	}

@@ -65,12 +65,25 @@ public class AsmetaFeatureCheckerTest {
 //			"LetRule", x -> (x instanceof LetRule),
 //			"ExtendRule", x -> (x instanceof ExtendRule),
 //			"ForallRule", x -> (x instanceof ForallRule),
-			"MacroRuleWithParams", x -> (x instanceof MacroCallRule && !((MacroCallRule) x).getParameters().isEmpty()),
-			"Invariant", x -> (x instanceof Invariant),
-			"ChooseRule", x -> (x instanceof ChooseRule),
-			"SubsetOfInt", x -> ((x instanceof Function) && ((Function) x).getCodomain() instanceof ConcreteDomain) && 
-                    (((ConcreteDomain) ((Function) x).getCodomain()).getTypeDomain() instanceof IntegerDomain),
-            "INVAR", x -> (x instanceof InvarConstraint));
+//			"MacroRuleWithParams", x -> (x instanceof MacroCallRule && !((MacroCallRule) x).getParameters().isEmpty()),
+//			"Invariant", x -> (x instanceof Invariant),
+//			"ChooseRule", x -> (x instanceof ChooseRule),
+//			"SubsetOfInt", x -> ((x instanceof Function) && ((Function) x).getCodomain() instanceof ConcreteDomain) && 
+//                    (((ConcreteDomain) ((Function) x).getCodomain()).getTypeDomain() instanceof IntegerDomain),
+//            "INVAR", x -> (x instanceof InvarConstraint),
+			"Modules", x -> (x instanceof ImportClause && !isStandardLibrary(((ImportClause) x).getModuleName())));
+
+	/**
+	 * Checks whether the module name is one of those of the standard libraries
+	 * 
+	 * @param moduleName the module name
+	 * @return true when it is standard library, false if not
+	 */
+	public boolean isStandardLibrary(String moduleName) {
+		return moduleName.endsWith("TimeLibrary") || moduleName.endsWith("StandardLibrary")
+				|| moduleName.endsWith("CTLLibrary") || moduleName.endsWith("LTLLibrary")
+				|| moduleName.endsWith("MAPEpatterns") || moduleName.endsWith("TimeLibrarySimple");
+	}
 
 	@Test
 	public void testVisitAsm2() throws Exception {
@@ -89,7 +102,7 @@ public class AsmetaFeatureCheckerTest {
 		// remove all appenders to avoid bloating the console
 		Logger.getLogger(AsmetaFeatureChecker.class).removeAllAppenders();
 	}
-	
+
 	@Test
 	public void testLet() throws Exception {
 		// move to setup before class
@@ -103,7 +116,21 @@ public class AsmetaFeatureCheckerTest {
 		assertTrue(spr.checkFeature(ASMParser.setUpReadAsm(f).getMain()));
 		Logger.getLogger(AsmetaFeatureChecker.class).removeAllAppenders();
 	}
-	
+
+	@Test
+	public void testExtend() throws Exception {
+		// move to setup before class
+		Logger.getLogger(AsmetaFeatureChecker.class).setLevel(Level.ALL);
+		Logger.getLogger(AsmetaFeatureChecker.class).addAppender(new ConsoleAppender(new SimpleLayout()));
+		// first example: check if there exists a monitored function
+		AsmetaFeatureChecker spr = new AsmetaFeatureChecker(x -> (x instanceof ExtendRule));
+		File f = new File("../../../../asm_examples/examples/simple_example/population.asm");
+		System.out.println(spr.checkFeature(ASMParser.setUpReadAsm(f).getMain()));
+		// it has a monitored function
+		assertTrue(spr.checkFeature(ASMParser.setUpReadAsm(f).getMain()));
+		Logger.getLogger(AsmetaFeatureChecker.class).removeAllAppenders();
+	}
+
 	@Test
 	public void testInvariant() throws Exception {
 		// move to setup before class
@@ -149,6 +176,14 @@ public class AsmetaFeatureCheckerTest {
 		}
 	}
 
+	/**
+	 * Reads the model list and exclude those having problems, created just for
+	 * testing purposes, etc.
+	 * 
+	 * @param filePath the path of the model list file
+	 * @return the list of all paths for all models to be considered
+	 * @throws IOException
+	 */
 	public static List<String> readFilteredModelList(Path filePath) throws IOException {
 		List<String> result = new ArrayList<>();
 		boolean startCollecting = false;
