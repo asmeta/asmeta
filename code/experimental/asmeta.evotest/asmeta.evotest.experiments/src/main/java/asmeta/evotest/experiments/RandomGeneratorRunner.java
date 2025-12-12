@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Level;
@@ -132,7 +133,9 @@ public class RandomGeneratorRunner {
 				} catch (Throwable e) {
 					LOG.error("Not found or exception.\n" + e.getClass().getSimpleName() + ": " + e.getMessage());
 				}
-				break;
+				// In case there is an ASM with the same name as the target, we will still generate the test suites.
+				// In a subsequent call, they will be overwritten. TODO: We could use the path from the YAML.
+				// break;
 			}
 		}
 		if (!found) {
@@ -148,3 +151,4 @@ public class RandomGeneratorRunner {
 		}
 	}
 }
+	
