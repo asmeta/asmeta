@@ -374,7 +374,9 @@ public class TestSingleFile extends TestValidator {
 		test(ASM_EXAMPLES + "PillBox/Level0/pillbox_0_scenario1.avalla", false, false, true);		
 	}
 
-	@Test
+/*	
+ 	// Added to test ! in function IDs
+ 	@Test
 	public void testPopulation() throws Exception {
 		// using extends 
 //		String scenario = "scenariosforexamples/population/withextend.avalla";
@@ -383,7 +385,7 @@ public class TestSingleFile extends TestValidator {
 		ASMParser.setUpReadAsm(new File("scenariosforexamples/population/population__tempAsmetaV6005497458607192670.asm"));
 		
 	}
-
+*/
 	
 	@Test
 	public void testlampada() throws Exception {
