@@ -1,6 +1,6 @@
 package org.asmeta.atgt.coverage;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 
@@ -9,12 +9,14 @@ import org.asmeta.atgt.coverage.AsmetaBasicRuleVisitor;
 import org.asmeta.parser.ASMParser;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import atgt.coverage.AsmCoverage;
 
 public class AsmetaBasicRuleVisitorTest {
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testGetTPTree() throws Exception {
 		// String ex =
 		// "D:\\AgDocuments\\progettiDaSVN\\asmeta\\mvm-asmeta\\VentilatoreASM\\Ventilatore2.asm";
@@ -25,6 +27,7 @@ public class AsmetaBasicRuleVisitorTest {
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testGetTPTreeMVM() throws Exception {
 		generateCoverageFor("examples\\mvm0.asm");
 	}

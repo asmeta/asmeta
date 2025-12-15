@@ -1,6 +1,6 @@
 package org.asmeta.atgt.testoptimizer;
 
-import org.asmeta.avallaxt.avalla.AvallaFactory;
+import org.asmeta.avallaxt.avalla.Check;
 import org.asmeta.avallaxt.avalla.Element;
 import org.asmeta.avallaxt.avalla.Scenario;
 import org.asmeta.avallaxt.avalla.Set;
@@ -11,7 +11,7 @@ import atgt.coverage.AsmTestSequence;
 
 public class AvallaToTestConverter {
 
-	AsmTestSequence convert(Scenario s) {
+	public AsmTestSequence convert(Scenario s) {
 		// no test predicate - use the name of the scenario
 		AsmTestSequence test = new AsmTestSequence(new AsmTestCondition(s.getName(), null));
 		test.addState();
@@ -20,10 +20,11 @@ public class AvallaToTestConverter {
 				test.addAssignment(set.getLocation(), set.getValue());
 			} else if (e instanceof Step) {
 				test.addState();
+			} else if (e instanceof Check) {
+				// do nothing
 			} else {
 				throw new RuntimeException("Element " + e.getClass());
 			}
-
 		}
 		return test;
 	}

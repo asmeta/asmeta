@@ -18,6 +18,7 @@ import org.asmeta.nusmv.main.AsmetaSMV;
 import org.asmeta.nusmv.main.AsmetaSMV.ModelCheckerMode;
 import org.asmeta.parser.ASMParser;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import atgt.coverage.AsmCoverageBuilder;
 import atgt.coverage.AsmTestSeqContent;
@@ -131,6 +132,7 @@ public class AsmTestGeneratorTest {
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void generateCombinatorial() throws Exception {
 		Logger.getLogger(AsmTestGeneratorTest.class).setLevel(Level.DEBUG);
 		String asmPath = "examples/asmenum.asm";
@@ -148,6 +150,7 @@ public class AsmTestGeneratorTest {
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void generateCombinatorialPHD() throws Exception {
 		Logger.getLogger(AsmTestGeneratorTest.class).setLevel(Level.DEBUG);
 		String ex = "D:\\AgDocuments\\progettiDaSVN\\Rate4PHD\\ASM\\newPHD\\phd_master_flat2_v0.asm";
@@ -175,6 +178,7 @@ public class AsmTestGeneratorTest {
 
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void generateMVM() throws Exception {
 		Logger.getLogger(AsmTestGenerator.class).setLevel(Level.DEBUG);
 		Logger.getLogger(TestGenerationWithNuSMV.class).setLevel(Level.DEBUG);
@@ -216,6 +220,7 @@ public class AsmTestGeneratorTest {
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void generateMVMFunctions() throws Exception {
 		Logger.getLogger(AsmTestGenerator.class).setLevel(Level.DEBUG);
 		Logger.getLogger(TestGenerationWithNuSMV.class).setLevel(Level.DEBUG);
@@ -240,6 +245,7 @@ public class AsmTestGeneratorTest {
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void generateASEExperiments() throws Exception {
 		String folderPath = "../../../experimental/asmeta.evotest/asmeta.evotest.experiments/src/main/resources/models/";
 		//

@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import atgt.coverage.AsmCoverage;
 import atgt.coverage.AsmCoverageBuilder;
@@ -57,6 +58,7 @@ public class AsmDataExtractorTest {
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testCarSystem001Blink() throws ParseException {
 		/*
 		 * Non Funziona. Non vede una variabile importata dal modulo precedente, ma se

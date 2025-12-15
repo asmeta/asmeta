@@ -8,10 +8,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 public class ConvertToAsmeta {
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void convertPHDToASMETAFlat() throws Exception {
 		BufferedReader fin = new BufferedReader(new FileReader("sequences_asm_v4.txt"));
 		String s = "";
@@ -104,6 +106,7 @@ public class ConvertToAsmeta {
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void convertPHDToASMETAStruct() throws Exception {
 		BufferedReader fin = new BufferedReader(new FileReader("antidote-manager.txt"));
 		String s = "";

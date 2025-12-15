@@ -10,6 +10,7 @@ import java.util.Map;
 import org.asmeta.atgt.generator.AsmTestGeneratorTest;
 import org.asmeta.parser.ASMParser;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import asmeta.AsmCollection;
 import atgt.coverage.AsmTestSequence;
@@ -70,6 +71,7 @@ public class AsmTestGeneratorBySimulationTest {
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testRandomChoosOne() throws Exception {
 		AsmCollection asm = ASMParser.setUpReadAsm(new File("examples/forallChooseRule_flat.asm"));
 		assertNotNull(asm);

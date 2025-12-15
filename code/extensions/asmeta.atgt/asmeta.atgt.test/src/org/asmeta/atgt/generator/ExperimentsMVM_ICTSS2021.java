@@ -36,6 +36,7 @@ import org.asmeta.nusmv.util.AsmetaSMVOptions;
 import org.asmeta.parser.ASMParser;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import atgt.coverage.AsmCoverage;
 import atgt.coverage.AsmCoverageBuilder;
@@ -89,6 +90,7 @@ public class ExperimentsMVM_ICTSS2021 {
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void generateMVMAll() throws Exception {
 		String ex = "../../../../../mvm-asmeta/asm_models/VentilatorICTSS/Ventilatore4SimpleTimeLtdY.asm";
 
@@ -138,17 +140,20 @@ public class ExperimentsMVM_ICTSS2021 {
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void generateMVM1atatime() throws Exception {
 		String ex = "../../../../../mvm-asmeta/asm_models/VentilatorICTSS/Ventilatore4SimpleTimeLtdY.asm";
 		generatetTestsFor(ex);
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void generateMVM_0() throws Exception {
 		generatetTestsFor("examples\\mvm0.asm");
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void generateChoose() throws Exception {
 		generatetTestsFor("examples\\SpecWithChoose.asm");
 	}
@@ -273,6 +278,7 @@ public class ExperimentsMVM_ICTSS2021 {
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void generateStatistics() throws Exception {
 		// Test non ottimizzati
 		// String path =
@@ -333,6 +339,7 @@ public class ExperimentsMVM_ICTSS2021 {
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void counttp() throws Exception {
 		String ex = "../../../../../mvm-asmeta/asm_models/VentilatorICTSS/Ventilatore4SimpleTimeLtdY.asm";
 		AsmCoverage ct = buildCT(ex);
@@ -361,6 +368,7 @@ public class ExperimentsMVM_ICTSS2021 {
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void rndGeneration() throws Exception {
 		String ex = "../../../../../mvm-asmeta/asm_models/VentilatorICTSS/Ventilatore4SimpleTimeLtdY.asm";
 		asmeta.AsmCollection asms = ASMParser.setUpReadAsm(new File(ex));

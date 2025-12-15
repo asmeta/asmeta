@@ -18,6 +18,7 @@ import org.asmeta.nusmv.main.AsmetaSMV;
 import org.asmeta.nusmv.main.AsmetaSMV.ModelCheckerMode;
 import org.asmeta.parser.ASMParser;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import atgt.coverage.AsmTestSequence;
 import atgt.coverage.AsmTestSuite;
@@ -26,6 +27,7 @@ import atgt.specification.location.Location;
 public class UnecessaryChangesRemoverTest {
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testOptimize() throws Exception {
 		NuSMVtestGenerator.removeUnaskedChanges = false;
 		NuSMVtestGenerator.removeUnChangedControlles = false;

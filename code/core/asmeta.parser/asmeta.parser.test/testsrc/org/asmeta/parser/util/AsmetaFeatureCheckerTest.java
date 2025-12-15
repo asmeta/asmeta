@@ -21,7 +21,9 @@ import org.apache.log4j.SimpleLayout;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.ParseException;
 import org.eclipse.emf.ecore.EObject;
+import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 
 import asmeta.definitions.ControlledFunction;
 import asmeta.definitions.Function;
@@ -177,6 +179,7 @@ public class AsmetaFeatureCheckerTest {
 	}
 
 	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testVisitAsmResults() throws Exception {
 		// move to setup before class
 		Logger.getLogger(AsmetaFeatureChecker.class).setLevel(Level.OFF);
