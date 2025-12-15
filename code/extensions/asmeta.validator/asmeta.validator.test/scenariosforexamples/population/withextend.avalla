@@ -1,0 +1,32 @@
+scenario testtest0
+load ../../../../../../asm_examples/examples/simple_example/population.asm
+
+//// test name test@test0
+//// generated for (test goal): test0: NULL
+check mother(female1) = female1;
+check father(male1) = male1;
+check alive(female1) = true;
+check father(female1) = female1;
+check gender(male1) = MALE;
+check age(female1) = 16;
+check age(male1) = 19;
+check mother(male1) = male1;
+check gender(female1) = FEMALE;
+check alive(male1) = true;
+step
+check gender(Person!1) = MALE;
+check mother(Person!1) = female1;
+check age(Person!1) = 0;
+check father(Person!1) = male1;
+check age(male1) = 20;
+check age(female1) = 17;
+check alive(Person!1) = true;
+step
+check gender(Person!2) = MALE;
+check age(Person!2) = 0;
+check age(Person!1) = 1;
+check mother(Person!2) = female1;
+check age(male1) = 21;
+check age(female1) = 18;
+check father(Person!2) = male1;
+check alive(Person!2) = true;

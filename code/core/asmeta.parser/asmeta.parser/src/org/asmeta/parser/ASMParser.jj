@@ -410,6 +410,7 @@ TOKEN :
     (
       < LETTER >
     | < DIGIT >
+    | "!"  // to allow locations with ! like in extend - example person!1
     )* >
 | < #LETTER : [ "_", "a"-"z", "A"-"Z" ] >
 | < #DIGIT : [ "0"-"9" ] >
