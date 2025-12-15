@@ -410,7 +410,8 @@ TOKEN :
     (
       < LETTER >
     | < DIGIT >
-    | "!"  // to allow locations with ! like in extend - example person!1
+    // | "!"  	// introduced to allow locations with ! like in extend - example person!1
+    			// removed because it breaks parsing expressions when operators are written without spaces - example if count!=0 then.
     )* >
 | < #LETTER : [ "_", "a"-"z", "A"-"Z" ] >
 | < #DIGIT : [ "0"-"9" ] >
