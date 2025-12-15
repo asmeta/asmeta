@@ -3,11 +3,13 @@ package org.asmeta.avallaxt.validator;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.fail;
 
+import java.io.File;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -371,6 +373,19 @@ public class TestSingleFile extends TestValidator {
 		test(ASM_EXAMPLES + "PillBox/Level0/pillbox_0_scenario1.avalla", false, false, true);		
 	}
 
+/*	
+ 	// Added to test ! in function IDs
+ 	@Test
+	public void testPopulation() throws Exception {
+		// using extends 
+//		String scenario = "scenariosforexamples/population/withextend.avalla";
+//		test(scenario, true, false, true);
+		
+		ASMParser.setUpReadAsm(new File("scenariosforexamples/population/population__tempAsmetaV6005497458607192670.asm"));
+		
+	}
+*/
+	
 	@Test
 	public void testlampada() throws Exception {
 		ASMParser.getResultLogger().setLevel(Level.OFF);

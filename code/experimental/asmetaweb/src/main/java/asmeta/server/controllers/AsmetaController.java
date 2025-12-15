@@ -71,6 +71,10 @@ public class AsmetaController {
 	@Operation(summary = "Start model", description = "Start the execution of a new model")
 	@PostMapping("/start")
 	public Map<String, Object> start(@RequestParam(value = "name", defaultValue = "railroadGate") String name) {
+			// Validate the input to prevent path traversal
+			if (name.contains("..") || name.contains("/") || name.contains("\\")) {
+				throw new IllegalArgumentException("Invalid model name");
+			}
 			String modelPath = modelsFolderPath + name; 
 			File asmFile = new File(modelPath);
 			int id = Application.sim.startExecution(modelPath);
