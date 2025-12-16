@@ -157,9 +157,12 @@ class HeaderGenerator extends AsmToCGenerator {
 	 	for (i : asm.headerSection.importClause){ 
 	 		if(i !== null ){
 	 			var String s = new ImportToH(asm).visit(i)
-	 			if (!s.contains("StandardLibrary")
- 				&& !s.contains("CTLlibrary")
- 				&& !s.contains("LTLlibrary")) {// Ignore StandardLibrary, CTllibrary and LTLlibrary import.
+	 			// Ignore StandardLibrary, CTllibrary and LTLlibrary import.
+	 			if (!s.contains(org.asmeta.parser.Utility.STANDARD_LIBRARY_NAME)
+ 				&& !s.contains(org.asmeta.parser.Utility.CTL_LIBRARY_NAME)
+ 				&& !s.contains(org.asmeta.parser.Utility.LTL_LIBRARY_NAME)
+ 				&& !s.contains(org.asmeta.parser.Utility.TIME_LIBRARY_NAME)
+ 				) {
  				if (options.compilerType != CompilerType.ArduinoCompiler)
 	 					sb.append('#include "'  + new ImportToH(asm).visit(i) + '.h" \n')
 	 			else {
@@ -180,8 +183,10 @@ class HeaderGenerator extends AsmToCGenerator {
 	 		if(i !== null){
 	 			var s = new ImportToH(asm).visit(i)
 	 			if(!s.contains("StandardLibrary")
- 				&& !s.contains("CTLlibrary")
- 				&& !s.contains("LTLlibrary")) { //Ignore StandardLibrary, CTllibrary and LTLlibrary import.
+ 				&& !s.contains("CTLLibrary")
+ 				&& !s.contains("LTLLibrary")
+ 				&& !s.contains("TimeLibrary")
+ 				) { //Ignore StandardLibrary, CTllibrary and LTLlibrary import.
 		 			var String[] splitted = s.split("/")
 		 			var String s1 = splitted.get(splitted.length-1)
 		 			if(isFirst){

@@ -65,7 +65,7 @@ public class ConvertToAsmeta {
 		String header = "asm "+asmName+"\n" +
 				"\n" +
 				"import StandardLibrary\n" +
-				"import CTLlibrary\n" +
+				"import CTLLibrary\n" +
 				"\n" +
 				"signature:\n" +
 				"	// DOMAINS\n" +

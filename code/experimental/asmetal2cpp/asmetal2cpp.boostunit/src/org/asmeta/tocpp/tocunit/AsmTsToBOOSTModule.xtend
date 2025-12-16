@@ -17,36 +17,36 @@ class AsmTsToBOOSTModule extends TestSuiteTranslator{
 
 // convert the test suite
 	override convertTestSuite(AsmTestSuite testSuite) {
-		'''#define BOOST_TEST_MODULE Test«asmName»
+		'''#define BOOST_TEST_MODULE Testï¿½asmNameï¿½
 #define BOOST_TEST_DYN_LINK
 #include <boost/test/unit_test.hpp>
 #include <iostream>
-#include "«asmName».h"
+#include "Â«asmNameÂ».h"
 using namespace std;
 
-«getAbstractDomain(asm)»
+Â«getAbstractDomain(asm)Â»
 
-BOOST_AUTO_TEST_SUITE(Test«asmName»)
-«FOR t : testSuite»
-«printTestCase(t)»
-//«counter++»
-«ENDFOR»
+BOOST_AUTO_TEST_SUITE(Testï¿½asmNameï¿½)
+ï¿½FOR t : testSuiteï¿½
+ï¿½printTestCase(t)ï¿½
+//ï¿½counter++ï¿½
+ï¿½ENDFORï¿½
 BOOST_AUTO_TEST_SUITE_END()
 '''
 	}
 	
 	def printTestCase(AsmTestSequence test) {
 		var boolean firstState = true
-		'''BOOST_AUTO_TEST_CASE( my_test_«counter» ){
+		'''BOOST_AUTO_TEST_CASE( my_test_ï¿½counterï¿½ ){
 	// instance of the SUT
-	«asmName» «asmName.toLowerCase»;	
-	«FOR t : test.allInstructions()»
+	ï¿½asmNameï¿½ ï¿½asmName.toLowerCaseï¿½;	
+	ï¿½FOR t : test.allInstructions()ï¿½
 		// state 
-		«printState(t,test.allInstructions.get(0)===t)»
+		ï¿½printState(t,test.allInstructions.get(0)===t)ï¿½
 		// call main rule
-		«asmName.toLowerCase».«mainRuleName»();
-		«asmName.toLowerCase».fireUpdateSet();
-	«ENDFOR»
+		ï¿½asmName.toLowerCaseï¿½.ï¿½mainRuleNameï¿½();
+		ï¿½asmName.toLowerCaseï¿½.fireUpdateSet();
+	ï¿½ENDFORï¿½
 }'''
 	}
 

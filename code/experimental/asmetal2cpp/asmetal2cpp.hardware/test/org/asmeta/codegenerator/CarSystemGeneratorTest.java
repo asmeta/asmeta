@@ -20,7 +20,7 @@ import asmeta.structure.Asm;
 
 public class CarSystemGeneratorTest {
 
-	final static String EXAMPLE_DIR = "../asmetal2cpp_codegen/examples/ABZ2020_FOR_TESTS/"; 
+	final static String EXAMPLE_DIR = "../asmetal2cpp.codegen/examples/ABZ2020_FOR_TESTS/"; 
 	
 	@Test
 	public void CarSystem004_hw_test() throws IOException,Exception {
