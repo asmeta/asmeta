@@ -39,6 +39,7 @@ public class TestSuiteAggregator {
 		List<String> lines;
 		lines = Files.readAllLines(Paths.get(MODEL_LIST));
 		// For each model in the list...
+		int count = 0;
 		for (String line : lines) {
 			if (line.isEmpty() || line.startsWith("//"))
 				continue;
@@ -48,7 +49,7 @@ public class TestSuiteAggregator {
 			// For each aggregated test suite to be populated...
 			for (List<String> testSuiteNames : AGGREGATED_TEST_SUITES) {
 				System.out.println("Aggregating: " + testSuiteNames);
-				String aggTestSuitePath = RESULTS_DIR + File.separator + String.join("-", testSuiteNames) + File.separator + asmName;
+				String aggTestSuitePath = RESULTS_DIR + File.separator + String.join("-", testSuiteNames) + File.separator + count + "_" +  asmName;
 				File aggTestSuiteFile = new File(aggTestSuitePath);
 				if (aggTestSuiteFile.exists()) {
 					FileUtils.deleteDirectory(aggTestSuiteFile);
@@ -80,6 +81,7 @@ public class TestSuiteAggregator {
 					}
 				}
 			}
+			count++;
 		}
 	}
 
