@@ -71,6 +71,11 @@
   		<version>0.0.1-SNAPSHOT</version>
 	</dependency>
 	<dependency>
+	    <groupId>asmeta</groupId>
+  		<artifactId>org.asmeta.avallaxt.tests</artifactId>
+  		<version>0.0.1-SNAPSHOT</version>
+	</dependency>
+	<dependency>
 		<groupId>junit</groupId>
 		<artifactId>junit</artifactId>
 		<version>4.13.2</version>

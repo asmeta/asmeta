@@ -34,6 +34,11 @@
     </plugins>
   </build>
   <dependencies>
+  	<dependency>
+	  <groupId>org.eclipse.xtext</groupId>
+	  <artifactId>org.eclipse.xtext.testing</artifactId>
+	  <version>${xtext.version}</version>
+	</dependency>
     <dependency>
 	  <groupId>asmeta</groupId>
 	  <artifactId>atgt4asmeta</artifactId>
@@ -50,8 +55,13 @@
 	  <version>0.0.1-SNAPSHOT</version>
 	</dependency>
 	<dependency>
-	  	<artifactId>org.asmeta.avallaxt</artifactId>
 		<groupId>asmeta</groupId>
+	  	<artifactId>org.asmeta.avallaxt</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</dependency>
+	<dependency>
+		<groupId>asmeta</groupId>
+	  	<artifactId>asmeta.validator</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</dependency>
   </dependencies>
