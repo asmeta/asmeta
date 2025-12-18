@@ -61,6 +61,7 @@ public class TestSuiteAggregator {
 					String testSuitePath = RESULTS_DIR + File.separator + testSuiteName;
 					File[] testSuites = new File(testSuitePath).listFiles();
 					// Search the target original test suite...
+					// FIXME: not working if multiple asm schare the same name
 					for (File tsFile : testSuites) {
 						String tsDir = tsFile.getPath();
 						String tsAsmName = tsDir.substring(tsDir.indexOf("_") + 1);
