@@ -24,9 +24,9 @@ submitted to FM 2026.
 Contains all outputs, configuration files, and the required JARs/scripts to fully rerun the experiments.
 
 ### `icst-26-exp/`
-Experiments for **[ICST 2026 paper title]**,  
-to be submitted to ICST 2026.  
-Contains only results. To replicate these experiments, use the JARs and scripts located in the base folder `data/`.
+Experiments for the paper *Generating Abstract Tests for Asmeta Models by Using Code Transformations and EvoSuite**,  
+submitted to ICST 2026.  
+Contains only results and the Python notebook used to analyze the data in `data.csv`. To replicate these experiments, use the JARs and scripts located in the base folder `data/`.
 
 ### `nfm-26-exp/`
 Experiments for **[NFM 2026 paper title]**,  
