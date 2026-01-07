@@ -226,6 +226,8 @@ public class AsmToUnitModuleTest {
 		BOOST, CATCH2
 	}
 
+	private static boolean compileTest = false;
+	
 
 	/**
 	 * 
@@ -279,7 +281,10 @@ public class AsmToUnitModuleTest {
 		trans.generateAndSave(testPath);
 		System.out.println("*****" + testPath);
 		// compile the test.cpp
-		CompileResult result = CppCompiler.compile(testname, destDir.getPath(), true, isCovEnabled, useBoost);
+		CompileResult result = new CompileResult(true, "no compilation requested");
+		if (compileTest) {
+			result = CppCompiler.compile(testname, destDir.getPath(), true, isCovEnabled, useBoost);
+		}
 		System.out.println(result);
 		// compiled?
 		if (result.success) {
@@ -291,20 +296,25 @@ public class AsmToUnitModuleTest {
 			result = CppCompiler.compile(specname + ".cpp", destDir.getPath(), true, isCovEnabled, useBoost);
 			System.out.println(result);
 			//
-			// compiliamo e linkiamo file cpp il tutto (rende un po' inutile quello prima
-			result = CppCompiler.compile("*.o", destDir.getPath(), false, isCovEnabled, useBoost);
+			if (compileTest) {
+				// compiliamo e linkiamo file cpp il tutto (rende un po' inutile quello prima
+				result = CppCompiler.compile("*.o", destDir.getPath(), false, isCovEnabled, useBoost);
+			}
 			System.out.println(result);
-			if (result.success) {
-				// esegui
-				System.out.println("executing test cases");
-				// printFilesList();
-				String executableName = destDir.getAbsolutePath() + "/a.exe";
-				StringBuffer resultexec = runexample(executableName, destDir);
-				System.out.println(resultexec.toString());
-				if (!resultexec.toString().contains("*** No errors detected") && !resultexec.toString().contains("All tests passed"))
-					throw new RuntimeException("test failed " + resultexec.toString());
-			} else {
-				throw new RuntimeException(".o compiling/linking failure");
+			if (compileTest) {
+				if (result.success) {
+					// esegui
+					System.out.println("executing test cases");
+					// printFilesList();
+					String executableName = destDir.getAbsolutePath() + "/a.exe";
+					StringBuffer resultexec = runexample(executableName, destDir);
+					System.out.println(resultexec.toString());
+					if (!resultexec.toString().contains("*** No errors detected")
+							&& !resultexec.toString().contains("All tests passed"))
+						throw new RuntimeException("test failed " + resultexec.toString());
+				} else {
+					throw new RuntimeException(".o compiling/linking failure");
+				}
 			}
 		}
 		if (isCovEnabled) computeCoverageAndWriteData(specpath, destDir, tg, trans, specname, starttime);
