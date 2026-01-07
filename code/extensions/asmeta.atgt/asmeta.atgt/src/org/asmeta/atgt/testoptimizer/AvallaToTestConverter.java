@@ -11,6 +11,7 @@ import atgt.coverage.AsmTestSequence;
 
 public class AvallaToTestConverter {
 
+	// Convert a Scenario into a AsmTestSequence
 	public AsmTestSequence convert(Scenario s) {
 		// no test predicate - use the name of the scenario
 		AsmTestSequence test = new AsmTestSequence(new AsmTestCondition(s.getName(), null));

@@ -23,7 +23,12 @@ import org.eclipse.xtext.resource.XtextResourceSet;
 import com.google.inject.Injector;
 
 public class AvallaOptimizer {
-	
+
+	/**
+	 * Optimize an avalla removing unecessary set and check statements. The new
+	 * optimized avalla is placed in the same directory of the original one.
+	 */
+	// FIXME: not working, the test in AvallaOptimizerTest fails
 	public void optimize(String avallaPath) throws Exception {
 		// check avallaPath exists and is .avalla
 		File avalla = new File(avallaPath);
@@ -34,13 +39,14 @@ public class AvallaOptimizer {
 			throw new RuntimeException(avallaPath + " is not a valid .avalla file");
 		}
 		// Obtain the Scenario
+		// TODO: Fails when run via the JUnit test in Eclipse probably due to some classpath conflict:
 		Injector injector = new AvallaStandaloneSetup().createInjectorAndDoEMFRegistration();
 		XtextResourceSet rs = injector.getInstance(XtextResourceSet.class);
 		rs.addLoadOption(XtextResource.OPTION_RESOLVE_ALL, Boolean.TRUE);
 		Resource resource = rs.getResource(URI.createFileURI(avallaPath), true);
 		resource.load(rs.getLoadOptions());
 		Scenario s = (Scenario) resource.getContents().get(0);
-		// Get in some way the path to the asm and parse it
+		// TODO: Get in some way the path to the asm (from the load statement) and parse it
 		String loadStatement = s.getSpec(); // TODO: check if this works
 		AsmCollection asm = ASMParser.setUpReadAsm(new File(loadStatement));
 		// Convert the Scenario to AsmTestSequence
