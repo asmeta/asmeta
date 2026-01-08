@@ -63,11 +63,6 @@ public class MutatedScenarioExecutor {
 	// return MAP with key: mutation operator (String) -> a pair (killed,n_mutants)
 	//
 	public HashMap<String,Map.Entry<Integer, Integer>> computeMutationScore(String scenarioPath) throws Exception {
-		mutOperators.add(new RuleRemover());
-		mutOperators.add(new ChooseRuleMutator());
-		mutOperators.add(new CondRemover());
-		mutOperators.add(new CondNegator());
-		
 		// TEMP. use a temporary directory
 		File temp = new File("temp/");
 		HashMap<String,Map.Entry<Integer, Integer>> results = new HashMap<String, Map.Entry<Integer,Integer>>();
@@ -75,6 +70,11 @@ public class MutatedScenarioExecutor {
 		// parse the scenario to get the ref to the asmeta
 		AsmetaMutatedFromAvalla asmetaBuilder = new AsmetaMutatedFromAvalla(scenarioPath, temp);
 		AsmCollection orginalAsm = asmetaBuilder.getAsm();
+		
+		mutOperators.add(new RuleRemover());
+		mutOperators.add(new ChooseRuleMutator(orginalAsm.getMain()));
+		mutOperators.add(new CondRemover());
+		mutOperators.add(new CondNegator());
 		// for every mutation operators
 		for (AsmetaMutationOperator mut : mutOperators) {
 			int nKilled = 0;
@@ -171,7 +171,7 @@ public class MutatedScenarioExecutor {
 		//mutOperators.addAll(
 		mutOperators = Arrays.asList(		
 				new CaseMutator(),
-				new ChooseRuleMutator(),
+				new ChooseRuleMutator(asm),
 				new CondNegator(),
 				new CondRemover(),
 				new ForAllMutator(asm),

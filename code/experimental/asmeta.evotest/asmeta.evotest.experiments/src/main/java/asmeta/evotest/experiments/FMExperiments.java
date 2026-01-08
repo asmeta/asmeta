@@ -296,8 +296,8 @@ public class FMExperiments {
 			File[] files = new File(avallaDir).listFiles();
 			for (File f : files) {
 				String name = f.getName();
-				// Validate and rename only the .avalla files generated during this iteration
-				if (f.isFile() && name.endsWith(AsmetaV.SCENARIO_EXTENSION) && !name.contains("iter_")) {
+				// Validate the .avalla files generated during this iteration
+				if (f.isFile() && name.endsWith(AsmetaV.SCENARIO_EXTENSION)) {
 					try {
 						List<String> failing = AsmetaV.execValidation(f.toString(), false, false);
 						if (failing.size() > 0) {

@@ -47,6 +47,7 @@
 					<!-- use: 
 					java -cp experiments-runner.jar asmeta.evotest.experiments.ScenarioGeneratorRunner
 					java -cp experiments-runner.jar asmeta.evotest.experiments.RandomGeneratorRunner [arguments]
+					java -cp experiments-runner.jar asmeta.evotest.experiments.IterativeRandomGeneratorRunner [arguments]
 					java -cp experiments-runner.jar asmeta.evotest.experiments.AnalysisRunner [arguments]
 					-->
 					<execution>

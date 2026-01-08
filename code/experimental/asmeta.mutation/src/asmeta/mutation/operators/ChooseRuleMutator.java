@@ -7,6 +7,8 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.RuleVisitor;
@@ -29,13 +31,14 @@ import asmeta.transitionrules.basictransitionrules.TermAsRule;
 import asmeta.transitionrules.basictransitionrules.UpdateRule;
 import asmeta.transitionrules.derivedtransitionrules.CaseRule;
 import asmeta.transitionrules.turbotransitionrules.SeqRule;
+import asmeta.definitions.Function;
+import asmeta.definitions.domains.AbstractTd;
 import asmeta.definitions.domains.Domain;
-import asmeta.terms.basicterms.ConstantTerm;
-import asmeta.terms.basicterms.DomainTerm;
+import asmeta.structure.Asm;
+import asmeta.terms.basicterms.FunctionTerm;
 import asmeta.terms.basicterms.SetTerm;
 import asmeta.terms.basicterms.Term;
 import asmeta.terms.basicterms.VariableTerm;
-import asmeta.terms.basicterms.impl.BasictermsFactoryImpl;
 import asmeta.transitionrules.basictransitionrules.*;
 //import org.asmeta.simulator.util.StdlFunction;
 
@@ -45,8 +48,12 @@ import asmeta.transitionrules.basictransitionrules.*;
 //
 public class ChooseRuleMutator extends RuleBasedMutator {
 
-	public ChooseRuleMutator() {
+	static Random random = new Random();
+	static Asm asm;
+	
+	public ChooseRuleMutator(Asm asm) {
 		super(new RuleVisitorAdapter(new ChoseRuleToLet()));
+		this.asm = asm;
 	}
 
 	// changes a choose rule to a let rule
@@ -106,15 +113,20 @@ public class ChooseRuleMutator extends RuleBasedMutator {
 			// Create an empty let to be populated
 			LetRule lr = BasictransitionrulesFactory.eINSTANCE.createLetRule();
 			// For each range, get a random element
-			List<ConstantTerm> initTerms = new ArrayList<>();
+			List<Term> initTerms = new ArrayList<>();
 			for (int i = 0; i < chooseRanges.size(); i++) {
 				Term range = chooseRanges.get(i);
-				ConstantTerm randomTerm;
+				Term randomTerm;
 				if (range instanceof SetTerm st) {
 					randomTerm = rndReader.visit(st);
 				} else {
-					Value randomValue = rndReader.visit(chooseVariables.get(i).getDomain());
-					randomTerm = valtoterm.visit(randomValue);
+					Domain d = chooseVariables.get(i).getDomain();
+					if (d instanceof AbstractTd ad) {
+						randomTerm = extractRandomAbstractFunction(asm, ad);
+					} else {
+						Value randomValue = rndReader.visit(d);
+						randomTerm = valtoterm.visit(randomValue);
+					}	
 				}
 				initTerms.add(randomTerm);
 			}
@@ -123,7 +135,23 @@ public class ChooseRuleMutator extends RuleBasedMutator {
 			lr.getInitExpression().addAll(initTerms);
 			lr.setInRule(EcoreUtil.copy(rule.getDoRule()));
 			mutated.add(lr);
+			
 			return mutated;
+		}
+		
+		private static FunctionTerm extractRandomAbstractFunction(Asm asm, AbstractTd ad) {
+			EList<Function> functions = asm.getHeaderSection().getSignature().getFunction();
+			List<Function> adElems = functions.stream().filter(f -> f.getCodomain().equals(ad)).collect(Collectors.toList());
+			int nElem = adElems.size();
+			if (nElem > 0) {
+				int numEl = random.nextInt(nElem);
+				Function f = adElems.get(numEl);
+				FunctionTerm t = asmeta.terms.basicterms.BasictermsFactory.eINSTANCE.createFunctionTerm();
+				t.setDomain(ad);
+				t.setFunction(f);
+				return t;
+			}
+			return null;
 		}
 
 		@Override

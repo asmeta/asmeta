@@ -20,6 +20,11 @@ public class ChooseRuleMutatorTest {
 	public void testMutateSimpleChoose() throws Exception {
 		testChooseMutator("examples/chooseToLet.asm", 1);
 	}
+		
+	@Test
+	public void testMutatefilosofiEciliegieJustLeft() throws Exception {
+		testChooseMutator("examples/filosofiEciliegieJustLeft.asm", 1);
+	}
 	
 	@Test
 	public void testMutateCoffeVendingMachine() throws Exception {
@@ -40,7 +45,7 @@ public class ChooseRuleMutatorTest {
 		stringWriter.getBuffer().setLength(0);
 
 		// Mutate the asm
-		ChooseRuleMutator mutator = new ChooseRuleMutator();
+		ChooseRuleMutator mutator = new ChooseRuleMutator(asmeta.getMain());
 		List<AsmCollection> mutrul = mutator.mutate(asmeta);
 		
 		assertEquals(nChoose, mutrul.size());

@@ -14,6 +14,14 @@ case "$1" in
       java -cp "$JAR" asmeta.evotest.experiments.RandomGeneratorRunner "$2" "$3" "$4" > rnd_generation.log 2>&1
     fi
     ;;
+    
+  iterative-rnd-generation)
+    if [ "$6" == "--shuffle" ]; then
+      java -cp "$JAR" asmeta.evotest.experiments.IterativeRandomGeneratorRunner "$2" "$3" "$4" "$5" --shuffle > iterative_rnd_generation.log 2>&1
+    else
+      java -cp "$JAR" asmeta.evotest.experiments.IterativeRandomGeneratorRunner "$2" "$3" "$4" "$5" > iterative_rnd_generation.log 2>&1
+    fi
+    ;;
 
   analysis)
     if [ "$3" == "--shuffle" ]; then
@@ -26,7 +34,8 @@ case "$1" in
   *)
     echo "Usage:"
     echo -e "*for generating using the config file 'generation_config.yaml':\n\t./run.sh generation"
-    echo -e "*for generating using random number of tests and steps retrived from suites generated with 'generation' option:\n\t./run.sh rnd-generation <path/to/results> <path/to/asm_examples> <path/to/model_list.txt> [--shuffle]"
+    echo -e "*for generating using random with number of tests and steps retrived from suites generated with 'generation' option:\n\t./run.sh rnd-generation <path/to/results> <path/to/asm_examples> <path/to/model_list.txt> [--shuffle]"
+    echo -e "*for generating using iterative random generation:\n\t./run.sh iterative-rnd-generation <path/to/results> <path/to/asm_examples> <path/to/model_list.txt> <timeBudget> [--shuffle]"
     echo -e "*for running the analysis\n\t./run.sh analysis <path/to/results> [--shuffle]"
     ;;
 esac
