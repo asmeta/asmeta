@@ -17,7 +17,9 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.asmeta.atgt.generator.NuSMVtestGenerator;
 import org.asmeta.parser.ASMParser;
+import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.RuleEvaluator;
+import org.asmeta.simulator.Environment.TimeMngt;
 import org.asmeta.simulator.main.Simulator;
 import org.yaml.snakeyaml.Yaml;
 
@@ -111,6 +113,8 @@ public class ScenarioGeneratorRunner {
 			LOG.error("Falied to delete existing results.", t);
 			return;
 		}
+		
+		Environment.timeMngt = TimeMngt.auto_increment;
 		
 		// Run test generation with the input as defined in the configuration
 		Map<String, Object> sourceCfg = (Map<String, Object>) cfg.get("input");

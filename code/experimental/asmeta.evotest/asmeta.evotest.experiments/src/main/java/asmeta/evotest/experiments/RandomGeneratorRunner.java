@@ -14,7 +14,9 @@ import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.asmeta.parser.ASMParser;
+import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.RuleEvaluator;
+import org.asmeta.simulator.Environment.TimeMngt;
 import org.asmeta.simulator.main.Simulator;
 
 import asmeta.evotest.experiments.scenario.ScenarioDataCollector;
@@ -84,6 +86,9 @@ public class RandomGeneratorRunner {
 			LOG.error("Falied to read " + modelList + ".", e);
 			return;
 		}
+		
+		Environment.timeMngt = TimeMngt.auto_increment;
+		
 		// For each model in the list, run random generation
 		for (String line : lines) {
 			if (line.isEmpty() || line.startsWith("//"))

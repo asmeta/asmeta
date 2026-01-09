@@ -14,7 +14,9 @@ import java.util.Set;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.asmeta.parser.ASMParser;
+import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.RuleEvaluator;
+import org.asmeta.simulator.Environment.TimeMngt;
 import org.asmeta.simulator.main.Simulator;
 import org.asmeta.xt.validator.AsmetaV;
 import org.asmeta.xt.validator.RuleEvalWCov;
@@ -91,6 +93,8 @@ public class AnalysisRunner {
 			t.printStackTrace();
 			return;
 		}
+		
+		Environment.timeMngt = TimeMngt.auto_increment;
 
 		// Iterate over approach directories (randomtests/, atgttests/, evoavallatests/)
 		File[] approachDirs = new File(baseDir).listFiles();
