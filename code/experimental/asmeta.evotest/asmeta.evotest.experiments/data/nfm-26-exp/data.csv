@@ -939,3 +939,6 @@ asm_path,asm_name,n_macro,n_update,n_forall,n_branch,n_rule,approach,status,exec
 ../../../asm_examples/examples/diceKnuthYao.asm,diceKnuthYao,1,10,0,7,17,atgt,OK,138.0,8,31,26,39,1.0,1.0,NaN,1.0,1.0,0,0,1.0,NaN,1.0,0.84615386,NaN,NaN,NaN,0.9444444
 ../../../asm_examples/examples/production_cell/crane.asm,crane,7,8,1,7,24,atgt,NO_VALID_SCENARIOS,NaN,0,0,0,0,null,null,null,null,null,0,0,null,null,null,null,null,null,null,null
 ../../../asm_examples/PillBox/Level2/pillbox_2_for_RefProv.asm,pillbox_2_for_RefProv,9,40,1,30,91,atgt,NO_VALID_SCENARIOS,NaN,0,0,0,0,null,null,null,null,null,0,0,null,null,null,null,null,null,null,null
+../../../asm_examples/examples/simple_example/Scheduler.asm,Scheduler,3,3,1,3,9,iterativerandom,OK,300.0,30,500,135,680,1.0,1.0,1.0,1.0,1.0,0,0,NaN,1.0,1.0,0.0,1.0,1.0,NaN,1.0
+../../../asm_examples/examples/simple_example/Scheduler.asm,Scheduler,3,3,1,3,9,evoavalla,NO_VALID_SCENARIOS,68117.0,0,0,0,0,null,null,null,null,null,1,1,null,null,null,null,null,null,null,null
+../../../asm_examples/examples/simple_example/Scheduler.asm,Scheduler,3,3,1,3,9,atgt,NO_VALID_SCENARIOS,NaN,0,0,0,0,null,null,null,null,null,0,0,null,null,null,null,null,null,null,null
