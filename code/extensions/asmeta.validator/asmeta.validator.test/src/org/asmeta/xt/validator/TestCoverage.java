@@ -83,6 +83,16 @@ public class TestCoverage extends TestValidator {
 		testWithCoverageAndWithout("scenariosforexamples/nestedChooseAndLet/pick_with_false_guard.avalla", false,
 				cov("r_Main()", branch(2, 0, 0), rule(4, 0), update(1, 0), forall(0, 0, 0, 0))); // should fail
 	}
+	
+	@Test
+	public void testWithCoverageAndWithoutSchedulerNFM26() throws Exception {
+		List<CoverageOracle> oracles = new ArrayList<>();
+		oracles.add(cov("r_Main()", branch(0, 0, 0), rule(3, 3), update(0, 0), forall(0, 0, 0, 0)));
+		oracles.add(cov("r_SetRunning()", branch(1, 1, 0), rule(3, 2), update(2, 1), forall(0, 0, 0, 0)));
+		oracles.add(cov("r_SetFinished()", branch(2, 2, 1), rule(3, 3), update(1, 1), forall(1, 1, 1, 0)));
+		testWithCoverageAndWithout("scenariosfortest/flaky/tiny_scheduler/correct_scenarios/nfm26_scenario.avalla", true,
+				oracles.toArray(new CoverageOracle[0]));
+	}
 
 	@Test
 	public void testWithCoverageAndWithoutTinyScheduler() throws Exception {
