@@ -125,7 +125,7 @@
 
 // parsing error: 0
 
-// valid asm: 296
+// valid asm: 297
 examples\simple_example\population.asm
 examples\landingGearSystem\LGS_EV.asm
 PillBox\Level1\pillbox_1.asm
@@ -407,7 +407,7 @@ examples\landingGearSystem\LGS_HM.asm
 examples\hemodialysisDevice\ABZ2016\Hemodialysis_ref2_par.asm
 PillBox\Level2\pillbox_2_elia.asm
 stereoacuity\certifierRaff4ForSMTproof.asm
-examples\TrafficLightYakindu\TrafficLight_NOREF\TrafficLight_4.asm
+examples\TrafficLightYakindu\TrafficLight_NOREF\TrafficLight_4_NOREF.asm
 examples\simple_example\MorraCinese\MorraCinese.asm
 examples\production_cell\DEPOSITBELT.asm
 examples\sultanSuccessors\sultan.asm
@@ -422,5 +422,4 @@ examples\hemodialysisDevice\SCP2017\HemodialysisRef2.asm
 examples\flashProtocol\flashProtocol_N2_L2_Q1_C.asm
 examples\RushHour\emptyCellAs0\RushHourMonSimplForAsmetaSMV.asm
 examples_for_nuXmv\EuclideInt.asm
-examples\simple_example\Scheduler.asm   
-
+examples\simple_example\Scheduler.asm
