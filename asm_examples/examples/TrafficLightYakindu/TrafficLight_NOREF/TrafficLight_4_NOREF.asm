@@ -1,4 +1,4 @@
-asm TrafficLight_4
+asm TrafficLight_4_NOREF
 // ANGELO
  
 import ../StandardLibrary
