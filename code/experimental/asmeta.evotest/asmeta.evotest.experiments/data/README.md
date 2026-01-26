@@ -24,13 +24,13 @@ submitted to FM 2026.
 Contains all outputs, configuration files, and the required JARs/scripts to fully rerun the experiments.
 
 ### `icst-26-exp/`
-Experiments for the paper *Generating Abstract Tests for Asmeta Models by Using Code Transformations and EvoSuite**,  
+Experiments for the paper **"Generating Abstract Tests for Asmeta Models by Using Code Transformations and EvoSuite"**,  
 submitted to ICST 2026.  
 Contains only results and the Python notebook used to analyze the data in `data.csv`. To replicate these experiments, use the JARs and scripts located in the base folder `data/`.
 
 ### `nfm-26-exp/`
-Experiments for **Evaluating coverage and fault detection capability of scenarios for the validation of Asmeta specifications**,  
-to be submitted to NFM 2026.
+Experiments for **"Evaluating coverage and fault detection capability of scenarios for the validation of Asmeta specifications"**,  
+to be submitted to NFM 2026.  
 Contains only results. To replicate these experiments, use the JARs and scripts located in the base folder `data/`.
 
 ---
