@@ -1,0 +1,7 @@
+scenario S1_BasicStart
+load Scheduler.asm
+check not idle;
+check st(JOB1) = RDY and st(JOB2) = RDY and st(JOB3) = RDY;
+step
+// We do not know which job was chosen, but we can still check that none is FIN yet.
+check not (st(JOB1) = FIN or st(JOB2) = FIN or st(JOB3) = FIN);
