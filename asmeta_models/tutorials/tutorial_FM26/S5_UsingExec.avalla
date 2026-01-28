@@ -1,0 +1,16 @@
+scenario S5_UsingExec
+load Scheduler.asm
+
+check st(JOB1) = RDY and st(JOB2) = RDY and st(JOB3) = RDY;
+
+exec st(JOB1) := RUN;
+exec st(JOB2) := RUN;
+exec st(JOB3) := RUN;
+
+set fin(JOB1) := true;
+set fin(JOB2) := true;
+set fin(JOB3) := true;
+
+step
+
+check st(JOB1) = FIN and st(JOB2) = FIN and st(JOB3) = FIN;
