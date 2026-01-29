@@ -114,9 +114,6 @@ public class MonitoredFinder extends ReflectiveVisitor<Boolean> {
 		if (visit(caseTerm.getComparedTerm())) {
 			return true;
 		}
-		if (visit(caseTerm.getComparedTerm())) {
-			return true;
-		}
 		Term otherTerm = caseTerm.getOtherwiseTerm();
 		if (otherTerm != null) {
 			if (visit(otherTerm)) {
