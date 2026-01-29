@@ -2,11 +2,11 @@ scenario S2_InvariantIdle
 load Scheduler.asm
 
 invariant IdleMeansNoneReady: 
-not(idle and (st(JOB1) = RDY or st(JOB2) = RDY or st(JOB3) = RDY));
+not(idle = true and (st(JOB1) = RDY or st(JOB2) = RDY or st(JOB3) = RDY));
 
 set fin(JOB1) := false;
 set fin(JOB2) := false;
 set fin(JOB3) := false;
-check not idle;
-step until idle;
-check idle;
+check idle = false;
+step until idle = true;
+check idle = true;

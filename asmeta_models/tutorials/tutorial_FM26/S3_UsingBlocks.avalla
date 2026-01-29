@@ -3,7 +3,7 @@ load Scheduler.asm
 
 execblock SchedulerBlocks:initAndCheck;
 
-step until idle;
+step until idle = true;
 check st(JOB1) = RUN and st(JOB2) = RUN and st(JOB3) = RUN;
 
 execblock SchedulerBlocks:setAllFin;

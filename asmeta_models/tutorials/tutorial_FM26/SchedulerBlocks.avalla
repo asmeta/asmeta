@@ -5,7 +5,7 @@ begin initAndCheck
 	set fin(JOB1) := false;
 	set fin(JOB2) := false;
 	set fin(JOB3) := false;
-	check not idle;
+	check idle = false;
 	check st(JOB1) = RDY and st(JOB2) = RDY and st(JOB3) = RDY;
 end
 
