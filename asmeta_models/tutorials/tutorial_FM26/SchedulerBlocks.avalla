@@ -1,0 +1,17 @@
+scenario SchedulerBlocks
+load Scheduler.asm
+
+begin initAndCheck
+	set fin(JOB1) := false;
+	set fin(JOB2) := false;
+	set fin(JOB3) := false;
+	check idle = false;
+	check st(JOB1) = RDY and st(JOB2) = RDY and st(JOB3) = RDY;
+end
+
+begin setAllFin
+	set fin(JOB1) := true;
+	set fin(JOB2) := true;
+	set fin(JOB3) := true;
+end
+

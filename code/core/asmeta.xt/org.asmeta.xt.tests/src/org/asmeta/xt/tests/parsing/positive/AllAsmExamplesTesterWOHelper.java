@@ -136,10 +136,10 @@ public class AllAsmExamplesTesterWOHelper {
 
 			// ---------- PROBLEMS WITH STANDARD LIBRARY
 			// ---------- ALL CHECKED
-			add("../../../../asm_examples/workspacePatrizia/SmartHomeGateway/asm/old/MySmartHomeAQ_HC_refined_with_arbiter_forMC.asm");
-			add("../../../../asm_examples/workspacePatrizia/SmartHomeGateway/asm/old/MySmartHomeAQ_HC_refined_with_arbiter_forMC_old.asm");
-			add("../../../../asm_examples/workspacePatrizia/SmartHomeGateway/asm/old/MySmartHomeAQ_refined.asm");
-			add("../../../../asm_examples/workspacePatrizia/SmartHomeGateway/asm/old/MySmartHomeAQ_refined_forMC.asm");
+			add("../../../../asm_examples/workspaceMSL/SmartHomeGateway/asm/old/MySmartHomeAQ_HC_refined_with_arbiter_forMC.asm");
+			add("../../../../asm_examples/workspaceMSL/SmartHomeGateway/asm/old/MySmartHomeAQ_HC_refined_with_arbiter_forMC_old.asm");
+			add("../../../../asm_examples/workspaceMSL/SmartHomeGateway/asm/old/MySmartHomeAQ_refined.asm");
+			add("../../../../asm_examples/workspaceMSL/SmartHomeGateway/asm/old/MySmartHomeAQ_refined_forMC.asm");
 			add("../../../../asm_examples/RTPatternLibrary/CommonBehaviour/Scheduler.asm");
 			add("../../../../asm_examples/RTPatternLibrary/Pattern/SwingingBuffer.asm");
 
@@ -158,14 +158,14 @@ public class AllAsmExamplesTesterWOHelper {
 
 			// ---------- UNDERSCORE WAS NOT ALLOWED IN STRING CONSTANTS
 			// ---------- ALL CHECKED
-			add("../../../../asm_examples/workspacePatrizia/SmartHomeGateway/asm/MySmartHomeAQ_HC_refined.asm");
-			add("../../../../asm_examples/workspacePatrizia/SmartHomeGateway/asm/MySmartHomeAQ_HC_refined_with_arbiter.asm");
-			add("../../../../asm_examples/workspacePatrizia/SmartHomeGateway/asm/MySmartHomeFD_refined.asm");
-			add("../../../../asm_examples/workspacePatrizia/SmartHomeGateway/asm/MySmartHomeHCplus_refined.asm");
-			add("../../../../asm_examples/workspacePatrizia/SmartHomeGateway/asm/MySmartHomeHC_refined.asm");
-			add("../../../../asm_examples/workspacePatrizia/SmartHomeGateway/asm/old/MySmartHomeAQ_HC_refined_with_arbiter.asm");
-			add("../../../../asm_examples/workspacePatrizia/SmartHomeGateway/asm/old/MySmartHomeAQ_HC_refined_with_arbiter2.asm");
-			add("../../../../asm_examples/workspacePatrizia/SmartHomeGateway/asm/old/MySmartHomeAQ_HC_refined.asm");
+			add("../../../../asm_examples/workspaceMSL/SmartHomeGateway/asm/MySmartHomeAQ_HC_refined.asm");
+			add("../../../../asm_examples/workspaceMSL/SmartHomeGateway/asm/MySmartHomeAQ_HC_refined_with_arbiter.asm");
+			add("../../../../asm_examples/workspaceMSL/SmartHomeGateway/asm/MySmartHomeFD_refined.asm");
+			add("../../../../asm_examples/workspaceMSL/SmartHomeGateway/asm/MySmartHomeHCplus_refined.asm");
+			add("../../../../asm_examples/workspaceMSL/SmartHomeGateway/asm/MySmartHomeHC_refined.asm");
+			add("../../../../asm_examples/workspaceMSL/SmartHomeGateway/asm/old/MySmartHomeAQ_HC_refined_with_arbiter.asm");
+			add("../../../../asm_examples/workspaceMSL/SmartHomeGateway/asm/old/MySmartHomeAQ_HC_refined_with_arbiter2.asm");
+			add("../../../../asm_examples/workspaceMSL/SmartHomeGateway/asm/old/MySmartHomeAQ_HC_refined.asm");
 
 			// ---------- ENUMERATION ELEMENT NOT DEFINED
 			// ---------- ALL CHECKED
@@ -340,7 +340,7 @@ public class AllAsmExamplesTesterWOHelper {
 		add("../../../asm_examples/test/errors/np/m1.asm");
 		add("../../../asm_examples/dagstuhl2013/DijkstraTermination/old/terminationFinished20170108.asm");
 		add("../../../asm_examples/dagstuhl2013/DijkstraTermination/old/terminationN20170108.asm");
-		add("../../../asm_examples/workspacePatrizia/SmartHomeGateway/asm/old/MySmartHomeAQ_HC_new_refined_with_arbiter_forMC_old.asm");
+		add("../../../asm_examples/woworkspaceMSLmartHomeGateway/asm/old/MySmartHomeAQ_HC_new_refined_with_arbiter_forMC_old.asm");
 		add("../../../asm_examples/test/simulator/macro/macro06.asm");
 		add("../../../asm_examples/SystemCUMLProfile_metahooking/SystemCUMLProfile_INIT.asm");
 	}};
@@ -443,16 +443,16 @@ public class AllAsmExamplesTesterWOHelper {
 			if (specName.contains("asm_examples/test/simulator/import2/m2.asm"))
 				continue;
 			if (specName.contains(
-					"asm_examples/workspacePatrizia/SmartHomeGateway/asm/MySmartHomeAQ_HC_refined_forMC.asm"))
+					"asm_examples/woworkspaceMSLmartHomeGateway/asm/MySmartHomeAQ_HC_refined_forMC.asm"))
 				continue;
 			if (specName.contains(
-					"asm_examples/workspacePatrizia/SmartHomeGateway/asm/old/MySmartHomeAQ_HC_refined_with_arbiter3.asm"))
+					"asm_examples/woworkspaceMSLmartHomeGateway/asm/old/MySmartHomeAQ_HC_refined_with_arbiter3.asm"))
 				continue;
 			if (specName.contains(
-					"asm_examples/workspacePatrizia/SmartHomeGateway/asm/old/MySmartHomeAQ_HC_new_refined_with_arbiter3.asm"))
+					"asm_examples/woworkspaceMSLmartHomeGateway/asm/old/MySmartHomeAQ_HC_new_refined_with_arbiter3.asm"))
 				continue;
 			if (specName
-					.contains("asm_examples/workspacePatrizia/Composition_prj/composition/ComfortableHeating.asm"))
+					.contains("asm_examples/woworkspaceMSLomposition_prj/composition/ComfortableHeating.asm"))
 				continue;
 			if (specName.contains("asm_examples/systemc/sched/sched.asm"))
 				continue;

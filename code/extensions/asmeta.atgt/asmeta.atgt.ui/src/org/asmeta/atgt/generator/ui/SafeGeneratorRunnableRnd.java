@@ -1,7 +1,7 @@
 package org.asmeta.atgt.generator.ui;
 
 import org.asmeta.atgt.generator.SaveResults;
-import org.asmeta.atgt.generator2.AsmTestGeneratorBySimulation;
+import org.asmeta.atgt.rndgenerator.AsmTestGeneratorBySimulation;
 import org.asmeta.parser.ASMParser;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
@@ -24,7 +24,7 @@ public class SafeGeneratorRunnableRnd  extends  SafeGeneratorRunnable{
 	@Override
 	protected AsmTestSuite generateTestSuite() throws Exception {
 		AsmCollection model = ASMParser.setUpReadAsm(config.asmetaSpecPath.toFile());
-		mc.writeMessage("generating randomely " + nTests + " test of lenghth "+ nSteps);
+		mc.writeMessage("generating randomly " + nTests + " test of lenghth "+ nSteps);
 		AsmTestGeneratorBySimulation tg = new AsmTestGeneratorBySimulation(model, nSteps, nTests);
 		return tg.getTestSuite();
 	}
@@ -33,7 +33,7 @@ public class SafeGeneratorRunnableRnd  extends  SafeGeneratorRunnable{
 	protected void savetoavalla(AsmTestSuite result) {
 		mc.writeMessage("saving to avalla");
 		String stringForFile = "random";
-		SaveResults.saveResults(result, config.asmetaSpecPath.toString(), config.formats, stringForFile);
+		SaveResults.saveResults(result, config.asmetaSpecPath.toString(), config.formats, stringForFile, false);
 	}
 
 }

@@ -3,7 +3,7 @@ package org.asmeta.tocpp.abstracttestgenerator;
 import java.util.List;
 import java.util.Map;
 
-import org.asmeta.atgt.generator2.AsmTestGeneratorBySimulation;
+import org.asmeta.atgt.rndgenerator.AsmTestGeneratorBySimulation;
 import org.junit.Test;
 
 import asmeta.AsmCollection;

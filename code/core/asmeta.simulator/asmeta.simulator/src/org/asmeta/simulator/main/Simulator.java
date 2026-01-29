@@ -47,6 +47,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.WriterAppender;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.Defs;
+import org.asmeta.parser.Utility;
 import org.asmeta.parser.util.AsmetaTermPrinter;
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.InvalidInvariantException;
@@ -598,7 +599,7 @@ public class Simulator {
 		// then assign it to the static attribute of TermEvaluator
 		for (Asm asm : asmCollection) {
 			String name = asm.getName();
-			if (!name.equals("StandardLibrary")) {
+			if (!name.equals(Utility.STANDARD_LIBRARY_NAME)) {
 				continue;
 			}
 			Collection<?> functions = asm.getHeaderSection().getSignature().getFunction();

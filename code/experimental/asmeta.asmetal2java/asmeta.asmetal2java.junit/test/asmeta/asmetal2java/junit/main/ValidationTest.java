@@ -10,7 +10,7 @@ import java.net.URLClassLoader;
 import java.nio.file.Path;
 
 import org.asmeta.atgt.generator.SaveResults;
-import org.asmeta.atgt.generator2.AsmTestGeneratorBySimulation;
+import org.asmeta.atgt.rndgenerator.AsmTestGeneratorBySimulation;
 import org.asmeta.avallaxt.AvallaStandaloneSetup;
 import org.asmeta.avallaxt.avalla.Scenario;
 import org.asmeta.parser.ASMParser;

@@ -292,15 +292,15 @@ public class TranslatorImpl implements Translator {
 		// be generated
 		// -Dtest_dir="<<workingDir>/evosuite/evosuite-tests>"
 		String evosuiteTestsOption = TranslatorConstants.EVOSUITE_TEST_DIR_OPTION + TranslatorConstants.EQ
-				+ TranslatorConstants.DOUBLE_QUOTES + fileManager.getEvosuiteTestsPathToString()
-				+ TranslatorConstants.DOUBLE_QUOTES;
+				/*+ TranslatorConstants.DOUBLE_QUOTES*/ + fileManager.getEvosuiteTestsPathToString()
+				/*+ TranslatorConstants.DOUBLE_QUOTES*/;
 
 		// Set the location of the report.csv file
 		// -Dreport_dir="<<workingDir>/evosuite/evosuite-report>"
 		String evosuiteReportOption = TranslatorConstants.EVOSUITE_REPORT_DIR + TranslatorConstants.EQ
-				+ TranslatorConstants.DOUBLE_QUOTES + Paths.get(fileManager.getWorkingDirPathToString(),
+				/*+ TranslatorConstants.DOUBLE_QUOTES*/ + Paths.get(fileManager.getWorkingDirPathToString(),
 						TranslatorConstants.EVOSUITE, TranslatorConstants.EVOSUITE_REPORT).toString()
-				+ TranslatorConstants.DOUBLE_QUOTES;
+				/*+ TranslatorConstants.DOUBLE_QUOTES*/;
 
 		// Set the java input class (add _ATG to the asmeta specification file name)
 		String evosuiteJavaInputFile = asmName + TranslatorConstants.ATG;

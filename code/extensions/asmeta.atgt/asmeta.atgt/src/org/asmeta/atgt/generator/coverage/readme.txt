@@ -1,1 +1,0 @@
-questo voglio far fuori ATGT la parte di SPecification gofer, e prendere solo tglib

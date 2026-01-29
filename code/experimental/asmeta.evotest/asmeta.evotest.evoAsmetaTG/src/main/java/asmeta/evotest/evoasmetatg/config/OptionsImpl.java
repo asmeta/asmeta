@@ -40,6 +40,11 @@ public class OptionsImpl implements Options {
 	 * supported by the ATG class.
 	 */
 	private boolean ignoreDomainException;
+	
+	/**
+	 * if false, run choose rules deterministically (always choose first element)
+	 */
+	private boolean shuffleRandom;
 
 	/** A map that associates property names with actions that modify the corresponding boolean fields. */
 	private Map<String, Consumer<Boolean>> optionMapper;
@@ -55,6 +60,7 @@ public class OptionsImpl implements Options {
 		compiler = true;
 		copyAsm = false;
 		ignoreDomainException = false;
+		shuffleRandom = true;
 		mapperSetup();
 	}
 
@@ -68,6 +74,7 @@ public class OptionsImpl implements Options {
 		optionMapper.put(ModeConstantsConfig.COMPILER, value -> compiler = value);
 		optionMapper.put(TranslatorOptionsImpl.COPY_ASM_OPTION, value -> copyAsm = value);
 		optionMapper.put(TranslatorOptionsImpl.IGNORE_NOT_SUPPORTED_DOMAIN_EXCEPTION, value -> ignoreDomainException = value);	
+		optionMapper.put(TranslatorOptionsImpl.SHUFFLE_RANDOM, value -> shuffleRandom = value);	
 	}
 
 	@Override
@@ -90,7 +97,8 @@ public class OptionsImpl implements Options {
 				TranslatorOptionsImpl.COVER_OUTPUTS_OPTION,
 				ModeConstantsConfig.COMPILER,
 				TranslatorOptionsImpl.COPY_ASM_OPTION,
-				TranslatorOptionsImpl.IGNORE_NOT_SUPPORTED_DOMAIN_EXCEPTION);
+				TranslatorOptionsImpl.IGNORE_NOT_SUPPORTED_DOMAIN_EXCEPTION,
+				TranslatorOptionsImpl.SHUFFLE_RANDOM);
 	}
 
 	@Override
@@ -100,7 +108,8 @@ public class OptionsImpl implements Options {
 				+ OPTIONS_ID + TranslatorOptionsImpl.COVER_RULES_OPTION + " = (true)/false : cover the rules in the testGen class.\n" 
 				+ OPTIONS_ID + TranslatorOptionsImpl.COVER_OUTPUTS_OPTION + " = true/(false) : cover the outputs in the testGen class.\n"
 				+ OPTIONS_ID + TranslatorOptionsImpl.COPY_ASM_OPTION + " = true/(false) : copy the amseta spec file to another folder for processing.\n"
-				+ OPTIONS_ID + TranslatorOptionsImpl.IGNORE_NOT_SUPPORTED_DOMAIN_EXCEPTION + " = true/(false) : do not stop the execution if a domain is not supported by the ATG class. \n";
+				+ OPTIONS_ID + TranslatorOptionsImpl.IGNORE_NOT_SUPPORTED_DOMAIN_EXCEPTION + " = true/(false) : do not stop the execution if a domain is not supported by the ATG class. \n"
+				+ OPTIONS_ID + TranslatorOptionsImpl.SHUFFLE_RANDOM + " = (true)/false : if false, run choose rules deterministically (always choose first element). \n";
 	}
 
 	@Override
@@ -110,7 +119,8 @@ public class OptionsImpl implements Options {
 				OPTIONS_ID + TranslatorOptionsImpl.COVER_RULES_OPTION + EQ + String.valueOf(coverRules),
 				OPTIONS_ID + TranslatorOptionsImpl.COVER_OUTPUTS_OPTION + EQ + String.valueOf(coverOutput),
 				OPTIONS_ID + TranslatorOptionsImpl.COPY_ASM_OPTION + EQ + String.valueOf(copyAsm),
-				OPTIONS_ID + TranslatorOptionsImpl.IGNORE_NOT_SUPPORTED_DOMAIN_EXCEPTION + EQ + String.valueOf(ignoreDomainException)
+				OPTIONS_ID + TranslatorOptionsImpl.IGNORE_NOT_SUPPORTED_DOMAIN_EXCEPTION + EQ + String.valueOf(ignoreDomainException),
+				OPTIONS_ID + TranslatorOptionsImpl.SHUFFLE_RANDOM+ EQ + String.valueOf(shuffleRandom)
 				);
 	}
 	

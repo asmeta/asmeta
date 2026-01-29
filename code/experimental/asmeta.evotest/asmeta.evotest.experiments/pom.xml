@@ -20,19 +20,21 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<executions>
+					<!-- FM Experiments jar -->
+					<!-- use: java -jar fm-experiments-runner.jar -->
 					<execution>
 						<phase>package</phase>
 						<goals>
 							<goal>single</goal>
 						</goals>
 						<configuration>
-							<finalName>experiments-runner</finalName>
+							<finalName>fm-experiments-runner</finalName>
 							<appendAssemblyId>false</appendAssemblyId>
-							<outputDirectory>dist</outputDirectory>
+							<outputDirectory>data/fm-short-26-exp</outputDirectory>
 							<archive>
 								<manifest>
 									<mainClass>
-										asmeta.evotest.experiments.main.TestExperiments
+										asmeta.evotest.experiments.FMExperiments
 									</mainClass>
 								</manifest>
 							</archive>
@@ -41,6 +43,36 @@
 							</descriptorRefs>
 						</configuration>
 					</execution>
+					<!-- ICST and NFM Experiments jar  -->
+					<!-- use: 
+					java -cp experiments-runner.jar asmeta.evotest.experiments.ScenarioGeneratorRunner
+					java -cp experiments-runner.jar asmeta.evotest.experiments.RandomGeneratorRunner [arguments]
+					java -cp experiments-runner.jar asmeta.evotest.experiments.IterativeRandomGeneratorRunner [arguments]
+					java -cp experiments-runner.jar asmeta.evotest.experiments.AnalysisRunner [arguments]
+					-->
+					<execution>
+	                    <id>test-generator-jar</id>
+	                    <phase>package</phase>
+	                    <goals>
+	                        <goal>single</goal>
+	                    </goals>
+	                    <configuration>
+	                        <finalName>experiments-runner</finalName>
+	                        <appendAssemblyId>false</appendAssemblyId>
+	                        <outputDirectory>data</outputDirectory>
+	                        <!-- when using java -jar icst-experiments-runner.jar, run scenario generation -->
+	                        <archive>
+	                            <manifest>
+	                                <mainClass>
+	                                    asmeta.evotest.experiments.ScenarioGeneratorRunner
+	                                </mainClass>
+	                            </manifest>
+	                        </archive>
+	                        <descriptorRefs>
+	                            <descriptorRef>jar-with-dependencies</descriptorRef>
+	                        </descriptorRefs>
+	                    </configuration>
+                		</execution>
 				</executions>
 			</plugin>
         </plugins>
@@ -63,12 +95,22 @@
         </dependency>
         <dependency>
             <groupId>asmeta</groupId>
+            <artifactId>asmeta.parser</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>asmeta</groupId>
             <artifactId>org.asmeta.avallaxt</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
 		    <groupId>asmeta</groupId>
 		    <artifactId>asmeta.atgt</artifactId>
+		    <version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+		    <groupId>asmeta</groupId>
+		    <artifactId>asmeta.mutation</artifactId>
 		    <version>0.0.1-SNAPSHOT</version>
 		</dependency>
         <dependency>
@@ -86,6 +128,11 @@
             <artifactId>opencsv</artifactId>
             <version>5.7.1</version>
         </dependency>
+		<dependency>
+		    <groupId>org.yaml</groupId>
+		    <artifactId>snakeyaml</artifactId>
+		    <version>2.5</version>
+		</dependency>
 		<dependency>
 		    <groupId>commons-io</groupId>
 		    <artifactId>commons-io</artifactId>

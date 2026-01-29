@@ -1,9 +1,0 @@
-scenario SafeCombination_scenario1
-
-load ./..\..\..\..\models\SafeCombination.asm
-
-check 7 = 7;
-set digitPad := 7;
-
-step
-

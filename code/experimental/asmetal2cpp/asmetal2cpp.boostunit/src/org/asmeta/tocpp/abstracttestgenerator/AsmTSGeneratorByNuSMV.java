@@ -2,7 +2,7 @@ package org.asmeta.tocpp.abstracttestgenerator;
 
 import java.io.File;
 
-import org.asmeta.atgt.generator2.AsmTestGenerator;
+import org.asmeta.atgt.rndgenerator.AsmTestGenerator;
 
 import asm_mbtJunit.JUnitTestGenerator;
 import asm_mbtJunit.nusmv.JunitNuSMVtestGenerator;

@@ -1,0 +1,98 @@
+//Example of composition: a pattern is instantiated twice.
+//The MAPE group IntTemp and the system Heater play the same role in the two different instances.
+//Composition of the two pattern instances is realized by name matching at configuration level.
+
+//import AggregateMAPE //import is new
+abstract pattern AggregateMAPE {
+	system Sys
+
+	group Main {
+		components M, A, P, E
+	} 
+	
+	group Interface {
+		managedSyS Sys
+		components M, E
+	}
+
+	interaction Interface.M -> Main.M [*-ALL,1]
+	interaction Main.E -> Interface.E [1,*-ALL]
+	interaction Main.M -> Main.A [1,1]
+	interaction Main.A -> Main.P [1,1]
+	interaction Main.P -> Main.E [1,1]
+}
+
+concrete pattern ComfortableHeatingMAPE concretizationOf AggregateMAPE {
+	system Heater : AggregateMAPE.Sys
+    group MainCH: AggregateMAPE.Main
+    group IntTemp: AggregateMAPE.Interface
+}
+
+concrete pattern ElectricitySavingMAPE concretizationOf AggregateMAPE {
+	//system Heater : AggregateMAPE.Sys
+    system HeaterAndWaterHeater: AggregateMAPE.Sys
+    group MainES: AggregateMAPE.Main
+    //group IntTemp: AggregateMAPE.Interface
+    group IntTempAndWaterTemp: AggregateMAPE.Interface
+}
+
+
+//Comfortable heating and electricity saving
+////comma-separated list NEW!
+configuration CH_ES instanceOf ComfortableHeatingMAPE, ElectricitySavingMAPE {
+    hs0: ComfortableHeatingMAPE.Heater, ElectricitySavingMAPE.HeaterAndWaterHeater
+    hs1: ComfortableHeatingMAPE.Heater, ElectricitySavingMAPE.HeaterAndWaterHeater
+    hs2: ComfortableHeatingMAPE.Heater, ElectricitySavingMAPE.HeaterAndWaterHeater
+ 	whs: ElectricitySavingMAPE.HeaterAndWaterHeater
+ 		
+	ch : ComfortableHeatingMAPE.MainCH {
+		components m_ch:M, a_ch:A, p_ch:P, e_ch:E 
+	}
+
+    es : ElectricitySavingMAPE.MainES {
+		components m_es:M, a_es:A, p_es:P, e_es:E 
+	}
+	
+		//comma-separated list NEW!
+	h0 : ComfortableHeatingMAPE.IntTemp, ElectricitySavingMAPE.IntTempAndWaterTemp  {
+		managedSyS hs0
+		components m_h0:M , e_h0:E 
+	}
+
+    h1 : ComfortableHeatingMAPE.IntTemp, ElectricitySavingMAPE.IntTempAndWaterTemp {
+		managedSyS hs1
+		components  m_h1:M , e_h1:E 
+	}
+
+    h2 : ComfortableHeatingMAPE.IntTemp, ElectricitySavingMAPE.IntTempAndWaterTemp  {
+		managedSyS hs2
+		components  m_h2:M , e_h2:E 
+	}
+	
+	wh: ElectricitySavingMAPE.IntTempAndWaterTemp{
+	    managedSyS whs
+		components  m_wh:M , e_wh:E 
+	}
+	
+	ch.m_ch -> ch.a_ch
+	ch.a_ch -> ch.p_ch
+	ch.p_ch -> ch.e_ch
+	es.m_es -> es.a_es
+	es.a_es -> es.p_es
+	es.p_es -> es.e_es
+	h0.m_h0 -> ch.m_ch
+    h0.m_h0 -> es.m_es	
+	h1.m_h1 -> ch.m_ch
+	h1.m_h1 -> es.m_es	
+	h2.m_h2 -> ch.m_ch
+	h2.m_h2 -> es.m_es	
+	wh.m_wh -> es.m_es	
+	ch.e_ch -> h0.e_h0
+	es.e_es -> h0.e_h0
+	ch.e_ch -> h1.e_h1
+	es.e_es -> h1.e_h1
+	ch.e_ch -> h2.e_h2
+	es.e_es -> h2.e_h2
+	es.e_es -> wh.e_wh
+}
+//------End pattern application---------

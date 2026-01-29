@@ -1632,7 +1632,7 @@ invariant.setBody(exp);
     //PA 30/12/2010 poiche' abbiamo introdotto gli operatori temporali come
     //funzioni con codominio Boolean, qui bisognerebbe anche controllare
     //che all'interno di exp non sia stata utilizzata una funzione della
-    //CTLlibrary o della LTLlibrary
+    //CTLLibrary o della LTLLibrary
     if (!OCL_Checker.isBoolean(exp))
     {
       Logger.logErr("Error: The expression specifying an invariant must be a term whose associated type-domain is Boolean.");

@@ -19,6 +19,7 @@ import org.asmeta.asm2code.FunctionToH;
 import org.asmeta.asm2code.ImportToH;
 import org.asmeta.asm2code.SeqRuleCollector;
 import org.asmeta.asm2code.Util;
+import org.asmeta.parser.Utility;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtend2.lib.StringConcatenation;
@@ -300,7 +301,7 @@ public class HeaderGenerator extends AsmToCGenerator {
     for (final ImportClause i : _importClause) {
       if ((i != null)) {
         String s = new ImportToH(asm).visit(i);
-        if ((((!s.contains("StandardLibrary")) && (!s.contains("CTLlibrary"))) && (!s.contains("LTLlibrary")))) {
+        if (((((!s.contains(Utility.STANDARD_LIBRARY_NAME)) && (!s.contains(Utility.CTL_LIBRARY_NAME))) && (!s.contains(Utility.LTL_LIBRARY_NAME))) && (!s.contains(Utility.TIME_LIBRARY_NAME)))) {
           boolean _notEquals = (!Objects.equals(this.options.compilerType, TranslatorOptions.CompilerType.ArduinoCompiler));
           if (_notEquals) {
             String _visit = new ImportToH(asm).visit(i);
@@ -330,7 +331,7 @@ public class HeaderGenerator extends AsmToCGenerator {
     for (final ImportClause i : _importClause) {
       if ((i != null)) {
         String s = new ImportToH(asm).visit(i);
-        if ((((!s.contains("StandardLibrary")) && (!s.contains("CTLlibrary"))) && (!s.contains("LTLlibrary")))) {
+        if (((((!s.contains("StandardLibrary")) && (!s.contains("CTLLibrary"))) && (!s.contains("LTLLibrary"))) && (!s.contains("TimeLibrary")))) {
           String[] splitted = s.split("/");
           int _length = splitted.length;
           int _minus = (_length - 1);

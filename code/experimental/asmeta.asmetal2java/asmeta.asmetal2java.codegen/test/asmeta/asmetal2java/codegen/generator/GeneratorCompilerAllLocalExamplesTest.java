@@ -26,30 +26,14 @@ import asmeta.asmetal2java.codegen.config.TranslatorOptionsImpl;
  * excluded and it compiles them and it check that there are no errors the code
  * is generated and compiled locally in a subdir of the examples
  */
-public class GeneratorCompilerAllLocalExamplesTest {
+public class GeneratorCompilerAllLocalExamplesTest extends GeneratorCompileTest {
 
-	/**
-	 * Path of the directory where the example files are stored 
-	 */
-	private static final Path path = GeneratorCompilerUtil.dirExamples;
-	
-	/**
-	 * formatter = true, shuffleRandom = true, optimizeSeqRule = true
-	 */
-	private TranslatorOptions options = new TranslatorOptionsImpl(true, true, true);
-
-	/**
-	 * {@code True} to stop the generation at the first error, {@code False}
-	 * otherwise
-	 */
-	static boolean failOnError = false;
 
 	/** Files to exclude from the translation */
 	static List<String> excludeFiles = new ArrayList<>();
 
 	@BeforeClass
 	public static void setup() {
-		GeneratorCompilerUtil.setupFolders(path);
 		excludeFiles.addAll(GeneratorCompilerUtil.libraries);
 		excludeFiles.addAll(GeneratorCompilerUtil.parseException);
 		excludeFiles.addAll(GeneratorCompilerUtil.runtimeException);
@@ -100,6 +84,5 @@ public class GeneratorCompilerAllLocalExamplesTest {
 		CompileResult genandcompile = GeneratorCompilerUtil.genandcompile(fileName , options,
 				GeneratorCompilerUtil.dirTraduzione, GeneratorCompilerUtil.dirCompilazione);
 		System.out.println(genandcompile);
-	}
-	
+	}	
 }

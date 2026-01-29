@@ -20,7 +20,7 @@ import tgtlib.definitions.expression.type.Type;
 /**
  * given a specification extracts the data. is a Specification Visitor which
  * returns a MonitoredData instance not only monitored also controlled
- * 
+ *
  * standard: only finite domains of type EnumType
  */
 public class AsmAllDataExtractor extends AsmMonitoredDataExtractor {
@@ -28,7 +28,7 @@ public class AsmAllDataExtractor extends AsmMonitoredDataExtractor {
 	static public AsmAllDataExtractor INSTANCE = new AsmAllDataExtractor();
 
 	static public AsmCoverageBuilder getAsmCombCovBuilder() {
-		StdPairwiseCovBuild<ASMSpecification, AsmTestCondition, AsmCoverage> cov = new StdPairwiseCovBuild<ASMSpecification, AsmTestCondition, AsmCoverage>(
+		StdPairwiseCovBuild<ASMSpecification, AsmTestCondition, AsmCoverage> cov = new StdPairwiseCovBuild<>(
 				INSTANCE, PairEqTestCondition.factory, NWiseCoverage.factory);
 		return new AsmCoverageBuilder() {
 			@Override
@@ -51,7 +51,7 @@ public class AsmAllDataExtractor extends AsmMonitoredDataExtractor {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atgt.specification.SpecificationAnalyzer#analyze(atgt.specification.
 	 * ASMSpecification)
 	 */
@@ -59,9 +59,9 @@ public class AsmAllDataExtractor extends AsmMonitoredDataExtractor {
 	/**
 	 * returns the monitored data for the SP. It takes into account only boolean and
 	 * enumerative. Other types are ignored.
-	 * 
+	 *
 	 * @param SP the sP
-	 * 
+	 *
 	 * @return the monitored data
 	 */
 	@Override

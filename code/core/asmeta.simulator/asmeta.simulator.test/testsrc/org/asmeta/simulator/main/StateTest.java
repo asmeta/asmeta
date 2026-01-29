@@ -42,9 +42,9 @@ public class StateTest {
 		Domain dom = Defs.searchDomain(sim.asmModel, "B");
 		SetValue actual = sim.currentState.read(dom);
 		ReserveValue[] oo = new ReserveValue[]{
-				new ReserveValue("B!1"),
-				new ReserveValue("B!2"),
-				new ReserveValue("B!3")
+				new ReserveValue("b!1"),
+				new ReserveValue("b!2"),
+				new ReserveValue("b!3")
 		};
 		SetValue expected = new SetValue(new HashSet<Value>(Arrays.asList(oo)));
 		assertEquals(expected, actual);
@@ -52,10 +52,10 @@ public class StateTest {
 		dom = Defs.searchDomain(sim.asmModel, "A");
 		actual = sim.currentState.read(dom);
 		oo = new ReserveValue[]{
-				new ReserveValue("B!1"),
-				new ReserveValue("B!2"),
-				new ReserveValue("B!3"),
-				new ReserveValue("A!1")
+				new ReserveValue("b!1"),
+				new ReserveValue("b!2"),
+				new ReserveValue("b!3"),
+				new ReserveValue("a!1")
 		};
 		expected = new SetValue(new HashSet<Value>(Arrays.asList(oo)));
 		assertEquals(expected, actual);

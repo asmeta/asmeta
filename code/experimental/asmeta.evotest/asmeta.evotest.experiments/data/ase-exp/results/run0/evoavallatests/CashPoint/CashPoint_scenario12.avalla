@@ -1,7 +1,0 @@
-scenario CashPoint_scenario12
-
-load ./..\..\..\..\models\CashPoint.asm
-
-
-step
-

@@ -11,7 +11,7 @@ import java.util.StringTokenizer;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.asmeta.asm2code.compiler.CppCompiler;
-import org.asmeta.atgt.generator2.AsmTestGenerator;
+import org.asmeta.atgt.rndgenerator.AsmTestGenerator;
 import org.asmeta.simulator.main.Simulator;
 import org.junit.BeforeClass;
 import org.junit.Test;

@@ -2,9 +2,9 @@
 
 asm CashPoint
 
-import ../STDL/StandardLibrary
-import ../STDL/CTLLibrary
-import ../STDL/LTLLibrary
+import ../../STDL/StandardLibrary
+import ../../STDL/CTLLibrary
+import ../../STDL/LTLLibrary
 
 signature:
 	// domains

@@ -23,14 +23,14 @@ import atgt.generator.AsmMonitoredDataExtractor;
 import atgt.specification.ASMSpecification;
 import extgt.coverage.combinatorial.NWiseCovBuilder;
 
-/** enumeration form coverage criteria 
- * 
- * Wrapppers arounf 
- * 
+/** enumeration form coverage criteria
+ *
+ * Wrapppers arounf
+ *
  * */
 public enum CriteriaEnum {
-	
-	BASIC_RULE("BasicRule",new BasicRuleVisitor()), 
+
+	BASIC_RULE("BasicRule",new BasicRuleVisitor()),
 	COMPLETE_RULE("CompleteRule",new CompleteRuleVisitor()),
 	RULE_GUARD("RuleGuard",new RuleGuardVisitor()),
 	RULE_UPDATE("RuleUpdate",new RuleUpdateVisitor()),
@@ -38,7 +38,7 @@ public enum CriteriaEnum {
 	// combinatorial
 	COMBINATORIAL_MON("pairwise monitored", AsmCombCovBuilder.get(AsmCombCovBuilder.makePairwiseCovBuilder())),
 	COMBINATORIAL_ALL("pairwise all", org.asmeta.atgt.generator.combinatorial.AsmAllDataExtractor.getAsmCombCovBuilder()),
-	
+
 	THREEWISE_ALL("3wise", triwiseCoveBuilder(true)),
 	THREEWISE_MON("3wise", triwiseCoveBuilder(false));
 
@@ -46,10 +46,10 @@ public enum CriteriaEnum {
 	 * @param all (monitored and controlled)  if false only monitroed*/
 	private static AsmCoverageBuilder triwiseCoveBuilder(final boolean all) {
 		AsmMonitoredDataExtractor extractor = all? AsmAllDataExtractor.INSTANCE : AsmMonitoredDataExtractor.getMonitoredDataExtractor();
-		NWiseCovBuilder<ASMSpecification, AsmTestCondition, NWiseCoverage> cov = new NWiseCovBuilder<ASMSpecification, AsmTestCondition, NWiseCoverage>(
+		NWiseCovBuilder<ASMSpecification, AsmTestCondition, NWiseCoverage> cov = new NWiseCovBuilder<>(
 				3, extractor,
 				NWiseCoverage.factory, NWiseEqTestCondition.factory);
-		
+
 		return new AsmCoverageBuilder() {
 
 			@Override
@@ -61,24 +61,24 @@ public enum CriteriaEnum {
 			public AsmCoverage getTPTree(ASMSpecification spec) {
 				return cov.getTPTree(spec);
 			}
-			
+
 		} ;
 	}
 
-	
+
 	CriteriaEnum(String name, AsmCoverageBuilder criteria) {
 		this.name=name;
 		this.criteria=criteria;
 	}
-	
+
 	public String getAbbrvName() {
 		return criteria.getCoveragePrefix();
 	}
-	
+
 	public String name;
 	public AsmCoverageBuilder criteria;
-	
-	
+
+
 	// ******** UTILITIES *************
 	public static List<String> toListOfString(CriteriaEnum... criteria) {
 		return Arrays.asList(criteria).stream().map(c -> c.name()).collect(Collectors.toList());
@@ -87,23 +87,31 @@ public enum CriteriaEnum {
 	public static List<String> toListOfString(Collection<CriteriaEnum> criteria) {
 		return toListOfString(criteria.toArray(new CriteriaEnum[criteria.size()]));
 	}
-	
+
 	// list of strings --> criteria
 	public static List<CriteriaEnum> toListOfCriteriaEnum(List<String> criteria) {
 		List<CriteriaEnum> res = new ArrayList<>();
-		if (criteria==null || criteria.size()==0) return res;
-		for (String c : criteria) res.add(CriteriaEnum.valueOf(c));
+		if (criteria==null || criteria.size()==0) {
+			return res;
+		}
+		for (String c : criteria) {
+			res.add(CriteriaEnum.valueOf(c));
+		}
 		return res;
 	}
-	
+
 	public static List<AsmCoverageBuilder> getCoverageCriteria(Collection<CriteriaEnum> criteria) {
 		List<AsmCoverageBuilder> res = new ArrayList<>();
-		if (criteria==null || criteria.size()==0) return res;
-		for (CriteriaEnum c : criteria) res.add(c.criteria);
+		if (criteria==null || criteria.size()==0) {
+			return res;
+		}
+		for (CriteriaEnum c : criteria) {
+			res.add(c.criteria);
+		}
 		return res;
 	}
 	public static List<AsmCoverageBuilder> getCoverageCriteria(CriteriaEnum ... criteria) {
 		return Arrays.asList(criteria).stream().map(c  -> c.criteria).collect(Collectors.toList());
 	}
-	
+
 }

@@ -13,6 +13,6 @@ public class CompileResult {
 	}
 	@Override
 	public String toString() {
-		return (success ? "OK" : "FAIL:") + message;
+		return (success ? "OK" : "FAIL:") + " " + message;
 	}
 }

@@ -139,27 +139,91 @@ final public class RuleVisitorAdapter extends RuleVisitor<List<Rule>> {
 
 	@Override
 	public List<Rule> visit(ExtendRule rule) {
-		// TODO Auto-generated method stub
-		throw new RuntimeException("not implemented yet");
+		List<Rule> mutatedRules = new ArrayList<>();
+		// first mutate this one
+		mutatedRules.addAll(rulemutator.visit(rule));
+		
+		// apply inside
+		//mutatedRules.addAll(EcoreUtil.copyAll(this.visit(rule.getDoRule()))); //check
+		
+		// apply inside CHECK with angelo.
+		List<Rule> newDoRules = this.visit(rule.getDoRule());
+		for (Rule r : newDoRules) {
+			ExtendRule newMutation = EcoreUtil.copy(rule);
+			newMutation.setDoRule(r);
+			mutatedRules.add(newMutation);
+		}
+		
+		return mutatedRules;
 	}
 
 	@Override
 	public List<Rule> visit(LetRule rule) {
-		// TODO Auto-generated method stub
-		throw new RuntimeException("not implemented yet");
+		List<Rule> mutatedRules = new ArrayList<>();
+		// first mutate this one
+		mutatedRules.addAll(rulemutator.visit(rule));
+		// apply inside
+		//mutatedRules.addAll(EcoreUtil.copyAll(this.visit(rule.getInRule()))); //check
+		
+		// apply inside CHECK with angelo.
+		List<Rule> newInRules = this.visit(rule.getInRule());
+		for (Rule r : newInRules) {
+			LetRule newMutation = EcoreUtil.copy(rule);
+			newMutation.setInRule(r);
+			mutatedRules.add(newMutation);
+		}
+		
+		return mutatedRules;
 	}
 
 	@Override
 	public List<Rule> visit(ChooseRule rule) {
-		// TODO Auto-generated method stub
-		return rulemutator.visit(rule);
-		//throw new RuntimeException("not implemented yet");
+		List<Rule> mutatedRules = new ArrayList<>();
+		// first mutate this one
+		mutatedRules.addAll(rulemutator.visit(rule));
+		// apply inside
+		//mutatedRules.addAll(EcoreUtil.copyAll(this.visit(rule.getDoRule()))); //check
+		
+		List<Rule> newDoRules = this.visit(rule.getDoRule());
+		for (Rule r : newDoRules) {
+			ChooseRule newMutation = EcoreUtil.copy(rule);
+			newMutation.setDoRule(r);
+			mutatedRules.add(newMutation);
+		}
+		
+		Rule ifnoneRule = rule.getIfnone();
+		if (ifnoneRule != null) {
+			List<Rule> newIfnoneRules = this.visit(ifnoneRule);
+			for (Rule r : newIfnoneRules) {
+				ChooseRule newMutation = EcoreUtil.copy(rule);
+				newMutation.setIfnone(r);
+				mutatedRules.add(newMutation);
+			}
+		}
+		
+		return mutatedRules;
 	}
 
 	@Override
 	public List<Rule> visit(ForallRule rule) {
 		// TODO Auto-generated method stub
-		throw new RuntimeException("not implemented yet");
+		//throw new RuntimeException("not implemented yet");
+		
+		//first mutate this rule
+		List<Rule> mutatedRules = new ArrayList<>();
+		mutatedRules.addAll(rulemutator.visit(rule));
+		
+		//mutatedRules.addAll(this.visit(rule.getDoRule()));
+		
+		//visit the rule of for-all's body
+		List<Rule> newBodies = this.visit(rule.getDoRule());
+		for (Rule r : newBodies) {
+			ForallRule newMutation = EcoreUtil.copy(rule);
+			newMutation.setDoRule(r);
+			mutatedRules.add(newMutation);
+		}
+		
+		return mutatedRules;
 	}
 
 	@Override
@@ -169,8 +233,30 @@ final public class RuleVisitorAdapter extends RuleVisitor<List<Rule>> {
 
 	@Override
 	public List<Rule> visit(CaseRule rule) {
-		// TODO Auto-generated method stub
-		throw new RuntimeException("not implemented yet");
+		//First mutate this case
+		List<Rule> mutatedRules = new ArrayList<>();
+		mutatedRules.addAll(rulemutator.visit(rule));
+		//Now visit each rule for each branch
+		int index = 0;
+		for (Rule r : rule.getCaseBranches()) {
+			List<Rule> mutatedCase = this.visit(r);
+			for (Rule mutatedRule : mutatedCase) {
+				CaseRule newRule = EcoreUtil.copy(rule);				
+				newRule.getCaseBranches().set(index, EcoreUtil.copy(mutatedRule)); //not sure if this copy is required.
+				mutatedRules.add(newRule);
+			}
+			index++;
+		}
+		//if otherwise then visit the rule 
+		if (rule.getOtherwiseBranch() != null ) {
+			List<Rule> mutatedOW = this.visit(rule.getOtherwiseBranch());
+			for (Rule mutatedRule: mutatedOW) {
+				CaseRule newRule = EcoreUtil.copy(rule);
+				newRule.setOtherwiseBranch(EcoreUtil.copy(mutatedRule)); 
+				mutatedRules.add(newRule);
+			}
+		}		
+		return mutatedRules;
 	}
 
 }

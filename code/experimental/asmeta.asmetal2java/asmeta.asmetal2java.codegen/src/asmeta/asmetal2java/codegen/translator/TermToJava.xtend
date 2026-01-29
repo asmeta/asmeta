@@ -40,6 +40,8 @@ import asmeta.definitions.domains.BagDomain
 import org.asmeta.parser.util.ReflectiveVisitor
 import asmeta.terms.furtherterms.RealTerm
 import asmeta.terms.furtherterms.CharTerm
+import asmeta.terms.basicterms.DomainTerm
+import asmeta.definitions.domains.BooleanDomain
 
 class TermToJava extends ReflectiveVisitor<String> {
 
@@ -82,6 +84,15 @@ class TermToJava extends ReflectiveVisitor<String> {
 		// if negative it doesn't include the minus "-"
 		return term.symbol
 	}
+
+	def String visit(DomainTerm term) {
+		val domain = (term.domain as PowersetDomain).baseDomain
+		if (domain instanceof BooleanDomain)
+			return "(Boolean.FALSE, Boolean.TRUE)"
+		else
+			throw new RuntimeException("domain " + domain + " cannot be translated to Java")
+	}
+
 
 	def String visit(NaturalTerm term) {
 		return term.symbol.substring(0, term.symbol.length - 1)
@@ -376,21 +387,16 @@ class TermToJava extends ReflectiveVisitor<String> {
 
 	// Metodo richiamato in presenza di due termini ed un operatore da identificare
 	def String visit(LocationTerm term) {
-
 		return visit(term as FunctionTerm)
-
 	}
 
 	// Metodo per controllare il tipo di operatore(Evaluation) o se si tratta di :=
 	def String visit(FunctionTerm term) {
-
+		//print("**** visiting function term " + term.function.name + " " + leftHandSide + "\n")		
 		var StringBuffer functionTerm = new StringBuffer
 		var name = new Util().parseFunction(term.function.name)
 
 		// Controllo se l'operatore » del tipo: &,|,<=,>=,<,>...
-		/*if (ExpressionToJava.hasEvaluateVisitor(name)) {
-			// if the funcion is an expression
-			return new ExpressionToJava(res).evaluateFunction(name, term.arguments.terms);*/
 		if (ExpressionToJava.hasEvaluateVisitor(name)) { // utilizzo questo if per correggere il problema di avere due .value.value
 			// if the funcion is an expression
 			var expression = new ExpressionToJava(res).evaluateFunction(name, term.arguments.terms);
@@ -434,14 +440,11 @@ class TermToJava extends ReflectiveVisitor<String> {
 				functionTerm.append('''@SuppressWarnings("serial") //''')
 
 			}
-		}
-
-		// Identifico se la funzione dipende da delle variabili in ingresso
-		if (ft.arguments !== null) {
-
+		} else{
+			// Identifico se la funzione dipende da delle variabili in ingresso
+    		 //assert(ft.arguments !== null) 
 			// Caso di studio con una sola variabile
 			if (ft.arguments.terms.size == 1) {
-
 				if (ft.domain instanceof ConcreteDomain) {
 					if (leftHandSide) {
 						leftHandSide = false
@@ -452,7 +455,6 @@ class TermToJava extends ReflectiveVisitor<String> {
 					}
 
 				}
-
 			} // Caso di studio con variabili multiple in ingresso
 			// da controllare se corretto come metodo
 			else {

@@ -1,0 +1,59 @@
+//Example of composition: two different patterns are instantiated once in 
+//the same design.
+
+import AggregateMAPE 
+import MasterSlaveMAPE
+
+concrete pattern AggrMAPE concretizationOf AggregateMAPE {
+	system SysAggr : AggregateMAPE.Sys
+    group MainAggr: AggregateMAPE.Main
+    group IntAggr: AggregateMAPE.Interface
+}
+
+concrete pattern MSMAPE concretizationOf MasterSlaveMAPE {
+	system SysMS : MasterSlaveMAPE.Sys
+    group MasterMS: MasterSlaveMAPE.Master
+    group SlaveMS: MasterSlaveMAPE.Slave
+}
+
+configuration AggrMS instanceOf AggrMAPE, MSMAPE {
+    s0: AggrMAPE.SysAggr
+    s1: AggrMAPE.SysAggr
+    s2: MSMAPE.SysMS
+        
+	mainAggr : AggrMAPE.MainAggr {
+		components m_aggr:M, a_aggr:A, p_aggr:P, e_aggr:E 
+	}
+	
+	intAggr0 : AggrMAPE.IntAggr  {
+		managedSyS s0 
+		components m_intAggr0:M , e_intAggr0:E 
+	}
+
+    intAggr1 : AggrMAPE.IntAggr  {
+		managedSyS s1
+		components m_intAggr1:M , e_intAggr1:E 
+	}
+	
+	masterMS : MSMAPE.MasterMS {
+		components a_MS:A, p_MS:P
+	}
+	
+	slaveMS : MSMAPE.SlaveMS  {
+		managedSyS s2
+		components m_MS:M , e_MS:E 
+	}
+	
+	mainAggr.m_aggr -> mainAggr.a_aggr
+	mainAggr.a_aggr -> mainAggr.p_aggr
+	mainAggr.p_aggr -> mainAggr.e_aggr
+	intAggr0.m_intAggr0 -> mainAggr.m_aggr
+	intAggr1.m_intAggr1 -> mainAggr.m_aggr
+	mainAggr.e_aggr -> intAggr0.e_intAggr0
+	mainAggr.e_aggr -> intAggr1.e_intAggr1
+	masterMS.a_MS -> masterMS.p_MS
+	slaveMS.m_MS -> masterMS.a_MS
+	masterMS.p_MS -> slaveMS.e_MS
+	
+}
+//------End pattern application---------

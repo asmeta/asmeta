@@ -65,7 +65,7 @@ public class FunctionToJavaDef extends ReflectiveVisitor<String> {
       if (_tripleNotEquals) {
         for (int i = 0; (i < object.getInitialization().get(0).getVariable().size()); i++) {
           {
-            boolean _isNotNumerable = new Util().isNotNumerable(object.getInitialization().get(0).getVariable().get(i).getDomain());
+            boolean _isNotNumerable = Util.isNotNumerable(object.getInitialization().get(0).getVariable().get(i).getDomain());
             if (_isNotNumerable) {
               StringConcatenation _builder_1 = new StringConcatenation();
               _builder_1.append("//NOT IMPLEMENTED IN Java (FunctionToCpp line 50)");

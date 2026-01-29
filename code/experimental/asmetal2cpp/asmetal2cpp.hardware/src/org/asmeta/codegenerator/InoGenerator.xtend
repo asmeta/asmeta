@@ -1,16 +1,13 @@
 package org.asmeta.codegenerator
 
-import org.asmeta.codegenerator.configuration.HWConfiguration
-import org.eclipse.xtext.generator.IGenerator
-import org.eclipse.emf.ecore.resource.Resource
-import org.eclipse.xtext.generator.IFileSystemAccess
 import asmeta.structure.Asm
-import org.eclipse.xtext.generator.InMemoryFileSystemAccess
 import java.nio.file.Files
 import java.nio.file.Paths
-import java.util.Arrays
-import java.nio.charset.StandardCharsets
+import org.asmeta.codegenerator.configuration.HWConfiguration
 import org.asmeta.codegenerator.configuration.LCD
+import org.eclipse.emf.ecore.resource.Resource
+import org.eclipse.xtext.generator.IFileSystemAccess
+import org.eclipse.xtext.generator.IGenerator
 
 class InoGenerator implements IGenerator {
 	public static String Ext = ".ino"
@@ -19,7 +16,7 @@ class InoGenerator implements IGenerator {
 
 	new(HWConfiguration config) {
 		this.config = config
-		setup = new org.asmeta.codegenerator.SetupFunctionCreator(config)
+		setup = new SetupFunctionCreator(config)
 	}
 
 	def generate(Asm model, String path) {

@@ -8,8 +8,8 @@ import java.io.PrintWriter;
 import java.util.Collections;
 import java.util.List;
 
-import org.asmeta.atgt.ConvertToAsmeta;
 import org.asmeta.atgt.generator.AsmTestGenerator.MBTCoverage;
+import org.asmeta.atgt.generator.nusmv.ConverterCounterExample;
 import org.asmeta.nusmv.main.AsmetaSMV;
 import org.asmeta.nusmv.main.AsmetaSMV.ModelCheckerMode;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
@@ -22,7 +22,7 @@ import atgt.coverage.AsmTestSuite;
 /**
  * Generates the test from different sources: - Only ASM, by using the Avalla
  * language - FSM and ASM
- * 
+ *
  * @author Andrea Bombarda - 2020
  */
 public class GenerateTestsFromFSM {
@@ -58,11 +58,11 @@ public class GenerateTestsFromFSM {
 //	/**
 //	 * generate a set of FSM from an ASM using different criteria and producing
 //	 * several avalla scenario files
-//	 * 
+//	 *
 //	 * @param inputASMName the name of the model
 //	 * @param asmPath      the path of the asm
 //	 * @param criteria     the list of criteria
-//	 * 
+//	 *
 //	 * @return the set of paths of the avalla files
 //	 */
 //	public String[] saveFSMWithAvallaTests(String inputASMName, String asmPath, boolean useMonitoring, List<CriteriaEnum> criteria)
@@ -72,35 +72,35 @@ public class GenerateTestsFromFSM {
 //		return getFSMWithTestsFromFSMAndASMfromAvalla(new File(fileOutputName).getAbsolutePath(),
 //				new File(asmPath).getAbsolutePath(), useMonitoring, criteria);
 //	}
-//	
+//
 //	/**
 //	 * generate a set of FSM from an ASM using different criteria and producing
 //	 * several avalla scenario files
-//	 * 
+//	 *
 //	 * @param inputASMName 		the name of the model
 //	 * @param asmPath      		the path of the asm
 //	 * @param criteria     		the list of criteria
-//	 * @param destinationPath	the destination path for the abstract tests 
-//	 * 
+//	 * @param destinationPath	the destination path for the abstract tests
+//	 *
 //	 * @return the set of paths of the avalla files
 //	 */
-//	public String[] saveFSMWithAvallaTests(String inputASMName, String asmPath, boolean useMonitoring, 
+//	public String[] saveFSMWithAvallaTests(String inputASMName, String asmPath, boolean useMonitoring,
 //			List<CriteriaEnum> criteria, String destinationPath) throws Exception {
 //		String fileOutputName = inputASMName + "_"
 //				+ criteria.stream().map(n -> n.getAbbrvName()).collect(Collectors.joining("_")) + ".avalla";
 //		return getFSMWithTestsFromFSMAndASMfromAvalla(new File(fileOutputName).getAbsolutePath(),
 //				new File(asmPath).getAbsolutePath(), useMonitoring, criteria, destinationPath);
 //	}
-//	
+//
 //	/**
 //	 * generate a set of FSM from an ASM using different criteria and producing
 //	 * several avalla scenario files
-//	 * 
+//	 *
 //	 * @param inputASMName    the name of the model
 //	 * @param asmPath         the path of the asm
 //	 * @param criteria        the list of criteria
 //	 * @param destinationPath the destination path for the abstract tests
-//	 * 
+//	 *
 //	 */
 //	public GenerateTestsFromFSM(String inputASMName, String asmPath, boolean useMonitoring, List<CriteriaEnum> criteria,
 //			String destinationPath) throws Exception {
@@ -121,16 +121,16 @@ public class GenerateTestsFromFSM {
 	/**
 	 * generate a set of FSM from an ASM using different criteria and producing
 	 * several avalla scenario files
-	 * 
+	 *
 	 * @param inputASMName    the name of the model
 	 * @param asmPath         the path of the asm
 	 * @param criteria        the list of criteria
 	 * @param destinationPath the destination path for the abstract tests
-	 * 
+	 *
 	 */
 	public GenerateTestsFromFSM(String inputASMName, String asmPath, boolean useMonitoring,
 			boolean removeUnaskedChanges, boolean removeUnChangedControlles, List<CriteriaEnum> criteria) throws Exception {
-		TestGenerationWithNuSMV.modelCheckerMode = ModelCheckerMode.LTLandBMC;;
+		AsmetaSMV.modelCheckerMode = ModelCheckerMode.LTLandBMC;
 		NuSMVtestGenerator.removeUnaskedChanges = removeUnaskedChanges;
 		NuSMVtestGenerator.removeUnChangedControlles = removeUnChangedControlles;
 		ConverterCounterExample.IncludeUnchangedVariables = true;
@@ -145,7 +145,7 @@ public class GenerateTestsFromFSM {
 		List<AsmCoverageBuilder> covBuilders = CriteriaEnum.getCoverageCriteria(criteria);
 		generator.buildTPTree(new MBTCoverage(covBuilders),0,"");
 	}
-	
+
 	public void setAllTpToBeCovered() {
 		this.generator.setAllTpToBeCovered();
 	}
@@ -153,7 +153,7 @@ public class GenerateTestsFromFSM {
 	public void generate(String destinationPath, String regexTp, int maxNTP) throws Exception {
 //		String fileOutputName = inputASMName + "_"
 //				+ criteria.stream().map(n -> n.getAbbrvName()).collect(Collectors.joining("_")) + ".avalla";
-		generator.quequeTPs(maxNTP, regexTp);
+		generator.queueTPs(maxNTP, regexTp);
 		AsmTestSuite result = generator.generateTests();
 		SaveResults.saveResults(result, asmPath, Collections.singletonList(FormatsEnum.AVALLA), "", destinationPath);
 	}
@@ -165,10 +165,10 @@ public class GenerateTestsFromFSM {
 	/**
 	 * converts automatically the fsm into an asm, and returns the path to that ASM
 	 * file
-	 * 
+	 *
 	 * @param fsmPath the path of the fsm
 	 * @param asmName the name of the asm
-	 * 
+	 *
 	 * @return the name of the asm
 	 */
 	protected String convertFsmToAsm(String fsmPath, String asmName) throws Exception {
@@ -199,8 +199,9 @@ public class GenerateTestsFromFSM {
 		BufferedReader fin = new BufferedReader(new FileReader(fsmPath));
 		String line = "", res = "";
 		while ((line = fin.readLine()) != null) {
-			if (line.startsWith("Set of Sequences :"))
+			if (line.startsWith("Set of Sequences :")) {
 				break;
+			}
 			res += line + "\n";
 		}
 		fin.close();
@@ -211,16 +212,16 @@ public class GenerateTestsFromFSM {
 	/**
 	 * Creates a set of Avalla files representing the several tested scenarios. The
 	 * scenarios are generated using LTL and BMC
-	 * 
+	 *
 	 * @param fsmPath  the path of the FSM
 	 * @param asmPath  the path of the ASM
 	 * @param criteria the list of criteria
-	 * 
+	 *
 	 * @return the avalla file paths
 	 */
 	protected String[] getFSMWithTestsFromFSMAndASMfromAvalla(String fsmPath, String asmPath, boolean useMonitoring,
 			List<CriteriaEnum> criteria) throws Exception {
-		TestGenerationWithNuSMV.modelCheckerMode = ModelCheckerMode.LTLandBMC;;
+		AsmetaSMV.modelCheckerMode = ModelCheckerMode.LTLandBMC;
 		AsmTestSuite result = new NuSMVtestGenerator(asmPath, useMonitoring)
 				.generateAbstractTests(CriteriaEnum.getCoverageCriteria(criteria), Integer.MAX_VALUE, ".*");
 		String[] tests = SaveResults.getAvallaResults(result, fsmPath, asmPath);
@@ -231,17 +232,17 @@ public class GenerateTestsFromFSM {
 	/**
 	 * Creates a set of Avalla files representing the several tested scenarios. The
 	 * scenarios are generated using LTL and BMC
-	 * 
+	 *
 	 * @param fsmPath         the path of the FSM
 	 * @param asmPath         the path of the ASM
 	 * @param criteria        the list of criteria
 	 * @param destinationPath the destination path for the avalla files
-	 * 
+	 *
 	 * @return the avalla file paths
 	 */
 	protected String[] getFSMWithTestsFromFSMAndASMfromAvalla(String fsmPath, String asmPath, boolean useMonitoring,
 			List<CriteriaEnum> criteria, String destinationPath) throws Exception {
-		TestGenerationWithNuSMV.modelCheckerMode = ModelCheckerMode.LTLandBMC;
+		AsmetaSMV.modelCheckerMode = ModelCheckerMode.LTLandBMC;
 		AsmTestSuite result = new NuSMVtestGenerator(asmPath, useMonitoring)
 				.generateAbstractTests(CriteriaEnum.getCoverageCriteria(criteria), Integer.MAX_VALUE, ".*");
 		String[] tests = SaveResults.getAvallaResults(result, fsmPath, asmPath, destinationPath);
@@ -252,14 +253,14 @@ public class GenerateTestsFromFSM {
 	/**
 	 * Automatically creates the FSM with tests, passing by the creation of the ASM
 	 * as well Warning: do not use if you have a custom ASM!!
-	 * 
+	 *
 	 * This function gets a FSM, creates the corresponding ASM and generate a new
 	 * version of the FSM containing the tests generated exploiting NuSMV on the ASM
-	 * 
+	 *
 	 * @param fsmPath  the path of the FSM
 	 * @param asmName  the name of the ASM
 	 * @param criteria the list of criteria
-	 * 
+	 *
 	 * @return the content of the new FSM file
 	 */
 	protected String getFSMWithTestsFromFSM(String fsmPath, String asmName, List<CriteriaEnum> criteria)

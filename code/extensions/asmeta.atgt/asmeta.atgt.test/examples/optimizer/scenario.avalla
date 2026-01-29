@@ -1,0 +1,27 @@
+scenario scenario1
+load coffeeVendingMachine.asm
+
+check available(COFFEE) = 10;
+check available(TEA) = 10;
+check available(MILK) = 10;
+
+set insertedCoin := HALF;
+step
+
+check available(COFFEE) = 10;
+check available(TEA) = 10;
+check available(MILK) = 9;
+
+set insertedCoin := HALF;
+step
+
+check available(COFFEE) = 10;
+check available(TEA) = 10;
+check available(MILK) = 8;
+
+set insertedCoin := HALF;
+step
+
+check available(COFFEE) = 10;
+check available(TEA) = 10;
+check available(MILK) = 7;

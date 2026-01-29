@@ -2,10 +2,12 @@
 ~$*
 
 /evoAvalla/
-*.csv
-*.avalla
-/spec/
-/src/main/resources/evoavallatests/**/*.asm
+/temp
+
+# Keep experiment results
 !/data/**/*.csv
 !/data/**/*.avalla
-/report/
+!/data/**/*.zip
+
+# Keep jar used for run experiments
+!/data/**/*.jar

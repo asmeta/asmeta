@@ -48,9 +48,23 @@ public class AsmetaV {
 	 * @throws Exception the exception
 	 */
 	public static List<String> execValidation(String scenarioPath, boolean coverage) throws Exception {
-		return execValidation(scenarioPath, coverage, null);
+		return execValidation(scenarioPath, coverage, null, true);
 	}
-
+	
+	/**
+	 * Exec validation.
+	 *
+	 * @param scenarioPath path of the file containing the scenario or directory
+	 *                     containing all the scenarios
+	 * @param coverage     compute also the coverage?
+	 * @param shuffle      if false, run choose rules deterministically (always choose first element)
+	 * @return the list of scenarios that fail
+	 * @throws Exception the exception
+	 */
+	public static List<String> execValidation(String scenarioPath, boolean coverage, boolean shuffle) throws Exception {
+		return execValidation(scenarioPath, coverage, null, shuffle);
+	}
+	
 	/**
 	 * Exec validation and eventually print coverage data to csv.
 	 *
@@ -59,18 +73,33 @@ public class AsmetaV {
 	 * @param coverage     compute also the coverage?
 	 * @param csvPath      path of the file where to write the coverage data in csv
 	 *                     format
-	 * 
 	 * @return the list of scenarios that fail
 	 * @throws Exception the exception
 	 */
 	public static List<String> execValidation(String scenarioPath, boolean coverage, String csvPath) throws Exception {
+		return execValidation(scenarioPath, coverage, csvPath, true);
+	}
+	
+	/**
+	 * Exec validation and eventually print coverage data to csv.
+	 *
+	 * @param scenarioPath path of the file containing the scenario or directory
+	 *                     containing all the scenarios
+	 * @param coverage     compute also the coverage?
+	 * @param csvPath      path of the file where to write the coverage data in csv
+	 *                     format
+	 * @param shuffle      if false, run choose rules deterministically (always choose first element)
+	 * @return the list of scenarios that fail
+	 * @throws Exception the exception
+	 */
+	public static List<String> execValidation(String scenarioPath, boolean coverage, String csvPath, boolean shuffle) throws Exception {
 		AsmetaV asmetaV = new AsmetaV();
 		File scenarioPathFile = new File(scenarioPath);
 		if (!scenarioPathFile.exists())
 			throw new RuntimeException("path " + scenarioPath + " does not exist");
 		// disable lazy evaluation (it is not interactive)
 		TermEvaluator.setAllowLazyEval(false);
-		List<String> result = asmetaV.execValidation(scenarioPathFile, coverage, csvPath != null, csvPath);
+		List<String> result = asmetaV.execValidation(scenarioPathFile, coverage, csvPath != null, csvPath, shuffle);
 		// restores the value put in previously
 		TermEvaluator.recoverAllowLazyEval();
 		return result;
@@ -88,11 +117,11 @@ public class AsmetaV {
 	 * @param printToCsv   if the coverage is computed, print it to csv?
 	 * @param csvPath      path of the file where to write the coverage data in csv
 	 *                     format
-	 * 
+	 * @param shuffle      if false, run choose rules deterministically (always choose first element)
 	 * @return true, if successful
 	 * @throws Exception the exception
 	 */
-	private List<String> execValidation(File scenarioPath, boolean coverage, boolean printToCsv, String csvPath)
+	private List<String> execValidation(File scenarioPath, boolean coverage, boolean printToCsv, String csvPath, boolean shuffle)
 			throws Exception {
 		List<String> failedScenarios = new ArrayList<>();
 		// get all rules covered by a set of string
@@ -107,7 +136,7 @@ public class AsmetaV {
 				File element = listFile[i];
 				if (element.isFile() && element.getName().endsWith(SCENARIO_EXTENSION)) {
 					String path = element.getPath();
-					result = validateSingleFile(coverage, allCoveredRules, path);
+					result = validateSingleFile(coverage, allCoveredRules, path, shuffle);
 					if (!result.isCheckSucceeded())
 						failedScenarios.add(path);
 				} else {
@@ -119,7 +148,7 @@ public class AsmetaV {
 				throw new RuntimeException("invalid file, the validator works with " + SCENARIO_EXTENSION + " files");
 			}
 			// if the file is not a directory but a file
-			result = validateSingleFile(coverage, allCoveredRules, scenarioPath.getCanonicalPath());
+			result = validateSingleFile(coverage, allCoveredRules, scenarioPath.getCanonicalPath(), shuffle);
 			if (!result.isCheckSucceeded())
 				failedScenarios.add(scenarioPath.getCanonicalPath());
 		}
@@ -277,11 +306,12 @@ public class AsmetaV {
 	 * @param coveredRules the covered rules (till now, once it is covered it is
 	 *                     covered forever)
 	 * @param path         scenario path
+	 * @param shuffle      if false, run choose rules deterministically (always choose first element)
 	 * @return the result of the validation, i.e. if the check have succeeded and
 	 *         information about coverage (till now)
 	 * @throws Exception the exception
 	 */
-	private ValidationResult validateSingleFile(boolean coverage, Map<String, Boolean> coveredRules, String path)
+	private ValidationResult validateSingleFile(boolean coverage, Map<String, Boolean> coveredRules, String path, boolean shuffle)
 			throws Exception {
 		assert path.endsWith(SCENARIO_EXTENSION) : " the validator works only with " + SCENARIO_EXTENSION + " files";
 		logger.info("\n** Simulation " + path + " **\n");
@@ -289,9 +319,10 @@ public class AsmetaV {
 		builder.save();
 		File tempAsmPath = builder.getTempAsmPath();
 		logger.info("** temp ASMETA saved in " + tempAsmPath.getAbsolutePath() + " **\n");
-		return executeAsmetaFromAvalla(coverage, coveredRules, tempAsmPath);
+		return executeAsmetaFromAvalla(coverage, coveredRules, tempAsmPath, shuffle);
 	}
-
+	
+	
 	/**
 	 * execute the asmeta representing the scenario
 	 *
@@ -305,6 +336,23 @@ public class AsmetaV {
 	 */
 	public static ValidationResult executeAsmetaFromAvalla(boolean coverage, Map<String, Boolean> coveredRules,
 			File tempAsmPath) throws Exception {
+		return executeAsmetaFromAvalla(coverage, coveredRules, tempAsmPath, true);
+	}
+
+	/**
+	 * execute the asmeta representing the scenario
+	 *
+	 * @param coverage     if required
+	 * @param coveredRules the covered rules (till now, once it is covered it is
+	 *                     covered forever)
+	 * @param tempAsmPath  asmeta path
+	 * @param shuffle      if false, run choose rules deterministically (always choose first element)
+	 * @return the result of the validation, i.e. if the check have succeeded and
+	 *         information about coverage (till now)
+	 * @throws Exception the exception
+	 */
+	public static ValidationResult executeAsmetaFromAvalla(boolean coverage, Map<String, Boolean> coveredRules,
+			File tempAsmPath, boolean shuffle) throws Exception {
 		assert tempAsmPath.toString().endsWith(ASMParser.ASM_EXTENSION) : " can execute only asmeta files";
 		// create the simulator with the coverage
 		Simulator sim;
@@ -315,7 +363,7 @@ public class AsmetaV {
 		} else {
 			sim = Simulator.createSimulator(tempAsmPath.getPath());
 		}
-		sim.setShuffleFlag(true);
+		sim.setShuffleFlag(shuffle);
 		ValidationResult result = new ValidationResult();
 		boolean invariantViolated;
 		try {

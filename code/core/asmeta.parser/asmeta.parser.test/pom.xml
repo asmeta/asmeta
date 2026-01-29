@@ -25,6 +25,7 @@
 						<include>*.java</include>
 						<include>**\*.java</include>
 					</includes>
+					<excludedGroups>org.asmeta.annotations.TestToMavenSkip</excludedGroups>
 					<systemPropertyVariables>
 						<log4j.configuration>file:${basedir}/log4j_maven.properties</log4j.configuration>
 					</systemPropertyVariables>

@@ -1,0 +1,12 @@
+scenario S3_UsingBlocks
+load Scheduler.asm
+
+execblock SchedulerBlocks:initAndCheck;
+
+step until idle = true;
+check st(JOB1) = RUN and st(JOB2) = RUN and st(JOB3) = RUN;
+
+execblock SchedulerBlocks:setAllFin;
+
+step
+check st(JOB1) = FIN and st(JOB2) = FIN and st(JOB3) = FIN;

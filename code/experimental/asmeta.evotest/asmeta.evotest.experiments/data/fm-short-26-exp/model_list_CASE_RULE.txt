@@ -1,0 +1,19 @@
+// total ASM with interface asmeta.transitionrules.derivedtransitionrules.CaseRule: 16
+
+
+examples/landingGearSystem/LGS_EV.asm
+stereoacuity/certifier_nochoose_noundef.asm
+PHD/phd_master_flat2_v6.asm
+examples/cards.asm
+examples/landingGearSystem/LGS_SE_v2.asm
+examples/simple_example/MorraCinese/MorraCinese_raff1.asm
+examples/simple_example/MorraCinese/withActors/MorraCinese_withActors_raff1.asm
+PHD/phd_master_flat2_v1.asm
+examples/landingGearSystem/LGS_SE.asm
+examples/landingGearSystem/LGS_EV_v2.asm
+PHD/phd_master_flat2_v7.asm
+examples/landingGearSystem/LGS_3L.asm
+examples/simple_example/MorraCinese/MorraCineseWithAgents.asm
+stereoacuity/certifierRaff5ForSMTproof.asm
+examples/landingGearSystem/LGS_HM.asm
+examples/simple_example/MorraCinese/MorraCinese.asm

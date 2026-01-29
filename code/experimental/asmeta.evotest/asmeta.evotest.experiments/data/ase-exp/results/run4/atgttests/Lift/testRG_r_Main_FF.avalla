@@ -1,6 +1,0 @@
-scenario testRG_r_Main_FF
-
-load ./..\..\..\..\models\Lift.asm
-
-//// test name test@RG_r_Main_FF
-//// generated for (test goal): RG_r_Main_FF: not signalPorta and signalPorta

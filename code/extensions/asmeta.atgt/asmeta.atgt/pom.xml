@@ -30,13 +30,15 @@
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.13.0</version>
-        <configuration>
-          <release>21</release>
-        </configuration>
       </plugin>
     </plugins>
   </build>
   <dependencies>
+  	<dependency>
+	  <groupId>org.eclipse.xtext</groupId>
+	  <artifactId>org.eclipse.xtext.testing</artifactId>
+	  <version>${xtext.version}</version>
+	</dependency>
     <dependency>
 	  <groupId>asmeta</groupId>
 	  <artifactId>atgt4asmeta</artifactId>
@@ -52,5 +54,21 @@
 	  <artifactId>asmeta.smv</artifactId>
 	  <version>0.0.1-SNAPSHOT</version>
 	</dependency>
+	<dependency>
+		<groupId>asmeta</groupId>
+	  	<artifactId>org.asmeta.avallaxt</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</dependency>
+	<dependency>
+		<groupId>asmeta</groupId>
+	  	<artifactId>asmeta.validator</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</dependency>
   </dependencies>
+  <parent>
+	<groupId>asmeta</groupId>
+	<artifactId>asmeta.all</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<relativePath>../../../pom.xml</relativePath>
+  </parent>
 </project>

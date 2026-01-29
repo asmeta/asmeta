@@ -1,0 +1,94 @@
+//This pattern organizes the adaptation logic as a hierarchy of two MAPE loops: an aggregate MAPE loop and a simple MAPE loop
+abstract pattern HierarchicalControlMAPE {
+	system SysOne
+	system SysTwo
+
+	group InterfaceOne { //Interface group for the Aggregate MAPE loop
+		managedSyS SysOne, SysTwo
+		components M, E
+	}
+
+    group InterfaceTwo { //Group for the Simple MAPE loop
+		managedSyS SysTwo
+		components M, A, P, E
+	}
+    
+    group Intermediate { //Main group for the Aggregate MAPE loop
+		components M, A, P, E
+	} 
+	
+	group High { //Higher group of the hierarchy 
+		managedGrp Intermediate [*-ALL], InterfaceTwo [*-ALL]
+		components A, E 
+	}
+
+    interaction InterfaceOne.M -> Intermediate.M [*-SOME,1]
+	interaction Intermediate.E -> InterfaceOne.E [1,*-SOME]
+	interaction Intermediate.M -> Intermediate.A [1,1]
+	interaction Intermediate.A -> Intermediate.P [1,1]
+	interaction Intermediate.P -> Intermediate.E [1,1]
+	
+	interaction InterfaceTwo.M -> InterfaceTwo.A [1,1]
+	interaction InterfaceTwo.A -> InterfaceTwo.P [1,1]
+	interaction InterfaceTwo.P -> InterfaceTwo.E [1,1]
+	
+	
+	interaction High.A -> High.E [1,1]
+}
+
+//Concrete pattern for the combined adaptation concern AQ_HC
+concrete pattern Hierarchical_AQ_HC_MAPE concretizationOf HierarchicalControlMAPE {
+	system SysH: HierarchicalControlMAPE.SysOne //Heating sub-system
+	system SysA: HierarchicalControlMAPE.SysTwo //Air sub-system
+	group MainHC: HierarchicalControlMAPE.Intermediate
+    group IntHC: HierarchicalControlMAPE.InterfaceOne
+	group MainAQ: HierarchicalControlMAPE.InterfaceTwo
+    group HighAQ_HC: HierarchicalControlMAPE.High
+}
+
+configuration MySmartHomeAQ_HC instanceOf Hierarchical_AQ_HC_MAPE {
+    hs_ff: Hierarchical_AQ_HC_MAPE.SysH //managed heating system for First Floor
+    hs_gf: Hierarchical_AQ_HC_MAPE.SysH //managed heating system for Ground Floor
+    aqs_gf: Hierarchical_AQ_HC_MAPE.SysA //managed air system for Ground Floor
+    aqs_ff: Hierarchical_AQ_HC_MAPE.SysA //managed air system for First Floor
+    
+	main_aq: Hierarchical_AQ_HC_MAPE.MainAQ {
+		managedSyS aqs_gf, aqs_ff
+		components m_aq:M, a_aq:A, p_aq:P, e_aq:E
+	}
+    
+    //main group for the concern Heating Comfort 
+	main_hc: Hierarchical_AQ_HC_MAPE.MainHC {
+		components m_hc:M, a_hc:A, p_hc:P, e_hc:E
+	}
+
+    //interface group for the ground floor heating and windows 
+	int_hc_gf: Hierarchical_AQ_HC_MAPE.IntHC {
+		managedSyS hs_gf,aqs_gf
+		components m_hc:M, e_hc:E
+	}
+
+    //interface group for the first floor heating and windows
+    int_hc_ff: Hierarchical_AQ_HC_MAPE.IntHC {
+		managedSyS hs_ff,aqs_ff 
+		components m_hc:M, e_hc:E
+	}
+	
+    high_aq_hs: Hierarchical_AQ_HC_MAPE.HighAQ_HC {
+	    managedGrp main_hc, main_aq
+		components m_h:M, a_h:A, p_h:P, e_h:E 
+	}
+
+	//interactions
+	main_aq.m_aq -> main_aq.a_aq
+	main_aq.a_aq -> main_aq.p_aq
+	main_aq.p_aq -> main_aq.e_aq
+	main_hc.m_hc -> main_hc.a_hc
+	main_hc.a_hc -> main_hc.p_hc
+	main_hc.p_hc -> main_hc.e_hc
+	int_hc_gf.m_hc -> main_hc.m_hc
+	int_hc_ff.m_hc -> main_hc.m_hc
+	main_hc.e_hc -> int_hc_gf.e_hc
+	main_hc.e_hc -> int_hc_ff.e_hc	
+	high_aq_hs.a_h ->  high_aq_hs.e_h
+}

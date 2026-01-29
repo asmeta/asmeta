@@ -1,0 +1,14 @@
+scenario S1_Failure
+load WrongScheduler.asm
+
+set fin(JOB1) := false;
+set fin(JOB2) := false;
+set fin(JOB3) := false;
+
+check idle = false;
+check st(JOB1) = RDY and st(JOB2) = RDY and st(JOB3) = RDY;
+
+step
+
+// One of the jobs must have been selected.
+check st(JOB1) = RUN or st(JOB2) = RUN or st(JOB3) = RUN;

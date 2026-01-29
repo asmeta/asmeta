@@ -1,0 +1,15 @@
+// Scenario from NFM 26
+scenario scenario1
+load ../Scheduler.asm
+check idle = false;
+check st(JOB1) = RDY and st(JOB2) = RDY
+and st(JOB3) = RDY;
+pick $j1 := JOB3;
+step
+check st(JOB1) = RDY and st(JOB2) = RDY
+and st(JOB3) = RUN;
+set fin(JOB3) := true;
+pick $j1 := JOB2;
+step
+check st(JOB1) = RDY and st(JOB2) = RUN
+and st(JOB3) = FIN;

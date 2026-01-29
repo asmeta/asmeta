@@ -5,48 +5,44 @@ import atgt.coverage.AsmTestSequence
 import atgt.coverage.AsmTestSuite
 
 // Asm test suite to ASM n
-class AsmTsToCatch2Test extends TestSuiteTranslator{
+class AsmTsToCatch2Test extends TestSuiteTranslator {
 
 // name of the ASM and also CPP class
 	int counter = 0;
-	
+
 	new(AsmCollection asm) {
 		super(asm, "REQUIRE")
 	}
 
-
 // convert the test suite
 	override convertTestSuite(AsmTestSuite testSuite) {
-'''#define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
+		'''#define CATCH_CONFIG_MAIN  // This tells Catch to provide a main() - only do this in one cpp file
 #include "catch.hpp"
 
 #include <iostream>
-#include "«asmName».h"
+#include "Â«asmNameÂ».h"
 using namespace std;
 
-«getAbstractDomain(asm)»
+Â«getAbstractDomain(asm)Â»
 
-«FOR t : testSuite»
-«printTestCase(t)»
-//«counter++»
-«ENDFOR»
+Â«FOR t : testSuiteÂ»
+	Â«printTestCase(t,counter++)Â»
+Â«ENDFORÂ»
 '''
 	}
-	
 
-	def printTestCase(AsmTestSequence test) {
-		'''TEST_CASE( "my_test_«counter»", "my_test_«counter»"){
+	def printTestCase(AsmTestSequence test, int counter) {
+		'''TEST_CASE( "my_test_Â«counterÂ»", "my_test_Â«counterÂ»"){
 	// instance of the SUT
-	«asmName» «asmName.toLowerCase»;	
-	«FOR t : test.allInstructions()»
+	Â«asmNameÂ» Â«asmName.toLowerCaseÂ»;	
+	Â«FOR t : test.allInstructions()Â»
 		// state 
-		«printState(t,test.allInstructions.get(0)===t)»
+		Â«printState(t,test.allInstructions.get(0)===t)Â»
 		// call main rule
-		«asmName.toLowerCase».«mainRuleName»();
-		«asmName.toLowerCase».fireUpdateSet();
-	«ENDFOR»
+		Â«asmName.toLowerCaseÂ».Â«mainRuleNameÂ»();
+		Â«asmName.toLowerCaseÂ».fireUpdateSet();
+	Â«ENDFORÂ»
 }'''
 	}
-
 
 }

@@ -21,8 +21,8 @@ import org.asmeta.asm2code.compiler.CppCompiler;
 import org.asmeta.asm2code.main.CppGenerator;
 import org.asmeta.asm2code.main.HeaderGenerator;
 import org.asmeta.asm2code.main.TranslatorOptions;
-import org.asmeta.atgt.generator2.AsmTestGenerator;
-import org.asmeta.atgt.generator2.AsmTestGeneratorBySimulation;
+import org.asmeta.atgt.rndgenerator.AsmTestGenerator;
+import org.asmeta.atgt.rndgenerator.AsmTestGeneratorBySimulation;
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.Environment.TimeMngt;
 import org.asmeta.simulator.main.Simulator;
@@ -37,6 +37,8 @@ import atgt.coverage.AsmTestSuite;
 
 public class AsmToUnitModuleTest {
 
+	private static final String ASM_EXAMPLES_EXAMPLES = "../../../../asm_examples/examples/";
+	private static final String ROOT = "../../../../";
 	private static final String TEST_NAME = "test.cpp";
 	protected static final String NuSMV = "nusmv";
 	protected static final String SIMULATOR = "simulator";
@@ -57,7 +59,7 @@ public class AsmToUnitModuleTest {
 
 	@Test
 	public void testTrafficLight() throws Exception {
-		testSpec(UNITFM.BOOST, "../../../../asm_examples/examples/traffic_light/oneWayTrafficLight.asm", SIMULATOR, "1",
+		testSpec(UNITFM.BOOST, ASM_EXAMPLES_EXAMPLES + "traffic_light/oneWayTrafficLight.asm", SIMULATOR, "1",
 				"5");
 	}
 
@@ -130,7 +132,7 @@ public class AsmToUnitModuleTest {
 
 	@Test
 	public void testGenerateCoffeeNC() throws Exception {
-		String asmspec = "../asmetal2cpp_codegen/examples/coffeeVendingMachineNC.asm";
+		String asmspec = "../asmetal2cpp.codegen/examples/coffeeVendingMachineNC.asm";
 		// testSpec(asmspec, 5, NuSMV);
 		testSpec(UNITFM.BOOST, asmspec, SIMULATOR, "5", "7");
 		// testSpec(asmspec, SIMULATOR,"3","7");
@@ -211,9 +213,21 @@ public class AsmToUnitModuleTest {
 		testSpec(UNITFM.BOOST, asmspec, SIMULATOR, "5", "5");
 	}
 
+	
+	@Test
+	public void testPillBox() throws Exception {
+		Environment.timeMngt = TimeMngt.auto_increment;
+		//String asmspec = ROOT + "asmeta_models\\tutorials\\tutorial_FM24\\pillbox_final.asm";
+		String asmspec = ROOT + "asmeta_models\\tutorials\\tutorial_FM24\\pillbox_ground.asm";
+		testSpec(UNITFM.CATCH2, asmspec, SIMULATOR, "70", "1");
+	}
+
 	enum UNITFM {
 		BOOST, CATCH2
 	}
+
+	private static boolean compileTest = false;
+	
 
 	/**
 	 * 
@@ -267,7 +281,10 @@ public class AsmToUnitModuleTest {
 		trans.generateAndSave(testPath);
 		System.out.println("*****" + testPath);
 		// compile the test.cpp
-		CompileResult result = CppCompiler.compile(testname, destDir.getPath(), true, isCovEnabled, useBoost);
+		CompileResult result = new CompileResult(true, "no compilation requested");
+		if (compileTest) {
+			result = CppCompiler.compile(testname, destDir.getPath(), true, isCovEnabled, useBoost);
+		}
 		System.out.println(result);
 		// compiled?
 		if (result.success) {
@@ -279,20 +296,25 @@ public class AsmToUnitModuleTest {
 			result = CppCompiler.compile(specname + ".cpp", destDir.getPath(), true, isCovEnabled, useBoost);
 			System.out.println(result);
 			//
-			// compiliamo e linkiamo file cpp il tutto (rende un po' inutile quello prima
-			result = CppCompiler.compile("*.o", destDir.getPath(), false, isCovEnabled, useBoost);
+			if (compileTest) {
+				// compiliamo e linkiamo file cpp il tutto (rende un po' inutile quello prima
+				result = CppCompiler.compile("*.o", destDir.getPath(), false, isCovEnabled, useBoost);
+			}
 			System.out.println(result);
-			if (result.success) {
-				// esegui
-				System.out.println("executing test cases");
-				// printFilesList();
-				String executableName = destDir.getAbsolutePath() + "/a.exe";
-				StringBuffer resultexec = runexample(executableName, destDir);
-				System.out.println(resultexec.toString());
-				if (!resultexec.toString().contains("*** No errors detected") && !resultexec.toString().contains("All tests passed"))
-					throw new RuntimeException("test failed " + resultexec.toString());
-			} else {
-				throw new RuntimeException(".o compiling/linking failure");
+			if (compileTest) {
+				if (result.success) {
+					// esegui
+					System.out.println("executing test cases");
+					// printFilesList();
+					String executableName = destDir.getAbsolutePath() + "/a.exe";
+					StringBuffer resultexec = runexample(executableName, destDir);
+					System.out.println(resultexec.toString());
+					if (!resultexec.toString().contains("*** No errors detected")
+							&& !resultexec.toString().contains("All tests passed"))
+						throw new RuntimeException("test failed " + resultexec.toString());
+				} else {
+					throw new RuntimeException(".o compiling/linking failure");
+				}
 			}
 		}
 		if (isCovEnabled) computeCoverageAndWriteData(specpath, destDir, tg, trans, specname, starttime);

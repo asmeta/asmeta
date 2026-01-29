@@ -1,0 +1,26 @@
+abstract pattern SimpleMAPE {
+	system Sys
+
+	group Main {
+		managedSyS Sys
+		components M, A, P, E
+	}
+
+	interaction Main.M -> Main.A 
+	interaction Main.A -> Main.P
+	interaction Main.P -> Main.E 
+}
+
+concrete pattern ComfortableHeatingMAPE concretizationOf SimpleMAPE {
+	system Heater : SimpleMAPE.Sys
+    group MainCH: SimpleMAPE.Main
+}
+
+configuration ComfortableHeating instanceOf ComfortableHeatingMAPE {
+    hs: ComfortableHeatingMAPE.Heater
+    
+	ch: ComfortableHeatingMAPE.MainCH {
+	    managedSyS hs
+		components m_ch:M, a_ch:A, p_ch:P, e_ch:E
+	}
+}
