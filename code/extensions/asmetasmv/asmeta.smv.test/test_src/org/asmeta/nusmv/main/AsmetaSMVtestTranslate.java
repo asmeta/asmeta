@@ -7,14 +7,12 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.asmeta.flattener.nesting.RemoveNestingFlattener;
-import org.asmeta.nusmv.main.AsmetaSMV;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
 import org.asmeta.parser.ASMFileFilter;
 import org.asmeta.parser.util.ReflectiveVisitor;
@@ -27,7 +25,7 @@ import org.junit.experimental.categories.Category;
  * test all the examples in a directory parse and translate DO NOT PROVE
  * 
  */
-public class AsmetaSMVtestTranslate {
+public class AsmetaSMVtestTranslate extends AsmetaSMVtestTranslateBase{
 
 	static final String FILE_BASE = "../../../../asm_examples/";
 	
@@ -39,43 +37,6 @@ public class AsmetaSMVtestTranslate {
 	} 
 	
 	
-
-	protected boolean testOneSpec(String spec) {
-		AsmetaSMVOptions options = new AsmetaSMVOptions();
-		AsmetaSMVOptions.keepNuSMVfile = true;
-		//AsmetaSMVOptions.FLATTEN = false;
-		return testOneSpec(spec, options);
-	}
-
-	/**
-	 * @param args
-	 * @param options
-	 * @return
-	 */
-	protected boolean testOneSpec(String spec, AsmetaSMVOptions options) {
-		String[] args = { spec };
-		try {
-			AsmetaSMV a = new AsmetaSMV(new File(args[0]),options);
-			a.translation();
-			a.createNuSMVfile();
-			// the file exists
-			if (!Files.exists(Paths.get(a.smvFileName)))
-				return false;
-			//System.out.println(Paths.get(a.smvFileName));
-			// TODO parse the file with nusmv
-			if (options.isRunNuSMV()) a.executeNuSMV();
-			return true;
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return false;
-		}
-	}
-
-	protected boolean testOneSpec(File fspec) {
-		String spec = fspec.getAbsolutePath();
-		return testOneSpec(spec);
-	}
 
 	protected void testDir(String dir) {
 		Collection<File> res = testSpecInSubFolderBASEDIR(dir);
@@ -184,7 +145,7 @@ public class AsmetaSMVtestTranslate {
 	@Test
 	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testAtm() {
-		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/ATM.asm"));
+		assertTrue(testOneSpec(FILE_BASE + "examples/simple_example/ATM.asm"));
 	}
 
 	@Test
@@ -195,37 +156,33 @@ public class AsmetaSMVtestTranslate {
 	@Test
 	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testAxioms() {
-		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/Axioms.asm"));
+		assertTrue(testOneSpec(FILE_BASE + "examples/simple_example/Axioms.asm"));
 	}
 
 	@Test
 	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testFattoriale() {
-		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/fattoriale.asm"));
+		assertTrue(testOneSpec(FILE_BASE + "examples/simple_example/fattoriale.asm"));
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testAdvancedClock() {
-		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/AdvancedClock.asm"));
+		assertTrue(testOneSpec(FILE_BASE + "examples/simple_example/AdvancedClock.asm"));
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testAdvancedClock2() {
-		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/AdvancedClock2.asm"));
+		assertTrue(testOneSpec(FILE_BASE + "examples/simple_example/AdvancedClock2.asm"));
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testFLIP_FLOP_0() {
-		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/FLIP_FLOP_0.asm"));
+		assertTrue(testOneSpec(FILE_BASE + "examples/simple_example/FLIP_FLOP_0.asm"));
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testIncosistentUpdate() {
-		assertTrue(testOneSpec(FILE_BASE + "examples/simple_ex/IncosistentUpdate.asm"));
+		assertTrue(testOneSpec(FILE_BASE + "examples/simple_example/IncosistentUpdate.asm"));
 	}
 
 	@Test
