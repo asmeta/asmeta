@@ -407,7 +407,7 @@ examples\landingGearSystem\LGS_HM.asm
 examples\hemodialysisDevice\ABZ2016\Hemodialysis_ref2_par.asm
 PillBox\Level2\pillbox_2_elia.asm
 stereoacuity\certifierRaff4ForSMTproof.asm
-examples\TrafficLightYakindu\TrafficLight_NOREF\TrafficLight_4.asm
+examples\TrafficLightYakindu\TrafficLight_NOREF\TrafficLight_4_NOREF.asm
 examples\simple_example\MorraCinese\MorraCinese.asm
 examples\production_cell\DEPOSITBELT.asm
 examples\sultanSuccessors\sultan.asm

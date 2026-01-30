@@ -179,7 +179,6 @@ public class AsmetaFeatureCheckerTest {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testVisitAsmResults() throws Exception {
 		// move to setup before class
 		Logger.getLogger(AsmetaFeatureChecker.class).setLevel(Level.OFF);
@@ -187,7 +186,7 @@ public class AsmetaFeatureCheckerTest {
 		AsmetaFeatureChecker spr;
 
 		List<String> modelList = readResultsFile(Paths.get(
-				"/Users/andrea/Documents/GitHub/asmeta/code/experimental/asmeta.evotest/asmeta.evotest.experiments/data/icst-26-exp/data.csv"),
+				"../../../../code/experimental/asmeta.evotest/asmeta.evotest.experiments/data/icst-26-exp/data.csv"),
 				"random");
 
 		// Fetch all files in the directory and all features
@@ -197,7 +196,10 @@ public class AsmetaFeatureCheckerTest {
 			for (String model : modelList) {
 				File f = new File("../" + model.replace("\\", File.separator));
 				try {
-					if (spr.checkFeature(ASMParser.setUpReadAsm(f).getMain())) {
+					// Skip ASM parsing for missing files (e.g., renamed or deleted)
+					if (!f.exists()) {
+						System.out.println("-> ERROR processing file: " + f + " does not exist");
+					}else if (spr.checkFeature(ASMParser.setUpReadAsm(f).getMain())) {
 						count++;
 					}
 				} catch (ParseException e) {
