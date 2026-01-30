@@ -16,7 +16,7 @@ public class CompileResultImpl implements CompileResult {
 
 	/**
 	 * All args constructor.
-	 * 
+	 *
 	 * @param r the result of the compilation.
 	 * @param m the message related to the compiling operation.
 	 */

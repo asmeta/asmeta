@@ -1,5 +1,10 @@
 package asmeta.asmetal2java.codegen.translator;
 
+import java.util.Arrays;
+
+import org.eclipse.xtend2.lib.StringConcatenation;
+import org.eclipse.xtext.xbase.lib.XbaseGenerated;
+
 import asmeta.definitions.ControlledFunction;
 import asmeta.definitions.DerivedFunction;
 import asmeta.definitions.Function;
@@ -20,9 +25,6 @@ import asmeta.terms.furtherterms.IntegerTerm;
 import asmeta.terms.furtherterms.NaturalTerm;
 import asmeta.terms.furtherterms.RealTerm;
 import asmeta.terms.furtherterms.StringTerm;
-import java.util.Arrays;
-import org.eclipse.xtend2.lib.StringConcatenation;
-import org.eclipse.xtext.xbase.lib.XbaseGenerated;
 
 /**
  * This class is used to translate Asmeta Terms in assignments

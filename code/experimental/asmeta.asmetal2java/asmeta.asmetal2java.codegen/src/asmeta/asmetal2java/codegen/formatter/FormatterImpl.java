@@ -16,32 +16,34 @@ import org.eclipse.text.edits.TextEdit;
 
 public class FormatterImpl implements Formatter {
 
-	private static final boolean REMOVE_DOUBLE_NEW_LINES = true;	
+	private static final boolean REMOVE_DOUBLE_NEW_LINES = true;
 	static int initialIndent = 0;
 	private static final ArrayList<String> TUPLE_NAMES = new ArrayList<>(Arrays.asList("Decade", "Ennead", "Octet", "Pair", "Quartet", "Quintet", "Septet", "Sextet", "Triplet"));
 	private static final ArrayList<String> NAMES = new ArrayList<>(Arrays.asList("java.util.Collections", "java.util.Set", "java.util.Scanner", "java.util.List", "java.util.HashSet", "java.util.Arrays", "java.util.ArrayList", "org.apache.commons.collections4.bag.HashBag", "java.util.concurrent.ThreadLocalRandom", "java.util.function.Function", "java.util.stream.Collectors", "org.apache.commons.collections4.bag.Bag"));
-	
+
 	public FormatterImpl() { /* Empty Constructor */ }
-	
+
 	@Override
 	public String formatCode(String code) {
 		// first remove double new lines
 		if (REMOVE_DOUBLE_NEW_LINES) {
 			code = replaceDoubleNL(code);
 		}
-		
+
 		// Remove useless imports for tuples
 		for (String s : TUPLE_NAMES) {
-			if (StringUtils.countMatches(code, s)==1)
+			if (StringUtils.countMatches(code, s)==1) {
 				code = code.replace("import org.javatuples." + s + ";", "");
+			}
 		}
-		
+
 		// Remove useless imports for other classes
 		for (String s : NAMES) {
-			if (StringUtils.countMatches(code, s.split("\\.")[s.split("\\.").length - 1])==1)
+			if (StringUtils.countMatches(code, s.split("\\.")[s.split("\\.").length - 1])==1) {
 				code = code.replace("import " + s + ";", "");
+			}
 		}
-		
+
 		// take default Eclipse formatting options
 		Map<String, String> options = DefaultCodeFormatterConstants.getEclipseDefaultSettings();
 
@@ -61,7 +63,7 @@ public class FormatterImpl implements Formatter {
 				edit.apply(document);
 			} catch (MalformedTreeException | BadLocationException e) {
 				e.printStackTrace();
-			} 
+			}
 			return document.get();
 		}
 	}

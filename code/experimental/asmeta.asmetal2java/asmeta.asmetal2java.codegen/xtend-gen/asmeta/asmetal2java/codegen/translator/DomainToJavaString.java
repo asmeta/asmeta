@@ -1,5 +1,9 @@
 package asmeta.asmetal2java.codegen.translator;
 
+import org.asmeta.parser.util.ReflectiveVisitor;
+import org.eclipse.xtend2.lib.StringConcatenation;
+import org.eclipse.xtext.xbase.lib.Exceptions;
+
 import asmeta.definitions.domains.AbstractTd;
 import asmeta.definitions.domains.AgentDomain;
 import asmeta.definitions.domains.AnyDomain;
@@ -22,9 +26,6 @@ import asmeta.definitions.domains.StringDomain;
 import asmeta.definitions.domains.UndefDomain;
 import asmeta.structure.Asm;
 import asmeta.terms.basicterms.FunctionTerm;
-import org.asmeta.parser.util.ReflectiveVisitor;
-import org.eclipse.xtend2.lib.StringConcatenation;
-import org.eclipse.xtext.xbase.lib.Exceptions;
 
 @SuppressWarnings("all")
 public class DomainToJavaString extends ReflectiveVisitor<String> {

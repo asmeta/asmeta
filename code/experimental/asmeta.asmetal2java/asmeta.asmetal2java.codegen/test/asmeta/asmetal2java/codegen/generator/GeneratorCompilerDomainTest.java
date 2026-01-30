@@ -21,23 +21,23 @@ import asmeta.asmetal2java.codegen.config.TranslatorOptionsImpl;
  * ./example/domainTest folder.
  */
 public class GeneratorCompilerDomainTest {
-	
+
 	/**
 	 * Path of the directory where the domain test files are stored
 	 */
 	private Path domainTestPath = GeneratorCompilerUtil.dirExamples.resolve("domainTests");
-	
+
 	/**
 	 * formatter = true, shuffleRandom = true, optimizeSeqRule = true
 	 */
 	private TranslatorOptions options = new TranslatorOptionsImpl(true, true, true);
-	
+
 	/**
 	 * {@code True} to stop the generation at the first error, {@code False}
 	 * otherwise
 	 */
 	static boolean failOnError = false;
-	
+
 	@Before
 	public void setup() {
 		GeneratorCompilerUtil.setupFolders(domainTestPath);
@@ -45,15 +45,16 @@ public class GeneratorCompilerDomainTest {
 
 	@Test
 	public void translateAndCompileDomainTests() throws Exception {
-		List<String> failures = new ArrayList<>();		
+		List<String> failures = new ArrayList<>();
 		System.out.println("Translating and compiling the domain tests inside the " + domainTestPath + ":");
 		for (File file : domainTestPath.toFile().listFiles()) {
 			if(file.getName().endsWith(ASMParser.ASM_EXTENSION)) {
 				CompileResult genandcompile = GeneratorCompilerUtil.genandcompile(file.getAbsolutePath(), options,
 						GeneratorCompilerUtil.dirTraduzione, GeneratorCompilerUtil.dirCompilazione);
 				if (!genandcompile.getSuccess()) {
-					if (failOnError)
+					if (failOnError) {
 						fail();
+					}
 					failures.add(file.getName());
 					System.err.println("failing for " + file.getName());
 				}

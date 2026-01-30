@@ -4,7 +4,7 @@ package asmeta.asmetal2java.codegen.application;
  * Exception thrown when an error occurs while parsing an ASM file.
  */
 public class AsmParsingException extends RuntimeException {
-    
+
     /**
 	 *  Default serialVersionUID
 	 */

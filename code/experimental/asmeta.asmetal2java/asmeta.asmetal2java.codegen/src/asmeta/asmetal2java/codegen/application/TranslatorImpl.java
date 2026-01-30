@@ -19,10 +19,10 @@ import asmeta.asmetal2java.codegen.evosuite.DomainNotSupportedException;
  * The {@code TranslatorImpl} class implements the {@link Translator} interface.
  */
 public class TranslatorImpl implements Translator {
-	
+
 	/** Logger */
 	private final Logger logger = LogManager.getLogger(TranslatorImpl.class);
-	
+
 	/* Constants */
 	private static final String ASM_EXTENSION = ASMParser.ASM_EXTENSION;
 
@@ -44,25 +44,25 @@ public class TranslatorImpl implements Translator {
 		this.translatorOptions = translatorOptionsImpl;
 		this.fileManager = new FileManager();
 	}
-	
+
     /**
      * Constructs a {@code TranslatorImpl} with default {@link TranslatorOptions}.
      */
 	public TranslatorImpl() {
 		this(new TranslatorOptionsImpl());
 	}
-	
+
 	@Override
 	public void setOptions(String propertyName, String propertyValue) {
 		this.translatorOptions.setValue(propertyName, Boolean.parseBoolean(propertyValue));
 	}
-	
+
 	@Override
 	public void setWorkingDir(String workingDirPath) {
 		logger.info("Setting a custom working directory: {}.", workingDirPath);
 		fileManager.setInputFolder(workingDirPath);
 	}
-	
+
 	@Override
 	public void setInput(String value) throws AsmParsingException{
 		logger.info("Setting the input file path: {}.", value);
@@ -71,7 +71,7 @@ public class TranslatorImpl implements Translator {
 		}
 		this.asmspec = value;
 	}
-	
+
 	@Override
 	public void setOutput(String value) throws SetupException {
 		try {
@@ -128,10 +128,10 @@ public class TranslatorImpl implements Translator {
 			break;
 		}
 	}
-	
+
 	@Override
 	public void generate() throws AsmParsingException, SetupException, TranslationException, DomainNotSupportedException {
-		
+
 		File asmFile;
 		try {
 			asmFile = fileManager.retrieveInput(this.asmspec, this.translatorOptions.getCopyAsm());
@@ -141,7 +141,7 @@ public class TranslatorImpl implements Translator {
 		}
 		String asmFileName = asmFile.getName();
 		String asmName = asmFileName.substring(0, asmFileName.lastIndexOf("."));
-		
+
 		// Parse the specification using the Asmeta parser
 		logger.info("Parsing the asmeta specification: {}", asmFile.getName());
 		AsmCollection model = null;
@@ -152,29 +152,29 @@ public class TranslatorImpl implements Translator {
 			logger.error("Failed to parse the asmeta specification: {}.", e.getMessage());
 			throw new AsmParsingException("Error while parsing the asmeta specification: " + asmFile.getName(), e);
 		}
-	
+
 		if (translatorOptions.getCompiler() && !translatorOptions.getTestGen()) {
 			this.translateAndCompile(asmName, model);
 		}
-	
+
 		if (translatorOptions.getTranslator()) {
 			this.translate(asmName, model, Mode.TRANSLATOR_MODE);
 		}
-	
+
 		if (translatorOptions.getExecutable()) {
 			this.translate(asmName, model, Mode.GENERATE_EXE_MODE);
 		}
-		
+
 		if (translatorOptions.getWindow()) {
 			this.translate(asmName, model, Mode.GENERATE_WIN_MODE);
 		}
-		
+
 		if (translatorOptions.getTestGen()) {
 			this.testGen(asmName, model);
 		}
 
 	}
-	
+
 	@Override
 	public List<String> getOptionNames() {
 		return translatorOptions.getPropertyNames();
@@ -194,10 +194,10 @@ public class TranslatorImpl implements Translator {
 	public void setCompilerVersion(String javaVersion) throws SetupException {
 		fileManager.setCompilerVersion(javaVersion);
 	}
-	
+
     /**
      * Generates the Java translation.
-     * 
+     *
      * @param asmName the name of the ASM specification.
      * @param model the parsed ASM model.
      * @param mode the translation mode.
@@ -224,7 +224,7 @@ public class TranslatorImpl implements Translator {
     /**
      * Translates the ASM model into a Java file and exports it if enabled
      * (handling possible exceptions).
-     * 
+     *
      * @param asmName the name of the ASM specification.
      * @param model the parsed ASM model.
      * @param mode the translation mode (e.g., TRANSLATOR, GENERATE_EXE).
@@ -234,10 +234,10 @@ public class TranslatorImpl implements Translator {
 		File javaFile = generateTranslation(asmName, model, mode);
 		exportJavaFile(javaFile);
 	}
-	
+
     /**
      * Translate and compiles the ASM model to a Java file and exports it if enabled.
-     * 
+     *
      * @param asmName the name of the ASM specification.
      * @param model the parsed ASM model.
      * @throws TranslationException if an error occurs during the translation process.
@@ -256,17 +256,17 @@ public class TranslatorImpl implements Translator {
 		// export (if the export option is enabled)
 		exportJavaFile(javaFile);
 	}
-	
+
     /**
      * Generates the test java file (test-specific translation) and the _ATG file for the ASM model.
-     * 
+     *
      * @param asmName the name of the ASM specification.
      * @param model the parsed ASM model.
      * @throws TranslationException if an error occurs during the translation process.
      */
-	private void testGen(String asmName, AsmCollection model) throws TranslationException, DomainNotSupportedException {				
+	private void testGen(String asmName, AsmCollection model) throws TranslationException, DomainNotSupportedException {
 		// translate
-		File testGenJavaFile = generateTranslation(asmName, model, Mode.TRANSLATOR_TEST_MODE);			
+		File testGenJavaFile = generateTranslation(asmName, model, Mode.TRANSLATOR_TEST_MODE);
 		File atgJavaFile = generateTranslation(asmName, model, Mode.TEST_GEN_MODE);
 		// export
 		File testGenJavaFileExported = exportJavaFile(testGenJavaFile);
@@ -283,10 +283,10 @@ public class TranslatorImpl implements Translator {
 			logger.info("Compiled with success the files: {}.", files);
 		}
 	}
-	
+
     /**
      * Exports the given Java file to the output directory if the export option is enabled.
-     * 
+     *
      * @param javaFile the Java file to export.
      * @throws TranslationException if an error occurs during the translation process.
      */

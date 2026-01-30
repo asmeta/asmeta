@@ -38,7 +38,7 @@ public final class Generators {
 
 	/**
 	 * Returns the singleton instance of the standard Java generator.
-	 * 
+	 *
 	 * @return the singleton instance of {@link JavaGenerator}
 	 */
 	public static AsmToJavaGenerator getJavaGenerator() {
@@ -50,7 +50,7 @@ public final class Generators {
 
 	/**
 	 * Returns the singleton instance of the _Exe class generator.
-	 * 
+	 *
 	 * @return the singleton instance of {@link JavaExeGenerator}
 	 */
 	public static AsmToJavaGenerator getJavaExeGenerator() {
@@ -62,7 +62,7 @@ public final class Generators {
 
 	/**
 	 * Returns the singleton instance of the _Win class generator.
-	 * 
+	 *
 	 * @return the singleton instance of {@link JavaWindowGenerator}
 	 */
 	public static AsmToJavaGenerator getJavaWindowGenerator() {
@@ -74,7 +74,7 @@ public final class Generators {
 
 	/**
 	 * Returns the singleton instance of the Java generator for tests.
-	 * 
+	 *
 	 * @return the singleton instance of {@link JavaTestGenerator}
 	 */
 	public static AsmToJavaGenerator getJavaTestGenerator() {
@@ -87,9 +87,9 @@ public final class Generators {
 
 	/**
 	 * Returns the singleton instance of the _ATG class generator.<p>
-	 * 
+	 *
 	 * > Note: use the JavaTestGenerator before the JavaAtgGenerator.
-	 * 
+	 *
 	 * @return the singleton instance of {@link JavaAtgGenerator}
 	 */
 	public static AsmToJavaGenerator getJavaAtgGenerator() {

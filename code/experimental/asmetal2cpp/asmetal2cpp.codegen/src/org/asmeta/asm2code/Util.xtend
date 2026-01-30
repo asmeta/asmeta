@@ -10,7 +10,7 @@ import asmeta.structure.Asm
 import asmeta.terms.basicterms.VariableTerm
 import org.eclipse.emf.common.util.EList
 
-public class Util {
+class Util {
 
 	int counter
 

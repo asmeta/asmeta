@@ -1,5 +1,12 @@
 package asmeta.asmetal2java.codegen.generator;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.xtend2.lib.StringConcatenation;
+import org.junit.Assert;
+
 import asmeta.asmetal2java.codegen.config.TranslatorOptions;
 import asmeta.asmetal2java.codegen.translator.SeqRuleCollector;
 import asmeta.definitions.ControlledFunction;
@@ -14,11 +21,6 @@ import asmeta.definitions.domains.MapDomain;
 import asmeta.definitions.domains.SequenceDomain;
 import asmeta.structure.Asm;
 import asmeta.transitionrules.basictransitionrules.Rule;
-import java.util.ArrayList;
-import java.util.List;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.xtend2.lib.StringConcatenation;
-import org.junit.Assert;
 
 /**
  * Generates a class with the graphical user interface (GUI) to interact
@@ -43,7 +45,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
   public String compileAsm(final Asm asm) {
     boolean _optimizeSeqMacroRule = this.options.getOptimizeSeqMacroRule();
     if (_optimizeSeqMacroRule) {
-      ArrayList<Rule> _arrayList = new ArrayList<Rule>();
+      ArrayList<Rule> _arrayList = new ArrayList<>();
       this.seqCalledRules = _arrayList;
       EList<RuleDeclaration> _ruleDeclaration = asm.getBodySection().getRuleDeclaration();
       for (final RuleDeclaration r : _ruleDeclaration) {
@@ -535,7 +537,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
         _builder.append("JLabel VariabileControlled_Text_");
         _builder.append(this.NvarC, "\t\t");
         _builder.append(" = new JLabel(\"");
-        String _name = ((AbstractTd)dd).getName();
+        String _name = dd.getName();
         _builder.append(_name, "\t\t");
         _builder.append("\");");
         _builder.newLineIfNotEmpty();
@@ -585,7 +587,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
     EList<Function> _function = asm.getHeaderSection().getSignature().getFunction();
     for (final Function fd : _function) {
       if ((fd instanceof ControlledFunction)) {
-        Domain _domain_1 = ((ControlledFunction)fd).getDomain();
+        Domain _domain_1 = fd.getDomain();
         boolean _tripleEquals = (_domain_1 == null);
         if (_tripleEquals) {
           StringConcatenation _builder_1 = new StringConcatenation();
@@ -593,7 +595,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
           _builder_1.append("JLabel VariabileControlled_Text_");
           _builder_1.append(this.NvarC);
           _builder_1.append(" = new JLabel(\"");
-          String _name_1 = ((ControlledFunction)fd).getName();
+          String _name_1 = fd.getName();
           _builder_1.append(_name_1);
           _builder_1.append("\");");
           _builder_1.newLineIfNotEmpty();
@@ -630,13 +632,13 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
           sb.append(_builder_1);
           this.NvarC++;
         } else {
-          if (((((ControlledFunction)fd).getDomain() instanceof EnumTd) && (((ControlledFunction)fd).getCodomain() instanceof ConcreteDomain))) {
+          if (((fd.getDomain() instanceof EnumTd) && (fd.getCodomain() instanceof ConcreteDomain))) {
             StringConcatenation _builder_2 = new StringConcatenation();
             _builder_2.newLine();
             _builder_2.append("JLabel VariabileControlled_Text_");
             _builder_2.append(this.NvarC);
             _builder_2.append(" = new JLabel(\"");
-            String _name_2 = ((ControlledFunction)fd).getName();
+            String _name_2 = fd.getName();
             _builder_2.append(_name_2);
             _builder_2.append("\");");
             _builder_2.newLineIfNotEmpty();
@@ -675,7 +677,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_2.append("JLabel VariabileControlled_Text_");
             _builder_2.append(this.NvarC, " ");
             _builder_2.append("_1 = new JLabel(esecuzione.");
-            String _name_3 = ((ControlledFunction)fd).getDomain().getName();
+            String _name_3 = fd.getDomain().getName();
             _builder_2.append(_name_3, " ");
             _builder_2.append("_elemsList.get(0).toString());");
             _builder_2.newLineIfNotEmpty();
@@ -721,7 +723,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_2.append("JLabel VariabileControlled_Text_");
             _builder_2.append(this.NvarC, " ");
             _builder_2.append("_2 = new JLabel(esecuzione.");
-            String _name_4 = ((ControlledFunction)fd).getDomain().getName();
+            String _name_4 = fd.getDomain().getName();
             _builder_2.append(_name_4, " ");
             _builder_2.append("_elemsList.get(1).toString());");
             _builder_2.newLineIfNotEmpty();
@@ -768,7 +770,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_2.append("JLabel VariabileControlled_Text_");
             _builder_2.append(this.NvarC, " ");
             _builder_2.append("_3 = new JLabel(esecuzione.");
-            String _name_5 = ((ControlledFunction)fd).getDomain().getName();
+            String _name_5 = fd.getDomain().getName();
             _builder_2.append(_name_5, " ");
             _builder_2.append("_elemsList.get(2).toString());");
             _builder_2.newLineIfNotEmpty();
@@ -813,13 +815,13 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             sb.append(_builder_2);
             this.NvarC++;
           }
-          if (((((ControlledFunction)fd).getCodomain() instanceof EnumTd) && (((ControlledFunction)fd).getDomain() instanceof EnumTd))) {
+          if (((fd.getCodomain() instanceof EnumTd) && (fd.getDomain() instanceof EnumTd))) {
             StringConcatenation _builder_3 = new StringConcatenation();
             _builder_3.newLine();
             _builder_3.append("JLabel VariabileControlled_Text_");
             _builder_3.append(this.NvarC);
             _builder_3.append(" = new JLabel(\"");
-            String _name_6 = ((ControlledFunction)fd).getName();
+            String _name_6 = fd.getName();
             _builder_3.append(_name_6);
             _builder_3.append("\");");
             _builder_3.newLineIfNotEmpty();
@@ -858,7 +860,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_3.append("JLabel VariabileControlled_Text_");
             _builder_3.append(this.NvarC, " ");
             _builder_3.append("_1 = new JLabel(esecuzione.");
-            String _name_7 = ((ControlledFunction)fd).getDomain().getName();
+            String _name_7 = fd.getDomain().getName();
             _builder_3.append(_name_7, " ");
             _builder_3.append("_elemsList.get(0).toString());");
             _builder_3.newLineIfNotEmpty();
@@ -904,7 +906,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_3.append("JLabel VariabileControlled_Text_");
             _builder_3.append(this.NvarC, " ");
             _builder_3.append("_2 = new JLabel(esecuzione.");
-            String _name_8 = ((ControlledFunction)fd).getDomain().getName();
+            String _name_8 = fd.getDomain().getName();
             _builder_3.append(_name_8, " ");
             _builder_3.append("_elemsList.get(1).toString());");
             _builder_3.newLineIfNotEmpty();
@@ -951,7 +953,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_3.append("JLabel VariabileControlled_Text_");
             _builder_3.append(this.NvarC, " ");
             _builder_3.append("_3 = new JLabel(esecuzione.");
-            String _name_9 = ((ControlledFunction)fd).getDomain().getName();
+            String _name_9 = fd.getDomain().getName();
             _builder_3.append(_name_9, " ");
             _builder_3.append("_elemsList.get(2).toString());");
             _builder_3.newLineIfNotEmpty();
@@ -998,7 +1000,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_3.append("JLabel VariabileControlled_Text_");
             _builder_3.append(this.NvarC, " ");
             _builder_3.append("_4 = new JLabel(esecuzione.");
-            String _name_10 = ((ControlledFunction)fd).getDomain().getName();
+            String _name_10 = fd.getDomain().getName();
             _builder_3.append(_name_10, " ");
             _builder_3.append("_elemsList.get(3).toString());");
             _builder_3.newLineIfNotEmpty();
@@ -1055,15 +1057,15 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
     EList<Function> _function = asm.getHeaderSection().getSignature().getFunction();
     for (final Function fd : _function) {
       if ((fd instanceof MonitoredFunction)) {
-        Domain _domain = ((MonitoredFunction)fd).getDomain();
+        Domain _domain = fd.getDomain();
         boolean _tripleEquals = (_domain == null);
         if (_tripleEquals) {
-          if ((((MonitoredFunction)fd).getCodomain().getName().equals("Boolean") && (!(((MonitoredFunction)fd).getCodomain() instanceof ConcreteDomain)))) {
+          if ((fd.getCodomain().getName().equals("Boolean") && (!(fd.getCodomain() instanceof ConcreteDomain)))) {
             StringConcatenation _builder = new StringConcatenation();
             _builder.append("JLabel VariabileMonitored_text_");
             _builder.append(this.NvarM);
             _builder.append(" = new JLabel(\"");
-            String _name = ((MonitoredFunction)fd).getName();
+            String _name = fd.getName();
             _builder.append(_name);
             _builder.append("\");");
             _builder.newLineIfNotEmpty();
@@ -1101,7 +1103,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder.append("VariabileMonitored_Valore_");
             _builder.append(this.NvarM, "\t\t");
             _builder.append(".setText(esecuzione.");
-            String _name_1 = ((MonitoredFunction)fd).getName();
+            String _name_1 = fd.getName();
             _builder.append(_name_1, "\t\t");
             _builder.append(".Value.toString());");
             _builder.newLineIfNotEmpty();
@@ -1126,12 +1128,12 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             sb.append(_builder);
             this.NvarM++;
           }
-          if ((((MonitoredFunction)fd).getCodomain().getName().equals("Integer") && (!(((MonitoredFunction)fd).getCodomain() instanceof ConcreteDomain)))) {
+          if ((fd.getCodomain().getName().equals("Integer") && (!(fd.getCodomain() instanceof ConcreteDomain)))) {
             StringConcatenation _builder_1 = new StringConcatenation();
             _builder_1.append("JLabel VariabileMonitored_text_");
             _builder_1.append(this.NvarM);
             _builder_1.append(" = new JLabel(\"");
-            String _name_2 = ((MonitoredFunction)fd).getName();
+            String _name_2 = fd.getName();
             _builder_1.append(_name_2);
             _builder_1.append("\");");
             _builder_1.newLineIfNotEmpty();
@@ -1168,7 +1170,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_1.append("VariabileMonitored_Valore_");
             _builder_1.append(this.NvarM, "\t\t");
             _builder_1.append(".setText(esecuzione.");
-            String _name_3 = ((MonitoredFunction)fd).getName();
+            String _name_3 = fd.getName();
             _builder_1.append(_name_3, "\t\t");
             _builder_1.append(".Value.toString());");
             _builder_1.newLineIfNotEmpty();
@@ -1193,22 +1195,22 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             sb.append(_builder_1);
             this.NvarM++;
           }
-          Domain _codomain = ((MonitoredFunction)fd).getCodomain();
+          Domain _codomain = fd.getCodomain();
           if ((_codomain instanceof EnumTd)) {
             StringConcatenation _builder_2 = new StringConcatenation();
             _builder_2.newLine();
             _builder_2.append("System.out.println(\"\\nElenco valori per ");
-            String _name_4 = ((MonitoredFunction)fd).getName();
+            String _name_4 = fd.getName();
             _builder_2.append(_name_4);
             _builder_2.append(" :\");");
             _builder_2.newLineIfNotEmpty();
             _builder_2.append("for(int i=0; i< esecuzione.");
-            String _name_5 = ((MonitoredFunction)fd).getCodomain().getName();
+            String _name_5 = fd.getCodomain().getName();
             _builder_2.append(_name_5);
             _builder_2.append("_elemsList.size(); i++)");
             _builder_2.newLineIfNotEmpty();
             _builder_2.append("System.out.println( (i+1) + \" -> \" +esecuzione.");
-            String _name_6 = ((MonitoredFunction)fd).getCodomain().getName();
+            String _name_6 = fd.getCodomain().getName();
             _builder_2.append(_name_6);
             _builder_2.append("_elemsList.get(i));");
             _builder_2.newLineIfNotEmpty();
@@ -1216,7 +1218,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_2.append("JLabel VariabileMonitored_text_");
             _builder_2.append(this.NvarM);
             _builder_2.append(" = new JLabel(\"");
-            String _name_7 = ((MonitoredFunction)fd).getName();
+            String _name_7 = fd.getName();
             _builder_2.append(_name_7);
             _builder_2.append("\");");
             _builder_2.newLineIfNotEmpty();
@@ -1275,14 +1277,14 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             sb.append(_builder_2);
             this.NvarM++;
           }
-          Domain _codomain_1 = ((MonitoredFunction)fd).getCodomain();
+          Domain _codomain_1 = fd.getCodomain();
           if ((_codomain_1 instanceof ConcreteDomain)) {
             StringConcatenation _builder_3 = new StringConcatenation();
             _builder_3.newLine();
             _builder_3.append("JLabel VariabileMonitored_text_");
             _builder_3.append(this.NvarM);
             _builder_3.append(" = new JLabel(\"");
-            String _name_8 = ((MonitoredFunction)fd).getName();
+            String _name_8 = fd.getName();
             _builder_3.append(_name_8);
             _builder_3.append("\");");
             _builder_3.newLineIfNotEmpty();
@@ -1319,7 +1321,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_3.append("VariabileMonitored_Valore_");
             _builder_3.append(this.NvarM, "\t\t");
             _builder_3.append(".setText(esecuzione.");
-            String _name_9 = ((MonitoredFunction)fd).getName();
+            String _name_9 = fd.getName();
             _builder_3.append(_name_9, "\t\t");
             _builder_3.append(".Value.value.toString());");
             _builder_3.newLineIfNotEmpty();
@@ -1344,22 +1346,22 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             sb.append(_builder_3);
             this.NvarM++;
           }
-          Domain _codomain_2 = ((MonitoredFunction)fd).getCodomain();
+          Domain _codomain_2 = fd.getCodomain();
           if ((_codomain_2 instanceof AbstractTd)) {
             StringConcatenation _builder_4 = new StringConcatenation();
             _builder_4.newLine();
             _builder_4.append("System.out.println(\"\\nElenco valori per ");
-            String _name_10 = ((MonitoredFunction)fd).getName();
+            String _name_10 = fd.getName();
             _builder_4.append(_name_10);
             _builder_4.append(" :\");");
             _builder_4.newLineIfNotEmpty();
             _builder_4.append("for(int i=0; i< esecuzione.");
-            String _name_11 = ((MonitoredFunction)fd).getCodomain().getName();
+            String _name_11 = fd.getCodomain().getName();
             _builder_4.append(_name_11);
             _builder_4.append("_elemsList.size(); i++)");
             _builder_4.newLineIfNotEmpty();
             _builder_4.append("System.out.println( (i+1) + \" -> \" +esecuzione.");
-            String _name_12 = ((MonitoredFunction)fd).getCodomain().getName();
+            String _name_12 = fd.getCodomain().getName();
             _builder_4.append(_name_12);
             _builder_4.append("_elemsList.get(i));");
             _builder_4.newLineIfNotEmpty();
@@ -1368,7 +1370,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_4.append("JLabel VariabileMonitored_text_");
             _builder_4.append(this.NvarM);
             _builder_4.append(" = new JLabel(\"");
-            String _name_13 = ((MonitoredFunction)fd).getName();
+            String _name_13 = fd.getName();
             _builder_4.append(_name_13);
             _builder_4.append("\");");
             _builder_4.newLineIfNotEmpty();
@@ -1404,7 +1406,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_4.append("VariabileMonitored_Valore_");
             _builder_4.append(this.NvarM, "\t\t");
             _builder_4.append(".setText(esecuzione.");
-            String _name_14 = ((MonitoredFunction)fd).getName();
+            String _name_14 = fd.getName();
             _builder_4.append(_name_14, "\t\t");
             _builder_4.append(".Value.toString());");
             _builder_4.newLineIfNotEmpty();
@@ -1430,13 +1432,13 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             this.NvarM++;
           }
         } else {
-          if (((((MonitoredFunction)fd).getDomain() instanceof ConcreteDomain) && ((MonitoredFunction)fd).getCodomain().getName().equals("Boolean"))) {
+          if (((fd.getDomain() instanceof ConcreteDomain) && fd.getCodomain().getName().equals("Boolean"))) {
             StringConcatenation _builder_5 = new StringConcatenation();
             _builder_5.newLine();
             _builder_5.append("JLabel VariabileMonitored_text_");
             _builder_5.append(this.NvarM);
             _builder_5.append(" = new JLabel(\"");
-            String _name_15 = ((MonitoredFunction)fd).getName();
+            String _name_15 = fd.getName();
             _builder_5.append(_name_15);
             _builder_5.append("\");");
             _builder_5.newLineIfNotEmpty();
@@ -1475,7 +1477,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_5.append("JLabel VariabileMonitored_text_");
             _builder_5.append(this.NvarM);
             _builder_5.append("_1 = new JLabel(esecuzione.");
-            String _name_16 = ((MonitoredFunction)fd).getDomain().getName();
+            String _name_16 = fd.getDomain().getName();
             _builder_5.append(_name_16);
             _builder_5.append("_elems.get(0).toString());");
             _builder_5.newLineIfNotEmpty();
@@ -1533,7 +1535,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_5.append("JLabel VariabileMonitored_text_");
             _builder_5.append(this.NvarM);
             _builder_5.append("_2 = new JLabel(esecuzione.");
-            String _name_17 = ((MonitoredFunction)fd).getDomain().getName();
+            String _name_17 = fd.getDomain().getName();
             _builder_5.append(_name_17);
             _builder_5.append("_elems.get(1).toString());");
             _builder_5.newLineIfNotEmpty();
@@ -1591,13 +1593,13 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             sb.append(_builder_5);
             this.NvarM++;
           }
-          if (((((MonitoredFunction)fd).getDomain() instanceof EnumTd) && ((MonitoredFunction)fd).getCodomain().getName().equals("Boolean"))) {
+          if (((fd.getDomain() instanceof EnumTd) && fd.getCodomain().getName().equals("Boolean"))) {
             StringConcatenation _builder_6 = new StringConcatenation();
             _builder_6.newLine();
             _builder_6.append("JLabel VariabileMonitored_text_");
             _builder_6.append(this.NvarM);
             _builder_6.append(" = new JLabel(\"");
-            String _name_18 = ((MonitoredFunction)fd).getName();
+            String _name_18 = fd.getName();
             _builder_6.append(_name_18);
             _builder_6.append("\");");
             _builder_6.newLineIfNotEmpty();
@@ -1637,7 +1639,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_6.append("JLabel VariabileMonitored_text_");
             _builder_6.append(this.NvarM);
             _builder_6.append("_1 = new JLabel(esecuzione.");
-            String _name_19 = ((MonitoredFunction)fd).getDomain().getName();
+            String _name_19 = fd.getDomain().getName();
             _builder_6.append(_name_19);
             _builder_6.append("_elemsList.get(0).toString());");
             _builder_6.newLineIfNotEmpty();
@@ -1695,7 +1697,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_6.append("JLabel VariabileMonitored_text_");
             _builder_6.append(this.NvarM);
             _builder_6.append("_2 = new JLabel(esecuzione.");
-            String _name_20 = ((MonitoredFunction)fd).getDomain().getName();
+            String _name_20 = fd.getDomain().getName();
             _builder_6.append(_name_20);
             _builder_6.append("_elemsList.get(1).toString());");
             _builder_6.newLineIfNotEmpty();
@@ -1753,7 +1755,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_6.append("JLabel VariabileMonitored_text_");
             _builder_6.append(this.NvarM);
             _builder_6.append("_3 = new JLabel(esecuzione.");
-            String _name_21 = ((MonitoredFunction)fd).getDomain().getName();
+            String _name_21 = fd.getDomain().getName();
             _builder_6.append(_name_21);
             _builder_6.append("_elemsList.get(2).toString());");
             _builder_6.newLineIfNotEmpty();
@@ -1826,27 +1828,27 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
         _builder.newLine();
         _builder.append("\t\t");
         _builder.append("String ");
-        String _name = ((AbstractTd)dd).getName();
+        String _name = dd.getName();
         _builder.append(_name, "\t\t");
         _builder.append("_val=\"\";");
         _builder.newLineIfNotEmpty();
         _builder.append("\t\t");
         _builder.append("for(int i=0 ; i< esecuzione.");
-        String _name_1 = ((AbstractTd)dd).getName();
+        String _name_1 = dd.getName();
         _builder.append(_name_1, "\t\t");
         _builder.append("_elemsList.size(); i++)");
         _builder.newLineIfNotEmpty();
         _builder.append("\t\t");
         _builder.append("if(i!= esecuzione.");
-        String _name_2 = ((AbstractTd)dd).getName();
+        String _name_2 = dd.getName();
         _builder.append(_name_2, "\t\t");
         _builder.append("_elemsList.size()-1)");
         _builder.newLineIfNotEmpty();
         _builder.append("\t\t");
-        String _name_3 = ((AbstractTd)dd).getName();
+        String _name_3 = dd.getName();
         _builder.append(_name_3, "\t\t");
         _builder.append("_val += esecuzione.");
-        String _name_4 = ((AbstractTd)dd).getName();
+        String _name_4 = dd.getName();
         _builder.append(_name_4, "\t\t");
         _builder.append("_elemsList.get(i) +\", \";");
         _builder.newLineIfNotEmpty();
@@ -1854,10 +1856,10 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
         _builder.append("else");
         _builder.newLine();
         _builder.append("\t\t");
-        String _name_5 = ((AbstractTd)dd).getName();
+        String _name_5 = dd.getName();
         _builder.append(_name_5, "\t\t");
         _builder.append("_val += esecuzione.");
-        String _name_6 = ((AbstractTd)dd).getName();
+        String _name_6 = dd.getName();
         _builder.append(_name_6, "\t\t");
         _builder.append("_elemsList.get(i);\t");
         _builder.newLineIfNotEmpty();
@@ -1869,7 +1871,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
         _builder.append("VariabileControlled_Valore_");
         _builder.append(this.NvarC, "\t\t");
         _builder.append(".setText(");
-        String _name_7 = ((AbstractTd)dd).getName();
+        String _name_7 = dd.getName();
         _builder.append(_name_7, "\t\t");
         _builder.append("_val);");
         _builder.newLineIfNotEmpty();
@@ -1898,10 +1900,10 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
     EList<Function> _function = asm.getHeaderSection().getSignature().getFunction();
     for (final Function fd : _function) {
       if ((fd instanceof ControlledFunction)) {
-        Domain _domain_1 = ((ControlledFunction)fd).getDomain();
+        Domain _domain_1 = fd.getDomain();
         boolean _tripleEquals = (_domain_1 == null);
         if (_tripleEquals) {
-          Domain _codomain = ((ControlledFunction)fd).getCodomain();
+          Domain _codomain = fd.getCodomain();
           if ((_codomain instanceof ConcreteDomain)) {
             StringConcatenation _builder_1 = new StringConcatenation();
             _builder_1.append("\t\t\t\t\t\t\t");
@@ -1917,7 +1919,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_1.append("VariabileControlled_Valore_");
             _builder_1.append(this.NvarC);
             _builder_1.append(".setText(esecuzione.");
-            String _name_8 = ((ControlledFunction)fd).getName();
+            String _name_8 = fd.getName();
             _builder_1.append(_name_8);
             _builder_1.append(".get().value.toString());");
             _builder_1.newLineIfNotEmpty();
@@ -1953,8 +1955,8 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             sb.append(_builder_1);
             this.NvarC++;
           }
-          if (((((ControlledFunction)fd).getCodomain().getName().equals("Integer") || ((ControlledFunction)fd).getCodomain().getName().equals("Boolean")) || 
-            ((ControlledFunction)fd).getCodomain().getName().equals("String"))) {
+          if (((fd.getCodomain().getName().equals("Integer") || fd.getCodomain().getName().equals("Boolean")) ||
+            fd.getCodomain().getName().equals("String"))) {
             StringConcatenation _builder_2 = new StringConcatenation();
             _builder_2.newLine();
             _builder_2.newLine();
@@ -1963,7 +1965,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_2.append("VariabileControlled_Valore_");
             _builder_2.append(this.NvarC);
             _builder_2.append(".setText(esecuzione.");
-            String _name_9 = ((ControlledFunction)fd).getName();
+            String _name_9 = fd.getName();
             _builder_2.append(_name_9);
             _builder_2.append(".get().toString());");
             _builder_2.newLineIfNotEmpty();
@@ -1985,7 +1987,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             sb.append(_builder_2);
             this.NvarC++;
           }
-          Domain _codomain_1 = ((ControlledFunction)fd).getCodomain();
+          Domain _codomain_1 = fd.getCodomain();
           if ((_codomain_1 instanceof MapDomain)) {
             StringConcatenation _builder_3 = new StringConcatenation();
             _builder_3.newLine();
@@ -1995,7 +1997,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_3.append("VariabileControlled_Valore_");
             _builder_3.append(this.NvarC);
             _builder_3.append(".setText(esecuzione.");
-            String _name_10 = ((ControlledFunction)fd).getName();
+            String _name_10 = fd.getName();
             _builder_3.append(_name_10);
             _builder_3.append(".get().toString());");
             _builder_3.newLineIfNotEmpty();
@@ -2016,7 +2018,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             sb.append(_builder_3);
             this.NvarC++;
           }
-          Domain _codomain_2 = ((ControlledFunction)fd).getCodomain();
+          Domain _codomain_2 = fd.getCodomain();
           if ((_codomain_2 instanceof SequenceDomain)) {
             StringConcatenation _builder_4 = new StringConcatenation();
             _builder_4.newLine();
@@ -2026,7 +2028,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_4.append("VariabileControlled_Valore_");
             _builder_4.append(this.NvarC);
             _builder_4.append(".setText(esecuzione.");
-            String _name_11 = ((ControlledFunction)fd).getName();
+            String _name_11 = fd.getName();
             _builder_4.append(_name_11);
             _builder_4.append(".get().toString());");
             _builder_4.newLineIfNotEmpty();
@@ -2047,7 +2049,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             sb.append(_builder_4);
             this.NvarC++;
           }
-          Domain _codomain_3 = ((ControlledFunction)fd).getCodomain();
+          Domain _codomain_3 = fd.getCodomain();
           if ((_codomain_3 instanceof EnumTd)) {
             StringConcatenation _builder_5 = new StringConcatenation();
             _builder_5.newLine();
@@ -2057,7 +2059,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_5.append("VariabileControlled_Valore_");
             _builder_5.append(this.NvarC);
             _builder_5.append(".setText(esecuzione.");
-            String _name_12 = ((ControlledFunction)fd).getName();
+            String _name_12 = fd.getName();
             _builder_5.append(_name_12);
             _builder_5.append(".get().name());");
             _builder_5.newLineIfNotEmpty();
@@ -2078,7 +2080,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             this.NvarC++;
           }
         } else {
-          if (((((ControlledFunction)fd).getDomain() instanceof EnumTd) && (((ControlledFunction)fd).getCodomain() instanceof ConcreteDomain))) {
+          if (((fd.getDomain() instanceof EnumTd) && (fd.getCodomain() instanceof ConcreteDomain))) {
             StringConcatenation _builder_6 = new StringConcatenation();
             _builder_6.newLine();
             _builder_6.newLine();
@@ -2109,10 +2111,10 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_6.append("VariabileControlled_Valore_");
             _builder_6.append(this.NvarC, " ");
             _builder_6.append("_1.setText(esecuzione.");
-            String _name_13 = ((ControlledFunction)fd).getName();
+            String _name_13 = fd.getName();
             _builder_6.append(_name_13, " ");
             _builder_6.append(".get().get(esecuzione.");
-            String _name_14 = ((ControlledFunction)fd).getDomain().getName();
+            String _name_14 = fd.getDomain().getName();
             _builder_6.append(_name_14, " ");
             _builder_6.append("_elemsList.get(0)).value.toString());");
             _builder_6.newLineIfNotEmpty();
@@ -2140,10 +2142,10 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_6.append("VariabileControlled_Valore_");
             _builder_6.append(this.NvarC, " ");
             _builder_6.append("_2.setText(esecuzione.");
-            String _name_15 = ((ControlledFunction)fd).getName();
+            String _name_15 = fd.getName();
             _builder_6.append(_name_15, " ");
             _builder_6.append(".get().get(esecuzione.");
-            String _name_16 = ((ControlledFunction)fd).getDomain().getName();
+            String _name_16 = fd.getDomain().getName();
             _builder_6.append(_name_16, " ");
             _builder_6.append("_elemsList.get(1)).value.toString());");
             _builder_6.newLineIfNotEmpty();
@@ -2172,10 +2174,10 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_6.append("VariabileControlled_Valore_");
             _builder_6.append(this.NvarC, " ");
             _builder_6.append("_3.setText(esecuzione.");
-            String _name_17 = ((ControlledFunction)fd).getName();
+            String _name_17 = fd.getName();
             _builder_6.append(_name_17, " ");
             _builder_6.append(".get().get(esecuzione.");
-            String _name_18 = ((ControlledFunction)fd).getDomain().getName();
+            String _name_18 = fd.getDomain().getName();
             _builder_6.append(_name_18, " ");
             _builder_6.append("_elemsList.get(2)).value.toString());");
             _builder_6.newLineIfNotEmpty();
@@ -2197,7 +2199,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_6.newLine();
             sb.append(_builder_6);
           }
-          if (((((ControlledFunction)fd).getDomain() instanceof EnumTd) && (((ControlledFunction)fd).getCodomain() instanceof EnumTd))) {
+          if (((fd.getDomain() instanceof EnumTd) && (fd.getCodomain() instanceof EnumTd))) {
             StringConcatenation _builder_7 = new StringConcatenation();
             _builder_7.newLine();
             _builder_7.newLine();
@@ -2228,10 +2230,10 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_7.append("VariabileControlled_Valore_");
             _builder_7.append(this.NvarC, " ");
             _builder_7.append("_1.setText(esecuzione.");
-            String _name_19 = ((ControlledFunction)fd).getName();
+            String _name_19 = fd.getName();
             _builder_7.append(_name_19, " ");
             _builder_7.append(".get().get(esecuzione.");
-            String _name_20 = ((ControlledFunction)fd).getDomain().getName();
+            String _name_20 = fd.getDomain().getName();
             _builder_7.append(_name_20, " ");
             _builder_7.append("_elemsList.get(0)).toString());");
             _builder_7.newLineIfNotEmpty();
@@ -2259,10 +2261,10 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_7.append("VariabileControlled_Valore_");
             _builder_7.append(this.NvarC, " ");
             _builder_7.append("_2.setText(esecuzione.");
-            String _name_21 = ((ControlledFunction)fd).getName();
+            String _name_21 = fd.getName();
             _builder_7.append(_name_21, " ");
             _builder_7.append(".get().get(esecuzione.");
-            String _name_22 = ((ControlledFunction)fd).getDomain().getName();
+            String _name_22 = fd.getDomain().getName();
             _builder_7.append(_name_22, " ");
             _builder_7.append("_elemsList.get(1)).toString());");
             _builder_7.newLineIfNotEmpty();
@@ -2289,10 +2291,10 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_7.append("VariabileControlled_Valore_");
             _builder_7.append(this.NvarC, " ");
             _builder_7.append("_3.setText(esecuzione.");
-            String _name_23 = ((ControlledFunction)fd).getName();
+            String _name_23 = fd.getName();
             _builder_7.append(_name_23, " ");
             _builder_7.append(".get().get(esecuzione.");
-            String _name_24 = ((ControlledFunction)fd).getDomain().getName();
+            String _name_24 = fd.getDomain().getName();
             _builder_7.append(_name_24, " ");
             _builder_7.append("_elemsList.get(2)).toString());");
             _builder_7.newLineIfNotEmpty();
@@ -2320,10 +2322,10 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_7.append("VariabileControlled_Valore_");
             _builder_7.append(this.NvarC, " ");
             _builder_7.append("_4.setText(esecuzione.");
-            String _name_25 = ((ControlledFunction)fd).getName();
+            String _name_25 = fd.getName();
             _builder_7.append(_name_25, " ");
             _builder_7.append(".get().get(esecuzione.");
-            String _name_26 = ((ControlledFunction)fd).getDomain().getName();
+            String _name_26 = fd.getDomain().getName();
             _builder_7.append(_name_26, " ");
             _builder_7.append("_elemsList.get(3)).toString());");
             _builder_7.newLineIfNotEmpty();
@@ -2358,10 +2360,10 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
     EList<Function> _function = asm.getHeaderSection().getSignature().getFunction();
     for (final Function fd : _function) {
       if ((fd instanceof MonitoredFunction)) {
-        Domain _domain = ((MonitoredFunction)fd).getDomain();
+        Domain _domain = fd.getDomain();
         boolean _tripleEquals = (_domain == null);
         if (_tripleEquals) {
-          if ((((MonitoredFunction)fd).getCodomain().getName().equals("Boolean") && (!(((MonitoredFunction)fd).getCodomain() instanceof ConcreteDomain)))) {
+          if ((fd.getCodomain().getName().equals("Boolean") && (!(fd.getCodomain() instanceof ConcreteDomain)))) {
             StringConcatenation _builder = new StringConcatenation();
             _builder.newLine();
             _builder.append("if(VariabileMonitored_Valore_");
@@ -2369,7 +2371,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder.append(".getText().contentEquals(\"true\"))");
             _builder.newLineIfNotEmpty();
             _builder.append("esecuzione.");
-            String _name = ((MonitoredFunction)fd).getName();
+            String _name = fd.getName();
             _builder.append(_name);
             _builder.append(".Value = true;");
             _builder.newLineIfNotEmpty();
@@ -2377,7 +2379,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder.newLine();
             _builder.append("\t");
             _builder.append("esecuzione.");
-            String _name_1 = ((MonitoredFunction)fd).getName();
+            String _name_1 = fd.getName();
             _builder.append(_name_1, "\t");
             _builder.append(".Value = false;");
             _builder.newLineIfNotEmpty();
@@ -2386,7 +2388,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             sb.append(_builder);
             this.NvarM++;
           }
-          if ((((MonitoredFunction)fd).getCodomain().getName().equals("Integer") && (!(((MonitoredFunction)fd).getCodomain() instanceof ConcreteDomain)))) {
+          if ((fd.getCodomain().getName().equals("Integer") && (!(fd.getCodomain() instanceof ConcreteDomain)))) {
             StringConcatenation _builder_1 = new StringConcatenation();
             _builder_1.newLine();
             _builder_1.append("try");
@@ -2395,7 +2397,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_1.newLine();
             _builder_1.append("\t");
             _builder_1.append("esecuzione.");
-            String _name_2 = ((MonitoredFunction)fd).getName();
+            String _name_2 = fd.getName();
             _builder_1.append(_name_2, "\t");
             _builder_1.append(".Value = Integer.parseInt(VariabileMonitored_Valore_");
             _builder_1.append(this.NvarM, "\t");
@@ -2409,7 +2411,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_1.newLine();
             _builder_1.append("\t");
             _builder_1.append("esecuzione.");
-            String _name_3 = ((MonitoredFunction)fd).getName();
+            String _name_3 = fd.getName();
             _builder_1.append(_name_3, "\t");
             _builder_1.append(".Value = 0;");
             _builder_1.newLineIfNotEmpty();
@@ -2419,7 +2421,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             sb.append(_builder_1);
             this.NvarM++;
           }
-          Domain _codomain = ((MonitoredFunction)fd).getCodomain();
+          Domain _codomain = fd.getCodomain();
           if ((_codomain instanceof EnumTd)) {
             StringConcatenation _builder_2 = new StringConcatenation();
             _builder_2.newLine();
@@ -2457,25 +2459,25 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_2.append("<= 0 || sup");
             _builder_2.append(this.NvarM);
             _builder_2.append("> esecuzione.");
-            String _name_4 = ((MonitoredFunction)fd).getCodomain().getName();
+            String _name_4 = fd.getCodomain().getName();
             _builder_2.append(_name_4);
             _builder_2.append("_elemsList.size())");
             _builder_2.newLineIfNotEmpty();
             _builder_2.append("esecuzione.");
-            String _name_5 = ((MonitoredFunction)fd).getName();
+            String _name_5 = fd.getName();
             _builder_2.append(_name_5);
             _builder_2.append(".set(esecuzione.");
-            String _name_6 = ((MonitoredFunction)fd).getCodomain().getName();
+            String _name_6 = fd.getCodomain().getName();
             _builder_2.append(_name_6);
             _builder_2.append("_elemsList.get(0));");
             _builder_2.newLineIfNotEmpty();
             _builder_2.append("else");
             _builder_2.newLine();
             _builder_2.append("esecuzione.");
-            String _name_7 = ((MonitoredFunction)fd).getName();
+            String _name_7 = fd.getName();
             _builder_2.append(_name_7);
             _builder_2.append(".set(esecuzione.");
-            String _name_8 = ((MonitoredFunction)fd).getCodomain().getName();
+            String _name_8 = fd.getCodomain().getName();
             _builder_2.append(_name_8);
             _builder_2.append("_elemsList.get(sup");
             _builder_2.append(this.NvarM);
@@ -2486,7 +2488,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             sb.append(_builder_2);
             this.NvarM++;
           }
-          Domain _codomain_1 = ((MonitoredFunction)fd).getCodomain();
+          Domain _codomain_1 = fd.getCodomain();
           if ((_codomain_1 instanceof ConcreteDomain)) {
             StringConcatenation _builder_3 = new StringConcatenation();
             _builder_3.append("try");
@@ -2495,7 +2497,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_3.newLine();
             _builder_3.append("\t");
             _builder_3.append("esecuzione.");
-            String _name_9 = ((MonitoredFunction)fd).getName();
+            String _name_9 = fd.getName();
             _builder_3.append(_name_9, "\t");
             _builder_3.append("_supporto.value = Integer.parseInt(VariabileMonitored_Valore_");
             _builder_3.append(this.NvarM, "\t");
@@ -2509,7 +2511,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_3.newLine();
             _builder_3.append("     ");
             _builder_3.append("esecuzione.");
-            String _name_10 = ((MonitoredFunction)fd).getName();
+            String _name_10 = fd.getName();
             _builder_3.append(_name_10, "     ");
             _builder_3.append("_supporto.value = 0;");
             _builder_3.newLineIfNotEmpty();
@@ -2518,10 +2520,10 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_3.newLine();
             _builder_3.newLine();
             _builder_3.append("esecuzione.");
-            String _name_11 = ((MonitoredFunction)fd).getName();
+            String _name_11 = fd.getName();
             _builder_3.append(_name_11);
             _builder_3.append(".set(esecuzione.");
-            String _name_12 = ((MonitoredFunction)fd).getName();
+            String _name_12 = fd.getName();
             _builder_3.append(_name_12);
             _builder_3.append("_supporto);");
             _builder_3.newLineIfNotEmpty();
@@ -2531,7 +2533,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             sb.append(_builder_3);
             this.NvarM++;
           }
-          Domain _codomain_2 = ((MonitoredFunction)fd).getCodomain();
+          Domain _codomain_2 = fd.getCodomain();
           if ((_codomain_2 instanceof AbstractTd)) {
             StringConcatenation _builder_4 = new StringConcatenation();
             _builder_4.newLine();
@@ -2569,25 +2571,25 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_4.append("<= 0 || sup");
             _builder_4.append(this.NvarM);
             _builder_4.append("> esecuzione.");
-            String _name_13 = ((MonitoredFunction)fd).getCodomain().getName();
+            String _name_13 = fd.getCodomain().getName();
             _builder_4.append(_name_13);
             _builder_4.append("_Class.size())");
             _builder_4.newLineIfNotEmpty();
             _builder_4.append("esecuzione.");
-            String _name_14 = ((MonitoredFunction)fd).getName();
+            String _name_14 = fd.getName();
             _builder_4.append(_name_14);
             _builder_4.append(".set(esecuzione.");
-            String _name_15 = ((MonitoredFunction)fd).getCodomain().getName();
+            String _name_15 = fd.getCodomain().getName();
             _builder_4.append(_name_15);
             _builder_4.append("_Class.get(0));");
             _builder_4.newLineIfNotEmpty();
             _builder_4.append("else");
             _builder_4.newLine();
             _builder_4.append("esecuzione.");
-            String _name_16 = ((MonitoredFunction)fd).getName();
+            String _name_16 = fd.getName();
             _builder_4.append(_name_16);
             _builder_4.append(".set(esecuzione.");
-            String _name_17 = ((MonitoredFunction)fd).getCodomain().getName();
+            String _name_17 = fd.getCodomain().getName();
             _builder_4.append(_name_17);
             _builder_4.append("_Class.get(sup");
             _builder_4.append(this.NvarM);
@@ -2599,7 +2601,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             this.NvarM++;
           }
         } else {
-          if (((((MonitoredFunction)fd).getDomain() instanceof ConcreteDomain) && ((MonitoredFunction)fd).getCodomain().getName().equals("Boolean"))) {
+          if (((fd.getDomain() instanceof ConcreteDomain) && fd.getCodomain().getName().equals("Boolean"))) {
             StringConcatenation _builder_5 = new StringConcatenation();
             _builder_5.newLine();
             _builder_5.append("if(VariabileMonitored_Valore_");
@@ -2607,20 +2609,20 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_5.append("_1.getText().contentEquals(\"true\"))");
             _builder_5.newLineIfNotEmpty();
             _builder_5.append("esecuzione.");
-            String _name_18 = ((MonitoredFunction)fd).getName();
+            String _name_18 = fd.getName();
             _builder_5.append(_name_18);
             _builder_5.append(".set(esecuzione.");
-            String _name_19 = ((MonitoredFunction)fd).getDomain().getName();
+            String _name_19 = fd.getDomain().getName();
             _builder_5.append(_name_19);
             _builder_5.append("_elem,true);");
             _builder_5.newLineIfNotEmpty();
             _builder_5.append("else");
             _builder_5.newLine();
             _builder_5.append("esecuzione.");
-            String _name_20 = ((MonitoredFunction)fd).getName();
+            String _name_20 = fd.getName();
             _builder_5.append(_name_20);
             _builder_5.append(".set(esecuzione.");
-            String _name_21 = ((MonitoredFunction)fd).getDomain().getName();
+            String _name_21 = fd.getDomain().getName();
             _builder_5.append(_name_21);
             _builder_5.append("_elem,false);");
             _builder_5.newLineIfNotEmpty();
@@ -2634,20 +2636,20 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_6.append("_2.getText().contentEquals(\"true\"))");
             _builder_6.newLineIfNotEmpty();
             _builder_6.append("esecuzione.");
-            String _name_22 = ((MonitoredFunction)fd).getName();
+            String _name_22 = fd.getName();
             _builder_6.append(_name_22);
             _builder_6.append(".set(esecuzione.");
-            String _name_23 = ((MonitoredFunction)fd).getDomain().getName();
+            String _name_23 = fd.getDomain().getName();
             _builder_6.append(_name_23);
             _builder_6.append("_elem,true);");
             _builder_6.newLineIfNotEmpty();
             _builder_6.append("else");
             _builder_6.newLine();
             _builder_6.append("esecuzione.");
-            String _name_24 = ((MonitoredFunction)fd).getName();
+            String _name_24 = fd.getName();
             _builder_6.append(_name_24);
             _builder_6.append(".set(esecuzione.");
-            String _name_25 = ((MonitoredFunction)fd).getDomain().getName();
+            String _name_25 = fd.getDomain().getName();
             _builder_6.append(_name_25);
             _builder_6.append("_elem,false);");
             _builder_6.newLineIfNotEmpty();
@@ -2655,7 +2657,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_6.newLine();
             sb.append(_builder_6);
           }
-          if (((((MonitoredFunction)fd).getDomain() instanceof EnumTd) && ((MonitoredFunction)fd).getCodomain().getName().equals("Boolean"))) {
+          if (((fd.getDomain() instanceof EnumTd) && fd.getCodomain().getName().equals("Boolean"))) {
             StringConcatenation _builder_7 = new StringConcatenation();
             _builder_7.newLine();
             _builder_7.append("if(VariabileMonitored_Valore_");
@@ -2663,10 +2665,10 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_7.append("_1.getText().contentEquals(\"true\"))");
             _builder_7.newLineIfNotEmpty();
             _builder_7.append("esecuzione.");
-            String _name_26 = ((MonitoredFunction)fd).getName();
+            String _name_26 = fd.getName();
             _builder_7.append(_name_26);
             _builder_7.append(".set(esecuzione.");
-            String _name_27 = ((MonitoredFunction)fd).getDomain().getName();
+            String _name_27 = fd.getDomain().getName();
             _builder_7.append(_name_27);
             _builder_7.append("_elemsList.get(0), true);");
             _builder_7.newLineIfNotEmpty();
@@ -2674,10 +2676,10 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_7.newLine();
             _builder_7.append("\t");
             _builder_7.append("esecuzione.");
-            String _name_28 = ((MonitoredFunction)fd).getName();
+            String _name_28 = fd.getName();
             _builder_7.append(_name_28, "\t");
             _builder_7.append(".set(esecuzione.");
-            String _name_29 = ((MonitoredFunction)fd).getDomain().getName();
+            String _name_29 = fd.getDomain().getName();
             _builder_7.append(_name_29, "\t");
             _builder_7.append("_elemsList.get(0), false);");
             _builder_7.newLineIfNotEmpty();
@@ -2691,10 +2693,10 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_8.append("_2.getText().contentEquals(\"true\"))");
             _builder_8.newLineIfNotEmpty();
             _builder_8.append("esecuzione.");
-            String _name_30 = ((MonitoredFunction)fd).getName();
+            String _name_30 = fd.getName();
             _builder_8.append(_name_30);
             _builder_8.append(".set(esecuzione.");
-            String _name_31 = ((MonitoredFunction)fd).getDomain().getName();
+            String _name_31 = fd.getDomain().getName();
             _builder_8.append(_name_31);
             _builder_8.append("_elemsList.get(1), true);");
             _builder_8.newLineIfNotEmpty();
@@ -2702,10 +2704,10 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_8.newLine();
             _builder_8.append("\t");
             _builder_8.append("esecuzione.");
-            String _name_32 = ((MonitoredFunction)fd).getName();
+            String _name_32 = fd.getName();
             _builder_8.append(_name_32, "\t");
             _builder_8.append(".set(esecuzione.");
-            String _name_33 = ((MonitoredFunction)fd).getDomain().getName();
+            String _name_33 = fd.getDomain().getName();
             _builder_8.append(_name_33, "\t");
             _builder_8.append("_elemsList.get(1), false);");
             _builder_8.newLineIfNotEmpty();
@@ -2719,10 +2721,10 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_9.append("_3.getText().contentEquals(\"true\"))");
             _builder_9.newLineIfNotEmpty();
             _builder_9.append("esecuzione.");
-            String _name_34 = ((MonitoredFunction)fd).getName();
+            String _name_34 = fd.getName();
             _builder_9.append(_name_34);
             _builder_9.append(".set(esecuzione.");
-            String _name_35 = ((MonitoredFunction)fd).getDomain().getName();
+            String _name_35 = fd.getDomain().getName();
             _builder_9.append(_name_35);
             _builder_9.append("_elemsList.get(2), true);");
             _builder_9.newLineIfNotEmpty();
@@ -2730,10 +2732,10 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
             _builder_9.newLine();
             _builder_9.append("\t");
             _builder_9.append("esecuzione.");
-            String _name_36 = ((MonitoredFunction)fd).getName();
+            String _name_36 = fd.getName();
             _builder_9.append(_name_36, "\t");
             _builder_9.append(".set(esecuzione.");
-            String _name_37 = ((MonitoredFunction)fd).getDomain().getName();
+            String _name_37 = fd.getDomain().getName();
             _builder_9.append(_name_37, "\t");
             _builder_9.append("_elemsList.get(2), false);");
             _builder_9.newLineIfNotEmpty();

@@ -26,7 +26,7 @@ public class TranslationException extends Exception {
     public TranslationException(String message) {
         super(TRANSLATION_ERROR + message);
     }
-    
+
     /**
      * Constructs a {@code TranslationException} with the cause.
      *
@@ -36,9 +36,9 @@ public class TranslationException extends Exception {
         super(TRANSLATION_ERROR + cause);
     }
 
-    /** 
+    /**
      * Constructs a {@code TranslationException} with a custom error message and the cause.
-     * 
+     *
      * @param message the detail message describing the error.
      * @param cause the original cause of the error.
      */

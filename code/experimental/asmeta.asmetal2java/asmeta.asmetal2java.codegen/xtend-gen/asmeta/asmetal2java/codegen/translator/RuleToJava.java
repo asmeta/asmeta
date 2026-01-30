@@ -1,5 +1,10 @@
 package asmeta.asmetal2java.codegen.translator;
 
+import org.asmeta.parser.util.AsmetaTermPrinter;
+import org.asmeta.simulator.RuleVisitor;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.xtend2.lib.StringConcatenation;
+
 import asmeta.asmetal2java.codegen.config.TranslatorOptions;
 import asmeta.definitions.ControlledFunction;
 import asmeta.definitions.Function;
@@ -28,10 +33,6 @@ import asmeta.transitionrules.derivedtransitionrules.CaseRule;
 import asmeta.transitionrules.derivedtransitionrules.IterativeWhileRule;
 import asmeta.transitionrules.turbotransitionrules.IterateRule;
 import asmeta.transitionrules.turbotransitionrules.SeqRule;
-import org.asmeta.parser.util.AsmetaTermPrinter;
-import org.asmeta.simulator.RuleVisitor;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.xtend2.lib.StringConcatenation;
 
 @SuppressWarnings("all")
 public class RuleToJava extends RuleVisitor<String> {

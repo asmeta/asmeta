@@ -17,9 +17,9 @@ public class ExpressionToJava {
 
 	/**
 	 * Checks for evaluate visitor.
-	 * 
+	 *
 	 * @param function the function
-	 * 
+	 *
 	 * @return true, if successful
 	 */
 	public static boolean hasEvaluateVisitor(String function) {
@@ -33,12 +33,12 @@ public class ExpressionToJava {
 
 	/**
 	 * Evaluate function.
-	 * 
+	 *
 	 * @param function the function
 	 * @param argsTerm the args term
-	 * 
+	 *
 	 * @return the string
-	 * 
+	 *
 	 * @throws InvalidFunctionException the exception
 	 */
 	String evaluateFunction(String function, List<Term> argsTerm) throws InvalidFunctionException {
@@ -99,7 +99,7 @@ public class ExpressionToJava {
 
 	}
 
-	private String union(List<Term> argsTerm) { 
+	private String union(List<Term> argsTerm) {
 		String first = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
 		String second = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
 		return first + ".addAll(" + second +")";
@@ -112,20 +112,20 @@ public class ExpressionToJava {
 
 	/**
 	 * Executes the iton function.
-	 * 
+	 *
 	 * @param argsTerm the args term
-	 * 
+	 *
 	 * @return the string
 	 */
 	private String iton(List<Term> argsTerm) {
 		return new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
 	}
-	
+
 	/**
 	 * Executes the first function.
-	 * 
+	 *
 	 * @param argsTerm the args term
-	 * 
+	 *
 	 * @return the string
 	 */
 	private String first(List<Term> argsTerm) {
@@ -163,7 +163,7 @@ public class ExpressionToJava {
 		return "! " + arg;
 	}
 
-	
+
 	private String addOperator(List<Term> argsTerm, String operator) {
 		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
 		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
@@ -184,16 +184,16 @@ public class ExpressionToJava {
 			if (argsTerm.get(1).getDomain() instanceof ConcreteDomain) {
 				right = right + VALUE_FIELD_NAME;
 			}
-		}		
+		}
 		return new Util().setPars(left + " " +operator + " " + right);
 	}
 
 
 	/**
 	 * Executes the not equal function.
-	 * 
+	 *
 	 * @param argsTerm the args term
-	 * 
+	 *
 	 * @return the string
 	 */
 	private String notEquals(List<Term> argsTerm) {
@@ -202,9 +202,9 @@ public class ExpressionToJava {
 
 	/**
 	 * Executes the mod function.
-	 * 
+	 *
 	 * @param argsTerm the args term
-	 * 
+	 *
 	 * @return the string
 	 */
 	private String mod(List<Term> argsTerm) {
@@ -213,9 +213,9 @@ public class ExpressionToJava {
 
 	/**
 	 * Executes the isDef function
-	 * 
+	 *
 	 * @param argsTerm the args term
-	 * 
+	 *
 	 * @return the string
 	 */
 	private String isDef(List<Term> argsTerm) {
@@ -225,9 +225,9 @@ public class ExpressionToJava {
 
 	/**
 	 * Minus unary.
-	 * 
+	 *
 	 * @param argsTerm the args term
-	 * 
+	 *
 	 * @return the string
 	 */
 	String minusUnary(List<Term> argsTerm) {
@@ -241,9 +241,9 @@ public class ExpressionToJava {
 
 	/**
 	 * Minus binary.
-	 * 
+	 *
 	 * @param argsTerm the args term
-	 * 
+	 *
 	 * @return the string
 	 */
 	String minusBinary(List<Term> argsTerm) {
@@ -252,9 +252,9 @@ public class ExpressionToJava {
 
 	/**
 	 * Plus unary.
-	 * 
+	 *
 	 * @param argsTerm the args term
-	 * 
+	 *
 	 * @return the string
 	 */
 	String plusUnary(List<Term> argsTerm) {
@@ -263,9 +263,9 @@ public class ExpressionToJava {
 
 	/**
 	 * Executes the sum function.
-	 * 
+	 *
 	 * @param argsTerm the args term
-	 * 
+	 *
 	 * @return the string
 	 */
 	String sum(List<Term> argsTerm) {
@@ -274,9 +274,9 @@ public class ExpressionToJava {
 
 	/**
 	 * Executes the multiply function.
-	 * 
+	 *
 	 * @param argsTerm the args term
-	 * 
+	 *
 	 * @return the string
 	 */
 	String mult(List<Term> argsTerm) {
@@ -285,9 +285,9 @@ public class ExpressionToJava {
 
 	/**
 	 * Executes the implies function.
-	 * 
+	 *
 	 * @param argsTerm the args term
-	 * 
+	 *
 	 * @return the string
 	 */
 	String implies(List<Term> argsTerm) {
@@ -298,9 +298,9 @@ public class ExpressionToJava {
 
 	/**
 	 * Executes the divide function.
-	 * 
+	 *
 	 * @param argsTerm the args term
-	 * 
+	 *
 	 * @return the string
 	 */
 	String idiv(List<Term> argsTerm) {

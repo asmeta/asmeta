@@ -7,14 +7,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.tools.Diagnostic;
+import javax.tools.DiagnosticCollector;
 import javax.tools.JavaCompiler;
+import javax.tools.JavaCompiler.CompilationTask;
+import javax.tools.JavaFileObject;
 import javax.tools.StandardJavaFileManager;
 import javax.tools.StandardLocation;
 import javax.tools.ToolProvider;
-import javax.tools.Diagnostic;
-import javax.tools.DiagnosticCollector;
-import javax.tools.JavaCompiler.CompilationTask;
-import javax.tools.JavaFileObject;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -40,10 +40,12 @@ public class CompilerImpl implements Compiler {
 
 	@Override
 	public CompileResult compileFile(File javaFile, Path directory, String javaVersion) throws IOException {
-		if (!directory.toFile().isDirectory())
+		if (!directory.toFile().isDirectory()) {
 			throw new NotValidFileException("The given path does not represent a proper directory");
-		if (!javaFile.isFile() || !javaFile.getName().endsWith(".java"))
+		}
+		if (!javaFile.isFile() || !javaFile.getName().endsWith(".java")) {
 			throw new NotValidFileException(javaFile + " does not end with .java");
+		}
 
 		return compile(Arrays.asList(javaFile), directory.toFile(), Arrays.asList(RELEASE_OPTION, javaVersion));
 	}
@@ -55,7 +57,7 @@ public class CompilerImpl implements Compiler {
 
 	/**
 	 * Compile a list of java files.
-	 * 
+	 *
 	 * @param files     list of java files to compile.
 	 * @param directory the directory where to put the .class
 	 * @param options   list of options.

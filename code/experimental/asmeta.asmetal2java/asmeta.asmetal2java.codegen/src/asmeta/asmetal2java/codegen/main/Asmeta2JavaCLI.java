@@ -66,7 +66,7 @@ public class Asmeta2JavaCLI {
 
 	/**
 	 * Get the code returned by the application.
-	 * 
+	 *
 	 * @return -1: The application didn't started yet.<br>
 	 *         0: The application terminated without errors.<br>
 	 *         1: The application terminated with errors. 2: The application
@@ -96,7 +96,7 @@ public class Asmeta2JavaCLI {
 
 	/**
 	 * Execute the Command Line Application (CLI) process.
-	 * 
+	 *
 	 * @param args the command-line arguments.
 	 */
 	private void executeCLI(String[] args) {
@@ -161,7 +161,7 @@ public class Asmeta2JavaCLI {
 
 	/**
 	 * Update the static field returnCode from a non-static method.
-	 * 
+	 *
 	 * @param code the code returned by the application.
 	 */
 	private static synchronized void updateReturnCode(int code) {
@@ -319,7 +319,7 @@ public class Asmeta2JavaCLI {
 	 * Set the logger properties by Main Argument Lookup:
 	 * <p>
 	 * - set a custom path for the log file in the user-defined workingDir.
-	 * 
+	 *
 	 * @param args the command-line arguments.
 	 */
 	private static void setLoggerProperties(String[] args) {

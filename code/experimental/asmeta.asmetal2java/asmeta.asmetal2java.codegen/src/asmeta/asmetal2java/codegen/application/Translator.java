@@ -17,10 +17,10 @@ public interface Translator {
 	 *                      boolean.
 	 */
 	void setOptions(String propertyName, String propertyValue);
-	
+
 	/**
 	 * Set a custom path for the working directory.
-	 * 
+	 *
 	 * @param workingDirPath the path to the working directory.
 	 */
 	void setWorkingDir(String workingDirPath);
@@ -39,7 +39,7 @@ public interface Translator {
 	 *
 	 * @param outputDir the output directory.
 	 * @throws IOException if an I/O error occurs.
-	 * @throws SetupException 
+	 * @throws SetupException
 	 */
 	void setOutput(String outputDir) throws SetupException;
 
@@ -61,7 +61,7 @@ public interface Translator {
 
 	/**
 	 * Sets the version of the java compiler.
-	 * 
+	 *
 	 * @param javaVersion the java version.
 	 * @throws SetupException if an error occurs during the setup process.
 	 */
@@ -74,21 +74,21 @@ public interface Translator {
 
 	/**
 	 * Get the names of all the options of the translator.
-	 * 
+	 *
 	 * @return list of string containing the names of all the translator options.
 	 */
 	List<String> getOptionNames();
 
 	/**
 	 * Get the description of all the options of the translator.
-	 * 
+	 *
 	 * @return string containing the description of all the translator options.
 	 */
 	String getOptionsDescription();
 
 	/**
 	 * Get the description of all the modes of the translator.
-	 * 
+	 *
 	 * @return string containing the description of all the translator modes .
 	 */
 	String getModeDescription();

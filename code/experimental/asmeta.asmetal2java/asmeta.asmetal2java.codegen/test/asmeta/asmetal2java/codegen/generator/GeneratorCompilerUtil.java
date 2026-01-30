@@ -54,7 +54,7 @@ public class GeneratorCompilerUtil {
 	 * List of asm files with known issues: these files have compilation errors
 	 * related to the translation.
 	 */
-	static List<String> errors = List.of("battleship.asm", "fibonacci.asm", "QuickSort.asm", "testSignature.asm", "SIS.asm" 
+	static List<String> errors = List.of("battleship.asm", "fibonacci.asm", "QuickSort.asm", "testSignature.asm", "SIS.asm"
 //			===================================================================================================================================================
 //			"dado.asm" // FIXED
 //			*FAIL:Failed to compile:
@@ -68,7 +68,7 @@ public class GeneratorCompilerUtil {
 //				Cause: bad operand types for binary operator '<'
 //			  first type:  dadoSig.FacceDado
 //			  second type: dadoSig.FacceDado
-// 			===================================================================================================================================================		
+// 			===================================================================================================================================================
 //			"ATM3.asm" // FIXED
 //			File: examples\traduzione\ATM3.java
 //				Line number: 516, Column number: 97
@@ -76,7 +76,7 @@ public class GeneratorCompilerUtil {
 //			  symbol:   variable MoneySizeStandard
 //			  location: class ATM3
 			);
-	
+
 	/**
 	 * The following files have compilation errors already in the .asm file and
 	 * asmetal2java correctly throws exceptions
@@ -124,7 +124,7 @@ public class GeneratorCompilerUtil {
 //		File javaFileExeN = new File(dirEsecuzione + File.separator + name + ".java");
 //		File javaFileWin = new File(dirWin + File.separator + name + "_Win.java");
 //		File javaFileWinN = new File(dirWin + File.separator + name + ".java");
-//		
+//
 //		File javaFileT = new File(dirTraduzione + File.separator + name + ".java");
 //		File javaFileExeT = new File(dirTraduzione + File.separator + name + "_Exe.java");
 //		File javaFileWinT = new File(dirTraduzione + File.separator + name + "_Win.java");
@@ -187,8 +187,9 @@ public class GeneratorCompilerUtil {
 			Compiler compiler = new CompilerImpl();
 			CompileResult result = compiler.compileFile(javaFile, targetClass, "17");
 			System.out.println(separator);
-			if (result.getSuccess())
+			if (result.getSuccess()) {
 				assert javaFileCompilazione.exists();
+			}
 			return result;
 		} else {
 			System.out.println(separator);
@@ -201,7 +202,7 @@ public class GeneratorCompilerUtil {
 	 * Parse the asmeta specification using the asmeta parser and returns the model.
 	 * Asserts that the model is not equal to null.
 	 * Stop the test execution if there is an error during the parsing process.
-	 * 
+	 *
 	 * @param asmFile the asmeta spec to parse.
 	 * @return the parsed model (!= null).
 	 * @throws Exception if an error occurs during the parsing process.
@@ -223,7 +224,7 @@ public class GeneratorCompilerUtil {
 	 * Configuration steps to perform before the testing process. Verify that the
 	 * destination folder where the files to be translated are stored exists and
 	 * check/create the translation and compilation folders
-	 * 
+	 *
 	 * @param filesFolderPath path to the folder of the file to be translated
 	 */
 	public static void setupFolders(Path filesFolderPath) {
@@ -255,12 +256,13 @@ public class GeneratorCompilerUtil {
 
 	/**
 	 * Check if the directory exists, and in case not, creates a new one.
-	 * 
+	 *
 	 * @param dir the File to check.
 	 */
 	public static void checkDir(File dir) {
-		if (!dir.exists())
+		if (!dir.exists()) {
 			dir.mkdirs();
+		}
 		assert dir.exists() && dir.isDirectory();
 	}
 

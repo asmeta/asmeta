@@ -4,34 +4,34 @@ package asmeta.asmetal2java.codegen.config;
  * The {@code Mode} enum represents different modes of operation for the translation process.
  */
 public enum Mode {
-    
+
     /** Mode for translating ASM specifications to Java code. */
     TRANSLATOR_MODE(ModeConstantsConfig.TRANSLATOR),
-    
+
     /** Mode for compiling the translated Java code. */
     COMPILER_MODE(ModeConstantsConfig.COMPILER),
-    
+
     /** Mode for generating an executable Java file from the translation. */
     GENERATE_EXE_MODE(ModeConstantsConfig.GENERATE_EXE),
-    
+
     /** Mode for generating a Java application with a GUI from the translation. */
     GENERATE_WIN_MODE(ModeConstantsConfig.GENERATE_WIN),
-    
+
     /** Mode for generating a wrapper class to test the generated translation. */
     TEST_GEN_MODE(ModeConstantsConfig.TEST_GEN),
-    
+
     /** Mode for generate a specific translation for test generation. */
     TRANSLATOR_TEST_MODE(ModeConstantsConfig.TRANSLATOR_TEST),
-    
+
     /** Custom mode, allowing user-defined settings. */
     CUSTOM_MODE(ModeConstantsConfig.CUSTOM);
-	
+
     /** The string representation of the mode. */
     private final String value;
 
     /**
      * Constructs a {@code Mode} with the specified string value.
-     * 
+     *
      * @param value the string representation of the mode.
      */
     Mode(String value) {
@@ -40,7 +40,7 @@ public enum Mode {
 
     /**
      * Returns the string value associated with this mode.
-     * 
+     *
      * @return the string value of this mode.
      */
     public String getValue() {
@@ -49,7 +49,7 @@ public enum Mode {
 
     /**
      * Returns a {@code Mode} constant based on the provided string value.
-     * 
+     *
      * @param value the string representation of the mode.
      * @return the {@code Mode} constant matching the value.
      * @throws IllegalArgumentException if the provided value does not match any mode.
@@ -62,10 +62,10 @@ public enum Mode {
         }
         throw new IllegalArgumentException("Not a valid value for mode: " + value);
     }
-    
+
     /**
      * Get the description of the various modes of the application
-     * 
+     *
      * @return a String containing the description of the modes.
      */
     public static String getDescription() {

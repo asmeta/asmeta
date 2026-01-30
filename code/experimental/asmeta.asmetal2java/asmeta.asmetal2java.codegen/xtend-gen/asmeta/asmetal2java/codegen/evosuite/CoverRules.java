@@ -2,6 +2,7 @@ package asmeta.asmetal2java.codegen.evosuite;
 
 import java.util.List;
 import java.util.Set;
+
 import org.eclipse.xtend2.lib.StringConcatenation;
 
 /**
@@ -11,7 +12,7 @@ import org.eclipse.xtend2.lib.StringConcatenation;
 public class CoverRules {
   /**
    * Create a method that calls all the cover rules functions
-   * 
+   *
    * @param rules RulesGetter interface with which request the
    * 		rule to examine the branches.
    */
@@ -54,7 +55,7 @@ public class CoverRules {
 
   /**
    * Create a method for the rule to cover all its branches
-   * 
+   *
    * @param rules RulesGetter interface with which request the
    * 		rule to examine the branches.
    */

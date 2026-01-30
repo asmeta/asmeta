@@ -7,39 +7,54 @@ import java.nio.file.Paths
 import java.util.ArrayList
 import java.util.Enumeration
 import java.util.HashMap
+import java.util.HashSet
 import java.util.List
 import javax.swing.tree.DefaultMutableTreeNode
-
+import javax.swing.tree.TreeNode
+import org.asmeta.parser.ASMParser
+import org.asmeta.xt.AsmetaLStandaloneSetup
+import org.asmeta.xt.asmetal.AbstractTD
+import org.asmeta.xt.asmetal.AgentDomain
 import org.asmeta.xt.asmetal.AnyDomain
 import org.asmeta.xt.asmetal.Asm
+import org.asmeta.xt.asmetal.AsmetalFactory
+import org.asmeta.xt.asmetal.AsmetalPackage
 import org.asmeta.xt.asmetal.BagDomain
 import org.asmeta.xt.asmetal.BagTerm
 import org.asmeta.xt.asmetal.BasicTerm
 import org.asmeta.xt.asmetal.BinaryOperation
 import org.asmeta.xt.asmetal.Body
+import org.asmeta.xt.asmetal.BooleanDomain
 import org.asmeta.xt.asmetal.BooleanTerm
 import org.asmeta.xt.asmetal.ChooseRule
 import org.asmeta.xt.asmetal.ComprehensionTerm
 import org.asmeta.xt.asmetal.ConcreteDomain
 import org.asmeta.xt.asmetal.ConstantTerm
 import org.asmeta.xt.asmetal.Domain
+import org.asmeta.xt.asmetal.DomainDefinition
+import org.asmeta.xt.asmetal.DomainTerm
 import org.asmeta.xt.asmetal.EnumElement
 import org.asmeta.xt.asmetal.EnumTD
+import org.asmeta.xt.asmetal.ExportClause
 import org.asmeta.xt.asmetal.Expression
 import org.asmeta.xt.asmetal.ExtendRule
 import org.asmeta.xt.asmetal.FiniteQuantificationTerm
 import org.asmeta.xt.asmetal.ForallRule
+import org.asmeta.xt.asmetal.ForallTerm
+import org.asmeta.xt.asmetal.Function
 import org.asmeta.xt.asmetal.FunctionDefinition
 import org.asmeta.xt.asmetal.FunctionInitialization
-import org.asmeta.xt.asmetal.Function
 import org.asmeta.xt.asmetal.FunctionTerm
 import org.asmeta.xt.asmetal.Header
 import org.asmeta.xt.asmetal.ImportClause
 import org.asmeta.xt.asmetal.LetRule
 import org.asmeta.xt.asmetal.LetTerm
+import org.asmeta.xt.asmetal.LocalFunction
+import org.asmeta.xt.asmetal.LocationTerm
 import org.asmeta.xt.asmetal.MapDomain
 import org.asmeta.xt.asmetal.PowersetDomain
 import org.asmeta.xt.asmetal.ProductDomain
+import org.asmeta.xt.asmetal.ReserveDomain
 import org.asmeta.xt.asmetal.RuleDeclaration
 import org.asmeta.xt.asmetal.RuleDomain
 import org.asmeta.xt.asmetal.SequenceDomain
@@ -47,6 +62,7 @@ import org.asmeta.xt.asmetal.SetTerm
 import org.asmeta.xt.asmetal.Signature
 import org.asmeta.xt.asmetal.StructuredTD
 import org.asmeta.xt.asmetal.Term
+import org.asmeta.xt.asmetal.TupleTerm
 import org.asmeta.xt.asmetal.VariableTerm
 import org.asmeta.xt.asmetal.importData
 import org.eclipse.core.resources.ResourcesPlugin
@@ -54,38 +70,11 @@ import org.eclipse.core.runtime.Path
 import org.eclipse.emf.common.util.EList
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.InternalEObject
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.ResourceSet
-import org.asmeta.xt.asmetal.ExportClause
-import java.util.HashSet
-import org.asmeta.xt.asmetal.BooleanDomain
-import org.asmeta.xt.AsmetaLStandaloneSetup
-import org.asmeta.xt.asmetal.LocationTerm
-import org.asmeta.xt.asmetal.AsmetalFactory
-import org.asmeta.xt.asmetal.TupleTerm
-import org.asmeta.xt.asmetal.DomainDefinition
-import org.asmeta.xt.asmetal.impl.RuleAsTermImpl
-import org.asmeta.xt.asmetal.ForallTerm
-import org.eclipse.emf.common.util.BasicEList
-import org.asmeta.xt.asmetal.DomainTerm
-import org.eclipse.emf.ecore.util.InternalEList
-import org.eclipse.emf.ecore.util.BasicInternalEList
-import org.eclipse.emf.ecore.util.EObjectContainmentEList
-import org.asmeta.xt.asmetal.AsmetalPackage
-import org.eclipse.emf.ecore.InternalEObject
 import org.eclipse.emf.ecore.util.EObjectEList
-import org.asmeta.xt.asmetal.impl.DomainTermImpl
-import org.asmeta.xt.asmetal.AbstractTD
-import org.asmeta.xt.asmetal.BasicTD
-import org.asmeta.xt.asmetal.SetCT
-import org.asmeta.xt.asmetal.MapCT
-import org.asmeta.xt.asmetal.SequenceCT
-import org.asmeta.xt.asmetal.BagCT
-import org.asmeta.xt.asmetal.LocalFunction
-import org.asmeta.xt.asmetal.AgentDomain
-import org.asmeta.xt.asmetal.ReserveDomain
-import javax.swing.tree.TreeNode
-import org.asmeta.parser.ASMParser
+import org.eclipse.emf.ecore.util.InternalEList
 
 class Utility {
 
@@ -572,7 +561,7 @@ class Utility {
 				// get the main file	
 				var myFile = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(platformString));
 				return myFile.getLocation().toFile().parent;
-			} catch (java.lang.IllegalStateException e) {
+			} catch (IllegalStateException e) {
 				// workspace is closed
 			}
 		}
@@ -2083,8 +2072,8 @@ class Utility {
 			return binary_operation_conversion_map.get(bo)
 
 		var FunctionTerm ft = AsmetalFactory.eINSTANCE.createFunctionTerm()
-		var String fn = org.asmeta.xt.validation.utility.Utility.getOperandFunctionName(bo.getOp())
-		var Function function = org.asmeta.xt.validation.utility.Utility.getFunctionByName(fn)
+		var String fn = Utility.getOperandFunctionName(bo.getOp())
+		var Function function = Utility.getFunctionByName(fn)
 		ft.setFunction(function)
 		var TupleTerm tt = AsmetalFactory.eINSTANCE.createTupleTerm()
 		if (bo.getLeft() !== null)
@@ -2102,8 +2091,8 @@ class Utility {
 			return expression_conversion_map.get(exp)
 
 		var FunctionTerm ft = AsmetalFactory.eINSTANCE.createFunctionTerm()
-		var String fn = org.asmeta.xt.validation.utility.Utility.getOperandFunctionName(exp.op)
-		var Function function = org.asmeta.xt.validation.utility.Utility.getFunctionByName(fn)
+		var String fn = Utility.getOperandFunctionName(exp.op)
+		var Function function = Utility.getFunctionByName(fn)
 		ft.setFunction(function)
 		var TupleTerm tt = AsmetalFactory.eINSTANCE.createTupleTerm()
 		tt.getTerms().add(exp.operand)

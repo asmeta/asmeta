@@ -58,7 +58,7 @@ public class JavaRule {
 	/**
 	 * Retrieves the list of branches associated with the rule. Each branch is saved
 	 * as a string containing the name of the flag used to cover it.
-	 * 
+	 *
 	 * @return the list of branches
 	 */
 	public List<String> getBranches() {
@@ -67,7 +67,7 @@ public class JavaRule {
 
 	/**
 	 * Add a new branch to the list and return the name of the newly created branch.
-	 * 
+	 *
 	 * @return String containing the name of the newly created branch
 	 */
 	public String addNewBranch() {

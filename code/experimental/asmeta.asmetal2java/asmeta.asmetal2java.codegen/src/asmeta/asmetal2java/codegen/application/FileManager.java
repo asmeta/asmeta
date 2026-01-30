@@ -21,7 +21,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import asmeta.AsmCollection;
-import asmeta.asmetal2java.codegen.generator.AsmToJavaGenerator;
 import asmeta.asmetal2java.codegen.compiler.CompileResult;
 import asmeta.asmetal2java.codegen.compiler.Compiler;
 import asmeta.asmetal2java.codegen.compiler.CompilerImpl;
@@ -29,6 +28,7 @@ import asmeta.asmetal2java.codegen.config.Mode;
 import asmeta.asmetal2java.codegen.config.ModeConstantsConfig;
 import asmeta.asmetal2java.codegen.config.TranslatorOptions;
 import asmeta.asmetal2java.codegen.evosuite.DomainNotSupportedException;
+import asmeta.asmetal2java.codegen.generator.AsmToJavaGenerator;
 import asmeta.asmetal2java.codegen.generator.Generators;
 
 /**
@@ -103,7 +103,7 @@ public class FileManager {
 
 	/**
 	 * Set the input folder path.
-	 * 
+	 *
 	 * @param inputWorkingDir String containing the path of the custom input working
 	 *                        directory.
 	 */
@@ -142,7 +142,7 @@ public class FileManager {
 	 * Given a string containing the path to the input file, returns the asmeta
 	 * specification or copies the file into the input directory and returns the
 	 * newly generated file, if the copyAsm option is enabled.
-	 * 
+	 *
 	 * @param asmspec the path to the input file (relative or absolute).
 	 * @param copyAsm the translator option copyAsm (Indicates to copy the asm
 	 *                specification files to another folder to be processed.)
@@ -181,7 +181,7 @@ public class FileManager {
 	/**
 	 * Generates a Java file in the specified directory, using the given name,
 	 * extension, model, and translator options.
-	 * 
+	 *
 	 * @param name        the name of the file to be generated.
 	 * @param model       the parsed ASM specification.
 	 * @param userOptions the translator options to be applied.
@@ -248,7 +248,7 @@ public class FileManager {
 
 	/**
 	 * Generate the translation.
-	 * 
+	 *
 	 * @param model              the model of the parsed ASM.
 	 * @param userOptions        the TranslationOptions selected by the user.
 	 * @param javaFile           the java file to generate.
@@ -266,7 +266,7 @@ public class FileManager {
 	/**
 	 * Compiles the file with the given name and returns the result of the
 	 * compilation process.
-	 * 
+	 *
 	 * @param javaFile the java file to compile.
 	 * @throws IOException          if an I/O error occurs.
 	 * @throws TranslationException if the the result of the compilation is not
@@ -286,7 +286,7 @@ public class FileManager {
 	/**
 	 * Compile the given files in the output directory and returns the result of the
 	 * compilation process.
-	 * 
+	 *
 	 * @param files list of files to compile.
 	 * @throws IOException if an I/O error occur.
 	 * @throw TranslationException if the the result of the compilation is not
@@ -347,7 +347,7 @@ public class FileManager {
 	/**
 	 * Sets the output directory where the generated files will be stored. Create a
 	 * new directory if it doesn't exists.
-	 * 
+	 *
 	 * @param outputDir the path of the output directory.
 	 * @throws IOException
 	 */
@@ -359,7 +359,7 @@ public class FileManager {
 
 	/**
 	 * Sets the version of the java compiler.
-	 * 
+	 *
 	 * @param javaVersion the java version.
 	 * @throws SetupException if an error occurs during the setup process.
 	 */
@@ -384,7 +384,7 @@ public class FileManager {
 	 * Check if the input directory exists and if it contains the required
 	 * libraries. If not, creates a new input directory and adds the missing
 	 * libraries.
-	 * 
+	 *
 	 * @return {@code True} if the operation completes with success, {@code False}
 	 *         otherwise.
 	 */
@@ -439,7 +439,7 @@ public class FileManager {
 	/**
 	 * Check if the STDL folder contains all the requires libraries, and if not add
 	 * the ones missing.
-	 * 
+	 *
 	 * @param stdlFolder File of the STDL folder.
 	 * @return {@code True} if the operation completes with success, {@code False}
 	 *         otherwise.
@@ -467,7 +467,7 @@ public class FileManager {
 
 	/**
 	 * Copy the specified resource file to the desired folder.
-	 * 
+	 *
 	 * @param inputFilePath  String path to the resource file to copy (please don't
 	 *                       use the "\" character or the File.separator in the
 	 *                       path).
@@ -497,7 +497,7 @@ public class FileManager {
 
 	/**
 	 * Recursively deletes files and directories.
-	 * 
+	 *
 	 * @param file the file or directory to delete.
 	 */
 	private void cleanRecursively(File file) {

@@ -1,5 +1,11 @@
 package asmeta.asmetal2java.codegen.generator;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.xtend2.lib.StringConcatenation;
+
 import asmeta.asmetal2java.codegen.evosuite.DomainToJavaEvosuiteSigDef;
 import asmeta.asmetal2java.codegen.evosuite.DomainToJavaStringEvosuite;
 import asmeta.asmetal2java.codegen.evosuite.FunctionToJavaEvosuiteSig;
@@ -12,10 +18,6 @@ import asmeta.asmetal2java.codegen.translator.Util;
 import asmeta.definitions.RuleDeclaration;
 import asmeta.structure.Asm;
 import asmeta.transitionrules.basictransitionrules.Rule;
-import java.util.ArrayList;
-import java.util.List;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.xtend2.lib.StringConcatenation;
 
 /**
  * This generator creates a translated version of the Java class for testing purposes only,
@@ -58,7 +60,7 @@ public class JavaTestGenerator extends JavaGenerator {
   public String compileAsm(final Asm asm) {
     boolean _optimizeSeqMacroRule = this.options.getOptimizeSeqMacroRule();
     if (_optimizeSeqMacroRule) {
-      ArrayList<Rule> _arrayList = new ArrayList<Rule>();
+      ArrayList<Rule> _arrayList = new ArrayList<>();
       this.seqCalledRules = _arrayList;
       EList<RuleDeclaration> _ruleDeclaration = asm.getBodySection().getRuleDeclaration();
       for (final RuleDeclaration r : _ruleDeclaration) {
@@ -326,7 +328,7 @@ public class JavaTestGenerator extends JavaGenerator {
       _builder.newLineIfNotEmpty();
       _builder.append("\t");
       Rule _ruleBody = r.getRuleBody();
-      String _visit = new RuleToJavaEvosuite(asm, false, this.options, rule).visit(((Rule) _ruleBody));
+      String _visit = new RuleToJavaEvosuite(asm, false, this.options, rule).visit((_ruleBody));
       _builder.append(_visit, "\t");
       _builder.newLineIfNotEmpty();
       _builder.append("}");

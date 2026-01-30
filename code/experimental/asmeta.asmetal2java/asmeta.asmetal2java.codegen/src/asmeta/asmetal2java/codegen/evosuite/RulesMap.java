@@ -35,7 +35,7 @@ public final class RulesMap implements RulesGetter, RulesAdder {
 	@Override
 	public String addRule(String name, JavaRule rule) throws IllegalArgumentException {
 		if (rulesNameOverload.containsKey(name)) {
-			// rule already added, calculate the overload number 
+			// rule already added, calculate the overload number
 			int overloadNumber = rulesNameOverload.get(name) + 1;
 			rulesNameOverload.put(name, overloadNumber);
 			// add the overload number to the name

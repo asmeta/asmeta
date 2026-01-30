@@ -1,5 +1,12 @@
 package asmeta.asmetal2java.codegen.generator;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.xtend2.lib.StringConcatenation;
+import org.junit.Assert;
+
 import asmeta.asmetal2java.codegen.config.TranslatorOptions;
 import asmeta.asmetal2java.codegen.translator.SeqRuleCollector;
 import asmeta.definitions.ControlledFunction;
@@ -14,11 +21,6 @@ import asmeta.definitions.domains.MapDomain;
 import asmeta.definitions.domains.SequenceDomain;
 import asmeta.structure.Asm;
 import asmeta.transitionrules.basictransitionrules.Rule;
-import java.util.ArrayList;
-import java.util.List;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.xtend2.lib.StringConcatenation;
-import org.junit.Assert;
 
 /**
  * Generates a class to interact with the java class translated
@@ -39,7 +41,7 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
   public String compileAsm(final Asm asm) {
     boolean _optimizeSeqMacroRule = this.options.getOptimizeSeqMacroRule();
     if (_optimizeSeqMacroRule) {
-      ArrayList<Rule> _arrayList = new ArrayList<Rule>();
+      ArrayList<Rule> _arrayList = new ArrayList<>();
       this.seqCalledRules = _arrayList;
       EList<RuleDeclaration> _ruleDeclaration = asm.getBodySection().getRuleDeclaration();
       for (final RuleDeclaration r : _ruleDeclaration) {
@@ -248,24 +250,24 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
       if ((dd instanceof AbstractTd)) {
         StringConcatenation _builder = new StringConcatenation();
         _builder.append("System.out.print(\"");
-        String _name = ((AbstractTd)dd).getName();
+        String _name = dd.getName();
         _builder.append(_name);
         _builder.append("\"+ \" = {\");");
         _builder.newLineIfNotEmpty();
         _builder.append("for(int i=0 ; i< esecuzione.");
-        String _name_1 = ((AbstractTd)dd).getName();
+        String _name_1 = dd.getName();
         _builder.append(_name_1);
         _builder.append("_elemsList.size(); i++)");
         _builder.newLineIfNotEmpty();
         _builder.append("    ");
         _builder.append("if(i!= esecuzione.");
-        String _name_2 = ((AbstractTd)dd).getName();
+        String _name_2 = dd.getName();
         _builder.append(_name_2, "    ");
         _builder.append("_elemsList.size()-1)");
         _builder.newLineIfNotEmpty();
         _builder.append("        ");
         _builder.append("System.out.print(esecuzione.");
-        String _name_3 = ((AbstractTd)dd).getName();
+        String _name_3 = dd.getName();
         _builder.append(_name_3, "        ");
         _builder.append("_elemsList.get(i) +\", \");");
         _builder.newLineIfNotEmpty();
@@ -274,7 +276,7 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
         _builder.newLine();
         _builder.append("        ");
         _builder.append("System.out.print(esecuzione.");
-        String _name_4 = ((AbstractTd)dd).getName();
+        String _name_4 = dd.getName();
         _builder.append(_name_4, "        ");
         _builder.append("_elemsList.get(i));\t");
         _builder.newLineIfNotEmpty();
@@ -286,80 +288,80 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
     EList<Function> _function = asm.getHeaderSection().getSignature().getFunction();
     for (final Function fd : _function) {
       if ((fd instanceof ControlledFunction)) {
-        Domain _domain_1 = ((ControlledFunction)fd).getDomain();
+        Domain _domain_1 = fd.getDomain();
         boolean _tripleEquals = (_domain_1 == null);
         if (_tripleEquals) {
-          Domain _codomain = ((ControlledFunction)fd).getCodomain();
+          Domain _codomain = fd.getCodomain();
           if ((_codomain instanceof ConcreteDomain)) {
             StringConcatenation _builder_1 = new StringConcatenation();
             _builder_1.append("System.out.println(\"");
-            String _name_5 = ((ControlledFunction)fd).getName();
+            String _name_5 = fd.getName();
             _builder_1.append(_name_5);
             _builder_1.append(" = \" + esecuzione.");
-            String _name_6 = ((ControlledFunction)fd).getName();
+            String _name_6 = fd.getName();
             _builder_1.append(_name_6);
             _builder_1.append(".get().value);");
             _builder_1.newLineIfNotEmpty();
             sb.append(_builder_1);
           }
-          if (((((ControlledFunction)fd).getCodomain().getName().equals("Integer") || ((ControlledFunction)fd).getCodomain().getName().equals("Boolean")) || 
-            ((ControlledFunction)fd).getCodomain().getName().equals("String"))) {
+          if (((fd.getCodomain().getName().equals("Integer") || fd.getCodomain().getName().equals("Boolean")) ||
+            fd.getCodomain().getName().equals("String"))) {
             StringConcatenation _builder_2 = new StringConcatenation();
             _builder_2.append("System.out.println(\"");
-            String _name_7 = ((ControlledFunction)fd).getName();
+            String _name_7 = fd.getName();
             _builder_2.append(_name_7);
             _builder_2.append(" = \" + esecuzione.");
-            String _name_8 = ((ControlledFunction)fd).getName();
+            String _name_8 = fd.getName();
             _builder_2.append(_name_8);
             _builder_2.append(".get());");
             _builder_2.newLineIfNotEmpty();
             _builder_2.newLine();
             sb.append(_builder_2);
           }
-          Domain _codomain_1 = ((ControlledFunction)fd).getCodomain();
+          Domain _codomain_1 = fd.getCodomain();
           if ((_codomain_1 instanceof MapDomain)) {
             StringConcatenation _builder_3 = new StringConcatenation();
             _builder_3.append("System.out.println(\"");
-            String _name_9 = ((ControlledFunction)fd).getName();
+            String _name_9 = fd.getName();
             _builder_3.append(_name_9);
             _builder_3.append(" = \" + esecuzione.");
-            String _name_10 = ((ControlledFunction)fd).getName();
+            String _name_10 = fd.getName();
             _builder_3.append(_name_10);
             _builder_3.append(".get());");
             _builder_3.newLineIfNotEmpty();
             sb.append(_builder_3);
           }
-          Domain _codomain_2 = ((ControlledFunction)fd).getCodomain();
+          Domain _codomain_2 = fd.getCodomain();
           if ((_codomain_2 instanceof SequenceDomain)) {
             StringConcatenation _builder_4 = new StringConcatenation();
             _builder_4.append("System.out.println(\"");
-            String _name_11 = ((ControlledFunction)fd).getName();
+            String _name_11 = fd.getName();
             _builder_4.append(_name_11);
             _builder_4.append(" = \" + esecuzione.");
-            String _name_12 = ((ControlledFunction)fd).getName();
+            String _name_12 = fd.getName();
             _builder_4.append(_name_12);
             _builder_4.append(".get());");
             _builder_4.newLineIfNotEmpty();
             sb.append(_builder_4);
           }
-          Domain _codomain_3 = ((ControlledFunction)fd).getCodomain();
+          Domain _codomain_3 = fd.getCodomain();
           if ((_codomain_3 instanceof EnumTd)) {
             StringConcatenation _builder_5 = new StringConcatenation();
             _builder_5.append("System.out.println(\"");
-            String _name_13 = ((ControlledFunction)fd).getName();
+            String _name_13 = fd.getName();
             _builder_5.append(_name_13);
             _builder_5.append(" = \" + esecuzione.");
-            String _name_14 = ((ControlledFunction)fd).getName();
+            String _name_14 = fd.getName();
             _builder_5.append(_name_14);
             _builder_5.append(".get().name());");
             _builder_5.newLineIfNotEmpty();
             sb.append(_builder_5);
           }
         } else {
-          if (((((ControlledFunction)fd).getDomain() instanceof EnumTd) && (((ControlledFunction)fd).getCodomain() instanceof ConcreteDomain))) {
+          if (((fd.getDomain() instanceof EnumTd) && (fd.getCodomain() instanceof ConcreteDomain))) {
             StringConcatenation _builder_6 = new StringConcatenation();
             _builder_6.append("for(int i=0; i < esecuzione.");
-            String _name_15 = ((ControlledFunction)fd).getDomain().getName();
+            String _name_15 = fd.getDomain().getName();
             _builder_6.append(_name_15);
             _builder_6.append("_elemsList.size(); i++)");
             _builder_6.newLineIfNotEmpty();
@@ -368,19 +370,19 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
             _builder_6.newLine();
             _builder_6.append("\t\t\t");
             _builder_6.append("System.out.println(\" ");
-            String _name_16 = ((ControlledFunction)fd).getName();
+            String _name_16 = fd.getName();
             _builder_6.append(_name_16, "\t\t\t");
             _builder_6.append(" =>  (\" + esecuzione.");
-            String _name_17 = ((ControlledFunction)fd).getDomain().getName();
+            String _name_17 = fd.getDomain().getName();
             _builder_6.append(_name_17, "\t\t\t");
             _builder_6.append("_elemsList.get(i) +");
             _builder_6.newLineIfNotEmpty();
             _builder_6.append("\t\t\t");
             _builder_6.append("\") = \" + esecuzione.");
-            String _name_18 = ((ControlledFunction)fd).getName();
+            String _name_18 = fd.getName();
             _builder_6.append(_name_18, "\t\t\t");
             _builder_6.append(".get().get(esecuzione.");
-            String _name_19 = ((ControlledFunction)fd).getDomain().getName();
+            String _name_19 = fd.getDomain().getName();
             _builder_6.append(_name_19, "\t\t\t");
             _builder_6.append("_elemsList.get(i)).value );");
             _builder_6.newLineIfNotEmpty();
@@ -389,10 +391,10 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
             _builder_6.newLine();
             sb.append(_builder_6);
           }
-          if (((((ControlledFunction)fd).getDomain() instanceof EnumTd) && (((ControlledFunction)fd).getCodomain() instanceof EnumTd))) {
+          if (((fd.getDomain() instanceof EnumTd) && (fd.getCodomain() instanceof EnumTd))) {
             StringConcatenation _builder_7 = new StringConcatenation();
             _builder_7.append("for(int i=0; i < esecuzione.");
-            String _name_20 = ((ControlledFunction)fd).getDomain().getName();
+            String _name_20 = fd.getDomain().getName();
             _builder_7.append(_name_20);
             _builder_7.append("_elemsList.size(); i++)");
             _builder_7.newLineIfNotEmpty();
@@ -401,19 +403,19 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
             _builder_7.newLine();
             _builder_7.append("\t\t\t");
             _builder_7.append("System.out.println(\"");
-            String _name_21 = ((ControlledFunction)fd).getName();
+            String _name_21 = fd.getName();
             _builder_7.append(_name_21, "\t\t\t");
             _builder_7.append(" =>  (\" + esecuzione.");
-            String _name_22 = ((ControlledFunction)fd).getDomain().getName();
+            String _name_22 = fd.getDomain().getName();
             _builder_7.append(_name_22, "\t\t\t");
             _builder_7.append("_elemsList.get(i) +");
             _builder_7.newLineIfNotEmpty();
             _builder_7.append("\t\t\t");
             _builder_7.append("\") = \"+ esecuzione.");
-            String _name_23 = ((ControlledFunction)fd).getName();
+            String _name_23 = fd.getName();
             _builder_7.append(_name_23, "\t\t\t");
             _builder_7.append(".get().get(esecuzione.");
-            String _name_24 = ((ControlledFunction)fd).getDomain().getName();
+            String _name_24 = fd.getDomain().getName();
             _builder_7.append(_name_24, "\t\t\t");
             _builder_7.append("_elemsList.get(i)));");
             _builder_7.newLineIfNotEmpty();
@@ -433,18 +435,18 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
     EList<Function> _function = asm.getHeaderSection().getSignature().getFunction();
     for (final Function fd : _function) {
       if ((fd instanceof MonitoredFunction)) {
-        Domain _domain = ((MonitoredFunction)fd).getDomain();
+        Domain _domain = fd.getDomain();
         boolean _tripleEquals = (_domain == null);
         if (_tripleEquals) {
-          if ((((MonitoredFunction)fd).getCodomain().getName().equals("Boolean") && (!(((MonitoredFunction)fd).getCodomain() instanceof ConcreteDomain)))) {
+          if ((fd.getCodomain().getName().equals("Boolean") && (!(fd.getCodomain() instanceof ConcreteDomain)))) {
             StringConcatenation _builder = new StringConcatenation();
             _builder.append("System.out.print(\"Inserire un valore booleano per ");
-            String _name = ((MonitoredFunction)fd).getName();
+            String _name = fd.getName();
             _builder.append(_name);
             _builder.append(" (true/false):  \");");
             _builder.newLineIfNotEmpty();
             _builder.append("Scanner ");
-            String _name_1 = ((MonitoredFunction)fd).getName();
+            String _name_1 = fd.getName();
             _builder.append(_name_1);
             _builder.append("input = new Scanner(System.in);");
             _builder.newLineIfNotEmpty();
@@ -456,16 +458,16 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
             _builder.newLine();
             _builder.append("\t            ");
             _builder.append("String ");
-            String _name_2 = ((MonitoredFunction)fd).getName();
+            String _name_2 = fd.getName();
             _builder.append(_name_2, "\t            ");
             _builder.append("Controllo = ");
-            String _name_3 = ((MonitoredFunction)fd).getName();
+            String _name_3 = fd.getName();
             _builder.append(_name_3, "\t            ");
             _builder.append("input.nextLine();");
             _builder.newLineIfNotEmpty();
             _builder.append("\t            ");
             _builder.append("if (");
-            String _name_4 = ((MonitoredFunction)fd).getName();
+            String _name_4 = fd.getName();
             _builder.append(_name_4, "\t            ");
             _builder.append("Controllo.isEmpty()) break;");
             _builder.newLineIfNotEmpty();
@@ -474,7 +476,7 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
             _builder.newLine();
             _builder.append("\t                ");
             _builder.append("y = Boolean.parseBoolean(");
-            String _name_5 = ((MonitoredFunction)fd).getName();
+            String _name_5 = fd.getName();
             _builder.append(_name_5, "\t                ");
             _builder.append("Controllo);");
             _builder.newLineIfNotEmpty();
@@ -495,7 +497,7 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
             _builder.newLine();
             _builder.append("\t            ");
             _builder.append("esecuzione.");
-            String _name_6 = ((MonitoredFunction)fd).getName();
+            String _name_6 = fd.getName();
             _builder.append(_name_6, "\t            ");
             _builder.append(".set(y);");
             _builder.newLineIfNotEmpty();
@@ -508,15 +510,15 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
             _builder.newLine();
             sb.append(_builder);
           }
-          if ((((MonitoredFunction)fd).getCodomain().getName().equals("Integer") && (!(((MonitoredFunction)fd).getCodomain() instanceof ConcreteDomain)))) {
+          if ((fd.getCodomain().getName().equals("Integer") && (!(fd.getCodomain() instanceof ConcreteDomain)))) {
             StringConcatenation _builder_1 = new StringConcatenation();
             _builder_1.append("System.out.print(\"Inserire un valore Intero per ");
-            String _name_7 = ((MonitoredFunction)fd).getName();
+            String _name_7 = fd.getName();
             _builder_1.append(_name_7);
             _builder_1.append(" (Integer):  \");");
             _builder_1.newLineIfNotEmpty();
             _builder_1.append("Scanner ");
-            String _name_8 = ((MonitoredFunction)fd).getName();
+            String _name_8 = fd.getName();
             _builder_1.append(_name_8);
             _builder_1.append("input = new Scanner(System.in);");
             _builder_1.newLineIfNotEmpty();
@@ -528,16 +530,16 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
             _builder_1.newLine();
             _builder_1.append("\t            ");
             _builder_1.append("String ");
-            String _name_9 = ((MonitoredFunction)fd).getName();
+            String _name_9 = fd.getName();
             _builder_1.append(_name_9, "\t            ");
             _builder_1.append("Controllo = ");
-            String _name_10 = ((MonitoredFunction)fd).getName();
+            String _name_10 = fd.getName();
             _builder_1.append(_name_10, "\t            ");
             _builder_1.append("input.nextLine();");
             _builder_1.newLineIfNotEmpty();
             _builder_1.append("\t            ");
             _builder_1.append("if (");
-            String _name_11 = ((MonitoredFunction)fd).getName();
+            String _name_11 = fd.getName();
             _builder_1.append(_name_11, "\t            ");
             _builder_1.append("Controllo.isEmpty()) break;");
             _builder_1.newLineIfNotEmpty();
@@ -546,7 +548,7 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
             _builder_1.newLine();
             _builder_1.append("\t                ");
             _builder_1.append("x = Integer.parseInt(");
-            String _name_12 = ((MonitoredFunction)fd).getName();
+            String _name_12 = fd.getName();
             _builder_1.append(_name_12, "\t                ");
             _builder_1.append("Controllo);");
             _builder_1.newLineIfNotEmpty();
@@ -566,7 +568,7 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
             _builder_1.newLine();
             _builder_1.append("\t            ");
             _builder_1.append("esecuzione.");
-            String _name_13 = ((MonitoredFunction)fd).getName();
+            String _name_13 = fd.getName();
             _builder_1.append(_name_13, "\t            ");
             _builder_1.append(".set(x);");
             _builder_1.newLineIfNotEmpty();
@@ -581,21 +583,21 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
             _builder_1.newLine();
             sb.append(_builder_1);
           }
-          Domain _codomain = ((MonitoredFunction)fd).getCodomain();
+          Domain _codomain = fd.getCodomain();
           if ((_codomain instanceof EnumTd)) {
             StringConcatenation _builder_2 = new StringConcatenation();
             _builder_2.append("System.out.print(\"Inserire un numero per indicare l\'enumerativo per ");
-            String _name_14 = ((MonitoredFunction)fd).getName();
+            String _name_14 = fd.getName();
             _builder_2.append(_name_14);
             _builder_2.append(" \"+ ");
             _builder_2.newLineIfNotEmpty();
             _builder_2.append("esecuzione.");
-            String _name_15 = ((MonitoredFunction)fd).getCodomain().getName();
+            String _name_15 = fd.getCodomain().getName();
             _builder_2.append(_name_15);
             _builder_2.append("_elemsList.toString() +\":  \");");
             _builder_2.newLineIfNotEmpty();
             _builder_2.append("Scanner ");
-            String _name_16 = ((MonitoredFunction)fd).getName();
+            String _name_16 = fd.getName();
             _builder_2.append(_name_16);
             _builder_2.append("input = new Scanner(System.in);");
             _builder_2.newLineIfNotEmpty();
@@ -607,16 +609,16 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
             _builder_2.newLine();
             _builder_2.append("\t            ");
             _builder_2.append("String ");
-            String _name_17 = ((MonitoredFunction)fd).getName();
+            String _name_17 = fd.getName();
             _builder_2.append(_name_17, "\t            ");
             _builder_2.append("Controllo = ");
-            String _name_18 = ((MonitoredFunction)fd).getName();
+            String _name_18 = fd.getName();
             _builder_2.append(_name_18, "\t            ");
             _builder_2.append("input.nextLine();");
             _builder_2.newLineIfNotEmpty();
             _builder_2.append("\t            ");
             _builder_2.append("if (");
-            String _name_19 = ((MonitoredFunction)fd).getName();
+            String _name_19 = fd.getName();
             _builder_2.append(_name_19, "\t            ");
             _builder_2.append("Controllo.isEmpty()) break;");
             _builder_2.newLineIfNotEmpty();
@@ -625,7 +627,7 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
             _builder_2.newLine();
             _builder_2.append("\t                ");
             _builder_2.append("x = Integer.parseInt(");
-            String _name_20 = ((MonitoredFunction)fd).getName();
+            String _name_20 = fd.getName();
             _builder_2.append(_name_20, "\t                ");
             _builder_2.append("Controllo);");
             _builder_2.newLineIfNotEmpty();
@@ -645,10 +647,10 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
             _builder_2.newLine();
             _builder_2.append("\t            ");
             _builder_2.append("esecuzione.");
-            String _name_21 = ((MonitoredFunction)fd).getName();
+            String _name_21 = fd.getName();
             _builder_2.append(_name_21, "\t            ");
             _builder_2.append(".set(esecuzione.");
-            String _name_22 = ((MonitoredFunction)fd).getCodomain().getName();
+            String _name_22 = fd.getCodomain().getName();
             _builder_2.append(_name_22, "\t            ");
             _builder_2.append("_elemsList.get(x-1));");
             _builder_2.newLineIfNotEmpty();
@@ -660,16 +662,16 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
             _builder_2.newLine();
             sb.append(_builder_2);
           }
-          Domain _codomain_1 = ((MonitoredFunction)fd).getCodomain();
+          Domain _codomain_1 = fd.getCodomain();
           if ((_codomain_1 instanceof ConcreteDomain)) {
             StringConcatenation _builder_3 = new StringConcatenation();
             _builder_3.append("System.out.print(\"Inserire un valore Intero per ");
-            String _name_23 = ((MonitoredFunction)fd).getName();
+            String _name_23 = fd.getName();
             _builder_3.append(_name_23);
             _builder_3.append(" (Integer):  \");");
             _builder_3.newLineIfNotEmpty();
             _builder_3.append("Scanner ");
-            String _name_24 = ((MonitoredFunction)fd).getName();
+            String _name_24 = fd.getName();
             _builder_3.append(_name_24);
             _builder_3.append("input = new Scanner(System.in);");
             _builder_3.newLineIfNotEmpty();
@@ -681,16 +683,16 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
             _builder_3.newLine();
             _builder_3.append("\t            ");
             _builder_3.append("String ");
-            String _name_25 = ((MonitoredFunction)fd).getName();
+            String _name_25 = fd.getName();
             _builder_3.append(_name_25, "\t            ");
             _builder_3.append("Controllo = ");
-            String _name_26 = ((MonitoredFunction)fd).getName();
+            String _name_26 = fd.getName();
             _builder_3.append(_name_26, "\t            ");
             _builder_3.append("input.nextLine();");
             _builder_3.newLineIfNotEmpty();
             _builder_3.append("\t            ");
             _builder_3.append("if (");
-            String _name_27 = ((MonitoredFunction)fd).getName();
+            String _name_27 = fd.getName();
             _builder_3.append(_name_27, "\t            ");
             _builder_3.append("Controllo.isEmpty()) break;");
             _builder_3.newLineIfNotEmpty();
@@ -699,7 +701,7 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
             _builder_3.newLine();
             _builder_3.append("\t                ");
             _builder_3.append("x = Integer.parseInt(");
-            String _name_28 = ((MonitoredFunction)fd).getName();
+            String _name_28 = fd.getName();
             _builder_3.append(_name_28, "\t                ");
             _builder_3.append("Controllo);");
             _builder_3.newLineIfNotEmpty();
@@ -719,16 +721,16 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
             _builder_3.newLine();
             _builder_3.append("\t            ");
             _builder_3.append("esecuzione.");
-            String _name_29 = ((MonitoredFunction)fd).getName();
+            String _name_29 = fd.getName();
             _builder_3.append(_name_29, "\t            ");
             _builder_3.append("_supporto.value = x;");
             _builder_3.newLineIfNotEmpty();
             _builder_3.append("\t            ");
             _builder_3.append("esecuzione.");
-            String _name_30 = ((MonitoredFunction)fd).getName();
+            String _name_30 = fd.getName();
             _builder_3.append(_name_30, "\t            ");
             _builder_3.append(".set(esecuzione.");
-            String _name_31 = ((MonitoredFunction)fd).getName();
+            String _name_31 = fd.getName();
             _builder_3.append(_name_31, "\t            ");
             _builder_3.append("_supporto);");
             _builder_3.newLineIfNotEmpty();
@@ -743,7 +745,7 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
             _builder_3.newLine();
             sb.append(_builder_3);
           }
-          Domain _codomain_2 = ((MonitoredFunction)fd).getCodomain();
+          Domain _codomain_2 = fd.getCodomain();
           if ((_codomain_2 instanceof AbstractTd)) {
             StringConcatenation _builder_4 = new StringConcatenation();
             _builder_4.append("\t\t\t\t    \t\t");
@@ -751,35 +753,35 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
             sb.append(_builder_4);
           }
         } else {
-          if (((((MonitoredFunction)fd).getDomain() instanceof ConcreteDomain) && ((MonitoredFunction)fd).getCodomain().getName().equals("Boolean"))) {
+          if (((fd.getDomain() instanceof ConcreteDomain) && fd.getCodomain().getName().equals("Boolean"))) {
             StringConcatenation _builder_5 = new StringConcatenation();
             _builder_5.append("for(int i=0; i< esecuzione.");
-            String _name_32 = ((MonitoredFunction)fd).getDomain().getName();
+            String _name_32 = fd.getDomain().getName();
             _builder_5.append(_name_32);
             _builder_5.append("_elems.size() ; i++)");
             _builder_5.newLineIfNotEmpty();
             _builder_5.append("{");
             _builder_5.newLine();
             _builder_5.append("esecuzione.");
-            String _name_33 = ((MonitoredFunction)fd).getDomain().getName();
+            String _name_33 = fd.getDomain().getName();
             _builder_5.append(_name_33);
             _builder_5.append("_elem.value = esecuzione.");
-            String _name_34 = ((MonitoredFunction)fd).getDomain().getName();
+            String _name_34 = fd.getDomain().getName();
             _builder_5.append(_name_34);
             _builder_5.append("_elems.get(i);");
             _builder_5.newLineIfNotEmpty();
             _builder_5.append("System.out.print(\"Inserire un valore booleano per ");
-            String _name_35 = ((MonitoredFunction)fd).getName();
+            String _name_35 = fd.getName();
             _builder_5.append(_name_35);
             _builder_5.append(", chiave \"+ ");
             _builder_5.newLineIfNotEmpty();
             _builder_5.append("esecuzione.");
-            String _name_36 = ((MonitoredFunction)fd).getDomain().getName();
+            String _name_36 = fd.getDomain().getName();
             _builder_5.append(_name_36);
             _builder_5.append("_elem.value +\" (true/false):  \");");
             _builder_5.newLineIfNotEmpty();
             _builder_5.append("Scanner ");
-            String _name_37 = ((MonitoredFunction)fd).getName();
+            String _name_37 = fd.getName();
             _builder_5.append(_name_37);
             _builder_5.append("input = new Scanner(System.in);");
             _builder_5.newLineIfNotEmpty();
@@ -791,16 +793,16 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
             _builder_5.newLine();
             _builder_5.append("\t            ");
             _builder_5.append("String ");
-            String _name_38 = ((MonitoredFunction)fd).getName();
+            String _name_38 = fd.getName();
             _builder_5.append(_name_38, "\t            ");
             _builder_5.append("Controllo = ");
-            String _name_39 = ((MonitoredFunction)fd).getName();
+            String _name_39 = fd.getName();
             _builder_5.append(_name_39, "\t            ");
             _builder_5.append("input.nextLine();");
             _builder_5.newLineIfNotEmpty();
             _builder_5.append("\t            ");
             _builder_5.append("if (");
-            String _name_40 = ((MonitoredFunction)fd).getName();
+            String _name_40 = fd.getName();
             _builder_5.append(_name_40, "\t            ");
             _builder_5.append("Controllo.isEmpty()) break;");
             _builder_5.newLineIfNotEmpty();
@@ -809,7 +811,7 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
             _builder_5.newLine();
             _builder_5.append("\t                ");
             _builder_5.append("y = Boolean.parseBoolean(");
-            String _name_41 = ((MonitoredFunction)fd).getName();
+            String _name_41 = fd.getName();
             _builder_5.append(_name_41, "\t                ");
             _builder_5.append("Controllo);");
             _builder_5.newLineIfNotEmpty();
@@ -830,10 +832,10 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
             _builder_5.newLine();
             _builder_5.append("\t            ");
             _builder_5.append("esecuzione.");
-            String _name_42 = ((MonitoredFunction)fd).getName();
+            String _name_42 = fd.getName();
             _builder_5.append(_name_42, "\t            ");
             _builder_5.append(".set(esecuzione.");
-            String _name_43 = ((MonitoredFunction)fd).getDomain().getName();
+            String _name_43 = fd.getDomain().getName();
             _builder_5.append(_name_43, "\t            ");
             _builder_5.append("_elem,y);");
             _builder_5.newLineIfNotEmpty();
@@ -849,10 +851,10 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
             _builder_5.newLine();
             sb.append(_builder_5);
           }
-          if (((((MonitoredFunction)fd).getDomain() instanceof EnumTd) && ((MonitoredFunction)fd).getCodomain().getName().equals("Boolean"))) {
+          if (((fd.getDomain() instanceof EnumTd) && fd.getCodomain().getName().equals("Boolean"))) {
             StringConcatenation _builder_6 = new StringConcatenation();
             _builder_6.append("for(int i=0; i < esecuzione.");
-            String _name_44 = ((MonitoredFunction)fd).getDomain().getName();
+            String _name_44 = fd.getDomain().getName();
             _builder_6.append(_name_44);
             _builder_6.append("_elemsList.size(); i++)");
             _builder_6.newLineIfNotEmpty();
@@ -863,16 +865,16 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
             _builder_6.newLine();
             _builder_6.append("  ");
             _builder_6.append("esecuzione.");
-            String _name_45 = ((MonitoredFunction)fd).getDomain().getName();
+            String _name_45 = fd.getDomain().getName();
             _builder_6.append(_name_45, "  ");
             _builder_6.append("_elemsList.get(i) +\" della lista ");
-            String _name_46 = ((MonitoredFunction)fd).getName();
+            String _name_46 = fd.getName();
             _builder_6.append(_name_46, "  ");
             _builder_6.append(" (true/false):  \");");
             _builder_6.newLineIfNotEmpty();
             _builder_6.append("  ");
             _builder_6.append("Scanner ");
-            String _name_47 = ((MonitoredFunction)fd).getName();
+            String _name_47 = fd.getName();
             _builder_6.append(_name_47, "  ");
             _builder_6.append("input = new Scanner(System.in);");
             _builder_6.newLineIfNotEmpty();
@@ -884,16 +886,16 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
             _builder_6.newLine();
             _builder_6.append("             ");
             _builder_6.append("String ");
-            String _name_48 = ((MonitoredFunction)fd).getName();
+            String _name_48 = fd.getName();
             _builder_6.append(_name_48, "             ");
             _builder_6.append("Controllo = ");
-            String _name_49 = ((MonitoredFunction)fd).getName();
+            String _name_49 = fd.getName();
             _builder_6.append(_name_49, "             ");
             _builder_6.append("input.nextLine();");
             _builder_6.newLineIfNotEmpty();
             _builder_6.append("             ");
             _builder_6.append("if (");
-            String _name_50 = ((MonitoredFunction)fd).getName();
+            String _name_50 = fd.getName();
             _builder_6.append(_name_50, "             ");
             _builder_6.append("Controllo.isEmpty()) break;");
             _builder_6.newLineIfNotEmpty();
@@ -902,7 +904,7 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
             _builder_6.newLine();
             _builder_6.append("                 ");
             _builder_6.append("y = Boolean.parseBoolean(");
-            String _name_51 = ((MonitoredFunction)fd).getName();
+            String _name_51 = fd.getName();
             _builder_6.append(_name_51, "                 ");
             _builder_6.append("Controllo);");
             _builder_6.newLineIfNotEmpty();
@@ -923,10 +925,10 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
             _builder_6.newLine();
             _builder_6.append("              ");
             _builder_6.append("esecuzione.");
-            String _name_52 = ((MonitoredFunction)fd).getName();
+            String _name_52 = fd.getName();
             _builder_6.append(_name_52, "              ");
             _builder_6.append(".set(esecuzione.");
-            String _name_53 = ((MonitoredFunction)fd).getDomain().getName();
+            String _name_53 = fd.getDomain().getName();
             _builder_6.append(_name_53, "              ");
             _builder_6.append("_elemsList.get(i), y);");
             _builder_6.newLineIfNotEmpty();

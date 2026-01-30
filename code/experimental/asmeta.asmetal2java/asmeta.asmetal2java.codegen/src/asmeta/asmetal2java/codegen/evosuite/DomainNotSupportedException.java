@@ -4,7 +4,7 @@ package asmeta.asmetal2java.codegen.evosuite;
  * Exception thrown when an error occurs while parsing an ASM file.
  */
 public class DomainNotSupportedException extends RuntimeException {
-    
+
     /**
 	 *  Default serialVersionUID
 	 */

@@ -9,7 +9,7 @@ public interface TranslatorOptions {
 
 	/**
 	 * Sets the value of the specified property.
-	 * 
+	 *
 	 * @param propertyName  name of the considered property.
 	 * @param propertyValue value of the considered property.
 	 */
@@ -17,14 +17,14 @@ public interface TranslatorOptions {
 
 	/**
 	 * Get all the name of the properties.
-	 * 
+	 *
 	 * @return a List of String containing all the property names.
 	 */
 	List<String> getPropertyNames();
 
 	/**
 	 * Get a description of the properties.
-	 * 
+	 *
 	 * @return a String containing the description of all the properties.
 	 */
 	String getDescription();

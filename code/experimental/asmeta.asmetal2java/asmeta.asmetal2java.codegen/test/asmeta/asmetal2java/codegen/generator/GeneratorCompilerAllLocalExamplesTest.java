@@ -15,13 +15,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import asmeta.asmetal2java.codegen.compiler.CompileResult;
-import asmeta.asmetal2java.codegen.config.TranslatorOptions;
-import asmeta.asmetal2java.codegen.config.TranslatorOptionsImpl;
 
 /**
  * Translate and compile all the local examples inside the ./example/ folder.
  * <p>
- * 
+ *
  * It generates the java code for all the examples (local) except some that are
  * excluded and it compiles them and it check that there are no errors the code
  * is generated and compiled locally in a subdir of the examples
@@ -54,8 +52,9 @@ public class GeneratorCompilerAllLocalExamplesTest extends GeneratorCompileTest 
 					CompileResult genandcompile = GeneratorCompilerUtil.genandcompile(fileName, options,
 							GeneratorCompilerUtil.dirTraduzione, GeneratorCompilerUtil.dirCompilazione);
 					if (!genandcompile.getSuccess()) {
-						if (failOnError)
+						if (failOnError) {
 							fail();
+						}
 						failures.add(fileName);
 						System.err.println("failing for " + fileName);
 					}
@@ -84,5 +83,5 @@ public class GeneratorCompilerAllLocalExamplesTest extends GeneratorCompileTest 
 		CompileResult genandcompile = GeneratorCompilerUtil.genandcompile(fileName , options,
 				GeneratorCompilerUtil.dirTraduzione, GeneratorCompilerUtil.dirCompilazione);
 		System.out.println(genandcompile);
-	}	
+	}
 }

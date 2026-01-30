@@ -1,5 +1,10 @@
 package asmeta.asmetal2java.codegen.translator;
 
+import java.util.Arrays;
+
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.xtext.xbase.lib.XbaseGenerated;
+
 import asmeta.definitions.ControlledFunction;
 import asmeta.definitions.DerivedFunction;
 import asmeta.definitions.Function;
@@ -18,9 +23,6 @@ import asmeta.terms.basicterms.ConstantTerm;
 import asmeta.terms.basicterms.FunctionTerm;
 import asmeta.terms.basicterms.LocationTerm;
 import asmeta.terms.basicterms.TupleTerm;
-import java.util.Arrays;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.xtext.xbase.lib.XbaseGenerated;
 
 /**
  * This class is used when implementing operations of the StandardLibrary

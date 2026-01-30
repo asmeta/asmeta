@@ -9,7 +9,7 @@ public interface RulesAdder {
 	/**
 	 * Adds a {@code Rule} with the specified name to the collection, process the
 	 * name to handle overloading.
-	 * 
+	 *
 	 * @param name the name of the rule
 	 * @param rule the {@code Rule} object to be added
 	 * @throws IllegalArgumentException if a rule with the same name already exists

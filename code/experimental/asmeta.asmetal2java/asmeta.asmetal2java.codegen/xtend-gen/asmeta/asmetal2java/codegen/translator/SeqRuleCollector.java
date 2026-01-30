@@ -1,5 +1,12 @@
 package asmeta.asmetal2java.codegen.translator;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+import org.asmeta.simulator.RuleVisitor;
+import org.eclipse.emf.common.util.EList;
+
 import asmeta.transitionrules.basictransitionrules.BlockRule;
 import asmeta.transitionrules.basictransitionrules.ChooseRule;
 import asmeta.transitionrules.basictransitionrules.ConditionalRule;
@@ -14,11 +21,6 @@ import asmeta.transitionrules.basictransitionrules.TermAsRule;
 import asmeta.transitionrules.basictransitionrules.UpdateRule;
 import asmeta.transitionrules.derivedtransitionrules.CaseRule;
 import asmeta.transitionrules.turbotransitionrules.SeqRule;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import org.asmeta.simulator.RuleVisitor;
-import org.eclipse.emf.common.util.EList;
 
 @SuppressWarnings("all")
 public class SeqRuleCollector extends RuleVisitor<List<Rule>> {
@@ -37,7 +39,7 @@ public class SeqRuleCollector extends RuleVisitor<List<Rule>> {
   }
 
   private List<Rule> listRules(final EList<Rule> rules) {
-    List<Rule> sb = new ArrayList<Rule>();
+    List<Rule> sb = new ArrayList<>();
     for (int i = 0; (i < rules.size()); i++) {
       sb.addAll(new SeqRuleCollector(this.seqBlock).visit(rules.get(i)));
     }
@@ -75,7 +77,7 @@ public class SeqRuleCollector extends RuleVisitor<List<Rule>> {
   @Override
   public List<Rule> visit(final CaseRule object) {
     List<Rule> _listRules = this.listRules(object.getCaseBranches());
-    List<Rule> list = new ArrayList<Rule>(_listRules);
+    List<Rule> list = new ArrayList<>(_listRules);
     Rule _otherwiseBranch = object.getOtherwiseBranch();
     boolean _tripleNotEquals = (_otherwiseBranch != null);
     if (_tripleNotEquals) {
@@ -96,7 +98,7 @@ public class SeqRuleCollector extends RuleVisitor<List<Rule>> {
 
   @Override
   public List<Rule> visit(final ConditionalRule rule) {
-    List<Rule> list = new ArrayList<Rule>();
+    List<Rule> list = new ArrayList<>();
     list.addAll(this.visit(rule.getThenRule()));
     Rule _elseRule = rule.getElseRule();
     boolean _tripleNotEquals = (_elseRule != null);
@@ -113,7 +115,7 @@ public class SeqRuleCollector extends RuleVisitor<List<Rule>> {
 
   @Override
   public List<Rule> visit(final ChooseRule rule) {
-    List<Rule> list = new ArrayList<Rule>();
+    List<Rule> list = new ArrayList<>();
     list.addAll(this.visit(rule.getDoRule()));
     Rule _ifnone = rule.getIfnone();
     boolean _tripleNotEquals = (_ifnone != null);

@@ -110,8 +110,9 @@ public class GeneratorCompilerEvosuiteTest {
 				CompileResult genandcompile = genandcompileEvosuite(file.getAbsolutePath(), options, dirTestGen,
 						GeneratorCompilerUtil.dirCompilazione);
 				if (!genandcompile.getSuccess()) {
-					if (failOnError)
+					if (failOnError) {
 						fail();
+					}
 					failures.add(file.getName());
 					System.err.println("failing for " + file.getName());
 				}

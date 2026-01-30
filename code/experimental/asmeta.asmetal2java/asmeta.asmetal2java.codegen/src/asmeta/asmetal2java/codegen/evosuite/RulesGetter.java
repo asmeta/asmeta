@@ -17,14 +17,14 @@ public interface RulesGetter {
 
     /**
      * Retrieves the names of all the rules in the collection.
-     * 
+     *
      * @return a {@code Set<String>} containing the names of all the rules
      */
     Set<String> getRulesName();
 
     /**
      * Retrieves the list of branches associated with the specified rule name.
-     * 
+     *
      * @param name the name of the rule
      * @return a {@code List<String>} of branches associated with the rule, or an empty list
      *         if the rule does not exist

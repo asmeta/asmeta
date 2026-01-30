@@ -39,7 +39,7 @@ public class JavaTestGeneratorTest {
 		// ignore the exception for unsupported domains
 		options.setValue(TranslatorOptionsImpl.IGNORE_NOT_SUPPORTED_DOMAIN_EXCEPTION, true);
 	}
-	
+
 	@Test
 	public void genTestandATGClasses() throws Exception {
 
@@ -56,8 +56,9 @@ public class JavaTestGeneratorTest {
 		final AsmCollection model = ASMParser.setUpReadAsm(asmFile);
 
 		File javaFile = new File(GeneratorCompilerUtil.dirTraduzione + File.separator + name + ".java");
-		if (javaFile.exists())
+		if (javaFile.exists()) {
 			javaFile.delete();
+		}
 
 		jGeneratorTest.compileAndWrite(model.getMain(), javaFile.getCanonicalPath(), options);
 
@@ -65,8 +66,9 @@ public class JavaTestGeneratorTest {
 		assertTrue(javaFile.exists());
 
 		File javaATGFile = new File(GeneratorCompilerUtil.dirTraduzione + File.separator + name + "_ATG.java");
-		if (javaATGFile.exists())
+		if (javaATGFile.exists()) {
 			javaATGFile.delete();
+		}
 
 		jGeneratorAtg.compileAndWrite(model.getMain(), javaATGFile.getCanonicalPath(), options);
 

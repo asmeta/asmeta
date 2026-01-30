@@ -9,8 +9,8 @@ import org.junit.Test;
 import asmeta.asmetal2java.codegen.compiler.CompileResult;
 
 public class GeneratorCompilerChooseTest extends GeneratorCompileTest{
-	
-	
+
+
 	@Test
 	public void testSingleExampleWithChooseFromDT() throws Exception {
 		String fileName = Paths.get("examples", "chooseTest", "ChooseFromDT.asm").toString();
@@ -18,7 +18,7 @@ public class GeneratorCompilerChooseTest extends GeneratorCompileTest{
 				GeneratorCompilerUtil.dirTraduzione, GeneratorCompilerUtil.dirCompilazione);
 		assertTrue(genandcompile.getSuccess());
 	}
-	
+
 	@Test
 	public void testSingleExampleWithChooseFromSubset() throws Exception {
 		String fileName = Paths.get("examples", "chooseTest", "ChooseFromSubset.asm").toString();
@@ -26,7 +26,7 @@ public class GeneratorCompilerChooseTest extends GeneratorCompileTest{
 				GeneratorCompilerUtil.dirTraduzione, GeneratorCompilerUtil.dirCompilazione);
 		assertTrue(genandcompile.getSuccess());
 	}
-	
+
 	@Test
 	public void testSingleExampleWithChooseFromSubset2() throws Exception {
 		String fileName = Paths.get("examples", "chooseTest", "ChooseFromSubset2.asm").toString();
@@ -34,7 +34,7 @@ public class GeneratorCompilerChooseTest extends GeneratorCompileTest{
 				GeneratorCompilerUtil.dirTraduzione, GeneratorCompilerUtil.dirCompilazione);
 		assertTrue(genandcompile.getSuccess());
 	}
-	
+
 	@Test
 	public void testSingleExampleWithChooseFromRange() throws Exception {
 		/**

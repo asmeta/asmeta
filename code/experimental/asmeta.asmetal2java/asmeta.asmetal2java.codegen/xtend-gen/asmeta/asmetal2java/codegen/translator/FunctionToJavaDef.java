@@ -1,5 +1,12 @@
 package asmeta.asmetal2java.codegen.translator;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.asmeta.parser.util.ReflectiveVisitor;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.xtend2.lib.StringConcatenation;
+
 import asmeta.definitions.ControlledFunction;
 import asmeta.definitions.DerivedFunction;
 import asmeta.definitions.MonitoredFunction;
@@ -15,11 +22,6 @@ import asmeta.terms.basicterms.Term;
 import asmeta.terms.furtherterms.CaseTerm;
 import asmeta.terms.furtherterms.ForallTerm;
 import asmeta.terms.furtherterms.SequenceTerm;
-import java.util.ArrayList;
-import java.util.List;
-import org.asmeta.parser.util.ReflectiveVisitor;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.xtend2.lib.StringConcatenation;
 
 @SuppressWarnings("all")
 public class FunctionToJavaDef extends ReflectiveVisitor<String> {
@@ -27,7 +29,7 @@ public class FunctionToJavaDef extends ReflectiveVisitor<String> {
 
   private int i;
 
-  private final List<String> declaredDomainIninit = new ArrayList<String>();
+  private final List<String> declaredDomainIninit = new ArrayList<>();
 
   public FunctionToJavaDef(final Asm asm) {
     this.asm = asm;

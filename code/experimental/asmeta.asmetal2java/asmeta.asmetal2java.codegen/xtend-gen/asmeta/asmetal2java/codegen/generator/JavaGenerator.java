@@ -1,5 +1,15 @@
 package asmeta.asmetal2java.codegen.generator;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.xtend2.lib.StringConcatenation;
+import org.eclipse.xtext.xbase.lib.CollectionLiterals;
+import org.junit.Assert;
+
 import asmeta.asmetal2java.codegen.config.TranslatorOptions;
 import asmeta.asmetal2java.codegen.translator.DomainToJavaSigDef;
 import asmeta.asmetal2java.codegen.translator.DomainToJavaString;
@@ -26,14 +36,6 @@ import asmeta.structure.DomainInitialization;
 import asmeta.structure.FunctionDefinition;
 import asmeta.structure.FunctionInitialization;
 import asmeta.transitionrules.basictransitionrules.Rule;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.xtend2.lib.StringConcatenation;
-import org.eclipse.xtext.xbase.lib.CollectionLiterals;
-import org.junit.Assert;
 
 /**
  * Generates the translation of an Asm specification to a java class from an ASMeta specification.
@@ -92,7 +94,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
   public String compileAsm(final Asm asm) {
     boolean _optimizeSeqMacroRule = this.options.getOptimizeSeqMacroRule();
     if (_optimizeSeqMacroRule) {
-      ArrayList<Rule> _arrayList = new ArrayList<Rule>();
+      ArrayList<Rule> _arrayList = new ArrayList<>();
       this.seqCalledRules = _arrayList;
       EList<RuleDeclaration> _ruleDeclaration = asm.getBodySection().getRuleDeclaration();
       for (final RuleDeclaration r : _ruleDeclaration) {
@@ -470,10 +472,10 @@ public class JavaGenerator extends AsmToJavaGenerator {
     StringBuffer sb = new StringBuffer();
     EList<Domain> _domain = asm.getHeaderSection().getSignature().getDomain();
     for (final Domain dd : _domain) {
-      if (((dd instanceof AbstractTd) == false)) {
+      if (!(dd instanceof AbstractTd)) {
         String _visit = this.createDomainToJavaSigDef(asm).visit(dd);
         String _plus = (("//Variabile di tipo Concreto o Enumerativo" + "\n\n") + _visit);
-        String _plus_1 = (_plus + 
+        String _plus_1 = (_plus +
           "\n");
         sb.append(_plus_1);
       }
@@ -488,7 +490,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
       if ((fd instanceof DerivedFunction)) {
         EList<FunctionDefinition> _functionDefinition = asm.getBodySection().getFunctionDefinition();
         for (final FunctionDefinition fDef : _functionDefinition) {
-          boolean _equals = fDef.getDefinedFunction().getName().equals(((DerivedFunction)fd).getName());
+          boolean _equals = fDef.getDefinedFunction().getName().equals(fd.getName());
           if (_equals) {
             String _visit = this.createFunctionToJavaSig(asm).visit(((DerivedFunction)fd));
             String _plus = (_visit + "\n");
@@ -585,7 +587,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
       EList<Domain> _domain = asm.getHeaderSection().getSignature().getDomain();
       for (final Domain dd : _domain) {
         if ((dd instanceof EnumTd)) {
-          String _name = ((EnumTd)dd).getName();
+          String _name = dd.getName();
           String _plus = (_name + "_elemsList = Collections.unmodifiableList(Arrays.asList(");
           initial.append(_plus);
           for (int i = 0; (i < ((EnumTd)dd).getElement().size()); i++) {
@@ -594,7 +596,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
             boolean _notEquals = (i != _minus);
             if (_notEquals) {
               StringConcatenation _builder = new StringConcatenation();
-              String _name_1 = ((EnumTd)dd).getName();
+              String _name_1 = dd.getName();
               _builder.append(_name_1);
               _builder.append(".");
               String _visit = this.createToString(asm).visit(((EnumTd)dd).getElement().get(i));
@@ -603,7 +605,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
               initial.append(_builder);
             } else {
               StringConcatenation _builder_1 = new StringConcatenation();
-              String _name_2 = ((EnumTd)dd).getName();
+              String _name_2 = dd.getName();
               _builder_1.append(_name_2);
               _builder_1.append(".");
               String _visit_1 = this.createToString(asm).visit(((EnumTd)dd).getElement().get(i));
@@ -699,7 +701,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
         {
           final String trans = functionToJavaDef.visit(fd.getInitializedFunction());
           boolean containsMonitored = (this.findMonitoredInControlledFunct.visit(fd.getBody())).booleanValue();
-          if ((containsMonitored == false)) {
+          if (!containsMonitored) {
             initial.append(trans);
           } else {
             initialMonitored.append(trans);
@@ -790,7 +792,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
       _builder.newLineIfNotEmpty();
       _builder.append("\t");
       Rule _ruleBody = r.getRuleBody();
-      String _visit = this.createRuleToJava(asm, false, this.options).visit(((Rule) _ruleBody));
+      String _visit = this.createRuleToJava(asm, false, this.options).visit((_ruleBody));
       _builder.append(_visit, "\t");
       _builder.newLineIfNotEmpty();
       _builder.append("}");
