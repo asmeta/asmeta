@@ -21,6 +21,7 @@ import asmeta.terms.furtherterms.ExistUniqueTerm;
 import asmeta.terms.furtherterms.ForallTerm;
 import asmeta.terms.furtherterms.IntegerTerm;
 import asmeta.terms.furtherterms.NaturalTerm;
+import asmeta.terms.furtherterms.RealTerm;
 import asmeta.terms.furtherterms.SetCt;
 import asmeta.terms.furtherterms.StringTerm;
 
@@ -119,6 +120,15 @@ public class TermChecker extends ReflectiveVisitor<Boolean> {
 		return false;
 	}
 
+	public boolean visit(RealTerm term) {
+		return false;
+	}
+	
+	public boolean visit(asmeta.terms.furtherterms.ConditionalTerm ct) {
+		return visit(ct.getGuard()) || visit(ct.getThenTerm()) || (ct.getElseTerm() != null && visit(ct.getElseTerm()));
+	}
+
+	
 	public boolean visit(ExistTerm existTerm) throws Exception {
 		return visit(existTerm.getGuard());
 	}
