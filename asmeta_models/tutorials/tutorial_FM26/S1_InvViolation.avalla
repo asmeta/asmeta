@@ -5,14 +5,16 @@ set fin(JOB1) := false;
 set fin(JOB2) := false;
 set fin(JOB3) := false;
 
-check idle = false;
-
+// jobs are ready
 check st(JOB1) = RDY and st(JOB2) = RDY and st(JOB3) = RDY;
 
 step
-// We do not know which job was chosen, but we can still check that none is FIN yet.
-check not (st(JOB1) = FIN or st(JOB2) = FIN or st(JOB3) = FIN);
-
+// one is running
+check (st(JOB1) = RUN or st(JOB2) = RUN or st(JOB3) = RUN);
 step
+
+// finish all the jobs
 set fin(JOB1) := true;
+set fin(JOB2) := true;
+set fin(JOB3) := true;
 step
