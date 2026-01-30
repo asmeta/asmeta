@@ -1,0 +1,18 @@
+scenario S1_InvairantViolation
+load SchedulerInv.asm
+
+set fin(JOB1) := false;
+set fin(JOB2) := false;
+set fin(JOB3) := false;
+
+check idle = false;
+
+check st(JOB1) = RDY and st(JOB2) = RDY and st(JOB3) = RDY;
+
+step
+// We do not know which job was chosen, but we can still check that none is FIN yet.
+check not (st(JOB1) = FIN or st(JOB2) = FIN or st(JOB3) = FIN);
+
+step
+set fin(JOB1) := true;
+step
