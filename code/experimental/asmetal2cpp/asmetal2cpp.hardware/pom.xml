@@ -66,7 +66,7 @@
   	</dependency>
   	<dependency>
   		<groupId>asmeta</groupId>
-  		<artifactId>asmetal2cpp.codegen</artifactId>
+  		<artifactId>asmeta.asmetal2cpp.codegen</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
   	</dependency>
 	<dependency>

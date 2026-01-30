@@ -27,7 +27,7 @@ import org.asmeta.parser.Utility;
 import org.asmeta.parser.util.AsmPrinter;
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.Environment.TimeMngt;
-import org.asmeta.simulator.util.MonitoredFinder;
+import org.asmeta.simulator.util.TermChecker;
 import org.asmeta.simulator.util.StandardLibrary;
 import org.eclipse.emf.common.util.EList;
 
@@ -320,7 +320,7 @@ public class AsmetaPrinterForAvalla extends AsmPrinter {
 	// PA 2017/12/29
 	@Override
 	protected void visitInvariantBody(asmeta.definitions.Invariant invariant) {
-		MonitoredFinder mf = new MonitoredFinder();
+		TermChecker mf = TermChecker.monitoredFinder;
 		Term body = invariant.getBody();
 		boolean isMonitoredInvariant = mf.visit(body);
 		if (isMonitoredInvariant && this.builder.allMonitored.get(this.builder.allMonitored.size() - 1).isEmpty()) {

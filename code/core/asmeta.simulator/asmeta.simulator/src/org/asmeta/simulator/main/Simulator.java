@@ -60,7 +60,7 @@ import org.asmeta.simulator.UpdateSet;
 import org.asmeta.simulator.readers.FileMonFuncReader;
 import org.asmeta.simulator.readers.InteractiveMFReader;
 import org.asmeta.simulator.readers.RandomMFReader;
-import org.asmeta.simulator.util.MonitoredFinder;
+import org.asmeta.simulator.util.TermChecker;
 import org.asmeta.simulator.value.AgentValue;
 import org.asmeta.simulator.value.BooleanValue;
 import org.asmeta.simulator.value.IntegerValue;
@@ -702,7 +702,7 @@ public class Simulator {
 			List<Invariant> monitoredInvariants) {
 		assert controlledInvariants.isEmpty();
 		assert monitoredInvariants.isEmpty();
-		MonitoredFinder mf = new MonitoredFinder();
+		TermChecker mf = TermChecker.monitoredFinder;
 		boolean isMonitoredInvariant;
 		for (Iterator<Asm> i = asmCollection.iterator(); i.hasNext();) {
 			Asm asm_i = i.next();

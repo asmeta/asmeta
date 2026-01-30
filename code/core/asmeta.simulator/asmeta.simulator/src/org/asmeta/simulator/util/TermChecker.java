@@ -5,6 +5,7 @@ import java.util.List;
 import org.asmeta.parser.Defs;
 import org.asmeta.parser.util.ReflectiveVisitor;
 
+import asmeta.definitions.Function;
 import asmeta.terms.basicterms.BooleanTerm;
 import asmeta.terms.basicterms.DomainTerm;
 import asmeta.terms.basicterms.FunctionTerm;
@@ -20,6 +21,7 @@ import asmeta.terms.furtherterms.ExistUniqueTerm;
 import asmeta.terms.furtherterms.ForallTerm;
 import asmeta.terms.furtherterms.IntegerTerm;
 import asmeta.terms.furtherterms.NaturalTerm;
+import asmeta.terms.furtherterms.RealTerm;
 import asmeta.terms.furtherterms.SetCt;
 import asmeta.terms.furtherterms.StringTerm;
 
@@ -31,8 +33,25 @@ import asmeta.terms.furtherterms.StringTerm;
  * different points of the execution.
  *
  */
-public class MonitoredFinder extends ReflectiveVisitor<Boolean> {
+public class TermChecker extends ReflectiveVisitor<Boolean> {
 
+	
+	private java.util.function.Function<Function, Boolean> checkFunction; 
+	
+	
+	private TermChecker(java.util.function.Function<Function, Boolean> checkFunction) {
+		this.checkFunction = checkFunction;
+	}
+	
+	// return true if the term contains a monitored function
+	public static TermChecker monitoredFinder = new TermChecker(f -> Defs.isMonitored(f));
+	// idem for controlled and shared and out functions
+	public static TermChecker controlledFinder = new TermChecker(f -> Defs.isControlled(f));
+	public static TermChecker outFinder = new TermChecker(f -> Defs.isOut(f));
+	public static TermChecker sharedFinder = new TermChecker(f -> Defs.isShared(f));
+	
+
+	
 	public boolean visit(Term term) {
 		// System.out.println(term.getClass().getSimpleName());
 		return invokeMethod(term);
@@ -50,7 +69,14 @@ public class MonitoredFinder extends ReflectiveVisitor<Boolean> {
 	}
 
 	public boolean visit(FunctionTerm funcTerm) {
-		return Defs.isMonitored(funcTerm.getFunction()) || visit(funcTerm.getArguments());
+		// if it is monitored or its arguments are
+		if (visit(funcTerm.getArguments())) return true;
+		Function function = funcTerm.getFunction();
+		if (checkFunction.apply(function)) return true;
+		// if it is derived and its definition contains a monitored
+		if (Defs.isDerived(function) && visit(((asmeta.definitions.DerivedFunction) function).getDefinition().getBody()))
+				return true;
+		return false;
 	}
 
 	public boolean visit(TupleTerm tupleTerm) {
@@ -67,7 +93,7 @@ public class MonitoredFinder extends ReflectiveVisitor<Boolean> {
 	}
 
 	public boolean visit(LocationTerm loc) {
-		return Defs.isMonitored(loc.getFunction()) || visit(loc.getArguments());
+		return checkFunction.apply(loc.getFunction()) || visit(loc.getArguments());
 	}
 
 	public boolean visit(NaturalTerm number) {
@@ -94,6 +120,15 @@ public class MonitoredFinder extends ReflectiveVisitor<Boolean> {
 		return false;
 	}
 
+	public boolean visit(RealTerm term) {
+		return false;
+	}
+	
+	public boolean visit(asmeta.terms.furtherterms.ConditionalTerm ct) {
+		return visit(ct.getGuard()) || visit(ct.getThenTerm()) || (ct.getElseTerm() != null && visit(ct.getElseTerm()));
+	}
+
+	
 	public boolean visit(ExistTerm existTerm) throws Exception {
 		return visit(existTerm.getGuard());
 	}

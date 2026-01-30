@@ -10,7 +10,7 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
 @Category(org.asmeta.annotations.TestToMavenSkip.class)
-public class AsmetaSMVMVM extends AsmetaSMVtestTranslate{
+public class AsmetaSMVMVM extends AsmetaSMVtestTranslateBase{
 
 	static String basePath = "../../../../../";
 	

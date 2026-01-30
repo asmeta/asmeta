@@ -39,7 +39,7 @@ import org.asmeta.simulator.UpdateClashException;
 
 import org.asmeta.simulator.main.*;
 import org.asmeta.simulator.util.InputMismatchException;
-import org.asmeta.simulator.util.MonitoredFinder;
+import org.asmeta.simulator.util.TermChecker;
 import org.asmeta.simulator.value.Value;
 import org.eclipse.emf.ecore.xml.type.internal.RegEx;
 

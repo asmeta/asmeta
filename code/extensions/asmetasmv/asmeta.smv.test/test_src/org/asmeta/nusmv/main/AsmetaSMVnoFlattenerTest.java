@@ -13,7 +13,7 @@ import java.util.function.Predicate;
 import org.asmeta.nusmv.main.AsmetaSMV;
 import org.asmeta.nusmv.main.AsmetaSMV.ModelCheckerMode;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
-import org.asmeta.simulator.util.MonitoredFinder;
+import org.asmeta.simulator.util.TermChecker;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -704,13 +704,30 @@ public class AsmetaSMVnoFlattenerTest extends AsmetaSMVtest {
 			@Override
 			public boolean test(Property t) {
 				if (t instanceof Invariant) {
-					MonitoredFinder mf = new MonitoredFinder();
+					TermChecker mf = TermChecker.monitoredFinder;
 					return ! mf.visit(((Invariant)t).getBody());
 				}
 				return true;
 			}			
 		};
 		testAllPropsAre(true, "examples/UseInvar.asm", notINVAR);
+		PRINT_NU_SM_VOUTPUT = false;
+	}
+
+	@Test
+	public void useINVAR2() {
+		PRINT_NU_SM_VOUTPUT = true;
+		Predicate<Property> notINVAR  = new Predicate<Property>() {
+			// exclude those that have no name
+			@Override
+			public boolean test(Property t) {
+				if (t instanceof Invariant) {
+					return ((Invariant)t).getName().isBlank() ? false: true;
+				}
+				return false;
+			}			
+		};
+		testAllPropsAre(true, "examples/UseInvar2.asm", notINVAR);
 		PRINT_NU_SM_VOUTPUT = false;
 	}
 
