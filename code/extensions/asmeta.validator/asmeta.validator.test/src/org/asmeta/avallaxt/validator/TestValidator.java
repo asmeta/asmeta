@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.xt.validator.AsmetaFromAvallaBuilder;
 import org.asmeta.xt.validator.AsmetaV;
@@ -27,10 +28,7 @@ public class TestValidator {
 	protected static File tempAsmPath = new File(pathname); //Files.createTempFile("__tempAsmetaV", ASMParser.asmExtension).toFile();
 
 
-	
-	public TestValidator() {
-		super();
-	}
+	private static Logger log = Logger.getLogger(TestValidator.class);
 
 	@BeforeClass
 	public static void testExamplesDir() throws IOException{
@@ -78,14 +76,14 @@ public class TestValidator {
 	 */
 	protected void test(String scenarioPath, boolean runValidator, boolean computeCoverage, boolean expectedSuccess) throws IOException, Exception {
 		if (runValidator) {
-			System.out.println("executing " + scenarioPath);
+			log.debug("executing " + scenarioPath);
 			// it should be runnable
 			List<String> result = AsmetaV.execValidation(scenarioPath, computeCoverage);
 			if (expectedSuccess) assertTrue("failed " + result, result.isEmpty());
 			else assertFalse(scenarioPath + " must fail but it is not", result.isEmpty()); 
 		} else {
 			//
-			System.out.println("translating " + scenarioPath);
+			log.debug("translating " + scenarioPath);
 			// delete if exists
 			org.asmeta.xt.validator.AsmetaFromAvallaBuilder builder = new AsmetaFromAvallaBuilder(scenarioPath, tempAsmPath);
 			builder.save();
@@ -94,7 +92,9 @@ public class TestValidator {
 			assertTrue(builder.getTempAsmPath().exists() && builder.getTempAsmPath().isFile() && builder.getTempAsmPath().getName().endsWith(ASMParser.ASM_EXTENSION));
 			// it should be parsable:
 			AsmCollection asmc = ASMParser.setUpReadAsm(builder.getTempAsmPath());
-			System.out.println(ASMParser.getResultLogger().errors);
+			List<String> errors = ASMParser.getResultLogger().errors;
+			if (!errors.isEmpty()) log.debug(errors);
+			assertTrue(errors.isEmpty());
 			assertNotNull(asmc);
 		}
 	

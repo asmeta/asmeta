@@ -62,6 +62,7 @@ public class TestMultipleImports extends TestValidator {
 		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.OFF);
 		Logger.getLogger(AsmetaPrinterForAvalla.class).setLevel(Level.OFF);
 		Logger.getLogger("org.asmeta.parser").setLevel(Level.OFF);
+		Logger.getRootLogger().setLevel(Level.OFF);
 	}
 
 }
