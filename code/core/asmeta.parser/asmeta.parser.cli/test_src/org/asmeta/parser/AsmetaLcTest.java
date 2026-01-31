@@ -30,20 +30,7 @@ public class AsmetaLcTest {
 
 	public static final String FILE_BASE = "../../../../asm_examples/";
 
-	protected void testOneSpec(String spec) {
-		String[] args = { "-xmi", spec };
-		AsmetaLc.main(args);
-		int i = spec.lastIndexOf(ASMParser.ASM_EXTENSION);
-		// String s = new String(spec.substring(0, i));
-		String s = spec.substring(0, i);
-		File f = new File(s + ".xmi");
-		assertTrue("file " + f.getAbsolutePath() + " does not exist, current dir: " + new File(".").getAbsolutePath(),
-				f.exists());
-
-	}
-
-	protected boolean testOneSpec(File fspec) {
-		String spec = fspec.getAbsolutePath();
+	protected boolean testOneSpec(String spec) {
 		String[] args = { "-xmi", spec };
 		AsmetaLc.main(args);
 		int i = spec.lastIndexOf(ASMParser.ASM_EXTENSION);
@@ -53,7 +40,10 @@ public class AsmetaLcTest {
 		assertTrue("file " + f.getAbsolutePath() + " does not exist, current dir: " + new File(".").getAbsolutePath(),
 				f.exists());
 		return f.exists();
+	}
 
+	protected boolean testOneSpec(File fspec) {
+		return testOneSpec(fspec.getAbsolutePath());
 	}
 
 	protected void testDir(String dir) {

@@ -73,7 +73,7 @@ import asmeta.terms.furtherterms.SetCt;
  * A term printer.
  * 
  */
-public class TermXMIVisitor extends ReflectiveVisitor {
+public class TermXMIVisitor extends ReflectiveVisitor<String> {
 
 	EList<EObject> resourceList;
 	

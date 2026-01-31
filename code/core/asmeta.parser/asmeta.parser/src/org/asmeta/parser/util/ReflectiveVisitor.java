@@ -48,6 +48,8 @@ public abstract class ReflectiveVisitor<T> {
 
 	private static Logger logger = Logger.getLogger(ReflectiveVisitor.class);
 
+	protected static final String VISIT_METHOD_DEFAULT_NAME = "visit";
+	
 	/**
 	 * Equivalent to invokeMethod(object, "visit").
 	 * 
@@ -61,7 +63,7 @@ public abstract class ReflectiveVisitor<T> {
 	 * Equivalent to invokeMethod(object, "visit").
 	 */
 	protected T invokeMethod(Object object) {
-		return invokeMethod(object, "visit");
+		return invokeMethod(object, VISIT_METHOD_DEFAULT_NAME);
 	}
 	
 

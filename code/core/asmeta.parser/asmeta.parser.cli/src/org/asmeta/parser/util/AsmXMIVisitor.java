@@ -30,7 +30,7 @@ import asmeta.terms.basicterms.VariableTerm;
 import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
 import asmeta.transitionrules.basictransitionrules.Rule;
 
-public class AsmXMIVisitor extends ReflectiveVisitor {
+public class AsmXMIVisitor extends ReflectiveVisitor<Void> {
 
 	// String tabWidth = "    ";
 	// int indentation = 0;
