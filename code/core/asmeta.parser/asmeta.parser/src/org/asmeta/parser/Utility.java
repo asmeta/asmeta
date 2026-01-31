@@ -78,16 +78,13 @@ import asmeta.terms.furtherterms.SequenceTerm;
 import asmeta.terms.furtherterms.StringTerm;
 
 public class Utility {
-	
-	// names of the libraries 
+
+	// names of the libraries
 	public static final String LTL_LIBRARY_NAME = "LTLLibrary";
 	public static final String CTL_LIBRARY_NAME = "CTLLibrary";
 	public static final String STANDARD_LIBRARY_NAME = "StandardLibrary";
 	public static final String TIME_LIBRARY_NAME = "TimeLibrary";
 
-	
-	
-	
 	// PA 12/11/2011. Fabio Albani, in method resolve, needs to import just the the
 	// first rule with
 	// the best ranking. The static field "selectFirstBestRanking" can be used
@@ -99,7 +96,7 @@ public class Utility {
 	public static boolean selectFirstBestRanking = true;
 
 	private static Logger logger = Logger.getLogger(Utility.class);
-	
+
 	static {
 		logger.setLevel(Level.OFF);
 	}
@@ -1272,7 +1269,7 @@ public class Utility {
 		// try predefined abstract Domain
 		if (d == null) {
 			logger.debug("Trying predifined abstract domain");
-			logger.debug("level" + logger.getLevel() + "nome "  + logger.getName());
+			logger.debug("level" + logger.getLevel() + "nome " + logger.getName());
 			d = getPredefinedAbstractDomain(domFactory, name);
 		}
 		// try any domains
@@ -1643,21 +1640,21 @@ public class Utility {
 	 *
 	 * @param asmDirLib    can be null, in case "." is taken or absolute is
 	 *                     considered
-	 * @param importclause the module name as String (it can be relative or absolute, with .asm or without)
-	 * @return the imported file - it must exists 
-	 */	
+	 * @param importclause the module name as String (it can be relative or
+	 *                     absolute, with .asm or without)
+	 * @return the imported file - it must exists
+	 */
 	public static File importFile(String asmDirLib, ImportClause importclause) {
 		return importFile(asmDirLib, importclause.getModuleName());
 	}
-	
-	
+
 	/**
 	 * read an imported file it can be relative to the asmDirLib or absolute.
 	 *
-	 * @param asmDirLib    can be null, in case "." is taken or absolute is
-	 *                     considered
-	 * @param moduleName the module name as String (it can be relative or absolute, with .asm o rwithout)
-	 * @return the imported file - it must exists 
+	 * @param asmDirLib  can be null, in case "." is taken or absolute is considered
+	 * @param moduleName the module name as String (it can be relative or absolute,
+	 *                   with .asm o rwithout)
+	 * @return the imported file - it must exists
 	 */
 	public static File importFile(String asmDirLib, String moduleName) {
 		// it should compute again asmLibPath relatively the import ...??
@@ -1709,5 +1706,19 @@ public class Utility {
 			return moduleFile;
 		else
 			return null;
+	}
+
+	/**
+	 * Checks whether the module name is one of those of the standard libraries
+	 * 
+	 * @param moduleName the module name
+	 * @return true when it is standard library, false if not
+	 */
+	static public boolean isAsmetaLibrary(String moduleName) {
+		//TODO use equals instead endswith, to check if one uses .asm it may not work 
+		// see StandardLibrary isAStandardLibery - almost identical !!!
+		return moduleName.endsWith(TIME_LIBRARY_NAME) || moduleName.endsWith(STANDARD_LIBRARY_NAME)
+				|| moduleName.endsWith(CTL_LIBRARY_NAME) || moduleName.endsWith(LTL_LIBRARY_NAME)
+				|| moduleName.endsWith("MAPEpatterns") || moduleName.endsWith("TimeLibrarySimple");
 	}
 }

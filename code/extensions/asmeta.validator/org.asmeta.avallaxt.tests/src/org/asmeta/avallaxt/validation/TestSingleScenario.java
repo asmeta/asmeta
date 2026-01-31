@@ -1,4 +1,4 @@
-package org.asmeta.avallaxt.tests.validation;
+package org.asmeta.avallaxt.validation;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;

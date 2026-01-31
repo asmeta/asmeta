@@ -1,5 +1,6 @@
 package org.asmeta.parser.util;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -36,9 +37,14 @@ public class AsmPrinterTest {
 
 	@Test
 	public void testVisitAsm2() throws Exception {
-		AsmPrinter spr = new AsmPrinter(new PrintWriter(System.out));
+		StringPrintWriter out = new StringPrintWriter();
+		AsmPrinter spr = new AsmPrinter(out);
 		spr.visit(ASMParser.setUpReadAsm(new File("../../../../asm_examples/examples/ferryman/ferrymanSimulator.asm")).getMain());
+		System.out.println(out.getString());
+		// check that the enum is translated properly - what if it is trsanledted with , ?
+		assertTrue(out.getString().contains("{FERRYMAN | GOAT | CABBAGE | WOLF}"));
 		spr.close();
+		assertTrue(out.isClosed());
 	}
 
 	@Test
@@ -52,6 +58,7 @@ public class AsmPrinterTest {
 		// check that the strings have \" \" aorund them
 		assertTrue(out.getString().contains("\"pippo\""));
 		spr.close();
+		assertTrue(out.isClosed());
 	}
 	
 }

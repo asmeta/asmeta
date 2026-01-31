@@ -44,6 +44,7 @@ public class AsmParserTest {
 	@BeforeClass
 	public static void setUpLogger() {
 		log = Logger.getLogger("org.asmeta.parser");
+		
 		/*
 		 * if (!log.getAllAppenders().hasMoreElements()) log.addAppender(new
 		 * ConsoleAppender(new SimpleLayout())); log.setLevel(Level.ALL);
@@ -62,9 +63,9 @@ public class AsmParserTest {
 			allAppenders.nextElement();
 		// no more appenders !!!
 		assertFalse(allAppenders.hasMoreElements());
-		log.setLevel(Level.INFO);
-		Logger.getLogger("org.asmeta.parser.util").setLevel(Level.INFO);
-		Logger.getLogger(ReflectiveVisitor.class).setLevel(Level.INFO);
+		log.setLevel(Level.ERROR);
+		Logger.getLogger("org.asmeta.parser.util").setLevel(Level.ERROR);
+		Logger.getLogger(ReflectiveVisitor.class).setLevel(Level.ERROR);
 	}
 
 	public static final String FILE_BASE = "../../../../asm_examples/";

@@ -20,6 +20,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.SimpleLayout;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.ParseException;
+import org.asmeta.parser.Utility;
 import org.eclipse.emf.ecore.EObject;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -73,29 +74,17 @@ public class AsmetaFeatureCheckerTest {
 //			"SubsetOfInt", x -> ((x instanceof Function) && ((Function) x).getCodomain() instanceof ConcreteDomain) && 
 //                    (((ConcreteDomain) ((Function) x).getCodomain()).getTypeDomain() instanceof IntegerDomain),
 //            "INVAR", x -> (x instanceof InvarConstraint),
-			"Modules", x -> (x instanceof ImportClause && !isStandardLibrary(((ImportClause) x).getModuleName())));
-
-	/**
-	 * Checks whether the module name is one of those of the standard libraries
-	 * 
-	 * @param moduleName the module name
-	 * @return true when it is standard library, false if not
-	 */
-	public boolean isStandardLibrary(String moduleName) {
-		return moduleName.endsWith("TimeLibrary") || moduleName.endsWith("StandardLibrary")
-				|| moduleName.endsWith("CTLLibrary") || moduleName.endsWith("LTLLibrary")
-				|| moduleName.endsWith("MAPEpatterns") || moduleName.endsWith("TimeLibrarySimple");
-	}
+			"Modules", x -> (x instanceof ImportClause && !Utility.isAsmetaLibrary(((ImportClause) x).getModuleName())));
 
 	@Test
 	public void testVisitAsm2() throws Exception {
 		// move to setup before class
-		Logger.getLogger(AsmetaFeatureChecker.class).setLevel(Level.ALL);
+		Logger.getLogger(AsmetaFeatureChecker.class).setLevel(Level.ERROR);
 		Logger.getLogger(AsmetaFeatureChecker.class).addAppender(new ConsoleAppender(new SimpleLayout()));
 		// first example: check if there exists a monitored function
 		AsmetaFeatureChecker spr = new AsmetaFeatureChecker(x -> (x instanceof MonitoredFunction));
 		File f = new File("../../../../asm_examples/examples/ferryman/ferrymanSimulator.asm");
-		System.out.println(spr.checkFeature(ASMParser.setUpReadAsm(f).getMain()));
+		//System.out.println(spr.checkFeature(ASMParser.setUpReadAsm(f).getMain()));
 		// it has a monitored function
 		assertTrue(spr.checkFeature(ASMParser.setUpReadAsm(f).getMain()));
 		spr = new AsmetaFeatureChecker(x -> (x instanceof OutFunction));
