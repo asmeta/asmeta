@@ -1,8 +1,5 @@
 package asmeta.asmetal2java.codegen.translator;
 
-import org.asmeta.parser.util.ReflectiveVisitor;
-import org.eclipse.emf.common.util.EList;
-
 import asmeta.definitions.Function;
 import asmeta.definitions.MonitoredFunction;
 import asmeta.terms.basicterms.BooleanTerm;
@@ -22,6 +19,8 @@ import asmeta.terms.furtherterms.NaturalTerm;
 import asmeta.terms.furtherterms.RealTerm;
 import asmeta.terms.furtherterms.SequenceTerm;
 import asmeta.terms.furtherterms.StringTerm;
+import org.asmeta.parser.util.ReflectiveVisitor;
+import org.eclipse.emf.common.util.EList;
 
 /**
  * Check if the init function term contains monitored functions

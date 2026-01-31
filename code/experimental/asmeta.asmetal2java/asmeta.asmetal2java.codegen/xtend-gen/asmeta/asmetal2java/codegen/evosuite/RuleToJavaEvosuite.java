@@ -1,7 +1,5 @@
 package asmeta.asmetal2java.codegen.evosuite;
 
-import org.eclipse.xtend2.lib.StringConcatenation;
-
 import asmeta.asmetal2java.codegen.config.TranslatorOptions;
 import asmeta.asmetal2java.codegen.translator.RuleToJava;
 import asmeta.asmetal2java.codegen.translator.TermToJava;
@@ -9,6 +7,7 @@ import asmeta.structure.Asm;
 import asmeta.transitionrules.basictransitionrules.ConditionalRule;
 import asmeta.transitionrules.basictransitionrules.Rule;
 import asmeta.transitionrules.derivedtransitionrules.CaseRule;
+import org.eclipse.xtend2.lib.StringConcatenation;
 
 /**
  * Redefinition of the {@link JavaRule} class by adding
@@ -46,7 +45,7 @@ public class RuleToJavaEvosuite extends RuleToJava {
    * Method translating the conditional rules. <br>
    * When entering in a conditional block, add a new branch to the rule
    * and set the flag variable to {@code true}
-   *
+   * 
    * @param object the ConditionalRule.
    */
   @Override
@@ -109,7 +108,7 @@ public class RuleToJavaEvosuite extends RuleToJava {
    * Method translating the CaseRules. <br>
    * When entering in a conditional block, add a new branch to the rule
    * and set the flag variable to {@code true}
-   *
+   * 
    * @param object the CaseRule.
    */
   @Override

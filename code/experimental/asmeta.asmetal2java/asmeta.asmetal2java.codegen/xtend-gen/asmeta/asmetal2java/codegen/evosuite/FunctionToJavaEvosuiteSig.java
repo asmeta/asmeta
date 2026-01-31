@@ -1,7 +1,5 @@
 package asmeta.asmetal2java.codegen.evosuite;
 
-import org.eclipse.xtend2.lib.StringConcatenation;
-
 import asmeta.asmetal2java.codegen.translator.FunctionToJavaSig;
 import asmeta.definitions.DerivedFunction;
 import asmeta.definitions.StaticFunction;
@@ -13,6 +11,7 @@ import asmeta.definitions.domains.PowersetDomain;
 import asmeta.definitions.domains.ProductDomain;
 import asmeta.definitions.domains.SequenceDomain;
 import asmeta.structure.Asm;
+import org.eclipse.xtend2.lib.StringConcatenation;
 
 /**
  * Redefinition of the {@link FunctionToJavaSig} class by adding

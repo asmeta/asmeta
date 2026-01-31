@@ -1,13 +1,5 @@
 package asmeta.asmetal2java.codegen.translator;
 
-import java.util.Arrays;
-
-import org.asmeta.parser.util.ReflectiveVisitor;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.xtend2.lib.StringConcatenation;
-import org.eclipse.xtext.xbase.lib.Exceptions;
-import org.eclipse.xtext.xbase.lib.XbaseGenerated;
-
 import asmeta.definitions.ControlledFunction;
 import asmeta.definitions.DerivedFunction;
 import asmeta.definitions.Function;
@@ -50,6 +42,12 @@ import asmeta.terms.furtherterms.SequenceCt;
 import asmeta.terms.furtherterms.SequenceTerm;
 import asmeta.terms.furtherterms.SetCt;
 import asmeta.terms.furtherterms.StringTerm;
+import java.util.Arrays;
+import org.asmeta.parser.util.ReflectiveVisitor;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.xtend2.lib.StringConcatenation;
+import org.eclipse.xtext.xbase.lib.Exceptions;
+import org.eclipse.xtext.xbase.lib.XbaseGenerated;
 
 @SuppressWarnings("all")
 public class TermToJava extends ReflectiveVisitor<String> {
@@ -303,7 +301,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
       String _plus_1 = (_plus + ",");
       String _visit_1 = this.visit(object.getPair().get(i).getTerms().get(1));
       String _plus_2 = (_plus_1 + _visit_1);
-      String _plus_3 = (_plus_2 +
+      String _plus_3 = (_plus_2 + 
         ");\n     ");
       map.append(_plus_3);
     }
@@ -699,7 +697,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
           String _plus_3 = (_plus_2 + "_s = new ");
           String _name_2 = ft.getDomain().getName();
           String _plus_4 = (_plus_3 + _name_2);
-          String _plus_5 = (_plus_4 +
+          String _plus_5 = (_plus_4 + 
             "();\n");
           functionTerm.append(_plus_5);
           String _name_3 = ft.getDomain().getName();
@@ -741,7 +739,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
       } else {
         if ((fd instanceof ControlledFunction)) {
           if (this.leftHandSide) {
-            String _name_8 = fd.getName();
+            String _name_8 = ((ControlledFunction)fd).getName();
             String _plus_16 = (_name_8 + "_elem = null;\n");
             functionTerm.append(_plus_16);
             for (int i = 0; (i < ((ControlledFunction)fd).getInitialization().get(0).getVariable().size()); i++) {
@@ -752,7 +750,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
               String _plus_19 = (_plus_18 + ";\n");
               functionTerm.append(_plus_19);
             }
-            String _name_9 = fd.getName();
+            String _name_9 = ((ControlledFunction)fd).getName();
             String _plus_17 = (_name_9 + "_elem = new ");
             functionTerm.append(_plus_17);
             int _size_1 = ((ControlledFunction)fd).getInitialization().get(0).getVariable().size();
@@ -823,7 +821,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
           } else {
             functionTerm.append("true))\n");
             functionTerm.append("System.out.println();\n");
-            String _name_12 = fd.getName();
+            String _name_12 = ((ControlledFunction)fd).getName();
             String _plus_21 = (_name_12 + "_elem = null;\n");
             functionTerm.append(_plus_21);
             for (int i = 0; (i < ((ControlledFunction)fd).getInitialization().get(0).getVariable().size()); i++) {
@@ -834,7 +832,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
               String _plus_24 = (_plus_23 + ";\n");
               functionTerm.append(_plus_24);
             }
-            String _name_13 = fd.getName();
+            String _name_13 = ((ControlledFunction)fd).getName();
             String _plus_22 = (_name_13 + "_elem = new ");
             functionTerm.append(_plus_22);
             int _size_2 = ((ControlledFunction)fd).getInitialization().get(0).getVariable().size();
@@ -895,10 +893,10 @@ public class TermToJava extends ReflectiveVisitor<String> {
                 functionTerm.append(_plus_24);
               }
             }
-            String _name_14 = fd.getName();
+            String _name_14 = ((ControlledFunction)fd).getName();
             String _plus_23 = ("if((" + _name_14);
             String _plus_24 = (_plus_23 + ".get(");
-            String _name_15 = fd.getName();
+            String _name_15 = ((ControlledFunction)fd).getName();
             String _plus_25 = (_plus_24 + _name_15);
             String _plus_26 = (_plus_25 + "_elem).value //");
             functionTerm.append(_plus_26);
@@ -1099,11 +1097,11 @@ public class TermToJava extends ReflectiveVisitor<String> {
           Term _get = ft.getArguments().getTerms().get(i);
           if ((_get instanceof SequenceTerm)) {
             Term _get_1 = ft.getArguments().getTerms().get(i);
-            Domain _domain = _get_1.getDomain();
+            Domain _domain = ((SequenceTerm) _get_1).getDomain();
             String _visit = new DomainToJavaString(this.res).visit(
               ((SequenceDomain) _domain).getDomain());
             String _plus = ("(ArrayList<" + _visit);
-            String _plus_1 = (_plus +
+            String _plus_1 = (_plus + 
               ">)Arrays.asList(");
             String _plus_2 = (_plus_1 + parameter);
             String _plus_3 = (_plus_2 + ")");

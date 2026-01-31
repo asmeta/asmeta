@@ -1,12 +1,5 @@
 package asmeta.asmetal2java.codegen.generator;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.xtend2.lib.StringConcatenation;
-import org.junit.Assert;
-
 import asmeta.asmetal2java.codegen.config.TranslatorOptions;
 import asmeta.asmetal2java.codegen.evosuite.AsmMethods;
 import asmeta.asmetal2java.codegen.evosuite.CoverOutputs;
@@ -16,6 +9,11 @@ import asmeta.asmetal2java.codegen.translator.SeqRuleCollector;
 import asmeta.definitions.RuleDeclaration;
 import asmeta.structure.Asm;
 import asmeta.transitionrules.basictransitionrules.Rule;
+import java.util.ArrayList;
+import java.util.List;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.xtend2.lib.StringConcatenation;
+import org.junit.Assert;
 
 /**
  * This generator creates a Java wrapper class that queries the translated java class
@@ -41,7 +39,7 @@ public class JavaAtgGenerator extends AsmToJavaGenerator {
   public String compileAsm(final Asm asm) {
     boolean _optimizeSeqMacroRule = this.options.getOptimizeSeqMacroRule();
     if (_optimizeSeqMacroRule) {
-      ArrayList<Rule> _arrayList = new ArrayList<>();
+      ArrayList<Rule> _arrayList = new ArrayList<Rule>();
       this.seqCalledRules = _arrayList;
       EList<RuleDeclaration> _ruleDeclaration = asm.getBodySection().getRuleDeclaration();
       for (final RuleDeclaration r : _ruleDeclaration) {

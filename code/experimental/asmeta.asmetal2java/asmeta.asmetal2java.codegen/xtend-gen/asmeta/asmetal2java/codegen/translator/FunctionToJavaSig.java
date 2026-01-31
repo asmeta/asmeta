@@ -1,8 +1,5 @@
 package asmeta.asmetal2java.codegen.translator;
 
-import org.asmeta.parser.util.ReflectiveVisitor;
-import org.eclipse.xtend2.lib.StringConcatenation;
-
 import asmeta.definitions.ControlledFunction;
 import asmeta.definitions.DerivedFunction;
 import asmeta.definitions.MonitoredFunction;
@@ -19,6 +16,8 @@ import asmeta.definitions.domains.SequenceDomain;
 import asmeta.definitions.domains.StructuredTd;
 import asmeta.definitions.domains.impl.StructuredTdImpl;
 import asmeta.structure.Asm;
+import org.asmeta.parser.util.ReflectiveVisitor;
+import org.eclipse.xtend2.lib.StringConcatenation;
 
 @SuppressWarnings("all")
 public class FunctionToJavaSig extends ReflectiveVisitor<String> {

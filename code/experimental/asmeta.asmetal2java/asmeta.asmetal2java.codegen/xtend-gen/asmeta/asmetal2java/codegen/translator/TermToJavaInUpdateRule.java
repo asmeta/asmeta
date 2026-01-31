@@ -35,11 +35,11 @@ public class TermToJavaInUpdateRule extends TermToJava {
     boolean _hasEvaluateVisitor = ExpressionToJava.hasEvaluateVisitor(name);
     boolean _not = (!_hasEvaluateVisitor);
     if (_not) {
-      if ((((term.getFunction() instanceof ControlledFunction) && (term.getDomain() instanceof ConcreteDomain)) &&
+      if ((((term.getFunction() instanceof ControlledFunction) && (term.getDomain() instanceof ConcreteDomain)) && 
         (!(term.getFunction().getDomain() instanceof ProductDomain)))) {
         functionTerm.append(this.caseFunctionTermSupp(term.getFunction(), term));
       }
-      if ((((term.getFunction() instanceof ControlledFunction) && (term.getFunction().getDomain() instanceof ProductDomain)) &&
+      if ((((term.getFunction() instanceof ControlledFunction) && (term.getFunction().getDomain() instanceof ProductDomain)) && 
         (term.getDomain() instanceof ConcreteDomain))) {
         functionTerm.append(this.caseFunctionTermSupp(term.getFunction(), term));
       }
@@ -124,7 +124,7 @@ public class TermToJavaInUpdateRule extends TermToJava {
             String _name_10 = ft.getDomain().getName();
             String _plus_17 = (_plus_16 + _name_10);
             String _plus_18 = (_plus_17 + this.varName);
-            String _plus_19 = (_plus_18 +
+            String _plus_19 = (_plus_18 + 
               "_s);");
             functionTerm.append(_plus_19);
           } else {

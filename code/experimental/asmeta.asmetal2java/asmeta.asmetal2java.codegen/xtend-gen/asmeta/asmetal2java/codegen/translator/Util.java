@@ -1,11 +1,5 @@
 package asmeta.asmetal2java.codegen.translator;
 
-import java.util.Objects;
-
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.xtend2.lib.StringConcatenation;
-import org.eclipse.xtext.xbase.lib.Exceptions;
-
 import asmeta.definitions.domains.BooleanDomain;
 import asmeta.definitions.domains.CharDomain;
 import asmeta.definitions.domains.Domain;
@@ -15,6 +9,10 @@ import asmeta.definitions.domains.RealDomain;
 import asmeta.definitions.domains.StringDomain;
 import asmeta.structure.Asm;
 import asmeta.terms.basicterms.VariableTerm;
+import java.util.Objects;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.xtend2.lib.StringConcatenation;
+import org.eclipse.xtext.xbase.lib.Exceptions;
 
 @SuppressWarnings("all")
 public class Util {
@@ -185,7 +183,7 @@ public class Util {
   }
 
   public static boolean isNotNumerable(final Domain domain) {
-    if (((((((domain instanceof StringDomain) || (domain instanceof CharDomain)) || (domain instanceof IntegerDomain)) ||
+    if (((((((domain instanceof StringDomain) || (domain instanceof CharDomain)) || (domain instanceof IntegerDomain)) || 
       (domain instanceof RealDomain)) || (domain instanceof NaturalDomain)) || (domain instanceof BooleanDomain))) {
       return true;
     } else {

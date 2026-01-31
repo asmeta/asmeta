@@ -294,7 +294,7 @@ public class RuleVisitor extends ReflectiveVisitor<Void> implements IRuleVisitor
 	 */
 	@Override
 	public Void visit(Rule rule) {
-		invokeMethod(rule, "visit");
+		invokeMethod(rule);
 		return null;
 	}
 

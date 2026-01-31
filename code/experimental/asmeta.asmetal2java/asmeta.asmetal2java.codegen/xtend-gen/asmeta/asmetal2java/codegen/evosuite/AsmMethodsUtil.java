@@ -1,17 +1,15 @@
 package asmeta.asmetal2java.codegen.evosuite;
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.xtend2.lib.StringConcatenation;
-
 import asmeta.asmetal2java.codegen.translator.DomainToJavaString;
 import asmeta.definitions.Function;
 import asmeta.definitions.domains.ConcreteDomain;
 import asmeta.definitions.domains.Domain;
 import asmeta.definitions.domains.EnumTd;
 import asmeta.structure.Asm;
+import java.util.Arrays;
+import java.util.List;
+import org.eclipse.emf.common.util.EList;
+import org.eclipse.xtend2.lib.StringConcatenation;
 
 @SuppressWarnings("all")
 public class AsmMethodsUtil {
@@ -40,7 +38,7 @@ public class AsmMethodsUtil {
     EList<Domain> _domain = asm.getHeaderSection().getSignature().getDomain();
     for (final Domain to : _domain) {
       if ((to instanceof ConcreteDomain)) {
-        boolean _equals = to.getName().equals(concreteDomName);
+        boolean _equals = ((ConcreteDomain)to).getName().equals(concreteDomName);
         if (_equals) {
           String type = new DomainToJavaString(asm).visit(((ConcreteDomain)to).getTypeDomain());
           boolean _contains = AsmMethodsUtil.basicTdList.contains(type);

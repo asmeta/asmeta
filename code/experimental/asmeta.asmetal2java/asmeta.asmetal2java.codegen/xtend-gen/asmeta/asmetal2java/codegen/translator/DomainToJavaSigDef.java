@@ -1,8 +1,5 @@
 package asmeta.asmetal2java.codegen.translator;
 
-import org.asmeta.parser.util.ReflectiveVisitor;
-import org.eclipse.xtend2.lib.StringConcatenation;
-
 import asmeta.definitions.domains.AbstractTd;
 import asmeta.definitions.domains.BagDomain;
 import asmeta.definitions.domains.ConcreteDomain;
@@ -15,6 +12,8 @@ import asmeta.definitions.domains.SequenceDomain;
 import asmeta.structure.Asm;
 import asmeta.structure.DomainDefinition;
 import asmeta.structure.DomainInitialization;
+import org.asmeta.parser.util.ReflectiveVisitor;
+import org.eclipse.xtend2.lib.StringConcatenation;
 
 /**
  * Translates the signature and the definition of the domains
