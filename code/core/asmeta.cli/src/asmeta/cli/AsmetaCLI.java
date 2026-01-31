@@ -93,7 +93,10 @@ public abstract class AsmetaCLI {
 		if (logConfFile != null) {
 			LogManager.resetConfiguration();
 			PropertyConfigurator.configure(logConfFile);
-		} else if (System.getProperty("log4j.configuration") == null) {			
+		} else if (System.getProperty("log4j.configuration") == null) {
+			// reset the info about loggers
+			BasicConfigurator.resetConfiguration();
+			// be careful that this adds an appender!!
 			BasicConfigurator.configure();
 			Logger log = Logger.getRootLogger();
 			if (debug) {
@@ -102,7 +105,8 @@ public abstract class AsmetaCLI {
 				log.setLevel(Level.INFO);
 			}
 			// get the default console appender
-			Appender app = (Appender) log.getAllAppenders().nextElement();
+			assert log.getAllAppenders().hasMoreElements();
+			Appender app = (Appender) log.getAllAppenders().nextElement();			
 			// set the layout if necessary
 			Layout log4jlayout = app.getLayout();
 			if (log4jlayout instanceof PatternLayout) {
