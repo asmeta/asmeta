@@ -82,9 +82,11 @@ test:
   script:
 #    - mvn -Dassembly.skipAssembly=true -Dmaven.test.failure.ignore=true --batch-mode --fail-at-end org.jacoco:jacoco-maven-plugin:prepare-agent test org.jacoco:jacoco-maven-plugin:report-aggregate
 #    - mvn --batch-mode --fail-at-end org.jacoco:jacoco-maven-plugin:prepare-agent test org.jacoco:jacoco-maven-plugin:report-aggregate
-     - mvn test
+# added log to avoid the problem of: Job's log exceeded limit of 4194304 bytes
+     - mvn --log-file reports/maven_build.log test
   artifacts:
     when: always
+    expire_in: 5 days
     reports: # Upload the info for the job report artifact (artifact:reports:junit in this case)
       junit: # Paths of all test results for each test module
         - code/core/asmeta.parser/asmeta.parser.test/target/surefire-reports/TEST-*.xml
@@ -95,6 +97,7 @@ test:
     paths: # Upload the file as a generic job artifact
       - reports/coverage/report.aggregate/jacoco.xml
       - reports/coverage/report.aggregate/index.html
+      - reports/maven_build.log
   # run the CI only on the branch gitlab_ci
   only:
     - gitlab_ci
