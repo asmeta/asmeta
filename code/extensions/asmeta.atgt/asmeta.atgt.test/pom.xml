@@ -2,7 +2,6 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>asmeta.atgt.test</groupId>
   <artifactId>asmeta.atgt.test</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
   <build>
     <testSourceDirectory>src</testSourceDirectory>
     <plugins>
@@ -43,11 +42,6 @@
 	<dependency>
 	    <groupId>asmeta</groupId>
   		<artifactId>asmeta.emf</artifactId>
-  		<version>0.0.1-SNAPSHOT</version>
-	</dependency>
-		<dependency>
-	    <groupId>asmeta</groupId>
-  		<artifactId>asmeta.atgt</artifactId>
   		<version>0.0.1-SNAPSHOT</version>
 	</dependency>
 	<dependency>
