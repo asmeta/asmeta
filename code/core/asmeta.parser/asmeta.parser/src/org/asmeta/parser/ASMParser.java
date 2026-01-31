@@ -547,15 +547,15 @@ Logger.logDebug("export: ");
         String oldValue;
       if (jj_2_19(2)) {
         exportedID = ID_DOMAIN();
-oldValue = (String) exported_Dom.put(new Integer(exportedID.hashCode()), exportedID);
+oldValue = (String) exported_Dom.put(Integer.valueOf(exportedID.hashCode()), exportedID);
           if (oldValue == null) Logger.logDebug(exportedID);
       } else if (jj_2_20(2)) {
         exportedID = ID_FUNCTION();
-oldValue = (String) exported_Func.put(new Integer(exportedID.hashCode()), exportedID);
+oldValue = (String) exported_Func.put(Integer.valueOf(exportedID.hashCode()), exportedID);
           if (oldValue == null) Logger.logDebug(exportedID);
       } else if (jj_2_21(2)) {
         exportedID = ID_RULE();
-oldValue = (String) exported_Rules.put(new Integer(exportedID.hashCode()), exportedID);
+oldValue = (String) exported_Rules.put(Integer.valueOf(exportedID.hashCode()), exportedID);
           if (oldValue == null) Logger.logDebug(exportedID);
       } else {
         jj_consume_token(-1);
@@ -571,15 +571,15 @@ oldValue = (String) exported_Rules.put(new Integer(exportedID.hashCode()), expor
         jj_consume_token(115);
         if (jj_2_23(2)) {
           exportedID = ID_DOMAIN();
-oldValue = (String) exported_Dom.put(new Integer(exportedID.hashCode()), exportedID);
+oldValue = (String) exported_Dom.put(Integer.valueOf(exportedID.hashCode()), exportedID);
             if (oldValue == null) Logger.logDebug("," + exportedID);
         } else if (jj_2_24(2)) {
           exportedID = ID_FUNCTION();
-oldValue = (String) exported_Func.put(new Integer(exportedID.hashCode()), exportedID);
+oldValue = (String) exported_Func.put(Integer.valueOf(exportedID.hashCode()), exportedID);
             if (oldValue == null) Logger.logDebug("," + exportedID);
         } else if (jj_2_25(2)) {
           exportedID = ID_RULE();
-oldValue = (String) exported_Rules.put(new Integer(exportedID.hashCode()), exportedID);
+oldValue = (String) exported_Rules.put(Integer.valueOf(exportedID.hashCode()), exportedID);
             if (oldValue == null) Logger.logDebug("," + exportedID);
         } else {
           jj_consume_token(-1);
@@ -1632,7 +1632,7 @@ invariant.setBody(exp);
     //PA 30/12/2010 poiche' abbiamo introdotto gli operatori temporali come
     //funzioni con codominio Boolean, qui bisognerebbe anche controllare
     //che all'interno di exp non sia stata utilizzata una funzione della
-    //CTLLibrary o della LTLLibrary
+    //CTLlibrary o della LTLlibrary
     if (!OCL_Checker.isBoolean(exp))
     {
       Logger.logErr("Error: The expression specifying an invariant must be a term whose associated type-domain is Boolean.");
