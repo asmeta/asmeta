@@ -82,6 +82,8 @@ public class AsmetaLc extends AsmetaCLI {
 					System.out.println("DONE.");
 					return RunCLIResult.SUCCESS;
 				}
+			} catch (org.eclipse.emf.ecore.resource.Resource.IOWrappedException emfec) { 
+				System.err.println("IOWrappedException: " + emfec.getLocalizedMessage());
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

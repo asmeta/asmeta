@@ -54,6 +54,13 @@ public class FlattenerTest {
 		Logger.getLogger("org.asmeta.parser").setLevel(Level.OFF);
 	}
 
+	@BeforeClass
+	public static void reset() {
+		Logger.getRootLogger().removeAllAppenders();
+	}
+
+	
+	
 	@Before
 	public void initTest() {
 		// RuleFlattener.DO_STATS = false;

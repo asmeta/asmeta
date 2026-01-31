@@ -30,7 +30,9 @@ public class TestCoverage extends TestValidator {
 
 	@Before
 	public void setupLogger() {
-		Logger.getLogger(RuleEvalWCov.class).setLevel(Level.DEBUG);
+		// set to error to reduc eoutput for gitlab
+		Logger.getLogger(RuleEvalWCov.class).setLevel(Level.ERROR);
+		// this must be in debug since the output is checked with this logger
 		Logger.getLogger(AsmetaV.class).setLevel(Level.DEBUG);
 		// get the logger output
 		stringWriter = new StringWriter();

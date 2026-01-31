@@ -40,7 +40,7 @@ public class AsmPrinterTest {
 		StringPrintWriter out = new StringPrintWriter();
 		AsmPrinter spr = new AsmPrinter(out);
 		spr.visit(ASMParser.setUpReadAsm(new File("../../../../asm_examples/examples/ferryman/ferrymanSimulator.asm")).getMain());
-		System.out.println(out.getString());
+		//System.out.println(out.getString());
 		// check that the enum is translated properly - what if it is trsanledted with , ?
 		assertTrue(out.getString().contains("{FERRYMAN | GOAT | CABBAGE | WOLF}"));
 		spr.close();

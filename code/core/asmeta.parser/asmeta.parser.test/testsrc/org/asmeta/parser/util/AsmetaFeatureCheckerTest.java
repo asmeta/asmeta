@@ -22,6 +22,8 @@ import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.ParseException;
 import org.asmeta.parser.Utility;
 import org.eclipse.emf.ecore.EObject;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
@@ -76,11 +78,20 @@ public class AsmetaFeatureCheckerTest {
 //            "INVAR", x -> (x instanceof InvarConstraint),
 			"Modules", x -> (x instanceof ImportClause && !Utility.isAsmetaLibrary(((ImportClause) x).getModuleName())));
 
-	@Test
-	public void testVisitAsm2() throws Exception {
-		// move to setup before class
+	@BeforeClass
+	public static void setUpLogger(){
 		Logger.getLogger(AsmetaFeatureChecker.class).setLevel(Level.ERROR);
 		Logger.getLogger(AsmetaFeatureChecker.class).addAppender(new ConsoleAppender(new SimpleLayout()));
+	}
+
+	@AfterClass
+	public static void restoreLogger(){
+		// remove all appenders to avoid bloating the console
+		Logger.getLogger(AsmetaFeatureChecker.class).removeAllAppenders();
+	}
+	
+	@Test
+	public void testVisitAsm2() throws Exception {
 		// first example: check if there exists a monitored function
 		AsmetaFeatureChecker spr = new AsmetaFeatureChecker(x -> (x instanceof MonitoredFunction));
 		File f = new File("../../../../asm_examples/examples/ferryman/ferrymanSimulator.asm");
@@ -90,57 +101,40 @@ public class AsmetaFeatureCheckerTest {
 		spr = new AsmetaFeatureChecker(x -> (x instanceof OutFunction));
 		// it has no monitored functions
 		assertFalse(spr.checkFeature(ASMParser.setUpReadAsm(f).getMain()));
-		// remove all appenders to avoid bloating the console
-		Logger.getLogger(AsmetaFeatureChecker.class).removeAllAppenders();
 	}
 
 	@Test
 	public void testLet() throws Exception {
-		// move to setup before class
-		Logger.getLogger(AsmetaFeatureChecker.class).setLevel(Level.ALL);
-		Logger.getLogger(AsmetaFeatureChecker.class).addAppender(new ConsoleAppender(new SimpleLayout()));
 		// first example: check if there exists a monitored function
 		AsmetaFeatureChecker spr = new AsmetaFeatureChecker(x -> (x instanceof LetRuleImpl));
 		File f = new File("../../../../asm_examples/test/simulator/CaseRule02.asm");
 		System.out.println(spr.checkFeature(ASMParser.setUpReadAsm(f).getMain()));
 		// it has a monitored function
 		assertTrue(spr.checkFeature(ASMParser.setUpReadAsm(f).getMain()));
-		Logger.getLogger(AsmetaFeatureChecker.class).removeAllAppenders();
 	}
 
 	@Test
 	public void testExtend() throws Exception {
-		// move to setup before class
-		Logger.getLogger(AsmetaFeatureChecker.class).setLevel(Level.ALL);
-		Logger.getLogger(AsmetaFeatureChecker.class).addAppender(new ConsoleAppender(new SimpleLayout()));
 		// first example: check if there exists a monitored function
 		AsmetaFeatureChecker spr = new AsmetaFeatureChecker(x -> (x instanceof ExtendRule));
 		File f = new File("../../../../asm_examples/examples/simple_example/population.asm");
-		System.out.println(spr.checkFeature(ASMParser.setUpReadAsm(f).getMain()));
+		Logger.getLogger(AsmetaFeatureChecker.class).debug(spr.checkFeature(ASMParser.setUpReadAsm(f).getMain()));
 		// it has a monitored function
 		assertTrue(spr.checkFeature(ASMParser.setUpReadAsm(f).getMain()));
-		Logger.getLogger(AsmetaFeatureChecker.class).removeAllAppenders();
 	}
 
 	@Test
 	public void testInvariant() throws Exception {
-		// move to setup before class
-		Logger.getLogger(AsmetaFeatureChecker.class).setLevel(Level.ALL);
-		Logger.getLogger(AsmetaFeatureChecker.class).addAppender(new ConsoleAppender(new SimpleLayout()));
 		// first example: check if there exists a monitored function
 		AsmetaFeatureChecker spr = new AsmetaFeatureChecker(x -> (x instanceof Invariant));
 		File f = new File("../../../../asm_examples/examples/ferryman/ferrymanSimulator.asm");
-		System.out.println(spr.checkFeature(ASMParser.setUpReadAsm(f).getMain()));
+		Logger.getLogger(AsmetaFeatureChecker.class).debug(spr.checkFeature(ASMParser.setUpReadAsm(f).getMain()));
 		// it has a monitored function
 		assertTrue(spr.checkFeature(ASMParser.setUpReadAsm(f).getMain()));
-		Logger.getLogger(AsmetaFeatureChecker.class).removeAllAppenders();
 	}
 
 	@Test
 	public void testVisitAsmExamples() throws Exception {
-		// move to setup before class
-		Logger.getLogger(AsmetaFeatureChecker.class).setLevel(Level.OFF);
-		Logger.getLogger(AsmetaFeatureChecker.class).addAppender(new ConsoleAppender(new SimpleLayout()));
 		AsmetaFeatureChecker spr;
 
 		// Read the "model_list.txt" file containing the list of ASM files to be tested,
@@ -163,15 +157,12 @@ public class AsmetaFeatureCheckerTest {
 					System.out.println("-> ERROR processing file: " + e.getMessage());
 				}
 			}
-			System.out.println("Total ASMs with " + featureName + ": " + count + " out of " + modelList.size());
+			Logger.getLogger(AsmetaFeatureChecker.class).info("Total ASMs with " + featureName + ": " + count + " out of " + modelList.size());
 		}
 	}
 
 	@Test
 	public void testVisitAsmResults() throws Exception {
-		// move to setup before class
-		Logger.getLogger(AsmetaFeatureChecker.class).setLevel(Level.OFF);
-		Logger.getLogger(AsmetaFeatureChecker.class).addAppender(new ConsoleAppender(new SimpleLayout()));
 		AsmetaFeatureChecker spr;
 
 		List<String> modelList = readResultsFile(Paths.get(

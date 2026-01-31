@@ -77,7 +77,7 @@ public class ExperimentsFIDE2018 extends FlattenerTest {
 	@Test
 	public void testFerryman() throws Exception {
 		String result = flattenerTest("benchmarksFIDE2018/ferrymanSimulator_raff1.asm", ALL_FLATTENERS);
-		System.out.println(result);
+		//System.out.println(result);
 		// 	derived oppositeSide: Side -> Side
 		// derived allOnRightSide: Boolean
 
@@ -111,7 +111,6 @@ public class ExperimentsFIDE2018 extends FlattenerTest {
 	}
 
 	private static void experimentSimplifier() {
-		;
 		Logger.getRootLogger();
 		Category.shutdown();
 		// init();
