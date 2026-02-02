@@ -15,7 +15,7 @@ public class PortManager {
 
 	public PortManager(Properties props) {
 		this.registryAddr = props.getProperty("REGISTRY_ADDR", "tcp://127.0.0.1:5570");
-		// carico pool chiavi tipo PORT_POOL.producer, PORT_POOL.consumer
+		// Load key pool like PORT_POOL.producer, PORT_POOL.consumer
 		for (String k : props.stringPropertyNames()) {
 			if (k.startsWith("PORT_POOL.")) {
 				String role = k.substring("PORT_POOL.".length());
@@ -108,7 +108,7 @@ public class PortManager {
 		Deque<Integer> q = poolsByRole.get(role);
 		if (q == null || q.isEmpty())
 			return null;
-		int port = q.pollFirst(); // prendi porta libera
+		int port = q.pollFirst(); // Get free port
 		return "tcp://" + host + ":" + port;
 	}
 
@@ -123,7 +123,7 @@ public class PortManager {
 		}
 	}
 
-	// Carico solo la sezione "common." del file unificato
+	// Load only the "common." section from the unified file
 	public static Properties loadCommon(String unifiedPath) {
 		try (InputStream in = PortManager.class.getClassLoader().getResourceAsStream(unifiedPath)) {
 			if (in == null)

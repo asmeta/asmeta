@@ -4,7 +4,7 @@ import asmeta.asmeta_zeromq.ZeroMQWA;
 
 public class consumerASM {
     public static void main(String[] args) {
-    	ZeroMQWA consumerASM = new ZeroMQWA("/configs/digitalTwinExample/zmq_config_consumer.properties");
-        consumerASM.run();
+    	ZeroMQWA consumerasm = new ZeroMQWA("/configs/digitalTwinExample/zmq_config_consumer.properties");
+        consumerasm.run();
     }
 }

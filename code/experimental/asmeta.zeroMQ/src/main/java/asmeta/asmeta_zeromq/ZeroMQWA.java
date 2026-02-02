@@ -31,7 +31,7 @@ public class ZeroMQWA {
     private static final Logger logger = LogManager.getLogger(ZeroMQWA.class);
 
     // Instance variables matching configuration keys (UPPER_SNAKE_CASE)
- // MODIFICA: Prefisso della sezione nel file unificato (es. "producer", "consumer")
+ //Section prefix in the unified file (e.g., "producer", "consumer")
     private String sectionPrefix;
     
     private final String CONFIG_FILE_PATH;
@@ -41,10 +41,10 @@ public class ZeroMQWA {
     private String ASM_ENVIRONMENT_ADDRESS;
     private List<String> ASM_ENVIRONMENT_FUNCTIONS;
     private List<String> CONSOLE_INPUT_FUNCTIONS;
- // config comuni 
-    private String HOST;                 // es. 127.0.0.1 (da common.HOST)
-    private String REGISTRY_ADDR;        // es. tcp://127.0.0.1:5570 (da common.REGISTRY_ADDR)
-    private List<String> SUB_ROLES;      // ruoli a cui connettersi (consumer legge producer)
+ // common config
+    private String HOST;                 // e.g. 127.0.0.1 (from common.HOST)
+    private String REGISTRY_ADDR;        // e.g. tcp://127.0.0.1:5570 (from common.REGISTRY_ADDR)
+    private List<String> SUB_ROLES;      // Roles to connect (consumer reads from producer)
 
  
     
@@ -61,49 +61,14 @@ public class ZeroMQWA {
     private Set<String> requiredMonitored;
     private Map<String, String> currentMonitoredValues;
     
-    /*
-    public ZeroMQWA(String config_filepath) {
-        this.requiredMonitored = new HashSet<>();
-        this.gson = new Gson();
-        this.currentMonitoredValues = new HashMap<>();
-        this.mapStringStringType = new TypeToken<Map<String, String>>() {}.getType();
-        this.CONFIG_FILE_PATH = config_filepath;
-        logger.info("zeroMQW initialized for config: {}", this.CONFIG_FILE_PATH);
-
-        try {
-            // Configuration section
-            Properties config = this.loadConfig();
-            this.RUNTIME_MODEL_PATH = config.getProperty("RUNTIME_MODEL_PATH");
-            this.ZMQ_PUB_SOCKET = config.getProperty("ZMQ_PUB_SOCKET");
-            this.ZMQ_SUB_CONNECT_ADDRESSES = config.getProperty("ZMQ_SUB_CONNECT_ADDRESSES", "");
-            this.ASM_ENVIRONMENT_ADDRESS = config.getProperty("ASM_ENVIRONMENT_ADDRESS");
-            this.ASM_ENVIRONMENT_FUNCTIONS = Arrays.asList(config.getProperty("ASM_ENVIRONMENT_FUNCTIONS", "").split(","));
-
-            if (config.getProperty("CONSOLE_INPUT_FUNCTIONS") != null) {
-                this.CONSOLE_INPUT_FUNCTIONS = Arrays.asList(config.getProperty("CONSOLE_INPUT_FUNCTIONS", "").split(","));
-            } else {
-                this.CONSOLE_INPUT_FUNCTIONS = null;
-            }
-
-            // Initialize ASM
-            this.asmId = this.initializeAsm(this.RUNTIME_MODEL_PATH);
-
-            logger.info("zeroMQW instance configured successfully for {}", this.CONFIG_FILE_PATH);
-
-        } catch (IOException | NullPointerException e) {
-            logger.fatal("CRITICAL ERROR during zeroMQW initialization for {}: {}", this.CONFIG_FILE_PATH, e.getMessage(), e);
-        } catch (Exception e) {
-            logger.fatal("CRITICAL ERROR during initialization for {}: {}", this.CONFIG_FILE_PATH, e.getMessage(), e);
-        }
-    }
-*/
+   
     public ZeroMQWA(String config_filepath, String sectionPrefix) {
         this.requiredMonitored = new HashSet<>();
         this.gson = new Gson();
         this.currentMonitoredValues = new HashMap<>();
         this.mapStringStringType = new TypeToken<Map<String, String>>() {}.getType();
         this.CONFIG_FILE_PATH = config_filepath;
-        this.sectionPrefix = sectionPrefix;   // <--- IMPOSTA il prefisso qui
+        this.sectionPrefix = sectionPrefix;   // <--- SET the prefix here
         logger.info("zeroMQW initialized for config: {}", this.CONFIG_FILE_PATH);
 
         try {
@@ -130,7 +95,7 @@ public class ZeroMQWA {
             this.SUB_ROLES = rolesRaw.isEmpty() ? List.of() : Arrays.asList(rolesRaw.split("\\s*,\\s*"));
 
             
-      
+         // dynamic port allocation
             if (this.ZMQ_PUB_SOCKET == null || this.ZMQ_PUB_SOCKET.isBlank()) {
                 this.ZMQ_PUB_SOCKET = requestAllocFromRegistry(this.REGISTRY_ADDR, this.HOST, this.sectionPrefix);
                 logger.info("Allocated PUB endpoint from registry: {}", this.ZMQ_PUB_SOCKET);
@@ -157,38 +122,67 @@ public class ZeroMQWA {
     }
     
     
-/*
-    private Properties loadConfig() throws IOException, NullPointerException {
-        properties = new Properties();
-        try (InputStream input = ZeroMQWA.class.getResourceAsStream(this.CONFIG_FILE_PATH)) {
-            if (input == null) {
-                logger.error("Config file not found at path: {}", this.CONFIG_FILE_PATH);
-                throw new IOException("Config file not found, path: " + this.CONFIG_FILE_PATH);
-            }
-            properties.load(input);
-            logger.debug("Properties loaded from file.");
+    /**
+     * New constructor: initialize from an already prepared Properties object
+     * (e.g. created by SimulationLauncher from the unified configuration).
+     */
+    public ZeroMQWA(Properties modelConfig, String sectionPrefix) {
+        this.requiredMonitored = new HashSet<>();
+        this.gson = new Gson();
+        this.currentMonitoredValues = new HashMap<>();
+        this.mapStringStringType = new TypeToken<Map<String, String>>() {}.getType();
+        this.CONFIG_FILE_PATH = "<in-memory>";
+        this.sectionPrefix = sectionPrefix;
+        logger.info("zeroMQW initialized from in-memory Properties for section: {}", this.sectionPrefix);
 
-            if (properties.getProperty("RUNTIME_MODEL_PATH") == null || properties.getProperty("ZMQ_PUB_SOCKET") == null) {
-                String missing = "";
-                if (properties.getProperty("RUNTIME_MODEL_PATH") == null) missing += "RUNTIME_MODEL_PATH ";
-                if (properties.getProperty("ZMQ_PUB_SOCKET") == null) missing += "ZMQ_PUB_SOCKET ";
-                logger.error("Essential configuration parameters missing: {}", missing.trim());
-                throw new NullPointerException("ERROR Essential parameters missing: " + missing.trim());
+        try {
+            this.properties = modelConfig;
+
+            this.RUNTIME_MODEL_PATH = properties.getProperty("RUNTIME_MODEL_PATH");
+            this.ZMQ_PUB_SOCKET = properties.getProperty("ZMQ_PUB_SOCKET");
+            this.ZMQ_SUB_CONNECT_ADDRESSES = properties.getProperty("ZMQ_SUB_CONNECT_ADDRESSES", "");
+            if (this.ZMQ_SUB_CONNECT_ADDRESSES == null 
+                    || "null".equalsIgnoreCase(this.ZMQ_SUB_CONNECT_ADDRESSES.trim())) {
+                this.ZMQ_SUB_CONNECT_ADDRESSES = "";
             }
-        } catch (IOException e) {
-            logger.error("ERROR loading config file '{}': {}", this.CONFIG_FILE_PATH, e.getMessage(), e);
-            throw e;
-        } catch (NullPointerException e) {
-            logger.error("ERROR checking config properties: {}", e.getMessage(), e);
-            throw e;
+
+            this.ASM_ENVIRONMENT_ADDRESS = properties.getProperty("ASM_ENVIRONMENT_ADDRESS");
+            this.ASM_ENVIRONMENT_FUNCTIONS =
+                    Arrays.asList(properties.getProperty("ASM_ENVIRONMENT_FUNCTIONS", "").split(","));
+            this.HOST = properties.getProperty("HOST", "127.0.0.1");
+            this.REGISTRY_ADDR = properties.getProperty("REGISTRY_ADDR", "tcp://127.0.0.1:5570");
+
+            String rolesRaw = properties.getProperty("SUB_ROLES", "").trim();
+            this.SUB_ROLES = rolesRaw.isEmpty()
+                    ? List.of()
+                    : Arrays.asList(rolesRaw.split("\\s*,\\s*"));
+
+         // dynamic port allocation
+            if (this.ZMQ_PUB_SOCKET == null || this.ZMQ_PUB_SOCKET.isBlank()) {
+                this.ZMQ_PUB_SOCKET =
+                        requestAllocFromRegistry(this.REGISTRY_ADDR, this.HOST, this.sectionPrefix);
+                logger.info("Allocated PUB endpoint from registry: {}", this.ZMQ_PUB_SOCKET);
+            }
+
+            if (properties.getProperty("CONSOLE_INPUT_FUNCTIONS") != null) {
+                this.CONSOLE_INPUT_FUNCTIONS =
+                        Arrays.asList(properties.getProperty("CONSOLE_INPUT_FUNCTIONS", "").split(","));
+            } else {
+                this.CONSOLE_INPUT_FUNCTIONS = null;
+            }
+
+            this.asmId = this.initializeAsm(this.RUNTIME_MODEL_PATH);
+            logger.info("zeroMQW instance (in-memory config) initialized successfully for section '{}'",
+                    this.sectionPrefix);
+
+        } catch (Exception e) {
+            logger.error("ERROR initializing zeroMQW from in-memory config for '{}': {}",
+                    this.sectionPrefix, e.getMessage(), e);
+            throw new RuntimeException(e);
         }
-        logger.info("Configuration Loaded Successfully!");
-        logger.info(" * {} = {}", "RUNTIME_MODEL_PATH", properties.getProperty("RUNTIME_MODEL_PATH"));
-        logger.info(" * {} = {}", "ZMQ_PUB_SOCKET", properties.getProperty("ZMQ_PUB_SOCKET"));
-        logger.info(" * {} = {}", "ZMQ_SUB_CONNECT_ADDRESSES", properties.getProperty("ZMQ_SUB_CONNECT_ADDRESSES"));
-        return properties;
     }
-*/
+
+
     private Properties loadConfig() throws IOException, NullPointerException {
     properties = new Properties();
     try (InputStream input = ZeroMQWA.class.getResourceAsStream(this.CONFIG_FILE_PATH)) {
@@ -196,7 +190,7 @@ public class ZeroMQWA {
             throw new IOException("Config file not found, path: " + this.CONFIG_FILE_PATH);
         }
 
-        // Carica tutte le chiavi del file unico
+     // Load all keys from the unified file
         Properties all = new Properties();
         all.load(input);
 
@@ -286,7 +280,7 @@ private static Properties extractSection(Properties all, String sectionPrefix) {
         }
     }
 
-    // ALLOC per ottenere un endpoint PUB
+ // ALLOC to obtain a PUB endpoint
     private String requestAllocFromRegistry(String registryAddr, String host, String role) {
         Map<String, Object> req = new HashMap<>();
         req.put("op", "ALLOC");
@@ -296,8 +290,6 @@ private static Properties extractSection(Properties all, String sectionPrefix) {
         if (Boolean.TRUE.equals(resp.get("ok"))) return (String) resp.get("endpoint");
         throw new RuntimeException("ALLOC failed: " + resp.get("err"));
     }
-
-  
 
     private void initializeZmqSockets(ZContext context, String pubBindAddress, String subConnectAddressesString) {
         logger.info("Initializing ZeroMQ sockets...");
@@ -368,9 +360,7 @@ private static Properties extractSection(Properties all, String sectionPrefix) {
                 logger.warn("LOOKUP failed: {}", resp.get("err"));
             }
         }
-        
-        
-        
+              
        /* publisher.bind(pubBindAddress);
         logger.info("PUB Socket bound to Address: {}", pubBindAddress); */
 
@@ -568,33 +558,5 @@ private static Properties extractSection(Properties all, String sectionPrefix) {
         }
         if (!missing.isEmpty()) logger.warn("Waiting for required inputs: {}", missing);
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+ 
 }
