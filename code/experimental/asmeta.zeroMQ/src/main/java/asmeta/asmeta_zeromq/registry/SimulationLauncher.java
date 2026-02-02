@@ -86,11 +86,6 @@ public class SimulationLauncher {
         // breve pausa per permettere al registry di bindare la socket
         Thread.sleep(500);
 
-        // 8) Avvia l'environment (usa ancora il suo main, che legge la sezione environment.*)
-        Thread envThread = new Thread(() -> environment.main(new String[0]), "environment-thread");
-        envThread.start();
-        System.out.println("Started environment");
-
         // 9) Avvia i modelli ZeroMQWA (producer, consumer) in base alla composizione
         List<Thread> modelThreads = new ArrayList<>();
         for (String modelName : pipelineModels) {
@@ -105,6 +100,13 @@ public class SimulationLauncher {
             modelThreads.add(t);
             System.out.println("Started model: " + modelName);
         }
+        
+        // 8) Avvia l'environment (usa ancora il suo main, che legge la sezione environment.*)
+        Thread envThread = new Thread(() -> environment.main(new String[0]), "environment-thread");
+        envThread.start();
+        System.out.println("Started environment");
+
+       
 
         // opzionale: se vuoi che il launcher aspetti la fine dei modelli
         /*
