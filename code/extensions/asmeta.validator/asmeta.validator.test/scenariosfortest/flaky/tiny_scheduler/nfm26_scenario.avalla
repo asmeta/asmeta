@@ -1,6 +1,6 @@
 // Scenario from NFM 26
 scenario scenario1
-load ../Scheduler.asm
+load Scheduler.asm
 check idle = false;
 check st(JOB1) = RDY and st(JOB2) = RDY
 and st(JOB3) = RDY;
