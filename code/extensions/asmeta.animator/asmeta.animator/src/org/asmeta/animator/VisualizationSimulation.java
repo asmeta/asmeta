@@ -188,10 +188,15 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		}
 		/* Execute one step when push the button "Do one step" */
 		btnRndStep.addSelectionListener(new SelectionAdapter() {
-
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
-				int stepNumber = Integer.parseInt(textStepNumber.getText());
+				int stepNumber;
+				if (textStepNumber.getText().isEmpty()) {
+					textStepNumber.setText("1");
+					stepNumber = 1;
+				} else {					
+					stepNumber = Integer.parseInt(textStepNumber.getText());
+				}
 				tg.setRandom();
 				// System.out.println("RANDOM SIMULATION");
 				for (int i = 0; i < stepNumber; i++) {
@@ -280,7 +285,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		lblInsertStepNumber.setFont(PREFERRED_FONT);
 		lblInsertStepNumber.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		lblInsertStepNumber.setText("Insert random step number");
-		// text to be executed when push do random step/s
+		// steps to be executed when push do random step/s
 		textStepNumber = new Text(composite, SWT.BORDER);
 		textStepNumber.setBackground(SWTResourceManager.getColor(245, 245, 245));
 		textStepNumber.setFont(PREFERRED_FONT);
@@ -289,20 +294,23 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		GridData gd_textStepNumber = new GridData(SWT.LEFT, SWT.CENTER, true, false, 1, 1);
 		gd_textStepNumber.widthHint = 150;
 		textStepNumber.setLayoutData(gd_textStepNumber);
-		// allow only numbers
+		// allow only numbers (or empty to allow the deletion - in case is like 1)
 		textStepNumber.addVerifyListener(new VerifyListener() {
 			@Override
 			public void verifyText(VerifyEvent e) {
-				try {
-					// build the text as it would be after the event
-					String text = textStepNumber.getText();
-					String newText = text.substring(0, e.start) + e.text + text.substring(e.end);
-					Integer x = Integer.valueOf(newText);
-					// max number of steps ??
-					if (x > MAX_NUMBER_RND_STEPS)
+				// build the text as it would be after the event
+				String text = textStepNumber.getText();
+				String newText = text.substring(0, e.start) + e.text + text.substring(e.end);
+				// allow empty
+				if (!newText.isEmpty()) {
+					try {
+						Integer x = Integer.valueOf(newText);
+						// max number of steps ??
+						if (x > MAX_NUMBER_RND_STEPS)
+							e.doit = false;
+					} catch (NumberFormatException ex) {
 						e.doit = false;
-				} catch (NumberFormatException ex) {
-					e.doit = false;
+					}
 				}
 			}
 
