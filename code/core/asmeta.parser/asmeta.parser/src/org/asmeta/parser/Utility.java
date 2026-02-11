@@ -35,6 +35,7 @@ import java.util.Map;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.asmeta.parser.util.RealTermCollection;
 import org.eclipse.emf.common.util.EList;
 
 import asmeta.definitions.DefinitionsFactory;
@@ -350,7 +351,7 @@ public class Utility {
 	 * 
 	 * @throws ParseException
 	 */
-	public static void createTermCollection(Term firstElem, Term lastElem, Collection<Term> elemColl, double step,
+	public static <T extends Term> void createTermCollection(Term firstElem, Term lastElem, Collection<T> elemColl, double step,
 			boolean natural_step, TermsFactory termsPack, HashMap<String, List<Function>> declared_Func,
 			HashMap<String, Domain> declared_Dom, DefinitionsFactory defPack, Signature s) throws ParseException {
 
@@ -374,11 +375,8 @@ public class Utility {
 			}
 			// put the elements
 			logger.debug("\t\t\tInterval elements: " + ((NaturalTerm) firstElem).getSymbol());
-			for (int i = (int) (low + step); i < (int) upp; i = (int) (i + step))// first
-			// element
-			// is
-			// already
-			// stored
+			// first element is already stored
+			for (int i = (int) (low + step); i < (int) upp; i = (int) (i + step))
 			{ // create a new NaturalTerm
 				naturalTerm = termsPack.getFurtherTerms().createNaturalTerm();
 				naturalTerm.setSymbol(String.valueOf(i) + "n");
@@ -386,7 +384,7 @@ public class Utility {
 				naturalTerm.setDomain(naturalDom);
 
 				// link the created Natural term to the Sequence term
-				elemColl.add(naturalTerm);
+				elemColl.add((T)naturalTerm);
 				// add a new association
 				// X a_SetTerm_Term.add(term,naturalTerm);
 				logger.debug(" " + naturalTerm.getSymbol());
@@ -423,7 +421,7 @@ public class Utility {
 			{
 				// link the created integer term to the Set term
 				Term intToadd = convertIntegerToTerm(i, termsPack, integerDom, declared_Func, declared_Dom, defPack, s);
-				elemColl.add(intToadd);
+				elemColl.add((T)intToadd);
 				// add a new association
 				// X a_SetTerm_Term.add(term,integerTerm);
 				logger.debug("i: " + i + " integer term " + intToadd.toString());
@@ -448,7 +446,13 @@ public class Utility {
 			if (realDom == null) {
 				throw new ParseException("Error: The real domain has not been declared.");
 			}
-
+			// TODO fix, step == null 
+			if(step == 1) {
+				RealTermCollection rtColl = (RealTermCollection) elemColl;
+				rtColl.setLow(low);
+				rtColl.setUp(upp);
+				logger.debug("collection of reals");
+			}else {
 			// logger.debug("\t\t\tinterval elements:
 			// "+((RealTerm)firstElem).getSymbol());
 			for (double i = low + step; i < upp; i = i + step)// first element
@@ -456,12 +460,13 @@ public class Utility {
 			// already stored
 			{
 				// link the created real term to the Set term
-				elemColl.add(convertDoubleToTerm(i, termsPack, realDom, declared_Func, declared_Dom, defPack, s));
+				RealTerm convertDoubleToTerm = convertDoubleToTerm(i, termsPack, realDom, declared_Func, declared_Dom, defPack, s);
+				elemColl.add((T)convertDoubleToTerm);
 				// add a new association
 				// X a_SetTerm_Term.add(term,realTerm);
 				// logger.debug(" "+realTerm.getSymbol());
 				logger.debug(" " + i);
-			}
+			}}
 		} // End set of real
 
 		else
@@ -470,7 +475,7 @@ public class Utility {
 		// For all kind of sets, check if the lastElem must be included in the
 		// set unless is equal to low (AG 31/7/18 for {1..1}
 		if (low < upp && (((upp - low) % step) == 0)) {
-			elemColl.add(lastElem);
+			elemColl.add((T)lastElem);
 			// add a new association
 			// X a_SetTerm_Term.add(term,lastElem);
 			logger.debug(" last element has been included!");
