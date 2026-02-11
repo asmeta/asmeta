@@ -11,10 +11,11 @@ signature:
 	
 definitions:
 	
-	domain DiceValue2 = {0.6:6.4} 
+	domain DiceValue2 = {0.6:6.4}
+	///	domain DiceValue2 = {$c in Real | $c > 0.6 and $c< 6.4 : $c}
 	domain DiceValue3 = {0:6}
 	
-	main rule r_Main = skip
+	main rule r_Main = numberOfDice := 5.4
 
 default init s0:
 

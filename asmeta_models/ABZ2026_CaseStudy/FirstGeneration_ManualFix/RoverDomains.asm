@@ -24,6 +24,9 @@ static isEmptyPlan: Plan -> Boolean
 
 definitions:
 
+domain Coord = {0:10}
+domain BatteryPct = {0.0: 100.0}
+
 function distManhattan($p in Position, $q in Position) =
     abs(first($p) - first($q)) + abs(second($p) - second($q))
 

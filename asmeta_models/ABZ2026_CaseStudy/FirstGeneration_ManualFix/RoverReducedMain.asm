@@ -48,3 +48,4 @@ default init s0:
     function plan2C = []
     function activePlan = []
     function moving = false
+    function batteryLevel = 100.0
