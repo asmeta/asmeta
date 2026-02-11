@@ -97,6 +97,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 	private Image arrowUp;
 	private Image arrowDown;
 	private String lastMonitoredInteractiveValue;
+	private boolean stopAnimation;
 
 	/**
 	 * build the viewer from a path sort of a factory
@@ -186,10 +187,11 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		} catch (AsmModelNotFoundException | MainRuleNotFoundException e1) {
 			e1.printStackTrace();
 		}
-		/* Execute one step when push the button "Do one step" */
+		/* Execute one step (or more steps) when push the button "Do one step" */
 		btnRndStep.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent arg0) {
+				stopAnimation = false;
 				int stepNumber;
 				if (textStepNumber.getText().isEmpty()) {
 					textStepNumber.setText("1");
@@ -202,6 +204,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 				for (int i = 0; i < stepNumber; i++) {
 					MyState state = tg.runSimulation(true);
 					showFunctionsRandomSimulation(state);
+					if (stopAnimation) break;
 				}
 			}
 		});
@@ -1000,6 +1003,11 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		table_functions_left_down.update();
 		table_states_right_up.update();
 		table_states_right_down.update();
+	}
+
+	@Override
+	public void stopAnimation() {
+		this.stopAnimation = true;
 	}
 
 

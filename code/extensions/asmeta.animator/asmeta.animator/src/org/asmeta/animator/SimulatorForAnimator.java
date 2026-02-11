@@ -37,6 +37,7 @@ public class SimulatorForAnimator extends Simulator {
 		TermEvaluator.setAllowLazyEval(environment.supportsLazyTermEval());
 		// get the update set
 		UpdateSet updateSet = new UpdateSet();
+		boolean exception = false;
 		try {
 			//
 			Set<Location> locationsAlreadySet = getCurrentState().getContrLocs().keySet();
@@ -54,8 +55,8 @@ public class SimulatorForAnimator extends Simulator {
 			for (Location x : locationsPrevSet) {
 				Value value = locationsPrevSet2.get(x);
 				locationsPrevNotSet.put(x, value);
-				System.err.println(x + " ccc "+ value);
-				System.err.println(x.getClass() + " " + x.getSignature());
+				//System.err.println(x + " ccc "+ value);
+				//System.err.println(x.getClass() + " " + x.getSignature());
 			}
 			t.setInitValues(locationsPrevNotSet);
 		} catch (InvalidInvariantException e) {
@@ -67,13 +68,18 @@ public class SimulatorForAnimator extends Simulator {
 			}
 			if (checkInvariants == InvariantTreament.CHECK_CONTINUE || checkInvariants == InvariantTreament.NO_CHECK)
 				updateSet = e.us;
+			exception = true;
 		} catch (InvalidValueException ive) {
 			t.setInvalidIvariantText(ive.getMessage());
+			exception = true;
 		} catch (UpdateClashException uce) {
 			t.setInvalidIvariantText(uce.getMessage());
+			exception = true;
 		} catch (Exception e) {
 			t.setInvalidIvariantText("Exception "+ e.getClass() + " "+ e.getMessage());
 		}
+		if (checkInvariants == InvariantTreament.CHECK_STOP)
+			t.stopAnimation();		
 		// reset the lazyness
 		TermEvaluator.recoverAllowLazyEval();
 		return updateSet;

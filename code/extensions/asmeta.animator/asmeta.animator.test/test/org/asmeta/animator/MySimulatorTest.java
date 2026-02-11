@@ -30,7 +30,7 @@ public class MySimulatorTest {
 
 			@Override
 			public void setInvalidIvariantText(String s) {
-				System.out.println("inavalid invariant " + s);
+				System.out.println("invalid invariant " + s);
 				
 			}
 			@Override
@@ -38,6 +38,9 @@ public class MySimulatorTest {
 				System.out.println(locationsPrevSet2);
 				// 
 				setInit(locationsPrevSet2.toString());
+			}
+			@Override
+			public void stopAnimation() {
 			}			
 		};
 		SimulatorForAnimator simulator = new SimulatorForAnimator("coffeeVendingMachineNC", asmp, env, vis);

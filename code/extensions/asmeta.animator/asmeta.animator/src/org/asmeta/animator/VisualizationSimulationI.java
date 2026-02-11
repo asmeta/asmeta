@@ -14,5 +14,7 @@ public interface VisualizationSimulationI {
 	void setInvalidIvariantText(String s);
 
 	void setInitValues(Map<Location, Value> locationsPrevSet2);
+
+	void stopAnimation();
 	
 }
