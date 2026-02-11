@@ -14,7 +14,7 @@ dynamic monitored noplan: Boolean
 dynamic monitored chargingComplete: Boolean
 
 // From BatteryMonitor
-dynamic monitored batteryLevel: BatteryPct
+dynamic monitored batteryLevel: Real
 
 // Outputs / state
 dynamic controlled currentPosition: Position
