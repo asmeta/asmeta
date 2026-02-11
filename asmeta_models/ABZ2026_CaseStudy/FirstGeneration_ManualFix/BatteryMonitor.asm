@@ -7,10 +7,10 @@ export  *
 signature:
 
 // raw measurement from hardware/sensors
-dynamic monitored measuredBatteryLevel: BatteryPct
+dynamic monitored measuredBatteryLevel: Real
 
 // batteryLevel reported to the rest of the system
-dynamic controlled batteryLevel: BatteryPct
+dynamic controlled batteryLevel: Real
 
 // (optional) charging completion from physical subsystem
 dynamic monitored chargingComplete: Boolean

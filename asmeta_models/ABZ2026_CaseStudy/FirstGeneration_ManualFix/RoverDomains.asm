@@ -7,7 +7,6 @@ signature:
 
 // --- Basic types ---
 domain Coord subsetof Integer
-domain BatteryPct subsetof Real
 
 // 2D discrete position (simple abstraction)
 domain Position subsetof Prod(Coord, Coord)
@@ -25,7 +24,7 @@ static isEmptyPlan: Plan -> Boolean
 definitions:
 
 domain Coord = {0:10}
-domain BatteryPct = {0.0: 100.0}
+//domain BatteryPct = {0.0: 100.0}
 
 function distManhattan($p in Position, $q in Position) =
     abs(first($p) - first($q)) + abs(second($p) - second($q))
