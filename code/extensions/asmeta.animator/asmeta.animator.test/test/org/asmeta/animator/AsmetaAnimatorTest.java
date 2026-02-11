@@ -51,7 +51,18 @@ public class AsmetaAnimatorTest {
 		testAnimator(asmspec);
 	}
 
-	
+	@Test
+	public void testInvViolation() throws IOException, Exception {
+		String asmspec = "examples/InvViolation.asm";
+		testAnimator(asmspec);
+	}
+
+	@Test
+	public void testIncosistentViolation() throws IOException, Exception {
+		String asmspec = "examples/InconsistentUpdate.asm";
+		testAnimator(asmspec);
+	}
+
 	
 	/*public void testGenerate0() throws Exception {
 		testAnimator("examples/Bare/Bare.asm", 10);

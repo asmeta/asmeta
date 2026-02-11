@@ -1,5 +1,6 @@
 package org.asmeta.animator;
 
+import java.awt.Dimension;
 import java.io.File;
 //Usare collections -> scrivere un wrapper ! gestione thread concorrenti
 import java.text.Collator;
@@ -139,9 +140,11 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		// TODO put them in images directory
 		arrowUp = new Image(display, getClass().getResourceAsStream("arrowUp.png"));
 		arrowDown = new Image(display, getClass().getResourceAsStream("arrowDown.png"));
-
 		shlAsmetaa.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		shlAsmetaa.setSize(770, 668);
+		// set the dimension in accordance with the display (not clear if it works or not)
+		//shlAsmetaa.setSize(770, 668);
+		Dimension dimension=java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+		shlAsmetaa.setSize(dimension.width, dimension.height);
 		shlAsmetaa.setText("AsmetaA");
 		shlAsmetaa.setVisible(true);
 		shlAsmetaa.setLayout(new GridLayout(1, false));
@@ -971,8 +974,14 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 
 	@Override
 	public void setInvalidIvariantText(String s) {
-		if (!textInvError.isDisposed())
-			textInvError.setText(s == null ? "null" : s);
+		// get state number
+		String currentState = "State " + (table_states_right_up.getColumnCount());
+		String currentError = currentState + ": " + (s == null ? "null" : s);
+		// add the message at the top
+		if (!textInvError.isDisposed()) {
+			String prevText = textInvError.getText();
+			textInvError.setText(currentError+ "\n" + prevText);
+		}
 	}
 
 	@Override
