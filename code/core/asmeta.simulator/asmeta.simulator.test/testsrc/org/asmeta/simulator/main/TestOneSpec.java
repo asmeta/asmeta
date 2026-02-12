@@ -45,7 +45,7 @@ public class TestOneSpec {
 		// "rpns/r/cluster_test.asm");
 
 		sim = Simulator.createSimulator(FILE_BASE +
-				"examples/testRanges.asm",
+//				"examples/testRanges.asm",
 //				"test/simulator/MapDomain.asm",
 //				"erinda/FMS_IO.asm",
 //				"examples/Tictactoe_senzaSEQ.asm",

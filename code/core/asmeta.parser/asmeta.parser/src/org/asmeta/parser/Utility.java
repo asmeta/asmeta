@@ -35,7 +35,6 @@ import java.util.Map;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.asmeta.parser.util.RealTermCollection;
 import org.eclipse.emf.common.util.EList;
 
 import asmeta.definitions.DefinitionsFactory;
@@ -446,15 +445,7 @@ public class Utility {
 			if (realDom == null) {
 				throw new ParseException("Error: The real domain has not been declared.");
 			}
-			// TODO fix, step == null 
-			if(step == 1) {
-				RealTermCollection rtColl = (RealTermCollection) elemColl;
-				rtColl.setLow(low);
-				rtColl.setUp(upp);
-				logger.debug("collection of reals");
-			}else {
-			// logger.debug("\t\t\tinterval elements:
-			// "+((RealTerm)firstElem).getSymbol());
+			logger.debug("\t\t\tinterval elements: "+((RealTerm)firstElem).getSymbol());
 			for (double i = low + step; i < upp; i = i + step)// first element
 			// is
 			// already stored
@@ -466,7 +457,7 @@ public class Utility {
 				// X a_SetTerm_Term.add(term,realTerm);
 				// logger.debug(" "+realTerm.getSymbol());
 				logger.debug(" " + i);
-			}}
+			}
 		} // End set of real
 
 		else
