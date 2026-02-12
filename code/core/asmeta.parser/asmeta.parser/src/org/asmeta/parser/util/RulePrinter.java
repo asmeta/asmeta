@@ -34,8 +34,6 @@ package org.asmeta.parser.util;
 
 import java.util.Iterator;
 
-import org.asmeta.parser.Defs;
-
 import asmeta.terms.basicterms.Term;
 import asmeta.terms.basicterms.VariableTerm;
 import asmeta.transitionrules.basictransitionrules.BlockRule;

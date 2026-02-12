@@ -6,7 +6,7 @@ package org.asmeta.simulator.value;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.asmeta.parser.Defs;
+import org.asmeta.parser.util.Defs;
 
 import asmeta.definitions.domains.Domain;
 

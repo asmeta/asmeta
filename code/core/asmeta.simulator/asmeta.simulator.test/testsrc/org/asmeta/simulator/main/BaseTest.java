@@ -15,7 +15,7 @@ import static org.junit.Assert.assertTrue;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import org.asmeta.parser.Defs;
+import org.asmeta.parser.util.Defs;
 import org.junit.After;
 import org.junit.BeforeClass;
 

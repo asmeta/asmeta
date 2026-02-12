@@ -3,11 +3,11 @@ package org.asmeta.parser.util;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.asmeta.parser.OCL_Checker;
 import org.eclipse.emf.ecore.EObject;
 
 import asmeta.definitions.Function;
 import asmeta.definitions.StaticFunction;
+import asmeta.definitions.domains.AbstractTd;
 import asmeta.definitions.domains.ConcreteDomain;
 import asmeta.definitions.domains.Domain;
 import asmeta.definitions.domains.PowersetDomain;
@@ -66,18 +66,18 @@ public class DynamicInTermFinder extends ReflectiveVisitor<Void> {
 	}
 	
 	private boolean isDynamic(Domain domain) {
-		if (OCL_Checker.isDomainDynamic(domain)) {
+		if (DynamicInTermFinder.isDomainDynamic(domain)) {
 			return true;
 		}
 		if (domain instanceof StructuredTd) {
 			if (domain instanceof PowersetDomain pd) {
-				return OCL_Checker.isDomainDynamic(pd);
+				return DynamicInTermFinder.isDomainDynamic(pd);
 			} 
 			if (domain instanceof SequenceDomain sd) {
-				return OCL_Checker.isDomainDynamic(sd.getDomain());				
+				return DynamicInTermFinder.isDomainDynamic(sd.getDomain());				
 			}
 			if (domain instanceof ProductDomain pd) {
-				return OCL_Checker.isDomainDynamic(pd);
+				return DynamicInTermFinder.isDomainDynamic(pd);
 			}
 			throw new RuntimeException("NOT implemented " + domain.getClass());
 		}
@@ -202,5 +202,18 @@ public class DynamicInTermFinder extends ReflectiveVisitor<Void> {
 		// [$x in $seq | $x < $pivot : $x]
 		visitTerms(sct.getRanges());
 		visit(sct.getGuard());
+	}
+
+	/* check if a domain is dynamic */
+	public static boolean isDomainDynamic(Domain extendedDomain) {
+		if ((extendedDomain instanceof ConcreteDomain) && ((ConcreteDomain) extendedDomain).getIsDynamic()
+				&& (((ConcreteDomain) extendedDomain).getTypeDomain() instanceof AbstractTd))
+			return true;
+		else if ((extendedDomain instanceof AbstractTd) && (((AbstractTd) extendedDomain).getIsDynamic()))
+			return true;
+		else {
+			return false;
+		}
+	
 	}
 }

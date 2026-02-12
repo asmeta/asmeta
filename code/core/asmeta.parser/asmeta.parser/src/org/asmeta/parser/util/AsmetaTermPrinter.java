@@ -35,7 +35,6 @@ package org.asmeta.parser.util;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.asmeta.parser.Defs;
 import org.eclipse.emf.common.util.EList;
 
 import asmeta.definitions.domains.Domain;

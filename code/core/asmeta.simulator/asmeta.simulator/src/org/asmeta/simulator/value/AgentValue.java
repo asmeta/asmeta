@@ -13,8 +13,8 @@ package org.asmeta.simulator.value;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.asmeta.parser.Defs;
 import org.asmeta.parser.Utility;
+import org.asmeta.parser.util.Defs;
 
 import asmeta.definitions.domains.Domain;
 import asmeta.structure.AgentInitialization;

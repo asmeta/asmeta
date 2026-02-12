@@ -41,8 +41,8 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
-import org.asmeta.parser.Defs;
 import org.asmeta.parser.util.AsmetaTermPrinter;
+import org.asmeta.parser.util.Defs;
 import org.asmeta.simulator.value.AgentValue;
 import org.asmeta.simulator.value.BooleanValue;
 import org.asmeta.simulator.value.CollectionValue;

@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.asmeta.simulator.main;
 
-import org.asmeta.parser.Defs;
+import org.asmeta.parser.util.Defs;
 import org.junit.After;
 
 import asmeta.definitions.Function;

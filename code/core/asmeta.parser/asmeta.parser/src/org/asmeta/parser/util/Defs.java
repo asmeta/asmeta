@@ -1,4 +1,4 @@
-package org.asmeta.parser;
+package org.asmeta.parser.util;
 
 
 import java.util.Collection;

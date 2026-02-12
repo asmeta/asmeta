@@ -13,7 +13,7 @@ package org.asmeta.simulator.main;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import org.asmeta.parser.Defs;
+import org.asmeta.parser.util.Defs;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.value.IntegerValue;
 import org.asmeta.simulator.value.Value;

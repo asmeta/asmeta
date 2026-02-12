@@ -9,7 +9,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.asmeta.parser.Defs;
 import org.eclipse.emf.common.util.EList;
 
 import asmeta.definitions.CompassionConstraint;

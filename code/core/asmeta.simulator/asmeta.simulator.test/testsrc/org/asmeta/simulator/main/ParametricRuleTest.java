@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.Map.Entry;
 
-import org.asmeta.parser.Defs;
+import org.asmeta.parser.util.Defs;
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.State;

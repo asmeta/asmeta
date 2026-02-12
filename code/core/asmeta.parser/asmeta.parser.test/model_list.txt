@@ -369,7 +369,6 @@ erinda\FMS_IO.asm
 examples\production_cell\crane.asm
 examples\petriNets\petriNetEdgeWeightNoPlaceCapacity_NoSeq_Matrix.asm
 PHD\phd_master_flat2_v7.asm
-examples\testRanges.asm
 examples\models\OrderSystem2.asm
 examples\simple_example\QuickSort.asm
 RTPatternLibrary\Application\VisualServoing.asm

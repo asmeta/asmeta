@@ -9,7 +9,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.asmeta.modeladvisor.texpr.Expression;
-import org.asmeta.parser.Defs;
+import org.asmeta.parser.util.Defs;
 
 import asmeta.transitionrules.basictransitionrules.MacroCallRule;
 import asmeta.transitionrules.basictransitionrules.Rule;

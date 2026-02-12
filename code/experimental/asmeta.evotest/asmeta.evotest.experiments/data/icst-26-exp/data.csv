@@ -322,7 +322,6 @@ asm_path,asm_name,n_macro,n_update,n_forall,n_branch,n_rule,approach,status,exec
 ../../../asm_examples/examples/simple_example/population.asm,population,3,7,1,8,20,random,NO_VALID_SCENARIOS,1543.0,0,0,0,0,null,null,null,null,null,0,0,null,null,null,null,null,null,null,null
 ../../../asm_examples/examples/fsmsemantics/meta_hooking/myFSM.asm,myFSM,3,2,0,1,7,random,NO_VALID_SCENARIOS,53.0,0,0,0,0,null,null,null,null,null,0,0,null,null,null,null,null,null,null,null
 ../../../asm_examples/examples/ABZ2020/CarSystemModule/CarSystem008/CarSystem008main.asm,CarSystem008main,2,4,0,0,19,random,NO_VALID_SCENARIOS,55.0,0,0,0,0,null,null,null,null,null,0,0,null,null,null,null,null,null,null,null
-../../../asm_examples/examples/testRanges.asm,testRanges,1,0,0,0,1,random,OK,0.0,10,100,0,0,1.0,NaN,NaN,NaN,1.0,0,0,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN
 ../../../asm_examples/examples/traffic_light/oneWayTrafficLight_refined_with_agents_problem.asm,oneWayTrafficLight_refined_with_agents_problem,13,8,1,11,50,random,NO_VALID_SCENARIOS,9.0,6,0,0,0,null,null,null,null,null,0,0,null,null,null,null,null,null,null,null
 ../../../asm_examples/examples/landingGearSystem/LGS_HM.asm,LGS_HM,5,46,0,18,86,random,OK,69.0,10,100,402,859,1.0,0.32608697,NaN,0.5555556,0.44186047,0,0,0.23529412,NaN,0.7222222,0.6666667,NaN,0.05882353,NaN,0.32967034
 ../../../asm_examples/PillBox/Level2/pillbox_2_elia.asm,pillbox_2_elia,7,31,1,20,66,random,NO_VALID_SCENARIOS,5.0,0,0,0,0,null,null,null,null,null,0,0,null,null,null,null,null,null,null,null
@@ -618,7 +617,6 @@ asm_path,asm_name,n_macro,n_update,n_forall,n_branch,n_rule,approach,status,exec
 ../../../asm_examples/examples/simple_example/population.asm,population,3,7,1,8,20,evoavalla,NO_VALID_SCENARIOS,NaN,0,0,0,0,null,null,null,null,null,0,0,null,null,null,null,null,null,null,null
 ../../../asm_examples/examples/fsmsemantics/meta_hooking/myFSM.asm,myFSM,3,2,0,1,7,evoavalla,NO_VALID_SCENARIOS,NaN,0,0,0,0,null,null,null,null,null,0,0,null,null,null,null,null,null,null,null
 ../../../asm_examples/examples/ABZ2020/CarSystemModule/CarSystem008/CarSystem008main.asm,CarSystem008main,2,4,0,0,19,evoavalla,NO_VALID_SCENARIOS,NaN,0,0,0,0,null,null,null,null,null,0,0,null,null,null,null,null,null,null,null
-../../../asm_examples/examples/testRanges.asm,testRanges,1,0,0,0,1,evoavalla,OK,65688.0,1,1,0,0,1.0,NaN,NaN,NaN,1.0,0,0,NaN,NaN,NaN,NaN,NaN,NaN,NaN,NaN
 ../../../asm_examples/examples/traffic_light/oneWayTrafficLight_refined_with_agents_problem.asm,oneWayTrafficLight_refined_with_agents_problem,13,8,1,11,50,evoavalla,NO_VALID_SCENARIOS,NaN,0,0,0,0,null,null,null,null,null,0,0,null,null,null,null,null,null,null,null
 ../../../asm_examples/examples/landingGearSystem/LGS_HM.asm,LGS_HM,5,46,0,18,86,evoavalla,NO_VALID_SCENARIOS,68654.0,0,0,0,0,null,null,null,null,null,0,0,null,null,null,null,null,null,null,null
 ../../../asm_examples/PillBox/Level2/pillbox_2_elia.asm,pillbox_2_elia,7,31,1,20,66,evoavalla,NO_VALID_SCENARIOS,NaN,0,0,0,0,null,null,null,null,null,0,0,null,null,null,null,null,null,null,null

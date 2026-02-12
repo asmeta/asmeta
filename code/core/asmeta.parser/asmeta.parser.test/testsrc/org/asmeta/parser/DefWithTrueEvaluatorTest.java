@@ -18,6 +18,7 @@ import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.SimpleLayout;
+import org.asmeta.parser.util.Defs;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;

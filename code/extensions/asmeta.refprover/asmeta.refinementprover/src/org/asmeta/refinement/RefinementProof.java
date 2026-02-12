@@ -24,7 +24,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.asmeta.parser.ASMParser;
-import org.asmeta.parser.Defs;
+import org.asmeta.parser.util.Defs;
 import org.asmeta.toyices.SMTbasedASMsimulator;
 import org.asmeta.toyices.TermVisitor;
 import org.asmeta.toyices.Utils;

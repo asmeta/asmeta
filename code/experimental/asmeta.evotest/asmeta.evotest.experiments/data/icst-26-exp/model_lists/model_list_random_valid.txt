@@ -127,7 +127,6 @@ examples/hemodialysisDevice/ABZ2016/Hemodialysis_ref2_forMC.asm
 examples/swapBoard.asm
 examples/ABZ2020/CarSystemModule/CarSystem003/CarSystem003main.asm
 examples/petriNets/petriNetNoEdgeWeightNoPlaceCapacity_seq.asm
-examples/testRanges.asm
 examples/landingGearSystem/LGS_HM.asm
 stereoacuity/certifierRaff5.asm
 examples/simple_example/MorraCinese/MorraCinese_raff1.asm

@@ -42,8 +42,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.asmeta.parser.Defs;
 import org.asmeta.parser.util.AsmetaTermPrinter;
+import org.asmeta.parser.util.Defs;
 import org.asmeta.parser.util.ReflectiveVisitor;
 import org.asmeta.simulator.util.UnresolvedReferenceException;
 import org.asmeta.simulator.value.BagValue;
