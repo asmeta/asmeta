@@ -8,7 +8,7 @@ set fin(JOB3) := false;
 check idle = false;
 check st(JOB1) = RDY and st(JOB2) = RDY and st(JOB3) = RDY;
 
-pick $j1 := JOB3;
+pick $j in r_SetRunning := JOB3;
 
 step
 
@@ -17,7 +17,7 @@ check st(JOB1) = RDY and st(JOB2) = RDY;
 
 set fin(JOB3) := true;
 
-pick $j1 := JOB2;
+pick $j in r_SetRunning := JOB2;
 
 step
 

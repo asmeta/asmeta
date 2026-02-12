@@ -17,8 +17,8 @@ signature:
 definitions:
 
 	macro rule r_SetRunning = 
-		choose $j1 in Job with st($j1) = RDY do 
-			st($j1) := RUN
+		choose $j in Job with st($j) = RDY do 
+			st($j) := RUN
 		ifnone 
 			idle:= true
 			
