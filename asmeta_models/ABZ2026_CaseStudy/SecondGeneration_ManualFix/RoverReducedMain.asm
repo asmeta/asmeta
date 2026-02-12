@@ -16,7 +16,7 @@ signature:
 definitions:
 
 // System-level requirement SL1: never run out of battery
-invariant inv_SL1_overall over batteryLevel: (batteryLevel > 0.0) 
+invariant inv_SL1_overall over batteryLevel: (batteryLevel > 0)  
 
 main rule r_Main =
     par
@@ -37,10 +37,10 @@ main rule r_Main =
     endpar
 
 default init s0:
-    // Initial position and goal are left abstract; can be set by scenarios
+    // Initialize all controlled functions to reasonable values
     function panelState = CLOSED
     function recharge = false
-    function atGoal = false
+    function atGoal = false 
     function awaitingInstructions = false
     function noplan = false
     function failure = false
@@ -48,4 +48,13 @@ default init s0:
     function plan2C = []
     function activePlan = []
     function moving = false
-    function batteryLevel = 100.0
+    function isAtCharger = false
+    function currentPosition = (0, 0)
+    function goal = (0, 0)
+    function batteryLevel = 95
+
+    // Reasonable monitored defaults (useful for running without scenarios)
+    function measuredBatteryLevel = 100
+    function chargingComplete = false
+    function planningFailure = false
+    function chargers = {}

@@ -1,7 +1,6 @@
 asm GoalReasoningAgent
 import ../../STDL/StandardLibrary
 import RoverDomains
-
 export *
 
 signature:

@@ -1,7 +1,6 @@
 asm HardwareInterface
 import ../../STDL/StandardLibrary
 import RoverDomains
-
 export *
 
 signature:
@@ -14,7 +13,7 @@ dynamic monitored noplan: Boolean
 dynamic monitored chargingComplete: Boolean
 
 // From BatteryMonitor
-dynamic monitored batteryLevel: Real
+dynamic monitored batteryLevel: BatteryPct
 
 // Outputs / state
 dynamic controlled currentPosition: Position
@@ -49,7 +48,7 @@ function isChargerPos($p in Position, $cs in Powerset(Position)) =
 //   steps from goal to charger: length(plan2C)   (computed by CPC)
 // plus a small safety margin.
 rule r_setRechargeFlag =
-    if (batteryLevel <= itor(distManhattan(currentPosition, goal) + stepsToFinishPlan(plan2C) + safetyMarginSteps)) then
+    if (batteryLevel <= (distManhattan((currentPosition, goal)) + stepsToFinishPlan(plan2C) + safetyMarginSteps)) then
         recharge := true
     else
         recharge := false
@@ -61,7 +60,7 @@ rule r_setAtGoal =
 
 // Keep isAtCharger updated (for SolarPanelController)
 rule r_setIsAtCharger =
-    isAtCharger := isChargerPos(currentPosition, chargers)
+    isAtCharger := isChargerPos((currentPosition, chargers))
 
 // Load plan2C as the active plan when moving toward charger-goal
 rule r_loadPlan =

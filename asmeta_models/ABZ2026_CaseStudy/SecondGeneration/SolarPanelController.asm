@@ -1,7 +1,6 @@
 asm SolarPanelController
 import ../../STDL/StandardLibrary
 import RoverDomains
-
 export *
 
 signature:

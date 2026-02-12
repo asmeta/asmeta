@@ -1,6 +1,7 @@
 asm GoalReasoningAgent
 import ../../STDL/StandardLibrary
 import RoverDomains
+export *
 
 signature:
 
@@ -23,8 +24,11 @@ dynamic monitored currentPosition: Position
 definitions:
 
 function nearestChargerToNow($cs in Powerset(Position)) =
-    chooseone $c in $cs with
-        (forall $d in $cs with true do distManhattan(currentPosition,$c) <= distManhattan(currentPosition,$d))
+    chooseone(
+        { $c in $cs |
+            not(exist $d in $cs with distManhattan((currentPosition, $d)) < distManhattan((currentPosition, $c)))
+        }
+    )
 
 // G2: if recharge=true then set goal to nearest charger
 rule r_setGoalToNearestCharger =
