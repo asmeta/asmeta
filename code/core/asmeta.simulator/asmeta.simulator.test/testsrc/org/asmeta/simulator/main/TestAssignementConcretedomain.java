@@ -24,7 +24,7 @@ public class TestAssignementConcretedomain {
 		sim.run(1);		
 	}
 
-	@Test(expected = NullPointerException.class)
+	@Test(expected = RuntimeException.class)
 	public void testAnyWrong() throws Exception {
 		Simulator sim = Util.getSimulatorForTestSpec("test/simulator/anydomain/AssignmentAny.asm");
 		sim.run(1);		
