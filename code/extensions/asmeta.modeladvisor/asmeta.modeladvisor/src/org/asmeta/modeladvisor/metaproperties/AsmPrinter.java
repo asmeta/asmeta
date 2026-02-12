@@ -5,8 +5,8 @@ import java.util.Collection;
 import java.util.List;
 
 import org.asmeta.nusmv.Environment;
-import org.asmeta.parser.Defs;
 import org.asmeta.parser.util.AsmetaTermPrinter;
+import org.asmeta.parser.util.Defs;
 
 import asmeta.definitions.ControlledFunction;
 import asmeta.definitions.DerivedFunction;

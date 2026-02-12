@@ -3337,7 +3337,7 @@ For example, Sequence{?one?, ?table?, ?one?} and Sequence{?one?, ?one?, ?table?}
   final public SequenceTerm SequenceTerm(HashMap localVar, boolean areAllowedNewVar) throws ParseException {int size;
   Term elem, firstElem, lastElem;
   Token tok;
-  double step = 1;
+  Number step = 1;
   boolean natural_step = true;
     jj_consume_token(123);
 Logger.logDebug("\t[\t\tSequenceTerm beginning");
@@ -3377,7 +3377,7 @@ Logger.logDebug("\t:");
 if (!(elem.getDomain() instanceof IntegerDomain)) natural_step = false;
             step = Utility.convertToDouble(elem);
             Logger.logDebug("\t" + step + "\t\tinterval step");
-            if (step <= 0) {if (true) throw new ParseException("The step must be a positive number." + "\n       At a sequenceTerm.");}
+            if (step.doubleValue() <= 0) {if (true) throw new ParseException("The step must be a positive number." + "\n       At a sequenceTerm.");}
           } else {
             ;
           }
@@ -3423,7 +3423,7 @@ Utility.createTermCollection(firstElem, lastElem, elemList, step, natural_step, 
   final public SetTerm SetTerm(HashMap localVar, boolean areAllowedNewVar) throws ParseException {int size;
   Term elem, firstElem, lastElem;
   Token tok;
-  double step = 1;
+  Number step = 1;
   boolean natural_step = true;
     jj_consume_token(118);
 Logger.logDebug("\t{\t\tSetTerm beginning");
@@ -3478,7 +3478,7 @@ Logger.logDebug("\t:");
 if (!(elem.getDomain() instanceof IntegerDomain)) natural_step = false;
             step = Utility.convertToDouble(elem);
             Logger.logDebug("\t" + step + "\t\tinterval step");
-            if (step <= 0) {if (true) throw new ParseException("The step must be a positive number." + "\n       At a SetTerm.");}
+            if (step.doubleValue() <= 0) {if (true) throw new ParseException("The step must be a positive number." + "\n       At a SetTerm.");}
           } else {
             ;
           }
@@ -3616,7 +3616,7 @@ Logger.logDebug("\t->");
   final public BagTerm BagTerm(HashMap localVar, boolean areAllowedNewVar) throws ParseException {int size;
   Term elem, firstElem, lastElem;
   Token tok;
-  double step = 1;
+  Number step = 1;
   boolean natural_step = true;
     jj_consume_token(LT);
 Logger.logDebug("\t<\t\tBagTerm beginning");
@@ -3661,7 +3661,7 @@ Logger.logDebug("\t:");
 if (!(elem.getDomain() instanceof IntegerDomain)) natural_step = false;
             step = Utility.convertToDouble(elem);
             Logger.logDebug("\t" + step + "\t\tinterval step");
-            if (step <= 0) {if (true) throw new ParseException("The step must be a positive number." + "\n       At a sequenceTerm.");}
+            if (step.doubleValue() <= 0) {if (true) throw new ParseException("The step must be a positive number." + "\n       At a sequenceTerm.");}
           } else {
             ;
           }

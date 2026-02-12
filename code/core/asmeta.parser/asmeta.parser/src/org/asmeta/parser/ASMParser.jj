@@ -3873,7 +3873,7 @@ SequenceTerm SequenceTerm(HashMap localVar, boolean areAllowedNewVar) :
   int size;
   Term elem, firstElem, lastElem;
   Token tok;
-  double step = 1;
+  Number step = 1;
   boolean natural_step = true;
 }
 {
@@ -3917,7 +3917,7 @@ SequenceTerm SequenceTerm(HashMap localVar, boolean areAllowedNewVar) :
             if (!(elem.getDomain() instanceof IntegerDomain)) natural_step = false;
             step = Utility.convertToDouble(elem);
             Logger.logDebug("\t" + step + "\t\tinterval step");
-            if (step <= 0) throw new ParseException("The step must be a positive number." + "\n       At a sequenceTerm.");
+            if (step.doubleValue() <= 0) throw new ParseException("The step must be a positive number." + "\n       At a sequenceTerm.");
           }
         ]
       )
@@ -3960,7 +3960,7 @@ SetTerm SetTerm(HashMap localVar, boolean areAllowedNewVar) :
   int size;
   Term elem, firstElem, lastElem;
   Token tok;
-  double step = 1;
+  Number step = 1;
   boolean natural_step = true;
 }
 {
@@ -4021,7 +4021,7 @@ SetTerm SetTerm(HashMap localVar, boolean areAllowedNewVar) :
             if (!(elem.getDomain() instanceof IntegerDomain)) natural_step = false;
             step = Utility.convertToDouble(elem);
             Logger.logDebug("\t" + step + "\t\tinterval step");
-            if (step <= 0) throw new ParseException("The step must be a positive number." + "\n       At a SetTerm.");
+            if (step.doubleValue() <= 0) throw new ParseException("The step must be a positive number." + "\n       At a SetTerm.");
           }
         ]
       )
@@ -4160,7 +4160,7 @@ BagTerm BagTerm(HashMap localVar, boolean areAllowedNewVar) :
   int size;
   Term elem, firstElem, lastElem;
   Token tok;
-  double step = 1;
+  Number step = 1;
   boolean natural_step = true;
 }
 {
@@ -4209,7 +4209,7 @@ BagTerm BagTerm(HashMap localVar, boolean areAllowedNewVar) :
             if (!(elem.getDomain() instanceof IntegerDomain)) natural_step = false;
             step = Utility.convertToDouble(elem);
             Logger.logDebug("\t" + step + "\t\tinterval step");
-            if (step <= 0) throw new ParseException("The step must be a positive number." + "\n       At a sequenceTerm.");
+            if (step.doubleValue() <= 0) throw new ParseException("The step must be a positive number." + "\n       At a sequenceTerm.");
           }
         ]
       )

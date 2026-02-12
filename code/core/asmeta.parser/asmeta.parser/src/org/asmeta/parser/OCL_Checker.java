@@ -32,6 +32,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.asmeta.parser.util.AsmetaTermPrinter;
+import org.asmeta.parser.util.Defs;
 import org.asmeta.parser.util.DynamicInTermFinder;
 import org.eclipse.emf.ecore.EObject;
 
@@ -1215,24 +1216,11 @@ public class OCL_Checker {
 		// extendedDomain.oclAsType(ConcreteDomain).typeDomain.oclIsTypeOf(AbstractTD))
 		// or (extendedDomain.oclIsTypeOf(AbstractTD) and
 		// extendedDomain.oclAsType(AbstractTD).isDynamic = true)
-		if (isDomainDynamic(r.getExtendedDomain()))
+		if (DynamicInTermFinder.isDomainDynamic(r.getExtendedDomain()))
 			return true;
 		else {
 			MSG_ERR = "Error: In an extend rule, the domain to extend must be dynamic, and it must be a concrete domain  "
 					+ "subsetting an abstract TD or an abstract TD.";
-			return false;
-		}
-
-	}
-
-	/* check if a domain is dynamic */
-	public static boolean isDomainDynamic(Domain extendedDomain) {
-		if ((extendedDomain instanceof ConcreteDomain) && ((ConcreteDomain) extendedDomain).getIsDynamic()
-				&& (((ConcreteDomain) extendedDomain).getTypeDomain() instanceof AbstractTd))
-			return true;
-		else if ((extendedDomain instanceof AbstractTd) && (((AbstractTd) extendedDomain).getIsDynamic()))
-			return true;
-		else {
 			return false;
 		}
 

@@ -23,6 +23,7 @@
 package org.asmeta.parser;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,6 +36,7 @@ import java.util.Map;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.asmeta.parser.util.Defs;
 import org.eclipse.emf.common.util.EList;
 
 import asmeta.definitions.DefinitionsFactory;
@@ -231,13 +233,13 @@ public class Utility {
 	 * @throws ParseException
 	 */
 
-	private static RealTerm/* Term */ convertDoubleToTerm(double n, TermsFactory termsPack, TypeDomain realDom,
+	private static RealTerm/* Term */ convertDoubleToTerm(BigDecimal n, TermsFactory termsPack, TypeDomain realDom,
 			HashMap<String, List<Function>> declared_Func, HashMap<String, Domain> declared_Dom,
 			DefinitionsFactory defPack, Signature s) throws ParseException {
 
 		// create a new RealTerm for n
 		RealTerm realTerm = termsPack.getFurtherTerms().createRealTerm();
-		realTerm.setSymbol(Double.toString(n));
+		realTerm.setSymbol(n.toString());
 		// set references
 		realTerm.setDomain(realDom);
 
@@ -293,24 +295,23 @@ public class Utility {
 
 	// ================================================= convertToDouble
 	/**
-	 * Returns the double for a FunctionTerm (Unary Expression with domain Real or
+	 * Returns the Number for a FunctionTerm (Unary Expression with domain Real or
 	 * Integer) or for a constant numeric term (real, integer, natural).
-	 * 
+	 * USING Number to preserve precision (like BIgDecimal)
 	 * @throws ParseException
 	 */
 
-	public static double convertToDouble(Term ft) throws ParseException {
-		double n = 0;
-
+	public static Number convertToDouble(Term ft) throws ParseException {
 		// if ft is a constant numeric term, return its value
 		if (ft instanceof RealTerm)
-			return Double.parseDouble(((RealTerm) ft).getSymbol());
+			//return Double.parseDouble(((RealTerm) ft).getSymbol());
+			return new BigDecimal(((RealTerm) ft).getSymbol());
 		if (ft instanceof IntegerTerm)
-			return Double.parseDouble(((IntegerTerm) ft).getSymbol());
+			return Integer.parseInt(((IntegerTerm) ft).getSymbol());
 		if (ft instanceof NaturalTerm) {
 			// Eliminate the suffix "n"
 			String s = ((NaturalTerm) ft).getSymbol();
-			return Double.parseDouble(s.substring(0, s.length() - 1));
+			return Integer.parseInt(s.substring(0, s.length() - 1));
 		}
 		// otherwise it must be a function term with domain Real or
 		// Integer
@@ -328,17 +329,24 @@ public class Utility {
 			throw new ParseException(
 					"Can convert only unary expressions + REALTERM or - REALTERM or + INTEGERTERM - INTEGERTERM ");
 
-		if (argument instanceof RealTerm)
+		if (argument instanceof RealTerm) {
 			// REAL FUNCTION TERM
-			n = Double.parseDouble(((RealTerm) argument).getSymbol());
-
-		else if (argument instanceof IntegerTerm)
+			BigDecimal n = new BigDecimal(((RealTerm) argument).getSymbol());
+			if (name.equals("plus"))
+				return n;
+			else
+				return n.negate();
+		}
+		if (argument instanceof IntegerTerm) {
 			// INTEGER FUNCTION TERM
-			n = Double.parseDouble(((IntegerTerm) argument).getSymbol());
-		if (name.equals("plus"))
-			return n;
-		else
-			return -n;
+			Integer n = Integer.parseInt(((IntegerTerm) argument).getSymbol());
+			if (name.equals("plus"))
+				return n;
+			else
+				return -n;
+		}
+		throw new ParseException(
+				"Can convert only unary expressions + REALTERM or - REALTERM or + INTEGERTERM - INTEGERTERM ");
 	}
 
 	// ================================================= createTermCollection
@@ -350,13 +358,13 @@ public class Utility {
 	 * 
 	 * @throws ParseException
 	 */
-	public static void createTermCollection(Term firstElem, Term lastElem, Collection<Term> elemColl, double step,
+	public static <T extends Term> void createTermCollection(Term firstElem, Term lastElem, Collection<T> elemColl, java.lang.Number step,
 			boolean natural_step, TermsFactory termsPack, HashMap<String, List<Function>> declared_Func,
 			HashMap<String, Domain> declared_Dom, DefinitionsFactory defPack, Signature s) throws ParseException {
 
-		double low = convertToDouble(firstElem);
-		double upp = convertToDouble(lastElem);
-		if (low > upp)
+		Number low = convertToDouble(firstElem);
+		Number upp = convertToDouble(lastElem);
+		if (low.doubleValue() > upp.doubleValue())
 			throw new ParseException("Error: The last interval element cannot be greatest than the first one.");
 
 		if (natural_step && (firstElem instanceof NaturalTerm))
@@ -374,11 +382,8 @@ public class Utility {
 			}
 			// put the elements
 			logger.debug("\t\t\tInterval elements: " + ((NaturalTerm) firstElem).getSymbol());
-			for (int i = (int) (low + step); i < (int) upp; i = (int) (i + step))// first
-			// element
-			// is
-			// already
-			// stored
+			// first element is already stored
+			for (int i = (int) (low.intValue() + step.intValue()); i < (int) upp; i = (int) (i + step.intValue()))
 			{ // create a new NaturalTerm
 				naturalTerm = termsPack.getFurtherTerms().createNaturalTerm();
 				naturalTerm.setSymbol(String.valueOf(i) + "n");
@@ -386,7 +391,7 @@ public class Utility {
 				naturalTerm.setDomain(naturalDom);
 
 				// link the created Natural term to the Sequence term
-				elemColl.add(naturalTerm);
+				elemColl.add((T)naturalTerm);
 				// add a new association
 				// X a_SetTerm_Term.add(term,naturalTerm);
 				logger.debug(" " + naturalTerm.getSymbol());
@@ -415,7 +420,7 @@ public class Utility {
 
 			// logger.debug("\t\t\tinterval elements:
 			// "+((IntegerTerm)firstElem).getSymbol());
-			for (int i = (int) (low + step); i < (int) upp; i = (int) (i + step))// first
+			for (int i = (int) (low.intValue() + step.intValue()); i < (int) upp; i = (int) (i + step.intValue()))// first
 			// element
 			// is
 			// already
@@ -423,7 +428,7 @@ public class Utility {
 			{
 				// link the created integer term to the Set term
 				Term intToadd = convertIntegerToTerm(i, termsPack, integerDom, declared_Func, declared_Dom, defPack, s);
-				elemColl.add(intToadd);
+				elemColl.add((T)intToadd);
 				// add a new association
 				// X a_SetTerm_Term.add(term,integerTerm);
 				logger.debug("i: " + i + " integer term " + intToadd.toString());
@@ -432,7 +437,6 @@ public class Utility {
 		} // End set of integer
 		else
 		// Set of real terms
-
 		if (firstElem.getDomain() instanceof RealDomain) {
 			if (!(lastElem.getDomain() instanceof RealDomain))
 				throw new ParseException("Error: The first interval element is real so also the last one must be real."
@@ -448,29 +452,31 @@ public class Utility {
 			if (realDom == null) {
 				throw new ParseException("Error: The real domain has not been declared.");
 			}
-
-			// logger.debug("\t\t\tinterval elements:
-			// "+((RealTerm)firstElem).getSymbol());
-			for (double i = low + step; i < upp; i = i + step)// first element
-			// is
-			// already stored
-			{
+			// logger.debug("\t\t\tinterval elements: " + ((RealTerm) firstElem).getSymbol());
+			assert step instanceof Number;
+			assert low instanceof BigDecimal;
+			assert upp instanceof BigDecimal;
+			// i must use strings otherwise there is approximation
+			BigDecimal setasBD = new BigDecimal(step.toString());
+			// first element is already stored
+			for (BigDecimal i = ((BigDecimal)low).add(setasBD); i.compareTo((BigDecimal)upp) <= 0 ; i = i.add(setasBD)) {
 				// link the created real term to the Set term
-				elemColl.add(convertDoubleToTerm(i, termsPack, realDom, declared_Func, declared_Dom, defPack, s));
+				RealTerm convertDoubleToTerm = convertDoubleToTerm(i, termsPack, realDom, declared_Func, declared_Dom,
+						defPack, s);
+				elemColl.add((T) convertDoubleToTerm);
 				// add a new association
 				// X a_SetTerm_Term.add(term,realTerm);
 				// logger.debug(" "+realTerm.getSymbol());
-				logger.debug(" " + i);
 			}
 		} // End set of real
-
 		else
 			throw new ParseException("Error: The interval is ill formed!");
 
 		// For all kind of sets, check if the lastElem must be included in the
 		// set unless is equal to low (AG 31/7/18 for {1..1}
-		if (low < upp && (((upp - low) % step) == 0)) {
-			elemColl.add(lastElem);
+		// AG 12/02/26, using intValue
+		if (low instanceof Integer && low.intValue() < upp.intValue() && (((upp.intValue() - low.intValue()) % step.doubleValue()) == 0)) {
+			elemColl.add((T)lastElem);
 			// add a new association
 			// X a_SetTerm_Term.add(term,lastElem);
 			logger.debug(" last element has been included!");

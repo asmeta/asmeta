@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-import org.asmeta.parser.Defs;
+import org.asmeta.parser.util.Defs;
 
 import asmeta.definitions.Function;
 import asmeta.definitions.domains.BooleanDomain;

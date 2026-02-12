@@ -34,7 +34,6 @@ package org.asmeta.parser.util;
 
 import java.util.Iterator;
 
-import org.asmeta.parser.Defs;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 

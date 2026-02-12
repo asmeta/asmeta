@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.asmeta.parser.Defs;
+import org.asmeta.parser.util.Defs;
 import org.asmeta.parser.util.ReflectiveVisitor;
 
 import asmeta.definitions.Function;

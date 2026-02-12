@@ -14,7 +14,7 @@ import java.util.Stack;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import org.asmeta.parser.Defs;
+import org.asmeta.parser.util.Defs;
 import org.asmeta.parser.util.ImportFlattener;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.value.BooleanValue;

@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.asmeta.parser.Defs;
+import org.asmeta.parser.util.Defs;
 import org.asmeta.simulator.value.Value;
 
 import asmeta.definitions.Function;

@@ -16,7 +16,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 
 import org.asmeta.parser.ASMParser;
-import org.asmeta.parser.Defs;
+import org.asmeta.parser.util.Defs;
 import org.asmeta.simulator.util.InputMismatchException;
 import org.asmeta.simulator.util.Parser;
 import org.asmeta.simulator.value.TupleValue;

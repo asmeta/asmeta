@@ -11,7 +11,7 @@ import java.util.Stack;
 
 import org.asmeta.nusmv.util.ConditionStack;
 import org.asmeta.nusmv.util.Util;
-import org.asmeta.parser.Defs;
+import org.asmeta.parser.util.Defs;
 
 import asmeta.transitionrules.basictransitionrules.BlockRule;
 import asmeta.transitionrules.basictransitionrules.Rule;

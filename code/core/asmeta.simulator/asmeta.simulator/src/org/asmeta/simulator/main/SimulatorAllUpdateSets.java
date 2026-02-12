@@ -43,7 +43,7 @@ import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
 import org.asmeta.parser.ASMParser;
-import org.asmeta.parser.Defs;
+import org.asmeta.parser.util.Defs;
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.InvalidInvariantException;
 import org.asmeta.simulator.Location;

@@ -15,7 +15,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.Arrays;
 import java.util.HashSet;
 
-import org.asmeta.parser.Defs;
+import org.asmeta.parser.util.Defs;
 import org.asmeta.simulator.value.ReserveValue;
 import org.asmeta.simulator.value.SetValue;
 import org.asmeta.simulator.value.Value;

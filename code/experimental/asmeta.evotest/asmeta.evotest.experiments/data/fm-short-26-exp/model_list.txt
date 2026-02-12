@@ -161,7 +161,6 @@
 //examples\ABZ2020\CarSystemModule\CarSystem001\CarSystem001main.asm                                       // no par rule
 //examples\production_cell\crane.asm                                                                       // no par rule
 //examples\petriNets\petriNetEdgeWeightNoPlaceCapacity_NoSeq_Matrix.asm                                    // no par rule
-//examples\testRanges.asm                                                                                  // no par rule
 //examples\simple_example\QuickSort.asm                                                                    // no par rule
 //RTPatternLibrary\Application\VisualServoing.asm                                                          // no par rule
 //examples\turboRules\turboReturnRule.asm                                                                  // no par rule

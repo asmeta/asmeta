@@ -2,7 +2,7 @@ package org.asmeta.simulator.util;
 
 import java.util.List;
 
-import org.asmeta.parser.Defs;
+import org.asmeta.parser.util.Defs;
 import org.asmeta.parser.util.ReflectiveVisitor;
 
 import asmeta.definitions.Function;

@@ -11,7 +11,7 @@ import java.util.Set;
 
 import org.asmeta.flattener.term.DomainVisitor;
 import org.asmeta.parser.ASMParser;
-import org.asmeta.parser.Defs;
+import org.asmeta.parser.util.Defs;
 
 import asmeta.definitions.ControlledFunction;
 import asmeta.definitions.Function;

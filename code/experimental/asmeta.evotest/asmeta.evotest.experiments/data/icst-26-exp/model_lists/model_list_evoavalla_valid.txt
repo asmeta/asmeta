@@ -52,7 +52,6 @@ stereoacuity/certifierGround.asm
 examples/traffic_light/oneWayTrafficLightUsingEnumFlat.asm
 examples/simple_example/euclideMCD.asm
 examples/hemodialysisDevice/ABZ2016/Hemodialysis_ref2_forMC.asm
-examples/testRanges.asm
 stereoacuity/certifierRaff5.asm
 examples/landingGearSystem/LGS_3L.asm
 examples/simple_example/fattoriale.asm

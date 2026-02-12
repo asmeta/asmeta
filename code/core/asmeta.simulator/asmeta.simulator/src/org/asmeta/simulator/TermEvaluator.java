@@ -42,8 +42,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.asmeta.parser.Defs;
 import org.asmeta.parser.util.AsmetaTermPrinter;
+import org.asmeta.parser.util.Defs;
 import org.asmeta.parser.util.ReflectiveVisitor;
 import org.asmeta.simulator.util.UnresolvedReferenceException;
 import org.asmeta.simulator.value.BagValue;
@@ -74,6 +74,7 @@ import asmeta.definitions.domains.EnumElement;
 import asmeta.definitions.domains.EnumTd;
 import asmeta.definitions.domains.IntegerDomain;
 import asmeta.definitions.domains.PowersetDomain;
+import asmeta.structure.DomainDefinition;
 import asmeta.structure.FunctionDefinition;
 import asmeta.terms.basicterms.BooleanTerm;
 import asmeta.terms.basicterms.DomainTerm;
@@ -504,7 +505,10 @@ public class TermEvaluator extends ReflectiveVisitor<Value> implements ITermVisi
 				if (concreteDomain.getTypeDomain() instanceof AgentDomain) {
 					values = state.read(concreteDomain);
 				} else {
-					Term body = concreteDomain.getDefinition().getBody();
+					DomainDefinition definition = concreteDomain.getDefinition();
+					if (definition == null)						
+						throw new RuntimeException("definition of " + concreteDomain.getName() + " not found");
+					Term body = definition.getBody();
 					values = (SetValue) visit(body);
 				}
 			}

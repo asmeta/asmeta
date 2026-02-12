@@ -25,7 +25,7 @@ package org.asmeta.simulator;
 
 import java.util.Arrays;
 
-import org.asmeta.parser.Defs;
+import org.asmeta.parser.util.Defs;
 import org.asmeta.simulator.value.Value;
 
 import asmeta.definitions.Function;

@@ -17,7 +17,7 @@ import java.util.TreeMap;
 
 import org.asmeta.nusmv.util.AsmNotSupportedException;
 import org.asmeta.nusmv.util.Util;
-import org.asmeta.parser.Defs;
+import org.asmeta.parser.util.Defs;
 import org.asmeta.simulator.Location;
 
 import asmeta.definitions.Function;
