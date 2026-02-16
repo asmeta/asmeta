@@ -77,8 +77,7 @@ public class RealIntervalTest extends BaseTest {
 		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/testRanges2.asm");
 		Domain dom = searchDomain("DiceValue2");
 		SetValue values = sim.ruleEvaluator.termEval.getValues(dom);
-		System.out.println(values); // dovrebbero essere con 0.1 invece sbaglia. ...
-		//assertEquals("{0.6,0.7,0.8,0.9}", values.toString());
+		assertEquals("{0.6,0.7,0.8,0.9}", values.toString());
 		dom = searchDomain("DiceValue3");
 		values = sim.ruleEvaluator.termEval.getValues(dom);
 		assertEquals("{0,2,4,6}", values.toString());
