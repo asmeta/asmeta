@@ -33,6 +33,7 @@
 package org.asmeta.simulator;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -60,6 +61,7 @@ import org.asmeta.simulator.value.StringValue;
 import org.asmeta.simulator.value.TupleValue;
 import org.asmeta.simulator.value.UndefValue;
 import org.asmeta.simulator.value.Value;
+import org.eclipse.emf.common.util.EList;
 
 import asmeta.definitions.Function;
 import asmeta.definitions.MonitoredFunction;
@@ -74,6 +76,7 @@ import asmeta.definitions.domains.EnumElement;
 import asmeta.definitions.domains.EnumTd;
 import asmeta.definitions.domains.IntegerDomain;
 import asmeta.definitions.domains.PowersetDomain;
+import asmeta.definitions.domains.ProductDomain;
 import asmeta.structure.DomainDefinition;
 import asmeta.structure.FunctionDefinition;
 import asmeta.terms.basicterms.BooleanTerm;
@@ -389,6 +392,16 @@ public class TermEvaluator extends ReflectiveVisitor<Value> implements ITermVisi
 		Term body = funcDef.getBody();
 		assert body != null : function.getName() + " has null body.\nvars: " + variables;
 		// build the new term evaluator
+		// sometimes a function - defined from Prod(D1,D2...DN) 
+		// takes 1 argument which is a tuple of N values
+		// convert to a list of values for the argument
+		if (variables.size() != arguments.length) {
+			assert function.getDomain() instanceof ProductDomain;
+			assert arguments.length == 1;
+			assert arguments[0] instanceof TupleValue;
+			arguments = (Value[]) (((TupleValue)arguments[0]).getValue()).toArray(new Value[variables.size()]);
+		}
+		//assert  : "function " + function.getName() + "[" +variables.size()+ "] args " + Arrays.toString(arguments);
 		TermEvaluator newTermEvaluator = buildNewInstance(variables, arguments); 
 		Value value = newTermEvaluator.visit(body);
 		return value;
@@ -524,12 +537,75 @@ public class TermEvaluator extends ReflectiveVisitor<Value> implements ITermVisi
 			set.add(BooleanValue.FALSE);
 			set.add(BooleanValue.TRUE);
 			values = new SetValue(set);
+		} else if (baseDomain instanceof PowersetDomain powerSetDomain) {
+			logger.debug("<Type>PowersetDomain</Type>");
+			SetValue baseVal = getValues(powerSetDomain.getBaseDomain());
+			Set powerSet = powerSet(baseVal.getValue());
+			values = new SetValue(powerSet);
+		} else if (baseDomain instanceof ProductDomain prodDomain) {
+			logger.debug("<Type>ProductDomain</Type>");
+			EList<Domain> domains = prodDomain.getDomains();
+			List<SetValue> valuesInDom = new ArrayList<>();
+			for (int i = 0; i < domains.size(); i++) {
+				Domain d = domains.get(i);
+				SetValue valuesinD = (SetValue) getValues(d);
+				valuesInDom.add(valuesinD);
+			}
+			Set<Value> set = new HashSet<Value>();
+			for(List<Value> listTuples: listOfTuples(valuesInDom)) {
+				set.add(new TupleValue(listTuples));
+			}
+			values = new SetValue(set);
 		} else {
 			throw new UnsupportedOperationException("domain " + baseDomain + " cannot be reduced to a set");
 		}
 		logger.debug("<Value>" + values + "</Value>");
 		return values;
 	}
+	
+	static List<List<Value>> listOfTuples(List<SetValue> list) {
+	    ArrayList<List<Value>> result = new ArrayList<List<Value>>();
+	    List<Value> prefix = new ArrayList<Value>();
+	    recurse(0, list, prefix, result);
+	    return result;
+	}
+
+	static void recurse(int index,
+	             List<SetValue> input,
+	             List<Value> prefix,
+	             List<List<Value>> output)
+	{
+	    if (index >= input.size()) {
+	        output.add(new ArrayList<Value>(prefix));
+	    } else {
+	        SetValue next = input.get(index++);
+	        for (Object item : next.getValue()) {
+	            prefix.add((Value) item);
+	            recurse(index, input, prefix, output);
+	            prefix.remove(item);
+	        }
+	    }
+	}
+	
+	private static <T> Set<Set<T>> powerSet(Set<T> originalSet) {
+	    Set<Set<T>> sets = new HashSet<Set<T>>();
+	    if (originalSet.isEmpty()) {
+	        sets.add(new HashSet<T>());
+	        return sets;
+	    }
+	    List<T> list = new ArrayList<T>(originalSet);
+	    T head = list.get(0);
+	    Set<T> rest = new HashSet<T>(list.subList(1, list.size())); 
+	    for (Set<T> set : powerSet(rest)) {
+	        Set<T> newSet = new HashSet<T>();
+	        newSet.add(head);
+	        newSet.addAll(set);
+	        sets.add(newSet);
+	        sets.add(set);
+	    }       
+	    return sets;
+	}  
+	
 
 	/**
 	 * Gets the content of an enumeration domain.
