@@ -32,6 +32,7 @@
 
 package org.asmeta.simulator;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -100,6 +101,8 @@ public class Assignment<E> {
 	 *            value list
 	 */
 	public void put(Collection<?>/* <VariableTerm> */ variables, E[] arguments) {
+		if (variables.size() != arguments.length)
+			throw new RuntimeException("cannot put " + Arrays.toString(arguments) + " in " + variables + "(wrong size)");
 		int i = 0;
 		for (Object o : variables) {
 			VariableTerm var = (VariableTerm) o;

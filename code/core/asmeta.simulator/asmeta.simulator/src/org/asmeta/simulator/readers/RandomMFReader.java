@@ -12,6 +12,7 @@ package org.asmeta.simulator.readers;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 
@@ -159,8 +160,9 @@ public class RandomMFReader extends AllowUndefMFReader {
 		List<Value> value = new ArrayList<Value>();
 		for (Object o : domain.getDomains()) {
 			Value val_i = visit(o);
-			if (val_i == null)
+			if (val_i == null) {
 				return null;
+			}
 			value.add(val_i);
 		}
 		return new TupleValue(value);
@@ -193,5 +195,14 @@ public class RandomMFReader extends AllowUndefMFReader {
 
 	public Value visit(ConcreteDomain domain) {
 		return getRndElement(domain);
+	}
+	
+	public Value visit(asmeta.definitions.domains.PowersetDomain pd) {
+		// return a set with ONE random value
+		Value val = visit(pd.getBaseDomain());
+		HashSet set1value = new HashSet<>();
+		set1value.add(val);
+		SetValue randSet = new SetValue<>(set1value);
+		return randSet;		
 	}
 }
