@@ -55,6 +55,8 @@ public class AsmetaSMVOptions {
 		return AsmetaSMVOptions.printCounterExample;
 	}
 
+	// it can return null, if the user has not set the exact location, in that case use only the name of the executable
+	// which must be in the path
 	public static String getSolverPath() {
 		return AsmetaSMVOptions.solverPath;
 	}

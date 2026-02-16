@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -36,6 +38,11 @@ import asmeta.structure.Asm;
  */
 public class AsmetaSMV {
 
+	private static final String APPLICATIONS_NU_SMV_MACOS = "/Applications/NuSMV/bin/NuSMV";
+
+	private static final String EXEC_NAME = "NuSMV";
+
+	
 	// LTL and BMC means using bounded model checking and LTL (with X for next state in case of generation of tests)
 	// LTLFMC: forward model checking
 	// CTL: classical model checking - it does not complete the next step
@@ -362,15 +369,23 @@ public class AsmetaSMV {
 			if (isMac) {
 				// commands.add("/bin/sh");
 				// commands.add("-c");
-				solverName = "/Applications/NuSMV/bin/NuSMV";
+				Path file = Path.of(APPLICATIONS_NU_SMV_MACOS);
+				boolean isRegularExecutableFile = Files.isRegularFile(file) &
+				         Files.isReadable(file) & Files.isExecutable(file);
+				if (isRegularExecutableFile)
+					solverName = APPLICATIONS_NU_SMV_MACOS;
+				else {
+					// it must be in the path
+					solverName = EXEC_NAME;
+				}
 			} else if (isWSL) {
 				// assume windows with WSL - exe is needed
 				// solverName = "NuSMV.exe";
 				// OR NOT??? now works without exe
-				solverName = "NuSMV";
+				solverName = EXEC_NAME;
 			} else {
 				// assume windows or Linux
-				solverName = "NuSMV";
+				solverName = EXEC_NAME;
 			}
 			// }
 		} else {

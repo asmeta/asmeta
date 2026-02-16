@@ -2,15 +2,16 @@
  * A simple job scheduler that at each step randomly choose a ready job and make it running. 
  * At each step, running job are terminated using a controlled variable.
  * If not job is ready, the scheduler is set to idle.
- * 
+ *
+ * VERSION with temporal properties to be proved with the model checker
  */
  
- // TEMP WITH INVARIANTS
- 
-asm SchedulerInv
 
-import ../../STDL/StandardLibrary
-import ../../STDL/CTLLibrary
+ 
+asm Scheduler_TLProp
+
+import ../../../STDL/StandardLibrary
+import ../../../STDL/CTLLibrary
 
 signature:
 	enum domain Job = {JOB1|JOB2|JOB3}
@@ -32,15 +33,27 @@ definitions:
 				st($j2) := FIN 
 			endif
 	
-	// assumption about the enviroment - must be written as INVAR
+	// assumption about the environment - must be written as INVAR
 	INVAR (forall $j in Job with fin($j) implies st($j) = RUN)
 	
-	// property
+	// property - if a job is finished, its status will become FIN
 	CTLSPEC (forall $j in Job with ag(fin($j) implies ax(st($j) = FIN))) 
 
 	// (assumption) only running jobs can finish
 	invariant inv_fin over fin : (forall $j in Job with fin($j) implies st($j) = RUN)
 	
+	// it is possible to have all the jobs finished
+	CTLSPEC ef((forall $j in Job with st($j) = FIN)) 
+	// it is possible to have no job finished
+	CTLSPEC ef((forall $j in Job with st($j) != FIN)) 
+
+
+	// if a job is finished, it cannot be resumed
+	CTLSPEC (forall $j in Job with ag(st($j) = FIN implies ag(st($j) = FIN))) 
+
+	//a job remains ready or running until (weak) fin becomes true
+	CTLSPEC (forall $j in Job with aw(st($j) = RUN or st($j) = RDY, fin($j))) 
+
 			
 	main rule r_Main =
 		par 

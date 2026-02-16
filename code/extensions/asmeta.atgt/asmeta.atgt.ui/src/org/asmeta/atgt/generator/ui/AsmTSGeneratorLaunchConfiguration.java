@@ -71,6 +71,7 @@ public class AsmTSGeneratorLaunchConfiguration
 			return;
 		}
 		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+		// TODO: if a dialog is open, the active window is null
 		// get the file
 		IFile path = AsmetaUtility.getEditorIFile(window);
 		// open the simulator console

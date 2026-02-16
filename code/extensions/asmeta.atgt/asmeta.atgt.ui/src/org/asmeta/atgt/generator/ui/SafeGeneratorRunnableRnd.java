@@ -24,7 +24,7 @@ public class SafeGeneratorRunnableRnd  extends  SafeGeneratorRunnable{
 	@Override
 	protected AsmTestSuite generateTestSuite() throws Exception {
 		AsmCollection model = ASMParser.setUpReadAsm(config.asmetaSpecPath.toFile());
-		mc.writeMessage("generating randomly " + nTests + " test of lenghth "+ nSteps);
+		mc.writeMessage("generating randomly " + nTests + " tests of length "+ nSteps);
 		AsmTestGeneratorBySimulation tg = new AsmTestGeneratorBySimulation(model, nSteps, nTests);
 		return tg.getTestSuite();
 	}

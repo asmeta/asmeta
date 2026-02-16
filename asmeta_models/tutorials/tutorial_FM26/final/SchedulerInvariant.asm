@@ -29,10 +29,12 @@ definitions:
 			idle := true
 			
 	macro rule r_SetFinished =
-		forall $j in Job with st($j) = RUN do
-			if fin($j) then
+//		forall $j in Job with st($j) = RUN do
+//			if fin($j) then
+// thanks to the invariant, the rule can be simplified as follows:
+        forall $j in Job with fin($j) do
 				st($j) := FIN
-			endif
+//			endif
 			
 	invariant inv_fin over fin : (forall $j in Job with fin($j) implies st($j) = RUN)
 			
