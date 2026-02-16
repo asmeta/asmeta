@@ -6,7 +6,6 @@ signature:
 
 // Inputs
 dynamic monitored currentPosition: Position
-dynamic monitored goal: Position
 dynamic monitored chargers: Powerset(Position)
 
 // Optional: allow environment to signal a planner failure (timeout etc.)

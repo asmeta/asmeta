@@ -10,27 +10,37 @@
  ******************************************************************************/
 package org.asmeta.simulator.main;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.InvalidInvariantException;
+import org.asmeta.simulator.TermEvaluator;
 import org.asmeta.simulator.UpdateClashException;
 import org.asmeta.simulator.UpdateSet;
 import org.asmeta.simulator.main.Simulator.InvariantTreament;
+import org.asmeta.simulator.readers.InteractiveMFReader;
+import org.asmeta.simulator.readers.MonFuncReader;
 import org.asmeta.simulator.readers.RandomMFReader;
+import org.eclipse.emf.ecore.resource.impl.DESCipherImpl;
 
 public class TestOneSpec {
 
 	public static final String FILE_BASE = "../../../../asm_examples/";
 	
 	public static void main(String[] a) throws Exception {
+		ClassLoader.getSystemClassLoader().setDefaultAssertionStatus(true);
 		new TestOneSpec().testOneSpec();
 	}
 
 	// @Test
 	public void testOneSpec() throws Exception {
-
-		Environment env = new Environment(
-				new RandomMFReader());
-				//new InteractiveMFReader(System.in, System.out));
+		Logger log = Logger.getLogger(TermEvaluator.class);
+		log.setLevel(Level.DEBUG);
+		MonFuncReader monFuncReader = new RandomMFReader();
+		//new InteractiveMFReader(System.in, System.out);
+		((RandomMFReader)monFuncReader).allowUndefValues = false;
+		Environment env = new Environment(monFuncReader);
+				
 				
 
 		Simulator sim;
@@ -45,6 +55,8 @@ public class TestOneSpec {
 		// "rpns/r/cluster_test.asm");
 
 		sim = Simulator.createSimulator(FILE_BASE +
+//				"../asmeta_models\\ABZ2026_CaseStudy\\SecondGeneration_ManualFix\\RoverReducedMain.asm",
+				"../asmeta_models\\ABZ2026_CaseStudy\\SecondGeneration_AfterSimulation\\RoverReducedMain.asm",
 //				"examples/testRanges.asm",
 //				"test/simulator/MapDomain.asm",
 //				"erinda/FMS_IO.asm",
