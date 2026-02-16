@@ -1,0 +1,23 @@
+scenario S7_RandomScenario
+load Scheduler.asm
+
+check st(JOB1) = RDY;
+check st(JOB2) = RDY;
+check st(JOB3) = RDY;
+step
+check st(JOB3) = RUN;
+set fin(JOB3) := true;
+step
+check st(JOB1) = RUN;
+check st(JOB3) = FIN;
+set fin(JOB1) := true;
+step
+check st(JOB1) = FIN;
+check st(JOB2) = RUN;
+set fin(JOB2) := false;
+step
+check idle = true;
+set fin(JOB2) := true;
+step
+check idle = true;
+check st(JOB2) = FIN;

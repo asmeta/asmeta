@@ -1,0 +1,21 @@
+scenario S5_PickDeterministic
+load Scheduler.asm
+
+set fin(JOB1) := false;
+set fin(JOB2) := false;
+set fin(JOB3) := false;
+
+check idle = false;
+check st(JOB1) = RDY and st(JOB2) = RDY and st(JOB3) = RDY;
+
+pick $j in r_SetRunning := JOB3;
+step
+check st(JOB3) = RUN;
+check st(JOB1) = RDY and st(JOB2) = RDY;
+
+set fin(JOB3) := true;
+pick $j in r_SetRunning := JOB2;
+step
+check st(JOB3) = FIN;
+check st(JOB2) = RUN;
+check st(JOB1) = RDY;

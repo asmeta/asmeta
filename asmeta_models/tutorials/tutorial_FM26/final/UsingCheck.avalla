@@ -1,0 +1,10 @@
+scenario UsingCheck
+load Scheduler.asm
+
+exec par
+		forall $j in Job do st($j) := FIN
+		idle := true
+	endpar;
+step
+check (forall $j2 in Job with st($j2) = FIN);
+check idle = true;
