@@ -1,39 +1,42 @@
 /*
  * A simple job scheduler that at each step randomly choose a ready job and make it running. 
- * At each step, running job are terminated using a controlled variable.
+ * At each step, running jobs may be terminated by the environment.
  * If not job is ready, the scheduler is set to idle.
  * 
  */
 asm Scheduler
-
 import ../../STDL/StandardLibrary
 
 signature:
-	enum domain Job = {JOB1|JOB2|JOB3}
-	enum domain Status = {RDY|RUN|FIN}
-	controlled st: Job -> Status
-	controlled idle: Boolean
-	monitored fin: Job -> Boolean
+	// Domain definition
+	enum domain Job = {JOB1 | JOB2 | JOB3}
+	enum domain Status = {RDY | RUN | FIN}
+	// Controlled and out functions
+	dynamic controlled st: Job -> Status
+	dynamic out idle: Boolean
+	// Monitored functions
+	dynamic monitored fin: Job -> Boolean 
+	
 definitions:
 
-	macro rule r_SetRunning = 
-		choose $j in Job with st($j) = RDY do 
+	macro rule r_SetRunning =
+		choose $j in Job with st($j) = RDY do
 			st($j) := RUN
-		ifnone 
-			idle:= true
+		ifnone
+			idle := true
 			
-	macro rule r_SetFinished = 
-		forall $j2 in Job with st($j2) = RUN do 
-			if fin($j2) then
-				st($j2) := FIN 
+	macro rule r_SetFinished =
+		forall $j in Job with st($j) = RUN do
+			if fin($j) then
+				st($j) := FIN
 			endif
 			
 	main rule r_Main =
-		par 
-			r_SetRunning[] 
-			r_SetFinished[] 
+		par
+			r_SetRunning[]
+			r_SetFinished[]
 		endpar
-		
+	
 default init s0:
 	function idle = false
 	function st($j in Job) = RDY

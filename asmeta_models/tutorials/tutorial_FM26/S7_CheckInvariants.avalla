@@ -1,4 +1,4 @@
-scenario S6_CheckInvariants
+scenario S7_CheckInvariants
 load Scheduler.asm
 
 invariant AllJobFinishToghether: 

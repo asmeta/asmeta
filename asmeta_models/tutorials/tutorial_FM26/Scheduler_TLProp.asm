@@ -1,13 +1,10 @@
 /*
  * A simple job scheduler that at each step randomly choose a ready job and make it running. 
- * At each step, running job are terminated using a controlled variable.
+ * At each step, running jobs may be terminated by the environment.
  * If not job is ready, the scheduler is set to idle.
  *
- * VERSION with temporal properties to be proved with the model checker
- *  
+ * VERSION with temporal properties to be proved with the model checker (not related to this tutorial)
  */
- 
-
  
 asm Scheduler_TLProp
 
@@ -18,7 +15,7 @@ signature:
 	enum domain Job = {JOB1|JOB2|JOB3}
 	enum domain Status = {RDY|RUN|FIN}
 	controlled st: Job -> Status
-	controlled idle: Boolean
+	out idle: Boolean
 	monitored fin: Job -> Boolean
 definitions:
 
@@ -52,7 +49,7 @@ definitions:
 	// if a job is finished, it cannot be resumed
 	CTLSPEC (forall $j in Job with ag(st($j) = FIN implies ag(st($j) = FIN))) 
 
-	//a job remains ready or running until (weak) fin becomes true
+	// a job remains ready or running until (weak) fin becomes true
 	CTLSPEC (forall $j in Job with aw(st($j) = RUN or st($j) = RDY, fin($j))) 
 
 			

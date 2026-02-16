@@ -1,4 +1,4 @@
-scenario UsingCheck
+scenario S4_SetSpecificConfig
 load Scheduler.asm
 
 exec par

@@ -1,4 +1,4 @@
-scenario S5_PickDeterministic
+scenario S6_PickDeterministic
 load Scheduler.asm
 
 set fin(JOB1) := false;

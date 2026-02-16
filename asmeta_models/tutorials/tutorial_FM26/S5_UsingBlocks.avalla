@@ -1,4 +1,4 @@
-scenario S3_UsingBlocks
+scenario S5_UsingBlocks
 load Scheduler.asm
 
 execblock SchedulerBlocks:initAndCheck;
