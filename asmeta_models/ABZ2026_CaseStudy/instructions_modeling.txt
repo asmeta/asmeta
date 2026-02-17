@@ -1,0 +1,9 @@
+The file TutorialAsmeta.pdf is a tutorial of the ASMETA formal method. It describes how systems should be modeled by using the AsmetaL notation and how validation-based scenario is performed by using the Avalla language.
+Further information on the AsmetaL language, together with its own metamodel are available at https://asmeta.github.io/material/AsmetaL_quickguide.html.
+
+Additional information on the ASMETA framework, and on the purpose of each activity is described in the file FestschriftEgon75.pdf.
+The StandardLibrary.asm includes standard domains and functions. All domains not defined there should be defined in the specification.
+
+The description of the case study under development is given within the document-v2.pdf, while the simplified architecture of the subportion of the system we consider is given in the Architecture.pdf file.
+
+You should consider the information coming from these source documents to derive ASMETA models, Avalla scenarios, or temporal specifications.
