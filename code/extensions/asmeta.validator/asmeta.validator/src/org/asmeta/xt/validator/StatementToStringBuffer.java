@@ -244,6 +244,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 	public Void caseCheck(Check checkCmd) {
 		String cond = checkCmd.getExpression().trim();
 		cond = zipWhites(cond);
+		cond = putEqInsteadOf(cond);
 		append("if " + cond + " then");
 		indent();
 		append("result := print(\"check succeeded: " + cond.replace("\"", "\\\"") + "\")");
@@ -261,6 +262,21 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 		unIndent();
 		append("endif");
 		return null;
+	}
+
+	static String putEqInsteadOf(String cond) {
+		// if cond is a simple check like a = b, put eq
+		String[] data = cond.split("=");
+		if (data.length != 2)
+			return cond;
+		data[0] = data[0].trim();
+		data[1] = data[1].trim();
+		// it is a constant like id or number
+		if (data[0].contains("(") ||data[0].contains("[") || data[1].contains("(") ||data[1].contains("[")) {
+			// use eq instead
+			return "eq(" + data[0] + "," + data[1] + ")";			
+		}
+		return cond;
 	}
 
 	/**
