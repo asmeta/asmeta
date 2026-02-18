@@ -6,4 +6,4 @@ The StandardLibrary.asm includes standard domains and functions. All domains not
 
 The description of the case study under development is given within the document-v2.pdf, while the simplified architecture of the subportion of the system we consider is given in the Architecture.pdf file.
 
-You should consider the information coming from these source documents to derive ASMETA models, Avalla scenarios, or temporal specifications.
+You should consider the information coming from these source documents to derive ASMETA models and Avalla scenarios.

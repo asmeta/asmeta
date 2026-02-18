@@ -8,4 +8,4 @@ The description of the case study under development is given within the document
 
 Please consider the ASMETA models in BatteryMonitor.asm, ComputePlan2Charging.asm, GoalReasoningAgent.asm, HardwareInterface.asm, RoverDomains.asm, RoverReducedMain.asm, SolarPanelController.asm. These are the models under validation and all functions are defined there.
 
-You should consider the information coming from these source documents to derive ASMETA models, Avalla scenarios, or temporal specifications.
+You should consider the information coming from these source documents to derive ASMETA models and Avalla scenarios.

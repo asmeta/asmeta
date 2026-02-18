@@ -16,7 +16,7 @@ signature:
 definitions:
 
 // System-level requirement SL1: never run out of battery
-//invariant inv_SL1_overall over batteryLevel: (batteryLevel > 0)
+invariant inv_SL1_overall over batteryLevel: (batteryLevel > 0)
 
 main rule r_Main =
     par
