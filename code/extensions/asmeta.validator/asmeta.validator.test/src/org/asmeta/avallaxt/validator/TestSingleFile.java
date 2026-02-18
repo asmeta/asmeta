@@ -443,5 +443,18 @@ public class TestSingleFile extends TestValidator {
 		test("scenariosfortest/use_extend/useextend.avalla", false, false, true);		
 	}
 
+	// 
+	@Test
+	public void testABZ26CaseStudy() throws Exception {
+		String scenarioPath = ASM_EXAMPLES + "/../asmeta_models\\ABZ2026_CaseStudy\\SecondGeneration_AfterSimulation\\abstractests\\testtest0.avalla";
+		test(scenarioPath, false, false, true);		
+	}
+
+	@Test
+	public void testABZ26CaseStudyFolder() throws Exception {
+		String scenarioPath = ASM_EXAMPLES + "/../asmeta_models\\ABZ2026_CaseStudy\\SecondGeneration_AfterSimulation\\abstractests\\";
+		test(scenarioPath, true, true, true);		
+	}
+
 	
 }
