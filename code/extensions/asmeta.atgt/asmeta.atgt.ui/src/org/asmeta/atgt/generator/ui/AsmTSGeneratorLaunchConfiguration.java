@@ -70,13 +70,18 @@ public class AsmTSGeneratorLaunchConfiguration
 			System.err.println("Call generateTests with workbench null");
 			return;
 		}
+		IPath path;
 		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
-		// TODO: if a dialog is open, the active window is null
+		if (window == null) {
+		// ff a dialog is open, the active window is null
 		// get the file
-		IFile path = AsmetaUtility.getEditorIFile(window);
+		path = AsmetaUtility.getEditorIFile(window).getFullPath();
+		} else {
+			path = launch.getLaunchConfiguration().getFile().getFullPath();			
+		}
 		// open the simulator console
 		// generate the tests
-		generateTests(path.getFullPath(), window);
+		generateTests(path, window);
 	}
 
 	private AsmTSGeneratorLaunchConfiguration setConfiguration(ILaunchConfiguration configuration) {
