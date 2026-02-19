@@ -27,11 +27,15 @@ import org.junit.experimental.categories.Category;
  */
 public class AsmetaSMVtestTranslate extends AsmetaSMVtestTranslateBase{
 
-	static final String FILE_BASE = "../../../../asm_examples/";
+	static final String ASMETA_EXAMPLES = "../../../../asm_examples/";
+	static final String ASMETA_MODELS = "../../../../asmeta_models/";
 	
 	@BeforeClass
 	public static void checkFileBase() {
-		File f = new File(FILE_BASE);
+		File f = new File(ASMETA_EXAMPLES);
+		assertTrue(f.getAbsolutePath() + " does not exist", f.exists());
+		assertTrue(f.getAbsolutePath() + " does not exist", f.isDirectory());
+		f = new File(ASMETA_MODELS);
 		assertTrue(f.getAbsolutePath() + " does not exist", f.exists());
 		assertTrue(f.getAbsolutePath() + " does not exist", f.isDirectory());
 	} 
@@ -45,7 +49,7 @@ public class AsmetaSMVtestTranslate extends AsmetaSMVtestTranslateBase{
 
 	// test all the files ina subdir of basedir
 	private Collection<File> testSpecInSubFolderBASEDIR(String dirname) {
-		return testSpecInSubFolder(FILE_BASE + dirname);
+		return testSpecInSubFolder(ASMETA_EXAMPLES + dirname);
 	}
 
 	private Collection<File> testSpecInSubFolder(String dirname) {
@@ -73,18 +77,18 @@ public class AsmetaSMVtestTranslate extends AsmetaSMVtestTranslateBase{
 	@Test
 	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testFSM_hooking() {
-		assertTrue(testOneSpec(FILE_BASE + "examples/fsmsemantics/FSM_hooking.asm"));
+		assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/fsmsemantics/FSM_hooking.asm"));
 	}
 
 	@Test
 	public void testFSM_hooking2() {
-		assertTrue(testOneSpec(FILE_BASE + "examples/fsmsemantics/FSM_hooking2.asm"));
+		assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/fsmsemantics/FSM_hooking2.asm"));
 	}
 
 	@Test
 	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testASM_even() {
-		assertTrue(testOneSpec(FILE_BASE + "examples/fsmsemantics/Sle/ASM_even.asm"));
+		assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/fsmsemantics/Sle/ASM_even.asm"));
 	}
 
 
@@ -122,30 +126,30 @@ public class AsmetaSMVtestTranslate extends AsmetaSMVtestTranslateBase{
 	@Test
 	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testSomeSingle() {
-		assertTrue(testOneSpec(FILE_BASE + "examples/simple_example/AdvancedClock.asm"));
-		assertTrue(testOneSpec(FILE_BASE + "examples/simple_example/AdvancedClock2.asm"));
+		assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/simple_example/AdvancedClock.asm"));
+		assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/simple_example/AdvancedClock2.asm"));
 		// domain Any not supported
-		// assertTrue(testOneSpec(FILE_BASE + "examples/simple_example/oldATM/ATM.asm"));
-		assertTrue(testOneSpec(FILE_BASE + "examples/simple_example/Axioms.asm"));
-		assertTrue(testOneSpec(FILE_BASE + "examples/simple_example/fattoriale.asm"));
-		assertTrue(testOneSpec(FILE_BASE + "examples/simple_example/FLIP_FLOP_0.asm"));
-		assertTrue(testOneSpec(FILE_BASE + "examples/simple_example/IncosistentUpdate.asm"));
-		assertTrue(testOneSpec(FILE_BASE + "examples/models/lift2.asm"));
-		assertTrue(testOneSpec(FILE_BASE + "examples/models/SIS.asm"));
-		assertTrue(testOneSpec(FILE_BASE + "examples/fsmsemantics/FSM_hooking2.asm"));
-		assertTrue(testOneSpec(FILE_BASE + "examples/fsmsemantics/FSM_map0_2.asm"));
-		assertTrue(testOneSpec(FILE_BASE + "examples/sluicegate/sluiceGateGround.asm"));
-		assertTrue(testOneSpec(FILE_BASE + "examples/sluicegate/sluiceGateMotorCtl.asm"));
-		assertTrue(testOneSpec(FILE_BASE + "examples/traffic_light/oneWayTrafficLight.asm"));
-		assertTrue(testOneSpec(FILE_BASE + "examples/traffic_light/oneWayTrafficLight2.asm"));
-		assertTrue(testOneSpec(FILE_BASE + "examples/traffic_light/oneWayTrafficLight_refined.asm"));
-		assertTrue(testOneSpec(FILE_BASE + "examples/traffic_light/oneWayTrafficLight_refined_with_agents.asm"));
+		// assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/simple_example/oldATM/ATM.asm"));
+		assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/simple_example/Axioms.asm"));
+		assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/simple_example/fattoriale.asm"));
+		assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/simple_example/FLIP_FLOP_0.asm"));
+		assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/simple_example/IncosistentUpdate.asm"));
+		assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/models/lift2.asm"));
+		assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/models/SIS.asm"));
+		assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/fsmsemantics/FSM_hooking2.asm"));
+		assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/fsmsemantics/FSM_map0_2.asm"));
+		assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/sluicegate/sluiceGateGround.asm"));
+		assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/sluicegate/sluiceGateMotorCtl.asm"));
+		assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/traffic_light/oneWayTrafficLight.asm"));
+		assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/traffic_light/oneWayTrafficLight2.asm"));
+		assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/traffic_light/oneWayTrafficLight_refined.asm"));
+		assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/traffic_light/oneWayTrafficLight_refined_with_agents.asm"));
 	}
 
 	@Test
 	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testAtm() {
-		assertTrue(testOneSpec(FILE_BASE + "examples/simple_example/ATM.asm"));
+		assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/simple_example/ATM.asm"));
 	}
 
 	@Test
@@ -156,51 +160,51 @@ public class AsmetaSMVtestTranslate extends AsmetaSMVtestTranslateBase{
 	@Test
 	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testAxioms() {
-		assertTrue(testOneSpec(FILE_BASE + "examples/simple_example/Axioms.asm"));
+		assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/simple_example/Axioms.asm"));
 	}
 
 	@Test
 	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testFattoriale() {
-		assertTrue(testOneSpec(FILE_BASE + "examples/simple_example/fattoriale.asm"));
+		assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/simple_example/fattoriale.asm"));
 	}
 
 	@Test
 	public void testAdvancedClock() {
-		assertTrue(testOneSpec(FILE_BASE + "examples/simple_example/AdvancedClock.asm"));
+		assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/simple_example/AdvancedClock.asm"));
 	}
 
 	@Test
 	public void testAdvancedClock2() {
-		assertTrue(testOneSpec(FILE_BASE + "examples/simple_example/AdvancedClock2.asm"));
+		assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/simple_example/AdvancedClock2.asm"));
 	}
 
 	@Test
 	public void testFLIP_FLOP_0() {
-		assertTrue(testOneSpec(FILE_BASE + "examples/simple_example/FLIP_FLOP_0.asm"));
+		assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/simple_example/FLIP_FLOP_0.asm"));
 	}
 
 	@Test
 	public void testIncosistentUpdate() {
-		assertTrue(testOneSpec(FILE_BASE + "examples/simple_example/IncosistentUpdate.asm"));
+		assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/simple_example/IncosistentUpdate.asm"));
 	}
 
 	@Test
 	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testOrdersystem() {
-		assertTrue(testOneSpec(FILE_BASE + "examples/models/ordersystem.asm"));
+		assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/models/ordersystem.asm"));
 	}
 
 	@Test
 	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testPhilo1() {
-		assertTrue(testOneSpec(FILE_BASE + "examples/philosophers/philosophers1.asm"));
+		assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/philosophers/philosophers1.asm"));
 	}
 
 	@Test
 	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testPhilo2() {
-		assertTrue(testOneSpec(FILE_BASE + "examples/philosophers/philosophers2.asm"));
+		assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/philosophers/philosophers2.asm"));
 	}
 
 	@Test
@@ -224,18 +228,18 @@ public class AsmetaSMVtestTranslate extends AsmetaSMVtestTranslateBase{
 	@Test
 	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testFlipFlop() {
-		assertTrue(testOneSpec(FILE_BASE + "examples/models/FlipFlop.asm"));
+		assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/models/FlipFlop.asm"));
 	}
 
 	@Test
 	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testLift2() {
-		assertTrue(testOneSpec(FILE_BASE + "examples/models/lift2.asm"));
+		assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/models/lift2.asm"));
 	}
 
 	@Test
 	public void testSIS() {
-		assertTrue(testOneSpec(FILE_BASE + "examples/models/SIS.asm"));
+		assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/models/SIS.asm"));
 	}
 
 	@Test
@@ -253,7 +257,7 @@ public class AsmetaSMVtestTranslate extends AsmetaSMVtestTranslateBase{
 	@Test
 	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void testProduction_Cell_with_agents() {
-		assertTrue(testOneSpec(FILE_BASE + "examples/production_cell/Production_Cell_with_agents.asm"));
+		assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/production_cell/Production_Cell_with_agents.asm"));
 	}
 
 	@Test
@@ -435,6 +439,16 @@ public class AsmetaSMVtestTranslate extends AsmetaSMVtestTranslateBase{
 		testOneSpec("examples/UseAnyDomain.asm", options);
 	}
 
+	@Test
+	public void testPillBox() {
+		AsmetaSMVOptions options = new AsmetaSMVOptions();
+		options.keepNuSMVfile = true;
+		//AsmetaSMVOptions.FLATTEN = false;
+		testOneSpec(ASMETA_MODELS + "\\tutorials\\tutorial_FM24\\pillbox_ground.asm", options);
+	}
+
+	
+	
 	@Test
 	public void testINVAR() throws IOException {
 		AsmetaSMVOptions options = new AsmetaSMVOptions();
