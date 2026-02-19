@@ -5,7 +5,8 @@
 	<artifactId>asmeta.asmetal2cpp.codegen</artifactId>
 	<properties>
 		<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
-		<!-- <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>-->
+		<!--
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>-->
 	</properties>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
@@ -40,25 +41,29 @@
 		https://www.p2repository.com/ 
 		non è aggiornatissimo ma almeno compila il tutto-->
 		<repository>
-        	<id>eclipse-2025-09</id>
-        	<url>https://p2repository.com/mvn4/eclipse-2025-09/</url>
-	    </repository>
+			<id>eclipse-2025-12</id>
+			<url>https://p2repository.com/mvn4/eclipse-2025-12/</url>
+		</repository>
 		<repository>
-        	<id>eclipse-2025-06</id>
-        	<url>https://p2repository.com/mvn4/eclipse-2025-06/</url>
-	    </repository>
+			<id>eclipse-2025-09</id>
+			<url>https://p2repository.com/mvn4/eclipse-2025-09/</url>
+		</repository>
 		<repository>
-        	<id>eclipse-2025-03</id>
-        	<url>https://p2repository.com/mvn4/eclipse-2025-03/</url>
-	    </repository>
+			<id>eclipse-2025-06</id>
+			<url>https://p2repository.com/mvn4/eclipse-2025-06/</url>
+		</repository>
 		<repository>
-        	<id>eclipse-2024-12</id>
-        	<url>https://p2repository.com/mvn4/eclipse-2024-12/</url>
-	    </repository>
+			<id>eclipse-2025-03</id>
+			<url>https://p2repository.com/mvn4/eclipse-2025-03/</url>
+		</repository>
 		<repository>
-        	<id>eclipse-2024-09</id>
-        	<url>https://p2repository.com/mvn4/eclipse-2024-09/</url>
-	    </repository>
+			<id>eclipse-2024-12</id>
+			<url>https://p2repository.com/mvn4/eclipse-2024-12/</url>
+		</repository>
+		<repository>
+			<id>eclipse-2024-09</id>
+			<url>https://p2repository.com/mvn4/eclipse-2024-09/</url>
+		</repository>
 	</repositories>
 	<dependencies>
 		<dependency>
@@ -76,7 +81,7 @@
 			<artifactId>asmeta.parser</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-<!--		<dependency>
+		<!--		<dependency>
 			<groupId>org.eclipse.xtext</groupId>
 			<artifactId>org.eclipse.xtext.generator</artifactId>
 			<version>[2.39.0,)</version>
@@ -96,10 +101,10 @@
 			<artifactId>org.eclipse.xtext.xbase</artifactId>
 			<version>[${xtext.version},)</version>
 			<exclusions>
-			<exclusion>
-			<groupId>org.eclipse.ide</groupId>
-			<artifactId>org.eclipse.emf.ecore</artifactId>
-			</exclusion>
+				<exclusion>
+					<groupId>org.eclipse.ide</groupId>
+					<artifactId>org.eclipse.emf.ecore</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
