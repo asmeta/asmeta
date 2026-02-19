@@ -1,0 +1,5 @@
+The following is an Avalla scenario for the ASMETA specification of the planetary rover.
+
+[...]
+
+Provide a concise but clear textual explanation of its behavior (maximum 3 lines) and evaluate whether it represents plausible behavior of the modeled system, i.e., if it is compliant with system requirements.

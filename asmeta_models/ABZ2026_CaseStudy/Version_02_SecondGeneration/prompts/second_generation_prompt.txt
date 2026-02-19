@@ -1,0 +1,31 @@
+Generate a set of ASMETA modules for the planetary rover case study. Please model the components involved in the reduced architecture, and focus on the requirements SL1, G2, G5, CPC1, CPC3, CPC4, CPC5, HI1, HI2, HI6, HI7, BM1, and BM2.
+
+For the module RoverDomains.asm you previously generated, you must fix all following issues, without changing anything else:
+- The module must export all (export *) functions and domains
+- When defining products of two domains, use Prod(D1, D2) instead of D1*D2
+- Use only functions that are defined (e.g., use first instead of fst)
+- Initialize all concrete domains in the definitions section of the module.
+- Use only Integers instead of Real
+
+For the module BatteryMonitor.asm you previously generated, you must fix all following issues, without changing anything else:
+- The module must export all (export *) functions and domains
+
+For the module SolarPanelController.asm you previously generated, you must fix all following issues, without changing anything else:
+- The module must export all (export *) functions and domains
+
+For the module ComputePlan2Charging.asm you previously generated, you must fix all following issues, without changing anything else:
+- The module must export all (export *) functions and domains
+- Do not use the par block when only a single rule call is present
+- When defining products of two domains, use Prod(D1, D2) instead of D1*D2
+- When using the chooseone function, refer to its definition in the StandardLibrary. It is a function receiving as a parameter a set. Consider using a different notation, instead of forall elements with higher length, use not exists elements with lower length
+
+For the module HardwareInterface.asm you previously generated, you must fix all following issues, without changing anything else:
+- The module must export all (export *) functions and domains
+- When defining products of two domains, use Prod(D1, D2) instead of D1*D2
+
+For the module GoalReasoningAgent.asm you previously generated, you must fix all following issues, without changing anything else:
+- The module must export all (export *) functions and domains
+
+For the main specification RoverReducedMain.asm you previously generated, you must fix all following issues, without changing anything else:
+- Position the invariant within the declarations section
+- Initialize all controlled functions to a reasonable value

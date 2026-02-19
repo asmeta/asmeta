@@ -1,0 +1,108 @@
+scenario scenario0
+
+load ./../../models/RoverReducedMain.asm
+
+//// test name test@test0
+//// generated for (test goal): test0: NULL
+check failure = false;
+check awaitingInstructions = false;
+check chargingComplete = false;
+check recharge = false;
+check batteryLevel = 95;
+check noplan = false;
+check currentPosition = (0,0);
+check plan2C = [];
+check isAtCharger = false;
+check moving = false;
+check goal = (0,0);
+set chargers := {(9,8)};
+set planningFailure := true;
+set goalSet := false;
+set planSet := {[(-1,-8),(10,7)]};
+set measuredBatteryLevel := 57;
+step
+check currentPosition = (0,0);
+check atGoal = true;
+check recharge = false;
+check plan2C = [(-1,-8),(10,7)];
+check moving = false;
+check noplan = false;
+check isAtCharger = false;
+check batteryLevel = 54;
+check awaitingInstructions = false;
+check chargingComplete = false;
+check failure = true;
+check goal = (0,0);
+set goalSet := false;
+set measuredBatteryLevel := 89;
+set chargers := {(2,-8)};
+set planningFailure := false;
+set planSet := {[(-4,-9),(-6,6),(-8,9)]};
+step
+check awaitingInstructions = true;
+check atGoal = true;
+check failure = false;
+check isAtCharger = false;
+check chargingComplete = false;
+check noplan = false;
+check recharge = false;
+check plan2C = [(-4,-9),(-6,6),(-8,9)];
+check batteryLevel = 84;
+check currentPosition = (0,0);
+check moving = false;
+check goal = (0,0);
+set planSet := {[(9,-4),(-9,-7)]};
+set goalSet := false;
+set planningFailure := false;
+set measuredBatteryLevel := 79;
+set chargers := {(-1,6)};
+step
+check plan2C = [(9,-4),(-9,-7)];
+check currentPosition = (0,0);
+check moving = false;
+check chargingComplete = false;
+check isAtCharger = false;
+check noplan = false;
+check batteryLevel = 75;
+check awaitingInstructions = false;
+check goal = (0,0);
+check recharge = false;
+check failure = false;
+check atGoal = true;
+set measuredBatteryLevel := 22;
+set planningFailure := true;
+set chargers := {(-9,9)};
+set goalSet := false;
+set planSet := {[(3,1),(-3,-4),(6,-10)]};
+step
+check awaitingInstructions = false;
+check moving = false;
+check isAtCharger = false;
+check currentPosition = (0,0);
+check plan2C = [(3,1),(-3,-4),(6,-10)];
+check atGoal = true;
+check failure = true;
+check batteryLevel = 20;
+check goal = (0,0);
+check noplan = false;
+check chargingComplete = false;
+check recharge = false;
+set planningFailure := false;
+set goalSet := false;
+set chargers := {(10,-9)};
+set planSet := {[(-10,-1),(7,5),(-2,2),(-9,-1)]};
+set measuredBatteryLevel := 10;
+step
+check noplan = false;
+check batteryLevel = 9;
+check awaitingInstructions = true;
+check isAtCharger = false;
+check plan2C = [(-10,-1),(7,5),(-2,2),(-9,-1)];
+check goal = (0,0);
+check moving = false;
+check recharge = false;
+check atGoal = true;
+check failure = false;
+check currentPosition = (0,0);
+check chargingComplete = false;
+step
