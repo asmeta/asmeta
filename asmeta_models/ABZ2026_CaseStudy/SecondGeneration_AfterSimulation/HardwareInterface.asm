@@ -61,7 +61,7 @@ rule r_setIsAtCharger =
 
 // Load plan2C as the active plan when moving toward charger-goal
 rule r_loadPlan =
-    if not(noplan) and recharge and chargingComplete then
+    if not(noplan) and recharge and not(atGoal) and (isEmptyPlan(activePlan)) then
         par
             activePlan := plan2C
             moving := true
@@ -72,13 +72,15 @@ rule r_loadPlan =
 // SL1 is handled via invariants in the main machine)
 rule r_moveOneStep =
     if moving then
-        if not(isEmptyPlan(activePlan)) and (noplan or not recharge) then
+        if not(isEmptyPlan(activePlan)) then
             par
                 currentPosition := headPos(activePlan)
                 activePlan := tailPlan(activePlan)
             endpar
         else
-            moving := false
+        	if atGoal then
+            	moving := false
+            endif
         endif
     endif
 
