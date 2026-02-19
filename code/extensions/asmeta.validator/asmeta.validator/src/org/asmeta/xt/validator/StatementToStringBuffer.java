@@ -272,7 +272,8 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 		data[0] = data[0].trim();
 		data[1] = data[1].trim();
 		// it has not "and"-"or"-"not" operators
-		if (data[0].matches(".*\\b(and|or|not)\\b.*") || data[1].matches(".*\\b(and|or|not)\\b.*"))
+		String operatorsRegex = ".*\\b(and|or|not|implies|xor)\\b.*";
+		if (data[0].matches(operatorsRegex) || data[1].matches(operatorsRegex))
 			return cond;
 		// it is a constant like id or number
 		if (data[0].contains("(") || data[0].contains("[") || data[1].contains("(") || data[1].contains("[")) {
