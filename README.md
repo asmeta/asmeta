@@ -54,7 +54,6 @@ To compile and test the asmeta framework in Eclipse IDE you need to install also
 https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2026_02_win64.zip 
 
 ### older version multiplatform
-version 24.06! new TL operators names and minor fixes - multiple architecture (win, lin, macos):
 
 #### for windows 64 bit:
 https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2024_06_win64.zip
