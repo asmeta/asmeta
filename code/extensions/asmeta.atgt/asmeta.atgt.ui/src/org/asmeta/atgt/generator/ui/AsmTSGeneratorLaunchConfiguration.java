@@ -72,11 +72,12 @@ public class AsmTSGeneratorLaunchConfiguration
 		}
 		IPath path;
 		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
-		if (window == null) {
-		// ff a dialog is open, the active window is null
-		// get the file
-		path = AsmetaUtility.getEditorIFile(window).getFullPath();
+		if (window != null) {
+			// probably useless
+			path = AsmetaUtility.getEditorIFile(window).getFullPath();
 		} else {
+			// if a dialog is open, the active window is null
+			// get the file
 			path = launch.getLaunchConfiguration().getFile().getFullPath();			
 		}
 		// open the simulator console
@@ -104,6 +105,7 @@ public class AsmTSGeneratorLaunchConfiguration
 			}
 			List<String> attribute = configuration.getAttribute(CONFIG_FORMATS, AsmTestGenerator.DEFAULT_FORMATS);
 			formats = FormatsEnum.toListOfFormatsEnum(attribute);
+			System.err.println(configuration.getFile());
 			return this;
 		} catch (CoreException e) {
 			e.printStackTrace();

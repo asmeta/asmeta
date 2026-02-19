@@ -82,6 +82,9 @@ abstract public class AsmTSGeneratorLaunchShortcut implements org.eclipse.debug.
 		}
 	}
 	
+	
+	
+	
 	protected ILaunchConfiguration chooseConfiguration(List<ILaunchConfiguration> configList) {
 		IDebugModelPresentation labelProvider = DebugUITools.newDebugModelPresentation();
 		ElementListSelectionDialog dialog = new ElementListSelectionDialog(Display.getCurrent().getActiveShell(),
