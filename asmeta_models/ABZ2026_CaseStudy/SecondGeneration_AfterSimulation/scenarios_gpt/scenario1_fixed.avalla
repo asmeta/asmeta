@@ -167,7 +167,6 @@ step
 
 // After Step 5:
 // - activePlan is loaded and moving becomes true
-// - recharge becomes false (computed from batteryLevel=47 at start of this step)
 check moving = true;
 check activePlan = [(1,1),(2,2),(2,3)];
 check recharge = true;
@@ -187,7 +186,7 @@ set chargers := {(2,3)};
 set planSet := {[(1,1),(2,2),(2,3)]};
 set planningFailure := false;
 
-set measuredBatteryLevel := 45;     // reasonable “consuming while moving”
+set measuredBatteryLevel := 4;     
 set goalSet := false;
 
 step
@@ -209,7 +208,7 @@ set chargers := {(2,3)};
 set planSet := {[(1,1),(2,2),(2,3)]};
 set planningFailure := false;
 
-set measuredBatteryLevel := 40;
+set measuredBatteryLevel := 3;
 set goalSet := false;
 
 step
@@ -231,7 +230,7 @@ set chargers := {(2,3)};
 set planSet := {[(1,1),(2,2),(2,3)]};
 set planningFailure := false;
 
-set measuredBatteryLevel := 35;
+set measuredBatteryLevel := 2;
 set goalSet := false;
 
 step
@@ -248,7 +247,6 @@ check panelState = CLOSED;    // opens next step
 // =====================
 // Step 9: now the machine “realizes” it is at the charger.
 // - r_setAtGoal and r_setIsAtCharger become true
-// - SolarPanelController opens the panels
 // - HardwareInterface stops moving because the plan is finished / charging hold
 // This is the point where recharging starts (panels OPEN, chargingComplete=false).
 // =====================
@@ -256,14 +254,21 @@ set chargers := {(2,3)};
 set planSet := {[(1,1),(2,2),(2,3)]};
 set planningFailure := false;
 
-// keep it low-ish to justify “needs recharge”
-set measuredBatteryLevel := 30;
+set measuredBatteryLevel := 2;
 
 step
 
 check currentPosition = (2,3);
 check atGoal = true;
 check isAtCharger = true;
+
+// =====================
+// Step 10: The rover can now open the solar panels
+// =====================
+
+set measuredBatteryLevel := 2;
+
+step
 
 check panelState = OPEN;      // recharging starts (panels opened at charger)
 check moving = false;         // rover holds position while charging
