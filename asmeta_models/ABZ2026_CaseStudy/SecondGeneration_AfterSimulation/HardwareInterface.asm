@@ -12,7 +12,6 @@ dynamic monitored chargers: Powerset(Prod(Coord,Coord))
 dynamic controlled plan2C: Seq(Prod(Coord,Coord))
 dynamic controlled noplan: Boolean
 
-
 // Outputs / state
 dynamic controlled currentPosition: Prod(Coord,Coord)
 dynamic controlled recharge: Boolean
@@ -32,7 +31,7 @@ static isChargerPos: Prod(Prod(Coord,Coord), Powerset(Prod(Coord,Coord))) -> Boo
 
 definitions:
 
-function safetyMarginSteps = 1
+function safetyMarginSteps = 3
 
 function stepsToFinishPlan($pl in Seq(Prod(Coord,Coord))) =
     planLength($pl)
@@ -47,7 +46,7 @@ function isChargerPos($p in Prod(Coord,Coord), $cs in Powerset(Prod(Coord,Coord)
 // plus a small safety margin.
 rule r_setRechargeFlag =
     if (batteryLevel <= (distManhattan((currentPosition, goal)) + stepsToFinishPlan(plan2C) + safetyMarginSteps)) then
-        recharge := true
+	    recharge := true
     else
         recharge := false
     endif

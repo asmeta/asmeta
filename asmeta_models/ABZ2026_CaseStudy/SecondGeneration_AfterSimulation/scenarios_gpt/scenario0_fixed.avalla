@@ -30,8 +30,8 @@ set goalSet := false;                          // not used unless awaitingInstru
 // =====================
 // Step 1: move to (1,0)
 // =====================
-set measuredBatteryLevel := 20;
 step
+
 check currentPosition = (1,0);
 check moving = true;
 check isAtCharger = false;

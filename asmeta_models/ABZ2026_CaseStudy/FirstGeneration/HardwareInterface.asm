@@ -33,7 +33,7 @@ static isChargerPos: Position * Powerset(Position) -> Boolean
 
 definitions:
 
-function safetyMarginSteps = 1
+function safetyMarginSteps = 3
 
 function stepsToFinishPlan($pl in Plan) =
     planLength($pl)
