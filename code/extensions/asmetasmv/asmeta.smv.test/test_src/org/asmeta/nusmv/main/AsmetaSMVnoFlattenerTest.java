@@ -767,7 +767,12 @@ public class AsmetaSMVnoFlattenerTest extends AsmetaSMVtest {
 		testAllCtlPropsAreFalse("examples\\tvsw_angelo\\ArmadioCaramelle3.asm");
 	}
 	
-	
+	@Test
+	public void pillBox() {
+		String pillBox = AsmetaSMVtestTranslate.ASMETA_MODELS + "\\tutorials\\tutorial_FM24\\pillbox_ground.asm";
+		testAllCtlPropsAreTrue(pillBox);
+	}
+
 	
 	/*@Test
 	public void updateRuleTest() {
