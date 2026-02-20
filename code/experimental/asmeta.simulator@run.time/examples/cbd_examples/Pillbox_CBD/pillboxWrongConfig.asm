@@ -345,8 +345,8 @@ default init s0:	//This init state is correct, it does not generate any invarian
 	function name($compartment in Compartment) = //id(medicineIn($compartment))
 		switch($compartment)
 			case compartment1 : "fosamax"
-			case compartment2 : "moment"
-			//case compartment2 : "pantoprazole" //-> this is to emulate assumption violation in medicine name
+			//case compartment2 : "moment"
+			case compartment2 : "pantoprazole" //-> this is to emulate assumption violation in medicine name
 		endswitch
 	// Every compartment has an index starting from 0
 	function drugIndex($compartment in Compartment) = 0n

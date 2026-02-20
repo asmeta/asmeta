@@ -181,11 +181,11 @@ invariant inv_G_newTime over newTime: (forall $compartment in Compartment with
 	 implies ((newTime ($compartment) = at(time_consumption($compartment),drugIndex($compartment))+deltaDelay(name($compartment))))
 	 )))
 
-
+ 
 //If pill overlaps with next pills, skip the next pill that overlaps
 invariant inv_G_skipNextPill over skipNextPill(Compartment): (forall $compartment in Compartment with
  	((forall $c in next($compartment) with 
-		(pillTakenWithDelay($compartment) and ((iton(at(time_consumption($c),drugIndex($c)) - (pillboxSystemTime mod 1440n)) //it should be actual_time_consumption, but since it is updated in the next state I use pillboxSystemTime here
+		(pillTakenWithDelay($compartment) and ((iton(at(time_consumption($c),drugIndex($c)) - (pillboxSystemTime mod 1440n))             //it should be actual_time_consumption, but since it is updated in the next state I use pillboxSystemTime here
 		<= (minToInterferer(name($compartment),name($c)))) and $c!=$compartment) or 
 		((iton(at(time_consumption($c),nextDrugIndex($c)) - (pillboxSystemTime mod 1440n))
 		<= (minToInterferer(name($compartment),name($c)))) and $c=$compartment)

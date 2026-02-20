@@ -1,6 +1,5 @@
-//Fosamax is missed and it is not possible to reschedule it otherwise the minToInterfer is not satisfied (MP2)
-//Moment is skipped and rescheduled (MP1)
-setup CM as examples/cbd_examples/Pillbox_CBD/configurationMgr.asm
+//Fosamax is missed and not rescheduled since it interferes with the next pill.
+setup CM as examples/cbd_examples/Pillbox_CBD/configuration.asm
 setup RES as examples/cbd_examples/Pillbox_CBD/rescheduler.asm
 setup setup_comp as ( CM || RES )
 setup C1 as examples/cbd_examples/Pillbox_CBD/compartment.asm
@@ -11,11 +10,9 @@ run(C1, {compartmentOpen(1)=false;outMess(1)="";led(1)=OFF;myID=1;outMess(undef)
 run(C2, {myID=2;compartmentOpen(2)=false;outMess(2)="";led(2)=OFF;outMess(undef)="";led(undef)=OFF})
 setup pillbox_comp as  ( ( PB <|> ( CM || RES ) ) <|> ( C1 || C2 ) )
 run(pillbox_comp, {myID=undef;outMess(undef)="";led(undef)=OFF;compartmentOpen(1)=false;compartmentOpen(2)=false;systemTime=10n;skipNextPill(compartment1)=false;skipNextPill(compartment2)=false;skipNextPill(compartment1,compartment2)=false;skipNextPill(compartment2,compartment1)=false;newTime(compartment1)=0n;newTime(compartment2)=0n;setOriginalTime(compartment1)=false;setOriginalTime(compartment2)=false;setNewTime(compartment1)=false;setNewTime(compartment2)=false;openSwitch(1)=false;openSwitch(2)=false;})
+//The user does not open the compartment 1 with "fosamax" pill to be taken at systemTime 360 within 20 minutes
 run(pillbox_comp, {myID=undef;outMess(undef)="";led(undef)=OFF;compartmentOpen(1)=false;compartmentOpen(2)=false;systemTime=361n})
-run(pillbox_comp, {myID=undef;outMess(undef)="";led(undef)=OFF;compartmentOpen(1)=false;compartmentOpen(2)=false;systemTime=365n})
 run(pillbox_comp, {myID=undef;outMess(undef)="";led(undef)=OFF;compartmentOpen(1)=false;compartmentOpen(2)=false;systemTime=366n})
-run(pillbox_comp, {myID=undef;outMess(undef)="";led(undef)=OFF;compartmentOpen(1)=false;compartmentOpen(2)=false;systemTime=731n})
-run(pillbox_comp, {myID=undef;outMess(undef)="";led(undef)=OFF;compartmentOpen(1)=false;compartmentOpen(2)=false;systemTime=742n})
-run(pillbox_comp, {myID=undef;outMess(undef)="";led(undef)=OFF;compartmentOpen(1)=false;compartmentOpen(2)=false;systemTime=753n})
-run(pillbox_comp, {myID=undef;outMess(undef)="";led(undef)=OFF;compartmentOpen(1)=false;compartmentOpen(2)=false;systemTime=754n})
-
+//20 minutes elapsed and the pill has not been taken since the compartment 1 is still closed, and the system does not reschedule it since it interferes with the next pill.
+run(pillbox_comp, {myID=undef;outMess(undef)="";led(undef)=OFF;compartmentOpen(1)=false;compartmentOpen(2)=false;systemTime=381n})
+run(pillbox_comp, {myID=undef;outMess(undef)="";led(undef)=OFF;compartmentOpen(1)=false;compartmentOpen(2)=false;systemTime=395n})
