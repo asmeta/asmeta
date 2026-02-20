@@ -12,7 +12,7 @@ run(C2, {myID=2;compartmentOpen(2)=false;outMess(2)="";led(2)=OFF;outMess(undef)
 setup pillbox_comp as  ( ( PB <|> ( CM || RES ) ) <|> ( C1 || C2 ) )
 run(pillbox_comp, {myID=undef;outMess(undef)="";led(undef)=OFF;compartmentOpen(1)=false;compartmentOpen(2)=false;systemTime=10n;skipNextPill(compartment1)=false;skipNextPill(compartment2)=false;skipNextPill(compartment1,compartment2)=false;skipNextPill(compartment2,compartment1)=false;newTime(compartment1)=0n;newTime(compartment2)=0n;setOriginalTime(compartment1)=false;setOriginalTime(compartment2)=false;setNewTime(compartment1)=false;setNewTime(compartment2)=false;openSwitch(1)=false;openSwitch(2)=false;})
 
-//The user open the compartment 1 with "fosamax" pill to be taken at systemTime 360
+//The user opens the compartment 1 at systemTime 362  with "fosamax" pill to be taken at systemTime 360
 run(pillbox_comp, {myID=undef;outMess(undef)="";led(undef)=OFF;compartmentOpen(1)=false;compartmentOpen(2)=false;systemTime=361n})
 run(pillbox_comp, {myID=undef;outMess(undef)="";led(undef)=OFF;compartmentOpen(1)=true;compartmentOpen(2)=false;systemTime=362n})
 run(pillbox_comp, {myID=undef;outMess(undef)="";led(undef)=OFF;compartmentOpen(1)=false;compartmentOpen(2)=false;systemTime=364n})
@@ -22,12 +22,10 @@ run(pillbox_comp, {myID=undef;outMess(undef)="";led(undef)=OFF;compartmentOpen(1
 //The user does not open the compartment 2 with "moment" pill to be taken at systemTime 730 within 20 minutes
 run(pillbox_comp, {myID=undef;outMess(undef)="";led(undef)=OFF;compartmentOpen(1)=false;compartmentOpen(2)=false;systemTime=731n})
 run(pillbox_comp, {myID=undef;outMess(undef)="";led(undef)=OFF;compartmentOpen(1)=false;compartmentOpen(2)=false;systemTime=742n})
-
-//The "moment" pill
 run(pillbox_comp, {myID=undef;outMess(undef)="";led(undef)=OFF;compartmentOpen(1)=false;compartmentOpen(2)=false;systemTime=762n})
 run(pillbox_comp, {myID=undef;outMess(undef)="";led(undef)=OFF;compartmentOpen(1)=false;compartmentOpen(2)=false;systemTime=765n})
 
-//The user open the compartment 2 with "moment" pill to be taken at systemTime 790
+//The user opens the compartment 2 at systemTime 796 with "moment" pill to be taken at new systemTime 790
 run(pillbox_comp, {myID=undef;outMess(undef)="";led(undef)=OFF;compartmentOpen(1)=false;compartmentOpen(2)=false;systemTime=791n})
 run(pillbox_comp, {myID=undef;outMess(undef)="";led(undef)=OFF;compartmentOpen(1)=false;compartmentOpen(2)=false;systemTime=792n})
 run(pillbox_comp, {myID=undef;outMess(undef)="";led(undef)=OFF;compartmentOpen(1)=false;compartmentOpen(2)=false;systemTime=793n})
