@@ -50,11 +50,9 @@ To compile and test the asmeta framework in Eclipse IDE you need to install also
  
 ### eclispe with asmeta ready to use:
 
-version 24.06! new TL operators names and minor fixes:
+##### for windows 64 bit:
 
-#### for windows 64 bit:
-
-https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2026_02_win64.zip
+https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2026_02_win64.zip 
 
 ### older version multiplatform
 
