@@ -769,7 +769,7 @@ public class AsmetaSMVnoFlattenerTest extends AsmetaSMVtest {
 	
 	@Test
 	public void pillBox() {
-		String pillBox = AsmetaSMVtestTranslate.ASMETA_MODELS + "\\tutorials\\tutorial_FM24\\pillbox_ground.asm";
+		String pillBox = AsmetaSMVtestTranslate.ASMETA_MODELS + "/tutorials/tutorial_FM24/pillbox_ground.asm";
 		testAllCtlPropsAreTrue(pillBox);
 	}
 
