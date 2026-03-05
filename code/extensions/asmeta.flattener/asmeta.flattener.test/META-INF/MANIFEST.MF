@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Asmeta Flattener test
 Bundle-SymbolicName: asmeta.flattener.test
-Bundle-Version: 25.09
+Bundle-Version: 26.02
 Bundle-ClassPath: org.eclipse.emf.common.jar,
   org.eclipse.emf.ecore.jar,
   log4j.jar,

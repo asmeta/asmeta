@@ -2,7 +2,7 @@
 <feature
       id="org.asmeta.visualizer.feature"
       label="Asmeta visualizer"
-      version="25.09"
+      version="26.02"
       provider-name="https://foselab.unibg.it/">
 
    <description url="fmse.di.unimi.it/asmetavisualizer/description">

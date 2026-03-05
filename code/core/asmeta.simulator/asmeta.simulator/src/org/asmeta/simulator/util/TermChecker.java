@@ -20,6 +20,7 @@ import asmeta.terms.furtherterms.ExistTerm;
 import asmeta.terms.furtherterms.ExistUniqueTerm;
 import asmeta.terms.furtherterms.ForallTerm;
 import asmeta.terms.furtherterms.IntegerTerm;
+import asmeta.terms.furtherterms.LetTerm;
 import asmeta.terms.furtherterms.NaturalTerm;
 import asmeta.terms.furtherterms.RealTerm;
 import asmeta.terms.furtherterms.SetCt;
@@ -157,4 +158,9 @@ public class TermChecker extends ReflectiveVisitor<Boolean> {
 		}
 		return false;
 	}
+	
+	public boolean visit(LetTerm letTerm) {
+		return visit(letTerm.getBody());
+	}
+
 }

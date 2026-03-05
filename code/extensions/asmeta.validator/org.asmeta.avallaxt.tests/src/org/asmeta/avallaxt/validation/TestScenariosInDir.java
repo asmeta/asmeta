@@ -19,7 +19,7 @@ public class TestScenariosInDir extends TestParserAndValidation {
 	@Test
 	public void testAllExamples() throws IOException {
 		testAvallasInDir("../../../../asm_examples");
-		testAvallasInDir("../../../../asmeta_models");
+		testAvallasInDir("../../../../asmeta_models/tutorials");
 	}
 
 	@Test
