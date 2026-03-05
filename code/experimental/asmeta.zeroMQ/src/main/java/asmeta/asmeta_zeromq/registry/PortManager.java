@@ -1,4 +1,4 @@
-package asmeta.asmeta_zeromq.registry;
+/*package asmeta.asmeta_zeromq.registry;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -36,3 +36,4 @@ public class PortManager {
     }
 
 }
+*/

@@ -27,12 +27,10 @@ import com.google.gson.reflect.TypeToken;
 
 public class ZeroMQWA {
 
-    // Logger
     private static final Logger logger = LogManager.getLogger(ZeroMQWA.class);
 
- //Section prefix in the unified file (e.g., "producer", "consumer")
-    private String sectionPrefix;
-    
+ //Section prefix in the unified file
+    private String sectionPrefix;    
     private final String CONFIG_FILE_PATH = "in-memory-config";
     private String RUNTIME_MODEL_PATH;
     private String ZMQ_PUB_SOCKET;
@@ -40,7 +38,7 @@ public class ZeroMQWA {
     private String ASM_ENVIRONMENT_ADDRESS;
     private List<String> ASM_ENVIRONMENT_FUNCTIONS;
     private List<String> CONSOLE_INPUT_FUNCTIONS;
-    private String HOST;                 // e.g. 127.0.0.1 (from common.HOST)
+    private String HOST;              
 
     // Core components
     private SimulationContainer sim;
@@ -62,37 +60,33 @@ public class ZeroMQWA {
         this.mapStringStringType = new TypeToken<Map<String, String>>() {}.getType();
         this.properties = config;
         this.sectionPrefix = sectionPrefix;   // <--- SET the prefix here
-        logger.info("zeroMQW initialized from in-memory Properties for section: {}", sectionPrefix);
+     //   logger.info("zeroMQW initialized from in-memory Properties for section: {}", sectionPrefix);
 
-        try {
-            // Lettura diretta dalle properties 
+        try {        	
+        	// Lettura parametri base
             this.RUNTIME_MODEL_PATH = config.getProperty("RUNTIME_MODEL_PATH");
             this.ZMQ_PUB_SOCKET = config.getProperty("ZMQ_PUB_SOCKET");
-            this.ZMQ_SUB_CONNECT_ADDRESSES = config.getProperty("ZMQ_SUB_CONNECT_ADDRESSES", "");
+            this.ASM_ENVIRONMENT_ADDRESS = config.getProperty("ASM_ENVIRONMENT_ADDRESS");
+            this.HOST = config.getProperty("HOST", "127.0.0.1");
             
             // Pulizia stringa indirizzi
-            if (this.ZMQ_SUB_CONNECT_ADDRESSES == null || "null".equalsIgnoreCase(this.ZMQ_SUB_CONNECT_ADDRESSES.trim())) {
-                this.ZMQ_SUB_CONNECT_ADDRESSES = "";
-            }
+            String subAddresses = config.getProperty("ZMQ_SUB_CONNECT_ADDRESSES", "");
+            this.ZMQ_SUB_CONNECT_ADDRESSES = "null".equalsIgnoreCase(subAddresses.trim()) ? "" : subAddresses.trim();
             
-            this.ASM_ENVIRONMENT_ADDRESS = config.getProperty("ASM_ENVIRONMENT_ADDRESS");
-            
+            // Lista funzioni ambiente
             String envFuncs = config.getProperty("ASM_ENVIRONMENT_FUNCTIONS", "");
             this.ASM_ENVIRONMENT_FUNCTIONS = envFuncs.isEmpty() ? new ArrayList<>() : Arrays.asList(envFuncs.split(","));
             
-            this.HOST = config.getProperty("HOST", "127.0.0.1");
-          
-         // Console Inputs
-            if (config.getProperty("CONSOLE_INPUT_FUNCTIONS") != null) {
-                this.CONSOLE_INPUT_FUNCTIONS = Arrays.asList(config.getProperty("CONSOLE_INPUT_FUNCTIONS", "").split(","));
-            } else {
-                this.CONSOLE_INPUT_FUNCTIONS = null;
-            }
-
+            // Console Inputs
+            String consoleInputs = config.getProperty("CONSOLE_INPUT_FUNCTIONS");
+            this.CONSOLE_INPUT_FUNCTIONS = (consoleInputs == null || consoleInputs.trim().isEmpty()) 
+                                           ? null 
+                                           : Arrays.asList(consoleInputs.split(","));  	
+        	       	        	       	
             // Initialize ASM
             this.asmId = this.initializeAsm(this.RUNTIME_MODEL_PATH);
 
-            logger.info("zeroMQW instance (in-memory config) initialized successfully for section '{}'", this.sectionPrefix);
+        //    logger.info("zeroMQW instance (in-memory config) initialized successfully for section '{}'", this.sectionPrefix);
 
         } catch (Exception e) {
             logger.fatal("CRITICAL ERROR initializing zeroMQW from in-memory config for '{}': {}", this.sectionPrefix, e.getMessage(), e);
@@ -102,11 +96,11 @@ public class ZeroMQWA {
  
     /////////////////////////////////////////////////////////////////////////////////////////
     private int initializeAsm(String modelPath) throws Exception {
-        logger.info("Initializing ASM simulation container...");
+   //     logger.info("Initializing ASM simulation container...");
         sim = new SimulationContainer(Environment.TimeMngt.use_java_time);
         sim.init(1);
-        logger.debug("Simulation container initialized.");
-        logger.info("Starting ASM execution for model: {}", modelPath);
+   //     logger.debug("Simulation container initialized.");
+    //    logger.info("Starting ASM execution for model: {}", modelPath);
         int currentAsmId = sim.startExecution(modelPath);
         if (currentAsmId < 0) {
             logger.error("Starting ASM model failed: negative id received ({})", currentAsmId);
@@ -127,23 +121,21 @@ public class ZeroMQWA {
     
  //  metodo initializeZmqSockets
     private void initializeZmqSockets(ZContext context) {
-        logger.info("Initializing ZeroMQ sockets...");
+ //       logger.info("Initializing ZeroMQ sockets...");
         subscribers.clear();
 
-        String pubBindAddress = this.properties.getProperty("ZMQ_PUB_SOCKET");
-        
-        if (pubBindAddress != null && !pubBindAddress.isEmpty()) {
+        // CONFIGURAZIONE PUB SOCKET
+        if (this.ZMQ_PUB_SOCKET != null && !this.ZMQ_PUB_SOCKET.isEmpty()) {
             publisher = context.createSocket(SocketType.PUB);
-            publisher.bind(pubBindAddress);
-            logger.info("PUB Socket bound to Address: {}", pubBindAddress);
+            publisher.bind(this.ZMQ_PUB_SOCKET);
+            logger.info("PUB Socket bound to Address: {}", this.ZMQ_PUB_SOCKET);
         } else {
             logger.error("ZMQ_PUB_SOCKET not defined for this model!");
         }
 
-        String subConnectString = this.properties.getProperty("ZMQ_SUB_CONNECT_ADDRESSES", "");
-  
-        if (!subConnectString.trim().isEmpty()) {
-            String[] subAddresses = subConnectString.split(",");
+        // CONFIGURAZIONE SUB SOCKETS 
+        if (this.ZMQ_SUB_CONNECT_ADDRESSES != null && !this.ZMQ_SUB_CONNECT_ADDRESSES.isEmpty()) {
+            String[] subAddresses = this.ZMQ_SUB_CONNECT_ADDRESSES.split(",");
             logger.info("Attempting to create and connect {} SUB socket(s)...", subAddresses.length);
 
             for (String addr : subAddresses) {
@@ -164,12 +156,11 @@ public class ZeroMQWA {
             logger.info("No ZMQ_SUB_CONNECT_ADDRESSES defined. This model is not subscribing to other models.");
         }
 
-        //  CONFIGURAZIONE ENVIRONMENT (Ricezione Input) 
-        if (this.ASM_ENVIRONMENT_ADDRESS != null && !this.ASM_ENVIRONMENT_ADDRESS.trim().isEmpty()) {
-            String envAddr = this.ASM_ENVIRONMENT_ADDRESS.trim(); 
+        // CONFIGURAZIONE ENVIRONMENT (Ricezione Input) 
+        if (this.ASM_ENVIRONMENT_ADDRESS != null && !this.ASM_ENVIRONMENT_ADDRESS.isEmpty()) {
             try {
                 ZMQ.Socket environmentSocket = context.createSocket(SocketType.SUB);
-                environmentSocket.connect(envAddr);
+                environmentSocket.connect(this.ASM_ENVIRONMENT_ADDRESS);
                 
                 // Subscribe solo ai topic specifici definiti nella lista ASM_ENVIRONMENT_FUNCTIONS
                 if (this.ASM_ENVIRONMENT_FUNCTIONS != null) {
@@ -181,27 +172,27 @@ public class ZeroMQWA {
                 }
                 
                 subscribers.add(environmentSocket);
-                logger.info("Environment socket connected to address {}", envAddr);
+                logger.info("Environment socket connected to address {}", this.ASM_ENVIRONMENT_ADDRESS);
             } catch (Exception e) {
-                logger.error("Failed to connect to Environment at '{}': {}", envAddr, e.getMessage());
+                logger.error("Failed to connect to Environment at '{}': {}", this.ASM_ENVIRONMENT_ADDRESS, e.getMessage());
             }
         }
         
         logger.info("ZeroMQ Socket initialization completed with {} SUB connections.", subscribers.size());
     }
- 
+ ///////////////////////////////////////////////////////////////////////////////////////////
     private void handleSubscriptionMessages() {
         boolean messageReceived = false;
         for (int i = 0; i < subscribers.size(); i++) {
             ZMQ.Socket sub = subscribers.get(i);
             String message;
             while ((message = sub.recvStr(ZMQ.DONTWAIT)) != null) {
-            	logger.debug("SUB raw frame: '{}'", message);
+         //   	logger.debug("SUB raw frame: '{}'", message);
 
                 boolean topicReceived = false;
                 for (String topic : this.ASM_ENVIRONMENT_FUNCTIONS) {
                     if (message.equals(topic)) {
-                        logger.debug("Received topic identifier: {} on SUB socket #{}", topic, i);
+             //           logger.debug("Received topic identifier: {} on SUB socket #{}", topic, i);
                         topicReceived = true;
                         break;
                     }
@@ -211,12 +202,12 @@ public class ZeroMQWA {
                 }
                 messageReceived = true;
                 message = message.trim();
-                logger.debug("Received message on SUB socket #{}: {}", i, message);
+           //     logger.debug("Received message on SUB socket #{}: {}", i, message);
                 try {
                     Map<String, String> receivedData = gson.fromJson(message, mapStringStringType);
                     if (receivedData != null) {
                         currentMonitoredValues.putAll(receivedData);
-                        logger.info("Monitored updated: {}", currentMonitoredValues);
+           //             logger.info("Monitored updated: {}", currentMonitoredValues);
 
                         logger.trace("Monitored values updated: {}", currentMonitoredValues);
                     } else {
@@ -237,7 +228,7 @@ public class ZeroMQWA {
         response.putAll(output.getOutvalues());
         response.put("asm_status", output.getEsit().toString());
         String jsonResponse = gson.toJson(response);
-        logger.info("Publishing output: {}", jsonResponse);
+        logger.info("[{}] Output: {}", jsonResponse);
         publisher.send(jsonResponse);
     }
 
@@ -267,7 +258,7 @@ public class ZeroMQWA {
             logger.info("Starting zeroMQW run loop for config {}...", this.CONFIG_FILE_PATH);
             try (ZContext context = new ZContext()) {
                 initializeZmqSockets(context);
-                logger.info("Entering main loop for {}...", this.CONFIG_FILE_PATH);
+             //   logger.info("Entering main loop for {}...", this.CONFIG_FILE_PATH);
 
                 initializeStartingValues();
                 if (this.CONSOLE_INPUT_FUNCTIONS != null) {
@@ -296,7 +287,7 @@ public class ZeroMQWA {
                     RunOutput output = sim.runStep(this.asmId, monitoredForStep);
 
                     if (output.getEsit() == Esit.SAFE) {
-                        logger.info("ASM step SAFE. Output: {}", output.getOutvalues());
+                  //      logger.info("ASM step SAFE. Output: {}", output.getOutvalues());
                         handlePublisherMessages(output);
                     } else {
                         handleUnsafeState(monitoredForStep);
