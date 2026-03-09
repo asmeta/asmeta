@@ -52,3 +52,15 @@ public class AsmTSGeneratorLaunchTabGroup implements ILaunchConfigurationTabGrou
 		tabs[0].setDefaults(configuration);
 	}
 }
+/* TODO 
+ * public class AsmTSGeneratorLaunchTabGroup extends AbstractLaunchConfigurationTabGroup {
+	
+	@Override
+	public void createTabs(ILaunchConfigurationDialog dialog, String mode) {
+		fTabs = new ILaunchConfigurationTab[]{ 
+		new AsmTSGeneratorTabMC(), 
+		new AsmTSGeneratorTabRnd()};
+		//new CommonTab();}
+	}
+ */
+

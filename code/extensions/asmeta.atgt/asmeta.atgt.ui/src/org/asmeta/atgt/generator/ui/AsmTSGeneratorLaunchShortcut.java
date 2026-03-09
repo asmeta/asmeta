@@ -138,7 +138,7 @@ abstract public class AsmTSGeneratorLaunchShortcut implements org.eclipse.debug.
 			workingCopy = configuration.getWorkingCopy();
 			configuration = workingCopy.doSave();
 			// DebugUITools.launch(configuration, mode);
-			//workingCopy.setAttribute(ATTR_FILEPATH, file.getFullPath().toString());
+			// workingCopy.setAttribute(ATTR_FILEPATH, file.getFullPath().toString());
 			return configuration;
 		} catch (CoreException e) {
 			return null;
@@ -147,6 +147,7 @@ abstract public class AsmTSGeneratorLaunchShortcut implements org.eclipse.debug.
 
 	@Override
 	public ILaunchConfiguration[] getLaunchConfigurations(ISelection selection) {
+		ATGTActivator.log.debug("AsmTSGeneratorLaunchShortcut:getLaunchConfigurations");
 		setFilePath(selection);
 		// not clear what to return
 		return null;

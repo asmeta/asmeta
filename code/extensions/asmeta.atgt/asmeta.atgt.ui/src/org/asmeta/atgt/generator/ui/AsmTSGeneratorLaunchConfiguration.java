@@ -39,7 +39,7 @@ public class AsmTSGeneratorLaunchConfiguration
 	public enum GenerationMode {
 		MODEL_CHECKER, RANDOM
 	}
-	private GenerationMode mode;
+	private GenerationMode generationMode;
 	// common
 	public boolean computeCoverage;
 	protected IPath asmetaSpecPath;
@@ -57,7 +57,7 @@ public class AsmTSGeneratorLaunchConfiguration
 	public AsmTSGeneratorLaunchConfiguration(ILaunchConfiguration configuration, GenerationMode mode, IPath filePath) {
 		ATGTActivator.log.debug("calling launcher config with configuration");		
 		try {
-			this.mode = mode;
+			this.generationMode = mode;
 			asmetaSpecPath = filePath;
 			setConfiguration(configuration);
 		} catch (Exception e) {
@@ -70,7 +70,7 @@ public class AsmTSGeneratorLaunchConfiguration
 			throws CoreException {
 		ATGTActivator.log.debug("AsmTSGeneratorLaunchConfiguration:launch");
 		ATGTActivator.log.debug(configuration.getAttributes());
-		ATGTActivator.log.debug(this.mode + " vs " + mode);
+		ATGTActivator.log.debug(this.generationMode + " vs " + mode);
 		// adesso come adesso questa è nulla (vuota) a meno che usi il costruttore con l'argomento
 		ATGTActivator.log.debug(asmetaSpecPath);
 		setConfiguration(configuration);
@@ -100,18 +100,19 @@ public class AsmTSGeneratorLaunchConfiguration
 			ATGTActivator.log.debug("Setting launch configuration: " + configuration);
 			computeCoverage = configuration.getAttribute(CONFIG_COMPUTE_COVERAGE,
 					AsmTestGenerator.DEFAULT_COMPUTE_COVERAGE);
-			System.out.println("compute coverage?" + computeCoverage);
-			if (mode == GenerationMode.MODEL_CHECKER) {
+			ATGTActivator.log.debug("compute coverage?" + computeCoverage);
+			if (generationMode == GenerationMode.MODEL_CHECKER) {
 				List<String> covCriteriaAttr = configuration.getAttribute(
 						AsmTSGeneratorTabMC.CONFIG_CRITERIA, CriteriaEnum.toListOfString(AsmTestGenerator.DEFAULT_CRITERIA));
 				coverageCriteria = CriteriaEnum.toListOfCriteriaEnum(covCriteriaAttr);
-				System.out.println("criteria " + CriteriaEnum.toListOfString(coverageCriteria));
-			}
-			if (mode == GenerationMode.RANDOM) {
+				ATGTActivator.log.debug("criteria " + CriteriaEnum.toListOfString(coverageCriteria));
+			} else 	if (generationMode == GenerationMode.RANDOM) {
 				nSteps = configuration.getAttribute(
 						AsmTSGeneratorTabRnd.CONFIG_NSTEPS, AsmTSGeneratorTabRnd.N_STEPS_DEFAULT);
 				nTests = configuration.getAttribute(
 						AsmTSGeneratorTabRnd.CONFIG_NTESTS, AsmTSGeneratorTabRnd.N_TESTS_DEFAULT);
+			} else {
+				ATGTActivator.log.error("mode not found");
 			}
 			List<String> attribute = configuration.getAttribute(CONFIG_FORMATS, AsmTestGenerator.DEFAULT_FORMATS);
 			formats = FormatsEnum.toListOfFormatsEnum(attribute);
@@ -154,11 +155,11 @@ public class AsmTSGeneratorLaunchConfiguration
 
 	}
 
-	protected Job getJob(IWorkbenchWindow window) throws PartInitException {
-		if (mode == GenerationMode.MODEL_CHECKER)
+	private Job getJob(IWorkbenchWindow window) throws PartInitException {
+		if (generationMode == GenerationMode.MODEL_CHECKER)
 			return new SafeGeneratorRunnableMC(AsmTSGeneratorLaunchConfiguration.this, window);
-		if (mode == GenerationMode.RANDOM)
+		if (generationMode == GenerationMode.RANDOM)
 			return new SafeGeneratorRunnableRnd(AsmTSGeneratorLaunchConfiguration.this, window);
-		throw new RuntimeException("mode not found");
+		throw new RuntimeException("generationMode not found");
 	}
 }

@@ -15,6 +15,7 @@ public class AsmTSGeneratorLaunchShortcutRnd extends AsmTSGeneratorLaunchShortcu
 	protected void generateTests(ILaunchConfiguration configuration, IWorkbenchWindow window)
 			throws Error, PartInitException {
 		ATGTActivator.log.info("executing tests with random (file: " + filePath + ")");
+		System.err.println(configuration.getClass());
 		AsmTSGeneratorLaunchConfiguration asmTSGeneratorLaunchConfiguration = 
 				new AsmTSGeneratorLaunchConfiguration(configuration,GenerationMode.RANDOM,filePath);
 		asmTSGeneratorLaunchConfiguration.generateTests(window);
