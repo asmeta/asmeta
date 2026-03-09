@@ -16,7 +16,7 @@ import org.junit.Test;
 
 import asmeta.definitions.Function;
 import org.asmeta.parser.ParseException;
-import org.asmeta.parser.Utility;
+import org.asmeta.parser.AsmetaParserUtility;
 
 public class OverloadingTest extends BaseTest {
 
@@ -54,7 +54,7 @@ public class OverloadingTest extends BaseTest {
 		//ASMParser.getResultLogger().addAppender(new ConsoleAppender(new SimpleLayout()));
 		//Simulator.logger.addAppender(new ConsoleAppender(new SimpleLayout()));
 		Logger.getLogger(Simulator.class).setLevel(Level.OFF);
-		Utility.selectFirstBestRanking = false;
+		AsmetaParserUtility.selectFirstBestRanking = false;
 		// too many compatible macro declarations
 		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/parser/overloading/m3.asm");
 	}
@@ -64,7 +64,7 @@ public class OverloadingTest extends BaseTest {
 		//ASMParser.getResultLogger().addAppender(new ConsoleAppender(new SimpleLayout()));
 		//Simulator.logger.addAppender(new ConsoleAppender(new SimpleLayout()));
 		Logger.getLogger(Simulator.class).setLevel(Level.OFF);
-		Utility.selectFirstBestRanking = true;
+		AsmetaParserUtility.selectFirstBestRanking = true;
 		// too many compatible macro declarations
 		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/parser/overloading/m3.asm");
 	}

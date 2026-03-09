@@ -32,6 +32,7 @@ import java.util.concurrent.ScheduledExecutorService;
 
 import org.asmeta.animator.MyState;
 import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.asmeta.parser.ParseException;
 import org.asmeta.parser.util.AsmPrinter;
 import org.asmeta.runtime_composer.AsmetaModel;
@@ -987,7 +988,7 @@ public class SimulationContainer implements IModelExecution, IModelAdaptation {
 		for (int i=0;i<c;i++) {
 			String moduleName=asm.getMain().getHeaderSection().getImportClause().get(i).getModuleName();
 			if (!moduleName.toLowerCase().endsWith("standardlibrary")) {	//Skips the StandardLibrary.asm
-				monNames=findAllMonitored(monNames, root+moduleName+ASMParser.ASM_EXTENSION);
+				monNames=findAllMonitored(monNames, root+moduleName+AsmetaParserUtility.ASM_EXTENSION);
 			}
 		}
 		return monNames;

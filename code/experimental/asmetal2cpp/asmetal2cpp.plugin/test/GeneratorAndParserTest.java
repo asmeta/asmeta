@@ -21,6 +21,7 @@ import org.asmeta.codegenerator.JsonGenerator;
 import org.asmeta.codegenerator.arduino.ArduinoVersion;
 import org.asmeta.codegenerator.configuration.HWConfiguration;
 import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -95,7 +96,7 @@ public class GeneratorAndParserTest {
 			// 2)
 			Gson gson = new Gson();
 			File u2cFile = new File(
-					destinationFolder + asmFile.getName().replace(ASMParser.ASM_EXTENSION, JsonGenerator.Ext));
+					destinationFolder + asmFile.getName().replace(AsmetaParserUtility.ASM_EXTENSION, JsonGenerator.Ext));
 			if (!u2cFile.exists()) {
 				JsonGenerator jsonGen = new JsonGenerator(ArduinoVersion.MEGA2560);
 				jsonGen.generate(model, destinationFolder + u2cFile.getName());
@@ -103,7 +104,7 @@ public class GeneratorAndParserTest {
 			JsonReader reader = new JsonReader(new FileReader(u2cFile));
 			HWConfiguration config = gson.fromJson(reader, HWConfiguration.class);
 			assertTrue("Configurazione non valida", config.isValid());
-			String modelName = asmFile.getName().replace(ASMParser.ASM_EXTENSION, "");
+			String modelName = asmFile.getName().replace(AsmetaParserUtility.ASM_EXTENSION, "");
 			a2c = new Asmeta2Project(config);
 			a2c.generateAll(model, destinationFolder, modelName);
 
@@ -163,7 +164,7 @@ public class GeneratorAndParserTest {
 		File directory = new File(directoryName);
 		File[] fList = directory.listFiles();
 		for (File file : fList) {
-			if (file.isFile() && file.getName().endsWith(ASMParser.ASM_EXTENSION)) {
+			if (file.isFile() && file.getName().endsWith(AsmetaParserUtility.ASM_EXTENSION)) {
 				allAsmFiles.add(file);
 			} else if (file.isDirectory() && level > 0) {
 				listf(file.getPath(), allAsmFiles, --level);

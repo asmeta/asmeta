@@ -60,6 +60,7 @@ import org.asmeta.assertion_catalog.LoadComboItem;
 import org.asmeta.assertion_catalog.LoadDialog;
 import org.asmeta.assertion_catalog.LoadSelectedSimulation;
 import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.asmeta.runtime_commander.Commander;
 import org.asmeta.runtime_composer.AsmetaModel;
 import org.asmeta.runtime_composer.CompositionException;
@@ -735,7 +736,7 @@ public class SimGUISingleton extends JFrame {
 					   if(ci!=null) {
 						   currentLoadedID = ci.getInt();
 						   currentLoadedModel = ci.getStr();
-						   if(!currentLoadedModel.isEmpty() && currentLoadedModel.indexOf(ASMParser.ASM_EXTENSION)!=-1){
+						   if(!currentLoadedModel.isEmpty() && currentLoadedModel.indexOf(AsmetaParserUtility.ASM_EXTENSION)!=-1){
 							   if (currentLoadedModel.indexOf("\\")>=0) {
 								   textPaneModel.setText(currentLoadedModel.substring(currentLoadedModel.lastIndexOf("\\")+1));
 								   textPaneID.setText(Integer.toString(currentLoadedID));
@@ -746,7 +747,7 @@ public class SimGUISingleton extends JFrame {
 							   clearMenuItem.doClick();
 							   textAreaLog.setText("Simulation ready.\n");
 						   }
-						   else if(currentLoadedModel.indexOf(ASMParser.ASM_EXTENSION)==-1 && !currentLoadedModel.isEmpty())
+						   else if(currentLoadedModel.indexOf(AsmetaParserUtility.ASM_EXTENSION)==-1 && !currentLoadedModel.isEmpty())
 							   JOptionPane.showMessageDialog(contentPane, "Error: wrong extension!", "Error", JOptionPane.ERROR_MESSAGE);
 					   }
 				   } catch (Exception ex) {

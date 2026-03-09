@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.asmeta.parser.ASMParser;
-import org.asmeta.parser.Utility;
+import org.asmeta.parser.AsmetaParserUtility;
 
 import asmeta.AsmCollection;
 import asmeta.definitions.Function;
@@ -102,10 +102,10 @@ public class ImportFlattener {
 		if (list != null) {
 			for (ImportClause ic : list) {
 				moduleName = ic.getModuleName();
-				if (!moduleName.endsWith(Utility.STANDARD_LIBRARY_NAME) && !moduleName.endsWith(Utility.CTL_LIBRARY_NAME)
-						&& !moduleName.endsWith(Utility.LTL_LIBRARY_NAME)) {
+				if (!moduleName.endsWith(AsmetaParserUtility.STANDARD_LIBRARY_NAME) && !moduleName.endsWith(AsmetaParserUtility.CTL_LIBRARY_NAME)
+						&& !moduleName.endsWith(AsmetaParserUtility.LTL_LIBRARY_NAME)) {
 					// Import the file
-					file = Utility.importFile(folder, ic);
+					file = AsmetaParserUtility.importFile(folder, ic);
 					asms = null;
 					try {
 						asms = ASMParser.setUpReadAsm(file);

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -47,7 +47,7 @@ public class GeneratorCompilerAllLocalExamplesTest extends GeneratorCompileTest 
 		walk.forEach(x -> {
 			try {
 				String fileName = x.toFile().toString();
-				if (fileName.endsWith(ASMParser.ASM_EXTENSION)
+				if (fileName.endsWith(AsmetaParserUtility.ASM_EXTENSION)
 						&& excludeFiles.stream().filter(tX -> fileName.contains(tX)).count() == 0) {
 					CompileResult genandcompile = GeneratorCompilerUtil.genandcompile(fileName, options,
 							GeneratorCompilerUtil.dirTraduzione, GeneratorCompilerUtil.dirCompilazione);

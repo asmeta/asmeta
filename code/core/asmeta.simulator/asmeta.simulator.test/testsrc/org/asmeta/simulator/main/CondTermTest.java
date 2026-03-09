@@ -16,7 +16,7 @@ import org.junit.Test;
 
 import asmeta.definitions.Function;
 import org.asmeta.parser.ParseException;
-import org.asmeta.parser.Utility;
+import org.asmeta.parser.AsmetaParserUtility;
 
 public class CondTermTest extends BaseTest {
 

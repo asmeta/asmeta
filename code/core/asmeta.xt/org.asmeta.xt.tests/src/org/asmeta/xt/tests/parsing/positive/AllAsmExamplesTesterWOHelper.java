@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.asmeta.parser.AsmetaParserUtility;
 import org.asmeta.xt.parser.AsmetaLParserWOHelper;
 import org.asmeta.xt.parser.ParseAndValidateResult;
 import org.junit.Assert;
@@ -536,7 +537,7 @@ public class AllAsmExamplesTesterWOHelper {
 
 			// parse and validate them
 //			if (specName.endsWith(ASMParser.asmExtension)) {
-			if (specName.endsWith(".asm")) {
+			if (specName.endsWith(AsmetaParserUtility.ASM_EXTENSION)) {
 				if (!testAsmetaXtFile(specName, true)) {
 					System.err.println(specName);
 					break;

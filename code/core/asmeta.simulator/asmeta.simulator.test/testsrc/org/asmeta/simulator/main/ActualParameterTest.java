@@ -6,7 +6,7 @@ import static org.junit.Assert.fail;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.asmeta.parser.ASMParser;
-import org.asmeta.parser.Utility;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.asmeta.simulator.NotCompatibleDomainsException;
 import org.asmeta.simulator.RuleEvaluator;
 import org.junit.BeforeClass;
@@ -20,7 +20,7 @@ public class ActualParameterTest extends BaseTest {
 		ASMParser.getResultLogger().setLevel(Level.OFF);
 		Logger.getLogger(Simulator.class).setLevel(Level.OFF);
 		RuleEvaluator.logger.setLevel(Level.OFF);
-		Utility.selectFirstBestRanking = false;
+		AsmetaParserUtility.selectFirstBestRanking = false;
 	}
 
 	//viene sollevata giustamente l'eccezione

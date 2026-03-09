@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 import org.asmeta.flattener.statistics.Statistics;
 import org.asmeta.flattener.statistics.StatisticsVisitor;
 import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.junit.Test;
 
 import asmeta.structure.Asm;
@@ -118,7 +119,7 @@ public class ExperimentsFIDE2018 extends FlattenerTest {
 		System.out.println("Model\tTS\tRS");
 		File dir = new File("benchmarksFIDE2018");
 		for (File f : dir.listFiles()) {
-			if (f.isFile() && f.getName().endsWith(ASMParser.ASM_EXTENSION) && !f.getName().endsWith("_flat.asm")) {
+			if (f.isFile() && f.getName().endsWith(AsmetaParserUtility.ASM_EXTENSION) && !f.getName().endsWith("_flat.asm")) {
 				try {
 					Statistics.resetStats();
 					singleExperiment(f.getAbsolutePath(), false);
@@ -139,7 +140,7 @@ public class ExperimentsFIDE2018 extends FlattenerTest {
 		System.out.println("Model\tMCR\tFR\tChR\tAR\tLR\tCaR\tNR");
 		File dir = new File("benchmarksFIDE2018");
 		for (File f : dir.listFiles()) {
-			if (f.isFile() && f.getName().endsWith(ASMParser.ASM_EXTENSION) && !f.getName().endsWith("_flat.asm")) {
+			if (f.isFile() && f.getName().endsWith(AsmetaParserUtility.ASM_EXTENSION) && !f.getName().endsWith("_flat.asm")) {
 				try {
 					singleExperiment(f.getAbsolutePath(), true);
 				} catch (Exception e) {
@@ -157,7 +158,7 @@ public class ExperimentsFIDE2018 extends FlattenerTest {
 		File dir = new File("benchmarksFIDE2018");
 		HashMap<String, Long> totalTime = new HashMap<String, Long>();
 		for (File f : dir.listFiles()) {
-			if (f.isFile() && f.getName().endsWith(ASMParser.ASM_EXTENSION) && !f.getName().endsWith("_flat.asm")) {
+			if (f.isFile() && f.getName().endsWith(AsmetaParserUtility.ASM_EXTENSION) && !f.getName().endsWith("_flat.asm")) {
 				try {
 					singleExperiment(f.getAbsolutePath(), false);
 					totalTime.put(f.getName(), 0L);
@@ -169,7 +170,7 @@ public class ExperimentsFIDE2018 extends FlattenerTest {
 		}
 		for (int i = 0; i < numOfRuns; i++) {
 			for (File f : dir.listFiles()) {
-				if (f.isFile() && f.getName().endsWith(ASMParser.ASM_EXTENSION) && !f.getName().endsWith("_flat.asm")) {
+				if (f.isFile() && f.getName().endsWith(AsmetaParserUtility.ASM_EXTENSION) && !f.getName().endsWith("_flat.asm")) {
 					try {
 						singleExperiment(f.getAbsolutePath(), false);
 						long time = System.nanoTime();
@@ -193,7 +194,7 @@ public class ExperimentsFIDE2018 extends FlattenerTest {
 				"Model\tUpdateRule\tParallelRule\tConditionalRule\tForallRule\tChooseRule\tCaseRule\tLetRule\tMacroCallRule");
 		File dir = new File("benchmarksFIDE2018");
 		for (File f : dir.listFiles()) {
-			if (f.isFile() && f.getName().endsWith(ASMParser.ASM_EXTENSION) && !f.getName().endsWith("_flat.asm")) {
+			if (f.isFile() && f.getName().endsWith(AsmetaParserUtility.ASM_EXTENSION) && !f.getName().endsWith("_flat.asm")) {
 				try {
 					getSize(f.getAbsolutePath());
 				} catch (Exception e) {

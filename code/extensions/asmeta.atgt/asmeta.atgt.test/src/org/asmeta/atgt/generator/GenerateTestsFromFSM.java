@@ -13,7 +13,7 @@ import org.asmeta.atgt.generator.nusmv.ConverterCounterExample;
 import org.asmeta.nusmv.main.AsmetaSMV;
 import org.asmeta.nusmv.main.AsmetaSMV.ModelCheckerMode;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
-import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.AsmetaParserUtility;
 
 import atgt.coverage.AsmCoverage;
 import atgt.coverage.AsmCoverageBuilder;
@@ -179,7 +179,7 @@ public class GenerateTestsFromFSM {
 		}
 		String asm = new ConvertToAsmeta().getASMETAFlatFromFSM(fsmPath, newAsmName);
 		String asmFile = fsmPath.replace("\\", "/").substring(0, fsmPath.lastIndexOf("\\")) + "\\" + newAsmName
-				+ ASMParser.ASM_EXTENSION;
+				+ AsmetaParserUtility.ASM_EXTENSION;
 		PrintWriter fout = new PrintWriter(new FileWriter(asmFile));
 		fout.println(asm);
 		fout.close();

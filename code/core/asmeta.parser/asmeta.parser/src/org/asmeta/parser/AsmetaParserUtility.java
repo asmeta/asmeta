@@ -79,14 +79,14 @@ import asmeta.terms.furtherterms.RealTerm;
 import asmeta.terms.furtherterms.SequenceTerm;
 import asmeta.terms.furtherterms.StringTerm;
 
-public class Utility {
+public class AsmetaParserUtility {
 
 	// names of the libraries
 	public static final String LTL_LIBRARY_NAME = "LTLLibrary";
 	public static final String CTL_LIBRARY_NAME = "CTLLibrary";
 	public static final String STANDARD_LIBRARY_NAME = "StandardLibrary";
 	public static final String TIME_LIBRARY_NAME = "TimeLibrary";
-
+	
 	// PA 12/11/2011. Fabio Albani, in method resolve, needs to import just the the
 	// first rule with
 	// the best ranking. The static field "selectFirstBestRanking" can be used
@@ -97,11 +97,14 @@ public class Utility {
 	// By default, "selectFirstBestRanking" is true.
 	public static boolean selectFirstBestRanking = true;
 
-	private static Logger logger = Logger.getLogger(Utility.class);
+	private static Logger logger = Logger.getLogger(AsmetaParserUtility.class);
 
 	static {
 		logger.setLevel(Level.OFF);
 	}
+	
+	
+	private AsmetaParserUtility(){}
 
 	// ================================================= appendInKey
 	/*
@@ -1140,7 +1143,7 @@ public class Utility {
 		else
 			// the type-domain associated to the tuple term must be a
 			// Cartesian product domain
-			dom = Utility.getProduct(prodDomList, defPack, s);
+			dom = AsmetaParserUtility.getProduct(prodDomList, defPack, s);
 		term.setDomain(dom);
 		OCL_Checker.checkTupleTerm(term);
 		return term;
@@ -1667,7 +1670,7 @@ public class Utility {
 		File res;
 		if (asmDirLib == null) {
 			// with asm extesion
-			res = checkExistsAsmFile(moduleName + ASMParser.ASM_EXTENSION);
+			res = checkExistsAsmFile(moduleName + AsmetaParserUtility.ASM_EXTENSION);
 			if (res != null)
 				return res;
 			// without asm extension
@@ -1675,7 +1678,7 @@ public class Utility {
 			if (res != null)
 				return res;
 			// with asm extesion
-			res = checkExistsAsmFile("." + moduleName + ASMParser.ASM_EXTENSION);
+			res = checkExistsAsmFile("." + moduleName + AsmetaParserUtility.ASM_EXTENSION);
 			if (res != null)
 				return res;
 			// without asm extension
@@ -1685,7 +1688,7 @@ public class Utility {
 		}
 		assert asmDirLib != null;
 		// build the complete module name
-		res = checkExistsAsmFile(asmDirLib + File.separatorChar + moduleName + ASMParser.ASM_EXTENSION);
+		res = checkExistsAsmFile(asmDirLib + File.separatorChar + moduleName + AsmetaParserUtility.ASM_EXTENSION);
 		if (res != null)
 			return res;
 		// without asm extension
@@ -1696,7 +1699,7 @@ public class Utility {
 		res = checkExistsAsmFile(moduleName);
 		if (res != null)
 			return res;
-		res = checkExistsAsmFile(moduleName + ASMParser.ASM_EXTENSION);
+		res = checkExistsAsmFile(moduleName + AsmetaParserUtility.ASM_EXTENSION);
 		if (res != null)
 			return res;
 		//
@@ -1705,7 +1708,7 @@ public class Utility {
 	}
 
 	static private File checkExistsAsmFile(String fileName) {
-		if (!fileName.endsWith(ASMParser.ASM_EXTENSION))
+		if (!fileName.endsWith(AsmetaParserUtility.ASM_EXTENSION))
 			return null;
 		File moduleFile = new java.io.File(fileName);
 		if (moduleFile.exists() && moduleFile.isFile())
@@ -1727,4 +1730,13 @@ public class Utility {
 				|| moduleName.endsWith(CTL_LIBRARY_NAME) || moduleName.endsWith(LTL_LIBRARY_NAME)
 				|| moduleName.endsWith("MAPEpatterns") || moduleName.endsWith("TimeLibrarySimple");
 	}
+
+	// asm extension including the . 
+	 public static final String ASM_EXTENSION = ".asm";
+	 
+	 public static boolean endsWithAsmetaExtension(String fName) {
+		 return fName.endsWith(ASM_EXTENSION);
+	 }
+	 
+	 
 }

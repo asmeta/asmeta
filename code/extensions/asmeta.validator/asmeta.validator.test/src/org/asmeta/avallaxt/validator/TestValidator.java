@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.asmeta.xt.validator.AsmetaFromAvallaBuilder;
 import org.asmeta.xt.validator.AsmetaV;
 import org.junit.BeforeClass;
@@ -49,7 +50,7 @@ public class TestValidator {
 		assert dir.exists() && dir.isDirectory();
 		// clean directory
 		for(File file: dir.listFiles()) {
-		    if (file.getName().endsWith(ASMParser.ASM_EXTENSION)) 
+		    if (file.getName().endsWith(AsmetaParserUtility.ASM_EXTENSION)) 
 		        file.delete();
 		    if (file.isDirectory()) {
 		    	file.delete();
@@ -89,7 +90,7 @@ public class TestValidator {
 			builder.save();
 			// the files exists
 			assertTrue(tempAsmPath.exists());
-			assertTrue(builder.getTempAsmPath().exists() && builder.getTempAsmPath().isFile() && builder.getTempAsmPath().getName().endsWith(ASMParser.ASM_EXTENSION));
+			assertTrue(builder.getTempAsmPath().exists() && builder.getTempAsmPath().isFile() && builder.getTempAsmPath().getName().endsWith(AsmetaParserUtility.ASM_EXTENSION));
 			// it should be parsable:
 			AsmCollection asmc = ASMParser.setUpReadAsm(builder.getTempAsmPath());
 			List<String> errors = ASMParser.getResultLogger().errors;

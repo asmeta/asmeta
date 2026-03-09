@@ -9,7 +9,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -324,7 +324,7 @@ public class GeneratorCompilerTestInProject {
 		for (File file : fList) {
 
 			if (!exclude(file.getName())) {
-				if (file.isFile() && file.getName().endsWith(ASMParser.ASM_EXTENSION)) {
+				if (file.isFile() && file.getName().endsWith(AsmetaParserUtility.ASM_EXTENSION)) {
 					files.add(file);
 				} else if (file.isDirectory()) {
 					listf(file.getAbsolutePath(), files);
