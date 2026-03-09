@@ -51,7 +51,7 @@ public class AsmTSGeneratorLaunchConfiguration
 
 	// it is necessary since it needs the constructor without parameters
 	public AsmTSGeneratorLaunchConfiguration() {
-		ATGTActivator.log.debug("calling launcher config with empy constuctor");
+		ATGTActivator.log.debug("calling launcher config with empty constuctor");
 	}
 	
 	public AsmTSGeneratorLaunchConfiguration(ILaunchConfiguration configuration, GenerationMode mode, IPath filePath) {

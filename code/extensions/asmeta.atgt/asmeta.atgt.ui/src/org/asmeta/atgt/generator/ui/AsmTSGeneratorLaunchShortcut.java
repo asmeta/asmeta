@@ -32,6 +32,7 @@ import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 abstract public class AsmTSGeneratorLaunchShortcut implements org.eclipse.debug.ui.ILaunchShortcut, org.eclipse.debug.ui.ILaunchShortcut2 {
 
 	private static final String NEW = "New ATGT configuration";
+	private static final String ATTR_FILEPATH = "FILE_PATH";
 	protected IPath filePath;
 
 	
@@ -138,7 +139,7 @@ abstract public class AsmTSGeneratorLaunchShortcut implements org.eclipse.debug.
 			workingCopy = configuration.getWorkingCopy();
 			configuration = workingCopy.doSave();
 			// DebugUITools.launch(configuration, mode);
-			// workingCopy.setAttribute(ATTR_FILEPATH, file.getFullPath().toString());
+			workingCopy.setAttribute(ATTR_FILEPATH, this.filePath);
 			return configuration;
 		} catch (CoreException e) {
 			return null;
@@ -150,7 +151,7 @@ abstract public class AsmTSGeneratorLaunchShortcut implements org.eclipse.debug.
 		ATGTActivator.log.debug("AsmTSGeneratorLaunchShortcut:getLaunchConfigurations");
 		setFilePath(selection);
 		// not clear what to return
-		return null;
+		return new ILaunchConfiguration[] {findConfiguration()};
 	}
 
 	@Override
