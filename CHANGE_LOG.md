@@ -30,3 +30,6 @@
  - static and derived functions are now distinguished
  - invariant are translated to INVARSPEC
  - other minor bugs fixed
+
+## version 24.06
+ - new TL operators names and minor fixes - multiple architecture (win, lin, macos):

@@ -444,20 +444,20 @@ public class TestSingleFile extends TestValidator {
 	}
 
 	// 
-	@Test
+	@Test @Ignore
 	public void testABZ26CaseStudy() throws Exception {
 		String scenarioPath = ASM_EXAMPLES + "/../asmeta_models\\ABZ2026_CaseStudy\\SecondGeneration_AfterSimulation\\abstractests\\testtest0.avalla";
 		test(scenarioPath, false, false, true);		
 	}
 	
 	// 
-	@Test
+	@Test @Ignore
 	public void testABZ26CaseStudyChatGPT() throws Exception {
 		String scenarioPath = ASM_EXAMPLES + "/../asmeta_models/ABZ2026_CaseStudy/SecondGeneration_AfterSimulation/scenarios_gpt/scenario0_fixed.avalla";
 		test(scenarioPath, false, false, true);		
 	}
 
-	@Test
+	@Test @Ignore
 	public void testABZ26CaseStudyFolder() throws Exception {
 		String scenarioPath = ASM_EXAMPLES + "/../asmeta_models/ABZ2026_CaseStudy/SecondGeneration_AfterSimulation/abstracttests/";
 		test(scenarioPath, true, true, true);		

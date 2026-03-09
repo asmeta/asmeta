@@ -269,14 +269,47 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 		String[] data = cond.split("=");
 		if (data.length != 2)
 			return cond;
-		data[0] = data[0].trim();
-		data[1] = data[1].trim();
-		// it is a constant like id or number
-		if (data[0].contains("(") ||data[0].contains("[") || data[1].contains("(") ||data[1].contains("[")) {
-			// use eq instead
-			return "eq(" + data[0] + "," + data[1] + ")";			
+		String left = data[0].trim();
+		String right = data[1].trim();
+
+		// change only if ID = tuple (,) or sequence [] or collection {}, or vice-versa
+		if ((isId(left) && isTupleListOrSet(right)) || (isTupleListOrSet(left) && isId(right))) {
+			return "eq(" + left + "," + right + ")";
 		}
 		return cond;
+	}
+
+	private static boolean isId(String s) {
+		return s.matches("[A-Za-z_][A-Za-z0-9_]*");
+	}
+
+	private static boolean isTupleListOrSet(String s) {
+		s = s.trim();
+		char open = s.charAt(0);
+		char close = s.charAt(s.length() - 1);
+
+		// Sequences and collections
+		if ((open == '[' && close == ']') || (open == '{' && close == '}'))
+			return true;
+
+		// Tuples with at least two elements
+		if (open == '(' && close == ')') {
+			if (s.length() < 5)
+				return false; // minimum "(a,b)"
+			// Must contain at least one comma inside the outer parentheses
+			int level = 0;
+			for (int i = 0; i < s.length(); i++) {
+				char c = s.charAt(i);
+				if (c == '(')
+					level++;
+				else if (c == ')')
+					level--;
+				// inside the outermost parenthesis we have level==1
+				if (c == ',' && level == 1)
+					return true;
+			}
+		}
+		return false;
 	}
 
 	/**
