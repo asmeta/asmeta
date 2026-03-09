@@ -1,5 +1,8 @@
 package org.asmeta.atgt.generator.ui;
 
+import org.apache.log4j.ConsoleAppender;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -13,12 +16,19 @@ public class ATGTActivator extends AbstractUIPlugin {
 
 	// The shared instance
 	private static ATGTActivator plugin;
+
+	protected static Logger log = Logger.getLogger("org.asmeta.atgt");
+	
+	static {
+		// to test : activate the logger
+		log.setLevel(Level.ALL);
+		log.addAppender(new ConsoleAppender());
+	}
 	
 	/**
 	 * The constructor
 	 */
-	public ATGTActivator() {
-	}
+	public ATGTActivator() {}
 
 	@Override
 	public void start(BundleContext context) throws Exception {

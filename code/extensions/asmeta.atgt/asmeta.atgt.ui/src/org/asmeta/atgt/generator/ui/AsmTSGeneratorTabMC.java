@@ -104,7 +104,7 @@ public class AsmTSGeneratorTabMC extends AbstractLaunchConfigurationTab {
 
 	@Override
 	public void setDefaults(ILaunchConfigurationWorkingCopy configuration) {
-		System.out.println("Setting defaults...");
+		ATGTActivator.log.debug("Setting defaults...");
 		configuration.setAttribute(CONFIG_COMPUTE_COVERAGE, true);
 		configuration.setAttribute(CONFIG_CRITERIA, AsmTestGenerator.DEFAULT_COV_BUILDER);
 		configuration.setAttribute(CONFIG_FORMATS, AsmTestGenerator.DEFAULT_FORMATS);
@@ -149,12 +149,15 @@ public class AsmTSGeneratorTabMC extends AbstractLaunchConfigurationTab {
 
 	@Override
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
-		System.out.println("Performing apply...");
+		ATGTActivator.log.debug("Performing apply... " + this.getClass().getSimpleName());
 		configuration.setAttribute(CONFIG_CRITERIA, CriteriaEnum.toListOfString(currentlySelectedCriteria()));
 		configuration.setAttribute(CONFIG_COMPUTE_COVERAGE, btnCoverageTp.getSelection());
 		configuration.setAttribute(CONFIG_FORMATS, FormatsEnum.toListOfString(currentlySelectedFormats()));
+		//configuration.setAttribute(ATTR_FILE_PATH, filePathText.getText());
 	}
 
+
+	
 	@Override
 	public String getName() {
 		return "ATGT test generator";

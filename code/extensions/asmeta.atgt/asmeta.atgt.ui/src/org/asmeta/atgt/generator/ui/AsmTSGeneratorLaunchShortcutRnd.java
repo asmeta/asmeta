@@ -12,11 +12,12 @@ import org.eclipse.ui.PartInitException;
 public class AsmTSGeneratorLaunchShortcutRnd extends AsmTSGeneratorLaunchShortcut {
 
 	@Override
-	protected void generateTests(ILaunchConfiguration configuration, IPath filePath, IWorkbenchWindow window)
+	protected void generateTests(ILaunchConfiguration configuration, IWorkbenchWindow window)
 			throws Error, PartInitException {
-		System.err.println("executing tests with random");
-		AsmTSGeneratorLaunchConfiguration asmTSGeneratorLaunchConfiguration = new AsmTSGeneratorLaunchConfiguration(configuration,GenerationMode.RANDOM);
-		asmTSGeneratorLaunchConfiguration.generateTests(filePath,window);
+		ATGTActivator.log.info("executing tests with random (file: " + filePath + ")");
+		AsmTSGeneratorLaunchConfiguration asmTSGeneratorLaunchConfiguration = 
+				new AsmTSGeneratorLaunchConfiguration(configuration,GenerationMode.RANDOM,filePath);
+		asmTSGeneratorLaunchConfiguration.generateTests(window);
 	}
 
 }

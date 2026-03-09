@@ -1,21 +1,15 @@
 package org.asmeta.atgt.generator.ui;
 
 
-import org.asmeta.atgt.generator.AsmTestGenerator;
-import org.asmeta.atgt.generator.CriteriaEnum;
-import org.asmeta.atgt.generator.FormatsEnum;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.ui.AbstractLaunchConfigurationTab;
-import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
-import org.eclipse.swt.widgets.Text;
 
 //
 // this set the variables for the simulation-based test generator
@@ -81,7 +75,7 @@ public class AsmTSGeneratorTabRnd extends AbstractLaunchConfigurationTab {
 
     @Override
     public void performApply(ILaunchConfigurationWorkingCopy configuration) {
-		System.out.println("Performing apply...");
+		ATGTActivator.log.debug("Performing apply... " + this.getClass().getSimpleName());
 		configuration.setAttribute(CONFIG_NSTEPS, nTests.getSelection());
 		configuration.setAttribute(CONFIG_NTESTS, spinnerNsteps.getSelection());
     }
