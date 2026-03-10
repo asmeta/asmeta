@@ -1,6 +1,7 @@
 package org.asmeta.atgt.generator.ui;
 
 
+import org.asmeta.atgt.generator.ui.ATGTLaunchConfigurationDelegate.GenerationMode;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.ui.AbstractLaunchConfigurationTab;
@@ -15,7 +16,7 @@ import org.eclipse.swt.widgets.Spinner;
 // this set the variables for the simulation-based test generator
 // number of steps and number of tests
 //
-public class AsmTSGeneratorTabRnd extends AbstractLaunchConfigurationTab {
+public class ATGTLaunchConfigurationTabRnd extends ATGTLaunchConfigurationTab {
 
 	private static final String RND_SIM_LAUNCH_TAB = "Random Simulation-based";
     public static final String CONFIG_NSTEPS = "nSteps";
@@ -58,7 +59,7 @@ public class AsmTSGeneratorTabRnd extends AbstractLaunchConfigurationTab {
     
     @Override
 	public void setDefaults(ILaunchConfigurationWorkingCopy configuration) {
-		System.out.println("Setting defaults...");
+    	ATGTActivator.log.debug("Setting defaults...");
 		configuration.setAttribute(CONFIG_NSTEPS, N_STEPS_DEFAULT);
 		configuration.setAttribute(CONFIG_NTESTS, N_TESTS_DEFAULT);
 	}
@@ -78,6 +79,8 @@ public class AsmTSGeneratorTabRnd extends AbstractLaunchConfigurationTab {
 		ATGTActivator.log.debug("Performing apply... " + this.getClass().getSimpleName());
 		configuration.setAttribute(CONFIG_NSTEPS, nTests.getSelection());
 		configuration.setAttribute(CONFIG_NTESTS, spinnerNsteps.getSelection());
+		setAsmetaFile(configuration);
+		configuration.setAttribute(GENERATION_MODE, GenerationMode.RANDOM.toString());
     }
 
     @Override

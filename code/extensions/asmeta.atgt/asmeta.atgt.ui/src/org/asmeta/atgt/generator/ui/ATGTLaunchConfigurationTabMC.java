@@ -6,10 +6,15 @@ import java.util.List;
 import org.asmeta.atgt.generator.AsmTestGenerator;
 import org.asmeta.atgt.generator.CriteriaEnum;
 import org.asmeta.atgt.generator.FormatsEnum;
+import org.asmeta.atgt.generator.ui.ATGTLaunchConfigurationDelegate.GenerationMode;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.ui.AbstractLaunchConfigurationTab;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -18,8 +23,14 @@ import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 
-public class AsmTSGeneratorTabMC extends AbstractLaunchConfigurationTab {
+public class ATGTLaunchConfigurationTabMC extends ATGTLaunchConfigurationTab {
 
 	public static final String CONFIG_COMPUTE_COVERAGE = "computeCoverage";
 	public static final String CONFIG_CRITERIA = "coverageCriteria";
@@ -78,7 +89,7 @@ public class AsmTSGeneratorTabMC extends AbstractLaunchConfigurationTab {
 			cbs[i].setBounds(3, 30+i*18, 196, 16);
 			cbs[i].setText(CriteriaEnum.values()[i].name);
 			cbs[i].addSelectionListener(defaultSelectionListener);
-			System.out.println("Adding cbs"+i + " " + CriteriaEnum.values()[i].name);
+			ATGTActivator.log.debug("Adding cbs"+i + " " + CriteriaEnum.values()[i].name);
 		}
 
 		// Create the output format options
@@ -108,6 +119,7 @@ public class AsmTSGeneratorTabMC extends AbstractLaunchConfigurationTab {
 		configuration.setAttribute(CONFIG_COMPUTE_COVERAGE, true);
 		configuration.setAttribute(CONFIG_CRITERIA, AsmTestGenerator.DEFAULT_COV_BUILDER);
 		configuration.setAttribute(CONFIG_FORMATS, AsmTestGenerator.DEFAULT_FORMATS);
+		configuration.setAttribute(GENERATION_MODE, GenerationMode.MODEL_CHECKER.toString());		
 	}
 	
 	public List<CriteriaEnum> currentlySelectedCriteria() {
@@ -153,7 +165,8 @@ public class AsmTSGeneratorTabMC extends AbstractLaunchConfigurationTab {
 		configuration.setAttribute(CONFIG_CRITERIA, CriteriaEnum.toListOfString(currentlySelectedCriteria()));
 		configuration.setAttribute(CONFIG_COMPUTE_COVERAGE, btnCoverageTp.getSelection());
 		configuration.setAttribute(CONFIG_FORMATS, FormatsEnum.toListOfString(currentlySelectedFormats()));
-		//configuration.setAttribute(ATTR_FILE_PATH, filePathText.getText());
+		setAsmetaFile(configuration);
+		configuration.setAttribute(GENERATION_MODE, GenerationMode.MODEL_CHECKER.toString());		
 	}
 
 

@@ -20,7 +20,6 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.console.IOConsoleOutputStream;
 
@@ -33,10 +32,10 @@ public abstract class SafeGeneratorRunnable extends Job {
 	private String trace;
 	protected static AsmeeConsole mc;
 
-	// the AsmTSGeneratorLaunchConfiguration
-	protected AsmTSGeneratorLaunchConfiguration config;
+	// the ATGTLaunchConfigurationDelegate
+	protected ATGTLaunchConfigurationDelegate config;
 
-	public SafeGeneratorRunnable(String name, AsmTSGeneratorLaunchConfiguration config, IWorkbenchWindow window)
+	public SafeGeneratorRunnable(String name, ATGTLaunchConfigurationDelegate config)
 			throws PartInitException {
 		super(name);
 		this.config = config;

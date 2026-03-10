@@ -5,21 +5,21 @@
    <launchConfigurationType
    	   id="org.asmeta.atgt.asmSpec"
    	   name="ATGT Asmeta"
-	   delegate="org.asmeta.atgt.generator.ui.AsmTSGeneratorLaunchConfiguration"
+	   delegate="org.asmeta.atgt.generator.ui.ATGTLaunchConfigurationDelegate"
 	   modes="run">
    </launchConfigurationType>
 </extension>
 <extension point="org.eclipse.debug.ui.launchConfigurationTabGroups">
     <launchConfigurationTabGroup
         type="org.asmeta.atgt.asmSpec"
-        class="org.asmeta.atgt.generator.ui.AsmTSGeneratorLaunchTabGroup"
+        class="org.asmeta.atgt.generator.ui.ATGTLaunchTabGroup"
         id="org.eclipse.jdt.debug.ui.launchConfigurationTabGroup.AsmTSGeneratorTab">
     </launchConfigurationTabGroup>
 </extension>
 <extension
     point="org.eclipse.debug.ui.launchShortcuts">
     <shortcut
-        class="org.asmeta.atgt.generator.ui.AsmTSGeneratorLaunchShortcutMC"
+        class="org.asmeta.atgt.generator.ui.ATGTLaunchShortcutMC"
         icon="icons/gears.png"
         id="org.asmeta.atgt.shortcut"
         label="ATGT model checker test generator"
@@ -43,7 +43,7 @@
         </contextualLaunch>
     </shortcut>
     <shortcut
-          class="org.asmeta.atgt.generator.ui.AsmTSGeneratorLaunchShortcutRnd"
+          class="org.asmeta.atgt.generator.ui.ATGTLaunchShortcutRnd"
           icon="icons/gearsRnd.png"
           id="org.asmeta.atgt.shortcut"
           label="ATGT Random test generator"

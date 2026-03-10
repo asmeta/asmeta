@@ -7,10 +7,10 @@ import org.eclipse.core.runtime.jobs.Job;
 
 public class IsStoppedPolling extends Job { 
 	private IProgressMonitor monitorToCheck; 
-	private AsmTSGeneratorLaunchConfiguration tg; 
+	private ATGTLaunchConfigurationDelegate tg; 
 	private Boolean stopped; 
 
-	public IsStoppedPolling(String name, IProgressMonitor monitorToCheck, Boolean stopped, AsmTSGeneratorLaunchConfiguration tg) { 
+	public IsStoppedPolling(String name, IProgressMonitor monitorToCheck, Boolean stopped, ATGTLaunchConfigurationDelegate tg) { 
 		super(name); 
 		this.monitorToCheck = monitorToCheck; 
 		this.tg = tg; 

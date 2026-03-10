@@ -15,6 +15,8 @@ import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.ui.DebugUITools;
 import org.eclipse.debug.ui.IDebugModelPresentation;
+import org.eclipse.debug.ui.ILaunchShortcut;
+import org.eclipse.debug.ui.ILaunchShortcut2;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.window.Window;
@@ -29,10 +31,9 @@ import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 // it executes the generation of the tests
 // it has two subclasses
 //
-abstract public class AsmTSGeneratorLaunchShortcut implements org.eclipse.debug.ui.ILaunchShortcut, org.eclipse.debug.ui.ILaunchShortcut2 {
+abstract public class ATGTLaunchShortcut implements ILaunchShortcut {
 
 	private static final String NEW = "New ATGT configuration";
-	private static final String ATTR_FILEPATH = "FILE_PATH";
 	protected IPath filePath;
 
 	
@@ -41,14 +42,14 @@ abstract public class AsmTSGeneratorLaunchShortcut implements org.eclipse.debug.
 	public void launch(ISelection selection, String mode) {
 		// mode is always run (decided in the plugin definition)
 		// the mode if random or model checker is a field
-		ATGTActivator.log.debug("AsmTSGeneratorLaunchShortcut:launch ISelection - mode:" + mode);
+		ATGTActivator.log.debug("ATGTLaunchShortcut:launch ISelection - mode:" + mode);
 		ILaunchConfiguration configuration = findConfiguration();
 		// selection like a node in the tree
 		try {
-		setFilePath(selection);
-		ATGTActivator.log.debug("generate tests for " + filePath);
-		IWorkbench workbench = PlatformUI.getWorkbench();
-		IWorkbenchWindow window = workbench == null ? null : workbench.getActiveWorkbenchWindow();
+			filePath = ATGTUtils.toIFile(selection).getLocation();
+			ATGTActivator.log.debug("generate tests for " + filePath);
+			IWorkbench workbench = PlatformUI.getWorkbench();
+			IWorkbenchWindow window = workbench == null ? null : workbench.getActiveWorkbenchWindow();
 			ATGTActivator.log.debug("generate tests for " + filePath);
 			generateTests(configuration, window);
 		} catch (PartInitException | Error e) {
@@ -57,30 +58,13 @@ abstract public class AsmTSGeneratorLaunchShortcut implements org.eclipse.debug.
 		}
 	}
 
-	private void setFilePath(ISelection selection) {
-		if (selection instanceof TreeSelection) {
-			TreeSelection treeSelections = (TreeSelection) selection;
-			Object select = treeSelections.getFirstElement();
-			// System.out.println(select.getClass().getName());
-			// for now it works only with single files
-			if (select instanceof org.eclipse.core.internal.resources.File) {
-				// add the path of the project
-				// file path is only the last part
-				// IProject prj = ((org.eclipse.core.internal.resources.File)
-				// select).getProject();
-				this.filePath = ((File) select).getLocation();
-				ATGTActivator.log.debug("setting the path as " + filePath);
-				return;
-			}
-		}
-		ATGTActivator.log.error("not a tree selection");
-	}
 
-	// this is call when an item in the editor is selected - no sure if it can never happen (it would need a button)
+	// this is call when an item in the editor is selected
+	// not sure if it can never happen (it would need a button)
 	@Override
 	public void launch(IEditorPart editor, String mode) {
 		// mode is always run
-		ATGTActivator.log.debug("AsmTSGeneratorLaunchShortcut:launch IEditorPart - mode:" + mode);
+		ATGTActivator.log.debug("ATGTLaunchShortcut:launch IEditorPart - mode:" + mode);
 		ILaunchConfiguration configuration = findConfiguration();
 		// Locates a launchable entity in the given active editor, and launches an
 		// application in the specified mode. This launch configuration shortcut is
@@ -97,7 +81,7 @@ abstract public class AsmTSGeneratorLaunchShortcut implements org.eclipse.debug.
 	}
 
 	protected ILaunchConfiguration chooseConfiguration(List<ILaunchConfiguration> configList) {
-		ATGTActivator.log.debug("AsmTSGeneratorLaunchShortcut:chooseConfiguration");
+		ATGTActivator.log.debug("ATGTLaunchShortcut:chooseConfiguration");
 		IDebugModelPresentation labelProvider = DebugUITools.newDebugModelPresentation();
 		ElementListSelectionDialog dialog = new ElementListSelectionDialog(Display.getCurrent().getActiveShell(),
 				labelProvider);
@@ -116,7 +100,7 @@ abstract public class AsmTSGeneratorLaunchShortcut implements org.eclipse.debug.
 	}
 
 	private ILaunchConfiguration findConfiguration() {
-		ATGTActivator.log.debug("AsmTSGeneratorLaunchShortcut:findConfiguration");
+		ATGTActivator.log.debug("ATGTLaunchShortcut:findConfiguration");
 		ILaunchConfigurationWorkingCopy workingCopy;
 		ILaunchManager launchManager = DebugPlugin.getDefault().getLaunchManager();
 		ILaunchConfigurationType type = launchManager.getLaunchConfigurationType("org.asmeta.atgt.asmSpec");
@@ -139,36 +123,11 @@ abstract public class AsmTSGeneratorLaunchShortcut implements org.eclipse.debug.
 			workingCopy = configuration.getWorkingCopy();
 			configuration = workingCopy.doSave();
 			// DebugUITools.launch(configuration, mode);
-			workingCopy.setAttribute(ATTR_FILEPATH, this.filePath);
 			return configuration;
 		} catch (CoreException e) {
 			return null;
 		}
 	}
-
-	@Override
-	public ILaunchConfiguration[] getLaunchConfigurations(ISelection selection) {
-		ATGTActivator.log.debug("AsmTSGeneratorLaunchShortcut:getLaunchConfigurations");
-		setFilePath(selection);
-		// not clear what to return
-		return new ILaunchConfiguration[] {findConfiguration()};
-	}
-
-	@Override
-	public ILaunchConfiguration[] getLaunchConfigurations(IEditorPart editorpart) {
-		throw new RuntimeException("not implemented - nver used");
-	}
-
-	@Override
-	public IResource getLaunchableResource(ISelection selection) {
-		throw new RuntimeException("not implemented - nver used");
-	}
-
-	@Override
-	public IResource getLaunchableResource(IEditorPart editorpart) {
-		throw new RuntimeException("not implemented - nver used");
-	}
-
 
 	/**
 	 * it does not take the file path since it is a field
