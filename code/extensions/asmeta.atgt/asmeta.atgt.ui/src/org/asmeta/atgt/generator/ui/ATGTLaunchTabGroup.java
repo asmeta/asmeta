@@ -1,39 +1,71 @@
 package org.asmeta.atgt.generator.ui;
 
-import org.asmeta.atgt.generator.CriteriaEnum;
-import org.eclipse.core.resources.IFile;
-import org.eclipse.debug.core.ILaunch;
-import org.eclipse.debug.core.ILaunchConfiguration;
-import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
-import org.eclipse.debug.ui.AbstractLaunchConfigurationTab;
 import org.eclipse.debug.ui.AbstractLaunchConfigurationTabGroup;
 import org.eclipse.debug.ui.ILaunchConfigurationDialog;
 import org.eclipse.debug.ui.ILaunchConfigurationTab;
-import org.eclipse.debug.ui.ILaunchConfigurationTabGroup;
 
-
-public class ATGTLaunchTabGroup extends AbstractLaunchConfigurationTabGroup {
+//
+// consider the use of AbstractLaunchConfigurationTabGroup instead
+//
+public class ATGTLaunchTabGroup extends AbstractLaunchConfigurationTabGroup{
 
 	@Override
 	public void createTabs(ILaunchConfigurationDialog dialog, String mode) {
-		fTabs = new ILaunchConfigurationTab[] { 
-				new ATGTLaunchConfigurationTabMC(), 
-				new ATGTLaunchConfigurationTabRnd() }; 
-		      // new CommonTab();
-	}
-}
-
-abstract class ATGTLaunchConfigurationTab extends AbstractLaunchConfigurationTab{
-	
-	public static final String ATTR_FILE_PATH = "atgt.fileWorkspacePath";
-	public static final String GENERATION_MODE = "atgt.generationMode";
-
-	protected void setAsmetaFile(ILaunchConfigurationWorkingCopy configuration){
-		IFile currentFileFromWorkbench = ATGTUtils.getCurrentFileFromWorkbench();
-		ATGTActivator.log.debug("apply - setting file " + currentFileFromWorkbench);
-		// store the path as string
-		configuration.setAttribute(ATTR_FILE_PATH, currentFileFromWorkbench.getLocation().toString());		
+		ILaunchConfigurationTab[] tabs = new ILaunchConfigurationTab[]{
+				new ATGTLaunchConfigurationTabMC(),
+				new ATGTLaunchConfigurationTabRnd()};
+				//new CommonTab();
+		setTabs(tabs);
 	}
 
 }
 
+/*
+public class ATGTLaunchTabGroup implements ILaunchConfigurationTabGroup {
+
+	private ILaunchConfigurationTab[] tabs;
+	private ILaunchConfigurationDialog dialog;
+
+	public ATGTLaunchTabGroup() {
+		tabs = new ILaunchConfigurationTab[]{
+				new ATGTLaunchConfigurationTabMC(),
+				new ATGTLaunchConfigurationTabRnd()};
+				//new CommonTab();
+
+	}
+
+	@Override
+	public void createTabs(ILaunchConfigurationDialog dialog, String mode) {
+		dialog.setActiveTab(tabs[0]);
+		this.dialog = dialog;
+	}
+
+	@Override
+	public void dispose() {
+	}
+
+	@Override
+	public ILaunchConfigurationTab[] getTabs() {
+		return tabs;
+	}
+
+	@Override
+	public void initializeFrom(ILaunchConfiguration configuration) {
+		tabs[0].initializeFrom(configuration);
+		tabs[1].initializeFrom(configuration);
+	}
+
+	@Override
+	public void launched(ILaunch launch) {}
+
+	@Override
+	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
+		dialog.getActiveTab().performApply(configuration);
+	}
+
+	@Override
+	public void setDefaults(ILaunchConfigurationWorkingCopy configuration) {
+		tabs[0].setDefaults(configuration);
+		tabs[1].setDefaults(configuration);
+	}
+}*/

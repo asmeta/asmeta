@@ -3,6 +3,7 @@ package org.asmeta.atgt.generator.ui;
 import org.asmeta.atgt.generator.ui.ATGTLaunchConfigurationDelegate.GenerationMode;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
+import org.eclipse.debug.ui.AbstractLaunchConfigurationTab;
 import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -22,7 +23,6 @@ public class ATGTLaunchConfigurationTabRnd extends ATGTLaunchConfigurationTab {
 
 	public static final int N_STEPS_DEFAULT = 10;
 	public static final int N_TESTS_DEFAULT = 5;
-
 	private Spinner nTests;
 	private Spinner spinnerNsteps;
 
@@ -57,11 +57,9 @@ public class ATGTLaunchConfigurationTabRnd extends ATGTLaunchConfigurationTab {
 
 	@Override
 	public void setDefaults(ILaunchConfigurationWorkingCopy configuration) {
-		ATGTActivator.log.debug("Setting defaults in "+ this.getClass() );
+		ATGTActivator.log.debug("Setting defaults...");
 		configuration.setAttribute(CONFIG_NSTEPS, N_STEPS_DEFAULT);
 		configuration.setAttribute(CONFIG_NTESTS, N_TESTS_DEFAULT);
-		configuration.setAttribute(GENERATION_MODE, GenerationMode.RANDOM.toString());
-		setAsmetaFile(configuration);
 	}
 
 	@Override
@@ -80,6 +78,9 @@ public class ATGTLaunchConfigurationTabRnd extends ATGTLaunchConfigurationTab {
 			spinnerNsteps.setSelection(nSteps);
 			nTests.setSelection(nTestsVal);
 
+			// Initialize common fields (e.g., ASM file) if your base class provides it
+			initializeAsmetaFileFrom(configuration);
+
 		} catch (Exception e) {
 			ATGTActivator.log.error("Error initializing launch configuration tab", e);
 
@@ -87,11 +88,12 @@ public class ATGTLaunchConfigurationTabRnd extends ATGTLaunchConfigurationTab {
 			spinnerNsteps.setSelection(N_STEPS_DEFAULT);
 			nTests.setSelection(N_TESTS_DEFAULT);
 		}
+
 	}
 
 	@Override
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
-		ATGTActivator.log.debug("Performing apply in " + this.getClass().getSimpleName());
+		ATGTActivator.log.debug("Performing apply... " + this.getClass().getSimpleName());
 		configuration.setAttribute(CONFIG_NSTEPS, nTests.getSelection());
 		configuration.setAttribute(CONFIG_NTESTS, spinnerNsteps.getSelection());
 		setAsmetaFile(configuration);

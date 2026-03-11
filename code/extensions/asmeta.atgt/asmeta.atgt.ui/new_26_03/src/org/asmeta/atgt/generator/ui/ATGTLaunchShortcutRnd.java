@@ -12,11 +12,12 @@ import org.eclipse.ui.PartInitException;
 public class ATGTLaunchShortcutRnd extends ATGTLaunchShortcut {
 
 	@Override
-	protected void generateTests(ILaunchConfiguration configuration, IPath filePath, IWorkbenchWindow window)
+	protected void generateTests(ILaunchConfiguration configuration, IWorkbenchWindow window)
 			throws Error, PartInitException {
-		ATGTActivator.log.debug("executing tests with random");
-		ATGTLaunchConfigurationDelegate aTGTLaunchConfigurationDelegate = new ATGTLaunchConfigurationDelegate(configuration,GenerationMode.RANDOM);
-		aTGTLaunchConfigurationDelegate.generateTests(filePath,window);
+		ATGTActivator.log.info("executing tests with random (file: " + filePath + ")");
+		ATGTLaunchConfigurationDelegate aTGTLaunchConfigurationDelegate = 
+				new ATGTLaunchConfigurationDelegate(configuration,GenerationMode.RANDOM,filePath);
+		aTGTLaunchConfigurationDelegate.generateTests();
 	}
 
 }

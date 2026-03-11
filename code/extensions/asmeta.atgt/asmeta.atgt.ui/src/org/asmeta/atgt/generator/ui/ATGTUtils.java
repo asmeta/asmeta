@@ -1,12 +1,9 @@
 package org.asmeta.atgt.generator.ui;
 
-import org.eclipse.core.internal.resources.File;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbench;
@@ -19,23 +16,27 @@ public class ATGTUtils {
 	static IFile getCurrentFileFromWorkbench() {
 		IWorkbench wb = PlatformUI.getWorkbench();
 		IWorkbenchWindow win = wb.getActiveWorkbenchWindow();
-		if (win == null)
+		if (win == null) {
 			return null;
+		}
 
 		// 1) Try current selection
 		ISelection sel = win.getSelectionService().getSelection();
 		IFile file = ATGTUtils.toIFile(sel);
-		if (file != null)
+		if (file != null) {
 			return file;
+		}
 
 		// 2) Fallback: active editor
 		IWorkbenchPage page = win.getActivePage();
-		if (page == null)
+		if (page == null) {
 			return null;
+		}
 
 		IEditorPart editor = page.getActiveEditor();
-		if (editor == null)
+		if (editor == null) {
 			return null;
+		}
 
 		IEditorInput input = editor.getEditorInput();
 		IFile editorFile = input.getAdapter(IFile.class);
@@ -44,17 +45,20 @@ public class ATGTUtils {
 
 	static IFile toIFile(ISelection selection) {
 		ATGTActivator.log.debug("getting the file from the selection");
-		if (!(selection instanceof IStructuredSelection ss))
+		if (!(selection instanceof IStructuredSelection ss)) {
 			return null;
+		}
 		Object first = ss.getFirstElement();
-		if (first == null)
+		if (first == null) {
 			return null;
+		}
 
-		if (first instanceof IFile f)
+		if (first instanceof IFile f) {
 			return f;
+		}
 		if (first instanceof IAdaptable a) {
 			return a.getAdapter(IFile.class);
-		}		
+		}
 		return null;
 	}
 
@@ -77,5 +81,5 @@ public class ATGTUtils {
 //		return null;
 //	}
 
-	
+
 }

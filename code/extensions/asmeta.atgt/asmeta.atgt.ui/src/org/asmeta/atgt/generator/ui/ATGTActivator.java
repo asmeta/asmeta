@@ -18,13 +18,13 @@ public class ATGTActivator extends AbstractUIPlugin {
 	private static ATGTActivator plugin;
 
 	protected static Logger log = Logger.getLogger("org.asmeta.atgt");
-	
+
 	static {
 		// to test : activate the logger
 		log.setLevel(Level.ALL);
 		log.addAppender(new ConsoleAppender());
 	}
-	
+
 	/**
 	 * The constructor
 	 */

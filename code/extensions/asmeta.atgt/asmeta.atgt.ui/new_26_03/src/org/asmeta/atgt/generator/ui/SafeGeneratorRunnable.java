@@ -20,7 +20,6 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.console.IOConsoleOutputStream;
 
@@ -36,17 +35,17 @@ public abstract class SafeGeneratorRunnable extends Job {
 	// the ATGTLaunchConfigurationDelegate
 	protected ATGTLaunchConfigurationDelegate config;
 
-	public SafeGeneratorRunnable(String name, ATGTLaunchConfigurationDelegate config, IWorkbenchWindow window)
+	public SafeGeneratorRunnable(String name, ATGTLaunchConfigurationDelegate config)
 			throws PartInitException {
 		super(name);
 		this.config = config;
 		// build/open the console
 		if (mc == null) {
-			//IConsoleView view = (IConsoleView) window.getActivePage().showView(IConsoleConstants.ID_CONSOLE_VIEW);
+			//IConsoleView view = (IConsoleView) window.getActivePage().showView(IConsoleConstants.ID_CONSOLE_VIEW);	
 			//view.display(mc);
 			mc = org.asmeta.eclipse.AsmetaUtility.findDefaultConsole();
 			mc.activate();
-			// add the console as appender to the
+			// add the console as appender to the 
 			// set the outstream
 			IOConsoleOutputStream out = mc.newOutputStream();
 			Appender consoleApp = new WriterAppender(new SimpleLayout(),out);
@@ -82,7 +81,7 @@ public abstract class SafeGeneratorRunnable extends Job {
 					 * myConsole.newMessageStream();
 					 */
 					// compute where to save the results
-					savetoavalla(result);
+					savetoavalla(result);					
 				} catch (Exception e) {
 					Logger.getLogger(NuSMVtestGenerator.class).error("ATGT error: "+ e.getMessage());
 					e.printStackTrace();
@@ -104,9 +103,8 @@ public abstract class SafeGeneratorRunnable extends Job {
 		stopper.setSystem(true);
 		stopper.schedule();
 		SafeRunner.run(runnable);
-		if (monitor.isCanceled()) {
+		if (monitor.isCanceled())
 			return Status.CANCEL_STATUS;
-		}
 		monitor.done();
 		monitor.setCanceled(true);
 		Display.getDefault().syncExec(new Runnable() {

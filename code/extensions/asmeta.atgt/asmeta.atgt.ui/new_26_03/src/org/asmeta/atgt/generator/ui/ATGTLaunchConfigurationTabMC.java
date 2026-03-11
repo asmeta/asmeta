@@ -7,9 +7,14 @@ import org.asmeta.atgt.generator.AsmTestGenerator;
 import org.asmeta.atgt.generator.CriteriaEnum;
 import org.asmeta.atgt.generator.FormatsEnum;
 import org.asmeta.atgt.generator.ui.ATGTLaunchConfigurationDelegate.GenerationMode;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
+import org.eclipse.debug.ui.AbstractLaunchConfigurationTab;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -18,24 +23,30 @@ import org.eclipse.swt.layout.RowData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 
 public class ATGTLaunchConfigurationTabMC extends ATGTLaunchConfigurationTab {
 
 	public static final String CONFIG_COMPUTE_COVERAGE = "computeCoverage";
 	public static final String CONFIG_CRITERIA = "coverageCriteria";
 	public static final String CONFIG_FORMATS = "coverageFormats";
-
-
+	
+	
 	private Button[] cbs;
 	private Button[] formats;
 
 	protected Object result;
 	private Button btnCoverageTp;
-
+	
 	@Override
 	public void createControl(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NONE);
-
+		
 		composite.setLayoutData(new RowData(SWT.DEFAULT, 589));
 
 		SelectionListener defaultSelectionListener = new SelectionListener() {
@@ -72,7 +83,7 @@ public class ATGTLaunchConfigurationTabMC extends ATGTLaunchConfigurationTab {
 		lblGenerator.setLocation(3, 5);
 		lblGenerator.setSize(128, 20);
 		lblGenerator.setText("Coverage Criteria:");
-
+		
 		cbs = new Button[CriteriaEnum.values().length];
 		for (int i=0; i<cbs.length; i++) {
 			cbs[i] = new Button(compositeCriteria,SWT.CHECK);
@@ -90,14 +101,14 @@ public class ATGTLaunchConfigurationTabMC extends ATGTLaunchConfigurationTab {
 		lblFormats.setLocation(3, 5);
 		lblFormats.setSize(128, 20);
 		lblFormats.setText("Output formats:");
-
+		
 		formats = new Button[FormatsEnum.values().length];
 		for (int i=0; i<formats.length; i++) {
 			formats[i] = new Button(compositeFormats,SWT.CHECK);
 			formats[i].setBounds(3, 30+i*18, 196, 16);
 			formats[i].setText(FormatsEnum.values()[i].name);
 			formats[i].addSelectionListener(defaultSelectionListener);
-			ATGTActivator.log.debug("Adding outputs"+i + " " + FormatsEnum.values()[i].name);
+			System.out.println("Adding outputs"+i + " " + FormatsEnum.values()[i].name);
 		}
 
 		setControl(composite);
@@ -105,14 +116,13 @@ public class ATGTLaunchConfigurationTabMC extends ATGTLaunchConfigurationTab {
 
 	@Override
 	public void setDefaults(ILaunchConfigurationWorkingCopy configuration) {
-		ATGTActivator.log.debug("Setting defaults in " + this.getClass());
+		ATGTActivator.log.debug("Setting defaults...");
 		configuration.setAttribute(CONFIG_COMPUTE_COVERAGE, true);
 		configuration.setAttribute(CONFIG_CRITERIA, AsmTestGenerator.DEFAULT_COV_BUILDER);
 		configuration.setAttribute(CONFIG_FORMATS, AsmTestGenerator.DEFAULT_FORMATS);
-		setAsmetaFile(configuration);
-		configuration.setAttribute(GENERATION_MODE, GenerationMode.MODEL_CHECKER.toString());
+		configuration.setAttribute(GENERATION_MODE, GenerationMode.MODEL_CHECKER.toString());		
 	}
-
+	
 	public List<CriteriaEnum> currentlySelectedCriteria() {
 		List<CriteriaEnum> res = new ArrayList<>();
 		for (int i=0; i<cbs.length; i++) {
@@ -122,7 +132,7 @@ public class ATGTLaunchConfigurationTabMC extends ATGTLaunchConfigurationTab {
 		}
 		return res;
 	}
-
+	
 	public List<FormatsEnum> currentlySelectedFormats() {
 		List<FormatsEnum> res = new ArrayList<>();
 		for (int i=0; i<formats.length; i++) {
@@ -152,14 +162,16 @@ public class ATGTLaunchConfigurationTabMC extends ATGTLaunchConfigurationTab {
 
 	@Override
 	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
-		ATGTActivator.log.debug("Performing apply in " + this.getClass().getSimpleName());
+		ATGTActivator.log.debug("Performing apply... " + this.getClass().getSimpleName());
 		configuration.setAttribute(CONFIG_CRITERIA, CriteriaEnum.toListOfString(currentlySelectedCriteria()));
 		configuration.setAttribute(CONFIG_COMPUTE_COVERAGE, btnCoverageTp.getSelection());
 		configuration.setAttribute(CONFIG_FORMATS, FormatsEnum.toListOfString(currentlySelectedFormats()));
 		setAsmetaFile(configuration);
-		configuration.setAttribute(GENERATION_MODE, GenerationMode.MODEL_CHECKER.toString());
+		configuration.setAttribute(GENERATION_MODE, GenerationMode.MODEL_CHECKER.toString());		
 	}
 
+
+	
 	@Override
 	public String getName() {
 		return "ATGT test generator";
