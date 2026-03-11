@@ -3,7 +3,7 @@ asm producer
 import StandardLibrary
 
 signature:
-    enum domain StatusDomain = {IDLE | HELLO_WORLD}
+    enum domain StatusDomain = {IDLE | READY}
     dynamic monitored trigger: Integer
     dynamic monitored sharedValue: Integer
     dynamic monitored consoleInput: Integer
@@ -28,8 +28,8 @@ definitions:
                     consoleOutput := consoleInput 
                 endif
 
-                if(trigger = 1) then
-                        incomingStatus := HELLO_WORLD
+                if(trigger = 1 or trigger = 4 or trigger = 7) then
+                        incomingStatus := READY
                 else
                     incomingStatus := IDLE
                 endif

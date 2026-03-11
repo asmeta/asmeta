@@ -228,7 +228,7 @@ public class ZeroMQWA {
         response.putAll(output.getOutvalues());
         response.put("asm_status", output.getEsit().toString());
         String jsonResponse = gson.toJson(response);
-        logger.info("[{}] Output: {}", jsonResponse);
+        logger.info("[{}] Output: {}",this.sectionPrefix, jsonResponse);
         publisher.send(jsonResponse);
     }
 
@@ -255,7 +255,7 @@ public class ZeroMQWA {
         }
 
         try {
-            logger.info("Starting zeroMQW run loop for config {}...", this.CONFIG_FILE_PATH);
+           // logger.info("Starting zeroMQW run loop for config {}...", this.CONFIG_FILE_PATH);
             try (ZContext context = new ZContext()) {
                 initializeZmqSockets(context);
              //   logger.info("Entering main loop for {}...", this.CONFIG_FILE_PATH);
@@ -289,6 +289,7 @@ public class ZeroMQWA {
                     if (output.getEsit() == Esit.SAFE) {
                   //      logger.info("ASM step SAFE. Output: {}", output.getOutvalues());
                         handlePublisherMessages(output);
+                        this.currentMonitoredValues.clear();
                     } else {
                         handleUnsafeState(monitoredForStep);
                     }

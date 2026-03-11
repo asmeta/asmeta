@@ -3,7 +3,7 @@ asm consumer
 import StandardLibrary
 
 signature:
-    enum domain StatusDomain = {IDLE | HELLO_WORLD}
+    enum domain StatusDomain = {IDLE | READY}
     enum domain StateDomain = {WAITING | RESPONDED}
     dynamic monitored incomingStatus: StatusDomain
     dynamic controlled state: StateDomain
@@ -14,7 +14,7 @@ signature:
 definitions:
 
     main rule r_Main =
-        if(incomingStatus = HELLO_WORLD) then
+        if(incomingStatus = READY) then
             par
                 state := RESPONDED
                 if (isUndef(sharedValue)) then
