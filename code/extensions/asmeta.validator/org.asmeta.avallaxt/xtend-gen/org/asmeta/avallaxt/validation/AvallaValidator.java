@@ -13,6 +13,7 @@ import asmeta.transitionrules.basictransitionrules.ChooseRule;
 import com.google.inject.Injector;
 import java.io.File;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -29,6 +30,10 @@ import org.asmeta.avallaxt.avalla.ExecBlock;
 import org.asmeta.avallaxt.avalla.Pick;
 import org.asmeta.avallaxt.avalla.Scenario;
 import org.asmeta.avallaxt.avalla.Set;
+import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.AsmetaParserUtility;
+import org.asmeta.parser.ImportNotFoundException;
+import org.asmeta.parser.ParseException;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -56,8 +61,55 @@ public class AvallaValidator extends AbstractAvallaValidator {
 
   @Check
   public void checkLoadASMexists(final Scenario scenario) {
-    throw new Error("Unresolved compilation problems:"
-      + "\nThe method or field ASM_EXTENSION is undefined for the type Class<ASMParser>");
+    String specName = scenario.getSpec();
+    boolean _startsWith = specName.startsWith("\"");
+    if (_startsWith) {
+      boolean _endsWith = specName.endsWith("\"");
+      boolean _not = (!_endsWith);
+      if (_not) {
+        this.error("should end with the quote as well", AvallaPackage.Literals.SCENARIO__SPEC);
+        return;
+      }
+      int _length = specName.length();
+      int _minus = (_length - 1);
+      specName = specName.substring(1, _minus);
+    }
+    boolean _endsWith_1 = specName.endsWith(AsmetaParserUtility.ASM_EXTENSION);
+    boolean _not_1 = (!_endsWith_1);
+    if (_not_1) {
+      this.error("Asm spec should end with asm", AvallaPackage.Literals.SCENARIO__SPEC);
+      return;
+    }
+    final Path asmPath = ScenarioUtility.getAsmPath(scenario);
+    boolean _not_2 = (!(Files.exists(asmPath) && Files.isRegularFile(asmPath)));
+    if (_not_2) {
+      String _spec = scenario.getSpec();
+      String _plus = ("File " + _spec);
+      String _plus_1 = (_plus + " does not exist as ");
+      String _plus_2 = (_plus_1 + asmPath);
+      this.error(_plus_2, AvallaPackage.Literals.SCENARIO__SPEC);
+      return;
+    }
+    try {
+      this.setAsmCollection(ASMParser.setUpReadAsm(asmPath.toFile()));
+    } catch (final Throwable _t) {
+      if (_t instanceof ParseException) {
+        this.warning(("Error in parsing asm in " + asmPath), AvallaPackage.Literals.SCENARIO__SPEC);
+      } else if (_t instanceof ImportNotFoundException) {
+        final ImportNotFoundException infe = (ImportNotFoundException)_t;
+        String _message = infe.getMessage();
+        String _plus_3 = ((("Error in parsing asm in " + asmPath) + " cause:") + _message);
+        this.warning(_plus_3, 
+          AvallaPackage.Literals.SCENARIO__SPEC);
+      } else if (_t instanceof Throwable) {
+        final Throwable t = (Throwable)_t;
+        String _message_1 = t.getMessage();
+        String _plus_4 = ("error " + _message_1);
+        this.error(_plus_4, AvallaPackage.Literals.SCENARIO__SPEC);
+      } else {
+        throw Exceptions.sneakyThrow(_t);
+      }
+    }
   }
 
   public Map<ChooseRule, String> setAsmCollection(final AsmCollection collection) {

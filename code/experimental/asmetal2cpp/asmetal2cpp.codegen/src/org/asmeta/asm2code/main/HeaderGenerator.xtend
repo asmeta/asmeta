@@ -158,10 +158,10 @@ class HeaderGenerator extends AsmToCGenerator {
 	 		if(i !== null ){
 	 			var String s = new ImportToH(asm).visit(i)
 	 			// Ignore StandardLibrary, CTllibrary and LTLlibrary import.
-	 			if (!s.contains(org.asmeta.parser.Utility.STANDARD_LIBRARY_NAME)
- 				&& !s.contains(org.asmeta.parser.Utility.CTL_LIBRARY_NAME)
- 				&& !s.contains(org.asmeta.parser.Utility.LTL_LIBRARY_NAME)
- 				&& !s.contains(org.asmeta.parser.Utility.TIME_LIBRARY_NAME)
+	 			if (!s.contains(org.asmeta.parser.AsmetaParserUtility.STANDARD_LIBRARY_NAME)
+ 				&& !s.contains(org.asmeta.parser.AsmetaParserUtility.CTL_LIBRARY_NAME)
+ 				&& !s.contains(org.asmeta.parser.AsmetaParserUtility.LTL_LIBRARY_NAME)
+ 				&& !s.contains(org.asmeta.parser.AsmetaParserUtility.TIME_LIBRARY_NAME)
  				) {
  				if (options.compilerType != CompilerType.ArduinoCompiler)
 	 					sb.append('#include "'  + new ImportToH(asm).visit(i) + '.h" \n')

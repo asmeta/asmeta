@@ -30,6 +30,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet
 import static java.util.stream.Collectors.toList
 import java.util.Map
 import asmeta.transitionrules.basictransitionrules.ChooseRule
+import org.asmeta.parser.AsmetaParserUtility
 
 /**
  * This class contains custom validation rules. 
@@ -66,7 +67,7 @@ class AvallaValidator extends AbstractAvallaValidator {
 			}  
 			specName = specName.substring(1,specName.length() - 1)			
 		}
-		if (! specName.endsWith(ASMParser.ASM_EXTENSION)) {
+		if (! specName.endsWith(AsmetaParserUtility.ASM_EXTENSION)) {
 			error('Asm spec should end with asm', AvallaPackage.Literals.SCENARIO__SPEC)
 			return;
 		}
