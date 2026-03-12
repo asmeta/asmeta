@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.junit.Test;
 
 import asmeta.AsmCollection;
@@ -19,7 +20,7 @@ public class ParseAllExampleTest {
 	public void testParseOnExamples() throws IOException {
 		Files.walk(new File("examples").toPath()).forEach(x -> {
 			String filepath = x.toString();
-			if (filepath.endsWith(ASMParser.ASM_EXTENSION) && 
+			if (filepath.endsWith(AsmetaParserUtility.ASM_EXTENSION) && 
 					!filepath.contains("errors")&& 
 					!filepath.contains("old")&& 
 					// TO BE FIXED

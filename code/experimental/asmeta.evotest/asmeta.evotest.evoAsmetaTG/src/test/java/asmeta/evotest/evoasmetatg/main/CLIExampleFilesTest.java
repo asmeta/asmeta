@@ -12,7 +12,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.asmeta.annotations.TestToMavenSkip;
-import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,7 +47,7 @@ public class CLIExampleFilesTest {
 	private static final String TIME_BUDGET_VALUE = "5";
 	private static final String COVER_OUTPUTS_OPTION = "-DCoverOutputs=true";
 	private static final String CLEAN = "-clean";
-	private static final String ASM_EXTENSION = ASMParser.ASM_EXTENSION;
+	private static final String ASM_EXTENSION = AsmetaParserUtility.ASM_EXTENSION;
 
 	/** temp output folder */
 	private File tempOutputDir;

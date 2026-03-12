@@ -1676,11 +1676,11 @@ public class OCL_Checker {
 			return false;
 		}
 		RuleDomain domain = (RuleDomain) r.getTerm().getDomain();
-		List<Domain> expected = Utility.getList(domain);
-		List<Domain> actual = Utility.buildDomains(r.getParameters());
+		List<Domain> expected = AsmetaParserUtility.getList(domain);
+		List<Domain> actual = AsmetaParserUtility.buildDomains(r.getParameters());
 		if (!compatible(expected, actual)) {
-			MSG_ERR = "Expected a rule with parameters " + Utility.toString(expected) + " but found "
-					+ Utility.toString(actual);
+			MSG_ERR = "Expected a rule with parameters " + AsmetaParserUtility.toString(expected) + " but found "
+					+ AsmetaParserUtility.toString(actual);
 			return false;
 		}
 		return true;
@@ -1794,7 +1794,7 @@ public class OCL_Checker {
 
 		if ((t.getArguments() != null)) {
 			Function f = t.getFunction();
-			String args = Utility.appendInKey(new StringBuffer(), t.getArguments()).toString();
+			String args = AsmetaParserUtility.appendInKey(new StringBuffer(), t.getArguments()).toString();
 			if (!args.contains("self") // Special case: function self:Agent appears in the arguments list
 					&& !applicable(f.getDomain(), t.getArguments().getDomain())) {
 				MSG_ERR = "Error: the function defined on a concrete C subset of an abstract domain can be applied only on"

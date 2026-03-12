@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.eclipse.emf.common.util.EList;
 
 import asmeta.definitions.ControlledFunction;
@@ -54,7 +55,7 @@ public class AsmetaPrintInfo {
 			File[] files = asmFile.listFiles(new FilenameFilter() {
 				@Override
 				public boolean accept(File arg0, String arg1) {
-					return arg1.endsWith(ASMParser.ASM_EXTENSION);
+					return arg1.endsWith(AsmetaParserUtility.ASM_EXTENSION);
 				}
 			});
 			for (File f : files) {

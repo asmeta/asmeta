@@ -10,6 +10,7 @@ import org.asmeta.flattener.nesting.RemoveNestingFlattener;
 import org.asmeta.flattener.rule.AsmetaFlattener;
 import org.asmeta.flattener.rule.ChooseRuleFlattener;
 import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.asmeta.parser.util.AsmPrinter;
 
 import asmeta.structure.Asm;
@@ -20,8 +21,8 @@ public class Main {
 
 	public static void main(String[] args) throws Exception {
 		String filename = "chooseRule";
-		Asm asm = ASMParser.setUpReadAsm(new File("./examples/" + filename + ASMParser.ASM_EXTENSION)).getMain();
-		Asm flattenedAsm = ASMParser.setUpReadAsm(new File("./examples/" + filename + ASMParser.ASM_EXTENSION)).getMain();
+		Asm asm = ASMParser.setUpReadAsm(new File("./examples/" + filename + AsmetaParserUtility.ASM_EXTENSION)).getMain();
+		Asm flattenedAsm = ASMParser.setUpReadAsm(new File("./examples/" + filename + AsmetaParserUtility.ASM_EXTENSION)).getMain();
 
 		// Refactoring -----------------
 		AsmetaFlattener refactorer;

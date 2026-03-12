@@ -13,7 +13,7 @@ package org.asmeta.simulator.value;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.asmeta.parser.Utility;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.asmeta.parser.util.Defs;
 
 import asmeta.definitions.domains.Domain;
@@ -92,7 +92,7 @@ public class AgentValue extends ReserveValue {
 	 * @param asmModel the ASM model to simulate
 	 */
 	public static void setAsm(Asm asmModel) {
-		agentDomain = Utility.getPredefinedDomain(null, "Agent");
+		agentDomain = AsmetaParserUtility.getPredefinedDomain(null, "Agent");
 		if (agentDomain == null) {
 			throw new RuntimeException("Agent domain declaration not found");
 		}

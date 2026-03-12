@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.asmeta.runtime_commander.Commander;
 import org.asmeta.runtime_container.Esit;
 import org.asmeta.runtime_container.RunOutput;
@@ -134,7 +135,7 @@ public class CompositionManager implements IModelComposition {
 					for (int i = 0; i < importSize; i++) {
 						String moduleName = asm.getMain().getHeaderSection().getImportClause().get(i).getModuleName();
 						if (!moduleName.toLowerCase().endsWith("standardlibrary")) { // Skips the StandardLibrary.asm
-							monitoredList = getAllMonitored(monitoredList, root + moduleName + ASMParser.ASM_EXTENSION);
+							monitoredList = getAllMonitored(monitoredList, root + moduleName + AsmetaParserUtility.ASM_EXTENSION);
 						}
 					}
 				} catch (Exception e) {

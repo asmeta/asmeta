@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import org.asmeta.parser.AsmetaParserUtility;
 import org.asmeta.xt.asmetal.Asm;
 import org.asmeta.xt.parser.AsmetaLParserWOHelper;
 import org.asmeta.xt.parser.ParseAndValidateResult;
@@ -21,7 +22,7 @@ public class ParserTest {
 	 */
 	protected Asm test(final String content, final String filename) {
 //		File tempFile = new File((("temp/" + filename) + ASMParser.asmExtension));
-		File tempFile = new File((("temp/" + filename) + ".asm"));
+		File tempFile = new File((("temp/" + filename) + AsmetaParserUtility.ASM_EXTENSION));
 		Assert.assertTrue( new File("temp").exists() && new File("temp").isDirectory());
 		boolean _exists = tempFile.exists();
 		if (_exists) {

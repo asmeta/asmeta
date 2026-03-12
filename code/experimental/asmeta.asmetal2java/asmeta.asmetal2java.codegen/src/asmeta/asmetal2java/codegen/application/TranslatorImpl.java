@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.eclipse.xtext.util.Files;
 
 import asmeta.AsmCollection;
@@ -24,7 +25,7 @@ public class TranslatorImpl implements Translator {
 	private final Logger logger = LogManager.getLogger(TranslatorImpl.class);
 
 	/* Constants */
-	private static final String ASM_EXTENSION = ASMParser.ASM_EXTENSION;
+	private static final String ASM_EXTENSION = AsmetaParserUtility.ASM_EXTENSION;
 
 	/** Path to the ASM specification file. */
     private String asmspec;

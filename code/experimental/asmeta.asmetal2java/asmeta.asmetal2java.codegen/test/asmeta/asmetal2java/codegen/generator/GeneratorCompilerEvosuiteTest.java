@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -106,7 +106,7 @@ public class GeneratorCompilerEvosuiteTest {
 		// add the domain tests
 		exampleList.addAll(Arrays.stream(domainTestPath.toFile().listFiles()).toList());
 		for (File file : exampleList) {
-			if (file.getName().endsWith(ASMParser.ASM_EXTENSION) && !excludeFiles.contains(file.getName())) {
+			if (file.getName().endsWith(AsmetaParserUtility.ASM_EXTENSION) && !excludeFiles.contains(file.getName())) {
 				CompileResult genandcompile = genandcompileEvosuite(file.getAbsolutePath(), options, dirTestGen,
 						GeneratorCompilerUtil.dirCompilazione);
 				if (!genandcompile.getSuccess()) {

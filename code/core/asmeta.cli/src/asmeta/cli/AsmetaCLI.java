@@ -13,7 +13,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.PropertyConfigurator;
-import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
@@ -120,7 +120,7 @@ public abstract class AsmetaCLI {
 	}
 
 	protected String getExtension() {
-		return ASMParser.ASM_EXTENSION;
+		return AsmetaParserUtility.ASM_EXTENSION;
 	}
 
 	// return the name of the JAR. it assumes that the name of the jar is equal to the name of the class

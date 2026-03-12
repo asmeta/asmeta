@@ -20,7 +20,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.SimpleLayout;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.ParseException;
-import org.asmeta.parser.Utility;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.eclipse.emf.ecore.EObject;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -76,7 +76,7 @@ public class AsmetaFeatureCheckerTest {
 //			"SubsetOfInt", x -> ((x instanceof Function) && ((Function) x).getCodomain() instanceof ConcreteDomain) && 
 //                    (((ConcreteDomain) ((Function) x).getCodomain()).getTypeDomain() instanceof IntegerDomain),
 //            "INVAR", x -> (x instanceof InvarConstraint),
-			"Modules", x -> (x instanceof ImportClause && !Utility.isAsmetaLibrary(((ImportClause) x).getModuleName())));
+			"Modules", x -> (x instanceof ImportClause && !AsmetaParserUtility.isAsmetaLibrary(((ImportClause) x).getModuleName())));
 
 	@BeforeClass
 	public static void setUpLogger(){
