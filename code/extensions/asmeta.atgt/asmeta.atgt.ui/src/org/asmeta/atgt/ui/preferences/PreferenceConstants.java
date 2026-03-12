@@ -7,5 +7,5 @@ public class PreferenceConstants {
 
 	public static final String P_SHOW_ONLYCHANGES = "P_SHOW_ONLYCHANGES";
 
-	
+
 }

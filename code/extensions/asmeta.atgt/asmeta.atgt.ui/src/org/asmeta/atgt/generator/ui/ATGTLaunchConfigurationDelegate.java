@@ -1,12 +1,14 @@
 package org.asmeta.atgt.generator.ui;
 
+import static org.asmeta.atgt.generator.ui.ATGTLaunchConfigurationTabMC.CONFIG_COMPUTE_COVERAGE;
+import static org.asmeta.atgt.generator.ui.ATGTLaunchConfigurationTabMC.CONFIG_FORMATS;
+
 import java.util.List;
 
 import org.asmeta.atgt.generator.AsmTestGenerator;
 import org.asmeta.atgt.generator.CriteriaEnum;
 import org.asmeta.atgt.generator.FormatsEnum;
 import org.asmeta.eclipse.AsmetaUtility;
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -22,22 +24,22 @@ import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
-import static org.asmeta.atgt.generator.ui.AsmTSGeneratorTabMC.*;
 
 /**
  * http://www.vogella.com/tutorials/EclipseLauncherFramework/article.html
- * 
+ *
  * @author garganti
  *
  */
-public class AsmTSGeneratorLaunchConfiguration
+public class ATGTLaunchConfigurationDelegate
 		extends LaunchConfigurationDelegate /* implements ILaunchConfigurationDelegate */ {
+
 	// two generation modes
 	// in the future this can be implements with 2 subclasses
 	public enum GenerationMode {
-		MOCEL_CHECKER, RANDOM
+		MODEL_CHECKER, RANDOM
 	}
-	private GenerationMode mode;
+	private GenerationMode generationMode;
 	// common
 	public boolean computeCoverage;
 	public IPath asmetaSpecPath;
@@ -48,11 +50,11 @@ public class AsmTSGeneratorLaunchConfiguration
 	int nSteps, nTests;
 
 	// it is necessary since it needs the constructor without parameters
-	public AsmTSGeneratorLaunchConfiguration() {}
+	public ATGTLaunchConfigurationDelegate() {}
 
-	public AsmTSGeneratorLaunchConfiguration(ILaunchConfiguration configuration, GenerationMode mode) {
+	public ATGTLaunchConfigurationDelegate(ILaunchConfiguration configuration, GenerationMode mode) {
 		try {
-			this.mode = mode;
+			this.generationMode = mode;
 			setConfiguration(configuration);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -62,40 +64,73 @@ public class AsmTSGeneratorLaunchConfiguration
 	@Override
 	public void launch(ILaunchConfiguration configuration, String mode, ILaunch launch, IProgressMonitor monitor)
 			throws CoreException {
-		System.out.println("AsmTSGeneratorLaunchConfiguration:launch");
-		setConfiguration(configuration);
+		ATGTActivator.log.debug("ATGTLaunchConfigurationDelegate:launch");
+		ATGTActivator.log.debug("conf attributes " + configuration.getAttributes());
+		ATGTActivator.log.debug(this.generationMode + " vs " + mode);
+		// adesso come adesso questa è nulla (vuota) a meno che usi il costruttore con l'argomento
+		ATGTActivator.log.debug("asmetaSpecPath " + asmetaSpecPath);
 		// get the current ASM file if any
 		IWorkbench workbench = PlatformUI.getWorkbench();
 		if (workbench == null) {
 			System.err.println("Call generateTests with workbench null");
 			return;
 		}
+		// now get the file
+		// mode 1. try to take the file open (it may wrong since you could select a file in the tree while having open another in the editor
 		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
-		// TODO: if a dialog is open, the active window is null
-		// get the file
-		IFile path = AsmetaUtility.getEditorIFile(window);
+		if (window != null) {
+			// get the file from the editor (correct?)
+			asmetaSpecPath = AsmetaUtility.getEditorIFile(window).getFullPath();
+		} else {
+			// mode 2.
+			String filePath = configuration.getAttribute(ATGTLaunchConfigurationTab.ATTR_FILE_PATH, "");
+			if (filePath.isEmpty()) {
+				ATGTActivator.log.debug("asmeta file not set in the configuration");
+				asmetaSpecPath = null;
+			} else {
+				asmetaSpecPath = IPath.fromOSString(filePath);
+			}
+		}
+		ATGTActivator.log.error("new asmetaSpecPath "+ asmetaSpecPath);
+		// get the generation mode
+		String genMode = configuration.getAttribute(ATGTLaunchConfigurationTab.GENERATION_MODE, "");
+		if (genMode.isEmpty()) {
+			ATGTActivator.log.error("genmode not set in the configuration");
+		} else {
+//			if (generationMode == null) {
+//				generationMode = GenerationMode.valueOf(genMode);
+//			} else {
+//				ATGTActivator.log.debug("generationMode already set (constructor?)");
+//			}
+			// sovrascrivi in ogni caso il mode - assuming that the mode is correctly set in the configuration
+			generationMode = GenerationMode.valueOf(genMode);
+		}
+		ATGTActivator.log.debug("new generationMode "+ generationMode);
+		// set other stuff that depens on the mode:
+		setConfiguration(configuration);
 		// open the simulator console
 		// generate the tests
-		generateTests(path.getFullPath(), window);
+		generateTests(asmetaSpecPath, window);
 	}
 
-	private AsmTSGeneratorLaunchConfiguration setConfiguration(ILaunchConfiguration configuration) {
+	private ATGTLaunchConfigurationDelegate setConfiguration(ILaunchConfiguration configuration) {
 		try {
-			System.out.println("Setting launch configuration: " + configuration);
+			ATGTActivator.log.debug("Setting launch configuration: " + configuration);
 			computeCoverage = configuration.getAttribute(CONFIG_COMPUTE_COVERAGE,
 					AsmTestGenerator.DEFAULT_COMPUTE_COVERAGE);
-			System.out.println("compute coverage?" + computeCoverage);
-			if (mode == GenerationMode.MOCEL_CHECKER) {
+			ATGTActivator.log.debug("compute coverage?" + computeCoverage);
+			assert generationMode != null;
+			if (generationMode == GenerationMode.MODEL_CHECKER) {
 				List<String> covCriteriaAttr = configuration.getAttribute(
-						AsmTSGeneratorTabMC.CONFIG_CRITERIA, CriteriaEnum.toListOfString(AsmTestGenerator.DEFAULT_CRITERIA));
+						ATGTLaunchConfigurationTabMC.CONFIG_CRITERIA, CriteriaEnum.toListOfString(AsmTestGenerator.DEFAULT_CRITERIA));
 				coverageCriteria = CriteriaEnum.toListOfCriteriaEnum(covCriteriaAttr);
-				System.out.println("criteria " + CriteriaEnum.toListOfString(coverageCriteria));
+				ATGTActivator.log.debug("criteria " + CriteriaEnum.toListOfString(coverageCriteria));
 			}
-			if (mode == GenerationMode.RANDOM) {
+			if (generationMode == GenerationMode.RANDOM) {
 				nSteps = configuration.getAttribute(
-						AsmTSGeneratorTabRnd.CONFIG_NSTEPS, AsmTSGeneratorTabRnd.N_STEPS_DEFAULT);
+						ATGTLaunchConfigurationTabRnd.CONFIG_NSTEPS, ATGTLaunchConfigurationTabRnd.N_STEPS_DEFAULT);
 				nTests = configuration.getAttribute(
-						AsmTSGeneratorTabRnd.CONFIG_NTESTS, AsmTSGeneratorTabRnd.N_TESTS_DEFAULT);
+						ATGTLaunchConfigurationTabRnd.CONFIG_NTESTS, ATGTLaunchConfigurationTabRnd.N_TESTS_DEFAULT);
 			}
 			List<String> attribute = configuration.getAttribute(CONFIG_FORMATS, AsmTestGenerator.DEFAULT_FORMATS);
 			formats = FormatsEnum.toListOfFormatsEnum(attribute);
@@ -105,15 +140,15 @@ public class AsmTSGeneratorLaunchConfiguration
 			return null;
 		}
 	}
-	
+
 	// generate the tests
 	void generateTests(IPath asmetaSpecPath, IWorkbenchWindow window) throws Error, PartInitException {
 		if (asmetaSpecPath == null) {
-			System.err.println("Call generateTests with path null");
+			ATGTActivator.log.error("Call generateTests with path null");
 			return;
 		}
-		System.err.println("Call generateTests");
 		this.asmetaSpecPath = asmetaSpecPath;
+		ATGTActivator.log.info("Call generateTests");
 		// build the job
 		Job generation = getJob(window);
 		// run as job
@@ -134,20 +169,18 @@ public class AsmTSGeneratorLaunchConfiguration
 					}
 				};
 				SafeRunner.run(runnable);
-				System.err.println("Call generateTests");
-				// now refresh the project
-				// window.ge
-				// project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 			}
 		});
 
 	}
 
 	protected Job getJob(IWorkbenchWindow window) throws PartInitException {
-		if (mode == GenerationMode.MOCEL_CHECKER)
-			return new SafeGeneratorRunnableMC(AsmTSGeneratorLaunchConfiguration.this, window);
-		if (mode == GenerationMode.RANDOM)
-			return new SafeGeneratorRunnableRnd(AsmTSGeneratorLaunchConfiguration.this, window);
-		throw new RuntimeException("mode not found");
+		if (generationMode == GenerationMode.MODEL_CHECKER) {
+			return new SafeGeneratorRunnableMC(ATGTLaunchConfigurationDelegate.this, window);
+		}
+		if (generationMode == GenerationMode.RANDOM) {
+			return new SafeGeneratorRunnableRnd(ATGTLaunchConfigurationDelegate.this, window);
+		}
+		throw new RuntimeException("generationMode not found");
 	}
 }

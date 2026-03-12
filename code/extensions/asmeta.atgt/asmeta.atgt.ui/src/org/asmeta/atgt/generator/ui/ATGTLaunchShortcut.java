@@ -28,13 +28,13 @@ import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 // it executes the generation of the tests
 // it has two subclasses
 //
-abstract public class AsmTSGeneratorLaunchShortcut implements org.eclipse.debug.ui.ILaunchShortcut {
+abstract public class ATGTLaunchShortcut implements org.eclipse.debug.ui.ILaunchShortcut {
 
 	private static final String NEW = "New ATGT configuration";
 
 	@Override
-	public void launch(ISelection selection, String mode) {			 
-		//System.out.println("AsmTSGeneratorLaunchShortcutMC:launch ISelection - mode:" + mode);
+	public void launch(ISelection selection, String mode) {
+		//System.out.println("ATGTLaunchShortcutMC:launch ISelection - mode:" + mode);
 		ILaunchConfiguration configuration = findConfiguration();
 		// selection like a node in the tree
 		if (selection instanceof TreeSelection) {
@@ -64,7 +64,7 @@ abstract public class AsmTSGeneratorLaunchShortcut implements org.eclipse.debug.
 	@Override
 	public void launch(IEditorPart editor, String mode) {
 		// mode is always run
-		//System.out.println("AsmTSGeneratorLaunchShortcutMC:launch IEditorPart");
+		//System.out.println("ATGTLaunchShortcutMC:launch IEditorPart");
 		ILaunchConfiguration configuration = findConfiguration();
 		// Locates a launchable entity in the given active editor, and launches an
 		// application in the specified mode. This launch configuration shortcut is
@@ -81,7 +81,7 @@ abstract public class AsmTSGeneratorLaunchShortcut implements org.eclipse.debug.
 			e.printStackTrace();
 		}
 	}
-	
+
 	protected ILaunchConfiguration chooseConfiguration(List<ILaunchConfiguration> configList) {
 		IDebugModelPresentation labelProvider = DebugUITools.newDebugModelPresentation();
 		ElementListSelectionDialog dialog = new ElementListSelectionDialog(Display.getCurrent().getActiveShell(),
@@ -100,7 +100,7 @@ abstract public class AsmTSGeneratorLaunchShortcut implements org.eclipse.debug.
 		}
 		return null;
 	}
-	
+
 	private ILaunchConfiguration findConfiguration() {
 		ILaunchConfigurationWorkingCopy workingCopy;
 		ILaunchManager launchManager = DebugPlugin.getDefault().getLaunchManager();
@@ -110,7 +110,7 @@ abstract public class AsmTSGeneratorLaunchShortcut implements org.eclipse.debug.
 			int candidateCount = configurations.length;
 			ILaunchConfiguration configuration = null;
 			if (candidateCount == 1) {
-				configuration = (ILaunchConfiguration) configurations[0];
+				configuration = configurations[0];
 			} else if (candidateCount > 1) {
 				configuration = chooseConfiguration(Arrays.asList(configurations));
 
