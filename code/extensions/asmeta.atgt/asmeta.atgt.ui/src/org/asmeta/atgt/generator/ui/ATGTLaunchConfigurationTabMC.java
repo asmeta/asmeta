@@ -135,6 +135,7 @@ public class ATGTLaunchConfigurationTabMC extends ATGTLaunchConfigurationTab {
 
 	@Override
 	public void initializeFrom(ILaunchConfiguration configuration) {
+		ATGTActivator.log.debug("Initializing from configuration... " + this.getClass().getSimpleName());
 		try {
 			btnCoverageTp.setSelection(configuration.getAttribute(CONFIG_COMPUTE_COVERAGE, btnCoverageTp.getSelection()));
 			List<String> crit = configuration.getAttribute(CONFIG_CRITERIA, CriteriaEnum.toListOfString(AsmTestGenerator.DEFAULT_CRITERIA));

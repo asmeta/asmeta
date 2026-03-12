@@ -12,7 +12,7 @@
 <extension point="org.eclipse.debug.ui.launchConfigurationTabGroups">
     <launchConfigurationTabGroup
         type="org.asmeta.atgt.asmSpec"
-        class="org.asmeta.atgt.generator.ui.ATGTLaunchTabGroup"
+        class="org.asmeta.atgt.generator.ui.ATGTLaunchConfigurationTabGroup"
         id="org.eclipse.jdt.debug.ui.launchConfigurationTabGroup.AsmTSGeneratorTab">
     </launchConfigurationTabGroup>
 </extension>

@@ -95,13 +95,15 @@ public class ATGTLaunchConfigurationDelegate
 		// get the generation mode
 		String genMode = configuration.getAttribute(ATGTLaunchConfigurationTab.GENERATION_MODE, "");
 		if (genMode.isEmpty()) {
-			ATGTActivator.log.debug("genmode not set in the configuration");
+			ATGTActivator.log.error("genmode not set in the configuration");
 		} else {
-			if (generationMode == null) {
-				generationMode = GenerationMode.valueOf(genMode);
-			} else {
-				ATGTActivator.log.debug("generationMode already set (constructor?)");
-			}
+//			if (generationMode == null) {
+//				generationMode = GenerationMode.valueOf(genMode);
+//			} else {
+//				ATGTActivator.log.debug("generationMode already set (constructor?)");
+//			}
+			// sovrascrivi in ogni caso il mode - assuming that the mode is correctly set in the configuration
+			generationMode = GenerationMode.valueOf(genMode);
 		}
 		ATGTActivator.log.debug("new generationMode "+ generationMode);
 		// set other stuff that depens on the mode:
@@ -117,6 +119,7 @@ public class ATGTLaunchConfigurationDelegate
 			computeCoverage = configuration.getAttribute(CONFIG_COMPUTE_COVERAGE,
 					AsmTestGenerator.DEFAULT_COMPUTE_COVERAGE);
 			ATGTActivator.log.debug("compute coverage?" + computeCoverage);
+			assert generationMode != null;
 			if (generationMode == GenerationMode.MODEL_CHECKER) {
 				List<String> covCriteriaAttr = configuration.getAttribute(
 						ATGTLaunchConfigurationTabMC.CONFIG_CRITERIA, CriteriaEnum.toListOfString(AsmTestGenerator.DEFAULT_CRITERIA));
@@ -144,6 +147,7 @@ public class ATGTLaunchConfigurationDelegate
 			ATGTActivator.log.error("Call generateTests with path null");
 			return;
 		}
+		this.asmetaSpecPath = asmetaSpecPath;
 		ATGTActivator.log.info("Call generateTests");
 		// build the job
 		Job generation = getJob(window);

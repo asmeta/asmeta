@@ -17,5 +17,4 @@ public abstract class ATGTLaunchConfigurationTab extends AbstractLaunchConfigura
 		configuration.setAttribute(ATTR_FILE_PATH, currentFileFromWorkbench.getLocation().toString());
 	}
 
-
 }

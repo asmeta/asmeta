@@ -1,5 +1,6 @@
 package org.asmeta.atgt.generator.ui;
 
+import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
 import org.eclipse.debug.ui.AbstractLaunchConfigurationTabGroup;
 import org.eclipse.debug.ui.ILaunchConfigurationDialog;
 import org.eclipse.debug.ui.ILaunchConfigurationTab;
@@ -7,8 +8,10 @@ import org.eclipse.debug.ui.ILaunchConfigurationTab;
 //
 // consider the use of AbstractLaunchConfigurationTabGroup instead
 //
-public class ATGTLaunchTabGroup extends AbstractLaunchConfigurationTabGroup{
-
+public class ATGTLaunchConfigurationTabGroup extends AbstractLaunchConfigurationTabGroup{
+	
+	private ILaunchConfigurationDialog dialog;
+	
 	@Override
 	public void createTabs(ILaunchConfigurationDialog dialog, String mode) {
 		ILaunchConfigurationTab[] tabs = new ILaunchConfigurationTab[]{
@@ -16,17 +19,23 @@ public class ATGTLaunchTabGroup extends AbstractLaunchConfigurationTabGroup{
 				new ATGTLaunchConfigurationTabRnd()};
 				//new CommonTab();
 		setTabs(tabs);
+		this.dialog = dialog;
+	}
+	@Override
+	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
+		// trick: apply only that TAB that is active.
+		dialog.getActiveTab().performApply(configuration);
 	}
 
 }
 
 /*
-public class ATGTLaunchTabGroup implements ILaunchConfigurationTabGroup {
+public class ATGTLaunchConfigurationTabGroup implements ILaunchConfigurationTabGroup {
 
 	private ILaunchConfigurationTab[] tabs;
 	private ILaunchConfigurationDialog dialog;
 
-	public ATGTLaunchTabGroup() {
+	public ATGTLaunchConfigurationTabGroup() {
 		tabs = new ILaunchConfigurationTab[]{
 				new ATGTLaunchConfigurationTabMC(),
 				new ATGTLaunchConfigurationTabRnd()};
