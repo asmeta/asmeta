@@ -76,12 +76,11 @@
 			<artifactId>org.eclipse.xtext.xbase</artifactId>
 			<version>[${xtext.version},)</version>
 			<exclusions>
-			<exclusion>
-			<groupId>org.eclipse.ide</groupId>
-			<artifactId>org.eclipse.emf.ecore</artifactId>
-			</exclusion>
+				<exclusion>
+					<groupId>org.eclipse.ide</groupId>
+					<artifactId>org.eclipse.emf.ecore</artifactId>
+				</exclusion>
 			</exclusions>
-
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.xtext</groupId>
@@ -89,18 +88,19 @@
 			<version>[${xtext.version},)</version>
 		</dependency>
 	</dependencies>
-	<!-- https://stackoverflow.com/questions/51971823/how-to-resolve-eclipse-plugins-from-p2-repository-and-use-them-as-maven-dependen -->
+	<!--
+	https://stackoverflow.com/questions/51971823/how-to-resolve-eclipse-plugins-from-p2-repository-and-use-them-as-maven-dependen -->
 	<!-- aggiungo questo repo che contiene i jar di eclipse:
 		https://www.p2repository.com/-->
 	<repositories>
-	    <repository>
-	        <id>eclipse-2026-03</id>
-        	<url>https://p2repository.com/mvn4/eclipse-2026-03/</url>
-    	</repository>
-	    <repository>
-	        <id>eclipse-2025-12</id>
-        	<url>https://p2repository.com/mvn4/eclipse-2025-12/</url>
-    	</repository>
+		<repository>
+			<id>eclipse-2026-03</id>
+			<url>https://p2repository.com/mvn4/eclipse-2026-03/</url>
+		</repository>
+		<repository>
+			<id>eclipse-2025-12</id>
+			<url>https://p2repository.com/mvn4/eclipse-2025-12/</url>
+		</repository>
 		<repository>
 			<id>eclipse-2025-09</id>
 			<url>https://p2repository.com/mvn4/eclipse-2025-09/</url>
@@ -124,8 +124,8 @@
 	</repositories>
 	<parent>
 		<groupId>asmeta</groupId>
-		<artifactId>asmeta.all</artifactId>
+		<artifactId>asmeta.asmetal2cpp</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-		<relativePath>../../../..</relativePath>
+		<relativePath>..</relativePath>
 	</parent>
 </project>
