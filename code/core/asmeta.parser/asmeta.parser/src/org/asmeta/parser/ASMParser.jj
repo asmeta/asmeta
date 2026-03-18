@@ -35,10 +35,7 @@ import java.nio.charset.Charset;
 
 public class ASMParser
 {
-
-  // asm extension including the . 
-  public static final String ASM_EXTENSION = ".asm";
-
+ 
   private String filename; // file name without extension, needed to check that the name of the machine is the same
 
   private String asmDirLib; // where to find libraries
@@ -116,11 +113,11 @@ public class ASMParser
   {
     Logger.resetForParsing(f);
     assert (f.exists() && f.isFile());
-    assert (f.getName().endsWith(ASM_EXTENSION));
+    assert AsmetaParserUtility.endsWithAsmetaExtension(f.getName());
     Logger.logInfo("parsing file " + f.getCanonicalPath());
     // reset the domains
     DomainsFactory.eINSTANCE.resetDomains();
-    Utility.reset();
+    AsmetaParserUtility.reset();
     // BUILD THE MODEL
     // init all imported so far
     alreadyImported = new HashMap<String,Asm>();
@@ -179,8 +176,9 @@ public class ASMParser
     //
     //	throw new Exception("Asm files must have "+ asmExtension +" extension");
     //}
-    // get the filename without ".asm" extension
-    filename = f.getName().substring(0, f.getName().length() - 4);
+    // get the filename without ".asm" extension or .asmeta
+    filename = f.getName();
+	filename = filename.substring(0, filename.lastIndexOf("."));
     // the library is relative to this file
     asmDirLib = f.getParent();
     // initialize other packages
@@ -653,7 +651,7 @@ ImportClause ImportClause() :
     try
     {
       // find the imported module file
-      File moduleFile = Utility.importFile(asmDirLib, moduleName);
+      File moduleFile = AsmetaParserUtility.importFile(asmDirLib, moduleName);
       moduleFileName = moduleFile.getCanonicalPath();
       Logger.logDebug("importing  " + moduleFileName);
       // take the module from the already imported modules
@@ -714,7 +712,7 @@ ImportClause ImportClause() :
       {
         if (module_expCl != null)
         {
-          d = Utility.search_domName(module_dom, importedID);
+          d = AsmetaParserUtility.search_domName(module_dom, importedID);
           if (d != null)
           {
             impDomains.add(d);
@@ -730,7 +728,7 @@ ImportClause ImportClause() :
       {
         if (module_expCl != null)
         {
-          f = Utility.search_funcName(module_func, importedID);
+          f = AsmetaParserUtility.search_funcName(module_func, importedID);
           if (f != null)
           {
             impFunctions.add(f);
@@ -748,7 +746,7 @@ ImportClause ImportClause() :
       {
         if (module_expCl != null)
         {
-          r = Utility.search_ruleName(module_rules, importedID);
+          r = AsmetaParserUtility.search_ruleName(module_rules, importedID);
           if (r != null)
           {
             impRules.add(r);
@@ -768,7 +766,7 @@ ImportClause ImportClause() :
         {
           if (module_expCl != null)
           {
-            d = Utility.search_domName(module_dom, importedID);
+            d = AsmetaParserUtility.search_domName(module_dom, importedID);
             if (d != null)
             {
               impDomains.add(d);
@@ -784,7 +782,7 @@ ImportClause ImportClause() :
         {
           if (module_expCl != null)
           {
-            f = Utility.search_funcName(module_func, importedID);
+            f = AsmetaParserUtility.search_funcName(module_func, importedID);
             if (f != null)
             {
               impFunctions.add(f);
@@ -802,7 +800,7 @@ ImportClause ImportClause() :
         {
           if (module_expCl != null)
           {
-            r = Utility.search_ruleName(module_rules, importedID);
+            r = AsmetaParserUtility.search_ruleName(module_rules, importedID);
             if (r != null)
             {
               impRules.add(r);
@@ -982,12 +980,12 @@ Signature Signature(Signature signature) :
       //insert the imported functions
       for (Function fi : impClause.getImportedFunction())
       {
-        inserted = Utility.insert(fi, declared_Func);
+        inserted = AsmetaParserUtility.insert(fi, declared_Func);
         if (inserted)
         { // DO NOT add the function to the signature
           //insert domain and codomain of the function in the declared Domains
-          Utility.insert(fi.getDomain(), declared_Dom);
-          Utility.insert(fi.getCodomain(), declared_Dom);
+          AsmetaParserUtility.insert(fi.getDomain(), declared_Dom);
+          AsmetaParserUtility.insert(fi.getCodomain(), declared_Dom);
           //check if the function can be exported
           //Remark: the HashMap exported_Func is initialized within the ExportClause method so if exported_Func!=null => expClause!=null
           if (((exported_Func != null) && exported_Func.containsKey(new Integer(fi.getName().hashCode()))) || (exportAll == true))
@@ -1030,7 +1028,7 @@ Signature Signature(Signature signature) :
     LOOKAHEAD(2)
     f = Function()
     {
-      inserted = Utility.insert(f, declared_Func);
+      inserted = AsmetaParserUtility.insert(f, declared_Func);
       if (inserted)
       { //add the function to the signature
         functions.add(f);
@@ -1157,7 +1155,7 @@ FunctionInitialization FunctionInitialization(Initialization initState) :
     { //set the reference
       func_initVariables.add(v);
       //update variable features
-      Utility.updateVariable(v, inDom);
+      AsmetaParserUtility.updateVariable(v, inDom);
       //if the variables are more then one the associated domains must be type-domains
       //this constraint seems silly, so it is commented
       /*
@@ -1181,7 +1179,7 @@ FunctionInitialization FunctionInitialization(Initialization initState) :
         //set the association
         //Xa_FuncInit_Var.add(v,func_init);
         //update variable features
-        Utility.updateVariable(v, inDom);
+        AsmetaParserUtility.updateVariable(v, inDom);
         //if the variables are more then one the associated domains must be type-domains
         //this constraint seems silly, so it is commented
         /*
@@ -1208,20 +1206,20 @@ FunctionInitialization FunctionInitialization(Initialization initState) :
     else if (func_initVariables.size() == 1)
     {
       func_dom = (Domain) declared_Dom.get(dom_name);
-      if (func_dom == null) func_dom = Utility.getBasicDomain(domainsFactory, dom_name);
-      if (func_dom == null) func_dom = Utility.getPredefinedAbstractDomain(domainsFactory, dom_name);
-      if (func_dom == null) func_dom = Utility.getStructuredDomain(domainsFactory, dom_name, header.getSignature());
+      if (func_dom == null) func_dom = AsmetaParserUtility.getBasicDomain(domainsFactory, dom_name);
+      if (func_dom == null) func_dom = AsmetaParserUtility.getPredefinedAbstractDomain(domainsFactory, dom_name);
+      if (func_dom == null) func_dom = AsmetaParserUtility.getStructuredDomain(domainsFactory, dom_name, header.getSignature());
       if (func_dom == null) throw new ParseException("Error: The domain" + dom_name + " has not been declared. There not exists a function with this domain.");
     }
     else
     {
       dom_name = "Prod(".concat(dom_name).concat(")");
-      func_dom = (Domain) Utility.getStructuredDomain(domainsFactory, dom_name, header.getSignature());
+      func_dom = (Domain) AsmetaParserUtility.getStructuredDomain(domainsFactory, dom_name, header.getSignature());
       if (func_dom == null) throw new ParseException("Error: The domain" + dom_name + " has not been declared. There not exists a function with this domain.");
     }
     //check if the function has been declared
     /// attenzione non trova le funzioni importate !!!!
-    Function f = Utility.getFunction(func_name, func_dom, false, new HashMap(), declared_Func);
+    Function f = AsmetaParserUtility.getFunction(func_name, func_dom, false, new HashMap(), declared_Func);
     if (f == null) throw new ParseException("Error: The function " + func_name + "(" + dom_name + ")" + " has not been declared. It cannot be initialized");
     if (!(f instanceof DynamicFunction)) throw new ParseException("Error: The function " + func_name + "(" + dom_name + ")" + " is not a dynamic function. It cannot be initialized");
     //set the reference to the function to initialize
@@ -1256,7 +1254,7 @@ AgentInitialization AgentInitialization(Initialization initState) :
   {
     Logger.logDebug("\tagent domain: " + id_dom);
     dom = (Domain) declared_Dom.get(id_dom);
-    if (dom == null) dom = Utility.getPredefinedAbstractDomain(domainsFactory, id_dom);
+    if (dom == null) dom = AsmetaParserUtility.getPredefinedAbstractDomain(domainsFactory, id_dom);
     if (dom == null) throw new ParseException("Error: The domain " + id_dom + " has not been declared. Invariant declaration failed.");
     AgentInitialization agent_init = structurePack.createAgentInitialization();
     agent_init.setInitialState(initState);
@@ -1366,7 +1364,7 @@ Body Body(Asm m) :
     {
       String rule_name = r_decl.getName();
       //check if the rule has already been declared
-      if (Utility.searchRuleByName(declared_Rules, rule_name, r_decl.getVariable()) == null)
+      if (AsmetaParserUtility.searchRuleByName(declared_Rules, rule_name, r_decl.getVariable()) == null)
       {
         rule_declarations.add(r_decl);
         //create the association
@@ -1549,7 +1547,7 @@ FunctionDefinition FunctionDefinition(Asm m) :
     { //set the reference
       variables.add(v);
       //update variable features
-      Utility.updateVariable(v, inDom);
+      AsmetaParserUtility.updateVariable(v, inDom);
       //update the name of the function domain
       dom_name = inDom.getName();
       Logger.logDebug("\t\t\t" + v.getName() + " updated: TD=" + v.getDomain().getName() + ", kind=" + v.getKind().toString());
@@ -1564,7 +1562,7 @@ FunctionDefinition FunctionDefinition(Asm m) :
       { //set the reference
         variables.add(v);
         //update variable features
-        Utility.updateVariable(v, inDom);
+        AsmetaParserUtility.updateVariable(v, inDom);
         //update the name of the function domain
         dom_name = dom_name.concat(",").concat(inDom.getName());
         Logger.logDebug("\t\t\t" + v.getName() + " updated: TD=" + v.getDomain().getName() + ", kind=" + v.getKind().toString());
@@ -1584,19 +1582,19 @@ FunctionDefinition FunctionDefinition(Asm m) :
     else if (variables.size() == 1)
     {
       func_dom = (Domain) declared_Dom.get(dom_name);
-      if (func_dom == null) func_dom = Utility.getBasicDomain(domainsFactory, dom_name);
-      if (func_dom == null) func_dom = Utility.getPredefinedAbstractDomain(domainsFactory, dom_name);
-      if (func_dom == null) func_dom = Utility.getStructuredDomain(domainsFactory, dom_name, header.getSignature());
+      if (func_dom == null) func_dom = AsmetaParserUtility.getBasicDomain(domainsFactory, dom_name);
+      if (func_dom == null) func_dom = AsmetaParserUtility.getPredefinedAbstractDomain(domainsFactory, dom_name);
+      if (func_dom == null) func_dom = AsmetaParserUtility.getStructuredDomain(domainsFactory, dom_name, header.getSignature());
       if (func_dom == null) throw new ParseException("Error: The domain" + dom_name + " has not been declared. There not exists a function with this domain.");
     }
     else
     {
       dom_name = "Prod(".concat(dom_name).concat(")");
-      func_dom = Utility.getStructuredDomain(domainsFactory, dom_name, header.getSignature());
+      func_dom = AsmetaParserUtility.getStructuredDomain(domainsFactory, dom_name, header.getSignature());
       if (func_dom == null) throw new ParseException("Error: The domain" + dom_name + " has not been declared. There not exists a function with this domain.");
     }
     //check if the function has been declared
-    Function f = Utility.getFunction(func_name, func_dom, false, new HashMap < String, Domain > (), declared_Func);
+    Function f = AsmetaParserUtility.getFunction(func_name, func_dom, false, new HashMap < String, Domain > (), declared_Func);
     if (f == null) throw new ParseException("Error: The function " + func_name + "(" + dom_name + ")" + " has not been declared. It cannot be defined!");
     //check if the function has already been defined
     if (f.getDefinition() != null) throw new ParseException("Error: The function " + func_name + "(" + dom_name + ")" + " has been defined twice.");
@@ -1660,7 +1658,7 @@ MacroDeclaration MacroDeclaration() :
       //X ARuleDeclarationVariable ARuleDeclVar = defPack.getARuleDeclarationVariable();
       //X ARuleDeclVar.add(v,ruleDecl);
       //update variable features
-      Utility.updateVariable(v, inDom);
+      AsmetaParserUtility.updateVariable(v, inDom);
       //update the arity value
       arity++;
       Logger.logDebug("\t\t\t" + v.getName() + " updated: TD=" + v.getDomain().getName() + ", kind=" + v.getKind().toString());
@@ -1678,7 +1676,7 @@ MacroDeclaration MacroDeclaration() :
         //create the association
         //X ARuleDeclVar.add(v,ruleDecl);
         //set the variable type-domain
-        Utility.updateVariable(v, inDom);
+        AsmetaParserUtility.updateVariable(v, inDom);
         //(OCL constraint 2) set variable kind
         //if(inDom instanceof RuleDomain)
         //   v.setKind(VariableKind.forName("ruleVar"));
@@ -1750,7 +1748,7 @@ TurboDeclaration TurboDeclaration() :
       //X ARuleDeclarationVariable ARuleDeclVar = defPack.getARuleDeclarationVariable();
       //X ARuleDeclVar.add(v,ruleDecl);
       //update variable features
-      Utility.updateVariable(v, inDom);
+      AsmetaParserUtility.updateVariable(v, inDom);
       //update the arity value
       arity++;
       Logger.logDebug("\t\t\t" + v.getName() + " updated: TD=" + v.getDomain().getName() + ", kind=" + v.getKind().toString());
@@ -1768,7 +1766,7 @@ TurboDeclaration TurboDeclaration() :
         //create the association
         //X ARuleDeclVar.add(v,ruleDecl);
         //set the variable type-domain
-        Utility.updateVariable(v, inDom);
+        AsmetaParserUtility.updateVariable(v, inDom);
         //(OCL constraint 2) set variable kind
         //if(inDom instanceof RuleDomain)
         //v.setKind(VariableKind.forName("ruleVar"));
@@ -1858,9 +1856,9 @@ Invariant Invariant(Asm m) :
     idElement = ID_DOMAIN()
     {
       dom = (Domain) declared_Dom.get(idElement);
-      if (dom == null) dom = Utility.getBasicDomain(domainsFactory, idElement);
-      if (dom == null) dom = Utility.getPredefinedAbstractDomain(domainsFactory, idElement);
-      if (dom == null) dom = Utility.getStructuredDomain(domainsFactory, idElement, header.getSignature());
+      if (dom == null) dom = AsmetaParserUtility.getBasicDomain(domainsFactory, idElement);
+      if (dom == null) dom = AsmetaParserUtility.getPredefinedAbstractDomain(domainsFactory, idElement);
+      if (dom == null) dom = AsmetaParserUtility.getStructuredDomain(domainsFactory, idElement, header.getSignature());
       if (dom == null) throw new ParseException("Error: The domain " + idElement + " has not been declared. Invariant declaration failed ");
       domains.add(dom);
       dom.getConstraint().add(invariant);
@@ -1886,7 +1884,7 @@ Invariant Invariant(Asm m) :
       }
       else
       {
-        func = Utility.getFunction(idElement, dom, false, new HashMap(), declared_Func);
+        func = AsmetaParserUtility.getFunction(idElement, dom, false, new HashMap(), declared_Func);
         if (func == null) throw new ParseException("Error: The function " + idElement + "(" + dom.getName() + ") has not been declared. Invariant declaration failed ");
       }
       functions.add(func);
@@ -1899,7 +1897,7 @@ Invariant Invariant(Asm m) :
     }
   | idElement = ID_RULE()
     {
-      rule = Utility.getRuleByNameDom(declared_Rules, idElement, null);
+      rule = AsmetaParserUtility.getRuleByNameDom(declared_Rules, idElement, null);
       rules.add(rule);
       rule.getConstraint().add(invariant);
       Logger.logDebug(idElement);
@@ -1911,9 +1909,9 @@ Invariant Invariant(Asm m) :
       idElement = ID_DOMAIN()
       {
         dom = (Domain) declared_Dom.get(idElement);
-        if (dom == null) dom = Utility.getBasicDomain(domainsFactory, idElement);
-        if (dom == null) dom = Utility.getPredefinedAbstractDomain(domainsFactory, idElement);
-        if (dom == null) dom = Utility.getStructuredDomain(domainsFactory, idElement, header.getSignature());
+        if (dom == null) dom = AsmetaParserUtility.getBasicDomain(domainsFactory, idElement);
+        if (dom == null) dom = AsmetaParserUtility.getPredefinedAbstractDomain(domainsFactory, idElement);
+        if (dom == null) dom = AsmetaParserUtility.getStructuredDomain(domainsFactory, idElement, header.getSignature());
         if (dom == null) throw new ParseException("Error: The domain " + idElement + " has not been declared. Invariant declaration failed.");
         domains.add(dom);
         dom.getConstraint().add(invariant);
@@ -1936,7 +1934,7 @@ Invariant Invariant(Asm m) :
         }
         else
         {
-          func = Utility.getFunction(idElement, dom, false, new HashMap(), declared_Func);
+          func = AsmetaParserUtility.getFunction(idElement, dom, false, new HashMap(), declared_Func);
           if (func == null) throw new ParseException("Error: The function " + idElement + "(" + dom.getName() + ") has not been declared. Invariant declaration failed.");
         }
         functions.add(func);
@@ -1949,7 +1947,7 @@ Invariant Invariant(Asm m) :
       }
     | idElement = ID_RULE()
       {
-        rule = Utility.getRuleByNameDom(declared_Rules, idElement, null);
+        rule = AsmetaParserUtility.getRuleByNameDom(declared_Rules, idElement, null);
         rules.add(rule);
         rule.getConstraint().add(invariant);
         //create the association
@@ -2252,7 +2250,7 @@ AnyDomain AnyDomain() :
 {
   < ANYDOMAIN > name = ID_DOMAIN()
   {
-    AnyDomain d = Utility.getAnyDomain(domainsFactory, name);
+    AnyDomain d = AsmetaParserUtility.getAnyDomain(domainsFactory, name);
     if (d == null)
     {
       // TODO
@@ -2273,7 +2271,7 @@ BasicTd BasicTD() :
 {
   < BASIC > < DOMAIN > name = ID_DOMAIN()
   {
-    BasicTd basicTd = Utility.getBasicDomain(domainsFactory, name);
+    BasicTd basicTd = AsmetaParserUtility.getBasicDomain(domainsFactory, name);
     if (basicTd == null) throw new ParseException("Error: A basic domain " + name + " not allowed has been declared.");
     Logger.logDebug("basic domain " + name);
     return basicTd;
@@ -2296,7 +2294,7 @@ AbstractTd AbstractTD() :
   < ABSTRACT > < DOMAIN > name = ID_DOMAIN()
   {
     // try predefined
-    AbstractTd abstractTd = Utility.getPredefinedAbstractDomain(domainsFactory, name);
+    AbstractTd abstractTd = AsmetaParserUtility.getPredefinedAbstractDomain(domainsFactory, name);
     // otherwise create new one
     if (abstractTd == null)
     {
@@ -2418,7 +2416,7 @@ RuleDomain RuleDomain() :
     ")"
   ]
   {
-    return Utility.getRuleDomain(ruleElemList, defPack, header.getSignature());
+    return AsmetaParserUtility.getRuleDomain(ruleElemList, defPack, header.getSignature());
   }
 }
 
@@ -2450,7 +2448,7 @@ ProductDomain ProductDomain() :
   )+
   ")"
   {
-    return Utility.getProduct(prodElemList, defPack, header.getSignature());
+    return AsmetaParserUtility.getProduct(prodElemList, defPack, header.getSignature());
   }
 }
 
@@ -2465,7 +2463,7 @@ SequenceDomain SequenceDomain() :
     //a SeqTD can not be defined over a concrete domain
     //if(!(dom instanceof TypeDomain))
     //{   throw new ParseException("Error: A SequenceTD can not be defined over a concrete domain.");}
-    return Utility.getSequence(dom, defPack, header.getSignature());
+    return AsmetaParserUtility.getSequence(dom, defPack, header.getSignature());
   }
 }
 
@@ -2479,7 +2477,7 @@ PowersetDomain PowersetDomain() :
     //a PowerTD can not be defined over a concrete domain
     // if(!(dom instanceof TypeDomain))
     //    {   throw new ParseException("Error: A PowerTD can not be defined over a concrete domain.");}
-    return Utility.getPowerset(dom, defPack, header.getSignature());
+    return AsmetaParserUtility.getPowerset(dom, defPack, header.getSignature());
   }
 }
 
@@ -2493,7 +2491,7 @@ BagDomain BagDomain() :
     //a BagTD can not be defined over a concrete domain
     //if(!(dom instanceof TypeDomain))
     //   {   throw new ParseException("Error: A BagTD domain can not be defined over a concrete domain.");}
-    return Utility.getBag(dom, defPack, header.getSignature());
+    return AsmetaParserUtility.getBag(dom, defPack, header.getSignature());
   }
 }
 
@@ -2507,7 +2505,7 @@ MapDomain MapDomain() :
     //a MapTD domain can not be defined over a concrete domain
     //if(!(dom1 instanceof TypeDomain)||!(dom2 instanceof TypeDomain))
     //    {   throw new ParseException("Error: A MapTD domain can not be defined over a concrete domain.");}
-    return Utility.getMap(dom1, dom2, defPack, header.getSignature());
+    return AsmetaParserUtility.getMap(dom1, dom2, defPack, header.getSignature());
   }
 }
 
@@ -2522,7 +2520,7 @@ Domain getDomainByID() :
     domName = ID_DOMAIN()
     {
       domain = declared_Dom.get(domName);
-      if (domain == null) domain = Utility.getPredefinedDomain(domainsFactory, domName);
+      if (domain == null) domain = AsmetaParserUtility.getPredefinedDomain(domainsFactory, domName);
       if (domain == null) {
           	  throw new ParseException("Error: " + domName + " domain is not declared.");      
       }
@@ -2893,10 +2891,10 @@ Term Expression(HashMap localVar, boolean areAllowedNewVar) :
     )
     {
       arg1 = t;
-      String funcName = Utility.getFunctionName(tok.image);
-      TupleTerm tupleT = Utility.createPair(arg1, arg2, termsPack, defPack, header.getSignature());
+      String funcName = AsmetaParserUtility.getFunctionName(tok.image);
+      TupleTerm tupleT = AsmetaParserUtility.createPair(arg1, arg2, termsPack, defPack, header.getSignature());
       //assert tupleT.getTerms().size() == tupleT.getArity();
-      if ((t = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("Error at ");
+      if ((t = AsmetaParserUtility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("Error at ");
     }
   )*
   {
@@ -2927,9 +2925,9 @@ Term or_xorLogicExpr(HashMap localVar, boolean areAllowedNewVar) :
     )
     arg2 = andLogicExpr(localVar, areAllowedNewVar)
     {
-      String funcName = Utility.getFunctionName(op.image);
-      TupleTerm tupleT = Utility.createPair(arg1, arg2, termsPack, defPack, header.getSignature());
-      //assert tupleT.getTerms().size() == tupleT.getArity();      arg1 = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature());
+      String funcName = AsmetaParserUtility.getFunctionName(op.image);
+      TupleTerm tupleT = AsmetaParserUtility.createPair(arg1, arg2, termsPack, defPack, header.getSignature());
+      //assert tupleT.getTerms().size() == tupleT.getArity();      arg1 = AsmetaParserUtility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature());
       if (arg1 == null) throw new ParseException("Error at ");
     }
   )*
@@ -2955,9 +2953,9 @@ Term andLogicExpr(HashMap localVar, boolean areAllowedNewVar) :
     arg2 = relationalExpr(localVar, areAllowedNewVar)
     {
       arg1 = t;
-      String funcName = Utility.getFunctionName(tok.image);
-      TupleTerm tupleT = Utility.createPair(arg1, arg2, termsPack, defPack, header.getSignature());
-      //assert tupleT.getTerms().size() == tupleT.getArity();      if ((t = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("Error at ");
+      String funcName = AsmetaParserUtility.getFunctionName(tok.image);
+      TupleTerm tupleT = AsmetaParserUtility.createPair(arg1, arg2, termsPack, defPack, header.getSignature());
+      //assert tupleT.getTerms().size() == tupleT.getArity();      if ((t = AsmetaParserUtility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("Error at ");
     }
   )*
   {
@@ -2991,9 +2989,9 @@ Term includesExpr(HashMap localVar, boolean areAllowedNewVar) :
     )
     {
       arg1 = t;
-      String funcName = Utility.getFunctionName(tok.image);
-      TupleTerm tupleT = Utility.createPair(arg1, arg2, termsPack, defPack, header.getSignature());
-      //assert tupleT.getTerms().size() == tupleT.getArity();      if ((t = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("Error at ");
+      String funcName = AsmetaParserUtility.getFunctionName(tok.image);
+      TupleTerm tupleT = AsmetaParserUtility.createPair(arg1, arg2, termsPack, defPack, header.getSignature());
+      //assert tupleT.getTerms().size() == tupleT.getArity();      if ((t = AsmetaParserUtility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("Error at ");
     }
   )?
   {
@@ -3045,10 +3043,10 @@ Term relationalExpr(HashMap localVar, boolean areAllowedNewVar) :
     )
     {
       arg1 = t;
-      String funcName = Utility.getFunctionName(tok.image);
-      TupleTerm tupleT = Utility.createPair(arg1, arg2, termsPack, defPack, header.getSignature());
+      String funcName = AsmetaParserUtility.getFunctionName(tok.image);
+      TupleTerm tupleT = AsmetaParserUtility.createPair(arg1, arg2, termsPack, defPack, header.getSignature());
       //assert tupleT.getTerms().size() == tupleT.getArity();
-      t = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature());      if (t == null) 
+      t = AsmetaParserUtility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature());      if (t == null) 
       		throw new ParseException("Error reading relationalExpr ");
     }
   )*
@@ -3073,10 +3071,10 @@ Term notLogicExpr(HashMap localVar, boolean areAllowedNewVar) :
     }
     arg = additiveExpr(localVar, areAllowedNewVar)
     {
-      String funcName = Utility.getFunctionName(op.image);
-      TupleTerm tupleT = Utility.createSingle(arg, termsPack, defPack, header.getSignature());
+      String funcName = AsmetaParserUtility.getFunctionName(op.image);
+      TupleTerm tupleT = AsmetaParserUtility.createSingle(arg, termsPack, defPack, header.getSignature());
       //assert tupleT.getTerms().size() == tupleT.getArity();
-      if ((t = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("Error at ");
+      if ((t = AsmetaParserUtility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("Error at ");
     }
   | t = additiveExpr(localVar, areAllowedNewVar)
   )
@@ -3111,9 +3109,9 @@ Term additiveExpr(HashMap localVar, boolean areAllowedNewVar) :
     )
     {
       arg1 = t;
-      String funcName = Utility.getFunctionName(tok.image);
-      TupleTerm tupleT = Utility.createPair(arg1, arg2, termsPack, defPack, header.getSignature());
-      //assert tupleT.getTerms().size() == tupleT.getArity();      if ((t = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("Error at ");
+      String funcName = AsmetaParserUtility.getFunctionName(tok.image);
+      TupleTerm tupleT = AsmetaParserUtility.createPair(arg1, arg2, termsPack, defPack, header.getSignature());
+      //assert tupleT.getTerms().size() == tupleT.getArity();      if ((t = AsmetaParserUtility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("Error at ");
     }
   )*
   {
@@ -3153,9 +3151,9 @@ Term multiplicativeExpr(HashMap localVar, boolean areAllowedNewVar) :
     )
     {
       arg1 = t;
-      String funcName = Utility.getFunctionName(tok.image);
-      TupleTerm tupleT = Utility.createPair(arg1, arg2, termsPack, defPack, header.getSignature());
-      //assert tupleT.getTerms().size() == tupleT.getArity();      if ((t = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("Error at ");
+      String funcName = AsmetaParserUtility.getFunctionName(tok.image);
+      TupleTerm tupleT = AsmetaParserUtility.createPair(arg1, arg2, termsPack, defPack, header.getSignature());
+      //assert tupleT.getTerms().size() == tupleT.getArity();      if ((t = AsmetaParserUtility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("Error at ");
     }
   )*
   {
@@ -3178,9 +3176,9 @@ Term powerExpr(HashMap localVar, boolean areAllowedNewVar) :
     arg2 = unaryExpr(localVar, areAllowedNewVar)
     {
       arg1 = t;
-      String funcName = Utility.getFunctionName(tok.image);
-      TupleTerm tupleT = Utility.createPair(arg1, arg2, termsPack, defPack, header.getSignature());
-      //assert tupleT.getTerms().size() == tupleT.getArity();      if ((t = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("Error at ");
+      String funcName = AsmetaParserUtility.getFunctionName(tok.image);
+      TupleTerm tupleT = AsmetaParserUtility.createPair(arg1, arg2, termsPack, defPack, header.getSignature());
+      //assert tupleT.getTerms().size() == tupleT.getArity();      if ((t = AsmetaParserUtility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("Error at ");
     }
   )*
   {
@@ -3209,9 +3207,9 @@ Term unaryExpr(HashMap localVar, boolean areAllowedNewVar) :
       arg = unaryExpr(localVar, areAllowedNewVar)
     )
     {
-      String funcName = Utility.getFunctionName(tok.image);
-      TupleTerm tupleT = Utility.createSingle(arg, termsPack, defPack, header.getSignature());
-      //assert tupleT.getTerms().size() == tupleT.getArity();      t = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature());
+      String funcName = AsmetaParserUtility.getFunctionName(tok.image);
+      TupleTerm tupleT = AsmetaParserUtility.createSingle(arg, termsPack, defPack, header.getSignature());
+      //assert tupleT.getTerms().size() == tupleT.getArity();      t = AsmetaParserUtility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature());
       if (t == null) throw new ParseException("Problems in creating unary espressions (" + funcName + ")");
       return t;
     }
@@ -3292,23 +3290,23 @@ FunctionTerm FunctionTerm(HashMap localVar, boolean areAllowedNewVar) :
       FunctionTerm agent_funT;
       if (agentName.equals("self"))
       {
-        if ((agent_funT = Utility.createFunctionTerm("self", null, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("Error at ");
+        if ((agent_funT = AsmetaParserUtility.createFunctionTerm("self", null, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("Error at ");
       }
       else
       {
-        Term arg = Utility.createStringT(agentName, termsPack, domainsFactory);
-        TupleTerm agentArg = Utility.createSingle(arg, termsPack, defPack, header.getSignature());
+        Term arg = AsmetaParserUtility.createStringT(agentName, termsPack, domainsFactory);
+        TupleTerm agentArg = AsmetaParserUtility.createSingle(arg, termsPack, defPack, header.getSignature());
         //assert agentArg.getTerms().size() == agentArg.getArity();
-        if ((agent_funT = Utility.createFunctionTerm("getAgent", agentArg, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("Error at ");
+        if ((agent_funT = AsmetaParserUtility.createFunctionTerm("getAgent", agentArg, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("Error at ");
       }
       //insert the functionTerm created as first element of tupleT
       if (tupleT == null)
       { //create a new TupleTerm for the FunctionTerm
-        tupleT = Utility.createSingle(agent_funT, termsPack, defPack, header.getSignature());
+        tupleT = AsmetaParserUtility.createSingle(agent_funT, termsPack, defPack, header.getSignature());
         //assert tupleT.getTerms().size() == tupleT.getArity();      }
       else tupleT.getTerms().add(0, agent_funT);
     }
-    if ((t = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) 
+    if ((t = AsmetaParserUtility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) 
     	throw new ParseException("Problems in creating Function Term (" + funcName + ")");
     Logger.logDebug("\t\t\tFunctionTerm end, D=" + t.getDomain().getName());
     return t;
@@ -3344,22 +3342,22 @@ LocationTerm LocationTerm(HashMap localVar, boolean areAllowedNewVar) :
       FunctionTerm agent_funT;
       if (agentName.equals("self"))
       {
-        if ((agent_funT = Utility.createFunctionTerm("self", null, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("Error at ");
+        if ((agent_funT = AsmetaParserUtility.createFunctionTerm("self", null, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("Error at ");
       }
       else
       {
-        Term arg = Utility.createStringT(agentName, termsPack, domainsFactory);
-        TupleTerm agentArg = Utility.createPair(arg, null, termsPack, defPack, header.getSignature());
-        if ((agent_funT = Utility.createFunctionTerm("getAgent", agentArg, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("Error at ");
+        Term arg = AsmetaParserUtility.createStringT(agentName, termsPack, domainsFactory);
+        TupleTerm agentArg = AsmetaParserUtility.createPair(arg, null, termsPack, defPack, header.getSignature());
+        if ((agent_funT = AsmetaParserUtility.createFunctionTerm("getAgent", agentArg, termsPack, declared_Func, declared_Dom, defPack, header.getSignature())) == null) throw new ParseException("Error at ");
       }
       //insert the functionTerm created as first element of tupleT
       if (tupleT == null)
       { //create a new TupleTerm for the FunctionTerm
-        tupleT = Utility.createPair(agent_funT, null, termsPack, defPack, header.getSignature());
+        tupleT = AsmetaParserUtility.createPair(agent_funT, null, termsPack, defPack, header.getSignature());
       }
       else tupleT.getTerms().add(0, agent_funT);
     }
-    FunctionTerm f = Utility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature());
+    FunctionTerm f = AsmetaParserUtility.createFunctionTerm(funcName, tupleT, termsPack, declared_Func, declared_Dom, defPack, header.getSignature());
     t = (LocationTerm) f;
     if (t == null) throw new ParseException("Problems in creating Location Term ("+ funcName + ")");
     Logger.logDebug("\t\t\tLocationTerm end, TD=" + t.getDomain().getName());
@@ -3388,7 +3386,7 @@ VariableTerm VariableTerm(HashMap < String, VariableTerm > localVar, boolean are
       //add this new variable to the localVar HashMap
       localVar.put(name, variable);
       //set TypeDomain
-      AnyDomain anyDomain = Utility.getAnyDomain(domainsFactory, anyDomainAnyName);
+      AnyDomain anyDomain = AsmetaParserUtility.getAnyDomain(domainsFactory, anyDomainAnyName);
       if (anyDomain == null) throw new ParseException("Error: The AnyDomain is not defined");
       variable.setDomain(anyDomain);
     } //else use the variable found in the HashMap
@@ -3436,7 +3434,7 @@ ComplexTerm ComplexTerm() :
     // set the symbol
     term.setSymbol(symbol);
     //look for the Complex domain reference
-    BasicTd complexDom = Utility.getBasicDomain(domainsFactory, "Complex");
+    BasicTd complexDom = AsmetaParserUtility.getBasicDomain(domainsFactory, "Complex");
     //set the reference
     term.setDomain(complexDom);
     //constraint 1 is granted for construction
@@ -3459,7 +3457,7 @@ RealTerm RealTerm() :
     RealTerm term = termsPack.getFurtherTerms().createRealTerm();
     term.setSymbol(symbol);
     //look for the Real domain reference in the predefined_Dom HashMap
-    TypeDomain dom = Utility.getBasicDomain(domainsFactory, "Real");
+    TypeDomain dom = AsmetaParserUtility.getBasicDomain(domainsFactory, "Real");
     if (dom == null)
     {
       throw new ParseException("Error: The Real domain is not defined");
@@ -3486,7 +3484,7 @@ IntegerTerm IntegerTerm() :
     IntegerTerm term = termsPack.getFurtherTerms().createIntegerTerm();
     term.setSymbol(symbol);
     //look for the Integer domain reference in the predefined_Dom HashMap
-    TypeDomain dom = (TypeDomain) Utility.getBasicDomain(domainsFactory, "Integer");
+    TypeDomain dom = (TypeDomain) AsmetaParserUtility.getBasicDomain(domainsFactory, "Integer");
     if (dom == null)
     {
       throw new ParseException("Error: The Integer domain is not defined");
@@ -3512,7 +3510,7 @@ NaturalTerm NaturalTerm() :
     NaturalTerm term = termsPack.getFurtherTerms().createNaturalTerm();
     term.setSymbol(symbol);
     //look for the Natural domain reference in the predefined_Dom HashMap
-    TypeDomain dom = (TypeDomain) Utility.getBasicDomain(domainsFactory, "Natural");
+    TypeDomain dom = (TypeDomain) AsmetaParserUtility.getBasicDomain(domainsFactory, "Natural");
     if (dom == null)
     {
       throw new ParseException("Error: The Natural domain is not defined");
@@ -3538,7 +3536,7 @@ CharTerm CharTerm() :
     CharTerm term = termsPack.getFurtherTerms().createCharTerm();
     term.setSymbol(symbol);
     //look for the char domain reference in the predefined_Dom HashMap
-    TypeDomain dom = (TypeDomain) Utility.getBasicDomain(domainsFactory, "Char");
+    TypeDomain dom = (TypeDomain) AsmetaParserUtility.getBasicDomain(domainsFactory, "Char");
     if (dom == null)
     {
       throw new ParseException("Error: The Char domain is not defined");
@@ -3566,7 +3564,7 @@ StringTerm StringTerm() :
     //Con l'istruzione qui sotto commentata le virgolette
     //sono rimosse. E' meglio averle le virgolette, o non averle? 
     symbol = t.image.substring(1, t.image.length() - 1);
-    StringTerm term = Utility.createStringT(symbol, termsPack, domainsFactory);
+    StringTerm term = AsmetaParserUtility.createStringT(symbol, termsPack, domainsFactory);
     if (term == null) throw new ParseException("Error: The Char domain is not defined");
     Logger.logDebug("\t" + term.getSymbol() + "\t\tStringTerm, TD=" + term.getDomain().getName());
     return term;
@@ -3587,7 +3585,7 @@ BooleanTerm BooleanTerm() :
     symbol = t.image;
     BooleanTerm term = termsPack.getBasicTerms().createBooleanTerm(Boolean.parseBoolean(symbol));
     //look for the boolean domain reference in the predefined_Dom HashMap
-    TypeDomain dom = (TypeDomain) Utility.getBasicDomain(domainsFactory, "Boolean");
+    TypeDomain dom = (TypeDomain) AsmetaParserUtility.getBasicDomain(domainsFactory, "Boolean");
     if (dom == null)
     {
       throw new ParseException("Error: The Boolean domain is not defined.");
@@ -3613,7 +3611,7 @@ UndefTerm UndefTerm() :
     UndefTerm term = termsPack.getBasicTerms().createUndefTerm();
     term.setSymbol(symbol);
     //look for the Undef domain reference in the predefined_Dom HashMap
-    TypeDomain dom = (TypeDomain) Utility.getBasicDomain(domainsFactory, "Undef");
+    TypeDomain dom = (TypeDomain) AsmetaParserUtility.getBasicDomain(domainsFactory, "Undef");
     if (dom == null)
     {
       throw new ParseException("Error: The Undef domain is not defined");
@@ -3836,7 +3834,7 @@ TupleTerm TupleTerm(HashMap localVar, boolean areAllowedNewVar) : //possono aver
     if (arity == 1)  //the domain associated to the tuple term must be equal to the one associated to its unique term
     dom = ((Term) elemList.get(0)).getDomain();
     else //the type-domain associated to the tuple term must be a Cartesian product domain
-    dom = Utility.getProduct(prodDomList, defPack, header.getSignature());
+    dom = AsmetaParserUtility.getProduct(prodDomList, defPack, header.getSignature());
     term.setDomain(dom);
     //OCL constraints 2-3 granted for construction
     {
@@ -3915,14 +3913,14 @@ SequenceTerm SequenceTerm(HashMap localVar, boolean areAllowedNewVar) :
           ) //reading step, by default step = 1
           {
             if (!(elem.getDomain() instanceof IntegerDomain)) natural_step = false;
-            step = Utility.convertToDouble(elem);
+            step = AsmetaParserUtility.convertToDouble(elem);
             Logger.logDebug("\t" + step + "\t\tinterval step");
             if (step.doubleValue() <= 0) throw new ParseException("The step must be a positive number." + "\n       At a sequenceTerm.");
           }
         ]
       )
       {
-        Utility.createTermCollection(firstElem, lastElem, elemList, step, natural_step, termsPack, declared_Func, declared_Dom, defPack, header.getSignature());
+        AsmetaParserUtility.createTermCollection(firstElem, lastElem, elemList, step, natural_step, termsPack, declared_Func, declared_Dom, defPack, header.getSignature());
       } //End Interval notation
     ]
   ]
@@ -3935,17 +3933,17 @@ SequenceTerm SequenceTerm(HashMap localVar, boolean areAllowedNewVar) :
     TypeDomain elemTD;
     if (size == 0) //empty collection
     {
-      AnyDomain anyDomain = Utility.getAnyDomain(domainsFactory, anyDomainAnyName);
+      AnyDomain anyDomain = AsmetaParserUtility.getAnyDomain(domainsFactory, anyDomainAnyName);
       if (anyDomain == null) throw new ParseException("Error: The genric Anydomain is not defined");
       elemTD = anyDomain;
     }
     else
     {
-      elemTD = Utility.getCommonTD(elemList);
+      elemTD = AsmetaParserUtility.getCommonTD(elemList);
       if (elemTD == null) throw new ParseException("Error: every element of a sequence must have the same type-domain.\n");
     }
     Logger.logDebug("Common type-domain: " + elemTD.getName());
-    SequenceDomain seqDom = Utility.getSequence(elemTD, defPack, header.getSignature());
+    SequenceDomain seqDom = AsmetaParserUtility.getSequence(elemTD, defPack, header.getSignature());
     //set seqDom as the sequence TypeDomain
     term.setDomain(seqDom);
     // ocl constraints 1 and 2 granted for construction
@@ -3986,7 +3984,7 @@ SetTerm SetTerm(HashMap localVar, boolean areAllowedNewVar) :
       //So every term is a different object and two terms with the same value are inserted in the collection twice.
       //create an HashMap containing set elements and check if an element is duplicated
       HashMap insertedElem = new HashMap();
-      String key = Utility.appendInKey(new StringBuffer(), firstElem).toString();
+      String key = AsmetaParserUtility.appendInKey(new StringBuffer(), firstElem).toString();
       insertedElem.put(new Integer(key.hashCode()), key);
     }
     [
@@ -4000,7 +3998,7 @@ SetTerm SetTerm(HashMap localVar, boolean areAllowedNewVar) :
           //add a new association
           //X a_SetTerm_Term.add(term,elem);
           //check if the element is duplicated
-          key = Utility.appendInKey(new StringBuffer(), elem).toString();
+          key = AsmetaParserUtility.appendInKey(new StringBuffer(), elem).toString();
           if (insertedElem.containsKey(new Integer(key.hashCode()))) throw new ParseException("Error: Duplicates are not allowed in a set. " + key + " is present twice.");
           insertedElem.put(new Integer(key.hashCode()), key);
         }
@@ -4019,14 +4017,14 @@ SetTerm SetTerm(HashMap localVar, boolean areAllowedNewVar) :
           ) //reading step, by default step = 1
           {
             if (!(elem.getDomain() instanceof IntegerDomain)) natural_step = false;
-            step = Utility.convertToDouble(elem);
+            step = AsmetaParserUtility.convertToDouble(elem);
             Logger.logDebug("\t" + step + "\t\tinterval step");
             if (step.doubleValue() <= 0) throw new ParseException("The step must be a positive number." + "\n       At a SetTerm.");
           }
         ]
       )
       {
-        Utility.createTermCollection(firstElem, lastElem, elemColl, step, natural_step, termsPack, declared_Func, declared_Dom, defPack, header.getSignature());
+        AsmetaParserUtility.createTermCollection(firstElem, lastElem, elemColl, step, natural_step, termsPack, declared_Func, declared_Dom, defPack, header.getSignature());
       } //End Interval notation
     ]
   ]
@@ -4038,16 +4036,16 @@ SetTerm SetTerm(HashMap localVar, boolean areAllowedNewVar) :
     TypeDomain elemTD;
     if (size == 0) //empty collection
     {
-      AnyDomain anyDomain = Utility.getAnyDomain(domainsFactory, anyDomainAnyName);
+      AnyDomain anyDomain = AsmetaParserUtility.getAnyDomain(domainsFactory, anyDomainAnyName);
       if (anyDomain == null) throw new ParseException("Error: The generic Anydomain is not defined");
       elemTD = anyDomain;
     }
     else
     {
-      elemTD = Utility.getCommonTD(elemColl);
+      elemTD = AsmetaParserUtility.getCommonTD(elemColl);
       if (elemTD == null) throw new ParseException("Error: every element of a set must have the same type-domain.\n");
     }
-    PowersetDomain setDom = Utility.getPowerset(elemTD, defPack, header.getSignature());
+    PowersetDomain setDom = AsmetaParserUtility.getPowerset(elemTD, defPack, header.getSignature());
     //set setDom as the set TypeDomain
     term.setDomain(setDom);
     // ocl constraints 1 and 2 granted for construction
@@ -4088,7 +4086,7 @@ MapTerm MapTerm(HashMap localVar, boolean areAllowedNewVar) :
       }
       elem2 = Term(localVar, areAllowedNewVar, null)
       { //create a new pair
-        TupleTerm pair = Utility.createPair(elem1, elem2, termsPack, defPack, header.getSignature());
+        TupleTerm pair = AsmetaParserUtility.createPair(elem1, elem2, termsPack, defPack, header.getSignature());
         //add a new element to the terms list
         pairColl.add(pair);
         //add a new association
@@ -4099,9 +4097,9 @@ MapTerm MapTerm(HashMap localVar, boolean areAllowedNewVar) :
         //So every term is a different object and two equals pair are inserted in the collection twice
         //create an HashMap containing pairs and check if a pair is duplicated
         HashMap insertedPair = new HashMap();
-        StringBuffer key = Utility.appendInKey(new StringBuffer(), elem1);
+        StringBuffer key = AsmetaParserUtility.appendInKey(new StringBuffer(), elem1);
         key.append("->");
-        Utility.appendInKey(key, elem2);
+        AsmetaParserUtility.appendInKey(key, elem2);
         // TODO: elimina l'uso di String o la conversione
         insertedPair.put(new Integer(key.toString().hashCode()), key.toString());
       }
@@ -4112,7 +4110,7 @@ MapTerm MapTerm(HashMap localVar, boolean areAllowedNewVar) :
         }
         elem2 = Term(localVar, areAllowedNewVar, null)
         { //create a new pair
-          pair = Utility.createPair(elem1, elem2, termsPack, defPack, header.getSignature());
+          pair = AsmetaParserUtility.createPair(elem1, elem2, termsPack, defPack, header.getSignature());
           //add a new element to the terms list
           pairColl.add(pair);
           //add a new association
@@ -4121,9 +4119,9 @@ MapTerm MapTerm(HashMap localVar, boolean areAllowedNewVar) :
           if (!OCL_Checker.compatible(sourceTD, elem1.getDomain())) throw new ParseException("Error: every pair of a map must be compatible with the type-domain for the first pair element. \n" + "domain of the first element of the first pair: " + sourceTD.getName() + "  domain of another pair: " + elem1.getDomain().getName());
           if (!OCL_Checker.compatible(targetTD, elem2.getDomain())) throw new ParseException("Error: every pair of a map must be compatible with the type-domain for the second pair element. ");
           //check if a pair is duplicated
-          key = Utility.appendInKey(new StringBuffer(), elem1);
+          key = AsmetaParserUtility.appendInKey(new StringBuffer(), elem1);
           key.append("->");
-          Utility.appendInKey(key, elem2);
+          AsmetaParserUtility.appendInKey(key, elem2);
           // TODO : eliminare conversione a String
           if (insertedPair.containsKey(new Integer(key.toString().hashCode())))
           {
@@ -4141,11 +4139,11 @@ MapTerm MapTerm(HashMap localVar, boolean areAllowedNewVar) :
     //set the TypeDomain when map size is 0
     if (size == 0) //empty collection
     {
-      AnyDomain anyDomain = Utility.getAnyDomain(domainsFactory, anyDomainAnyName);
+      AnyDomain anyDomain = AsmetaParserUtility.getAnyDomain(domainsFactory, anyDomainAnyName);
       if (anyDomain == null) throw new ParseException("Error: The Anydomain is not defined");
       sourceTD = targetTD = anyDomain;
     }
-    MapDomain mapDom = Utility.getMap(sourceTD, targetTD, defPack, header.getSignature());
+    MapDomain mapDom = AsmetaParserUtility.getMap(sourceTD, targetTD, defPack, header.getSignature());
     //set setDom as the set TypeDomain
     term.setDomain(mapDom);
     //OCL constraints 1,2 and 3 are granted for construction
@@ -4207,14 +4205,14 @@ BagTerm BagTerm(HashMap localVar, boolean areAllowedNewVar) :
           ) //reading step, by default step = 1
           {
             if (!(elem.getDomain() instanceof IntegerDomain)) natural_step = false;
-            step = Utility.convertToDouble(elem);
+            step = AsmetaParserUtility.convertToDouble(elem);
             Logger.logDebug("\t" + step + "\t\tinterval step");
             if (step.doubleValue() <= 0) throw new ParseException("The step must be a positive number." + "\n       At a sequenceTerm.");
           }
         ]
       )
       {
-        Utility.createTermCollection(firstElem, lastElem, elemColl, step, natural_step, termsPack, declared_Func, declared_Dom, defPack, header.getSignature());
+        AsmetaParserUtility.createTermCollection(firstElem, lastElem, elemColl, step, natural_step, termsPack, declared_Func, declared_Dom, defPack, header.getSignature());
       } //End Interval notation
     ]
   ]
@@ -4226,16 +4224,16 @@ BagTerm BagTerm(HashMap localVar, boolean areAllowedNewVar) :
     TypeDomain elemTD;
     if (size == 0) //empty collection
     {
-      AnyDomain anyDomain = Utility.getAnyDomain(domainsFactory, anyDomainAnyName);
+      AnyDomain anyDomain = AsmetaParserUtility.getAnyDomain(domainsFactory, anyDomainAnyName);
       if (anyDomain == null) throw new ParseException("Error: The AnyDomain is not defined");
       elemTD = anyDomain;
     }
     else
     {
-      elemTD = Utility.getCommonTD(elemColl);
+      elemTD = AsmetaParserUtility.getCommonTD(elemColl);
       if (elemTD == null) throw new ParseException("Error: every element of a bag must have the same type-domain.\n");
     }
-    BagDomain bagDom = Utility.getBag(elemTD, defPack, header.getSignature());
+    BagDomain bagDom = AsmetaParserUtility.getBag(elemTD, defPack, header.getSignature());
     //set bagDom as the bag TypeDomain
     term.setDomain(bagDom);
     // ocl constraints 1 and 2 granted for construction
@@ -4274,7 +4272,7 @@ FiniteQuantificationTerm FiniteQuantificationTerm(HashMap localVar) :
   { //check OCL constraints
     //(OCL constraint 1)set TypeDomain
     //look for the boolean domain reference in the predefined_Dom HashMap
-    TypeDomain td = Utility.getBasicDomain(domainsFactory, "Boolean");
+    TypeDomain td = AsmetaParserUtility.getBasicDomain(domainsFactory, "Boolean");
     if (td == null) throw new ParseException("\nError: The Boolean domain has not been declared.");
     //set the reference
     t.setDomain(td);
@@ -4315,7 +4313,7 @@ ExistTerm ExistTerm(HashMap localVar) :
     //check constraint 2 of superclass(part of it is granted for construction)
     if (!(OCL_Checker.getTypeDomain(inTerm.getDomain()) instanceof PowersetDomain)) throw new ParseException("Error: The type-domain of terms after \"in\"  must be the power set domain \n" + "       At an ExistTerm");
     //update variable features
-    Utility.updateVariable(variable, inTerm);
+    AsmetaParserUtility.updateVariable(variable, inTerm);
     Logger.logDebug("\t\t\t" + variable.getName() + " updated: TD=" + variable.getDomain().getName() + ", kind=" + variable.getKind().toString());
     rangeList.add(inTerm);
   }
@@ -4337,7 +4335,7 @@ ExistTerm ExistTerm(HashMap localVar) :
       //check constraint 2 of superclass(part of it is granted for construction)
       if (!(inTerm.getDomain() instanceof PowersetDomain)) throw new ParseException("Error: The type-domain of terms after \"in\"  must be a power set domain \n" + "       At an ExistTerm");
       //update variable features
-      Utility.updateVariable(variable, inTerm);
+      AsmetaParserUtility.updateVariable(variable, inTerm);
       Logger.logDebug("\t\t\t" + variable.getName() + " updated: TD=" + variable.getDomain().getName() + ", kind=" + variable.getKind().toString());
       rangeList.add(inTerm);
     }
@@ -4394,7 +4392,7 @@ ExistUniqueTerm ExistUniqueTerm(HashMap localVar) :
     //check constraint 2 of superclass(part of it is granted for construction)
     if (!(inTerm.getDomain() instanceof PowersetDomain)) throw new ParseException("Error: The type-domain of terms after \"in\"  must be a power set domain \n" + "       At an ExistUniqueTerm");
     //update variable features
-    Utility.updateVariable(variable, inTerm);
+    AsmetaParserUtility.updateVariable(variable, inTerm);
     Logger.logDebug("\t\t\t" + variable.getName() + " updated: TD=" + variable.getDomain().getName() + ", kind=" + variable.getKind().toString());
     rangeList.add(inTerm);
   }
@@ -4416,7 +4414,7 @@ ExistUniqueTerm ExistUniqueTerm(HashMap localVar) :
       //check constraint 2 of superclass(part of it is granted for construction)
       if (!(inTerm.getDomain() instanceof PowersetDomain)) throw new ParseException("Error: The type-domain of terms after \"in\"  must be a power set domain \n" + "       At an ExistUniqueTerm");
       //update variable features
-      Utility.updateVariable(variable, inTerm);
+      AsmetaParserUtility.updateVariable(variable, inTerm);
       Logger.logDebug("\t\t\t" + variable.getName() + " updated: TD=" + variable.getDomain().getName() + ", kind=" + variable.getKind().toString());
       rangeList.add(inTerm);
     }
@@ -4470,7 +4468,7 @@ ForallTerm ForallTerm(HashMap localVar) :
     //check constraint 2 of superclass(part of it is granted for construction)
     if (!(inTerm.getDomain() instanceof PowersetDomain)) throw new ParseException("Error: The type-domain of terms after \"in\"  must be a power set domain \n" + "       At an ForallTerm");
     //update variable features
-    Utility.updateVariable(variable, inTerm);
+    AsmetaParserUtility.updateVariable(variable, inTerm);
     Logger.logDebug("\t\t\t" + variable.getName() + " updated: TD=" + variable.getDomain().getName() + ", kind=" + variable.getKind().toString());
     rangeList.add(inTerm);
   }
@@ -4490,7 +4488,7 @@ ForallTerm ForallTerm(HashMap localVar) :
       //check constraint 2 of superclass(part of it is granted for construction)
       if (!(inTerm.getDomain() instanceof PowersetDomain)) throw new ParseException("Error: The type-domain of terms after \"in\"  must be a power set domain \n" + "       At an ForallTerm");
       //update variable features
-      Utility.updateVariable(variable, inTerm);
+      AsmetaParserUtility.updateVariable(variable, inTerm);
       Logger.logDebug("\t\t\t" + variable.getName() + " updated: TD=" + variable.getDomain().getName() + ", kind=" + variable.getKind().toString());
       rangeList.add(inTerm);
     }
@@ -4677,7 +4675,7 @@ SetCt SetCT(HashMap localVar) :
     //check constraint 2 (part of it is granted for construction)
     if (!(inTerm.getDomain() instanceof PowersetDomain)) throw new ParseException("Error: The type-domain of terms after \"in\"  must be a power set domain \n" + "       At a SetCT");
     //update variable features
-    Utility.updateVariable(variable, inTerm);
+    AsmetaParserUtility.updateVariable(variable, inTerm);
     Logger.logDebug("\t\t\t" + variable.getName() + " updated: TD=" + variable.getDomain().getName() + ", kind=" + variable.getKind().toString());
     rangeList.add(inTerm);
   }
@@ -4696,7 +4694,7 @@ SetCt SetCT(HashMap localVar) :
       //check constraint 2 (part of it is granted for construction)
       if (!(inTerm.getDomain() instanceof PowersetDomain)) throw new ParseException("Error: The type-domain of terms after \"in\"  must be a power set domain \n" + "       At a SetCT");
       //update variable features
-      Utility.updateVariable(variable, inTerm);
+      AsmetaParserUtility.updateVariable(variable, inTerm);
       Logger.logDebug("\t\t\t" + variable.getName() + " updated: TD=" + variable.getDomain().getName() + ", kind=" + variable.getKind().toString());
       rangeList.add(inTerm);
     }
@@ -4730,7 +4728,7 @@ SetCt SetCT(HashMap localVar) :
   }
   "}"
   { // set TypeDomain
-    TypeDomain td = Utility.getPowerset(OCL_Checker.getTypeDomain(t.getDomain()), defPack, header.getSignature());
+    TypeDomain td = AsmetaParserUtility.getPowerset(OCL_Checker.getTypeDomain(t.getDomain()), defPack, header.getSignature());
     term.setDomain(td);
     //OCL constraint 1 granted for construction
     Logger.logDebug("\t}\t\tSetCT end, TD=" + term.getDomain().getName());
@@ -4768,7 +4766,7 @@ MapCt MapCT(HashMap localVar) :
     //check constraint 3 (part of it is granted for construction)
     if (!(inTerm.getDomain() instanceof PowersetDomain)) throw new ParseException("Error: The type-domain of terms after \"in\"  must be a power set domain \n" + "       At a MapCT");
     //update variable features
-    Utility.updateVariable(variable, inTerm);
+    AsmetaParserUtility.updateVariable(variable, inTerm);
     Logger.logDebug("\t\t\t" + variable.getName() + " updated: TD=" + variable.getDomain().getName() + ", kind=" + variable.getKind().toString());
     rangeList.add(inTerm);
   }
@@ -4787,7 +4785,7 @@ MapCt MapCT(HashMap localVar) :
       //check constraint 3 (part of it is granted for construction)
       if (!(inTerm.getDomain() instanceof PowersetDomain)) throw new ParseException("Error: The type-domain of terms after \"in\"  must be a power set domain \n" + "       At a MapCT");
       //update variable features
-      Utility.updateVariable(variable, inTerm);
+      AsmetaParserUtility.updateVariable(variable, inTerm);
       Logger.logDebug("\t\t\t" + variable.getName() + " updated: TD=" + variable.getDomain().getName() + ", kind=" + variable.getKind().toString());
       rangeList.add(inTerm);
     }
@@ -4819,7 +4817,7 @@ MapCt MapCT(HashMap localVar) :
   }
   {
     //create a new pair
-    TupleTerm pair = Utility.createPair(t1, t2, termsPack, defPack, header.getSignature());
+    TupleTerm pair = AsmetaParserUtility.createPair(t1, t2, termsPack, defPack, header.getSignature());
     //set the reference
     term.setTerm(pair);
     //set the association
@@ -4828,7 +4826,7 @@ MapCt MapCT(HashMap localVar) :
   }
   "}"
   { // set TypeDomain
-    TypeDomain td = Utility.getMap(OCL_Checker.getTypeDomain(t1.getDomain()), OCL_Checker.getTypeDomain(t2.getDomain()), defPack, header.getSignature());
+    TypeDomain td = AsmetaParserUtility.getMap(OCL_Checker.getTypeDomain(t1.getDomain()), OCL_Checker.getTypeDomain(t2.getDomain()), defPack, header.getSignature());
     term.setDomain(td);
     //OCL constraints 1, 2 granted for construction
     Logger.logDebug("\t}\t\tMapCTend, TD=" + term.getDomain().getName());
@@ -4867,7 +4865,7 @@ SequenceCt SequenceCT(HashMap localVar) :
     //check constraint 2 (part of it is granted for construction)
     if (!(inTerm.getDomain() instanceof SequenceDomain)) throw new ParseException("Error: The type-domain of terms after \"in\"  must be a sequence domain \n" + "       At a SequenceCT");
     //update variable features
-    Utility.updateVariable(variable, inTerm);
+    AsmetaParserUtility.updateVariable(variable, inTerm);
     Logger.logDebug("\t\t\t" + variable.getName() + " updated: TD=" + variable.getDomain().getName() + ", kind=" + variable.getKind().toString());
     rangeList.add(inTerm);
   }
@@ -4886,7 +4884,7 @@ SequenceCt SequenceCT(HashMap localVar) :
       //check constraint 2 (part of it is granted for construction)
       if (!(inTerm.getDomain() instanceof SequenceDomain)) throw new ParseException("Error: The type-domain of terms after \"in\"  must be a sequence domain \n" + "       At a SequenceCT");
       //update variable features
-      Utility.updateVariable(variable, inTerm);
+      AsmetaParserUtility.updateVariable(variable, inTerm);
       Logger.logDebug("\t\t\t" + variable.getName() + " updated: TD=" + variable.getDomain().getName() + ", kind=" + variable.getKind().toString());
       rangeList.add(inTerm);
     }
@@ -4920,7 +4918,7 @@ SequenceCt SequenceCT(HashMap localVar) :
   }
   "]"
   { // set TypeDomain
-    TypeDomain td = Utility.getSequence(OCL_Checker.getTypeDomain(t.getDomain()), defPack, header.getSignature());
+    TypeDomain td = AsmetaParserUtility.getSequence(OCL_Checker.getTypeDomain(t.getDomain()), defPack, header.getSignature());
     term.setDomain(td);
     //OCL constraint 1 granted for construction
     Logger.logDebug("\t]\t\tSequenceCT end, TD=" + term.getDomain().getName());
@@ -4958,7 +4956,7 @@ BagCt BagCT(HashMap localVar) :
     //check constraint 2 (part of it is granted for construction)
     if (!(inTerm.getDomain() instanceof BagDomain)) throw new ParseException("Error: The type-domain of terms after \"in\"  must be a bag domain \n" + "       At a BagCT");
     //update variable features
-    Utility.updateVariable(variable, inTerm);
+    AsmetaParserUtility.updateVariable(variable, inTerm);
     Logger.logDebug("\t\t\t" + variable.getName() + " updated: TD=" + variable.getDomain().getName() + ", kind=" + variable.getKind().toString());
     rangeList.add(inTerm);
   }
@@ -4977,7 +4975,7 @@ BagCt BagCT(HashMap localVar) :
       //check constraint 2 (part of it is granted for construction)
       if (!(inTerm.getDomain() instanceof BagDomain)) throw new ParseException("Error: The type-domain of terms after \"in\"  must be a bag domain \n" + "       At a BagCT");
       //update variable features
-      Utility.updateVariable(variable, inTerm);
+      AsmetaParserUtility.updateVariable(variable, inTerm);
       Logger.logDebug("\t\t\t" + variable.getName() + " updated: TD=" + variable.getDomain().getName() + ", kind=" + variable.getKind().toString());
       rangeList.add(inTerm);
     }
@@ -5011,7 +5009,7 @@ BagCt BagCT(HashMap localVar) :
   }
   ">"
   { // set TypeDomain
-    TypeDomain td = Utility.getBag(OCL_Checker.getTypeDomain(t.getDomain()), defPack, header.getSignature());
+    TypeDomain td = AsmetaParserUtility.getBag(OCL_Checker.getTypeDomain(t.getDomain()), defPack, header.getSignature());
     term.setDomain(td);
     //OCL constraint 1 granted for construction
     Logger.logDebug("\t>\t\tBagCT end, TD=" + term.getDomain().getName());
@@ -5030,7 +5028,7 @@ DomainTerm DomainTerm() :
     //set references
     term.setDomain(d);
     //set the TypeDomain
-    PowersetDomain powersetDom = Utility.getPowerset(d, defPack, header.getSignature());
+    PowersetDomain powersetDom = AsmetaParserUtility.getPowerset(d, defPack, header.getSignature());
     //set references
     term.setDomain(powersetDom);
     //OCL constraint 1 granted for construction
@@ -5079,14 +5077,14 @@ RuleAsTerm RuleAsTerm(HashMap localVar, RuleDeclaration c, Domain expDom) :
       }
       */
     //look for the rule declaration in the rule HashMap
-    r = Utility.getRuleByNameDom(declared_Rules, ruleName, ruleDomList);
+    r = AsmetaParserUtility.getRuleByNameDom(declared_Rules, ruleName, ruleDomList);
     if (r == null)
     {
-      throw new ParseException("ERROR: Unresolved reference to " + ruleName + Utility.toString(ruleDomList));
+      throw new ParseException("ERROR: Unresolved reference to " + ruleName + AsmetaParserUtility.toString(ruleDomList));
     }
     //set the rule reference
     term.setRule(r);
-    RuleDomain dom = Utility.getRuleDomain(ruleDomList, defPack, header.getSignature());
+    RuleDomain dom = AsmetaParserUtility.getRuleDomain(ruleDomList, defPack, header.getSignature());
     //set the domain reference
     term.setDomain(dom);
     Logger.logDebug("\tRuleAsTerm end, TD=" + dom.getName());
@@ -5401,7 +5399,7 @@ ChooseRule ChooseRule(HashMap localVar, RuleDeclaration c) :
     //check constraint R7
     if (!(OCL_Checker.getTypeDomain(inTerm.getDomain()) instanceof PowersetDomain)) throw new ParseException("Error: The type-domain of terms after \"in\"  must be a power set domain \n" + "       At a ChooseRule");
     //update variable features
-    Utility.updateVariable(variable, inTerm);
+    AsmetaParserUtility.updateVariable(variable, inTerm);
     Logger.logDebug("\t\t\t" + variable.getName() + " updated: D=" + variable.getDomain().getName() + ", kind=" + variable.getKind().toString());
     //set the reference to the variable range
     rangeList.add(inTerm);
@@ -5422,7 +5420,7 @@ ChooseRule ChooseRule(HashMap localVar, RuleDeclaration c) :
       variableList.add(variable);
       if (!(OCL_Checker.getTypeDomain(inTerm.getDomain()) instanceof PowersetDomain)) throw new ParseException("Error: The type-domain of terms after \"in\"  must be a power set domain \n" + "       At a ChooseRule");
       //update variable features
-      Utility.updateVariable(variable, inTerm);
+      AsmetaParserUtility.updateVariable(variable, inTerm);
       Logger.logDebug("\t\t\t" + variable.getName() + " updated: TD=" + variable.getDomain().getName() + ", kind=" + variable.getKind().toString());
       //set the reference to the variable range
       rangeList.add(inTerm);
@@ -5507,7 +5505,7 @@ ForallRule ForallRule(HashMap localVar, RuleDeclaration c) :
     //check constraint 1 (part of it is granted for construction)
     if (!(inTerm.getDomain() instanceof PowersetDomain)) throw new ParseException("Error: The type-domain of terms after \"in\"  must be a power set domain \n" + "       At a ForallRule");
     //update variable features
-    Utility.updateVariable(variable, inTerm);
+    AsmetaParserUtility.updateVariable(variable, inTerm);
     Logger.logDebug("\t\t\t" + variable.getName() + " updated: TD=" + variable.getDomain().getName() + ", kind=" + variable.getKind().toString());
     //set the reference to the variable range
     rangeList.add(inTerm);
@@ -5528,7 +5526,7 @@ ForallRule ForallRule(HashMap localVar, RuleDeclaration c) :
       //check constraint 1 (part of it is granted for construction)
       if (!(inTerm.getDomain() instanceof PowersetDomain)) throw new ParseException("Error: The type-domain of terms after \"in\"  must be a power set domain \n" + "       At a ForallRule");
       //update variable features
-      Utility.updateVariable(variable, inTerm);
+      AsmetaParserUtility.updateVariable(variable, inTerm);
       Logger.logDebug("\t\t\t" + variable.getName() + " updated: TD=" + variable.getDomain().getName() + ", kind=" + variable.getKind().toString());
       //set the reference to the variable range
       rangeList.add(inTerm);
@@ -5686,9 +5684,9 @@ MacroCallRule MacroCallRule(HashMap localVar, RuleDeclaration c) :
   }
   {
     //look for the rule in the rule HashMap
-    RuleDeclaration r = Utility.getRuleByNameTerm(declared_Rules, ruleName, actualParamList);
+    RuleDeclaration r = AsmetaParserUtility.getRuleByNameTerm(declared_Rules, ruleName, actualParamList);
     //PA: 15/10/2011
-    /*List<Domain> doms = Utility.buildDomains(actualParamList);
+    /*List<Domain> doms = AsmetaParserUtility.buildDomains(actualParamList);
 		List<VariableTerm> list = r.getVariable();
 		Iterator<VariableTerm> it = list.iterator();
 		HashMap<String, Domain> genericDomValue =  new HashMap<String, Domain>();		
@@ -5704,9 +5702,9 @@ MacroCallRule MacroCallRule(HashMap localVar, RuleDeclaration c) :
     // added 10 Jan 2008 by acarioni
     if (r == null)
     {
-      List < Domain > domains = Utility.buildDomains(actualParamList);
-      Logger.logErr("rules already declared: " + Utility.toString(declared_Rules));
-      throw new ParseException("Error: Unresolved reference to " + ruleName + Utility.toString(domains));
+      List < Domain > domains = AsmetaParserUtility.buildDomains(actualParamList);
+      Logger.logErr("rules already declared: " + AsmetaParserUtility.toString(declared_Rules));
+      throw new ParseException("Error: Unresolved reference to " + ruleName + AsmetaParserUtility.toString(domains));
     }
     //******* NEW by Patrizia to manage recursion
     // NON FUNZIONA PIU' if (c!= null && ruleName.equals(c.getName()))
@@ -5765,9 +5763,9 @@ ExtendRule ExtendRule(HashMap localVar, RuleDeclaration c) :
     VariablesList.add(v);
     //XAExtendRuleBoundVar a_ExtendR_Var= rulesPack.getBasicTransitionRules().getAExtendRuleBoundVar();
     //Xa_ExtendR_Var.add(rule,v);
-    ReserveDomain Reservedom = (ReserveDomain) Utility.getPredefinedAbstractDomain(domainsFactory, "Reserve");
+    ReserveDomain Reservedom = (ReserveDomain) AsmetaParserUtility.getPredefinedAbstractDomain(domainsFactory, "Reserve");
     if (Reservedom == null) throw new ParseException("Error: The domain Reserve has not been declared.");
-    Utility.updateVariable(v, dom);
+    AsmetaParserUtility.updateVariable(v, dom);
     //constraint R6 is granted for construction
     Logger.logDebug("\t\t\tTD assigned to " + v.getName() + ": " + v.getDomain().getName());
   }
@@ -5781,7 +5779,7 @@ ExtendRule ExtendRule(HashMap localVar, RuleDeclaration c) :
     {
       VariablesList.add(v);
       //Xa_ExtendR_Var.add(rule,v);
-      Utility.updateVariable(v, dom);
+      AsmetaParserUtility.updateVariable(v, dom);
       //constraint R6 is granted for construction
       Logger.logDebug("\t\t\tTD assigned to " + v.getName() + ": " + v.getDomain().getName());
     }
@@ -5909,17 +5907,17 @@ TurboCallRule TurboCallRule(HashMap localVar, RuleDeclaration c) :
   }
   {
     //look for the rule in the rule HashMap
-    RuleDeclaration r = Utility.getRuleByNameTerm(declared_Rules, ruleName, actualParamList);
+    RuleDeclaration r = AsmetaParserUtility.getRuleByNameTerm(declared_Rules, ruleName, actualParamList);
     //******* NEW by Patrizia to manage recursion
     if (c != null && ruleName.equals(c.getName())) r = c;
     //*************
     // added 10 Jan 2008 by acarioni
     if (r == null)
     {
-      List < Domain > domains = Utility.buildDomains(actualParamList);
-      Logger.logErr("rules already declared: " + Utility.toString(declared_Rules));
-      //Logger.logErr("Asbtract domains:" + Utility.toString(Utility.abstractTds.values()));
-      throw new ParseException("Error: Unresolved reference to " + ruleName + Utility.toString(domains));
+      List < Domain > domains = AsmetaParserUtility.buildDomains(actualParamList);
+      Logger.logErr("rules already declared: " + AsmetaParserUtility.toString(declared_Rules));
+      //Logger.logErr("Asbtract domains:" + AsmetaParserUtility.toString(AsmetaParserUtility.abstractTds.values()));
+      throw new ParseException("Error: Unresolved reference to " + ruleName + AsmetaParserUtility.toString(domains));
     }
     if (!(r instanceof TurboDeclaration)) throw new ParseException("Error: The rule " + ruleName + " is not declared as turbo, but it is called as it was.");
     //set reference
@@ -5990,7 +5988,7 @@ TurboLocalStateRule TurboLocalStateRule(HashMap localVar, RuleDeclaration c) :
   }
   localF = LocalFunction()
   {
-    boolean inserted = Utility.insert(localF, declared_Func);
+    boolean inserted = AsmetaParserUtility.insert(localF, declared_Func);
     if (inserted) localFunctions.add(localF);
     else throw new ParseException("Error: The function " + localF.getName() + ":" + ((localF.getDomain() == null) ? "" : (localF.getDomain().getName() + "->")) + localF.getCodomain().getName() + " has been declared twice.");
   }
@@ -6025,7 +6023,7 @@ TurboLocalStateRule TurboLocalStateRule(HashMap localVar, RuleDeclaration c) :
     }
     localF = LocalFunction()
     {
-      inserted = Utility.insert(localF, declared_Func);
+      inserted = AsmetaParserUtility.insert(localF, declared_Func);
       if (inserted) localFunctions.add(localF);
       else throw new ParseException("Error: The function " + localF.getName() + ":" + ((localF.getDomain() == null) ? "" : (localF.getDomain().getName() + "->")) + localF.getCodomain().getName() + " has been declared twice.");
     }
@@ -6057,7 +6055,7 @@ TurboLocalStateRule TurboLocalStateRule(HashMap localVar, RuleDeclaration c) :
     for (int count = 0; count < localFunctions.size(); count++)
     {
       f = (LocalFunction) localFunctions.get(count);
-      Utility.remove(f, declared_Func);
+      AsmetaParserUtility.remove(f, declared_Func);
     }
     Logger.logDebug("\t\t\tTurboLocalStateRule end");
     //Check OCL constraints

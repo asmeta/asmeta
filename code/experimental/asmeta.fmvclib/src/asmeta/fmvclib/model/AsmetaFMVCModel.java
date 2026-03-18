@@ -20,6 +20,7 @@ import javax.swing.JToggleButton;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.commons.lang3.tuple.MutablePair;
 import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.asmeta.parser.util.ReflectiveVisitor;
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.Environment.TimeMngt;
@@ -300,7 +301,7 @@ public class AsmetaFMVCModel extends Observable {
 				ArrayList<Function> functions = new ArrayList<Function>();
 				AsmCollection asms;
 				try {
-					asms = ASMParser.setUpReadAsm(new File(ASM_PATH + "/" + sim.getAsmModel().getName() + ASMParser.ASM_EXTENSION));
+					asms = ASMParser.setUpReadAsm(new File(ASM_PATH + "/" + sim.getAsmModel().getName() + AsmetaParserUtility.ASM_EXTENSION));
 					asms.forEach(x -> x.getHeaderSection().getSignature().getFunction().stream()
 							.filter(fn -> fn.getName().equals(f.getAnnotation(AsmetaMonitoredLocation.class).asmLocationName()))
 							.forEach(y -> functions.add(y)));
@@ -371,7 +372,7 @@ public class AsmetaFMVCModel extends Observable {
 					ArrayList<Function> functions = new ArrayList<Function>();
 					AsmCollection asms;
 					try {
-						asms = ASMParser.setUpReadAsm(new File(ASM_PATH + "/" + sim.getAsmModel().getName() + ASMParser.ASM_EXTENSION));
+						asms = ASMParser.setUpReadAsm(new File(ASM_PATH + "/" + sim.getAsmModel().getName() + AsmetaParserUtility.ASM_EXTENSION));
 						asms.forEach(x -> x.getHeaderSection().getSignature().getFunction().stream()
 								.filter(fn -> fn.getName().equals(f1.asmLocationName()))
 								.forEach(y -> functions.add(y)));

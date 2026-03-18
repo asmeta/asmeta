@@ -33,6 +33,7 @@ import java.io.File
 import org.asmeta.parser.ASMParser
 import asmeta.AsmCollection
 import asmeta.definitions.DerivedFunction
+import org.asmeta.parser.AsmetaParserUtility
 
 class JsonGenerator implements IGenerator {
 	public static String Ext = ".a2c"
@@ -386,7 +387,7 @@ class JsonGenerator implements IGenerator {
 				lock = false
 				currentFolder = folderPath
 			}
-			var File asmDir = new File(currentFolder + imp + ASMParser.ASM_EXTENSION)
+			var File asmDir = new File(currentFolder + imp + AsmetaParserUtility.ASM_EXTENSION)
 			//println("Path: " + asmDir.path)
 			if(!asmDir.exists) throw new Exception("File Path Not Found")
 			var Asm model = ASMParser.setUpReadAsm(asmDir).getMain()

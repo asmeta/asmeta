@@ -86,7 +86,7 @@ public class AsmParserTestStaticDerived extends AsmParserTest {
 	public void testALLSPECIFICATIONSANDFIX() throws IOException {
 		ASMParser.getResultLogger().setLevel(Level.OFF);
 		Files.walk(Paths.get("../../../../code/"))
-		.filter(x -> (x.toFile().isDirectory() || x.toString().endsWith(".asm"))).forEach(f -> {
+		.filter(x -> (x.toFile().isDirectory() || x.toString().endsWith(AsmetaParserUtility.ASM_EXTENSION))).forEach(f -> {
 			String string = f.toFile().toString();
 			// skip many problematic files
 			if (string.contains("drafts")); else 
@@ -107,7 +107,7 @@ public class AsmParserTestStaticDerived extends AsmParserTest {
 //			if (string.contains("asmeta.modeladvisor.test\\examples\\statDerIsUsed.asm")); else
 //			if (string.contains("asmeta.modeladvisor.test\\examples\\usedDomain2.asm")); else
 			if (string.contains("ABZ2016\\old")); else
-			if (string.endsWith(ASMParser.ASM_EXTENSION)) {
+			if (string.endsWith(AsmetaParserUtility.ASM_EXTENSION)) {
 				try {
 					System.err.println("checking " + string);
 					AsmCollection asmcollection = ASMParser.setUpReadAsm(f.toFile());

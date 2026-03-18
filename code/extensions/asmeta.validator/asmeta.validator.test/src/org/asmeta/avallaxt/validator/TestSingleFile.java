@@ -18,6 +18,7 @@ import java.util.stream.Stream;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.asmeta.parser.util.AsmetaPrintInfo;
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.Environment.TimeMngt;
@@ -414,7 +415,7 @@ public class TestSingleFile extends TestValidator {
         }
 		for(Path asm: result){
 			String filename = asm.toString();
-			if (!filename.endsWith(ASMParser.ASM_EXTENSION)) continue;
+			if (!filename.endsWith(AsmetaParserUtility.ASM_EXTENSION)) continue;
 			System.out.println(filename);
 			AsmetaPrintInfo info = new AsmetaPrintInfo(filename);
 			System.out.println(info.getInfo().ruleNamesList);

@@ -23,6 +23,7 @@ import javax.swing.event.ChangeEvent;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.asmeta.simulator.UpdateSet;
 import org.asmeta.simulator.value.UndefValue;
 
@@ -189,7 +190,7 @@ public class AsmetaFMVCController implements Observer, RunStepListener, RunStepL
 			ArrayList<Function> functions = new ArrayList<Function>();
 			AsmCollection asms;
 			try {
-				asms = ASMParser.setUpReadAsm(new File(AsmetaFMVCModel.ASM_PATH + "/" + m_model.getSimulator().getAsmModel().getName() + ASMParser.ASM_EXTENSION));
+				asms = ASMParser.setUpReadAsm(new File(AsmetaFMVCModel.ASM_PATH + "/" + m_model.getSimulator().getAsmModel().getName() + AsmetaParserUtility.ASM_EXTENSION));
 				asms.forEach(x -> x.getHeaderSection().getSignature().getFunction().stream()
 						.filter(fn -> fn.getName().equals(annotation.asmLocationName()))
 						.forEach(y -> functions.add(y)));

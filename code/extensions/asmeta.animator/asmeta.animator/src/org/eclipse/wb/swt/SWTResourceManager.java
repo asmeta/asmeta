@@ -29,7 +29,7 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Display;
 
 /**
- * Utility class for managing OS resources associated with SWT controls such as colors, fonts, images, etc.
+ * AsmetaParserUtility class for managing OS resources associated with SWT controls such as colors, fonts, images, etc.
  * <p>
  * !!! IMPORTANT !!! Application code must explicitly invoke the <code>dispose()</code> method to release the
  * operating system resources managed by cached objects when those objects and OS resources are no longer

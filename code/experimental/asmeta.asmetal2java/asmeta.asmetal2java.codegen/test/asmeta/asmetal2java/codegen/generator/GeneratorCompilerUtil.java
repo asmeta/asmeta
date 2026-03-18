@@ -21,7 +21,7 @@ import asmeta.asmetal2java.codegen.compiler.CompilerImpl;
 import asmeta.asmetal2java.codegen.config.TranslatorOptions;
 
 /**
- * Utility class for testing.
+ * AsmetaParserUtility class for testing.
  * <p>
  * contains the path to the folders, the list of files to exclude from testing
  * and methods to generate and compile the translation.

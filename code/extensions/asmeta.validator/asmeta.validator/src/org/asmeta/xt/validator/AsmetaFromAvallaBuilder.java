@@ -15,6 +15,7 @@ import org.asmeta.avallaxt.avalla.Command;
 import org.asmeta.avallaxt.avalla.Scenario;
 import org.asmeta.avallaxt.validation.ScenarioUtility;
 import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.resource.XtextResource;
@@ -126,7 +127,7 @@ public class AsmetaFromAvallaBuilder {
 		// File tempAsmPath = File.createTempFile(TEMP_ASMETA_V,
 		// ASMParser.ASM_EXTENSION, tempAsmPathDir);
 		// use also the name of the original ASM instead
-		File tempAsmPath = File.createTempFile(asm.getName() + TEMP_ASMETA_V, ASMParser.ASM_EXTENSION, tempAsmPathDir);
+		File tempAsmPath = File.createTempFile(asm.getName() + TEMP_ASMETA_V, AsmetaParserUtility.ASM_EXTENSION, tempAsmPathDir);
 		logger.debug("to file " + tempAsmPath.getAbsolutePath());
 		//
 		asmetaPrinterforAvalla = new AsmetaPrinterForAvalla(tempAsmPath, modelPath, this);

@@ -19,7 +19,7 @@ import org.asmeta.asm2code.FunctionToH;
 import org.asmeta.asm2code.ImportToH;
 import org.asmeta.asm2code.SeqRuleCollector;
 import org.asmeta.asm2code.Util;
-import org.asmeta.parser.Utility;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtend2.lib.StringConcatenation;
@@ -301,7 +301,7 @@ public class HeaderGenerator extends AsmToCGenerator {
     for (final ImportClause i : _importClause) {
       if ((i != null)) {
         String s = new ImportToH(asm).visit(i);
-        if (((((!s.contains(Utility.STANDARD_LIBRARY_NAME)) && (!s.contains(Utility.CTL_LIBRARY_NAME))) && (!s.contains(Utility.LTL_LIBRARY_NAME))) && (!s.contains(Utility.TIME_LIBRARY_NAME)))) {
+        if (((((!s.contains(AsmetaParserUtility.STANDARD_LIBRARY_NAME)) && (!s.contains(AsmetaParserUtility.CTL_LIBRARY_NAME))) && (!s.contains(AsmetaParserUtility.LTL_LIBRARY_NAME))) && (!s.contains(AsmetaParserUtility.TIME_LIBRARY_NAME)))) {
           boolean _notEquals = (!Objects.equals(this.options.compilerType, TranslatorOptions.CompilerType.ArduinoCompiler));
           if (_notEquals) {
             String _visit = new ImportToH(asm).visit(i);

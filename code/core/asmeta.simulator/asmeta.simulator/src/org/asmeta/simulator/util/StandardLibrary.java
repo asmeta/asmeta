@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.asmeta.parser.Utility;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.asmeta.simulator.value.AgentValue;
 import org.asmeta.simulator.value.BagValue;
 import org.asmeta.simulator.value.BooleanValue;
@@ -53,10 +53,10 @@ public class StandardLibrary {
 	 * @return  return if it refers to a standard library (CTL and LTL included)
 	 */
 	public static boolean isAStandardLibrary(String asmname) {
-		return (asmname.contains(Utility.STANDARD_LIBRARY_NAME) ||
-				asmname.contains(Utility.CTL_LIBRARY_NAME) ||
-				asmname.contains(Utility.LTL_LIBRARY_NAME)||
-				asmname.contains(Utility.TIME_LIBRARY_NAME));
+		return (asmname.contains(AsmetaParserUtility.STANDARD_LIBRARY_NAME) ||
+				asmname.contains(AsmetaParserUtility.CTL_LIBRARY_NAME) ||
+				asmname.contains(AsmetaParserUtility.LTL_LIBRARY_NAME)||
+				asmname.contains(AsmetaParserUtility.TIME_LIBRARY_NAME));
 	} 
 	
 

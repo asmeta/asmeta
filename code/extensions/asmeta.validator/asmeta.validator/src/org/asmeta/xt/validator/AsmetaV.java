@@ -15,7 +15,7 @@ import java.util.Map.Entry;
 import java.util.UUID;
 
 import org.apache.log4j.Logger;
-import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.asmeta.parser.util.AsmetaTermPrinter;
 import org.asmeta.simulator.InvalidInvariantException;
 import org.asmeta.simulator.Location;
@@ -353,7 +353,7 @@ public class AsmetaV {
 	 */
 	public static ValidationResult executeAsmetaFromAvalla(boolean coverage, Map<String, Boolean> coveredRules,
 			File tempAsmPath, boolean shuffle) throws Exception {
-		assert tempAsmPath.toString().endsWith(ASMParser.ASM_EXTENSION) : " can execute only asmeta files";
+		assert tempAsmPath.toString().endsWith(AsmetaParserUtility.ASM_EXTENSION) : " can execute only asmeta files";
 		// create the simulator with the coverage
 		Simulator sim;
 		if (coverage) {

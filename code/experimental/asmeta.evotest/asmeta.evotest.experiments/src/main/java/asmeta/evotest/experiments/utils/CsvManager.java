@@ -19,7 +19,7 @@ import com.opencsv.CSVReaderBuilder;
 
 
 /**
- * Utility class for creating, reading, and appending to a CSV file that stores
+ * AsmetaParserUtility class for creating, reading, and appending to a CSV file that stores
  * experimental data.
  */
 public class CsvManager {

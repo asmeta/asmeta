@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.asmeta.asm2code.compiler.CppCompiler;
-import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.junit.BeforeClass;
 
 abstract public class GeneratorCompilerTest {
@@ -36,7 +36,7 @@ abstract public class GeneratorCompilerTest {
 		File directory = new File(directoryName);
 		File[] fList = directory.listFiles();
 		for (File file : fList) {
-			if (file.isFile() && file.getName().endsWith(ASMParser.ASM_EXTENSION)) {
+			if (file.isFile() && file.getName().endsWith(AsmetaParserUtility.ASM_EXTENSION)) {
 				allAsmFiles.add(file);
 			} else if (file.isDirectory() && level > 0) {
 				listf(file.getPath(), allAsmFiles, --level);

@@ -12,7 +12,7 @@ import java.util.Map;
 import org.yaml.snakeyaml.Yaml;
 
 /**
- * Utility class for writing and reading simple YAML metadata files related to
+ * AsmetaParserUtility class for writing and reading simple YAML metadata files related to
  * scenario generation.
  */
 public class YamlManager {

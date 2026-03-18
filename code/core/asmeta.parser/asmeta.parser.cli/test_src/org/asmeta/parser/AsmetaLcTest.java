@@ -33,7 +33,7 @@ public class AsmetaLcTest {
 	protected boolean testOneSpec(String spec) {
 		String[] args = { "-xmi", spec };
 		AsmetaLc.main(args);
-		int i = spec.lastIndexOf(ASMParser.ASM_EXTENSION);
+		int i = spec.lastIndexOf(AsmetaParserUtility.ASM_EXTENSION);
 		// String s = new String(spec.substring(0, i));
 		String s = spec.substring(0, i);
 		File f = new File(s + ".xmi");
