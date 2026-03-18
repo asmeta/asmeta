@@ -2,7 +2,7 @@ package org.asmeta.xt.tests;
 
 import java.nio.file.Path;
 
-import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.xtext.resource.XtextResourceSet;
@@ -23,7 +23,7 @@ public class AsmResourceHelper extends ResourceHelper {
 
 	
 	protected URI computeUnusedUri(ResourceSet resourceSet) {
-		URI syntheticUri = URI.createURI(specname + ASMParser.ASM_EXTENSION);
+		URI syntheticUri = URI.createURI(specname + AsmetaParserUtility.ASM_EXTENSION);
 		if (resourceSet.getResource(syntheticUri, false) == null)
 			return syntheticUri;
 		throw new IllegalStateException();

@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.asmeta.runtime_commander.Commander;
 import org.asmeta.runtime_container.RunOutput;
 import org.asmeta.runtime_container.SimulationContainer;
@@ -114,7 +115,7 @@ public class AsmetaModel implements IAsmetaModel {
 					for (int i = 0; i < importSize; i++) {
 						String moduleName = asm.getMain().getHeaderSection().getImportClause().get(i).getModuleName();
 						if(!moduleName.toLowerCase().endsWith("standardlibrary")) {	//Skips the StandardLibrary.asm
-							outList = getAllOut(outList, root + moduleName + ASMParser.ASM_EXTENSION);
+							outList = getAllOut(outList, root + moduleName + AsmetaParserUtility.ASM_EXTENSION);
 						}
 					}
 				} catch (Exception e) {
@@ -216,9 +217,9 @@ public class AsmetaModel implements IAsmetaModel {
 	 * @return: the filename of the asm model 
 	 */
 	public static String clearPath(String path) {
-		if(!path.isEmpty() && path.indexOf(ASMParser.ASM_EXTENSION) != -1 && path.indexOf("\\") >= 0) {
+		if(!path.isEmpty() && path.indexOf(AsmetaParserUtility.ASM_EXTENSION) != -1 && path.indexOf("\\") >= 0) {
 			return (path.substring(path.lastIndexOf("\\") + 1));
-		 } else if(!path.isEmpty() && path.indexOf(ASMParser.ASM_EXTENSION) != -1 && path.indexOf("/") >= 0) {
+		 } else if(!path.isEmpty() && path.indexOf(AsmetaParserUtility.ASM_EXTENSION) != -1 && path.indexOf("/") >= 0) {
 			 return (path.substring(path.lastIndexOf("/") + 1));
 		 }
 		return path;

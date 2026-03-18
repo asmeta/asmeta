@@ -288,7 +288,7 @@ public class AsmetaFMVCTestRunner {
 	}
 
 	/**
-	 * Utility function used to set the value of an object
+	 * AsmetaParserUtility function used to set the value of an object
 	 * 
 	 * @param obj           the object to be updated
 	 * @param locationValue the value

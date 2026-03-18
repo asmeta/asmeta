@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.junit.Test;
 
 import asmeta.AsmCollection;
@@ -18,7 +19,7 @@ public class ParseAllExampleTest {
 	public void testParseOnExamples() throws IOException {
 		Files.walk(Paths.get("examples"))
 			.filter(Files::isRegularFile)
-			.filter(x -> x.getFileName().toString().endsWith(ASMParser.ASM_EXTENSION))
+			.filter(x -> x.getFileName().toString().endsWith(AsmetaParserUtility.ASM_EXTENSION))
 			.filter(x -> !(x.getFileName().toString().contains("_flat.asm")))
 			.filter(x -> !(x.getFileName().toString().contains("_flattened.asm")))
 			.forEach(x -> {

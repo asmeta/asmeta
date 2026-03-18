@@ -31,6 +31,7 @@ import org.asmeta.avallaxt.avalla.Pick;
 import org.asmeta.avallaxt.avalla.Scenario;
 import org.asmeta.avallaxt.avalla.Set;
 import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.asmeta.parser.ImportNotFoundException;
 import org.asmeta.parser.ParseException;
 import org.eclipse.emf.common.util.URI;
@@ -73,7 +74,7 @@ public class AvallaValidator extends AbstractAvallaValidator {
       int _minus = (_length - 1);
       specName = specName.substring(1, _minus);
     }
-    boolean _endsWith_1 = specName.endsWith(ASMParser.ASM_EXTENSION);
+    boolean _endsWith_1 = specName.endsWith(AsmetaParserUtility.ASM_EXTENSION);
     boolean _not_1 = (!_endsWith_1);
     if (_not_1) {
       this.error("Asm spec should end with asm", AvallaPackage.Literals.SCENARIO__SPEC);

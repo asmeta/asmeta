@@ -11,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -26,7 +27,7 @@ public class ParseAllExampleTest {
 	public void testParseOnExamples() throws IOException {
 
 		Files.walk(new File("examples").toPath()).forEach(x -> {
-			if (x.toString().endsWith(ASMParser.ASM_EXTENSION)) {
+			if (x.toString().endsWith(AsmetaParserUtility.ASM_EXTENSION)) {
 				System.out.println(x);
 				try {
 					AsmCollection asmcollection = ASMParser.setUpReadAsm(x.toFile());

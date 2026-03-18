@@ -40,7 +40,7 @@ public class DefWithTrueEvaluatorTest extends AsmParserTest{
 		if (!log.getAllAppenders().hasMoreElements())
 		log.addAppender(new ConsoleAppender(new SimpleLayout()));
 		log.setLevel(Level.ALL);
-		Logger.getLogger(Utility.class).setLevel(Level.ALL);*/
+		Logger.getLogger(AsmetaParserUtility.class).setLevel(Level.ALL);*/
 	}
 
 	@Test

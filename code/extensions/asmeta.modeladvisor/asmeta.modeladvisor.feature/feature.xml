@@ -2,7 +2,7 @@
 <feature
       id="org.asmeta.asmetama.feature"
       label="Asmeta model advisor"
-      version="26.02"
+      version="26.03"
       provider-name="https://foselab.unibg.it/">
 
    <description>

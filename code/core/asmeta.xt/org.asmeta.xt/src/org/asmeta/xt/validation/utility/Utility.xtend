@@ -75,6 +75,7 @@ import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.ecore.util.EObjectEList
 import org.eclipse.emf.ecore.util.InternalEList
+import org.asmeta.parser.AsmetaParserUtility
 
 class Utility {
 
@@ -122,10 +123,10 @@ class Utility {
 		if(new File(relative_path).exists) return relative_path
 		// muts be relative
 		var String res
-		if (relative_path.endsWith(ASMParser.ASM_EXTENSION))
+		if (relative_path.endsWith(AsmetaParserUtility.ASM_EXTENSION))
 			res = relative_path
 		else
-			res = relative_path + ASMParser.ASM_EXTENSION
+			res = relative_path + AsmetaParserUtility.ASM_EXTENSION
 		// search for  relative_path in resource_abs_path
 		// combination
 		// var address =  resolvedPath.normalize();
