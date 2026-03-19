@@ -1,3 +1,8 @@
+## version 26.03
+ - fixed bug about the configuration of ATGT[168](https://github.com/asmeta/asmeta/issues/168)
+ - update to version 26.03 of eclipse (and libraries)
+ - fixed a regression bug about the numebr of steps
+   
 ## version 26.02
  - change on how the animator deals with execptions/errors - see [164](https://github.com/asmeta/asmeta/issues/164)
  - fixed a bug on how nusmv is called in macos
