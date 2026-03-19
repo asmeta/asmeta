@@ -107,7 +107,7 @@ public class ATGTLaunchConfigurationTabMC extends ATGTLaunchConfigurationTab {
 	public void setDefaults(ILaunchConfigurationWorkingCopy configuration) {
 		ATGTActivator.log.debug("Setting defaults in " + this.getClass());
 		configuration.setAttribute(CONFIG_COMPUTE_COVERAGE, true);
-		configuration.setAttribute(CONFIG_CRITERIA, AsmTestGenerator.DEFAULT_COV_BUILDER);
+		configuration.setAttribute(CONFIG_CRITERIA, CriteriaEnum.toListOfString(AsmTestGenerator.DEFAULT_CRITERIA));
 		configuration.setAttribute(CONFIG_FORMATS, AsmTestGenerator.DEFAULT_FORMATS);
 		setAsmetaFile(configuration);
 		configuration.setAttribute(GENERATION_MODE, GenerationMode.MODEL_CHECKER.toString());
