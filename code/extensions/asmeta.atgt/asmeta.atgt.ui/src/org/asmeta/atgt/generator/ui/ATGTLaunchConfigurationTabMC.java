@@ -19,8 +19,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
-import atgt.coverage.AsmCoverageBuilder;
-
 public class ATGTLaunchConfigurationTabMC extends ATGTLaunchConfigurationTab {
 
 	public static final String CONFIG_COMPUTE_COVERAGE = "computeCoverage";
