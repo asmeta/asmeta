@@ -42,7 +42,7 @@ public class environment {
         // 1) Load bind address & pause interval from unified config
         Properties props;
         try (InputStream in = environment.class.getClassLoader()
-                .getResourceAsStream("configs/producerconsumer/zmq_config_unified.properties")) {
+                .getResourceAsStream("configs/producerconsumer/zmq_config_Pipe.properties")) {
 
             if (in == null) {
                 throw new RuntimeException("zmq_config_unified.properties not found in classpath under configs/producerconsumer/");

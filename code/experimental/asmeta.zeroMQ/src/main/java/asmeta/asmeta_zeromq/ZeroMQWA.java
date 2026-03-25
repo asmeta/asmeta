@@ -53,6 +53,7 @@ public class ZeroMQWA {
     private Set<String> requiredMonitored;
     private Map<String, String> currentMonitoredValues;
  
+ 
     public ZeroMQWA(Properties config, String sectionPrefix) {
         this.requiredMonitored = new HashSet<>();
         this.gson = new Gson();
@@ -68,6 +69,7 @@ public class ZeroMQWA {
             this.ZMQ_PUB_SOCKET = config.getProperty("ZMQ_PUB_SOCKET");
             this.ASM_ENVIRONMENT_ADDRESS = config.getProperty("ASM_ENVIRONMENT_ADDRESS");
             this.HOST = config.getProperty("HOST", "127.0.0.1");
+           
             
             // Pulizia stringa indirizzi
             String subAddresses = config.getProperty("ZMQ_SUB_CONNECT_ADDRESSES", "");
@@ -267,10 +269,12 @@ public class ZeroMQWA {
                     logger.info("No starting values provided.");
                 }
 
-                while (!Thread.currentThread().isInterrupted()) {
+               while (!Thread.currentThread().isInterrupted()) {
                     Thread.sleep(1000);
 
                     handleSubscriptionMessages();
+                    
+                  
                     
                     if (!hasAllRequiredInputs()) {
                         logMissingInputsIfAny();
@@ -290,6 +294,7 @@ public class ZeroMQWA {
                   //      logger.info("ASM step SAFE. Output: {}", output.getOutvalues());
                         handlePublisherMessages(output);
                         this.currentMonitoredValues.clear();
+                    
                     } else {
                         handleUnsafeState(monitoredForStep);
                     }
@@ -307,6 +312,8 @@ public class ZeroMQWA {
         }
     }
 
+
+                
     private boolean hasAllRequiredInputs() {
         if (requiredMonitored == null || requiredMonitored.isEmpty()) return true;
         for (String k : requiredMonitored) {
