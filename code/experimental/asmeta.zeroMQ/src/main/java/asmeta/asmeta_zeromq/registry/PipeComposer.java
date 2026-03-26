@@ -37,7 +37,9 @@ public class PipeComposer extends SimulationLauncher {
 	
 	public static void main(String[] args) {
         try {
-            String configPath = "configs/producerconsumer/zmq_config_Pipe.properties";
+
+          //String configPath = "configs/producerconsumer/zmq_config_Pipe.properties";
+        	String configPath = "digitalTwinExample/zmq_config_DigitalTwinPIPE.properties";
             PipeComposer launcher = new PipeComposer(configPath);
             launcher.run();
         } catch (Exception e) {

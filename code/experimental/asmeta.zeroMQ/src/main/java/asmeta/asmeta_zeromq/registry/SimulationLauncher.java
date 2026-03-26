@@ -1,6 +1,6 @@
 package asmeta.asmeta_zeromq.registry;
 import asmeta.asmeta_zeromq.ZeroMQWA;
-import asmeta.asmeta_zeromq.producerconsumer.environment;
+import asmeta.asmeta_zeromq.common.environment;
 
 import java.io.*;
 import java.util.*;
