@@ -75,12 +75,12 @@
 			<artifactId>asmeta.parser</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		<!-- questo progetto è ancora junit 4 - difficile da portare a junit 5, è xtend/xtext-->
+		<!-- questo progetto è ancora junit 4 - difficile da portare a junit 5, è xtend/xtext
 		<dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.13.2</version>
             <scope>test</scope>
-        </dependency>
+        </dependency>-->
 	</dependencies>
 </project>

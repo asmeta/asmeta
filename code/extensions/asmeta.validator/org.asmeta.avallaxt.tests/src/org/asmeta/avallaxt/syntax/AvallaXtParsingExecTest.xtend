@@ -4,17 +4,17 @@
 package org.asmeta.avallaxt.syntax
 
 import com.google.inject.Inject
-import org.asmeta.avallaxt.avalla.Exec
 import org.asmeta.avallaxt.avalla.Scenario
-import org.asmeta.avallaxt.AvallaInjectorProvider
 import org.eclipse.xtext.testing.InjectWith
-import org.eclipse.xtext.testing.XtextRunner
+import org.eclipse.xtext.testing.extensions.InjectionExtension
 import org.eclipse.xtext.testing.util.ParseHelper
-import org.junit.Assert
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.^extension.ExtendWith
+import org.asmeta.avallaxt.tests.AvallaInjectorProvider
+import org.asmeta.avallaxt.avalla.Exec
 
-@RunWith(XtextRunner)
+@ExtendWith(InjectionExtension)
 @InjectWith(AvallaInjectorProvider)
 class AvallaXtParsingExecTest {
 	@Inject
@@ -29,12 +29,12 @@ class AvallaXtParsingExecTest {
 			exec  sc1:=1; 
 			
 		''')
-		Assert.assertNotNull(result)
+		Assertions.assertNotNull(result)
 		val errors = result.eResource.errors
-		Assert.assertTrue('''Unexpected errors: «errors.join(", ")»''', errors.isEmpty)
+		Assertions.assertTrue(errors.isEmpty,'''Unexpected errors: «errors.join(", ")»''')
 		println((result as Scenario).elements.get(0))
-		Assert.assertTrue((result as Scenario).elements.get(0) instanceof Exec);
-		Assert.assertEquals("sc1:=1",((result as Scenario).elements.get(0) as Exec).rule)
+		Assertions.assertTrue((result as Scenario).elements.get(0) instanceof Exec);
+		Assertions.assertEquals("sc1:=1",((result as Scenario).elements.get(0) as Exec).rule)
 	}
 	@Test
 	def void checkExec2() {
@@ -47,9 +47,9 @@ class AvallaXtParsingExecTest {
 			      endpar; 
 			
 		''')
-		Assert.assertNotNull(result)
+		Assertions.assertNotNull(result)
 		val errors = result.eResource.errors
-		Assert.assertTrue('''Unexpected errors: «errors.join(", ")»''', errors.isEmpty)
+		Assertions.assertTrue(errors.isEmpty,'''Unexpected errors: «errors.join(", ")»''')
 	}
 
 	@Test
@@ -60,9 +60,9 @@ class AvallaXtParsingExecTest {
 			exec  choose $x in Domain with true do sc1:=1; 
 			
 		''')
-		Assert.assertNotNull(result)
+		Assertions.assertNotNull(result)
 		val errors = result.eResource.errors
-		Assert.assertTrue('''Unexpected errors: «errors.join(", ")»''', errors.isEmpty)
+		Assertions.assertTrue(errors.isEmpty,'''Unexpected errors: «errors.join(", ")»''')
 	}
 	
 		@Test
@@ -78,9 +78,9 @@ class AvallaXtParsingExecTest {
 			if $i != ground then existsCallFromTo($i, DOWN) := true endif
 			endpar;
 		''')
-		Assert.assertNotNull(result)
+		Assertions.assertNotNull(result)
 		val errors = result.eResource.errors
-		Assert.assertTrue('''Unexpected errors: «errors.join(", ")»''', errors.isEmpty)
+		Assertions.assertTrue(errors.isEmpty,'''Unexpected errors: «errors.join(", ")»''')
 	}
 	
 }

@@ -4,16 +4,16 @@
 package org.asmeta.avallaxt.syntax
 
 import com.google.inject.Inject
-import org.eclipse.xtext.testing.InjectWith
-import org.eclipse.xtext.testing.XtextRunner
-import org.eclipse.xtext.testing.util.ParseHelper
-import org.junit.Assert
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.asmeta.avallaxt.AvallaInjectorProvider
 import org.asmeta.avallaxt.avalla.Scenario
+import org.eclipse.xtext.testing.InjectWith
+import org.eclipse.xtext.testing.extensions.InjectionExtension
+import org.eclipse.xtext.testing.util.ParseHelper
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.^extension.ExtendWith
+import org.asmeta.avallaxt.tests.AvallaInjectorProvider
 
-@RunWith(XtextRunner)
+@ExtendWith(InjectionExtension)
 @InjectWith(AvallaInjectorProvider)
 class AvallaXtParsingInvariantTest {
 	@Inject
@@ -40,10 +40,10 @@ class AvallaXtParsingInvariantTest {
 		println("testing with " + i)
 		val scenario = "scenario scen load spec invariant myInv : "+ i + " ;";
 		val result = parseHelper.parse(scenario)
-		Assert.assertNotNull(result)
+		Assertions.assertNotNull(result)
 		val errors = result.eResource.errors
-		Assert.assertTrue('''Unexpected errors: «errors.join(", ")»''', errors.isEmpty)
-		Assert.assertEquals((result as Scenario).invariants.get(0).expression,i)
+		Assertions.assertTrue(errors.isEmpty,'''Unexpected errors: «errors.join(", ")»''')
+		Assertions.assertEquals((result as Scenario).invariants.get(0).expression,i)
 		
 	}
 }

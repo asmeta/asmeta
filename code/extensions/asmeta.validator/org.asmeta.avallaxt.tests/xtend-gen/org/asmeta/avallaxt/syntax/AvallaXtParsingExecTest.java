@@ -4,24 +4,24 @@
 package org.asmeta.avallaxt.syntax;
 
 import com.google.inject.Inject;
-import org.asmeta.avallaxt.AvallaInjectorProvider;
 import org.asmeta.avallaxt.avalla.Element;
 import org.asmeta.avallaxt.avalla.Exec;
 import org.asmeta.avallaxt.avalla.Scenario;
+import org.asmeta.avallaxt.tests.AvallaInjectorProvider;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.testing.InjectWith;
-import org.eclipse.xtext.testing.XtextRunner;
+import org.eclipse.xtext.testing.extensions.InjectionExtension;
 import org.eclipse.xtext.testing.util.ParseHelper;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.InputOutput;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-@RunWith(XtextRunner.class)
+@ExtendWith(InjectionExtension.class)
 @InjectWith(AvallaInjectorProvider.class)
 @SuppressWarnings("all")
 public class AvallaXtParsingExecTest {
@@ -40,18 +40,19 @@ public class AvallaXtParsingExecTest {
       _builder.newLine();
       _builder.newLine();
       final Scenario result = this.parseHelper.parse(_builder);
-      Assert.assertNotNull(result);
+      Assertions.assertNotNull(result);
       final EList<Resource.Diagnostic> errors = result.eResource().getErrors();
+      boolean _isEmpty = errors.isEmpty();
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append("Unexpected errors: ");
       String _join = IterableExtensions.join(errors, ", ");
       _builder_1.append(_join);
-      Assert.assertTrue(_builder_1.toString(), errors.isEmpty());
+      Assertions.assertTrue(_isEmpty, _builder_1.toString());
       InputOutput.<Element>println(((Scenario) result).getElements().get(0));
       Element _get = ((Scenario) result).getElements().get(0);
-      Assert.assertTrue((_get instanceof Exec));
+      Assertions.assertTrue((_get instanceof Exec));
       Element _get_1 = ((Scenario) result).getElements().get(0);
-      Assert.assertEquals("sc1:=1", ((Exec) _get_1).getRule());
+      Assertions.assertEquals("sc1:=1", ((Exec) _get_1).getRule());
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
@@ -78,13 +79,14 @@ public class AvallaXtParsingExecTest {
       _builder.newLine();
       _builder.newLine();
       final Scenario result = this.parseHelper.parse(_builder);
-      Assert.assertNotNull(result);
+      Assertions.assertNotNull(result);
       final EList<Resource.Diagnostic> errors = result.eResource().getErrors();
+      boolean _isEmpty = errors.isEmpty();
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append("Unexpected errors: ");
       String _join = IterableExtensions.join(errors, ", ");
       _builder_1.append(_join);
-      Assert.assertTrue(_builder_1.toString(), errors.isEmpty());
+      Assertions.assertTrue(_isEmpty, _builder_1.toString());
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
@@ -102,13 +104,14 @@ public class AvallaXtParsingExecTest {
       _builder.newLine();
       _builder.newLine();
       final Scenario result = this.parseHelper.parse(_builder);
-      Assert.assertNotNull(result);
+      Assertions.assertNotNull(result);
       final EList<Resource.Diagnostic> errors = result.eResource().getErrors();
+      boolean _isEmpty = errors.isEmpty();
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append("Unexpected errors: ");
       String _join = IterableExtensions.join(errors, ", ");
       _builder_1.append(_join);
-      Assert.assertTrue(_builder_1.toString(), errors.isEmpty());
+      Assertions.assertTrue(_isEmpty, _builder_1.toString());
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
@@ -137,13 +140,14 @@ public class AvallaXtParsingExecTest {
       _builder.append("endpar;");
       _builder.newLine();
       final Scenario result = this.parseHelper.parse(_builder);
-      Assert.assertNotNull(result);
+      Assertions.assertNotNull(result);
       final EList<Resource.Diagnostic> errors = result.eResource().getErrors();
+      boolean _isEmpty = errors.isEmpty();
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append("Unexpected errors: ");
       String _join = IterableExtensions.join(errors, ", ");
       _builder_1.append(_join);
-      Assert.assertTrue(_builder_1.toString(), errors.isEmpty());
+      Assertions.assertTrue(_isEmpty, _builder_1.toString());
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }

@@ -4,19 +4,19 @@
 package org.asmeta.avallaxt.syntax
 
 import com.google.inject.Inject
-import org.eclipse.xtext.testing.InjectWith
-import org.eclipse.xtext.testing.XtextRunner
-import org.eclipse.xtext.testing.util.ParseHelper
-import org.junit.Assert
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.asmeta.avallaxt.AvallaInjectorProvider
 import org.asmeta.avallaxt.avalla.Scenario
+import org.eclipse.xtext.testing.InjectWith
+import org.eclipse.xtext.testing.extensions.InjectionExtension
+import org.eclipse.xtext.testing.util.ParseHelper
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.^extension.ExtendWith
+import org.asmeta.avallaxt.tests.AvallaInjectorProvider
 import org.asmeta.avallaxt.avalla.ExecBlock
-import org.asmeta.avallaxt.avalla.Step
 import org.asmeta.avallaxt.avalla.Block
+import org.asmeta.avallaxt.avalla.Step
 
-@RunWith(XtextRunner)
+@ExtendWith(InjectionExtension)
 @InjectWith(AvallaInjectorProvider)
 class AvallaXtParsingBlockTest {
 	@Inject
@@ -31,12 +31,12 @@ class AvallaXtParsingBlockTest {
 			execblock sc1:blocco1; 
 			
 		''')
-		Assert.assertNotNull(result)
+		Assertions.assertNotNull(result)
 		val errors = result.eResource.errors
-		Assert.assertTrue('''Unexpected errors: «errors.join(", ")»''', errors.isEmpty)
+		Assertions.assertTrue(errors.isEmpty,'''Unexpected errors: «errors.join(", ")»''')
 		println((result as Scenario).elements.get(0))
-		Assert.assertEquals("sc1",((result as Scenario).elements.get(0) as ExecBlock).scenario)
-		Assert.assertEquals("blocco1",((result as Scenario).elements.get(0) as ExecBlock).block)
+		Assertions.assertEquals(((result as Scenario).elements.get(0) as ExecBlock).scenario, "sc1")
+		Assertions.assertEquals("blocco1",((result as Scenario).elements.get(0) as ExecBlock).block)
 	}
 	@Test
 	def void checktestNOScenario() {
@@ -46,12 +46,12 @@ class AvallaXtParsingBlockTest {
 			execblock blocco1; 
 			
 		''')
-		Assert.assertNotNull(result)
+		Assertions.assertNotNull(result)
 		val errors = result.eResource.errors
-		Assert.assertTrue('''Unexpected errors: «errors.join(", ")»''', errors.isEmpty)
+		Assertions.assertTrue(errors.isEmpty,'''Unexpected errors: «errors.join(", ")»''')
 		println((result as Scenario).elements.get(0))
-		Assert.assertNull(((result as Scenario).elements.get(0) as ExecBlock).scenario)
-		Assert.assertEquals("blocco1",((result as Scenario).elements.get(0) as ExecBlock).block)
+		Assertions.assertNull(((result as Scenario).elements.get(0) as ExecBlock).scenario)
+		Assertions.assertEquals("blocco1",((result as Scenario).elements.get(0) as ExecBlock).block)
 	}
 
 	@Test
@@ -64,13 +64,13 @@ class AvallaXtParsingBlockTest {
 			end 
 			
 		''')
-		Assert.assertNotNull(result)
+		Assertions.assertNotNull(result)
 		val errors = result.eResource.errors
-		Assert.assertTrue('''Unexpected errors: «errors.join(", ")»''', errors.isEmpty)
+		Assertions.assertTrue(errors.isEmpty,'''Unexpected errors: «errors.join(", ")»''')
 		val element = ((result as Scenario).elements.get(0) as Block).elements
-		Assert.assertEquals(1,element.size);
+		Assertions.assertEquals(1,element.size);
 		println(element)
-		Assert.assertTrue(element.get(0) instanceof Step)
+		Assertions.assertTrue(element.get(0) instanceof Step)
 	}
 	@Test
 	def void checktestNestedBlock() {
@@ -84,9 +84,9 @@ class AvallaXtParsingBlockTest {
 			end 
 			
 		''')
-		Assert.assertNotNull(result)
+		Assertions.assertNotNull(result)
 		val errors = result.eResource.errors
-		Assert.assertTrue('''Unexpected errors: «errors.join(", ")»''', errors.isEmpty)
+		Assertions.assertTrue(errors.isEmpty,'''Unexpected errors: «errors.join(", ")»''')
 		println(((result as Scenario).elements.get(0) as Block).elements)
 	}
 }

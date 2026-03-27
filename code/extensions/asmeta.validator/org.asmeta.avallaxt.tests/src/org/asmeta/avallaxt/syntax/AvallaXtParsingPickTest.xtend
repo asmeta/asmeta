@@ -4,17 +4,16 @@
 package org.asmeta.avallaxt.syntax
 
 import com.google.inject.Inject
-import org.eclipse.xtext.testing.InjectWith
-import org.eclipse.xtext.testing.XtextRunner
-import org.eclipse.xtext.testing.util.ParseHelper
-import org.junit.Assert
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.asmeta.avallaxt.AvallaInjectorProvider
 import org.asmeta.avallaxt.avalla.Scenario
-import org.asmeta.avallaxt.avalla.Set
+import org.eclipse.xtext.testing.InjectWith
+import org.eclipse.xtext.testing.extensions.InjectionExtension
+import org.eclipse.xtext.testing.util.ParseHelper
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.^extension.ExtendWith
+import org.asmeta.avallaxt.tests.AvallaInjectorProvider
 
-@RunWith(XtextRunner)
+@ExtendWith(InjectionExtension)
 @InjectWith(AvallaInjectorProvider)
 class AvallaXtParsingPickTest {
 	@Inject
@@ -27,9 +26,9 @@ class AvallaXtParsingPickTest {
 			load lll
 			pick $p:= TEA;
 		''')
-		Assert.assertNotNull(result)
+		Assertions.assertNotNull(result)
 		val errors = result.eResource.errors
-		Assert.assertTrue('''Unexpected errors: «errors.join(", ")»''', errors.isEmpty)
+		Assertions.assertTrue(errors.isEmpty,'''Unexpected errors: «errors.join(", ")»''')
 	}
 	
 	@Test
@@ -39,9 +38,9 @@ class AvallaXtParsingPickTest {
 			load lll
 			pick $p in r_myRule := TEA;
 		''')
-		Assert.assertNotNull(result)
+		Assertions.assertNotNull(result)
 		val errors = result.eResource.errors
-		Assert.assertTrue('''Unexpected errors: «errors.join(", ")»''', errors.isEmpty)
+		Assertions.assertTrue(errors.isEmpty,'''Unexpected errors: «errors.join(", ")»''')
 	}
 	
 		@Test
@@ -51,9 +50,9 @@ class AvallaXtParsingPickTest {
 			load lll
 			pick $p in myRule := TEA;
 		''')
-		Assert.assertNotNull(result)
+		Assertions.assertNotNull(result)
 		val errors = result.eResource.errors
-		Assert.assertTrue(errors.size == 1);
-		Assert.assertTrue(errors.get(0).toString().contains("expecting RULE_RULE_NAME"));
+		Assertions.assertTrue(errors.size == 1);
+		Assertions.assertTrue(errors.get(0).toString().contains("expecting RULE_RULE_NAME"));
 	}
 }

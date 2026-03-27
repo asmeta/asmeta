@@ -4,22 +4,22 @@
 package org.asmeta.avallaxt.syntax;
 
 import com.google.inject.Inject;
-import org.asmeta.avallaxt.AvallaInjectorProvider;
 import org.asmeta.avallaxt.avalla.Scenario;
+import org.asmeta.avallaxt.tests.AvallaInjectorProvider;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.testing.InjectWith;
-import org.eclipse.xtext.testing.XtextRunner;
+import org.eclipse.xtext.testing.extensions.InjectionExtension;
 import org.eclipse.xtext.testing.util.ParseHelper;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.InputOutput;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 
-@RunWith(XtextRunner.class)
+@ExtendWith(InjectionExtension.class)
 @InjectWith(AvallaInjectorProvider.class)
 @SuppressWarnings("all")
 public class AvallaXtParsingImportTest {
@@ -76,14 +76,15 @@ public class AvallaXtParsingImportTest {
       InputOutput.<String>println(("testing with " + i));
       final String scenario = ("scenario scen load " + i);
       final Scenario result = this.parseHelper.parse(scenario);
-      Assert.assertNotNull(result);
+      Assertions.assertNotNull(result);
       final EList<Resource.Diagnostic> errors = result.eResource().getErrors();
+      boolean _isEmpty = errors.isEmpty();
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("Unexpected errors: ");
       String _join = IterableExtensions.join(errors, ", ");
       _builder.append(_join);
-      Assert.assertTrue(_builder.toString(), errors.isEmpty());
-      Assert.assertEquals(((Scenario) result).getSpec(), i);
+      Assertions.assertTrue(_isEmpty, _builder.toString());
+      Assertions.assertEquals(((Scenario) result).getSpec(), i);
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
