@@ -75,7 +75,7 @@
 			<artifactId>asmeta.parser</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		<!-- attenzione così non fa andare neanche un test !!!-->
+		<!-- questo progetto è ancora junit 4 - difficile da portare a junit 5, è xtend/xtext-->
 		<dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

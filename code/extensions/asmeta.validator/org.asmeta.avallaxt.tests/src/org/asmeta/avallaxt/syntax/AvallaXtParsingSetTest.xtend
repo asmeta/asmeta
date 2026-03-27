@@ -39,7 +39,7 @@ class AvallaXtParsingSetTest {
 		val result = parseHelper.parse(scenario)
 		Assert.assertNotNull(result)
 		val errors = result.eResource.errors
-		Assert.assertTrue('''Unexpected errors: ï¿½errors.join(", ")ï¿½''', errors.isEmpty)
+		Assert.assertTrue('''Unexpected errors: «errors.join(", ")»''', errors.isEmpty)
 		Assert.assertEquals(((result as Scenario).elements.get(0) as Set).location,location.trim);
 		Assert.assertEquals(((result as Scenario).elements.get(0) as Set).value,value);		
 	}

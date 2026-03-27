@@ -1,6 +1,8 @@
 package org.asmeta.avallaxt.validation;
 
-import org.junit.jupiter.api.Test; import static org.junit.jupiter.api.Assertions.assertTrue;
+
+
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -10,37 +12,39 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
-class TestScenariosInDir extends TestParserAndValidation {
+
+
+public class TestScenariosInDir extends TestParserAndValidation {
 
 	// test all the scenario in the examples
-	@Test void allExamples() throws Exception {
+	@Test public void allExamples() throws Exception {
 		testAvallasInDir("../../../../asm_examples");
 		testAvallasInDir("../../../../asmeta_models/tutorials");
 	}
 
-	@Test void allExamplesExamples() throws Exception {
+	@Test public void allExamplesExamples() throws Exception {
 		// subsumed by the previous onme
 		//testAvallasInDir("../../../../../asm_examples/examples");
 	}
 
-	@Test void allAll() throws Exception {
+	@Test public void allAll() throws Exception {
 		//testAvallasInDir("../../../..");
 	}
 
-	@Test void allAvallaXTTestExamples() throws Exception {
+	@Test public void allAvallaXTTestExamples() throws Exception {
 		// skip these beasue they contain errors for testing
 		//testAvallasInDir("example");
 	}
 
-	@Test void allinValidatorTestExamples() throws Exception {
+	@Test public void allinValidatorTestExamples() throws Exception {
 		testAvallasInDir("../asmeta.validator.test/scenariosforexamples");
 	}
 
 
 	// ABZ2020
-	@Test void abz2020() throws Exception {
+	@Test public void abz2020() throws Exception {
 		//testAvallasInDir("example/abz2020/scenarios");
 	}
 
@@ -61,6 +65,6 @@ class TestScenariosInDir extends TestParserAndValidation {
 			}
 		}
 		System.err.println(filexWithErrors);
-		assertTrue(filexWithErrors.isEmpty(),filexWithErrors.toString());
+		assertTrue(filexWithErrors.toString(),filexWithErrors.isEmpty());
 	}	
 }

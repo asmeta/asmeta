@@ -16,6 +16,7 @@ import org.eclipse.xtext.testing.XtextRunner;
 import org.eclipse.xtext.testing.util.ParseHelper;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.InputOutput;
+import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -48,7 +49,9 @@ public class AvallaXtParsingSetTest {
       Assert.assertNotNull(result);
       final EList<Resource.Diagnostic> errors = result.eResource().getErrors();
       StringConcatenation _builder = new StringConcatenation();
-      _builder.append("Unexpected errors: �errors.join(\", \")�");
+      _builder.append("Unexpected errors: ");
+      String _join = IterableExtensions.join(errors, ", ");
+      _builder.append(_join);
       Assert.assertTrue(_builder.toString(), errors.isEmpty());
       Element _get = ((Scenario) result).getElements().get(0);
       Assert.assertEquals(((Set) _get).getLocation(), location.trim());
