@@ -15,7 +15,7 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
-import org.asmeta.asm2code.main.AsmToCGenerator;
+
 import org.asmeta.codegenerator.InoGenerator;
 import org.asmeta.codegenerator.JsonGenerator;
 import org.asmeta.codegenerator.arduino.ArduinoVersion;
@@ -27,11 +27,12 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IHandler;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.part.FileEditorInput;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
@@ -39,8 +40,6 @@ import com.google.gson.stream.JsonReader;
 
 import asm2code_inoproject.Asmeta2Project;
 import asmeta.structure.Asm;
-
-import org.eclipse.ui.part.FileEditorInput;
 
 public class GeneratorHandler extends AbstractHandler implements IHandler {
 	private Asmeta2Project uasm2code;

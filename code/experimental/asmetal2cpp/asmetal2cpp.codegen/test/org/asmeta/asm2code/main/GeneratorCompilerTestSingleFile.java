@@ -7,14 +7,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.asmeta.asm2code.main.CppGenerator;
-import org.asmeta.asm2code.main.HeaderGenerator;
 import org.asmeta.asm2code.compiler.CompileResult;
-import org.asmeta.asm2code.compiler.CppCompiler;
-import org.asmeta.parser.ASMParser;
-import org.junit.Test;
-
-import asmeta.AsmCollection;
+import org.junit.jupiter.api.Test;
 
 public class GeneratorCompilerTestSingleFile extends GeneratorCompilerTest {
 

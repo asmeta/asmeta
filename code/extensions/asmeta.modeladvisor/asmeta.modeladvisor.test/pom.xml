@@ -24,7 +24,7 @@
 						<include>*.java</include>
 						<include>**\*.java</include>
 					</includes>
-					<excludedGroups>org.asmeta.annotations.TestToMavenSkip</excludedGroups>
+					<excludedGroups>TestToMavenSkip</excludedGroups>
 					<systemPropertyVariables>
 						<!--	<log4j.configuration>
 							file:${basedir}/log4j_maven.properties</log4j.configuration> -->
@@ -85,12 +85,6 @@
 			<type>test-jar</type>
 			<scope>test</scope>
 			-->
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.13.2</version>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
 	<parent>

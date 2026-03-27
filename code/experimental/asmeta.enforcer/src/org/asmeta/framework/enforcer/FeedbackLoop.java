@@ -9,7 +9,6 @@ import java.util.Map;
 import org.asmeta.framework.managedSystem.Effector;
 import org.asmeta.framework.managedSystem.Probe;
 import org.asmeta.runtime_container.RunOutput;
-import org.asmeta.runtime_container.SimulationContainerSingleton;
 import org.asmeta.runtime_container.SimulationContainer;
 
 public abstract class FeedbackLoop {

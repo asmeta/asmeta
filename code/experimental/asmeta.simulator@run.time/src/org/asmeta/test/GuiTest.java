@@ -4,15 +4,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.HashMap;
-import java.util.Map;
 
-import org.asmeta.assertion_catalog.InvariantGUI;
-import org.asmeta.runtime_container.SimulationContainer;
 import org.asmeta.runtime_container.IModelAdaptation;
-import org.asmeta.runtime_container.IModelExecution;
+import org.asmeta.runtime_container.SimulationContainer;
 import org.asmeta.simulationUI.SimGUI;
-import org.asmeta.simulationUI.SimGUILauncher;
 import org.asmeta.simulationUI.SimShell;
 
 /**

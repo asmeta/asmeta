@@ -2,14 +2,19 @@ package asmeta.evotest.junit2avalla.javascenario;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
+
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
+import asmeta.evotest.junit2avalla.antlr.JavaScenarioLexer;
+import asmeta.evotest.junit2avalla.antlr.JavaScenarioParser;
 import asmeta.evotest.junit2avalla.model.Scenario;
 import asmeta.evotest.junit2avalla.model.terms.AvallaCheckTerm;
 import asmeta.evotest.junit2avalla.model.terms.AvallaHeaderTerm;
@@ -18,11 +23,9 @@ import asmeta.evotest.junit2avalla.model.terms.AvallaSetTerm;
 import asmeta.evotest.junit2avalla.model.terms.AvallaStepTerm;
 import asmeta.evotest.junit2avalla.model.terms.AvallaTerm;
 import asmeta.evotest.junit2avalla.util.JavaScenarioUtil;
-import asmeta.evotest.junit2avalla.antlr.JavaScenarioLexer;
-import asmeta.evotest.junit2avalla.antlr.JavaScenarioParser;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+
+
 
 /**
  * Test the behavior of the antlr listener, analyze a junit file and create a
@@ -41,7 +44,7 @@ public class JavaScenarioListenerTest {
 	/**
 	 * Parse the junit file and generates the scenario List, a list of avalla terms
 	 */
-	@BeforeClass
+	@BeforeAll
 	public static void setup() {
 		try {
 			// parse the junit file

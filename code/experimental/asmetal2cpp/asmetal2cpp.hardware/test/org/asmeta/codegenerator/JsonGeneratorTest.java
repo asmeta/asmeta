@@ -1,5 +1,6 @@
 package org.asmeta.codegenerator;
 
+
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -9,7 +10,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.asmeta.asm2code.main.AsmToCGenerator;
 import org.asmeta.codegenerator.arduino.ArduinoVersion;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.AsmetaParserUtility;

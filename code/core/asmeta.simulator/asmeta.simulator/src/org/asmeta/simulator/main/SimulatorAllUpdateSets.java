@@ -48,7 +48,6 @@ import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.InvalidInvariantException;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.LocationSet;
-import org.asmeta.simulator.RuleEvaluator;
 import org.asmeta.simulator.RuleEvaluatorAllUpdateSets;
 import org.asmeta.simulator.SetUpdateSet;
 import org.asmeta.simulator.State;

@@ -1,26 +1,23 @@
 package org.asmeta.avallaxt.validation;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import org.junit.jupiter.api.Test; import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test; import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import org.junit.jupiter.api.Test; import static org.junit.jupiter.api.Assertions.assertSame;
+import org.junit.jupiter.api.Test; import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
-import java.io.IOException;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class TestSingleScenario extends TestParserAndValidation {
+class TestSingleScenario extends TestParserAndValidation {
 
-	@Test
-	public void checkExampleBlockNoError() {
+	@Test void checkExampleBlockNoError() {
 		assertSame(checkPossibleFaults("example/block1.avalla"),PossibleFaults_NONE);
-		assertTrue(checkPossibleFaults("example/block2.avalla") == PossibleFaults_NONE);
-		assertTrue(checkPossibleFaults("example/block3.avalla") == PossibleFaults_NONE);
+		assertSame(checkPossibleFaults("example/block2.avalla"), PossibleFaults_NONE);
+		assertSame(checkPossibleFaults("example/block3.avalla"), PossibleFaults_NONE);
 	}
 
-	@Test
-	public void checkExampleBlockErrors() {
+	@Test void checkExampleBlockErrors() {
 		// with semantic errors
 		assertEquals("ERROR block blocco5 does not exist in this scenario",checkPossibleFaults("example/block_w1.avalla"));
 		assertEquals("ERROR block blocco1 declared multiple times",checkPossibleFaults("example/block_w2.avalla"));
@@ -29,36 +26,31 @@ public class TestSingleScenario extends TestParserAndValidation {
 		assertEquals("ERROR scenario block1 does not contain block blocco5",checkPossibleFaults("example/block_w5.avalla"));
 	}
 
-	@Test
-	public void checkExampleLift() {
+	@Test void checkExampleLift() {
 		assertEquals("ERROR Asm spec should end with asm",checkPossibleFaults("example/lift_wrong1.avalla"));
 		// it may be \\ instead of / in windows - use dth strandrd name
 		assertEquals("ERROR File LiftNotExists.asm does not exist as example"+ File.separator+"LiftNotExists.asm",checkPossibleFaults("example/lift_wrong2.avalla"));
 		assertEquals(checkPossibleFaults("example/lift_shared.avalla"),PossibleFaults_NONE);
 	}
 
-	@Test
-	public void checkBattleShip() {
+	@Test void checkBattleShip() {
 		assertEquals(checkPossibleFaults("example/battleship1.avalla"),PossibleFaults_NONE);
 		assertEquals(checkPossibleFaults("example/battleship2.avalla"),PossibleFaults_NONE);
 		assertEquals(checkPossibleFaults("example/battleship3.avalla"),PossibleFaults_NONE);
 	}
 
-	@Test
-	public void checkSLE() {
+	@Test void checkSLE() {
 		assertEquals(checkPossibleFaults("../../../../asm_examples/examples/fsmsemantics/Sle/testEven1.avalla"),PossibleFaults_NONE);
 	}
 
 	// PROBLEMATICS
-	@Test
-	public void testproblematic() throws IOException {
+	@Test void testproblematic() throws Exception {
 		// test("../../../../asm_examples/examples/fsmsemantics/Sle/testEven1.avalla",
 		// PossibleFaults.NONE);// SOLVED
 	}
-	
+
 	// ABZ2020
-	@Test
-	public void testABZ2020() throws IOException {
+	@Test void abz2020() throws Exception {
 		//test("example/abz2020/scenarios/scenario001CarSystem001.avalla", PossibleFaults.NONE);
 		//test("example/abz2020/scenarios/wExecBlock.avalla", PossibleFaults.NONE);
 		// test("../../../../asm_examples/examples/fsmsemantics/Sle/testEven1.avalla",
@@ -66,20 +58,17 @@ public class TestSingleScenario extends TestParserAndValidation {
 		//boolean test = (checkPossibleFaults("example/abz2020/CarSystem006scenario003.avalla") == PossibleFaults_NONE);
 	}
 
-	@Test
-	public void checkImportImport() {
-		assertTrue(checkPossibleFaults("example/importimport.avalla") == PossibleFaults_NONE);
+	@Test void checkImportImport() {
+		assertSame(checkPossibleFaults("example/importimport.avalla"), PossibleFaults_NONE);
 	}
 
-	
-	@Test
-	public void checkForall() {
-		assertTrue(checkPossibleFaults("example/lift_forall.avalla") == PossibleFaults_NONE);
+
+	@Test void checkForall() {
+		assertSame(checkPossibleFaults("example/lift_forall.avalla"), PossibleFaults_NONE);
 	}
 
-	
-	@Test
-	public void checkForFlaky() {
+
+	@Test void checkForFlaky() {
 		String baseFolder = "../asmeta.validator.test/scenariosfortest/flaky/coffee_vending_machine/";
 		// correct scenario
 		assertSame(checkPossibleFaults(baseFolder + "/scenario_noflaky.avalla"),PossibleFaults_NONE);

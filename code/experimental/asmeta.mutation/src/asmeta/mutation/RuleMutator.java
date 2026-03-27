@@ -9,7 +9,6 @@ import org.eclipse.emf.common.util.EList;
 
 import asmeta.transitionrules.TransitionRulesFactory;
 import asmeta.transitionrules.basictransitionrules.BlockRule;
-
 import asmeta.transitionrules.basictransitionrules.Rule;
 
 public class RuleMutator extends ReflectiveVisitor<Iterator<Rule>>{

@@ -1,19 +1,18 @@
 package org.asmeta.simulator.main;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.State;
 import org.asmeta.simulator.main.Simulator.InvariantTreament;
 import org.asmeta.simulator.value.Value;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import asmeta.definitions.Function;
 
-public class TermTest extends BaseTest {
+class TermTest extends BaseTest {
 
-	@Test
-	public void test01() throws Exception {
+	@Test void test01() throws Exception {
 		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/terms/existUniqueTerm.asm");
 		Simulator.checkInvariants = InvariantTreament.CHECK_STOP;
 		sim.run(1);

@@ -2,7 +2,6 @@ package org.asmeta.nusmv.main;
 
 import static java.lang.System.out;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -13,15 +12,13 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.Predicate;
 
-import org.asmeta.nusmv.main.AsmetaSMV;
 import org.asmeta.nusmv.main.AsmetaSMV.ModelCheckerMode;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
 import org.eclipse.emf.common.util.EList;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
 
 import asmeta.definitions.CtlSpec;
 import asmeta.definitions.Property;
-import asmeta.definitions.TemporalProperty;
 
 // standard SMV test with CTL properties!
 public class AsmetaSMVtest {
@@ -29,7 +26,7 @@ public class AsmetaSMVtest {
 	protected static boolean PRINT_NU_SM_VOUTPUT = false;
 
 
-	@BeforeClass
+	@BeforeAll
 	public static void testNuSMVInstallation(){
 		//
 		AsmetaSMV.modelCheckerMode = ModelCheckerMode.CTL;

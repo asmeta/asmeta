@@ -1,27 +1,30 @@
 package org.asmeta.flattener;
 
-import org.asmeta.flattener.rule.ChooseRuleFlattener;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class ChooseRuleFlattenerTest extends FlattenerTest {
+import org.asmeta.flattener.rule.ChooseRuleFlattener;
+import org.junit.jupiter.api.Test;
+
+class ChooseRuleFlattenerTest extends FlattenerTest {
 
 	@Test
-	public void testChoose() throws Exception {
+	void choose() throws Exception {
 		flattenerTest("./examples/chooseRule.asm", ChooseRuleFlattener.class);
 	}
 
 	@Test
-	public void testChooseWithNone() throws Exception {
+	void chooseWithNone() throws Exception {
 		flattenerTest("./examples/chooseRuleIfNone.asm", ChooseRuleFlattener.class);
 	}
 
-	@Test(expected = AssertionError.class)
-	public void testForallChoose() throws Exception {
-		flattenerTest("./examples/forallChooseRule.asm", ChooseRuleFlattener.class);
+	@Test
+	void forallChoose() throws Exception {
+		assertThrows(AssertionError.class, () ->
+			flattenerTest("./examples/forallChooseRule.asm", ChooseRuleFlattener.class));
 	}
 
 	@Test
-	public void testCoffeeVendingMachine() throws Exception {
+	void coffeeVendingMachine() throws Exception {
 		flattenerTest(examplesDir + "examples/coffeeVendingMachine/coffeeVendingMachine.asm",
 				ChooseRuleFlattener.class);
 	}

@@ -18,10 +18,8 @@ import org.asmeta.simulator.TermEvaluator;
 import org.asmeta.simulator.UpdateClashException;
 import org.asmeta.simulator.UpdateSet;
 import org.asmeta.simulator.main.Simulator.InvariantTreament;
-import org.asmeta.simulator.readers.InteractiveMFReader;
 import org.asmeta.simulator.readers.MonFuncReader;
 import org.asmeta.simulator.readers.RandomMFReader;
-import org.eclipse.emf.ecore.resource.impl.DESCipherImpl;
 
 public class TestOneSpec {
 

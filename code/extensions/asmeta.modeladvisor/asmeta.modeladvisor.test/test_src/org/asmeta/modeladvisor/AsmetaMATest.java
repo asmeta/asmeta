@@ -14,11 +14,9 @@ import java.util.Set;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.asmeta.modeladvisor.AsmetaMA.ExecCheck;
-import org.asmeta.nusmv.MapVisitor;
-import org.asmeta.nusmv.NuSMVRuleVisitor;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 
 import asmeta.transitionrules.basictransitionrules.ChooseRule;
 import asmeta.transitionrules.basictransitionrules.ForallRule;
@@ -29,7 +27,7 @@ import asmeta.transitionrules.basictransitionrules.Rule;
 public class AsmetaMATest {
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testCaseRuleIsComplete() throws Exception {
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/caseIsComplete.asm");
 		asmetaMA.activateExecCheck(ExecCheck.execCaseRuleIsComplete,true);
@@ -110,7 +108,7 @@ public class AsmetaMATest {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testChooseRuleIsEmpty() throws Exception {
 		Set<String> expectedAlwaysNot = new HashSet<String>();
 		expectedAlwaysNot.add("$o");
@@ -165,7 +163,7 @@ public class AsmetaMATest {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testCondRuleEvalToTrue() throws Exception {
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/condIsEvalToTrue.asm");
 		asmetaMA.activateExecCheck(ExecCheck.execCondRuleEvalToTrue,true);
@@ -176,7 +174,7 @@ public class AsmetaMATest {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testCondRuleIsComplete() throws Exception {
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/condIsComplete.asm");
 		asmetaMA.activateExecCheck(ExecCheck.execCondRuleIsComplete,true);
@@ -303,7 +301,7 @@ public class AsmetaMATest {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testDomainAllUsed() throws Exception {
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/usedDomain.asm");
 		asmetaMA.activateExecCheck(ExecCheck.execDomainAllUsed,true);
@@ -417,7 +415,7 @@ public class AsmetaMATest {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testForallRuleIsEmpty() throws Exception {
 		Set<String> expectedAlwaysNot = new HashSet<String>();
 		expectedAlwaysNot.add("$x");
@@ -561,7 +559,7 @@ public class AsmetaMATest {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testStatDerIsUsed() throws Exception {
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/statDerIsUsed.asm");
 		asmetaMA.activateExecCheck(ExecCheck.execStatDerIsUsed,true);
@@ -666,7 +664,7 @@ public class AsmetaMATest {
 	}*/
 	
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testLet() throws Exception {
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("../../../../asm_examples/Casestudy/ASM model/CarSystem_adaptive_high_beam2.asm");
 		asmetaMA.activateExecCheck(ExecCheck.execInconsistentUpdates,true);
@@ -675,7 +673,7 @@ public class AsmetaMATest {
 	}
 	
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testTrafficMonitor() throws Exception {
 		Set<String> funcNamesForMP1 = new HashSet<String>();
 		funcNamesForMP1.add("stateSHC");

@@ -10,14 +10,14 @@
  ******************************************************************************/
 package org.asmeta.simulator.main;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import org.asmeta.parser.util.Defs;
-import org.junit.After;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 
 import asmeta.definitions.Function;
 import asmeta.definitions.RuleDeclaration;
@@ -31,9 +31,9 @@ public class BaseTest {
 	
 	protected final static String ASM_EXAMPLES = "../../../../asm_examples/";
 
-	
-	@BeforeClass
-	public static void checkDirectory() {
+
+	@BeforeAll
+	static void checkDirectory() {
 		  assertTrue(Files.isDirectory(Paths.get(ASM_EXAMPLES)));
 	}
 	
@@ -51,8 +51,7 @@ public class BaseTest {
 		return Defs.searchMacro(sim.asmModel, name);
 	}
 
-	@After
-	public void tearDown() throws Exception {
+	@AfterEach void tearDown() throws Exception {
 	}
 
 }

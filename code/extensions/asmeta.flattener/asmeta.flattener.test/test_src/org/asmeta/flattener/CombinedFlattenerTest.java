@@ -1,56 +1,61 @@
 package org.asmeta.flattener;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.asmeta.flattener.nesting.RemoveNestingFlattener;
 import org.asmeta.flattener.rule.CaseRuleFlattener;
 import org.asmeta.flattener.rule.ChooseRuleFlattener;
 import org.asmeta.flattener.rule.ForallRuleFlattener;
 import org.asmeta.flattener.rule.LetRuleFlattener;
 import org.asmeta.flattener.rule.MacroCallRuleFlattener;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class CombinedFlattenerTest extends FlattenerTest {
+class CombinedFlattenerTest extends FlattenerTest {
 
 	@Test
-	public void testConwayGameOfLifeAgents() throws Exception {
+	void conwayGameOfLifeAgents() throws Exception {
 		flattenerTest(examplesDir + "examples/conwayGameOfLife/gameOfLifeAgents.asm", MacroCallRuleFlattener.class,ForallRuleFlattener.class);
 		//flattenerTest(examplesDir + "examples/conwayGameOfLife/gameOfLifeAgents.asm", ALL_FLATTENERS);
 	}
 
 	@Test
-	public void testForallRuleChoose() throws Exception {
+	void forallRuleChoose() throws Exception {
 		flattenerTest("./examples/forallRuleChoose.asm", MacroCallRuleFlattener.class, ForallRuleFlattener.class);
 	}
 
 	@Test
-	public void testForallRuleChoose2() throws Exception {
+	void forallRuleChoose2() throws Exception {
 		flattenerTest("./examples/forallRuleChoose.asm", RemoveNestingFlattener.class, ForallRuleFlattener.class);
 	}
 
 	@Test
-	public void testForallRuleChoose3() throws Exception {
+	void forallRuleChoose3() throws Exception {
 		//flattenerTest("./examples/forallRuleChoose.asm",ChooseRuleFlattener.class);
 		flattenerTest("./examples/forallRuleChoose.asm", RemoveNestingFlattener.class, ForallRuleFlattener.class, ChooseRuleFlattener.class);
 	}
 
 	// I'm not use it is expected to fail this one or it should pass
-	@Test(expected = AssertionError.class)
-	public void testForallRuleChoose4() throws Exception {
-		flattenerTest("./examples/forallRuleChoose.asm", ChooseRuleFlattener.class);
-	}
-
-	@Test(expected = AssertionError.class)
-	public void testCombinedFlattenerAll() throws Exception {
-		flattenerTestAllCombinations("./examples/forallRuleChoose.asm", ALL_FLATTENERS);
-	}
-	
-	@Test(expected = RuntimeException.class)
-	public void testTicTacToeAll() throws Exception {
-		flattenerTest(examplesDir + "examples/ticTacToe/ticTacToe_simulator.asm",
-				ALL_FLATTENERS);
+	@Test
+	void forallRuleChoose4() throws Exception {
+		assertThrows(AssertionError.class, () ->
+			flattenerTest("./examples/forallRuleChoose.asm", ChooseRuleFlattener.class));
 	}
 
 	@Test
-	public void testCombinedRushHour() throws Exception {
+	void combinedFlattenerAll() throws Exception {
+		assertThrows(AssertionError.class, () ->
+			flattenerTestAllCombinations("./examples/forallRuleChoose.asm", ALL_FLATTENERS));
+	}
+
+	@Test
+	void ticTacToeAll() throws Exception {
+		assertThrows(RuntimeException.class, () ->
+			flattenerTest(examplesDir + "examples/ticTacToe/ticTacToe_simulator.asm",
+				ALL_FLATTENERS));
+	}
+
+	@Test
+	void combinedRushHour() throws Exception {
 		flattenerTest("../../../../asm_examples/examples/RushHour/RushHour.asm",
 				MacroCallRuleFlattener.class,
 				ForallRuleFlattener.class,
@@ -61,17 +66,17 @@ public class CombinedFlattenerTest extends FlattenerTest {
 	}
 
 	@Test
-	public void testForallChoose() throws Exception {
+	void forallChoose() throws Exception {
 		flattenerTest("./examples/forallChooseRule.asm", ChooseRuleFlattener.class, ForallRuleFlattener.class);
 	}
 
 	@Test
-	public void testCase() throws Exception {
+	void testCase() throws Exception {
 		flattenerTest("./examples/nestedIfCase.asm", CaseRuleFlattener.class, RemoveNestingFlattener.class);
 	}
 
 	@Test
-	public void testCoffeeVendingMachine() throws Exception {
+	void coffeeVendingMachine() throws Exception {
 		flattenerTest(examplesDir + "examples/coffeeVendingMachine/coffeeVendingMachine.asm",
 				RemoveArgumentsFlattener.class,
 				LetRuleFlattener.class,
@@ -80,24 +85,24 @@ public class CombinedFlattenerTest extends FlattenerTest {
 				MacroCallRuleFlattener.class
 				);
 	}
-	
+
 	@Test
-	public void testAbstractDomain() throws Exception {
+	void abstractDomain() throws Exception {
 		flattenerTest("./examples/abstractDomain.asm", ALL_FLATTENERS);
 	}
 
 	@Test
-	public void testChooseRule() throws Exception {
+	void chooseRule() throws Exception {
 		flattenerTest("./examples/chooseRule.asm", ALL_FLATTENERS);
 	}
 
 	@Test
-	public void testMacroChooseRule() throws Exception {
+	void macroChooseRule() throws Exception {
 		flattenerTest("./examples/macroRuleChoose.asm", ALL_FLATTENERS);
 	}
 
 	@Test
-	public void testTicTacToe() throws Exception {
+	void ticTacToe() throws Exception {
 		flattenerTest(examplesDir + "examples/ticTacToe/ticTacToe_simulator.asm",
 				MacroCallRuleFlattener.class,
 				ForallRuleFlattener.class,

@@ -1,5 +1,6 @@
 package asmeta.asmetal2java.codegen.generator;
 
+
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -10,7 +11,7 @@ import java.util.List;
 
 import org.asmeta.parser.AsmetaParserUtility;
 import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import asmeta.asmetal2java.codegen.compiler.CompileResult;
 import asmeta.asmetal2java.codegen.config.TranslatorOptions;

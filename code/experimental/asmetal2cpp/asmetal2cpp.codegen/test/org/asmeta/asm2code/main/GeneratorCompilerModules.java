@@ -2,21 +2,12 @@ package org.asmeta.asm2code.main;
 
 import static org.junit.Assert.fail;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-import org.asmeta.asm2code.main.CppGenerator;
-import org.asmeta.asm2code.main.HeaderGenerator;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.asmeta.asm2code.compiler.CompileResult;
 import org.asmeta.asm2code.compiler.CppCompiler;
-import org.asmeta.parser.ASMParser;
-import org.junit.Test;
-
-import asmeta.AsmCollection;
+import org.junit.jupiter.api.Test;
 
 public class GeneratorCompilerModules extends GeneratorCompilerTest{
 

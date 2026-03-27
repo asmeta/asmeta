@@ -2,7 +2,7 @@ package asmeta.evotest.junit2avalla.avallascenario;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import asmeta.evotest.junit2avalla.model.Scenario;
 import asmeta.evotest.junit2avalla.model.ScenarioFile;

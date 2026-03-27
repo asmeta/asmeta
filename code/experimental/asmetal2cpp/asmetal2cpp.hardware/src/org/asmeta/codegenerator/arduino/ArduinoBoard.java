@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.asmeta.codegenerator.ConfigurationMode;
-import org.asmeta.codegenerator.arduino.ArduinoPinID;
-import org.asmeta.codegenerator.arduino.ArduinoVersion;
 
 public class ArduinoBoard {
 	List<ArduinoPin> pins = new ArrayList<ArduinoPin>();

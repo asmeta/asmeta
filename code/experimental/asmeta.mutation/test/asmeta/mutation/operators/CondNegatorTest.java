@@ -1,7 +1,6 @@
 package asmeta.mutation.operators;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -10,7 +9,7 @@ import java.util.List;
 
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.util.AsmPrinter;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import asmeta.AsmCollection;
 

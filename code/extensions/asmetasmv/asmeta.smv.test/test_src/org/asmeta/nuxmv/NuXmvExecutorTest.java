@@ -9,7 +9,8 @@ import java.io.OutputStreamWriter;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
 
 class StreamGobbler extends Thread {
 	InputStream is;

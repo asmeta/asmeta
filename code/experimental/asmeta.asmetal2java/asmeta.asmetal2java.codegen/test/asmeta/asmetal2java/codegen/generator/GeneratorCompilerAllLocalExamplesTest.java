@@ -1,5 +1,6 @@
 package asmeta.asmetal2java.codegen.generator;
 
+
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -11,8 +12,8 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import org.asmeta.parser.AsmetaParserUtility;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import asmeta.asmetal2java.codegen.compiler.CompileResult;
 
@@ -30,7 +31,7 @@ public class GeneratorCompilerAllLocalExamplesTest extends GeneratorCompileTest 
 	/** Files to exclude from the translation */
 	static List<String> excludeFiles = new ArrayList<>();
 
-	@BeforeClass
+	@BeforeAll
 	public static void setup() {
 		excludeFiles.addAll(GeneratorCompilerUtil.libraries);
 		excludeFiles.addAll(GeneratorCompilerUtil.parseException);

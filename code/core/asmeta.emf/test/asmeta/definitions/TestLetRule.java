@@ -1,15 +1,15 @@
-package test;
+package asmeta.definitions;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import asmeta.terms.basicterms.BasictermsFactory;
 import asmeta.terms.basicterms.VariableTerm;
 import asmeta.transitionrules.basictransitionrules.BasictransitionrulesFactory;
 import asmeta.transitionrules.basictransitionrules.LetRule;
 
-public class TestLetRule {
+class TestLetRule {
 	/**
 	 * 
 	 * Test case to test the unique attribute:
@@ -22,8 +22,7 @@ public class TestLetRule {
 	 * 
 	 * @param args
 	 */
-	@Test
-	public void testLetRule(){
+	@Test void letRule(){
 		LetRule atd = BasictransitionrulesFactory.eINSTANCE.createLetRule();
 		VariableTerm vt1 = BasictermsFactory.eINSTANCE.createVariableTerm();
 		vt1.setName("a");

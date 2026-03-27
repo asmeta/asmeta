@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.asmeta.codegenerator.arduino.ArduinoBoard;
 import org.asmeta.codegenerator.arduino.ArduinoVersion;
-import org.asmeta.codegenerator.configuration.*;
 
 import com.google.gson.annotations.SerializedName;
 

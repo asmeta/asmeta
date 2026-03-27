@@ -10,20 +10,20 @@
  ******************************************************************************/
 package org.asmeta.simulator.main;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.value.BooleanValue;
 import org.asmeta.simulator.value.Value;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import asmeta.definitions.Function;
 
 
-public class ErindaTest extends BaseTest {
+class ErindaTest extends BaseTest {
 
-	@Test
-	public void test01() throws Exception {
+	@Test void test01() throws Exception {
 		sim = Simulator.createSimulator(ASM_EXAMPLES+"test/simulator/agents/agents.asm");
 		sim.run(1);
 		Function foo1 = searchFunction("foo1");
@@ -33,11 +33,11 @@ public class ErindaTest extends BaseTest {
 		assertEquals(BooleanValue.FALSE, v1);
 		assertEquals(BooleanValue.FALSE, v2);
 	}
-	
-	@Test(expected = org.asmeta.simulator.UpdateClashException.class)
-	public void test02() throws Exception {
-		sim = Simulator.createSimulator(ASM_EXAMPLES+"test/simulator/agents/agents2.asm");
-		sim.run(1);
+
+	@Test void test02() throws Exception {
+		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/agents/agents2.asm");
+		assertThrows(org.asmeta.simulator.UpdateClashException.class, () ->
+			sim.run(1));
 		//Function foo = searchFunction("foo");
 		//Value v = sim.currentState.read(new Location(foo, new Value[0]));
 		//assertEquals(BooleanValue.FALSE, v);

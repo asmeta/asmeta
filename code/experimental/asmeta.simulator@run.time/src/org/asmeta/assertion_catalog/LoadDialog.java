@@ -1,7 +1,18 @@
 package org.asmeta.assertion_catalog;
 
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Map;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 import org.asmeta.parser.AsmetaParserUtility;
@@ -11,18 +22,6 @@ import org.asmeta.runtime_container.IModelExecution;
 import org.asmeta.simulationUI.SimGUI;
 import org.asmeta.simulator.main.AsmModelNotFoundException;
 import org.asmeta.simulator.main.MainRuleNotFoundException;
-
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
-
-import java.awt.Font;
-import java.util.Map;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.UIManager;
 
 public class LoadDialog extends JDialog {
 	static InvariantManager StartGui = new InvariantManager();

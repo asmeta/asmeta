@@ -10,35 +10,33 @@
  ******************************************************************************/
 package org.asmeta.simulator.util;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.util.Defs;
-import org.asmeta.simulator.util.InputMismatchException;
-import org.asmeta.simulator.util.Parser;
-import org.asmeta.simulator.value.TupleValue;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import asmeta.AsmCollection;
 import asmeta.definitions.domains.Domain;
 import asmeta.structure.Asm;
 
 // test case for the Libaray specification 
-public class ParserValueTest {
+class ParserValueTest {
 
 	private static final String ASM_EXAMPLES = "../../../../asm_examples/";
-	
+
 	static Domain bookDom;
 
-	@BeforeClass
-	public static void setupLogger() throws Exception {
-		//AsmParserTest.setUpLogger();
+	@BeforeAll
+	static void setupLogger() throws Exception {
+		// AsmParserTest.setUpLogger();
 		// Scrivi caso di test per la library
-		File libraryF = new File(ASM_EXAMPLES +"examples/library/Library.asm");
+		File libraryF = new File(ASM_EXAMPLES + "examples/library/Library.asm");
 		assertTrue(libraryF.exists());
 		AsmCollection asms = ASMParser.setUpReadAsm(libraryF);
 		Asm asm = asms.getMain();
@@ -49,25 +47,21 @@ public class ParserValueTest {
 		assertNotNull(bookDom);
 	}
 
-	@Test(expected = InputMismatchException.class)
-	public void testVisitProductDomain1() throws InputMismatchException {
-		// input mismatch con solo una stringa
+	@Test
+	void visitProductDomain1() {
 		Parser p = new Parser("(\"a\")");
-		TupleValue v;
-		v = (TupleValue) p.visit(bookDom);
-		assertNotNull(v);
-		System.out.println(v.toString());
+		assertThrows(InputMismatchException.class, () -> p.visit(bookDom));
 	}
 
-	@Test(expected = InputMismatchException.class)
-	public void testVisitProductDomain2() throws InputMismatchException {
+	@Test
+	void visitProductDomain2() {
 		Parser p = new Parser("(543543543)");
-		p.visit(bookDom);
+		assertThrows(InputMismatchException.class, () -> p.visit(bookDom));
 	}
 
 	// con dati GIUSTi
 	@Test
-	public void testVisitProductDomain3() throws InputMismatchException {
+	void visitProductDomain3() throws Exception {
 		Parser p = new Parser("(\"a\",\"a\",\"a\",\"a\",4)");
 		p.visit(bookDom);
 	}

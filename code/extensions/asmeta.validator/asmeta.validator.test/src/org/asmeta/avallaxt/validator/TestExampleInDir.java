@@ -1,6 +1,6 @@
 package org.asmeta.avallaxt.validator;
 
-import static org.junit.Assert.assertTrue;
+import org.junit.jupiter.api.Test; import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -11,15 +11,11 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-import org.asmeta.xt.validator.AsmetaPrinterForAvalla;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 // test all the avallas in some directories (with the validator but not coverage
 //
-public class TestExampleInDir extends TestValidator {
+class TestExampleInDir extends TestValidator {
 
 	// TODO fix these scenarios (or models) - some actually could be there to see that fail
 	static final String[] SKIP_AVALLAS_ASM_EXAMPLES = {
@@ -29,9 +25,8 @@ public class TestExampleInDir extends TestValidator {
 			"trace_scenario2.avalla", 
 			"sluiceGateMotorCtl.avalla",
 			"lift.avalla"};
-	
-	@Test
-	public void testAllAvallaInAsmExamples() throws Exception {
+
+	@Test void allAvallaInAsmExamples() throws Exception {
 		// example of example
 		//testInDir(ASM_EXAMPLES_EXAMPLES, SKIP_AVALLAS_ASM_EXAMPLES);
 	}		
@@ -42,9 +37,8 @@ public class TestExampleInDir extends TestValidator {
 				"smartHomeNoMultiChannel1.avalla", 
 				"error2level56nocert.avalla", 
 				"exit.avalla"};
-	
-	@Test
-	public void testAllForExamples() throws Exception {
+
+	@Test void allForExamples() throws Exception {
 		// scenario 
 		//testInDir("scenariosforexamples",SKIP_AVALLAS_EXAMPLES);
 	}
@@ -53,7 +47,7 @@ public class TestExampleInDir extends TestValidator {
 	private void testInDir(String dirPath, String ... skipthese) throws IOException, Exception {
 		List<Path> failures = new ArrayList<>();
 		Path examplePath = Paths.get(dirPath);
-		Assert.assertTrue("dir not found "+  Paths.get(".").toAbsolutePath(),Files.isDirectory(examplePath));
+		assertTrue(Files.isDirectory(examplePath),"dir not found "+  Paths.get(".").toAbsolutePath());
 		Iterator<Path> files = Files.walk(examplePath).iterator();
 		while (files.hasNext()) {
 			Path fileToRead = files.next();
@@ -75,7 +69,7 @@ public class TestExampleInDir extends TestValidator {
 				}
 			}
 		}
-		assertTrue(failures.toString(), failures.isEmpty());
+		assertTrue(failures.isEmpty(), failures.toString());
 	}
 
 }

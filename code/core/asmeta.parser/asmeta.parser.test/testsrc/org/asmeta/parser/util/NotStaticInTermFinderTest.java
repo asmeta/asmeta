@@ -1,6 +1,6 @@
 package org.asmeta.parser.util;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -10,15 +10,14 @@ import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.AsmParserTest;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import asmeta.AsmCollection;
 import asmeta.structure.FunctionDefinition;
 
-public class NotStaticInTermFinderTest extends AsmParserTest{
+class NotStaticInTermFinderTest extends AsmParserTest{
 
-	@Test
-	public void testTest3declarations() throws Exception {
+	@Test void test3declarations() throws Exception {
 		File spec = new File(FILE_BASE + "/" +"test/parser/staticVSDerived.asm");
 		AsmCollection x = ASMParser.setUpReadAsm(spec);
 		EList<FunctionDefinition> defs = x.getMain().getBodySection().getFunctionDefinition();

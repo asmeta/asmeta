@@ -1,10 +1,12 @@
 package org.asmeta.runtime_composer;
 
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 /**
  * @author Michele Zenoni
  */
 
-import static org.junit.Assert.assertTrue;
+
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

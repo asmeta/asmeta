@@ -11,7 +11,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
 
 import asmeta.definitions.Classifier;
-import asmeta.definitions.domains.*;
 import asmeta.definitions.domains.AbstractTd;
 import asmeta.definitions.domains.AgentDomain;
 import asmeta.definitions.domains.AnyDomain;

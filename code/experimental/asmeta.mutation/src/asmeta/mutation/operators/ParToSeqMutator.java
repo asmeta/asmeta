@@ -7,8 +7,6 @@ import java.util.List;
 import org.asmeta.simulator.RuleVisitor;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
-import asmeta.mutation.operators.CondRemover.RemoveCond;
-import asmeta.structure.Asm;
 import asmeta.transitionrules.basictransitionrules.BlockRule;
 import asmeta.transitionrules.basictransitionrules.ChooseRule;
 import asmeta.transitionrules.basictransitionrules.ConditionalRule;

@@ -34,7 +34,6 @@ package org.asmeta.parser.util;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 
 import org.apache.log4j.Logger;
 

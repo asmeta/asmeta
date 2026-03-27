@@ -1,14 +1,14 @@
 package org.asmeta.parser;
-import static org.junit.Assert.assertTrue;
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /** test all the specs in the example subdirs. they should all pass
  * 
@@ -17,57 +17,53 @@ import org.junit.Test;
  */
 public class AsmParserTest_Example extends AsmParserTest{
 
-	//@BeforeClass
+	//@BeforeAll
 	public static void setUpLogger(){
 		AsmParserTest.setUpLogger();
 	}
-	
-	@Test
-	public void testExamplesAgents(){
+
+	@Test void examplesAgents(){
 		testDir("examples/agents/");
 	}
-	@Test
-	public void testFSM(){
+
+	@Test void fsm(){
 		testDir("examples/fsmsemantics/");
 	}
 
-	@Test
-	public void testExamplesModels(){
+	@Test void examplesModels(){
 		testDir("examples/models/");
-	}	
-	@Test
-	public void testExamplesPhilo(){
-		testDir("examples/philosophers/");
-	}	
-	@Test
-	public void testProductionCell(){
-		testDir("examples/production_cell/");
-	}	
+	}
 
-	@Test
-	public void testSimpleEx(){
+	@Test void examplesPhilo(){
+		testDir("examples/philosophers/");
+	}
+
+	@Test void productionCell(){
+		testDir("examples/production_cell/");
+	}
+
+	@Test void simpleEx(){
 		testDir("examples/simple_example/");
 	}
-	@Test
-	public void testExamplesSG(){
+
+	@Test void examplesSG(){
 		testDir("examples/sluicegate/");
 	}
-	@Test
-	public void testTrafficLight(){
+
+	@Test void trafficLight(){
 		testDir("examples/traffic_light/");
 	}
-	
-	@Test
-	public void testLibrary(){
+
+	@Test void library(){
 		testDir("examples/library");
 	}
 	
-	static String[] dirToSkip = {"test","DAS", "drafts", "workspaceMSL"};	
+	static String[] dirToSkip = {"test","DAS", "drafts", "workspaceMSL"};
+
 	// test all the examples except the those for tests
 	// too many skip for now
-	@Ignore	
-	@Test
-	public void testAllExamples(){
+	@Disabled
+	@Test void allExamples(){
 		File examplesPath = new File(FILE_BASE);
 		Collection<String> errors = new ArrayList<>();
 	    //List of all files and directories
@@ -83,11 +79,10 @@ public class AsmParserTest_Example extends AsmParserTest{
 			if (!testSpecInSubFolder.isEmpty())
 				errors.add(testSpecInSubFolder.toString());
 	    }
-	    assertTrue(errors.size() + ":" + errors.toString(), errors.isEmpty());
+	    assertTrue(errors.isEmpty(), errors.size() + ":" + errors.toString());
 	}
 
-	@Ignore @Test
-	public void testStereoAcuity(){
+	@Disabled @Test void stereoAcuity(){
 		testDir("stereoacuity");
 	}
 	

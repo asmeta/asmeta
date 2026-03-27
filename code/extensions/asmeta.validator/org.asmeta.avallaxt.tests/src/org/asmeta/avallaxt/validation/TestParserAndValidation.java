@@ -1,7 +1,7 @@
 package org.asmeta.avallaxt.validation;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import org.junit.jupiter.api.Test; import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test; import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.FileReader;
 import java.nio.file.Files;
@@ -20,9 +20,9 @@ import org.eclipse.xtext.util.CancelIndicator;
 import org.eclipse.xtext.validation.CheckMode;
 import org.eclipse.xtext.validation.IResourceValidator;
 import org.eclipse.xtext.validation.Issue;
-import org.junit.BeforeClass;
 
 import com.google.inject.Injector;
+import org.junit.jupiter.api.BeforeAll;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -35,9 +35,9 @@ public class TestParserAndValidation {
 	static String PossibleFaults_Parser = "Parser error";
 
 	static Logger logger = Logger.getLogger("TestParserAndValidation");
-	
-	@BeforeClass
-	public static void setupLogger() {
+
+	@BeforeAll
+	static void setupLogger() {
 		logger.setLevel(Level.ERROR);
 	}
 	

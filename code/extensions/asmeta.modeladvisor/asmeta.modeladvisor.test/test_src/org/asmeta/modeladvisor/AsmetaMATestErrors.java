@@ -1,13 +1,8 @@
 package org.asmeta.modeladvisor;
 
-import org.apache.log4j.ConsoleAppender;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-import org.apache.log4j.SimpleLayout;
-import org.asmeta.nusmv.MapVisitor;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
 
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 public class AsmetaMATestErrors {
 
 	@Test
@@ -18,7 +13,7 @@ public class AsmetaMATestErrors {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testABZ20CaseStudy() throws Exception {
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("/Users/parcaini/Desktop/testiAsmeta/ABZ2020_casestudy/Casestudy/ASM model/Car System MC/CarSystem007.asm");
 		asmetaMA.setMetapropertiesExecution(true, false, false, false, false, false, false);
@@ -29,7 +24,7 @@ public class AsmetaMATestErrors {
 	// the meta properties are too long????
 	// to skip since it takes very long time !!!
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testBenInf() throws Exception {
 //		Logger.getLogger(MapVisitor.class).setLevel(Level.ALL);
 //		Logger.getLogger(AsmetaMA.class).setLevel(Level.ALL);

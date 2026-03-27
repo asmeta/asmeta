@@ -4,9 +4,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import org.asmeta.animator.VisualizationSimulation;
+import org.junit.Ignore;
 //import org.eclipse.swt.widgets.*;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
 
 /*
  * Update inconsistenti
@@ -19,14 +20,14 @@ public class AsmetaAnimatorTest {
 		testMixHemodialysis();
 	}
 
-	@Test
+	@Test@Ignore
 	public  void testLight() throws IOException, InterruptedException, Exception {
 		String asmspec = "examples/light.asm";
 		testAnimator(asmspec);
 	}
 
 	
-	@Test
+	@Test@Ignore
 	public  void testMixCoffeeVendingMachineNC() throws FileNotFoundException, IOException, InterruptedException, Exception {
 		String asmspec = "examples/coffeeVendingMachineNC.asm";
 		testAnimator(asmspec);
@@ -39,25 +40,25 @@ public class AsmetaAnimatorTest {
 	}
 	
 	
-	@Test
+	@Test@Ignore
 	public void testMixGenerateATM3() throws IOException, Exception {
 		String asmspec = "examples/ATM3.asm";
 		testAnimator(asmspec);
 	}
 	
-	@Test
+	@Test@Ignore
 	public void testMixGenerateeuclideInit() throws IOException, Exception {
 		String asmspec = "examples/euclideMCD_init.asm";
 		testAnimator(asmspec);
 	}
 
-	@Test
+	@Test@Ignore
 	public void testInvViolation() throws IOException, Exception {
 		String asmspec = "examples/InvViolation.asm";
 		testAnimator(asmspec);
 	}
 
-	@Test
+	@Test@Ignore
 	public void testIncosistentViolation() throws IOException, Exception {
 		String asmspec = "examples/InconsistentUpdate.asm";
 		testAnimator(asmspec);

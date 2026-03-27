@@ -10,14 +10,15 @@
  ******************************************************************************/
 package org.asmeta.simulator.main;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.asmeta.parser.util.Defs;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.value.IntegerValue;
 import org.asmeta.simulator.value.Value;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import asmeta.definitions.Function;
 import asmeta.definitions.RuleDeclaration;
@@ -33,37 +34,36 @@ import asmeta.transitionrules.basictransitionrules.UpdateRule;
 public class DefsTest {
 
 	Simulator sim;
-	
-	@Test
-	public void test1() 
-	throws Exception {
+
+	@Test void test1()
+			throws Exception {
 		sim = Util.getSimulatorForTestSpec("test/simulator/domains/equals.asm");
 		
 		Domain d1 = search("f1").getDomain();
 		Domain d2 = search("f2").getDomain();
 		Domain d3 = search("f3").getDomain();
 		assertTrue(Defs.equals(d1, d2));
-		assertTrue(!Defs.equals(d1, d3));
+		assertFalse(Defs.equals(d1, d3));
 
 		Domain d4 = search("f4").getDomain();
 		Domain d5 = search("f5").getDomain();
-		assertTrue(!Defs.equals(d4, d5));
+		assertFalse(Defs.equals(d4, d5));
 
 		Domain d6 = search("f6").getDomain();
 		Domain d7 = search("f7").getDomain();
-		assertTrue(!Defs.equals(d6, d7));
+		assertFalse(Defs.equals(d6, d7));
 
 		Domain d9 = search("f9").getDomain();
 		Domain d10 = search("f10").getDomain();
 		Domain d11 = search("f11").getDomain();
 		assertTrue(Defs.equals(d9, d10));
-		assertTrue(!Defs.equals(d9, d11));
+		assertFalse(Defs.equals(d9, d11));
 		
 		Domain d12 = search("f12").getDomain();
 		Domain d13 = search("f13").getDomain();
 		Domain d14 = search("f14").getDomain();
 		assertTrue(Defs.equals(d12, d13));
-		assertTrue(!Defs.equals(d12, d14));
+		assertFalse(Defs.equals(d12, d14));
 		
 		Domain d15 = search("f15").getDomain();
 		Domain d16 = search("f16").getDomain();
@@ -71,26 +71,24 @@ public class DefsTest {
 		Domain d18 = search("f18").getDomain();
 		assertTrue(Defs.equals(d15, d16));
 		assertTrue(Defs.equals(d17, d18));
-		assertTrue(!Defs.equals(d15, d18));
+		assertFalse(Defs.equals(d15, d18));
 	}
-	
-	@Test
-	public void test2() 
-	throws Exception {
+
+	@Test void test2()
+			throws Exception {
 		sim = Util.getSimulatorForTestSpec("test/simulator/domains/test04/m2.asm");
 		
 		Function f1 = search("f");
 		RuleDeclaration m1 = searchMacro("m1", "r_m1");
 		Function f2 = 
 			((LocationTerm) ((UpdateRule) m1.getRuleBody()).getLocation()).getFunction();
-		assertTrue(!Defs.equals(f1, f2));
+		assertFalse(Defs.equals(f1, f2));
 		assertEquals("m2", Defs.getAsmName(f1));
 		assertEquals("m1", Defs.getAsmName(m1));
 		assertEquals("m1", Defs.getAsmName(f2));
 	}
-	
-	@Test
-	public void test3() throws Exception {
+
+	@Test void test3() throws Exception {
 		sim = Util.getSimulatorForTestSpec("test/simulator/import2/m3.asm");
 		sim.run(1);
 		Function f1 = search("m1", "f1");

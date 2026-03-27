@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.asmeta.simulator.main;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -37,9 +37,9 @@ public class Util {
 	private static String checkPath(String filepath) {
 		String completPath = TestOneSpec.FILE_BASE + filepath;
 		File f = new File(completPath);
-		assertTrue("file " + f.getAbsolutePath()
+		assertTrue(f.exists(), "file " + f.getAbsolutePath()
 				+ " does not exist, current dir: "
-				+ new File(".").getAbsolutePath(), f.exists());
+				+ new File(".").getAbsolutePath());
 		return completPath;
 	}
 

@@ -1,6 +1,6 @@
 package org.asmeta.parser;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -11,22 +11,19 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collection;
 
-import org.junit.After;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import asmeta.AsmCollection;
 
-@RunWith(Parameterized.class)
 public class TestImport {
 
 	private File root;
 	private File importedAsm;
 
-	
-	public TestImport(String dir) throws IOException, Exception {
+
+	public void initTestImport(String dir) throws IOException, Exception {
 		// make a temp module to be imported
 		new File(dir).mkdirs();
 		root = new File(dir);
@@ -34,15 +31,13 @@ public class TestImport {
 		importedAsm = buildtempAsm(root, "imported",null);
     }
 	
-	@Parameters
-    public static Collection<Object[]> data() {
+	public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][] {     
                  { "temp"}, { "temp with space" }});
     }
 
 
-	@After
-	public void deleteFiles() throws Exception {
+	@AfterEach void deleteFiles() throws Exception {
 		deleteFilesIn(root);
 		root.delete();
 	}
@@ -59,22 +54,26 @@ public class TestImport {
 		}
 		file.delete();
 	}
-	
-	@Test
-	public void testImportRelative() throws Exception {
+
+	@MethodSource("data") @ParameterizedTest
+	public void testImportRelative(String dir) throws Exception {
+		initTestImport(dir);
 		// A. in the same directory with relative path without ASM
 		String asmname = importedAsm.getName();
 		asmname = asmname.substring(0, asmname.lastIndexOf('.'));		
 		buildtempAsm(root, "importingRel", asmname);		
 	}
-	@Test
-	public void testImportAbsolute() throws Exception {
+
+	@MethodSource("data") @ParameterizedTest
+	public void testImportAbsolute(String dir) throws Exception {
+		initTestImport(dir);
 		// B. in the same directory with absolute path
 		buildtempAsm(root, "importingAbs", importedAsm.getAbsolutePath());		
 	}
 
-	@Test
-	public void testDoubleImportRelativeSubdir() throws Exception {		
+	@MethodSource("data") @ParameterizedTest
+	public void testDoubleImportRelativeSubdir(String dir) throws Exception {
+		initTestImport(dir);		
 		String subdir = "subdir";
 		Path sub = Paths.get(root.getPath()+File.separator+ subdir);
 		if (!sub.toFile().exists()) Files.createDirectory(sub);
@@ -88,8 +87,9 @@ public class TestImport {
 		buildtempAsm(root, "bothRel", subdir + "/" + bothAsm.getName());		
 	}
 
-	@Test
-	public void testImportRelativeSubdir() throws Exception {		
+	@MethodSource("data") @ParameterizedTest
+	public void testImportRelativeSubdir(String dir) throws Exception {
+		initTestImport(dir);		
 		String subdir = "subdir";
 		Path sub = Paths.get(root.getPath()+File.separator+ subdir);
 		if (!sub.toFile().exists()) Files.createDirectory(sub);

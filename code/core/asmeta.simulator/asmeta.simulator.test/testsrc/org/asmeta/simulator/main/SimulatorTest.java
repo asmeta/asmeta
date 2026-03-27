@@ -11,7 +11,7 @@
 package org.asmeta.simulator.main;
 
 import org.asmeta.parser.util.Defs;
-import org.junit.After;
+import org.junit.jupiter.api.AfterEach;
 
 import asmeta.definitions.Function;
 import asmeta.definitions.RuleDeclaration;
@@ -62,9 +62,8 @@ public class SimulatorTest {
 		}
 		throw new RuntimeException("Rule " + name + " not found");*/
 	}
-	
-	@After
-	public void tearDown() throws Exception {
+
+	@AfterEach void tearDown() throws Exception {
 	}
 
 }

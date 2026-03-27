@@ -2,15 +2,9 @@ package org.asmeta.asm2code.main;
 
 import static org.junit.Assert.fail;
 
-import java.io.File;
 import java.io.IOException;
 
-import org.asmeta.asm2code.compiler.CompileResult;
-import org.asmeta.asm2code.compiler.CppCompiler;
-import org.asmeta.parser.ASMParser;
-import org.junit.Test;
-
-import asmeta.AsmCollection;
+import org.junit.jupiter.api.Test;
 
 public class GeneratorCompilerSmartPillBoxTest extends GeneratorCompilerTest{
 

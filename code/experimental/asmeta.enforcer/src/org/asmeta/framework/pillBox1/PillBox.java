@@ -10,8 +10,9 @@ import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Scanner;
 
-
-import org.asmeta.framework.managedSystem.*;
+import org.asmeta.framework.managedSystem.Effector;
+import org.asmeta.framework.managedSystem.ManagedSystem;
+import org.asmeta.framework.managedSystem.Probe;
 import org.asmeta.runtime_container.Esit;
 import org.asmeta.runtime_container.RunOutput;
 import org.asmeta.runtime_container.SimulationContainer;

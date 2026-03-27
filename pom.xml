@@ -16,6 +16,7 @@
 	<modules>
 		<module>code/core</module>
 		<module>code/extensions/asmeta.animator/asmeta.animator</module>
+		<module>code/extensions/asmeta.animator/asmeta.animator.test</module>
 		<module>code/extensions/asmeta.flattener/asmeta.flattener</module>
 		<module>code/extensions/asmeta.flattener/asmeta.flattener.cli</module>
 		<module>code/extensions/asmeta.flattener/asmeta.flattener.test</module>
@@ -52,13 +53,38 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.openrewrite.maven</groupId>
+				<artifactId>rewrite-maven-plugin</artifactId>
+				<version>6.35.0</version>
+				<configuration>
+					<activeRecipes>
+						<recipe>org.openrewrite.java.OrderImports</recipe>
+						<recipe>
+							org.openrewrite.java.testing.junit5.JUnit5BestPractices</recipe>
+					</activeRecipes>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.openrewrite.recipe</groupId>
+						<artifactId>rewrite-testing-frameworks</artifactId>
+						<version>3.31.0</version>
+					</dependency>
+				</dependencies>
+			</plugin>
 		</plugins>
 	</build>
 	<dependencies>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.13.2</version>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>5.9.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.vintage</groupId>
+			<artifactId>junit-vintage-engine</artifactId>
+			<version>5.14.3</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

@@ -9,10 +9,7 @@
 
 package org.asmeta.simulator.value;
 
-import org.asmeta.simulator.TermEvaluator;
-
 import asmeta.terms.basicterms.BooleanTerm;
-import asmeta.terms.basicterms.Term;
 
 /**
  * A boolean value.

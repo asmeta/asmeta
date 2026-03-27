@@ -1,22 +1,21 @@
 package org.asmeta.flattener;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.AsmetaParserUtility;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import asmeta.AsmCollection;
 
-public class ParseAllExampleTest {
+class ParseAllExampleTest {
 
 	@Test
-	public void testParseOnExamples() throws IOException {
+	void parseOnExamples() throws Exception {
 		Files.walk(Paths.get("examples"))
 			.filter(Files::isRegularFile)
 			.filter(x -> x.getFileName().toString().endsWith(AsmetaParserUtility.ASM_EXTENSION))

@@ -33,7 +33,6 @@
 package org.asmeta.simulator;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -74,7 +73,6 @@ import asmeta.definitions.domains.ConcreteDomain;
 import asmeta.definitions.domains.Domain;
 import asmeta.definitions.domains.EnumElement;
 import asmeta.definitions.domains.EnumTd;
-import asmeta.definitions.domains.IntegerDomain;
 import asmeta.definitions.domains.PowersetDomain;
 import asmeta.definitions.domains.ProductDomain;
 import asmeta.structure.DomainDefinition;

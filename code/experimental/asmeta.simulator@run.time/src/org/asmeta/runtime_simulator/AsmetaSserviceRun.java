@@ -2,6 +2,7 @@ package org.asmeta.runtime_simulator;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import org.asmeta.animator.MyState;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.State;

@@ -1,15 +1,15 @@
-package test;
+package asmeta.definitions;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import asmeta.definitions.domains.AbstractTd;
 import asmeta.definitions.domains.DomainsFactory;
 import asmeta.definitions.domains.ProductDomain;
 
-public class TestProductDom {
+class TestProductDom {
 	/**
 	 * 
 	 *#
@@ -26,8 +26,7 @@ public class TestProductDom {
 	 * 
 	 * @param args
 	 */
-	@Test
-	public void testProduct() {
+	@Test void product() {
 		AbstractTd atd = DomainsFactory.eINSTANCE.createAbstractTd();
 		atd.setName("A");
 		ProductDomain pdm = DomainsFactory.eINSTANCE.createProductDomain();

@@ -1,5 +1,7 @@
 package org.asmeta.nuxmv;
 
+
+
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -7,8 +9,8 @@ import java.nio.file.Paths;
 
 import org.asmeta.nusmv.main.AsmetaSMV;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
 
 public class NuXMVTranslatorTester {
 

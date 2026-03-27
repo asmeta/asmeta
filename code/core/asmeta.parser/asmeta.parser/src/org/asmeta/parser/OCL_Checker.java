@@ -24,7 +24,6 @@ package org.asmeta.parser;
 
 import java.io.PrintStream;
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -34,7 +33,6 @@ import org.apache.log4j.Logger;
 import org.asmeta.parser.util.AsmetaTermPrinter;
 import org.asmeta.parser.util.Defs;
 import org.asmeta.parser.util.DynamicInTermFinder;
-import org.eclipse.emf.ecore.EObject;
 
 import asmeta.definitions.DerivedFunction;
 import asmeta.definitions.DynamicFunction;

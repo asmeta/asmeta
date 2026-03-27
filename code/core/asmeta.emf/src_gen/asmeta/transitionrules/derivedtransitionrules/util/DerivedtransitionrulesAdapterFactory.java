@@ -12,7 +12,6 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 
 import asmeta.transitionrules.basictransitionrules.Rule;
-import asmeta.transitionrules.derivedtransitionrules.*;
 import asmeta.transitionrules.derivedtransitionrules.BasicDerivedRule;
 import asmeta.transitionrules.derivedtransitionrules.CaseRule;
 import asmeta.transitionrules.derivedtransitionrules.DerivedRule;

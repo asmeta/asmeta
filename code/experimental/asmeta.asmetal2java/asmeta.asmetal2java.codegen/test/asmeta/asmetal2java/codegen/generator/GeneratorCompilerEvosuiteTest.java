@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.asmeta.parser.AsmetaParserUtility;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import asmeta.AsmCollection;
 import asmeta.asmetal2java.codegen.compiler.CompileResult;
@@ -78,7 +78,7 @@ public class GeneratorCompilerEvosuiteTest {
 	 */
 	private static final List<String> testGenErrors = List.of();
 
-	@BeforeClass
+	@BeforeAll
 	public static void setup() {
 		GeneratorCompilerUtil.setupFolders(path);
 		File dirTestGenF = dirTestGen.toFile();

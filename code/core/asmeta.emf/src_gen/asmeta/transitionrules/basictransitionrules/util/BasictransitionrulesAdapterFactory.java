@@ -14,7 +14,6 @@ import org.eclipse.emf.ecore.EObject;
 import asmeta.definitions.Classifier;
 import asmeta.definitions.RuleDeclaration;
 import asmeta.structure.NamedElement;
-import asmeta.transitionrules.basictransitionrules.*;
 import asmeta.transitionrules.basictransitionrules.BasicRule;
 import asmeta.transitionrules.basictransitionrules.BasictransitionrulesPackage;
 import asmeta.transitionrules.basictransitionrules.BlockRule;

@@ -4,7 +4,8 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 import java.util.List;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 
 import asmeta.AsmCollection;
 import asmeta.mutation.mutationscore.MutatedScenarioExecutor.AsmetaMutatedFromAvalla;

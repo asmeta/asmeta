@@ -1,29 +1,30 @@
 package org.asmeta.flattener;
 
-import static org.junit.Assert.assertTrue;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
-public class RemoveArgumentsFlattenerTest extends FlattenerTest {
+import org.junit.jupiter.api.Test;
+
+class RemoveArgumentsFlattenerTest extends FlattenerTest {
 
 	@Test
-	public void testDerivedArgs() throws Exception {
+	void derivedArgs() throws Exception {
 		String outputAsStr = flattenerTest("./examples/derivedLocArgs.asm", RemoveArgumentsFlattener.class);
-		assertTrue(!outputAsStr.contains("moveExists(move)"));
+		assertFalse(outputAsStr.contains("moveExists(move)"));
 	}
 
 	@Test
-	public void testMacroArgs() throws Exception {
+	void macroArgs() throws Exception {
 		flattenerTest("./examples/macroArgs.asm", RemoveArgumentsFlattener.class);
 	}
 
 	@Test
-	public void testRushHour() throws Exception {
+	void rushHour() throws Exception {
 		flattenerTest("../../../../asm_examples/examples/RushHour/RushHour.asm", RemoveArgumentsFlattener.class);
 	}
 
 	@Test
-	public void testCoffeeVendingMachine() throws Exception {
+	void coffeeVendingMachine() throws Exception {
 		flattenerTest(examplesDir + "examples/coffeeVendingMachine/coffeeVendingMachine.asm", RemoveArgumentsFlattener.class);
 	}
 }

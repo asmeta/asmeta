@@ -1,13 +1,15 @@
 package org.asmeta.atgt.generator.combinatorial;
 
-import static org.junit.Assert.assertTrue;
+
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 
 import atgt.coverage.AsmCoverage;
 import atgt.coverage.AsmCoverageBuilder;
@@ -58,7 +60,7 @@ public class AsmDataExtractorTest {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testCarSystem001Blink() throws ParseException {
 		/*
 		 * Non Funziona. Non vede una variabile importata dal modulo precedente, ma se

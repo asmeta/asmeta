@@ -10,15 +10,14 @@
  ******************************************************************************/
 package org.asmeta.simulator.main;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.asmeta.simulator.InvalidValueException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class OutofBoundTest extends BaseTest {
+class OutofBoundTest extends BaseTest {
 
-	@Test
-	public void testOutOfBound() throws Exception {
+	@Test void outOfBound() throws Exception {
 		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/outofbound.asm");
 		sim.run(3);
 		try {

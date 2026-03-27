@@ -11,7 +11,8 @@ import org.asmeta.parser.AsmetaParserUtility;
 import org.asmeta.xt.parser.AsmetaLParserWOHelper;
 import org.asmeta.xt.parser.ParseAndValidateResult;
 import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
 
 /**
  * test for all the examples in asm_examples

@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>asmeta.flattener.test</artifactId>
-	  	<parent>
+	<parent>
 		<groupId>asmeta</groupId>
 		<artifactId>asmeta.all</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
@@ -16,7 +16,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.13.0</version>
 			</plugin>
-			<plugin>
+<!--		così però non fa andare i test !!!
+  			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>3.5.2</version>
@@ -26,17 +27,11 @@
 						<include>**\*.java</include>
 					</includes>
 					<systemPropertyVariables>
-						<log4j.configuration>file:${basedir}/log4j_maven.properties</log4j.configuration>
+						<log4j.configuration>
+							file:${basedir}/log4j_maven.properties</log4j.configuration>
 					</systemPropertyVariables>
 				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>org.apache.maven.surefire</groupId>
-						<artifactId>surefire-junit47</artifactId>
-						<version>3.5.2</version>
-					</dependency>
-				</dependencies>
-			</plugin>
+			</plugin>-->
 		</plugins>
 	</build>
 	<dependencies>
@@ -74,12 +69,17 @@
 			<groupId>asmeta</groupId>
 			<artifactId>asmeta.flattener</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
+			<!--			<exclusions>
+				<exclusion>
+					<groupId>junit</groupId>
+					<artifactId>junit</artifactId>
+				</exclusion>
+			</exclusions>-->
 		</dependency>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.13.2</version>
-			<scope>test</scope>
+			<groupId>org.junit.vintage</groupId>
+			<artifactId>junit-vintage-engine</artifactId>
+			<version>5.14.3</version>
 		</dependency>
 	</dependencies>
 </project>

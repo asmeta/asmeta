@@ -10,7 +10,6 @@
  ******************************************************************************/
 package org.asmeta.simulator.util;
 
-import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashSet;

@@ -1,11 +1,11 @@
 package org.asmeta.parser;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import asmeta.AsmCollection;
 
@@ -16,10 +16,9 @@ import asmeta.AsmCollection;
  * @author garganti
  *
  */
-public class AsmParserTestCloseFile extends AsmParserTest{
+class AsmParserTestCloseFile extends AsmParserTest{
 
-	@Test
-	public void testWithError(){
+	@Test void withError(){
 		// un file a caso con errore
 		String spec = "test/errors/np/genericError.asm";
 		File errfile = new File(FILE_BASE + spec);

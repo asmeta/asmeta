@@ -1,3 +1,4 @@
+
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -6,13 +7,11 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.file.CopyOption;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.asmeta.asm2code.main.AsmToCGenerator;
 import org.asmeta.asm2code.main.CppGenerator;
 import org.asmeta.asm2code.main.HeaderGenerator;
 import org.asmeta.codegenerator.HWIntegrationGenerator;

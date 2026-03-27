@@ -6,7 +6,6 @@
  */
 package asmeta.terms.basicterms.util;
 
-import asmeta.terms.basicterms.*;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;

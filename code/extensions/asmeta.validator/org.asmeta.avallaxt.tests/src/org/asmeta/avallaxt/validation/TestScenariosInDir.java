@@ -1,6 +1,6 @@
 package org.asmeta.avallaxt.validation;
 
-import static org.junit.Assert.assertTrue;
+import org.junit.jupiter.api.Test; import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -10,45 +10,37 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class TestScenariosInDir extends TestParserAndValidation {
+class TestScenariosInDir extends TestParserAndValidation {
 
 	// test all the scenario in the examples
-	@Test
-	public void testAllExamples() throws IOException {
+	@Test void allExamples() throws Exception {
 		testAvallasInDir("../../../../asm_examples");
 		testAvallasInDir("../../../../asmeta_models/tutorials");
 	}
 
-	@Test
-	public void testAllExamplesExamples() throws IOException {
+	@Test void allExamplesExamples() throws Exception {
 		// subsumed by the previous onme
 		//testAvallasInDir("../../../../../asm_examples/examples");
 	}
 
-	@Test
-	public void testAllAll() throws IOException {
+	@Test void allAll() throws Exception {
 		//testAvallasInDir("../../../..");
 	}
 
-	@Test
-	public void testAllAvallaXTTestExamples() throws IOException {
+	@Test void allAvallaXTTestExamples() throws Exception {
 		// skip these beasue they contain errors for testing
 		//testAvallasInDir("example");
 	}
 
-	@Test
-	public void testAllinValidatorTestExamples() throws IOException {
+	@Test void allinValidatorTestExamples() throws Exception {
 		testAvallasInDir("../asmeta.validator.test/scenariosforexamples");
 	}
 
 
-	
 	// ABZ2020
-	@Test
-	public void testABZ2020() throws IOException {
+	@Test void abz2020() throws Exception {
 		//testAvallasInDir("example/abz2020/scenarios");
 	}
 
@@ -56,7 +48,7 @@ public class TestScenariosInDir extends TestParserAndValidation {
 	private void testAvallasInDir(String dirPath) throws IOException {
 		List<String> filexWithErrors = new ArrayList<>();
 		Path examplePath = Paths.get(dirPath);
-		Assert.assertTrue(Files.isDirectory(examplePath));
+		assertTrue(Files.isDirectory(examplePath));
 		Iterator<Path> files = Files.walk(examplePath).iterator();
 		while (files.hasNext()) {
 			Path fileToRead = files.next();
@@ -69,6 +61,6 @@ public class TestScenariosInDir extends TestParserAndValidation {
 			}
 		}
 		System.err.println(filexWithErrors);
-		assertTrue(filexWithErrors.toString(),filexWithErrors.isEmpty());
+		assertTrue(filexWithErrors.isEmpty(),filexWithErrors.toString());
 	}	
 }

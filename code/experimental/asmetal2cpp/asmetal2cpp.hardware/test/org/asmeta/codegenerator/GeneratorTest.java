@@ -1,5 +1,6 @@
 package org.asmeta.codegenerator;
 
+
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -10,7 +11,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.asmeta.asm2code.main.AsmToCGenerator;
 import org.asmeta.codegenerator.configuration.HWConfiguration;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.AsmetaParserUtility;
@@ -21,6 +21,7 @@ import org.junit.runners.Parameterized.Parameters;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
+
 import asmeta.structure.Asm;
 
 /*

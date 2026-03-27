@@ -2,9 +2,11 @@ package org.asmeta.framework.enforcerAirConditioner;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.asmeta.framework. airConditioner.AirConditioner;
-import org.asmeta.framework.enforcer.*;
-import org.asmeta.framework.managedSystem.*;
+import org.asmeta.framework.enforcer.FeedbackLoop;
+import org.asmeta.framework.enforcer.Knowledge;
+import org.asmeta.framework.managedSystem.Effector;
+import org.asmeta.framework.managedSystem.ExtManagedSystemAC;
+import org.asmeta.framework.managedSystem.Probe;
 import org.asmeta.runtime_container.Esit;
 import org.asmeta.runtime_container.RunOutput;
 
@@ -68,7 +70,7 @@ public class FeedbackLoopAirConditionerExt extends FeedbackLoop{
 		}
 		else {
 			// solitamente runoutput viene creato con flag a false,
-			// ma se viene utilizzata la funzione con timeout, questa corrisponderà sempre al fatto se il timeout è stato superato o no
+			// ma se viene utilizzata la funzione con timeout, questa corrisponderï¿½ sempre al fatto se il timeout ï¿½ stato superato o no
 			if (result.getTimeoutFlag())
 				System.out.println("Error: something got wrong with the output sanitisation made by the ASM runtime model. No enforcement applied.");
 			else

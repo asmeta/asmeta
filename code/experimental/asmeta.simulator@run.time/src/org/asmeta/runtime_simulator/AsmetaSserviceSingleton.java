@@ -11,11 +11,9 @@ import org.apache.log4j.PatternLayout;
 import org.apache.log4j.WriterAppender;
 import org.asmeta.animator.MyState;
 import org.asmeta.parser.ASMParser;
-
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.State;
 import org.asmeta.simulator.main.AsmModelNotFoundException;
-import org.asmeta.simulator.main.Simulator;
 
 import asmeta.AsmCollection;
 
