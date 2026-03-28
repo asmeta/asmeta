@@ -36,12 +36,6 @@
 			<version>2.40.0</version>
 		</dependency>
 		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter</artifactId>
-			<version>5.14.3</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>asmeta</groupId>
 			<artifactId>asmeta.cli</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
@@ -57,9 +51,9 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>org.junit.platform</groupId>
-			<artifactId>junit-platform-commons</artifactId>
-			<version>1.5.2</version>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 	<build>
