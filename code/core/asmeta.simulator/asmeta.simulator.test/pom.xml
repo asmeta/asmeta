@@ -5,32 +5,6 @@
 	<groupId>asmeta</groupId>
 	<artifactId>asmeta.simulator.test</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<build>
-		<testSourceDirectory>testsrc</testSourceDirectory>
-		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.15.0</version>
-				<configuration>
-					<release>21</release>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.5.2</version>
-				<configuration>
-					<includes>
-						<include>*.java</include>
-						<include>**\*.java</include>
-					</includes>
-					<systemPropertyVariables>
-						<log4j.configuration>file:${basedir}/log4j_maven.properties</log4j.configuration>
-					</systemPropertyVariables>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 	<dependencies>
 		<dependency>
 			<groupId>log4j</groupId>
@@ -64,5 +38,32 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
+	<build>
+		<testSourceDirectory>testsrc</testSourceDirectory>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.15.0</version>
+				<configuration>
+					<release>21</release>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.5.2</version>
+				<configuration>
+					<includes>
+						<include>*.java</include>
+						<include>**\*.java</include>
+					</includes>
+					<systemPropertyVariables>
+						<log4j.configuration>file:${project.basedir}/log4j_maven.properties</log4j.configuration>
+					</systemPropertyVariables>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>

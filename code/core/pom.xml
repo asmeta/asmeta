@@ -2,18 +2,13 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>asmeta</groupId>
+		<artifactId>asmeta.all</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../..</relativePath>
+	</parent>
 	<artifactId>asmeta.core</artifactId>
-	<build>
-		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.15.0</version>
-				<configuration>
-					<release>21</release>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 	<packaging>pom</packaging>
 	<modules>
 		<module>asmeta.cli</module>
@@ -26,10 +21,16 @@
 		<module>asmeta.simulator/asmeta.simulator.cli</module>
 		<!-- missing asmeta.xt -->
 	</modules>
-	<parent>
-		<groupId>asmeta</groupId>
-		<artifactId>asmeta.all</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-		<relativePath>../..</relativePath>
-	</parent>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.15.0</version>
+				<configuration>
+					<release>21</release>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
