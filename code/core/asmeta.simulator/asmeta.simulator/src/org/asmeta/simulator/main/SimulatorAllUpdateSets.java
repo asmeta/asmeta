@@ -400,8 +400,8 @@ public class SimulatorAllUpdateSets extends Simulator {
 			Collection<Property> propertiesList = asm_i.getBodySection().getProperty();
 			if (propertiesList != null) {
 				for (Property property : propertiesList) {
-					if(property instanceof Invariant){
-						Term body = ((Invariant)property).getBody();
+					if(property instanceof Invariant invariant){
+						Term body = invariant.getBody();
 						String name = property.getName();
 						logger.debug(
 							"<Axiom" + ((name == null || name.equals("")) ? "" : (" name=" + name)) + ">");
@@ -410,7 +410,7 @@ public class SimulatorAllUpdateSets extends Simulator {
 						logger.debug("</Axiom>");
 						if (!result.getValue()) {
 							//eval.isPreEnabled  = false;//PA: 18 giugno 2010
-							return (Invariant)property;
+							return invariant;
 						}
 					}
 				}

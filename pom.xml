@@ -14,6 +14,7 @@
 		<maven.compiler.target>21</maven.compiler.target>
 	</properties>
 	<modules>
+		<!-- asmeta.core is a pom project itself-->
 		<module>code/core</module>
 		<module>code/extensions/asmeta.animator/asmeta.animator</module>
 		<module>code/extensions/asmeta.animator/asmeta.animator.test</module>
@@ -31,8 +32,8 @@
 		<module>code/extensions/asmetasmv/asmeta.smv.test</module>
 		<module>code/extensions/asmeta.visualizer/asmeta.visualizer</module>
 		<module>code/extensions/asmeta.visualizer/asmeta.visualizer.test</module>
+		<!--asmetal2cpp ia a pom project itself -->
 		<module>code/experimental/asmetal2cpp</module>
-		<module>reports/coverage/report.aggregate</module>
 	</modules>
 	<build>
 		<plugins>
@@ -53,25 +54,6 @@
 						</configuration>
 					</execution>
 				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.openrewrite.maven</groupId>
-				<artifactId>rewrite-maven-plugin</artifactId>
-				<version>6.35.0</version>
-				<configuration>
-					<activeRecipes>
-						<recipe>org.openrewrite.java.OrderImports</recipe>
-						<recipe>
-							org.openrewrite.java.testing.junit5.JUnit5BestPractices</recipe>
-					</activeRecipes>
-				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>org.openrewrite.recipe</groupId>
-						<artifactId>rewrite-testing-frameworks</artifactId>
-						<version>3.31.0</version>
-					</dependency>
-				</dependencies>
 			</plugin>
 		</plugins>
 	</build>

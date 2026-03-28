@@ -7,7 +7,6 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Level;
@@ -76,7 +75,7 @@ class AsmParserTestStaticDerived extends AsmParserTest {
 	@Disabled
 	@Test @Tag("TestToMavenSkip") void allspecificationsandfix() throws Exception {
 		ASMParser.getResultLogger().setLevel(Level.OFF);
-		Files.walk(Paths.get("../../../../code/"))
+		Files.walk(Path.of("../../../../code/"))
 		.filter(x -> (x.toFile().isDirectory() || x.toString().endsWith(AsmetaParserUtility.ASM_EXTENSION))).forEach(f -> {
 			String string = f.toFile().toString();
 			// skip many problematic files

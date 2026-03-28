@@ -63,8 +63,8 @@ public class RealValue extends Value<Double> {
 
 	@Override
 	public boolean equals(Object object) {
-		if (object instanceof RealValue) {
-			return getValue().equals(((RealValue) object).getValue());
+		if (object instanceof RealValue value) {
+			return getValue().equals(value.getValue());
 		}
 		//PA 19/02/10
 		else if (object instanceof UndefValue) {

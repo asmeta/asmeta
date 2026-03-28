@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 
 import org.asmeta.parser.ASMFileFilter;
 import org.asmeta.parser.AsmParserTest;
@@ -39,7 +39,7 @@ class AsmetaPrintInfoTest {
 		// works only on developers machine with the MVM repo
 		// added the check to avoid to fail on machine without MVM repo
 		String dirPathMVMExternalRepo = "../../../../../mvm-asmeta\\asm_models\\MVM APPFM";
-		if (Files.exists(Paths.get(dirPathMVMExternalRepo)))
+		if (Files.exists(Path.of(dirPathMVMExternalRepo)))
 				printStatsDirOfASMs(dirPathMVMExternalRepo);
 	}
 	

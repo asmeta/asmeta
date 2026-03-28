@@ -7,7 +7,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collection;
 
@@ -75,9 +74,9 @@ public class TestImport {
 	public void testDoubleImportRelativeSubdir(String dir) throws Exception {
 		initTestImport(dir);		
 		String subdir = "subdir";
-		Path sub = Paths.get(root.getPath()+File.separator+ subdir);
+		Path sub = Path.of(root.getPath()+File.separator+ subdir);
 		if (!sub.toFile().exists()) Files.createDirectory(sub);
-		Path subsub = Paths.get(root.getPath()+File.separator+ subdir+File.separator+ subdir);
+		Path subsub = Path.of(root.getPath()+File.separator+ subdir+File.separator+ subdir);
 		if (!subsub.toFile().exists()) Files.createDirectory(subsub);
 		// 1. build imported asm in subdir 2
 		importedAsm = buildtempAsm(subsub.toFile(), "imported2",null);
@@ -91,7 +90,7 @@ public class TestImport {
 	public void testImportRelativeSubdir(String dir) throws Exception {
 		initTestImport(dir);		
 		String subdir = "subdir";
-		Path sub = Paths.get(root.getPath()+File.separator+ subdir);
+		Path sub = Path.of(root.getPath()+File.separator+ subdir);
 		if (!sub.toFile().exists()) Files.createDirectory(sub);
 		// 1. build imported asm in subdir
 		importedAsm = buildtempAsm(sub.toFile(), "imported2",null);

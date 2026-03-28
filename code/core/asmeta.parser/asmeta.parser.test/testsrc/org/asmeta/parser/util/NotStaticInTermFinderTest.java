@@ -27,7 +27,7 @@ class NotStaticInTermFinderTest extends AsmParserTest{
 		// function fd($i in Integer) = m + $i
 		List<EObject> list = new ArrayList<>();
 		DynamicInTermFinder nf = new DynamicInTermFinder(list);
-		nf.visit(defs.get(0).getBody());
+		nf.visit(defs.getFirst().getBody());
 		// only m 
 		assertEquals(1,list.size());
 		// 2		

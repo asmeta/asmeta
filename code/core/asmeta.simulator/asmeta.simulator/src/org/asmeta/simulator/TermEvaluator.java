@@ -507,9 +507,8 @@ public class TermEvaluator extends ReflectiveVisitor<Value> implements ITermVisi
 	public SetValue getValues(Domain baseDomain) {
 		SetValue values;
 		logger.debug("<Domain>" + baseDomain.getName() + "</Domain>");
-		if (baseDomain instanceof ConcreteDomain) {
+		if (baseDomain instanceof ConcreteDomain concreteDomain) {
 			logger.debug("<Type>ConcreteDomain</Type>");
-			ConcreteDomain concreteDomain = (ConcreteDomain) baseDomain;
 			if (concreteDomain.getIsDynamic()) {
 				values = state.read(concreteDomain);
 			} else {
@@ -526,9 +525,9 @@ public class TermEvaluator extends ReflectiveVisitor<Value> implements ITermVisi
 		} else if (baseDomain instanceof AbstractTd) {
 			logger.debug("<Type>AbstractTd</Type>");
 			values = state.read(baseDomain);
-		} else if (baseDomain instanceof EnumTd) {
+		} else if (baseDomain instanceof EnumTd td) {
 			logger.debug("<Type>EnumTd</Type>");
-			values = getEnumDomainContent((EnumTd) baseDomain);
+			values = getEnumDomainContent(td);
 		} else if (baseDomain instanceof BooleanDomain) {
 			logger.debug("<Type>BooleanDomain</Type>");
 			Set<Value> set = new HashSet<Value>();
@@ -592,7 +591,7 @@ public class TermEvaluator extends ReflectiveVisitor<Value> implements ITermVisi
 	        return sets;
 	    }
 	    List<T> list = new ArrayList<T>(originalSet);
-	    T head = list.get(0);
+	    T head = list.getFirst();
 	    Set<T> rest = new HashSet<T>(list.subList(1, list.size())); 
 	    for (Set<T> set : powerSet(rest)) {
 	        Set<T> newSet = new HashSet<T>();
@@ -958,7 +957,7 @@ public class TermEvaluator extends ReflectiveVisitor<Value> implements ITermVisi
 		for (Object o : pairs) {
 			TupleTerm next = (TupleTerm) ((Term) o);
 			List<?> elements = next.getTerms();
-			Term temp = (Term) elements.get(0);
+			Term temp = (Term) elements.getFirst();
 			Value key = visit(temp);
 			temp = (Term) elements.get(1);
 			Value value = visit(temp);
@@ -1119,16 +1118,14 @@ public class TermEvaluator extends ReflectiveVisitor<Value> implements ITermVisi
 	private Value lazyEval(Term term) {
 		// only for Boolean for now
 		if (term.getDomain() instanceof BooleanDomain) {
-			if (term instanceof FunctionTerm) {
-				FunctionTerm ft = (FunctionTerm) term;
+			if (term instanceof FunctionTerm ft) {
 				Function function = ft.getFunction();
 				// it could be undef in any case
 				// simplest case: static function Boolean defined as UNDEF
 				// like
 				// static ub : Boolean
 				// function ub = undef
-				if (function instanceof StaticFunction) {
-					StaticFunction sf = (StaticFunction) function;
+				if (function instanceof StaticFunction sf) {
 					FunctionDefinition definition = sf.getDefinition();
 					if (definition != null && definition.getBody() instanceof UndefTerm)
 						return UndefValue.UNDEF;
@@ -1155,8 +1152,7 @@ public class TermEvaluator extends ReflectiveVisitor<Value> implements ITermVisi
 				}
 			}
 			//
-			if (term instanceof LocationTerm) {
-				LocationTerm ft = (LocationTerm) term;
+			if (term instanceof LocationTerm ft) {
 				// can it happen that a location term is undef by definition?
 				// System.err.println("***" + ft.getFunction().getName());
 			}

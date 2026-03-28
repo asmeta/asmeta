@@ -13,7 +13,7 @@ package org.asmeta.simulator.main;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 
 import org.asmeta.parser.util.Defs;
 import org.junit.jupiter.api.AfterEach;
@@ -34,7 +34,7 @@ public class BaseTest {
 
 	@BeforeAll
 	static void checkDirectory() {
-		  assertTrue(Files.isDirectory(Paths.get(ASM_EXAMPLES)));
+		  assertTrue(Files.isDirectory(Path.of(ASM_EXAMPLES)));
 	}
 	
 	protected Simulator sim;

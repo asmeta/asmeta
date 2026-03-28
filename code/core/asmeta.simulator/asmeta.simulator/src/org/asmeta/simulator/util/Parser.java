@@ -76,8 +76,8 @@ public class Parser extends ReflectiveVisitor<Value> {
 			return visit((Object) domain);
 		} catch (RuntimeException e) {
 			Throwable cause = e.getCause();
-			if (e != null && cause instanceof InputMismatchException) {
-				throw (InputMismatchException) cause;
+			if (e != null && cause instanceof InputMismatchException exception) {
+				throw exception;
 			} else {
 				throw e;
 			}

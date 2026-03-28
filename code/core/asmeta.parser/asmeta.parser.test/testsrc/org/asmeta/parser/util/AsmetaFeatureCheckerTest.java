@@ -8,7 +8,6 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -58,7 +57,7 @@ public class AsmetaFeatureCheckerTest {
 //			"SubsetOfInt", x -> ((x instanceof Function) && ((Function) x).getCodomain() instanceof ConcreteDomain) && 
 //                    (((ConcreteDomain) ((Function) x).getCodomain()).getTypeDomain() instanceof IntegerDomain),
 //            "INVAR", x -> (x instanceof InvarConstraint),
-			"Modules", x -> (x instanceof ImportClause && !AsmetaParserUtility.isAsmetaLibrary(((ImportClause) x).getModuleName())));
+			"Modules", x -> (x instanceof ImportClause ic && !AsmetaParserUtility.isAsmetaLibrary(ic.getModuleName())));
 
 	@BeforeAll
 	static void setUpLogger(){
@@ -116,7 +115,7 @@ public class AsmetaFeatureCheckerTest {
 
 		// Read the "model_list.txt" file containing the list of ASM files to be tested,
 		// but delete all lines before "// valid asm: 296"
-		List<String> modelList = readFilteredModelList(Paths.get("model_list.txt"));
+		List<String> modelList = readFilteredModelList(Path.of("model_list.txt"));
 
 		// Fetch all files in the directory and all features
 		for (String featureName : featurePredicates.keySet()) {
@@ -141,7 +140,7 @@ public class AsmetaFeatureCheckerTest {
 	@Test void visitAsmResults() throws Exception {
 		AsmetaFeatureChecker spr;
 
-		List<String> modelList = readResultsFile(Paths.get(
+		List<String> modelList = readResultsFile(Path.of(
 				"../../../../code/experimental/asmeta.evotest/asmeta.evotest.experiments/data/icst-26-exp/data.csv"),
 				"random");
 

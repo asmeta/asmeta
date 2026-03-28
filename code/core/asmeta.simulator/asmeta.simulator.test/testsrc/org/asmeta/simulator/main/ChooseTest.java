@@ -112,7 +112,7 @@ class ChooseTest extends BaseTest {
 
 	private <T> void checkRandomValues(List<T> values) {
 		//there are not two pairs of equals number (itis vwery unlikely) 
-		assertTrue(values.get(0) != values.get(1) || values.get(2) != values.get(3));
+		assertTrue(values.getFirst() != values.get(1) || values.get(2) != values.get(3));
 	}
 
 	@Test void intWithCond() throws Exception{

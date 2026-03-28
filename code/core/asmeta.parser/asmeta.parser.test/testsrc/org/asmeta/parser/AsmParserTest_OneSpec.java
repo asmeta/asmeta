@@ -194,7 +194,7 @@ class AsmParserTest_OneSpec extends AsmParserTest {
 		AsmCollection collection = testOneSpec("test/parser/setterm.asm");
 		EList<DomainDefinition> domainDefinition = collection.getMain().getBodySection().getDomainDefinition();
 		assertEquals(1,domainDefinition.size());
-		Term body = domainDefinition.get(0).getBody();
+		Term body = domainDefinition.getFirst().getBody();
 		assertInstanceOf(SetTerm.class, body);
 		assertEquals(1,((SetTerm) body).getTerm().size());
 	}

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.State;
@@ -90,7 +91,7 @@ public class RandomMFReader extends AllowUndefMFReader {
 		Value rndValue = visit(func.getCodomain());
 		//
 		if (allowUndefValues) {
-			if (Math.random() < UNDEF_PROBABILITY) rndValue = UndefValue.UNDEF;
+			if (ThreadLocalRandom.current().nextDouble() < UNDEF_PROBABILITY) rndValue = UndefValue.UNDEF;
 		}
 		assert rndValue != null;
 		out.println("taking " + rndValue + " for " + location);

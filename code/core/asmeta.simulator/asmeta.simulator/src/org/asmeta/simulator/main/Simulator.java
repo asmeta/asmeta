@@ -708,13 +708,13 @@ public class Simulator {
 			Collection<Property> propertiesList = b.getProperty();
 			if (propertiesList != null) {
 				for (Property property : propertiesList) {
-					if (property instanceof Invariant) {
-						Term body = ((Invariant) property).getBody();
+					if (property instanceof Invariant invariant) {
+						Term body = invariant.getBody();
 						isMonitoredInvariant = mf.visit(body);
 						if (isMonitoredInvariant) {
-							monitoredInvariants.add((Invariant) property);
+							monitoredInvariants.add(invariant);
 						} else {
-							controlledInvariants.add((Invariant) property);
+							controlledInvariants.add(invariant);
 						}
 					}
 				}

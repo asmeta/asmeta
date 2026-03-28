@@ -90,8 +90,7 @@ public class Location {
 
 	@Override
 	public boolean equals(Object object) {
-		if (object instanceof Location) {
-			Location location = (Location) object;
+		if (object instanceof Location location) {
 			return equals(location);
 		}
 		throw new IllegalArgumentException("Expected Location object");

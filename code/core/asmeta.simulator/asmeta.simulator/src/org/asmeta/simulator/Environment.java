@@ -62,7 +62,7 @@ public final class Environment {
 		ask_user,
 		// increment the time unit by auto_increment_delta at each step
 		// TODO delta
-		auto_increment;
+		auto_increment
 	}
 	// 
 	public static int auto_increment_delta = 1;

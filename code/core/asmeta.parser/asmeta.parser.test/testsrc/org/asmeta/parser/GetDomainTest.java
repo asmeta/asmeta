@@ -43,7 +43,7 @@ class GetDomainTest {
 			e.printStackTrace();
 		}
 		List<DomainDefinition> domsDef = asm.getBodySection().getDomainDefinition();
-		SetTerm domain0 = (SetTerm)domsDef.get(0).getBody();
+		SetTerm domain0 = (SetTerm)domsDef.getFirst().getBody();
 		SetTerm domain1 = (SetTerm)domsDef.get(1).getBody();
 		SetTerm domain2 = (SetTerm)domsDef.get(2).getBody();
 		SetTerm domain3 = (SetTerm)domsDef.get(3).getBody();
