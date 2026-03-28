@@ -1,6 +1,6 @@
 package org.asmeta.asm2code.main;
 
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.IOException;

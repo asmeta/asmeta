@@ -1,7 +1,7 @@
 package asmeta.asmetal2java.codegen.generator;
 
 
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;

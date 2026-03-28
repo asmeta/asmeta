@@ -1,8 +1,8 @@
 package org.asmeta.asm2code.main;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,9 +15,8 @@ import org.asmeta.asm2code.compiler.CompileResult;
 import org.asmeta.asm2code.compiler.CppCompiler;
 import org.asmeta.parser.ASMParser;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import asmeta.structure.Asm;
 
@@ -25,7 +24,6 @@ import asmeta.structure.Asm;
  * descrizione: test di corretta generazione di codice (.h e .cpp) da modello
  * Asm input: cartella modelli asm, cartella destinazione codice c++
  */
-@RunWith(Parameterized.class)
 public class GeneratorCompilerTestAllExamples extends GeneratorCompilerTest {
 	// path of the examples
 	static private String examplesPath = "examples";
@@ -34,12 +32,11 @@ public class GeneratorCompilerTestAllExamples extends GeneratorCompilerTest {
 	// options for the compiler
 	private TranslatorOptions options = new TranslatorOptions(true, true, true, false);
 
-	@Parameterized.Parameter(0)
 	public String fileToTest;
 	// list of file to test in the examplesPath
 	private static ArrayList<File> listOfFileToTest;
 
-	@Parameters(name = "{index}: model: {0}")
+	//@Parameters(name = "{index}: model: {0}")
 	public static Collection<Object[]> data() {
 		if (listOfFileToTest == null)
 			listf(examplesPath, listOfFileToTest = new ArrayList<File>(), 1);
@@ -50,7 +47,7 @@ public class GeneratorCompilerTestAllExamples extends GeneratorCompilerTest {
 		return c;
 	}
 
-	@Test
+	@MethodSource("data") @ParameterizedTest
 	public void testAll() throws IOException, Exception {
 		if (test(fileToTest, options).success)
 			System.out.println("Read, parsed and compiled correctly, yeah!");
@@ -66,7 +63,7 @@ public class GeneratorCompilerTestAllExamples extends GeneratorCompilerTest {
 		System.out.println("\n\n=== " + name + " ===================");
 
 		final Asm model = ASMParser.setUpReadAsm(asmFile).getMain();
-		assertNotNull("The parsing process gave some errors", model);
+		assertNotNull(model,"The parsing process gave some errors");
 		HeaderGenerator hGenerator = new HeaderGenerator();
 		CppGenerator cppGenerator = new CppGenerator();
 
@@ -86,7 +83,7 @@ public class GeneratorCompilerTestAllExamples extends GeneratorCompilerTest {
 		}
 		Logger.getLogger(CppCompiler.class).setLevel(Level.ALL);
 		CompileResult result = CppCompiler.compile(cppFile.getName(), destinationFolder, true, false, true);
-		assertTrue(result.toString(), result.success);
+		assertTrue(result.success,result.toString());
 		return result;
 	}
 

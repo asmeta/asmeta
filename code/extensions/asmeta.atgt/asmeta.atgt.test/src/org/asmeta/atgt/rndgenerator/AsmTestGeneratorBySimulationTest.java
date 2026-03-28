@@ -1,7 +1,7 @@
 package org.asmeta.atgt.rndgenerator;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

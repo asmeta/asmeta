@@ -1,8 +1,8 @@
 package org.asmeta.modeladvisor;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -363,7 +363,7 @@ public class AsmetaMATest {
 		for(String domain: asmetaMA.domainAllUsed.notUsedVals.keySet()) {
 			assertTrue(expectedNotUsedVals.containsKey(domain));
 			for(String value: asmetaMA.domainAllUsed.notUsedVals.get(domain)) {
-				assertTrue("domain " + expectedNotUsedVals.get(domain) + " should contain " + value, expectedNotUsedVals.get(domain).contains(value));
+				assertTrue(expectedNotUsedVals.get(domain).contains(value),"domain " + expectedNotUsedVals.get(domain) + " should contain " + value);
 			}
 		}
 	}

@@ -2,7 +2,7 @@ package org.asmeta.codegenerator;
 
 
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -14,9 +14,6 @@ import org.asmeta.codegenerator.arduino.ArduinoVersion;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.AsmetaParserUtility;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
 
 import asmeta.structure.Asm;
 
@@ -25,17 +22,17 @@ import asmeta.structure.Asm;
  * genero automaticamente il file .u2c (json) e lo salvo nella stessa cartella del modello asm
  */
 
-@RunWith(Parameterized.class)
+//@RunWith(Parameterized.class)
 public class JsonGeneratorTest {
 	// path of the asm examples
 	static private String examplesAsmPath = "../asm_examples/asmetal2cpp/asmetal2cpp_hw/";
 	
-	@Parameterized.Parameter(0)
+	//@Parameterized.Parameter(0)
 	public String fileToTest;
 	// list of file to test in the examplesPath
 	private static ArrayList<File> listOfFileToTest;
 
-	@Parameters(name = "{index}: model: {0}")
+//	@Parameters(name = "{index}: model: {0}")
 	public static Collection<Object[]> data() {
 		if (listOfFileToTest == null)
 			listf(examplesAsmPath, listOfFileToTest = new ArrayList<File>(), 100);

@@ -73,7 +73,6 @@
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-engine</artifactId>
-			<version>5.9.1</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -118,9 +117,9 @@
 			<version>[${xtext.version},)</version>
 		</dependency>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.13</version>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-params</artifactId>
+			<version>6.0.1</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

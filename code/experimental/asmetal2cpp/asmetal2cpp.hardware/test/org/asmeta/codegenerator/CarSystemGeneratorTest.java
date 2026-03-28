@@ -1,7 +1,7 @@
 package org.asmeta.codegenerator;
 
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.FileNotFoundException;

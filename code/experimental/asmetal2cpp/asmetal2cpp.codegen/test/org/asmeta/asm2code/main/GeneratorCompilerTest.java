@@ -1,8 +1,6 @@
 package org.asmeta.asm2code.main;
 
-
-
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.util.List;
@@ -23,7 +21,7 @@ abstract public class GeneratorCompilerTest {
 		if (!CppCompiler.isCompilerSet()) {
 			// set a standard compiler
 			boolean setCompiler = CppCompiler.setCompiler(GCC_COMPILER);
-			assertTrue("compiler "+GCC_COMPILER+" not found in " + System.getenv().get("PATH"), setCompiler);
+			assertTrue(setCompiler, "compiler "+GCC_COMPILER+" not found in " + System.getenv().get("PATH"));
 		}
 	}
 
