@@ -19,16 +19,16 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>3.5.4</version>
 				<configuration>
-					<skipAfterFailureCount>4</skipAfterFailureCount>
-					<includes>
+					<skipAfterFailureCount>1</skipAfterFailureCount>
+<!--					<includes>
 						<include>*.java</include>
 						<include>**\*.java</include>
 					</includes>
 					<excludedGroups>TestToMavenSkip</excludedGroups>
 					<systemPropertyVariables>
-						<!--	<log4j.configuration>
-							file:${basedir}/log4j_maven.properties</log4j.configuration> -->
-					</systemPropertyVariables>
+						<log4j.configuration>
+							file:${basedir}/log4j_maven.properties</log4j.configuration> 
+					</systemPropertyVariables>-->
 				</configuration>
 			</plugin>
 
@@ -83,7 +83,7 @@
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-engine</artifactId>
 			<scope>test</scope>
-		</dependency>
+		</dependency>		
 	</dependencies>
 	<parent>
 		<groupId>asmeta</groupId>
