@@ -3,10 +3,11 @@ package org.asmeta.modeladvisor;
 
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-public class AsmetaMATestErrors {
+
+class AsmetaMATestErrors {
 
 	@Test
-	public void testExampleWrongFail() throws Exception {
+	void exampleWrongFail() throws Exception {
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/exampleWrongFail.asm");
 		asmetaMA.setAllMetapropertiesExecution();
 		asmetaMA.runCheck();
@@ -14,18 +15,18 @@ public class AsmetaMATestErrors {
 
 	@Test
 	@Tag("TestToMavenSkip")
-	public void testABZ20CaseStudy() throws Exception {
+	void abz20CaseStudy() throws Exception {
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("/Users/parcaini/Desktop/testiAsmeta/ABZ2020_casestudy/Casestudy/ASM model/Car System MC/CarSystem007.asm");
 		asmetaMA.setMetapropertiesExecution(true, false, false, false, false, false, false);
 		asmetaMA.runCheck();
 	}
-	
+
 	// this example passes the test for model checking but not the model advisor
 	// the meta properties are too long????
 	// to skip since it takes very long time !!!
 	@Test
 	@Tag("TestToMavenSkip")
-	public void testBenInf() throws Exception {
+	void benInf() throws Exception {
 //		Logger.getLogger(MapVisitor.class).setLevel(Level.ALL);
 //		Logger.getLogger(AsmetaMA.class).setLevel(Level.ALL);
 //		Logger.getRootLogger().addAppender(new ConsoleAppender(new SimpleLayout()));

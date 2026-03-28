@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
 
 import org.asmeta.parser.ASMParser;
@@ -13,10 +12,10 @@ import org.junit.jupiter.api.Test;
 
 import asmeta.AsmCollection;
 
-public class ParseAllExampleTest {
+class ParseAllExampleTest {
 
 	@Test
-	public void testParseOnExamples() throws IOException {
+	void parseOnExamples() throws Exception {
 		Files.walk(new File("examples").toPath()).forEach(x -> {
 			String filepath = x.toString();
 			if (filepath.endsWith(AsmetaParserUtility.ASM_EXTENSION) && 
