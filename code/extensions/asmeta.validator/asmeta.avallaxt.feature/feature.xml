@@ -10,15 +10,15 @@
    </url>
 
    <plugin
-         id="org.asmeta.avallaxt"
+         id="asmeta.avallaxt"
          version="0.0.0"/>
 
    <plugin
-         id="org.asmeta.avallaxt.ide"
+         id="asmeta.avallaxt.ide"
          version="0.0.0"/>
 
    <plugin
-         id="org.asmeta.avallaxt.ui"
+         id="asmeta.avallaxt.ui"
          version="0.0.0"/>
 
 </feature>
