@@ -1,7 +1,7 @@
 package asmeta.evotest.junit2avalla.avallascenario;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.LinkedList;
@@ -13,10 +13,9 @@ import asmeta.evotest.junit2avalla.model.Scenario;
 import asmeta.evotest.junit2avalla.model.ScenarioFile;
 import asmeta.evotest.junit2avalla.util.ScenarioAvallaUtil;
 
-public class ScenarioListMapperImplTest {
+class ScenarioListMapperImplTest {
 
-  @Test
-  public void mapScenarioListAndCheckResults(){
+	@Test void mapScenarioListAndCheckResults(){
 
     Scenario scenario1 = ScenarioAvallaUtil.getScenarioAvalla();
     Scenario scenario2 = ScenarioAvallaUtil.getScenarioAvalla();

@@ -1,6 +1,7 @@
 package asmeta.evotest.junit2avalla.avallascenario;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 import org.junit.jupiter.api.Test;
 
@@ -8,10 +9,9 @@ import asmeta.evotest.junit2avalla.model.Scenario;
 import asmeta.evotest.junit2avalla.model.ScenarioFile;
 import asmeta.evotest.junit2avalla.util.ScenarioAvallaUtil;
 
-public class ScenarioWriterTest {
+class ScenarioWriterTest {
 
-  @Test
-  public void whenWriteScenario_thenScenarioFileIsCreated(){
+	@Test void whenWriteScenario_thenScenarioFileIsCreated(){
 
     Scenario scenario = ScenarioAvallaUtil.getScenarioAvalla();
 

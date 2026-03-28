@@ -14,10 +14,9 @@ import org.junit.jupiter.api.Test;
 import asmeta.evotest.junit2avalla.model.ScenarioFile;
 import asmeta.evotest.junit2avalla.util.ScenarioAvallaUtil;
 
-public class FileWriterImplTest {
+class FileWriterImplTest {
 
-  @Test
-  public void writeToFileAndCheckThatFileIsCreated(){
+	@Test void writeToFileAndCheckThatFileIsCreated(){
 
     FileWriterImpl fileWriterImpl = new FileWriterImpl();
     ScenarioFile scenarioFile = ScenarioAvallaUtil.getScenarioFile();
