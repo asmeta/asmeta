@@ -10,6 +10,7 @@
 		<jacoco.destFile>${project.basedir}/reports/coverage/jacoco/jacoco.exec</jacoco.destFile>
 		<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
 		<xtext.version>2.42.0</xtext.version>
+		<java.version>21</java.version>
 		<maven.compiler.source>21</maven.compiler.source>
 		<maven.compiler.target>21</maven.compiler.target>
 	</properties>
@@ -63,12 +64,6 @@
 				<groupId>org.junit.jupiter</groupId>
 				<artifactId>junit-jupiter-engine</artifactId>
 				<version>5.9.1</version>
-				<scope>test</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.junit.vintage</groupId>
-				<artifactId>junit-vintage-engine</artifactId>
-				<version>5.14.3</version>
 				<scope>test</scope>
 			</dependency>
 		</dependencies>
