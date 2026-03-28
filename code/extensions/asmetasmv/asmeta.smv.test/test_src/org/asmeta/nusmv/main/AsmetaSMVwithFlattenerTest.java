@@ -9,6 +9,7 @@ import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 
+import org.asmeta.nusmv.InconsistentUpdateException;
 import org.asmeta.nusmv.main.AsmetaSMV.ModelCheckerMode;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
 import org.junit.jupiter.api.AfterAll;
@@ -585,8 +586,9 @@ public class AsmetaSMVwithFlattenerTest extends AsmetaSMVtest {
 		try {
 			AsmetaSMV as = new AsmetaSMV("examples/seq5.asm");
 			as.translation();
+			fail();
 		} catch (Exception e) {
-			assertEquals(e.getCause().getMessage(), "Chooserule in seqrule non supportato.");
+			assertEquals(e.getMessage(), "Chooserule in seqrule not supported.");
 		}
 	}
 
@@ -616,17 +618,15 @@ public class AsmetaSMVwithFlattenerTest extends AsmetaSMVtest {
 	}
 
 	// il test verifica che il tool si accorge dell'update inconsistente
-
 	@Test
-	@Tag("TestToMavenSkip")public void seqRule5Test() {
+	public void seqRule5Test() {
 		AsmetaSMV as = null;
 		try {
 			as = new AsmetaSMV("examples/seqRule5.asm");
 			as.translation();
 		} catch (RuntimeException e) {
-			assertEquals(e.getCause().getClass().getSimpleName(), "AsmNotSupportedException");
-			assertEquals(e.getCause().getMessage(),
-					"Update inconsistente: la locazione fooB viene aggiornata sia al valore 1 sia al valore 2 sotto la condizione TRUE");
+			assertEquals(e.getClass(), InconsistentUpdateException.class);
+			assertEquals("location fooB is set to 2 but it was set to 1 under condition TRUE",e.getMessage());
 			return;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -634,7 +634,7 @@ public class AsmetaSMVwithFlattenerTest extends AsmetaSMVtest {
 		fail();// se e' arrivato qui vuol dire che l'eccezione non e' stata
 				// catturata
 	}
-
+	
 	@Test
 	public void sluiceGateGroundTest() {
 		testAllCtlPropsAreTrue("examples/sluiceGateGround.asm");
