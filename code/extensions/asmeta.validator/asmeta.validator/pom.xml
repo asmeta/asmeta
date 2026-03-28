@@ -82,7 +82,7 @@
 		</dependency>
 		<dependency>
 			<groupId>asmeta</groupId>
-			<artifactId>org.asmeta.avallaxt</artifactId>
+			<artifactId>asmeta.avallaxt</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<!-- be careful - xtext is built using 3.2-->

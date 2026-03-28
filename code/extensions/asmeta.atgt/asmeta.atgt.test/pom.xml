@@ -68,7 +68,7 @@
 		</dependency>
 		<dependency>
 			<groupId>asmeta</groupId>
-			<artifactId>org.asmeta.avallaxt.tests</artifactId>
+			<artifactId>asmeta.avallaxt.tests</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
