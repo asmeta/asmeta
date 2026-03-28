@@ -1,6 +1,6 @@
 package org.asmeta.nusmv.main;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
@@ -9,7 +9,7 @@ import java.nio.file.Files;
 
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.AsmetaParserUtility;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import asmeta.AsmCollection;
@@ -19,7 +19,7 @@ import asmeta.AsmCollection;
 //
 public class ParseAllExampleTest {
 
-	@Ignore
+	@Disabled
 	@Test
 	public void testParseOnExamples() throws IOException {
 

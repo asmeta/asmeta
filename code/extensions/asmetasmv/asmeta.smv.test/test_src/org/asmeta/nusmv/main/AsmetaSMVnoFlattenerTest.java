@@ -1,7 +1,7 @@
 package org.asmeta.nusmv.main;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -13,7 +13,7 @@ import java.util.function.Predicate;
 import org.asmeta.nusmv.main.AsmetaSMV.ModelCheckerMode;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
 import org.asmeta.simulator.util.TermChecker;
-import org.junit.AfterClass;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -32,7 +32,7 @@ public class AsmetaSMVnoFlattenerTest extends AsmetaSMVtest {
 		AsmetaSMV.modelCheckerMode = ModelCheckerMode.CTL;
 	}
 	
-	@AfterClass
+	@AfterAll
 	public static void setFlattenerOld() {
 		AsmetaSMVOptions.FLATTEN = old;
 	}

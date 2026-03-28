@@ -1,7 +1,7 @@
 package org.asmeta.nusmv.main;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,18 +32,18 @@ public class AsmetaSMVtestTranslate extends AsmetaSMVtestTranslateBase{
 	@BeforeAll
 	public static void checkFileBase() {
 		File f = new File(ASMETA_EXAMPLES);
-		assertTrue(f.getAbsolutePath() + " does not exist", f.exists());
-		assertTrue(f.getAbsolutePath() + " does not exist", f.isDirectory());
+		assertTrue(f.exists(), f.getAbsolutePath() + " does not exist");
+		assertTrue(f.isDirectory(), f.getAbsolutePath() + " does not exist");
 		f = new File(ASMETA_MODELS);
-		assertTrue(f.getAbsolutePath() + " does not exist", f.exists());
-		assertTrue(f.getAbsolutePath() + " does not exist", f.isDirectory());
+		assertTrue(f.exists(), f.getAbsolutePath() + " does not exist");
+		assertTrue(f.isDirectory(), f.getAbsolutePath() + " does not exist");
 	} 
 	
 	
 
 	protected void testDir(String dir) {
 		Collection<File> res = testSpecInSubFolderBASEDIR(dir);
-		assertTrue(res.toString(), res.isEmpty());
+		assertTrue(res.isEmpty(), res.toString());
 	}
 
 	// test all the files ina subdir of basedir
@@ -54,8 +54,8 @@ public class AsmetaSMVtestTranslate extends AsmetaSMVtestTranslateBase{
 	private Collection<File> testSpecInSubFolder(String dirname) {
 		Collection<File> failedSpec = new ArrayList<File>();
 		File dir = new File(dirname);
-		assertTrue("example dir " + dir.getAbsolutePath() + " does not exist, current dir: "
-				+ new File(".").getAbsolutePath(), dir.isDirectory());
+		assertTrue(dir.isDirectory(), "example dir " + dir.getAbsolutePath() + " does not exist, current dir: "
+				+ new File(".").getAbsolutePath());
 		// read all the specs
 		for (File f : dir.listFiles(new ASMFileFilter())) {
 			if (!testOneSpec(f)) {
@@ -301,7 +301,7 @@ public class AsmetaSMVtestTranslate extends AsmetaSMVtestTranslateBase{
 	@Tag("TestToMavenSkip")
 	public void testAllExamples() {
 		Collection<File> testSpecInSubFolder = testSpecInSubFolder("examples");
-		assertTrue(testSpecInSubFolder.toString(), testSpecInSubFolder.isEmpty());
+		assertTrue(testSpecInSubFolder.isEmpty(), testSpecInSubFolder.toString());
 	}
 
 	@Test

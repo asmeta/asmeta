@@ -1,8 +1,8 @@
 package org.asmeta.nusmv.main;
 
 import static java.lang.System.out;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
@@ -118,12 +118,12 @@ public class AsmetaSMVtest {
 		// TODO questa fallisce perchè alcune volte diverse proprietà di asmeta sono mappate sulle stesse proprietà di
 		// nusmv (per la semplificazione) quindi quelle con risultati sono di meno
 		// dovrei controllare che ogni propreità ha un risultato.
-		assertEquals(mapResults.toString(), nProp, nPropSMV);
+		assertEquals(nProp, nPropSMV, mapResults.toString());
 		// all are true
 		for(Entry<Property, Boolean> prop: mapResults.entrySet()) {
 			if (predicate.test(prop.getKey())) continue;
-			assertEquals("The property " + prop.getKey() + " should be "+ desiredValue 
-					+", instead is "+ (! desiredValue)+ ".", desiredValue, prop.getValue());
+			assertEquals(desiredValue, prop.getValue(), "The property " + prop.getKey() + " should be "+ desiredValue 
+					+", instead is "+ (! desiredValue)+ ".");
 		}
 	}
 

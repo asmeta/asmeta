@@ -1,8 +1,8 @@
 package org.asmeta.nusmv.main;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
@@ -11,14 +11,14 @@ import java.util.List;
 
 import org.asmeta.nusmv.main.AsmetaSMV.ModelCheckerMode;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
-import org.junit.AfterClass;
-import org.junit.FixMethodOrder;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.MethodOrderer.MethodName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.TestMethodOrder;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(MethodName.class)
 public class AsmetaSMVwithFlattenerTest extends AsmetaSMVtest {
 
 	private static boolean old;
@@ -30,7 +30,7 @@ public class AsmetaSMVwithFlattenerTest extends AsmetaSMVtest {
 		AsmetaSMV.modelCheckerMode = ModelCheckerMode.CTL;
 	}
 		
-	@AfterClass
+	@AfterAll
 	public static void setFlattenerOld() {
 		AsmetaSMVOptions.FLATTEN = old;
 	}
