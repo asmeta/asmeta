@@ -52,12 +52,12 @@ To compile and test the asmeta framework in Eclipse IDE you need to install also
 
 ##### for windows 64 bit:
 
-https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2026_02_win64.zip 
+https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2026_03_win64.zip 
 
 ### older version multiplatform
 
 #### for windows 64 bit:
-https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2026_03_win64.zip
+https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2026_02_win64.zip
 #### for macOs aarch 64 bit:
 https://foselab.unibg.it/asmeta/eclipse_asmeta_smv_2024_06_macOs_aarch64.zip
 #### for linux 64 bit:
