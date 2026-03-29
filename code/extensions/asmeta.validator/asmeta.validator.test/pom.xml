@@ -13,26 +13,21 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.11.0</version>
+				<version>3.15.0</version>
 			</plugin>
-			<!--			<plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>3.5.4</version>
 				<configuration>
-					<skipAfterFailureCount>4</skipAfterFailureCount>
-					<includes>
-						<include>*.java</include>
-						<include>**\*.java</include>
-					</includes>
+					<skipAfterFailureCount>1</skipAfterFailureCount>
 					<excludedGroups>TestToMavenSkip</excludedGroups>
-					DA COMMENTARE
-					<systemPropertyVariables>
+					<!--<systemPropertyVariables>
 						<log4j.configuration>
 							file:${basedir}/log4j_maven.properties</log4j.configuration> 
-					</systemPropertyVariables>
+					</systemPropertyVariables> -->
 				</configuration>
-			</plugin>-->
+			</plugin>
 		</plugins>
 	</build>
 	<dependencies>
@@ -69,7 +64,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-engine</artifactId>			
+			<artifactId>junit-jupiter</artifactId>			
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

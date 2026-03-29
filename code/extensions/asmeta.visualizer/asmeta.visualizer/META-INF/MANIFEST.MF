@@ -6,7 +6,6 @@ Bundle-Version: 26.03
 Require-Bundle: org.eclipse.zest.core,
  org.eclipse.zest.layouts,
  org.eclipse.ui,
- org.junit,
  asmeta.emf,
  asmeta.simulator,
  asmeta.parser

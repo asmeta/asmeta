@@ -20,18 +20,17 @@
 				<version>3.5.4</version>
 				<configuration>
 					<skipAfterFailureCount>1</skipAfterFailureCount>
-<!--					<includes>
+					<excludedGroups>TestToMavenSkip</excludedGroups>
+					<!--					<includes>
 						<include>*.java</include>
 						<include>**\*.java</include>
 					</includes>
-					<excludedGroups>TestToMavenSkip</excludedGroups>
 					<systemPropertyVariables>
 						<log4j.configuration>
 							file:${basedir}/log4j_maven.properties</log4j.configuration> 
 					</systemPropertyVariables>-->
 				</configuration>
 			</plugin>
-
 		</plugins>
 	</build>
 	<dependencies>
@@ -81,9 +80,9 @@
 		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-engine</artifactId>
+			<artifactId>junit-jupiter</artifactId>
 			<scope>test</scope>
-		</dependency>		
+		</dependency>
 	</dependencies>
 	<parent>
 		<groupId>asmeta</groupId>

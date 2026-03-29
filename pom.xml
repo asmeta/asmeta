@@ -60,10 +60,11 @@
 	</build>
 	<dependencyManagement>
 		<dependencies>
+			<!-- JUnit 5 Aggregator (API + Engine + Params) -->
 			<dependency>
 				<groupId>org.junit.jupiter</groupId>
-				<artifactId>junit-jupiter-engine</artifactId>
-				<version>5.9.1</version>
+				<artifactId>junit-jupiter</artifactId>
+				<version>6.0.1</version>
 				<scope>test</scope>
 			</dependency>
 		</dependencies>

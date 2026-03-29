@@ -588,7 +588,7 @@ public class AsmetaSMVwithFlattenerTest extends AsmetaSMVtest {
 			as.translation();
 			fail();
 		} catch (Exception e) {
-			assertEquals(e.getMessage(), "Chooserule in seqrule not supported.");
+			assertEquals("Chooserule in seqrule not supported.",e.getMessage());
 		}
 	}
 
