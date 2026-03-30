@@ -2,18 +2,13 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>asmeta.avallaxt.tests</artifactId>
-	<parent>
-		<artifactId>asmeta.validator.parent</artifactId>
-		<groupId>asmeta</groupId>
-		<version>0.0.1-SNAPSHOT</version>
-	</parent>
+	<artifactId>org.asmeta.xt.tests</artifactId>
 	<build>
-		<testSourceDirectory>src</testSourceDirectory>
+		<sourceDirectory>src</sourceDirectory>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.13.0</version>
+				<version>3.15.0</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -33,9 +28,9 @@
 						<!-- ATTENTION this is needed to see multiple
 						directories. However only the tetss in src are
 						executed!-->
-						<phase>test</phase>
+						<phase>compile</phase>
 						<goals>
-							<goal>add-source</goal>
+							<goal>add-test-source</goal>
 						</goals>
 						<configuration>
 							<sources>
@@ -50,46 +45,32 @@
 	</build>
 	<dependencies>
 		<dependency>
-			<groupId>org.eclipse.platform</groupId>
-			<artifactId>org.eclipse.core.runtime</artifactId>
-			<version>3.34.200</version>
+			<groupId>asmeta</groupId>
+			<artifactId>org.asmeta.xt</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>org.eclipse.xtext</groupId>
-			<artifactId>org.eclipse.xtext</artifactId>
-			<version>${xtext.version}</version>
-			<!-- exlude to avoid conflifts with more recent versions-->
-			<exclusions>
-				<exclusion>
-					<groupId>org.eclipse.platform</groupId>
-					<artifactId>org.eclipse.equinox.common</artifactId>
-				</exclusion>
-			</exclusions>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.xtext</groupId>
 			<artifactId>org.eclipse.xtext.testing</artifactId>
 			<version>${xtext.version}</version>
 		</dependency>
+		<!-- added since xtext seems to depend on junit 4-->
 		<dependency>
-			<groupId>asmeta</groupId>
-			<artifactId>asmeta.avallaxt</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.13.2</version>
 		</dependency>
-		<dependency>
-			<groupId>asmeta</groupId>
-			<artifactId>asmeta.emf</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>asmeta</groupId>
-			<artifactId>asmeta.parser</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter</artifactId>
-			<scope>test</scope>
-		</dependency>
+
 	</dependencies>
+	<parent>
+		<groupId>asmeta</groupId>
+		<artifactId>asmeta.core</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../../pom.xml</relativePath>
+	</parent>
 </project>

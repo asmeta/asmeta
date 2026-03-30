@@ -9,35 +9,35 @@ import org.asmeta.xt.asmetal.Asm;
 import org.asmeta.xt.parser.AsmetaLParserWOHelper;
 import org.asmeta.xt.parser.ParseAndValidateResult;
 import org.eclipse.xtext.xbase.lib.Exceptions;
-import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 
 public class ParserTest {
-	
+
 	/**
 	 * save content to a temp file with filename, parse it and return the ASM
 	 * it must be error free
 	 * @param content the content
 	 * @param filename the filename
-	 * @return the asm 
+	 * @return the asm
 	 */
 	protected Asm test(final String content, final String filename) {
 //		File tempFile = new File((("temp/" + filename) + ASMParser.asmExtension));
 		File tempFile = new File((("temp/" + filename) + AsmetaParserUtility.ASM_EXTENSION));
-		Assert.assertTrue( new File("temp").exists() && new File("temp").isDirectory());
+		Assertions.assertTrue( new File("temp").exists() && new File("temp").isDirectory());
 		boolean _exists = tempFile.exists();
 		if (_exists) {
 			tempFile.delete();
 		}
-		Assert.assertFalse(tempFile.exists());
+		Assertions.assertFalse(tempFile.exists());
 		try {
 			final FileWriter write = new FileWriter(tempFile);
 			write.write(content);
 			write.close();
-			Assert.assertTrue(tempFile.exists());
+			Assertions.assertTrue(tempFile.exists());
 			final ParseAndValidateResult results = new AsmetaLParserWOHelper()
 					.parseAndValidateFile(tempFile.getAbsoluteFile().getAbsolutePath(), false);
 			tempFile.delete();
-			Assert.assertFalse(tempFile.exists());
+			Assertions.assertFalse(tempFile.exists());
 			int _size = results.getErrors().size();
 			boolean _greaterThan = (_size > 0);
 			if (_greaterThan) {

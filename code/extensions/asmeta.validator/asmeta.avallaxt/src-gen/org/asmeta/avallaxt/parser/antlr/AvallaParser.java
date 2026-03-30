@@ -3,11 +3,12 @@
  */
 package org.asmeta.avallaxt.parser.antlr;
 
-import com.google.inject.Inject;
 import org.asmeta.avallaxt.parser.antlr.internal.InternalAvallaParser;
 import org.asmeta.avallaxt.services.AvallaGrammarAccess;
 import org.eclipse.xtext.parser.antlr.AbstractAntlrParser;
 import org.eclipse.xtext.parser.antlr.XtextTokenStream;
+
+import com.google.inject.Inject;
 
 public class AvallaParser extends AbstractAntlrParser {
 

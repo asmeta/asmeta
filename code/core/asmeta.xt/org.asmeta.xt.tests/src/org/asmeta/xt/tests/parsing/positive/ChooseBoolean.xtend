@@ -8,11 +8,13 @@ import com.google.inject.Inject
 import org.eclipse.xtext.testing.util.ParseHelper
 import org.eclipse.xtext.testing.validation.ValidationTestHelper
 import org.asmeta.xt.asmetal.Asm
-import org.junit.Test
-import org.junit.Assert
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions
 import org.asmeta.xt.tests.AsmParseHelper
+import org.junit.jupiter.api.^extension.ExtendWith
+import org.eclipse.xtext.testing.extensions.InjectionExtension
 
-@RunWith(XtextRunner)
+@ExtendWith(InjectionExtension)
 @InjectWith(AsmetaLInjectorProvider)
 class ChooseBoolean {
 	
@@ -31,7 +33,7 @@ class ChooseBoolean {
 		''')
 		result.assertNoErrors		
 		// main rule test
-		Assert.assertNotNull(result.mainrule)
+		Assertions.assertNotNull(result.mainrule)
 	}
 	@Test
 	def void testChooseBooleanNoGuard() {
@@ -45,7 +47,7 @@ class ChooseBoolean {
 		''')
 		result.assertNoErrors		
 		// main rule test
-		Assert.assertNotNull(result.mainrule)
+		Assertions.assertNotNull(result.mainrule)
 	}
 	
 	

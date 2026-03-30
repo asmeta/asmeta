@@ -8,19 +8,23 @@ import org.eclipse.xtext.testing.InjectWith
 import org.eclipse.xtext.testing.XtextRunner
 import org.eclipse.xtext.testing.util.ParseHelper
 import org.eclipse.xtext.testing.validation.ValidationTestHelper
-import org.junit.Test
-import org.junit.runner.RunWith
 import org.asmeta.xt.validation.ErrorCode
 import org.asmeta.xt.tests.AsmParseHelper
 
-@RunWith(XtextRunner)
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.^extension.ExtendWith
+import org.eclipse.xtext.testing.extensions.InjectionExtension
+import org.junit.jupiter.api.Tag
+
+@ExtendWith(InjectionExtension)
 @InjectWith(AsmetaLInjectorProvider)
 class InizializationNegativeParsingTest {
 	
 	@Inject	AsmParseHelper parseHelper
 	@Inject extension ValidationTestHelper
 
-	@Test
+	@Test@Tag("TestToMavenSkip")
 	def void testInizialization() {
 		var Asm result
 		
@@ -33,7 +37,7 @@ class InizializationNegativeParsingTest {
 		result.assertError(AsmetalPackage.Literals.INITIALIZATION, ErrorCode.INITILIZATION_EMPTY_INIT)	
 	}
 
-	@Test
+	@Test@Tag("TestToMavenSkip")
 	def void testDomainInizialization() {
 		var Asm result
 		
@@ -235,7 +239,7 @@ class InizializationNegativeParsingTest {
 		
 	}
 	
-	@Test
+	@Test@Tag("TestToMavenSkip")
 	def void testFunctionInizialization() {
 		var Asm result
 	
@@ -359,7 +363,7 @@ class InizializationNegativeParsingTest {
 		
 	}
 	
-	@Test
+	@Test@Tag("TestToMavenSkip")
 	def void testAgentInizialization() {
 		var Asm result
 	

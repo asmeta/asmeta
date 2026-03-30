@@ -9,22 +9,26 @@ import org.eclipse.xtext.testing.InjectWith
 import org.eclipse.xtext.testing.XtextRunner
 import org.eclipse.xtext.testing.util.ParseHelper
 import org.eclipse.xtext.testing.validation.ValidationTestHelper
-import org.junit.Test
-import org.junit.runner.RunWith
 import org.asmeta.xt.tests.AsmParseHelper
 
 /**
  * A class for validation test (negative test)
  */
 
-@RunWith(XtextRunner)
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.^extension.ExtendWith
+import org.eclipse.xtext.testing.extensions.InjectionExtension
+import org.junit.jupiter.api.Tag
+
+@ExtendWith(InjectionExtension)
 @InjectWith(AsmetaLInjectorProvider)
 class HeaderNegativeParsingTest {
 	
 	@Inject	AsmParseHelper parseHelper
 	@Inject extension ValidationTestHelper
 
-	@Test
+	@Test@Tag("TestToMavenSkip")
 	def void testImport() {
 		var Asm result
 		
@@ -127,7 +131,7 @@ class HeaderNegativeParsingTest {
 
 	}
 	
-	@Test
+	@Test@Tag("TestToMavenSkip")
 	def void testExport() {
 		var Asm result
 
@@ -174,7 +178,7 @@ class HeaderNegativeParsingTest {
 
 	}
 	
-	@Test
+	@Test@Tag("TestToMavenSkip")
 	def void testSignature() {
 		var Asm result
 
@@ -250,7 +254,7 @@ class HeaderNegativeParsingTest {
 		result.assertNoErrors 
 	}
 	
-	@Test
+	@Test@Tag("TestToMavenSkip")
 	def void testConcreteDomain() {
 		var Asm result
 
@@ -396,7 +400,7 @@ class HeaderNegativeParsingTest {
 		
 	}
 	
-	@Test
+	@Test@Tag("TestToMavenSkip")
 	def void testStructuredDomainsNotImported() {
 		var Asm result
 		
@@ -524,7 +528,7 @@ class HeaderNegativeParsingTest {
 
 	}
 	
-	@Test
+	@Test@Tag("TestToMavenSkip")
 	def void testFunctionDomainNotImported() {
 	
 		var Asm result

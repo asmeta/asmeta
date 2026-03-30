@@ -18,11 +18,12 @@ import org.eclipse.xtext.testing.XtextRunner
 import org.eclipse.xtext.testing.util.ParseHelper
 import org.eclipse.xtext.testing.validation.ValidationTestHelper
 import org.eclipse.xtext.validation.Issue
-import org.junit.Assert
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
 import org.asmeta.xt.tests.AsmParseHelper
 import org.eclipse.xtext.diagnostics.Severity
+import org.junit.jupiter.api.^extension.ExtendWith
+import org.eclipse.xtext.testing.extensions.InjectionExtension
 
 /**
  *  test for all the examples in asm_examples
@@ -30,7 +31,7 @@ import org.eclipse.xtext.diagnostics.Severity
  * NOT WORKING because import is not working
  * 
  */
-@RunWith(XtextRunner)
+@ExtendWith(InjectionExtension)
 @InjectWith(AsmetaLInjectorProvider)
 class AllAsmExamplesTesterWHelper {
 
@@ -40,7 +41,7 @@ class AllAsmExamplesTesterWHelper {
 	@Test
 	def void testAllExamples() {
 		val examplePath = Paths.get("../../../../asm_examples/examples/")
-		Assert.assertTrue(Files.isDirectory(examplePath))
+		Assertions.assertTrue(Files.isDirectory(examplePath))
 		val Iterator<Path> files = Files.walk(examplePath).iterator
 		while (files.hasNext) {
 			var fileToRead = files.next
@@ -65,7 +66,7 @@ class AllAsmExamplesTesterWHelper {
 		if (realError) {
 			System.err.println(" error")
 			System.out.println(validate.toString())			
-			//Assert.fail(validate.toString())
+			//Assertions.fail(validate.toString())
 		} else {
 			System.out.println(" ok")
 		}

@@ -3,8 +3,8 @@
  */
 package org.asmeta.avallaxt.serializer;
 
-import com.google.inject.Inject;
 import java.util.Set;
+
 import org.asmeta.avallaxt.avalla.AvallaPackage;
 import org.asmeta.avallaxt.avalla.Block;
 import org.asmeta.avallaxt.avalla.Check;
@@ -25,6 +25,8 @@ import org.eclipse.xtext.serializer.ISerializationContext;
 import org.eclipse.xtext.serializer.acceptor.SequenceFeeder;
 import org.eclipse.xtext.serializer.sequencer.AbstractDelegatingSemanticSequencer;
 import org.eclipse.xtext.serializer.sequencer.ITransientValueService.ValueTransient;
+
+import com.google.inject.Inject;
 
 @SuppressWarnings("all")
 public abstract class AbstractAvallaSemanticSequencer extends AbstractDelegatingSemanticSequencer {

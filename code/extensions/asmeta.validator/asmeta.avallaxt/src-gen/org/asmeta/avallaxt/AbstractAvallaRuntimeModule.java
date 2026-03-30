@@ -3,10 +3,8 @@
  */
 package org.asmeta.avallaxt;
 
-import com.google.inject.Binder;
-import com.google.inject.Provider;
-import com.google.inject.name.Names;
 import java.util.Properties;
+
 import org.asmeta.avallaxt.formatting2.AvallaFormatter;
 import org.asmeta.avallaxt.generator.AvallaGenerator;
 import org.asmeta.avallaxt.parser.antlr.AvallaAntlrTokenFileProvider;
@@ -56,6 +54,10 @@ import org.eclipse.xtext.serializer.sequencer.ISyntacticSequencer;
 import org.eclipse.xtext.service.DefaultRuntimeModule;
 import org.eclipse.xtext.service.SingletonBinding;
 import org.eclipse.xtext.validation.ConfigurableIssueCodesProvider;
+
+import com.google.inject.Binder;
+import com.google.inject.Provider;
+import com.google.inject.name.Names;
 
 /**
  * Manual modifications go to {@link AvallaRuntimeModule}.

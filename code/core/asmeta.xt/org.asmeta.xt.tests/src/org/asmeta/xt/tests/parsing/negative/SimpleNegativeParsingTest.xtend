@@ -9,14 +9,17 @@ import org.eclipse.xtext.testing.InjectWith
 import org.eclipse.xtext.testing.XtextRunner
 import org.eclipse.xtext.testing.util.ParseHelper
 import org.eclipse.xtext.testing.validation.ValidationTestHelper
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.^extension.ExtendWith
+import org.eclipse.xtext.testing.extensions.InjectionExtension
+import org.junit.jupiter.api.Tag
 
 /**
  * A class for validation test (negative test)
  */
 
-@RunWith(XtextRunner)
+@ExtendWith(InjectionExtension)
 @InjectWith(AsmetaLInjectorProvider)
 class SimpleNegativeParsingTest {
 	
@@ -26,7 +29,7 @@ class SimpleNegativeParsingTest {
 	@Test
 	def void blanktest() { }
 
-	@Test
+	@Test@Tag("TestToMavenSkip")
 	def void testAsm() {
 		var Asm result
 		

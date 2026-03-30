@@ -1,7 +1,8 @@
 package org.asmeta.xt.tests.parsing.positive
 
-import org.junit.Assert
-import org.junit.Test
+
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Assertions
 
 class AbstractAndAgentDomain extends ParserTest{
 
@@ -21,9 +22,9 @@ class AbstractAndAgentDomain extends ParserTest{
 		''',"blankpage")
 		// asm test
 		// header test																			
-		Assert.assertEquals(0, result.headerSection.importClause.size)
-		Assert.assertEquals(null, result.headerSection.exportClause)
-		Assert.assertEquals(3, result.headerSection.signature.domain.size)
+		Assertions.assertEquals(0, result.headerSection.importClause.size)
+		Assertions.assertEquals(null, result.headerSection.exportClause)
+		Assertions.assertEquals(3, result.headerSection.signature.domain.size)
 		println(result.headerSection.signature.domain.get(0).class)
 		println(result.headerSection.signature.domain.get(1).class)
 	}
@@ -167,9 +168,9 @@ default init s_0:
 		''', "CashPoint")
 		// asm test
 		// header test																			
-		Assert.assertEquals(1, result.headerSection.importClause.size)
-		Assert.assertEquals(null, result.headerSection.exportClause)
-		Assert.assertEquals(5, result.headerSection.signature.domain.size)
+		Assertions.assertEquals(1, result.headerSection.importClause.size)
+		Assertions.assertEquals(null, result.headerSection.exportClause)
+		Assertions.assertEquals(5, result.headerSection.signature.domain.size)
 		println(result.headerSection.signature.domain.get(0).class)
 		println(result.headerSection.signature.domain.get(1).class)
 		println(result.headerSection.signature.domain.get(2).class)

@@ -7,7 +7,7 @@ import java.io.IOException;
  * main class to be used in the jar file Non si può usare il parserhelper e cose
  * del genere perchè l'uri non funziona più e non si riesce a trovare la
  * location del file
- * 
+ *
  */
 public class MainRunner {
 

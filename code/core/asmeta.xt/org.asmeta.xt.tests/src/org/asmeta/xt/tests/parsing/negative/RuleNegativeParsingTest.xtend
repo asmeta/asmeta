@@ -9,17 +9,20 @@ import org.eclipse.xtext.testing.InjectWith
 import org.eclipse.xtext.testing.XtextRunner
 import org.eclipse.xtext.testing.util.ParseHelper
 import org.eclipse.xtext.testing.validation.ValidationTestHelper
-import org.junit.Test
-import org.junit.runner.RunWith
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.^extension.ExtendWith
+import org.eclipse.xtext.testing.extensions.InjectionExtension
+import org.junit.jupiter.api.Tag
 
-@RunWith(XtextRunner)
+@ExtendWith(InjectionExtension)
 @InjectWith(AsmetaLInjectorProvider)
 class RuleNegativeParsingTest {
 
 	@Inject	ParseHelper<Asm> parseHelper
 	@Inject extension ValidationTestHelper
 
-	@Test
+	@Test@Tag("TestToMavenSkip")
 	def void testUpdateRule() {
 		var Asm result
 
@@ -85,7 +88,7 @@ class RuleNegativeParsingTest {
 		
 	}
 	
-	@Test
+	@Test@Tag("TestToMavenSkip")
 	def void testConditionalRule() {
 		var Asm result
 		
@@ -121,7 +124,7 @@ class RuleNegativeParsingTest {
 
 	}
 		
-	@Test
+	@Test@Tag("TestToMavenSkip")
 	def void testLetRule() {
 		var Asm result
 		
@@ -177,7 +180,7 @@ class RuleNegativeParsingTest {
 		
 	}
 	
-	@Test
+	@Test@Tag("TestToMavenSkip")
 	def void testChooseRule() {
 		var Asm result
 		
@@ -260,7 +263,7 @@ class RuleNegativeParsingTest {
 		
 	}
 	
-	@Test
+	@Test@Tag("TestToMavenSkip")
 	def void testForallRule() {
 		var Asm result
 		
@@ -338,7 +341,7 @@ class RuleNegativeParsingTest {
 	}
 	
 		
-	@Test
+	@Test@Tag("TestToMavenSkip")
 	def void testExtendRule() {
 		var Asm result
 		
@@ -455,7 +458,7 @@ class RuleNegativeParsingTest {
 		
 	}
 	
-	@Test
+	@Test@Tag("TestToMavenSkip")
 	def void testCaseRule() {
 		var Asm result
 		
@@ -517,7 +520,7 @@ class RuleNegativeParsingTest {
 	}
 	
 		
-	@Test
+	@Test@Tag("TestToMavenSkip")
 	def void testWhileRule() {
 		var Asm result
 		

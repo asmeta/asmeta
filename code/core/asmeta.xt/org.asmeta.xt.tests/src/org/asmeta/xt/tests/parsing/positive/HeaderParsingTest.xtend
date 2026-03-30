@@ -28,12 +28,15 @@ import org.eclipse.xtext.testing.InjectWith
 import org.eclipse.xtext.testing.XtextRunner
 import org.eclipse.xtext.testing.util.ParseHelper
 import org.eclipse.xtext.testing.validation.ValidationTestHelper
-import org.junit.Assert
-import org.junit.Test
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
 import org.junit.runner.RunWith
 import org.asmeta.xt.tests.AsmParseHelper
+import org.junit.jupiter.api.^extension.ExtendWith
+import org.eclipse.xtext.testing.extensions.InjectionExtension
+import org.junit.jupiter.api.Tag
 
-@RunWith(XtextRunner)
+@ExtendWith(InjectionExtension)
 @InjectWith(AsmetaLInjectorProvider)
 class HeaderParsingTest {
 	
@@ -41,7 +44,7 @@ class HeaderParsingTest {
 	@Inject extension ValidationTestHelper
 	
 	
-	@Test
+	@Test@Tag("TestToMavenSkip")
 	def void testOnlyImports() {
 		
 		var i = 0;
@@ -61,21 +64,21 @@ class HeaderParsingTest {
 		// line cannot be executed
 		//result.assertNoErrors
 		
-		Assert.assertEquals( 3, result.headerSection.importClause.size)
+		Assertions.assertEquals( 3, result.headerSection.importClause.size)
 	
-		Assert.assertEquals( "../STDL/StandardLibrary", result.headerSection.importClause.get(i).moduleName)
-		Assert.assertEquals( 0, result.headerSection.importClause.get(i).importedList.size)		
+		Assertions.assertEquals( "../STDL/StandardLibrary", result.headerSection.importClause.get(i).moduleName)
+		Assertions.assertEquals( 0, result.headerSection.importClause.get(i).importedList.size)		
 		
 		i++
-		Assert.assertEquals( "STDL/StandardLibrary", result.headerSection.importClause.get(i).moduleName)
+		Assertions.assertEquals( "STDL/StandardLibrary", result.headerSection.importClause.get(i).moduleName)
 		 
 		i++
-		Assert.assertEquals( "StandardLibrary.asm", result.headerSection.importClause.get(i).moduleName)
-		Assert.assertEquals( 2, result.headerSection.importClause.get(i).importedList.size)		
-		Assert.assertEquals( "Integer", result.headerSection.importClause.get(i).importedList.get(0).name)	
-		Assert.assertEquals( "eq", result.headerSection.importClause.get(i).importedList.get(1).name)	
+		Assertions.assertEquals( "StandardLibrary.asm", result.headerSection.importClause.get(i).moduleName)
+		Assertions.assertEquals( 2, result.headerSection.importClause.get(i).importedList.size)		
+		Assertions.assertEquals( "Integer", result.headerSection.importClause.get(i).importedList.get(0).name)	
+		Assertions.assertEquals( "eq", result.headerSection.importClause.get(i).importedList.get(1).name)	
 									
-		Assert.assertEquals( result.headerSection.exportClause, null)
+		Assertions.assertEquals( result.headerSection.exportClause, null)
 	}
 	
 	@Test
@@ -90,10 +93,10 @@ class HeaderParsingTest {
 		''', "export_all")
 		result.assertNoErrors
 		
-		Assert.assertEquals( 0, result.headerSection.importClause.size )	
+		Assertions.assertEquals( 0, result.headerSection.importClause.size )	
 		
-		Assert.assertEquals( 0, result.headerSection.exportClause.exportedList.size )	
-		Assert.assertEquals( true, result.headerSection.exportClause.exportAll )			
+		Assertions.assertEquals( 0, result.headerSection.exportClause.exportedList.size )	
+		Assertions.assertEquals( true, result.headerSection.exportClause.exportAll )			
 	}
 	
 	@Test
@@ -109,15 +112,15 @@ class HeaderParsingTest {
 		''',"single_export")
 		result.assertNoErrors
 		
-		Assert.assertEquals( result.headerSection.importClause.size, 0)	
+		Assertions.assertEquals( result.headerSection.importClause.size, 0)	
 		
-		Assert.assertEquals( 1, result.headerSection.exportClause.exportedList.size)	
-		Assert.assertEquals( "provafunzione", result.headerSection.exportClause.exportedList.get(0) )	
-		Assert.assertEquals( false, result.headerSection.exportClause.exportAll )			
+		Assertions.assertEquals( 1, result.headerSection.exportClause.exportedList.size)	
+		Assertions.assertEquals( "provafunzione", result.headerSection.exportClause.exportedList.get(0) )	
+		Assertions.assertEquals( false, result.headerSection.exportClause.exportAll )			
 
 	}
 	
-	@Test
+	@Test@Tag("TestToMavenSkip")
 	def void testMultipleExport() {
 				
 		var result = parseHelper.parse('''		
@@ -132,15 +135,15 @@ class HeaderParsingTest {
 		''')
 		result.assertNoErrors
 		
-		Assert.assertEquals( result.headerSection.importClause.size, 0)	
+		Assertions.assertEquals( result.headerSection.importClause.size, 0)	
 		
-		Assert.assertEquals( 2, result.headerSection.exportClause.exportedList.size )	
-		Assert.assertEquals( "provafunzione1", result.headerSection.exportClause.exportedList.get(0) )
-		Assert.assertEquals( "Prova", result.headerSection.exportClause.exportedList.get(1) )		
-		Assert.assertEquals( false, result.headerSection.exportClause.exportAll )	
+		Assertions.assertEquals( 2, result.headerSection.exportClause.exportedList.size )	
+		Assertions.assertEquals( "provafunzione1", result.headerSection.exportClause.exportedList.get(0) )
+		Assertions.assertEquals( "Prova", result.headerSection.exportClause.exportedList.get(1) )		
+		Assertions.assertEquals( false, result.headerSection.exportClause.exportAll )	
 	}
 
-	@Test
+	@Test@Tag("TestToMavenSkip")
 	def void testConcreteDomain() {
 		var result = parseHelper.parse('''
 			asm concrete_domain
@@ -157,42 +160,42 @@ class HeaderParsingTest {
 		
 		var i = 0
 		
-		Assert.assertEquals( 3, result.headerSection.signature.domain.size)	
-		Assert.assertEquals( 0, result.headerSection.signature.function.size)	
+		Assertions.assertEquals( 3, result.headerSection.signature.domain.size)	
+		Assertions.assertEquals( 0, result.headerSection.signature.function.size)	
 		
 		//	dynamic domain Prova1 subsetof Integer
 		var dom = result.headerSection.signature.domain.get(i)
-		Assert.assertEquals( typeof(ConcreteDomainImpl), dom.class )
+		Assertions.assertEquals( typeof(ConcreteDomainImpl), dom.class )
 		var temp = dom as ConcreteDomain
-		Assert.assertEquals( true, temp.dynamic )
-		Assert.assertEquals( "Prova1", temp.name )
-		Assert.assertEquals( "Integer", temp.typeDomain.name )
+		Assertions.assertEquals( true, temp.dynamic )
+		Assertions.assertEquals( "Prova1", temp.name )
+		Assertions.assertEquals( "Integer", temp.typeDomain.name )
 		
 		// --- domain Book subsetof Prod( Isbn, Title, AuthorSurname )
 		i++
 		dom = result.headerSection.signature.domain.get(i)
-		Assert.assertEquals( typeof(ConcreteDomainImpl), dom.class )
+		Assertions.assertEquals( typeof(ConcreteDomainImpl), dom.class )
 		temp = dom as ConcreteDomain
-		Assert.assertEquals( false, temp.dynamic )
-		Assert.assertEquals( "Book", temp.name )
+		Assertions.assertEquals( false, temp.dynamic )
+		Assertions.assertEquals( "Book", temp.name )
 		// Prod( Isbn, Title, AuthorSurname )
-		Assert.assertEquals( typeof(ProductDomainImpl), temp.typeDomain.class )
+		Assertions.assertEquals( typeof(ProductDomainImpl), temp.typeDomain.class )
 		var tem_type = temp.typeDomain as ProductDomain
-		Assert.assertEquals( "String", tem_type.domains.get(0).name )
-		Assert.assertEquals( "String", tem_type.domains.get(1).name )
-		Assert.assertEquals( "Prova1", tem_type.domains.get(2).name )
+		Assertions.assertEquals( "String", tem_type.domains.get(0).name )
+		Assertions.assertEquals( "String", tem_type.domains.get(1).name )
+		Assertions.assertEquals( "Prova1", tem_type.domains.get(2).name )
 		
 		// domain Prova2 subsetof Integer
 		i++
 		dom = result.headerSection.signature.domain.get(i)
-		Assert.assertEquals( typeof(ConcreteDomainImpl), dom.class )
+		Assertions.assertEquals( typeof(ConcreteDomainImpl), dom.class )
 		temp = dom as ConcreteDomain
-		Assert.assertEquals( false, temp.dynamic )
-		Assert.assertEquals( "Prova2", temp.name )
-		Assert.assertEquals( "Integer", temp.typeDomain.name )
+		Assertions.assertEquals( false, temp.dynamic )
+		Assertions.assertEquals( "Prova2", temp.name )
+		Assertions.assertEquals( "Integer", temp.typeDomain.name )
 	}
 	
-	@Test
+	@Test@Tag("TestToMavenSkip")
 	def void testTypeDomain() {
 		var result = parseHelper.parse('''
 			asm type_domain
@@ -208,59 +211,59 @@ class HeaderParsingTest {
 		
 		var i = 0		
 		
-		Assert.assertEquals( 5, result.headerSection.signature.domain.size)	
-		Assert.assertEquals( 0, result.headerSection.signature.function.size)	
+		Assertions.assertEquals( 5, result.headerSection.signature.domain.size)	
+		Assertions.assertEquals( 0, result.headerSection.signature.function.size)	
 		
 		// anydomain prova1
 		var dom = result.headerSection.signature.domain.get(i)
-		Assert.assertEquals( typeof(AnyDomainImpl), dom.class )
+		Assertions.assertEquals( typeof(AnyDomainImpl), dom.class )
 		var temp1 = dom as AnyDomain
-		Assert.assertEquals( "Prova1", temp1.name )
+		Assertions.assertEquals( "Prova1", temp1.name )
 		
 		// enum domain Prova2 = { aa }
 		i++
 		dom = result.headerSection.signature.domain.get(i)
-		Assert.assertEquals( typeof(EnumTDImpl), dom.class )
+		Assertions.assertEquals( typeof(EnumTDImpl), dom.class )
 		var temp2 = dom as EnumTD
-		Assert.assertEquals( "Prova2", temp2.name )
-		Assert.assertEquals( 1, temp2.element.size )
-		Assert.assertEquals( "AA", temp2.element.get(0).symbol )
+		Assertions.assertEquals( "Prova2", temp2.name )
+		Assertions.assertEquals( 1, temp2.element.size )
+		Assertions.assertEquals( "AA", temp2.element.get(0).symbol )
 		
 		// enum domain Prova3 = { aa | bb }
 		i++
 		dom = result.headerSection.signature.domain.get(i)
-		Assert.assertEquals( typeof(EnumTDImpl), dom.class )
+		Assertions.assertEquals( typeof(EnumTDImpl), dom.class )
 		var temp3 = dom as EnumTD
-		Assert.assertEquals( "Prova3", temp3.name )
-		Assert.assertEquals( 2, temp3.element.size )
-		Assert.assertEquals( "CC", temp3.element.get(0).symbol )
-		Assert.assertEquals( "BB", temp3.element.get(1).symbol )
+		Assertions.assertEquals( "Prova3", temp3.name )
+		Assertions.assertEquals( 2, temp3.element.size )
+		Assertions.assertEquals( "CC", temp3.element.get(0).symbol )
+		Assertions.assertEquals( "BB", temp3.element.get(1).symbol )
 		
 		// dynamic abstract domain prova4
 		i++
 		dom = result.headerSection.signature.domain.get(i)
-		Assert.assertEquals( typeof(AbstractTDImpl), dom.class )
+		Assertions.assertEquals( typeof(AbstractTDImpl), dom.class )
 		var temp4 = dom as AbstractTD
-		Assert.assertEquals( true, temp4.dynamic )
-		Assert.assertEquals( "Prova4", temp4.name )
+		Assertions.assertEquals( true, temp4.dynamic )
+		Assertions.assertEquals( "Prova4", temp4.name )
 		
 		// abstract domain Prova5
 		i++
 		dom = result.headerSection.signature.domain.get(i)
-		Assert.assertEquals( typeof(AbstractTDImpl), dom.class )
+		Assertions.assertEquals( typeof(AbstractTDImpl), dom.class )
 		var temp5 = dom as AbstractTD
-		Assert.assertEquals( false, temp5.dynamic )
-		Assert.assertEquals( "Prova5", temp5.name )
+		Assertions.assertEquals( false, temp5.dynamic )
+		Assertions.assertEquals( "Prova5", temp5.name )
 		
 		// basic domain Prova6
 		/*i++
 		dom = result.headerSection.signature.domain.get(i)
-		Assert.assertEquals( typeof(BasicTDImpl), dom.class )
+		Assertions.assertEquals( typeof(BasicTDImpl), dom.class )
 		var temp6 = dom as BasicTD
-		Assert.assertEquals( "Prova6", temp6.name )*/
+		Assertions.assertEquals( "Prova6", temp6.name )*/
 	}
 	
-	@Test
+	@Test@Tag("TestToMavenSkip")
 	def void testStructuredDomain() {
 		var result = parseHelper.parse('''
 			asm structured_domain
@@ -280,82 +283,82 @@ class HeaderParsingTest {
 		
 		var i = 0
 		
-		Assert.assertEquals( 6, result.headerSection.signature.domain.size)	
-		Assert.assertEquals( 0, result.headerSection.signature.function.size)	
+		Assertions.assertEquals( 6, result.headerSection.signature.domain.size)	
+		Assertions.assertEquals( 0, result.headerSection.signature.function.size)	
 		
 		// domain Prova1 subsetof Prod( Integer, Complex )
 		var conc_dom = result.headerSection.signature.domain.get(i)
-		Assert.assertEquals( "Prova1", conc_dom.name )
-		Assert.assertEquals( typeof(ConcreteDomainImpl), conc_dom.class )
+		Assertions.assertEquals( "Prova1", conc_dom.name )
+		Assertions.assertEquals( typeof(ConcreteDomainImpl), conc_dom.class )
 		var dom1 = (conc_dom as ConcreteDomainImpl).typeDomain
 		// Prod( prova1, prova2 )
-		Assert.assertEquals( typeof(ProductDomainImpl), dom1.class )
+		Assertions.assertEquals( typeof(ProductDomainImpl), dom1.class )
 		var temp1 = dom1 as ProductDomain
-		Assert.assertEquals( 2, temp1.domains.size )
-		Assert.assertEquals( "Integer", temp1.domains.get(0).name )
-		Assert.assertEquals( "Complex", temp1.domains.get(1).name )
+		Assertions.assertEquals( 2, temp1.domains.size )
+		Assertions.assertEquals( "Integer", temp1.domains.get(0).name )
+		Assertions.assertEquals( "Complex", temp1.domains.get(1).name )
 		
 		// domain Prova2 subsetof Prod( Integer, Integer, Complex )
 		i++
 		conc_dom = result.headerSection.signature.domain.get(i)
-		Assert.assertEquals( "Prova2", conc_dom.name )
-		Assert.assertEquals( typeof(ConcreteDomainImpl), conc_dom.class )
+		Assertions.assertEquals( "Prova2", conc_dom.name )
+		Assertions.assertEquals( typeof(ConcreteDomainImpl), conc_dom.class )
 		dom1 = (conc_dom as ConcreteDomainImpl).typeDomain
 		// Prod( Integer, Integer, Complex )
-		Assert.assertEquals( typeof(ProductDomainImpl), dom1.class )
+		Assertions.assertEquals( typeof(ProductDomainImpl), dom1.class )
 		temp1 = dom1 as ProductDomain
-		Assert.assertEquals( 3, temp1.domains.size )
-		Assert.assertEquals( "Integer", temp1.domains.get(0).name )
-		Assert.assertEquals( "Integer", temp1.domains.get(1).name )
-		Assert.assertEquals( "Complex", temp1.domains.get(2).name )
+		Assertions.assertEquals( 3, temp1.domains.size )
+		Assertions.assertEquals( "Integer", temp1.domains.get(0).name )
+		Assertions.assertEquals( "Integer", temp1.domains.get(1).name )
+		Assertions.assertEquals( "Complex", temp1.domains.get(2).name )
 		
 		// domain Prova3 subsetof Seq( Complex )
 		i++
 		conc_dom = result.headerSection.signature.domain.get(i)
-		Assert.assertEquals( "Prova3", conc_dom.name )
-		Assert.assertEquals( typeof(ConcreteDomainImpl), conc_dom.class )
+		Assertions.assertEquals( "Prova3", conc_dom.name )
+		Assertions.assertEquals( typeof(ConcreteDomainImpl), conc_dom.class )
 		var dom2 = (conc_dom as ConcreteDomainImpl).typeDomain
 		// Seq( Complex )
-		Assert.assertEquals( typeof(SequenceDomainImpl), dom2.class )
+		Assertions.assertEquals( typeof(SequenceDomainImpl), dom2.class )
 		var temp2 = dom2 as SequenceDomainImpl
-		Assert.assertEquals( "Complex", temp2.domain.name )
+		Assertions.assertEquals( "Complex", temp2.domain.name )
 		
 		// domain Prova4 subsetof Powerset( Integer )
 		i++
 		conc_dom = result.headerSection.signature.domain.get(i)
-		Assert.assertEquals( "Prova4", conc_dom.name )
-		Assert.assertEquals( typeof(ConcreteDomainImpl), conc_dom.class )
+		Assertions.assertEquals( "Prova4", conc_dom.name )
+		Assertions.assertEquals( typeof(ConcreteDomainImpl), conc_dom.class )
 		var dom3 = (conc_dom as ConcreteDomainImpl).typeDomain
 		// Powerset( Integer )
-		Assert.assertEquals( typeof(PowersetDomainImpl), dom3.class )
+		Assertions.assertEquals( typeof(PowersetDomainImpl), dom3.class )
 		var temp3 = dom3 as PowersetDomainImpl
-		Assert.assertEquals( "Integer", temp3.baseDomain.name )
+		Assertions.assertEquals( "Integer", temp3.baseDomain.name )
 		
 		// domain Prova5 subsetof Bag( Complex )
 		i++
 		conc_dom = result.headerSection.signature.domain.get(i)
-		Assert.assertEquals( "Prova5", conc_dom.name )
-		Assert.assertEquals( typeof(ConcreteDomainImpl), conc_dom.class )
+		Assertions.assertEquals( "Prova5", conc_dom.name )
+		Assertions.assertEquals( typeof(ConcreteDomainImpl), conc_dom.class )
 		var dom4 = (conc_dom as ConcreteDomainImpl).typeDomain
 		// Bag( Complex )
-		Assert.assertEquals( typeof(BagDomainImpl), dom4.class )
+		Assertions.assertEquals( typeof(BagDomainImpl), dom4.class )
 		var temp4 = dom4 as BagDomainImpl
-		Assert.assertEquals( "Complex", temp4.domain.name )
+		Assertions.assertEquals( "Complex", temp4.domain.name )
 		
 		// domain Prova6 subsetof Map( String, String )
 		i++
 		conc_dom = result.headerSection.signature.domain.get(i)
-		Assert.assertEquals( "Prova6", conc_dom.name )
-		Assert.assertEquals( typeof(ConcreteDomainImpl), conc_dom.class )
+		Assertions.assertEquals( "Prova6", conc_dom.name )
+		Assertions.assertEquals( typeof(ConcreteDomainImpl), conc_dom.class )
 		var dom5 = (conc_dom as ConcreteDomainImpl).typeDomain
 		// Map( String, String )
-		Assert.assertEquals( typeof(MapDomainImpl), dom5.class )
+		Assertions.assertEquals( typeof(MapDomainImpl), dom5.class )
 		var temp5 = dom5 as MapDomainImpl
-		Assert.assertEquals( "String", temp5.sourceDomain.name )
-		Assert.assertEquals( "String", temp5.targetDomain.name )
+		Assertions.assertEquals( "String", temp5.sourceDomain.name )
+		Assertions.assertEquals( "String", temp5.targetDomain.name )
 	}
 
-	@Test
+	@Test@Tag("TestToMavenSkip")
 	def void testMultipleStructuredDomain() {
 		var result = parseHelper.parse('''
 			asm multi_structured_domain
@@ -371,40 +374,40 @@ class HeaderParsingTest {
 		
 		var i = 0
 		
-		Assert.assertEquals( 2, result.headerSection.signature.domain.size)	
-		Assert.assertEquals( 0, result.headerSection.signature.function.size)	
+		Assertions.assertEquals( 2, result.headerSection.signature.domain.size)	
+		Assertions.assertEquals( 0, result.headerSection.signature.function.size)	
 		
 		// --- domain Prova1 subsetof Prod( Bag( String ), Integer )
 		var conc_dom = result.headerSection.signature.domain.get(i)
-		Assert.assertEquals( "Prova1", conc_dom.name )
-		Assert.assertEquals( typeof(ConcreteDomainImpl), conc_dom.class )	
+		Assertions.assertEquals( "Prova1", conc_dom.name )
+		Assertions.assertEquals( typeof(ConcreteDomainImpl), conc_dom.class )	
 		// -- Prod( Bag( String ), Integer )
 		var dom1 = (conc_dom as ConcreteDomainImpl).typeDomain
-		Assert.assertEquals( typeof(ProductDomainImpl), dom1.class )
+		Assertions.assertEquals( typeof(ProductDomainImpl), dom1.class )
 		var temp1 = dom1 as ProductDomainImpl
-		Assert.assertEquals( 2, temp1.domains.size )	
+		Assertions.assertEquals( 2, temp1.domains.size )	
 		// - Bag( String )
 		var dom1_child1 = temp1.domains.get(0)
-		Assert.assertEquals( typeof(BagDomainImpl), dom1_child1.class )
+		Assertions.assertEquals( typeof(BagDomainImpl), dom1_child1.class )
 		var temp1_child1 = dom1_child1 as BagDomainImpl
-		Assert.assertEquals( "String", temp1_child1.domain.name )
+		Assertions.assertEquals( "String", temp1_child1.domain.name )
 		// Integer
-		Assert.assertEquals( "Integer", temp1.domains.get(1).name )
+		Assertions.assertEquals( "Integer", temp1.domains.get(1).name )
 		
 		// --- domain Prova2 subsetof Seq( Powerset( Complex ) )
 		i++
 		conc_dom = result.headerSection.signature.domain.get(i)
-		Assert.assertEquals( "Prova2", conc_dom.name )
-		Assert.assertEquals( typeof(ConcreteDomainImpl), conc_dom.class )	
+		Assertions.assertEquals( "Prova2", conc_dom.name )
+		Assertions.assertEquals( typeof(ConcreteDomainImpl), conc_dom.class )	
 		// Seq( Powerset( Complex ) )
 		dom1 = (conc_dom as ConcreteDomainImpl).typeDomain
-		Assert.assertEquals( typeof(SequenceDomainImpl), dom1.class )	
+		Assertions.assertEquals( typeof(SequenceDomainImpl), dom1.class )	
 		var temp2 = dom1 as SequenceDomainImpl
 		// Powerset( Complex )
 		dom1_child1 = temp2.domain
-		Assert.assertEquals( typeof(PowersetDomainImpl), dom1_child1.class )
+		Assertions.assertEquals( typeof(PowersetDomainImpl), dom1_child1.class )
 		var temp2_child1 = dom1_child1 as PowersetDomainImpl
-		Assert.assertEquals( "Complex", temp2_child1.baseDomain.name )
+		Assertions.assertEquals( "Complex", temp2_child1.baseDomain.name )
 		
 		
 	}
@@ -430,84 +433,84 @@ class HeaderParsingTest {
 		
 		var i = 0
 
-		Assert.assertEquals( 1, result.headerSection.signature.domain.size)	
-		Assert.assertEquals( 6, result.headerSection.signature.function.size)
+		Assertions.assertEquals( 1, result.headerSection.signature.domain.size)	
+		Assertions.assertEquals( 6, result.headerSection.signature.function.size)
 
 		// static prova1 : Integer
 		var func = result.headerSection.signature.function.get(i)
-		Assert.assertEquals( typeof(StaticFunctionImpl), func.class )	
-		Assert.assertEquals( "prova1", func.name )
-		Assert.assertEquals( null, func.domain )
-		Assert.assertEquals( "Integer", func.codomain.name )
+		Assertions.assertEquals( typeof(StaticFunctionImpl), func.class )	
+		Assertions.assertEquals( "prova1", func.name )
+		Assertions.assertEquals( null, func.domain )
+		Assertions.assertEquals( "Integer", func.codomain.name )
 		
 		// static prova2 : Integer -> Prova1
 		i++
 		func = result.headerSection.signature.function.get(i)
-		Assert.assertEquals( typeof(StaticFunctionImpl), func.class )	
-		Assert.assertEquals( "prova2", func.name )
-		Assert.assertEquals( "Integer", func.domain.name )
-		Assert.assertEquals( "Prova1", func.codomain.name )
+		Assertions.assertEquals( typeof(StaticFunctionImpl), func.class )	
+		Assertions.assertEquals( "prova2", func.name )
+		Assertions.assertEquals( "Integer", func.domain.name )
+		Assertions.assertEquals( "Prova1", func.codomain.name )
 		
 		// --- static prova3 : Prod(String, Integer)
 		i++
 		func = result.headerSection.signature.function.get(i)
-		Assert.assertEquals( typeof(StaticFunctionImpl), func.class )	
-		Assert.assertEquals( "prova3", func.name )
-		Assert.assertEquals( null, func.domain )
+		Assertions.assertEquals( typeof(StaticFunctionImpl), func.class )	
+		Assertions.assertEquals( "prova3", func.name )
+		Assertions.assertEquals( null, func.domain )
 		// Prod(String, String)
-		Assert.assertEquals( typeof(ProductDomainImpl), func.codomain.class )	
+		Assertions.assertEquals( typeof(ProductDomainImpl), func.codomain.class )	
 		var cod1 = func.codomain as ProductDomainImpl
-		Assert.assertEquals( 2, cod1.domains.size )	
-		Assert.assertEquals( "String", cod1.domains.get(0).name )	
-		Assert.assertEquals( "Integer", cod1.domains.get(1).name )	
+		Assertions.assertEquals( 2, cod1.domains.size )	
+		Assertions.assertEquals( "String", cod1.domains.get(0).name )	
+		Assertions.assertEquals( "Integer", cod1.domains.get(1).name )	
 		
 		// ---  static prova4 : Prod(Integer, Natural) -> Bag( Integer )
 		i++
 		func = result.headerSection.signature.function.get(i)
-		Assert.assertEquals( typeof(StaticFunctionImpl), func.class )
-		Assert.assertEquals( "prova4", func.name )
+		Assertions.assertEquals( typeof(StaticFunctionImpl), func.class )
+		Assertions.assertEquals( "prova4", func.name )
 		// Prod(Integer, Natural)
-		Assert.assertEquals( typeof(ProductDomainImpl), func.domain.class )	
+		Assertions.assertEquals( typeof(ProductDomainImpl), func.domain.class )	
 		var dom1 = func.domain as ProductDomainImpl
-		Assert.assertEquals( 2, dom1.domains.size )	
-		Assert.assertEquals( "Integer", dom1.domains.get(0).name )	
-		Assert.assertEquals( "Natural", dom1.domains.get(1).name )	
+		Assertions.assertEquals( 2, dom1.domains.size )	
+		Assertions.assertEquals( "Integer", dom1.domains.get(0).name )	
+		Assertions.assertEquals( "Natural", dom1.domains.get(1).name )	
 		// Bag( Integer )
-		Assert.assertEquals( typeof(BagDomainImpl), func.codomain.class )	
+		Assertions.assertEquals( typeof(BagDomainImpl), func.codomain.class )	
 		var cod2 = func.codomain as BagDomainImpl
-		Assert.assertEquals( "Integer", cod2.domain.name )	
+		Assertions.assertEquals( "Integer", cod2.domain.name )	
 		
 		// --- static prova5 : Prod( Seq(Integer), Natural) -> Bag( Integer )
 		i++
 		func = result.headerSection.signature.function.get(i)
-		Assert.assertEquals( typeof(StaticFunctionImpl), func.class )
-		Assert.assertEquals( "prova5", func.name )
+		Assertions.assertEquals( typeof(StaticFunctionImpl), func.class )
+		Assertions.assertEquals( "prova5", func.name )
 		// -- Prod( Seq(Integer), Natural)
-		Assert.assertEquals( typeof(ProductDomainImpl), func.domain.class )	
+		Assertions.assertEquals( typeof(ProductDomainImpl), func.domain.class )	
 		dom1 = func.domain as ProductDomainImpl
-		Assert.assertEquals( 2, dom1.domains.size )	
+		Assertions.assertEquals( 2, dom1.domains.size )	
 		// Seq(Integer)
-		Assert.assertEquals( typeof(SequenceDomainImpl), dom1.domains.get(0).class )	
+		Assertions.assertEquals( typeof(SequenceDomainImpl), dom1.domains.get(0).class )	
 		var dom1_child = dom1.domains.get(0) as SequenceDomainImpl
-		Assert.assertEquals( "Integer", dom1_child.domain.name )	
+		Assertions.assertEquals( "Integer", dom1_child.domain.name )	
 		// Natural
-		Assert.assertEquals( "Natural", dom1.domains.get(1).name )	
+		Assertions.assertEquals( "Natural", dom1.domains.get(1).name )	
 		// Bag( Integer )
-		Assert.assertEquals( typeof(BagDomainImpl), func.codomain.class )	
+		Assertions.assertEquals( typeof(BagDomainImpl), func.codomain.class )	
 		cod2 = func.codomain as BagDomainImpl
-		Assert.assertEquals( "Integer", cod2.domain.name )	
+		Assertions.assertEquals( "Integer", cod2.domain.name )	
 		
 		// static program: Agent -> Rule	
 		i++
 		func = result.headerSection.signature.function.get(i)
-		Assert.assertEquals( typeof(StaticFunctionImpl), func.class )	
-		Assert.assertEquals( "program", func.name )
-		Assert.assertEquals( "Agent", func.domain.name )
-		Assert.assertEquals( typeof(RuleDomainImpl), func.codomain.class )
+		Assertions.assertEquals( typeof(StaticFunctionImpl), func.class )	
+		Assertions.assertEquals( "program", func.name )
+		Assertions.assertEquals( "Agent", func.domain.name )
+		Assertions.assertEquals( typeof(RuleDomainImpl), func.codomain.class )
 				
 	}
 	
-	@Test
+	@Test@Tag("TestToMavenSkip")
 	def void testDynamicFunction() {
 		var result = parseHelper.parse('''
 			asm dynamic_function
@@ -548,173 +551,173 @@ class HeaderParsingTest {
 		
 		var i = 0
 		
-		Assert.assertEquals( 1, result.headerSection.signature.domain.size)	
-		Assert.assertEquals( 16, result.headerSection.signature.function.size)	
+		Assertions.assertEquals( 1, result.headerSection.signature.domain.size)	
+		Assertions.assertEquals( 16, result.headerSection.signature.function.size)	
 		
 		// dynamic controlled prova21 : String
 		//i++
 		var func = result.headerSection.signature.function.get(i)
-		Assert.assertEquals( typeof(ControlledFunctionImpl), func.class )	
+		Assertions.assertEquals( typeof(ControlledFunctionImpl), func.class )	
 		var con_func = func as ControlledFunctionImpl
-		Assert.assertEquals( true, con_func.dynamic )
-		Assert.assertEquals( "prova21", con_func.name )
-		Assert.assertEquals( null, con_func.domain )
-		Assert.assertEquals( "String", con_func.codomain.name )
+		Assertions.assertEquals( true, con_func.dynamic )
+		Assertions.assertEquals( "prova21", con_func.name )
+		Assertions.assertEquals( null, con_func.domain )
+		Assertions.assertEquals( "String", con_func.codomain.name )
 		
 		// dynamic controlled prova22 : Integer -> String
 		i++
 		func = result.headerSection.signature.function.get(i)
-		Assert.assertEquals( typeof(ControlledFunctionImpl), func.class )	
+		Assertions.assertEquals( typeof(ControlledFunctionImpl), func.class )	
 		con_func = func as ControlledFunctionImpl
-		Assert.assertEquals( true, con_func.dynamic )
-		Assert.assertEquals( "prova22", con_func.name )
-		Assert.assertEquals( "Integer", con_func.domain.name )
-		Assert.assertEquals( "String", con_func.codomain.name )
+		Assertions.assertEquals( true, con_func.dynamic )
+		Assertions.assertEquals( "prova22", con_func.name )
+		Assertions.assertEquals( "Integer", con_func.domain.name )
+		Assertions.assertEquals( "String", con_func.codomain.name )
 		
 		// controlled prova23 : String
 		i++
 		func = result.headerSection.signature.function.get(i)
-		Assert.assertEquals( typeof(ControlledFunctionImpl), func.class )	
+		Assertions.assertEquals( typeof(ControlledFunctionImpl), func.class )	
 		con_func = func as ControlledFunctionImpl
-		Assert.assertEquals( false, con_func.dynamic )
-		Assert.assertEquals( "prova23", con_func.name )
-		Assert.assertEquals( null, con_func.domain )
-		Assert.assertEquals( "String", con_func.codomain.name )
+		Assertions.assertEquals( false, con_func.dynamic )
+		Assertions.assertEquals( "prova23", con_func.name )
+		Assertions.assertEquals( null, con_func.domain )
+		Assertions.assertEquals( "String", con_func.codomain.name )
 		
 		// controlled prova24 : Integer -> Complex
 		i++
 		func = result.headerSection.signature.function.get(i)
-		Assert.assertEquals( typeof(ControlledFunctionImpl), func.class )	
+		Assertions.assertEquals( typeof(ControlledFunctionImpl), func.class )	
 		con_func = func as ControlledFunctionImpl
-		Assert.assertEquals( false, con_func.dynamic )
-		Assert.assertEquals( "prova24", con_func.name )
-		Assert.assertEquals( "Integer", con_func.domain.name )
-		Assert.assertEquals( "Complex", con_func.codomain.name )
+		Assertions.assertEquals( false, con_func.dynamic )
+		Assertions.assertEquals( "prova24", con_func.name )
+		Assertions.assertEquals( "Integer", con_func.domain.name )
+		Assertions.assertEquals( "Complex", con_func.codomain.name )
 				
 		// dynamic shared prova31 : String
 		i++
 		func = result.headerSection.signature.function.get(i)
-		Assert.assertEquals( typeof(SharedFunctionImpl), func.class )	
+		Assertions.assertEquals( typeof(SharedFunctionImpl), func.class )	
 		var shared_fun = func as SharedFunctionImpl
-		Assert.assertEquals( true, shared_fun.dynamic )
-		Assert.assertEquals( "prova31", shared_fun.name )
-		Assert.assertEquals( null, shared_fun.domain )
-		Assert.assertEquals( "String", shared_fun.codomain.name )
+		Assertions.assertEquals( true, shared_fun.dynamic )
+		Assertions.assertEquals( "prova31", shared_fun.name )
+		Assertions.assertEquals( null, shared_fun.domain )
+		Assertions.assertEquals( "String", shared_fun.codomain.name )
 		
 		// dynamic shared prova32 : Integer -> String
 		i++
 		func = result.headerSection.signature.function.get(i)
-		Assert.assertEquals( typeof(SharedFunctionImpl), func.class )	
+		Assertions.assertEquals( typeof(SharedFunctionImpl), func.class )	
 		shared_fun = func as SharedFunctionImpl
-		Assert.assertEquals( true, shared_fun.dynamic )
-		Assert.assertEquals( "prova32", shared_fun.name )
-		Assert.assertEquals( "Integer", shared_fun.domain.name )
-		Assert.assertEquals( "String", shared_fun.codomain.name )
+		Assertions.assertEquals( true, shared_fun.dynamic )
+		Assertions.assertEquals( "prova32", shared_fun.name )
+		Assertions.assertEquals( "Integer", shared_fun.domain.name )
+		Assertions.assertEquals( "String", shared_fun.codomain.name )
 		
 		// shared prova33 : Complex
 		i++
 		func = result.headerSection.signature.function.get(i)
-		Assert.assertEquals( typeof(SharedFunctionImpl), func.class )	
+		Assertions.assertEquals( typeof(SharedFunctionImpl), func.class )	
 		shared_fun = func as SharedFunctionImpl
-		Assert.assertEquals( false, shared_fun.dynamic )
-		Assert.assertEquals( "prova33", shared_fun.name )
-		Assert.assertEquals( null, shared_fun.domain )
-		Assert.assertEquals( "Complex", shared_fun.codomain.name )
+		Assertions.assertEquals( false, shared_fun.dynamic )
+		Assertions.assertEquals( "prova33", shared_fun.name )
+		Assertions.assertEquals( null, shared_fun.domain )
+		Assertions.assertEquals( "Complex", shared_fun.codomain.name )
 		
 		// shared prova34 : String -> Integer
 		i++
 		func = result.headerSection.signature.function.get(i)
-		Assert.assertEquals( typeof(SharedFunctionImpl), func.class )	
+		Assertions.assertEquals( typeof(SharedFunctionImpl), func.class )	
 		shared_fun = func as SharedFunctionImpl
-		Assert.assertEquals( false, shared_fun.dynamic )
-		Assert.assertEquals( "prova34", shared_fun.name )
-		Assert.assertEquals( "String", shared_fun.domain.name )
-		Assert.assertEquals( "Integer", shared_fun.codomain.name )
+		Assertions.assertEquals( false, shared_fun.dynamic )
+		Assertions.assertEquals( "prova34", shared_fun.name )
+		Assertions.assertEquals( "String", shared_fun.domain.name )
+		Assertions.assertEquals( "Integer", shared_fun.codomain.name )
 				
 		// dynamic monitored prova41 : String
 		i++
 		func = result.headerSection.signature.function.get(i)
-		Assert.assertEquals( typeof(MonitoredFunctionImpl), func.class )	
+		Assertions.assertEquals( typeof(MonitoredFunctionImpl), func.class )	
 		var mon_func = func as MonitoredFunctionImpl
-		Assert.assertEquals( true, mon_func.dynamic )
-		Assert.assertEquals( "prova41", mon_func.name )
-		Assert.assertEquals( null, mon_func.domain )
-		Assert.assertEquals( "String", mon_func.codomain.name )
+		Assertions.assertEquals( true, mon_func.dynamic )
+		Assertions.assertEquals( "prova41", mon_func.name )
+		Assertions.assertEquals( null, mon_func.domain )
+		Assertions.assertEquals( "String", mon_func.codomain.name )
 		
 		// dynamic monitored prova42 : Prova1 -> String
 		i++
 		func = result.headerSection.signature.function.get(i)
-		Assert.assertEquals( typeof(MonitoredFunctionImpl), func.class )	
+		Assertions.assertEquals( typeof(MonitoredFunctionImpl), func.class )	
 		mon_func = func as MonitoredFunctionImpl
-		Assert.assertEquals( true, mon_func.dynamic )
-		Assert.assertEquals( "prova42", mon_func.name )
-		Assert.assertEquals( "Prova1", mon_func.domain.name )
-		Assert.assertEquals( "String", mon_func.codomain.name )
+		Assertions.assertEquals( true, mon_func.dynamic )
+		Assertions.assertEquals( "prova42", mon_func.name )
+		Assertions.assertEquals( "Prova1", mon_func.domain.name )
+		Assertions.assertEquals( "String", mon_func.codomain.name )
 		
 		// monitored prova43 : String
 		i++
 		func = result.headerSection.signature.function.get(i)
-		Assert.assertEquals( typeof(MonitoredFunctionImpl), func.class )	
+		Assertions.assertEquals( typeof(MonitoredFunctionImpl), func.class )	
 		mon_func = func as MonitoredFunctionImpl
-		Assert.assertEquals( false, mon_func.dynamic )
-		Assert.assertEquals( "prova43", mon_func.name )
-		Assert.assertEquals( null, mon_func.domain )
-		Assert.assertEquals( "String", mon_func.codomain.name )
+		Assertions.assertEquals( false, mon_func.dynamic )
+		Assertions.assertEquals( "prova43", mon_func.name )
+		Assertions.assertEquals( null, mon_func.domain )
+		Assertions.assertEquals( "String", mon_func.codomain.name )
 		
 		// monitored prova44 : String -> Complex
 		i++
 		func = result.headerSection.signature.function.get(i)
-		Assert.assertEquals( typeof(MonitoredFunctionImpl), func.class )	
+		Assertions.assertEquals( typeof(MonitoredFunctionImpl), func.class )	
 		mon_func = func as MonitoredFunctionImpl
-		Assert.assertEquals( false, mon_func.dynamic )
-		Assert.assertEquals( "prova44", mon_func.name )
-		Assert.assertEquals( "String", mon_func.domain.name )
-		Assert.assertEquals( "Complex", mon_func.codomain.name )	
+		Assertions.assertEquals( false, mon_func.dynamic )
+		Assertions.assertEquals( "prova44", mon_func.name )
+		Assertions.assertEquals( "String", mon_func.domain.name )
+		Assertions.assertEquals( "Complex", mon_func.codomain.name )	
 				
 		// dynamic out prova51 : Complex
 		i++
 		func = result.headerSection.signature.function.get(i)
-		Assert.assertEquals( typeof(OutFunctionImpl), func.class )	
+		Assertions.assertEquals( typeof(OutFunctionImpl), func.class )	
 		var fun_out = func as OutFunctionImpl
-		Assert.assertEquals( true, fun_out.dynamic )
-		Assert.assertEquals( "prova51", fun_out.name )
-		Assert.assertEquals( null, fun_out.domain )
-		Assert.assertEquals( "Complex", fun_out.codomain.name )
+		Assertions.assertEquals( true, fun_out.dynamic )
+		Assertions.assertEquals( "prova51", fun_out.name )
+		Assertions.assertEquals( null, fun_out.domain )
+		Assertions.assertEquals( "Complex", fun_out.codomain.name )
 		
 		// dynamic out prova52 : String -> String
 		i++
 		func = result.headerSection.signature.function.get(i)
-		Assert.assertEquals( typeof(OutFunctionImpl), func.class )	
+		Assertions.assertEquals( typeof(OutFunctionImpl), func.class )	
 		fun_out = func as OutFunctionImpl
-		Assert.assertEquals( true, fun_out.dynamic )
-		Assert.assertEquals( "prova52", fun_out.name )
-		Assert.assertEquals( "String", fun_out.domain.name )
-		Assert.assertEquals( "String", fun_out.codomain.name )
+		Assertions.assertEquals( true, fun_out.dynamic )
+		Assertions.assertEquals( "prova52", fun_out.name )
+		Assertions.assertEquals( "String", fun_out.domain.name )
+		Assertions.assertEquals( "String", fun_out.codomain.name )
 		
 		// out prova53 : String
 		i++
 		func = result.headerSection.signature.function.get(i)
-		Assert.assertEquals( typeof(OutFunctionImpl), func.class )	
+		Assertions.assertEquals( typeof(OutFunctionImpl), func.class )	
 		fun_out = func as OutFunctionImpl
-		Assert.assertEquals( false, fun_out.dynamic )
-		Assert.assertEquals( "prova53", fun_out.name )
-		Assert.assertEquals( null, fun_out.domain )
-		Assert.assertEquals( "String", fun_out.codomain.name )
+		Assertions.assertEquals( false, fun_out.dynamic )
+		Assertions.assertEquals( "prova53", fun_out.name )
+		Assertions.assertEquals( null, fun_out.domain )
+		Assertions.assertEquals( "String", fun_out.codomain.name )
 		
 		// out prova54 : Integer -> String			
 		i++
 		func = result.headerSection.signature.function.get(i)
-		Assert.assertEquals( typeof(OutFunctionImpl), func.class )	
+		Assertions.assertEquals( typeof(OutFunctionImpl), func.class )	
 		fun_out = func as OutFunctionImpl
-		Assert.assertEquals( false, fun_out.dynamic )
-		Assert.assertEquals( "prova54", fun_out.name )
-		Assert.assertEquals( "Integer", fun_out.domain.name )
-		Assert.assertEquals( "String", fun_out.codomain.name )
+		Assertions.assertEquals( false, fun_out.dynamic )
+		Assertions.assertEquals( "prova54", fun_out.name )
+		Assertions.assertEquals( "Integer", fun_out.domain.name )
+		Assertions.assertEquals( "String", fun_out.codomain.name )
 		
 		
 	}
 	
-	@Test
+	@Test@Tag("TestToMavenSkip")
 	def void testDerivedFunction() {
 		var result = parseHelper.parse('''
 			asm derived_function
@@ -732,28 +735,28 @@ class HeaderParsingTest {
 		
 		var i = 0
 		
-		Assert.assertEquals( 1, result.headerSection.signature.domain.size)	
-		Assert.assertEquals( 2, result.headerSection.signature.function.size)
+		Assertions.assertEquals( 1, result.headerSection.signature.domain.size)	
+		Assertions.assertEquals( 2, result.headerSection.signature.function.size)
 		
 		// derived prova1 : Integer
 		var func = result.headerSection.signature.function.get(i)
-		Assert.assertEquals( typeof(DerivedFunctionImpl), func.class )	
-		Assert.assertEquals( "prova1", func.name )
-		Assert.assertEquals( null, func.domain )
-		Assert.assertEquals( "String", func.codomain.name )
+		Assertions.assertEquals( typeof(DerivedFunctionImpl), func.class )	
+		Assertions.assertEquals( "prova1", func.name )
+		Assertions.assertEquals( null, func.domain )
+		Assertions.assertEquals( "String", func.codomain.name )
 		
 		//  derived prova2 : Prova1 -> String
 		i++
 		func = result.headerSection.signature.function.get(i)
-		Assert.assertEquals( typeof(DerivedFunctionImpl), func.class )	
-		Assert.assertEquals( "prova2", func.name )
-		Assert.assertEquals( "Prova1", func.domain.name )
-		Assert.assertEquals( "String", func.codomain.name )
+		Assertions.assertEquals( typeof(DerivedFunctionImpl), func.class )	
+		Assertions.assertEquals( "prova2", func.name )
+		Assertions.assertEquals( "Prova1", func.domain.name )
+		Assertions.assertEquals( "String", func.codomain.name )
 		
 	}	
 	
 	
-	@Test
+	@Test@Tag("TestToMavenSkip")
 	def void testImportsAbsPathWin() {		
 		var result = parseHelper.parse('''
 asm __tempAsmetaV7859023612479832841
@@ -764,9 +767,9 @@ signature:
 			definitions:
 		''')
 		result.assertNoErrors
-		Assert.assertEquals( 3, result.headerSection.importClause.size)
+		Assertions.assertEquals( 3, result.headerSection.importClause.size)
 	}
-	@Test
+	@Test@Tag("TestToMavenSkip")
 	def void testPathImports() {		
 		var result = parseHelper.parse('''
 asm __tempAsmetaV7859023612479832841
@@ -776,10 +779,10 @@ signature:
 			definitions:
 		''', "__tempAsmetaV7859023612479832841")
 		result.assertNoErrors
-		Assert.assertEquals( 3, result.headerSection.importClause.size)
+		Assertions.assertEquals( 3, result.headerSection.importClause.size)
 	}
 
-	@Test
+	@Test@Tag("TestToMavenSkip")
 	def void testRelative() {		
 		var result = parseHelper.parse('''
 asm prova
@@ -788,7 +791,7 @@ signature:
 			definitions:
 		''')
 		result.assertNoErrors
-		Assert.assertEquals( 3, result.headerSection.importClause.size)
+		Assertions.assertEquals( 3, result.headerSection.importClause.size)
 	}
 
 	

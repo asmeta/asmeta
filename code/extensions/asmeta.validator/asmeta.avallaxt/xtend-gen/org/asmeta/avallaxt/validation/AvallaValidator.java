@@ -3,14 +3,6 @@
  */
 package org.asmeta.avallaxt.validation;
 
-import asmeta.AsmCollection;
-import asmeta.definitions.ControlledFunction;
-import asmeta.definitions.Function;
-import asmeta.definitions.MonitoredFunction;
-import asmeta.definitions.SharedFunction;
-import asmeta.structure.Asm;
-import asmeta.transitionrules.basictransitionrules.ChooseRule;
-import com.google.inject.Injector;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -22,6 +14,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
 import org.asmeta.avallaxt.AvallaStandaloneSetup;
 import org.asmeta.avallaxt.avalla.AvallaPackage;
 import org.asmeta.avallaxt.avalla.Block;
@@ -41,6 +34,16 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.xtext.validation.Check;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.InputOutput;
+
+import com.google.inject.Injector;
+
+import asmeta.AsmCollection;
+import asmeta.definitions.ControlledFunction;
+import asmeta.definitions.Function;
+import asmeta.definitions.MonitoredFunction;
+import asmeta.definitions.SharedFunction;
+import asmeta.structure.Asm;
+import asmeta.transitionrules.basictransitionrules.ChooseRule;
 
 /**
  * This class contains custom validation rules.

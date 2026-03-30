@@ -5,9 +5,7 @@ package org.asmeta.avallaxt.avalla.impl;
 
 import org.asmeta.avallaxt.avalla.AvallaPackage;
 import org.asmeta.avallaxt.avalla.Element;
-
 import org.eclipse.emf.ecore.EClass;
-
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
 
 /**

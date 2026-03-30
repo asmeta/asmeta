@@ -19,6 +19,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public class AsmetaGeneratorJavaAppender extends GeneratorComponent {
+
 	@Override
 	public void preInvoke() {
 

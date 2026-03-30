@@ -1,10 +1,8 @@
 package org.asmeta.xt.tests;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Map;
 
 import org.asmeta.xt.asmetal.Asm;
 import org.eclipse.emf.common.util.URI;
@@ -50,8 +48,9 @@ public class AsmParseHelper extends org.eclipse.xtext.testing.util.ParseHelper<A
 		URI uriToUse = URI.createFileURI(fileToRead.toString());
 		return super.parse(fis, uriToUse , null , asmresourceHelper.createResourceSet());
 	}
-	
 
+
+	@Override
 	protected URI computeUnusedUri(ResourceSet resourceSet) {
 		return asmresourceHelper.computeUnusedUri(resourceSet);
 	}

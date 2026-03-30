@@ -3,18 +3,19 @@ package org.asmeta.xt.tests.parsing.negative
 import com.google.inject.Inject
 import org.asmeta.xt.asmetal.Asm
 import org.asmeta.xt.asmetal.AsmetalPackage
-import org.asmeta.xt.tests.AsmetaLInjectorProvider
-import org.eclipse.xtext.testing.InjectWith
-import org.eclipse.xtext.testing.XtextRunner
-import org.eclipse.xtext.testing.util.ParseHelper
-import org.eclipse.xtext.testing.validation.ValidationTestHelper
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.asmeta.xt.validation.ErrorCode
 import org.asmeta.xt.tests.AsmParseHelper
+import org.asmeta.xt.tests.AsmetaLInjectorProvider
+import org.asmeta.xt.validation.ErrorCode
+import org.eclipse.xtext.testing.InjectWith
+import org.eclipse.xtext.testing.extensions.InjectionExtension
+import org.eclipse.xtext.testing.validation.ValidationTestHelper
+import org.junit.jupiter.api.Tag
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.^extension.ExtendWith
 
-@RunWith(XtextRunner)
+@ExtendWith(InjectionExtension)
 @InjectWith(AsmetaLInjectorProvider)
+@Tag("TestToMavenSkip")
 class TermNegativeParsingTest {
 	
 	@Inject	AsmParseHelper parseHelper

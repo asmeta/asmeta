@@ -10,23 +10,23 @@ import java.util.Iterator;
 import org.asmeta.parser.AsmetaParserUtility;
 import org.asmeta.xt.parser.AsmetaLParserWOHelper;
 import org.asmeta.xt.parser.ParseAndValidateResult;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 
 /**
  * test for all the examples in asm_examples
- * 
+ *
  */
 public class AllAsmExamplesTesterWOHelper {
-	
-	
-	
+
+
+
 
 	protected static final String ASM_EXAMPLES_PATH = "../../../../asm_examples/examples";
 
 	@SuppressWarnings("serial")
-	static ArrayList<String> check = new ArrayList<String>() {
+	static ArrayList<String> check = new ArrayList<>() {
 		{
 			// ---------- RULE OVERLOADING WAS NOT RECOGNIZED
 			// ---------- ALL CHECKED
@@ -359,7 +359,7 @@ public class AllAsmExamplesTesterWOHelper {
 
 	@Test
 	public void testFileArrays2() throws IOException {
-		
+
 		for (String relativeExamplePath : errors_path) {
 			testAsmetaXtFile(relativeExamplePath, false);
 		}
@@ -369,7 +369,7 @@ public class AllAsmExamplesTesterWOHelper {
 	public void testCashPoint() throws IOException {
 		testAsmetaXtFile("../../../../asm_examples/test/simulator/macro/macro06.asm", false);
 	}
-	
+
 	@Test
 	public void testSingleSpec() throws IOException {
 		testAsmetaXtFile("../../../asm_examples/SystemCUMLProfile_metahooking/SystemCUMLProfile_INIT.asm", false);
@@ -380,12 +380,12 @@ public class AllAsmExamplesTesterWOHelper {
 		testAsmetaXtFile("../../../../asm_examples/PillBox/Level0/pillbox_0.asm", false);
 	}
 
-	
+
 	@Test
 	public void testAllExamples() throws IOException {
 		Path examplePath = Paths.get("../../../asm_examples");
 
-		Assert.assertTrue(Files.isDirectory(examplePath));
+		Assertions.assertTrue(Files.isDirectory(examplePath));
 		Iterator<Path> files = Files.walk(examplePath).iterator();
 		while (files.hasNext()) {
 			Path fileToRead = files.next();
@@ -396,145 +396,199 @@ public class AllAsmExamplesTesterWOHelper {
 			// ------------------------------------------------------------------------------------
 
 			// skip the files in the STDL folder, the CTLlibrary and LTLlibrary
-			if (specName.contains("STDL"))
-				continue;
-			if (specName.contains("CTLLibrary.asm"))
-				continue;
-			if (specName.contains("LTLLibrary.asm"))
-				continue;
-
 			// skip old version of examples that do not work with the previous parser too
-			if (specName.contains("asm_examples/asmetal2cpp/asmetal2cpp_codegen/SwapSort.asm"))
+			if (specName.contains("STDL") || specName.contains("CTLLibrary.asm") || specName.contains("LTLLibrary.asm") || specName.contains("asm_examples/asmetal2cpp/asmetal2cpp_codegen/SwapSort.asm")) {
 				continue;
-			if (specName.contains("flashProtocol/old/flashProtocolWinter.asm"))
+			}
+			if (specName.contains("flashProtocol/old/flashProtocolWinter.asm")) {
 				continue;
-			if (specName.contains("landingGearSystem/old/LandingGearSystem.asm"))
+			}
+			if (specName.contains("landingGearSystem/old/LandingGearSystem.asm")) {
 				continue;
-			if (specName.contains("landingGearSystem/old/LandingGearSystemNoValvesNoCylinders.asm"))
+			}
+			if (specName.contains("landingGearSystem/old/LandingGearSystemNoValvesNoCylinders.asm")) {
 				continue;
-			if (specName.contains("unibgstudents/stufa.asm"))
+			}
+			if (specName.contains("unibgstudents/stufa.asm")) {
 				continue;
-			if (specName.contains("test/parser/bagCT.asm"))
+			}
+			if (specName.contains("test/parser/bagCT.asm")) {
 				continue;
-			if (specName.contains("test/parser/setterm.asm"))
+			}
+			if (specName.contains("test/parser/setterm.asm")) {
 				continue;
-			if (specName.contains("rpns/r/QUICKSORT.asm"))
+			}
+			if (specName.contains("rpns/r/QUICKSORT.asm")) {
 				continue;
-			if (specName.contains("rpns/r/philosophers_with_res.asm"))
+			}
+			if (specName.contains("rpns/r/philosophers_with_res.asm")) {
 				continue;
-			if (specName.contains("rpns/r/MERGE.asm"))
+			}
+			if (specName.contains("rpns/r/MERGE.asm")) {
 				continue;
-			if (specName.contains("rpns/r/LocationVarChoose.asm"))
+			}
+			if (specName.contains("rpns/r/LocationVarChoose.asm")) {
 				continue;
-			if (specName.contains("rpns/r/FLIP_FLOP.asm"))
+			}
+			if (specName.contains("rpns/r/FLIP_FLOP.asm")) {
 				continue;
-			if (specName.contains("DAS/TrafficMonitoringSystem/OrganizationMiddleware_old.asm"))
+			}
+			if (specName.contains("DAS/TrafficMonitoringSystem/OrganizationMiddleware_old.asm")) {
 				continue;
-			if (specName.contains("test/parser/ntor.asm"))
+			}
+			if (specName.contains("test/parser/ntor.asm")) {
 				continue;
-			if (specName.contains("DAS/TrafficMonitoringSystem/OrganizationMiddleware_old_old.asm"))
+			}
+			if (specName.contains("DAS/TrafficMonitoringSystem/OrganizationMiddleware_old_old.asm")) {
 				continue;
-			if (specName.contains("DAS/TrafficMonitoringSystem/OrganizationMiddleware_old_old_old.asm"))
+			}
+			if (specName.contains("DAS/TrafficMonitoringSystem/OrganizationMiddleware_old_old_old.asm")) {
 				continue;
-			if (specName.contains("asm_examples/asmetal2cpp/asmetal2cpp_hw/allBindings/allBindings.asm"))
+			}
+			if (specName.contains("asm_examples/asmetal2cpp/asmetal2cpp_hw/allBindings/allBindings.asm")) {
 				continue;
-			if (specName.contains("asm_examples/test/simulator/import2/m1.asm"))
+			}
+			if (specName.contains("asm_examples/test/simulator/import2/m1.asm")) {
 				continue;
-			if (specName.contains("asm_examples/rpns/r/fattoriale_ricorsivo.asm"))
+			}
+			if (specName.contains("asm_examples/rpns/r/fattoriale_ricorsivo.asm")) {
 				continue;
-			if (specName.contains("asm_examples/test/simulator/import2/m2.asm"))
+			}
+			if (specName.contains("asm_examples/test/simulator/import2/m2.asm")) {
 				continue;
+			}
 			if (specName.contains(
-					"asm_examples/woworkspaceMSLmartHomeGateway/asm/MySmartHomeAQ_HC_refined_forMC.asm"))
+					"asm_examples/woworkspaceMSLmartHomeGateway/asm/MySmartHomeAQ_HC_refined_forMC.asm")) {
 				continue;
+			}
 			if (specName.contains(
-					"asm_examples/woworkspaceMSLmartHomeGateway/asm/old/MySmartHomeAQ_HC_refined_with_arbiter3.asm"))
+					"asm_examples/woworkspaceMSLmartHomeGateway/asm/old/MySmartHomeAQ_HC_refined_with_arbiter3.asm")) {
 				continue;
+			}
 			if (specName.contains(
-					"asm_examples/woworkspaceMSLmartHomeGateway/asm/old/MySmartHomeAQ_HC_new_refined_with_arbiter3.asm"))
+					"asm_examples/woworkspaceMSLmartHomeGateway/asm/old/MySmartHomeAQ_HC_new_refined_with_arbiter3.asm")) {
 				continue;
+			}
 			if (specName
-					.contains("asm_examples/woworkspaceMSLomposition_prj/composition/ComfortableHeating.asm"))
+					.contains("asm_examples/woworkspaceMSLomposition_prj/composition/ComfortableHeating.asm")) {
 				continue;
-			if (specName.contains("asm_examples/systemc/sched/sched.asm"))
+			}
+			if (specName.contains("asm_examples/systemc/sched/sched.asm")) {
 				continue;
-			if (specName.contains("asm_examples/SystemCUMLProfile_metahooking/sched.asm"))
+			}
+			if (specName.contains("asm_examples/SystemCUMLProfile_metahooking/sched.asm")) {
 				continue;
-			if (specName.contains("asm_examples/test/simulator/rules/test_let_rule_in.asm"))
+			}
+			if (specName.contains("asm_examples/test/simulator/rules/test_let_rule_in.asm")) {
 				continue;
-			if (specName.contains("asm_examples/test/simulator/rules/test_let_rule_in1.asm"))
+			}
+			if (specName.contains("asm_examples/test/simulator/rules/test_let_rule_in1.asm")) {
 				continue;
-			if (specName.contains("asm_examples/test/simulator/rules/test_let_rule_in2.asm"))
+			}
+			if (specName.contains("asm_examples/test/simulator/rules/test_let_rule_in2.asm")) {
 				continue;
-			if (specName.contains("asm_examples/test/simulator/rules/test_let_rule_in3.asm"))
+			}
+			if (specName.contains("asm_examples/test/simulator/rules/test_let_rule_in3.asm")) {
 				continue;
-			if (specName.contains("asm_examples/test/simulator/terms/test_let_term_in.asm"))
+			}
+			if (specName.contains("asm_examples/test/simulator/terms/test_let_term_in.asm")) {
 				continue;
-			if (specName.contains("asm_examples/dagstuhl2013/DijkstraTermination/old/terminationCore.asm"))
+			}
+			if (specName.contains("asm_examples/dagstuhl2013/DijkstraTermination/old/terminationCore.asm")) {
 				continue;
-			if (specName.contains("asm_examples/dagstuhl2013/till.asm"))
+			}
+			if (specName.contains("asm_examples/dagstuhl2013/till.asm")) {
 				continue;
-			if (specName.contains("asm_examples/test/simulator/spec_fragments/static_functions.asm"))
+			}
+			if (specName.contains("asm_examples/test/simulator/spec_fragments/static_functions.asm")) {
 				continue;
-			if (specName.contains("asm_examples/systemc/simple_bus/simple_bus.asm"))
+			}
+			if (specName.contains("asm_examples/systemc/simple_bus/simple_bus.asm")) {
 				continue;
-			if (specName.contains("asm_examples/erinda/FMS_IO_3.asm"))
+			}
+			if (specName.contains("asm_examples/erinda/FMS_IO_3.asm")) {
 				continue;
-			if (specName.contains("asm_examples/rpns/r/cluster.asm"))
+			}
+			if (specName.contains("asm_examples/rpns/r/cluster.asm")) {
 				continue;
-			if (specName.contains("asm_examples/rpns/r/cluster_java.asm"))
+			}
+			if (specName.contains("asm_examples/rpns/r/cluster_java.asm")) {
 				continue;
-			if (specName.contains("asm_examples/rpns/r/cluster_nolocvar.asm"))
+			}
+			if (specName.contains("asm_examples/rpns/r/cluster_nolocvar.asm")) {
 				continue;
-			if (specName.contains("asm_examples/rpns/r/cluster_nossr.asm"))
+			}
+			if (specName.contains("asm_examples/rpns/r/cluster_nossr.asm")) {
 				continue;
-			if (specName.contains("asm_examples/rpns/r/cluster_nossr1Dint.asm"))
+			}
+			if (specName.contains("asm_examples/rpns/r/cluster_nossr1Dint.asm")) {
 				continue;
-			if (specName.contains("asm_examples/examples/NeedhamSchroeder/oldVersion/NeedhamSchroederWithSpy.asm"))
+			}
+			if (specName.contains("asm_examples/examples/NeedhamSchroeder/oldVersion/NeedhamSchroederWithSpy.asm")) {
 				continue;
-			if (specName.contains("asm_examples/rpns/r/cluster_test.asm"))
+			}
+			if (specName.contains("asm_examples/rpns/r/cluster_test.asm")) {
 				continue;
-			if (specName.contains("asm_examples/DAS/TrafficMonitoringSystem/SelfHealingSubsystem_old.asm"))
+			}
+			if (specName.contains("asm_examples/DAS/TrafficMonitoringSystem/SelfHealingSubsystem_old.asm")) {
 				continue;
-			if (specName.contains("asm_examples/test/parser/itor.asm"))
+			}
+			if (specName.contains("asm_examples/test/parser/itor.asm")) {
 				continue;
-				
+			}
+
 			// skip the files that was not verified correctly by the previuos parser and now
 			// are considered error
-			if (specName.contains("asm_examples/rpns/r/fibonacci_ricorsivo.asm"))
+			if (specName.contains("asm_examples/rpns/r/fibonacci_ricorsivo.asm")) {
 				continue;
-			if (specName.contains("asmetal2cpp/asmetal2cpp_codegen/AbstractDom.asm"))
+			}
+			if (specName.contains("asmetal2cpp/asmetal2cpp_codegen/AbstractDom.asm")) {
 				continue;
-			if (specName.contains("test/parser/GetDomainTest.asm"))
+			}
+			if (specName.contains("test/parser/GetDomainTest.asm")) {
 				continue;
-			if (specName.contains("test/parser/neqAndNot.asm"))
+			}
+			if (specName.contains("test/parser/neqAndNot.asm")) {
 				continue;
-			if (specName.contains("test/parser/neqAndNot1.asm"))
+			}
+			if (specName.contains("test/parser/neqAndNot1.asm")) {
 				continue;
-			if (specName.contains("test/parser/overloading/m5.asm"))
+			}
+			if (specName.contains("test/parser/overloading/m5.asm")) {
 				continue;
-			if (specName.contains("test/parser/overloading/m6.asm"))
+			}
+			if (specName.contains("test/parser/overloading/m6.asm")) {
 				continue;
-			if (specName.contains("rpns/r/TupleTerm.asm"))
+			}
+			if (specName.contains("rpns/r/TupleTerm.asm")) {
 				continue;
-			if (specName.contains("test/simulator/CaseTermPair.asm"))
+			}
+			if (specName.contains("test/simulator/CaseTermPair.asm")) {
 				continue;
-			if (specName.contains("test/simulator/ChooseInConcrete.asm"))
+			}
+			if (specName.contains("test/simulator/ChooseInConcrete.asm")) {
 				continue;
-			if (specName.contains("test/simulator/ConcreteDomain.asm"))
+			}
+			if (specName.contains("test/simulator/ConcreteDomain.asm")) {
 				continue;
-			if (specName.contains("test/simulator/MapDomain.asm"))
+			}
+			if (specName.contains("test/simulator/MapDomain.asm")) {
 				continue;
-			if (specName.contains("asm_examples/asmetal2cpp/asmetal2cpp_codegen/MapDomain.asm"))
+			}
+			if (specName.contains("asm_examples/asmetal2cpp/asmetal2cpp_codegen/MapDomain.asm")) {
 				continue;
-			if (specName.contains("asm_examples/asmetal2cpp/asmetal2cpp_codegen/SetDomain.asm"))
+			}
+			if (specName.contains("asm_examples/asmetal2cpp/asmetal2cpp_codegen/SetDomain.asm")) {
 				continue;
-			if (specName.contains("asm_examples/examples/turboRules/turboReturnRuleWithExtend.asm"))
+			}
+			if (specName.contains("asm_examples/examples/turboRules/turboReturnRuleWithExtend.asm")) {
 				continue;
+			}
 
 			// skip those in errors
-			if (specName.contains("errors"))
+			if (specName.contains("errors")) {
 				continue;
+			}
 
 			// parse and validate them
 //			if (specName.endsWith(ASMParser.asmExtension)) {
@@ -551,16 +605,16 @@ public class AllAsmExamplesTesterWOHelper {
 				+ checked_examples + " to be checked");
 	}
 
-	
+
 	@Test
 	public void testAllALLExamples() throws IOException {
 		Path examplePath = Paths.get("../../../asm_examples/examples");
-		
+
 	}
-	
-	
+
+
 	/**
-	 * 
+	 *
 	 * @param path
 	 * @param excludeFile if true, exclude file from the list
 	 *                    <code>AllAsmExamplesTesterWOHelper.errors_path</code>
@@ -596,5 +650,5 @@ public class AllAsmExamplesTesterWOHelper {
 		}
 
 	}
-	
+
 }

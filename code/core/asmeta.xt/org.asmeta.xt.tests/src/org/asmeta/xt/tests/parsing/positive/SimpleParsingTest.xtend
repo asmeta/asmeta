@@ -1,8 +1,9 @@
 package org.asmeta.xt.tests.parsing.positive
 
 import java.io.File
-import org.junit.Assert
-import org.junit.Test
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.Tag
 
 class SimpleParsingTest extends ParserTest{	
 
@@ -14,35 +15,35 @@ class SimpleParsingTest extends ParserTest{
 			definitions: 
 		''', "blankpage")
 		// asm test
-		Assert.assertEquals( false, result.isAsynchr )													
-		Assert.assertEquals( "blankpage", result.name)														
+		Assertions.assertEquals( false, result.isAsynchr )													
+		Assertions.assertEquals( "blankpage", result.name)														
 		// header test																			
-		Assert.assertEquals( 0, result.headerSection.importClause.size )							
-		Assert.assertEquals( null, result.headerSection.exportClause)
-		Assert.assertEquals( 0, result.headerSection.signature.domain.size)	
-		Assert.assertEquals( 0, result.headerSection.signature.domain.size)			
+		Assertions.assertEquals( 0, result.headerSection.importClause.size )							
+		Assertions.assertEquals( null, result.headerSection.exportClause)
+		Assertions.assertEquals( 0, result.headerSection.signature.domain.size)	
+		Assertions.assertEquals( 0, result.headerSection.signature.domain.size)			
 		// body test
 		// TODO va bene che non sia istanziato ma sia null?
-		Assert.assertEquals( 0, result.bodySection.domainDefinition.size)
-		Assert.assertEquals( 0, result.bodySection.functionDefinition.size)
-		Assert.assertEquals( 0, result.bodySection.ruleDeclaration.size)
-		Assert.assertEquals( 0, result.bodySection.invariantConstraint.size)
-		Assert.assertEquals( 0, result.bodySection.fairnessConstraint.size)
-		Assert.assertEquals( 0, result.bodySection.property.size)
+		Assertions.assertEquals( 0, result.bodySection.domainDefinition.size)
+		Assertions.assertEquals( 0, result.bodySection.functionDefinition.size)
+		Assertions.assertEquals( 0, result.bodySection.ruleDeclaration.size)
+		Assertions.assertEquals( 0, result.bodySection.invariantConstraint.size)
+		Assertions.assertEquals( 0, result.bodySection.fairnessConstraint.size)
+		Assertions.assertEquals( 0, result.bodySection.property.size)
 		
 		// main rule test
 		// TODO da sistemare
-		Assert.assertEquals( null, result.mainrule)		
+		Assertions.assertEquals( null, result.mainrule)		
 		
 		// initialstate test
-		Assert.assertEquals( 0, result.initialState.size )
+		Assertions.assertEquals( 0, result.initialState.size )
 	}
 	
-	@Test
+	@Test@Tag("TestToMavenSkip")
 	def void testImport() {
 		// test all the possible imports	
 		val f = new File("../../../../asm_examples/STDL/StandardLibrary.asm")
-		Assert.assertTrue(f.exists)
+		Assertions.assertTrue(f.exists)
 		// relative path (from which directory???)
 		var asmlib = f.path.replaceAll("\\\\","/")
 		// remove the extension

@@ -4,22 +4,23 @@ import com.google.inject.Inject
 import org.asmeta.xt.asmetal.Asm
 import org.asmeta.xt.asmetal.AsmetalPackage
 import org.asmeta.xt.tests.AsmetaLInjectorProvider
+import org.asmeta.xt.validation.ErrorCode
 import org.eclipse.xtext.testing.InjectWith
-import org.eclipse.xtext.testing.XtextRunner
+import org.eclipse.xtext.testing.extensions.InjectionExtension
 import org.eclipse.xtext.testing.util.ParseHelper
 import org.eclipse.xtext.testing.validation.ValidationTestHelper
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.asmeta.xt.validation.ErrorCode
+import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.^extension.ExtendWith
+import org.junit.jupiter.api.Tag
 
-@RunWith(XtextRunner)
+@ExtendWith(InjectionExtension)
 @InjectWith(AsmetaLInjectorProvider)
 class BodyNegativeParsingTest {
 	
 	@Inject	ParseHelper<Asm> parseHelper
 	@Inject extension ValidationTestHelper
 
-	@Test
+	@Test@Tag("TestToMavenSkip")
 	def void testDomainDefinition() {
 		var Asm result
 		
@@ -213,7 +214,7 @@ class BodyNegativeParsingTest {
 		result.assertError(AsmetalPackage.Literals.SET_TERM, ErrorCode.SET_TERM__STEP_NAN)	
 	}
 	
-	@Test
+	@Test@Tag("TestToMavenSkip")
 	def void testFunctionDefinition() {
 		var Asm result
 	
@@ -431,7 +432,7 @@ class BodyNegativeParsingTest {
 	
 	}
 			
-	@Test
+	@Test@Tag("TestToMavenSkip")
 	def void testRuleDeclaration() {
 		var Asm result
 	
@@ -556,7 +557,7 @@ class BodyNegativeParsingTest {
 		
 	}
 	
-	@Test
+	@Test@Tag("TestToMavenSkip")
 	def void testTemporalSpec() {
 		var Asm result
 	

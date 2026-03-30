@@ -1,7 +1,5 @@
 package org.asmeta.xt.tests;
 
-import java.nio.file.Path;
-
 import org.asmeta.parser.AsmetaParserUtility;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -9,9 +7,9 @@ import org.eclipse.xtext.resource.XtextResourceSet;
 import org.eclipse.xtext.testing.util.ResourceHelper;
 
 public class AsmResourceHelper extends ResourceHelper {
-			
+
 	private String specname;
-	
+
 	@Override
 	protected XtextResourceSet createResourceSet() {
 		return super.createResourceSet();
@@ -21,11 +19,13 @@ public class AsmResourceHelper extends ResourceHelper {
 		this.specname = specname;
 	}
 
-	
+
+	@Override
 	protected URI computeUnusedUri(ResourceSet resourceSet) {
 		URI syntheticUri = URI.createURI(specname + AsmetaParserUtility.ASM_EXTENSION);
-		if (resourceSet.getResource(syntheticUri, false) == null)
+		if (resourceSet.getResource(syntheticUri, false) == null) {
 			return syntheticUri;
+		}
 		throw new IllegalStateException();
 	}
 

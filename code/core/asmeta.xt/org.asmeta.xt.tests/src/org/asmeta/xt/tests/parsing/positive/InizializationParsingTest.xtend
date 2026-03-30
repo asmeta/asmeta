@@ -7,10 +7,12 @@ import org.eclipse.xtext.testing.InjectWith
 import org.eclipse.xtext.testing.XtextRunner
 import org.eclipse.xtext.testing.util.ParseHelper
 import org.eclipse.xtext.testing.validation.ValidationTestHelper
-import org.junit.Test
+import org.junit.jupiter.api.Test
 import org.junit.runner.RunWith
+import org.junit.jupiter.api.^extension.ExtendWith
+import org.eclipse.xtext.testing.extensions.InjectionExtension
 
-@RunWith(XtextRunner)
+@ExtendWith(InjectionExtension)
 @InjectWith(AsmetaLInjectorProvider)
 class InizializationParsingTest {
 	
@@ -20,7 +22,7 @@ class InizializationParsingTest {
 	@Test
 	def void testInitialization() {
 		var result = parseHelper.parse('''
-			asm prova
+			asm __synthetic0
 				
 				import StandardLibrary
 			

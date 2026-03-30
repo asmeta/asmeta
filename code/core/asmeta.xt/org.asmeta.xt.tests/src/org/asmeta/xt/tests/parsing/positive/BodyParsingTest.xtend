@@ -28,19 +28,22 @@ import org.eclipse.xtext.testing.InjectWith
 import org.eclipse.xtext.testing.XtextRunner
 import org.eclipse.xtext.testing.util.ParseHelper
 import org.eclipse.xtext.testing.validation.ValidationTestHelper
-import org.junit.Assert
-import org.junit.Test
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Test
 import org.junit.runner.RunWith
 import org.asmeta.xt.tests.AsmParseHelper
+import org.eclipse.xtext.testing.extensions.InjectionExtension
+import org.junit.jupiter.api.^extension.ExtendWith
+import org.junit.jupiter.api.Tag
 
-@RunWith(XtextRunner)
+@ExtendWith(InjectionExtension)
 @InjectWith(AsmetaLInjectorProvider)
 class BodyParsingTest {
 	
 	@Inject	AsmParseHelper parseHelper
 	@Inject extension ValidationTestHelper
 	
-	@Test
+	@Test@Tag("TestToMavenSkip")
 	def void testDomainFunctionDefinitions() {
 		
 		var result = parseHelper.parse('''
@@ -84,123 +87,123 @@ class BodyParsingTest {
 		
 		// SIGNATURE
 		
-		Assert.assertEquals( 4, result.headerSection.signature.domain.size)	
-		Assert.assertEquals( 7, result.headerSection.signature.function.size)
+		Assertions.assertEquals( 4, result.headerSection.signature.domain.size)	
+		Assertions.assertEquals( 7, result.headerSection.signature.function.size)
 		
 		// abstract domain Philosopher
 		var abstr_dom = result.headerSection.signature.domain.get(i)
-		Assert.assertEquals( "Philosopher", abstr_dom.name )
-		Assert.assertEquals( typeof(AbstractTDImpl), abstr_dom.class )
+		Assertions.assertEquals( "Philosopher", abstr_dom.name )
+		Assertions.assertEquals( typeof(AbstractTDImpl), abstr_dom.class )
 		
 		// domain NumOfCherries subsetof Integer
 		i++
 		var conc_dom = result.headerSection.signature.domain.get(i)
-		Assert.assertEquals( "NumOfCherries", conc_dom.name )
-		Assert.assertEquals( typeof(ConcreteDomainImpl), conc_dom.class )
+		Assertions.assertEquals( "NumOfCherries", conc_dom.name )
+		Assertions.assertEquals( typeof(ConcreteDomainImpl), conc_dom.class )
 		// Integer
-		Assert.assertEquals( "Integer", (conc_dom as ConcreteDomainImpl).typeDomain.name )
+		Assertions.assertEquals( "Integer", (conc_dom as ConcreteDomainImpl).typeDomain.name )
 	
 		i = 0
 		var Function func 
 		
 		//static leftNeighbour: Philosopher -> Philosopher
 		func = result.headerSection.signature.function.get(i)
-		Assert.assertEquals( typeof(DerivedFunctionImpl), func.class )
-		Assert.assertEquals( "leftNeighbour", func.name )
-		Assert.assertEquals( "Philosopher", func.codomain.name )
-		Assert.assertEquals( "Philosopher", func.domain.name )
+		Assertions.assertEquals( typeof(DerivedFunctionImpl), func.class )
+		Assertions.assertEquals( "leftNeighbour", func.name )
+		Assertions.assertEquals( "Philosopher", func.codomain.name )
+		Assertions.assertEquals( "Philosopher", func.domain.name )
 		
 		// static rightNeighbour: Philosopher -> Philosopher
 		i++
 		func = result.headerSection.signature.function.get(i)
-		Assert.assertEquals( typeof(DerivedFunctionImpl), func.class )
-		Assert.assertEquals( "rightNeighbour", func.name )
-		Assert.assertEquals( "Philosopher", func.codomain.name )
-		Assert.assertEquals( "Philosopher", func.domain.name )
+		Assertions.assertEquals( typeof(DerivedFunctionImpl), func.class )
+		Assertions.assertEquals( "rightNeighbour", func.name )
+		Assertions.assertEquals( "Philosopher", func.codomain.name )
+		Assertions.assertEquals( "Philosopher", func.domain.name )
 		
 		// static philo1: Philosopher
 		i++
 		func = result.headerSection.signature.function.get(i)
-		Assert.assertEquals( typeof(StaticFunctionImpl), func.class )
-		Assert.assertEquals( "philo1", func.name )
-		Assert.assertEquals( "Philosopher", func.codomain.name )
-		Assert.assertEquals( null, func.domain )
+		Assertions.assertEquals( typeof(StaticFunctionImpl), func.class )
+		Assertions.assertEquals( "philo1", func.name )
+		Assertions.assertEquals( "Philosopher", func.codomain.name )
+		Assertions.assertEquals( null, func.domain )
 		
 		// static philo2: Philosopher
 		i++
 		func = result.headerSection.signature.function.get(i)
-		Assert.assertEquals( typeof(StaticFunctionImpl), func.class )
-		Assert.assertEquals( "philo2", func.name )
-		Assert.assertEquals( "Philosopher", func.codomain.name )
-		Assert.assertEquals( null, func.domain )
+		Assertions.assertEquals( typeof(StaticFunctionImpl), func.class )
+		Assertions.assertEquals( "philo2", func.name )
+		Assertions.assertEquals( "Philosopher", func.codomain.name )
+		Assertions.assertEquals( null, func.domain )
 		
 		// static philo3: Philosopher
 		i++
 		func = result.headerSection.signature.function.get(i)
-		Assert.assertEquals( typeof(StaticFunctionImpl), func.class )
-		Assert.assertEquals( "philo3", func.name )
-		Assert.assertEquals( "Philosopher", func.codomain.name )
-		Assert.assertEquals( null, func.domain )
+		Assertions.assertEquals( typeof(StaticFunctionImpl), func.class )
+		Assertions.assertEquals( "philo3", func.name )
+		Assertions.assertEquals( "Philosopher", func.codomain.name )
+		Assertions.assertEquals( null, func.domain )
 		
 		// static philo4: Philosopher
 		i++
 		func = result.headerSection.signature.function.get(i)
-		Assert.assertEquals( typeof(StaticFunctionImpl), func.class )
-		Assert.assertEquals( "philo4", func.name )
-		Assert.assertEquals( "Philosopher", func.codomain.name )
-		Assert.assertEquals( null, func.domain )
+		Assertions.assertEquals( typeof(StaticFunctionImpl), func.class )
+		Assertions.assertEquals( "philo4", func.name )
+		Assertions.assertEquals( "Philosopher", func.codomain.name )
+		Assertions.assertEquals( null, func.domain )
 		
 		// static philo5: Philosopher
 		i++
 		func = result.headerSection.signature.function.get(i)
-		Assert.assertEquals( typeof(StaticFunctionImpl), func.class )
-		Assert.assertEquals( "philo5", func.name )
-		Assert.assertEquals( "Philosopher", func.codomain.name )
-		Assert.assertEquals( null, func.domain )
+		Assertions.assertEquals( typeof(StaticFunctionImpl), func.class )
+		Assertions.assertEquals( "philo5", func.name )
+		Assertions.assertEquals( "Philosopher", func.codomain.name )
+		Assertions.assertEquals( null, func.domain )
 		
 		// BODY
 
-		Assert.assertEquals( 1, result.bodySection.domainDefinition.size )
-		Assert.assertEquals( 1, result.bodySection.functionDefinition.size )	
+		Assertions.assertEquals( 1, result.bodySection.domainDefinition.size )
+		Assertions.assertEquals( 1, result.bodySection.functionDefinition.size )	
 		
 		i = 0
 		// domain NumOfCherries = {0 .. 3}
 		var dom_def = result.bodySection.domainDefinition.get(0)
-		Assert.assertEquals( "NumOfCherries", dom_def.definedDomainName )
-		Assert.assertEquals( typeof(SetTermImpl), dom_def.body.class )
+		Assertions.assertEquals( "NumOfCherries", dom_def.definedDomainName )
+		Assertions.assertEquals( typeof(SetTermImpl), dom_def.body.class )
 		// {0 .. 3}
 		var seq_term = dom_def.body as SetTermImpl
-		Assert.assertEquals( typeof(IntegerTermImpl), seq_term.start_term.class )
+		Assertions.assertEquals( typeof(IntegerTermImpl), seq_term.start_term.class )
 		/*var val_term = seq_term.start_term as IntegerTermImpl
-		Assert.assertEquals( "0", val_term.symbol )*/
-		Assert.assertEquals( typeof(IntegerTermImpl), seq_term.end_term.class )
+		Assertions.assertEquals( "0", val_term.symbol )*/
+		Assertions.assertEquals( typeof(IntegerTermImpl), seq_term.end_term.class )
 		var val_term = seq_term.end_term as IntegerTermImpl
-		Assert.assertEquals( "3", val_term.symbol )
+		Assertions.assertEquals( "3", val_term.symbol )
 
 		i = 0
 		// function leftNeighbour($p in Philosopher) = ...
 		var func_def = result.bodySection.functionDefinition.get(i)
-		Assert.assertEquals( "leftNeighbour", func_def.definedFunctionName )
-		Assert.assertEquals( 1, func_def.variables.size )
-		Assert.assertEquals( "$p", func_def.variables.get(0) )
-		Assert.assertEquals( 1, func_def.domain.size )
-		Assert.assertEquals( "Philosopher", func_def.domain.get(0).name )
+		Assertions.assertEquals( "leftNeighbour", func_def.definedFunctionName )
+		Assertions.assertEquals( 1, func_def.variables.size )
+		Assertions.assertEquals( "$p", func_def.variables.get(0) )
+		Assertions.assertEquals( 1, func_def.domain.size )
+		Assertions.assertEquals( "Philosopher", func_def.domain.get(0).name )
 		// switch($p)
-		Assert.assertEquals( typeof(CaseTermImpl), func_def.body.class )
+		Assertions.assertEquals( typeof(CaseTermImpl), func_def.body.class )
 		var switch_term = func_def.body as CaseTermImpl
 
-		Assert.assertEquals( typeof(VariableTermImpl), switch_term.comparedTerm.class )
-		Assert.assertEquals( "$p", (switch_term.comparedTerm as VariableTermImpl).name )
-		Assert.assertEquals( 5, switch_term.comparingTerm.size )
-		Assert.assertEquals( 5, switch_term.resultTerms.size )
-		Assert.assertEquals( null, switch_term.otherwiseTerm )
+		Assertions.assertEquals( typeof(VariableTermImpl), switch_term.comparedTerm.class )
+		Assertions.assertEquals( "$p", (switch_term.comparedTerm as VariableTermImpl).name )
+		Assertions.assertEquals( 5, switch_term.comparingTerm.size )
+		Assertions.assertEquals( 5, switch_term.resultTerms.size )
+		Assertions.assertEquals( null, switch_term.otherwiseTerm )
 		// case philo1: philo5
-		Assert.assertEquals( typeof(FunctionTermImpl), switch_term.comparingTerm.get(0).class )
+		Assertions.assertEquals( typeof(FunctionTermImpl), switch_term.comparingTerm.get(0).class )
 		var func_term = switch_term.comparingTerm.get(0) as FunctionTermImpl
-		Assert.assertEquals( "philo1", func_term.functionName )
-		Assert.assertEquals( typeof(FunctionTermImpl), switch_term.comparingTerm.get(0).class )
+		Assertions.assertEquals( "philo1", func_term.functionName )
+		Assertions.assertEquals( typeof(FunctionTermImpl), switch_term.comparingTerm.get(0).class )
 		func_term = switch_term.resultTerms.get(0) as FunctionTermImpl
-		Assert.assertEquals( "philo5", func_term.functionName )
+		Assertions.assertEquals( "philo5", func_term.functionName )
 
 	}
 		
@@ -225,52 +228,52 @@ class BodyParsingTest {
 		
 		var i = 0
 		
-		Assert.assertEquals( 1, result.bodySection.property.size )	
+		Assertions.assertEquals( 1, result.bodySection.property.size )	
 		
 		// --- invariant over position: position(GO)=position(CA) implies position(GO)=position(FERRYMAN)
 		// invariant over positio
-		Assert.assertEquals( typeof(InvariantImpl), result.bodySection.property.get(i).class )	
+		Assertions.assertEquals( typeof(InvariantImpl), result.bodySection.property.get(i).class )	
 		var inv = result.bodySection.property.get(i) as Invariant
-		Assert.assertEquals( null, inv.name )	
-		Assert.assertEquals( 1, inv.invar_list.size )	
-		Assert.assertEquals( "position", inv.invar_list.get(0).constrainedName )	
+		Assertions.assertEquals( null, inv.name )	
+		Assertions.assertEquals( 1, inv.invar_list.size )	
+		Assertions.assertEquals( "position", inv.invar_list.get(0).constrainedName )	
 		// position(GO)=position(CA) implies position(GO)=position(FERRYMAN)
 		var e1 = inv.body as BinaryOperationImpl
-		Assert.assertEquals( "implies", e1.op )	
-		Assert.assertEquals( typeof(BinaryOperationImpl), e1.right.class )
-		Assert.assertEquals( typeof(BinaryOperationImpl), e1.left.class )
+		Assertions.assertEquals( "implies", e1.op )	
+		Assertions.assertEquals( typeof(BinaryOperationImpl), e1.right.class )
+		Assertions.assertEquals( typeof(BinaryOperationImpl), e1.left.class )
 		// left 	=> position(GO)=position(CA)
 		var e1_left = e1.left as BinaryOperationImpl
-		Assert.assertEquals( "=", e1_left.op )
-		Assert.assertEquals( typeof(FunctionTermImpl), e1_left.left.class )
+		Assertions.assertEquals( "=", e1_left.op )
+		Assertions.assertEquals( typeof(FunctionTermImpl), e1_left.left.class )
 		var func = e1_left.left as FunctionTermImpl
-		Assert.assertEquals( "position", func.functionName )
-		Assert.assertEquals( 1, func.arguments.terms.size )
-		Assert.assertEquals( typeof(EnumTermImpl), func.arguments.terms.get(0).class )
+		Assertions.assertEquals( "position", func.functionName )
+		Assertions.assertEquals( 1, func.arguments.terms.size )
+		Assertions.assertEquals( typeof(EnumTermImpl), func.arguments.terms.get(0).class )
 		var enum = func.arguments.terms.get(0) as EnumTermImpl
-		Assert.assertEquals( "GO", enum.symbol )
+		Assertions.assertEquals( "GO", enum.symbol )
 		func = e1_left.right as FunctionTermImpl
-		Assert.assertEquals( "position", func.functionName )
-		Assert.assertEquals( 1, func.arguments.terms.size )
-		Assert.assertEquals( typeof(EnumTermImpl), func.arguments.terms.get(0).class )
+		Assertions.assertEquals( "position", func.functionName )
+		Assertions.assertEquals( 1, func.arguments.terms.size )
+		Assertions.assertEquals( typeof(EnumTermImpl), func.arguments.terms.get(0).class )
 		enum = func.arguments.terms.get(0) as EnumTermImpl
-		Assert.assertEquals( "CA", enum.symbol )
+		Assertions.assertEquals( "CA", enum.symbol )
 		// right 	=> position(GO)=position(FERRYMAN)
 		var e1_right = e1.right as BinaryOperationImpl
-		Assert.assertEquals( "=", e1_right.op )
-		Assert.assertEquals( typeof(FunctionTermImpl), e1_left.left.class )
+		Assertions.assertEquals( "=", e1_right.op )
+		Assertions.assertEquals( typeof(FunctionTermImpl), e1_left.left.class )
 		func = e1_right.left as FunctionTermImpl
-		Assert.assertEquals( "position", func.functionName )
-		Assert.assertEquals( 1, func.arguments.terms.size )
-		Assert.assertEquals( typeof(EnumTermImpl), func.arguments.terms.get(0).class )
+		Assertions.assertEquals( "position", func.functionName )
+		Assertions.assertEquals( 1, func.arguments.terms.size )
+		Assertions.assertEquals( typeof(EnumTermImpl), func.arguments.terms.get(0).class )
 		enum = func.arguments.terms.get(0) as EnumTermImpl
-		Assert.assertEquals( "GO", enum.symbol )
+		Assertions.assertEquals( "GO", enum.symbol )
 		func = e1_right.right as FunctionTermImpl
-		Assert.assertEquals( "position", func.functionName )
-		Assert.assertEquals( 1, func.arguments.terms.size )
-		Assert.assertEquals( typeof(EnumTermImpl), func.arguments.terms.get(0).class )
+		Assertions.assertEquals( "position", func.functionName )
+		Assertions.assertEquals( 1, func.arguments.terms.size )
+		Assertions.assertEquals( typeof(EnumTermImpl), func.arguments.terms.get(0).class )
 		enum = func.arguments.terms.get(0) as EnumTermImpl
-		Assert.assertEquals( "FERRYMAN", enum.symbol )
+		Assertions.assertEquals( "FERRYMAN", enum.symbol )
 		
 	}
 	
@@ -310,80 +313,80 @@ class BodyParsingTest {
 		
 		var i = 0
 		
-		Assert.assertEquals( 2, result.bodySection.property.size )	
+		Assertions.assertEquals( 2, result.bodySection.property.size )	
 		
 		// LTLSPEC g( not( (ccState(a1, 1) = EXCLUSIVE) and (ccState(a2, 1)=EXCLUSIVE) ) )
 		var spec = result.bodySection.property.get(i) 
-		Assert.assertEquals( null, spec.name )
-		Assert.assertEquals( typeof(LtlSpecImpl), spec.class )
-		Assert.assertEquals( typeof(FunctionTermImpl), spec.body.class )
+		Assertions.assertEquals( null, spec.name )
+		Assertions.assertEquals( typeof(LtlSpecImpl), spec.class )
+		Assertions.assertEquals( typeof(FunctionTermImpl), spec.body.class )
 		var func = spec.body as FunctionTermImpl
 		// g( not( (ccState(a1, 1) = EXCLUSIVE) and (ccState(a2, 1)=EXCLUSIVE) ) )
 		// ^
-		Assert.assertEquals( "g", func.functionName )
-		Assert.assertEquals( 1, func.arguments.terms.size )
-		Assert.assertEquals( typeof(ExpressionImpl), func.arguments.terms.get(0).class )
+		Assertions.assertEquals( "g", func.functionName )
+		Assertions.assertEquals( 1, func.arguments.terms.size )
+		Assertions.assertEquals( typeof(ExpressionImpl), func.arguments.terms.get(0).class )
 		// g( not( (ccState(a1, 1) = EXCLUSIVE) and (ccState(a2, 1)=EXCLUSIVE) ) )
 		//     ^
 		var expr =  func.arguments.terms.get(0) as Expression
-		Assert.assertEquals( "not", expr.op )
-		Assert.assertEquals( typeof(BinaryOperationImpl), expr.operand.class )
+		Assertions.assertEquals( "not", expr.op )
+		Assertions.assertEquals( typeof(BinaryOperationImpl), expr.operand.class )
 		// g( not( (ccState(a1, 1) = EXCLUSIVE) and (ccState(a2, 1)=EXCLUSIVE) ) )
 		//                                       ^
 		var func_bin = expr.operand as BinaryOperationImpl
-		Assert.assertEquals( "and", func_bin.op )
-		Assert.assertEquals( typeof(BinaryOperationImpl), func_bin.left.class )
-		Assert.assertEquals( typeof(BinaryOperationImpl), func_bin.right.class )
+		Assertions.assertEquals( "and", func_bin.op )
+		Assertions.assertEquals( typeof(BinaryOperationImpl), func_bin.left.class )
+		Assertions.assertEquals( typeof(BinaryOperationImpl), func_bin.right.class )
 		// (ccState(a1, 1) = EXCLUSIVE)
 		var func_bin_left = func_bin.left as BinaryOperationImpl
-		Assert.assertEquals( "=", func_bin_left.op )
-		Assert.assertEquals( typeof(FunctionTermImpl), func_bin_left.left.class )
-		Assert.assertEquals( typeof(EnumTermImpl), func_bin_left.right.class )
+		Assertions.assertEquals( "=", func_bin_left.op )
+		Assertions.assertEquals( typeof(FunctionTermImpl), func_bin_left.left.class )
+		Assertions.assertEquals( typeof(EnumTermImpl), func_bin_left.right.class )
 		// ccState(a1, 1)
 		var func_bin_left_left = func_bin_left.left as FunctionTermImpl
 		// ccState(a1, 1)
-		Assert.assertEquals( "ccState", func_bin_left_left.functionName )
-		Assert.assertEquals( 2, func_bin_left_left.arguments.terms.size )
-		Assert.assertEquals( typeof(EnumTermImpl), func_bin_left.right.class )
+		Assertions.assertEquals( "ccState", func_bin_left_left.functionName )
+		Assertions.assertEquals( 2, func_bin_left_left.arguments.terms.size )
+		Assertions.assertEquals( typeof(EnumTermImpl), func_bin_left.right.class )
 		// a1
-		Assert.assertEquals( typeof(FunctionTermImpl), func_bin_left_left.arguments.terms.get(0).class )	
+		Assertions.assertEquals( typeof(FunctionTermImpl), func_bin_left_left.arguments.terms.get(0).class )	
 		func = func_bin_left_left.arguments.terms.get(0) as FunctionTermImpl
-		Assert.assertEquals( "a1", func.functionName )		
+		Assertions.assertEquals( "a1", func.functionName )		
 		// 1
-		Assert.assertEquals( typeof(IntegerTermImpl), func_bin_left_left.arguments.terms.get(1).class )
+		Assertions.assertEquals( typeof(IntegerTermImpl), func_bin_left_left.arguments.terms.get(1).class )
 		var number = func_bin_left_left.arguments.terms.get(1) as IntegerTermImpl
-		Assert.assertEquals( "1", number.symbol )
+		Assertions.assertEquals( "1", number.symbol )
 		// EXCLUSIVE
 		var func_bin_left_right = func_bin_left.right as EnumTermImpl
-		Assert.assertEquals( "EXCLUSIVE", func_bin_left_right.symbol )
+		Assertions.assertEquals( "EXCLUSIVE", func_bin_left_right.symbol )
 		// ccState(a2, 1)=EXCLUSIVE
 		var func_bin_right = func_bin.right as BinaryOperationImpl
-		Assert.assertEquals( "=", func_bin_right.op )
-		Assert.assertEquals( typeof(FunctionTermImpl), func_bin_right.left.class )
-		Assert.assertEquals( typeof(EnumTermImpl), func_bin_right.right.class )
+		Assertions.assertEquals( "=", func_bin_right.op )
+		Assertions.assertEquals( typeof(FunctionTermImpl), func_bin_right.left.class )
+		Assertions.assertEquals( typeof(EnumTermImpl), func_bin_right.right.class )
 		// ccState(a1, 1)
 		var func_bin_right_left = func_bin_right.left as FunctionTermImpl
 		// ccState(a1, 1)
-		Assert.assertEquals( "ccState", func_bin_right_left.functionName )
-		Assert.assertEquals( 2, func_bin_right_left.arguments.terms.size )
-		Assert.assertEquals( typeof(EnumTermImpl), func_bin_right.right.class )
+		Assertions.assertEquals( "ccState", func_bin_right_left.functionName )
+		Assertions.assertEquals( 2, func_bin_right_left.arguments.terms.size )
+		Assertions.assertEquals( typeof(EnumTermImpl), func_bin_right.right.class )
 		// a2
-		Assert.assertEquals( typeof(FunctionTermImpl), func_bin_right_left.arguments.terms.get(0).class )	
+		Assertions.assertEquals( typeof(FunctionTermImpl), func_bin_right_left.arguments.terms.get(0).class )	
 		func = func_bin_right_left.arguments.terms.get(0) as FunctionTermImpl
-		Assert.assertEquals( "a2", func.functionName )		
+		Assertions.assertEquals( "a2", func.functionName )		
 		// 1
-		Assert.assertEquals( typeof(IntegerTermImpl), func_bin_right_left.arguments.terms.get(1).class )
+		Assertions.assertEquals( typeof(IntegerTermImpl), func_bin_right_left.arguments.terms.get(1).class )
 		number = func_bin_right_left.arguments.terms.get(1) as IntegerTermImpl
-		Assert.assertEquals( "1", number.symbol )
+		Assertions.assertEquals( "1", number.symbol )
 		// EXCLUSIVE
 		var func_bin_right_right = func_bin_right.right as EnumTermImpl
-		Assert.assertEquals( "EXCLUSIVE", func_bin_right_right.symbol )
+		Assertions.assertEquals( "EXCLUSIVE", func_bin_right_right.symbol )
 		
 		// CTLSPEC ag(ccState(a1, 1)=INVALID and ccState(a2, 1)=INVALID)
 		i++
 		spec = result.bodySection.property.get(i) 
-		Assert.assertEquals( null, spec.name )
-		Assert.assertEquals( typeof(CtlSpecImpl), spec.class )
+		Assertions.assertEquals( null, spec.name )
+		Assertions.assertEquals( typeof(CtlSpecImpl), spec.class )
 
 	}
 		
@@ -405,18 +408,18 @@ class BodyParsingTest {
 	
 		var i = 0
 	
-		Assert.assertEquals( 1, result.bodySection.invariantConstraint.size )	
-		Assert.assertEquals( 2, result.bodySection.fairnessConstraint.size )	
+		Assertions.assertEquals( 1, result.bodySection.invariantConstraint.size )	
+		Assertions.assertEquals( 2, result.bodySection.fairnessConstraint.size )	
 		
-		Assert.assertEquals( typeof(InvariantConstraintImpl), result.bodySection.invariantConstraint.get(i).class )
+		Assertions.assertEquals( typeof(InvariantConstraintImpl), result.bodySection.invariantConstraint.get(i).class )
 		var invar = result.bodySection.invariantConstraint.get(i) as InvariantConstraintImpl
 		
 		i = 0
-		Assert.assertEquals( typeof(JusticeConstraintImpl), result.bodySection.fairnessConstraint.get(i).class )
+		Assertions.assertEquals( typeof(JusticeConstraintImpl), result.bodySection.fairnessConstraint.get(i).class )
 		var justice = result.bodySection.fairnessConstraint.get(i) as JusticeConstraintImpl
 			
 		i++
-		Assert.assertEquals( typeof(CompassionConstraintImpl), result.bodySection.fairnessConstraint.get(i).class )
+		Assertions.assertEquals( typeof(CompassionConstraintImpl), result.bodySection.fairnessConstraint.get(i).class )
 		var compassion = result.bodySection.fairnessConstraint.get(i) as CompassionConstraintImpl
 
 		
@@ -447,27 +450,27 @@ class BodyParsingTest {
 		var String[] expected
 		var Class[] classes
 		
-		Assert.assertEquals( 3, result.bodySection.property.size )	
+		Assertions.assertEquals( 3, result.bodySection.property.size )	
 		
 		// --- invariant over gate: (gate = CLOSING or gate = CLOSED or gate = OPENING) implies light = FLASHING
-		Assert.assertEquals( typeof(InvariantImpl), result.bodySection.property.get(i).class )	
+		Assertions.assertEquals( typeof(InvariantImpl), result.bodySection.property.get(i).class )	
 		var inv = result.bodySection.property.get(i) as Invariant
-		Assert.assertEquals( null, inv.name )	
-		Assert.assertEquals( 1, inv.inv_list.size )	
-		Assert.assertEquals( "gate", inv.inv_list.get(0) )	
+		Assertions.assertEquals( null, inv.name )	
+		Assertions.assertEquals( 1, inv.inv_list.size )	
+		Assertions.assertEquals( "gate", inv.inv_list.get(0) )	
 		// -- (gate = CLOSING or gate = CLOSED or gate = OPENING) implies light = FLASHING
-		Assert.assertEquals( typeof(BinaryOperationImpl), inv.body.class )
+		Assertions.assertEquals( typeof(BinaryOperationImpl), inv.body.class )
 		var e1 = inv.body as BinaryOperationImpl
-		Assert.assertEquals( "implies", e1.op )	
-		Assert.assertEquals( typeof(BinaryOperationImpl), e1.right.class )
-		Assert.assertEquals( typeof(BinaryOperationImpl), e1.left.class )
+		Assertions.assertEquals( "implies", e1.op )	
+		Assertions.assertEquals( typeof(BinaryOperationImpl), e1.right.class )
+		Assertions.assertEquals( typeof(BinaryOperationImpl), e1.left.class )
 		// gate = CLOSING or gate = CLOSED or gate = OPENING
 		var e1_left = e1.left as BinaryOperationImpl
-		Assert.assertEquals( typeof(BinaryOperationImpl), e1_left.left.class )
+		Assertions.assertEquals( typeof(BinaryOperationImpl), e1_left.left.class )
 		//		gate = CLOSING or gate = CLOSED
 		var e1_left_left = e1_left.left as BinaryOperationImpl
-		Assert.assertEquals( typeof(BinaryOperationImpl), e1_left_left.right.class )
-		Assert.assertEquals( typeof(BinaryOperationImpl), e1_left_left.left.class )
+		Assertions.assertEquals( typeof(BinaryOperationImpl), e1_left_left.right.class )
+		Assertions.assertEquals( typeof(BinaryOperationImpl), e1_left_left.left.class )
 		var e1_left_left_left = e1_left_left.left as BinaryOperationImpl
 		expected = #["gate", "=", "CLOSING"]
 		classes = #[FunctionTermImpl, EnumTermImpl]
@@ -489,67 +492,67 @@ class BodyParsingTest {
 		
 		// invariant over gate: gateStatusUpdateOk
 		i++
-		Assert.assertEquals( typeof(InvariantImpl), result.bodySection.property.get(i).class )	
+		Assertions.assertEquals( typeof(InvariantImpl), result.bodySection.property.get(i).class )	
 		inv = result.bodySection.property.get(i) as Invariant
-		Assert.assertEquals( null, inv.name )	
-		Assert.assertEquals( 1, inv.inv_list.size )	
-		Assert.assertEquals( "gate", inv.inv_list.get(0) )	
-		Assert.assertEquals( typeof(FunctionTermImpl),  inv.body.class )	
+		Assertions.assertEquals( null, inv.name )	
+		Assertions.assertEquals( 1, inv.inv_list.size )	
+		Assertions.assertEquals( "gate", inv.inv_list.get(0) )	
+		Assertions.assertEquals( typeof(FunctionTermImpl),  inv.body.class )	
 		var e2 = inv.body as FunctionTermImpl
-		Assert.assertEquals( "gateStatusUpdateOk", e2.function.name )	
+		Assertions.assertEquals( "gateStatusUpdateOk", e2.function.name )	
 		
 		// invariant prova over board, board1: abs(size(chosenCells(NOUGHT)) - size(chosenCells(CROSS))) <= 1 
 		i++
-		Assert.assertEquals( typeof(InvariantImpl), result.bodySection.property.get(i).class )	
+		Assertions.assertEquals( typeof(InvariantImpl), result.bodySection.property.get(i).class )	
 		inv = result.bodySection.property.get(i) as Invariant
-		Assert.assertEquals( "prova", inv.name )	
-		Assert.assertEquals( 2, inv.inv_list.size )	
-		Assert.assertEquals( "board", inv.inv_list.get(0) )	
-		Assert.assertEquals( "board1", inv.inv_list.get(1) )
+		Assertions.assertEquals( "prova", inv.name )	
+		Assertions.assertEquals( 2, inv.inv_list.size )	
+		Assertions.assertEquals( "board", inv.inv_list.get(0) )	
+		Assertions.assertEquals( "board1", inv.inv_list.get(1) )
 		// abs(size(chosenCells(NOUGHT)) - size(chosenCells(CROSS))) <= 1 
 		e1 = inv.body as BinaryOperationImpl
-		Assert.assertEquals( "<=", e1.op )	
+		Assertions.assertEquals( "<=", e1.op )	
 		// abs( size(chosenCells(NOUGHT)) - size(chosenCells(CROSS)) )
-		Assert.assertEquals( typeof(FunctionTermImpl), e1.left.class )
+		Assertions.assertEquals( typeof(FunctionTermImpl), e1.left.class )
 		var func = e1.left as FunctionTermImpl
-		Assert.assertEquals( "abs", func.function.name )
-		Assert.assertEquals( 1, func.arguments.terms.size )
-		Assert.assertEquals( typeof(BinaryOperationImpl), func.arguments.terms.get(0).class )
+		Assertions.assertEquals( "abs", func.function.name )
+		Assertions.assertEquals( 1, func.arguments.terms.size )
+		Assertions.assertEquals( typeof(BinaryOperationImpl), func.arguments.terms.get(0).class )
 		var func_term = func.arguments.terms.get(0) as BinaryOperationImpl
-		Assert.assertEquals( "-", func_term.op )
+		Assertions.assertEquals( "-", func_term.op )
 		// size(  hosenCells(NOUGHT) )
-		Assert.assertEquals( typeof(FunctionTermImpl), func_term.left.class )
+		Assertions.assertEquals( typeof(FunctionTermImpl), func_term.left.class )
 		var func_term_left = func_term.left as FunctionTermImpl
-		Assert.assertEquals( "size", func_term_left.function.name )
-		Assert.assertEquals( 1, func_term_left.arguments.terms.size )
+		Assertions.assertEquals( "size", func_term_left.function.name )
+		Assertions.assertEquals( 1, func_term_left.arguments.terms.size )
 		var func_term_left_term = func_term_left.arguments.terms.get(0) as FunctionTermImpl
-		Assert.assertEquals( "chosenCells", func_term_left_term.function.name )
-		Assert.assertEquals( 1, func_term_left_term.arguments.terms.size )
-		Assert.assertEquals( "NOUGHT", ( func_term_left_term.arguments.terms.get(0) as EnumTermImpl).symbol ) 
+		Assertions.assertEquals( "chosenCells", func_term_left_term.function.name )
+		Assertions.assertEquals( 1, func_term_left_term.arguments.terms.size )
+		Assertions.assertEquals( "NOUGHT", ( func_term_left_term.arguments.terms.get(0) as EnumTermImpl).symbol ) 
 		// size(  hosenCells(CROSS) ) -> uguale
 		// 1
-		Assert.assertEquals( typeof(IntegerTermImpl), e1.right.class )
-		Assert.assertEquals( "1", ( e1.right as IntegerTermImpl).symbol )
+		Assertions.assertEquals( typeof(IntegerTermImpl), e1.right.class )
+		Assertions.assertEquals( "1", ( e1.right as IntegerTermImpl).symbol )
 		
 	}
 	
 	def void checkExpression( String[] expected, Class[] data_type, BinaryOperationImpl espressione ) {
 
-		Assert.assertEquals( data_type.get(0), espressione.left.class )
-		Assert.assertEquals( data_type.get(1), espressione.right.class )
+		Assertions.assertEquals( data_type.get(0), espressione.left.class )
+		Assertions.assertEquals( data_type.get(1), espressione.right.class )
 
-		Assert.assertEquals( expected.get(1), espressione.op )	
+		Assertions.assertEquals( expected.get(1), espressione.op )	
 		if ( data_type.get(0) !== null ) {	
 			if (data_type.get(0) == FunctionTermImpl)  
-				Assert.assertEquals( expected.get(0), (espressione.left as FunctionTermImpl).function.name )
+				Assertions.assertEquals( expected.get(0), (espressione.left as FunctionTermImpl).function.name )
 			else 
-				Assert.assertEquals( expected.get(0), (espressione.left as EnumTermImpl).symbol )
+				Assertions.assertEquals( expected.get(0), (espressione.left as EnumTermImpl).symbol )
 		}
 		if ( data_type.get(1) !== null ) {
 				if (data_type.get(1) == FunctionTermImpl)  
-				Assert.assertEquals( expected.get(2), (espressione.right as FunctionTermImpl).function.name )
+				Assertions.assertEquals( expected.get(2), (espressione.right as FunctionTermImpl).function.name )
 			else 
-				Assert.assertEquals( expected.get(2), (espressione.right as EnumTermImpl).symbol )
+				Assertions.assertEquals( expected.get(2), (espressione.right as EnumTermImpl).symbol )
 		} 
 
 	}*/
