@@ -1,37 +1,37 @@
 package org.asmeta.simulator.main;
 
-import org.asmeta.simulator.main.Simulator;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import org.junit.jupiter.api.Test;
 
 // 
-public class TestAssignementConcretedomain {
+class TestAssignementConcretedomain {
 
-	
-	@Test(expected = Exception.class)
-	public void test() throws Exception {
+
+	@Test void test() throws Exception{
 		Simulator sim = Util.getSimulatorForTestSpec("test/simulator/concreteAssgn.asm");
-		sim.run(1);
+		assertThrows(Exception.class, () ->	sim.run(1));
 	}
-	@Test(expected = Exception.class)
-	public void testAny() throws Exception {
+
+	@Test void any() throws Exception {
 		Simulator sim = Util.getSimulatorForTestSpec("test/simulator/concreteAssgnAny.asm");
-		sim.run(1);
+		assertThrows(Exception.class, () ->
+			sim.run(1));
 	}
 
-	@Test(expected = Exception.class)
-	public void testUnion() throws Exception {
+	@Test void union() throws Exception {
 		Simulator sim = Util.getSimulatorForTestSpec("test/simulator/concreteAssgnAnyunion.asm");
-		sim.run(1);		
+		assertThrows(Exception.class, () ->
+			sim.run(1));
 	}
 
-	@Test(expected = RuntimeException.class)
-	public void testAnyWrong() throws Exception {
+	@Test void anyWrong() throws Exception {
 		Simulator sim = Util.getSimulatorForTestSpec("test/simulator/anydomain/AssignmentAny.asm");
-		sim.run(1);		
+		assertThrows(RuntimeException.class, () ->
+			sim.run(1));
 	}
 
-	@Test
-	public void testAnyCorrect() throws Exception {
+	@Test void anyCorrect() throws Exception {
 		Simulator sim = Util.getSimulatorForTestSpec("test/simulator/anydomain/AssignmentAny2.asm");
 		sim.run(1);		
 		sim = Util.getSimulatorForTestSpec("test/simulator/anydomain/AssignmentAny3.asm");

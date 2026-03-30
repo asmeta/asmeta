@@ -124,8 +124,7 @@ public class LocationSet implements Iterable<Map.Entry<Location, Value>> {
 				
 		@Override
 		public boolean equals(Object o) {
-			if (o instanceof WrappedDomain) {
-				WrappedDomain d = (WrappedDomain) o;
+			if (o instanceof WrappedDomain d) {
 				return Defs.equals(domain, d.domain);
 			}
 			throw new IllegalArgumentException();

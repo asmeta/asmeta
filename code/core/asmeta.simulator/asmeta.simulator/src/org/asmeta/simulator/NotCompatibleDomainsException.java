@@ -10,10 +10,13 @@
  ******************************************************************************/
 package org.asmeta.simulator;
 
+import java.io.Serial;
+
 import asmeta.definitions.domains.Domain;
 
 public class NotCompatibleDomainsException extends Exception {
-	
+
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	protected NotCompatibleDomainsException(Domain actual, Domain formal) {

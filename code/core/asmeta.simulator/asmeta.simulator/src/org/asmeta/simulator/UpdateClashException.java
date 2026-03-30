@@ -10,6 +10,9 @@
  ******************************************************************************/
 package org.asmeta.simulator;
 
+import java.io.Serial;
+
+
 import org.asmeta.simulator.value.Value;
 
 /**
@@ -18,6 +21,7 @@ import org.asmeta.simulator.value.Value;
  */
 public class UpdateClashException extends RuntimeException {
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 	
 	public Location loc;

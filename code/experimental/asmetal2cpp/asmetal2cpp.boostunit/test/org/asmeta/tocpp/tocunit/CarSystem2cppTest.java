@@ -1,32 +1,18 @@
 package org.asmeta.tocpp.tocunit;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.asmeta.asm2code.compiler.CompileResult;
 import org.asmeta.asm2code.compiler.CppCompiler;
-import org.asmeta.asm2code.main.CppGenerator;
-import org.asmeta.asm2code.main.HeaderGenerator;
-import org.asmeta.atgt.rndgenerator.AsmTestGenerator;
-import org.asmeta.atgt.rndgenerator.AsmTestGeneratorBySimulation;
-import org.asmeta.simulator.main.Simulator;
-import org.asmeta.tocpp.abstracttestgenerator.AsmTSGeneratorByNuSMV;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
-import asmeta.AsmCollection;
-import asmetal2cpp_boostunit.ExampleTaker;
-import atgt.coverage.AsmTestSuite;
+import org.asmeta.tocpp.tocunit.AsmToBoostModule.UNITFM;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 public class CarSystem2cppTest extends AsmToUnitModuleTest{
 	
 	private static final UNITFM UNIT_FM = UNITFM.CATCH2;
 
 
-	@BeforeClass
+	@BeforeAll
 	public static void setUpLogger() {
 		//Logger.getLogger(Simulator.class).setLevel(Level.ALL);
 		//Logger.getLogger(org.asmeta.parser.ASMParser.class).setLevel(Level.ALL);

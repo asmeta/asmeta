@@ -26,8 +26,8 @@ import org.asmeta.flattener.rule.RuleSimplifier;
 import org.asmeta.flattener.statistics.Statistics;
 import org.asmeta.flattener.term.TermRenameVars;
 import org.asmeta.parser.ASMParser;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 
 import asmeta.structure.Asm;
 
@@ -37,8 +37,8 @@ public class FlattenerTest {
 			ForallRuleFlattener.class, ChooseRuleFlattener.class, RemoveArgumentsFlattener.class,
 			LetRuleFlattener.class, CaseRuleFlattener.class, RemoveNestingFlattener.class };
 
-	@BeforeClass
-	public static void init() {
+	@BeforeAll
+	static void init() {
 		Logger.getRootLogger().removeAllAppenders();
 		Logger.getRootLogger().addAppender(new ConsoleAppender(new SimpleLayout()));
 		Logger.getLogger(RemoveArgumentsFlattener.class).setLevel(Level.OFF);
@@ -54,15 +54,14 @@ public class FlattenerTest {
 		Logger.getLogger("org.asmeta.parser").setLevel(Level.OFF);
 	}
 
-	@BeforeClass
-	public static void reset() {
+	@BeforeAll
+	static void reset() {
 		Logger.getRootLogger().removeAllAppenders();
 	}
 
-	
-	
-	@Before
-	public void initTest() {
+
+	@BeforeEach
+	void initTest() {
 		// RuleFlattener.DO_STATS = false;
 		Statistics.resetMap();
 	}

@@ -8,7 +8,9 @@ package org.asmeta.framework.enforcerPillBox1;
 import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Scanner;
-import org.asmeta.framework.enforcer.*;
+
+import org.asmeta.framework.enforcer.Enforcer;
+import org.asmeta.framework.enforcer.FeedbackLoop;
 import org.asmeta.framework.pillBox1.PillBox;
 
 

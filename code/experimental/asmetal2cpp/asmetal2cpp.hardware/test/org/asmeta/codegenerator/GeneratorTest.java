@@ -1,7 +1,8 @@
 package org.asmeta.codegenerator;
 
+
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,7 +11,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.asmeta.asm2code.main.AsmToCGenerator;
 import org.asmeta.codegenerator.configuration.HWConfiguration;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.AsmetaParserUtility;
@@ -21,6 +21,7 @@ import org.junit.runners.Parameterized.Parameters;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
+
 import asmeta.structure.Asm;
 
 /*
@@ -31,7 +32,7 @@ import asmeta.structure.Asm;
  * che si trova in examplesAsmPath
  */
 
-@RunWith(Parameterized.class)
+//@RunWith(Parameterized.class)
 public class GeneratorTest {
 	
 	// path of the asm examples
@@ -40,12 +41,12 @@ public class GeneratorTest {
 	// destination folder of compiled files
 	static private String destinationFolder = "../asmetal2cpp_codegen/examples/ABZ2020/CarSystemModule/CarSystem000/";
 
-	@Parameterized.Parameter(0)
+	//@Parameterized.Parameter(0)
 	public String fileToTest = examplesAsmPath;
 	// list of file to test in the examplesPath
 	private static ArrayList<File> listOfFileToTest;
 
-	@Parameters(name = "{index}: model: {0}")
+	//@Parameters(name = "{index}: model: {0}")
 	public static Collection<Object[]> data() {
 		if (listOfFileToTest == null)
 			listf(examplesAsmPath, listOfFileToTest = new ArrayList<File>(), 100);

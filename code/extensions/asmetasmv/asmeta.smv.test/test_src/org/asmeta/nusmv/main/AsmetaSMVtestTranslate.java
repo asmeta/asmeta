@@ -1,7 +1,7 @@
 package org.asmeta.nusmv.main;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,10 +16,9 @@ import org.asmeta.flattener.nesting.RemoveNestingFlattener;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
 import org.asmeta.parser.ASMFileFilter;
 import org.asmeta.parser.util.ReflectiveVisitor;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 
 /**
  * test all the examples in a directory parse and translate DO NOT PROVE
@@ -30,21 +29,21 @@ public class AsmetaSMVtestTranslate extends AsmetaSMVtestTranslateBase{
 	static final String ASMETA_EXAMPLES = "../../../../asm_examples/";
 	static final String ASMETA_MODELS = "../../../../asmeta_models/";
 	
-	@BeforeClass
+	@BeforeAll
 	public static void checkFileBase() {
 		File f = new File(ASMETA_EXAMPLES);
-		assertTrue(f.getAbsolutePath() + " does not exist", f.exists());
-		assertTrue(f.getAbsolutePath() + " does not exist", f.isDirectory());
+		assertTrue(f.exists(), f.getAbsolutePath() + " does not exist");
+		assertTrue(f.isDirectory(), f.getAbsolutePath() + " does not exist");
 		f = new File(ASMETA_MODELS);
-		assertTrue(f.getAbsolutePath() + " does not exist", f.exists());
-		assertTrue(f.getAbsolutePath() + " does not exist", f.isDirectory());
+		assertTrue(f.exists(), f.getAbsolutePath() + " does not exist");
+		assertTrue(f.isDirectory(), f.getAbsolutePath() + " does not exist");
 	} 
 	
 	
 
 	protected void testDir(String dir) {
 		Collection<File> res = testSpecInSubFolderBASEDIR(dir);
-		assertTrue(res.toString(), res.isEmpty());
+		assertTrue(res.isEmpty(), res.toString());
 	}
 
 	// test all the files ina subdir of basedir
@@ -55,8 +54,8 @@ public class AsmetaSMVtestTranslate extends AsmetaSMVtestTranslateBase{
 	private Collection<File> testSpecInSubFolder(String dirname) {
 		Collection<File> failedSpec = new ArrayList<File>();
 		File dir = new File(dirname);
-		assertTrue("example dir " + dir.getAbsolutePath() + " does not exist, current dir: "
-				+ new File(".").getAbsolutePath(), dir.isDirectory());
+		assertTrue(dir.isDirectory(), "example dir " + dir.getAbsolutePath() + " does not exist, current dir: "
+				+ new File(".").getAbsolutePath());
 		// read all the specs
 		for (File f : dir.listFiles(new ASMFileFilter())) {
 			if (!testOneSpec(f)) {
@@ -75,7 +74,7 @@ public class AsmetaSMVtestTranslate extends AsmetaSMVtestTranslateBase{
 	
 		
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testFSM_hooking() {
 		assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/fsmsemantics/FSM_hooking.asm"));
 	}
@@ -86,45 +85,45 @@ public class AsmetaSMVtestTranslate extends AsmetaSMVtestTranslateBase{
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testASM_even() {
 		assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/fsmsemantics/Sle/ASM_even.asm"));
 	}
 
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testfsmsemanticsmeta_hooking() {
 		testDir("examples/fsmsemantics/meta_hooking/");
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testfsmsemantics() {
 		testDir("examples/fsmsemantics/");
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testSimpleEx() {
 		testDir("examples/examples/simple_example/");
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testsluicegate() {
 		testDir("examples/sluicegate/");
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testtraffic_light() {
 		testDir("examples/traffic_light/");
 	}
 
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testSomeSingle() {
 		assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/simple_example/AdvancedClock.asm"));
 		assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/simple_example/AdvancedClock2.asm"));
@@ -147,7 +146,7 @@ public class AsmetaSMVtestTranslate extends AsmetaSMVtestTranslateBase{
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testAtm() {
 		assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/simple_example/ATM.asm"));
 	}
@@ -158,13 +157,13 @@ public class AsmetaSMVtestTranslate extends AsmetaSMVtestTranslateBase{
 	}
 	
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testAxioms() {
 		assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/simple_example/Axioms.asm"));
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testFattoriale() {
 		assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/simple_example/fattoriale.asm"));
 	}
@@ -190,49 +189,49 @@ public class AsmetaSMVtestTranslate extends AsmetaSMVtestTranslateBase{
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testOrdersystem() {
 		assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/models/ordersystem.asm"));
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testPhilo1() {
 		assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/philosophers/philosophers1.asm"));
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testPhilo2() {
 		assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/philosophers/philosophers2.asm"));
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testFSM() {
 		testDir("examples/fsmsemantics/");
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testTrafficLight() {
 		testDir("examples/traffic_light/");
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testExamplesModels() {
 		testDir("examples/models/");
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testFlipFlop() {
 		assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/models/FlipFlop.asm"));
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testLift2() {
 		assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/models/lift2.asm"));
 	}
@@ -243,66 +242,66 @@ public class AsmetaSMVtestTranslate extends AsmetaSMVtestTranslateBase{
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testExamplesPhilo() {
 		testDir("examples/philosophers/");
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testProductionCell() {
 		testDir("examples/production_cell/");
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testProduction_Cell_with_agents() {
 		assertTrue(testOneSpec(ASMETA_EXAMPLES + "examples/production_cell/Production_Cell_with_agents.asm"));
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testExamplesCluster() {
 		testDir("examples/cluster/");
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testExamplesAgents() {
 		testDir("examples/agents/");
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testExamplesSG() {
 		testDir("examples/sluicegate/");
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testLibrary() {
 		testDir("examples/library");
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testSystemC() {
 		//some of these files are not translable
 		testDir("systemc");
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void FSMSLE() {
 		testDir("examples/fsmSle/ASM_even.asm");
 	}
 
 	// examples in the current project
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testAllExamples() {
 		Collection<File> testSpecInSubFolder = testSpecInSubFolder("examples");
-		assertTrue(testSpecInSubFolder.toString(), testSpecInSubFolder.isEmpty());
+		assertTrue(testSpecInSubFolder.isEmpty(), testSpecInSubFolder.toString());
 	}
 
 	@Test
@@ -344,28 +343,28 @@ public class AsmetaSMVtestTranslate extends AsmetaSMVtestTranslateBase{
 	
 	
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testTelecamereV2() {
 		RemoveNestingFlattener.PROPAGATE_EQ = true;
 		assertTrue(testOneSpec("examples/telecamere/telecamere_v2.asm"));
 	}
 		
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testPillBOX() {
 		Logger.getLogger(ReflectiveVisitor.class).setLevel(Level.ALL);
 		testOneSpec("F:\\Dati-Andrea\\GitHub\\quasmed\\PillboxASM\\pillbox_for_PropertyVerification.asm");
 	}
 	
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testPillBOX2() {
 		Logger.getLogger(ReflectiveVisitor.class).setLevel(Level.ALL);
 		testOneSpec("F:\\Dati-Andrea\\GitHub\\quasmed\\PillboxASM\\pillbox_for_PropertyVerification_1.asm");
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testpillBoxTestAG() {
 		testOneSpec("C:\\Users\\garganti\\Dropbox\\Documenti\\progetti\\quasmed_git\\PillboxASM\\pillbox_for_PropertyVerification.asm");
 	}
@@ -414,7 +413,7 @@ public class AsmetaSMVtestTranslate extends AsmetaSMVtestTranslateBase{
 	
 	
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testStudente24() {
 		AsmetaSMVOptions options = new AsmetaSMVOptions();
 		options.keepNuSMVfile = true;

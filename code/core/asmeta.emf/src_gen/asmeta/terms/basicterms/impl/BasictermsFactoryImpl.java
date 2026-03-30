@@ -6,7 +6,6 @@
  */
 package asmeta.terms.basicterms.impl;
 
-import asmeta.terms.basicterms.*;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;

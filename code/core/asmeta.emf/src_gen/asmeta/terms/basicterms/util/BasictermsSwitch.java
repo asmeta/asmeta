@@ -6,7 +6,6 @@
  */
 package asmeta.terms.basicterms.util;
 
-import asmeta.terms.basicterms.*;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;

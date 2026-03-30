@@ -5,10 +5,8 @@ import java.util.Collections;
 import java.util.List;
 
 import org.asmeta.simulator.RuleVisitor;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
-import asmeta.terms.basicterms.BasictermsFactory;
 import asmeta.terms.basicterms.Term;
 import asmeta.transitionrules.basictransitionrules.BasictransitionrulesFactory;
 import asmeta.transitionrules.basictransitionrules.BlockRule;

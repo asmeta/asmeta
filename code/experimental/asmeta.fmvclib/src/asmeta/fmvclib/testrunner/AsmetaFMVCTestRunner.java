@@ -6,15 +6,15 @@ import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Scanner;
 
-import javax.swing.Timer;
-import javax.swing.event.ChangeEvent;
-import javax.swing.table.TableModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JSlider;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.Timer;
+import javax.swing.event.ChangeEvent;
+import javax.swing.table.TableModel;
 
 import org.apache.commons.lang3.reflect.FieldUtils;
 import org.apache.log4j.Level;

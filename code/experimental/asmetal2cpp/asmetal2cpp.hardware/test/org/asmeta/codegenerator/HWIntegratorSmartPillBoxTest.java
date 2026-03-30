@@ -5,6 +5,8 @@ import java.io.IOException;
 
 import org.junit.Test;
 
+
+
 public class HWIntegratorSmartPillBoxTest extends HWIntegratorAbstractClass {
 
 	private Boolean creatProjectFolderFlag = true;

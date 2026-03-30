@@ -10,23 +10,12 @@
  ******************************************************************************/
 package org.asmeta.parser;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.HashMap;
-
-import org.apache.log4j.ConsoleAppender;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-import org.apache.log4j.SimpleLayout;
 import org.asmeta.parser.util.Defs;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import asmeta.AsmCollection;
 import asmeta.definitions.Function;
 import asmeta.structure.Asm;
-import asmeta.transitionrules.basictransitionrules.Rule;
 
 /**
  * Test for RuleEvaluater.macros attribute.
@@ -34,7 +23,7 @@ import asmeta.transitionrules.basictransitionrules.Rule;
  */
 public class DefWithTrueEvaluatorTest extends AsmParserTest{
 	
-	//@BeforeClass
+	//@BeforeAll
 	public static void setUpLogger() {
 		/*Logger log = Logger.getLogger("org.asmeta.parser");
 		if (!log.getAllAppenders().hasMoreElements())
@@ -43,8 +32,7 @@ public class DefWithTrueEvaluatorTest extends AsmParserTest{
 		Logger.getLogger(AsmetaParserUtility.class).setLevel(Level.ALL);*/
 	}
 
-	@Test
-	public void testFunction() throws Throwable {
+	@Test void function() throws Throwable {
 		AsmCollection asmC = testOneSpec("test/errors/derBody/derBodyErr.asm");
 		Asm asm = asmC.getMain();
 		Function fa = Defs.searchFunction(asm, "fooA");

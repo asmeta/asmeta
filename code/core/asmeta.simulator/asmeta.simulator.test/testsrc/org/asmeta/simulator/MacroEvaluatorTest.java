@@ -10,13 +10,14 @@
  ******************************************************************************/
 package org.asmeta.simulator;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.HashMap;
 
-import org.asmeta.simulator.RuleEvaluator;
 import org.asmeta.simulator.main.Simulator;
 import org.asmeta.simulator.main.Util;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import asmeta.transitionrules.basictransitionrules.Rule;
 
@@ -24,22 +25,21 @@ import asmeta.transitionrules.basictransitionrules.Rule;
  * Test for RuleEvaluater.macros attribute.
  *
  */
-public class MacroEvaluatorTest {
+class MacroEvaluatorTest {
 
 	private Simulator sim;
 
-	@Test
-	public void test01() throws Throwable {
+	@Test void test01() throws Throwable {
 		// ge the macros before
 		HashMap<String, Rule> macros = RuleEvaluator.macros;
 		int oldSize = macros.size();
 		sim = Util.getSimulatorForTestSpec("test/simulator/macro/macro09.asm");
 		sim.run(1);
-		Assert.assertEquals(4 + oldSize, macros.size());
-		Assert.assertTrue(macros.containsKey("macro09::r_foo[\"hello\"]"));
-		Assert.assertTrue(macros.containsKey("macro09::r_bar[\"hello\",macro10::punc]"));
-		Assert.assertTrue(macros.containsKey("macro09::r_odd[macro10::func(\"hello\"),macro10::punc,true]"));
-		Assert.assertTrue(macros.containsKey("macro09::r_fool[<<macro10::r_macro>>]"));
+		assertEquals(4 + oldSize, macros.size());
+		assertTrue(macros.containsKey("macro09::r_foo[\"hello\"]"));
+		assertTrue(macros.containsKey("macro09::r_bar[\"hello\",macro10::punc]"));
+		assertTrue(macros.containsKey("macro09::r_odd[macro10::func(\"hello\"),macro10::punc,true]"));
+		assertTrue(macros.containsKey("macro09::r_fool[<<macro10::r_macro>>]"));
 		
 	}
 

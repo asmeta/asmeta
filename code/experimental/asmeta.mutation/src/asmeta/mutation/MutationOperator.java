@@ -1,7 +1,5 @@
 package asmeta.mutation;
 
-import org.asmeta.parser.util.AsmetaPrintInfo;
-
 import asmeta.structure.Asm;
 
 public class MutationOperator {

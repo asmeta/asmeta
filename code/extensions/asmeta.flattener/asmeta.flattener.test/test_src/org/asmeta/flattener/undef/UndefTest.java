@@ -4,19 +4,19 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 import org.asmeta.parser.util.AsmPrinter;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import asmeta.structure.Asm;
 
-public class UndefTest {
+class UndefTest {
 
 	@Test
-	public void testExplicitUndef() throws Exception {
+	void explicitUndef() throws Exception {
 		test("examples/undef/explicitUndef.asm");
 	}
 
 	@Test
-	public void testUndef() throws Exception {
+	void undef() throws Exception {
 		test("examples/undef/undef_use.asm");
 	}
 
@@ -25,9 +25,9 @@ public class UndefTest {
 //		test("examples/undef/UseUndef.asm");
 //	}
 
-	
+
 	@Test
-	public void testGilbreathCardTrick() throws Exception {
+	void gilbreathCardTrick() throws Exception {
 		test("benchmarksFIDE2018/GilbreathCardTrick.asm");
 	}
 

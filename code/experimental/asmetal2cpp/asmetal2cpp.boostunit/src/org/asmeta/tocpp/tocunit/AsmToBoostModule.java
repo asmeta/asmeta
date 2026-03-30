@@ -4,17 +4,19 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
-import org.asmeta.tocpp.tocunit.AsmToUnitModuleTest.UNITFM;
-
 import asmeta.AsmCollection;
 import atgt.coverage.AsmTestSuite;
 
 // asm to boost module
 public class AsmToBoostModule {
 	
+	public enum UNITFM {
+		BOOST, CATCH2
+	}
+
 	private AsmCollection asm;
 	AsmTestSuite testsuite;
-	private UNITFM unitfm;
+	private AsmToBoostModule.UNITFM unitfm;
 	
 	/**
 	 * 
@@ -23,7 +25,7 @@ public class AsmToBoostModule {
 	 * @param asm 
 	 * @param unitfm 
 	 */
-	AsmToBoostModule(AsmTestSuite testsuite, AsmCollection asm, String asmPath, UNITFM unitfm){
+	AsmToBoostModule(AsmTestSuite testsuite, AsmCollection asm, String asmPath, AsmToBoostModule.UNITFM unitfm){
 		this.testsuite = testsuite; 
 		this.asm = asm;
 		this.unitfm = unitfm;
@@ -45,9 +47,9 @@ public class AsmToBoostModule {
 	private CharSequence generate() {
 		// translate to the boost module
 		TestSuiteTranslator translator = null;
-		if (unitfm == UNITFM.BOOST) {
+		if (unitfm == AsmToBoostModule.UNITFM.BOOST) {
 			translator = new AsmTsToBOOSTModule(asm);
-		} else if (unitfm == UNITFM.CATCH2) {
+		} else if (unitfm == AsmToBoostModule.UNITFM.CATCH2) {
 			translator = new AsmTsToCatch2Test(asm);
 		} else {
 			throw new RuntimeException("which translator");

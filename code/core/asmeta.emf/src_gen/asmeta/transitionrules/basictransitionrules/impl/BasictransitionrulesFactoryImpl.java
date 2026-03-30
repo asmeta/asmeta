@@ -6,7 +6,6 @@
  */
 package asmeta.transitionrules.basictransitionrules.impl;
 
-import asmeta.transitionrules.basictransitionrules.*;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EObject;

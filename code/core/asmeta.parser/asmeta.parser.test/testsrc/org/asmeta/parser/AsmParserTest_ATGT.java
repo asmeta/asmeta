@@ -1,8 +1,6 @@
 package org.asmeta.parser;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import asmeta.AsmCollection;
 import asmeta.structure.Asm;

@@ -1,9 +1,9 @@
 package org.asmeta.xt.validator;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import org.junit.jupiter.api.Test; import static org.junit.jupiter.api.Assertions.assertFalse;
+import org.junit.jupiter.api.Test; import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import org.junit.jupiter.api.Test; import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.Test; import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -19,17 +19,16 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.WriterAppender;
 import org.asmeta.avallaxt.validator.TestValidator;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class TestCoverage extends TestValidator {
+class TestCoverage extends TestValidator {
 
 	private StringWriter stringWriter;
 	private WriterAppender writerAppender;
 
-	@Before
-	public void setupLogger() {
+	@BeforeEach void setupLogger() {
 		// set to error to reduc eoutput for gitlab
 		Logger.getLogger(RuleEvalWCov.class).setLevel(Level.ERROR);
 		// this must be in debug since the output is checked with this logger
@@ -41,30 +40,25 @@ public class TestCoverage extends TestValidator {
 		Logger.getLogger(AsmetaV.class).addAppender(writerAppender);
 	}
 
-	@After
-	public void cleanAppender() throws IOException {
+	@AfterEach void cleanAppender() throws IOException {
 		// remove the appender
 		Logger.getLogger(AsmetaV.class).removeAppender(writerAppender);
 	}
 
-	@Test
-	public void testWithCoverageAndWithoutEmptyAvalla() throws Exception {
+	@Test void withCoverageAndWithoutEmptyAvalla() throws Exception {
 		testWithCoverageAndWithout("scenariosforexamples/ferryman/emptyScenario.avalla", true);
 	}
 
-	@Test
-	public void testWithCoverageAndWithoutAvallaWithNoStepAndNoCheck() throws Exception {
+	@Test void withCoverageAndWithoutAvallaWithNoStepAndNoCheck() throws Exception {
 		testWithCoverageAndWithout("scenariosforexamples/ferryman/noStepNoCheckScenario.avalla", true);
 	}
 
-	@Test
-	public void testWithCoverageAndWithoutAdvancedClock() throws Exception {
+	@Test void withCoverageAndWithoutAdvancedClock() throws Exception {
 		testWithCoverageAndWithout("scenariosforexamples/advancedClock/advancedClock1.avalla", true,
 				cov("r_Main()", branch(1, 0, 1), rule(4, 3), update(1, 1), forall(0, 0, 0, 0)));
 	}
 
-	@Test
-	public void testWithCoverageAndWithoutNestedForall() throws Exception {
+	@Test void withCoverageAndWithoutNestedForall() throws Exception {
 		List<CoverageOracle> oracles = new ArrayList<>();
 		oracles.add(cov("r_Main()", branch(1, 1, 0), rule(2, 2), update(0, 0), forall(1, 0, 0, 1)));
 		oracles.add(cov("r_inc(Rows)", branch(3, 2, 2), rule(7, 6), update(1, 1), forall(3, 2, 1, 1)));
@@ -72,8 +66,7 @@ public class TestCoverage extends TestValidator {
 				oracles.toArray(new CoverageOracle[0]));
 	}
 
-	@Test
-	public void testWithCoverageAndWithoutNestedChooseAndLet() throws Exception {
+	@Test void withCoverageAndWithoutNestedChooseAndLet() throws Exception {
 		testWithCoverageAndWithout("scenariosforexamples/nestedChooseAndLet/no_pick.avalla", true,
 				cov("r_Main()", branch(2, 2, 0), rule(4, 4), update(1, 1), forall(0, 0, 0, 0)));
 		RuleEvalWCov.reset();
@@ -85,9 +78,8 @@ public class TestCoverage extends TestValidator {
 		testWithCoverageAndWithout("scenariosforexamples/nestedChooseAndLet/pick_with_false_guard.avalla", false,
 				cov("r_Main()", branch(2, 0, 0), rule(4, 0), update(1, 0), forall(0, 0, 0, 0))); // should fail
 	}
-	
-	@Test
-	public void testWithCoverageAndWithoutSchedulerNFM26() throws Exception {
+
+	@Test void withCoverageAndWithoutSchedulerNFM26() throws Exception {
 		List<CoverageOracle> oracles = new ArrayList<>();
 		oracles.add(cov("r_Main()", branch(0, 0, 0), rule(3, 3), update(0, 0), forall(0, 0, 0, 0)));
 		oracles.add(cov("r_SetRunning()", branch(1, 1, 0), rule(3, 2), update(2, 1), forall(0, 0, 0, 0)));
@@ -96,8 +88,7 @@ public class TestCoverage extends TestValidator {
 				oracles.toArray(new CoverageOracle[0]));
 	}
 
-	@Test
-	public void testWithCoverageAndWithoutTinyScheduler() throws Exception {
+	@Test void withCoverageAndWithoutTinyScheduler() throws Exception {
 		testWithCoverageAndWithout(
 				"scenariosfortest/flaky/tiny_scheduler/correct_scenarios/check_ifnone_no_pick.avalla", true,
 				cov("r_Main()", branch(4, 3, 3), rule(8, 7), update(3, 2), forall(1, 1, 1, 1)));
@@ -120,15 +111,13 @@ public class TestCoverage extends TestValidator {
 
 	}
 
-	@Test
-	public void testWithCoverageAndWithoutPickAndNoPick() throws Exception {
+	@Test void withCoverageAndWithoutPickAndNoPick() throws Exception {
 		// Test two scenarios together, one picks the first choose rule and the other does not
 		testWithCoverageAndWithout("scenariosfortest/flaky/tiny_scheduler/correct_scenarios", true,
 				cov("r_Main()", branch(4, 3, 3), rule(8, 7), update(3, 2), forall(1, 1, 1, 1)));
 	}
 
-	@Test
-	public void testWithCoverageAndWithoutChooseWithoutGuard() throws Exception {
+	@Test void withCoverageAndWithoutChooseWithoutGuard() throws Exception {
 		// Test coverage of a choose that does not define the guard, with picked variable
 		testWithCoverageAndWithout("scenariosfortest/flaky/unbounded_domains/pickReal.avalla", true,
 				cov("r_Main()", branch(1, 1, 0), rule(3, 2), update(2, 1), forall(0, 0, 0, 0)));
@@ -138,16 +127,14 @@ public class TestCoverage extends TestValidator {
 		testWithCoverageAndWithout("scenariosfortest/flaky/unbounded_domains/noPickReal.avalla", true,
 				cov("r_Main()", branch(1, 1, 0), rule(3, 2), update(2, 1), forall(0, 0, 0, 0)));
 	}
-	
-	@Test
-	public void testWithCoverageAndWithoutTrivialUpdateCoverage() throws Exception {
+
+	@Test void withCoverageAndWithoutTrivialUpdateCoverage() throws Exception {
 		// If an update rule always fires a trivial update, it is not considered covered in update rule coverage
 		testWithCoverageAndWithout("scenariosfortest/flaky/unbounded_domains/pickInt_Trivial.avalla", true,
 				cov("r_Main()", branch(1, 1, 0), rule(3, 2), update(2, 0), forall(0, 0, 0, 0)));
 	}
 
-	@Test
-	public void testWithCoverageAndWithoutPickWithImports() throws Exception {
+	@Test void withCoverageAndWithoutPickWithImports() throws Exception {
 		List<CoverageOracle> oracles = new ArrayList<>();
 		oracles.add(cov("r_Main()", branch(2, 1, 1), rule(6, 5), update(2, 1), forall(0, 0, 0, 0)));
 		// r_random is defined in the imported module
@@ -156,8 +143,7 @@ public class TestCoverage extends TestValidator {
 				oracles.toArray(new CoverageOracle[0]));
 	}
 
-	@Test
-	public void testWithCoverageAndWithoutPopulation() throws Exception {
+	@Test void withCoverageAndWithoutPopulation() throws Exception {
 		List<CoverageOracle> oracles = new ArrayList<>();
 		// scenario 1: forall executed two times, the first with more than one  iteration, the second with zero iterations
 		String scenario = "scenariosforexamples/population/zero_executions.avalla";
@@ -189,8 +175,7 @@ public class TestCoverage extends TestValidator {
 		testWithCoverageAndWithout(scenario, true, oracles.toArray(new CoverageOracle[0]));
 	}
 
-	@Test
-	public void testWithCoverageAndWithoutSluiceGate() throws Exception {
+	@Test void withCoverageAndWithoutSluiceGate() throws Exception {
 		String scenario = "scenariosforexamples/sluiceGate";
 		List<CoverageOracle> oracles = new ArrayList<>();
 		oracles.add(cov("r_Main()", branch(8, 8, 8), rule(21, 21), update(4, 4), forall(0, 0, 0, 0)));
@@ -200,8 +185,7 @@ public class TestCoverage extends TestValidator {
 		testWithCoverageAndWithout(scenario, true, oracles.toArray(new CoverageOracle[0]));
 	}
 
-	@Test
-	public void testWithCoverageAndWithoutATM() throws Exception {
+	@Test void withCoverageAndWithoutATM() throws Exception {
 		String scenario = "scenariosforexamples/atm/atm4.avalla";
 		List<CoverageOracle> oracles = new ArrayList<>();
 		// NOTE: the correctness of the coverage is checked only for a subset of the macro rules in the asm
@@ -215,8 +199,7 @@ public class TestCoverage extends TestValidator {
 		testWithCoverageAndWithout(scenario, true, oracles.toArray(new CoverageOracle[0]));
 	}
 
-	@Test
-	public void testWithCoverageAndWithoutCoffeVendingMachine() throws Exception {
+	@Test void withCoverageAndWithoutCoffeVendingMachine() throws Exception {
 		String baseFolder = "scenariosforexamples/coffeeVendingMachine";
 		String scenario1 = baseFolder + "/scenario1.avalla";
 		String scenario2 = baseFolder + "/scenario2.avalla";
@@ -266,38 +249,38 @@ public class TestCoverage extends TestValidator {
 				String actualForallRuleString = outputs.get(i + 4);
 				if (outputs.get(i).contains("::" + signature)) {
 					if (oracle.getBranchNumber() == 0) {
-						assertTrue("wrong branch coverage for " + signature,
-								actualBranchString.contains("- (no branches to be covered)"));
+						assertTrue(actualBranchString.contains("- (no branches to be covered)"),
+								"wrong branch coverage for " + signature);
 					} else {
-						assertTrue("wrong branch coverage for " + signature,
-								actualBranchString.contains(oracle.getBranchCoverage()));
+						assertTrue(actualBranchString.contains(oracle.getBranchCoverage()),
+								"wrong branch coverage for " + signature);
 					}
 					if (oracle.getRuleNumber() == 0) {
-						assertTrue("wrong rule coverage for " + signature,
-								actualRuleString.contains("- (no rules to be covered)"));
+						assertTrue(actualRuleString.contains("- (no rules to be covered)"),
+								"wrong rule coverage for " + signature);
 					} else {
-						assertTrue("wrong rule coverage for " + signature,
-								actualRuleString.contains(oracle.getRuleCoverage()));
+						assertTrue(actualRuleString.contains(oracle.getRuleCoverage()),
+								"wrong rule coverage for " + signature);
 					}
 					if (oracle.getUpdateRuleNumber() == 0) {
-						assertTrue("wrong update rule coverage for " + signature,
-								actualUpdateRuleString.contains("- (no update rules to be covered)"));
+						assertTrue(actualUpdateRuleString.contains("- (no update rules to be covered)"),
+								"wrong update rule coverage for " + signature);
 					} else {
-						assertTrue("wrong update rule coverage for " + signature,
-								actualUpdateRuleString.contains(oracle.getUpdateRuleCoverage()));
+						assertTrue(actualUpdateRuleString.contains(oracle.getUpdateRuleCoverage()),
+								"wrong update rule coverage for " + signature);
 					}
 					if (oracle.getForallRuleNumber() == 0) {
-						assertTrue("wrong forall rule coverage for " + signature,
-								actualForallRuleString.contains("- (no forall rules to be covered)"));
+						assertTrue(actualForallRuleString.contains("- (no forall rules to be covered)"),
+								"wrong forall rule coverage for " + signature);
 					} else {
-						assertTrue("wrong forall rule coverage for " + signature,
-								actualForallRuleString.contains(oracle.getForallCoverage()));
+						assertTrue(actualForallRuleString.contains(oracle.getForallCoverage()),
+								"wrong forall rule coverage for " + signature);
 					}
 					found = true;
 					break;
 				}
 			}
-			assertTrue("missing " + signature, found);
+			assertTrue(found, "missing " + signature);
 		}
 	}
 

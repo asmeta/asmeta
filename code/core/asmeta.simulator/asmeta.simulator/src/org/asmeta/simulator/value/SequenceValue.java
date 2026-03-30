@@ -56,8 +56,8 @@ public class SequenceValue<T> extends CollectionValue<T> {
 	
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof SequenceValue) {
-			return sequence.equals(((SequenceValue) o).getValue());
+		if (o instanceof SequenceValue value) {
+			return sequence.equals(value.getValue());
 		}
 		throw new IllegalArgumentException();
 	}

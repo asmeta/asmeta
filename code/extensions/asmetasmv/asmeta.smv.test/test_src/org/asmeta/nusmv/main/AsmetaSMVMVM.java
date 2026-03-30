@@ -3,18 +3,17 @@ package org.asmeta.nusmv.main;
 import java.io.File;
 import java.util.Arrays;
 
-import org.asmeta.nusmv.main.AsmetaSMV.ModelCheckerMode;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 
-@Category(org.asmeta.annotations.TestToMavenSkip.class)
+@Tag("TestToMavenSkip")
 public class AsmetaSMVMVM extends AsmetaSMVtestTranslateBase{
 
 	static String basePath = "../../../../../";
 	
-	@BeforeClass
+	@BeforeAll
 	public static void checkbaseDir() {
 		assert new File(basePath).exists();
 		System.out.println(Arrays.toString(new File(basePath).listFiles()));

@@ -48,7 +48,7 @@ public class ListMonFuncReader extends MonFuncReader {
 	public Value readValue(Location location, State state) {
 		Function func = location.getSignature();
 		ArrayList<String> locList = newMap.get(location);
-		String value = locList.remove(0);
+		String value = locList.removeFirst();
 		try {
 			return new Parser(value).visit(func.getCodomain());
 		} catch (InputMismatchException e) {

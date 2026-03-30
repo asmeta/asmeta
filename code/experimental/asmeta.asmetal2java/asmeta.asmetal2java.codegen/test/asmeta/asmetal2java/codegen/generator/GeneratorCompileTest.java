@@ -2,7 +2,7 @@ package asmeta.asmetal2java.codegen.generator;
 
 import java.nio.file.Path;
 
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
 
 import asmeta.asmetal2java.codegen.config.TranslatorOptions;
 import asmeta.asmetal2java.codegen.config.TranslatorOptionsImpl;
@@ -28,7 +28,7 @@ abstract public class GeneratorCompileTest {
 	 */
 	static boolean failOnError = false;
 
-	@BeforeClass
+	@BeforeAll
 	public static void setup() {
 		GeneratorCompilerUtil.setupFolders(path);
 	}

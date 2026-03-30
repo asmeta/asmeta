@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 
 import atgt.coverage.AsmTestSuite;
 
@@ -49,7 +49,7 @@ public class RunTestGenerator {
 
 	/** Generates the tests using all the criteria specified in the criteria list */
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testOne() throws Exception {
 		execute(asmFile, coverageTp, criteria, formats);
 	}
@@ -59,7 +59,7 @@ public class RunTestGenerator {
 	 * @throws Exception
 	 */
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void runAllCriteriaCombinations() throws Exception {
 		boolean b[] = new boolean[criteria.size()];
 		List<CriteriaEnum> realCriteria = new ArrayList<>();

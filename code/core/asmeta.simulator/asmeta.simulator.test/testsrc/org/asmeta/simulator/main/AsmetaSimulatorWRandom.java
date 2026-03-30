@@ -1,23 +1,20 @@
 package org.asmeta.simulator.main;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.io.File;
 
 import org.asmeta.parser.ASMParser;
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.readers.RandomMFReader;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import asmeta.AsmCollection;
 
-public class AsmetaSimulatorWRandom extends BaseTest{
+class AsmetaSimulatorWRandom extends BaseTest{
 
-	@Test
-	public void testNoUndefMonitored() throws Exception {
+	@Test void noUndefMonitored() throws Exception {
 		AsmCollection asmc = ASMParser.setUpReadAsm(new File(ASM_EXAMPLES + "test/simulator/UseUndefMon.asm"));
 		Simulator asm = new Simulator("UseUndefMon", asmc, new Environment(new RandomMFReader()));
 		for (int i = 0; i < 10; i++) {
@@ -25,8 +22,8 @@ public class AsmetaSimulatorWRandom extends BaseTest{
 			assertEquals("c=0", asm.getCurrentState().toString());
 		}
 	}
-	@Test
-	public void testUndefMonitored() throws Exception {
+
+	@Test void undefMonitored() throws Exception {
 		AsmCollection asmc = ASMParser.setUpReadAsm(new File(ASM_EXAMPLES + "test/simulator/UseUndefMon.asm"));
 		RandomMFReader monFuncReader = new RandomMFReader();
 		monFuncReader.allowUndefValues = true;

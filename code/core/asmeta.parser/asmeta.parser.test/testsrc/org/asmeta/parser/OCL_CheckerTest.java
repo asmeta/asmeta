@@ -1,12 +1,12 @@
 package org.asmeta.parser;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import asmeta.definitions.domains.AbstractTd;
 import asmeta.definitions.domains.AnyDomain;
@@ -15,14 +15,14 @@ import asmeta.definitions.domains.DomainsFactory;
 import asmeta.definitions.domains.EnumTd;
 import asmeta.definitions.domains.NaturalDomain;
 
-public class OCL_CheckerTest {
+class OCL_CheckerTest {
 
 	static DomainsFactory df;
 	static AbstractTd atd;
 	static ConcreteDomain cd;
-	
-	@BeforeClass
-	static public void setupDomains(){
+
+	@BeforeAll
+	static void setupDomains(){
 		df = DomainsFactory.eINSTANCE;
 		atd = df.createAbstractTd();
 		atd.setName("A");
@@ -32,22 +32,19 @@ public class OCL_CheckerTest {
 		
 	}
 
-	@Test
-	public void testCompatibleSingleDomain() {
+	@Test void compatibleSingleDomain() {
 		assertTrue(OCL_Checker.compatible(atd, cd));
 		assertTrue(OCL_Checker.compatible(cd, atd));
 	}
 
-	@Test
-	public void testCompatibleDomainList() {
+	@Test void compatibleDomainList() {
 		List<AbstractTd> l1 = Collections.singletonList(atd);
 		List<ConcreteDomain> l2 = Collections.singletonList(cd);
 		assertTrue(OCL_Checker.compatible(l1,l2));
 		assertTrue(OCL_Checker.compatible(l2,l1));
 	}
 
-	@Test
-	public void testCompatibleNaturalConcrete() {
+	@Test void compatibleNaturalConcrete() {
 		NaturalDomain nd = df.createNaturalDomain();
 		nd.setName("Natural");
 		ConcreteDomain cn = df.createConcreteDomain();
@@ -61,8 +58,7 @@ public class OCL_CheckerTest {
 		assertTrue(OCL_Checker.compatible(l2,l1));
 	}
 
-	@Test
-	public void testCompatibleAny() {
+	@Test void compatibleAny() {
 		AnyDomain any = df.createAnyDomain(OCL_Checker.SUPER_ANYDOMAIN);
 		EnumTd enumDom = df.createEnumTd();
 		enumDom.setName("Colors");		

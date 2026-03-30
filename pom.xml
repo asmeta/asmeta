@@ -10,12 +10,15 @@
 		<jacoco.destFile>${project.basedir}/reports/coverage/jacoco/jacoco.exec</jacoco.destFile>
 		<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
 		<xtext.version>2.42.0</xtext.version>
+		<java.version>21</java.version>
 		<maven.compiler.source>21</maven.compiler.source>
 		<maven.compiler.target>21</maven.compiler.target>
 	</properties>
 	<modules>
+		<!-- asmeta.core is a pom project itself-->
 		<module>code/core</module>
 		<module>code/extensions/asmeta.animator/asmeta.animator</module>
+		<module>code/extensions/asmeta.animator/asmeta.animator.test</module>
 		<module>code/extensions/asmeta.flattener/asmeta.flattener</module>
 		<module>code/extensions/asmeta.flattener/asmeta.flattener.cli</module>
 		<module>code/extensions/asmeta.flattener/asmeta.flattener.test</module>
@@ -29,8 +32,9 @@
 		<module>code/extensions/asmetasmv/asmeta.smv</module>
 		<module>code/extensions/asmetasmv/asmeta.smv.test</module>
 		<module>code/extensions/asmeta.visualizer/asmeta.visualizer</module>
+		<module>code/extensions/asmeta.visualizer/asmeta.visualizer.test</module>
+		<!--asmetal2cpp ia a pom project itself -->
 		<module>code/experimental/asmetal2cpp</module>
-		<module>reports/coverage/report.aggregate</module>
 	</modules>
 	<build>
 		<plugins>
@@ -54,12 +58,15 @@
 			</plugin>
 		</plugins>
 	</build>
-	<dependencies>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.13.2</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+	<dependencyManagement>
+		<dependencies>
+			<!-- JUnit 5 Aggregator (API + Engine + Params) -->
+			<dependency>
+				<groupId>org.junit.jupiter</groupId>
+				<artifactId>junit-jupiter</artifactId>
+				<version>6.0.1</version>
+				<scope>test</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 </project>

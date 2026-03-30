@@ -1,24 +1,23 @@
 package org.asmeta.parser.util;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import org.asmeta.parser.ASMFileFilter;
 import org.asmeta.parser.AsmParserTest;
 import org.asmeta.parser.util.AsmetaPrintInfo.AsmInfo;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
-public class AsmetaPrintInfoTest {
+class AsmetaPrintInfoTest {
 
 	private void printStatsDirOfASMs(String dirPath) throws Exception {
 		File dir = new File(dirPath);
-		assertTrue("example dir " + dir.getAbsolutePath() + " does not exist, current dir: "
-				+ new File(".").getAbsolutePath(), dir.isDirectory());
+		assertTrue(dir.isDirectory(), "example dir " + dir.getAbsolutePath() + " does not exist, current dir: "
+				+ new File(".").getAbsolutePath());
 		// read all the specs
 		for (File f : dir.listFiles(new ASMFileFilter())) {
 			AsmetaPrintInfo pi = new AsmetaPrintInfo(f.getAbsolutePath());
@@ -28,22 +27,19 @@ public class AsmetaPrintInfoTest {
 		}
 	}
 
-	@Ignore @Test
-	public void testABZ2016() throws Exception {
+	@Disabled @Test void abz2016() throws Exception {
 		printStatsDirOfASMs(AsmParserTest.FILE_BASE + "//examples/hemodialysisDevice/ABZ2016");
 	}
 
-	@Ignore @Test
-	public void testSCP2017() throws Exception {
+	@Disabled @Test void scp2017() throws Exception {
 		printStatsDirOfASMs(AsmParserTest.FILE_BASE + "//examples/hemodialysisDevice/SCP2017/");
 	}
-	
-	@Ignore @Test
-	public void testMVM() throws Exception {
+
+	@Disabled @Test void mvm() throws Exception {
 		// works only on developers machine with the MVM repo
 		// added the check to avoid to fail on machine without MVM repo
 		String dirPathMVMExternalRepo = "../../../../../mvm-asmeta\\asm_models\\MVM APPFM";
-		if (Files.exists(Paths.get(dirPathMVMExternalRepo)))
+		if (Files.exists(Path.of(dirPathMVMExternalRepo)))
 				printStatsDirOfASMs(dirPathMVMExternalRepo);
 	}
 	

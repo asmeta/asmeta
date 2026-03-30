@@ -1,9 +1,9 @@
 package org.asmeta.parser;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,18 +14,14 @@ import java.io.StreamTokenizer;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Enumeration;
 
-import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
-import org.apache.log4j.SimpleLayout;
 import org.asmeta.parser.util.AsmPrinter;
 import org.asmeta.parser.util.ReflectiveVisitor;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 
 import asmeta.AsmCollection;
 
@@ -41,8 +37,8 @@ public class AsmParserTest {
 
 	static Logger log;
 
-	@BeforeClass
-	public static void setUpLogger() {
+	@BeforeAll
+	static void setUpLogger() {
 		log = Logger.getLogger("org.asmeta.parser");
 		
 		/*
@@ -53,8 +49,7 @@ public class AsmParserTest {
 		 */
 	}
 
-	@Before
-	public void checkLogger() {
+	@BeforeEach void checkLogger() {
 		// check that there is only one appender
 		Logger log = Logger.getLogger("org.asmeta.parser");
 		Enumeration allAppenders = log.getAllAppenders();
@@ -72,7 +67,7 @@ public class AsmParserTest {
 
 	protected void testDir(String dir) {
 		Collection<File> res = testSpecInSubFolder(dir);
-		assertTrue(res.size() + " " + res.toString(), res.isEmpty());
+		assertTrue(res.isEmpty(), res.size() + " " + res.toString());
 	}
 
 	/**
@@ -84,8 +79,8 @@ public class AsmParserTest {
 	protected Collection<File> testSpecInSubFolder(String dirname) {
 		Collection<File> failedSpec = new ArrayList<File>();
 		File dir = new File(FILE_BASE + dirname);
-		assertTrue("example dir " + dir.getAbsolutePath() + " does not exist, current dir: "
-				+ new File(".").getAbsolutePath(), dir.isDirectory());
+		assertTrue(dir.isDirectory(), "example dir " + dir.getAbsolutePath() + " does not exist, current dir: "
+				+ new File(".").getAbsolutePath());
 		// read all the specs
 		for (File f : dir.listFiles(new ASMFileFilter())) {
 			AsmCollection testOneSpec = testOneSpec(f, false, false);
@@ -137,10 +132,10 @@ public class AsmParserTest {
 
 	protected AsmCollection testOneAsmFile(String spec) {
 		File f = new File(FILE_BASE + spec);
-		assertTrue("file " + f.getAbsolutePath() + " does not exist, current dir: " + new File(".").getAbsolutePath(),
-				f.exists());
+		assertTrue(f.exists(),
+				"file " + f.getAbsolutePath() + " does not exist, current dir: " + new File(".").getAbsolutePath());
 		ASMFileFilter filter = new ASMFileFilter();
-		assertTrue("not a valid asm", (filter.accept(f)));
+		assertTrue((filter.accept(f)), "not a valid asm");
 		AsmCollection x = testOneSpec(f, true, false);
 		assertNotNull(x);
 		return x;

@@ -1,6 +1,6 @@
 package org.asmeta.simulator.main;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.Map.Entry;
 
@@ -9,12 +9,11 @@ import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.State;
 import org.asmeta.simulator.readers.MonFuncReader;
-import org.asmeta.simulator.readers.RandomMFReader;
 import org.asmeta.simulator.value.BooleanValue;
 import org.asmeta.simulator.value.Value;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class ParametricRuleTest {
+class ParametricRuleTest {
 	
 	// with a simulated user tha opens the window
 	class SimulatedUser extends MonFuncReader{
@@ -28,8 +27,7 @@ public class ParametricRuleTest {
 	}
 
 
-	@Test
-	public void testSelfisNotNull() throws Exception {
+	@Test void selfisNotNull() throws Exception {
 		Environment env = new Environment(new SimulatedUser());
 		String modelPath = TestOneSpec.FILE_BASE +
 				"test/simulator/parametricrule/ECA.asm";

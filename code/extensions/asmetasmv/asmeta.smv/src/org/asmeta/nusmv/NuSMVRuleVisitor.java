@@ -151,7 +151,7 @@ public class NuSMVRuleVisitor extends ReflectiveVisitor<Void> implements IRuleVi
 	@Override
 	public Void visit(ChooseRule chooseRule){
 		if(env.inSeqRule) {
-			throw new AsmNotSupportedException("Chooserule in seqrule non supportato.");
+			throw new AsmNotSupportedException("Chooserule in seqrule not supported.");
 		}
 		List<VariableTerm> vars = chooseRule.getVariable();
 		Term cond = chooseRule.getGuard();

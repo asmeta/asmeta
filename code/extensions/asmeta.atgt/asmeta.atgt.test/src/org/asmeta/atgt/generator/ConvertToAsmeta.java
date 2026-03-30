@@ -7,13 +7,13 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 
 public class ConvertToAsmeta {
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void convertPHDToASMETAFlat() throws Exception {
 		BufferedReader fin = new BufferedReader(new FileReader("sequences_asm_v4.txt"));
 		String s = "";
@@ -106,7 +106,7 @@ public class ConvertToAsmeta {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void convertPHDToASMETAStruct() throws Exception {
 		BufferedReader fin = new BufferedReader(new FileReader("antidote-manager.txt"));
 		String s = "";

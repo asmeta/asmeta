@@ -422,7 +422,7 @@ public class AsmetaTermPrinter extends ReflectiveVisitor<String> {
 				for (int i = 0; i < domains.size() - 1; i++) {
 					sb.append(domains.get(i).getName() + ", ");
 				}
-				sb.append(domains.get(domains.size() - 1).getName());
+				sb.append(domains.getLast().getName());
 				// 		close
 				sb.append(")");
 			}
@@ -522,7 +522,7 @@ public class AsmetaTermPrinter extends ReflectiveVisitor<String> {
 				else
 					s.append(",");
 				EList<Term> pair = pairTT.getTerms();
-				s.append(visit(pair.get(0)));
+				s.append(visit(pair.getFirst()));
 				s.append("->");
 				s.append(visit(pair.get(1)));
 			}

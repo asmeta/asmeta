@@ -6,8 +6,7 @@ Bundle-Version: 22.04
 Export-Package: org.asmeta.asm2code,
  org.asmeta.asm2code.compiler,
  org.asmeta.asm2code.main
-Require-Bundle: org.junit,
- org.eclipse.emf.ecore,
+Require-Bundle: org.eclipse.emf.ecore,
  com.google.inject,
  org.eclipse.emf.mwe.utils,
  org.eclipse.xtext.xbase.lib,

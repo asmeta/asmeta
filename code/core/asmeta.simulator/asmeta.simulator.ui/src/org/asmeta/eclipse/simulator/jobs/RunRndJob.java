@@ -4,7 +4,6 @@ import java.io.InputStream;
 import java.io.PrintStream;
 
 import org.asmeta.simulator.readers.AllowUndefMFReader;
-import org.asmeta.simulator.readers.MonFuncReader;
 import org.asmeta.simulator.readers.RandomMFReader;
 import org.eclipse.core.resources.IFile;
 

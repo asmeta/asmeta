@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import asm_mbtJunit.nusmv.TestGenerationWithNuSMV;
 import asmetal2cpp_boostunit.ExampleTaker;

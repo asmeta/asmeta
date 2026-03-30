@@ -25,12 +25,12 @@ public class AsmCollection implements Iterable<Asm> {
 	
 	// add this one as first one
 	public void addMain(Asm asm) {
-	    allAsms.add(0, asm);			
+	    allAsms.addFirst(asm);			
 	}
 
 	/** return the main asm */
 	public Asm getMain(){
-		return allAsms.get(0);
+		return allAsms.getFirst();
 	}
 
 	@Override

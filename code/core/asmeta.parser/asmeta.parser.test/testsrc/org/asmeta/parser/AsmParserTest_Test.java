@@ -1,7 +1,9 @@
 package org.asmeta.parser;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.io.File;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** all the specs in test/parser and test/simulator should parse (and simulate)
  * otherwise should go to test/errors
@@ -9,26 +11,23 @@ import org.junit.Test;
  * @author garganti
  *
  */
-public class AsmParserTest_Test extends AsmParserTest {
-	
-	@Test
-	public void testParserTests(){
+class AsmParserTest_Test extends AsmParserTest {
+
+	@Test void parserTests(){
 		testDir("test/parser/");
 	}
 
-	@Test
-	public void testSimulatorTests(){
+	@Test void simulatorTests(){
 		testDir("test/simulator/");
 	}
 
-	@Test
-	public void testParserNeqAndNot(){
+	@Test void parserNeqAndNot(){
 		testOneSpec("test/parser/neqAndNot.asm");
 	}
-	
-	@Test(expected = ParseException.class)
-	public void testAE() throws Exception{
-		ASMParser.setUpReadAsm(new File(FILE_BASE+"test/errors/ArithmeticExpr02.asm"));
+
+	@Test void ae() throws Exception {
+		assertThrows(ParseException.class, () ->
+			ASMParser.setUpReadAsm(new File(FILE_BASE + "test/errors/ArithmeticExpr02.asm")));
 	}
 
 	

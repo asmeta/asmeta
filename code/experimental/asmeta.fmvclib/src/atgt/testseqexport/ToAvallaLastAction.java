@@ -1,6 +1,5 @@
 package atgt.testseqexport;
 
-import java.io.File;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.Iterator;
@@ -10,7 +9,6 @@ import java.util.Map.Entry;
 
 import atgt.coverage.AsmTestSequence;
 import atgt.specification.location.Location;
-import atgt.testseqexport.toAvalla;
 
 // generates the avalla with last set as action
 public class ToAvallaLastAction extends toAvalla {

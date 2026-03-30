@@ -12,13 +12,11 @@ import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.State;
 import org.asmeta.simulator.UpdateSet;
-import org.asmeta.simulator.main.Simulator;
 import org.asmeta.simulator.readers.InteractiveMFReader;
 import org.asmeta.simulator.readers.MonFuncReader;
 import org.asmeta.simulator.value.Value;
 
 import asmeta.AsmCollection;
-import asmeta.structure.FunctionDefinition;
 
 public abstract class Composition {
 

@@ -7,10 +7,7 @@ import java.util.List;
 import org.asmeta.simulator.RuleVisitor;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
-import asmeta.mutation.operators.CondRemover.RemoveCond;
-import asmeta.structure.Asm;
 import asmeta.terms.basicterms.Term;
-import asmeta.transitionrules.basictransitionrules.BasictransitionrulesFactory;
 import asmeta.transitionrules.basictransitionrules.BlockRule;
 import asmeta.transitionrules.basictransitionrules.ChooseRule;
 import asmeta.transitionrules.basictransitionrules.ConditionalRule;
@@ -25,7 +22,6 @@ import asmeta.transitionrules.basictransitionrules.UpdateRule;
 import asmeta.transitionrules.derivedtransitionrules.CaseRule;
 import asmeta.transitionrules.derivedtransitionrules.DerivedtransitionrulesFactory;
 import asmeta.transitionrules.turbotransitionrules.SeqRule;
-import asmeta.transitionrules.turbotransitionrules.TurbotransitionrulesFactory;
 
 public class CaseMutator extends RuleBasedMutator {
 

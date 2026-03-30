@@ -17,8 +17,7 @@ Require-Bundle: org.eclipse.emf.mwe.utils,
 Import-Package: org.asmeta.animator,
  org.eclipse.jface.dialogs,
  org.eclipse.swt.widgets,
- org.eclipse.ui,
- org.junit
+ org.eclipse.ui
 Bundle-ClassPath: .
 Automatic-Module-Name: asmeta.animator.test
 Bundle-RequiredExecutionEnvironment: JavaSE-21

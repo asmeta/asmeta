@@ -3,8 +3,6 @@ package org.asmeta.experiments.output;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.asmeta.output_sanitisation_java.AirConditionerO;
-
 /**
  * @author Federico Rebucini
  */

@@ -77,7 +77,6 @@ import asmeta.terms.basicterms.LocationTerm;
 import asmeta.terms.basicterms.Term;
 import asmeta.terms.basicterms.TupleTerm;
 import asmeta.terms.basicterms.VariableTerm;
-import asmeta.terms.basicterms.impl.LocationTermImpl;
 import asmeta.transitionrules.basictransitionrules.BlockRule;
 import asmeta.transitionrules.basictransitionrules.ChooseRule;
 import asmeta.transitionrules.basictransitionrules.ConditionalRule;
@@ -192,33 +191,29 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		Value content = visitTerm(rhsTerm);
 		logger.debug("</UpdatingTerm>");
 		Term lhsTerm = rule.getLocation();
-		if (lhsTerm instanceof LocationTerm) {
-			logger.debug("<LocationTerm>");
-			LocationTerm locationTerm = (LocationTerm) lhsTerm;
-			Function signature = locationTerm.getFunction();
-			logger.debug("<Name>" + signature.getName() + "</Name>");
-			TupleTerm tupleTerm = locationTerm.getArguments();
-			logger.debug("<Arguments>" + tupleTerm + "</Arguments>");
-			List arguments;
-			// if tuple term has no arguments (plain variable), then build an empty value
-			// array
-			if (tupleTerm == null) {
-				arguments = Collections.emptyList();
-			} else {
-				//assert tupleTerm.getTerms().size() == tupleTerm.getArity() : "tupleTerm.getTerms().size(): " + tupleTerm.getTerms().size() + "  tupleTerm.getArity(): " + tupleTerm.getArity();
-				arguments = ((TupleValue) visitTerm(tupleTerm)).getValue();
+		switch(lhsTerm) {
+			case LocationTerm locationTerm -> {
+				logger.debug("<LocationTerm>");
+				Function signature = locationTerm.getFunction();
+				logger.debug("<Name>" + signature.getName() + "</Name>");
+				TupleTerm tupleTerm = locationTerm.getArguments();
+				logger.debug("<Arguments>" + tupleTerm + "</Arguments>");
+				List arguments;
+				// if tuple term has no arguments (plain variable), then build an empty value
+				// array
+				if (tupleTerm == null) {
+					arguments = Collections.emptyList();
+				} else {
+					//assert tupleTerm.getTerms().size() == tupleTerm.getArity() : "tupleTerm.getTerms().size(): " + tupleTerm.getTerms().size() + "  tupleTerm.getArity(): " + tupleTerm.getArity();
+					arguments = ((TupleValue) visitTerm(tupleTerm)).getValue();
+				}
+				logger.debug("</LocationTerm>");
+				Location location = new Location(signature, (Value[]) arguments.toArray(new Value[arguments.size()]));
+				checkCompatibility(content, location);
+				updateSet.putUpdate(location, content);
 			}
-			logger.debug("</LocationTerm>");
-			Location location = new Location(signature, (Value[]) arguments.toArray(new Value[arguments.size()]));
-			checkCompatibility(content,location);
-			updateSet.putUpdate(location, content);
-		} else if (lhsTerm instanceof VariableTerm) {
-			// FIXME experimental!!
-			VariableTerm variable = (VariableTerm) lhsTerm;
-			termEval.assignment.put(variable, content);
-			// throw new UnsupportedOperationException();
-		} else {
-			throw new RuntimeException("Unknown left-hand-side term " + lhsTerm.getClass());
+			case VariableTerm variable -> termEval.assignment.put(variable, content);
+			case null, default -> throw new RuntimeException("Unknown left-hand-side term " + lhsTerm.getClass());
 		}
 		logger.debug("<UpdateSet>" + updateSet + "</UpdateSet>");
 		logger.debug("</UpdateRule>");
@@ -237,8 +232,8 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		if (content instanceof UndefValue)
 			return; 
 		Domain codomain = location.getSignature().getCodomain();
-		if (codomain instanceof ConcreteDomain) {
-			ConcreteDomain concreteDomain = ((ConcreteDomain)codomain);
+		if (codomain instanceof ConcreteDomain domain) {
+			ConcreteDomain concreteDomain = domain;
 			// get the values in the domain (should work both static and dynamic)
 			SetValue values = termEval.getValues(concreteDomain);
 			if (!values.getValue().stream().anyMatch(x -> x.equals(content)))
@@ -597,12 +592,12 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 			UpdateSet updateSet) {
 		if (varIndex < domains.length) {
 			CollectionValue currentDomain = domains[varIndex];
-			if (currentDomain instanceof InfiniteCollection) {
+			if (currentDomain instanceof InfiniteCollection collection) {
 				// check the guard - must be true
 				if ((chooseRule.getGuard() instanceof BooleanTerm bt) && 
 						(bt.getSymbol().equals(Boolean.toString(true)))){
 						// take a radom value
-						boundContent[varIndex] = ((InfiniteCollection)currentDomain).getRndValue();
+						boundContent[varIndex] = collection.getRndValue();
 						// go to next variable
 						if (visitChoose(varIndex + 1, domains, boundContent, chooseRule, updateSet)) {
 							return true;
@@ -717,20 +712,20 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 				|| ((formal instanceof AnyDomain) && formal.getName().equals("Any"))
 				|| ((actual instanceof AnyDomain) && actual.getName().equals("Any")))
 			return true;
-		if (actual instanceof ConcreteDomain && formal instanceof TypeDomain) {
-			return compatible(formal, ((ConcreteDomain) actual).getTypeDomain());
+		if (actual instanceof ConcreteDomain domain && formal instanceof TypeDomain) {
+			return compatible(formal, domain.getTypeDomain());
 		}
-		if (actual instanceof PowersetDomain && formal instanceof PowersetDomain)
-			return compatible(((PowersetDomain) actual).getBaseDomain(), ((PowersetDomain) formal).getBaseDomain());
-		if ((actual instanceof SequenceDomain) && (formal instanceof SequenceDomain)
-				&& compatible(((SequenceDomain) actual).getDomain(), ((SequenceDomain) formal).getDomain()))
+		if (actual instanceof PowersetDomain domain && formal instanceof PowersetDomain domain1)
+			return compatible(domain.getBaseDomain(), domain1.getBaseDomain());
+		if ((actual instanceof SequenceDomain domain) && (formal instanceof SequenceDomain domain1)
+				&& compatible(domain.getDomain(), domain1.getDomain()))
 			return true;
-		if ((actual instanceof BagDomain) && (formal instanceof BagDomain)
-				&& compatible(((BagDomain) actual).getDomain(), ((BagDomain) formal).getDomain()))
+		if ((actual instanceof BagDomain domain) && (formal instanceof BagDomain domain1)
+				&& compatible(domain.getDomain(), domain1.getDomain()))
 			return true;
-		if ((actual instanceof MapDomain) && (formal instanceof MapDomain)
-				&& compatible(((MapDomain) actual).getSourceDomain(), ((MapDomain) formal).getSourceDomain())
-				&& compatible(((MapDomain) actual).getTargetDomain(), ((MapDomain) formal).getTargetDomain()))
+		if ((actual instanceof MapDomain domain) && (formal instanceof MapDomain domain1)
+				&& compatible(domain.getSourceDomain(), domain1.getSourceDomain())
+				&& compatible(domain.getTargetDomain(), domain1.getTargetDomain()))
 			return true;
 		if (actual.getName().equals(formal.getName()))
 			return true;
@@ -792,29 +787,25 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		Value content = getResult(updateSet);
 		logger.debug("</UpdatingTerm>");
 		Term lhsTerm = retRule.getLocation();
-		if (lhsTerm instanceof LocationTerm) {
-			logger.debug("<LocationTerm>");
-			LocationTerm locationTerm = (LocationTerm) lhsTerm;
-			Function signature = locationTerm.getFunction();
-			logger.debug("<Name>" + signature.getName() + "</Name>");
-			TupleTerm tupleTerm = locationTerm.getArguments();
-			Value[] arguments;
-			if (tupleTerm != null) {
-				//assert tupleTerm.getTerms().size() == tupleTerm.getArity();
-				arguments = ((TupleValue) visitTerm(tupleTerm)).getValueAsArray();
-			} else {
-				arguments = new Value[0];
+		switch(lhsTerm) {
+			case LocationTerm locationTerm -> {
+				logger.debug("<LocationTerm>");
+				Function signature = locationTerm.getFunction();
+				logger.debug("<Name>" + signature.getName() + "</Name>");
+				TupleTerm tupleTerm = locationTerm.getArguments();
+				Value[] arguments;
+				if (tupleTerm != null) {
+					//assert tupleTerm.getTerms().size() == tupleTerm.getArity();
+					arguments = ((TupleValue) visitTerm(tupleTerm)).getValueAsArray();
+				} else {
+					arguments = new Value[0];
+				}
+				logger.debug("</LocationTerm>");
+				Location location = new Location(signature, arguments);
+				updateSet.putUpdate(location, content);
 			}
-			logger.debug("</LocationTerm>");
-			Location location = new Location(signature, arguments);
-			updateSet.putUpdate(location, content);
-		} else if (lhsTerm instanceof VariableTerm) {
-			// FIXME experimental!!
-			VariableTerm variable = (VariableTerm) lhsTerm;
-			termEval.assignment.put(variable, content);
-			// throw new UnsupportedOperationException();
-		} else {
-			throw new RuntimeException("Unknown left-hand-side term " + lhsTerm.getClass());
+			case VariableTerm variable -> termEval.assignment.put(variable, content);
+			case null, default -> throw new RuntimeException("Unknown left-hand-side term " + lhsTerm.getClass());
 		}
 		logger.debug("<UpdateSet>" + updateSet + "</UpdateSet>");
 		logger.debug("</TurboReturnRule>");

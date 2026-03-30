@@ -19,13 +19,11 @@ import org.asmeta.simulator.UpdateSet;
 import org.asmeta.simulator.main.AsmModelNotFoundException;
 import org.asmeta.simulator.main.Simulator;
 import org.asmeta.simulator.readers.AllowUndefMFReader;
-import org.asmeta.simulator.readers.MonFuncReader;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.ui.console.IOConsole;
 
 public abstract class RunJob extends Job {
 	protected IFile asmFile;

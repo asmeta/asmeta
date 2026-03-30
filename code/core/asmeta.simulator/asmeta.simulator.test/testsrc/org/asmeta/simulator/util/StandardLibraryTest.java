@@ -1,8 +1,7 @@
 package org.asmeta.simulator.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -11,50 +10,46 @@ import java.util.Map.Entry;
 
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.State;
-import org.asmeta.simulator.StdlEvaluator;
 import org.asmeta.simulator.TermEvaluator;
 import org.asmeta.simulator.UpdateSet;
 import org.asmeta.simulator.main.BaseTest;
 import org.asmeta.simulator.main.Simulator;
 import org.asmeta.simulator.value.Value;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import asmeta.definitions.Function;
 
-@RunWith(Parameterized.class)
 public class StandardLibraryTest extends BaseTest {
 	
-	@Parameters
-    public static Collection<Boolean> data() {
+	public static Collection<Boolean> data() {
         return Arrays.asList(Boolean.TRUE, Boolean.FALSE);
     }
 
-    public StandardLibraryTest(boolean allowLazyEval) {
+	public void initStandardLibraryTest(boolean allowLazyEval) {
         TermEvaluator.setAllowLazyEval(allowLazyEval);
     }
-	
-   // private static boolean allowLazyEvalOLD;
+
+	// private static boolean allowLazyEvalOLD;
     
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
+	@BeforeAll
+	static void setUpBeforeClass() throws Exception {
 		//AsmParserTest.setUpLogger();
 		//allowLazyEvalOLD = TermEvaluator.allowLazyEval;
 	}
 
-	@AfterClass
-	public static void ripristina() throws Exception {
+	@AfterAll
+	static void ripristina() throws Exception {
 		//AsmParserTest.setUpLogger();
 		TermEvaluator.setAllowLazyEval(false);
 	}
 
-	
-	@Test
-	public void testAppend() throws Exception {
+
+	@MethodSource("data") @ParameterizedTest
+	public void testAppend(boolean allowLazyEval) throws Exception {
+		initStandardLibraryTest(allowLazyEval);
 		// Scrivi caso di test per la library
 		String ex = "test/simulator/STDL/test_append.asm";
 		Simulator sim = Simulator.createSimulator(ASM_EXAMPLES + ex);
@@ -64,8 +59,9 @@ public class StandardLibraryTest extends BaseTest {
 		System.out.println("CURRENT STATE\n"+ sim.getCurrentState().toString());
 	}
 
-	@Test
-	public void testContainsString() throws Exception {
+	@MethodSource("data") @ParameterizedTest
+	public void testContainsString(boolean allowLazyEval) throws Exception {
+		initStandardLibraryTest(allowLazyEval);
 		String ex = "test/simulator/STDL/containsString.asm";
 		sim = Simulator.createSimulator(ASM_EXAMPLES + ex);
 		sim.run(1);
@@ -81,8 +77,9 @@ public class StandardLibraryTest extends BaseTest {
 		assertEquals("c", v3.toString());
 	}
 
-	@Test
-	public void testConcatString() throws Exception {
+	@MethodSource("data") @ParameterizedTest
+	public void testConcatString(boolean allowLazyEval) throws Exception {
+		initStandardLibraryTest(allowLazyEval);
 		String ex = "test/simulator/STDL/StringConcat.asm";
 		sim = Simulator.createSimulator(ASM_EXAMPLES + ex);
 		sim.run(1);
@@ -104,8 +101,9 @@ public class StandardLibraryTest extends BaseTest {
 		assertEquals("aaaabb", v2.toString());
 	}
 
-	@Test
-	public void testAddString() throws Exception {
+	@MethodSource("data") @ParameterizedTest
+	public void testAddString(boolean allowLazyEval) throws Exception {
+		initStandardLibraryTest(allowLazyEval);
 		String ex = "test/simulator/STDL/StringAdd.asm";
 		sim = Simulator.createSimulator(ASM_EXAMPLES + ex);
 		sim.run(1);
@@ -127,8 +125,9 @@ public class StandardLibraryTest extends BaseTest {
 		assertEquals("aaaabb", v2.toString());
 	}
 
-	@Test
-	public void testToLowerString() throws Exception {
+	@MethodSource("data") @ParameterizedTest
+	public void testToLowerString(boolean allowLazyEval) throws Exception {
+		initStandardLibraryTest(allowLazyEval);
 		String ex = "test/simulator/STDL/StringToLower.asm";
 		sim = Simulator.createSimulator(ASM_EXAMPLES + ex);
 		sim.run(1);
@@ -150,8 +149,9 @@ public class StandardLibraryTest extends BaseTest {
 		assertEquals("abc", v2.toString());
 	}
 
-	@Test
-	public void testToUpperString() throws Exception {
+	@MethodSource("data") @ParameterizedTest
+	public void testToUpperString(boolean allowLazyEval) throws Exception {
+		initStandardLibraryTest(allowLazyEval);
 		String ex = "test/simulator/STDL/StringToUpper.asm";
 		sim = Simulator.createSimulator(ASM_EXAMPLES + ex);
 		sim.run(1);
@@ -173,8 +173,9 @@ public class StandardLibraryTest extends BaseTest {
 		assertEquals("ABC", v2.toString());
 	}
 
-	@Test
-	public void testSplitString() throws Exception {
+	@MethodSource("data") @ParameterizedTest
+	public void testSplitString(boolean allowLazyEval) throws Exception {
+		initStandardLibraryTest(allowLazyEval);
 		String ex = "test/simulator/STDL/splitString.asm";
 		sim = Simulator.createSimulator(ASM_EXAMPLES + ex);
 		sim.run(1);
@@ -188,8 +189,9 @@ public class StandardLibraryTest extends BaseTest {
 		System.out.println(seqStr1V);
 	}
 
-	@Test
-	public void testSizeString() throws Exception {
+	@MethodSource("data") @ParameterizedTest
+	public void testSizeString(boolean allowLazyEval) throws Exception {
+		initStandardLibraryTest(allowLazyEval);
 		String ex = "test/simulator/STDL/sizeString.asm";
 		sim = Simulator.createSimulator(ASM_EXAMPLES + ex);
 		sim.run(1);
@@ -205,8 +207,9 @@ public class StandardLibraryTest extends BaseTest {
 		assertEquals("0", sizeStr3V.toString());
 	}
 
-	@Test
-	public void testAppendSequence() throws Exception {
+	@MethodSource("data") @ParameterizedTest
+	public void testAppendSequence(boolean allowLazyEval) throws Exception {
+		initStandardLibraryTest(allowLazyEval);
 		String ex = "test/simulator/STDL/appendSequence.asm";
 		sim = Simulator.createSimulator(ASM_EXAMPLES + ex);
 		sim.run(1);
@@ -224,15 +227,16 @@ public class StandardLibraryTest extends BaseTest {
 		assertEquals("[undef,0,1]", sequenceC.toString());
 	}
 
-	@Test
-	public void testSTDLfuncs() throws Exception {
+	@MethodSource("data") @ParameterizedTest
+	public void testSTDLfuncs(boolean allowLazyEval) throws Exception {
+		initStandardLibraryTest(allowLazyEval);
 		Simulator sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/STDL/STDL_funcs.asm");
 		UpdateSet us = sim.run(1);
-		assertTrue(true);
 	}
 
-	@Test
-	public void testSTDLUndefLogicalOp() throws Exception {
+	@MethodSource("data") @ParameterizedTest
+	public void testSTDLUndefLogicalOp(boolean allowLazyEval) throws Exception {
+		initStandardLibraryTest(allowLazyEval);
 		Simulator sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/STDL/STDL_funcsUndef.asm");
 		UpdateSet us = sim.run(1);
 		assertEquals("undef",getVal(us,"c1"));
@@ -251,9 +255,10 @@ public class StandardLibraryTest extends BaseTest {
 		// NOT undef
 		assertEquals("undef",getVal(us,"d6"));
 	}
-	
-	@Test
-	public void testSTDLUndefEq() throws Exception {
+
+	@MethodSource("data") @ParameterizedTest
+	public void testSTDLUndefEq(boolean allowLazyEval) throws Exception {
+		initStandardLibraryTest(allowLazyEval);
 		Simulator sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/STDL/STDL_funcsUndefEQ.asm");
 		UpdateSet us = sim.run(1);
 		assertEquals("false",getVal(us,"c1"));
