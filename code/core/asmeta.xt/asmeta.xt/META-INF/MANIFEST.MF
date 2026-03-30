@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Asmeta Xtext Model
 Bundle-Vendor: foselab.unibg.it
 Bundle-Version: 26.03
-Bundle-SymbolicName: org.asmeta.xt;singleton:=true
+Bundle-SymbolicName: asmeta.xt;singleton:=true
 Require-Bundle: org.eclipse.xtext,
  org.eclipse.xtext.xbase,
  org.eclipse.equinox.common,

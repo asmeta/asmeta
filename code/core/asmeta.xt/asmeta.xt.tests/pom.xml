@@ -2,7 +2,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>org.asmeta.xt.tests</artifactId>
+	<artifactId>asmeta.xt.tests</artifactId>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<plugins>
@@ -46,7 +46,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>asmeta</groupId>
-			<artifactId>org.asmeta.xt</artifactId>
+			<artifactId>asmeta.xt</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>

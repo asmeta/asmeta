@@ -3,9 +3,9 @@ Bundle-ManifestVersion: 2
 Bundle-Name: org.asmeta.xt.tests
 Bundle-Vendor: foselab.unibg.it
 Bundle-Version: 26.03
-Bundle-SymbolicName: org.asmeta.xt.tests;singleton:=true
+Bundle-SymbolicName: asmeta.xt.tests;singleton:=true
 Bundle-ActivationPolicy: lazy
-Require-Bundle: org.asmeta.xt,
+Require-Bundle: asmeta.xt,
  org.eclipse.xtext.testing,
  org.eclipse.xtext.xbase.testing,
  org.eclipse.xtext.xbase.lib;bundle-version="2.42.0",

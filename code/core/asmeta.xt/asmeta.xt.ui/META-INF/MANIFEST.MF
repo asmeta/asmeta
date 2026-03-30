@@ -4,10 +4,10 @@ Bundle-ManifestVersion: 2
 Bundle-Name: org.asmeta.xt.ui
 Bundle-Vendor: foselab.unibg.it
 Bundle-Version: 26.03
-Bundle-SymbolicName: org.asmeta.xt.ui; singleton:=true
+Bundle-SymbolicName: asmeta.xt.ui;singleton:=true
 Bundle-ActivationPolicy: lazy
-Require-Bundle: org.asmeta.xt,
- org.asmeta.xt.ide,
+Require-Bundle: asmeta.xt,
+ asmeta.xt.ide,
  org.eclipse.xtext.ui,
  org.eclipse.xtext.ui.shared,
  org.eclipse.xtext.ui.codetemplates.ui,
