@@ -70,7 +70,7 @@ public class FeedbackLoopAirConditionerExt extends FeedbackLoop{
 		}
 		else {
 			// solitamente runoutput viene creato con flag a false,
-			// ma se viene utilizzata la funzione con timeout, questa corrisponder� sempre al fatto se il timeout � stato superato o no
+			// ma se viene utilizzata la funzione con timeout, questa corrisponderà sempre al fatto se il timeout è stato superato o no
 			if (result.getTimeoutFlag())
 				System.out.println("Error: something got wrong with the output sanitisation made by the ASM runtime model. No enforcement applied.");
 			else

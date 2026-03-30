@@ -212,7 +212,11 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 				checkCompatibility(content, location);
 				updateSet.putUpdate(location, content);
 			}
-			case VariableTerm variable -> termEval.assignment.put(variable, content);
+			case VariableTerm variable -> {
+				// FIXME experimental!!
+				termEval.assignment.put(variable, content);
+				// throw new UnsupportedOperationException();
+			}
 			case null, default -> throw new RuntimeException("Unknown left-hand-side term " + lhsTerm.getClass());
 		}
 		logger.debug("<UpdateSet>" + updateSet + "</UpdateSet>");
@@ -804,7 +808,11 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 				Location location = new Location(signature, arguments);
 				updateSet.putUpdate(location, content);
 			}
-			case VariableTerm variable -> termEval.assignment.put(variable, content);
+			case VariableTerm variable -> {
+				// FIXME experimental!!
+				termEval.assignment.put(variable, content);
+				// throw new UnsupportedOperationException();
+			}
 			case null, default -> throw new RuntimeException("Unknown left-hand-side term " + lhsTerm.getClass());
 		}
 		logger.debug("<UpdateSet>" + updateSet + "</UpdateSet>");

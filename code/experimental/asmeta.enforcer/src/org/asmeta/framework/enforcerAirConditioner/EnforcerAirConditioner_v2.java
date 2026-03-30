@@ -16,7 +16,7 @@ import org.asmeta.runtime_container.SimulationContainer;
  */
 public class EnforcerAirConditioner_v2 extends Enforcer{
 
-	private static long SIM_TIMEOUT;	//solamente perch� nella superclasse � privata ma mi serve ad ogni run.
+	private static long SIM_TIMEOUT;	//solamente perchè nella superclasse è privata ma mi serve ad ogni run.
 	private int SIM_AIRSPEED=0;
 	private String TEMPERATURE="0";
 	public EnforcerAirConditioner_v2() {
@@ -25,7 +25,7 @@ public class EnforcerAirConditioner_v2 extends Enforcer{
 	    String RUNTIME_MODEL_PATH = Utility.getProperty("RUNTIME_MODEL_PATH");
 	    
 	    SIM_TIMEOUT = Math.round(Double.parseDouble(Utility.getProperty("SIMULATION_TIMEOUT")));
-	    //IL TIMEOUT NELLE PROPERTIES � IN SECONDI MA NELLA FUNZIONE � IN MS
+	    //IL TIMEOUT NELLE PROPERTIES È IN SECONDI MA NELLA FUNZIONE È IN MS
 	    SIM_TIMEOUT*=1000;
 	    
 	    //Initialize the AsmetaS@run.time model engine
@@ -56,15 +56,15 @@ public class EnforcerAirConditioner_v2 extends Enforcer{
 		SIM_AIRSPEED = Integer.parseInt(((outputValues.split(":"))[1]).trim());
 		RunOutput result = getModelEngine().runStepTimeout(1, prepareInput(), (int)SIM_TIMEOUT);
 		
-		/*if (result.getEsit()==Esit.UNSAFE) {	//funziona quando inv_b non � commentato
+		/*if (result.getEsit()==Esit.UNSAFE) {	//funziona quando inv_b non è commentato
 			SIM_AIRSPEED=OLD_AIRSPEED;
 			return true;
 		}else
 			return false;*/
 		boolean check=true;
 		int simAirSpeed=Integer.parseInt(result.getControlledvalues().get("airSpeed").trim());
-		check = simAirSpeed != SIM_AIRSPEED; // perch� il modello utilizato ha l'invariante inv_b commentato in quanto � predisposto
-		SIM_AIRSPEED = simAirSpeed;			 // per input adaptation: lo sfrutto con un confronto per capire se l'out � da filtrare o no.
+		check = simAirSpeed != SIM_AIRSPEED; // perché il modello utilizato ha l'invariante inv_b commentato in quanto è predisposto
+		SIM_AIRSPEED = simAirSpeed;			 // per input adaptation: lo sfrutto con un confronto per capire se l'out è da filtrare o no.
 		return check;
 	}
 	

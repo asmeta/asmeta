@@ -39,11 +39,15 @@ public class TestSimulationContainerSingleton {
 	/*
 	 * @Test public void CheckID1() throws Exception {
 	 * 
-	 * System.out.println("CHECKID for Nonfullmap"); String model =
-	 * "examples/Lavatrice.asm"; SimulationContainer i =
-	 * SimulationContainer.getInstance(); i.init(3); int id =
-	 * i.startExecution(model); int idc = i.checkStartId(id); assertTrue(idc == id
-	 * ); System.out.println("==========================================="); }
+	 * System.out.println("CHECKID for Nonfullmap");
+	 * String model = "examples/Lavatrice.asm";
+	 * SimulationContainer i = SimulationContainer.getInstance();
+	 * i.init(3);
+	 * int id = i.startExecution(model);
+	 * int idc = i.checkStartId(id);
+	 * assertTrue(idc == id);
+	 * System.out.println("===========================================");
+	 * }
 	 */
 
 //===================================START OF STARTEXE=============================================
@@ -127,23 +131,28 @@ public class TestSimulationContainerSingleton {
 	 * @throws Exception the exception
 	 */
 	/*
-	 * @Test public void CheckSafety1() throws Exception { System.out.
-	 * println(" |||||||||||||||||||||  TEST SAFETY1 |||||||||||||||||||||||||||||||||||||||||||||"
-	 * ); String model = "examples/Lavatrice.asm"; SimulationContainer imp = new
-	 * SimulationContainer(); Map<String, String> monitored = new HashMap<String,
-	 * String>(); int id = imp.startExecution(model); monitored.put("operation",
-	 * "ALLUMER"); ArrayList<String> test = new ArrayList<String>();
-	 * test.add("operation"); assertTrue(imp.checkSafety( model,
-	 * monitored).equals(test)); }
+	 * @Test public void CheckSafety1() throws Exception {
+	 * System.out.println(" |||||||||||||||||||||  TEST SAFETY1 |||||||||||||||||||||||||||||||||||||||||||||);
+	 * String model = "examples/Lavatrice.asm";
+	 * SimulationContainer imp = new SimulationContainer();
+	 * Map<String, String> monitored = new HashMap<String,String>();
+	 * int id = imp.startExecution(model);
+	 * monitored.put("operation","ALLUMER");
+	 * test.add("operation");
+	 * assertTrue(imp.checkSafety( model,monitored).equals(test));
+	 * }
 	 * 
 	 * @Test public void CheckSafety2() throws Exception { System.out.
-	 * println(" |||||||||||||||||||||  TEST SAFETY2 |||||||||||||||||||||||||||||||||||||||||||||"
-	 * ); String model = "examples/Lavatrice.asm"; SimulationContainer imp = new
-	 * SimulationContainer(); int id = imp.startExecution(model); Map<String,
-	 * String> monitored = new HashMap<String, String>(); monitored.put("operaion",
-	 * "ALLUMER"); ArrayList<String> test = new ArrayList<String>();
-	 * test.add("operation"); assertTrue(imp.checkSafety( model,
-	 * monitored).equals(test) ); }
+	 * println(" |||||||||||||||||||||  TEST SAFETY2 |||||||||||||||||||||||||||||||||||||||||||||");
+	 * String model = "examples/Lavatrice.asm";
+	 * SimulationContainer imp = new SimulationContainer();
+	 * int id = imp.startExecution(model);
+	 * Map<String,String> monitored = new HashMap<String, String>();
+	 * monitored.put("operaion","ALLUMER");
+	 * ArrayList<String> test = new ArrayList<String>();
+	 * test.add("operation");
+	 * assertTrue(imp.checkSafety( model,monitored).equals(test) );
+	 * }
 	 */
 //===================================END START EXE  =============================================
 

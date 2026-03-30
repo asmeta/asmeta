@@ -74,7 +74,7 @@ public class InterpreterTest extends BaseTest {
 
 	@AfterAll
 	static void ripristina() throws Exception {
-		// rirèroinstin il valore standard
+		// ripristina il valore standard
 		TermEvaluator.setAllowLazyEval(false);
 	}
 
