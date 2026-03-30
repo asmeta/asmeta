@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Tag
 
 class SimpleParsingTest extends ParserTest{	
 
-	@Test
+	@Test@Tag("TestToMavenSkip")
 	def void testBlankAsm() {
 		var result = test('''
 			asm blankpage

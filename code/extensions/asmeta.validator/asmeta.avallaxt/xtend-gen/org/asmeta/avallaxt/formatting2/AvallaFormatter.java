@@ -3,8 +3,8 @@
  */
 package org.asmeta.avallaxt.formatting2;
 
+import com.google.inject.Inject;
 import java.util.Arrays;
-
 import org.asmeta.avallaxt.avalla.Block;
 import org.asmeta.avallaxt.avalla.Command;
 import org.asmeta.avallaxt.avalla.Element;
@@ -19,8 +19,6 @@ import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.eclipse.xtext.xbase.lib.Procedures.Procedure1;
 import org.eclipse.xtext.xbase.lib.XbaseGenerated;
-
-import com.google.inject.Inject;
 
 @SuppressWarnings("all")
 public class AvallaFormatter extends AbstractFormatter2 {

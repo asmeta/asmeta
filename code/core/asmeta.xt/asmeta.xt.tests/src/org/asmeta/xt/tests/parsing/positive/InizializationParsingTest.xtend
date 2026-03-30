@@ -4,11 +4,9 @@ import com.google.inject.Inject
 import org.asmeta.xt.asmetal.Asm
 import org.asmeta.xt.tests.AsmetaLInjectorProvider
 import org.eclipse.xtext.testing.InjectWith
-import org.eclipse.xtext.testing.XtextRunner
 import org.eclipse.xtext.testing.util.ParseHelper
 import org.eclipse.xtext.testing.validation.ValidationTestHelper
 import org.junit.jupiter.api.Test
-import org.junit.runner.RunWith
 import org.junit.jupiter.api.^extension.ExtendWith
 import org.eclipse.xtext.testing.extensions.InjectionExtension
 
