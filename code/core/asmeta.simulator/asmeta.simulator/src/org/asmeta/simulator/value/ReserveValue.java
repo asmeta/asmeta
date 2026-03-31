@@ -115,8 +115,7 @@ public class ReserveValue extends Value<String> {
 
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof ReserveValue) {
-			ReserveValue value = (ReserveValue) o;
+		if (o instanceof ReserveValue value) {
 			return getValue().equals(value.getValue());
 		}
 		return false;

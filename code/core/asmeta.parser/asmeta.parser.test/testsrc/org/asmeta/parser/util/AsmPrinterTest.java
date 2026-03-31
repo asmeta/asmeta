@@ -1,15 +1,13 @@
 package org.asmeta.parser.util;
 
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.PrintWriter;
-import java.io.StringWriter;
 
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.StringPrintWriter;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import asmeta.AsmCollection;
 import asmeta.structure.Asm;
@@ -17,10 +15,9 @@ import asmeta.structure.Header;
 import asmeta.structure.Signature;
 import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
 
-public class AsmPrinterTest {
+class AsmPrinterTest {
 
-	@Test
-	public void testVisitAsmMain() {
+	@Test void visitAsmMain() {
 		Asm asm = asmeta.structure.StructureFactory.eINSTANCE.createAsm();
 		Header h = asmeta.structure.StructureFactory.eINSTANCE.createHeader();
 		asm.setHeaderSection(h);		
@@ -35,8 +32,7 @@ public class AsmPrinterTest {
 		spr.visit(asm);
 	}
 
-	@Test
-	public void testVisitAsm2() throws Exception {
+	@Test void visitAsm2() throws Exception {
 		StringPrintWriter out = new StringPrintWriter();
 		AsmPrinter spr = new AsmPrinter(out);
 		spr.visit(ASMParser.setUpReadAsm(new File("../../../../asm_examples/examples/ferryman/ferrymanSimulator.asm")).getMain());
@@ -47,8 +43,7 @@ public class AsmPrinterTest {
 		assertTrue(out.isClosed());
 	}
 
-	@Test
-	public void testVisitAsmWithString() throws Exception {
+	@Test void visitAsmWithString() throws Exception {
 		StringPrintWriter out = new StringPrintWriter();
 		System.out.println(out.getString());
 		AsmPrinter spr = new AsmPrinter(out);

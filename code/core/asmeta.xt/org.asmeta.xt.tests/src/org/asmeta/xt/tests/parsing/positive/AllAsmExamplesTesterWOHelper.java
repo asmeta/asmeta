@@ -13,6 +13,7 @@ import org.asmeta.xt.parser.ParseAndValidateResult;
 import org.junit.Assert;
 import org.junit.Test;
 
+
 /**
  * test for all the examples in asm_examples
  * 

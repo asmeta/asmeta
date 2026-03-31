@@ -79,8 +79,8 @@ public class IntegerValue extends Value<Long> {
 
 	@Override
 	public boolean equals(Object object) {
-		if (object instanceof IntegerValue) {
-			return integerValue == (((IntegerValue) object)).integerValue;
+		if (object instanceof IntegerValue value) {
+			return integerValue == (value).integerValue;
 		}
 		// PA 19/02/10
 		else if (object instanceof UndefValue) {

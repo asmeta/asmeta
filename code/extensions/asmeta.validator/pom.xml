@@ -8,8 +8,8 @@
 		<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
 	</properties>
 	<modules>
-	<module>org.asmeta.avallaxt</module>
-	<module>org.asmeta.avallaxt.tests</module>
+	<module>asmeta.avallaxt</module>
+	<module>asmeta.avallaxt.tests</module>
 	<module>asmeta.validator</module>
 	<module>asmeta.validator.test</module>
 	</modules>

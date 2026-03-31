@@ -23,10 +23,8 @@ import asmeta.transitionrules.basictransitionrules.Rule;
 import asmeta.transitionrules.basictransitionrules.SkipRule;
 import asmeta.transitionrules.basictransitionrules.TermAsRule;
 import asmeta.transitionrules.basictransitionrules.UpdateRule;
-import asmeta.transitionrules.basictransitionrules.impl.ForallRuleImpl;
 import asmeta.transitionrules.derivedtransitionrules.CaseRule;
 import asmeta.transitionrules.turbotransitionrules.SeqRule;
-import asmeta.transitionrules.turbotransitionrules.TurbotransitionrulesFactory;
 
 public class ForAllMutator extends RuleBasedMutator {
 

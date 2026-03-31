@@ -275,8 +275,7 @@ public class StdlEvaluator {
 		
 		@Override
 		public boolean equals(Object arg0) {
-			if (arg0 instanceof WrappedMethod) {
-				WrappedMethod m2 = (WrappedMethod) arg0;
+			if (arg0 instanceof WrappedMethod m2) {
 				return compareTo(m2) == 0;
 			}
 			throw new IllegalArgumentException();

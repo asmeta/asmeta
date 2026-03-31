@@ -10,6 +10,8 @@
  ******************************************************************************/
 package org.asmeta.simulator;
 
+import java.io.Serial;
+
 import asmeta.definitions.Invariant;
 
 /**
@@ -18,6 +20,7 @@ import asmeta.definitions.Invariant;
  */
 public class InvalidInvariantException extends RuntimeException {
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	Invariant violated;

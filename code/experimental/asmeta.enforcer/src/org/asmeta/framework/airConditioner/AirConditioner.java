@@ -1,6 +1,8 @@
 package org.asmeta.framework.airConditioner;
 
-import org.asmeta.framework.managedSystem.*;
+import org.asmeta.framework.managedSystem.Effector;
+import org.asmeta.framework.managedSystem.ManagedSystem;
+import org.asmeta.framework.managedSystem.Probe;
 
 //import org.asmeta.monitoring.Asm;
 //import org.asmeta.monitoring.FieldToFunction;

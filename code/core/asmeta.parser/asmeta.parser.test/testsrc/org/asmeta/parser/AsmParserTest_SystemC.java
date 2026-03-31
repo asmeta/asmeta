@@ -1,36 +1,31 @@
 package org.asmeta.parser;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /** test class for SystemC specs
  * 
  * @author garganti
  *
  */
-public class AsmParserTest_SystemC extends AsmParserTest {
+class AsmParserTest_SystemC extends AsmParserTest {
 
-	@Test
-	public void testSystemC_Clock() {
+	@Test void systemCClock() {
 		testDir("systemc/clock");
 	}
 
-	@Test
-	public void testSystemC_Counter() {
+	@Test void systemCCounter() {
 		testDir("systemc/counter");
 	}
 
-	@Test
-	public void testSystemC_orgate() {
+	@Test void systemCOrgate() {
 		testDir("systemc/orgate");
 	}
 
-	@Test
-	public void testSystemC_sched() {
+	@Test void systemCSched() {
 		testDir("systemc/sched");
 	}
 
-	@Test
-	public void testSystemC_simplebus() {
+	@Test void systemCSimplebus() {
 		testDir("systemc/simple_bus");
 	}
 

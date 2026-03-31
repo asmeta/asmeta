@@ -1,12 +1,12 @@
 package asmeta.cli;
 
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test; import static org.junit.Assert.*;
 
 import java.io.File;
 import java.util.Collections;
 
 import org.apache.log4j.Logger;
-import org.junit.Test;
+
 
 public class AsmetaCLITest {
 

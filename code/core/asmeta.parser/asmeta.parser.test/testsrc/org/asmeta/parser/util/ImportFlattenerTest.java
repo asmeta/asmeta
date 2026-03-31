@@ -1,21 +1,20 @@
 package org.asmeta.parser.util;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.PrintWriter;
 
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.AsmParserTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import asmeta.structure.Asm;
 
-public class ImportFlattenerTest {
+class ImportFlattenerTest {
 
-	
-	@Test
-	public void testVisitAsm2() throws Exception {
+
+	@Test void visitAsm2() throws Exception {
 		AsmPrinter spr = new AsmPrinter(new PrintWriter(System.out));
 		String asmpath = AsmParserTest.FILE_BASE + "/examples/ABZ2020/CarSystemModule/CarSystem001/";
 		File asmetafile = new File(asmpath + "CarSystem001main.asm");

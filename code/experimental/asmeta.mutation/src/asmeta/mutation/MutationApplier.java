@@ -1,14 +1,11 @@
 package asmeta.mutation;
 
 import java.util.Iterator;
-import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.eclipse.emf.common.util.EList;
 
 import asmeta.AsmCollection;
 import asmeta.definitions.RuleDeclaration;
-import asmeta.structure.Asm;
 import asmeta.transitionrules.basictransitionrules.Rule;
 
 public class MutationApplier {

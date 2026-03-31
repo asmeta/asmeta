@@ -1,6 +1,6 @@
 package org.asmeta.framework.enforcerAirConditioner;
 
-import java.io.*;
+import java.io.IOException;
 import java.util.Scanner;
 
 import org.asmeta.framework.enforcer.Enforcer;

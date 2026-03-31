@@ -17,7 +17,6 @@ import org.asmeta.simulator.main.AsmModelNotFoundException;
 import org.asmeta.simulator.main.MainRuleNotFoundException;
 import org.asmeta.simulator.main.Simulator;
 import org.asmeta.simulator.value.Value;
-import org.eclipse.swt.widgets.Text;
 
 import asmeta.AsmCollection;
 

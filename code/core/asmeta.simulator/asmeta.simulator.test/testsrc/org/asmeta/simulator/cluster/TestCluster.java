@@ -16,11 +16,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.InvalidInvariantException;
 import org.asmeta.simulator.main.Simulator;
 import org.asmeta.simulator.main.Simulator.InvariantTreament;
 import org.asmeta.simulator.readers.FileMonFuncReader;
-import org.asmeta.simulator.Environment;
 
 public class TestCluster {
 

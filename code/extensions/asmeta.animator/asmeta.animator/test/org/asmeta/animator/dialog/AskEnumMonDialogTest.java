@@ -8,7 +8,6 @@ import org.eclipse.swt.widgets.Shell;
 import asmeta.definitions.domains.DomainsFactory;
 import asmeta.definitions.domains.EnumElement;
 import asmeta.definitions.domains.EnumTd;
-import asmeta.definitions.domains.IntegerDomain;
 
 public class AskEnumMonDialogTest {
 

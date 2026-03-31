@@ -2,7 +2,7 @@ package org.asmeta.parser.util;
 
 import java.io.File;
 import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -48,7 +48,7 @@ public class ImportFlattener {
 	 */
 	public ImportFlattener(Asm asm, String folder) {
 		// check that exists and it is a directory
-		assert Files.exists(Paths.get(folder)) && Files.isDirectory(Paths.get(folder));
+		assert Files.exists(Path.of(folder)) && Files.isDirectory(Path.of(folder));
 		this.folder = folder;
 		this.asm = asm;
 

@@ -1,12 +1,12 @@
 package asmetal2cpp_boostunit;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 
 import org.asmeta.asm2code.compiler.CompileResult;
 import org.asmeta.asm2code.compiler.CppCompiler;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
 
 public class TestCompilerTest {
 

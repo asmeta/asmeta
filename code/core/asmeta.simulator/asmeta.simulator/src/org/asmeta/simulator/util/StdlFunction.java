@@ -55,7 +55,7 @@ public class StdlFunction {
 	}
 
 	public FunctionTerm stdlFunc(String funcName, Term... arguments) {
-		EList<Function> funcsSTDL = asm.getHeaderSection().getImportClause().get(0).getImportedFunction();
+		EList<Function> funcsSTDL = asm.getHeaderSection().getImportClause().getFirst().getImportedFunction();
 		Function not = null;
 		for (Function f : funcsSTDL) {
 			if (f.getName().equals(funcName)) {

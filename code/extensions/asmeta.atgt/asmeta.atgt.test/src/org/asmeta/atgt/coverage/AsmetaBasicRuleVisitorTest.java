@@ -4,19 +4,17 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.File;
 
-import org.asmeta.atgt.coverage.AsmetaAsSpec;
-import org.asmeta.atgt.coverage.AsmetaBasicRuleVisitor;
 import org.asmeta.parser.ASMParser;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 
 import atgt.coverage.AsmCoverage;
 
 public class AsmetaBasicRuleVisitorTest {
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testGetTPTree() throws Exception {
 		// String ex =
 		// "D:\\AgDocuments\\progettiDaSVN\\asmeta\\mvm-asmeta\\VentilatoreASM\\Ventilatore2.asm";
@@ -27,7 +25,7 @@ public class AsmetaBasicRuleVisitorTest {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testGetTPTreeMVM() throws Exception {
 		generateCoverageFor("examples\\mvm0.asm");
 	}
@@ -54,7 +52,7 @@ public class AsmetaBasicRuleVisitorTest {
 		return tp.getNumberofTPs();
 	}
 
-	@BeforeClass
+	@BeforeAll
 	public static void setup() {
 //		Logger.getLogger(AsmTestGenerator.class).setLevel(Level.DEBUG);
 //		Logger.getLogger(TestGenerationWithNuSMV.class).setLevel(Level.DEBUG);

@@ -9,7 +9,6 @@ Bundle-ClassPath: org.eclipse.emf.common.jar,
 Require-Bundle: asmeta.emf,
  asmeta.parser
 Export-Package: org.asmeta.parser;x-friends:="asmeta.atgt.test"
-Import-Package: org.junit.runners
 Bundle-Vendor: foselab.unibg.it
 Automatic-Module-Name: asmeta.parser.test
 

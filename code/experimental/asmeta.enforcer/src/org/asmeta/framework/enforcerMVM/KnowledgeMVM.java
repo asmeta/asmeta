@@ -1,5 +1,6 @@
 package org.asmeta.framework.enforcerMVM;
 import java.util.Map;
+
 import org.asmeta.framework.enforcer.Knowledge;
 
 public class KnowledgeMVM extends Knowledge {

@@ -14,7 +14,7 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.13.0</version>
+				<version>3.15.0</version>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -40,10 +40,10 @@
 		<!-- aggiungo questo repo che contiene i jar di eclipse:
 		https://www.p2repository.com/ 
 		non è aggiornatissimo ma almeno compila il tutto-->
-	    <repository>
-	        <id>eclipse-2026-03</id>
-        	<url>https://p2repository.com/mvn4/eclipse-2026-03/</url>
-    	</repository>
+		<repository>
+			<id>eclipse-2026-03</id>
+			<url>https://p2repository.com/mvn4/eclipse-2026-03/</url>
+		</repository>
 		<repository>
 			<id>eclipse-2025-12</id>
 			<url>https://p2repository.com/mvn4/eclipse-2025-12/</url>
@@ -71,9 +71,9 @@
 	</repositories>
 	<dependencies>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.13.2</version>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>log4j</groupId>

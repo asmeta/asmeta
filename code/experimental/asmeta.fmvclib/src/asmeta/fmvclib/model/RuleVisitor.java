@@ -111,7 +111,7 @@ public class RuleVisitor extends ReflectiveVisitor<Void> implements IRuleVisitor
 	@Override
 	public Void visit(ChooseRule chooseRule){
 		if(env.inSeqRule) {
-			throw new RuntimeException("Chooserule in seqrule non supportato.");
+			throw new RuntimeException("Chooserule in seqrule not supported.");
 		}
 		List<VariableTerm> vars = chooseRule.getVariable();
 		Term cond = chooseRule.getGuard();

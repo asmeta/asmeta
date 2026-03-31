@@ -2,12 +2,10 @@ package asmeta.evotest.junit2avalla.javascenario;
 
 import java.util.LinkedList;
 import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import asmeta.evotest.junit2avalla.model.Scenario;
-import asmeta.evotest.junit2avalla.model.terms.JavaAssertionTerm;
-import asmeta.evotest.junit2avalla.model.terms.JavaVariableTerm;
 import asmeta.evotest.junit2avalla.antlr.JavaScenarioBaseListener;
 import asmeta.evotest.junit2avalla.antlr.JavaScenarioParser.ActualContext;
 import asmeta.evotest.junit2avalla.antlr.JavaScenarioParser.AsmDeclarationContext;
@@ -29,6 +27,9 @@ import asmeta.evotest.junit2avalla.antlr.JavaScenarioParser.VariableDeclarationC
 import asmeta.evotest.junit2avalla.antlr.JavaScenarioParser.VariableNameContext;
 import asmeta.evotest.junit2avalla.antlr.JavaScenarioParser.VariableTypeContext;
 import asmeta.evotest.junit2avalla.antlr.JavaScenarioParser.VariableValueContext;
+import asmeta.evotest.junit2avalla.model.Scenario;
+import asmeta.evotest.junit2avalla.model.terms.JavaAssertionTerm;
+import asmeta.evotest.junit2avalla.model.terms.JavaVariableTerm;
 
 /**
  * Parse the Junit class into a list of Scenario object (Queue of AvallaTerms).

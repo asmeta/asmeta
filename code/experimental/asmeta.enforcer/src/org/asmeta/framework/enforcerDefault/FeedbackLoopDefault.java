@@ -4,8 +4,10 @@
 * @author Patrizia Scandurra
 */
 package org.asmeta.framework.enforcerDefault;
-import org.asmeta.framework.enforcer.*;
-import org.asmeta.framework.managedSystem.*;
+import org.asmeta.framework.enforcer.FeedbackLoop;
+import org.asmeta.framework.enforcer.Knowledge;
+import org.asmeta.framework.managedSystem.Effector;
+import org.asmeta.framework.managedSystem.Probe;
 
 public class FeedbackLoopDefault extends FeedbackLoop{
 		

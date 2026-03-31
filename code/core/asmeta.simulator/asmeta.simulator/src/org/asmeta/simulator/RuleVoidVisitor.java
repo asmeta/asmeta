@@ -12,8 +12,6 @@ package org.asmeta.simulator;
 
 import java.util.List;
 
-import org.asmeta.parser.util.ReflectiveVisitor;
-
 import asmeta.transitionrules.basictransitionrules.BlockRule;
 import asmeta.transitionrules.basictransitionrules.ChooseRule;
 import asmeta.transitionrules.basictransitionrules.ConditionalRule;

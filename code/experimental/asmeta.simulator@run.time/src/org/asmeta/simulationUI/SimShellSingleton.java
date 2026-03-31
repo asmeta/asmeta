@@ -2,9 +2,9 @@ package org.asmeta.simulationUI;
 
 import java.util.Scanner;
 
-import org.asmeta.runtime_commander.CommanderSingleton;
 import org.asmeta.runtime_commander.CommanderException;
 import org.asmeta.runtime_commander.CommanderOutput;
+import org.asmeta.runtime_commander.CommanderSingleton;
 import org.asmeta.runtime_container.SimulationContainerSingleton;
 
 /**

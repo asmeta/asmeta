@@ -3,7 +3,6 @@ package org.asmeta.codegenerator.configuration;
 import org.asmeta.codegenerator.ConfigurationMode;
 import org.asmeta.codegenerator.arduino.ArduinoPinID;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Binding {

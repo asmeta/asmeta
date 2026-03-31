@@ -10,25 +10,19 @@
  ******************************************************************************/
 package org.asmeta.simulator.main;
 
-import static org.junit.Assert.assertEquals;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.asmeta.simulator.Location;
 import org.asmeta.simulator.TermEvaluator;
-import org.asmeta.simulator.value.BooleanValue;
-import org.asmeta.simulator.value.Value;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import asmeta.definitions.Function;
 
 
-public class LilliTesiTest extends BaseTest {
+class LilliTesiTest extends BaseTest {
 
-	@Test
-	public void test01() throws Exception {
+	@Test void test01() throws Exception {
 		// carica il simulatore
 		// con anche l'ambiente per le monitorate
 		// dsiabilita la lazy evaluation

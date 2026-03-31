@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.asmeta.atgt.rndgenerator.AsmTestGeneratorBySimulation;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import asmeta.AsmCollection;
 import asmetal2cpp_boostunit.ExampleTaker;

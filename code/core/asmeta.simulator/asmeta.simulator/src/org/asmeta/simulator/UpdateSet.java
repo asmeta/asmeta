@@ -123,8 +123,7 @@ public class UpdateSet extends LocationSet {
 
 	@Override
 	public boolean equals(Object o) {
-		if(o instanceof UpdateSet) {
-			UpdateSet updateSet = (UpdateSet)o;
+		if(o instanceof UpdateSet updateSet) {
 			if(getLocationMap().size() != updateSet.getLocationMap().size()) {
 				//if the two update sets do not have the  same number of elements,
 				//it means that they are not equal. Are we sure?

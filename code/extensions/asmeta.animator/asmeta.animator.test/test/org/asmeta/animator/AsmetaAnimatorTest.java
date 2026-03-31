@@ -4,9 +4,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import org.asmeta.animator.VisualizationSimulation;
 //import org.eclipse.swt.widgets.*;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /*
  * Update inconsistenti

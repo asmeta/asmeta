@@ -1,10 +1,9 @@
 package org.asmeta.nusmv.main;
 
 import static java.lang.System.out;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.util.Arrays;
@@ -13,15 +12,13 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.Predicate;
 
-import org.asmeta.nusmv.main.AsmetaSMV;
 import org.asmeta.nusmv.main.AsmetaSMV.ModelCheckerMode;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
 import org.eclipse.emf.common.util.EList;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
 
 import asmeta.definitions.CtlSpec;
 import asmeta.definitions.Property;
-import asmeta.definitions.TemporalProperty;
 
 // standard SMV test with CTL properties!
 public class AsmetaSMVtest {
@@ -29,7 +26,7 @@ public class AsmetaSMVtest {
 	protected static boolean PRINT_NU_SM_VOUTPUT = false;
 
 
-	@BeforeClass
+	@BeforeAll
 	public static void testNuSMVInstallation(){
 		//
 		AsmetaSMV.modelCheckerMode = ModelCheckerMode.CTL;
@@ -121,12 +118,12 @@ public class AsmetaSMVtest {
 		// TODO questa fallisce perchè alcune volte diverse proprietà di asmeta sono mappate sulle stesse proprietà di
 		// nusmv (per la semplificazione) quindi quelle con risultati sono di meno
 		// dovrei controllare che ogni propreità ha un risultato.
-		assertEquals(mapResults.toString(), nProp, nPropSMV);
+		assertEquals(nProp, nPropSMV, mapResults.toString());
 		// all are true
 		for(Entry<Property, Boolean> prop: mapResults.entrySet()) {
 			if (predicate.test(prop.getKey())) continue;
-			assertEquals("The property " + prop.getKey() + " should be "+ desiredValue 
-					+", instead is "+ (! desiredValue)+ ".", desiredValue, prop.getValue());
+			assertEquals(desiredValue, prop.getValue(), "The property " + prop.getKey() + " should be "+ desiredValue 
+					+", instead is "+ (! desiredValue)+ ".");
 		}
 	}
 

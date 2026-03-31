@@ -15,7 +15,6 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 import asmeta.terms.basicterms.Term;
-import asmeta.terms.furtherterms.*;
 import asmeta.terms.furtherterms.BagCt;
 import asmeta.terms.furtherterms.BagTerm;
 import asmeta.terms.furtherterms.CaseTerm;

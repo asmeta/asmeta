@@ -1,14 +1,14 @@
 package org.asmeta.asm2code.main;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.asmeta.asm2code.compiler.CppCompiler;
 import org.asmeta.parser.AsmetaParserUtility;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
+
 
 abstract public class GeneratorCompilerTest {
 
@@ -16,12 +16,12 @@ abstract public class GeneratorCompilerTest {
 	private static final String GCC_COMPILER = "g++";
 	static protected TranslatorOptions testOptions = new TranslatorOptions(false, true, true, true);
 	
-	@BeforeClass
+	@BeforeAll
 	public static void checkandsetCompiler() {
 		if (!CppCompiler.isCompilerSet()) {
 			// set a standard compiler
 			boolean setCompiler = CppCompiler.setCompiler(GCC_COMPILER);
-			assertTrue("compiler "+GCC_COMPILER+" not found in " + System.getenv().get("PATH"), setCompiler);
+			assertTrue(setCompiler, "compiler "+GCC_COMPILER+" not found in " + System.getenv().get("PATH"));
 		}
 	}
 

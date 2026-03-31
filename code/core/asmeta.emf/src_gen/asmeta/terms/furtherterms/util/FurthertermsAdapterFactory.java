@@ -16,7 +16,6 @@ import asmeta.terms.basicterms.CollectionTerm;
 import asmeta.terms.basicterms.ConstantTerm;
 import asmeta.terms.basicterms.ExtendedTerm;
 import asmeta.terms.basicterms.Term;
-import asmeta.terms.furtherterms.*;
 import asmeta.terms.furtherterms.BagCt;
 import asmeta.terms.furtherterms.BagTerm;
 import asmeta.terms.furtherterms.CaseTerm;

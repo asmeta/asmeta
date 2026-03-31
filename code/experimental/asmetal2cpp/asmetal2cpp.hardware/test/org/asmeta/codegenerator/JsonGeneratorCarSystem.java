@@ -1,14 +1,8 @@
 package org.asmeta.codegenerator;
 
-import static org.junit.Assert.fail;
-
-import org.asmeta.flattener.*;
-
 import java.io.IOException;
 
 import org.junit.Test;
-
-import asmeta.structure.Asm;
 
 public class JsonGeneratorCarSystem extends HWIntegratorAbstractClass{
 	

@@ -10,12 +10,15 @@
  ******************************************************************************/
 package org.asmeta.simulator.main;
 
+import java.io.Serial;
+
 /**
  * The model with the given name has not been found.
  *
  */
 public class AsmModelNotFoundException extends Exception {
-	
+
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	public AsmModelNotFoundException(String modelName) {

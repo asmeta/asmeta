@@ -11,7 +11,7 @@ import java.util.HashSet
 import java.util.List
 import javax.swing.tree.DefaultMutableTreeNode
 import javax.swing.tree.TreeNode
-import org.asmeta.parser.ASMParser
+import org.asmeta.parser.AsmetaParserUtility
 import org.asmeta.xt.AsmetaLStandaloneSetup
 import org.asmeta.xt.asmetal.AbstractTD
 import org.asmeta.xt.asmetal.AgentDomain
@@ -75,7 +75,6 @@ import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.ecore.util.EObjectEList
 import org.eclipse.emf.ecore.util.InternalEList
-import org.asmeta.parser.AsmetaParserUtility
 
 class Utility {
 

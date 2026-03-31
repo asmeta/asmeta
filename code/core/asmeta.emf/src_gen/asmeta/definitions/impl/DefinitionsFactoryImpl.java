@@ -6,7 +6,6 @@
  */
 package asmeta.definitions.impl;
 
-import asmeta.definitions.*;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;

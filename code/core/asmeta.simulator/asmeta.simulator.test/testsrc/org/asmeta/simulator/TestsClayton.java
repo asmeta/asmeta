@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.asmeta.simulator;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -21,13 +21,12 @@ import java.util.Set;
 import org.asmeta.simulator.value.SetValue;
 import org.asmeta.simulator.value.StringValue;
 import org.asmeta.simulator.value.Value;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
-public class TestsClayton {
+class TestsClayton {
 
-	@Test
-	public void testDifference() {
+	@Test void difference() {
 
 
 		Set<Value> conj1 = new HashSet<Value>();
@@ -77,8 +76,7 @@ public class TestsClayton {
 		assertEquals(toTest,result);
 	}
 
-	@Test
-	public void testIntersection() {
+	@Test void intersection() {
 
 
 		Set<Value> conj1 = new HashSet<Value>();
@@ -124,8 +122,7 @@ public class TestsClayton {
 		assertEquals(toTest,result);
 	}
 
-	@Test
-	public void testtoStringSetValue() {
+	@Test void testtoStringSetValue() {
 
 		Set<Value> conj2 = new HashSet<Value>();
 
@@ -144,8 +141,7 @@ public class TestsClayton {
 
 	}
 
-	@Test
-	public void testindexOf() {
+	@Test void testindexOf() {
 
 		Value v = new StringValue("a3");
 

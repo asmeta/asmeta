@@ -12,19 +12,7 @@ package org.asmeta.simulator;
 
 import org.asmeta.parser.util.ReflectiveVisitor;
 
-import asmeta.transitionrules.basictransitionrules.BlockRule;
-import asmeta.transitionrules.basictransitionrules.ChooseRule;
-import asmeta.transitionrules.basictransitionrules.ConditionalRule;
-import asmeta.transitionrules.basictransitionrules.ExtendRule;
-import asmeta.transitionrules.basictransitionrules.ForallRule;
-import asmeta.transitionrules.basictransitionrules.LetRule;
-import asmeta.transitionrules.basictransitionrules.MacroCallRule;
 import asmeta.transitionrules.basictransitionrules.Rule;
-import asmeta.transitionrules.basictransitionrules.SkipRule;
-import asmeta.transitionrules.basictransitionrules.TermAsRule;
-import asmeta.transitionrules.basictransitionrules.UpdateRule;
-import asmeta.transitionrules.derivedtransitionrules.CaseRule;
-import asmeta.transitionrules.turbotransitionrules.SeqRule;
 
 /**
  * abstract visitor of the rules.

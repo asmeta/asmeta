@@ -1,8 +1,10 @@
 package org.asmeta.framework.enforcerAirConditioner;
 //https://examples.javacodegeeks.com/core-java/lang/processbuilder/java-lang-processbuilder-example/
 	
-import org.asmeta.framework.enforcer.*;
-import org.asmeta.framework.airConditioner.*;
+import org.asmeta.framework.airConditioner.AirConditioner;
+import org.asmeta.framework.enforcer.Enforcer;
+import org.asmeta.framework.enforcer.FeedbackLoop;
+import org.asmeta.framework.enforcer.Knowledge;
 
 //First test class: the managed system is internal to its enforcer
 public class mainInternalOutputSanitisation {

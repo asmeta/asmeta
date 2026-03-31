@@ -4,7 +4,7 @@ package asmetal2cpp_boostunit;
 import java.io.File;
 
 import org.asmeta.parser.ASMParser;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import asmeta.AsmCollection;
 

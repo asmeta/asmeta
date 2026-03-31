@@ -3,7 +3,6 @@ package org.asmeta.nusmv.plugin.handlers;
 import java.io.File;
 
 import org.asmeta.eclipse.AsmetaActionHandler;
-import org.asmeta.eclipse.AsmetaConsole;
 import org.asmeta.nusmv.main.AsmetaSMV;
 import org.asmeta.nusmv.plugin.AsmetaSMVActivator;
 import org.asmeta.nusmv.plugin.AsmetaSMVConsole;

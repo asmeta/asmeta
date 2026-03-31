@@ -34,9 +34,9 @@ import org.asmeta.nusmv.main.AsmetaSMV;
 import org.asmeta.nusmv.main.AsmetaSMV.ModelCheckerMode;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
 import org.asmeta.parser.ASMParser;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 
 import atgt.coverage.AsmCoverage;
 import atgt.coverage.AsmCoverageBuilder;
@@ -70,7 +70,7 @@ public class ExperimentsMVM_ICTSS2021 {
 
 	static FileWriter fw;
 
-	@BeforeClass
+	@BeforeAll
 	public static void setup() throws IOException {
 		String fileName = "expriments_data" + data + ".txt";
 		fw = new FileWriter(fileName);
@@ -90,7 +90,7 @@ public class ExperimentsMVM_ICTSS2021 {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void generateMVMAll() throws Exception {
 		String ex = "../../../../../mvm-asmeta/asm_models/VentilatorICTSS/Ventilatore4SimpleTimeLtdY.asm";
 
@@ -140,20 +140,20 @@ public class ExperimentsMVM_ICTSS2021 {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void generateMVM1atatime() throws Exception {
 		String ex = "../../../../../mvm-asmeta/asm_models/VentilatorICTSS/Ventilatore4SimpleTimeLtdY.asm";
 		generatetTestsFor(ex);
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void generateMVM_0() throws Exception {
 		generatetTestsFor("examples\\mvm0.asm");
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void generateChoose() throws Exception {
 		generatetTestsFor("examples\\SpecWithChoose.asm");
 	}
@@ -278,7 +278,7 @@ public class ExperimentsMVM_ICTSS2021 {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void generateStatistics() throws Exception {
 		// Test non ottimizzati
 		// String path =
@@ -339,7 +339,7 @@ public class ExperimentsMVM_ICTSS2021 {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void counttp() throws Exception {
 		String ex = "../../../../../mvm-asmeta/asm_models/VentilatorICTSS/Ventilatore4SimpleTimeLtdY.asm";
 		AsmCoverage ct = buildCT(ex);
@@ -368,7 +368,7 @@ public class ExperimentsMVM_ICTSS2021 {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void rndGeneration() throws Exception {
 		String ex = "../../../../../mvm-asmeta/asm_models/VentilatorICTSS/Ventilatore4SimpleTimeLtdY.asm";
 		asmeta.AsmCollection asms = ASMParser.setUpReadAsm(new File(ex));

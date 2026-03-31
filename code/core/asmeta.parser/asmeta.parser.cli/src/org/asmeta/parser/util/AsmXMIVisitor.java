@@ -103,8 +103,8 @@ public class AsmXMIVisitor extends ReflectiveVisitor<Void> {
 		List<Property> properties = body.getProperty();
 		Collection<Invariant> invariants = new ArrayList<Invariant>();
 		for (Property p : properties) {
-			if (p instanceof Invariant) {
-				invariants.add((Invariant) p);
+			if (p instanceof Invariant invariant) {
+				invariants.add(invariant);
 			}
 		}
 

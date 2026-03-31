@@ -1,24 +1,20 @@
 package asmeta.mutation.mutationscore;
 
-import static org.junit.Assert.fail;
-
 import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.AbstractMap;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
+
 
 public class ScenarioExecutorTest {
 
-	@BeforeClass
+	@BeforeAll
 	public static void setUpLogger() throws Exception {
 		Logger.getLogger(org.asmeta.simulator.main.Simulator.class).setLevel(Level.OFF);
 		Logger.getLogger("org.asmeta.parser").setLevel(Level.OFF);
