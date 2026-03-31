@@ -19,7 +19,9 @@
 		<module>asmeta.simulator/asmeta.simulator</module>
 		<module>asmeta.simulator/asmeta.simulator.test</module>
 		<module>asmeta.simulator/asmeta.simulator.cli</module>
-		<!-- missing asmeta.xt -->
+		<!-- asmeta.xt -->
+		<module>asmeta.xt/asmeta.xt</module>
+		<module>asmeta.xt/asmeta.xt.tests</module>
 	</modules>
 	<build>
 		<plugins>
