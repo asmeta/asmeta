@@ -22,9 +22,10 @@ Import-Package: org.apache.log4j
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: org.asmeta.avallaxt.ui,
  org.asmeta.avallaxt.ui.contentassist,
- org.asmeta.avallaxt.ui.internal;uses:="org.osgi.framework,com.google.inject,org.eclipse.ui.plugin",
+ asmeta.avallaxt.ui.internal;uses:="org.osgi.framework,com.google.inject,org.eclipse.ui.plugin",
  org.asmeta.avallaxt.ui.labeling,
  org.asmeta.avallaxt.ui.outline,
  org.asmeta.avallaxt.ui.quickfix,
- org.asmeta.avallaxt.validation
-Bundle-Activator: org.asmeta.avallaxt.ui.internal.AvallaxtActivator
+ org.asmeta.avallaxt.validation,
+ asmeta.avallaxt.ui.internal
+Bundle-Activator: asmeta.avallaxt.ui.internal.AvallaxtActivator

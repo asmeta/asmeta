@@ -3,8 +3,8 @@
  */
 package org.asmeta.xt.ui;
 
+import asmeta.xt.ui.internal.XtActivator;
 import com.google.inject.Injector;
-import org.asmeta.xt.ui.internal.XtActivator;
 import org.eclipse.xtext.ui.guice.AbstractGuiceAwareExecutableExtensionFactory;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;

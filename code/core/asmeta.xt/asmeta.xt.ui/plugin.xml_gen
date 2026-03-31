@@ -335,7 +335,7 @@
 			point="org.eclipse.ui.ide.markerResolution">
 		<markerResolutionGenerator
 			class="org.asmeta.xt.ui.AsmetaLExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator"
-			markerType="org.asmeta.xt.ui.asmetal.check.fast">
+			markerType="asmeta.xt.ui.asmetal.check.fast">
 			<attribute
 				name="FIXABLE_KEY"
 				value="true">
@@ -343,7 +343,7 @@
 		</markerResolutionGenerator>
 		<markerResolutionGenerator
 			class="org.asmeta.xt.ui.AsmetaLExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator"
-			markerType="org.asmeta.xt.ui.asmetal.check.normal">
+			markerType="asmeta.xt.ui.asmetal.check.normal">
 			<attribute
 				name="FIXABLE_KEY"
 				value="true">
@@ -351,7 +351,7 @@
 		</markerResolutionGenerator>
 		<markerResolutionGenerator
 			class="org.asmeta.xt.ui.AsmetaLExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator"
-			markerType="org.asmeta.xt.ui.asmetal.check.expensive">
+			markerType="asmeta.xt.ui.asmetal.check.expensive">
 			<attribute
 				name="FIXABLE_KEY"
 				value="true">

@@ -22,5 +22,5 @@ Import-Package: org.apache.log4j
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Export-Package: org.asmeta.xt.ui.quickfix,
  org.asmeta.xt.ui.contentassist,
- org.asmeta.xt.ui.internal
-Bundle-Activator: org.asmeta.xt.ui.internal.XtActivator
+ asmeta.xt.ui.internal
+Bundle-Activator: asmeta.xt.ui.internal.XtActivator

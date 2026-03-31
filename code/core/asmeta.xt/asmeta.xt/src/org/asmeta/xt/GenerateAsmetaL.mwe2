@@ -12,7 +12,7 @@ Workflow {
 	component = XtextGenerator {
 		configuration =  {
 			project = StandardProjectConfig {
-				baseName = "org.asmeta.xt"
+				baseName = "asmeta.xt"
 				rootPath = rootPath
 				runtimeTest = {
 					enabled = true

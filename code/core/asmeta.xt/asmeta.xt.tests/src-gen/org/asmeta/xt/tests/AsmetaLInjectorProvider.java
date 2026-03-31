@@ -3,15 +3,14 @@
  */
 package org.asmeta.xt.tests;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import org.asmeta.xt.AsmetaLRuntimeModule;
 import org.asmeta.xt.AsmetaLStandaloneSetup;
 import org.eclipse.xtext.testing.GlobalRegistries;
 import org.eclipse.xtext.testing.GlobalRegistries.GlobalStateMemento;
 import org.eclipse.xtext.testing.IInjectorProvider;
 import org.eclipse.xtext.testing.IRegistryConfigurator;
-
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 
 public class AsmetaLInjectorProvider implements IInjectorProvider, IRegistryConfigurator {
 

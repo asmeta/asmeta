@@ -5,6 +5,7 @@ package org.asmeta.avallaxt.avalla.impl;
 
 import org.asmeta.avallaxt.avalla.AvallaPackage;
 import org.asmeta.avallaxt.avalla.Step;
+
 import org.eclipse.emf.ecore.EClass;
 
 /**

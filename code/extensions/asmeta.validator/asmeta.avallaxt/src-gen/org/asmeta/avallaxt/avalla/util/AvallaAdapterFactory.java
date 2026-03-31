@@ -3,22 +3,13 @@
  */
 package org.asmeta.avallaxt.avalla.util;
 
-import org.asmeta.avallaxt.avalla.AvallaPackage;
-import org.asmeta.avallaxt.avalla.Block;
-import org.asmeta.avallaxt.avalla.Check;
-import org.asmeta.avallaxt.avalla.Command;
-import org.asmeta.avallaxt.avalla.Element;
-import org.asmeta.avallaxt.avalla.Exec;
-import org.asmeta.avallaxt.avalla.ExecBlock;
-import org.asmeta.avallaxt.avalla.Invariant;
-import org.asmeta.avallaxt.avalla.Pick;
-import org.asmeta.avallaxt.avalla.Scenario;
-import org.asmeta.avallaxt.avalla.Set;
-import org.asmeta.avallaxt.avalla.Step;
-import org.asmeta.avallaxt.avalla.StepUntil;
+import org.asmeta.avallaxt.avalla.*;
+
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
+
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
+
 import org.eclipse.emf.ecore.EObject;
 
 /**
