@@ -10,7 +10,6 @@ import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Scanner;
 
-
 import org.asmeta.runtime_container.Esit;
 import org.asmeta.runtime_container.RunOutput;
 import org.asmeta.runtime_container.SimulationContainerSingleton;

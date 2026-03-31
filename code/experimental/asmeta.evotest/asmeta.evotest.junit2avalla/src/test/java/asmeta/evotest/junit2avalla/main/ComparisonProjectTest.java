@@ -1,8 +1,8 @@
 package asmeta.evotest.junit2avalla.main;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import asmeta.evotest.junit2avalla.javascenario.ParserType;
 
@@ -23,7 +23,7 @@ import asmeta.evotest.junit2avalla.javascenario.ParserType;
  * Automatically translates all the tests in the junit folder and compares them
  * with the translations in the avalla folder
  */
-public class ComparisonProjectTest {
+class ComparisonProjectTest {
 
 	/* Constants */
 	private static final String AVALLA_FOLDER = "avalla";
@@ -51,8 +51,7 @@ public class ComparisonProjectTest {
 	/** Map of the avalla files to be compared with {Name:File} */
 	Map<String, File> avallaFilesMap;
 
-	@Before
-	public void setup() throws IOException {
+	@BeforeEach void setup() throws IOException {
 		assert resourcePath.toFile().exists();
 		File junitFile = junitPath.toFile();
 		assert junitFile.exists() && junitFile.isDirectory();
@@ -73,8 +72,7 @@ public class ComparisonProjectTest {
 	 * generated Avalla file is identical to the expected one, first parses with the
 	 * custom parser and then with JavaParser
 	 */
-	@Test
-	public void comparisonTest() {
+	@Test void comparisonTest() {
 		System.out.println("Comparison test using CUSTOM PARSER: ");
 		testAll(ParserType.CUSTOM_PARSER);
 		System.out.println("\n--------------------------------------------------------");

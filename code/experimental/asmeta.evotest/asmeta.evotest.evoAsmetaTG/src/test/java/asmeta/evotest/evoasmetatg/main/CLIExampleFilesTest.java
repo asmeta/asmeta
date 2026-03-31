@@ -1,7 +1,7 @@
 package asmeta.evotest.evoasmetatg.main;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -11,14 +11,10 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.asmeta.annotations.TestToMavenSkip;
 import org.asmeta.parser.AsmetaParserUtility;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
-
-import asmeta.evotest.evoasmetatg.main.EvoAsmetaTgCLI;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 
 /**
  * This test class tests the entire application directly via the CLI with all
@@ -62,7 +58,7 @@ public class CLIExampleFilesTest {
 	 * Create the temp output folder and populate the asmFiles list.
 	 * 
 	 */
-	@Before
+	@BeforeAll
 	public void setup() {
 		testResourcesDir = TEST_RESOURCES_DIR_PATH.toFile();
 		assertTrue(testResourcesDir.exists());
@@ -77,7 +73,7 @@ public class CLIExampleFilesTest {
 	 * Test all the files by running the application and check the returned code.
 	 */
 	@Test
-	@Category(TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testAllSpecs() {
 		/** list of all the asm specification to test. */
 		List<File> asmFiles = new LinkedList<>();
@@ -130,7 +126,7 @@ public class CLIExampleFilesTest {
 
 	
 	@Test
-	@Category(TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void testOneSpecificfile() {
 		JAVA_PATH_VALUE= "C:\\Program Files (x86)\\Java\\jre1.8.0_451";
 		//File f = new File("..\\asmeta.evotest.experiments\\src\\main\\resources\\models\\QuickSort.asm");

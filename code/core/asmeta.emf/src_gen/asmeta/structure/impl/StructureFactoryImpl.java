@@ -6,7 +6,6 @@
  */
 package asmeta.structure.impl;
 
-import asmeta.structure.*;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;

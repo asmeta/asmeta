@@ -19,8 +19,8 @@ import org.asmeta.atgt.generator.NuSMVtestGenerator;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.AsmetaParserUtility;
 import org.asmeta.simulator.Environment;
-import org.asmeta.simulator.RuleEvaluator;
 import org.asmeta.simulator.Environment.TimeMngt;
+import org.asmeta.simulator.RuleEvaluator;
 import org.asmeta.simulator.main.Simulator;
 import org.yaml.snakeyaml.Yaml;
 

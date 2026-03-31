@@ -13,7 +13,6 @@ import org.kohsuke.args4j.Option;
 
 import asmeta.cli.ASMFileFilter;
 import asmeta.cli.AsmetaCLI;
-import asmeta.cli.AsmetaCLI.RunCLIResult;
 
 /** main class to build the program AsmetaS */
 

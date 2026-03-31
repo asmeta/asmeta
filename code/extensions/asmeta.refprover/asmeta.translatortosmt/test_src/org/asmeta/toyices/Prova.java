@@ -1,11 +1,10 @@
 package org.asmeta.toyices;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-
-import org.junit.Test;
 
 public class Prova {
 	

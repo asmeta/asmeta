@@ -4,34 +4,24 @@
 package org.asmeta.test;
 
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.awt.EventQueue;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 
-import javax.swing.JLabel;
-import javax.swing.JTextPane;
-
-import org.asmeta.assertion_catalog.InvariantGUI;
 import org.asmeta.runtime_commander.Commander;
 import org.asmeta.runtime_commander.CommanderException;
 import org.asmeta.runtime_commander.CommanderOutput;
 import org.asmeta.runtime_commander.CommanderStatus;
-import org.asmeta.runtime_container.SimulationContainer;
 import org.asmeta.runtime_container.Esit;
 import org.asmeta.runtime_container.InvariantData;
 import org.asmeta.runtime_container.RunOutput;
-import org.asmeta.runtime_simulator.AsmetaSserviceSingleton;
-import org.junit.Test;
+import org.asmeta.runtime_container.SimulationContainer;
+import org.junit.jupiter.api.Test;
+
 
 /**
  * @author Federico Rebucini, Hernan Altamirano, Daniele Troiano

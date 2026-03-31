@@ -1,8 +1,8 @@
 package org.asmeta.modeladvisor;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 
 import asmeta.transitionrules.basictransitionrules.ChooseRule;
 import asmeta.transitionrules.basictransitionrules.ForallRule;
@@ -20,11 +20,11 @@ import asmeta.transitionrules.basictransitionrules.MacroCallRule;
 import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
 import asmeta.transitionrules.basictransitionrules.Rule;
 
-public class AsmetaMATestAll {
+class AsmetaMATestAll {
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
-	public void testCaseRuleIsComplete() throws Exception {
+	@Tag("TestToMavenSkip")
+	void caseRuleIsComplete() throws Exception {
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/caseIsComplete.asm");
 		asmetaMA.setAllMetapropertiesExecution();
 		asmetaMA.runCheck();
@@ -38,8 +38,8 @@ public class AsmetaMATestAll {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
-	public void testChooseBoolean() throws Exception {
+	@Tag("TestToMavenSkip")
+	void chooseBoolean() throws Exception {
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/chooseBoolean.asm");
 		asmetaMA.setAllMetapropertiesExecution();
 		asmetaMA.runCheck();
@@ -49,7 +49,7 @@ public class AsmetaMATestAll {
 	}
 
 	@Test
-	public void testChooseAlwaysNotEmpty() throws Exception {
+	void chooseAlwaysNotEmpty() throws Exception {
 		Set<String> expectedAlwaysNot = new HashSet<String>();
 		expectedAlwaysNot.add("$x");
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/chooseAlwaysNotEmpty.asm");
@@ -67,7 +67,7 @@ public class AsmetaMATestAll {
 	}
 
 	@Test
-	public void testChooseAlwaysEmpty() throws Exception {
+	void chooseAlwaysEmpty() throws Exception {
 		Set<String> expectedAlwaysNot = new HashSet<String>();
 		Set<String> expectedNotAlways = new HashSet<String>();
 		Set<String> expectedAlways = new HashSet<String>();
@@ -93,8 +93,8 @@ public class AsmetaMATestAll {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
-	public void testChooseRuleIsEmpty() throws Exception {
+	@Tag("TestToMavenSkip")
+	void chooseRuleIsEmpty() throws Exception {
 		Set<String> expectedAlwaysNot = new HashSet<String>();
 		expectedAlwaysNot.add("$o");
 		expectedAlwaysNot.add("$h");
@@ -133,7 +133,7 @@ public class AsmetaMATestAll {
 	}
 
 	@Test
-	public void testChooseNeverExecuted() throws Exception {
+	void chooseNeverExecuted() throws Exception {
 		Set<String> expectedAlwaysNot = new HashSet<String>();
 		expectedAlwaysNot.add("$x");
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/chooseNeverExecuted.asm");
@@ -148,8 +148,8 @@ public class AsmetaMATestAll {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
-	public void testCondRuleEvalToTrue() throws Exception {
+	@Tag("TestToMavenSkip")
+	void condRuleEvalToTrue() throws Exception {
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/condIsEvalToTrue.asm");
 		asmetaMA.setAllMetapropertiesExecution();
 		asmetaMA.runCheck();
@@ -159,8 +159,8 @@ public class AsmetaMATestAll {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
-	public void testCondRuleIsComplete() throws Exception {
+	@Tag("TestToMavenSkip")
+	void condRuleIsComplete() throws Exception {
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/condIsComplete.asm");
 		asmetaMA.setAllMetapropertiesExecution();
 		asmetaMA.runCheck();
@@ -179,7 +179,7 @@ public class AsmetaMATestAll {
 	}
 
 	@Test
-	public void testContrLocCouldBeStatic() throws Exception {
+	void contrLocCouldBeStatic() throws Exception {
 		Set<String> locCouldBeStaticExpected = new HashSet<String>();
 		locCouldBeStaticExpected.add("fooA");
 		locCouldBeStaticExpected.add("fooC");
@@ -207,7 +207,7 @@ public class AsmetaMATestAll {
 	}
 
 	@Test
-	public void testContrLocIsUpdated() throws Exception {
+	void contrLocIsUpdated() throws Exception {
 		Set<String> neverUpdated = new HashSet<String>();
 		neverUpdated.add("fooB");
 		neverUpdated.add("fooE");
@@ -222,7 +222,7 @@ public class AsmetaMATestAll {
 	}
 
 	@Test
-	public void testContrLocTakesEveryValue() throws Exception {
+	void contrLocTakesEveryValue() throws Exception {
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/contrLocAllValues.asm");
 		asmetaMA.setAllMetapropertiesExecution();
 		asmetaMA.runCheck();
@@ -282,12 +282,12 @@ public class AsmetaMATestAll {
 		//perche' anche se non viene inizializzata ed usata, da AsmetaSMV viene
 		//inizializzata ad undef e, quindi, viene classificata come
 		//initAndNeverUsedLocation.
-		assertTrue(asmetaMA.contrLocTakes.neverUsedLocation.size()==0);		
-	} 
+		assertEquals(0, asmetaMA.contrLocTakes.neverUsedLocation.size());		
+	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
-	public void testDomainAllUsed() throws Exception {
+	@Tag("TestToMavenSkip")
+	void domainAllUsed() throws Exception {
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/usedDomain.asm");
 		asmetaMA.setAllMetapropertiesExecution();
 		asmetaMA.runCheck();
@@ -349,13 +349,13 @@ public class AsmetaMATestAll {
 			assertTrue(expectedNotUsedVals.containsKey(domain));
 			for(String value: asmetaMA.domainAllUsed.notUsedVals.get(domain)) {
 				boolean should_notbe_used = expectedNotUsedVals.get(domain).contains(value);
-				assertTrue(value + " in " + domain + " is used instead", should_notbe_used);
+				assertTrue(should_notbe_used,value + " in " + domain + " is used instead");
 			}
 		}
 	}
 
 	@Test
-	public void testDomainAllUsed2() throws Exception {
+	void domainAllUsed2() throws Exception {
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/usedDomain2.asm");
 		asmetaMA.setAllMetapropertiesExecution();
 		asmetaMA.runCheck();
@@ -401,8 +401,8 @@ public class AsmetaMATestAll {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
-	public void testForallRuleIsEmpty() throws Exception {
+	@Tag("TestToMavenSkip")
+	void forallRuleIsEmpty() throws Exception {
 		Set<String> expectedAlwaysNot = new HashSet<String>();
 		expectedAlwaysNot.add("$x");
 		expectedAlwaysNot.add("$w");
@@ -435,7 +435,7 @@ public class AsmetaMATestAll {
 	}
 
 	@Test
-	public void testInconsistentUpdate() throws Exception {
+	void inconsistentUpdate() throws Exception {
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/inconsistentUpdates.asm");
 		asmetaMA.setAllMetapropertiesExecution();
 		asmetaMA.runCheck();
@@ -454,7 +454,7 @@ public class AsmetaMATestAll {
 	}
 
 	@Test
-	public void testLocationCouldBeRemoved() throws Exception {
+	void locationCouldBeRemoved() throws Exception {
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/locationCouldBeRemoved.asm");
 		asmetaMA.setAllMetapropertiesExecution();
 		asmetaMA.runCheck();
@@ -492,8 +492,8 @@ public class AsmetaMATestAll {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
-	public void testMacroCallRuleIsReached() throws Exception {
+	@Tag("TestToMavenSkip")
+	void macroCallRuleIsReached() throws Exception {
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/macroRuleReached.asm");
 		asmetaMA.setAllMetapropertiesExecution();
 		asmetaMA.runCheck();
@@ -510,8 +510,8 @@ public class AsmetaMATestAll {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
-	public void testMacroRuleCalled() throws Exception {
+	@Tag("TestToMavenSkip")
+	void macroRuleCalled() throws Exception {
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/macroRuleCalled.asm");
 		asmetaMA.setAllMetapropertiesExecution();
 		asmetaMA.runCheck();
@@ -520,26 +520,26 @@ public class AsmetaMATestAll {
 		for(MacroDeclaration rule: asmetaMA.macroRuleCalled.numOfCalls.keySet()) {
 			ruleName = rule.getName();
 			if(ruleName.equals("r_a")) {
-				assertEquals(numOfCalls.get(rule).intValue(), 0);
+				assertEquals(0, numOfCalls.get(rule).intValue());
 			}
 			else if(ruleName.equals("r_b")) {
-				assertEquals(numOfCalls.get(rule).intValue(), 0);
+				assertEquals(0, numOfCalls.get(rule).intValue());
 			}
 			else if(ruleName.equals("r_c")) {
-				assertEquals(numOfCalls.get(rule).intValue(), 1);
+				assertEquals(1, numOfCalls.get(rule).intValue());
 			}
 			else if(ruleName.equals("r_d")) {
-				assertEquals(numOfCalls.get(rule).intValue(), 1);
+				assertEquals(1, numOfCalls.get(rule).intValue());
 			}
 			else if(ruleName.equals("r_e")) {
-				assertEquals(numOfCalls.get(rule).intValue(), 1);
+				assertEquals(1, numOfCalls.get(rule).intValue());
 			}
 		}
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
-	public void testRuleIsReached() throws Exception {
+	@Tag("TestToMavenSkip")
+	void ruleIsReached() throws Exception {
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/ruleIsReached.asm");
 		asmetaMA.setAllMetapropertiesExecution();
 		asmetaMA.runCheck();
@@ -548,8 +548,8 @@ public class AsmetaMATestAll {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
-	public void testStatDerIsUsed() throws Exception {
+	@Tag("TestToMavenSkip")
+	void statDerIsUsed() throws Exception {
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/statDerIsUsed.asm");
 		asmetaMA.setAllMetapropertiesExecution();
 		asmetaMA.runCheck();
@@ -621,11 +621,11 @@ public class AsmetaMATestAll {
 	}
 
 	@Test
-	public void testTrivialUpdate() throws Exception {
+	void trivialUpdate() throws Exception {
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/trivialUpdate.asm");
 		asmetaMA.setAllMetapropertiesExecution();
 		asmetaMA.runCheck();
-		assertEquals(asmetaMA.trivialUpdate.trivialUpdate.size(), 6);
+		assertEquals(6, asmetaMA.trivialUpdate.trivialUpdate.size());
 		assertArrayEquals(new String[]{"fooF", "(TRUE & !(fooB = AA))", "BB"}, asmetaMA.trivialUpdate.trivialUpdate.get(0));
 		assertArrayEquals(new String[]{"fooG", "(TRUE & (fooB = AA))", "AA"}, asmetaMA.trivialUpdate.trivialUpdate.get(1));
 		assertArrayEquals(new String[]{"fooG", "(TRUE & !(fooB = AA))", "AA"}, asmetaMA.trivialUpdate.trivialUpdate.get(2));

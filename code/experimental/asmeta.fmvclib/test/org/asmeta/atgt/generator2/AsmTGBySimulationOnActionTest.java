@@ -1,7 +1,5 @@
 package org.asmeta.atgt.generator2;
 
-import static org.junit.Assert.*;
-
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
@@ -10,7 +8,7 @@ import org.asmeta.atgt.rndgenerator.AsmTestGeneratorBySimulation;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.Environment.TimeMngt;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import asmeta.AsmCollection;
 import atgt.coverage.AsmTestSequence;

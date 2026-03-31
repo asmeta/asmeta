@@ -10,12 +10,15 @@
  ******************************************************************************/
 package org.asmeta.simulator.util;
 
+import java.io.Serial;
+
 /**
  * A name misses a definition exception.
  *
  */
 public class UnresolvedReferenceException extends RuntimeException {
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 	
 	public UnresolvedReferenceException() {

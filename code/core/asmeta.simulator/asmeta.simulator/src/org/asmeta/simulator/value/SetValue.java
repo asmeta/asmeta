@@ -49,8 +49,8 @@ public class SetValue<T> extends CollectionValue<T> {
 
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof SetValue) {
-			return set.equals(((SetValue) o).getValue());
+		if (o instanceof SetValue value) {
+			return set.equals(value.getValue());
 		}
 		throw new IllegalArgumentException();
 	}

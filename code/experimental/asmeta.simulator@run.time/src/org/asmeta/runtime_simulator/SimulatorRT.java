@@ -1,11 +1,11 @@
 package org.asmeta.runtime_simulator;
 
 import org.asmeta.simulator.Environment;
+import org.asmeta.simulator.Environment.TimeMngt;
 import org.asmeta.simulator.InvalidInvariantException;
 import org.asmeta.simulator.LocationSet;
 import org.asmeta.simulator.State;
 import org.asmeta.simulator.UpdateSet;
-import org.asmeta.simulator.Environment.TimeMngt;
 import org.asmeta.simulator.main.AsmModelNotFoundException;
 import org.asmeta.simulator.main.AsmetaSimulatorWR;
 import org.asmeta.simulator.main.MainRuleNotFoundException;

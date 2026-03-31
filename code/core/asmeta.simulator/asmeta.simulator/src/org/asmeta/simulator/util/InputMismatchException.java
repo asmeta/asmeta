@@ -10,12 +10,15 @@
  ******************************************************************************/
 package org.asmeta.simulator.util;
 
+import java.io.Serial;
+
 /**
  * Wrong read input exception. 
  *
  */
 public class InputMismatchException extends Exception {
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 	
 	/**

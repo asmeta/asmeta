@@ -1,11 +1,13 @@
 package org.asmeta.experiments.input;
 
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.asmeta.java_models.Command;
 import org.asmeta.java_models.RailroadGate_v2;
-import org.asmeta.runtime_container.*;
+import org.asmeta.runtime_container.Esit;
+import org.asmeta.runtime_container.RunOutput;
+import org.asmeta.runtime_container.SimulationContainerSingleton;
 
 /**
  * @author Federico Rebucini

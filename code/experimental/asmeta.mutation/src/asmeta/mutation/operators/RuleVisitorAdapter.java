@@ -1,6 +1,5 @@
 package asmeta.mutation.operators;
 
-import org.asmeta.simulator.RuleVisitor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

@@ -1,7 +1,7 @@
 package org.asmeta.refinement;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -16,7 +16,8 @@ import java.util.Set;
 
 import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
+
 
 public abstract class ProofTest {
 
@@ -75,7 +76,7 @@ public abstract class ProofTest {
 
 	static List<ProofResult> summary;
 
-	@BeforeClass
+	@BeforeAll
 	static public void setupResults() {
 		summary = new ArrayList<ProofResult>();
 	}

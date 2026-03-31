@@ -8,15 +8,14 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.simulator.Environment;
-import org.asmeta.simulator.RuleEvaluator;
 import org.asmeta.simulator.Environment.TimeMngt;
+import org.asmeta.simulator.RuleEvaluator;
 import org.asmeta.simulator.main.Simulator;
 
 import asmeta.evotest.experiments.scenario.ScenarioDataCollector;

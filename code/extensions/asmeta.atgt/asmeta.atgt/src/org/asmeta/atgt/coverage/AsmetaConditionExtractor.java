@@ -6,10 +6,7 @@ import java.util.Vector;
 
 import org.asmeta.simulator.RuleVisitor;
 
-import asmeta.terms.basicterms.BasictermsFactory;
-import asmeta.terms.basicterms.BooleanTerm;
 import asmeta.terms.basicterms.impl.BasictermsFactoryImpl;
-import asmeta.terms.basicterms.impl.BooleanTermImpl;
 import asmeta.transitionrules.basictransitionrules.BlockRule;
 import asmeta.transitionrules.basictransitionrules.ExtendRule;
 import asmeta.transitionrules.basictransitionrules.ForallRule;

@@ -1,7 +1,5 @@
 package asmeta.evotest.junit2avalla.javascenario;
 
-import asmeta.evotest.junit2avalla.model.Scenario;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -10,6 +8,8 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import asmeta.evotest.junit2avalla.model.Scenario;
 
 /**
  * The {@code ScenarioReaderImpl} class provides functionality to read and parse

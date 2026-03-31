@@ -1,18 +1,11 @@
 package org.asmeta.modeladvisor;
 
-import static org.kohsuke.args4j.ExampleMode.ALL;
-
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
-import org.kohsuke.args4j.Argument;
-import org.kohsuke.args4j.CmdLineException;
-import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 
 import asmeta.cli.AsmetaCLI;

@@ -1,14 +1,12 @@
 package org.asmeta.xt.validator;
 
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test; import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.asmeta.xt.validator.StatementToStringBuffer;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class TestStatementStringBuffer {
+class TestStatementStringBuffer {
 
-	@Test
-	public void testChanged() {
+	@Test void changed() {
 		String result = StatementToStringBuffer.putEqInsteadOf("a = (4,5)");
 		assertEquals("eq(a,(4,5))", result);
 		result = StatementToStringBuffer.putEqInsteadOf("a = {2,3}");
@@ -24,9 +22,8 @@ public class TestStatementStringBuffer {
 		//result = StatementToStringBuffer.putEqInsteadOf("f(a = (2,1))");
 		//assertEquals("f(eq(a,(2,1)))", result); // fails
 	}
-	
-	@Test
-	public void testNotChanged() {
+
+	@Test void notChanged() {
 		String result = StatementToStringBuffer.putEqInsteadOf("a = b");
 		assertEquals("a = b", result);
 		result = StatementToStringBuffer.putEqInsteadOf("a = b+5");

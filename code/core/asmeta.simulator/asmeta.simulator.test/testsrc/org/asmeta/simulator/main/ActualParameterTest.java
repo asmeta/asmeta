@@ -1,7 +1,8 @@
 package org.asmeta.simulator.main;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -9,14 +10,14 @@ import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.AsmetaParserUtility;
 import org.asmeta.simulator.NotCompatibleDomainsException;
 import org.asmeta.simulator.RuleEvaluator;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
-public class ActualParameterTest extends BaseTest {
+class ActualParameterTest extends BaseTest {
 
-	@BeforeClass
-	public static void setup() {
+	@BeforeAll
+	static void setup() {
 		ASMParser.getResultLogger().setLevel(Level.OFF);
 		Logger.getLogger(Simulator.class).setLevel(Level.OFF);
 		RuleEvaluator.logger.setLevel(Level.OFF);
@@ -24,22 +25,22 @@ public class ActualParameterTest extends BaseTest {
 	}
 
 	//viene sollevata giustamente l'eccezione
-	@Ignore // ANGELO, ignore this test, I'm not sure it is correct 2021.05
-	@Test(expected = NotCompatibleDomainsException.class)
-	public void test01() throws Throwable {
+	@Disabled // ANGELO, ignore this test, I'm not sure it is correct 2021.05
+	@Test void test01() throws Throwable {
 		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/wrongDomainAsActualParameter.asm");
-		try {
-			sim.run(2);
-		}
-		catch(RuntimeException re) {
-			assertEquals(re.getCause().getClass(), NotCompatibleDomainsException.class);
-			throw re.getCause();
-		}
+		assertThrows(NotCompatibleDomainsException.class, () -> {
+			try {
+				sim.run(2);
+			}
+			catch (RuntimeException re) {
+				assertEquals(NotCompatibleDomainsException.class, re.getCause().getClass());
+				throw re.getCause();
+			}
+		});
 	}
 
 	//l'eccezione viene sollevata ugualmente. Il termine non cambia il suo dominio runtime...
-	@Test
-	public void test02() throws Exception {
+	@Test void test02() throws Exception {
 		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/correctDomainAsActualParameter.asm");
 		try {
 			sim.run(2);

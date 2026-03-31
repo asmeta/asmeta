@@ -1,6 +1,5 @@
 package org.asmeta.parser.util;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.function.Predicate;
@@ -9,9 +8,7 @@ import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
 
 import asmeta.structure.Asm;
-import asmeta.structure.Body;
 import asmeta.structure.Header;
-import asmeta.structure.ImportClause;
 
 // check if an ASM (or more) contains a feature - given as predicate over EObject 
 public class AsmetaFeatureChecker {

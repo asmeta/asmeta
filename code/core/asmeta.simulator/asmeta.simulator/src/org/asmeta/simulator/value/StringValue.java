@@ -54,8 +54,8 @@ public class StringValue extends Value<String> {
 
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof StringValue) {
-			return getValue().equals(((StringValue) o).getValue());
+		if (o instanceof StringValue stringValue) {
+			return getValue().equals(stringValue.getValue());
 		}
 		//PA 19/02/10
 		else if (o instanceof UndefValue) {

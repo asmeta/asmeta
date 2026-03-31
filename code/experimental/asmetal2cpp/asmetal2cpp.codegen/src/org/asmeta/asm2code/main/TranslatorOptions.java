@@ -1,7 +1,5 @@
 package org.asmeta.asm2code.main;
 
-import org.eclipse.emf.ecore.util.Switch;
-
 /** 
  * contains the translation options used by the generators to decide the behaviors of the generators
  */

@@ -5,7 +5,9 @@
 */
 package org.asmeta.framework.enforcerDefault;
 
-import org.asmeta.framework.enforcer.*;
+import org.asmeta.framework.enforcer.Enforcer;
+import org.asmeta.framework.enforcer.FeedbackLoop;
+import org.asmeta.framework.enforcer.Knowledge;
 import org.asmeta.framework.managedSystem.ManagedSystem;	
 
 public class EnforcerDefault extends Enforcer{

@@ -10,12 +10,15 @@
  ******************************************************************************/
 package org.asmeta.simulator.main;
 
+import java.io.Serial;
+
 /**
  * No main rule has been found.
  *
  */
 public class MainRuleNotFoundException extends Exception {
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	public MainRuleNotFoundException(String modelName) {

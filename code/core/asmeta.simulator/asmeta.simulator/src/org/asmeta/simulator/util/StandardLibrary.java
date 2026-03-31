@@ -376,7 +376,7 @@ public class StandardLibrary {
 	}
 
 	public static <T> Value<T> first(SequenceValue<T> seq1) {
-		return seq1.getValue().get(0);
+		return seq1.getValue().getFirst();
 	}
 
 	public static SequenceValue tail(SequenceValue seq1) {
@@ -430,7 +430,7 @@ public class StandardLibrary {
 
 	public static Value last(SequenceValue sv) {
 		List<Value> elements = sv.getValue();
-		return elements.get(elements.size() - 1);
+		return elements.getLast();
 	}
 
 	public static BooleanValue contains(UndefValue sv, Value av) {
@@ -887,7 +887,7 @@ public class StandardLibrary {
 	}
 
 	public static <T> Value<T> first(TupleValue<T> t) {
-		return t.getValue().get(0);
+		return t.getValue().getFirst();
 	}
 
 	public static <T> Value<T> second(TupleValue<T> t) {
@@ -954,7 +954,7 @@ public class StandardLibrary {
 
 	public static Value prepend(Value v, SequenceValue s) {
 		SequenceValue result = new SequenceValue(s);
-		result.getValue().add(0, v);
+		result.getValue().addFirst(v);
 		return result;
 	}
 

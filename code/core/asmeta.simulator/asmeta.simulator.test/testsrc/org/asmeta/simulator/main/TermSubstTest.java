@@ -10,14 +10,14 @@
  ******************************************************************************/
 package org.asmeta.simulator.main;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.asmeta.parser.util.AsmetaTermPrinter;
 import org.asmeta.simulator.TermAssignment;
 import org.asmeta.simulator.TermSubstitution;
 import org.asmeta.simulator.wrapper.RuleFactory;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import asmeta.terms.basicterms.Term;
 import asmeta.transitionrules.basictransitionrules.MacroCallRule;
@@ -28,10 +28,10 @@ import asmeta.transitionrules.basictransitionrules.UpdateRule;
  * Test for TermSubstitution class.
  *
  */
-public class TermSubstTest {
-	
-	@BeforeClass
-	public static void setupLogger() throws Exception{
+class TermSubstTest {
+
+	@BeforeAll
+	static void setupLogger() throws Exception{
 		//AsmParserTest.setUpLogger();
 	}
 
@@ -48,65 +48,57 @@ public class TermSubstTest {
 		Term newTerm = subst.visit(term);
 		return AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(newTerm);
 	}
-	
-	@Test
-	public void test01() throws Exception {
+
+	@Test void test01() throws Exception {
 		String actual = subst("test/simulator/term_subst/termsubst01.asm");
 		assertEquals(
 				"plus($x,$y)", 
 				actual);
 	}
-	
-	@Test
-	public void test02() throws Exception {
+
+	@Test void test02() throws Exception {
 		String actual = subst("test/simulator/term_subst/termsubst02.asm");
 		assertEquals(
 				"g(plus($x,$y),0)", 
 				actual);
 	}
 
-	@Test
-	public void test03() throws Exception {
+	@Test void test03() throws Exception {
 		String actual = subst("test/simulator/term_subst/termsubst03.asm");
 		assertEquals(
 				"if eq($z,7) then mult(2,$z) else 77 endif", 
 				actual);
 	}
 
-	@Test
-	public void test04() throws Exception {
+	@Test void test04() throws Exception {
 		String actual = subst("test/simulator/term_subst/termsubst04.asm");
 		assertEquals(
 				"switch $y case $z:0 case $x:1 otherwise 2 endswitch", 
 				actual);
 	}
 
-	@Test
-	public void test05() throws Exception {
+	@Test void test05() throws Exception {
 		String actual = subst("test/simulator/term_subst/termsubst05.asm");
 		assertEquals(
 				"let($x!1=$x,$y!2=$y,$z!3=$z) in plus($x!1,$z) endlet", 
 				actual);
 	}
 
-	@Test
-	public void test06() throws Exception {
+	@Test void test06() throws Exception {
 		String actual = subst("test/simulator/term_subst/termsubst06.asm");
 		assertEquals(
 				"(exist $x in Natural with eq($x,plus($y,$z)))", 
 				actual);
 	}
 
-	@Test
-	public void test07() throws Exception {
+	@Test void test07() throws Exception {
 		String actual = subst("test/simulator/term_subst/termsubst07.asm");
 		assertEquals(
 				"{$x!1 in {1,2},$d in {3,4}| neq($x!1,$d) : mult($x!1,$d)}", 
 				actual);
 	}
 
-	@Test
-	public void test08() throws Exception {
+	@Test void test08() throws Exception {
 		String actual = subst("test/simulator/term_subst/termsubst08.asm");
 		assertEquals(
 				"let($x!1=$y,$y!2=plus($x,$y)) in {$z!3 in Integer| iff(eq($x!1,$z!3),eq(plus($x,$y),$z)) : $z!3} endlet", 

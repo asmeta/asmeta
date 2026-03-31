@@ -1,7 +1,8 @@
 package asmeta.asmetal2java.codegen.generator;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -10,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.asmeta.parser.AsmetaParserUtility;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import asmeta.asmetal2java.codegen.compiler.CompileResult;
 import asmeta.asmetal2java.codegen.config.TranslatorOptions;
@@ -39,7 +40,7 @@ public class GeneratorCompilerTestInProject {
 	 */
 	private TranslatorOptions options = new TranslatorOptionsImpl(true, true, true);
 
-	@BeforeClass
+	@BeforeAll
 	public static void checkExistsPath() {
 		File src = dirExamples.toFile();
 		assertTrue(src.exists() && src.isDirectory());

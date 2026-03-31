@@ -1,13 +1,15 @@
 package org.asmeta.toyices;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+
 
 public class SMTbasedASMsimulatorTest {
 	
@@ -259,7 +261,7 @@ public class SMTbasedASMsimulatorTest {
 	}
 	
 	@Test
-	@Ignore
+	@Disabled
 	// for some reasons this fails
 	public void testABZCaseStudy() throws Exception {
 		String file = "D:\\AgHome\\progettidaSVNGIT\\ricerca\\abz2025_casestudy_autonomous_driving\\asmeta spec\\models\\SafetyEnforcer.asm";

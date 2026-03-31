@@ -1,6 +1,5 @@
 package org.asmeta.nusmv.main;
 
-import org.asmeta.nusmv.main.AsmetaSMV;
 import org.asmeta.nusmv.main.AsmetaSMV.ModelCheckerMode;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
 

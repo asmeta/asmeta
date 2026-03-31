@@ -1,12 +1,14 @@
 package org.asmeta.validator.main;
 
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test; import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test; import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import org.junit.jupiter.api.Test; import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class AsmetaV_CLITest {
 
@@ -18,8 +20,7 @@ public class AsmetaV_CLITest {
 		assertTrue(Files.exists(avallaPath));
 	}
 
-	@Test
-	public void testMainRelDirExample() {
+	@Test void mainRelDirExample() {
 		// run main with an example given as relative path
 		assertEquals(
 				"scenariosforexamples" + File.separator + "advancedClock" + File.separator + "advancedClock1.avalla",
@@ -27,8 +28,7 @@ public class AsmetaV_CLITest {
 		AsmetaV_CLI.main(new String[] { avallaPath.toString() });
 	}
 
-	@Test
-	public void testMainAbsoluteDirExample() {
+	@Test void mainAbsoluteDirExample() {
 		// run main with an example given as absolute path
 		assertNotEquals("scenariosforexamples\\advancedClock\\advancedClock1.avalla",
 				avallaPath.toAbsolutePath().toString());
@@ -37,8 +37,7 @@ public class AsmetaV_CLITest {
 		AsmetaV_CLI.main(new String[] { avallaPath.toAbsolutePath().toString() });
 	}
 
-	@Test
-	public void testCurrentDirExample() {
+	@Test void currentDirExample() {
 		// execute in the directory
 		Path parent = avallaPath.getParent();
 		assertEquals("scenariosforexamples" + File.separator + "advancedClock", parent.toString());
@@ -47,14 +46,12 @@ public class AsmetaV_CLITest {
 		// da fare con il jar?
 	}
 
-	@Test
-	public void testFailingTest() {
+	@Test void failingTest() {
 		AsmetaV_CLI.main(new String[] {"scenariosforexamples/advancedClock/advancedClock5_fail.avalla" });
 	}
 
-	
-	@Test
-	public void testCoverage() {
+
+	@Test void coverage() {
 		AsmetaV_CLI.main(new String[]{ "-cov", avallaPath.toString() });
 	}
 

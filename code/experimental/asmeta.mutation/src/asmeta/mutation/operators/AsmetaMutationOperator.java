@@ -3,7 +3,6 @@ package asmeta.mutation.operators;
 import java.util.List;
 
 import asmeta.AsmCollection;
-import asmeta.structure.Asm;
 
 //generic mutation operator
 public abstract class AsmetaMutationOperator {

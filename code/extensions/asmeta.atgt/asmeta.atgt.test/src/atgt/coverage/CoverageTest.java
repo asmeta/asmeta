@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.asmeta.atgt.generator.AsmTestGenerator.MBTCoverage;
 import org.asmeta.atgt.generator.CriteriaEnum;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import atgt.parser.asmeta.AsmetaLLoader;
 import atgt.specification.ASMSpecification;

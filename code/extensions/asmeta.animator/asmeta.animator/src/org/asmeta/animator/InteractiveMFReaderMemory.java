@@ -9,8 +9,8 @@ import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.asmeta.animator.dialog.DialogGenerator;
 import org.asmeta.animator.dialog.AskMonDialog;
+import org.asmeta.animator.dialog.DialogGenerator;
 import org.asmeta.animator.dialog.MyDialogError;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.State;
@@ -20,7 +20,7 @@ import org.asmeta.simulator.util.Parser;
 import org.asmeta.simulator.value.EnumValue;
 import org.asmeta.simulator.value.ReserveValue;
 import org.asmeta.simulator.value.Value;
-import org.eclipse.swt.widgets.Shell;
+
 import asmeta.definitions.Function;
 import asmeta.definitions.domains.AbstractTd;
 import asmeta.definitions.domains.ConcreteDomain;

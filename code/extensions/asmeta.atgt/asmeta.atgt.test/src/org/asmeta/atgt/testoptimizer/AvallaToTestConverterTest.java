@@ -1,22 +1,17 @@
 package org.asmeta.atgt.testoptimizer;
 
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import org.asmeta.avallaxt.AvallaStandaloneSetup;
-import org.asmeta.avallaxt.AvallaStandaloneSetupGenerated;
 import org.asmeta.avallaxt.avalla.Scenario;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.xtext.parser.IParseResult;
-import org.eclipse.xtext.parser.IParser;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceSet;
 import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.google.inject.Injector;
 

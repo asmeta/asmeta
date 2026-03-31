@@ -3,7 +3,6 @@ package org.asmeta.atgt.generator;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;

@@ -1,7 +1,5 @@
 package org.asmeta.codegenerator;
 
-import org.asmeta.codegenerator.arduino.ArduinoPinFeature;
-
 public enum ConfigurationMode {
 	DIGITAL, DIGITALINVERTED, ANALOGLINEARIN, ANALOGLINEAROUT, PWM, USERDEFINED, SWITCH;
 	

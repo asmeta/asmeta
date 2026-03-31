@@ -1,13 +1,16 @@
 package org.asmeta.asm2code;
 
-import static org.junit.Assert.assertTrue;
+
+
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
+
 import org.asmeta.asm2code.main.HeaderGenerator;
 import org.asmeta.parser.ASMParser;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import com.google.inject.Inject;
 
@@ -26,7 +29,7 @@ public class GeneratorAndParserTest {
 	@Inject
 	private HeaderGenerator underTest;
 
-	@BeforeClass
+	@BeforeAll
 	public static void checkPath() throws Exception {
 		assertTrue(new File(path).exists());
 		assertTrue(new File(path).isDirectory());

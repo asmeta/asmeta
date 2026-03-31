@@ -9,7 +9,8 @@ import java.io.IOException;
 
 import org.asmeta.nusmv.main.AsmetaSMV;
 import org.asmeta.nusmv.main.AsmetaSMV.ModelCheckerMode;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
 
 public class TestCexParser {
 

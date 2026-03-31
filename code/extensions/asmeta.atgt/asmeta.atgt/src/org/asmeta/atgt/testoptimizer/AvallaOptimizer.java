@@ -1,8 +1,8 @@
 package org.asmeta.atgt.testoptimizer;
 
 import java.io.File;
-import java.util.Collections;
 import java.io.FileNotFoundException;
+import java.util.Collections;
 
 import org.asmeta.atgt.generator.FormatsEnum;
 import org.asmeta.atgt.generator.SaveResults;
@@ -10,17 +10,16 @@ import org.asmeta.avallaxt.AvallaStandaloneSetup;
 import org.asmeta.avallaxt.avalla.Scenario;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.xt.validator.AsmetaV;
-
-import asmeta.AsmCollection;
-import atgt.coverage.AsmTestSequence;
-import atgt.coverage.AsmTestSuite;
-
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceSet;
 
 import com.google.inject.Injector;
+
+import asmeta.AsmCollection;
+import atgt.coverage.AsmTestSequence;
+import atgt.coverage.AsmTestSuite;
 
 public class AvallaOptimizer {
 

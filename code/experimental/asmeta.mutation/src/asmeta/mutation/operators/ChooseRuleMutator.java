@@ -18,6 +18,16 @@ import org.asmeta.simulator.value.Value;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
+import asmeta.definitions.Function;
+import asmeta.definitions.domains.AbstractTd;
+import asmeta.definitions.domains.Domain;
+import asmeta.structure.Asm;
+import asmeta.terms.basicterms.FunctionTerm;
+import asmeta.terms.basicterms.SetTerm;
+import asmeta.terms.basicterms.Term;
+import asmeta.terms.basicterms.VariableTerm;
+//import org.asmeta.simulator.util.StdlFunction;
+import asmeta.transitionrules.basictransitionrules.BasictransitionrulesFactory;
 import asmeta.transitionrules.basictransitionrules.BlockRule;
 import asmeta.transitionrules.basictransitionrules.ChooseRule;
 import asmeta.transitionrules.basictransitionrules.ConditionalRule;
@@ -31,16 +41,6 @@ import asmeta.transitionrules.basictransitionrules.TermAsRule;
 import asmeta.transitionrules.basictransitionrules.UpdateRule;
 import asmeta.transitionrules.derivedtransitionrules.CaseRule;
 import asmeta.transitionrules.turbotransitionrules.SeqRule;
-import asmeta.definitions.Function;
-import asmeta.definitions.domains.AbstractTd;
-import asmeta.definitions.domains.Domain;
-import asmeta.structure.Asm;
-import asmeta.terms.basicterms.FunctionTerm;
-import asmeta.terms.basicterms.SetTerm;
-import asmeta.terms.basicterms.Term;
-import asmeta.terms.basicterms.VariableTerm;
-import asmeta.transitionrules.basictransitionrules.*;
-//import org.asmeta.simulator.util.StdlFunction;
 
 //
 // it mutates a ChooseRule into a LetRule in which the chosen element is randomly fixed

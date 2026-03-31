@@ -46,6 +46,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
@@ -76,7 +77,6 @@ import com.formdev.flatlaf.FlatLightLaf;
 import asmeta.AsmCollection;
 import asmeta.definitions.Function;
 import asmeta.definitions.impl.MonitoredFunctionImpl;
-import javax.swing.JSeparator;
 
 /**
  * @author Federico Rebucini, Hernan Altamirano, Daniele Troiano, Michele Zenoni

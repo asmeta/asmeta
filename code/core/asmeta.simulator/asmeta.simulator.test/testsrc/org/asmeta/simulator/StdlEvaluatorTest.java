@@ -10,6 +10,10 @@
  ******************************************************************************/
 package org.asmeta.simulator;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.lang.reflect.Method;
 
 import org.asmeta.simulator.StdlEvaluator.WrappedMethod;
@@ -19,8 +23,7 @@ import org.asmeta.simulator.value.IntegerValue;
 import org.asmeta.simulator.value.RealValue;
 import org.asmeta.simulator.value.UndefValue;
 import org.asmeta.simulator.value.Value;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 /**
@@ -36,9 +39,8 @@ public class StdlEvaluatorTest {
 			System.out.println(m);
 		}
 	}
-		
-	@Test
-	public void testAbs() {
+
+	@Test void abs() {
 		String expectedName = "abs";
 		Class<?>[] expectedTypes = new Class<?>[]{RealValue.class};
 		String actualName = "abs";
@@ -46,8 +48,7 @@ public class StdlEvaluatorTest {
 		testResolve(expectedName, expectedTypes, actualName, actualTypes,RealValue.class);
 	}
 
-	@Test
-	public void testAbsInteger() {
+	@Test void absInteger() {
 		String expectedName = "abs";
 		Class<?>[] expectedTypes = new Class<?>[]{IntegerValue.class};
 		String actualName = "abs";
@@ -55,8 +56,7 @@ public class StdlEvaluatorTest {
 		testResolve(expectedName, expectedTypes, actualName, actualTypes,IntegerValue.class);
 	}
 
-	@Test
-	public void testEq() {
+	@Test void eq() {
 		String expectedName = "eq";
 		Class<?>[] expectedTypes = new Class<?>[]{Value.class, UndefValue.class};
 		String actualName = "eq";
@@ -64,36 +64,36 @@ public class StdlEvaluatorTest {
 		testResolve(expectedName, expectedTypes, actualName, actualTypes,BooleanValue.class);
 	}
 
-	@Test (expected = UnresolvedReferenceException.class)
-	public void testFoo() {
+	@Test void foo() {
 		String expectedName = "foo";
 		Class<?>[] expectedTypes = new Class<?>[]{IntegerValue.class, Value.class};
 		String actualName = "foo";
-		Class<?>[] actualTypes = new Class<?>[]{IntegerValue.class, IntegerValue.class}; 
-		testResolve(expectedName, expectedTypes, actualName, actualTypes,String.class);
+		Class<?>[] actualTypes = new Class<?>[]{IntegerValue.class, IntegerValue.class};
+		Class<String> x = String.class;
+		assertThrows(UnresolvedReferenceException.class, () ->
+			testResolve(expectedName, expectedTypes, actualName, actualTypes, x));
 	}
-	
 
-	@Test(expected = UnresolvedReferenceException.class)
-	public void testBar() {
+
+	@Test void bar() {
 		String expectedName = "bar";
 		Class<?>[] expectedTypes = new Class<?>[]{};
 		String actualName = "bar";
-		Class<?>[] actualTypes = new Class<?>[]{}; 
-		testResolve(expectedName, expectedTypes, actualName, actualTypes,String.class);
+		Class<?>[] actualTypes = new Class<?>[]{};
+		Class<String> x = String.class;
+		assertThrows(UnresolvedReferenceException.class, () ->
+			testResolve(expectedName, expectedTypes, actualName, actualTypes, x));
 	}
 
-	@Test 
-	public void testTime() {
+	@Test void time() {
 		String expectedName = "currTimeMillisecs";
 		Class<?>[] expectedTypes = new Class<?>[]{};
 		String actualName = "currTimeMillisecs";
 		Class<?>[] actualTypes = new Class<?>[]{}; 
 		testResolve(expectedName, expectedTypes, actualName, actualTypes,IntegerValue.class);
 	}
-	
-	@Test 
-	public void testTime2() {
+
+	@Test void time2() {
 		String expectedName = "currTimeMillisecs";
 		Class<?>[] expectedTypes = new Class<?>[]{};
 		String actualName = "currTimeMillisecs";
@@ -115,9 +115,9 @@ public class StdlEvaluatorTest {
 	private void testResolve(String expectedName, Class<?>[] expectedTypes,
 			String actualName, Class<?>[] actualTypes, Class<?> returnType) {
 		Method m = eval.resolve(actualName, actualTypes);
-		Assert.assertEquals(expectedName, m.getName());
-		Assert.assertEquals(returnType,m.getReturnType());
-		Assert.assertArrayEquals(expectedTypes, m.getParameterTypes());
+		assertEquals(expectedName, m.getName());
+		assertEquals(returnType,m.getReturnType());
+		assertArrayEquals(expectedTypes, m.getParameterTypes());
 	}
 
 }

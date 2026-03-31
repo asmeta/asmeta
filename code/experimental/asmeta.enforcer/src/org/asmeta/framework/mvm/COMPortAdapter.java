@@ -1,7 +1,7 @@
 package org.asmeta.framework.mvm;
 
-import java.io.BufferedReader;
 import java.io.InputStream;
+
 import com.fazecast.jSerialComm.SerialPort;
 
 public class COMPortAdapter {

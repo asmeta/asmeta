@@ -112,24 +112,23 @@ public class AsmetaParserUtility {
 	 * key = "" -> t = 10 : returns "10" key "[3," -> t = {3,4} returns "[3,{3,4}"
 	 */
 	public static StringBuffer appendInKey(StringBuffer key, Term t) {
-		if (t instanceof FunctionTerm) {
-			FunctionTerm ft = (FunctionTerm) t;
+		if (t instanceof FunctionTerm ft) {
 			key.append(ft.getFunction().getName());
 			appendInKey(key, ft.getArguments());
 		}
 
-		if (t instanceof ConstantTerm)
-			key.append(((ConstantTerm) t).getSymbol());
+		if (t instanceof ConstantTerm term)
+			key.append(term.getSymbol());
 
-		if (t instanceof VariableTerm)
-			key.append(((VariableTerm) t).getName());
+		if (t instanceof VariableTerm term)
+			key.append(term.getName());
 
-		if (t instanceof DomainTerm)
-			key.append(((DomainTerm) t).getDomain().getName());
+		if (t instanceof DomainTerm term)
+			key.append(term.getDomain().getName());
 
-		if (t instanceof SequenceTerm) {
+		if (t instanceof SequenceTerm term) {
 			key.append("[");
-			Iterator<Term> iter = ((SequenceTerm) t).getTerms().iterator();
+			Iterator<Term> iter = term.getTerms().iterator();
 			while (iter.hasNext()) {
 				appendInKey(key, iter.next());
 				key.append(",");
@@ -137,9 +136,9 @@ public class AsmetaParserUtility {
 			key.deleteCharAt(key.length() - 1); // delete the last comma
 			key.append("]");
 		}
-		if (t instanceof SetTerm) {
+		if (t instanceof SetTerm term) {
 			key.append("{");
-			Iterator<Term> iter = ((SetTerm) t).getTerm().iterator();
+			Iterator<Term> iter = term.getTerm().iterator();
 			while (iter.hasNext()) {
 				appendInKey(key, iter.next());
 				key.append(",");
@@ -147,9 +146,9 @@ public class AsmetaParserUtility {
 			key.deleteCharAt(key.length() - 1); // delete the last comma
 			key.append("}");
 		}
-		if (t instanceof BagTerm) {
+		if (t instanceof BagTerm term) {
 			key.append("<");
-			Iterator iter = ((BagTerm) t).getTerm().iterator();
+			Iterator iter = term.getTerm().iterator();
 			while (iter.hasNext()) {
 				appendInKey(key, (Term) iter.next());
 				key.append(",");
@@ -157,9 +156,9 @@ public class AsmetaParserUtility {
 			key.deleteCharAt(key.length() - 1); // delete the last comma
 			key.append(">");
 		}
-		if (t instanceof MapTerm) {
+		if (t instanceof MapTerm term) {
 			key.append("{");
-			Iterator iter = ((MapTerm) t).getPair().iterator();
+			Iterator iter = term.getPair().iterator();
 			while (iter.hasNext()) {
 				appendInKey(key, (Term) iter.next());
 				key.append(",");
@@ -167,14 +166,14 @@ public class AsmetaParserUtility {
 			key.deleteCharAt(key.length() - 1); // delete the last comma
 			key.append("}");
 		}
-		if (t instanceof TupleTerm) {
+		if (t instanceof TupleTerm term1) {
 			key.append("(");
-			Iterator iter = ((TupleTerm) t).getTerms().iterator();
+			Iterator iter = term1.getTerms().iterator();
 			while (iter.hasNext()) {
 				Term tupleElem = (Term) iter.next();
-				if (tupleElem instanceof FunctionTerm) {
-					key.append(((FunctionTerm) tupleElem).getFunction().getName());
-					appendInKey(key, ((FunctionTerm) tupleElem).getArguments());
+				if (tupleElem instanceof FunctionTerm term) {
+					key.append(term.getFunction().getName());
+					appendInKey(key, term.getArguments());
 				} else
 					appendInKey(key, tupleElem);
 				key.append(",");
@@ -306,14 +305,14 @@ public class AsmetaParserUtility {
 
 	public static Number convertToDouble(Term ft) throws ParseException {
 		// if ft is a constant numeric term, return its value
-		if (ft instanceof RealTerm)
+		if (ft instanceof RealTerm term)
 			//return Double.parseDouble(((RealTerm) ft).getSymbol());
-			return new BigDecimal(((RealTerm) ft).getSymbol());
-		if (ft instanceof IntegerTerm)
-			return Integer.parseInt(((IntegerTerm) ft).getSymbol());
-		if (ft instanceof NaturalTerm) {
+			return new BigDecimal(term.getSymbol());
+		if (ft instanceof IntegerTerm term)
+			return Integer.parseInt(term.getSymbol());
+		if (ft instanceof NaturalTerm term) {
 			// Eliminate the suffix "n"
-			String s = ((NaturalTerm) ft).getSymbol();
+			String s = term.getSymbol();
 			return Integer.parseInt(s.substring(0, s.length() - 1));
 		}
 		// otherwise it must be a function term with domain Real or
@@ -326,23 +325,23 @@ public class AsmetaParserUtility {
 		if (!(((FunctionTerm) ft).getFunction().getArity() == 1 && (name.equals("plus") || name.equals("minus"))))
 			throw new ParseException("Can convert only unary expressions + constant or - constant ");
 
-		Term argument = ((FunctionTerm) ft).getArguments().getTerms().get(0);
+		Term argument = ((FunctionTerm) ft).getArguments().getTerms().getFirst();
 
 		if (!(argument instanceof RealTerm) && !(argument instanceof IntegerTerm))
 			throw new ParseException(
 					"Can convert only unary expressions + REALTERM or - REALTERM or + INTEGERTERM - INTEGERTERM ");
 
-		if (argument instanceof RealTerm) {
+		if (argument instanceof RealTerm term) {
 			// REAL FUNCTION TERM
-			BigDecimal n = new BigDecimal(((RealTerm) argument).getSymbol());
+			BigDecimal n = new BigDecimal(term.getSymbol());
 			if (name.equals("plus"))
 				return n;
 			else
 				return n.negate();
 		}
-		if (argument instanceof IntegerTerm) {
+		if (argument instanceof IntegerTerm term) {
 			// INTEGER FUNCTION TERM
-			Integer n = Integer.parseInt(((IntegerTerm) argument).getSymbol());
+			Integer n = Integer.parseInt(term.getSymbol());
 			if (name.equals("plus"))
 				return n;
 			else
@@ -370,7 +369,7 @@ public class AsmetaParserUtility {
 		if (low.doubleValue() > upp.doubleValue())
 			throw new ParseException("Error: The last interval element cannot be greatest than the first one.");
 
-		if (natural_step && (firstElem instanceof NaturalTerm))
+		if (natural_step && (firstElem instanceof NaturalTerm term))
 		// Set of natural terms
 		{
 			if (!(lastElem instanceof NaturalTerm))
@@ -384,7 +383,7 @@ public class AsmetaParserUtility {
 				throw new ParseException("Error: The natural domain has not been declared.");
 			}
 			// put the elements
-			logger.debug("\t\t\tInterval elements: " + ((NaturalTerm) firstElem).getSymbol());
+			logger.debug("\t\t\tInterval elements: " + term.getSymbol());
 			// first element is already stored
 			for (int i = (int) (low.intValue() + step.intValue()); i < (int) upp; i = (int) (i + step.intValue()))
 			{ // create a new NaturalTerm
@@ -494,8 +493,8 @@ public class AsmetaParserUtility {
 	public static Domain fixTypeDomain(Domain td, HashMap<String, Domain> m, HashMap<String, Domain> declared_Dom,
 			DefinitionsFactory defPack, Signature s) {
 		// ProductDomain
-		if (td instanceof ProductDomain) {
-			EList<Domain> prodDomList = ((ProductDomain) td).getDomains();
+		if (td instanceof ProductDomain domain4) {
+			EList<Domain> prodDomList = domain4.getDomains();
 			List<Domain> newlist = new LinkedList<Domain>();
 			Iterator<Domain> iter = prodDomList.listIterator();
 			while (iter.hasNext())
@@ -503,20 +502,20 @@ public class AsmetaParserUtility {
 			return getProduct(newlist, defPack, s);
 		}
 		// PowersetDomain
-		else if (td instanceof PowersetDomain)
-			return getPowerset(fixTypeDomain(((PowersetDomain) td).getBaseDomain(), m, declared_Dom, defPack, s),
+		else if (td instanceof PowersetDomain domain3)
+			return getPowerset(fixTypeDomain(domain3.getBaseDomain(), m, declared_Dom, defPack, s),
 					defPack, s);
 		// SequenceDomain
-		else if (td instanceof SequenceDomain)
-			return getSequence(fixTypeDomain(((SequenceDomain) td).getDomain(), m, declared_Dom, defPack, s), defPack,
+		else if (td instanceof SequenceDomain domain2)
+			return getSequence(fixTypeDomain(domain2.getDomain(), m, declared_Dom, defPack, s), defPack,
 					s);
 		// BagDomain
-		else if (td instanceof BagDomain)
-			return getBag(fixTypeDomain(((BagDomain) td).getDomain(), m, declared_Dom, defPack, s), defPack, s);
+		else if (td instanceof BagDomain domain1)
+			return getBag(fixTypeDomain(domain1.getDomain(), m, declared_Dom, defPack, s), defPack, s);
 		// MapDomain
-		else if (td instanceof MapDomain)
-			return getMap(fixTypeDomain(((MapDomain) td).getSourceDomain(), m, declared_Dom, defPack, s),
-					fixTypeDomain(((MapDomain) td).getTargetDomain(), m, declared_Dom, defPack, s), defPack, s);
+		else if (td instanceof MapDomain domain)
+			return getMap(fixTypeDomain(domain.getSourceDomain(), m, declared_Dom, defPack, s),
+					fixTypeDomain(domain.getTargetDomain(), m, declared_Dom, defPack, s), defPack, s);
 		else if (td instanceof AnyDomain && m.containsKey(td.getName())) {
 			// return (TypeDomain) m.get(td.getName()); Da problemi!
 			// Provo invece cosi':
@@ -1059,14 +1058,11 @@ public class AsmetaParserUtility {
 		// if the domain of interm is a conrecte, get its type domain
 		Domain itD = OCL_Checker.getTypeDomain(inTerm.getDomain());
 		// check which domain it is
-		if (itD instanceof PowersetDomain)
-			D = ((PowersetDomain) itD).getBaseDomain();
-		else if (itD instanceof SequenceDomain)
-			D = ((SequenceDomain) itD).getDomain();
-		else if (itD instanceof BagDomain)
-			D = ((BagDomain) itD).getDomain();
-		else {
-			throw new ParseException(
+		switch(itD) {
+			case PowersetDomain domain2 -> D = domain2.getBaseDomain();
+			case SequenceDomain domain1 -> D = domain1.getDomain();
+			case BagDomain domain -> D = domain.getDomain();
+			case null, default -> throw new ParseException(
 					"binding variable " + v.getName() + " to " + inTerm.getDomain().getName() + " not allowed");
 		}
 		v.setDomain(D);
@@ -1156,26 +1152,27 @@ public class AsmetaParserUtility {
 
 		while (iter.hasNext()) {
 			elem = iter.next();
-			if (elem instanceof ConstantTerm)
-				toPrint = toPrint.concat(((ConstantTerm) elem).getSymbol() + ",");
-			else if (elem instanceof VariableTerm) {
-				toPrint = toPrint.concat(((VariableTerm) elem).getName());
-				Domain varInDom = ((VariableTerm) elem).getDomain();
-				assert (varInDom != null);
-				toPrint = toPrint.concat(" in ").concat(varInDom.getName());
-				toPrint = toPrint.concat(",");
-			} else
-				toPrint = toPrint.concat("TERM,");
+			switch(elem) {
+				case ConstantTerm term1 -> toPrint = toPrint.concat(term1.getSymbol() + ",");
+				case VariableTerm term -> {
+					toPrint = toPrint.concat(term.getName());
+					Domain varInDom = term.getDomain();
+					assert (varInDom != null);
+					toPrint = toPrint.concat(" in ").concat(varInDom.getName());
+					toPrint = toPrint.concat(",");
+				}
+				case null, default -> toPrint = toPrint.concat("TERM,");
+			}
 		}
 		toPrint = toPrint.concat(")");
 		return toPrint;
 	}
 
 	public static String print(Term t) {
-		if (t instanceof ConstantTerm)
-			return ((ConstantTerm) t).getSymbol();
-		else if (t instanceof VariableTerm)
-			return ((VariableTerm) t).getName();
+		if (t instanceof ConstantTerm term1)
+			return term1.getSymbol();
+		else if (t instanceof VariableTerm term)
+			return term.getName();
 		else
 			return "Term";
 	}
@@ -1580,11 +1577,11 @@ public class AsmetaParserUtility {
 	 */
 	public static boolean equals(Domain d1, Domain d2) {
 		// structured domains
-		if (d1 instanceof ProductDomain) {
+		if (d1 instanceof ProductDomain domain4) {
 			if (!(d2 instanceof ProductDomain)) {
 				return false;
 			}
-			List<?> lst1 = ((ProductDomain) d1).getDomains();
+			List<?> lst1 = domain4.getDomains();
 			List<?> lst2 = ((ProductDomain) d2).getDomains();
 			if (lst1.size() != lst2.size()) {
 				return false;
@@ -1599,34 +1596,34 @@ public class AsmetaParserUtility {
 				}
 			}
 			return true;
-		} else if (d1 instanceof PowersetDomain) {
+		} else if (d1 instanceof PowersetDomain domain3) {
 			if (!(d2 instanceof PowersetDomain)) {
 				return false;
 			}
-			Domain dd1 = ((PowersetDomain) d1).getBaseDomain();
+			Domain dd1 = domain3.getBaseDomain();
 			Domain dd2 = ((PowersetDomain) d2).getBaseDomain();
 			return equals(dd1, dd2);
-		} else if (d1 instanceof SequenceDomain) {
+		} else if (d1 instanceof SequenceDomain domain2) {
 			if (!(d2 instanceof SequenceDomain)) {
 				return false;
 			}
-			Domain dd1 = ((SequenceDomain) d1).getDomain();
+			Domain dd1 = domain2.getDomain();
 			Domain dd2 = ((SequenceDomain) d2).getDomain();
 			return equals(dd1, dd2);
-		} else if (d1 instanceof BagDomain) {
+		} else if (d1 instanceof BagDomain domain1) {
 			if (!(d2 instanceof BagDomain)) {
 				return false;
 			}
-			Domain dd1 = ((BagDomain) d1).getDomain();
+			Domain dd1 = domain1.getDomain();
 			Domain dd2 = ((BagDomain) d2).getDomain();
 			return equals(dd1, dd2);
-		} else if (d1 instanceof MapDomain) {
+		} else if (d1 instanceof MapDomain domain) {
 			if (!(d2 instanceof MapDomain)) {
 				return false;
 			}
-			Domain sd1 = ((MapDomain) d1).getSourceDomain();
+			Domain sd1 = domain.getSourceDomain();
 			Domain sd2 = ((MapDomain) d2).getSourceDomain();
-			Domain td1 = ((MapDomain) d1).getTargetDomain();
+			Domain td1 = domain.getTargetDomain();
 			Domain td2 = ((MapDomain) d2).getTargetDomain();
 			return equals(sd1, sd2) && equals(td1, td2);
 		}

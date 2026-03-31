@@ -11,7 +11,6 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;
 
 import asmeta.transitionrules.basictransitionrules.Rule;
-import asmeta.transitionrules.derivedtransitionrules.*;
 import asmeta.transitionrules.derivedtransitionrules.BasicDerivedRule;
 import asmeta.transitionrules.derivedtransitionrules.CaseRule;
 import asmeta.transitionrules.derivedtransitionrules.DerivedRule;

@@ -1,38 +1,37 @@
 package org.asmeta.nusmv.main;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 
-import org.asmeta.annotations.TestToMavenSkip;
-import org.asmeta.nusmv.main.AsmetaSMV;
+import org.asmeta.nusmv.InconsistentUpdateException;
 import org.asmeta.nusmv.main.AsmetaSMV.ModelCheckerMode;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.MethodOrderer.MethodName;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(MethodName.class)
 public class AsmetaSMVwithFlattenerTest extends AsmetaSMVtest {
 
 	private static boolean old;
 
-	@BeforeClass
+	@BeforeAll
 	public static void setFlattener() {
 		old = AsmetaSMVOptions.FLATTEN;
 		AsmetaSMVOptions.FLATTEN = true;
 		AsmetaSMV.modelCheckerMode = ModelCheckerMode.CTL;
 	}
 		
-	@AfterClass
+	@AfterAll
 	public static void setFlattenerOld() {
 		AsmetaSMVOptions.FLATTEN = old;
 	}
@@ -44,13 +43,13 @@ public class AsmetaSMVwithFlattenerTest extends AsmetaSMVtest {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void dirFilesConcrDomTest() {
 		testAllCtlPropsAreTrue("examples/filesConcrDom/agentsMain.asm");
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void dirOneWayTrafficLightAgentsTest() {
 		testAllCtlPropsAreTrue("examples/oneWayTrafficLightAgents/owtl_main.asm");
 	}
@@ -76,13 +75,13 @@ public class AsmetaSMVwithFlattenerTest extends AsmetaSMVtest {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void dirSultanSuccessorsGreedyTestBoradSolutionLessK() {
 		testAllCtlPropsAreTrue("examples/sultanSuccessors/sultanGreedyBoardSolutionLessK.asm");
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void dirTaxiTest() {
 		testAllCtlPropsAreTrue("examples/taxi/main.asm");
 	}
@@ -93,7 +92,7 @@ public class AsmetaSMVwithFlattenerTest extends AsmetaSMVtest {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void dirTicTacToeTest() {
 		testAllCtlPropsAreTrue("examples/ticTacToe/ticTacToe_simulator.asm");
 	}
@@ -139,7 +138,7 @@ public class AsmetaSMVwithFlattenerTest extends AsmetaSMVtest {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void agentsChooseTest() {
 		List<Boolean> results = getResults("examples/agentsChoose.asm");
 		Iterator<Boolean> i = results.iterator();
@@ -164,7 +163,7 @@ public class AsmetaSMVwithFlattenerTest extends AsmetaSMVtest {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void agentsChoose4Test() {
 		List<Boolean> results = getResults("examples/agentsChoose4.asm");
 		Iterator<Boolean> i = results.iterator();
@@ -184,7 +183,7 @@ public class AsmetaSMVwithFlattenerTest extends AsmetaSMVtest {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void agentsForall3Test() {
 		testAllCtlPropsAreTrue("examples/agentsForall3.asm");
 	}
@@ -344,31 +343,31 @@ public class AsmetaSMVwithFlattenerTest extends AsmetaSMVtest {
 	 */
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void existTermTest() {
 		testAllCtlPropsAreTrue("examples/existTerm.asm");
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void existTerm2Test() {
 		testAllCtlPropsAreTrue("examples/existTerm2.asm");
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void existUniqueTermTest() {
 		testAllCtlPropsAreTrue("examples/existUniqueTerm.asm");
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void ferrymanTest() {
 		testAllCtlPropsAreTrue("examples/ferryman.asm");
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void ferryman_v2Test() {
 		testAllCtlPropsAreTrue("examples/ferryman_v2.asm");
 	}
@@ -379,49 +378,49 @@ public class AsmetaSMVwithFlattenerTest extends AsmetaSMVtest {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void forallTest() {
 		testAllCtlPropsAreTrue("examples/forall.asm");
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void forall2Test() {
 		testAllCtlPropsAreTrue("examples/forall2.asm");
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void forall3Test() {
 		testAllCtlPropsAreTrue("examples/forall3.asm");
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void forallRuleTest() {
 		testAllCtlPropsAreTrue("examples/forallRule.asm");
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void forallTermTest() {
 		testAllCtlPropsAreTrue("examples/forallTerm.asm");
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void forallTerm2Test() {
 		testAllCtlPropsAreTrue("examples/forallTerm2.asm");
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void functionsTest() {
 		testAllCtlPropsAreTrue("examples/functions.asm");
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	@Tag("TestToMavenSkip")
 	public void functionAsArgSupportedTest() {
 		testAllCtlPropsAreTrue("examples/functionAsArgSupported.asm");
 	}
@@ -456,8 +455,7 @@ public class AsmetaSMVwithFlattenerTest extends AsmetaSMVtest {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
-	public void integerConcrDomTest() {
+	@Tag("TestToMavenSkip")public void integerConcrDomTest() {
 		testAllCtlPropsAreTrue("examples/integerConcrDom.asm");
 	}
 
@@ -473,8 +471,7 @@ public class AsmetaSMVwithFlattenerTest extends AsmetaSMVtest {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
-	public void mapTest() {
+	@Tag("TestToMavenSkip")public void mapTest() {
 		testAllCtlPropsAreTrue("examples/map.asm");
 	}
 
@@ -494,8 +491,7 @@ public class AsmetaSMVwithFlattenerTest extends AsmetaSMVtest {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
-	public void modTest() {
+	@Tag("TestToMavenSkip")public void modTest() {
 		testAllCtlPropsAreTrue("examples/mod.asm");
 	}
 
@@ -505,8 +501,7 @@ public class AsmetaSMVwithFlattenerTest extends AsmetaSMVtest {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
-	public void monitoredExampleTest() {
+	@Tag("TestToMavenSkip")public void monitoredExampleTest() {
 		testAllCtlPropsAreTrue("examples/monitoredExample.asm");
 	}
 
@@ -553,8 +548,7 @@ public class AsmetaSMVwithFlattenerTest extends AsmetaSMVtest {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
-	public void rangeFunctionTest() {
+	@Tag("TestToMavenSkip")public void rangeFunctionTest() {
 		testAllCtlPropsAreTrue("examples/rangeFunction.asm");
 	}
 
@@ -579,8 +573,7 @@ public class AsmetaSMVwithFlattenerTest extends AsmetaSMVtest {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
-	public void seq4Test() {
+	@Tag("TestToMavenSkip")public void seq4Test() {
 		testAllCtlPropsAreTrue("examples/seq4.asm");
 	}
 
@@ -588,14 +581,14 @@ public class AsmetaSMVwithFlattenerTest extends AsmetaSMVtest {
 	// puo' mettere una choose rule in una seq rule). Questa eccezione viene
 	// catturata nel ReflectiveVisitor e rilanciata come RuntimeException.
 
-	@Test(expected = RuntimeException.class)
+	@Test
 	public void seq5Test() throws Exception {
 		try {
 			AsmetaSMV as = new AsmetaSMV("examples/seq5.asm");
 			as.translation();
+			fail();
 		} catch (Exception e) {
-			assertEquals(e.getCause().getMessage(), "Chooserule in seqrule non supportato.");
-			throw e;
+			assertEquals("Chooserule in seqrule not supported.",e.getMessage());
 		}
 	}
 
@@ -615,8 +608,7 @@ public class AsmetaSMVwithFlattenerTest extends AsmetaSMVtest {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
-	public void seqRule3Test() {
+	@Tag("TestToMavenSkip")public void seqRule3Test() {
 		testAllCtlPropsAreTrue("examples/seqRule3.asm");
 	}
 
@@ -626,18 +618,15 @@ public class AsmetaSMVwithFlattenerTest extends AsmetaSMVtest {
 	}
 
 	// il test verifica che il tool si accorge dell'update inconsistente
-
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
 	public void seqRule5Test() {
 		AsmetaSMV as = null;
 		try {
 			as = new AsmetaSMV("examples/seqRule5.asm");
 			as.translation();
 		} catch (RuntimeException e) {
-			assertEquals(e.getCause().getClass().getSimpleName(), "AsmNotSupportedException");
-			assertEquals(e.getCause().getMessage(),
-					"Update inconsistente: la locazione fooB viene aggiornata sia al valore 1 sia al valore 2 sotto la condizione TRUE");
+			assertEquals(e.getClass(), InconsistentUpdateException.class);
+			assertEquals("location fooB is set to 2 but it was set to 1 under condition TRUE",e.getMessage());
 			return;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -645,7 +634,7 @@ public class AsmetaSMVwithFlattenerTest extends AsmetaSMVtest {
 		fail();// se e' arrivato qui vuol dire che l'eccezione non e' stata
 				// catturata
 	}
-
+	
 	@Test
 	public void sluiceGateGroundTest() {
 		testAllCtlPropsAreTrue("examples/sluiceGateGround.asm");
@@ -669,14 +658,12 @@ public class AsmetaSMVwithFlattenerTest extends AsmetaSMVtest {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
-	public void taxi_singTest() {
+	@Tag("TestToMavenSkip")public void taxi_singTest() {
 		testAllCtlPropsAreTrue("examples/taxi_sing.asm");
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
-	public void taxiTest() {
+	@Tag("TestToMavenSkip")public void taxiTest() {
 		List<Boolean> results = getResults("examples/taxi.asm");
 		int numProp = results.size();
 		for (int i = 0; i < numProp - 2; i++) {
@@ -687,20 +674,17 @@ public class AsmetaSMVwithFlattenerTest extends AsmetaSMVtest {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
-	public void taxiSingAgentsTest() {
+	@Tag("TestToMavenSkip")public void taxiSingAgentsTest() {
 		testAllCtlPropsAreTrue("examples/taxiSingAgents.asm");
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
-	public void Tictactoe_forSMVTest() {
+	@Tag("TestToMavenSkip")public void Tictactoe_forSMVTest() {
 		testAllCtlPropsAreTrue("examples/Tictactoe_forSMV.asm");
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
-	public void Tictactoe_v2Test() {
+	@Tag("TestToMavenSkip")public void Tictactoe_v2Test() {
 		testAllCtlPropsAreTrue("examples/Tictactoe_v2.asm");
 	}
 
@@ -720,8 +704,7 @@ public class AsmetaSMVwithFlattenerTest extends AsmetaSMVtest {
 	}
 
 	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
-	public void armadioTest() {
+	@Tag("TestToMavenSkip")public void armadioTest() {
 		// questa dovrebbe funzionare col fattener
 		testAllCtlPropsAreFalse("examples/tvsw_angelo/ArmadioCaramelle2.asm");
 	}

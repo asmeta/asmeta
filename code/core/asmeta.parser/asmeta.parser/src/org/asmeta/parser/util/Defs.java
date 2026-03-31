@@ -61,11 +61,11 @@ public class Defs {
 			String moduleName2 = getAsmName(d2);
 			return name1.equals(name2) && moduleName1.equals(moduleName2);
 			// structured domains
-		} else if (d1 instanceof ProductDomain) {
+		} else if (d1 instanceof ProductDomain domain5) {
 			if (!(d2 instanceof ProductDomain)) {
 				return false;
 			}
-			List<?> lst1 = ((ProductDomain) d1).getDomains();
+			List<?> lst1 = domain5.getDomains();
 			List<?> lst2 = ((ProductDomain) d2).getDomains();
 			if (lst1.size() != lst2.size()) {
 				return false;
@@ -80,25 +80,25 @@ public class Defs {
 				}
 			}
 			return true;
-		} else if (d1 instanceof PowersetDomain) {
+		} else if (d1 instanceof PowersetDomain domain4) {
 			if (!(d2 instanceof PowersetDomain)) {
 				return false;
 			}
-			Domain dd1 = ((PowersetDomain) d1).getBaseDomain();
+			Domain dd1 = domain4.getBaseDomain();
 			Domain dd2 = ((PowersetDomain) d2).getBaseDomain();
 			return equals(dd1, dd2);
-		} else if (d1 instanceof SequenceDomain) {
+		} else if (d1 instanceof SequenceDomain domain3) {
 			if (!(d2 instanceof SequenceDomain)) {
 				return false;
 			}
-			Domain dd1 = ((SequenceDomain) d1).getDomain();
+			Domain dd1 = domain3.getDomain();
 			Domain dd2 = ((SequenceDomain) d2).getDomain();
 			return equals(dd1, dd2);
-		} else if (d1 instanceof RuleDomain) {
+		} else if (d1 instanceof RuleDomain domain2) {
 			if (!(d2 instanceof RuleDomain)) {
 				return false;
 			}
-			List<?> lst1 = ((RuleDomain) d1).getDomains();
+			List<?> lst1 = domain2.getDomains();
 			List<?> lst2 = ((RuleDomain) d2).getDomains();
 			if (lst1.size() != lst2.size()) {
 				return false;
@@ -113,20 +113,20 @@ public class Defs {
 				}
 			}
 			return true;			
-		} else if (d1 instanceof BagDomain) {
+		} else if (d1 instanceof BagDomain domain1) {
 			if (!(d2 instanceof BagDomain)) {
 				return false;
 			}
-			Domain dd1 = ((BagDomain) d1).getDomain();
+			Domain dd1 = domain1.getDomain();
 			Domain dd2 = ((BagDomain) d2).getDomain();
 			return equals(dd1, dd2);
-		} else if (d1 instanceof MapDomain) {
+		} else if (d1 instanceof MapDomain domain) {
 			if (!(d2 instanceof MapDomain)) {
 				return false;
 			}
-			Domain sd1 = ((MapDomain) d1).getSourceDomain();
+			Domain sd1 = domain.getSourceDomain();
 			Domain sd2 = ((MapDomain) d2).getSourceDomain();
-			Domain td1 = ((MapDomain) d1).getTargetDomain();
+			Domain td1 = domain.getTargetDomain();
 			Domain td2 = ((MapDomain) d2).getTargetDomain();
 			return equals(sd1, sd2) && equals(td1, td2);
 		}
@@ -182,9 +182,8 @@ public class Defs {
 				// FIXME I assume that dom1 and dom2 have the same type domain
 				return i;
 			}			
-			if (dom1 instanceof ConcreteDomain) {
+			if (dom1 instanceof ConcreteDomain cdom) {
 				// climb the hierarchy
-				ConcreteDomain cdom = (ConcreteDomain) dom1;
 				dom1 = cdom.getTypeDomain();
 				continue;
 			}

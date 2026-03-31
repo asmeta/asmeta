@@ -6,7 +6,6 @@
  */
 package asmeta.definitions.domains.impl;
 
-import asmeta.definitions.domains.*;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;

@@ -181,31 +181,31 @@ public class RuleEvaluatorAllUpdateSets extends RuleVisitor<SetUpdateSet> {
 		Value content = visitTerm(rhsTerm);
 		logger.debug("</UpdatingTerm>");
 		Term lhsTerm = rule.getLocation();
-		if (lhsTerm instanceof LocationTerm) {
-			logger.debug("<LocationTerm>");
-			LocationTerm locationTerm = (LocationTerm) lhsTerm;
-			Function signature = locationTerm.getFunction();			
-			logger.debug("<Name>" + signature.getName() + "</Name>");
-			TupleTerm tupleTerm = locationTerm.getArguments();
-			logger.debug("<Arguments>" +  tupleTerm + "</Arguments>");
-			Value[] arguments;
-			// if tuple term has no arguments (plain variable), then build an empty value array 
-			if (tupleTerm == null){
-				arguments = new Value[0];
-			} else {
-				//assert tupleTerm.getTerms().size() == tupleTerm.getArity();
-				arguments = ((TupleValue)visitTerm(tupleTerm)).getValueAsArray();
+		switch(lhsTerm) {
+			case LocationTerm locationTerm -> {
+				logger.debug("<LocationTerm>");
+				Function signature = locationTerm.getFunction();
+				logger.debug("<Name>" + signature.getName() + "</Name>");
+				TupleTerm tupleTerm = locationTerm.getArguments();
+				logger.debug("<Arguments>" + tupleTerm + "</Arguments>");
+				Value[] arguments;
+				// if tuple term has no arguments (plain variable), then build an empty value array 
+				if (tupleTerm == null) {
+					arguments = new Value[0];
+				} else {
+					//assert tupleTerm.getTerms().size() == tupleTerm.getArity();
+					arguments = ((TupleValue) visitTerm(tupleTerm)).getValueAsArray();
+				}
+				logger.debug("</LocationTerm>");
+				Location location = new Location(signature, arguments);
+				updateSet.putUpdate(location, content);
 			}
-			logger.debug("</LocationTerm>");
-			Location location = new Location(signature, arguments);
-			updateSet.putUpdate(location, content);
-		} else if (lhsTerm instanceof VariableTerm) {
-			// FIXME experimental!!
-			VariableTerm variable = (VariableTerm) lhsTerm;
-			termEval.assignment.put(variable, content);
-//			throw new UnsupportedOperationException();
-		} else {
-			throw new RuntimeException("Unknown left-hand-side term " + lhsTerm.getClass());
+			case VariableTerm variable -> {
+				// FIXME experimental!!
+				termEval.assignment.put(variable, content);
+				//throw new UnsupportedOperationException();
+			}
+			case null, default -> throw new RuntimeException("Unknown left-hand-side term " + lhsTerm.getClass());
 		}
 		logger.debug("<UpdateSet>" + updateSet + "</UpdateSet>");
 		logger.debug("</UpdateRule>");
@@ -608,21 +608,21 @@ public class RuleEvaluatorAllUpdateSets extends RuleVisitor<SetUpdateSet> {
 		for(UpdateSet updateSet: setUpdateSets) {
 			Value content = getResult(updateSet);
 			Term lhsTerm = retRule.getLocation();
-			if (lhsTerm instanceof LocationTerm) {
-				LocationTerm locationTerm = (LocationTerm) lhsTerm;
-				Function signature = locationTerm.getFunction();			
-				TupleTerm tupleTerm = locationTerm.getArguments();
-				//assert tupleTerm == null || tupleTerm.getTerms().size() == tupleTerm.getArity();
-				Value[] arguments = ((TupleValue)visitTerm(tupleTerm)).getValueAsArray();
-				Location location = new Location(signature, arguments);
-				updateSet.putUpdate(location, content);
-			} else if (lhsTerm instanceof VariableTerm) {
-				// FIXME experimental!!
-				VariableTerm variable = (VariableTerm) lhsTerm;
-				termEval.assignment.put(variable, content);
-//				throw new UnsupportedOperationException();
-			} else {
-				throw new RuntimeException("Unknown left-hand-side term " + lhsTerm.getClass());
+			switch(lhsTerm) {
+				case LocationTerm locationTerm -> {
+					Function signature = locationTerm.getFunction();
+					TupleTerm tupleTerm = locationTerm.getArguments();
+					//assert tupleTerm == null || tupleTerm.getTerms().size() == tupleTerm.getArity();
+					Value[] arguments = ((TupleValue) visitTerm(tupleTerm)).getValueAsArray();
+					Location location = new Location(signature, arguments);
+					updateSet.putUpdate(location, content);
+				}
+				case VariableTerm variable -> {
+					// FIXME experimental!!
+					termEval.assignment.put(variable, content);
+					//throw new UnsupportedOperationException();
+				}
+				case null, default -> throw new RuntimeException("Unknown left-hand-side term " + lhsTerm.getClass());
 			}
 			logger.debug("<SetUpdateSets>" + updateSet + "</SetUpdateSets>");
 			logger.debug("</TurboReturnRule>");
