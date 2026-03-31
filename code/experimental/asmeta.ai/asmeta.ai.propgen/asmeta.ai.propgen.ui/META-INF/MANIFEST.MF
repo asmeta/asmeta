@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: AsmetaAIPropgenUI
+Bundle-SymbolicName: asmeta.ai.propgen.ui;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: asmeta.ai.propgen.ui.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime
+Bundle-RequiredExecutionEnvironment: JavaSE-21
+Automatic-Module-Name: asmeta.ai.propgen.ui
+Bundle-ActivationPolicy: lazy

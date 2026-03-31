@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         point="org.eclipse.ui.commands">
+      <category
+            id="asmeta.ai.propgen.ui.commands.category"
+            name="Sample Category">
+      </category>
+      <command
+            categoryId="asmeta.ai.propgen.ui.commands.category"
+            name="Sample Command"
+            id="asmeta.ai.propgen.ui.commands.sampleCommand">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="asmeta.ai.propgen.ui.handlers.SampleHandler"
+            commandId="asmeta.ai.propgen.ui.commands.sampleCommand">
+      </handler>
+   </extension>
+   <extension
+         point="org.eclipse.ui.bindings">
+      <key
+            commandId="asmeta.ai.propgen.ui.commands.sampleCommand"
+            schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+            contextId="org.eclipse.ui.contexts.window"
+            sequence="M1+6">
+      </key>
+   </extension>
+   <extension
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="menu:org.eclipse.ui.main.menu?after=additions">
+         <menu
+               id="asmeta.ai.propgen.ui.menus.sampleMenu"
+               label="Sample Menu"
+               mnemonic="M">
+            <command
+                  commandId="asmeta.ai.propgen.ui.commands.sampleCommand"
+                  id="asmeta.ai.propgen.ui.menus.sampleCommand"
+                  mnemonic="S">
+            </command>
+         </menu>
+      </menuContribution>
+      <menuContribution
+            locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
+         <toolbar
+               id="asmeta.ai.propgen.ui.toolbars.sampleToolbar">
+            <command
+                  id="asmeta.ai.propgen.ui.toolbars.sampleCommand"
+                  commandId="asmeta.ai.propgen.ui.commands.sampleCommand"
+                  icon="icons/sample.png"
+                  tooltip="Say hello world">
+            </command>
+         </toolbar>
+      </menuContribution>
+   </extension>
+
+</plugin>
