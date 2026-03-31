@@ -344,7 +344,7 @@
 			point="org.eclipse.ui.ide.markerResolution">
 		<markerResolutionGenerator
 			class="org.asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator"
-			markerType="org.asmeta.avallaxt.ui.avalla.check.fast">
+			markerType="asmeta.avallaxt.ui.avalla.check.fast">
 			<attribute
 				name="FIXABLE_KEY"
 				value="true">
@@ -352,7 +352,7 @@
 		</markerResolutionGenerator>
 		<markerResolutionGenerator
 			class="org.asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator"
-			markerType="org.asmeta.avallaxt.ui.avalla.check.normal">
+			markerType="asmeta.avallaxt.ui.avalla.check.normal">
 			<attribute
 				name="FIXABLE_KEY"
 				value="true">
@@ -360,7 +360,7 @@
 		</markerResolutionGenerator>
 		<markerResolutionGenerator
 			class="org.asmeta.avallaxt.ui.AvallaExecutableExtensionFactory:org.eclipse.xtext.ui.editor.quickfix.MarkerResolutionGenerator"
-			markerType="org.asmeta.avallaxt.ui.avalla.check.expensive">
+			markerType="asmeta.avallaxt.ui.avalla.check.expensive">
 			<attribute
 				name="FIXABLE_KEY"
 				value="true">

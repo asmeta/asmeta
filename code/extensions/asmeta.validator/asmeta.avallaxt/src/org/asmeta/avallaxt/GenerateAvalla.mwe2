@@ -8,20 +8,21 @@ var rootPath = ".."
 Workflow {
 
 	component = XtextGenerator {
+		
 		configuration = {
 			project = StandardProjectConfig {
-				baseName = "org.asmeta.avallaxt"
+				baseName = "asmeta.avallaxt"
 				rootPath = rootPath
 				runtimeTest = {
 					enabled = true
 				}
 				eclipsePlugin = {
-					enabled = true
+					enabled = true					
 				}
 				eclipsePluginTest = {
 					enabled = true
 				}
-				createEclipseMetaData = true
+				createEclipseMetaData = true				
 			}
 			code = {
 				encoding = "windows-1252"
@@ -46,7 +47,7 @@ Workflow {
 				generateXtendStub = true
 			}			
 			parserGenerator = {
-			// non smbra avere effetto però
+			// non smbra avere effetto perï¿½
 				debugGrammar = false
 				options = {
 					backtrack = false
