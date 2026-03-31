@@ -49,6 +49,7 @@ class ParserValueTest {
 
 	@Test
 	void visitProductDomain1() {
+		// input mismatch con solo una stringa
 		Parser p = new Parser("(\"a\")");
 		assertThrows(InputMismatchException.class, () -> p.visit(bookDom));
 	}

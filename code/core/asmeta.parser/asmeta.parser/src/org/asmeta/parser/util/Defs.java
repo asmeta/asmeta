@@ -183,6 +183,7 @@ public class Defs {
 				return i;
 			}			
 			if (dom1 instanceof ConcreteDomain cdom) {
+				// climb the hierarchy
 				dom1 = cdom.getTypeDomain();
 				continue;
 			}
