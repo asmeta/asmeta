@@ -3,6 +3,9 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>asmeta.avallaxt.tests</artifactId>
+	<properties>
+		<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
+	</properties>
 	<parent>
 		<artifactId>asmeta.validator.parent</artifactId>
 		<groupId>asmeta</groupId>
