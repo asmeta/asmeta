@@ -1,0 +1,8 @@
+Consider the following ASMETA model:
+MODEL_PLACEHOLDER
+
+Encode in PROPERTY_TYPE_PLACEHOLDER an ASMETA property verifying the following:
+NL_PROPERTY_PLACEHOLDER
+
+When you use logical operators, use the following: or, xor, and, not, implies, iff. Do not use other symbols.
+Output only the temporal property, with no additional text.

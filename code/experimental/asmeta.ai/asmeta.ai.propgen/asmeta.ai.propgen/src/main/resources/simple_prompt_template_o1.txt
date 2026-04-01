@@ -1,0 +1,6 @@
+Consider the following ASMETA model:
+MODEL_PLACEHOLDER
+
+Write exactly N_PROP_PLACEHOLDER temporal properties (linear or branching) in natural language that are guaranteed by the model (i.e., they hold in all valid executions).
+
+Output only the properties, with no additional text.
