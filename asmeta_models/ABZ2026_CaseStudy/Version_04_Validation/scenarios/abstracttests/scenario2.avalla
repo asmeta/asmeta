@@ -1,0 +1,39 @@
+scenario scenario2
+
+load ./../../models/RoverReducedMain.asm
+
+//// test name test@test0
+//// generated for (test goal): test0: NULL
+check atGoal = false;
+check failure = false;
+check activePlan = [];
+check batteryLevel = 95;
+check goal = (0,0);
+check currentPosition = (0,0);
+check recharge = false;
+check chargingComplete = false;
+check plan2C = [];
+check noplan = false;
+check awaitingInstructions = false;
+check moving = false;
+check isAtCharger = false;
+set goalSet := true;
+set planningFailure := false;
+set chargers := {(-7,3)};
+set measuredBatteryLevel := 59;
+set planSet := {[(-4,-6),(-3,-9),(5,0),(7,4)]};
+step
+check activePlan = [];
+check chargingComplete = false;
+check noplan = false;
+check atGoal = true;
+check failure = false;
+check awaitingInstructions = false;
+check plan2C = [(-4,-6),(-3,-9),(5,0),(7,4)];
+check moving = false;
+check goal = (0,0);
+check batteryLevel = 56;
+check currentPosition = (0,0);
+check isAtCharger = false;
+check recharge = false;
+step

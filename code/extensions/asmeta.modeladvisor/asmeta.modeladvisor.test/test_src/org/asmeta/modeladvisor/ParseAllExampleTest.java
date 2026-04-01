@@ -1,25 +1,24 @@
 package org.asmeta.modeladvisor;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 
 import org.asmeta.parser.ASMParser;
-import org.junit.Test;
+import org.asmeta.parser.AsmetaParserUtility;
+import org.junit.jupiter.api.Test;
 
 import asmeta.AsmCollection;
 
-public class ParseAllExampleTest {
+class ParseAllExampleTest {
 
 	@Test
-	public void testParseOnExamples() throws IOException {
+	void parseOnExamples() throws Exception {
 		Files.walk(new File("examples").toPath()).forEach(x -> {
 			String filepath = x.toString();
-			if (filepath.endsWith(ASMParser.ASM_EXTENSION) && 
+			if (filepath.endsWith(AsmetaParserUtility.ASM_EXTENSION) && 
 					!filepath.contains("errors")&& 
 					!filepath.contains("old")&& 
 					// TO BE FIXED

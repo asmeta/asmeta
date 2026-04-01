@@ -12,7 +12,6 @@ import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
 
 import asmeta.definitions.Classifier;
-import asmeta.definitions.domains.*;
 import asmeta.definitions.domains.AbstractTd;
 import asmeta.definitions.domains.AgentDomain;
 import asmeta.definitions.domains.AnyDomain;

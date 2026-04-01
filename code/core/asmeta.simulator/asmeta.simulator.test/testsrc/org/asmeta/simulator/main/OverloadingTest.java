@@ -1,27 +1,24 @@
 package org.asmeta.simulator.main;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.apache.log4j.SimpleLayout;
-import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.AsmetaParserUtility;
+import org.asmeta.parser.ParseException;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.State;
 import org.asmeta.simulator.value.IntegerValue;
 import org.asmeta.simulator.value.UndefValue;
 import org.asmeta.simulator.value.Value;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import asmeta.definitions.Function;
-import org.asmeta.parser.ParseException;
-import org.asmeta.parser.Utility;
 
-public class OverloadingTest extends BaseTest {
+class OverloadingTest extends BaseTest {
 
-	@Test
-	public void test01() throws Exception {
+	@Test void test01() throws Exception {
 		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/parser/overloading/m1.asm");
 		sim.run(1);
 		State s = sim.getCurrentState();
@@ -39,8 +36,7 @@ public class OverloadingTest extends BaseTest {
 		assertEquals(UndefValue.UNDEF, af4);
 	}
 
-	@Test
-	public void test02() throws Exception {
+	@Test void test02() throws Exception {
 		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/parser/overloading/m2.asm");
 		sim.run(1);
 		State s = sim.getCurrentState();
@@ -49,22 +45,20 @@ public class OverloadingTest extends BaseTest {
 		assertEquals(new IntegerValue(1), af);
 	}
 
-	@Test(expected=ParseException.class)
-	public void test03_optionFalse() throws Exception {
-		//ASMParser.getResultLogger().addAppender(new ConsoleAppender(new SimpleLayout()));
-		//Simulator.logger.addAppender(new ConsoleAppender(new SimpleLayout()));
+	@Test void test03_optionFalse() throws Exception {
 		Logger.getLogger(Simulator.class).setLevel(Level.OFF);
-		Utility.selectFirstBestRanking = false;
-		// too many compatible macro declarations
-		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/parser/overloading/m3.asm");
+		AsmetaParserUtility.selectFirstBestRanking = false;
+		assertThrows(ParseException.class, () -> {
+			// too many compatible macro declarations
+			sim = Simulator.createSimulator(ASM_EXAMPLES + "test/parser/overloading/m3.asm");
+		});
 	}
 
-	@Test
-	public void test03_optionTrue() throws Exception {
+	@Test void test03_optionTrue() throws Exception {
 		//ASMParser.getResultLogger().addAppender(new ConsoleAppender(new SimpleLayout()));
 		//Simulator.logger.addAppender(new ConsoleAppender(new SimpleLayout()));
 		Logger.getLogger(Simulator.class).setLevel(Level.OFF);
-		Utility.selectFirstBestRanking = true;
+		AsmetaParserUtility.selectFirstBestRanking = true;
 		// too many compatible macro declarations
 		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/parser/overloading/m3.asm");
 	}

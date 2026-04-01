@@ -1,0 +1,284 @@
+scenario rover_to_charger_2_3_recharge
+
+load ./../../models/RoverReducedMain.asm
+
+// ------------------------------------------------------------
+// Scenario intent (high-level):
+// - Start at (0,0) with enough battery.
+// - The goal should become (2,3), which is a charger.
+// - While progressing, the battery (batteryLevel) decreases as a consequence of
+//   decreasing measuredBatteryLevel (BatteryMonitor: batteryLevel := rtoi(measured*95/100)).
+// - When at a charger, SolarPanelController opens panels (panelState := OPEN).
+//
+// NOTE (modeling limitation reminder):
+// In Avalla we can only "set" monitored functions and "check" controlled ones.
+// Also, ASM updates are applied at the end of each step.
+// ------------------------------------------------------------
+
+// =====================
+// State 0 (initial)
+// =====================
+check currentPosition = (0,0);
+check goal = (0,0);
+check batteryLevel = 95;
+check recharge = false;
+check atGoal = false;
+check moving = false;
+check isAtCharger = false;
+check panelState = CLOSED;
+check plan2C = [];
+check noplan = false;
+check failure = false;
+check awaitingInstructions = false;
+
+// Provide a charger set that includes the target charger (2,3)
+set chargers := {(2,3)};
+
+// Provide a non-empty planSet so ComputePlan2Charging can select a plan2C and keep noplan=false.
+set planSet := {[(1,1),(2,2),(2,3)]};
+
+// No planner failure
+set planningFailure := false;
+
+// Start from a low measured battery
+set measuredBatteryLevel := 7;
+
+// We do not use goalSet here (kept false)
+set goalSet := false;
+
+step
+
+// =====================
+// After Step 1 (controlled state updated)
+// =====================
+// BatteryMonitor: batteryLevel := rtoi(7*95/100) = 6
+check batteryLevel = 6;
+
+// ComputePlan2Charging: selects a plan2C from planSet; and sets noplan=false, failure=false
+check plan2C = [(1,1),(2,2),(2,3)];
+check noplan = false;
+check failure = false;
+
+// HardwareInterface computes recharge based on *old* goal=(0,0) in this step (ASM semantics),
+// so recharge is expected to remain false with a high battery.
+check recharge = false;
+
+// Not at goal yet (goal is still (0,0) here)
+check goal = (0,0);
+
+// Not at a charger yet (charger is (2,3), currentPosition still (0,0))
+check isAtCharger = false;
+check panelState = CLOSED;
+
+// =====================
+// Step 2: force low battery so that recharge becomes true,
+// then (in the *next* step) GRA can set the goal to nearest charger (2,3).
+// =====================
+set chargers := {(2,3)};
+set planSet := {[(1,1),(2,2),(2,3)]};
+set planningFailure := false;
+
+// Make battery very low: batteryLevel := rtoi(5*95/100) = 4
+set measuredBatteryLevel := 5;
+
+// keep goalSet false
+set goalSet := false;
+
+step
+
+// After Step 2: battery drops, but since the goal is still the old one, recharge is false
+check batteryLevel = 4;
+check recharge = true;
+
+// In THIS same step, GRA still read the *old* recharge value (from previous state),
+// so goal is still expected to be unchanged at end of Step 2.
+check goal = (0,0);
+
+// =====================
+// Step 3: now that recharge=true in the current state,
+// GRA sets goal to nearest charger => (2,3).
+// =====================
+set chargers := {(2,3)};
+set planSet := {[(1,1),(2,2),(2,3)]};
+set planningFailure := false;
+
+// Keep measured battery low (still “needs recharge”)
+set measuredBatteryLevel := 5;
+set goalSet := false;
+
+step
+
+// After Step 3: goal is updated to the nearest charger (2,3)
+check goal = (2,3);
+
+// Still not at the charger yet (position unchanged in this reduced model)
+check currentPosition = (0,0);
+check isAtCharger = false;
+check panelState = CLOSED;
+
+// Battery stays low as per measuredBatteryLevel
+check batteryLevel = 4;
+
+// Recharge should still be true while battery is low
+check recharge = true;
+
+// =====================
+// Step 4: increase batteryLevel, but (because of ASM update timing) keep recharge=true
+// so that in the *next* step we can still load the plan while battery is already high.
+// Here we keep chargingComplete=false so r_loadPlan does NOT trigger yet.
+// =====================
+set chargers := {(2,3)};
+set planSet := {[(1,1),(2,2),(2,3)]};
+set planningFailure := false;
+
+set measuredBatteryLevel := 5;
+
+set chargingComplete := false;
+set goalSet := false;
+
+step
+
+check batteryLevel = 4;
+check recharge = true;
+
+// still not moving (plan not loaded)
+check moving = false;
+check currentPosition = (0,0);
+check goal = (2,3);
+check panelState = CLOSED;
+check isAtCharger = false;
+check atGoal = false;
+
+
+// =====================
+// Step 5: load the plan now (recharge is true in the current state),
+// and since batteryLevel is already high at the *start* of this step,
+// r_setRechargeFlag will set recharge := false at the end of the step.
+// Also set chargingComplete=true to allow r_loadPlan.
+// =====================
+set chargers := {(2,3)};
+set planSet := {[(1,1),(2,2),(2,3)]};
+set planningFailure := false;
+
+set measuredBatteryLevel := 5;
+
+// allow loading the plan into activePlan and set moving=true
+set chargingComplete := true;
+
+set goalSet := false;
+
+step
+
+// After Step 5:
+// - activePlan is loaded and moving becomes true
+check moving = true;
+check activePlan = [(1,1),(2,2),(2,3)];
+check recharge = true;
+
+check currentPosition = (0,0);
+check goal = (2,3);
+check panelState = CLOSED;
+check isAtCharger = false;
+check atGoal = false;
+
+
+// =====================
+// Step 6: start moving along the activePlan (to (1,1)).
+// While moving, chargingComplete is false (we are traveling).
+// =====================
+set chargers := {(2,3)};
+set planSet := {[(1,1),(2,2),(2,3)]};
+set planningFailure := false;
+
+set measuredBatteryLevel := 4;     // reasonable “consuming while moving”
+set chargingComplete := false;
+set goalSet := false;
+
+step
+
+check currentPosition = (1,1);
+check activePlan = [(2,2),(2,3)];
+check moving = true;
+
+// atGoal/isAtCharger are computed using the *old* currentPosition, so still false here
+check atGoal = false;
+check isAtCharger = false;
+check panelState = CLOSED;
+
+
+// =====================
+// Step 7: move to (2,2)
+// =====================
+set chargers := {(2,3)};
+set planSet := {[(1,1),(2,2),(2,3)]};
+set planningFailure := false;
+
+set measuredBatteryLevel := 3;
+set chargingComplete := false;
+set goalSet := false;
+
+step
+
+check currentPosition = (2,2);
+check activePlan = [(2,3)];
+check moving = true;
+
+check atGoal = false;
+check isAtCharger = false;
+check panelState = CLOSED;
+
+
+// =====================
+// Step 8: move to (2,3) (the charger / goal position)
+// NOTE: atGoal/isAtCharger still reflect the *previous* position in this step.
+// =====================
+set chargers := {(2,3)};
+set planSet := {[(1,1),(2,2),(2,3)]};
+set planningFailure := false;
+
+set measuredBatteryLevel := 2;
+set chargingComplete := false;
+set goalSet := false;
+
+step
+
+check currentPosition = (2,3);
+check activePlan = [];
+check moving = true;          // moving will be turned false in the next step (empty plan)
+
+check atGoal = false;         // updated next step
+check isAtCharger = false;    // updated next step
+check panelState = CLOSED;    // opens next step
+
+
+// =====================
+// Step 9: now the machine “realizes” it is at the charger.
+// - r_setAtGoal and r_setIsAtCharger become true
+// - HardwareInterface stops moving because the plan is finished / charging hold
+// This is the point where recharging starts (panels OPEN, chargingComplete=false).
+// =====================
+set chargers := {(2,3)};
+set planSet := {[(1,1),(2,2),(2,3)]};
+set planningFailure := false;
+
+set measuredBatteryLevel := 2;
+
+set chargingComplete := false;
+set goalSet := false;
+
+step
+
+check currentPosition = (2,3);
+check atGoal = true;
+check isAtCharger = true;
+
+// =====================
+// Step 10: The rover can now open the solar panels
+// =====================
+
+set measuredBatteryLevel := 2;
+
+step
+
+check panelState = OPEN;      // recharging starts (panels opened at charger)
+check moving = false;         // rover holds position while charging

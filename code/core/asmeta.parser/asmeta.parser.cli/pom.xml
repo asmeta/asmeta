@@ -2,14 +2,74 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>asmeta</groupId>
+		<artifactId>asmeta.core</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../../</relativePath>
+	</parent>
 	<artifactId>asmeta.parser.cli</artifactId>
+	<dependencies>
+		<dependency>
+			<groupId>args4j</groupId>
+			<artifactId>args4j</artifactId>
+			<version>2.37</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.emf</groupId>
+			<artifactId>org.eclipse.emf.common</artifactId>
+			<version>2.45.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.emf</groupId>
+			<artifactId>org.eclipse.emf.ecore</artifactId>
+			<version>2.42.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.emf</groupId>
+			<artifactId>org.eclipse.emf.ecore.xmi</artifactId>
+			<version>2.40.0</version>
+		</dependency>
+		<dependency>
+			<groupId>asmeta</groupId>
+			<artifactId>asmeta.cli</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>asmeta</groupId>
+			<artifactId>asmeta.parser</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>asmeta</groupId>
+			<artifactId>asmeta.emf</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<testSourceDirectory>test_src</testSourceDirectory>
 		<plugins>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.11.0</version>
+				<version>3.15.0</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<!-- JUnit 5 requires Surefire version 2.22.0 or higher -->
+				<version>3.5.4</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -37,61 +97,8 @@
 						</configuration>
 					</execution>
 				</executions>
+				<version>3.8.0</version>
 			</plugin>
 		</plugins>
 	</build>
-	<dependencies>
-		<dependency>
-			<groupId>args4j</groupId>
-			<artifactId>args4j</artifactId>
-			<version>2.37</version>
-		</dependency>
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.17</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.emf</groupId>
-			<artifactId>org.eclipse.emf.common</artifactId>
-			<version>2.43.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.emf</groupId>
-			<artifactId>org.eclipse.emf.ecore</artifactId>
-			<version>2.40.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.emf</groupId>
-			<artifactId>org.eclipse.emf.ecore.xmi</artifactId>
-			<version>2.39.0</version>
-		</dependency>
-		<dependency>
-			<groupId>asmeta</groupId>
-			<artifactId>asmeta.cli</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>asmeta</groupId>
-			<artifactId>asmeta.parser</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>asmeta</groupId>
-			<artifactId>asmeta.emf</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.13.2</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
-		  	<parent>
-			<groupId>asmeta</groupId>
-			<artifactId>asmeta.core</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<relativePath>../../</relativePath>
-		</parent> 
 </project>

@@ -16,13 +16,13 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 import org.apache.log4j.Logger;
-
-import org.asmeta.parser.ASMParser;
 import org.asmeta.xt.validator.AsmetaFromAvallaBuilder;
 import org.asmeta.xt.validator.AsmetaV;
 import org.asmeta.xt.validator.ValidationResult;
 
 import asmeta.AsmCollection;
+import asmeta.mutation.operators.AsmetaMutationOperator;
+import asmeta.mutation.operators.CaseMutator;
 import asmeta.mutation.operators.ChooseRuleMutator;
 import asmeta.mutation.operators.CondNegator;
 import asmeta.mutation.operators.CondRemover;
@@ -32,8 +32,6 @@ import asmeta.mutation.operators.RuleBasedMutator;
 import asmeta.mutation.operators.RuleRemover;
 import asmeta.mutation.operators.SeqToParMutator;
 import asmeta.structure.Asm;
-import asmeta.mutation.operators.AsmetaMutationOperator;
-import asmeta.mutation.operators.CaseMutator;
 
 /**
  * it executes a scenario over a mutate set of specifications and return the

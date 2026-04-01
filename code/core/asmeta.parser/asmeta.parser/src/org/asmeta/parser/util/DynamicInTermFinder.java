@@ -206,10 +206,10 @@ public class DynamicInTermFinder extends ReflectiveVisitor<Void> {
 
 	/* check if a domain is dynamic */
 	public static boolean isDomainDynamic(Domain extendedDomain) {
-		if ((extendedDomain instanceof ConcreteDomain) && ((ConcreteDomain) extendedDomain).getIsDynamic()
+		if ((extendedDomain instanceof ConcreteDomain domain) && domain.getIsDynamic()
 				&& (((ConcreteDomain) extendedDomain).getTypeDomain() instanceof AbstractTd))
 			return true;
-		else if ((extendedDomain instanceof AbstractTd) && (((AbstractTd) extendedDomain).getIsDynamic()))
+		else if ((extendedDomain instanceof AbstractTd td) && (td.getIsDynamic()))
 			return true;
 		else {
 			return false;

@@ -1,12 +1,11 @@
 package org.asmeta.parser;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 
 import org.apache.log4j.Level;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * parse the files in the errors directory which should parse (may be not
@@ -15,25 +14,22 @@ import org.junit.Test;
  * @author garganti
  *
  */
-public class AsmParserTestErrors extends AsmParserTest {
+class AsmParserTestErrors extends AsmParserTest {
 
-	@Test
-	public void testRPNS() {
+	@Test void rpns() {
 		testDir("test/errors/rpns");
 	}
 
-	@Test
-	public void testRPWS() {
+	@Test void rpws() {
 		testDir("test/errors/rpws");
 	}
 
 	// all these specs must fail but with a right exception
-	@Test
-	public void testCircularA() {
+	@Test void circularA() {
 		testCircular("test/errors/circular/SpecA.asm");
 	}
-	@Test
-	public void testCircularB() {
+
+	@Test void circularB() {
 		testCircular("test/errors/circular/SpecB.asm");
 	}
 

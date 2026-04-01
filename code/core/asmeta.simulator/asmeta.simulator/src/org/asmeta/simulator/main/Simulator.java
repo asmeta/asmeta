@@ -44,9 +44,8 @@ import java.util.Map.Entry;
 import org.apache.log4j.Appender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.apache.log4j.WriterAppender;
 import org.asmeta.parser.ASMParser;
-import org.asmeta.parser.Utility;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.asmeta.parser.util.AsmetaTermPrinter;
 import org.asmeta.parser.util.Defs;
 import org.asmeta.simulator.Environment;
@@ -63,7 +62,6 @@ import org.asmeta.simulator.readers.RandomMFReader;
 import org.asmeta.simulator.util.TermChecker;
 import org.asmeta.simulator.value.AgentValue;
 import org.asmeta.simulator.value.BooleanValue;
-import org.asmeta.simulator.value.IntegerValue;
 import org.asmeta.simulator.value.ReserveValue;
 import org.asmeta.simulator.value.SetValue;
 import org.asmeta.simulator.value.Value;
@@ -231,7 +229,7 @@ public class Simulator {
 	void set(String modelName, AsmCollection asmp, Environment env)
 			throws AsmModelNotFoundException, MainRuleNotFoundException {
 		assert env != null;
-		assert !modelName.endsWith(ASMParser.ASM_EXTENSION);
+		assert !modelName.endsWith(AsmetaParserUtility.ASM_EXTENSION);
 		asmCollection = asmp;
 		initAsmModel(modelName);
 		environment = env;
@@ -304,10 +302,10 @@ public class Simulator {
 		}
 		AsmCollection asmetaPackage = ASMParser.setUpReadAsm(modelFile);
 		// take the name without extension
-		assert modelFile.getName().endsWith(ASMParser.ASM_EXTENSION);
+		assert modelFile.getName().endsWith(AsmetaParserUtility.ASM_EXTENSION);
 		// remove the extension (allow also a point the the name?)
 		String fileName = modelFile.getName().replaceFirst("[.][^.]+$", "");
-		assert modelFile.getName().equals(fileName + ASMParser.ASM_EXTENSION);
+		assert modelFile.getName().equals(fileName + AsmetaParserUtility.ASM_EXTENSION);
 		Simulator sim = new Simulator(fileName, asmetaPackage, env);
 		return sim;
 	}
@@ -599,7 +597,7 @@ public class Simulator {
 		// then assign it to the static attribute of TermEvaluator
 		for (Asm asm : asmCollection) {
 			String name = asm.getName();
-			if (!name.equals(Utility.STANDARD_LIBRARY_NAME)) {
+			if (!name.equals(AsmetaParserUtility.STANDARD_LIBRARY_NAME)) {
 				continue;
 			}
 			Collection<?> functions = asm.getHeaderSection().getSignature().getFunction();
@@ -710,13 +708,13 @@ public class Simulator {
 			Collection<Property> propertiesList = b.getProperty();
 			if (propertiesList != null) {
 				for (Property property : propertiesList) {
-					if (property instanceof Invariant) {
-						Term body = ((Invariant) property).getBody();
+					if (property instanceof Invariant invariant) {
+						Term body = invariant.getBody();
 						isMonitoredInvariant = mf.visit(body);
 						if (isMonitoredInvariant) {
-							monitoredInvariants.add((Invariant) property);
+							monitoredInvariants.add(invariant);
 						} else {
-							controlledInvariants.add((Invariant) property);
+							controlledInvariants.add(invariant);
 						}
 					}
 				}

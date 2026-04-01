@@ -2,7 +2,7 @@ package asmeta.asmetal2java.codegen.generator;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -12,9 +12,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.asmeta.parser.ASMParser;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.asmeta.parser.AsmetaParserUtility;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import asmeta.AsmCollection;
 import asmeta.asmetal2java.codegen.compiler.CompileResult;
@@ -78,7 +78,7 @@ public class GeneratorCompilerEvosuiteTest {
 	 */
 	private static final List<String> testGenErrors = List.of();
 
-	@BeforeClass
+	@BeforeAll
 	public static void setup() {
 		GeneratorCompilerUtil.setupFolders(path);
 		File dirTestGenF = dirTestGen.toFile();
@@ -106,7 +106,7 @@ public class GeneratorCompilerEvosuiteTest {
 		// add the domain tests
 		exampleList.addAll(Arrays.stream(domainTestPath.toFile().listFiles()).toList());
 		for (File file : exampleList) {
-			if (file.getName().endsWith(ASMParser.ASM_EXTENSION) && !excludeFiles.contains(file.getName())) {
+			if (file.getName().endsWith(AsmetaParserUtility.ASM_EXTENSION) && !excludeFiles.contains(file.getName())) {
 				CompileResult genandcompile = genandcompileEvosuite(file.getAbsolutePath(), options, dirTestGen,
 						GeneratorCompilerUtil.dirCompilazione);
 				if (!genandcompile.getSuccess()) {

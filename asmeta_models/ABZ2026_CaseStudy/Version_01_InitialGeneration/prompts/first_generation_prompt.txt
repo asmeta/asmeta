@@ -1,0 +1,2 @@
+Generate a set of ASMETA modules for the planetary rover case study.
+Please model the components involved in the reduced architecture, and focus on the requirements SL1, G2, G5, CPC3, CPC4, CPC5, HI1, HI2, HI6, HI7, BM1, and BM2.

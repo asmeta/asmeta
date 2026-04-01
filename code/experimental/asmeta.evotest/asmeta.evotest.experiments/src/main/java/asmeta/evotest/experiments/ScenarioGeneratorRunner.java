@@ -17,9 +17,10 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.asmeta.atgt.generator.NuSMVtestGenerator;
 import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.asmeta.simulator.Environment;
-import org.asmeta.simulator.RuleEvaluator;
 import org.asmeta.simulator.Environment.TimeMngt;
+import org.asmeta.simulator.RuleEvaluator;
 import org.asmeta.simulator.main.Simulator;
 import org.yaml.snakeyaml.Yaml;
 
@@ -131,7 +132,7 @@ public class ScenarioGeneratorRunner {
 			File[] children = new File(sourceDir).listFiles();
 			for (File child : children) {
 				sourceFile = child.getPath();
-				if (sourceFile.endsWith(ASMParser.ASM_EXTENSION)) {
+				if (sourceFile.endsWith(AsmetaParserUtility.ASM_EXTENSION)) {
 					LOG.info("Generating test for: " + sourceFile + ".");
 					generateTests(sourceFile, cfg);
 				}

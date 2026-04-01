@@ -33,7 +33,7 @@ public class ClusterFunctions {
 
 	*/	
 	static public RealValue distance2(org.asmeta.simulator.value.TupleValue<Double> tv1, org.asmeta.simulator.value.TupleValue<Double> tv2){
-		double dx = tv1.getValue().get(0).getValue() - (tv2.getValue().get(0).getValue());  
+		double dx = tv1.getValue().getFirst().getValue() - (tv2.getValue().getFirst().getValue());  
 		double dy = tv1.getValue().get(1).getValue() - (tv2.getValue().get(1).getValue());
 		return new RealValue(dx * dx + dy * dy);
 		
@@ -75,7 +75,7 @@ public class ClusterFunctions {
 	static public TupleValue sumPoints(SetValue sv){
 		double dx = 0.0, dy = 0.0;
 		for(Object v: sv.getValue()){
-			dx += ((RealValue)((TupleValue)v).getValue().get(0)).getValue();
+			dx += ((RealValue)((TupleValue)v).getValue().getFirst()).getValue();
 			dy += ((RealValue)((TupleValue)v).getValue().get(1)).getValue();
 		}
 		return new TupleValue(new RealValue(dx),new RealValue(dy));

@@ -10,23 +10,21 @@
  ******************************************************************************/
 package org.asmeta.simulator.main;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.asmeta.simulator.InvalidInvariantException;
 import org.asmeta.simulator.Location;
-import org.asmeta.simulator.UpdateSet;
 import org.asmeta.simulator.main.Simulator.InvariantTreament;
 import org.asmeta.simulator.value.BooleanValue;
 import org.asmeta.simulator.value.IntegerValue;
 import org.asmeta.simulator.value.Value;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import asmeta.definitions.Function;
 
-public class AxiomsTest extends BaseTest {
+class AxiomsTest extends BaseTest {
 
 	
 	private void runCatchInv(Simulator sim, int ntimes) {
@@ -39,10 +37,8 @@ public class AxiomsTest extends BaseTest {
 		fail();
 	}
 
-	
-	
-	@Test
-	public void testInitStateViolation() throws Exception {
+
+	@Test void initStateViolation() throws Exception {
 		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/axioms/initStateViolation.asm");
 		runCatchInv(sim,10);//no step is executed
 		Function foo = searchFunction("foo");
@@ -50,8 +46,7 @@ public class AxiomsTest extends BaseTest {
 		assertEquals(BooleanValue.FALSE, value);
 	}
 
-	@Test
-	public void testInitStateMonAxiomViolation() throws Exception {
+	@Test void initStateMonAxiomViolation() throws Exception {
 		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/axioms/initStateMonAxiomViolation.asm",
 										ASM_EXAMPLES + "test/simulator/axioms/initStateMonAxiomViolation.env");
 		
@@ -61,8 +56,7 @@ public class AxiomsTest extends BaseTest {
 		assertEquals(BooleanValue.TRUE, value);
 	}
 
-	@Test
-	public void testContrStateViolationViolation() throws Exception {
+	@Test void contrStateViolationViolation() throws Exception {
 		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/axioms/contrStateViolation.asm",
 										ASM_EXAMPLES + "test/simulator/axioms/contrStateViolation.env");
 		runCatchInv(sim,10);//just 2 steps are executed
@@ -73,8 +67,7 @@ public class AxiomsTest extends BaseTest {
 		assertEquals(2l, ((IntegerValue)value).getValue().longValue());
 	}
 
-	@Test
-	public void testMonStateViolation() throws Exception {
+	@Test void monStateViolation() throws Exception {
 		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/axioms/monStateViolation.asm",
 										ASM_EXAMPLES + "test/simulator/axioms/monStateViolation.env");
 		runCatchInv(sim, 10);//Just 3 steps are executed
@@ -83,19 +76,20 @@ public class AxiomsTest extends BaseTest {
 		assertEquals(3l, ((IntegerValue)value).getValue().longValue());
 	}
 
-	@Test(expected = InvalidInvariantException.class)
-	public void testRunUntilEmptyAxiomViolation() throws Exception {
+	@Test void runUntilEmptyAxiomViolation() throws Exception {
 		InvariantTreament olc_c = Simulator.checkInvariants;
-		try{
-			Simulator.checkInvariants = InvariantTreament.CHECK_STOP;
-			sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/axioms/runUntilEmptyAxiomViolation.asm");
-			sim.runUntilEmpty();
-		}finally{
-			Simulator.checkInvariants = olc_c;					
-		}
+		assertThrows(InvalidInvariantException.class, () -> {
+			try {
+				Simulator.checkInvariants = InvariantTreament.CHECK_STOP;
+				sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/axioms/runUntilEmptyAxiomViolation.asm");
+				sim.runUntilEmpty();
+			} finally {
+				Simulator.checkInvariants = olc_c;
+			}
+		});
 	}
-	@Test
-	public void testRunUntilEmptyAxiomViolationNoStop() throws Exception {		
+
+	@Test void runUntilEmptyAxiomViolationNoStop() throws Exception {		
 		InvariantTreament olc_c = Simulator.checkInvariants;
 		// no check -> continue till asked (20 states)
 		Simulator.checkInvariants = InvariantTreament.NO_CHECK;
@@ -110,8 +104,7 @@ public class AxiomsTest extends BaseTest {
 		Simulator.checkInvariants = olc_c;		
 	}
 
-	@Test
-	public void testAxiom_example() throws Exception {
+	@Test void axiomExample() throws Exception {
 		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/axioms/axiom_example.asm",
 										ASM_EXAMPLES + "test/simulator/axioms/axiom_example.env");
 		runCatchInv(sim, 10);//just 2 steps are executed. After two steps the invariant is violated

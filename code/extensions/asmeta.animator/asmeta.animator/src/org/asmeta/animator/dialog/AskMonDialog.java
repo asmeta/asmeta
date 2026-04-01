@@ -5,7 +5,6 @@ import org.eclipse.swt.events.DisposeEvent;
 import org.eclipse.swt.events.DisposeListener;
 import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 
 /**
@@ -13,6 +12,8 @@ import org.eclipse.swt.widgets.Shell;
  * to be passed to the simulator
  */
 public abstract class AskMonDialog extends Dialog {
+
+	private static final String DIALOG_TITLE = "Insert VALUE";
 
 	// inserted by the user
 	protected String input = null;
@@ -29,7 +30,8 @@ public abstract class AskMonDialog extends Dialog {
 	// if it is closed, the return null
 	final public String open() {
 		Shell newShell = new Shell(getParent(), getStyle());
-		newShell.setText(message);
+		// this is the tile of the dialog 
+		newShell.setText(DIALOG_TITLE);
 		newShell.addDisposeListener(new DisposeListener() {
 			// the dialog is disposed
 			public void widgetDisposed(DisposeEvent event) {

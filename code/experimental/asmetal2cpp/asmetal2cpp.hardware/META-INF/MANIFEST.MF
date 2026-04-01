@@ -10,10 +10,10 @@ Require-Bundle: org.eclipse.emf.mwe2.language;bundle-version="2.9.0",
  org.apache.log4j;bundle-version="1.2.15",
  org.eclipse.xtext.xbase.lib;bundle-version="2.10.0",
  org.eclipse.core.runtime;bundle-version="3.11.1",
- org.junit,
  asmeta.emf,
  asmeta.asm2cpp,
- asmeta.parser
+ asmeta.parser,
+ junit-jupiter-api;bundle-version="5.14.3"
 Import-Package: asmeta.structure
 Export-Package: org.asmeta.codegenerator,
  org.asmeta.codegenerator.arduino,

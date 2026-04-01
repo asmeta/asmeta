@@ -5,12 +5,10 @@
 */
 package org.asmeta.framework.enforcerDefault;
 
-import org.asmeta.framework.enforcer.*;
-
-
 import java.util.ArrayList;
-
 import java.util.List;
+
+import org.asmeta.framework.enforcer.Knowledge;
 
 
 

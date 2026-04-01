@@ -19,8 +19,8 @@ import org.asmeta.xt.validator.AsmetaV;
 import org.asmeta.xt.validator.ValidationResult;
 
 import asmeta.AsmCollection;
-import asmeta.mutation.operators.ParToSeqMutator;
 import asmeta.mutation.operators.AsmetaMutationOperator;
+import asmeta.mutation.operators.ParToSeqMutator;
 
 /**
  * it executes a scenario over a mutate set of specifications and return the

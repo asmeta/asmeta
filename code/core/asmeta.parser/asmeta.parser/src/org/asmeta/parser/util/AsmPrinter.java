@@ -167,8 +167,8 @@ public class AsmPrinter extends ReflectiveVisitor<Void> {
 
 	protected void visitFairness(List<FairnessConstraint> fairness) {
 		for (FairnessConstraint f : fairness) {
-			if (f instanceof CompassionConstraint) {
-				CompassionConstraint c = ((CompassionConstraint) f);
+			if (f instanceof CompassionConstraint constraint) {
+				CompassionConstraint c = constraint;
 				println("COMPASSION (" + tp.visit(c.getP()) + "," + tp.visit(c.getQ()) + ")");
 			}
 
@@ -181,12 +181,10 @@ public class AsmPrinter extends ReflectiveVisitor<Void> {
 			Collection<LtlSpec> ltlSpecs = new ArrayList<LtlSpec>();
 			Collection<CtlSpec> ctlSpecs = new ArrayList<CtlSpec>();
 			for (Property p : property) {
-				if (p instanceof Invariant) {
-					invariants.add((Invariant) p);
-				} else if (p instanceof LtlSpec) {
-					ltlSpecs.add((LtlSpec) p);
-				} else {
-					ctlSpecs.add((CtlSpec) p);
+				switch(p) {
+					case Invariant invariant -> invariants.add(invariant);
+					case LtlSpec spec -> ltlSpecs.add(spec);
+					case null, default -> ctlSpecs.add((CtlSpec) p);
 				}
 			}
 			visitInvariants(invariants);
@@ -591,8 +589,8 @@ public class AsmPrinter extends ReflectiveVisitor<Void> {
 	public void visit(List<VariableTerm> vars, List<Term> terms, String delim) {
 		if (vars != null) {
 			assert vars.size() > 0;
-			VariableTerm var = vars.get(0);
-			Term term = terms.get(0);
+			VariableTerm var = vars.getFirst();
+			Term term = terms.getFirst();
 			String varStr = var.getName();
 			String termStr = tp.visit(term);
 			print(varStr + " " + delim + " " + termStr);
@@ -616,7 +614,7 @@ public class AsmPrinter extends ReflectiveVisitor<Void> {
 	public void visitDclVars(List<VariableTerm> vars, String start, String stop) {
 		if (vars != null && vars.size() > 0) {
 			print(start);
-			VariableTerm var = vars.get(0);
+			VariableTerm var = vars.getFirst();
 			String name = var.getName();
 			Domain domain = var.getDomain();
 			print(name + " in ");

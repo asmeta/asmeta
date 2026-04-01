@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
 import org.asmeta.output_sanitisation_java.AirConditionerO;
 import org.asmeta.runtime_container.Esit;
@@ -63,12 +62,12 @@ class Enf{
 		return null;
 	}
 	
-	public static <T> Map<String, String> convert(Map<String, T> input) {	//ho cercato di fare una conversione di input generica non so se è giusto
+	public static <T> Map<String, String> convert(Map<String, T> input) {	//ho cercato di fare una conversione di input generica non so se ï¿½ giusto
 		Map<String,String> locValue=new HashMap<>();
 		for(Map.Entry<String, T> entry : input.entrySet()) {
 		    String key = entry.getKey();
 		    T value = entry.getValue();
-		    if (value instanceof String)	//effettivamente se è un enum di asm non va bene
+		    if (value instanceof String)	//effettivamente se ï¿½ un enum di asm non va bene
 		    	locValue.put(key, "\""+value.toString()+"\"");
 		    else
 		    	locValue.put(key, value.toString());

@@ -1,6 +1,6 @@
 package org.asmeta.toyices;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,15 +8,15 @@ import java.util.List;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import com.sun.jna.Pointer;
 
 public class TestMethods {
 	private static Logger logger = LogManager.getLogger(Test.class.getName());
 	
-	@BeforeClass
+	@BeforeAll
 	public static void setLogger() {
 		Logger.getLogger(SMTbasedASMsimulator.class).setLevel(Level.INFO);
 		Logger.getLogger(Test.class).setLevel(Level.OFF);

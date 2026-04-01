@@ -1,6 +1,7 @@
 package org.asmeta.nusmv.main;
 
-import static org.junit.Assert.fail;
+
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -9,7 +10,8 @@ import java.io.OutputStreamWriter;
 
 import org.asmeta.nusmv.main.AsmetaSMV.ModelCheckerMode;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
 
 //
 // example of call of asmetasmv with bounded model checking in a batch mode or interactively

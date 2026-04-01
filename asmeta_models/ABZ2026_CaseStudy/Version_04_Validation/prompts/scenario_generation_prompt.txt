@@ -1,0 +1,10 @@
+Generate an Avalla scenario for the planetary rover ASMETA specification. 
+
+In this scenario, the rover starts from the position (0,0) and moves to the goal (2,3), which is a charger. 
+While moving, the rover consumes its battery and, when arrived to the goal location, it needs to recharge.
+Since the goal is a charger location, it opens the solar panel and starts recharging.
+
+While writing the scenario, initialize all monitored functions at each step to reasonable values and perform, at each step, the necessary checks.
+
+Remember that in Abstract State Machines the updates are collected and performed at the end of each execution step. Thus, you cannot expect that the updated value is already available in the same step when it is assigned to a function.
+Avalla allows for setting the value of monitored function and checking that of controlled ones. It is not possible to do viceversa.

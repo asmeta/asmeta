@@ -12,8 +12,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 
 import asmeta.definitions.DefinitionsPackage;
-import asmeta.definitions.DerivedFunction;
-import asmeta.definitions.StaticFunction;
 import asmeta.definitions.Function;
 import asmeta.definitions.domains.Domain;
 import asmeta.structure.Asm;

@@ -40,8 +40,8 @@ public class ForallRuleUnroller extends RuleTransformer{
 		logger.debug("unrolling a forall rule");
 		EList<VariableTerm> vars = fr.getVariable();
 		if (vars.size() != 1) throw new RuntimeException("multiple vars not supported yet");
-		VariableTerm var = vars.get(0);
-		Term range = fr.getRanges().get(0);	
+		VariableTerm var = vars.getFirst();
+		Term range = fr.getRanges().getFirst();	
 		System.out.println(range.getClass());
 		if (!(range instanceof DomainTerm))
 			throw new RuntimeException("only vars in simple domain are supported");
@@ -81,7 +81,7 @@ public class ForallRuleUnroller extends RuleTransformer{
 			mostInner = cr;
 		}
 		// add the last one without condition
-		RuleSubstitution substitution = buildSubstituion(var, element.get(element.size()-1), enumtd);
+		RuleSubstitution substitution = buildSubstituion(var, element.getLast(), enumtd);
 		// build new rule and set as final else
 		mostInner.setElseRule(substitution.visit(doRule));
 		return firstConditional;

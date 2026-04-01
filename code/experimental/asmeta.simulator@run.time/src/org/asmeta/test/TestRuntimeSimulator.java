@@ -15,7 +15,8 @@ import org.asmeta.simulator.UpdateClashException;
 import org.asmeta.simulator.main.AsmModelNotFoundException;
 import org.asmeta.simulator.util.InputMismatchException;
 import org.asmeta.simulator.value.Value;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
 
 public class TestRuntimeSimulator {
 

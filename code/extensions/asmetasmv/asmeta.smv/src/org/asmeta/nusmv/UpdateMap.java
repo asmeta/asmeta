@@ -9,7 +9,6 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.apache.log4j.Logger;
-import org.asmeta.nusmv.util.AsmNotSupportedException;
 import org.asmeta.nusmv.util.Util;
 
 //

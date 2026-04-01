@@ -62,8 +62,8 @@ public class EnumValue extends Value<String> {
 	
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof EnumValue) {
-			return getValue().equals(((EnumValue) o).getValue());
+		if (o instanceof EnumValue value) {
+			return getValue().equals(value.getValue());
 		}
 		//PA 19/02/10
 		else if (o instanceof UndefValue) {

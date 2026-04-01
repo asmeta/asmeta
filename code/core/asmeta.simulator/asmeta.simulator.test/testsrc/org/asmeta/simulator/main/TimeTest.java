@@ -1,46 +1,42 @@
 package org.asmeta.simulator.main;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.Environment.TimeMngt;
-import org.asmeta.simulator.readers.MonFuncReader;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.RuleEvaluator;
 import org.asmeta.simulator.State;
 import org.asmeta.simulator.TermEvaluator;
+import org.asmeta.simulator.readers.MonFuncReader;
 import org.asmeta.simulator.value.IntegerValue;
 import org.asmeta.simulator.value.Value;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import asmeta.definitions.Function;
 
-public class TimeTest extends BaseTest {
+class TimeTest extends BaseTest {
 
-	@BeforeClass
-	static public void setLogger() {
+	@BeforeAll
+	static void setLogger() {
 		Logger.getLogger("org.asmeta.parser").setLevel(Level.OFF);
 		Logger.getLogger(RuleEvaluator.class).setLevel(Level.OFF);
 		Logger.getLogger(TermEvaluator.class).setLevel(Level.OFF);
 	}
 
-	@Test
-	public void test_1_jt() throws Exception {
+	@Test void test_1_jt() throws Exception {
 		// one monitored variable with time seconds
 		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/time/time1.asm");
 		Environment.timeMngt = TimeMngt.use_java_time;
@@ -60,8 +56,7 @@ public class TimeTest extends BaseTest {
 		assertEquals(Long.toString(duration1+1), getFunctionValue("time", sim.getCurrentState()));
 	}
 
-	@Test
-	public void test_2_jt() throws Exception {
+	@Test void test_2_jt() throws Exception {
 		// 2 monitored variables
 		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/time/time2.asm");
 		Environment.timeMngt = TimeMngt.use_java_time;
@@ -73,18 +68,17 @@ public class TimeTest extends BaseTest {
 		String t1 = getFunctionValue("time1", state);
 		String t2 = getFunctionValue("time2", state);
 		assertEquals(t1, t2);
-		assertTrue("time2 is " + Integer.parseInt(t2) + " millis " + mills, Integer.parseInt(t2) > 0);
+		assertTrue(Integer.parseInt(t2) > 0, "time2 is " + Integer.parseInt(t2) + " millis " + mills);
 		// wait one seconds
 		TimeUnit.SECONDS.sleep(1);
 		sim.run(1);
 		state = sim.getCurrentState();
 		t1 = getFunctionValue("time1", state);
 		t2 = getFunctionValue("time2", state);
-		assertTrue("time2 is " + Integer.parseInt(t2) + " millis " + mills, Integer.parseInt(t2) > 0);
+		assertTrue(Integer.parseInt(t2) > 0, "time2 is " + Integer.parseInt(t2) + " millis " + mills);
 	}
 
-	@Test
-	public void test_mix1_jt() throws Exception {
+	@Test void mix1_jt() throws Exception {
 		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/time/mixedtime1.asm");
 		Environment.timeMngt = TimeMngt.use_java_time;
 		// Environment.currentTimeUnit = TimeUnit.MILLISECONDS;
@@ -103,9 +97,8 @@ public class TimeTest extends BaseTest {
 		// System.out.println( t1 + "*** " + t2);
 	}
 
-	
-	@Test
-	public void test_mix2_jt() throws Exception {
+
+	@Test void mix2_jt() throws Exception {
 		// 2 monitored variables
 		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/time/mixedtime2.asm");
 		Environment.timeMngt = TimeMngt.use_java_time;
@@ -113,8 +106,8 @@ public class TimeTest extends BaseTest {
 		State state = sim.getCurrentState();
 		String t1 = getFunctionValue("timeS", state);
 		String t2 = getFunctionValue("timeMS", state);
-		assertEquals(Double.parseDouble(t1), 0, 0);
-		assertEquals(t2, "undef");
+		assertEquals(0, Double.parseDouble(t1), 0);
+		assertEquals("undef", t2);
 		// wait one seconds
 		TimeUnit.MILLISECONDS.sleep(2100);
 		sim.run(2);
@@ -123,6 +116,7 @@ public class TimeTest extends BaseTest {
 		assertEquals(Double.parseDouble(t1), Double.parseDouble(t2) / 1000, 10);
 		assertTrue(Integer.parseInt(t2) > 2100);
 	}
+
 	// ask the user
 	// with a simulated user - TODO check that asks only once
 	class SimulatedUser extends MonFuncReader{
@@ -149,8 +143,7 @@ public class TimeTest extends BaseTest {
 	}
 
 	// base case with auto mode
-	@Test
-	public void test_1_au_ok() throws Exception {
+	@Test void test_1_au_ok() throws Exception {
 		Environment.currentTimeUnit = null;
 		Environment.timeMngt = TimeMngt.ask_user;
 		SimulatedUser monFuncReader = new SimulatedUser();
@@ -162,8 +155,8 @@ public class TimeTest extends BaseTest {
 		assertEquals("[Seconds, Seconds]",monFuncReader.asked.values().toString());
 	}
 
-	@Test // asking milliseconds
-	public void test_1_au_okms() throws Exception {
+	// asking milliseconds
+	@Test void test_1_au_okms() throws Exception {
 		Environment.currentTimeUnit = ChronoUnit.MILLIS;
 		Environment.timeMngt = TimeMngt.ask_user;
 		SimulatedUser monFuncReader = new SimulatedUser();
@@ -176,10 +169,9 @@ public class TimeTest extends BaseTest {
 		assertEquals("[Millis, Millis]",monFuncReader.asked.values().toString());
 	}
 
-	
+
 	// two times but asked only once
-	@Test
-	public void test_2_au_ok() throws Exception {
+	@Test void test_2_au_ok() throws Exception {
 		Environment.currentTimeUnit = null; // auto mode
 		Environment.timeMngt = TimeMngt.ask_user;
 		SimulatedUser user = new SimulatedUser();
@@ -197,8 +189,7 @@ public class TimeTest extends BaseTest {
 
 	// two different units - the finer is asked after some steps, so it must give some warning 
 	// set current unit as minutes but then there are secs
-	@Test
-	public void test_mix2_au_warn() throws Exception {
+	@Test void mix2_au_warn() throws Exception {
 		Environment.currentTimeUnit = null;
 		Environment.timeMngt = TimeMngt.ask_user;
 		SimulatedUser user = new SimulatedUser();
@@ -210,9 +201,9 @@ public class TimeTest extends BaseTest {
 		assertEquals("3", getFunctionValue("timeS", sim.getCurrentState()));
 		assertEquals("3000", getFunctionValue("timeMS", sim.getCurrentState()));
 	}
+
 	// two different units - ask only the millis 
-	@Test
-	public void test_mix1_au_warn() throws Exception {
+	@Test void mix1_au_warn() throws Exception {
 		Environment.currentTimeUnit = null;
 		Environment.timeMngt = TimeMngt.ask_user;
 		SimulatedUser user = new SimulatedUser();
@@ -226,16 +217,15 @@ public class TimeTest extends BaseTest {
 	}
 
 	// the same with millisec it works
-	@Test
-	public void test_mix2_fine() throws Exception {
+	@Test void mix2_fine() throws Exception {
 		Environment.currentTimeUnit = ChronoUnit.MILLIS; // it should ask for milliseconds
 		Environment.timeMngt = TimeMngt.ask_user;
 		SimulatedUser u = new SimulatedUser();
 		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/time/mixedtime2.asm", new Environment(u));
 		String t1 = getFunctionValue("timeS", sim.getCurrentState());
 		String t2 = getFunctionValue("timeMS", sim.getCurrentState());
-		assertEquals(Double.parseDouble(t1), 0, 0);
-		assertEquals(t2, "undef");
+		assertEquals(0, Double.parseDouble(t1), 0);
+		assertEquals("undef", t2);
 		System.out.println("+++" + t1 + " " +t2);
 		sim.run(1);
 		t1 = getFunctionValue("timeS", sim.getCurrentState());
@@ -257,9 +247,9 @@ public class TimeTest extends BaseTest {
 		assertEquals("3", getFunctionValue("timeS", sim.getCurrentState()));
 		assertEquals("3000", getFunctionValue("timeMS", sim.getCurrentState()));
 	}
+
 	///////////////////////// auto increment
-	@Test
-	public void test_1_ai() throws Exception {
+	@Test void test_1_ai() throws Exception {
 		// one monitored variable with time seconds
 		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/time/time1.asm");
 		Environment.timeMngt = TimeMngt.auto_increment;

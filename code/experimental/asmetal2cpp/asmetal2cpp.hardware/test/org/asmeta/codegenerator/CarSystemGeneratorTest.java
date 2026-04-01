@@ -1,15 +1,16 @@
 package org.asmeta.codegenerator;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
-import org.asmeta.asm2code.main.AsmToCGenerator;
 import org.asmeta.codegenerator.configuration.HWConfiguration;
 import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.junit.Test;
 
 import com.google.gson.Gson;
@@ -41,7 +42,7 @@ public class CarSystemGeneratorTest {
 	static void test_hw(String asmFilePath, String jsonFilePath, String destinationFolder) throws IOException, Exception {
 		File asmFile = new File(asmFilePath);
 		File u2cFile = new File(jsonFilePath);
-		File hwFile = new File(destinationFolder + asmFile.getName().replace(ASMParser.ASM_EXTENSION, HWIntegrationGenerator.Ext));
+		File hwFile = new File(destinationFolder + asmFile.getName().replace(AsmetaParserUtility.ASM_EXTENSION, HWIntegrationGenerator.Ext));
 		assertTrue(asmFile.exists() && u2cFile.exists());
 		Gson gson = new Gson();
 		JsonReader reader;
@@ -63,7 +64,7 @@ public class CarSystemGeneratorTest {
 	static void test_ino(String asmFilePath, String jsonFilePath, String destinationFolder) throws IOException, Exception{
 		File asmFile = new File(asmFilePath);
 		File u2cFile = new File(jsonFilePath);
-		File inoFile = new File(destinationFolder + asmFile.getName().replace(ASMParser.ASM_EXTENSION, InoGenerator.Ext));
+		File inoFile = new File(destinationFolder + asmFile.getName().replace(AsmetaParserUtility.ASM_EXTENSION, InoGenerator.Ext));
 		assertTrue(asmFile.exists() && u2cFile.exists());
 		Gson gson = new Gson();
 		JsonReader reader;

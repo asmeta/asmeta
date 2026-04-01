@@ -3,19 +3,9 @@ package org.asmeta.assertion_catalog;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
-
-import org.asmeta.parser.ASMParser;
-import org.asmeta.runtime_container.IModelAdaptation;
-import org.asmeta.runtime_container.InvariantData;
-import org.asmeta.simulationUI.SimGUI;
-
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
@@ -25,23 +15,33 @@ import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.awt.event.ActionEvent;
-import javax.swing.JTextPane;
-import javax.swing.KeyStroke;
-import javax.swing.ListSelectionModel;
+
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.InputMap;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.JLabel;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
+import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextPane;
+import javax.swing.KeyStroke;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import javax.swing.table.DefaultTableModel;
+
+import org.asmeta.parser.AsmetaParserUtility;
+import org.asmeta.runtime_container.IModelAdaptation;
+import org.asmeta.runtime_container.InvariantData;
+import org.asmeta.simulationUI.SimGUI;
 
 /**
  * @author Federico Rebucini, Hernan Altamirano, Daniele Troiano, Michele Zenoni
@@ -360,7 +360,7 @@ public class InvariantGUI {
 					   if (ci!=null) {
 						   currentLoadedID = ci.getInt();
 						   currentLoadedModel = ci.getStr();
-						   if(!currentLoadedModel.isEmpty() && currentLoadedModel.indexOf(ASMParser.ASM_EXTENSION)!=-1 && showInvariants())
+						   if(!currentLoadedModel.isEmpty() && currentLoadedModel.indexOf(AsmetaParserUtility.ASM_EXTENSION)!=-1 && showInvariants())
 						   {
 							   add.setEnabled(true);
 							   refresh.setEnabled(true);
@@ -370,7 +370,7 @@ public class InvariantGUI {
 							   else
 								   modelpath.setText(currentLoadedModel);
 						   }
-						   else if(currentLoadedModel.indexOf(ASMParser.ASM_EXTENSION)==-1 && !currentLoadedModel.isEmpty())
+						   else if(currentLoadedModel.indexOf(AsmetaParserUtility.ASM_EXTENSION)==-1 && !currentLoadedModel.isEmpty())
 							   JOptionPane.showMessageDialog(getContentPane(), "Error: wrong extension!", "Error", JOptionPane.ERROR_MESSAGE);
 					   }
 				   } catch (Exception ex) {

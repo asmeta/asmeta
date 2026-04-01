@@ -3,53 +3,37 @@ package org.asmeta.runtime_container;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.CopyOption;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.EmptyStackException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Queue;
 import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import org.asmeta.animator.MyState;
 import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.asmeta.parser.ParseException;
-import org.asmeta.parser.util.AsmPrinter;
 import org.asmeta.runtime_simulator.AsmetaSserviceSingleton;
 import org.asmeta.runtime_simulator.IdNotFoundException;
-import org.asmeta.runtime_simulator.InfoAsmetaService;
 import org.asmeta.simulator.InvalidInvariantException;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.State;
 import org.asmeta.simulator.UpdateClashException;
-
-import org.asmeta.simulator.main.*;
+import org.asmeta.simulator.main.AsmModelNotFoundException;
+import org.asmeta.simulator.main.MainRuleNotFoundException;
 import org.asmeta.simulator.util.InputMismatchException;
-import org.asmeta.simulator.util.TermChecker;
 import org.asmeta.simulator.value.Value;
-import org.eclipse.emf.ecore.xml.type.internal.RegEx;
 
 import asmeta.AsmCollection;
-import asmeta.definitions.Invariant;
-import asmeta.definitions.Property;
 import asmeta.definitions.impl.MonitoredFunctionImpl;
-import asmeta.structure.Asm;
-import asmeta.structure.Body;
-import asmeta.terms.basicterms.Term;
 
 
 /**
@@ -724,7 +708,7 @@ public class SimulationContainerSingleton implements IModelExecution, IModelAdap
 		for (int i=0;i<c;i++) {
 			String moduleName=asm.getMain().getHeaderSection().getImportClause().get(i).getModuleName();
 			if (!moduleName.toLowerCase().endsWith("standardlibrary"))	//Skips the StandardLibrary.asm
-				monNames=findAllMonitored(monNames, root+moduleName+ASMParser.ASM_EXTENSION);
+				monNames=findAllMonitored(monNames, root+moduleName+AsmetaParserUtility.ASM_EXTENSION);
 		}
 		return monNames;
 	}

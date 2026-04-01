@@ -1,41 +1,37 @@
 package org.asmeta.parser;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.SimpleLayout;
 import org.asmeta.parser.util.ReflectiveVisitor;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
 
 import asmeta.AsmCollection;
 
 // it is too difficult to test a checker in isolation
-public class AsmParserTestStaticDerived extends AsmParserTest {
+class AsmParserTestStaticDerived extends AsmParserTest {
 
-	@BeforeClass
-	static public void setUp() {
+	@BeforeAll
+	static void setUp() {
 		Logger.getLogger(ReflectiveVisitor.class).setLevel(Level.ALL);
 		log.setLevel(Level.DEBUG);
 		log.addAppender(new ConsoleAppender(new SimpleLayout()));
 	}
 
 	// some examples with errors - they must be rejected by the parser
-	@Test
-	public void testSpecificTestWErrors() {
+	@Test void specificTestWErrors() {
 		// first type of error static contains dynamic
 		String err = testOneSpecWithError("test/errors/staticVSDerived.asm");
 		assertTrue(err.contains("static function fs contains (dynamic)"));
@@ -54,39 +50,33 @@ public class AsmParserTestStaticDerived extends AsmParserTest {
 		assertTrue(err.contains("static function fs contains (dynamic)"));
 	}
 
-	@Test
-	public void testSpecificTestNoErrors() {
+	@Test void specificTestNoErrors() {
 		testOneSpec("test/parser/staticVSDerived.asm");
 	}
 
-	@Test
-	public void testLifts() {
+	@Test void lifts() {
 		testOneSpec("/examples/models/LIFT.asm");
 		testOneSpec("/examples/models/lift2.asm");
 		testOneSpec("/examples/models/lift3.asm");
 		testOneSpec("/examples/models/lift3.asm");
 	}
 
-	@Test
-	public void testOrderSystem() {
+	@Test void orderSystem() {
 		testOneSpec("/examples/models/ordersystem.asm");
 	}
 
-	@Test
-	public void testproduction_cell() {
+	@Test void testproduction_cell() {
 		testOneSpec("examples/production_cell/robot.asm");
 		testOneSpec("examples/production_cell/press.asm");
 		testOneSpec("examples/production_cell/Production_Cell_with_agents.asm");
 	}
 
 	// test all the specifications - over all the projects in case fix derived/static
-	@Ignore
-	@Test
-	@Category(org.asmeta.annotations.TestToMavenSkip.class)
-	public void testALLSPECIFICATIONSANDFIX() throws IOException {
+	@Disabled
+	@Test @Tag("TestToMavenSkip") void allspecificationsandfix() throws Exception {
 		ASMParser.getResultLogger().setLevel(Level.OFF);
-		Files.walk(Paths.get("../../../../code/"))
-		.filter(x -> (x.toFile().isDirectory() || x.toString().endsWith(".asm"))).forEach(f -> {
+		Files.walk(Path.of("../../../../code/"))
+		.filter(x -> (x.toFile().isDirectory() || x.toString().endsWith(AsmetaParserUtility.ASM_EXTENSION))).forEach(f -> {
 			String string = f.toFile().toString();
 			// skip many problematic files
 			if (string.contains("drafts")); else 
@@ -107,7 +97,7 @@ public class AsmParserTestStaticDerived extends AsmParserTest {
 //			if (string.contains("asmeta.modeladvisor.test\\examples\\statDerIsUsed.asm")); else
 //			if (string.contains("asmeta.modeladvisor.test\\examples\\usedDomain2.asm")); else
 			if (string.contains("ABZ2016\\old")); else
-			if (string.endsWith(ASMParser.ASM_EXTENSION)) {
+			if (string.endsWith(AsmetaParserUtility.ASM_EXTENSION)) {
 				try {
 					System.err.println("checking " + string);
 					AsmCollection asmcollection = ASMParser.setUpReadAsm(f.toFile());

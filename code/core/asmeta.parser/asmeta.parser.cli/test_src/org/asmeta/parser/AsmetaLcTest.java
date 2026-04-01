@@ -1,17 +1,13 @@
 package org.asmeta.parser;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.apache.log4j.ConsoleAppender;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-import org.apache.log4j.SimpleLayout;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * cosa fa esattamente ?? AG
@@ -19,8 +15,8 @@ import org.junit.Test;
  */
 public class AsmetaLcTest {
 
-	@BeforeClass
-	public static void setUpLogger() {
+	@BeforeAll
+	static void setUpLogger() {
 		//
 //		Logger log = Logger.getLogger("org.asmeta.parser");
 //		if (!log.getAllAppenders().hasMoreElements())
@@ -33,12 +29,12 @@ public class AsmetaLcTest {
 	protected boolean testOneSpec(String spec) {
 		String[] args = { "-xmi", spec };
 		AsmetaLc.main(args);
-		int i = spec.lastIndexOf(ASMParser.ASM_EXTENSION);
+		int i = spec.lastIndexOf(AsmetaParserUtility.ASM_EXTENSION);
 		// String s = new String(spec.substring(0, i));
 		String s = spec.substring(0, i);
 		File f = new File(s + ".xmi");
-		assertTrue("file " + f.getAbsolutePath() + " does not exist, current dir: " + new File(".").getAbsolutePath(),
-				f.exists());
+		assertTrue(f.exists(),
+				"file " + f.getAbsolutePath() + " does not exist, current dir: " + new File(".").getAbsolutePath());
 		return f.exists();
 	}
 
@@ -48,7 +44,7 @@ public class AsmetaLcTest {
 
 	protected void testDir(String dir) {
 		Collection<File> res = testSpecInSubFolder(dir);
-		assertTrue(res.toString(), res.isEmpty());
+		assertTrue(res.isEmpty(), res.toString());
 	}
 
 	/**
@@ -58,8 +54,8 @@ public class AsmetaLcTest {
 	private Collection<File> testSpecInSubFolder(String dirname) {
 		Collection<File> failedSpec = new ArrayList<File>();
 		File dir = new File(FILE_BASE + dirname);
-		assertTrue("example dir " + dir.getAbsolutePath() + " does not exist, current dir: "
-				+ new File(".").getAbsolutePath(), dir.isDirectory());
+		assertTrue(dir.isDirectory(), "example dir " + dir.getAbsolutePath() + " does not exist, current dir: "
+				+ new File(".").getAbsolutePath());
 		// read all the specs
 		for (File f : dir.listFiles(new ASMFileFilter())) {
 			if (!testOneSpec(f))
@@ -74,64 +70,52 @@ public class AsmetaLcTest {
 
 	}
 
-	@Test
-	public void testSpec1() {
+	@Test void spec1() {
 		testOneSpec(FILE_BASE + "examples/fsmsemantics/FSM_hooking.asm");
 		// testOneSpec(FILE_BASE + "examples/simple_ex/AdvancedClock.asm");
 	}
 
-	@Test
-	public void testSimpleEx() {
+	@Test void simpleEx() {
 		testDir("examples/simple_example/");
 	}
 
-	@Test
-	public void testFSM() {
+	@Test void fsm() {
 		testDir("examples/fsmsemantics/");
 	}
 
-	@Test
-	public void testTrafficLight() {
+	@Test void trafficLight() {
 		testDir("examples/traffic_light/");
 	}
 
-	@Test
-	public void testExamplesModels() {
+	@Test void examplesModels() {
 		testDir("examples/models/");
 	}
 
-	@Test
-	public void testExamplesPhilo() {
+	@Test void examplesPhilo() {
 		testDir("examples/philosophers/");
 	}
 
-	@Test
-	public void testProductionCell() {
+	@Test void productionCell() {
 		testDir("examples/production_cell/");
 	}
 
-	@Test
-	public void testExamplesAgents() {
+	@Test void examplesAgents() {
 		testDir("examples/agents/");
 	}
 
-	@Test
-	public void testExamplesSG() {
+	@Test void examplesSG() {
 		testDir("examples/sluicegate/");
 	}
 
-	@Test
-	public void testLibrary() {
+	@Test void library() {
 		testDir("examples/library");
 	}
 
-	@Test
-	public void testSystemC() {
+	@Test void systemC() {
 		testDir("systemc");
 	}
 
-	@Test
-	public void FSMSLE() {
+	@Test void FSMSLE() {
 		testDir("examples/fsmsemantics/Sle");
 	}
 		

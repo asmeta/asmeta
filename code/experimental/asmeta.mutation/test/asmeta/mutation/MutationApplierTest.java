@@ -1,6 +1,6 @@
 package asmeta.mutation;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -11,7 +11,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.SimpleLayout;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.util.AsmPrinter;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import asmeta.AsmCollection;
 

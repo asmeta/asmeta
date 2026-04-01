@@ -34,8 +34,8 @@ public class JavaScenarioUtil {
        
         package org.evoservice.wrapper;
         
-        import org.junit.Test;
-        import static org.junit.Assert.*;
+        
+        import org.junit.jupiter.api.Test; import static org.junit.Assert.*;
         
         import org.evosuite.runtime.EvoRunner;
         import org.evosuite.runtime.EvoRunnerParameters;

@@ -135,9 +135,9 @@ public class RuleSubstitution extends TermSubstitution {
         Term newLeftHandSide = visit(leftHandSide);
         if (newLeftHandSide instanceof LocationTerm || newLeftHandSide instanceof VariableTerm) {
             newUpdateRule.setLocation(newLeftHandSide);
-        } else if (newLeftHandSide instanceof FunctionTerm) {
+        } else if (newLeftHandSide instanceof FunctionTerm term) {
         	// converts a FunctionTerm to a LocationTerm
-            LocationTerm locationTerm = createLocationTerm((FunctionTerm) newLeftHandSide);
+            LocationTerm locationTerm = createLocationTerm(term);
             newUpdateRule.setLocation(locationTerm);
         } else {
             throw new Error("Expected a location term or a location variable, but found " + newLeftHandSide.getClass().getName());

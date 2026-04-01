@@ -1,42 +1,42 @@
 package org.asmeta.flattener;
 
 import org.asmeta.flattener.nesting.RemoveNestingFlattener;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class RemoveNestingFlattenerTest extends FlattenerTest {
+class RemoveNestingFlattenerTest extends FlattenerTest {
 
 	@Test
-	public void testForall() throws Exception {
+	void forall() throws Exception {
 		flattenerTest("./examples/nestedIfForall.asm", RemoveNestingFlattener.class);
 	}
-	
+
 	@Test
-	public void testChoose() throws Exception {
+	void choose() throws Exception {
 		flattenerTest("./examples/nestedIfChoose.asm", RemoveNestingFlattener.class);
 	}
-	
+
 	@Test
-	public void testCase() throws Exception {
+	void testCase() throws Exception {
 		flattenerTest("./examples/nestedIfCase.asm", RemoveNestingFlattener.class);
 	}
 
 	@Test
-	public void testLet() throws Exception {
+	void let() throws Exception {
 		flattenerTest("./examples/nestedIfLet.asm", RemoveNestingFlattener.class);
 	}
 
 	@Test
-	public void testForallRuleChoose() throws Exception {
+	void forallRuleChoose() throws Exception {
 		flattenerTest("./examples/forallRuleChoose.asm", RemoveNestingFlattener.class);
 	}
 
 	@Test
-	public void testMacroNesting() throws Exception {
+	void macroNesting() throws Exception {
 		flattenerTest("./examples/macroNesting.asm", RemoveNestingFlattener.class);
 	}
 
 	@Test
-	public void testMacroArgs() throws Exception {
+	void macroArgs() throws Exception {
 		flattenerTest("./examples/macroArgs.asm", RemoveNestingFlattener.class);
 	}
 }

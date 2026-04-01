@@ -1,8 +1,5 @@
 package org.asmeta.asm2code.compiler;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -14,7 +11,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 /**
@@ -56,7 +52,7 @@ public class CppCompiler {
 		// if null, try with PATH even in windows
 		if (path == null)
 			path = env.get("PATH");
-		assertNotNull(path);
+		assert(path != null);
 		logger.debug("searching the compiler in the path " + path);
 		for(String dirInPath: path.split(File.pathSeparator)){
 			File f = new File(dirInPath);

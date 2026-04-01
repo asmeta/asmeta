@@ -17,7 +17,6 @@ import asmeta.definitions.domains.ConcreteDomain;
 import asmeta.definitions.domains.Domain;
 import asmeta.definitions.domains.EnumTd;
 import asmeta.definitions.domains.ProductDomain;
-import asmeta.definitions.domains.RealDomain;
 
 /** visitor of domains, returns the values in the domain
  * 

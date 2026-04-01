@@ -6,13 +6,13 @@ Bundle-Version: 22.04
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.ui,
  org.eclipse.xtext.xbase.lib,
- org.junit,
  org.eclipse.xtext,
  org.eclipse.ui.ide,
  com.google.gson,
  asmeta.emf,
  asmeta.asm2cpp,
- org.eclipse.xtend.ide
+ org.eclipse.xtend.ide,
+ org.junit
 Import-Package: asmeta.structure,
  org.asmeta.codegenerator,
  org.asmeta.codegenerator.arduino,

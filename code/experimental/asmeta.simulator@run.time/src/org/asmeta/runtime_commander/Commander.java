@@ -1,7 +1,7 @@
 package org.asmeta.runtime_commander;
 
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -17,6 +17,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.asmeta.runtime_composer.CompositionException;
 import org.asmeta.runtime_composer.CompositionManager;
 import org.asmeta.runtime_composer.CompositionRunType;
@@ -156,7 +157,7 @@ public class Commander {
 		String symbols[] = line.split("\\s+");
 		for(String symbol: symbols) {
 			if(!symbol.toLowerCase().equals("setup") && !symbol.equals("|") && !symbol.equals("||") && !symbol.equals("<|>")) {
-				if(!symbol.contains(ASMParser.ASM_EXTENSION)) {
+				if(!symbol.contains(AsmetaParserUtility.ASM_EXTENSION)) {
 					valid = false;
 					break;
 				}
@@ -473,7 +474,7 @@ public class Commander {
 				token = token.replace(")", "");
 				end = true;
 			}
-			if(token.contains(ASMParser.ASM_EXTENSION)) {
+			if(token.contains(AsmetaParserUtility.ASM_EXTENSION)) {
 				if(!end) {
 					parsedCommand.append(token + " | ");
 				} else {
@@ -504,7 +505,7 @@ public class Commander {
 				token = token.replace(")", "");
 				end = true;
 			}
-			if(token.contains(ASMParser.ASM_EXTENSION)) {
+			if(token.contains(AsmetaParserUtility.ASM_EXTENSION)) {
 				if(!end) {
 					parsedCommand.append(token + " <|> ");
 				} else {
@@ -529,13 +530,13 @@ public class Commander {
 		
 		String[] tokens = argument.split(",");
 		if(tokens.length == 2) {
-			if(tokens[1].contains(ASMParser.ASM_EXTENSION) && tokens[1].toUpperCase().contains("RUN(")) {
+			if(tokens[1].contains(AsmetaParserUtility.ASM_EXTENSION) && tokens[1].toUpperCase().contains("RUN(")) {
 				cmdWhileDo("WHILE " + tokens[0] + " DO " + tokens[1]);
 			} else {
 				out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid model extension!");
 			}
 		} else if(tokens.length == 3){
-			if(tokens[1].contains(ASMParser.ASM_EXTENSION) && tokens[1].toUpperCase().contains("RUN(")) {
+			if(tokens[1].contains(AsmetaParserUtility.ASM_EXTENSION) && tokens[1].toUpperCase().contains("RUN(")) {
 				cmdWhileDo("WHILE " + tokens[0] + " DO " + tokens[1] + "," + tokens[2]);
 			} else {
 				out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid model extension!");
@@ -588,13 +589,13 @@ public class Commander {
 		
 		String[] tokens = argument.split(",");
 		if(tokens.length == 2) {
-			if(tokens[1].contains(ASMParser.ASM_EXTENSION)) {
+			if(tokens[1].contains(AsmetaParserUtility.ASM_EXTENSION)) {
 				cmdIf("IF " + tokens[0] + " THEN " + tokens[1]);
 			} else {
 				out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid model extension!");
 			}
 		} else if(tokens.length == 3) {
-			if(tokens[1].contains(ASMParser.ASM_EXTENSION) && tokens[2].contains(ASMParser.ASM_EXTENSION)) {
+			if(tokens[1].contains(AsmetaParserUtility.ASM_EXTENSION) && tokens[2].contains(AsmetaParserUtility.ASM_EXTENSION)) {
 				cmdIf("IF " + tokens[0] + " THEN " + tokens[1] + " ELSE " + tokens[2]);
 			} else {
 				out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid model extension!");
@@ -640,7 +641,7 @@ public class Commander {
 				for(int i = 0; i <= ifThenElseMatcher.groupCount(); i++) {
 					if(ifThenElseMatcher.group(i) != null) {
 						if(i > 1) {
-							if(ifThenElseMatcher.group(i).contains(ASMParser.ASM_EXTENSION)) {
+							if(ifThenElseMatcher.group(i).contains(AsmetaParserUtility.ASM_EXTENSION)) {
 								groups.add(ifThenElseMatcher.group(i));
 							}
 						} else {
@@ -671,7 +672,7 @@ public class Commander {
 					functionOnS2 = groups.get(4);
 					modelS2 = groups.get(5);
 				}
-				if(!modelS1.contains(ASMParser.ASM_EXTENSION) || !modelS2.contains(ASMParser.ASM_EXTENSION)) {
+				if(!modelS1.contains(AsmetaParserUtility.ASM_EXTENSION) || !modelS2.contains(AsmetaParserUtility.ASM_EXTENSION)) {
 					out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid model extension!");
 					return;
 				}
@@ -758,7 +759,7 @@ public class Commander {
 					modelS1 = groups.get(3);
 				}
 				
-				if(!modelS1.contains(ASMParser.ASM_EXTENSION)) {
+				if(!modelS1.contains(AsmetaParserUtility.ASM_EXTENSION)) {
 					out = new CommanderOutput(CommanderStatus.FAILURE, "Couldn't launch command, invalid model extension!");
 					return;
 				}
@@ -951,7 +952,7 @@ public class Commander {
 			}
 			for(String token: tokens) {
 				if(!token.toUpperCase().equals("SETUP")) {
-					if(token.contains(ASMParser.ASM_EXTENSION)) {
+					if(token.contains(AsmetaParserUtility.ASM_EXTENSION)) {
 						params.add(token);
 					} else {
 						try {
@@ -1066,7 +1067,7 @@ public class Commander {
 					// In the example: RUN(1) <-> RUN -id 1 or RUN(Square.asm, {x=FOUR}) <-> RUN -id <id of Square.asm> -locationvalue {x=FOUR}
 					// group(0) -> the entire expression
 					// group(1) -> the model id -> 1
-					if(firstParam.contains(ASMParser.ASM_EXTENSION)) {
+					if(firstParam.contains(AsmetaParserUtility.ASM_EXTENSION)) {
 						if(containerInstance != null && containerInstance.getLoadedIDs().containsValue(defaultModelDir + "/" + firstParam)) {
 							for(int id: containerInstance.getLoadedIDs().keySet()) {
 								if(containerInstance.getLoadedIDs().get(id).equals(defaultModelDir + "/" + firstParam)) {
@@ -1087,7 +1088,7 @@ public class Commander {
 					// group(1) -> the model id -> 1
 					// group(2) -> the whole location-value set -> {x=FOUR,y=TWO}
 					// group(3) -> the last expression of the location-value set -> y=TWO
-					if(firstParam.contains(ASMParser.ASM_EXTENSION)) {
+					if(firstParam.contains(AsmetaParserUtility.ASM_EXTENSION)) {
 						if(containerInstance != null && containerInstance.getLoadedIDs().containsValue(defaultModelDir + "/" + firstParam)) {
 							for(int id: containerInstance.getLoadedIDs().keySet()) {
 								if(containerInstance.getLoadedIDs().get(id).equals(defaultModelDir + "/" + firstParam)) {

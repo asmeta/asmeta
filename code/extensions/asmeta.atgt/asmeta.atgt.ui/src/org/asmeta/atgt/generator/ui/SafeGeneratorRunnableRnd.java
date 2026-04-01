@@ -14,7 +14,7 @@ public class SafeGeneratorRunnableRnd  extends  SafeGeneratorRunnable{
 	private int nSteps;
 	private int nTests;
 
-	public SafeGeneratorRunnableRnd(AsmTSGeneratorLaunchConfiguration config, IWorkbenchWindow window)
+	public SafeGeneratorRunnableRnd(ATGTLaunchConfigurationDelegate config, IWorkbenchWindow window)
 			throws PartInitException {
 		super("Generation of the test suite with random simulation" , config, window);
 		this.nSteps = config.nSteps;
@@ -31,7 +31,6 @@ public class SafeGeneratorRunnableRnd  extends  SafeGeneratorRunnable{
 
 	@Override
 	protected void savetoavalla(AsmTestSuite result) {
-		mc.writeMessage("saving to avalla");
 		String stringForFile = "random";
 		SaveResults.saveResults(result, config.asmetaSpecPath.toString(), config.formats, stringForFile, false);
 	}

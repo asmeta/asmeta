@@ -15,22 +15,24 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
-import org.asmeta.asm2code.main.AsmToCGenerator;
+
 import org.asmeta.codegenerator.InoGenerator;
 import org.asmeta.codegenerator.JsonGenerator;
 import org.asmeta.codegenerator.arduino.ArduinoVersion;
 import org.asmeta.codegenerator.configuration.HWConfiguration;
 import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IHandler;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.part.FileEditorInput;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
@@ -38,8 +40,6 @@ import com.google.gson.stream.JsonReader;
 
 import asm2code_inoproject.Asmeta2Project;
 import asmeta.structure.Asm;
-
-import org.eclipse.ui.part.FileEditorInput;
 
 public class GeneratorHandler extends AbstractHandler implements IHandler {
 	private Asmeta2Project uasm2code;
@@ -68,7 +68,7 @@ public class GeneratorHandler extends AbstractHandler implements IHandler {
 		}
 		// If U2C file doesn't exist create it
 		File u2cFile = new File(
-				asmFile.getPath().substring(0, asmFile.getPath().lastIndexOf(ASMParser.ASM_EXTENSION)) + JsonGenerator.Ext);
+				asmFile.getPath().substring(0, asmFile.getPath().lastIndexOf(AsmetaParserUtility.ASM_EXTENSION)) + JsonGenerator.Ext);
 		if (!u2cFile.exists()) {
 			System.out.println("U2C file not found: I automatically generate it and save it in the asm folder.");
 			ArduinoVersion av = showSelectArduinoVersionDialog();
@@ -87,11 +87,11 @@ public class GeneratorHandler extends AbstractHandler implements IHandler {
 		// If destination folder hasn't been selected I use the asm file folder
 		if (path != null) {
 			path = path.replace("\\\\", "\\").replace("\\", "/") + "/";
-			destName = asmFile.getName().replace(ASMParser.ASM_EXTENSION, "");
+			destName = asmFile.getName().replace(AsmetaParserUtility.ASM_EXTENSION, "");
 
 		} else {
 			path = asmFile.getParent().replace("\\\\", "\\").replace("\\", "/") + "/";
-			destName = asmFile.getName().replace(ASMParser.ASM_EXTENSION, "");
+			destName = asmFile.getName().replace(AsmetaParserUtility.ASM_EXTENSION, "");
 		}
 		// Perform the u2cFile reading and asm conversion in Arduino project files
 		HWConfiguration config = readJSON(u2cFile.getPath());

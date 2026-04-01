@@ -15,7 +15,6 @@ import asmeta.definitions.Classifier;
 import asmeta.definitions.RuleDeclaration;
 import asmeta.structure.NamedElement;
 import asmeta.transitionrules.basictransitionrules.Rule;
-import asmeta.transitionrules.turbotransitionrules.*;
 import asmeta.transitionrules.turbotransitionrules.IterateRule;
 import asmeta.transitionrules.turbotransitionrules.SeqRule;
 import asmeta.transitionrules.turbotransitionrules.TryCatchRule;

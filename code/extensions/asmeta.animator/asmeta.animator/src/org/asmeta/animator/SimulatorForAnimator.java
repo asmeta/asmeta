@@ -17,7 +17,6 @@ import org.asmeta.simulator.main.AsmModelNotFoundException;
 import org.asmeta.simulator.main.MainRuleNotFoundException;
 import org.asmeta.simulator.main.Simulator;
 import org.asmeta.simulator.value.Value;
-import org.eclipse.swt.widgets.Text;
 
 import asmeta.AsmCollection;
 
@@ -78,7 +77,7 @@ public class SimulatorForAnimator extends Simulator {
 		} catch (Exception e) {
 			t.setInvalidIvariantText("Exception "+ e.getClass() + " "+ e.getMessage());
 		}
-		if (checkInvariants == InvariantTreament.CHECK_STOP)
+		if (exception && checkInvariants == InvariantTreament.CHECK_STOP)
 			t.stopAnimation();		
 		// reset the lazyness
 		TermEvaluator.recoverAllowLazyEval();

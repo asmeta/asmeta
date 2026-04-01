@@ -1,32 +1,14 @@
 package org.asmeta.modeladvisor.plugin.handlers;
 
 import java.io.File;
-import java.io.OutputStream;
-import java.io.PrintStream;
 
 import org.asmeta.eclipse.AsmetaActionHandler;
-import org.asmeta.eclipse.AsmetaConsole;
-import org.asmeta.eclipse.AsmetaUtility;
 import org.asmeta.modeladvisor.AsmetaMA;
 import org.asmeta.modeladvisor.plugin.AsmetaMAActivator;
 import org.asmeta.modeladvisor.plugin.AsmetaMAConsole;
 import org.asmeta.modeladvisor.plugin.AsmetaMAPreferencePage;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
-import org.eclipse.core.commands.ExecutionEvent;
-import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.MessageBox;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.console.ConsolePlugin;
-import org.eclipse.ui.console.IConsole;
-import org.eclipse.ui.console.IConsoleConstants;
-import org.eclipse.ui.console.IConsoleManager;
-import org.eclipse.ui.console.IConsoleView;
-import org.eclipse.ui.handlers.HandlerUtil;
 
 /**
  * @see org.eclipse.core.commands.IHandler

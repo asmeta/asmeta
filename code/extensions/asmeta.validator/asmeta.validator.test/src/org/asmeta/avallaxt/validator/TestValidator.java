@@ -1,8 +1,8 @@
 package org.asmeta.avallaxt.validator;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import org.junit.jupiter.api.Test; import static org.junit.jupiter.api.Assertions.assertFalse;
+import org.junit.jupiter.api.Test; import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.junit.jupiter.api.Test; import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,11 +10,12 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.asmeta.xt.validator.AsmetaFromAvallaBuilder;
 import org.asmeta.xt.validator.AsmetaV;
-import org.junit.BeforeClass;
 
 import asmeta.AsmCollection;
+import org.junit.jupiter.api.BeforeAll;
 
 public class TestValidator {
 
@@ -30,15 +31,15 @@ public class TestValidator {
 
 	private static Logger log = Logger.getLogger(TestValidator.class);
 
-	@BeforeClass
-	public static void testExamplesDir() throws IOException{
+	@BeforeAll
+	static void testExamplesDir() throws IOException{
 		assertTrue(new File(ASM_EXAMPLES).exists());
 		assertTrue(new File(ASM_EXAMPLES_EXAMPLES).exists());
 	}
 
-	
-	@BeforeClass
-	public static void cleanup() throws IOException{
+
+	@BeforeAll
+	static void cleanup() throws IOException{
 		File dir = new File(pathname);
 		// if it exists is a directory
 		assert ! dir.exists() || dir.isDirectory();
@@ -49,7 +50,7 @@ public class TestValidator {
 		assert dir.exists() && dir.isDirectory();
 		// clean directory
 		for(File file: dir.listFiles()) {
-		    if (file.getName().endsWith(ASMParser.ASM_EXTENSION)) 
+		    if (file.getName().endsWith(AsmetaParserUtility.ASM_EXTENSION)) 
 		        file.delete();
 		    if (file.isDirectory()) {
 		    	file.delete();
@@ -79,8 +80,8 @@ public class TestValidator {
 			log.debug("executing " + scenarioPath);
 			// it should be runnable
 			List<String> result = AsmetaV.execValidation(scenarioPath, computeCoverage);
-			if (expectedSuccess) assertTrue("failed " + result, result.isEmpty());
-			else assertFalse(scenarioPath + " must fail but it is not", result.isEmpty()); 
+			if (expectedSuccess) assertTrue(result.isEmpty(), "failed " + result);
+			else assertFalse(result.isEmpty(), scenarioPath + " must fail but it is not"); 
 		} else {
 			//
 			log.debug("translating " + scenarioPath);
@@ -89,7 +90,7 @@ public class TestValidator {
 			builder.save();
 			// the files exists
 			assertTrue(tempAsmPath.exists());
-			assertTrue(builder.getTempAsmPath().exists() && builder.getTempAsmPath().isFile() && builder.getTempAsmPath().getName().endsWith(ASMParser.ASM_EXTENSION));
+			assertTrue(builder.getTempAsmPath().exists() && builder.getTempAsmPath().isFile() && builder.getTempAsmPath().getName().endsWith(AsmetaParserUtility.ASM_EXTENSION));
 			// it should be parsable:
 			AsmCollection asmc = ASMParser.setUpReadAsm(builder.getTempAsmPath());
 			List<String> errors = ASMParser.getResultLogger().errors;

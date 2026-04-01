@@ -1,7 +1,7 @@
 package asmeta.evotest.junit2avalla.main;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.nio.file.Path;
@@ -11,16 +11,17 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 
 /**
  * This test class tests the entire application directly via the CLI with all
  * the java scenarios inside the src/test/resources folder and check the
  * return codes.
  */
-public class CLIExampleFilesTest {
+class CLIExampleFilesTest {
 
 	/** Logger */
 	private static final Logger logger = LogManager.getLogger(CLIExampleFilesTest.class);
@@ -48,8 +49,7 @@ public class CLIExampleFilesTest {
 	 * Create the temp output folder and populate the asmFiles list.
 	 * 
 	 */
-	@Before
-	public void setup() {
+	@BeforeEach void setup() {
 		File testResourcesDir = TEST_RESOURCES_DIR_PATH.toFile();
 		assertTrue(testResourcesDir.exists());
 		assertTrue(testResourcesDir.isDirectory());
@@ -70,8 +70,7 @@ public class CLIExampleFilesTest {
 	/**
 	 * Test all the files by running the application and check the returned code.
 	 */
-	@Test
-	public void test() {
+	@Test void test() {
 
 		for (File file : asmFiles) {
 			assertEquals(0, testFile(file));
@@ -104,8 +103,7 @@ public class CLIExampleFilesTest {
 	/**
 	 * Clean the temp output folder.
 	 */
-	@After
-	public void cleanTemp() {
+	@AfterEach void cleanTemp() {
 		logger.info("Cleaning the temp folder {}. ", tempOutputDir);
 		for (File file : tempOutputDir.listFiles()) {
 			file.delete();

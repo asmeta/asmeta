@@ -9,10 +9,7 @@
 
 package org.asmeta.simulator.value;
 
-import org.asmeta.simulator.TermEvaluator;
-
 import asmeta.terms.basicterms.BooleanTerm;
-import asmeta.terms.basicterms.Term;
 
 /**
  * A boolean value.
@@ -98,8 +95,8 @@ public class BooleanValue extends Value<Boolean> {
 	
     @Override
 	public boolean equals(Object object) {
-        if (object instanceof BooleanValue) {
-            return getValue() == ((BooleanValue) object).getValue();
+        if (object instanceof BooleanValue value) {
+            return getValue() == value.getValue();
         }
         //PA 19/02/10
         else if (object instanceof UndefValue) {

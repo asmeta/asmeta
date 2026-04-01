@@ -3,7 +3,6 @@ package org.asmeta.simulator;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.asmeta.parser.util.ReflectiveVisitor;
 import org.asmeta.simulator.wrapper.RuleFactory;
 import org.eclipse.emf.common.util.EList;
 

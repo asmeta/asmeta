@@ -1,28 +1,27 @@
 package org.asmeta.assertion_catalog;
 
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Map;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
-import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.asmeta.parser.ParseException;
 import org.asmeta.runtime_container.FullMapException;
 import org.asmeta.runtime_container.IModelExecution;
 import org.asmeta.simulationUI.SimGUI;
 import org.asmeta.simulator.main.AsmModelNotFoundException;
 import org.asmeta.simulator.main.MainRuleNotFoundException;
-
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
-
-import java.awt.Font;
-import java.util.Map;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.UIManager;
 
 public class LoadDialog extends JDialog {
 	static InvariantManager StartGui = new InvariantManager();
@@ -102,7 +101,7 @@ public class LoadDialog extends JDialog {
 					e1.printStackTrace();
 				}
 			    String checkmodel = StartGui.getModel();
-			    if(!checkmodel.isEmpty() && checkmodel.indexOf(ASMParser.ASM_EXTENSION)!=-1)
+			    if(!checkmodel.isEmpty() && checkmodel.indexOf(AsmetaParserUtility.ASM_EXTENSION)!=-1)
 			     {
 			    	int id=-99;
 					try {
@@ -138,7 +137,7 @@ public class LoadDialog extends JDialog {
 			    	
 			    	//JOptionPane.showMessageDialog(null, checkmodel);
 			     }
-			     if(checkmodel.indexOf(ASMParser.ASM_EXTENSION)==-1 && !checkmodel.isEmpty()) {
+			     if(checkmodel.indexOf(AsmetaParserUtility.ASM_EXTENSION)==-1 && !checkmodel.isEmpty()) {
 			    	JOptionPane.showMessageDialog(contentPane, "Error: wrong extension!", "Error", JOptionPane.ERROR_MESSAGE);
 			    }
 			     

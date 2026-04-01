@@ -10,8 +10,8 @@ The Asmeta specification in **Scheduler.asm** models a simple scheduler with the
 - If no job is *ready*, the scheduler becomes *idle*.
 - At each step, the environment may signal the completion of *running* jobs; in that case, those jobs become *finished*.
 - Initial state:
-		* All jobs are *ready*.
-		* The scheduler is not *idle*.
+	* All jobs are *ready*.
+	* The scheduler is not *idle*.
 
 Three additional specification are derived from the original model:
 - **WrongScheduler.asm**: an intentionally incorrect version of the scheduler. In this model, when a *ready* job is selected, it is directly set to *finished*, skipping the *running* state.

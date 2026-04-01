@@ -6,16 +6,13 @@ import java.io.File;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.log4j.Appender;
-import org.apache.log4j.Logger;
 import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.main.AsmModelNotFoundException;
 import org.asmeta.simulator.main.MainRuleNotFoundException;
@@ -29,7 +26,6 @@ import org.eclipse.swt.events.ControlEvent;
 import org.eclipse.swt.events.ControlListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
 import org.eclipse.swt.graphics.Color;
@@ -436,7 +432,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 	protected void exportToAvalla() {
 		simulatorLogger.info("//// starting scenario");
 		simulatorLogger.info("scenario " + "SCENARIO_NAME");
-		simulatorLogger.info("load " + asm.getMain().getName() + ASMParser.ASM_EXTENSION);
+		simulatorLogger.info("load " + asm.getMain().getName() + AsmetaParserUtility.ASM_EXTENSION);
 		// TODO create new file/document
 		// DOWN
 		TableItem[] states_down = table_states_right_down.getItems();
@@ -482,7 +478,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 					functions.addAll(a.getHeaderSection().getSignature().getFunction());
 				}
 				// add the quotes AG 04-2022
-				Function function = org.asmeta.parser.Utility.search_funcName(functions, functionName);
+				Function function = org.asmeta.parser.AsmetaParserUtility.search_funcName(functions, functionName);
 				if (function != null && function.getCodomain() instanceof StringDomain) {
 					text = "\"" + text + "\"";
 				}

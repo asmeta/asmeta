@@ -1,6 +1,6 @@
 package org.asmeta.animator;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
 import java.util.Map;
@@ -10,7 +10,7 @@ import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.readers.RandomMFReader;
 import org.asmeta.simulator.value.Value;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import asmeta.AsmCollection;
 

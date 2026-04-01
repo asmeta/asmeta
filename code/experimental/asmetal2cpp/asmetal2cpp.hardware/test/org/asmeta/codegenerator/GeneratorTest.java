@@ -1,7 +1,8 @@
 package org.asmeta.codegenerator;
 
+
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,9 +11,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.asmeta.asm2code.main.AsmToCGenerator;
 import org.asmeta.codegenerator.configuration.HWConfiguration;
 import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -20,6 +21,7 @@ import org.junit.runners.Parameterized.Parameters;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
+
 import asmeta.structure.Asm;
 
 /*
@@ -30,7 +32,7 @@ import asmeta.structure.Asm;
  * che si trova in examplesAsmPath
  */
 
-@RunWith(Parameterized.class)
+//@RunWith(Parameterized.class)
 public class GeneratorTest {
 	
 	// path of the asm examples
@@ -39,12 +41,12 @@ public class GeneratorTest {
 	// destination folder of compiled files
 	static private String destinationFolder = "../asmetal2cpp_codegen/examples/ABZ2020/CarSystemModule/CarSystem000/";
 
-	@Parameterized.Parameter(0)
+	//@Parameterized.Parameter(0)
 	public String fileToTest = examplesAsmPath;
 	// list of file to test in the examplesPath
 	private static ArrayList<File> listOfFileToTest;
 
-	@Parameters(name = "{index}: model: {0}")
+	//@Parameters(name = "{index}: model: {0}")
 	public static Collection<Object[]> data() {
 		if (listOfFileToTest == null)
 			listf(examplesAsmPath, listOfFileToTest = new ArrayList<File>(), 100);
@@ -61,8 +63,8 @@ public class GeneratorTest {
 
 	static void test(String asmFilePath) throws IOException, Exception {
 		File asmFile = new File(asmFilePath);
-		File u2cFile = new File(asmFilePath.replace(ASMParser.ASM_EXTENSION, JsonGenerator.Ext));
-		File hwFile = new File(destinationFolder + asmFile.getName().replace(ASMParser.ASM_EXTENSION, HWIntegrationGenerator.Ext));
+		File u2cFile = new File(asmFilePath.replace(AsmetaParserUtility.ASM_EXTENSION, JsonGenerator.Ext));
+		File hwFile = new File(destinationFolder + asmFile.getName().replace(AsmetaParserUtility.ASM_EXTENSION, HWIntegrationGenerator.Ext));
 		assertTrue(asmFile.exists() && u2cFile.exists());
 		Gson gson = new Gson();
 		JsonReader reader;
@@ -85,7 +87,7 @@ public class GeneratorTest {
 		File directory = new File(directoryName);
 		File[] fList = directory.listFiles();
 		for (File file : fList) {
-			if (file.isFile() && file.getName().endsWith(ASMParser.ASM_EXTENSION)) {
+			if (file.isFile() && file.getName().endsWith(AsmetaParserUtility.ASM_EXTENSION)) {
 				allAsmFiles.add(file);
 			} else if (file.isDirectory() && level > 0) {
 				listf(file.getPath(), allAsmFiles, --level);

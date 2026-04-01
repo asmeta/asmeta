@@ -5,11 +5,12 @@ import static org.asmeta.toyices.Utils.location;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.MethodOrderer;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+
+@TestMethodOrder(MethodOrderer.MethodName.class)
 public class CheckModelTest extends TestMethods {
 
 	@Test

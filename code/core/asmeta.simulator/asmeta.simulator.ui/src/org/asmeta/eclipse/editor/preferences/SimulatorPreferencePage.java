@@ -1,6 +1,21 @@
 package org.asmeta.eclipse.editor.preferences;
 
-import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.*;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.AUTO;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.HOUR_STRING;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.MILLIS_STRING;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.MINUTES_STRING;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_ALLOW_UNDEF_MON;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_AUTO_DELTA;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_CHECK_AXIOMS;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_DEBUG_EXTERNAL_FILE;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_DEBUG_PARSER;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_DEBUG_SIMULATOR;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_DEBUG_USE_EXTERNAL_FILE;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_SHUFFLE;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_STOP_UPDATESET_EMPTY;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_STOP_UPDATESET_TRIVIAL;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.P_TIME_UNIT;
+import static org.asmeta.eclipse.editor.preferences.PreferenceConstants.SECONDS_STRING;
 
 import org.apache.log4j.Level;
 import org.asmeta.eclipse.AsmeeActivator;

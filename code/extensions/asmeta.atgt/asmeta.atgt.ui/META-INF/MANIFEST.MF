@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: AsmetaTGT Ui
 Bundle-SymbolicName: asmeta.atgt.ui;singleton:=true
-Bundle-Version: 25.09
+Bundle-Version: 26.03
 Automatic-Module-Name: asmeta.atgt.ui
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Require-Bundle: asmeta.atgt,
@@ -14,7 +14,6 @@ Require-Bundle: asmeta.atgt,
  org.eclipse.core.jobs,
  org.eclipse.swt,
  org.eclipse.ui.ide,
- org.junit,
  org.eclipse.core.runtime,
  org.eclipse.ui,
  org.apache.log4j,

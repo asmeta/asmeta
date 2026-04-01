@@ -1,0 +1,61 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>asmeta.asmetal2cpp</artifactId>
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.14.1</version>
+				<configuration>
+					<source>21</source>
+					<target>21</target>
+				</configuration>
+			</plugin>
+			<!--<plugin>
+				<groupId>org.openntf.maven</groupId>
+				<artifactId>p2-layout-resolver</artifactId>
+				<version>1.7.0</version>
+				<extensions>true</extensions>
+			</plugin>-->
+		</plugins>
+	</build>
+	<pluginRepositories>
+		<!-- the plugin is hosted in OpenNTF's Maven repository -->
+		<!-- IT DOES NOT WORK AS EXPECTED
+		<pluginRepository>
+			<id>artifactory.openntf.org</id>
+			<name>artifactory.openntf.org</name>
+			<url>https://artifactory.openntf.org/openntf</url>
+		</pluginRepository>-->
+	</pluginRepositories>
+
+	<packaging>pom</packaging>
+	<modules>
+		<module>asmetal2cpp.codegen</module>
+		<module>asmetal2cpp.cli</module>
+	</modules>
+	<parent>
+		<groupId>asmeta</groupId>
+		<artifactId>asmeta.all</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../../..</relativePath>
+	</parent>
+
+	<!--
+	<repositories>
+		<repository>
+			<id>org.eclipse.p2.repo</id>   defines the groupId to be used below
+			<url>http://download.eclipse.org/releases/2026-03</url>
+			<layout>p2</layout>
+		</repository>
+	</repositories>
+	<dependencies>
+		<dependency>
+			<groupId>org.eclipse.p2.repo</groupId>
+			<artifactId>org.eclipse.cdt.core</artifactId>
+			<version>[9.1.0,)</version>
+		</dependency>
+	</dependencies>-->
+</project>

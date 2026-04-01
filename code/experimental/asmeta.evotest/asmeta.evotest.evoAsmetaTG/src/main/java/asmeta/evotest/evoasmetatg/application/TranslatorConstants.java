@@ -1,6 +1,6 @@
 package asmeta.evotest.evoasmetatg.application;
 
-import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.AsmetaParserUtility;
 
 import asmeta.asmetal2java.codegen.application.FileManager;
 import asmeta.asmetal2java.codegen.config.ModeConstantsConfig;
@@ -22,7 +22,7 @@ final class TranslatorConstants {
 
 	static final String CRITERION = "-criterion";
 
-	static final String ASM_EXTENSION = ASMParser.ASM_EXTENSION;
+	static final String ASM_EXTENSION = AsmetaParserUtility.ASM_EXTENSION;
 	
 	static final String ATG = FileManager.ATG;
 	

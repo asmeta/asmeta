@@ -1,12 +1,12 @@
 package org.asmeta.parser;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
 import java.util.List;
 
 import org.asmeta.parser.util.AsmetaTermPrinter;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import asmeta.AsmCollection;
 import asmeta.definitions.domains.Domain;
@@ -16,10 +16,9 @@ import asmeta.structure.Signature;
 import asmeta.terms.basicterms.SetTerm;
 
 
-public class GetDomainTest {
-	
-	@Test
-	public void getDomainTest(){
+class GetDomainTest {
+
+	@Test void getDomainTest(){
 		File f = new File("../../../../asm_examples/test/parser/GetDomainTest.asm");
 		AsmCollection asms = null;
 		try {
@@ -35,8 +34,7 @@ public class GetDomainTest {
 		assertEquals(1, domains.size());
 	}
 
-	@Test
-	public void getConcrDomDefTest(){
+	@Test void getConcrDomDefTest(){
 		File f = new File("../../../../asm_examples/test/parser/concrDomDef.asm");
 		Asm asm = null;
 		try {
@@ -45,7 +43,7 @@ public class GetDomainTest {
 			e.printStackTrace();
 		}
 		List<DomainDefinition> domsDef = asm.getBodySection().getDomainDefinition();
-		SetTerm domain0 = (SetTerm)domsDef.get(0).getBody();
+		SetTerm domain0 = (SetTerm)domsDef.getFirst().getBody();
 		SetTerm domain1 = (SetTerm)domsDef.get(1).getBody();
 		SetTerm domain2 = (SetTerm)domsDef.get(2).getBody();
 		SetTerm domain3 = (SetTerm)domsDef.get(3).getBody();

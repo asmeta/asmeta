@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.asmeta.parser.Utility;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.asmeta.simulator.value.AgentValue;
 import org.asmeta.simulator.value.BagValue;
 import org.asmeta.simulator.value.BooleanValue;
@@ -53,10 +53,10 @@ public class StandardLibrary {
 	 * @return  return if it refers to a standard library (CTL and LTL included)
 	 */
 	public static boolean isAStandardLibrary(String asmname) {
-		return (asmname.contains(Utility.STANDARD_LIBRARY_NAME) ||
-				asmname.contains(Utility.CTL_LIBRARY_NAME) ||
-				asmname.contains(Utility.LTL_LIBRARY_NAME)||
-				asmname.contains(Utility.TIME_LIBRARY_NAME));
+		return (asmname.contains(AsmetaParserUtility.STANDARD_LIBRARY_NAME) ||
+				asmname.contains(AsmetaParserUtility.CTL_LIBRARY_NAME) ||
+				asmname.contains(AsmetaParserUtility.LTL_LIBRARY_NAME)||
+				asmname.contains(AsmetaParserUtility.TIME_LIBRARY_NAME));
 	} 
 	
 
@@ -376,7 +376,7 @@ public class StandardLibrary {
 	}
 
 	public static <T> Value<T> first(SequenceValue<T> seq1) {
-		return seq1.getValue().get(0);
+		return seq1.getValue().getFirst();
 	}
 
 	public static SequenceValue tail(SequenceValue seq1) {
@@ -430,7 +430,7 @@ public class StandardLibrary {
 
 	public static Value last(SequenceValue sv) {
 		List<Value> elements = sv.getValue();
-		return elements.get(elements.size() - 1);
+		return elements.getLast();
 	}
 
 	public static BooleanValue contains(UndefValue sv, Value av) {
@@ -887,7 +887,7 @@ public class StandardLibrary {
 	}
 
 	public static <T> Value<T> first(TupleValue<T> t) {
-		return t.getValue().get(0);
+		return t.getValue().getFirst();
 	}
 
 	public static <T> Value<T> second(TupleValue<T> t) {
@@ -954,7 +954,7 @@ public class StandardLibrary {
 
 	public static Value prepend(Value v, SequenceValue s) {
 		SequenceValue result = new SequenceValue(s);
-		result.getValue().add(0, v);
+		result.getValue().addFirst(v);
 		return result;
 	}
 

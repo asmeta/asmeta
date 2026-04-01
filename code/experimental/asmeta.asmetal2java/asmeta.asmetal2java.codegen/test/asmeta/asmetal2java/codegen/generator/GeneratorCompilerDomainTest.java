@@ -1,16 +1,17 @@
 package asmeta.asmetal2java.codegen.generator;
 
+
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import asmeta.asmetal2java.codegen.compiler.CompileResult;
 import asmeta.asmetal2java.codegen.config.TranslatorOptions;
@@ -48,7 +49,7 @@ public class GeneratorCompilerDomainTest {
 		List<String> failures = new ArrayList<>();
 		System.out.println("Translating and compiling the domain tests inside the " + domainTestPath + ":");
 		for (File file : domainTestPath.toFile().listFiles()) {
-			if(file.getName().endsWith(ASMParser.ASM_EXTENSION)) {
+			if(file.getName().endsWith(AsmetaParserUtility.ASM_EXTENSION)) {
 				CompileResult genandcompile = GeneratorCompilerUtil.genandcompile(file.getAbsolutePath(), options,
 						GeneratorCompilerUtil.dirTraduzione, GeneratorCompilerUtil.dirCompilazione);
 				if (!genandcompile.getSuccess()) {

@@ -1,6 +1,7 @@
 package asmeta.asmetal2java.junit.main;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -14,12 +15,11 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceSet;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.RunListener;
 
-import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import asmeta.asmetal2java.codegen.config.TranslatorOptions;

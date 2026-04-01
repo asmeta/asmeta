@@ -1,6 +1,6 @@
 package org.asmeta.flattener;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.nio.file.Paths;
@@ -13,69 +13,70 @@ import org.apache.log4j.Logger;
 import org.asmeta.flattener.statistics.Statistics;
 import org.asmeta.flattener.statistics.StatisticsVisitor;
 import org.asmeta.parser.ASMParser;
-import org.junit.Test;
+import org.asmeta.parser.AsmetaParserUtility;
+import org.junit.jupiter.api.Test;
 
 import asmeta.structure.Asm;
 
 public class ExperimentsFIDE2018 extends FlattenerTest {
 
 	@Test
-	public void testHemodialysis() throws Exception {
+	void hemodialysis() throws Exception {
 		flattenerTest("benchmarksFIDE2018/HemodialysisRef3.asm", ALL_FLATTENERS);
 	}
 
 	@Test
-	public void testLandingGearSystem() throws Exception {
+	void landingGearSystem() throws Exception {
 		flattenerTest("benchmarksFIDE2018/LandingGearSystem_3L.asm", ALL_FLATTENERS);
 	}
 
 	@Test
-	public void testRoulette() throws Exception {
+	void roulette() throws Exception {
 		flattenerTest("benchmarksFIDE2018/Roulette.asm", ALL_FLATTENERS);
 	}
 
 	@Test
-	public void testDijkstraTermination() throws Exception {
+	void dijkstraTermination() throws Exception {
 		flattenerTest("benchmarksFIDE2018/DijkstraTermination.asm", ALL_FLATTENERS);
 	}
 
 	@Test
-	public void testGilbreathCardTrick() throws Exception {
+	void gilbreathCardTrick() throws Exception {
 		flattenerTest("benchmarksFIDE2018/GilbreathCardTrick.asm", ALL_FLATTENERS);
 	}
 
 	@Test
-	public void testCoffeeVendingMachine() throws Exception {
+	void coffeeVendingMachine() throws Exception {
 		flattenerTest("benchmarksFIDE2018/CoffeeVendingMachine.asm", ALL_FLATTENERS);
 	}
 
 	@Test
-	public void testConwayGameOfLife() throws Exception {
+	void conwayGameOfLife() throws Exception {
 		flattenerTest("benchmarksFIDE2018/GameOfLife.asm", ALL_FLATTENERS);
 	}
 
 	@Test
-	public void testStereoacuity() throws Exception {
+	void stereoacuity() throws Exception {
 		flattenerTest("benchmarksFIDE2018/StereoacuityRaff5.asm", ALL_FLATTENERS);
 	}
 
 	@Test
-	public void testPetriNets() throws Exception {
+	void petriNets() throws Exception {
 		flattenerTest("benchmarksFIDE2018/PetriNet.asm", ALL_FLATTENERS);
 	}
 
 	@Test
-	public void testTrafficLight() throws Exception {
+	void trafficLight() throws Exception {
 		flattenerTest("benchmarksFIDE2018/OneWayTrafficLight.asm", ALL_FLATTENERS);
 	}
 
 	@Test
-	public void testSluiceGate() throws Exception {
+	void sluiceGate() throws Exception {
 		flattenerTest("benchmarksFIDE2018/SluiceGateMotorCtl.asm", ALL_FLATTENERS);
 	}
 
 	@Test
-	public void testFerryman() throws Exception {
+	void ferryman() throws Exception {
 		String result = flattenerTest("benchmarksFIDE2018/ferrymanSimulator_raff1.asm", ALL_FLATTENERS);
 		//System.out.println(result);
 		// 	derived oppositeSide: Side -> Side
@@ -118,7 +119,7 @@ public class ExperimentsFIDE2018 extends FlattenerTest {
 		System.out.println("Model\tTS\tRS");
 		File dir = new File("benchmarksFIDE2018");
 		for (File f : dir.listFiles()) {
-			if (f.isFile() && f.getName().endsWith(ASMParser.ASM_EXTENSION) && !f.getName().endsWith("_flat.asm")) {
+			if (f.isFile() && f.getName().endsWith(AsmetaParserUtility.ASM_EXTENSION) && !f.getName().endsWith("_flat.asm")) {
 				try {
 					Statistics.resetStats();
 					singleExperiment(f.getAbsolutePath(), false);
@@ -139,7 +140,7 @@ public class ExperimentsFIDE2018 extends FlattenerTest {
 		System.out.println("Model\tMCR\tFR\tChR\tAR\tLR\tCaR\tNR");
 		File dir = new File("benchmarksFIDE2018");
 		for (File f : dir.listFiles()) {
-			if (f.isFile() && f.getName().endsWith(ASMParser.ASM_EXTENSION) && !f.getName().endsWith("_flat.asm")) {
+			if (f.isFile() && f.getName().endsWith(AsmetaParserUtility.ASM_EXTENSION) && !f.getName().endsWith("_flat.asm")) {
 				try {
 					singleExperiment(f.getAbsolutePath(), true);
 				} catch (Exception e) {
@@ -157,7 +158,7 @@ public class ExperimentsFIDE2018 extends FlattenerTest {
 		File dir = new File("benchmarksFIDE2018");
 		HashMap<String, Long> totalTime = new HashMap<String, Long>();
 		for (File f : dir.listFiles()) {
-			if (f.isFile() && f.getName().endsWith(ASMParser.ASM_EXTENSION) && !f.getName().endsWith("_flat.asm")) {
+			if (f.isFile() && f.getName().endsWith(AsmetaParserUtility.ASM_EXTENSION) && !f.getName().endsWith("_flat.asm")) {
 				try {
 					singleExperiment(f.getAbsolutePath(), false);
 					totalTime.put(f.getName(), 0L);
@@ -169,7 +170,7 @@ public class ExperimentsFIDE2018 extends FlattenerTest {
 		}
 		for (int i = 0; i < numOfRuns; i++) {
 			for (File f : dir.listFiles()) {
-				if (f.isFile() && f.getName().endsWith(ASMParser.ASM_EXTENSION) && !f.getName().endsWith("_flat.asm")) {
+				if (f.isFile() && f.getName().endsWith(AsmetaParserUtility.ASM_EXTENSION) && !f.getName().endsWith("_flat.asm")) {
 					try {
 						singleExperiment(f.getAbsolutePath(), false);
 						long time = System.nanoTime();
@@ -193,7 +194,7 @@ public class ExperimentsFIDE2018 extends FlattenerTest {
 				"Model\tUpdateRule\tParallelRule\tConditionalRule\tForallRule\tChooseRule\tCaseRule\tLetRule\tMacroCallRule");
 		File dir = new File("benchmarksFIDE2018");
 		for (File f : dir.listFiles()) {
-			if (f.isFile() && f.getName().endsWith(ASMParser.ASM_EXTENSION) && !f.getName().endsWith("_flat.asm")) {
+			if (f.isFile() && f.getName().endsWith(AsmetaParserUtility.ASM_EXTENSION) && !f.getName().endsWith("_flat.asm")) {
 				try {
 					getSize(f.getAbsolutePath());
 				} catch (Exception e) {

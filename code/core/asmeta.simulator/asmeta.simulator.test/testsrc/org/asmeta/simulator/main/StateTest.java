@@ -10,7 +10,7 @@
  ******************************************************************************/
 package org.asmeta.simulator.main;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -19,7 +19,7 @@ import org.asmeta.parser.util.Defs;
 import org.asmeta.simulator.value.ReserveValue;
 import org.asmeta.simulator.value.SetValue;
 import org.asmeta.simulator.value.Value;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import asmeta.definitions.domains.Domain;
 
@@ -27,13 +27,12 @@ import asmeta.definitions.domains.Domain;
  * Test for State class.
  *
  */
-public class StateTest {
+class StateTest {
 	
 	Simulator sim;
 
-	@Test
-	public void testReadDomain() 
-	throws Exception {
+	@Test void readDomain()
+			throws Exception {
 		ReserveValue.nextSuffix = 0;
 		
 		sim = Util.getSimulatorForTestSpec("test/simulator/domains/concreteDomain.asm");

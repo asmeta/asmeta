@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 
 import org.asmeta.avallaxt.validation.RuleExtractorFromMacroDecl;
 import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.asmeta.parser.util.AsmPrinter;
 import org.eclipse.emf.common.util.EList;
 
@@ -75,7 +76,7 @@ public final class ModelDirectoryScanner {
 	public static int getTotalNumber(String baseDir) {
 	    try {
 	        return (int) Files.walk(Paths.get(baseDir))
-	                .filter(p -> p.toString().endsWith(ASMParser.ASM_EXTENSION))
+	                .filter(p -> p.toString().endsWith(AsmetaParserUtility.ASM_EXTENSION))
 	                .count();
 	    } catch (IOException e) {
 	    	System.err.println("Error while counting the total number of asms");
@@ -152,12 +153,12 @@ public final class ModelDirectoryScanner {
 					collectModelsRec(child, collectedFiles, baseDir, filterNoPar);
 			}
 		} else {
-			if (name.endsWith(ASMParser.ASM_EXTENSION)) {
+			if (name.endsWith(AsmetaParserUtility.ASM_EXTENSION)) {
 				if (containsIgnoreCase(name, OLD)) {
 					collectedFiles.put(path, FileLabel.OLD_ASM);
 				} else if (DUPLICATES.contains(path)) {
 					collectedFiles.put(path, FileLabel.DUPLICATE_ASM);
-				} else if (SKIP_ASMS.contains(name.replace(ASMParser.ASM_EXTENSION, ""))) {
+				} else if (SKIP_ASMS.contains(name.replace(AsmetaParserUtility.ASM_EXTENSION, ""))) {
 					collectedFiles.put(path, FileLabel.SKIP_ASM);
 				} else {
 					try {

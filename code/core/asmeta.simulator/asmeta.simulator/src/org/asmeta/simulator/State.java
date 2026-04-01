@@ -32,7 +32,6 @@
 package org.asmeta.simulator;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -41,7 +40,6 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.asmeta.parser.util.Defs;
-import org.asmeta.simulator.value.AgentValue;
 import org.asmeta.simulator.value.ReserveValue;
 import org.asmeta.simulator.value.SetValue;
 import org.asmeta.simulator.value.UndefValue;

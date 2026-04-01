@@ -3,7 +3,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.asmeta.framework.auxiliary.Utility;
-import org.asmeta.framework.enforcer.*;
+import org.asmeta.framework.enforcer.Enforcer;
+import org.asmeta.framework.enforcer.FeedbackLoop;
+import org.asmeta.framework.enforcer.Knowledge;
 import org.asmeta.framework.managedSystem.ManagedSystem;
 import org.asmeta.runtime_container.Esit;
 import org.asmeta.runtime_container.RunOutput;
@@ -14,7 +16,7 @@ import org.asmeta.runtime_container.SimulationContainer;
  */
 public class EnforcerAirConditioner_v2 extends Enforcer{
 
-	private static long SIM_TIMEOUT;	//solamente perchè nella superclasse è privata ma mi serve ad ogni run.
+	private static long SIM_TIMEOUT;	//solamente perchÃ¨ nella superclasse Ã¨ privata ma mi serve ad ogni run.
 	private int SIM_AIRSPEED=0;
 	private String TEMPERATURE="0";
 	public EnforcerAirConditioner_v2() {
@@ -23,7 +25,7 @@ public class EnforcerAirConditioner_v2 extends Enforcer{
 	    String RUNTIME_MODEL_PATH = Utility.getProperty("RUNTIME_MODEL_PATH");
 	    
 	    SIM_TIMEOUT = Math.round(Double.parseDouble(Utility.getProperty("SIMULATION_TIMEOUT")));
-	    //IL TIMEOUT NELLE PROPERTIES è IN SECONDI MA NELLA FUNZIONE è IN MS
+	    //IL TIMEOUT NELLE PROPERTIES Ãˆ IN SECONDI MA NELLA FUNZIONE Ãˆ IN MS
 	    SIM_TIMEOUT*=1000;
 	    
 	    //Initialize the AsmetaS@run.time model engine
@@ -54,15 +56,15 @@ public class EnforcerAirConditioner_v2 extends Enforcer{
 		SIM_AIRSPEED = Integer.parseInt(((outputValues.split(":"))[1]).trim());
 		RunOutput result = getModelEngine().runStepTimeout(1, prepareInput(), (int)SIM_TIMEOUT);
 		
-		/*if (result.getEsit()==Esit.UNSAFE) {	//funziona quando inv_b non è commentato
+		/*if (result.getEsit()==Esit.UNSAFE) {	//funziona quando inv_b non Ã¨ commentato
 			SIM_AIRSPEED=OLD_AIRSPEED;
 			return true;
 		}else
 			return false;*/
 		boolean check=true;
 		int simAirSpeed=Integer.parseInt(result.getControlledvalues().get("airSpeed").trim());
-		check = simAirSpeed != SIM_AIRSPEED; // perchè il modello utilizato ha l'invariante inv_b commentato in quanto è predisposto
-		SIM_AIRSPEED = simAirSpeed;			 // per input adaptation: lo sfrutto con un confronto per capire se l'out è da filtrare o no.
+		check = simAirSpeed != SIM_AIRSPEED; // perchÃ© il modello utilizato ha l'invariante inv_b commentato in quanto Ã¨ predisposto
+		SIM_AIRSPEED = simAirSpeed;			 // per input adaptation: lo sfrutto con un confronto per capire se l'out Ã¨ da filtrare o no.
 		return check;
 	}
 	

@@ -6,10 +6,6 @@ import java.io.FileNotFoundException;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.asmeta.asm2code.compiler.CompileResult;
-import org.asmeta.simulator.Environment;
-import org.asmeta.simulator.Environment.TimeMngt;
-import org.asmeta.simulator.InvalidInvariantException;
-import org.asmeta.simulator.UpdateClashException;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.Option;
 

@@ -29,8 +29,8 @@ public class CharValue extends Value<Character> {
 
 	@Override
 	public boolean equals(Object object) {
-		if (object instanceof CharValue) {
-			return c == ((CharValue) object).c;
+		if (object instanceof CharValue value) {
+			return c == value.c;
 		} else if (object instanceof UndefValue) {
 			return false;
 		}

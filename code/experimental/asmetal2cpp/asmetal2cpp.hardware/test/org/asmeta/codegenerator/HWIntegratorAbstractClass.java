@@ -1,7 +1,8 @@
 package org.asmeta.codegenerator;
 
+
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -17,10 +18,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.apache.commons.io.FilenameUtils;
-import org.asmeta.asm2code.main.AsmToCGenerator;
 import org.asmeta.codegenerator.arduino.ArduinoVersion;
 import org.asmeta.codegenerator.configuration.HWConfiguration;
 import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.eclipse.xtext.junit4.util.ParseHelper;
 
 import com.google.gson.Gson;
@@ -67,7 +68,7 @@ public abstract class HWIntegratorAbstractClass {
 			//System.out.println(jsonGen.compile(model,true));
 			//Check if the U2C file has to be exported
 			if (export) {
-				String filePath = uasmFile.getPath().replace(ASMParser.ASM_EXTENSION, ".u2c");
+				String filePath = uasmFile.getPath().replace(AsmetaParserUtility.ASM_EXTENSION, ".u2c");
 				String separator = (filePath.indexOf("\\") >= 0) ? "\\" : "/";
 				int index = filePath.lastIndexOf(separator) + 1;
 				filePath = filePath.substring(0, index) + dateFormat.format(new Date()) + "_" + filePath.substring(index, filePath.length());
@@ -90,7 +91,7 @@ public abstract class HWIntegratorAbstractClass {
 	 */
 	public void generateHWIntegrationLibrary(String asmFilePath) throws IOException, Exception {
 		File asmFile = new File(asmFilePath);
-		File hwFile = new File(asmFile.getParent() + "/" + asmFile.getName().replace(ASMParser.ASM_EXTENSION, HWIntegrationGenerator.Ext));
+		File hwFile = new File(asmFile.getParent() + "/" + asmFile.getName().replace(AsmetaParserUtility.ASM_EXTENSION, HWIntegrationGenerator.Ext));
 		File u2cFile = getLastU2CFile(asmFile.getParentFile());
 		
 		assertTrue(asmFile.exists() && u2cFile.exists());
@@ -117,7 +118,7 @@ public abstract class HWIntegratorAbstractClass {
 	public void generateInoProject(String asmFilePath,final Boolean createProjectFolderFlag ) throws IOException, Exception{
 		File asmFile = new File(asmFilePath);
 		File u2cFile = getLastU2CFile(asmFile.getParentFile());
-		File inoFile = new File(asmFile.getParent() + "/" + asmFile.getName().replace(ASMParser.ASM_EXTENSION, InoGenerator.Ext));
+		File inoFile = new File(asmFile.getParent() + "/" + asmFile.getName().replace(AsmetaParserUtility.ASM_EXTENSION, InoGenerator.Ext));
 		
 		assertTrue(asmFile.exists() && u2cFile.exists());
 		

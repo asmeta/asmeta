@@ -13,7 +13,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.PropertyConfigurator;
-import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
@@ -48,7 +48,7 @@ public abstract class AsmetaCLI {
 			parser.parseArgument(args);
 			if (arguments.isEmpty())
 				throw new CmdLineException("No file is given" + Arrays.toString(args));
-			String asmPath = arguments.get(0);
+			String asmPath = arguments.getFirst();
 			if (asmPath.startsWith("/") || asmPath.startsWith("\\")) {
 				// TODO
 			}
@@ -109,8 +109,8 @@ public abstract class AsmetaCLI {
 			Appender app = (Appender) log.getAllAppenders().nextElement();			
 			// set the layout if necessary
 			Layout log4jlayout = app.getLayout();
-			if (log4jlayout instanceof PatternLayout) {
-				((PatternLayout) log4jlayout).setConversionPattern("%m%n");
+			if (log4jlayout instanceof PatternLayout layout) {
+				layout.setConversionPattern("%m%n");
 			}
 		}
 	}
@@ -120,7 +120,7 @@ public abstract class AsmetaCLI {
 	}
 
 	protected String getExtension() {
-		return ASMParser.ASM_EXTENSION;
+		return AsmetaParserUtility.ASM_EXTENSION;
 	}
 
 	// return the name of the JAR. it assumes that the name of the jar is equal to the name of the class

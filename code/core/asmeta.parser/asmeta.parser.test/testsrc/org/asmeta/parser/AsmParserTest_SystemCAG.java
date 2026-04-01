@@ -1,13 +1,12 @@
 package org.asmeta.parser;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 
 
-public class AsmParserTest_SystemCAG extends AsmParserTest{
+class AsmParserTest_SystemCAG extends AsmParserTest{
 
 
-
-	@Test
-	public void testSystemC_AG_specs(){
+	@Test void systemCAGSpecs(){
 		testOneSpec("systemc/counterAG/count_stim_user.asm");
 		testOneSpec("systemc/counterAG/top_user.asm");
 	}

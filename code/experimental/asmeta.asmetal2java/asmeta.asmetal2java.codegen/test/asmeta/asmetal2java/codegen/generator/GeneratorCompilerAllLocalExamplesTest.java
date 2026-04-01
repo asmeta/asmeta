@@ -1,7 +1,8 @@
 package asmeta.asmetal2java.codegen.generator;
 
+
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -10,9 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import org.asmeta.parser.ASMParser;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.asmeta.parser.AsmetaParserUtility;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import asmeta.asmetal2java.codegen.compiler.CompileResult;
 
@@ -30,7 +31,7 @@ public class GeneratorCompilerAllLocalExamplesTest extends GeneratorCompileTest 
 	/** Files to exclude from the translation */
 	static List<String> excludeFiles = new ArrayList<>();
 
-	@BeforeClass
+	@BeforeAll
 	public static void setup() {
 		excludeFiles.addAll(GeneratorCompilerUtil.libraries);
 		excludeFiles.addAll(GeneratorCompilerUtil.parseException);
@@ -47,7 +48,7 @@ public class GeneratorCompilerAllLocalExamplesTest extends GeneratorCompileTest 
 		walk.forEach(x -> {
 			try {
 				String fileName = x.toFile().toString();
-				if (fileName.endsWith(ASMParser.ASM_EXTENSION)
+				if (fileName.endsWith(AsmetaParserUtility.ASM_EXTENSION)
 						&& excludeFiles.stream().filter(tX -> fileName.contains(tX)).count() == 0) {
 					CompileResult genandcompile = GeneratorCompilerUtil.genandcompile(fileName, options,
 							GeneratorCompilerUtil.dirTraduzione, GeneratorCompilerUtil.dirCompilazione);

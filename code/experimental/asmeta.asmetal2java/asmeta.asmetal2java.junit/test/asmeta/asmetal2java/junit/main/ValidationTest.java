@@ -4,7 +4,6 @@ import static org.junit.Assert.assertNotNull;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Path;
@@ -14,20 +13,17 @@ import org.asmeta.atgt.rndgenerator.AsmTestGeneratorBySimulation;
 import org.asmeta.avallaxt.AvallaStandaloneSetup;
 import org.asmeta.avallaxt.avalla.Scenario;
 import org.asmeta.parser.ASMParser;
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceSet;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.RunListener;
+
 import com.google.inject.Injector;
+
 import asmeta.AsmCollection;
 import asmeta.asmetal2java.codegen.config.TranslatorOptions;
 import asmeta.asmetal2java.codegen.config.TranslatorOptionsImpl;

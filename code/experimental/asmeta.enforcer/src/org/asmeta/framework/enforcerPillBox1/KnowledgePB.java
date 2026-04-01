@@ -5,6 +5,7 @@
 */
 package org.asmeta.framework.enforcerPillBox1;
 import java.util.Map;
+
 import org.asmeta.framework.enforcer.Knowledge;
 
 public class KnowledgePB extends Knowledge {

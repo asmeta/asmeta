@@ -1,32 +1,28 @@
 package org.asmeta.parser;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collection;
 
-import org.junit.After;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import asmeta.AsmCollection;
 
-@RunWith(Parameterized.class)
 public class TestImport {
 
 	private File root;
 	private File importedAsm;
 
-	
-	public TestImport(String dir) throws IOException, Exception {
+
+	public void initTestImport(String dir) throws IOException, Exception {
 		// make a temp module to be imported
 		new File(dir).mkdirs();
 		root = new File(dir);
@@ -34,15 +30,13 @@ public class TestImport {
 		importedAsm = buildtempAsm(root, "imported",null);
     }
 	
-	@Parameters
-    public static Collection<Object[]> data() {
+	public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][] {     
                  { "temp"}, { "temp with space" }});
     }
 
 
-	@After
-	public void deleteFiles() throws Exception {
+	@AfterEach void deleteFiles() throws Exception {
 		deleteFilesIn(root);
 		root.delete();
 	}
@@ -59,26 +53,30 @@ public class TestImport {
 		}
 		file.delete();
 	}
-	
-	@Test
-	public void testImportRelative() throws Exception {
+
+	@MethodSource("data") @ParameterizedTest
+	public void testImportRelative(String dir) throws Exception {
+		initTestImport(dir);
 		// A. in the same directory with relative path without ASM
 		String asmname = importedAsm.getName();
 		asmname = asmname.substring(0, asmname.lastIndexOf('.'));		
 		buildtempAsm(root, "importingRel", asmname);		
 	}
-	@Test
-	public void testImportAbsolute() throws Exception {
+
+	@MethodSource("data") @ParameterizedTest
+	public void testImportAbsolute(String dir) throws Exception {
+		initTestImport(dir);
 		// B. in the same directory with absolute path
 		buildtempAsm(root, "importingAbs", importedAsm.getAbsolutePath());		
 	}
 
-	@Test
-	public void testDoubleImportRelativeSubdir() throws Exception {		
+	@MethodSource("data") @ParameterizedTest
+	public void testDoubleImportRelativeSubdir(String dir) throws Exception {
+		initTestImport(dir);		
 		String subdir = "subdir";
-		Path sub = Paths.get(root.getPath()+File.separator+ subdir);
+		Path sub = Path.of(root.getPath()+File.separator+ subdir);
 		if (!sub.toFile().exists()) Files.createDirectory(sub);
-		Path subsub = Paths.get(root.getPath()+File.separator+ subdir+File.separator+ subdir);
+		Path subsub = Path.of(root.getPath()+File.separator+ subdir+File.separator+ subdir);
 		if (!subsub.toFile().exists()) Files.createDirectory(subsub);
 		// 1. build imported asm in subdir 2
 		importedAsm = buildtempAsm(subsub.toFile(), "imported2",null);
@@ -88,10 +86,11 @@ public class TestImport {
 		buildtempAsm(root, "bothRel", subdir + "/" + bothAsm.getName());		
 	}
 
-	@Test
-	public void testImportRelativeSubdir() throws Exception {		
+	@MethodSource("data") @ParameterizedTest
+	public void testImportRelativeSubdir(String dir) throws Exception {
+		initTestImport(dir);		
 		String subdir = "subdir";
-		Path sub = Paths.get(root.getPath()+File.separator+ subdir);
+		Path sub = Path.of(root.getPath()+File.separator+ subdir);
 		if (!sub.toFile().exists()) Files.createDirectory(sub);
 		// 1. build imported asm in subdir
 		importedAsm = buildtempAsm(sub.toFile(), "imported2",null);
@@ -106,7 +105,7 @@ public class TestImport {
 	
 	
 	private static File buildtempAsm(File root, String asmnameprefix, String importedAsm) throws IOException, Exception {
-		File builtAsm = File.createTempFile(asmnameprefix, ASMParser.ASM_EXTENSION, root);
+		File builtAsm = File.createTempFile(asmnameprefix, AsmetaParserUtility.ASM_EXTENSION, root);
 		String asmname = builtAsm.getName();
 		asmname = asmname.substring(0, asmname.lastIndexOf('.'));
 		// write something into it

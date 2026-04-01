@@ -6,8 +6,8 @@
 package domaintests;
 
 import domaintests.AbstractTD.EnumDomain;
-import org.junit.Test;
-import static org.junit.Assert.*;
+
+import org.junit.jupiter.api.Test; import static org.junit.Assert.*;
 
 import org.evosuite.runtime.EvoRunner;
 import org.evosuite.runtime.EvoRunnerParameters;

@@ -1,6 +1,5 @@
 package org.asmeta.codegenerator.configuration;
 
-import org.asmeta.codegenerator.arduino.ArduinoPin;
 import org.asmeta.codegenerator.arduino.ArduinoPinID;
 
 import com.google.gson.annotations.SerializedName;

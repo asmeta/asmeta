@@ -1,14 +1,13 @@
 package org.asmeta.parser.util;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -19,37 +18,19 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.SimpleLayout;
 import org.asmeta.parser.ASMParser;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.asmeta.parser.ParseException;
-import org.asmeta.parser.Utility;
 import org.eclipse.emf.ecore.EObject;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.experimental.categories.Category;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
-import asmeta.definitions.ControlledFunction;
-import asmeta.definitions.Function;
-import asmeta.definitions.InvarConstraint;
 import asmeta.definitions.Invariant;
 import asmeta.definitions.MonitoredFunction;
 import asmeta.definitions.OutFunction;
-import asmeta.definitions.domains.AgentDomain;
-import asmeta.definitions.domains.AnyDomain;
-import asmeta.definitions.domains.BooleanDomain;
-import asmeta.definitions.domains.ConcreteDomain;
-import asmeta.definitions.domains.Domain;
-import asmeta.definitions.domains.EnumTd;
-import asmeta.definitions.domains.IntegerDomain;
-import asmeta.definitions.domains.RealDomain;
-import asmeta.definitions.domains.StringDomain;
-import asmeta.definitions.domains.StructuredTd;
 import asmeta.structure.ImportClause;
-import asmeta.transitionrules.basictransitionrules.ChooseRule;
 import asmeta.transitionrules.basictransitionrules.ExtendRule;
 import asmeta.transitionrules.basictransitionrules.ForallRule;
-import asmeta.transitionrules.basictransitionrules.LetRule;
-import asmeta.transitionrules.basictransitionrules.MacroCallRule;
 import asmeta.transitionrules.basictransitionrules.impl.LetRuleImpl;
 
 public class AsmetaFeatureCheckerTest {
@@ -76,22 +57,21 @@ public class AsmetaFeatureCheckerTest {
 //			"SubsetOfInt", x -> ((x instanceof Function) && ((Function) x).getCodomain() instanceof ConcreteDomain) && 
 //                    (((ConcreteDomain) ((Function) x).getCodomain()).getTypeDomain() instanceof IntegerDomain),
 //            "INVAR", x -> (x instanceof InvarConstraint),
-			"Modules", x -> (x instanceof ImportClause && !Utility.isAsmetaLibrary(((ImportClause) x).getModuleName())));
+			"Modules", x -> (x instanceof ImportClause ic && !AsmetaParserUtility.isAsmetaLibrary(ic.getModuleName())));
 
-	@BeforeClass
-	public static void setUpLogger(){
+	@BeforeAll
+	static void setUpLogger(){
 		Logger.getLogger(AsmetaFeatureChecker.class).setLevel(Level.ERROR);
 		Logger.getLogger(AsmetaFeatureChecker.class).addAppender(new ConsoleAppender(new SimpleLayout()));
 	}
 
-	@AfterClass
-	public static void restoreLogger(){
+	@AfterAll
+	static void restoreLogger(){
 		// remove all appenders to avoid bloating the console
 		Logger.getLogger(AsmetaFeatureChecker.class).removeAllAppenders();
 	}
-	
-	@Test
-	public void testVisitAsm2() throws Exception {
+
+	@Test void visitAsm2() throws Exception {
 		// first example: check if there exists a monitored function
 		AsmetaFeatureChecker spr = new AsmetaFeatureChecker(x -> (x instanceof MonitoredFunction));
 		File f = new File("../../../../asm_examples/examples/ferryman/ferrymanSimulator.asm");
@@ -103,8 +83,7 @@ public class AsmetaFeatureCheckerTest {
 		assertFalse(spr.checkFeature(ASMParser.setUpReadAsm(f).getMain()));
 	}
 
-	@Test
-	public void testLet() throws Exception {
+	@Test void let() throws Exception {
 		// first example: check if there exists a monitored function
 		AsmetaFeatureChecker spr = new AsmetaFeatureChecker(x -> (x instanceof LetRuleImpl));
 		File f = new File("../../../../asm_examples/test/simulator/CaseRule02.asm");
@@ -113,8 +92,7 @@ public class AsmetaFeatureCheckerTest {
 		assertTrue(spr.checkFeature(ASMParser.setUpReadAsm(f).getMain()));
 	}
 
-	@Test
-	public void testExtend() throws Exception {
+	@Test void extend() throws Exception {
 		// first example: check if there exists a monitored function
 		AsmetaFeatureChecker spr = new AsmetaFeatureChecker(x -> (x instanceof ExtendRule));
 		File f = new File("../../../../asm_examples/examples/simple_example/population.asm");
@@ -123,8 +101,7 @@ public class AsmetaFeatureCheckerTest {
 		assertTrue(spr.checkFeature(ASMParser.setUpReadAsm(f).getMain()));
 	}
 
-	@Test
-	public void testInvariant() throws Exception {
+	@Test void invariant() throws Exception {
 		// first example: check if there exists a monitored function
 		AsmetaFeatureChecker spr = new AsmetaFeatureChecker(x -> (x instanceof Invariant));
 		File f = new File("../../../../asm_examples/examples/ferryman/ferrymanSimulator.asm");
@@ -133,13 +110,12 @@ public class AsmetaFeatureCheckerTest {
 		assertTrue(spr.checkFeature(ASMParser.setUpReadAsm(f).getMain()));
 	}
 
-	@Test
-	public void testVisitAsmExamples() throws Exception {
+	@Test void visitAsmExamples() throws Exception {
 		AsmetaFeatureChecker spr;
 
 		// Read the "model_list.txt" file containing the list of ASM files to be tested,
 		// but delete all lines before "// valid asm: 296"
-		List<String> modelList = readFilteredModelList(Paths.get("model_list.txt"));
+		List<String> modelList = readFilteredModelList(Path.of("model_list.txt"));
 
 		// Fetch all files in the directory and all features
 		for (String featureName : featurePredicates.keySet()) {
@@ -161,11 +137,10 @@ public class AsmetaFeatureCheckerTest {
 		}
 	}
 
-	@Test
-	public void testVisitAsmResults() throws Exception {
+	@Test void visitAsmResults() throws Exception {
 		AsmetaFeatureChecker spr;
 
-		List<String> modelList = readResultsFile(Paths.get(
+		List<String> modelList = readResultsFile(Path.of(
 				"../../../../code/experimental/asmeta.evotest/asmeta.evotest.experiments/data/icst-26-exp/data.csv"),
 				"random");
 

@@ -64,7 +64,7 @@ public class RuleValue extends Value<RuleDeclaration> {
 		s.append("(");
 		List<?> vars = dcl.getVariable();
 		if (vars != null && vars.size() > 0) {
-			VariableTerm var = (VariableTerm) vars.get(0);
+			VariableTerm var = (VariableTerm) vars.getFirst();
 			s.append(var.getDomain().getName());
 			for (int i = 1; i < vars.size(); i++) {
 				var = (VariableTerm) vars.get(i);

@@ -5,8 +5,6 @@ import java.io.PrintStream;
 
 import org.asmeta.simulator.readers.AllowUndefMFReader;
 import org.asmeta.simulator.readers.InteractiveMFReader;
-import org.asmeta.simulator.readers.MonFuncReader;
-import org.asmeta.simulator.util.Parser;
 import org.eclipse.core.resources.IFile;
 /** run step by step computation until is canceled */
 public class RunStepJob extends RunJob {

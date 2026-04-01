@@ -1,6 +1,7 @@
 package asmeta.asmetal2java.junit;
 
 import java.io.IOException;
+
 import org.apache.commons.lang3.StringUtils;
 import org.asmeta.avallaxt.avalla.Check;
 import org.asmeta.avallaxt.avalla.Element;
@@ -32,8 +33,8 @@ public class AvallaToString extends AvallaSwitch<String> {
 		
 		StringBuilder sb = new StringBuilder();
 		
-		sb.append("import static org.junit.Assert.*;\n");
-		sb.append("import org.junit.Test;\n");
+		sb.append("import org.junit.jupiter.api.Test; import static org.junit.Assert.*;\n");
+		sb.append("\n");
 		sb.append(caseScenario(s, i));
 
 		// Ciclo sugli elementi

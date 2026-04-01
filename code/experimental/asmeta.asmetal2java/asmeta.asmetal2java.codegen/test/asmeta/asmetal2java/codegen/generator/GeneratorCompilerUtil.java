@@ -1,7 +1,8 @@
 package asmeta.asmetal2java.codegen.generator;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,7 +22,7 @@ import asmeta.asmetal2java.codegen.compiler.CompilerImpl;
 import asmeta.asmetal2java.codegen.config.TranslatorOptions;
 
 /**
- * Utility class for testing.
+ * AsmetaParserUtility class for testing.
  * <p>
  * contains the path to the folders, the list of files to exclude from testing
  * and methods to generate and compile the translation.

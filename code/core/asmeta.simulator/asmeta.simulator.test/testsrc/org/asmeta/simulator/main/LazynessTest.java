@@ -10,75 +10,47 @@
  ******************************************************************************/
 package org.asmeta.simulator.main;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
 
-import org.asmeta.parser.ASMParser;
 import org.asmeta.simulator.Environment;
-import org.asmeta.simulator.InvalidInvariantException;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.State;
 import org.asmeta.simulator.TermEvaluator;
-import org.asmeta.simulator.UpdateClashException;
-import org.asmeta.simulator.main.Simulator.InvariantTreament;
 import org.asmeta.simulator.readers.MonFuncReader;
-import org.asmeta.simulator.util.UnresolvedReferenceException;
 import org.asmeta.simulator.value.BooleanValue;
-import org.asmeta.simulator.value.EnumValue;
 import org.asmeta.simulator.value.IntegerValue;
-import org.asmeta.simulator.value.ReserveValue;
 import org.asmeta.simulator.value.SequenceValue;
-import org.asmeta.simulator.value.SetValue;
-import org.asmeta.simulator.value.StringValue;
 import org.asmeta.simulator.value.TupleValue;
-import org.asmeta.simulator.value.UndefValue;
 import org.asmeta.simulator.value.Value;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
-import asmeta.AsmCollection;
 import asmeta.definitions.Function;
-import asmeta.definitions.domains.ConcreteDomain;
-import asmeta.definitions.domains.Domain;
-import asmeta.structure.DomainDefinition;
-
-import org.asmeta.parser.ParseException;
 
 /**
  * Test for Simulator class.  
  *
  */
-public class LazynessTest extends BaseTest {
+class LazynessTest extends BaseTest {
 
-	    
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
+
+	@BeforeAll
+	static void setUpBeforeClass() throws Exception {
         TermEvaluator.setAllowLazyEval(true);
 	}
 
-	@AfterClass
-	public static void ripristina() throws Exception {
+	@AfterAll
+	static void ripristina() throws Exception {
 		// rirèroinstin il valore standard
 		TermEvaluator.recoverAllowLazyEval();
 	}
 
-	@Test
-	public void testLazy() throws Exception{
+	@Test void lazy() throws Exception{
 		// f1 --> TRUE
 		//main rule r_main =	g1 := f1 and f2
 		MonFuncReader monFuncReader = new MonFuncReader() {
@@ -101,9 +73,8 @@ public class LazynessTest extends BaseTest {
 		Value<?> v = sim.currentState.read(new Location(f, new Value[0]));
 		assertEquals(BooleanValue.FALSE, v);
 	}
-	
-	@Test
-	public void testLazyDerived() throws Exception{
+
+	@Test void lazyDerived() throws Exception{
 		// f1 --> TRUE
 		//main rule r_main =	g1 := d1
 		MonFuncReader monFuncReader = new MonFuncReader() {
@@ -126,11 +97,10 @@ public class LazynessTest extends BaseTest {
 		Value<?> v = sim.currentState.read(new Location(f, new Value[0]));
 		assertEquals(BooleanValue.FALSE, v);
 	}
-	
+
 
 	// a test with the ennvironment--> No lazyness should be 
-	@Test
-	public void testLazyEnv() throws Exception {
+	@Test void lazyEnv() throws Exception {
 		sim = Util.getSimulatorForTestSpec("test/simulator/monitoredTest.asm",
 				"test/simulator/monitoredTest01.env");
 		sim.run(1);		
