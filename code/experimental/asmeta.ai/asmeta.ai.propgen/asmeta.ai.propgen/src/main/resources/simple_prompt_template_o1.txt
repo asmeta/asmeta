@@ -1,6 +1,10 @@
 Consider the following ASMETA model:
 MODEL_PLACEHOLDER
 
-Write exactly N_PROP_PLACEHOLDER temporal properties (linear or branching) in natural language that are guaranteed by the model (i.e., they hold in all valid executions).
+Write exactly N_PROP_PLACEHOLDER temporal properties (either linear-time or branching-time) in natural language that are guaranteed by the model (i.e., they hold in all valid executions of the system).
 
-Output only the properties, with no additional text. Make sure each property is contained in a single line of text.
+Requirements:
+* Output only the properties, with no additional explanations or text.
+* Each property must be written on a single line.
+* Do not include numbering or bullet points.
+* Ensure the properties are distinct and non-redundant.

@@ -4,10 +4,9 @@ MODEL_PLACEHOLDER
 Consider the following property defined over the ASMETA model:
 TL_PROPERTY_PLACEHOLDER
 
-Provide two outputs:
--If the property holds for every execution of the model
--Explain the given property with regard to the ASMETA model.
+Explain the meaning of the given property with respect to the ASMETA model.
 
-In the first line, output only the verdict (HOLD or NOT HOLD) with no additional text.
-In the second line, output only a brief explanation in natural language, with no additional text.
-Make sure the text is contained in only two lines of text.
+Requirements:
+* Provide only a brief natural language explanation of what the property expresses.
+* Do not include any additional text, commentary, or formatting.
+* Do not explain whether the property holds or fails.

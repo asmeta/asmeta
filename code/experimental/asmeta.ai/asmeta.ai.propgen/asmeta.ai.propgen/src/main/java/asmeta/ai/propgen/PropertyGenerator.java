@@ -92,11 +92,21 @@ public class PropertyGenerator {
 		String asmContent = getFileContent(asmPath);
 		if (removeComments)
 			asmContent = removeComments(asmContent);
-		String propertyTypeValue = type == PropertyType.CTLPROP ? "CTL (Computation Tree Logic)"
-				: "LTL (Linear Temporal Logic)";
+		String propertyTypeValue, temporalOperators, propertyKeyword;
+		if (type == PropertyType.CTLPROP) {
+			propertyTypeValue = "CTL (Computation Tree Logic)";
+			temporalOperators = "ex, ef, eg, eu, ax, af, ag, au";
+			propertyKeyword = "CTLSPEC";
+		} else {
+			propertyTypeValue = "LTL (Linear Temporal Logic)";
+			temporalOperators = "x, f, g, u";
+			propertyKeyword = "LTLSPEC";
+		}
 		placeholdersSubstitutions.put("MODEL_PLACEHOLDER", asmContent);
 		placeholdersSubstitutions.put("PROPERTY_TYPE_PLACEHOLDER", propertyTypeValue);
 		placeholdersSubstitutions.put("NL_PROPERTY_PLACEHOLDER", property);
+		placeholdersSubstitutions.put("OPERATORS_LIST_PLACEHOLDER", temporalOperators);
+		placeholdersSubstitutions.put("PROPERTY_KEYWORD_PLACEHOLDER", propertyKeyword);
 		String prompt = applySubstitutions(template, placeholdersSubstitutions);
 		logger.debug("Prompt: \n" + prompt);
 		String response = llm.query(prompt);
@@ -116,7 +126,7 @@ public class PropertyGenerator {
 	 * @throws RuntimeException if the ASMETA file or template cannot be read, or if
 	 *                          there is an error while communicating with the LLM
 	 */
-	public List<String> fromTLtoNL(String asmPath, String property, boolean removeComments) {
+	public String fromTLtoNL(String asmPath, String property, boolean removeComments) {
 		Map<String, String> placeholdersSubstitutions = new HashMap<>();
 		String template = getFileContent(O3_PROMPT_TEMPLATE);
 		String asmContent = getFileContent(asmPath);
@@ -128,9 +138,7 @@ public class PropertyGenerator {
 		logger.debug("Prompt: \n" + prompt);
 		String response = llm.query(prompt);
 		logger.debug("Full response: \n" + response);
-		return response.lines()
-				.filter(line -> !line.trim().isEmpty())
-		        .toList();
+		return response;
 	}
 
 	// Remove comments Java-style comments
@@ -148,7 +156,7 @@ public class PropertyGenerator {
 		for (Entry<String, String> sub : substitutions.entrySet()) {
 			String placeholder = sub.getKey();
 			String value = sub.getValue();
-			result = result.replaceAll(placeholder, value);
+			result = result.replace(placeholder, value);
 		}
 		return result;
 	}

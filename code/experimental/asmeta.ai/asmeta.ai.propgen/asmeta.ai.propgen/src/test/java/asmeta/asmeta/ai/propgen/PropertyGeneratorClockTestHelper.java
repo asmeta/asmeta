@@ -38,17 +38,12 @@ class PropertyGeneratorClockTestHelper {
 
 	static void fromTLtoNLClock(PropertyGenerator pg) throws Exception {
 		String prop = "ctlspec ag (eq(seconds,59) implies ax(eq(seconds,0)))";
-		List<String> res = pg.fromTLtoNL(ASM_PATH, prop, false);
-		String verdict = res.get(0);
-		String propDescription = res.get(1);
+		String explanation = pg.fromTLtoNL(ASM_PATH, prop, false);
 		
 		System.out.println("===== From CTL to NL property =====");
-		System.out.println(verdict);
-		System.out.println(propDescription);
+		System.out.println(explanation);
 		
-		assertEquals(2, res.size());
-		assertTrue(verdict.contains("HOLD"));
-		assertFalse(verdict.contains("NOT HOLD"));
+		assertFalse(explanation.isBlank());
 	}
 
 }

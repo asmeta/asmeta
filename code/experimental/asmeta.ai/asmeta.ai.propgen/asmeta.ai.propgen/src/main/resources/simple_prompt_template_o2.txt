@@ -1,8 +1,19 @@
 Consider the following ASMETA model:
 MODEL_PLACEHOLDER
 
-Encode in PROPERTY_TYPE_PLACEHOLDER an ASMETA property verifying the following:
+Encode, in PROPERTY_TYPE_PLACEHOLDER, an ASMETA property that verifies the following requirement:
 NL_PROPERTY_PLACEHOLDER
 
-When you use logical operators, use the following: or, xor, and, not, implies, iff. Do not use other symbols.
+Requirements:
+* Use only the following logical operators: or, xor, and, not, implies, iff. Do not use any other logical symbols or operators.
+* Use only the following temporal operators: OPERATORS_LIST_PLACEHOLDER. Do not use any other temporal operators.
+* Always use parentheses to enclose the intended scope of every logical and temporal operator.
+* You may use quantified expressions in the following forms:
+	- (forall $v1 in D1, $v2 in D2, ... with sub-property)
+	- (exist $v1 in D1, $v2 in D2, ... with sub-property)
+* Always surround quantified expressions with an additional pair of parentheses.
+* Use quantified expressions only if they improve readability.
+* Do not use any other terms, operators, or symbols beyond those specified.
+* Do not use code blocks (e.g., ```), markdown formatting, or any special delimiters.
+* The property must start with the following keyword: PROPERTY_KEYWORD_PLACEHOLDER
 Output only the temporal property, with no additional text.
