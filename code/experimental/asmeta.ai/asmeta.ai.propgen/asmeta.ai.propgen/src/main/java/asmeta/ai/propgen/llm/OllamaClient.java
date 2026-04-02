@@ -59,9 +59,7 @@ public class OllamaClient extends HttpLlmClient {
 		super(baseUrl, apiKey);
 		this.model = DEFAULT_MODEL;
 		this.client = new OllamaAPI(baseUrl);
-		if (apiKey != null && !apiKey.isBlank()) {
-			this.client.setBearerAuth(apiKey);
-		}
+		this.client.setBearerAuth(apiKey);
 		this.client.setRequestTimeoutSeconds(timeout);
 	}
 
@@ -69,7 +67,18 @@ public class OllamaClient extends HttpLlmClient {
 	 * @return the currently configured model name
 	 */
 	public String getModel() {
-		return model;
+		return this.model;
+	}
+
+	/**
+	 * @return the details of currently configured model
+	 */
+	public String getModelDetails() {
+		try {
+			return this.client.getModelDetails(this.model).toString();
+		} catch (Exception e) {
+			throw new RuntimeException("Unable to retrieve Ollama model details", e);
+		}
 	}
 
 	/**
