@@ -17,7 +17,7 @@
    <extension
          point="org.eclipse.ui.handlers">
       <handler
-            class="asmeta.ai.propgen.ui.handlers.SampleHandler"
+            class="asmeta.ai.propgen.ui.handlers.AsmetaAIHandler"
             commandId="asmeta.ai.propgen.ui.commands.sampleCommand">
       </handler>
    </extension>

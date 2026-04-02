@@ -34,9 +34,9 @@ See https://asmeta.github.io
       <import plugin="org.eclipse.jface.text"/>
       <import plugin="org.eclipse.emf.common"/>
       <import plugin="org.eclipse.ui.workbench"/>
-      <import plugin="org.asmeta.xt"/>
-      <import plugin="org.asmeta.xt.ui"/>
-      <import plugin="org.asmeta.xt.ide"/>
+      <import plugin="asmeta.xt"/>
+      <import plugin="asmeta.xt.ui"/>
+      <import plugin="asmeta.xt.ide"/>
    </requires>
 
    <plugin

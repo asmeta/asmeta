@@ -8,6 +8,7 @@ import org.asmeta.modeladvisor.plugin.AsmetaMAActivator;
 import org.asmeta.modeladvisor.plugin.AsmetaMAConsole;
 import org.asmeta.modeladvisor.plugin.AsmetaMAPreferencePage;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
+import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.jface.preference.IPreferenceStore;
 
 /**
@@ -21,7 +22,7 @@ public class AsmetaMAHandler extends AsmetaActionHandler {
 	}
 
 	@Override
-	protected void executeAction(File path) throws Exception {
+	protected void executeAction(File path, ExecutionEvent env) throws Exception {
 		// convert the IFile to path
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA(path.getAbsolutePath());
 		IPreferenceStore store = AsmetaMAActivator.getDefault().getPreferenceStore();

@@ -8,6 +8,7 @@ import org.asmeta.nusmv.plugin.AsmetaSMVActivator;
 import org.asmeta.nusmv.plugin.AsmetaSMVConsole;
 import org.asmeta.nusmv.plugin.AsmetaSMVPreferencePage;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
+import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -29,7 +30,7 @@ abstract class AsmetaSMVHandler extends AsmetaActionHandler {
 	abstract void exec(AsmetaSMV asmetaSMV) throws Exception;
 
 	@Override
-	protected void executeAction(File path) throws Exception {
+	protected void executeAction(File path, ExecutionEvent env) throws Exception {
 		AsmetaSMV asmetaSMV = new AsmetaSMV(path);
 		IPreferenceStore store = AsmetaSMVActivator.getDefault().getPreferenceStore();
 		AsmetaSMVOptions.keepNuSMVfile = store.getBoolean(AsmetaSMVPreferencePage.P_KF);

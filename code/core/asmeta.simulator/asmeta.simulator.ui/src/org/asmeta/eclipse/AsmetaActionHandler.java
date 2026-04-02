@@ -79,7 +79,7 @@ public abstract class AsmetaActionHandler extends AbstractHandler {
 		// execute action
 		try {
 			console.writeMessage(action + " on " + path);			
-			executeAction(path);
+			executeAction(path, event);
 			console.writeMessage(action + " finished");			
 		} catch (Throwable t) {
 			// show in the console
@@ -96,7 +96,7 @@ public abstract class AsmetaActionHandler extends AbstractHandler {
 		return null;
 	}
 
-	protected abstract void executeAction(File path) throws Exception;
+	protected abstract void executeAction(File path, ExecutionEvent event) throws Exception;
 
 
 	/**

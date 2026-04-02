@@ -48,15 +48,15 @@ See https://asmeta.github.io
    </requires>
 
    <plugin
-         id="org.asmeta.xt"
+         id="asmeta.xt"
          version="0.0.0"/>
 
    <plugin
-         id="org.asmeta.xt.ui"
+         id="asmeta.xt.ui"
          version="0.0.0"/>
 
    <plugin
-         id="org.asmeta.xt.ide"
+         id="asmeta.xt.ide"
          version="0.0.0"/>
 
 </feature>

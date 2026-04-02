@@ -8,6 +8,7 @@ import org.asmeta.eclipse.AsmetaActionHandler;
 import org.asmeta.simulator.main.Simulator;
 import org.asmeta.xt.validator.AsmetaFromAvallaBuilder;
 import org.asmeta.xt.validator.AsmetaV;
+import org.eclipse.core.commands.ExecutionEvent;
 
 /**
  * @see org.eclipse.core.commands.IHandler
@@ -23,7 +24,7 @@ abstract class ValidatorHandler extends AsmetaActionHandler {
 	abstract void execValidation(String path) throws Exception;
 
 	
-	protected void executeAction(File path) throws Exception{
+	protected void executeAction(File path, ExecutionEvent env) throws Exception{
 		execValidation(path.getAbsolutePath());
 	}
 

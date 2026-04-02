@@ -21,7 +21,7 @@ public class BasicVisualizerHandler extends VisualizerHandler {
 	}
 
 	@Override
-	protected void executeAction(File path) throws Exception {
+	protected void executeAction(File path, ExecutionEvent env) throws Exception {
 		GraphEdgesAdder.detectSemanticPatterns = false;
 		AsmGraphViewerVisualizer.showGraph(path.getAbsolutePath());		
 	}

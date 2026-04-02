@@ -17,6 +17,7 @@ import org.asmeta.flattener.rule.ChooseRuleFlattener;
 import org.asmeta.flattener.rule.ForallRuleFlattener;
 import org.asmeta.flattener.rule.LetRuleFlattener;
 import org.asmeta.flattener.rule.MacroCallRuleFlattener;
+import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.jface.preference.IPreferenceStore;
 
 /**
@@ -32,7 +33,7 @@ public class AsmetaFlatHandler extends AsmetaActionHandler {
 	/**
 	 * run the flattener
 	 */
-	protected void executeAction(File path) throws Exception {
+	protected void executeAction(File path, ExecutionEvent env) throws Exception {
 		IPreferenceStore store = AsmetaFlatActivator.getDefault().getPreferenceStore();
 		List<Class<? extends AsmetaFlattener>> flatteners = new ArrayList<>();
 		if (store.getBoolean(AsmetaFlatPreferencePage.MACRO_CALL)) {

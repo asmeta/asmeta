@@ -8,6 +8,7 @@ import org.asmeta.eclipse.AsmeeConsole;
 import org.asmeta.eclipse.AsmetaActionHandler;
 import org.asmeta.eclipse.simulator.jobs.RunJob;
 import org.asmeta.simulator.main.Simulator;
+import org.eclipse.core.commands.ExecutionEvent;
 
 /**
  * Our sample handler extends AbstractHandler, an IHandler base class.
@@ -22,7 +23,7 @@ public class AnimatorHandler extends AsmetaActionHandler {
 	}
 
 	@Override
-	protected void executeAction(File path) throws Exception {
+	protected void executeAction(File path, ExecutionEvent env) throws Exception {
 		//
 		if (RunJob.allowUndefValuesMonitored) {
 			VisualizationSimulation.allowUndefValuesMonitored = true;

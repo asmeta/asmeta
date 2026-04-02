@@ -20,7 +20,7 @@ public class SemanticVisualizerHandler extends VisualizerHandler {
 	}
 
 	@Override
-	protected void executeAction(File path) throws Exception {
+	protected void executeAction(File path, ExecutionEvent env) throws Exception {
 		GraphEdgesAdder.detectSemanticPatterns = true;
 		AsmGraphViewerVisualizer.showGraph(path.getAbsolutePath());		
 	}
