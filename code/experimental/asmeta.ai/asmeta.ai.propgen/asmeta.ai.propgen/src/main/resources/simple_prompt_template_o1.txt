@@ -3,4 +3,4 @@ MODEL_PLACEHOLDER
 
 Write exactly N_PROP_PLACEHOLDER temporal properties (linear or branching) in natural language that are guaranteed by the model (i.e., they hold in all valid executions).
 
-Output only the properties, with no additional text.
+Output only the properties, with no additional text. Make sure each property is contained in a single line of text.

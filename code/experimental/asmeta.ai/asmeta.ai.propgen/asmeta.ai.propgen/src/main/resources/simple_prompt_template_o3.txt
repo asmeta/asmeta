@@ -10,4 +10,4 @@ Provide two outputs:
 
 In the first line, output only the verdict (HOLD or NOT HOLD) with no additional text.
 In the second line, output only a brief explanation in natural language, with no additional text.
-Do not put any empty line between the first and the second.
+Make sure the text is contained in only two lines of text.
