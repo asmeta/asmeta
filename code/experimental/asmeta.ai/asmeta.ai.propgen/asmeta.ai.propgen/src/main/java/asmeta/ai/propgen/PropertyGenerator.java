@@ -1,6 +1,7 @@
 package asmeta.ai.propgen;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -31,7 +32,7 @@ public class PropertyGenerator {
 	}
 
 	private LlmClient llm;
-	
+
 	private static Logger logger = Logger.getLogger(PropertyGenerator.class);
 
 	/**
@@ -67,9 +68,7 @@ public class PropertyGenerator {
 		logger.debug("Prompt: \n" + prompt);
 		String response = llm.query(prompt);
 		logger.debug("Full response: \n" + response);
-		return response.lines()
-				.filter(line -> !line.trim().isEmpty())
-		        .toList();
+		return response.lines().filter(line -> !line.trim().isEmpty()).toList();
 	}
 
 	/**
@@ -164,13 +163,27 @@ public class PropertyGenerator {
 	// Reads the content of a file as a UTF-8 string
 	private String getFileContent(String path) {
 		Path filePath = Path.of(path);
-		if (Files.exists(filePath))
+		// Try filesystem path first
+		if (Files.exists(filePath)) {
 			try {
 				return Files.readString(filePath, StandardCharsets.UTF_8);
 			} catch (IOException e) {
 				throw new RuntimeException("Failed to access file: " + path, e);
 			}
-		throw new RuntimeException("File does not exist: " + path);
+		}
+		// Try classpath / bundle resource
+		String resourcePath = path;
+		if (resourcePath.startsWith(RESOURCES))
+			resourcePath = resourcePath.substring(RESOURCES.length());
+		try {
+			InputStream is = getClass().getResourceAsStream(resourcePath);
+			if (is != null)
+				return new String(is.readAllBytes(), StandardCharsets.UTF_8);
+		} catch (Exception e) {
+			throw new RuntimeException("Failed to read resource: " + resourcePath, e);
+		}
+		throw new RuntimeException(
+				"File does not exist. Tried filesystem path: " + path + " and classpath resource: " + resourcePath);
 	}
 
 }

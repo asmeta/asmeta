@@ -26,9 +26,42 @@
 			<attribute name="optional" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="lib/annotations-13.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/classmate-1.7.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/error_prone_annotations-2.33.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jackson-annotations-2.17.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jackson-annotations-2.18.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jackson-core-2.17.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jackson-core-2.18.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jackson-databind-2.17.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jackson-databind-2.18.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jackson-datatype-jdk8-2.18.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jackson-datatype-jsr310-2.17.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jackson-datatype-jsr310-2.18.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jackson-module-kotlin-2.18.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jsonschema-generator-4.38.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jsonschema-module-jackson-4.38.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jsonschema-module-swagger-2-4.38.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/jsoup-1.18.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/kotlin-reflect-1.8.10.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/kotlin-stdlib-1.8.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/kotlin-stdlib-common-1.8.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/kotlin-stdlib-jdk7-1.8.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/kotlin-stdlib-jdk8-1.8.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/logging-interceptor-4.12.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/okhttp-4.12.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/okio-3.6.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/okio-jvm-3.6.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/ollama4j-1.1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/openai-java-4.30.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/openai-java-client-okhttp-4.30.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/openai-java-core-4.30.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/slf4j-api-2.0.16.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/slf4j-api-2.0.9.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/swagger-annotations-2.2.31.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-21">
 		<attributes>
-			<attribute name="module" value="true"/>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
@@ -37,5 +70,6 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

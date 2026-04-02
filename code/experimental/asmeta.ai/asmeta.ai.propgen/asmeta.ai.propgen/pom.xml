@@ -24,21 +24,6 @@
 			<version>1.1.0</version>
 		</dependency>
 		<dependency>
-			<groupId>asmeta</groupId>
-			<artifactId>asmeta.emf</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>asmeta</groupId>
-			<artifactId>asmeta.parser</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>asmeta</groupId>
-			<artifactId>asmeta.parser.test</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
 			<groupId>com.googlecode.json-simple</groupId>
 			<artifactId>json-simple</artifactId>
 			<version>1.1.1</version>
@@ -52,7 +37,8 @@
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter</artifactId>
-			<!-- Using version 6 results in an error when running test from Eclipse IDE -->
+			<!-- Using version 6 results in an error when running test from
+			Eclipse IDE -->
 			<version>5.14.3</version>
 			<scope>test</scope>
 		</dependency>
@@ -60,6 +46,33 @@
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>3.10.0</version>
+				<executions>
+					<execution>
+						<id>copy-llm-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<graphRoots>
+								<graphRoot>
+									<groupId>com.openai</groupId>
+									<artifactId>openai-java</artifactId>
+								</graphRoot>
+								<graphRoot>
+									<groupId>io.github.ollama4j</groupId>
+									<artifactId>ollama4j</artifactId>
+								</graphRoot>
+							</graphRoots>
+							<outputDirectory>${project.basedir}/lib</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.15.0</version>
