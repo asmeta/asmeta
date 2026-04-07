@@ -1,22 +1,22 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.terms.basicterms.impl;
-
-import java.util.Collection;
-
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.EDataTypeEList;
 
 import asmeta.terms.basicterms.BasictermsPackage;
 import asmeta.terms.basicterms.Term;
 import asmeta.terms.basicterms.TupleTerm;
+
+import java.util.Collection;
+
+import org.eclipse.emf.common.notify.Notification;
+
+import org.eclipse.emf.common.util.EList;
+
+import org.eclipse.emf.ecore.EClass;
+
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
+import org.eclipse.emf.ecore.util.EDataTypeEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -62,7 +62,6 @@ public class TupleTermImpl extends ExtendedTermImpl implements TupleTerm {
 	 * @ordered
 	 */
 	protected EList<Term> terms;
-
 
 	/**
 	 * <!-- begin-user-doc -->

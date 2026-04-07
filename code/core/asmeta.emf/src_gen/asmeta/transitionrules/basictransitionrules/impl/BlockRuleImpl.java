@@ -1,20 +1,18 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.transitionrules.basictransitionrules.impl;
-
-import java.util.Collection;
-
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.util.EDataTypeEList;
 
 import asmeta.transitionrules.basictransitionrules.BasictransitionrulesPackage;
 import asmeta.transitionrules.basictransitionrules.BlockRule;
 import asmeta.transitionrules.basictransitionrules.Rule;
+
+import java.util.Collection;
+
+import org.eclipse.emf.common.util.EList;
+
+import org.eclipse.emf.ecore.EClass;
+
+import org.eclipse.emf.ecore.util.EDataTypeEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -39,7 +37,6 @@ public class BlockRuleImpl extends BasicRuleImpl implements BlockRule {
 	 * @ordered
 	 */
 	protected EList<Rule> rules;
-
 
 	/**
 	 * <!-- begin-user-doc -->

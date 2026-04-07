@@ -1,17 +1,13 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.definitions;
+
+import asmeta.structure.StructurePackage;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
-import asmeta.structure.StructurePackage;
 
 /**
  * <!-- begin-user-doc -->

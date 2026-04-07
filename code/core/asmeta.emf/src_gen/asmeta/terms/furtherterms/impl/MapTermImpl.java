@@ -1,21 +1,21 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.terms.furtherterms.impl;
+
+import asmeta.terms.basicterms.TupleTerm;
+
+import asmeta.terms.basicterms.impl.CollectionTermImpl;
+
+import asmeta.terms.furtherterms.FurthertermsPackage;
+import asmeta.terms.furtherterms.MapTerm;
 
 import java.util.Collection;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
-import asmeta.terms.basicterms.TupleTerm;
-import asmeta.terms.basicterms.impl.CollectionTermImpl;
-import asmeta.terms.furtherterms.FurthertermsPackage;
-import asmeta.terms.furtherterms.MapTerm;
+import org.eclipse.emf.ecore.EClass;
+
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -40,7 +40,6 @@ public class MapTermImpl extends CollectionTermImpl implements MapTerm {
 	 * @ordered
 	 */
 	protected EList<TupleTerm> pair;
-
 
 	/**
 	 * <!-- begin-user-doc -->

@@ -117,7 +117,7 @@ public interface ASMParserConstants {
   /** RegularExpression Id. */
   int ENDLET = 59;
   /** RegularExpression Id. */
-  int EXIST = 60;
+  int EXISTS = 60;
   /** RegularExpression Id. */
   int UNIQUE = 61;
   /** RegularExpression Id. */
@@ -294,7 +294,7 @@ public interface ASMParserConstants {
     "\"endcase\"",
     "\"let\"",
     "\"endlet\"",
-    "\"exist\"",
+    "\"exists\"",
     "\"unique\"",
     "\"with\"",
     "\"forall\"",

@@ -1,17 +1,15 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.structure;
 
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
-
 import asmeta.definitions.Function;
 import asmeta.definitions.RuleDeclaration;
+
 import asmeta.definitions.domains.Domain;
+
+import org.eclipse.emf.common.util.EList;
+
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -36,10 +34,6 @@ public interface ExportClause extends EObject {
 	 * Returns the value of the '<em><b>Exported Function</b></em>' reference list.
 	 * The list contents are of type {@link asmeta.definitions.Function}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Exported Function</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Exported Function</em>' reference list.
 	 * @see asmeta.structure.StructurePackage#getExportClause_ExportedFunction()
@@ -52,10 +46,6 @@ public interface ExportClause extends EObject {
 	 * Returns the value of the '<em><b>Exported Domain</b></em>' reference list.
 	 * The list contents are of type {@link asmeta.definitions.domains.Domain}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Exported Domain</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Exported Domain</em>' reference list.
 	 * @see asmeta.structure.StructurePackage#getExportClause_ExportedDomain()
@@ -68,10 +58,6 @@ public interface ExportClause extends EObject {
 	 * Returns the value of the '<em><b>Exported Rule</b></em>' reference list.
 	 * The list contents are of type {@link asmeta.definitions.RuleDeclaration}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Exported Rule</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Exported Rule</em>' reference list.
 	 * @see asmeta.structure.StructurePackage#getExportClause_ExportedRule()

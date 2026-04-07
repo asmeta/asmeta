@@ -71,8 +71,11 @@ import asmeta.terms.basicterms.Term;
 import asmeta.terms.basicterms.TupleTerm;
 import asmeta.terms.basicterms.VariableKind;
 import asmeta.terms.basicterms.VariableTerm;
+import asmeta.terms.furtherterms.BagCt;
 import asmeta.terms.furtherterms.BagTerm;
+import asmeta.terms.furtherterms.FurthertermsFactory;
 import asmeta.terms.furtherterms.IntegerTerm;
+import asmeta.terms.furtherterms.MapCt;
 import asmeta.terms.furtherterms.MapTerm;
 import asmeta.terms.furtherterms.NaturalTerm;
 import asmeta.terms.furtherterms.RealTerm;
@@ -86,7 +89,7 @@ public class AsmetaParserUtility {
 	public static final String CTL_LIBRARY_NAME = "CTLLibrary";
 	public static final String STANDARD_LIBRARY_NAME = "StandardLibrary";
 	public static final String TIME_LIBRARY_NAME = "TimeLibrary";
-	
+
 	// PA 12/11/2011. Fabio Albani, in method resolve, needs to import just the the
 	// first rule with
 	// the best ranking. The static field "selectFirstBestRanking" can be used
@@ -102,9 +105,9 @@ public class AsmetaParserUtility {
 	static {
 		logger.setLevel(Level.OFF);
 	}
-	
-	
-	private AsmetaParserUtility(){}
+
+	private AsmetaParserUtility() {
+	}
 
 	// ================================================= appendInKey
 	/*
@@ -298,15 +301,16 @@ public class AsmetaParserUtility {
 	// ================================================= convertToDouble
 	/**
 	 * Returns the Number for a FunctionTerm (Unary Expression with domain Real or
-	 * Integer) or for a constant numeric term (real, integer, natural).
-	 * USING Number to preserve precision (like BIgDecimal)
+	 * Integer) or for a constant numeric term (real, integer, natural). USING
+	 * Number to preserve precision (like BIgDecimal)
+	 * 
 	 * @throws ParseException
 	 */
 
 	public static Number convertToDouble(Term ft) throws ParseException {
 		// if ft is a constant numeric term, return its value
 		if (ft instanceof RealTerm term)
-			//return Double.parseDouble(((RealTerm) ft).getSymbol());
+			// return Double.parseDouble(((RealTerm) ft).getSymbol());
 			return new BigDecimal(term.getSymbol());
 		if (ft instanceof IntegerTerm term)
 			return Integer.parseInt(term.getSymbol());
@@ -360,9 +364,10 @@ public class AsmetaParserUtility {
 	 * 
 	 * @throws ParseException
 	 */
-	public static <T extends Term> void createTermCollection(Term firstElem, Term lastElem, Collection<T> elemColl, java.lang.Number step,
-			boolean natural_step, TermsFactory termsPack, HashMap<String, List<Function>> declared_Func,
-			HashMap<String, Domain> declared_Dom, DefinitionsFactory defPack, Signature s) throws ParseException {
+	public static <T extends Term> void createTermCollection(Term firstElem, Term lastElem, Collection<T> elemColl,
+			java.lang.Number step, boolean natural_step, TermsFactory termsPack,
+			HashMap<String, List<Function>> declared_Func, HashMap<String, Domain> declared_Dom,
+			DefinitionsFactory defPack, Signature s) throws ParseException {
 
 		Number low = convertToDouble(firstElem);
 		Number upp = convertToDouble(lastElem);
@@ -385,15 +390,17 @@ public class AsmetaParserUtility {
 			// put the elements
 			logger.debug("\t\t\tInterval elements: " + term.getSymbol());
 			// first element is already stored
-			for (int i = (int) (low.intValue() + step.intValue()); i < (int) upp; i = (int) (i + step.intValue()))
-			{ // create a new NaturalTerm
+			for (int i = (int) (low.intValue() + step.intValue()); i < (int) upp; i = (int) (i + step.intValue())) { // create
+																														// a
+																														// new
+																														// NaturalTerm
 				naturalTerm = termsPack.getFurtherTerms().createNaturalTerm();
 				naturalTerm.setSymbol(String.valueOf(i) + "n");
 				// set references
 				naturalTerm.setDomain(naturalDom);
 
 				// link the created Natural term to the Sequence term
-				elemColl.add((T)naturalTerm);
+				elemColl.add((T) naturalTerm);
 				// add a new association
 				// X a_SetTerm_Term.add(term,naturalTerm);
 				logger.debug(" " + naturalTerm.getSymbol());
@@ -430,7 +437,7 @@ public class AsmetaParserUtility {
 			{
 				// link the created integer term to the Set term
 				Term intToadd = convertIntegerToTerm(i, termsPack, integerDom, declared_Func, declared_Dom, defPack, s);
-				elemColl.add((T)intToadd);
+				elemColl.add((T) intToadd);
 				// add a new association
 				// X a_SetTerm_Term.add(term,integerTerm);
 				logger.debug("i: " + i + " integer term " + intToadd.toString());
@@ -454,14 +461,16 @@ public class AsmetaParserUtility {
 			if (realDom == null) {
 				throw new ParseException("Error: The real domain has not been declared.");
 			}
-			// logger.debug("\t\t\tinterval elements: " + ((RealTerm) firstElem).getSymbol());
+			// logger.debug("\t\t\tinterval elements: " + ((RealTerm)
+			// firstElem).getSymbol());
 			assert step instanceof Number;
 			assert low instanceof BigDecimal;
 			assert upp instanceof BigDecimal;
 			// i must use strings otherwise there is approximation
 			BigDecimal setasBD = new BigDecimal(step.toString());
 			// first element is already stored
-			for (BigDecimal i = ((BigDecimal)low).add(setasBD); i.compareTo((BigDecimal)upp) <= 0 ; i = i.add(setasBD)) {
+			for (BigDecimal i = ((BigDecimal) low).add(setasBD); i.compareTo((BigDecimal) upp) <= 0; i = i
+					.add(setasBD)) {
 				// link the created real term to the Set term
 				RealTerm convertDoubleToTerm = convertDoubleToTerm(i, termsPack, realDom, declared_Func, declared_Dom,
 						defPack, s);
@@ -477,8 +486,9 @@ public class AsmetaParserUtility {
 		// For all kind of sets, check if the lastElem must be included in the
 		// set unless is equal to low (AG 31/7/18 for {1..1}
 		// AG 12/02/26, using intValue
-		if (low instanceof Integer && low.intValue() < upp.intValue() && (((upp.intValue() - low.intValue()) % step.doubleValue()) == 0)) {
-			elemColl.add((T)lastElem);
+		if (low instanceof Integer && low.intValue() < upp.intValue()
+				&& (((upp.intValue() - low.intValue()) % step.doubleValue()) == 0)) {
+			elemColl.add((T) lastElem);
 			// add a new association
 			// X a_SetTerm_Term.add(term,lastElem);
 			logger.debug(" last element has been included!");
@@ -503,12 +513,10 @@ public class AsmetaParserUtility {
 		}
 		// PowersetDomain
 		else if (td instanceof PowersetDomain domain3)
-			return getPowerset(fixTypeDomain(domain3.getBaseDomain(), m, declared_Dom, defPack, s),
-					defPack, s);
+			return getPowerset(fixTypeDomain(domain3.getBaseDomain(), m, declared_Dom, defPack, s), defPack, s);
 		// SequenceDomain
 		else if (td instanceof SequenceDomain domain2)
-			return getSequence(fixTypeDomain(domain2.getDomain(), m, declared_Dom, defPack, s), defPack,
-					s);
+			return getSequence(fixTypeDomain(domain2.getDomain(), m, declared_Dom, defPack, s), defPack, s);
 		// BagDomain
 		else if (td instanceof BagDomain domain1)
 			return getBag(fixTypeDomain(domain1.getDomain(), m, declared_Dom, defPack, s), defPack, s);
@@ -1058,12 +1066,12 @@ public class AsmetaParserUtility {
 		// if the domain of interm is a conrecte, get its type domain
 		Domain itD = OCL_Checker.getTypeDomain(inTerm.getDomain());
 		// check which domain it is
-		switch(itD) {
-			case PowersetDomain domain2 -> D = domain2.getBaseDomain();
-			case SequenceDomain domain1 -> D = domain1.getDomain();
-			case BagDomain domain -> D = domain.getDomain();
-			case null, default -> throw new ParseException(
-					"binding variable " + v.getName() + " to " + inTerm.getDomain().getName() + " not allowed");
+		switch (itD) {
+		case PowersetDomain domain2 -> D = domain2.getBaseDomain();
+		case SequenceDomain domain1 -> D = domain1.getDomain();
+		case BagDomain domain -> D = domain.getDomain();
+		case null, default -> throw new ParseException(
+				"binding variable " + v.getName() + " to " + inTerm.getDomain().getName() + " not allowed");
 		}
 		v.setDomain(D);
 		if (D instanceof RuleDomain)
@@ -1152,16 +1160,16 @@ public class AsmetaParserUtility {
 
 		while (iter.hasNext()) {
 			elem = iter.next();
-			switch(elem) {
-				case ConstantTerm term1 -> toPrint = toPrint.concat(term1.getSymbol() + ",");
-				case VariableTerm term -> {
-					toPrint = toPrint.concat(term.getName());
-					Domain varInDom = term.getDomain();
-					assert (varInDom != null);
-					toPrint = toPrint.concat(" in ").concat(varInDom.getName());
-					toPrint = toPrint.concat(",");
-				}
-				case null, default -> toPrint = toPrint.concat("TERM,");
+			switch (elem) {
+			case ConstantTerm term1 -> toPrint = toPrint.concat(term1.getSymbol() + ",");
+			case VariableTerm term -> {
+				toPrint = toPrint.concat(term.getName());
+				Domain varInDom = term.getDomain();
+				assert (varInDom != null);
+				toPrint = toPrint.concat(" in ").concat(varInDom.getName());
+				toPrint = toPrint.concat(",");
+			}
+			case null, default -> toPrint = toPrint.concat("TERM,");
 			}
 		}
 		toPrint = toPrint.concat(")");
@@ -1292,6 +1300,18 @@ public class AsmetaParserUtility {
 		StructuredTd d = DomainsFactory.eINSTANCE.getStructuredTd(name);
 
 		return d;
+	}
+
+	public static MapCt createMapCt(FurthertermsFactory ftermFactory, List<Term> rangeList) {
+		MapCt result = ftermFactory.createMapCt();
+		result.getRanges().addAll(rangeList);
+		return result;
+	}
+
+	public static BagCt createBagCt(FurthertermsFactory ftermFactory, List<Term> rangeList) {
+		BagCt result = ftermFactory.createBagCt();
+		result.getRanges().addAll(rangeList);
+		return result;
 	}
 
 	/**
@@ -1721,19 +1741,18 @@ public class AsmetaParserUtility {
 	 * @return true when it is standard library, false if not
 	 */
 	static public boolean isAsmetaLibrary(String moduleName) {
-		//TODO use equals instead endswith, to check if one uses .asm it may not work 
+		// TODO use equals instead endswith, to check if one uses .asm it may not work
 		// see StandardLibrary isAStandardLibery - almost identical !!!
 		return moduleName.endsWith(TIME_LIBRARY_NAME) || moduleName.endsWith(STANDARD_LIBRARY_NAME)
 				|| moduleName.endsWith(CTL_LIBRARY_NAME) || moduleName.endsWith(LTL_LIBRARY_NAME)
 				|| moduleName.endsWith("MAPEpatterns") || moduleName.endsWith("TimeLibrarySimple");
 	}
 
-	// asm extension including the . 
-	 public static final String ASM_EXTENSION = ".asm";
-	 
-	 public static boolean endsWithAsmetaExtension(String fName) {
-		 return fName.endsWith(ASM_EXTENSION);
-	 }
-	 
-	 
+	// asm extension including the .
+	public static final String ASM_EXTENSION = ".asm";
+
+	public static boolean endsWithAsmetaExtension(String fName) {
+		return fName.endsWith(ASM_EXTENSION);
+	}
+
 }

@@ -1,26 +1,27 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.transitionrules.basictransitionrules.impl;
+
+import asmeta.terms.basicterms.Term;
+import asmeta.terms.basicterms.VariableTerm;
+
+import asmeta.transitionrules.basictransitionrules.BasictransitionrulesPackage;
+import asmeta.transitionrules.basictransitionrules.LetRule;
+import asmeta.transitionrules.basictransitionrules.Rule;
 
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
-import asmeta.terms.basicterms.Term;
-import asmeta.terms.basicterms.VariableTerm;
-import asmeta.transitionrules.basictransitionrules.BasictransitionrulesPackage;
-import asmeta.transitionrules.basictransitionrules.LetRule;
-import asmeta.transitionrules.basictransitionrules.Rule;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -67,7 +68,6 @@ public class LetRuleImpl extends BasicRuleImpl implements LetRule {
 	 * @ordered
 	 */
 	protected EList<VariableTerm> variable;
-
 
 	/**
 	 * <!-- begin-user-doc -->

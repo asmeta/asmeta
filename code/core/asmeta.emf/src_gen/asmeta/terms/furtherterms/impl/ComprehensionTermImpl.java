@@ -1,27 +1,28 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.terms.furtherterms.impl;
+
+import asmeta.terms.basicterms.Term;
+import asmeta.terms.basicterms.VariableTerm;
+
+import asmeta.terms.furtherterms.ComprehensionTerm;
+import asmeta.terms.furtherterms.FurthertermsPackage;
 
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
 import org.eclipse.emf.ecore.util.EDataTypeEList;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-
-import asmeta.terms.basicterms.Term;
-import asmeta.terms.basicterms.VariableTerm;
-import asmeta.terms.furtherterms.ComprehensionTerm;
-import asmeta.terms.furtherterms.FurthertermsPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -79,7 +80,6 @@ public abstract class ComprehensionTermImpl extends VariableBindingTermImpl impl
 	 * @ordered
 	 */
 	protected EList<Term> ranges;
-
 
 	/**
 	 * <!-- begin-user-doc -->

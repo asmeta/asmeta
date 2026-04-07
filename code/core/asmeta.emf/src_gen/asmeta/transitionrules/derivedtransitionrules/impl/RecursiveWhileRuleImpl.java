@@ -1,21 +1,21 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.transitionrules.derivedtransitionrules.impl;
 
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import asmeta.terms.basicterms.Term;
+
 import asmeta.transitionrules.basictransitionrules.Rule;
+
 import asmeta.transitionrules.derivedtransitionrules.DerivedtransitionrulesPackage;
 import asmeta.transitionrules.derivedtransitionrules.RecursiveWhileRule;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -51,7 +51,6 @@ public class RecursiveWhileRuleImpl extends TurboDerivedRuleImpl implements Recu
 	 * @ordered
 	 */
 	protected Term guard;
-
 
 	/**
 	 * <!-- begin-user-doc -->

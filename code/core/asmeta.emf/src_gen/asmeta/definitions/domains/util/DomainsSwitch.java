@@ -1,43 +1,17 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.definitions.domains.util;
 
+import asmeta.definitions.Classifier;
+
+import asmeta.definitions.domains.*;
+
+import asmeta.structure.NamedElement;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.util.Switch;
 
-import asmeta.definitions.Classifier;
-import asmeta.definitions.domains.AbstractTd;
-import asmeta.definitions.domains.AgentDomain;
-import asmeta.definitions.domains.AnyDomain;
-import asmeta.definitions.domains.BagDomain;
-import asmeta.definitions.domains.BasicTd;
-import asmeta.definitions.domains.BooleanDomain;
-import asmeta.definitions.domains.CharDomain;
-import asmeta.definitions.domains.ComplexDomain;
-import asmeta.definitions.domains.ConcreteDomain;
-import asmeta.definitions.domains.Domain;
-import asmeta.definitions.domains.DomainsPackage;
-import asmeta.definitions.domains.EnumElement;
-import asmeta.definitions.domains.EnumTd;
-import asmeta.definitions.domains.IntegerDomain;
-import asmeta.definitions.domains.MapDomain;
-import asmeta.definitions.domains.NaturalDomain;
-import asmeta.definitions.domains.PowersetDomain;
-import asmeta.definitions.domains.ProductDomain;
-import asmeta.definitions.domains.RealDomain;
-import asmeta.definitions.domains.ReserveDomain;
-import asmeta.definitions.domains.RuleDomain;
-import asmeta.definitions.domains.SequenceDomain;
-import asmeta.definitions.domains.StringDomain;
-import asmeta.definitions.domains.StructuredTd;
-import asmeta.definitions.domains.TypeDomain;
-import asmeta.definitions.domains.UndefDomain;
-import asmeta.structure.NamedElement;
+import org.eclipse.emf.ecore.util.Switch;
 
 /**
  * <!-- begin-user-doc -->

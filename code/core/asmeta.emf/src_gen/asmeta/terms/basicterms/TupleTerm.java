@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.terms.basicterms;
 
@@ -29,10 +25,6 @@ public interface TupleTerm extends ExtendedTerm {
 	/**
 	 * Returns the value of the '<em><b>Arity</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Arity</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Arity</em>' attribute.
 	 * @see #setArity(Integer)
@@ -56,10 +48,6 @@ public interface TupleTerm extends ExtendedTerm {
 	 * Returns the value of the '<em><b>Terms</b></em>' attribute list.
 	 * The list contents are of type {@link asmeta.terms.basicterms.Term}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Terms</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Terms</em>' attribute list.
 	 * @see asmeta.terms.basicterms.BasictermsPackage#getTupleTerm_Terms()

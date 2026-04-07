@@ -1,12 +1,9 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.transitionrules.derivedtransitionrules;
 
 import asmeta.terms.basicterms.Term;
+
 import asmeta.transitionrules.basictransitionrules.Rule;
 
 /**
@@ -30,10 +27,6 @@ public interface IterativeWhileRule extends TurboDerivedRule {
 	/**
 	 * Returns the value of the '<em><b>Guard</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Guard</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Guard</em>' reference.
 	 * @see #setGuard(Term)
@@ -56,10 +49,6 @@ public interface IterativeWhileRule extends TurboDerivedRule {
 	/**
 	 * Returns the value of the '<em><b>Rule</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Rule</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Rule</em>' containment reference.
 	 * @see #setRule(Rule)

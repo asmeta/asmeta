@@ -1,7 +1,7 @@
 /*
 * version 08/09/2022
 *  08/09/2022 - added in problems some explanation 
-*  05/27/2023 - added other explainstions AG
+*  05/27/2023 - added other explainations AG
 */
 options
 {
@@ -292,7 +292,7 @@ TOKEN :
 | < ENDCASE : "endcase" >
 | < LET : "let" >
 | < ENDLET : "endlet" >
-| < EXIST : "exist" >
+| < EXISTS : "exists" >
 | < UNIQUE : "unique" >
 | < WITH : "with" >
 | < FORALL : "forall" >
@@ -4369,9 +4369,9 @@ ExistsUniqueTerm existsUniqueTerm(HashMap localVar) :
   Term inTerm, guard;
 }
 {
-  "(" < EXIST > < UNIQUE >
+  "(" < EXISTS > < UNIQUE >
   {
-    Logger.logDebug("\t(exist unique\t\tExistsUniqueTerm beginning");
+    Logger.logDebug("\t(exists unique\t\tExistsUniqueTerm beginning");
     ExistsUniqueTerm term = termsPack.getFurtherTerms().createExistsUniqueTerm();
     List < Term > rangeList = term.getRanges();
     //check if the next variable is already used (look for it in the localVar HashMap)
@@ -4742,7 +4742,7 @@ MapCt MapCT(HashMap localVar) :
   Term t1, t2, inTerm, guard;
   VariableTerm variable;
   List < Term > rangeList = new ArrayList < Term > ();
-  MapCt term = termsPack.getFurtherTerms().createMapCt(rangeList);
+  MapCt term = AsmetaParserUtility.createMapCt(termsPack.getFurtherTerms(),rangeList);
 }
 {
   "{"

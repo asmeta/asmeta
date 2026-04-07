@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.transitionrules.basictransitionrules;
 
@@ -29,10 +25,6 @@ public interface BlockRule extends BasicRule {
 	 * Returns the value of the '<em><b>Rules</b></em>' attribute list.
 	 * The list contents are of type {@link asmeta.transitionrules.basictransitionrules.Rule}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Rules</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Rules</em>' attribute list.
 	 * @see asmeta.transitionrules.basictransitionrules.BasictransitionrulesPackage#getBlockRule_Rules()

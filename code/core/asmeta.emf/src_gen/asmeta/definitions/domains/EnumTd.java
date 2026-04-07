@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.definitions.domains;
 
@@ -29,10 +25,6 @@ public interface EnumTd extends TypeDomain {
 	 * Returns the value of the '<em><b>Element</b></em>' containment reference list.
 	 * The list contents are of type {@link asmeta.definitions.domains.EnumElement}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Element</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Element</em>' containment reference list.
 	 * @see asmeta.definitions.domains.DomainsPackage#getEnumTd_Element()

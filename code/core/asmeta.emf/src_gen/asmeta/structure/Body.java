@@ -1,18 +1,15 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.structure;
-
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
 
 import asmeta.definitions.FairnessConstraint;
 import asmeta.definitions.InvarConstraint;
 import asmeta.definitions.Property;
 import asmeta.definitions.RuleDeclaration;
+
+import org.eclipse.emf.common.util.EList;
+
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -41,10 +38,6 @@ public interface Body extends EObject {
 	 * Returns the value of the '<em><b>Function Definition</b></em>' containment reference list.
 	 * The list contents are of type {@link asmeta.structure.FunctionDefinition}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Function Definition</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Function Definition</em>' containment reference list.
 	 * @see asmeta.structure.StructurePackage#getBody_FunctionDefinition()
@@ -57,10 +50,6 @@ public interface Body extends EObject {
 	 * Returns the value of the '<em><b>Property</b></em>' containment reference list.
 	 * The list contents are of type {@link asmeta.definitions.Property}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Property</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Property</em>' containment reference list.
 	 * @see asmeta.structure.StructurePackage#getBody_Property()
@@ -73,10 +62,6 @@ public interface Body extends EObject {
 	 * Returns the value of the '<em><b>Domain Definition</b></em>' containment reference list.
 	 * The list contents are of type {@link asmeta.structure.DomainDefinition}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Domain Definition</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Domain Definition</em>' containment reference list.
 	 * @see asmeta.structure.StructurePackage#getBody_DomainDefinition()
@@ -90,10 +75,6 @@ public interface Body extends EObject {
 	 * The list contents are of type {@link asmeta.definitions.RuleDeclaration}.
 	 * It is bidirectional and its opposite is '{@link asmeta.definitions.RuleDeclaration#getAsmBody <em>Asm Body</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Rule Declaration</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Rule Declaration</em>' containment reference list.
 	 * @see asmeta.structure.StructurePackage#getBody_RuleDeclaration()
@@ -107,10 +88,6 @@ public interface Body extends EObject {
 	 * Returns the value of the '<em><b>Asm</b></em>' container reference.
 	 * It is bidirectional and its opposite is '{@link asmeta.structure.Asm#getBodySection <em>Body Section</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Asm</em>' container reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Asm</em>' container reference.
 	 * @see #setAsm(Asm)
@@ -135,10 +112,6 @@ public interface Body extends EObject {
 	 * Returns the value of the '<em><b>Fairness Constraint</b></em>' containment reference list.
 	 * The list contents are of type {@link asmeta.definitions.FairnessConstraint}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Fairness Constraint</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Fairness Constraint</em>' containment reference list.
 	 * @see asmeta.structure.StructurePackage#getBody_FairnessConstraint()
@@ -151,10 +124,6 @@ public interface Body extends EObject {
 	 * Returns the value of the '<em><b>Invariant Constraint</b></em>' containment reference list.
 	 * The list contents are of type {@link asmeta.definitions.InvarConstraint}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Invariant Constraint</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Invariant Constraint</em>' containment reference list.
 	 * @see asmeta.structure.StructurePackage#getBody_InvariantConstraint()

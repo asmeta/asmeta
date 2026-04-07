@@ -1,16 +1,13 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.terms.furtherterms.impl;
 
-import org.eclipse.emf.ecore.EClass;
-
 import asmeta.terms.basicterms.impl.ConstantTermImpl;
+
 import asmeta.terms.furtherterms.FurthertermsPackage;
 import asmeta.terms.furtherterms.StringTerm;
+
+import org.eclipse.emf.ecore.EClass;
 
 /**
  * <!-- begin-user-doc -->
@@ -20,7 +17,6 @@ import asmeta.terms.furtherterms.StringTerm;
  * @generated
  */
 public class StringTermImpl extends ConstantTermImpl implements StringTerm {
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

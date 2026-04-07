@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.terms.basicterms;
 
@@ -733,7 +729,6 @@ public interface BasictermsPackage extends EPackage {
 	 */
 	int VARIABLE_KIND = 14;
 
-
 	/**
 	 * The meta object id for the '<em>Term DT</em>' data type.
 	 * <!-- begin-user-doc -->
@@ -743,7 +738,6 @@ public interface BasictermsPackage extends EPackage {
 	 * @generated
 	 */
 	int TERM_DT = 15;
-
 
 	/**
 	 * Returns the meta object for class '{@link asmeta.terms.basicterms.VariableTerm <em>Variable Term</em>}'.

@@ -1,28 +1,20 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.transitionrules.turbotransitionrules.util;
 
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.util.Switch;
-
 import asmeta.definitions.Classifier;
 import asmeta.definitions.RuleDeclaration;
+
 import asmeta.structure.NamedElement;
+
 import asmeta.transitionrules.basictransitionrules.Rule;
-import asmeta.transitionrules.turbotransitionrules.IterateRule;
-import asmeta.transitionrules.turbotransitionrules.SeqRule;
-import asmeta.transitionrules.turbotransitionrules.TryCatchRule;
-import asmeta.transitionrules.turbotransitionrules.TurboCallRule;
-import asmeta.transitionrules.turbotransitionrules.TurboDeclaration;
-import asmeta.transitionrules.turbotransitionrules.TurboLocalStateRule;
-import asmeta.transitionrules.turbotransitionrules.TurboReturnRule;
-import asmeta.transitionrules.turbotransitionrules.TurboRule;
-import asmeta.transitionrules.turbotransitionrules.TurbotransitionrulesPackage;
+
+import asmeta.transitionrules.turbotransitionrules.*;
+
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+
+import org.eclipse.emf.ecore.util.Switch;
 
 /**
  * <!-- begin-user-doc -->

@@ -1,38 +1,15 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.definitions.util;
 
+import asmeta.definitions.*;
+
+import asmeta.structure.NamedElement;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.util.Switch;
 
-import asmeta.definitions.BasicFunction;
-import asmeta.definitions.Classifier;
-import asmeta.definitions.CompassionConstraint;
-import asmeta.definitions.ControlledFunction;
-import asmeta.definitions.CtlSpec;
-import asmeta.definitions.DefinitionsPackage;
-import asmeta.definitions.DerivedFunction;
-import asmeta.definitions.DynamicFunction;
-import asmeta.definitions.FairnessConstraint;
-import asmeta.definitions.Function;
-import asmeta.definitions.InvarConstraint;
-import asmeta.definitions.Invariant;
-import asmeta.definitions.JusticeConstraint;
-import asmeta.definitions.LocalFunction;
-import asmeta.definitions.LtlSpec;
-import asmeta.definitions.MonitoredFunction;
-import asmeta.definitions.OutFunction;
-import asmeta.definitions.Property;
-import asmeta.definitions.RuleDeclaration;
-import asmeta.definitions.SharedFunction;
-import asmeta.definitions.StaticFunction;
-import asmeta.definitions.TemporalProperty;
-import asmeta.structure.NamedElement;
+import org.eclipse.emf.ecore.util.Switch;
 
 /**
  * <!-- begin-user-doc -->

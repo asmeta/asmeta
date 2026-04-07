@@ -40,8 +40,8 @@
               ecoreFeature="ecore:EReference AsmM_all.ecore#//terms/furtherterms/FiniteQuantificationTerm/guard"/>
           <genFeatures createChild="false" ecoreFeature="ecore:EAttribute AsmM_all.ecore#//terms/furtherterms/FiniteQuantificationTerm/ranges"/>
         </genClasses>
-        <genClasses ecoreClass="AsmM_all.ecore#//terms/furtherterms/ExistUniqueTerm"/>
-        <genClasses ecoreClass="AsmM_all.ecore#//terms/furtherterms/ExistTerm"/>
+        <genClasses ecoreClass="AsmM_all.ecore#//terms/furtherterms/ExistsUniqueTerm"/>
+        <genClasses ecoreClass="AsmM_all.ecore#//terms/furtherterms/ExistsTerm"/>
         <genClasses ecoreClass="AsmM_all.ecore#//terms/furtherterms/EnumTerm"/>
         <genClasses ecoreClass="AsmM_all.ecore#//terms/furtherterms/ConditionalTerm">
           <genFeatures notify="false" createChild="false" propertySortChoices="true"

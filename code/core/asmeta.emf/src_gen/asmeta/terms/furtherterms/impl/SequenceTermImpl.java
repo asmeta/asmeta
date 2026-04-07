@@ -1,21 +1,21 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.terms.furtherterms.impl;
+
+import asmeta.terms.basicterms.Term;
+
+import asmeta.terms.basicterms.impl.CollectionTermImpl;
+
+import asmeta.terms.furtherterms.FurthertermsPackage;
+import asmeta.terms.furtherterms.SequenceTerm;
 
 import java.util.Collection;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.util.EDataTypeEList;
 
-import asmeta.terms.basicterms.Term;
-import asmeta.terms.basicterms.impl.CollectionTermImpl;
-import asmeta.terms.furtherterms.FurthertermsPackage;
-import asmeta.terms.furtherterms.SequenceTerm;
+import org.eclipse.emf.ecore.EClass;
+
+import org.eclipse.emf.ecore.util.EDataTypeEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -40,7 +40,6 @@ public class SequenceTermImpl extends CollectionTermImpl implements SequenceTerm
 	 * @ordered
 	 */
 	protected EList<Term> terms;
-
 
 	/**
 	 * <!-- begin-user-doc -->

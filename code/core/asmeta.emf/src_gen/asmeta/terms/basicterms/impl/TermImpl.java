@@ -1,28 +1,30 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.terms.basicterms.impl;
+
+import asmeta.definitions.domains.Domain;
+
+import asmeta.terms.basicterms.BasictermsPackage;
+import asmeta.terms.basicterms.Term;
+
+import asmeta.transitionrules.basictransitionrules.BasictransitionrulesPackage;
+import asmeta.transitionrules.basictransitionrules.TermAsRule;
 
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-
-import asmeta.definitions.domains.Domain;
-import asmeta.terms.basicterms.BasictermsPackage;
-import asmeta.terms.basicterms.Term;
-import asmeta.transitionrules.basictransitionrules.BasictransitionrulesPackage;
-import asmeta.transitionrules.basictransitionrules.TermAsRule;
 
 /**
  * <!-- begin-user-doc -->
@@ -58,7 +60,6 @@ public abstract class TermImpl extends EObjectImpl implements Term {
 	 * @ordered
 	 */
 	protected EList<TermAsRule> termAsRule;
-
 
 	/**
 	 * <!-- begin-user-doc -->

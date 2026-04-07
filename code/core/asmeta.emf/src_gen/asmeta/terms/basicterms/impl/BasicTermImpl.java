@@ -1,15 +1,11 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.terms.basicterms.impl;
 
-import org.eclipse.emf.ecore.EClass;
-
 import asmeta.terms.basicterms.BasicTerm;
 import asmeta.terms.basicterms.BasictermsPackage;
+
+import org.eclipse.emf.ecore.EClass;
 
 /**
  * <!-- begin-user-doc -->
@@ -19,7 +15,6 @@ import asmeta.terms.basicterms.BasictermsPackage;
  * @generated
  */
 public abstract class BasicTermImpl extends TermImpl implements BasicTerm {
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

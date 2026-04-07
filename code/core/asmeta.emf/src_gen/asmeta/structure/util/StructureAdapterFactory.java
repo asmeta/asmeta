@@ -1,30 +1,15 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.structure.util;
 
+import asmeta.structure.*;
+
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-import org.eclipse.emf.ecore.EObject;
 
-import asmeta.structure.AgentInitialization;
-import asmeta.structure.Asm;
-import asmeta.structure.Body;
-import asmeta.structure.DomainDefinition;
-import asmeta.structure.DomainInitialization;
-import asmeta.structure.ExportClause;
-import asmeta.structure.FunctionDefinition;
-import asmeta.structure.FunctionInitialization;
-import asmeta.structure.Header;
-import asmeta.structure.ImportClause;
-import asmeta.structure.Initialization;
-import asmeta.structure.NamedElement;
-import asmeta.structure.Signature;
-import asmeta.structure.StructurePackage;
+import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
+
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -80,8 +65,7 @@ public class StructureAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected StructureSwitch<Adapter> modelSwitch =
-		new StructureSwitch<Adapter>() {
+	protected StructureSwitch<Adapter> modelSwitch = new StructureSwitch<Adapter>() {
 			@Override
 			public Adapter caseNamedElement(NamedElement object) {
 				return createNamedElementAdapter();
@@ -152,7 +136,6 @@ public class StructureAdapterFactory extends AdapterFactoryImpl {
 	public Adapter createAdapter(Notifier target) {
 		return modelSwitch.doSwitch((EObject)target);
 	}
-
 
 	/**
 	 * Creates a new adapter for an object of class '{@link asmeta.structure.NamedElement <em>Named Element</em>}'.

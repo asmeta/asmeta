@@ -1,15 +1,11 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.transitionrules.basictransitionrules;
 
-import org.eclipse.emf.common.util.EList;
-
 import asmeta.terms.basicterms.Term;
 import asmeta.terms.basicterms.VariableTerm;
+
+import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
@@ -35,10 +31,6 @@ public interface ForallRule extends BasicRule {
 	 * Returns the value of the '<em><b>Variable</b></em>' reference list.
 	 * The list contents are of type {@link asmeta.terms.basicterms.VariableTerm}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Variable</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Variable</em>' reference list.
 	 * @see asmeta.transitionrules.basictransitionrules.BasictransitionrulesPackage#getForallRule_Variable()
@@ -50,10 +42,6 @@ public interface ForallRule extends BasicRule {
 	/**
 	 * Returns the value of the '<em><b>Guard</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Guard</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Guard</em>' reference.
 	 * @see #setGuard(Term)
@@ -76,10 +64,6 @@ public interface ForallRule extends BasicRule {
 	/**
 	 * Returns the value of the '<em><b>Do Rule</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Do Rule</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Do Rule</em>' containment reference.
 	 * @see #setDoRule(Rule)
@@ -103,10 +87,6 @@ public interface ForallRule extends BasicRule {
 	 * Returns the value of the '<em><b>Ranges</b></em>' attribute list.
 	 * The list contents are of type {@link asmeta.terms.basicterms.Term}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Ranges</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Ranges</em>' attribute list.
 	 * @see asmeta.transitionrules.basictransitionrules.BasictransitionrulesPackage#getForallRule_Ranges()

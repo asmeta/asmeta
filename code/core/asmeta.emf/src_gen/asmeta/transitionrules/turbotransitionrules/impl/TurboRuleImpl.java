@@ -1,16 +1,13 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.transitionrules.turbotransitionrules.impl;
 
-import org.eclipse.emf.ecore.EClass;
-
 import asmeta.transitionrules.basictransitionrules.impl.RuleImpl;
+
 import asmeta.transitionrules.turbotransitionrules.TurboRule;
 import asmeta.transitionrules.turbotransitionrules.TurbotransitionrulesPackage;
+
+import org.eclipse.emf.ecore.EClass;
 
 /**
  * <!-- begin-user-doc -->
@@ -20,7 +17,6 @@ import asmeta.transitionrules.turbotransitionrules.TurbotransitionrulesPackage;
  * @generated
  */
 public abstract class TurboRuleImpl extends RuleImpl implements TurboRule {
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

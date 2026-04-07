@@ -1,15 +1,11 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.transitionrules.basictransitionrules.impl;
 
-import org.eclipse.emf.ecore.EClass;
-
 import asmeta.transitionrules.basictransitionrules.BasictransitionrulesPackage;
 import asmeta.transitionrules.basictransitionrules.SkipRule;
+
+import org.eclipse.emf.ecore.EClass;
 
 /**
  * <!-- begin-user-doc -->
@@ -19,7 +15,6 @@ import asmeta.transitionrules.basictransitionrules.SkipRule;
  * @generated
  */
 public class SkipRuleImpl extends BasicRuleImpl implements SkipRule {
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

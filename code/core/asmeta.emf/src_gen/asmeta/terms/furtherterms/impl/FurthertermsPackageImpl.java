@@ -1,25 +1,23 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.terms.furtherterms.impl;
 
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import asmeta.definitions.DefinitionsPackage;
+
 import asmeta.definitions.domains.DomainsPackage;
+
 import asmeta.definitions.domains.impl.DomainsPackageImpl;
+
 import asmeta.definitions.impl.DefinitionsPackageImpl;
+
 import asmeta.structure.StructurePackage;
+
 import asmeta.structure.impl.StructurePackageImpl;
+
 import asmeta.terms.basicterms.BasictermsPackage;
+
 import asmeta.terms.basicterms.impl.BasictermsPackageImpl;
+
 import asmeta.terms.furtherterms.BagCt;
 import asmeta.terms.furtherterms.BagTerm;
 import asmeta.terms.furtherterms.CaseTerm;
@@ -28,6 +26,8 @@ import asmeta.terms.furtherterms.ComplexTerm;
 import asmeta.terms.furtherterms.ComprehensionTerm;
 import asmeta.terms.furtherterms.ConditionalTerm;
 import asmeta.terms.furtherterms.EnumTerm;
+import asmeta.terms.furtherterms.ExistTerm;
+import asmeta.terms.furtherterms.ExistUniqueTerm;
 import asmeta.terms.furtherterms.ExistsTerm;
 import asmeta.terms.furtherterms.ExistsUniqueTerm;
 import asmeta.terms.furtherterms.FiniteQuantificationTerm;
@@ -45,13 +45,28 @@ import asmeta.terms.furtherterms.SequenceTerm;
 import asmeta.terms.furtherterms.SetCt;
 import asmeta.terms.furtherterms.StringTerm;
 import asmeta.terms.furtherterms.VariableBindingTerm;
+
 import asmeta.transitionrules.basictransitionrules.BasictransitionrulesPackage;
+
 import asmeta.transitionrules.basictransitionrules.impl.BasictransitionrulesPackageImpl;
+
 import asmeta.transitionrules.derivedtransitionrules.DerivedtransitionrulesPackage;
+
 import asmeta.transitionrules.derivedtransitionrules.impl.DerivedtransitionrulesPackageImpl;
+
 import asmeta.transitionrules.turbotransitionrules.TurbotransitionrulesPackage;
+
 import asmeta.transitionrules.turbotransitionrules.impl.TurbotransitionrulesPackageImpl;
+
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
+
+import org.eclipse.emf.ecore.impl.EPackageImpl;
+
 import primitivetypes.PrimitivetypesPackage;
+
 import primitivetypes.impl.PrimitivetypesPackageImpl;
 
 /**
@@ -157,14 +172,14 @@ public class FurthertermsPackageImpl extends EPackageImpl implements Furtherterm
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass existUniqueTermEClass = null;
+	private EClass existsUniqueTermEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private EClass existTermEClass = null;
+	private EClass existsTermEClass = null;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -533,8 +548,8 @@ public class FurthertermsPackageImpl extends EPackageImpl implements Furtherterm
 	 * @generated
 	 */
 	@Override
-	public EClass getExistUniqueTerm() {
-		return existUniqueTermEClass;
+	public EClass getExistsUniqueTerm() {
+		return existsUniqueTermEClass;
 	}
 
 	/**
@@ -543,8 +558,8 @@ public class FurthertermsPackageImpl extends EPackageImpl implements Furtherterm
 	 * @generated
 	 */
 	@Override
-	public EClass getExistTerm() {
-		return existTermEClass;
+	public EClass getExistsTerm() {
+		return existsTermEClass;
 	}
 
 	/**
@@ -810,9 +825,9 @@ public class FurthertermsPackageImpl extends EPackageImpl implements Furtherterm
 		createEReference(finiteQuantificationTermEClass, FINITE_QUANTIFICATION_TERM__GUARD);
 		createEAttribute(finiteQuantificationTermEClass, FINITE_QUANTIFICATION_TERM__RANGES);
 
-		existUniqueTermEClass = createEClass(EXIST_UNIQUE_TERM);
+		existsUniqueTermEClass = createEClass(EXISTS_UNIQUE_TERM);
 
-		existTermEClass = createEClass(EXIST_TERM);
+		existsTermEClass = createEClass(EXISTS_TERM);
 
 		enumTermEClass = createEClass(ENUM_TERM);
 
@@ -887,8 +902,8 @@ public class FurthertermsPackageImpl extends EPackageImpl implements Furtherterm
 		letTermEClass.getESuperTypes().add(this.getVariableBindingTerm());
 		forallTermEClass.getESuperTypes().add(this.getFiniteQuantificationTerm());
 		finiteQuantificationTermEClass.getESuperTypes().add(this.getVariableBindingTerm());
-		existUniqueTermEClass.getESuperTypes().add(this.getFiniteQuantificationTerm());
-		existTermEClass.getESuperTypes().add(this.getFiniteQuantificationTerm());
+		existsUniqueTermEClass.getESuperTypes().add(this.getFiniteQuantificationTerm());
+		existsTermEClass.getESuperTypes().add(this.getFiniteQuantificationTerm());
 		enumTermEClass.getESuperTypes().add(theBasictermsPackage.getConstantTerm());
 		conditionalTermEClass.getESuperTypes().add(theBasictermsPackage.getExtendedTerm());
 		comprehensionTermEClass.getESuperTypes().add(this.getVariableBindingTerm());
@@ -933,9 +948,9 @@ public class FurthertermsPackageImpl extends EPackageImpl implements Furtherterm
 		initEReference(getFiniteQuantificationTerm_Guard(), theBasictermsPackage.getTerm(), null, "guard", null, 0, 1, FiniteQuantificationTerm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEAttribute(getFiniteQuantificationTerm_Ranges(), theBasictermsPackage.getTermDT(), "ranges", null, 1, -1, FiniteQuantificationTerm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(existUniqueTermEClass, ExistsUniqueTerm.class, "ExistsUniqueTerm", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(existsUniqueTermEClass, ExistsUniqueTerm.class, "ExistsUniqueTerm", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(existTermEClass, ExistsTerm.class, "ExistsTerm", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(existsTermEClass, ExistsTerm.class, "ExistsTerm", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(enumTermEClass, EnumTerm.class, "EnumTerm", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

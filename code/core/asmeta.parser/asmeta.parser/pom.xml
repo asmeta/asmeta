@@ -21,6 +21,11 @@
 			<version>2.45.0</version>
 		</dependency>
 		<dependency>
+			<groupId>org.eclipse.emf</groupId>
+			<artifactId>org.eclipse.emf.ecore</artifactId>
+			<version>2.42.0</version>
+		</dependency>
+		<dependency>
 			<groupId>asmeta</groupId>
 			<artifactId>asmeta.emf</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
@@ -28,14 +33,6 @@
 	</dependencies>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
-		<resources>
-			<resource>
-				<directory>src</directory>
-				<excludes>
-					<exclude>**/*.java</exclude>
-				</excludes>
-			</resource>
-		</resources>
 		<plugins>
 			<!-- plugin per javacc ma ha problemi con charstream			
 		<plugin>

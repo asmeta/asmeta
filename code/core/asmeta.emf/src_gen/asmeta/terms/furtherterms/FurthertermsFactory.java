@@ -1,16 +1,8 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.terms.furtherterms;
 
-import java.util.List;
-
 import org.eclipse.emf.ecore.EFactory;
-
-import asmeta.terms.basicterms.Term;
 
 /**
  * <!-- begin-user-doc -->
@@ -129,22 +121,22 @@ public interface FurthertermsFactory extends EFactory {
 	ForallTerm createForallTerm();
 
 	/**
-	 * Returns a new object of class '<em>Exist Unique Term</em>'.
+	 * Returns a new object of class '<em>Exists Unique Term</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Exist Unique Term</em>'.
+	 * @return a new object of class '<em>Exists Unique Term</em>'.
 	 * @generated
 	 */
-	ExistsUniqueTerm createExistUniqueTerm();
+	ExistsUniqueTerm createExistsUniqueTerm();
 
 	/**
-	 * Returns a new object of class '<em>Exist Term</em>'.
+	 * Returns a new object of class '<em>Exists Term</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Exist Term</em>'.
+	 * @return a new object of class '<em>Exists Term</em>'.
 	 * @generated
 	 */
-	ExistsTerm createExistTerm();
+	ExistsTerm createExistsTerm();
 
 	/**
 	 * Returns a new object of class '<em>Enum Term</em>'.
@@ -217,11 +209,5 @@ public interface FurthertermsFactory extends EFactory {
 	 * @generated
 	 */
 	FurthertermsPackage getFurthertermsPackage();
-
-	@Deprecated
-	MapCt createMapCt(List<Term> rangeList);
 	
-	@Deprecated
-	BagCt createBagCt(List<Term> rangeList);
-
 } //FurthertermsFactory

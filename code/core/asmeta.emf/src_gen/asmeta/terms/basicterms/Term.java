@@ -1,16 +1,14 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.terms.basicterms;
 
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
-
 import asmeta.definitions.domains.Domain;
+
 import asmeta.transitionrules.basictransitionrules.TermAsRule;
+
+import org.eclipse.emf.common.util.EList;
+
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -33,10 +31,6 @@ public interface Term extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Domain</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Domain</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Domain</em>' reference.
 	 * @see #setDomain(Domain)
@@ -61,10 +55,6 @@ public interface Term extends EObject {
 	 * The list contents are of type {@link asmeta.transitionrules.basictransitionrules.TermAsRule}.
 	 * It is bidirectional and its opposite is '{@link asmeta.transitionrules.basictransitionrules.TermAsRule#getTerm <em>Term</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Term As Rule</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Term As Rule</em>' reference list.
 	 * @see asmeta.terms.basicterms.BasictermsPackage#getTerm_TermAsRule()

@@ -1,15 +1,11 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.terms.furtherterms;
 
-import org.eclipse.emf.common.util.EList;
-
 import asmeta.terms.basicterms.ExtendedTerm;
 import asmeta.terms.basicterms.Term;
+
+import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
@@ -35,10 +31,6 @@ public interface CaseTerm extends ExtendedTerm {
 	 * Returns the value of the '<em><b>Comparing Term</b></em>' reference list.
 	 * The list contents are of type {@link asmeta.terms.basicterms.Term}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Comparing Term</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Comparing Term</em>' reference list.
 	 * @see asmeta.terms.furtherterms.FurthertermsPackage#getCaseTerm_ComparingTerm()
@@ -50,10 +42,6 @@ public interface CaseTerm extends ExtendedTerm {
 	/**
 	 * Returns the value of the '<em><b>Compared Term</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Compared Term</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Compared Term</em>' reference.
 	 * @see #setComparedTerm(Term)
@@ -76,10 +64,6 @@ public interface CaseTerm extends ExtendedTerm {
 	/**
 	 * Returns the value of the '<em><b>Otherwise Term</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Otherwise Term</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Otherwise Term</em>' reference.
 	 * @see #setOtherwiseTerm(Term)
@@ -103,10 +87,6 @@ public interface CaseTerm extends ExtendedTerm {
 	 * Returns the value of the '<em><b>Result Terms</b></em>' attribute list.
 	 * The list contents are of type {@link asmeta.terms.basicterms.Term}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Result Terms</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Result Terms</em>' attribute list.
 	 * @see asmeta.terms.furtherterms.FurthertermsPackage#getCaseTerm_ResultTerms()

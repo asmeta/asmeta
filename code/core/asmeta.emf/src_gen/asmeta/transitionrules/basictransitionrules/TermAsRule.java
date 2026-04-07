@@ -1,14 +1,10 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.transitionrules.basictransitionrules;
 
-import org.eclipse.emf.common.util.EList;
-
 import asmeta.terms.basicterms.Term;
+
+import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
@@ -32,10 +28,6 @@ public interface TermAsRule extends Rule {
 	 * Returns the value of the '<em><b>Term</b></em>' reference.
 	 * It is bidirectional and its opposite is '{@link asmeta.terms.basicterms.Term#getTermAsRule <em>Term As Rule</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Term</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Term</em>' reference.
 	 * @see #setTerm(Term)
@@ -60,10 +52,6 @@ public interface TermAsRule extends Rule {
 	 * Returns the value of the '<em><b>Parameters</b></em>' attribute list.
 	 * The list contents are of type {@link asmeta.terms.basicterms.Term}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Parameters</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Parameters</em>' attribute list.
 	 * @see asmeta.transitionrules.basictransitionrules.BasictransitionrulesPackage#getTermAsRule_Parameters()

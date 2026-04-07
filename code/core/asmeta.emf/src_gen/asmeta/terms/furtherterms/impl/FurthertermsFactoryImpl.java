@@ -1,42 +1,16 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.terms.furtherterms.impl;
 
-import java.util.List;
+import asmeta.terms.furtherterms.*;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.impl.EFactoryImpl;
-import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
-import asmeta.terms.basicterms.Term;
-import asmeta.terms.furtherterms.BagCt;
-import asmeta.terms.furtherterms.BagTerm;
-import asmeta.terms.furtherterms.CaseTerm;
-import asmeta.terms.furtherterms.CharTerm;
-import asmeta.terms.furtherterms.ComplexTerm;
-import asmeta.terms.furtherterms.ConditionalTerm;
-import asmeta.terms.furtherterms.EnumTerm;
-import asmeta.terms.furtherterms.ExistsTerm;
-import asmeta.terms.furtherterms.ExistsUniqueTerm;
-import asmeta.terms.furtherterms.ForallTerm;
-import asmeta.terms.furtherterms.FurthertermsFactory;
-import asmeta.terms.furtherterms.FurthertermsPackage;
-import asmeta.terms.furtherterms.IntegerTerm;
-import asmeta.terms.furtherterms.LetTerm;
-import asmeta.terms.furtherterms.MapCt;
-import asmeta.terms.furtherterms.MapTerm;
-import asmeta.terms.furtherterms.NaturalTerm;
-import asmeta.terms.furtherterms.RealTerm;
-import asmeta.terms.furtherterms.SequenceCt;
-import asmeta.terms.furtherterms.SequenceTerm;
-import asmeta.terms.furtherterms.SetCt;
-import asmeta.terms.furtherterms.StringTerm;
+import org.eclipse.emf.ecore.impl.EFactoryImpl;
+
+import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 /**
  * <!-- begin-user-doc -->
@@ -93,8 +67,8 @@ public class FurthertermsFactoryImpl extends EFactoryImpl implements Furtherterm
 			case FurthertermsPackage.MAP_CT: return createMapCt();
 			case FurthertermsPackage.LET_TERM: return createLetTerm();
 			case FurthertermsPackage.FORALL_TERM: return createForallTerm();
-			case FurthertermsPackage.EXIST_UNIQUE_TERM: return createExistUniqueTerm();
-			case FurthertermsPackage.EXIST_TERM: return createExistTerm();
+			case FurthertermsPackage.EXISTS_UNIQUE_TERM: return createExistsUniqueTerm();
+			case FurthertermsPackage.EXISTS_TERM: return createExistsTerm();
 			case FurthertermsPackage.ENUM_TERM: return createEnumTerm();
 			case FurthertermsPackage.CONDITIONAL_TERM: return createConditionalTerm();
 			case FurthertermsPackage.COMPLEX_TERM: return createComplexTerm();
@@ -234,9 +208,9 @@ public class FurthertermsFactoryImpl extends EFactoryImpl implements Furtherterm
 	 * @generated
 	 */
 	@Override
-	public ExistsUniqueTerm createExistUniqueTerm() {
-		ExistUniqueTermImpl existUniqueTerm = new ExistUniqueTermImpl();
-		return existUniqueTerm;
+	public ExistsUniqueTerm createExistsUniqueTerm() {
+		ExistsUniqueTermImpl existsUniqueTerm = new ExistsUniqueTermImpl();
+		return existsUniqueTerm;
 	}
 
 	/**
@@ -245,9 +219,9 @@ public class FurthertermsFactoryImpl extends EFactoryImpl implements Furtherterm
 	 * @generated
 	 */
 	@Override
-	public ExistsTerm createExistTerm() {
-		ExistTermImpl existTerm = new ExistTermImpl();
-		return existTerm;
+	public ExistsTerm createExistsTerm() {
+		ExistsTermImpl existsTerm = new ExistsTermImpl();
+		return existsTerm;
 	}
 
 	/**
@@ -347,20 +321,5 @@ public class FurthertermsFactoryImpl extends EFactoryImpl implements Furtherterm
 	public static FurthertermsPackage getPackage() {
 		return FurthertermsPackage.eINSTANCE;
 	}
-@Deprecated
-@Override
-	public MapCt createMapCt(List<Term> rangeList) {
-		MapCt result = createMapCt();
-		result.getRanges().addAll(rangeList);
-		return result;
-	}
-
-@Override
-@Deprecated
-public BagCt createBagCt(List<Term> rangeList) {
-	BagCt result = createBagCt();
-	result.getRanges().addAll(rangeList);
-	return result;
-}
 
 } //FurthertermsFactoryImpl

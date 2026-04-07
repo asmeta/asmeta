@@ -1,20 +1,20 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.transitionrules.turbotransitionrules.impl;
 
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import asmeta.definitions.domains.Domain;
+
 import asmeta.definitions.impl.RuleDeclarationImpl;
+
 import asmeta.transitionrules.turbotransitionrules.TurboDeclaration;
 import asmeta.transitionrules.turbotransitionrules.TurbotransitionrulesPackage;
+
+import org.eclipse.emf.common.notify.Notification;
+
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -39,7 +39,6 @@ public class TurboDeclarationImpl extends RuleDeclarationImpl implements TurboDe
 	 * @ordered
 	 */
 	protected Domain resultType;
-
 
 	/**
 	 * <!-- begin-user-doc -->

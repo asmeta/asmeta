@@ -1,31 +1,34 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.definitions.impl;
+
+import asmeta.definitions.DefinitionsPackage;
+import asmeta.definitions.Invariant;
+import asmeta.definitions.RuleDeclaration;
+
+import asmeta.structure.Body;
+import asmeta.structure.StructurePackage;
+
+import asmeta.terms.basicterms.VariableTerm;
+
+import asmeta.transitionrules.basictransitionrules.Rule;
 
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
-
-import asmeta.definitions.DefinitionsPackage;
-import asmeta.definitions.Invariant;
-import asmeta.definitions.RuleDeclaration;
-import asmeta.structure.Body;
-import asmeta.structure.StructurePackage;
-import asmeta.terms.basicterms.VariableTerm;
-import asmeta.transitionrules.basictransitionrules.Rule;
 
 /**
  * <!-- begin-user-doc -->
@@ -94,7 +97,6 @@ public abstract class RuleDeclarationImpl extends ClassifierImpl implements Rule
 	 * @ordered
 	 */
 	protected Integer arity = ARITY_EDEFAULT;
-
 
 	/**
 	 * <!-- begin-user-doc -->

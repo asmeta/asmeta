@@ -74,11 +74,11 @@ public class TermFactory {
 	}
 
 	public ExistsTerm createExistTerm() {
-		return termFactory.getFurtherTerms().createExistTerm();
+		return termFactory.getFurtherTerms().createExistsTerm();
 	}
 
 	public ExistsUniqueTerm createExistUniqueTerm() {
-		return termFactory.getFurtherTerms().createExistUniqueTerm();
+		return termFactory.getFurtherTerms().createExistsUniqueTerm();
 	}
 
 	public ForallTerm createForallTerm() {

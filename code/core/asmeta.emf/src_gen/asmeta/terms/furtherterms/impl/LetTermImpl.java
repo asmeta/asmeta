@@ -1,27 +1,28 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.terms.furtherterms.impl;
+
+import asmeta.terms.basicterms.Term;
+import asmeta.terms.basicterms.VariableTerm;
+
+import asmeta.terms.furtherterms.FurthertermsPackage;
+import asmeta.terms.furtherterms.LetTerm;
 
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-
-import asmeta.terms.basicterms.Term;
-import asmeta.terms.basicterms.VariableTerm;
-import asmeta.terms.furtherterms.FurthertermsPackage;
-import asmeta.terms.furtherterms.LetTerm;
 
 /**
  * <!-- begin-user-doc -->
@@ -68,7 +69,6 @@ public class LetTermImpl extends VariableBindingTermImpl implements LetTerm {
 	 * @ordered
 	 */
 	protected Term body;
-
 
 	/**
 	 * <!-- begin-user-doc -->

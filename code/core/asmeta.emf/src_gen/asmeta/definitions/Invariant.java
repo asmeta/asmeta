@@ -1,15 +1,12 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.definitions;
 
-import org.eclipse.emf.common.util.EList;
-
 import asmeta.definitions.domains.Domain;
+
 import asmeta.terms.basicterms.Term;
+
+import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
@@ -36,10 +33,6 @@ public interface Invariant extends Property {
 	 * The list contents are of type {@link asmeta.definitions.domains.Domain}.
 	 * It is bidirectional and its opposite is '{@link asmeta.definitions.domains.Domain#getConstraint <em>Constraint</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Constrained Domain</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Constrained Domain</em>' reference list.
 	 * @see asmeta.definitions.DefinitionsPackage#getInvariant_ConstrainedDomain()
@@ -54,10 +47,6 @@ public interface Invariant extends Property {
 	 * The list contents are of type {@link asmeta.definitions.RuleDeclaration}.
 	 * It is bidirectional and its opposite is '{@link asmeta.definitions.RuleDeclaration#getConstraint <em>Constraint</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Constrained Rule</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Constrained Rule</em>' reference list.
 	 * @see asmeta.definitions.DefinitionsPackage#getInvariant_ConstrainedRule()
@@ -72,10 +61,6 @@ public interface Invariant extends Property {
 	 * The list contents are of type {@link asmeta.definitions.Function}.
 	 * It is bidirectional and its opposite is '{@link asmeta.definitions.Function#getConstraint <em>Constraint</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Constrained Function</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Constrained Function</em>' reference list.
 	 * @see asmeta.definitions.DefinitionsPackage#getInvariant_ConstrainedFunction()
@@ -88,10 +73,6 @@ public interface Invariant extends Property {
 	/**
 	 * Returns the value of the '<em><b>Body</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Body</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Body</em>' containment reference.
 	 * @see #setBody(Term)
