@@ -135,7 +135,7 @@ public interface FurthertermsFactory extends EFactory {
 	 * @return a new object of class '<em>Exist Unique Term</em>'.
 	 * @generated
 	 */
-	ExistUniqueTerm createExistUniqueTerm();
+	ExistsUniqueTerm createExistUniqueTerm();
 
 	/**
 	 * Returns a new object of class '<em>Exist Term</em>'.
@@ -144,7 +144,7 @@ public interface FurthertermsFactory extends EFactory {
 	 * @return a new object of class '<em>Exist Term</em>'.
 	 * @generated
 	 */
-	ExistTerm createExistTerm();
+	ExistsTerm createExistTerm();
 
 	/**
 	 * Returns a new object of class '<em>Enum Term</em>'.

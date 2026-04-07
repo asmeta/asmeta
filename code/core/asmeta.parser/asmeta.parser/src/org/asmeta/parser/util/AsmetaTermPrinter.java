@@ -56,7 +56,7 @@ import asmeta.terms.furtherterms.CaseTerm;
 import asmeta.terms.furtherterms.ComprehensionTerm;
 import asmeta.terms.furtherterms.ConditionalTerm;
 import asmeta.terms.furtherterms.EnumTerm;
-import asmeta.terms.furtherterms.ExistTerm;
+import asmeta.terms.furtherterms.ExistsTerm;
 import asmeta.terms.furtherterms.FiniteQuantificationTerm;
 import asmeta.terms.furtherterms.ForallTerm;
 import asmeta.terms.furtherterms.IntegerTerm;
@@ -205,7 +205,7 @@ public class AsmetaTermPrinter extends ReflectiveVisitor<String> {
 	 *            a term
 	 * @return a string
 	 */
-	public String visit(ExistTerm exist) {
+	public String visit(ExistsTerm exist) {
 		return visitQuant(exist, "exist");
 	}
 

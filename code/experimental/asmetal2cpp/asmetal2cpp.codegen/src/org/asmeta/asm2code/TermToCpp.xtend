@@ -19,8 +19,6 @@ import asmeta.terms.furtherterms.CharTerm
 import asmeta.terms.furtherterms.ComplexTerm
 import asmeta.terms.furtherterms.ConditionalTerm
 import asmeta.terms.furtherterms.EnumTerm
-import asmeta.terms.furtherterms.ExistTerm
-import asmeta.terms.furtherterms.ExistUniqueTerm
 import asmeta.terms.furtherterms.ForallTerm
 import asmeta.terms.furtherterms.IntegerTerm
 import asmeta.terms.furtherterms.LetTerm
@@ -43,6 +41,8 @@ import asmeta.definitions.StaticFunction
 import asmeta.definitions.domains.ConcreteDomain
 import asmeta.definitions.domains.PowersetDomain
 import asmeta.definitions.domains.AbstractTd
+import asmeta.terms.furtherterms.ExistsTerm
+import asmeta.terms.furtherterms.ExistsUniqueTerm
 
 class TermToCpp extends ReflectiveVisitor<String> {
 
@@ -258,7 +258,7 @@ class TermToCpp extends ReflectiveVisitor<String> {
 			    
 	}
 
-	def String visit(ExistTerm object) {
+	def String visit(ExistsTerm object) {
 		var StringBuffer sb = new StringBuffer
 		sb.append('''
 			

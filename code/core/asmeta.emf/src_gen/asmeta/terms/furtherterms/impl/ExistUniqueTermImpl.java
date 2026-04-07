@@ -8,7 +8,7 @@ package asmeta.terms.furtherterms.impl;
 
 import org.eclipse.emf.ecore.EClass;
 
-import asmeta.terms.furtherterms.ExistUniqueTerm;
+import asmeta.terms.furtherterms.ExistsUniqueTerm;
 import asmeta.terms.furtherterms.FurthertermsPackage;
 
 /**
@@ -18,7 +18,7 @@ import asmeta.terms.furtherterms.FurthertermsPackage;
  *
  * @generated
  */
-public class ExistUniqueTermImpl extends FiniteQuantificationTermImpl implements ExistUniqueTerm {
+public class ExistUniqueTermImpl extends FiniteQuantificationTermImpl implements ExistsUniqueTerm {
 
 	/**
 	 * <!-- begin-user-doc -->

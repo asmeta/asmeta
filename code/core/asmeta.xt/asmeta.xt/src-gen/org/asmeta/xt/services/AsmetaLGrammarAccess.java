@@ -4379,19 +4379,19 @@ public class AsmetaLGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		private final RuleCall cExistUniqueTermParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
 		private final RuleCall cExistTermParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
 		
-		//FiniteQuantificationTerm :  ForallTerm | ExistUniqueTerm | ExistTerm;
+		//FiniteQuantificationTerm :  ForallTerm | ExistsUniqueTerm | ExistsTerm;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//ForallTerm | ExistUniqueTerm | ExistTerm
+		//ForallTerm | ExistsUniqueTerm | ExistsTerm
 		public Alternatives getAlternatives() { return cAlternatives; }
 		
 		//ForallTerm
 		public RuleCall getForallTermParserRuleCall_0() { return cForallTermParserRuleCall_0; }
 		
-		//ExistUniqueTerm
+		//ExistsUniqueTerm
 		public RuleCall getExistUniqueTermParserRuleCall_1() { return cExistUniqueTermParserRuleCall_1; }
 		
-		//ExistTerm
+		//ExistsTerm
 		public RuleCall getExistTermParserRuleCall_2() { return cExistTermParserRuleCall_2; }
 	}
 	public class ExistUniqueTermElements extends AbstractParserRuleElementFinder {
@@ -4418,7 +4418,7 @@ public class AsmetaLGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		private final RuleCall cGuardTermParserRuleCall_7_1_0 = (RuleCall)cGuardAssignment_7_1.eContents().get(0);
 		private final Keyword cRightParenthesisKeyword_8 = (Keyword)cGroup.eContents().get(8);
 		
-		//ExistUniqueTerm 	: "(" 'exist' 'unique' 	variable+=VariableTerm 	'in' ranges+=Term ( "," variable+=VariableTerm 'in' ranges+=Term )* ( 'with' guard=Term )? ")";
+		//ExistsUniqueTerm 	: "(" 'exist' 'unique' 	variable+=VariableTerm 	'in' ranges+=Term ( "," variable+=VariableTerm 'in' ranges+=Term )* ( 'with' guard=Term )? ")";
 		@Override public ParserRule getRule() { return rule; }
 		
 		//"(" 'exist' 'unique' 	variable+=VariableTerm 	'in' ranges+=Term ( "," variable+=VariableTerm 'in' ranges+=Term )* ( 'with' guard=Term )? ")"
@@ -4507,7 +4507,7 @@ public class AsmetaLGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		private final RuleCall cGuardTermParserRuleCall_6_1_0 = (RuleCall)cGuardAssignment_6_1.eContents().get(0);
 		private final Keyword cRightParenthesisKeyword_7 = (Keyword)cGroup.eContents().get(7);
 		
-		//ExistTerm 		: "(" 'exist' 			variable+=VariableTerm 	'in' ranges+=Term  ( "," variable+=VariableTerm 'in' ranges+=Term )* ( 'with' guard=Term )? ")";
+		//ExistsTerm 		: "(" 'exist' 			variable+=VariableTerm 	'in' ranges+=Term  ( "," variable+=VariableTerm 'in' ranges+=Term )* ( 'with' guard=Term )? ")";
 		@Override public ParserRule getRule() { return rule; }
 		
 		//"(" 'exist' 			variable+=VariableTerm 	'in' ranges+=Term  ( "," variable+=VariableTerm 'in' ranges+=Term )* ( 'with' guard=Term )? ")"
@@ -7921,7 +7921,7 @@ public class AsmetaLGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		return getVariableBindingTermAccess().getRule();
 	}
 	
-	//FiniteQuantificationTerm :  ForallTerm | ExistUniqueTerm | ExistTerm;
+	//FiniteQuantificationTerm :  ForallTerm | ExistsUniqueTerm | ExistsTerm;
 	public FiniteQuantificationTermElements getFiniteQuantificationTermAccess() {
 		return pFiniteQuantificationTerm;
 	}
@@ -7930,7 +7930,7 @@ public class AsmetaLGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		return getFiniteQuantificationTermAccess().getRule();
 	}
 	
-	//ExistUniqueTerm 	: "(" 'exist' 'unique' 	variable+=VariableTerm 	'in' ranges+=Term ( "," variable+=VariableTerm 'in' ranges+=Term )* ( 'with' guard=Term )? ")";
+	//ExistsUniqueTerm 	: "(" 'exist' 'unique' 	variable+=VariableTerm 	'in' ranges+=Term ( "," variable+=VariableTerm 'in' ranges+=Term )* ( 'with' guard=Term )? ")";
 	public ExistUniqueTermElements getExistUniqueTermAccess() {
 		return pExistUniqueTerm;
 	}
@@ -7939,7 +7939,7 @@ public class AsmetaLGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		return getExistUniqueTermAccess().getRule();
 	}
 	
-	//ExistTerm 		: "(" 'exist' 			variable+=VariableTerm 	'in' ranges+=Term  ( "," variable+=VariableTerm 'in' ranges+=Term )* ( 'with' guard=Term )? ")";
+	//ExistsTerm 		: "(" 'exist' 			variable+=VariableTerm 	'in' ranges+=Term  ( "," variable+=VariableTerm 'in' ranges+=Term )* ( 'with' guard=Term )? ")";
 	public ExistTermElements getExistTermAccess() {
 		return pExistTerm;
 	}

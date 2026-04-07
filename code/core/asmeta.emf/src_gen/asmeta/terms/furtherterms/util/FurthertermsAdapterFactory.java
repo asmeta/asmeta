@@ -24,8 +24,8 @@ import asmeta.terms.furtherterms.ComplexTerm;
 import asmeta.terms.furtherterms.ComprehensionTerm;
 import asmeta.terms.furtherterms.ConditionalTerm;
 import asmeta.terms.furtherterms.EnumTerm;
-import asmeta.terms.furtherterms.ExistTerm;
-import asmeta.terms.furtherterms.ExistUniqueTerm;
+import asmeta.terms.furtherterms.ExistsTerm;
+import asmeta.terms.furtherterms.ExistsUniqueTerm;
 import asmeta.terms.furtherterms.FiniteQuantificationTerm;
 import asmeta.terms.furtherterms.ForallTerm;
 import asmeta.terms.furtherterms.FurthertermsPackage;
@@ -150,11 +150,11 @@ public class FurthertermsAdapterFactory extends AdapterFactoryImpl {
 				return createFiniteQuantificationTermAdapter();
 			}
 			@Override
-			public Adapter caseExistUniqueTerm(ExistUniqueTerm object) {
+			public Adapter caseExistUniqueTerm(ExistsUniqueTerm object) {
 				return createExistUniqueTermAdapter();
 			}
 			@Override
-			public Adapter caseExistTerm(ExistTerm object) {
+			public Adapter caseExistTerm(ExistsTerm object) {
 				return createExistTermAdapter();
 			}
 			@Override
@@ -412,13 +412,13 @@ public class FurthertermsAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link asmeta.terms.furtherterms.ExistUniqueTerm <em>Exist Unique Term</em>}'.
+	 * Creates a new adapter for an object of class '{@link asmeta.terms.furtherterms.ExistsUniqueTerm <em>Exist Unique Term</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see asmeta.terms.furtherterms.ExistUniqueTerm
+	 * @see asmeta.terms.furtherterms.ExistsUniqueTerm
 	 * @generated
 	 */
 	public Adapter createExistUniqueTermAdapter() {
@@ -426,13 +426,13 @@ public class FurthertermsAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link asmeta.terms.furtherterms.ExistTerm <em>Exist Term</em>}'.
+	 * Creates a new adapter for an object of class '{@link asmeta.terms.furtherterms.ExistsTerm <em>Exist Term</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see asmeta.terms.furtherterms.ExistTerm
+	 * @see asmeta.terms.furtherterms.ExistsTerm
 	 * @generated
 	 */
 	public Adapter createExistTermAdapter() {

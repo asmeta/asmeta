@@ -5095,9 +5095,9 @@ public class AsmetalPackageImpl extends EPackageImpl implements AsmetalPackage
     initEReference(getFiniteQuantificationTerm_Ranges(), this.getTerm(), null, "ranges", null, 0, -1, FiniteQuantificationTerm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getFiniteQuantificationTerm_Guard(), this.getTerm(), null, "guard", null, 0, 1, FiniteQuantificationTerm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(existUniqueTermEClass, ExistUniqueTerm.class, "ExistUniqueTerm", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEClass(existUniqueTermEClass, ExistUniqueTerm.class, "ExistsUniqueTerm", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-    initEClass(existTermEClass, ExistTerm.class, "ExistTerm", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEClass(existTermEClass, ExistTerm.class, "ExistsTerm", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
     initEClass(forallTermEClass, ForallTerm.class, "ForallTerm", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

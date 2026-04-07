@@ -16,4 +16,4 @@ package org.asmeta.xt.asmetal;
  */
 public interface ExistUniqueTerm extends FiniteQuantificationTerm
 {
-} // ExistUniqueTerm
+} // ExistsUniqueTerm

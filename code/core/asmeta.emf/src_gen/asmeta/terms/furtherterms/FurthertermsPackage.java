@@ -1627,21 +1627,21 @@ public interface FurthertermsPackage extends EPackage {
 	EAttribute getFiniteQuantificationTerm_Ranges();
 
 	/**
-	 * Returns the meta object for class '{@link asmeta.terms.furtherterms.ExistUniqueTerm <em>Exist Unique Term</em>}'.
+	 * Returns the meta object for class '{@link asmeta.terms.furtherterms.ExistsUniqueTerm <em>Exist Unique Term</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Exist Unique Term</em>'.
-	 * @see asmeta.terms.furtherterms.ExistUniqueTerm
+	 * @see asmeta.terms.furtherterms.ExistsUniqueTerm
 	 * @generated
 	 */
 	EClass getExistUniqueTerm();
 
 	/**
-	 * Returns the meta object for class '{@link asmeta.terms.furtherterms.ExistTerm <em>Exist Term</em>}'.
+	 * Returns the meta object for class '{@link asmeta.terms.furtherterms.ExistsTerm <em>Exist Term</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for class '<em>Exist Term</em>'.
-	 * @see asmeta.terms.furtherterms.ExistTerm
+	 * @see asmeta.terms.furtherterms.ExistsTerm
 	 * @generated
 	 */
 	EClass getExistTerm();

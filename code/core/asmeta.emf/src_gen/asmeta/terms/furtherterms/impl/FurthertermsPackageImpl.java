@@ -28,8 +28,8 @@ import asmeta.terms.furtherterms.ComplexTerm;
 import asmeta.terms.furtherterms.ComprehensionTerm;
 import asmeta.terms.furtherterms.ConditionalTerm;
 import asmeta.terms.furtherterms.EnumTerm;
-import asmeta.terms.furtherterms.ExistTerm;
-import asmeta.terms.furtherterms.ExistUniqueTerm;
+import asmeta.terms.furtherterms.ExistsTerm;
+import asmeta.terms.furtherterms.ExistsUniqueTerm;
 import asmeta.terms.furtherterms.FiniteQuantificationTerm;
 import asmeta.terms.furtherterms.ForallTerm;
 import asmeta.terms.furtherterms.FurthertermsFactory;
@@ -933,9 +933,9 @@ public class FurthertermsPackageImpl extends EPackageImpl implements Furtherterm
 		initEReference(getFiniteQuantificationTerm_Guard(), theBasictermsPackage.getTerm(), null, "guard", null, 0, 1, FiniteQuantificationTerm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, !IS_ORDERED);
 		initEAttribute(getFiniteQuantificationTerm_Ranges(), theBasictermsPackage.getTermDT(), "ranges", null, 1, -1, FiniteQuantificationTerm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, !IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-		initEClass(existUniqueTermEClass, ExistUniqueTerm.class, "ExistUniqueTerm", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(existUniqueTermEClass, ExistsUniqueTerm.class, "ExistsUniqueTerm", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-		initEClass(existTermEClass, ExistTerm.class, "ExistTerm", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEClass(existTermEClass, ExistsTerm.class, "ExistsTerm", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		initEClass(enumTermEClass, EnumTerm.class, "EnumTerm", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

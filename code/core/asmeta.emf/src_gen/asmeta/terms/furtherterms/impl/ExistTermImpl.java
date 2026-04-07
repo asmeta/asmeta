@@ -8,7 +8,7 @@ package asmeta.terms.furtherterms.impl;
 
 import org.eclipse.emf.ecore.EClass;
 
-import asmeta.terms.furtherterms.ExistTerm;
+import asmeta.terms.furtherterms.ExistsTerm;
 import asmeta.terms.furtherterms.FurthertermsPackage;
 
 /**
@@ -18,7 +18,7 @@ import asmeta.terms.furtherterms.FurthertermsPackage;
  *
  * @generated
  */
-public class ExistTermImpl extends FiniteQuantificationTermImpl implements ExistTerm {
+public class ExistTermImpl extends FiniteQuantificationTermImpl implements ExistsTerm {
 
 	/**
 	 * <!-- begin-user-doc -->

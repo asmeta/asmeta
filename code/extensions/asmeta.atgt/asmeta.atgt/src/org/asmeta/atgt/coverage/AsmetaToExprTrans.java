@@ -278,12 +278,12 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 //	 *
 //	 * @throws Exception the exception
 //	 */
-//	public Expression visit(ExistTerm existTerm) throws Exception {
+//	public Expression visit(ExistsTerm existTerm) throws Exception {
 //		throw new RuntimeException("not implemented yet");
 //	}
 //
 //	/**
-//	 * Visit an ExistUniqueTerm.
+//	 * Visit an ExistsUniqueTerm.
 //	 *
 //	 * @param exitUniqueTerm the exit unique term
 //	 *
@@ -291,7 +291,7 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 //	 *
 //	 * @throws Exception the exception
 //	 */
-//	public Expression visit(ExistUniqueTerm exitUniqueTerm) throws Exception {
+//	public Expression visit(ExistsUniqueTerm exitUniqueTerm) throws Exception {
 //		return xor(getGuardWithAllValues(exitUniqueTerm.getVariable(),
 //											exitUniqueTerm.getRanges(),
 //											exitUniqueTerm.getGuard()));

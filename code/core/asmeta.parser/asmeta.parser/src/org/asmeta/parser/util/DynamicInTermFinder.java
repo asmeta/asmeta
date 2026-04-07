@@ -189,7 +189,7 @@ public class DynamicInTermFinder extends ReflectiveVisitor<Void> {
 	}
 	
 	
-	public void visit(asmeta.terms.furtherterms.ExistTerm et) {
+	public void visit(asmeta.terms.furtherterms.ExistsTerm et) {
 		// (exist v1 in D1,...,vn in Dn 	with Gv1,...,vn)
 		// variables in dynamic domains???? D1... Dn
 		visitTerms(et.getRanges());

@@ -17,5 +17,5 @@ package asmeta.terms.furtherterms;
  * @model
  * @generated
  */
-public interface ExistUniqueTerm extends FiniteQuantificationTerm {
-} // ExistUniqueTerm
+public interface ExistsUniqueTerm extends FiniteQuantificationTerm {
+} // ExistsUniqueTerm

@@ -22,8 +22,8 @@ import asmeta.terms.furtherterms.CharTerm;
 import asmeta.terms.furtherterms.ComplexTerm;
 import asmeta.terms.furtherterms.ConditionalTerm;
 import asmeta.terms.furtherterms.EnumTerm;
-import asmeta.terms.furtherterms.ExistTerm;
-import asmeta.terms.furtherterms.ExistUniqueTerm;
+import asmeta.terms.furtherterms.ExistsTerm;
+import asmeta.terms.furtherterms.ExistsUniqueTerm;
 import asmeta.terms.furtherterms.ForallTerm;
 import asmeta.terms.furtherterms.FurthertermsFactory;
 import asmeta.terms.furtherterms.FurthertermsPackage;
@@ -234,7 +234,7 @@ public class FurthertermsFactoryImpl extends EFactoryImpl implements Furtherterm
 	 * @generated
 	 */
 	@Override
-	public ExistUniqueTerm createExistUniqueTerm() {
+	public ExistsUniqueTerm createExistUniqueTerm() {
 		ExistUniqueTermImpl existUniqueTerm = new ExistUniqueTermImpl();
 		return existUniqueTerm;
 	}
@@ -245,7 +245,7 @@ public class FurthertermsFactoryImpl extends EFactoryImpl implements Furtherterm
 	 * @generated
 	 */
 	@Override
-	public ExistTerm createExistTerm() {
+	public ExistsTerm createExistTerm() {
 		ExistTermImpl existTerm = new ExistTermImpl();
 		return existTerm;
 	}

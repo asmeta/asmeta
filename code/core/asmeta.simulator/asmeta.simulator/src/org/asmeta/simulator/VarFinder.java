@@ -26,7 +26,7 @@ import asmeta.terms.basicterms.VariableTerm;
 import asmeta.terms.furtherterms.CaseTerm;
 import asmeta.terms.furtherterms.ComprehensionTerm;
 import asmeta.terms.furtherterms.ConditionalTerm;
-import asmeta.terms.furtherterms.ExistTerm;
+import asmeta.terms.furtherterms.ExistsTerm;
 import asmeta.terms.furtherterms.FiniteQuantificationTerm;
 import asmeta.terms.furtherterms.ForallTerm;
 import asmeta.terms.furtherterms.LetTerm;
@@ -175,7 +175,7 @@ public class VarFinder extends ReflectiveVisitor<VariableSet> {
 	 * @param term a term
 	 * @return the free variable set
 	 */
-	public VariableSet visit(ExistTerm exist) {
+	public VariableSet visit(ExistsTerm exist) {
 		return visitQuant(exist);
 	}
 	

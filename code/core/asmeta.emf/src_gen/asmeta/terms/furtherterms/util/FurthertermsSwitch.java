@@ -23,8 +23,8 @@ import asmeta.terms.furtherterms.ComplexTerm;
 import asmeta.terms.furtherterms.ComprehensionTerm;
 import asmeta.terms.furtherterms.ConditionalTerm;
 import asmeta.terms.furtherterms.EnumTerm;
-import asmeta.terms.furtherterms.ExistTerm;
-import asmeta.terms.furtherterms.ExistUniqueTerm;
+import asmeta.terms.furtherterms.ExistsTerm;
+import asmeta.terms.furtherterms.ExistsUniqueTerm;
 import asmeta.terms.furtherterms.FiniteQuantificationTerm;
 import asmeta.terms.furtherterms.ForallTerm;
 import asmeta.terms.furtherterms.FurthertermsPackage;
@@ -218,22 +218,22 @@ public class FurthertermsSwitch<T> extends Switch<T> {
 				return result;
 			}
 			case FurthertermsPackage.EXIST_UNIQUE_TERM: {
-				ExistUniqueTerm existUniqueTerm = (ExistUniqueTerm)theEObject;
-				T result = caseExistUniqueTerm(existUniqueTerm);
-				if (result == null) result = caseFiniteQuantificationTerm(existUniqueTerm);
-				if (result == null) result = caseVariableBindingTerm(existUniqueTerm);
-				if (result == null) result = caseExtendedTerm(existUniqueTerm);
-				if (result == null) result = caseTerm(existUniqueTerm);
+				ExistsUniqueTerm existsUniqueTerm = (ExistsUniqueTerm)theEObject;
+				T result = caseExistUniqueTerm(existsUniqueTerm);
+				if (result == null) result = caseFiniteQuantificationTerm(existsUniqueTerm);
+				if (result == null) result = caseVariableBindingTerm(existsUniqueTerm);
+				if (result == null) result = caseExtendedTerm(existsUniqueTerm);
+				if (result == null) result = caseTerm(existsUniqueTerm);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
 			case FurthertermsPackage.EXIST_TERM: {
-				ExistTerm existTerm = (ExistTerm)theEObject;
-				T result = caseExistTerm(existTerm);
-				if (result == null) result = caseFiniteQuantificationTerm(existTerm);
-				if (result == null) result = caseVariableBindingTerm(existTerm);
-				if (result == null) result = caseExtendedTerm(existTerm);
-				if (result == null) result = caseTerm(existTerm);
+				ExistsTerm existsTerm = (ExistsTerm)theEObject;
+				T result = caseExistTerm(existsTerm);
+				if (result == null) result = caseFiniteQuantificationTerm(existsTerm);
+				if (result == null) result = caseVariableBindingTerm(existsTerm);
+				if (result == null) result = caseExtendedTerm(existsTerm);
+				if (result == null) result = caseTerm(existsTerm);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -518,7 +518,7 @@ public class FurthertermsSwitch<T> extends Switch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseExistUniqueTerm(ExistUniqueTerm object) {
+	public T caseExistUniqueTerm(ExistsUniqueTerm object) {
 		return null;
 	}
 
@@ -533,7 +533,7 @@ public class FurthertermsSwitch<T> extends Switch<T> {
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseExistTerm(ExistTerm object) {
+	public T caseExistTerm(ExistsTerm object) {
 		return null;
 	}
 
