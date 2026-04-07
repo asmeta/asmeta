@@ -40,8 +40,8 @@ import org.asmeta.xt.asmetal.DomainInitialization;
 import org.asmeta.xt.asmetal.EnumElement;
 import org.asmeta.xt.asmetal.EnumTD;
 import org.asmeta.xt.asmetal.EnumTerm;
-import org.asmeta.xt.asmetal.ExistTerm;
-import org.asmeta.xt.asmetal.ExistUniqueTerm;
+import org.asmeta.xt.asmetal.ExistsTerm;
+import org.asmeta.xt.asmetal.ExistsUniqueTerm;
 import org.asmeta.xt.asmetal.ExportClause;
 import org.asmeta.xt.asmetal.Expression;
 import org.asmeta.xt.asmetal.ExtendRule;
@@ -242,11 +242,11 @@ public class AsmetaLSemanticSequencer extends AbstractDelegatingSemanticSequence
 			case AsmetalPackage.ENUM_TERM:
 				sequence_EnumTerm(context, (EnumTerm) semanticObject); 
 				return; 
-			case AsmetalPackage.EXIST_TERM:
-				sequence_ExistTerm(context, (ExistTerm) semanticObject); 
+			case AsmetalPackage.EXISTS_TERM:
+				sequence_ExistsTerm(context, (ExistsTerm) semanticObject); 
 				return; 
-			case AsmetalPackage.EXIST_UNIQUE_TERM:
-				sequence_ExistUniqueTerm(context, (ExistUniqueTerm) semanticObject); 
+			case AsmetalPackage.EXISTS_UNIQUE_TERM:
+				sequence_ExistsUniqueTerm(context, (ExistsUniqueTerm) semanticObject); 
 				return; 
 			case AsmetalPackage.EXPORT_CLAUSE:
 				sequence_ExportClause(context, (ExportClause) semanticObject); 
@@ -1225,7 +1225,7 @@ public class AsmetaLSemanticSequencer extends AbstractDelegatingSemanticSequence
 	 *     (variable+=VariableTerm ranges+=Term (variable+=VariableTerm ranges+=Term)* guard=Term?)
 	 * </pre>
 	 */
-	protected void sequence_ExistTerm(ISerializationContext context, ExistTerm semanticObject) {
+	protected void sequence_ExistsTerm(ISerializationContext context, ExistsTerm semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
@@ -1263,7 +1263,7 @@ public class AsmetaLSemanticSequencer extends AbstractDelegatingSemanticSequence
 	 *     (variable+=VariableTerm ranges+=Term (variable+=VariableTerm ranges+=Term)* guard=Term?)
 	 * </pre>
 	 */
-	protected void sequence_ExistUniqueTerm(ISerializationContext context, ExistUniqueTerm semanticObject) {
+	protected void sequence_ExistsUniqueTerm(ISerializationContext context, ExistsUniqueTerm semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	

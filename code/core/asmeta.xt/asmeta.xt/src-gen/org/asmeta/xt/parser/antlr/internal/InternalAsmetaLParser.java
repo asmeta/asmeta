@@ -23599,25 +23599,25 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleFiniteQuantificationTerm"
-    // InternalAsmetaL.g:8243:1: ruleFiniteQuantificationTerm returns [EObject current=null] : (this_ForallTerm_0= ruleForallTerm | this_ExistUniqueTerm_1= ruleExistUniqueTerm | this_ExistTerm_2= ruleExistTerm ) ;
+    // InternalAsmetaL.g:8243:1: ruleFiniteQuantificationTerm returns [EObject current=null] : (this_ForallTerm_0= ruleForallTerm | this_ExistsUniqueTerm_1= ruleExistsUniqueTerm | this_ExistsTerm_2= ruleExistsTerm ) ;
     public final EObject ruleFiniteQuantificationTerm() throws RecognitionException {
         EObject current = null;
 
         EObject this_ForallTerm_0 = null;
 
-        EObject this_ExistUniqueTerm_1 = null;
+        EObject this_ExistsUniqueTerm_1 = null;
 
-        EObject this_ExistTerm_2 = null;
+        EObject this_ExistsTerm_2 = null;
 
 
 
         	enterRule();
 
         try {
-            // InternalAsmetaL.g:8249:2: ( (this_ForallTerm_0= ruleForallTerm | this_ExistUniqueTerm_1= ruleExistUniqueTerm | this_ExistTerm_2= ruleExistTerm ) )
-            // InternalAsmetaL.g:8250:2: (this_ForallTerm_0= ruleForallTerm | this_ExistUniqueTerm_1= ruleExistUniqueTerm | this_ExistTerm_2= ruleExistTerm )
+            // InternalAsmetaL.g:8249:2: ( (this_ForallTerm_0= ruleForallTerm | this_ExistsUniqueTerm_1= ruleExistsUniqueTerm | this_ExistsTerm_2= ruleExistsTerm ) )
+            // InternalAsmetaL.g:8250:2: (this_ForallTerm_0= ruleForallTerm | this_ExistsUniqueTerm_1= ruleExistsUniqueTerm | this_ExistsTerm_2= ruleExistsTerm )
             {
-            // InternalAsmetaL.g:8250:2: (this_ForallTerm_0= ruleForallTerm | this_ExistUniqueTerm_1= ruleExistUniqueTerm | this_ExistTerm_2= ruleExistTerm )
+            // InternalAsmetaL.g:8250:2: (this_ForallTerm_0= ruleForallTerm | this_ExistsUniqueTerm_1= ruleExistsUniqueTerm | this_ExistsTerm_2= ruleExistsTerm )
             int alt136=3;
             int LA136_0 = input.LA(1);
 
@@ -23688,7 +23688,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalAsmetaL.g:8263:3: this_ExistUniqueTerm_1= ruleExistUniqueTerm
+                    // InternalAsmetaL.g:8263:3: this_ExistsUniqueTerm_1= ruleExistsUniqueTerm
                     {
                     if ( state.backtracking==0 ) {
 
@@ -23697,17 +23697,17 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                     }
                     if ( state.backtracking==0 ) {
 
-                      			newCompositeNode(grammarAccess.getFiniteQuantificationTermAccess().getExistUniqueTermParserRuleCall_1());
+                      			newCompositeNode(grammarAccess.getFiniteQuantificationTermAccess().getExistsUniqueTermParserRuleCall_1());
                       		
                     }
                     pushFollow(FOLLOW_2);
-                    this_ExistUniqueTerm_1=ruleExistUniqueTerm();
+                    this_ExistsUniqueTerm_1=ruleExistsUniqueTerm();
 
                     state._fsp--;
                     if (state.failed) return current;
                     if ( state.backtracking==0 ) {
 
-                      			current = this_ExistUniqueTerm_1;
+                      			current = this_ExistsUniqueTerm_1;
                       			afterParserOrEnumRuleCall();
                       		
                     }
@@ -23715,7 +23715,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 3 :
-                    // InternalAsmetaL.g:8275:3: this_ExistTerm_2= ruleExistTerm
+                    // InternalAsmetaL.g:8275:3: this_ExistsTerm_2= ruleExistsTerm
                     {
                     if ( state.backtracking==0 ) {
 
@@ -23724,17 +23724,17 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                     }
                     if ( state.backtracking==0 ) {
 
-                      			newCompositeNode(grammarAccess.getFiniteQuantificationTermAccess().getExistTermParserRuleCall_2());
+                      			newCompositeNode(grammarAccess.getFiniteQuantificationTermAccess().getExistsTermParserRuleCall_2());
                       		
                     }
                     pushFollow(FOLLOW_2);
-                    this_ExistTerm_2=ruleExistTerm();
+                    this_ExistsTerm_2=ruleExistsTerm();
 
                     state._fsp--;
                     if (state.failed) return current;
                     if ( state.backtracking==0 ) {
 
-                      			current = this_ExistTerm_2;
+                      			current = this_ExistsTerm_2;
                       			afterParserOrEnumRuleCall();
                       		
                     }
@@ -23765,28 +23765,28 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
     // $ANTLR end "ruleFiniteQuantificationTerm"
 
 
-    // $ANTLR start "entryRuleExistUniqueTerm"
-    // InternalAsmetaL.g:8290:1: entryRuleExistUniqueTerm returns [EObject current=null] : iv_ruleExistUniqueTerm= ruleExistUniqueTerm EOF ;
-    public final EObject entryRuleExistUniqueTerm() throws RecognitionException {
+    // $ANTLR start "entryRuleExistsUniqueTerm"
+    // InternalAsmetaL.g:8290:1: entryRuleExistsUniqueTerm returns [EObject current=null] : iv_ruleExistsUniqueTerm= ruleExistsUniqueTerm EOF ;
+    public final EObject entryRuleExistsUniqueTerm() throws RecognitionException {
         EObject current = null;
 
-        EObject iv_ruleExistUniqueTerm = null;
+        EObject iv_ruleExistsUniqueTerm = null;
 
 
         try {
-            // InternalAsmetaL.g:8290:56: (iv_ruleExistUniqueTerm= ruleExistUniqueTerm EOF )
-            // InternalAsmetaL.g:8291:2: iv_ruleExistUniqueTerm= ruleExistUniqueTerm EOF
+            // InternalAsmetaL.g:8290:57: (iv_ruleExistsUniqueTerm= ruleExistsUniqueTerm EOF )
+            // InternalAsmetaL.g:8291:2: iv_ruleExistsUniqueTerm= ruleExistsUniqueTerm EOF
             {
             if ( state.backtracking==0 ) {
-               newCompositeNode(grammarAccess.getExistUniqueTermRule()); 
+               newCompositeNode(grammarAccess.getExistsUniqueTermRule()); 
             }
             pushFollow(FOLLOW_1);
-            iv_ruleExistUniqueTerm=ruleExistUniqueTerm();
+            iv_ruleExistsUniqueTerm=ruleExistsUniqueTerm();
 
             state._fsp--;
             if (state.failed) return current;
             if ( state.backtracking==0 ) {
-               current =iv_ruleExistUniqueTerm; 
+               current =iv_ruleExistsUniqueTerm; 
             }
             match(input,EOF,FOLLOW_2); if (state.failed) return current;
 
@@ -23802,12 +23802,12 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
         }
         return current;
     }
-    // $ANTLR end "entryRuleExistUniqueTerm"
+    // $ANTLR end "entryRuleExistsUniqueTerm"
 
 
-    // $ANTLR start "ruleExistUniqueTerm"
-    // InternalAsmetaL.g:8297:1: ruleExistUniqueTerm returns [EObject current=null] : (otherlv_0= '(' otherlv_1= 'exist' otherlv_2= 'unique' ( (lv_variable_3_0= ruleVariableTerm ) ) otherlv_4= 'in' ( (lv_ranges_5_0= ruleTerm ) ) (otherlv_6= ',' ( (lv_variable_7_0= ruleVariableTerm ) ) otherlv_8= 'in' ( (lv_ranges_9_0= ruleTerm ) ) )* (otherlv_10= 'with' ( (lv_guard_11_0= ruleTerm ) ) )? otherlv_12= ')' ) ;
-    public final EObject ruleExistUniqueTerm() throws RecognitionException {
+    // $ANTLR start "ruleExistsUniqueTerm"
+    // InternalAsmetaL.g:8297:1: ruleExistsUniqueTerm returns [EObject current=null] : (otherlv_0= '(' otherlv_1= 'exist' otherlv_2= 'unique' ( (lv_variable_3_0= ruleVariableTerm ) ) otherlv_4= 'in' ( (lv_ranges_5_0= ruleTerm ) ) (otherlv_6= ',' ( (lv_variable_7_0= ruleVariableTerm ) ) otherlv_8= 'in' ( (lv_ranges_9_0= ruleTerm ) ) )* (otherlv_10= 'with' ( (lv_guard_11_0= ruleTerm ) ) )? otherlv_12= ')' ) ;
+    public final EObject ruleExistsUniqueTerm() throws RecognitionException {
         EObject current = null;
 
         Token otherlv_0=null;
@@ -23842,19 +23842,19 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
             otherlv_0=(Token)match(input,29,FOLLOW_100); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
-              			newLeafNode(otherlv_0, grammarAccess.getExistUniqueTermAccess().getLeftParenthesisKeyword_0());
+              			newLeafNode(otherlv_0, grammarAccess.getExistsUniqueTermAccess().getLeftParenthesisKeyword_0());
               		
             }
             otherlv_1=(Token)match(input,120,FOLLOW_101); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
-              			newLeafNode(otherlv_1, grammarAccess.getExistUniqueTermAccess().getExistKeyword_1());
+              			newLeafNode(otherlv_1, grammarAccess.getExistsUniqueTermAccess().getExistKeyword_1());
               		
             }
             otherlv_2=(Token)match(input,121,FOLLOW_30); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
-              			newLeafNode(otherlv_2, grammarAccess.getExistUniqueTermAccess().getUniqueKeyword_2());
+              			newLeafNode(otherlv_2, grammarAccess.getExistsUniqueTermAccess().getUniqueKeyword_2());
               		
             }
             // InternalAsmetaL.g:8317:3: ( (lv_variable_3_0= ruleVariableTerm ) )
@@ -23865,7 +23865,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
             {
             if ( state.backtracking==0 ) {
 
-              					newCompositeNode(grammarAccess.getExistUniqueTermAccess().getVariableVariableTermParserRuleCall_3_0());
+              					newCompositeNode(grammarAccess.getExistsUniqueTermAccess().getVariableVariableTermParserRuleCall_3_0());
               				
             }
             pushFollow(FOLLOW_31);
@@ -23876,7 +23876,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
             if ( state.backtracking==0 ) {
 
               					if (current==null) {
-              						current = createModelElementForParent(grammarAccess.getExistUniqueTermRule());
+              						current = createModelElementForParent(grammarAccess.getExistsUniqueTermRule());
               					}
               					add(
               						current,
@@ -23895,7 +23895,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
             otherlv_4=(Token)match(input,40,FOLLOW_27); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
-              			newLeafNode(otherlv_4, grammarAccess.getExistUniqueTermAccess().getInKeyword_4());
+              			newLeafNode(otherlv_4, grammarAccess.getExistsUniqueTermAccess().getInKeyword_4());
               		
             }
             // InternalAsmetaL.g:8340:3: ( (lv_ranges_5_0= ruleTerm ) )
@@ -23906,7 +23906,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
             {
             if ( state.backtracking==0 ) {
 
-              					newCompositeNode(grammarAccess.getExistUniqueTermAccess().getRangesTermParserRuleCall_5_0());
+              					newCompositeNode(grammarAccess.getExistsUniqueTermAccess().getRangesTermParserRuleCall_5_0());
               				
             }
             pushFollow(FOLLOW_102);
@@ -23917,7 +23917,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
             if ( state.backtracking==0 ) {
 
               					if (current==null) {
-              						current = createModelElementForParent(grammarAccess.getExistUniqueTermRule());
+              						current = createModelElementForParent(grammarAccess.getExistsUniqueTermRule());
               					}
               					add(
               						current,
@@ -23951,7 +23951,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
             	    otherlv_6=(Token)match(input,30,FOLLOW_30); if (state.failed) return current;
             	    if ( state.backtracking==0 ) {
 
-            	      				newLeafNode(otherlv_6, grammarAccess.getExistUniqueTermAccess().getCommaKeyword_6_0());
+            	      				newLeafNode(otherlv_6, grammarAccess.getExistsUniqueTermAccess().getCommaKeyword_6_0());
             	      			
             	    }
             	    // InternalAsmetaL.g:8364:4: ( (lv_variable_7_0= ruleVariableTerm ) )
@@ -23962,7 +23962,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
             	    {
             	    if ( state.backtracking==0 ) {
 
-            	      						newCompositeNode(grammarAccess.getExistUniqueTermAccess().getVariableVariableTermParserRuleCall_6_1_0());
+            	      						newCompositeNode(grammarAccess.getExistsUniqueTermAccess().getVariableVariableTermParserRuleCall_6_1_0());
             	      					
             	    }
             	    pushFollow(FOLLOW_31);
@@ -23973,7 +23973,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
             	    if ( state.backtracking==0 ) {
 
             	      						if (current==null) {
-            	      							current = createModelElementForParent(grammarAccess.getExistUniqueTermRule());
+            	      							current = createModelElementForParent(grammarAccess.getExistsUniqueTermRule());
             	      						}
             	      						add(
             	      							current,
@@ -23992,7 +23992,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
             	    otherlv_8=(Token)match(input,40,FOLLOW_27); if (state.failed) return current;
             	    if ( state.backtracking==0 ) {
 
-            	      				newLeafNode(otherlv_8, grammarAccess.getExistUniqueTermAccess().getInKeyword_6_2());
+            	      				newLeafNode(otherlv_8, grammarAccess.getExistsUniqueTermAccess().getInKeyword_6_2());
             	      			
             	    }
             	    // InternalAsmetaL.g:8387:4: ( (lv_ranges_9_0= ruleTerm ) )
@@ -24003,7 +24003,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
             	    {
             	    if ( state.backtracking==0 ) {
 
-            	      						newCompositeNode(grammarAccess.getExistUniqueTermAccess().getRangesTermParserRuleCall_6_3_0());
+            	      						newCompositeNode(grammarAccess.getExistsUniqueTermAccess().getRangesTermParserRuleCall_6_3_0());
             	      					
             	    }
             	    pushFollow(FOLLOW_102);
@@ -24014,7 +24014,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
             	    if ( state.backtracking==0 ) {
 
             	      						if (current==null) {
-            	      							current = createModelElementForParent(grammarAccess.getExistUniqueTermRule());
+            	      							current = createModelElementForParent(grammarAccess.getExistsUniqueTermRule());
             	      						}
             	      						add(
             	      							current,
@@ -24053,7 +24053,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                     otherlv_10=(Token)match(input,122,FOLLOW_27); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
 
-                      				newLeafNode(otherlv_10, grammarAccess.getExistUniqueTermAccess().getWithKeyword_7_0());
+                      				newLeafNode(otherlv_10, grammarAccess.getExistsUniqueTermAccess().getWithKeyword_7_0());
                       			
                     }
                     // InternalAsmetaL.g:8412:4: ( (lv_guard_11_0= ruleTerm ) )
@@ -24064,7 +24064,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                     {
                     if ( state.backtracking==0 ) {
 
-                      						newCompositeNode(grammarAccess.getExistUniqueTermAccess().getGuardTermParserRuleCall_7_1_0());
+                      						newCompositeNode(grammarAccess.getExistsUniqueTermAccess().getGuardTermParserRuleCall_7_1_0());
                       					
                     }
                     pushFollow(FOLLOW_50);
@@ -24075,7 +24075,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                     if ( state.backtracking==0 ) {
 
                       						if (current==null) {
-                      							current = createModelElementForParent(grammarAccess.getExistUniqueTermRule());
+                      							current = createModelElementForParent(grammarAccess.getExistsUniqueTermRule());
                       						}
                       						set(
                       							current,
@@ -24100,7 +24100,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
             otherlv_12=(Token)match(input,31,FOLLOW_2); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
-              			newLeafNode(otherlv_12, grammarAccess.getExistUniqueTermAccess().getRightParenthesisKeyword_8());
+              			newLeafNode(otherlv_12, grammarAccess.getExistsUniqueTermAccess().getRightParenthesisKeyword_8());
               		
             }
 
@@ -24124,31 +24124,31 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
         }
         return current;
     }
-    // $ANTLR end "ruleExistUniqueTerm"
+    // $ANTLR end "ruleExistsUniqueTerm"
 
 
-    // $ANTLR start "entryRuleExistTerm"
-    // InternalAsmetaL.g:8440:1: entryRuleExistTerm returns [EObject current=null] : iv_ruleExistTerm= ruleExistTerm EOF ;
-    public final EObject entryRuleExistTerm() throws RecognitionException {
+    // $ANTLR start "entryRuleExistsTerm"
+    // InternalAsmetaL.g:8440:1: entryRuleExistsTerm returns [EObject current=null] : iv_ruleExistsTerm= ruleExistsTerm EOF ;
+    public final EObject entryRuleExistsTerm() throws RecognitionException {
         EObject current = null;
 
-        EObject iv_ruleExistTerm = null;
+        EObject iv_ruleExistsTerm = null;
 
 
         try {
-            // InternalAsmetaL.g:8440:50: (iv_ruleExistTerm= ruleExistTerm EOF )
-            // InternalAsmetaL.g:8441:2: iv_ruleExistTerm= ruleExistTerm EOF
+            // InternalAsmetaL.g:8440:51: (iv_ruleExistsTerm= ruleExistsTerm EOF )
+            // InternalAsmetaL.g:8441:2: iv_ruleExistsTerm= ruleExistsTerm EOF
             {
             if ( state.backtracking==0 ) {
-               newCompositeNode(grammarAccess.getExistTermRule()); 
+               newCompositeNode(grammarAccess.getExistsTermRule()); 
             }
             pushFollow(FOLLOW_1);
-            iv_ruleExistTerm=ruleExistTerm();
+            iv_ruleExistsTerm=ruleExistsTerm();
 
             state._fsp--;
             if (state.failed) return current;
             if ( state.backtracking==0 ) {
-               current =iv_ruleExistTerm; 
+               current =iv_ruleExistsTerm; 
             }
             match(input,EOF,FOLLOW_2); if (state.failed) return current;
 
@@ -24164,12 +24164,12 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
         }
         return current;
     }
-    // $ANTLR end "entryRuleExistTerm"
+    // $ANTLR end "entryRuleExistsTerm"
 
 
-    // $ANTLR start "ruleExistTerm"
-    // InternalAsmetaL.g:8447:1: ruleExistTerm returns [EObject current=null] : (otherlv_0= '(' otherlv_1= 'exist' ( (lv_variable_2_0= ruleVariableTerm ) ) otherlv_3= 'in' ( (lv_ranges_4_0= ruleTerm ) ) (otherlv_5= ',' ( (lv_variable_6_0= ruleVariableTerm ) ) otherlv_7= 'in' ( (lv_ranges_8_0= ruleTerm ) ) )* (otherlv_9= 'with' ( (lv_guard_10_0= ruleTerm ) ) )? otherlv_11= ')' ) ;
-    public final EObject ruleExistTerm() throws RecognitionException {
+    // $ANTLR start "ruleExistsTerm"
+    // InternalAsmetaL.g:8447:1: ruleExistsTerm returns [EObject current=null] : (otherlv_0= '(' otherlv_1= 'exist' ( (lv_variable_2_0= ruleVariableTerm ) ) otherlv_3= 'in' ( (lv_ranges_4_0= ruleTerm ) ) (otherlv_5= ',' ( (lv_variable_6_0= ruleVariableTerm ) ) otherlv_7= 'in' ( (lv_ranges_8_0= ruleTerm ) ) )* (otherlv_9= 'with' ( (lv_guard_10_0= ruleTerm ) ) )? otherlv_11= ')' ) ;
+    public final EObject ruleExistsTerm() throws RecognitionException {
         EObject current = null;
 
         Token otherlv_0=null;
@@ -24203,13 +24203,13 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
             otherlv_0=(Token)match(input,29,FOLLOW_100); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
-              			newLeafNode(otherlv_0, grammarAccess.getExistTermAccess().getLeftParenthesisKeyword_0());
+              			newLeafNode(otherlv_0, grammarAccess.getExistsTermAccess().getLeftParenthesisKeyword_0());
               		
             }
             otherlv_1=(Token)match(input,120,FOLLOW_30); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
-              			newLeafNode(otherlv_1, grammarAccess.getExistTermAccess().getExistKeyword_1());
+              			newLeafNode(otherlv_1, grammarAccess.getExistsTermAccess().getExistKeyword_1());
               		
             }
             // InternalAsmetaL.g:8463:3: ( (lv_variable_2_0= ruleVariableTerm ) )
@@ -24220,7 +24220,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
             {
             if ( state.backtracking==0 ) {
 
-              					newCompositeNode(grammarAccess.getExistTermAccess().getVariableVariableTermParserRuleCall_2_0());
+              					newCompositeNode(grammarAccess.getExistsTermAccess().getVariableVariableTermParserRuleCall_2_0());
               				
             }
             pushFollow(FOLLOW_31);
@@ -24231,7 +24231,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
             if ( state.backtracking==0 ) {
 
               					if (current==null) {
-              						current = createModelElementForParent(grammarAccess.getExistTermRule());
+              						current = createModelElementForParent(grammarAccess.getExistsTermRule());
               					}
               					add(
               						current,
@@ -24250,7 +24250,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
             otherlv_3=(Token)match(input,40,FOLLOW_27); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
-              			newLeafNode(otherlv_3, grammarAccess.getExistTermAccess().getInKeyword_3());
+              			newLeafNode(otherlv_3, grammarAccess.getExistsTermAccess().getInKeyword_3());
               		
             }
             // InternalAsmetaL.g:8486:3: ( (lv_ranges_4_0= ruleTerm ) )
@@ -24261,7 +24261,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
             {
             if ( state.backtracking==0 ) {
 
-              					newCompositeNode(grammarAccess.getExistTermAccess().getRangesTermParserRuleCall_4_0());
+              					newCompositeNode(grammarAccess.getExistsTermAccess().getRangesTermParserRuleCall_4_0());
               				
             }
             pushFollow(FOLLOW_102);
@@ -24272,7 +24272,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
             if ( state.backtracking==0 ) {
 
               					if (current==null) {
-              						current = createModelElementForParent(grammarAccess.getExistTermRule());
+              						current = createModelElementForParent(grammarAccess.getExistsTermRule());
               					}
               					add(
               						current,
@@ -24306,7 +24306,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
             	    otherlv_5=(Token)match(input,30,FOLLOW_30); if (state.failed) return current;
             	    if ( state.backtracking==0 ) {
 
-            	      				newLeafNode(otherlv_5, grammarAccess.getExistTermAccess().getCommaKeyword_5_0());
+            	      				newLeafNode(otherlv_5, grammarAccess.getExistsTermAccess().getCommaKeyword_5_0());
             	      			
             	    }
             	    // InternalAsmetaL.g:8510:4: ( (lv_variable_6_0= ruleVariableTerm ) )
@@ -24317,7 +24317,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
             	    {
             	    if ( state.backtracking==0 ) {
 
-            	      						newCompositeNode(grammarAccess.getExistTermAccess().getVariableVariableTermParserRuleCall_5_1_0());
+            	      						newCompositeNode(grammarAccess.getExistsTermAccess().getVariableVariableTermParserRuleCall_5_1_0());
             	      					
             	    }
             	    pushFollow(FOLLOW_31);
@@ -24328,7 +24328,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
             	    if ( state.backtracking==0 ) {
 
             	      						if (current==null) {
-            	      							current = createModelElementForParent(grammarAccess.getExistTermRule());
+            	      							current = createModelElementForParent(grammarAccess.getExistsTermRule());
             	      						}
             	      						add(
             	      							current,
@@ -24347,7 +24347,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
             	    otherlv_7=(Token)match(input,40,FOLLOW_27); if (state.failed) return current;
             	    if ( state.backtracking==0 ) {
 
-            	      				newLeafNode(otherlv_7, grammarAccess.getExistTermAccess().getInKeyword_5_2());
+            	      				newLeafNode(otherlv_7, grammarAccess.getExistsTermAccess().getInKeyword_5_2());
             	      			
             	    }
             	    // InternalAsmetaL.g:8533:4: ( (lv_ranges_8_0= ruleTerm ) )
@@ -24358,7 +24358,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
             	    {
             	    if ( state.backtracking==0 ) {
 
-            	      						newCompositeNode(grammarAccess.getExistTermAccess().getRangesTermParserRuleCall_5_3_0());
+            	      						newCompositeNode(grammarAccess.getExistsTermAccess().getRangesTermParserRuleCall_5_3_0());
             	      					
             	    }
             	    pushFollow(FOLLOW_102);
@@ -24369,7 +24369,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
             	    if ( state.backtracking==0 ) {
 
             	      						if (current==null) {
-            	      							current = createModelElementForParent(grammarAccess.getExistTermRule());
+            	      							current = createModelElementForParent(grammarAccess.getExistsTermRule());
             	      						}
             	      						add(
             	      							current,
@@ -24408,7 +24408,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                     otherlv_9=(Token)match(input,122,FOLLOW_27); if (state.failed) return current;
                     if ( state.backtracking==0 ) {
 
-                      				newLeafNode(otherlv_9, grammarAccess.getExistTermAccess().getWithKeyword_6_0());
+                      				newLeafNode(otherlv_9, grammarAccess.getExistsTermAccess().getWithKeyword_6_0());
                       			
                     }
                     // InternalAsmetaL.g:8558:4: ( (lv_guard_10_0= ruleTerm ) )
@@ -24419,7 +24419,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                     {
                     if ( state.backtracking==0 ) {
 
-                      						newCompositeNode(grammarAccess.getExistTermAccess().getGuardTermParserRuleCall_6_1_0());
+                      						newCompositeNode(grammarAccess.getExistsTermAccess().getGuardTermParserRuleCall_6_1_0());
                       					
                     }
                     pushFollow(FOLLOW_50);
@@ -24430,7 +24430,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
                     if ( state.backtracking==0 ) {
 
                       						if (current==null) {
-                      							current = createModelElementForParent(grammarAccess.getExistTermRule());
+                      							current = createModelElementForParent(grammarAccess.getExistsTermRule());
                       						}
                       						set(
                       							current,
@@ -24455,7 +24455,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
             otherlv_11=(Token)match(input,31,FOLLOW_2); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
-              			newLeafNode(otherlv_11, grammarAccess.getExistTermAccess().getRightParenthesisKeyword_7());
+              			newLeafNode(otherlv_11, grammarAccess.getExistsTermAccess().getRightParenthesisKeyword_7());
               		
             }
 
@@ -24479,7 +24479,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
         }
         return current;
     }
-    // $ANTLR end "ruleExistTerm"
+    // $ANTLR end "ruleExistsTerm"
 
 
     // $ANTLR start "entryRuleForallTerm"

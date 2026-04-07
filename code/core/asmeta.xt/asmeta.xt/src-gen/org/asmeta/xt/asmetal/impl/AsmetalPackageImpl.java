@@ -49,8 +49,8 @@ import org.asmeta.xt.asmetal.DynamicFunction;
 import org.asmeta.xt.asmetal.EnumElement;
 import org.asmeta.xt.asmetal.EnumTD;
 import org.asmeta.xt.asmetal.EnumTerm;
-import org.asmeta.xt.asmetal.ExistTerm;
-import org.asmeta.xt.asmetal.ExistUniqueTerm;
+import org.asmeta.xt.asmetal.ExistsTerm;
+import org.asmeta.xt.asmetal.ExistsUniqueTerm;
 import org.asmeta.xt.asmetal.ExportClause;
 import org.asmeta.xt.asmetal.Expression;
 import org.asmeta.xt.asmetal.ExtendRule;
@@ -797,14 +797,14 @@ public class AsmetalPackageImpl extends EPackageImpl implements AsmetalPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  private EClass existUniqueTermEClass = null;
+  private EClass existsUniqueTermEClass = null;
 
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  private EClass existTermEClass = null;
+  private EClass existsTermEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -3305,9 +3305,9 @@ public class AsmetalPackageImpl extends EPackageImpl implements AsmetalPackage
    * @generated
    */
   @Override
-  public EClass getExistUniqueTerm()
+  public EClass getExistsUniqueTerm()
   {
-    return existUniqueTermEClass;
+    return existsUniqueTermEClass;
   }
 
   /**
@@ -3316,9 +3316,9 @@ public class AsmetalPackageImpl extends EPackageImpl implements AsmetalPackage
    * @generated
    */
   @Override
-  public EClass getExistTerm()
+  public EClass getExistsTerm()
   {
-    return existTermEClass;
+    return existsTermEClass;
   }
 
   /**
@@ -4546,9 +4546,9 @@ public class AsmetalPackageImpl extends EPackageImpl implements AsmetalPackage
     createEReference(finiteQuantificationTermEClass, FINITE_QUANTIFICATION_TERM__RANGES);
     createEReference(finiteQuantificationTermEClass, FINITE_QUANTIFICATION_TERM__GUARD);
 
-    existUniqueTermEClass = createEClass(EXIST_UNIQUE_TERM);
+    existsUniqueTermEClass = createEClass(EXISTS_UNIQUE_TERM);
 
-    existTermEClass = createEClass(EXIST_TERM);
+    existsTermEClass = createEClass(EXISTS_TERM);
 
     forallTermEClass = createEClass(FORALL_TERM);
 
@@ -4767,8 +4767,8 @@ public class AsmetalPackageImpl extends EPackageImpl implements AsmetalPackage
     variableBindingTermEClass.getESuperTypes().add(this.getExtendedTerm());
     finiteQuantificationTermEClass.getESuperTypes().add(this.getbasicExpr());
     finiteQuantificationTermEClass.getESuperTypes().add(this.getVariableBindingTerm());
-    existUniqueTermEClass.getESuperTypes().add(this.getFiniteQuantificationTerm());
-    existTermEClass.getESuperTypes().add(this.getFiniteQuantificationTerm());
+    existsUniqueTermEClass.getESuperTypes().add(this.getFiniteQuantificationTerm());
+    existsTermEClass.getESuperTypes().add(this.getFiniteQuantificationTerm());
     forallTermEClass.getESuperTypes().add(this.getFiniteQuantificationTerm());
     letTermEClass.getESuperTypes().add(this.getVariableBindingTerm());
     comprehensionTermEClass.getESuperTypes().add(this.getVariableBindingTerm());
@@ -5095,9 +5095,9 @@ public class AsmetalPackageImpl extends EPackageImpl implements AsmetalPackage
     initEReference(getFiniteQuantificationTerm_Ranges(), this.getTerm(), null, "ranges", null, 0, -1, FiniteQuantificationTerm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getFiniteQuantificationTerm_Guard(), this.getTerm(), null, "guard", null, 0, 1, FiniteQuantificationTerm.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(existUniqueTermEClass, ExistUniqueTerm.class, "ExistsUniqueTerm", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEClass(existsUniqueTermEClass, ExistsUniqueTerm.class, "ExistsUniqueTerm", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-    initEClass(existTermEClass, ExistTerm.class, "ExistsTerm", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEClass(existsTermEClass, ExistsTerm.class, "ExistsTerm", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
     initEClass(forallTermEClass, ForallTerm.class, "ForallTerm", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 

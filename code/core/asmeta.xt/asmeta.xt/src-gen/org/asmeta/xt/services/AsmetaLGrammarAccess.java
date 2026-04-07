@@ -4376,8 +4376,8 @@ public class AsmetaLGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.asmeta.xt.AsmetaL.FiniteQuantificationTerm");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
 		private final RuleCall cForallTermParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
-		private final RuleCall cExistUniqueTermParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
-		private final RuleCall cExistTermParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
+		private final RuleCall cExistsUniqueTermParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
+		private final RuleCall cExistsTermParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
 		
 		//FiniteQuantificationTerm :  ForallTerm | ExistsUniqueTerm | ExistsTerm;
 		@Override public ParserRule getRule() { return rule; }
@@ -4389,13 +4389,13 @@ public class AsmetaLGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		public RuleCall getForallTermParserRuleCall_0() { return cForallTermParserRuleCall_0; }
 		
 		//ExistsUniqueTerm
-		public RuleCall getExistUniqueTermParserRuleCall_1() { return cExistUniqueTermParserRuleCall_1; }
+		public RuleCall getExistsUniqueTermParserRuleCall_1() { return cExistsUniqueTermParserRuleCall_1; }
 		
 		//ExistsTerm
-		public RuleCall getExistTermParserRuleCall_2() { return cExistTermParserRuleCall_2; }
+		public RuleCall getExistsTermParserRuleCall_2() { return cExistsTermParserRuleCall_2; }
 	}
-	public class ExistUniqueTermElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.asmeta.xt.AsmetaL.ExistUniqueTerm");
+	public class ExistsUniqueTermElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.asmeta.xt.AsmetaL.ExistsUniqueTerm");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cLeftParenthesisKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Keyword cExistKeyword_1 = (Keyword)cGroup.eContents().get(1);
@@ -4484,8 +4484,8 @@ public class AsmetaLGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		//")"
 		public Keyword getRightParenthesisKeyword_8() { return cRightParenthesisKeyword_8; }
 	}
-	public class ExistTermElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.asmeta.xt.AsmetaL.ExistTerm");
+	public class ExistsTermElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "org.asmeta.xt.AsmetaL.ExistsTerm");
 		private final Group cGroup = (Group)rule.eContents().get(1);
 		private final Keyword cLeftParenthesisKeyword_0 = (Keyword)cGroup.eContents().get(0);
 		private final Keyword cExistKeyword_1 = (Keyword)cGroup.eContents().get(1);
@@ -6603,8 +6603,8 @@ public class AsmetaLGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 	private final BagTermElements pBagTerm;
 	private final VariableBindingTermElements pVariableBindingTerm;
 	private final FiniteQuantificationTermElements pFiniteQuantificationTerm;
-	private final ExistUniqueTermElements pExistUniqueTerm;
-	private final ExistTermElements pExistTerm;
+	private final ExistsUniqueTermElements pExistsUniqueTerm;
+	private final ExistsTermElements pExistsTerm;
 	private final ForallTermElements pForallTerm;
 	private final LetTermElements pLetTerm;
 	private final ComprehensionTermElements pComprehensionTerm;
@@ -6774,8 +6774,8 @@ public class AsmetaLGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 		this.pBagTerm = new BagTermElements();
 		this.pVariableBindingTerm = new VariableBindingTermElements();
 		this.pFiniteQuantificationTerm = new FiniteQuantificationTermElements();
-		this.pExistUniqueTerm = new ExistUniqueTermElements();
-		this.pExistTerm = new ExistTermElements();
+		this.pExistsUniqueTerm = new ExistsUniqueTermElements();
+		this.pExistsTerm = new ExistsTermElements();
 		this.pForallTerm = new ForallTermElements();
 		this.pLetTerm = new LetTermElements();
 		this.pComprehensionTerm = new ComprehensionTermElements();
@@ -7931,21 +7931,21 @@ public class AsmetaLGrammarAccess extends AbstractElementFinder.AbstractGrammarE
 	}
 	
 	//ExistsUniqueTerm 	: "(" 'exist' 'unique' 	variable+=VariableTerm 	'in' ranges+=Term ( "," variable+=VariableTerm 'in' ranges+=Term )* ( 'with' guard=Term )? ")";
-	public ExistUniqueTermElements getExistUniqueTermAccess() {
-		return pExistUniqueTerm;
+	public ExistsUniqueTermElements getExistsUniqueTermAccess() {
+		return pExistsUniqueTerm;
 	}
 	
-	public ParserRule getExistUniqueTermRule() {
-		return getExistUniqueTermAccess().getRule();
+	public ParserRule getExistsUniqueTermRule() {
+		return getExistsUniqueTermAccess().getRule();
 	}
 	
 	//ExistsTerm 		: "(" 'exist' 			variable+=VariableTerm 	'in' ranges+=Term  ( "," variable+=VariableTerm 'in' ranges+=Term )* ( 'with' guard=Term )? ")";
-	public ExistTermElements getExistTermAccess() {
-		return pExistTerm;
+	public ExistsTermElements getExistsTermAccess() {
+		return pExistsTerm;
 	}
 	
-	public ParserRule getExistTermRule() {
-		return getExistTermAccess().getRule();
+	public ParserRule getExistsTermRule() {
+		return getExistsTermAccess().getRule();
 	}
 	
 	//ForallTerm 		: "(" 'forall' 			variable+=VariableTerm 	'in' ranges+=Term ( "," variable+=VariableTerm 'in' ranges+=Term )* ( 'with' guard=Term )? ")";

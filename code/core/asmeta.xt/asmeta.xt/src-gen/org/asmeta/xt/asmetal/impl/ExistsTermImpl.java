@@ -4,25 +4,25 @@
 package org.asmeta.xt.asmetal.impl;
 
 import org.asmeta.xt.asmetal.AsmetalPackage;
-import org.asmeta.xt.asmetal.ExistTerm;
+import org.asmeta.xt.asmetal.ExistsTerm;
 
 import org.eclipse.emf.ecore.EClass;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Exist Term</b></em>'.
+ * An implementation of the model object '<em><b>Exists Term</b></em>'.
  * <!-- end-user-doc -->
  *
  * @generated
  */
-public class ExistTermImpl extends FiniteQuantificationTermImpl implements ExistTerm
+public class ExistsTermImpl extends FiniteQuantificationTermImpl implements ExistsTerm
 {
   /**
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    */
-  protected ExistTermImpl()
+  protected ExistsTermImpl()
   {
     super();
   }
@@ -35,7 +35,7 @@ public class ExistTermImpl extends FiniteQuantificationTermImpl implements Exist
   @Override
   protected EClass eStaticClass()
   {
-    return AsmetalPackage.Literals.EXIST_TERM;
+    return AsmetalPackage.Literals.EXISTS_TERM;
   }
 
-} //ExistTermImpl
+} //ExistsTermImpl
