@@ -292,9 +292,9 @@ BagTerm 			: {BagTerm} "<" ( start_term=BasicTerm ( ( "," other_terms+=BasicTerm
 
 VariableBindingTerm : LetTerm | FiniteQuantificationTerm | ComprehensionTerm;
 
-FiniteQuantificationTerm :  ForallTerm | ExistUniqueTerm | ExistTerm;
-ExistUniqueTerm 	: "(" 'exist' 'unique' 	variable+=VariableTerm 	'in' ranges+=Term ( "," variable+=VariableTerm 'in' ranges+=Term )* ( 'with' guard=Term )? ")";
-ExistTerm 		: "(" 'exist' 			variable+=VariableTerm 	'in' ranges+=Term  ( "," variable+=VariableTerm 'in' ranges+=Term )* ( 'with' guard=Term )? ")";
+FiniteQuantificationTerm :  ForallTerm | ExistsUniqueTerm | ExistsTerm;
+ExistsUniqueTerm 	: "(" 'exist' 'unique' 	variable+=VariableTerm 	'in' ranges+=Term ( "," variable+=VariableTerm 'in' ranges+=Term )* ( 'with' guard=Term )? ")";
+ExistsTerm 		: "(" 'exist' 			variable+=VariableTerm 	'in' ranges+=Term  ( "," variable+=VariableTerm 'in' ranges+=Term )* ( 'with' guard=Term )? ")";
 ForallTerm 		: "(" 'forall' 			variable+=VariableTerm 	'in' ranges+=Term ( "," variable+=VariableTerm 'in' ranges+=Term )* ( 'with' guard=Term )? ")";
 
 // TODO mettere variable in ...
