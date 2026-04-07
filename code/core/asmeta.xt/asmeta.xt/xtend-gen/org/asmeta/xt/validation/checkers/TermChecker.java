@@ -657,13 +657,13 @@ public class TermChecker {
   public static ErrorType isVariableListOK(final ExistTerm exist_term) {
     EStructuralFeature feature = AsmetalPackage.Literals.VARIABLE_BINDING_TERM__VARIABLE;
     String code = ErrorCode.EXIST_TERM__VARIABLE_ALREADY_USED;
-    return SharedCheckers.returnErrorVariableDeclared("ExistsTerm", feature, code, exist_term.getVariable(), exist_term);
+    return SharedCheckers.returnErrorVariableDeclared("ExistTerm", feature, code, exist_term.getVariable(), exist_term);
   }
 
   public static ErrorType isVariableListOK(final ExistUniqueTerm exist_unique_term) {
     EStructuralFeature feature = AsmetalPackage.Literals.VARIABLE_BINDING_TERM__VARIABLE;
     String code = ErrorCode.EXIST_UNIQUE_TERM__VARIABLE_ALREADY_USED;
-    return SharedCheckers.returnErrorVariableDeclared("ExistsUniqueTerm", feature, code, exist_unique_term.getVariable(), exist_unique_term);
+    return SharedCheckers.returnErrorVariableDeclared("ExistUniqueTerm", feature, code, exist_unique_term.getVariable(), exist_unique_term);
   }
 
   public static ErrorType isVariableDomainOK(final FiniteQuantificationTerm finite_term) {
