@@ -8306,9 +8306,9 @@ ruleExistsUniqueTerm returns [EObject current=null]
 		{
 			newLeafNode(otherlv_0, grammarAccess.getExistsUniqueTermAccess().getLeftParenthesisKeyword_0());
 		}
-		otherlv_1='exist'
+		otherlv_1='exists'
 		{
-			newLeafNode(otherlv_1, grammarAccess.getExistsUniqueTermAccess().getExistKeyword_1());
+			newLeafNode(otherlv_1, grammarAccess.getExistsUniqueTermAccess().getExistsKeyword_1());
 		}
 		otherlv_2='unique'
 		{
@@ -8456,9 +8456,9 @@ ruleExistsTerm returns [EObject current=null]
 		{
 			newLeafNode(otherlv_0, grammarAccess.getExistsTermAccess().getLeftParenthesisKeyword_0());
 		}
-		otherlv_1='exist'
+		otherlv_1='exists'
 		{
-			newLeafNode(otherlv_1, grammarAccess.getExistsTermAccess().getExistKeyword_1());
+			newLeafNode(otherlv_1, grammarAccess.getExistsTermAccess().getExistsKeyword_1());
 		}
 		(
 			(

@@ -22,7 +22,7 @@ import java.util.HashMap;
 @SuppressWarnings("all")
 public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_STRING", "RULE_ID", "RULE_RULE_ID", "RULE_ENUM_ID", "RULE_COMPLEX_NUMBER", "RULE_NATNUMBER", "RULE_CHAR_LITERAL", "RULE_STRING_LITERAL", "RULE_NUMBER_TOKEN", "RULE_REAL_NUMBER", "RULE_DIGIT", "RULE_MAIUSC_ID", "RULE_MIN_ID", "RULE_ACCENT_CHR", "RULE_SPECIAL_CHAR", "RULE_WS", "RULE_IMMAGINARY_NUMBER", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "'asyncr'", "'asm'", "'module'", "'main'", "'default'", "'import'", "'('", "','", "')'", "'export'", "'*'", "'signature'", "':'", "'init'", "'domain'", "'='", "'function'", "'in'", "'agent'", "'Agent'", "'definitions'", "'macro'", "'rule'", "'turbo'", "'invariant'", "'over'", "'CTLSPEC'", "'ctlspec'", "'LTLSPEC'", "'ltlspec'", "'JUSTICE'", "'COMPASSION'", "'INVAR'", "'dynamic'", "'subsetof'", "'anydomain'", "'basic'", "'Integer'", "'Real'", "'String'", "'Natural'", "'Char'", "'Complex'", "'Boolean'", "'Undef'", "'abstract'", "'Reserve'", "'enum'", "'{'", "'|'", "'}'", "'Rule'", "'Prod'", "'Seq'", "'Powerset'", "'Bag'", "'Map'", "'derived'", "'->'", "'static'", "'local'", "'controlled'", "'shared'", "'monitored'", "'out'", "'and'", "'or'", "'not'", "'xor'", "'mod'", "'iff'", "'implies'", "'while'", "'for'", "'!='", "'>'", "'<'", "'>='", "'<='", "'+'", "'-'", "'/'", "'^'", "'.'", "'true'", "'false'", "'undef'", "'if'", "'then'", "'else'", "'endif'", "'switch'", "'case'", "'otherwise'", "'endswitch'", "'['", "']'", "'exist'", "'unique'", "'with'", "'forall'", "'let'", "'endlet'", "'<<'", "'>>'", "'skip'", "':='", "'par'", "'endpar'", "'choose'", "'do'", "'ifnone'", "'extend'", "'seq'", "'endseq'", "'iterate'", "'enditerate'", "'<-'", "'whilerec'", "'../'", "'./'", "'$'"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_STRING", "RULE_ID", "RULE_RULE_ID", "RULE_ENUM_ID", "RULE_COMPLEX_NUMBER", "RULE_NATNUMBER", "RULE_CHAR_LITERAL", "RULE_STRING_LITERAL", "RULE_NUMBER_TOKEN", "RULE_REAL_NUMBER", "RULE_DIGIT", "RULE_MAIUSC_ID", "RULE_MIN_ID", "RULE_ACCENT_CHR", "RULE_SPECIAL_CHAR", "RULE_WS", "RULE_IMMAGINARY_NUMBER", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "'asyncr'", "'asm'", "'module'", "'main'", "'default'", "'import'", "'('", "','", "')'", "'export'", "'*'", "'signature'", "':'", "'init'", "'domain'", "'='", "'function'", "'in'", "'agent'", "'Agent'", "'definitions'", "'macro'", "'rule'", "'turbo'", "'invariant'", "'over'", "'CTLSPEC'", "'ctlspec'", "'LTLSPEC'", "'ltlspec'", "'JUSTICE'", "'COMPASSION'", "'INVAR'", "'dynamic'", "'subsetof'", "'anydomain'", "'basic'", "'Integer'", "'Real'", "'String'", "'Natural'", "'Char'", "'Complex'", "'Boolean'", "'Undef'", "'abstract'", "'Reserve'", "'enum'", "'{'", "'|'", "'}'", "'Rule'", "'Prod'", "'Seq'", "'Powerset'", "'Bag'", "'Map'", "'derived'", "'->'", "'static'", "'local'", "'controlled'", "'shared'", "'monitored'", "'out'", "'and'", "'or'", "'not'", "'xor'", "'mod'", "'iff'", "'implies'", "'while'", "'for'", "'!='", "'>'", "'<'", "'>='", "'<='", "'+'", "'-'", "'/'", "'^'", "'.'", "'true'", "'false'", "'undef'", "'if'", "'then'", "'else'", "'endif'", "'switch'", "'case'", "'otherwise'", "'endswitch'", "'['", "']'", "'exists'", "'unique'", "'with'", "'forall'", "'let'", "'endlet'", "'<<'", "'>>'", "'skip'", "':='", "'par'", "'endpar'", "'choose'", "'do'", "'ifnone'", "'extend'", "'seq'", "'endseq'", "'iterate'", "'enditerate'", "'<-'", "'whilerec'", "'../'", "'./'", "'$'"
     };
     public static final int T__144=144;
     public static final int T__143=143;
@@ -23806,7 +23806,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleExistsUniqueTerm"
-    // InternalAsmetaL.g:8297:1: ruleExistsUniqueTerm returns [EObject current=null] : (otherlv_0= '(' otherlv_1= 'exist' otherlv_2= 'unique' ( (lv_variable_3_0= ruleVariableTerm ) ) otherlv_4= 'in' ( (lv_ranges_5_0= ruleTerm ) ) (otherlv_6= ',' ( (lv_variable_7_0= ruleVariableTerm ) ) otherlv_8= 'in' ( (lv_ranges_9_0= ruleTerm ) ) )* (otherlv_10= 'with' ( (lv_guard_11_0= ruleTerm ) ) )? otherlv_12= ')' ) ;
+    // InternalAsmetaL.g:8297:1: ruleExistsUniqueTerm returns [EObject current=null] : (otherlv_0= '(' otherlv_1= 'exists' otherlv_2= 'unique' ( (lv_variable_3_0= ruleVariableTerm ) ) otherlv_4= 'in' ( (lv_ranges_5_0= ruleTerm ) ) (otherlv_6= ',' ( (lv_variable_7_0= ruleVariableTerm ) ) otherlv_8= 'in' ( (lv_ranges_9_0= ruleTerm ) ) )* (otherlv_10= 'with' ( (lv_guard_11_0= ruleTerm ) ) )? otherlv_12= ')' ) ;
     public final EObject ruleExistsUniqueTerm() throws RecognitionException {
         EObject current = null;
 
@@ -23833,11 +23833,11 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalAsmetaL.g:8303:2: ( (otherlv_0= '(' otherlv_1= 'exist' otherlv_2= 'unique' ( (lv_variable_3_0= ruleVariableTerm ) ) otherlv_4= 'in' ( (lv_ranges_5_0= ruleTerm ) ) (otherlv_6= ',' ( (lv_variable_7_0= ruleVariableTerm ) ) otherlv_8= 'in' ( (lv_ranges_9_0= ruleTerm ) ) )* (otherlv_10= 'with' ( (lv_guard_11_0= ruleTerm ) ) )? otherlv_12= ')' ) )
-            // InternalAsmetaL.g:8304:2: (otherlv_0= '(' otherlv_1= 'exist' otherlv_2= 'unique' ( (lv_variable_3_0= ruleVariableTerm ) ) otherlv_4= 'in' ( (lv_ranges_5_0= ruleTerm ) ) (otherlv_6= ',' ( (lv_variable_7_0= ruleVariableTerm ) ) otherlv_8= 'in' ( (lv_ranges_9_0= ruleTerm ) ) )* (otherlv_10= 'with' ( (lv_guard_11_0= ruleTerm ) ) )? otherlv_12= ')' )
+            // InternalAsmetaL.g:8303:2: ( (otherlv_0= '(' otherlv_1= 'exists' otherlv_2= 'unique' ( (lv_variable_3_0= ruleVariableTerm ) ) otherlv_4= 'in' ( (lv_ranges_5_0= ruleTerm ) ) (otherlv_6= ',' ( (lv_variable_7_0= ruleVariableTerm ) ) otherlv_8= 'in' ( (lv_ranges_9_0= ruleTerm ) ) )* (otherlv_10= 'with' ( (lv_guard_11_0= ruleTerm ) ) )? otherlv_12= ')' ) )
+            // InternalAsmetaL.g:8304:2: (otherlv_0= '(' otherlv_1= 'exists' otherlv_2= 'unique' ( (lv_variable_3_0= ruleVariableTerm ) ) otherlv_4= 'in' ( (lv_ranges_5_0= ruleTerm ) ) (otherlv_6= ',' ( (lv_variable_7_0= ruleVariableTerm ) ) otherlv_8= 'in' ( (lv_ranges_9_0= ruleTerm ) ) )* (otherlv_10= 'with' ( (lv_guard_11_0= ruleTerm ) ) )? otherlv_12= ')' )
             {
-            // InternalAsmetaL.g:8304:2: (otherlv_0= '(' otherlv_1= 'exist' otherlv_2= 'unique' ( (lv_variable_3_0= ruleVariableTerm ) ) otherlv_4= 'in' ( (lv_ranges_5_0= ruleTerm ) ) (otherlv_6= ',' ( (lv_variable_7_0= ruleVariableTerm ) ) otherlv_8= 'in' ( (lv_ranges_9_0= ruleTerm ) ) )* (otherlv_10= 'with' ( (lv_guard_11_0= ruleTerm ) ) )? otherlv_12= ')' )
-            // InternalAsmetaL.g:8305:3: otherlv_0= '(' otherlv_1= 'exist' otherlv_2= 'unique' ( (lv_variable_3_0= ruleVariableTerm ) ) otherlv_4= 'in' ( (lv_ranges_5_0= ruleTerm ) ) (otherlv_6= ',' ( (lv_variable_7_0= ruleVariableTerm ) ) otherlv_8= 'in' ( (lv_ranges_9_0= ruleTerm ) ) )* (otherlv_10= 'with' ( (lv_guard_11_0= ruleTerm ) ) )? otherlv_12= ')'
+            // InternalAsmetaL.g:8304:2: (otherlv_0= '(' otherlv_1= 'exists' otherlv_2= 'unique' ( (lv_variable_3_0= ruleVariableTerm ) ) otherlv_4= 'in' ( (lv_ranges_5_0= ruleTerm ) ) (otherlv_6= ',' ( (lv_variable_7_0= ruleVariableTerm ) ) otherlv_8= 'in' ( (lv_ranges_9_0= ruleTerm ) ) )* (otherlv_10= 'with' ( (lv_guard_11_0= ruleTerm ) ) )? otherlv_12= ')' )
+            // InternalAsmetaL.g:8305:3: otherlv_0= '(' otherlv_1= 'exists' otherlv_2= 'unique' ( (lv_variable_3_0= ruleVariableTerm ) ) otherlv_4= 'in' ( (lv_ranges_5_0= ruleTerm ) ) (otherlv_6= ',' ( (lv_variable_7_0= ruleVariableTerm ) ) otherlv_8= 'in' ( (lv_ranges_9_0= ruleTerm ) ) )* (otherlv_10= 'with' ( (lv_guard_11_0= ruleTerm ) ) )? otherlv_12= ')'
             {
             otherlv_0=(Token)match(input,29,FOLLOW_100); if (state.failed) return current;
             if ( state.backtracking==0 ) {
@@ -23848,7 +23848,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
             otherlv_1=(Token)match(input,120,FOLLOW_101); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
-              			newLeafNode(otherlv_1, grammarAccess.getExistsUniqueTermAccess().getExistKeyword_1());
+              			newLeafNode(otherlv_1, grammarAccess.getExistsUniqueTermAccess().getExistsKeyword_1());
               		
             }
             otherlv_2=(Token)match(input,121,FOLLOW_30); if (state.failed) return current;
@@ -24168,7 +24168,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleExistsTerm"
-    // InternalAsmetaL.g:8447:1: ruleExistsTerm returns [EObject current=null] : (otherlv_0= '(' otherlv_1= 'exist' ( (lv_variable_2_0= ruleVariableTerm ) ) otherlv_3= 'in' ( (lv_ranges_4_0= ruleTerm ) ) (otherlv_5= ',' ( (lv_variable_6_0= ruleVariableTerm ) ) otherlv_7= 'in' ( (lv_ranges_8_0= ruleTerm ) ) )* (otherlv_9= 'with' ( (lv_guard_10_0= ruleTerm ) ) )? otherlv_11= ')' ) ;
+    // InternalAsmetaL.g:8447:1: ruleExistsTerm returns [EObject current=null] : (otherlv_0= '(' otherlv_1= 'exists' ( (lv_variable_2_0= ruleVariableTerm ) ) otherlv_3= 'in' ( (lv_ranges_4_0= ruleTerm ) ) (otherlv_5= ',' ( (lv_variable_6_0= ruleVariableTerm ) ) otherlv_7= 'in' ( (lv_ranges_8_0= ruleTerm ) ) )* (otherlv_9= 'with' ( (lv_guard_10_0= ruleTerm ) ) )? otherlv_11= ')' ) ;
     public final EObject ruleExistsTerm() throws RecognitionException {
         EObject current = null;
 
@@ -24194,11 +24194,11 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalAsmetaL.g:8453:2: ( (otherlv_0= '(' otherlv_1= 'exist' ( (lv_variable_2_0= ruleVariableTerm ) ) otherlv_3= 'in' ( (lv_ranges_4_0= ruleTerm ) ) (otherlv_5= ',' ( (lv_variable_6_0= ruleVariableTerm ) ) otherlv_7= 'in' ( (lv_ranges_8_0= ruleTerm ) ) )* (otherlv_9= 'with' ( (lv_guard_10_0= ruleTerm ) ) )? otherlv_11= ')' ) )
-            // InternalAsmetaL.g:8454:2: (otherlv_0= '(' otherlv_1= 'exist' ( (lv_variable_2_0= ruleVariableTerm ) ) otherlv_3= 'in' ( (lv_ranges_4_0= ruleTerm ) ) (otherlv_5= ',' ( (lv_variable_6_0= ruleVariableTerm ) ) otherlv_7= 'in' ( (lv_ranges_8_0= ruleTerm ) ) )* (otherlv_9= 'with' ( (lv_guard_10_0= ruleTerm ) ) )? otherlv_11= ')' )
+            // InternalAsmetaL.g:8453:2: ( (otherlv_0= '(' otherlv_1= 'exists' ( (lv_variable_2_0= ruleVariableTerm ) ) otherlv_3= 'in' ( (lv_ranges_4_0= ruleTerm ) ) (otherlv_5= ',' ( (lv_variable_6_0= ruleVariableTerm ) ) otherlv_7= 'in' ( (lv_ranges_8_0= ruleTerm ) ) )* (otherlv_9= 'with' ( (lv_guard_10_0= ruleTerm ) ) )? otherlv_11= ')' ) )
+            // InternalAsmetaL.g:8454:2: (otherlv_0= '(' otherlv_1= 'exists' ( (lv_variable_2_0= ruleVariableTerm ) ) otherlv_3= 'in' ( (lv_ranges_4_0= ruleTerm ) ) (otherlv_5= ',' ( (lv_variable_6_0= ruleVariableTerm ) ) otherlv_7= 'in' ( (lv_ranges_8_0= ruleTerm ) ) )* (otherlv_9= 'with' ( (lv_guard_10_0= ruleTerm ) ) )? otherlv_11= ')' )
             {
-            // InternalAsmetaL.g:8454:2: (otherlv_0= '(' otherlv_1= 'exist' ( (lv_variable_2_0= ruleVariableTerm ) ) otherlv_3= 'in' ( (lv_ranges_4_0= ruleTerm ) ) (otherlv_5= ',' ( (lv_variable_6_0= ruleVariableTerm ) ) otherlv_7= 'in' ( (lv_ranges_8_0= ruleTerm ) ) )* (otherlv_9= 'with' ( (lv_guard_10_0= ruleTerm ) ) )? otherlv_11= ')' )
-            // InternalAsmetaL.g:8455:3: otherlv_0= '(' otherlv_1= 'exist' ( (lv_variable_2_0= ruleVariableTerm ) ) otherlv_3= 'in' ( (lv_ranges_4_0= ruleTerm ) ) (otherlv_5= ',' ( (lv_variable_6_0= ruleVariableTerm ) ) otherlv_7= 'in' ( (lv_ranges_8_0= ruleTerm ) ) )* (otherlv_9= 'with' ( (lv_guard_10_0= ruleTerm ) ) )? otherlv_11= ')'
+            // InternalAsmetaL.g:8454:2: (otherlv_0= '(' otherlv_1= 'exists' ( (lv_variable_2_0= ruleVariableTerm ) ) otherlv_3= 'in' ( (lv_ranges_4_0= ruleTerm ) ) (otherlv_5= ',' ( (lv_variable_6_0= ruleVariableTerm ) ) otherlv_7= 'in' ( (lv_ranges_8_0= ruleTerm ) ) )* (otherlv_9= 'with' ( (lv_guard_10_0= ruleTerm ) ) )? otherlv_11= ')' )
+            // InternalAsmetaL.g:8455:3: otherlv_0= '(' otherlv_1= 'exists' ( (lv_variable_2_0= ruleVariableTerm ) ) otherlv_3= 'in' ( (lv_ranges_4_0= ruleTerm ) ) (otherlv_5= ',' ( (lv_variable_6_0= ruleVariableTerm ) ) otherlv_7= 'in' ( (lv_ranges_8_0= ruleTerm ) ) )* (otherlv_9= 'with' ( (lv_guard_10_0= ruleTerm ) ) )? otherlv_11= ')'
             {
             otherlv_0=(Token)match(input,29,FOLLOW_100); if (state.failed) return current;
             if ( state.backtracking==0 ) {
@@ -24209,7 +24209,7 @@ public class InternalAsmetaLParser extends AbstractInternalAntlrParser {
             otherlv_1=(Token)match(input,120,FOLLOW_30); if (state.failed) return current;
             if ( state.backtracking==0 ) {
 
-              			newLeafNode(otherlv_1, grammarAccess.getExistsTermAccess().getExistKeyword_1());
+              			newLeafNode(otherlv_1, grammarAccess.getExistsTermAccess().getExistsKeyword_1());
               		
             }
             // InternalAsmetaL.g:8463:3: ( (lv_variable_2_0= ruleVariableTerm ) )

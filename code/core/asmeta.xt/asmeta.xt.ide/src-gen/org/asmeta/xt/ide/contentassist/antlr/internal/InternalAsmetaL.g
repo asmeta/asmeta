@@ -17364,9 +17364,9 @@ rule__ExistsUniqueTerm__Group__1__Impl
 	}
 :
 (
-	{ before(grammarAccess.getExistsUniqueTermAccess().getExistKeyword_1()); }
-	'exist'
-	{ after(grammarAccess.getExistsUniqueTermAccess().getExistKeyword_1()); }
+	{ before(grammarAccess.getExistsUniqueTermAccess().getExistsKeyword_1()); }
+	'exists'
+	{ after(grammarAccess.getExistsUniqueTermAccess().getExistsKeyword_1()); }
 )
 ;
 finally {
@@ -17769,9 +17769,9 @@ rule__ExistsTerm__Group__1__Impl
 	}
 :
 (
-	{ before(grammarAccess.getExistsTermAccess().getExistKeyword_1()); }
-	'exist'
-	{ after(grammarAccess.getExistsTermAccess().getExistKeyword_1()); }
+	{ before(grammarAccess.getExistsTermAccess().getExistsKeyword_1()); }
+	'exists'
+	{ after(grammarAccess.getExistsTermAccess().getExistsKeyword_1()); }
 )
 ;
 finally {

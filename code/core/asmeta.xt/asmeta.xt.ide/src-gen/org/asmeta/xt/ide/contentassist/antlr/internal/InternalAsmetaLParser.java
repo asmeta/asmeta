@@ -23,7 +23,7 @@ import java.util.HashMap;
 @SuppressWarnings("all")
 public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_STRING", "RULE_ID", "RULE_ENUM_ID", "RULE_RULE_ID", "RULE_NUMBER_TOKEN", "RULE_REAL_NUMBER", "RULE_COMPLEX_NUMBER", "RULE_NATNUMBER", "RULE_CHAR_LITERAL", "RULE_STRING_LITERAL", "RULE_DIGIT", "RULE_MAIUSC_ID", "RULE_MIN_ID", "RULE_ACCENT_CHR", "RULE_SPECIAL_CHAR", "RULE_WS", "RULE_IMMAGINARY_NUMBER", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "'asm'", "'module'", "'Agent'", "'CTLSPEC'", "'ctlspec'", "'LTLSPEC'", "'ltlspec'", "'|'", "','", "'and'", "'or'", "'not'", "'xor'", "'mod'", "'iff'", "'implies'", "'while'", "'for'", "'main'", "'='", "'!='", "'>'", "'<'", "'>='", "'<='", "'+'", "'-'", "'*'", "'/'", "'true'", "'false'", "'->'", "'../'", "'./'", "'rule'", "'agent'", "'seq'", "'default'", "'import'", "'('", "')'", "'export'", "'signature'", "':'", "'init'", "'domain'", "'function'", "'in'", "'definitions'", "'macro'", "'turbo'", "'invariant'", "'over'", "'JUSTICE'", "'COMPASSION'", "'INVAR'", "'subsetof'", "'anydomain'", "'basic'", "'abstract'", "'enum'", "'{'", "'}'", "'derived'", "'static'", "'local'", "'controlled'", "'shared'", "'monitored'", "'out'", "'.'", "'if'", "'then'", "'endif'", "'else'", "'switch'", "'endswitch'", "'case'", "'otherwise'", "'['", "']'", "'exist'", "'unique'", "'with'", "'forall'", "'let'", "'endlet'", "'<<'", "'>>'", "'skip'", "':='", "'par'", "'endpar'", "'choose'", "'do'", "'ifnone'", "'extend'", "'endseq'", "'iterate'", "'enditerate'", "'<-'", "'whilerec'", "'$'", "'asyncr'", "'dynamic'", "'Integer'", "'Real'", "'String'", "'Natural'", "'Char'", "'Complex'", "'Boolean'", "'Undef'", "'Reserve'", "'Rule'", "'Prod'", "'Seq'", "'Powerset'", "'Bag'", "'Map'", "'^'", "'undef'"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_STRING", "RULE_ID", "RULE_ENUM_ID", "RULE_RULE_ID", "RULE_NUMBER_TOKEN", "RULE_REAL_NUMBER", "RULE_COMPLEX_NUMBER", "RULE_NATNUMBER", "RULE_CHAR_LITERAL", "RULE_STRING_LITERAL", "RULE_DIGIT", "RULE_MAIUSC_ID", "RULE_MIN_ID", "RULE_ACCENT_CHR", "RULE_SPECIAL_CHAR", "RULE_WS", "RULE_IMMAGINARY_NUMBER", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "'asm'", "'module'", "'Agent'", "'CTLSPEC'", "'ctlspec'", "'LTLSPEC'", "'ltlspec'", "'|'", "','", "'and'", "'or'", "'not'", "'xor'", "'mod'", "'iff'", "'implies'", "'while'", "'for'", "'main'", "'='", "'!='", "'>'", "'<'", "'>='", "'<='", "'+'", "'-'", "'*'", "'/'", "'true'", "'false'", "'->'", "'../'", "'./'", "'rule'", "'agent'", "'seq'", "'default'", "'import'", "'('", "')'", "'export'", "'signature'", "':'", "'init'", "'domain'", "'function'", "'in'", "'definitions'", "'macro'", "'turbo'", "'invariant'", "'over'", "'JUSTICE'", "'COMPASSION'", "'INVAR'", "'subsetof'", "'anydomain'", "'basic'", "'abstract'", "'enum'", "'{'", "'}'", "'derived'", "'static'", "'local'", "'controlled'", "'shared'", "'monitored'", "'out'", "'.'", "'if'", "'then'", "'endif'", "'else'", "'switch'", "'endswitch'", "'case'", "'otherwise'", "'['", "']'", "'exists'", "'unique'", "'with'", "'forall'", "'let'", "'endlet'", "'<<'", "'>>'", "'skip'", "':='", "'par'", "'endpar'", "'choose'", "'do'", "'ifnone'", "'extend'", "'endseq'", "'iterate'", "'enditerate'", "'<-'", "'whilerec'", "'$'", "'asyncr'", "'dynamic'", "'Integer'", "'Real'", "'String'", "'Natural'", "'Char'", "'Complex'", "'Boolean'", "'Undef'", "'Reserve'", "'Rule'", "'Prod'", "'Seq'", "'Powerset'", "'Bag'", "'Map'", "'^'", "'undef'"
     };
     public static final int T__144=144;
     public static final int T__143=143;
@@ -58404,24 +58404,24 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__ExistsUniqueTerm__Group__1__Impl"
-    // InternalAsmetaL.g:17361:1: rule__ExistsUniqueTerm__Group__1__Impl : ( 'exist' ) ;
+    // InternalAsmetaL.g:17361:1: rule__ExistsUniqueTerm__Group__1__Impl : ( 'exists' ) ;
     public final void rule__ExistsUniqueTerm__Group__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:17365:1: ( ( 'exist' ) )
-            // InternalAsmetaL.g:17366:1: ( 'exist' )
+            // InternalAsmetaL.g:17365:1: ( ( 'exists' ) )
+            // InternalAsmetaL.g:17366:1: ( 'exists' )
             {
-            // InternalAsmetaL.g:17366:1: ( 'exist' )
-            // InternalAsmetaL.g:17367:2: 'exist'
+            // InternalAsmetaL.g:17366:1: ( 'exists' )
+            // InternalAsmetaL.g:17367:2: 'exists'
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getExistsUniqueTermAccess().getExistKeyword_1()); 
+               before(grammarAccess.getExistsUniqueTermAccess().getExistsKeyword_1()); 
             }
             match(input,104,FOLLOW_2); if (state.failed) return ;
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getExistsUniqueTermAccess().getExistKeyword_1()); 
+               after(grammarAccess.getExistsUniqueTermAccess().getExistsKeyword_1()); 
             }
 
             }
@@ -59673,24 +59673,24 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__ExistsTerm__Group__1__Impl"
-    // InternalAsmetaL.g:17766:1: rule__ExistsTerm__Group__1__Impl : ( 'exist' ) ;
+    // InternalAsmetaL.g:17766:1: rule__ExistsTerm__Group__1__Impl : ( 'exists' ) ;
     public final void rule__ExistsTerm__Group__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:17770:1: ( ( 'exist' ) )
-            // InternalAsmetaL.g:17771:1: ( 'exist' )
+            // InternalAsmetaL.g:17770:1: ( ( 'exists' ) )
+            // InternalAsmetaL.g:17771:1: ( 'exists' )
             {
-            // InternalAsmetaL.g:17771:1: ( 'exist' )
-            // InternalAsmetaL.g:17772:2: 'exist'
+            // InternalAsmetaL.g:17771:1: ( 'exists' )
+            // InternalAsmetaL.g:17772:2: 'exists'
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getExistsTermAccess().getExistKeyword_1()); 
+               before(grammarAccess.getExistsTermAccess().getExistsKeyword_1()); 
             }
             match(input,104,FOLLOW_2); if (state.failed) return ;
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getExistsTermAccess().getExistKeyword_1()); 
+               after(grammarAccess.getExistsTermAccess().getExistsKeyword_1()); 
             }
 
             }

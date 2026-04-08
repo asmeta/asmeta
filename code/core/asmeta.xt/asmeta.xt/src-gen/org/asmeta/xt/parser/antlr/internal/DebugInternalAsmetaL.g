@@ -1351,7 +1351,7 @@ ruleFiniteQuantificationTerm:
 // Rule ExistsUniqueTerm
 ruleExistsUniqueTerm:
 	'('
-	'exist'
+	'exists'
 	'unique'
 	ruleVariableTerm
 	'in'
@@ -1372,7 +1372,7 @@ ruleExistsUniqueTerm:
 // Rule ExistsTerm
 ruleExistsTerm:
 	'('
-	'exist'
+	'exists'
 	ruleVariableTerm
 	'in'
 	ruleTerm
