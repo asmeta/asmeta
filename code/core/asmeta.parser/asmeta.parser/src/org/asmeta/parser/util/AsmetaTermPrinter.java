@@ -205,8 +205,8 @@ public class AsmetaTermPrinter extends ReflectiveVisitor<String> {
 	 *            a term
 	 * @return a string
 	 */
-	public String visit(ExistsTerm exist) {
-		return visitQuant(exist, "exist");
+	public String visit(ExistsTerm exists) {
+		return visitQuant(exists, "exists");
 	}
 
 	/**
@@ -221,21 +221,12 @@ public class AsmetaTermPrinter extends ReflectiveVisitor<String> {
 	}
 
 	/**
-	 * Converte in stringa un <i>FiniteQuantificationTerm</i>.
-	 * 
-	 * @param term
-	 *            termine da convertire
-	 * @param quantName
-	 *            "exist" o "forall"
-	 * @return la rappresentazione in stringa del termine
-	 */
-	/**
-	 * Converts a finite quantification term into string.
+	 * Converts a finite quantification term <i>FiniteQuantificationTerm</i> into a string.
 	 * 
 	 * @param quantTerm
 	 *            a finite quantification term
 	 * @param quantName
-	 *            "exist" or "forall"
+	 *            "exists" or "forall"
 	 * @return a string
 	 */
 	protected String visitQuant(FiniteQuantificationTerm quantTerm, String quantName) {

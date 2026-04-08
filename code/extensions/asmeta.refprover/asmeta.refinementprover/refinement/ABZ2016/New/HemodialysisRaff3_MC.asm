@@ -209,8 +209,8 @@ signature:
 	derived bicarbonate_status_der: Boolean
 	derived errorePERbicarbonate: Boolean
 	derived signal_lamp_der: SignalLamps
-	derived errorExist: Boolean //True if exists at least one error
-	derived alarmExist: Boolean  //True if exists at least one alarm
+	derived errorExists: Boolean //True if exists at least one error
+	derived alarmExists: Boolean  //True if exists at least one alarm
 	derived err_patient_conn: Boolean //True if exists error during patient conn 
 	derived error_bp: Boolean //True if exists blood pump error
 	derived error_rein_press: Boolean //True if exists error during reinfusion phase
@@ -290,14 +290,14 @@ definitions:
 			bicarbonate_status
 		endif
 		
-	function errorexists = 
+	function errorExists = 
 		(exists $t in ErrorAlarmType with error($t) = true)
 		
-	function alarmexists = 
+	function alarmExists = 
 		(exists $t in ErrorAlarmType with alarm($t) = true)
 	
 	function signal_lamp_der =
-		if errorexists then
+		if errorExists then
 			RED
 		else
 			signal_lamp
@@ -1614,10 +1614,10 @@ definitions:
 	main rule r_Main =
 		par
 			r_run_dialysis[] 
-			if (errorexists = true) then
+			if (errorExists = true) then
 				r_error[] 
 			endif
-			if (alarmexists = true) then
+			if (alarmExists = true) then
 				r_alarm[]
 			endif
 		endpar

@@ -214,10 +214,10 @@ definitions:
 			bicarbonate_status
 		endif
 	
-	function errorexists = 
+	function errorExists = 
 		(exists $t in ErrorAlarmType with error($t) = true)
 		
-	function alarmexists = 
+	function alarmExists = 
 		(exists $t in ErrorAlarmType with alarm($t) = true)
 		
 	function err_patient_conn = 
@@ -1575,10 +1575,10 @@ definitions:
 	main rule r_Main =
 		par
 			r_run_therapy[] 
-			if (errorexists = true) then
+			if (errorExists = true) then
 				r_run_error[] 
 			endif
-			if (alarmexists = true) then
+			if (alarmExists = true) then
 				r_run_alarm[]
 			endif
 		endpar

@@ -165,12 +165,12 @@ public class TermXMIVisitor extends ReflectiveVisitor<String> {
 	
     
 	public String visit(ExistsTerm exist) {
-		return visitQuant(exist, "exist");
+		return visitQuant(exist, "exists");
 	}
 
 	
 	public String visit(ExistsUniqueTerm exist) {
-		return visitQuant(exist, "exist unique");
+		return visitQuant(exist, "exists unique");
 	}
 
     
@@ -182,14 +182,14 @@ public class TermXMIVisitor extends ReflectiveVisitor<String> {
      * Converte in stringa un <i>FiniteQuantificationTerm</i>.
      * 
      * @param term termine da convertire
-     * @param quantName "exist" o "forall"
+     * @param quantName "exists" o "forall"
      * @return la rappresentazione in stringa del termine
      */
     /**
      * Converts a finite quantification term into string.
      * 
 	 * @param quantTerm a finite quantification term
-	 * @param quantName "exist" or "forall"
+	 * @param quantName "exists" or "forall"
 	 * @return a string
 	 */
 	protected String visitQuant(FiniteQuantificationTerm quantTerm, String quantName) {
