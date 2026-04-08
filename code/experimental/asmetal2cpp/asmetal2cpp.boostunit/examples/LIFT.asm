@@ -81,13 +81,13 @@ definitions:
 		
 	function attracted($d in Dir, $l in Lift) =
 	if($d = UP) then
-		if (exist $fexists oor with ($f > floor($l) and (hasToDeliverAt($l,$f) or existsCallFromTo($f,UP) or existsCallFromTo($f,DOWN) ))) then
+		if (exist $fexists  oor with ($f > floor($l) and (hasToDeliverAt($l,$f) or existsCallFromTo($f,UP) or existsCallFromTo($f,DOWN) ))) then
 			true
 		else
 			false
 		endif
 	else
-		if(exist $gexists oor with ($g < floor($l) and (hasToDeliverAt($l,$g) or existsCallFromTo($g,UP) or existsCallFromTo($g,DOWN) ))) then
+		if(exist $gexists  oor with ($g < floor($l) and (hasToDeliverAt($l,$g) or existsCallFromTo($g,UP) or existsCallFromTo($g,DOWN) ))) then
 			true	
 		else
 			false
