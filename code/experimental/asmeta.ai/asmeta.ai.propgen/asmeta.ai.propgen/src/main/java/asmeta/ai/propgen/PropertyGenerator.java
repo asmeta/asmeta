@@ -25,11 +25,13 @@ public class PropertyGenerator {
 	private static final String RESOURCES = "./src/main/resources";
 	private static final String O1_PROMPT_TEMPLATE = RESOURCES + "/simple_prompt_template_o1.txt";
 	private static final String O2_PROMPT_TEMPLATE = RESOURCES + "/simple_prompt_template_o2.txt";
+	private static final String O2_REPAIR_PROMPT_TEMPLATE = RESOURCES + "/simple_prompt_template_o2_repair.txt";
 	private static final String O3_PROMPT_TEMPLATE = RESOURCES + "/simple_prompt_template_o3.txt";
 
-	public enum PropertyType {
-		CTLPROP, LTLPROP
-	}
+	private static final Map<PropertyType, String[]> PROPERTY_CONFIG = Map.of(
+			PropertyType.CTLPROP, new String[] {"CTL (Computation Tree Logic)", "ex, ef, eg, eu, ax, af, ag, au", "CTLSPEC"},
+			PropertyType.LTLPROP, new String[] {"LTL (Linear Temporal Logic)", "x, f, g, u", "LTLSPEC"}
+		);
 
 	private LlmClient llm;
 
@@ -91,19 +93,54 @@ public class PropertyGenerator {
 		String asmContent = getFileContent(asmPath);
 		if (removeComments)
 			asmContent = removeComments(asmContent);
-		String propertyTypeValue, temporalOperators, propertyKeyword;
-		if (type == PropertyType.CTLPROP) {
-			propertyTypeValue = "CTL (Computation Tree Logic)";
-			temporalOperators = "ex, ef, eg, eu, ax, af, ag, au";
-			propertyKeyword = "CTLSPEC";
-		} else {
-			propertyTypeValue = "LTL (Linear Temporal Logic)";
-			temporalOperators = "x, f, g, u";
-			propertyKeyword = "LTLSPEC";
-		}
+		String[] config = PROPERTY_CONFIG.get(type);
+		String propertyTypeValue = config[0];
+		String temporalOperators = config[1];
+		String propertyKeyword = config[2];
 		placeholdersSubstitutions.put("MODEL_PLACEHOLDER", asmContent);
 		placeholdersSubstitutions.put("PROPERTY_TYPE_PLACEHOLDER", propertyTypeValue);
 		placeholdersSubstitutions.put("NL_PROPERTY_PLACEHOLDER", property);
+		placeholdersSubstitutions.put("OPERATORS_LIST_PLACEHOLDER", temporalOperators);
+		placeholdersSubstitutions.put("PROPERTY_KEYWORD_PLACEHOLDER", propertyKeyword);
+		String prompt = applySubstitutions(template, placeholdersSubstitutions);
+		logger.debug("Prompt: \n" + prompt);
+		String response = llm.query(prompt);
+		logger.debug("Full response: \n" + response);
+		return response;
+	}
+
+	/**
+	 * Repair a syntactically incorrect CTL or LTL property for an ASMETA model.
+	 *
+	 * @param asmPath        path to the ASMETA model file
+	 * @param nlProperty     description of the temporal logic property in natural
+	 *                       language
+	 * @param brokenProperty temporal logic property in to be repaired
+	 * @param type           type of temporal logic to be used for the generated
+	 *                       property
+	 * @param type           error message from the compiler
+	 * @param removeComments whether to remove comments from the ASMETA model before
+	 *                       sending it to the LLM
+	 * @return the repaired temporal logic property
+	 * @throws RuntimeException if the ASMETA file or template cannot be read, or if
+	 *                          there is an error while communicating with the LLM
+	 */
+	public String repairTL(String asmPath, String nlProperty, String brokenProperty, PropertyType type,
+			String compilerError, boolean removeComments) {
+		Map<String, String> placeholdersSubstitutions = new HashMap<>();
+		String template = getFileContent(O2_REPAIR_PROMPT_TEMPLATE);
+		String asmContent = getFileContent(asmPath);
+		if (removeComments)
+			asmContent = removeComments(asmContent);
+		String[] config = PROPERTY_CONFIG.get(type);
+		String propertyTypeValue = config[0];
+		String temporalOperators = config[1];
+		String propertyKeyword = config[2];
+		placeholdersSubstitutions.put("MODEL_PLACEHOLDER", asmContent);
+		placeholdersSubstitutions.put("PROPERTY_TYPE_PLACEHOLDER", propertyTypeValue);
+		placeholdersSubstitutions.put("NL_PROPERTY_PLACEHOLDER", nlProperty);
+		placeholdersSubstitutions.put("BROKEN_PROPERTY_PLACEHOLDER", brokenProperty);
+		placeholdersSubstitutions.put("COMPILER_ERROR_PLACEHOLDER", compilerError);
 		placeholdersSubstitutions.put("OPERATORS_LIST_PLACEHOLDER", temporalOperators);
 		placeholdersSubstitutions.put("PROPERTY_KEYWORD_PLACEHOLDER", propertyKeyword);
 		String prompt = applySubstitutions(template, placeholdersSubstitutions);
@@ -184,6 +221,10 @@ public class PropertyGenerator {
 		}
 		throw new RuntimeException(
 				"File does not exist. Tried filesystem path: " + path + " and classpath resource: " + resourcePath);
+	}
+
+	public LlmClient getClient() {
+		return llm;
 	}
 
 }

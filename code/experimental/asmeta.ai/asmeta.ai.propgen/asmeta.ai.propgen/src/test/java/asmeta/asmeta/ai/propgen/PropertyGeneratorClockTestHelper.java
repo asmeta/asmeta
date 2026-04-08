@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import java.util.List;
 
 import asmeta.ai.propgen.PropertyGenerator;
-import asmeta.ai.propgen.PropertyGenerator.PropertyType;
+import asmeta.ai.propgen.PropertyType;
 
 class PropertyGeneratorClockTestHelper {
 
