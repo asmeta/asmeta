@@ -31,7 +31,7 @@ class AsmParserTestLocal extends AsmParserTest {
 	@Test 
 	void wrongUseOfLocal() {
 		// local cannot be declared in signature
-		String err = testOneSpecWithError("test/parser/UsingLocal.asm");
+		String err = testOneSpecWithError("test/errors/UsingLocal.asm");
 		System.err.println(err);
 		assertTrue(err.contains("A local dynamic function cannot be declared in the signature"));
 	}

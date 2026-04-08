@@ -117,8 +117,8 @@ signature:
 	dynamic monitored ven_removed: Boolean //True--> patient venously is removed
 	
 	//Alarm Error
-	derived errorExist: Boolean //True if exists at least one error
-	derived alarmExist: Boolean  //True if exists at least one alarm
+	derived errorExists: Boolean //True if exists at least one error
+	derived alarmExists: Boolean  //True if exists at least one alarm
 	derived err_patient_conn: Boolean //True if exists error during patient conn 
 	derived error_bp: Boolean //True if exists blood pump error
 	derived error_rein_press: Boolean //True if exists error during reinfusion phase
