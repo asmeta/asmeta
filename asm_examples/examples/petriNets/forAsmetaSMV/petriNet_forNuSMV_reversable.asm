@@ -141,7 +141,7 @@ definitions:
 	CTLSPEC ag(ef(tokens(p1) = 0 and tokens(p2) = 0 and tokens(p3) = 1 and tokens(p4) = 1 and tokens(p5) = 0))
 
 	//Is it deadlock-free? Yes.
-	CTLSPEC ag((exist $t in Transition with isEnabled($t)))
+	CTLSPEC ag((exists $t in Transition with isEnabled($t)))
 
 	//It is 10-bounded? Yes it is. Trivial! The maximum capacity is 10.
 	CTLSPEC (forall $p in Place with ag(tokens($p) <= 10))

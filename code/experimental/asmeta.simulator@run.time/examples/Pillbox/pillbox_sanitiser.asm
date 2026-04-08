@@ -78,9 +78,9 @@ definitions:
     //Knowledge consistency:
     //Pills type consistency between the prescription and the compartments of the pillbox
     invariant over medicine_list:  ( forall $c in Compartment with ( contains(medicine_list,name($c))))
-    invariant over Compartment: (forall $m in asSet(medicine_list) with (exist $c in Compartment with name($c)=$m))
-    //invariant over Compartment, Medicine: (forall $m in Medicine with (exist $c in Compartment with name($c)=id($m)))
-    //invariant over Compartment, Medicine: (forall $c in Compartment with (exist $m in Medicine with name($c)=id($m)))
+    invariant over Compartment: (forall $m in asSet(medicine_list) with (exists $c in Compartment with name($c)=$m))
+    //invariant over Compartment, Medicine: (forall $m in Medicine with (exists $c in Compartment with name($c)=id($m)))
+    //invariant over Compartment, Medicine: (forall $c in Compartment with (exists $m in Medicine with name($c)=id($m)))
     
     //Pills amount consistency: the amount of pills to intake and the number of the corresponding compartment slots must be the same
     //invariant over Medicine: ( forall $m in Medicine with iton(length(time($m))) = amount($m) ) //da NullPointerException 

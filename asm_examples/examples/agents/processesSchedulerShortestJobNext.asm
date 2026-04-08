@@ -54,7 +54,7 @@ definitions:
 			endif
 
 	//al massimo un solo processo e' nello stato RUNNING
-	invariant over status: (exist unique $p in Process with status($p) = RUNNING) xor
+	invariant over status: (exists unique $p in Process with status($p) = RUNNING) xor
 							(forall $q in Process with status($q) != RUNNING)
 	//se un processo e' nello stato di RUNNING, allora ha il controllo della cpu
 	invariant over status: (forall $p in Process with status($p) = RUNNING iff (cpuOwner = $p))

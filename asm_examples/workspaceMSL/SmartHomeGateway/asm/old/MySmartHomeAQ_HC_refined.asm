@@ -132,7 +132,7 @@ definitions:
 			endif
 		endlet
 	
-	function heatingsON = (exist $a in IntHCMgA with heatingStatusSaved($a) = ON)
+	function heatingsON = (exists $a in IntHCMgA with heatingStatusSaved($a) = ON)
 	
 	
 	function startIntHCM($b in IntHCMgA) =
@@ -155,11 +155,11 @@ definitions:
 		sgnMainAQAtoE($b)
 
 	function startMainHCM($b in MainHCMgA) =
-		(exist $a in fromMainHCMtoIntHCM($b) with sgnIntHCMMainHCM($a, $b))
+		(exists $a in fromMainHCMtoIntHCM($b) with sgnIntHCMMainHCM($a, $b))
 
 	function startMainHCA($b in MainHCMgA) = //Refined
-		(heatingsON and (exist $a in fromMainHCMtoIntHCM($b) with neq(desiredHeatingSetting($a),computeHeatingSetting($a)))) or
-		(heatingsON and (exist $c in fromMainHCMtoIntHCM($b) with eq(windowsStatusSaved($c),OPEN)) )
+		(heatingsON and (exists $a in fromMainHCMtoIntHCM($b) with neq(desiredHeatingSetting($a),computeHeatingSetting($a)))) or
+		(heatingsON and (exists $c in fromMainHCMtoIntHCM($b) with eq(windowsStatusSaved($c),OPEN)) )
 		
 
 	function startMainHCP($b in MainHCMgA) =

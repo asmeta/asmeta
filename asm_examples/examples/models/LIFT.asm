@@ -80,14 +80,12 @@ definitions:
 												and not(existsCallFromTo(floor($l),DOWN))))  )
 		
 	function attracted($d in Dir, $l in Lift) =
-	if($d = UP) then
-		if (exist $f in Floor with ($f > floor($l) and (hasToDeliverAt($l,$f) or existsCallFromTo($f,UP) or existsCallFromTo($f,DOWN) ))) then
+	if($d = UP) thenexists  (exist $f in Floor with ($f > floor($l) and (hasToDeliverAt($l,$f) or existsCallFromTo($f,UP) or existsCallFromTo($f,DOWN) ))) then
 			true
 		else
 			false
 		endif
-	else
-		if(exist $g in Floor with ($g < floor($l) and (hasToDeliverAt($l,$g) or existsCallFromTo($g,UP) or existsCallFromTo($g,DOWN) ))) then
+	elsexists f(exist $g in Floor with ($g < floor($l) and (hasToDeliverAt($l,$g) or existsCallFromTo($g,UP) or existsCallFromTo($g,DOWN) ))) then
 			true	
 		else
 			false

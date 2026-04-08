@@ -79,15 +79,15 @@ definitions:
 	function isMovePermitted($car in Car, $dir in Dir) =
 		if(carDir($car) = NS) then
 			if($dir = FIRSTDIR) then
-				(exist $r in Coord, $c in Coord with $r > 0 and board($r,$c) = $car and board(($r+5) mod 6, $c) = 0)
+				(exists $r in Coord, $c in Coord with $r > 0 and board($r,$c) = $car and board(($r+5) mod 6, $c) = 0)
 			else
-				(exist $r1 in Coord, $c1 in Coord with $r1 < 5 and board($r1,$c1) = $car and board(($r1+1) mod 6,$c1) = 0)
+				(exists $r1 in Coord, $c1 in Coord with $r1 < 5 and board($r1,$c1) = $car and board(($r1+1) mod 6,$c1) = 0)
 			endif
 		else
 			if($dir = FIRSTDIR) then
-				(exist $r3 in Coord, $c3 in Coord with $c3 > 0 and board($r3,$c3) = $car and board($r3,($c3+5) mod 6) = 0)
+				(exists $r3 in Coord, $c3 in Coord with $c3 > 0 and board($r3,$c3) = $car and board($r3,($c3+5) mod 6) = 0)
 			else
-				(exist $r2 in Coord, $c2 in Coord with $c2 < 5 and board($r2,$c2) = $car and board($r2,($c2+1) mod 6) = 0)
+				(exists $r2 in Coord, $c2 in Coord with $c2 < 5 and board($r2,$c2) = $car and board($r2,($c2+1) mod 6) = 0)
 			endif
 		endif
 

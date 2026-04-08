@@ -44,7 +44,7 @@ definitions:
 
 	main rule r_Main =
 		if status=PLAYING then		
-			if (exist $r in Coord, $c in Coord with not(selectedCell($r,$c)) and
+			if (exists $r in Coord, $c in Coord with not(selectedCell($r,$c)) and
 		                                        not(hasMine($r,$c))) then
 				r_selectCell[]
 			else

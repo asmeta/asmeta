@@ -150,13 +150,13 @@ definitions:
 		endif
 
 	function slavesNotAlive($c in Camera) =
-		(exist $s in Camera with (slaves($c, $s) and  slaveGone($c, $s)))
+		(exists $s in Camera with (slaves($c, $s) and  slaveGone($c, $s)))
 
 	function allSlavesAlive($c in Camera) =
 		( forall $s in Camera with (slaves($c, $s) and imAlive($c, $s)))
 
 	function m_offer($c in Camera) =
-	   (exist $s in Camera with newSlave($c, $s) )
+	   (exists $s in Camera with newSlave($c, $s) )
 
 
 	//OrganizationMiddleware
@@ -203,7 +203,7 @@ definitions:
 	macro rule r_removeSlavesTurningSlave =
 		let ($cameraOCself = cameraOC(self)) in
 			par
-				if (exist $c in Camera with slaves($cameraOCself, $c)) then
+				if (exists $c in Camera with slaves($cameraOCself, $c)) then
 					par
 						forall $s in Camera with slaves($cameraOCself, $s) do
 							if not change_master($s) then //set signal
@@ -220,7 +220,7 @@ definitions:
 	macro rule r_removeSlavesTurningMaster =
 		let ($cameraOCself = cameraOC(self)) in
 			par
-				if (exist $c in Camera with slaves($cameraOCself, $c)) then
+				if (exists $c in Camera with slaves($cameraOCself, $c)) then
 					par
 						forall $s in Camera with slaves($cameraOCself, $s) do
 							if not masterGone($s) then //set signal

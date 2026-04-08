@@ -23,7 +23,7 @@ signature:
 definitions:
 	domain Square = {1:9}
  
-	function noSquareLeft =  not (exist $s in Square with symbol($s) = EMPTY)
+	function noSquareLeft =  not (exists $s in Square with symbol($s) = EMPTY)
  
 	/*rule r_movePlayerX =
 		if symbol(playerX)= EMPTY then
