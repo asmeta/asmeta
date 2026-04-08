@@ -33,7 +33,7 @@ public class InizializationParsingTest {
       _builder.append("\t");
       _builder.newLine();
       _builder.append("\t");
-      _builder.append("import StandardLibrary");
+      _builder.append("import examples/StandardLibrary");
       _builder.newLine();
       _builder.newLine();
       _builder.append("signature: ");

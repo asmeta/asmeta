@@ -51,7 +51,7 @@ public class AbstractAndAgentDomain extends ParserTest {
     _builder.append("asm CashPoint");
     _builder.newLine();
     _builder.newLine();
-    _builder.append("import StandardLibrary");
+    _builder.append("import ../examples/StandardLibrary");
     _builder.newLine();
     _builder.newLine();
     _builder.append("signature:");
