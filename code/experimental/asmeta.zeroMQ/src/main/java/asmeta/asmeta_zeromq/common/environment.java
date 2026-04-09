@@ -1,4 +1,4 @@
-package asmeta.asmeta_zeromq.producerconsumer;
+package asmeta.asmeta_zeromq.common;
 
 import java.io.InputStream;
 import java.util.Arrays;
@@ -40,35 +40,35 @@ public class environment {
 
     public static void main(String[] args) {
         // 1) Load bind address & pause interval from unified config
-        Properties props;
+        Properties env;
         try (InputStream in = environment.class.getClassLoader()
-                .getResourceAsStream("configs/producerconsumer/zmq_config_Pipe.properties")) {
+                .getResourceAsStream("configs/incDecMulti/zmq_config_IncDecBiPipeFullDuplex.properties")) {
 
             if (in == null) {
-                throw new RuntimeException("zmq_config_unified.properties not found in classpath under configs/producerconsumer/");
+                throw new RuntimeException("zmq_config.properties not found in classpath under configs/producerconsumer/");
             }
 
             Properties all = new Properties();
             all.load(in);
 
          // Extract ONLY environment.* (including common.* if they exist)
-            props = extractSection(all, "environment");
+            env = extractSection(all, "environment");
 
         } catch (Exception e) {
-            throw new RuntimeException("Cannot load zmq_config_unified.properties", e);
+            throw new RuntimeException("Cannot load zmq_config.properties", e);
         }
 
      // Now keys NO LONGER have the "environment." prefix
-        String address = props.getProperty("address");
+        String address = env.getProperty("address");
 
         // 2) Load environment functions in a list
-        environmentFunctions = Arrays.asList(props.getProperty(ENVIRONMENT_FUNCTIONS).split(","));
+        environmentFunctions = Arrays.asList(env.getProperty(ENVIRONMENT_FUNCTIONS).split(","));
         System.out.println("Environment functions: " + environmentFunctions);
 
         // 3) Load environment functions values in a map referencing the function name
         int maxLength = 0;
         for (String function : environmentFunctions) {
-            environmentFunctionsValues.put(function, Arrays.asList(props.getProperty(function).split(",")));
+            environmentFunctionsValues.put(function, Arrays.asList(env.getProperty(function).split(",")));
             if (environmentFunctionsValues.get(function).size() > maxLength) {
                 maxLength = environmentFunctionsValues.get(function).size();
             }
@@ -79,7 +79,7 @@ public class environment {
         }
 
         // 4) Load pause interval
-        int pause = Integer.parseInt(props.getProperty("pause", "1000"));
+        int pause = Integer.parseInt(env.getProperty("pause", "1000"));
 
         try (ZContext context = new ZContext()) {
             // Create & bind the single PUB socket

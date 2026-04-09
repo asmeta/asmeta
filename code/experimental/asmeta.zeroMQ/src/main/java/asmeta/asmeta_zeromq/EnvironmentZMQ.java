@@ -13,7 +13,7 @@ import org.zeromq.ZMQ;
 
 import com.google.gson.Gson;
 
-import asmeta.asmeta_zeromq.producerconsumer.environment;
+import asmeta.asmeta_zeromq.common.environment;
 
 public class EnvironmentZMQ implements Runnable{
 	

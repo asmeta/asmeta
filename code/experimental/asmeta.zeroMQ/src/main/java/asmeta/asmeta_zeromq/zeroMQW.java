@@ -167,6 +167,7 @@ public class zeroMQW extends Thread {
     private void handleSubscriptionMessages() {
         // Scan all SUB sockets
         for (ZMQ.Socket sub : subscribers) {
+        	
             String msg = sub.recvStr(ZMQ.DONTWAIT);
             if (msg == null) continue;
             msg = msg.trim();

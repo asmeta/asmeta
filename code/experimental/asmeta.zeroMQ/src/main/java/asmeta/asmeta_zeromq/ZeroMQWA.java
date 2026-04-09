@@ -31,7 +31,7 @@ public class ZeroMQWA {
 
  //Section prefix in the unified file
     private String sectionPrefix;    
-    private final String CONFIG_FILE_PATH = "in-memory-config";
+   private final String CONFIG_FILE_PATH = "in-memory-config";
     private String RUNTIME_MODEL_PATH;
     private String ZMQ_PUB_SOCKET;
     private String ZMQ_SUB_CONNECT_ADDRESSES;
@@ -70,8 +70,7 @@ public class ZeroMQWA {
             this.ASM_ENVIRONMENT_ADDRESS = config.getProperty("ASM_ENVIRONMENT_ADDRESS");
             this.HOST = config.getProperty("HOST", "127.0.0.1");
            
-            
-            // Pulizia stringa indirizzi
+
             String subAddresses = config.getProperty("ZMQ_SUB_CONNECT_ADDRESSES", "");
             this.ZMQ_SUB_CONNECT_ADDRESSES = "null".equalsIgnoreCase(subAddresses.trim()) ? "" : subAddresses.trim();
             
@@ -126,7 +125,7 @@ public class ZeroMQWA {
  //       logger.info("Initializing ZeroMQ sockets...");
         subscribers.clear();
 
-        // CONFIGURAZIONE PUB SOCKET
+        // PUB socket configuration
         if (this.ZMQ_PUB_SOCKET != null && !this.ZMQ_PUB_SOCKET.isEmpty()) {
             publisher = context.createSocket(SocketType.PUB);
             publisher.bind(this.ZMQ_PUB_SOCKET);
@@ -135,7 +134,7 @@ public class ZeroMQWA {
             logger.error("ZMQ_PUB_SOCKET not defined for this model!");
         }
 
-        // CONFIGURAZIONE SUB SOCKETS 
+        // SUB socket configuration
         if (this.ZMQ_SUB_CONNECT_ADDRESSES != null && !this.ZMQ_SUB_CONNECT_ADDRESSES.isEmpty()) {
             String[] subAddresses = this.ZMQ_SUB_CONNECT_ADDRESSES.split(",");
             logger.info("Attempting to create and connect {} SUB socket(s)...", subAddresses.length);
@@ -146,7 +145,7 @@ public class ZeroMQWA {
                     try {
                         ZMQ.Socket sub = context.createSocket(SocketType.SUB);
                         sub.connect(trimmedAddr);
-                        sub.subscribe("".getBytes(ZMQ.CHARSET)); // Sottoscrivi a tutto
+                        sub.subscribe("".getBytes(ZMQ.CHARSET));
                         subscribers.add(sub);
                         logger.info("SUB socket connected and subscribed to address {}", trimmedAddr);
                     } catch (Exception e) {
@@ -251,13 +250,14 @@ public class ZeroMQWA {
     }
 /////////////////////////////////////////////////////////////////////////////////////////////////////
     public void run() {
-        if (this.asmId <= 0) { // ASM ID should be positive
+        if (this.asmId <= 0) { // ASM ID should be positive, ASM loaded successfully
             logger.fatal("ASM ID was not initialized correctly. Aborting run loop.");
             return;
         }
 
         try {
            // logger.info("Starting zeroMQW run loop for config {}...", this.CONFIG_FILE_PATH);
+        	//create the ZMQ resource manager
             try (ZContext context = new ZContext()) {
                 initializeZmqSockets(context);
              //   logger.info("Entering main loop for {}...", this.CONFIG_FILE_PATH);
@@ -271,11 +271,9 @@ public class ZeroMQWA {
 
                while (!Thread.currentThread().isInterrupted()) {
                     Thread.sleep(1000);
-
                     handleSubscriptionMessages();
                     
                   
-                    
                     if (!hasAllRequiredInputs()) {
                         logMissingInputsIfAny();
                         Thread.sleep(500);
@@ -291,7 +289,7 @@ public class ZeroMQWA {
                     RunOutput output = sim.runStep(this.asmId, monitoredForStep);
 
                     if (output.getEsit() == Esit.SAFE) {
-                  //      logger.info("ASM step SAFE. Output: {}", output.getOutvalues());
+                        logger.info("ASM step SAFE. Output: {}", output.getOutvalues());
                         handlePublisherMessages(output);
                         this.currentMonitoredValues.clear();
                     
@@ -312,6 +310,49 @@ public class ZeroMQWA {
         }
     }
 
+    //////////////////////////////////////////////
+    
+    public void initializeSockets(ZContext context) {
+        initializeZmqSockets(context);
+        initializeStartingValues();
+        if (this.CONSOLE_INPUT_FUNCTIONS != null) {
+            logger.info("Starting values initialized: {}", currentMonitoredValues);
+        } else {
+            logger.info("No starting values provided.");
+        }
+    }
+
+    public boolean runStep() throws Exception {
+        handleSubscriptionMessages();
+        if (!hasAllRequiredInputs()) {
+        	//Waiting for required inputs
+            logMissingInputsIfAny();
+            //currentMonitoredValues ​​does not yet contain all requiredMonitored values
+            return false;
+        }
+        Map<String, String> monitoredForStep = new HashMap<>();
+        for (String key : this.requiredMonitored) {
+            monitoredForStep.put(key, currentMonitoredValues.get(key));
+        }
+        
+        RunOutput output;
+        synchronized (SimulationContainer.class) {     
+            output = sim.runStep(this.asmId, monitoredForStep);
+        }                                            
+        
+        if (output.getEsit() == Esit.SAFE) {
+            logger.info("ASM step SAFE. Output: {}", output.getOutvalues());
+            handlePublisherMessages(output);
+            this.currentMonitoredValues.clear();
+            //the model received all its inputs and the ASM completed the step validly
+            return true;
+        } else {
+            handleUnsafeState(monitoredForStep);
+            return false;
+        }
+    }
+
+    ///////////////////////////////////////////////
 
                 
     private boolean hasAllRequiredInputs() {
