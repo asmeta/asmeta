@@ -276,11 +276,11 @@ public class StandardLibrary {
 		return v1.getValue() >= 0 ? v1 : new IntegerValue(-v1.getValue());
 	}
 
-	public static SetValue<Long> range(IntegerValue v1, IntegerValue iv) {
-		Set<Value<Long>> result = new HashSet<>();
+	public static SequenceValue<Long> range(IntegerValue v1, IntegerValue iv) {
+		List<Value<Long>> result = new ArrayList<>();
 		for (Long i = v1.getValue(); i < iv.getValue(); i++)
 			result.add(new IntegerValue(i));
-		return new SetValue<>(result);
+		return new SequenceValue<>(result);
 	}
 
 	public static RealValue div(RealValue op1, RealValue op2) {

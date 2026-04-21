@@ -94,7 +94,7 @@ signature :
 	static rtoi: Real -> Integer
 	static rton: Real -> Natural
 
-	// returns the range between two numbers
+	// returns the range between two numbers (the second one is excluded)
 	static range: Prod(Natural, Natural) -> Powerset(Natural)
 
 /*----------- Basic Functions on Integer --------------*/
@@ -193,7 +193,7 @@ signature :
 	static union: Prod(Powerset(D), Bag(D)) -> Bag(D)
 	// add union with 2 different domanin 11/02/2021
 	static union: Prod(Powerset(D), Powerset(D1)) -> Powerset(D2)
-	// ANGELO 2018/7/31 perchè equality e non eq??? - parse rejects "a = {5}"
+	// ANGELO 2018/7/31 perchï¿½ equality e non eq??? - parse rejects "a = {5}"
 	static equality: Prod(Powerset(D), Powerset(D)) -> Boolean
 	static intersection: Prod(Powerset(D), Powerset(D)) -> Powerset(D)
 	static intersection: Prod(Powerset(D), Bag(D)) -> Powerset(D)
