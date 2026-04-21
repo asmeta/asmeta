@@ -30,10 +30,10 @@
                id="asmeta.plugin.menus.Asmeta">
          <menu
                label="AsmetaA"
-               id="asmeta.animator.ui.menus.sampleMenuA">
+               id="asmeta.animator.ui.menus.AsmetaA">
             <command
                   commandId="asmeta.animator.ui.commands.animatorCommand"
-                  icon="icons/runAnimatorInt.gif"
+                  icon="icons/runAnimatorInt.png"
                   id="asmeta.animator.ui.menus.animatorCommand"
                   tooltip="Animator">
             </command>

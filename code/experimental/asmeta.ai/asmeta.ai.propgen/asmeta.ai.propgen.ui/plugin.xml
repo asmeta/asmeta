@@ -35,28 +35,47 @@
       <menuContribution
             locationURI="menu:org.eclipse.ui.main.menu?after=additions">
          <menu
-               id="asmeta.ai.propgen.ui.menus.sampleMenu"
-               label="Sample Menu"
-               mnemonic="M">
+               id="asmeta.plugin.menus.Asmeta"
+               label="Asmeta">
+         <menu
+               label="AsmetaAI"
+               id="asmeta.animator.ui.menus.AsmetaAI">
             <command
                   commandId="asmeta.ai.propgen.ui.commands.sampleCommand"
                   id="asmeta.ai.propgen.ui.menus.sampleCommand"
-                  mnemonic="S">
+                  icon="incons/sample.png" 
+                  tooltip="AsmetaAI">
             </command>
+            </menu>
          </menu>
       </menuContribution>
       <menuContribution
             locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
          <toolbar
-               id="asmeta.ai.propgen.ui.toolbars.sampleToolbar">
+               id="asmeta.animator.ui.toolbar">
             <command
                   id="asmeta.ai.propgen.ui.toolbars.sampleCommand"
                   commandId="asmeta.ai.propgen.ui.commands.sampleCommand"
                   icon="icons/sample.png"
-                  tooltip="Say hello world">
+                  tooltip="AsmetaAI">
             </command>
          </toolbar>
       </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+      		category="asmeta.plugin.preferences"
+            class="asmeta.ai.propgen.ui.preferences.AsmetaAIPreferencePage"
+            id="asmeta.ai.propgen.ui.preferences.AsmetaAIPreferencePage"
+            name="AsmetaAI">
+      </page>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer
+            class="asmeta.ai.propgen.ui.preferences.PreferenceInitializer">
+      </initializer>
    </extension>
 
 </plugin>
