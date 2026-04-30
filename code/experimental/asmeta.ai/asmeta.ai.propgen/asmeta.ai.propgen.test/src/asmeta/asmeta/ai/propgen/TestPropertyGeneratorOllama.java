@@ -22,7 +22,7 @@ import asmeta.ai.propgen.llm.OllamaClient;
 
 class TestPropertyGeneratorOllama {
 
-	private static final String JSON_PATH = "./src/test/resources/keys.json";
+	private static final String JSON_PATH = "./resources/keys.json";
 	static PropertyGenerator pg;
 
 	@BeforeAll

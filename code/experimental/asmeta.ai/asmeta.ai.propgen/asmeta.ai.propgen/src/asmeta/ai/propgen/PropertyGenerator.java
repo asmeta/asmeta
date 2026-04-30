@@ -22,11 +22,11 @@ import asmeta.ai.propgen.llm.LlmClient;
  */
 public class PropertyGenerator {
 
-	private static final String RESOURCES = "./src/main/resources";
-	private static final String O1_PROMPT_TEMPLATE = RESOURCES + "/simple_prompt_template_o1.txt";
-	private static final String O2_PROMPT_TEMPLATE = RESOURCES + "/simple_prompt_template_o2.txt";
-	private static final String O2_REPAIR_PROMPT_TEMPLATE = RESOURCES + "/simple_prompt_template_o2_repair.txt";
-	private static final String O3_PROMPT_TEMPLATE = RESOURCES + "/simple_prompt_template_o3.txt";
+	private static final String RESOURCES = "./resources";
+	private static final String O1_PROMPT_TEMPLATE = RESOURCES + "/prompt_template_o1.txt";
+	private static final String O2_PROMPT_TEMPLATE = RESOURCES + "/prompt_template_o2.txt";
+	private static final String O2_REPAIR_PROMPT_TEMPLATE = RESOURCES + "/prompt_template_o2_repair.txt";
+	private static final String O3_PROMPT_TEMPLATE = RESOURCES + "/prompt_template_o3.txt";
 
 	private static final Map<PropertyType, String[]> PROPERTY_CONFIG = Map.of(
 			PropertyType.CTLPROP, new String[] {"CTL (Computation Tree Logic)", "ex, ef, eg, eu, ax, af, ag, au", "CTLSPEC"},

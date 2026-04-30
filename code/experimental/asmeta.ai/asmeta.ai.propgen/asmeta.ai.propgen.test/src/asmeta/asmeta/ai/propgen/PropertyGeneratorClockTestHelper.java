@@ -11,7 +11,7 @@ import asmeta.ai.propgen.PropertyType;
 
 class PropertyGeneratorClockTestHelper {
 
-	private static final String ASM_PATH = "./src/test/resources/AdvancedClock.asm";
+	private static final String ASM_PATH = "./resources/AdvancedClock.asm";
 
 	static void fromASMtoNLClock(PropertyGenerator pg) throws Exception {
 		int nProp = 3;

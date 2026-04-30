@@ -7,7 +7,9 @@ Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: asmeta.ai.propgen
 Export-Package: asmeta.ai.propgen,
  asmeta.ai.propgen.llm
-Require-Bundle: org.apache.log4j;bundle-version="1.2.26"
+Require-Bundle: org.apache.log4j;bundle-version="1.2.26",
+ asmeta.parser;bundle-version="26.3.0",
+ asmeta.emf;bundle-version="26.3.0"
 Bundle-ClassPath: .,
  lib/annotations-13.0.jar,
  lib/classmate-1.7.0.jar,

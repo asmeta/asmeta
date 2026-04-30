@@ -1,18 +1,19 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<groupId>asmeta</groupId>
-	<artifactId>asmeta.ai.propgen</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<properties>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>asmeta</groupId>
+  <artifactId>asmeta.ai.propgen.test</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>21</maven.compiler.source>
 		<maven.compiler.target>21</maven.compiler.target>
 	</properties>
 	<dependencies>
+		<dependency>
+			<groupId>asmeta</groupId>
+			<artifactId>asmeta.ai.propgen</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 		<dependency>
 			<groupId>asmeta</groupId>
 			<artifactId>asmeta.parser</artifactId>
@@ -44,40 +45,29 @@
 			<artifactId>log4j</artifactId>
 			<version>1.2.17</version>
 		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<!-- Using version 6 results in an error when running test from
+			Eclipse IDE -->
+			<version>5.14.3</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 	<build>
-		<sourceDirectory>src</sourceDirectory>
+    	<testSourceDirectory>src</testSourceDirectory>
 		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-dependency-plugin</artifactId>
-				<version>3.10.0</version>
-				<executions>
-					<execution>
-						<id>copy-llm-dependencies</id>
-						<phase>package</phase>
-						<goals>
-							<goal>copy-dependencies</goal>
-						</goals>
-						<configuration>
-							<graphRoots>
-								<graphRoot>
-									<groupId>com.openai</groupId>
-									<artifactId>openai-java</artifactId>
-								</graphRoot>
-								<graphRoot>
-									<groupId>io.github.ollama4j</groupId>
-									<artifactId>ollama4j</artifactId>
-								</graphRoot>
-							</graphRoots>
-							<outputDirectory>${project.basedir}/lib</outputDirectory>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.15.0</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.5.5</version>
+				<configuration>
+					<excludedGroups>TestToMavenSkip</excludedGroups>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
