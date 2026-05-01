@@ -7,7 +7,7 @@ import  ../../STDL/StandardLibrary
 signature:
 
 	controlled vect: Natural -> Integer
-	controlled v_max_i: Natural // massimo indice per vect
+	controlled v_max_i: Natural // massimo indice per vect (exluded)
 	monitored  vect_in: Seq(Integer)
 
 definitions:
@@ -29,4 +29,4 @@ definitions:
 
 default init s1:
 	function vect($x in Natural) = at(vect_in,$x)
-	function v_max_i = iton(length(vect_in) - 1)
+	function v_max_i = iton(length(vect_in))
