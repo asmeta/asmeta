@@ -18,10 +18,8 @@ import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.ui.texteditor.ITextEditor;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.jface.text.TextSelection;
 import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.MessageBox;
-import org.eclipse.swt.widgets.Shell;
 
 public class AsmetaAIHandler extends AsmetaActionHandler {
 
@@ -46,6 +44,20 @@ public class AsmetaAIHandler extends AsmetaActionHandler {
 		    console.writeMessage("operating over " + path + " selection " + select.toString());
 		    ISelection selection1 = editor.getSelectionProvider().getSelection();
 		    console.writeMessage("selection: " + selection1);
+		    
+		    TextSelection textSelection = (TextSelection) selection1;
+		   
+		    
+		    
+		    if(textSelection.getText().equals("")) {
+		    	console.writeMessage("no selection, generating natural language properties");
+		    } else {
+		    	if (textSelection.getText().startsWith("CTLSPEC") ||  textSelection.getText().startsWith("LTLSPEC")) {
+					console.writeMessage("generating natural language properties");
+				} else {
+					console.writeMessage("generating temporal properties");
+		    	}
+		    }
 		}
 	}
 

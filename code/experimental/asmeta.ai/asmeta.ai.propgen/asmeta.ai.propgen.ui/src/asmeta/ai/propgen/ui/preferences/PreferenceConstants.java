@@ -5,12 +5,16 @@ package asmeta.ai.propgen.ui.preferences;
  */
 public class PreferenceConstants {
 
-	public static final String P_PATH = "pathPreference";
+	public static final String P_NUM_PROP = "numberOfProperties";
 
-	public static final String P_BOOLEAN = "booleanPreference";
+	public static final String P_LLM_CHOICE = "llmChoice";
+	
+	public static final String P_PROPERTY_TYPE = "propertyType";
 
-	public static final String P_CHOICE = "choicePreference";
+	public static final String P_LLM_HTTP_URL = "llmHttpUrl";
 
-	public static final String P_STRING = "stringPreference";
+	public static final String P_MODEL_NAME = "modelName";
+
+	public static final String P_API_KEY = "apiKey";
 	
 }
