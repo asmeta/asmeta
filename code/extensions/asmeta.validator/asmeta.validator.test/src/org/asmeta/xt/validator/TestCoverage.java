@@ -19,7 +19,9 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.WriterAppender;
 import org.asmeta.avallaxt.validator.TestValidator;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -28,7 +30,7 @@ class TestCoverage extends TestValidator {
 	private StringWriter stringWriter;
 	private WriterAppender writerAppender;
 
-	@BeforeEach void setupLogger() {
+	@BeforeAll void setupLogger() {
 		// set to error to reduc eoutput for gitlab
 		Logger.getLogger(RuleEvalWCov.class).setLevel(Level.ERROR);
 		// this must be in debug since the output is checked with this logger
@@ -40,7 +42,7 @@ class TestCoverage extends TestValidator {
 		Logger.getLogger(AsmetaV.class).addAppender(writerAppender);
 	}
 
-	@AfterEach void cleanAppender() throws IOException {
+	@AfterAll void cleanAppender() throws IOException {
 		// remove the appender
 		Logger.getLogger(AsmetaV.class).removeAppender(writerAppender);
 	}

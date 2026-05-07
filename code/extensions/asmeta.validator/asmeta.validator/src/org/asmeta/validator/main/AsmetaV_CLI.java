@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.asmeta.simulator.main.Simulator;
 import org.asmeta.xt.validator.AsmetaV;
+import org.asmeta.xt.validator.AsmetaV.CoverageRequest;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.Option;
 
@@ -26,6 +27,8 @@ public class AsmetaV_CLI extends AsmetaCLI {
 	@Option(name = "-cov", usage = "collect coverage info")
 	private boolean coverage;
 
+	@Option(name = "-mut", usage = "compute mutation coverage (cov required)")
+	private boolean mutation;
 	
 	
 	/**
@@ -67,7 +70,10 @@ public class AsmetaV_CLI extends AsmetaCLI {
 		// use relative path instead to allow the use under windows
 		String scriptPath = file.getPath();
 		try {
-			List<String> failingScenerios = AsmetaV.execValidation(scriptPath, coverage);
+			CoverageRequest covReq = coverage ? 
+					(mutation ? AsmetaV.computeMutationScore : AsmetaV.computeCoverage) :
+						AsmetaV.doNotcomputeCoverage;
+			List<String> failingScenerios = AsmetaV.execValidation(scriptPath, covReq );
 			if (failingScenerios.isEmpty()) {
 				return RunCLIResult.SUCCESS;
 			} else {

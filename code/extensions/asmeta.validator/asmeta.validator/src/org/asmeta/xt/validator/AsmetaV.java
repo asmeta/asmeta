@@ -24,6 +24,7 @@ import org.asmeta.simulator.main.Simulator;
 import org.asmeta.simulator.value.Value;
 
 import asmeta.definitions.RuleDeclaration;
+import asmeta.mutation.mutationscore.MutatedScenarioExecutor;
 import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
 
 /**
@@ -35,7 +36,7 @@ import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
 public class AsmetaV {
 	
 	
-	private record CoverageRequest(boolean coverage,boolean mutationCoverage) {};
+	public record CoverageRequest(boolean coverage,boolean mutationCoverage) {};
 	
 	static public CoverageRequest doNotcomputeCoverage = new CoverageRequest(false, false);
 	static public CoverageRequest computeCoverage = new CoverageRequest(true, false);
@@ -168,6 +169,16 @@ public class AsmetaV {
 			logger.info("validation terminated without errors");
 		else
 			logger.info("WARNING: validation incomplete - some checks failed or errors occurred");
+		if (coverage.mutationCoverage) {
+			if (!failedScenarios.isEmpty())
+				logger.info("WARNING: mutation can be executed since some scenarios are failing");
+			else {
+				// run the mutation score
+				MutatedScenarioExecutor mutExec  = new MutatedScenarioExecutor();
+				HashMap<String, Entry<Integer, Integer>> mutationScore = mutExec.computeMutationScore(scenarioPath.toString());
+				
+			}
+		}
 		return failedScenarios;
 	}
 

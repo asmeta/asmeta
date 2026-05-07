@@ -1,8 +1,8 @@
 package org.asmeta.avallaxt.validator;
 
-import org.junit.jupiter.api.Test; import static org.junit.jupiter.api.Assertions.assertFalse;
-import org.junit.jupiter.api.Test; import static org.junit.jupiter.api.Assertions.assertNotNull;
-import org.junit.jupiter.api.Test; import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,9 +13,9 @@ import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.AsmetaParserUtility;
 import org.asmeta.xt.validator.AsmetaFromAvallaBuilder;
 import org.asmeta.xt.validator.AsmetaV;
+import org.junit.jupiter.api.BeforeAll;
 
 import asmeta.AsmCollection;
-import org.junit.jupiter.api.BeforeAll;
 
 public class TestValidator {
 

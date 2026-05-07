@@ -92,5 +92,10 @@
 		<!-- be careful - xtext is built using 3.2-->
 			<version>3.2</version>
 		</dependency>
+		<dependency>
+			<groupId>asmeta</groupId>
+			<artifactId>asmeta.mutation</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 </project>
