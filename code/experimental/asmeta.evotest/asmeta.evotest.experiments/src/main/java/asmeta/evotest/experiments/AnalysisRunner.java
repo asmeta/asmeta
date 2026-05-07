@@ -186,7 +186,7 @@ public class AnalysisRunner {
 							// Validate and rename only the .avalla files generated during this iteration
 							if (f.isFile() && name.endsWith(AsmetaV.SCENARIO_EXTENSION)) {
 								try {
-									List<String> failingScenarios = AsmetaV.execValidation(f.toString(), true, false);
+									List<String> failingScenarios = AsmetaV.execValidation(f.toString(), AsmetaV.computeCoverage, false);
 									if (failingScenarios.size() > 0) {
 										LOG.info("removing " + name + ": validation failed.");
 										failing++;

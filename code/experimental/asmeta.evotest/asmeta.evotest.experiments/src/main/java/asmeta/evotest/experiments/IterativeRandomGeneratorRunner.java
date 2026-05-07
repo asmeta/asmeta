@@ -240,7 +240,7 @@ public class IterativeRandomGeneratorRunner {
 				String name = f.getName();
 				if (f.isFile() && name.endsWith(AsmetaV.SCENARIO_EXTENSION) && !name.contains("iter_")) {
 					try {
-						List<String> failing = AsmetaV.execValidation(f.toString(), false, false);
+						List<String> failing = AsmetaV.execValidation(f.toString(), AsmetaV.doNotcomputeCoverage, false);
 						if (failing.size() > 0) {
 							LOG.error(name + ": validation failed.");
 							f.delete();

@@ -79,7 +79,7 @@ public class TestValidator {
 		if (runValidator) {
 			log.debug("executing " + scenarioPath);
 			// it should be runnable
-			List<String> result = AsmetaV.execValidation(scenarioPath, computeCoverage);
+			List<String> result = AsmetaV.execValidation(scenarioPath, computeCoverage ? AsmetaV.computeCoverage : AsmetaV.doNotcomputeCoverage);
 			if (expectedSuccess) assertTrue(result.isEmpty(), "failed " + result);
 			else assertFalse(result.isEmpty(), scenarioPath + " must fail but it is not"); 
 		} else {

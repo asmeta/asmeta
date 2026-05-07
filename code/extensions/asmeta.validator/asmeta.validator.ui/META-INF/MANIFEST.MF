@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Asmeta validator plugin
 Bundle-SymbolicName: asmeta.validator.ui;singleton:=true
 Bundle-Version: 26.03
-Bundle-Activator: validator.plugin.Activator
+Bundle-Activator: org.asmeta.validator.plugin.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.ui.ide,
@@ -18,7 +18,7 @@ Bundle-ActivationPolicy: lazy
 Bundle-Vendor: foselab.unibg.it
 Bundle-ClassPath: .
 Automatic-Module-Name: asmeta.validator.ui
-Export-Package: validator.plugin,
- validator.plugin.handlers
+Export-Package: org.asmeta.validator.plugin,
+ org.asmeta.validator.plugin.handlers
 Import-Package: org.asmeta.eclipse,
  org.asmeta.simulator.main

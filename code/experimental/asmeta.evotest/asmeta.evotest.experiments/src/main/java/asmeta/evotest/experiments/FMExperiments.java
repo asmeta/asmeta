@@ -299,7 +299,7 @@ public class FMExperiments {
 				// Validate the .avalla files generated during this iteration
 				if (f.isFile() && name.endsWith(AsmetaV.SCENARIO_EXTENSION)) {
 					try {
-						List<String> failing = AsmetaV.execValidation(f.toString(), false, false);
+						List<String> failing = AsmetaV.execValidation(f.toString(), AsmetaV.doNotcomputeCoverage, false);
 						if (failing.size() > 0) {
 							LOG.error(name + ": validation failed.");
 							totalFailingScenarios++;

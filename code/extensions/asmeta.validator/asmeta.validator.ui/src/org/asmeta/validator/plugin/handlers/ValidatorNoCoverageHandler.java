@@ -1,4 +1,4 @@
-package validator.plugin.handlers;
+package org.asmeta.validator.plugin.handlers;
 
 import org.asmeta.xt.validator.AsmetaV;
 
@@ -14,6 +14,6 @@ public class ValidatorNoCoverageHandler extends ValidatorHandler {
 
 	@Override
 	void execValidation(String path) throws Exception {
-		AsmetaV.execValidation(path, false);
+		AsmetaV.execValidation(path, AsmetaV.doNotcomputeCoverage);
 	}
 }

@@ -88,7 +88,7 @@ public class MutatedScenarioExecutor {
 				// execute now the scenario
 				// ValidationResult result = AsmetaV.executeAsmetaFromAvalla(false,
 				// allCoveredRules, tempAsmPath, originalName);
-				ValidationResult result = AsmetaV.executeAsmetaFromAvalla(false, allCoveredRules, tempAsmPath);
+				ValidationResult result = AsmetaV.executeAsmetaFromAvalla(AsmetaV.doNotcomputeCoverage, allCoveredRules, tempAsmPath);
 				if (!result.isCheckSucceeded()) {
 					System.err.println("KILLED !!!");
 					nKilled++;
@@ -144,7 +144,7 @@ public class MutatedScenarioExecutor {
 				// execute now the scenario
 				// ValidationResult result = AsmetaV.executeAsmetaFromAvalla(false,
 				// allCoveredRules, tempAsmPath, originalName);
-				ValidationResult result = AsmetaV.executeAsmetaFromAvalla(false, allCoveredRules, tempAsmPath);
+				ValidationResult result = AsmetaV.executeAsmetaFromAvalla(AsmetaV.doNotcomputeCoverage, allCoveredRules, tempAsmPath);
 				if (!result.isCheckSucceeded()) {
 					System.err.println("KILLED !!!");
 					nKilled++;
@@ -235,7 +235,7 @@ public class MutatedScenarioExecutor {
 						File tempAsmPath = asmetaBuilder.getTempAsmPath();
 						// execute now the scenario
 						try {	
-							ValidationResult result = AsmetaV.executeAsmetaFromAvalla(false, allCoveredRules, tempAsmPath, false);
+							ValidationResult result = AsmetaV.executeAsmetaFromAvalla(AsmetaV.doNotcomputeCoverage, allCoveredRules, tempAsmPath, false);
 							if (!result.isCheckSucceeded()) {
 								//add the index to a set of integer of the ones that were killed.
 								LOG.info("Validation failed => killed mutant.");

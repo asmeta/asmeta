@@ -113,7 +113,7 @@ public class FMMutationScoreExecutor {
 						File tempAsmPath = asmetaBuilder.getTempAsmPath();
 						// execute now the scenario
 						try {	
-							ValidationResult result = AsmetaV.executeAsmetaFromAvalla(false, allCoveredRules, tempAsmPath, false);
+							ValidationResult result = AsmetaV.executeAsmetaFromAvalla(AsmetaV.doNotcomputeCoverage, allCoveredRules, tempAsmPath, false);
 							if (!result.isCheckSucceeded()) {
 								//add the index to a set of integer of the ones that were killed.
 								killedMutations.add(i);

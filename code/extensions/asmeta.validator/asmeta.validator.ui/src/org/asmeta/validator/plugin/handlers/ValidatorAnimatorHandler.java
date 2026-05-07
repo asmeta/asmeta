@@ -1,4 +1,4 @@
-package validator.plugin.handlers;
+package org.asmeta.validator.plugin.handlers;
 
 import java.io.File;
 
