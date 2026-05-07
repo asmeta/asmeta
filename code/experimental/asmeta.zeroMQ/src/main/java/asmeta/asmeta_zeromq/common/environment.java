@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.Semaphore;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.zeromq.SocketType;
 import org.zeromq.ZContext;
@@ -21,51 +23,42 @@ public class environment {
     private static List<String> environmentFunctions;
     private static final Map<String, List<String>> environmentFunctionsValues = new java.util.HashMap<>();
 
-    
     private static Properties extractSection(Properties all, String sectionPrefix) {
         Properties out = new Properties();
         String sec = sectionPrefix + ".";
-        String common = "common."; 
-
+        String common = "common.";
         for (String k : all.stringPropertyNames()) {
             String v = all.getProperty(k);
             if (k.startsWith(sec)) {
-                out.put(k.substring(sec.length()), v);    
+                out.put(k.substring(sec.length()), v);
             } else if (k.startsWith(common)) {
-                out.put(k.substring(common.length()), v);  
+                out.put(k.substring(common.length()), v);
             }
         }
         return out;
     }
 
     public static void main(String[] args) {
-        // 1) Load bind address & pause interval from unified config
         Properties env;
         try (InputStream in = environment.class.getClassLoader()
-                .getResourceAsStream("configs/incDecMulti/zmq_config_IncDecBiPipeFullDuplex.properties")) {
+                .getResourceAsStream("configs/incDecMulti/zmq_config_IncDecForkJoin.properties")) {
 
             if (in == null) {
-                throw new RuntimeException("zmq_config.properties not found in classpath under configs/producerconsumer/");
+                throw new RuntimeException("zmq_config.properties not found in classpath.");
             }
-
             Properties all = new Properties();
             all.load(in);
-
-         // Extract ONLY environment.* (including common.* if they exist)
             env = extractSection(all, "environment");
 
         } catch (Exception e) {
             throw new RuntimeException("Cannot load zmq_config.properties", e);
         }
 
-     // Now keys NO LONGER have the "environment." prefix
         String address = env.getProperty("address");
 
-        // 2) Load environment functions in a list
         environmentFunctions = Arrays.asList(env.getProperty(ENVIRONMENT_FUNCTIONS).split(","));
         System.out.println("Environment functions: " + environmentFunctions);
 
-        // 3) Load environment functions values in a map referencing the function name
         int maxLength = 0;
         for (String function : environmentFunctions) {
             environmentFunctionsValues.put(function, Arrays.asList(env.getProperty(function).split(",")));
@@ -73,67 +66,42 @@ public class environment {
                 maxLength = environmentFunctionsValues.get(function).size();
             }
         }
-
         for (String function : environmentFunctions) {
             System.out.println("Function: " + function + " values: " + environmentFunctionsValues.get(function));
         }
 
-        // 4) Load pause interval
         int pause = Integer.parseInt(env.getProperty("pause", "1000"));
 
         try (ZContext context = new ZContext()) {
-            // Create & bind the single PUB socket
             ZMQ.Socket pub = context.createSocket(SocketType.PUB);
             pub.bind(address);
             System.out.println("Environment PUB socket bound to " + address);
 
-            try {
-            	// Wait 1 second to allow subscribers to connect
-                Thread.sleep(1000);
-            } catch (InterruptedException ignored) { }
+            Thread.sleep(1000);
 
-            for (int i = 0; i < maxLength; i++) {
-
+            int i = 0;
+            while (i < maxLength) {
                 System.err.println("Step: " + i);
-                // For each function, send the i-th value if it exists
-                for (String function : environmentFunctions) {
 
+                for (String function : environmentFunctions) {
                     if (i < environmentFunctionsValues.get(function).size()) {
                         Map<String, String> payload = new HashMap<>();
                         payload.put(function, environmentFunctionsValues.get(function).get(i));
-
-                        // Send to the right topic
                         pub.sendMore(function);
-                        // Send the value
                         pub.send(gson.toJson(payload));
-                        // Print the message
-                        System.out.println(
-                                "Sent " + function + " value " + environmentFunctionsValues.get(function).get(i)
-                                        + " to " + address + " at topic " + function);
+                        System.out.println("Sent " + function + " value "
+                                + environmentFunctionsValues.get(function).get(i)
+                                + " to " + address + " at topic " + function);
                     }
                 }
+
                 Thread.sleep(pause);
+               i++;
             }
+
         } catch (Exception e) {
-            System.err.println("An error occurred in the environment application: " + e.getMessage());
+            System.err.println("An error occurred in the environment: " + e.getMessage());
             e.printStackTrace();
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

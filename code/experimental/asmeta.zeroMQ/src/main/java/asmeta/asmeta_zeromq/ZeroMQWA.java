@@ -31,7 +31,7 @@ public class ZeroMQWA {
 
  //Section prefix in the unified file
     private String sectionPrefix;    
-   private final String CONFIG_FILE_PATH = "in-memory-config";
+    private final String CONFIG_FILE_PATH = "in-memory-config";
     private String RUNTIME_MODEL_PATH;
     private String ZMQ_PUB_SOCKET;
     private String ZMQ_SUB_CONNECT_ADDRESSES;
@@ -40,6 +40,7 @@ public class ZeroMQWA {
     private List<String> CONSOLE_INPUT_FUNCTIONS;
     private String HOST;              
 
+    
     // Core components
     private SimulationContainer sim;
     private ZMQ.Socket publisher;
@@ -52,16 +53,20 @@ public class ZeroMQWA {
     private int asmId;
     private Set<String> requiredMonitored;
     private Map<String, String> currentMonitoredValues;
- 
+    private Map<String, Object> lastSafeOutput = new HashMap<>();
+    private boolean isForkJoinMode = false;
+ // Variabile per evitare il Double Rollback
+    private boolean lastStepWasSafe = true;
  
     public ZeroMQWA(Properties config, String sectionPrefix) {
-        this.requiredMonitored = new HashSet<>();
+    	
+    	this.requiredMonitored = new HashSet<>();
         this.gson = new Gson();
         this.currentMonitoredValues = new HashMap<>();
         this.mapStringStringType = new TypeToken<Map<String, String>>() {}.getType();
         this.properties = config;
-        this.sectionPrefix = sectionPrefix;   // <--- SET the prefix here
-     //   logger.info("zeroMQW initialized from in-memory Properties for section: {}", sectionPrefix);
+        this.sectionPrefix = sectionPrefix;
+        this.isForkJoinMode = Boolean.parseBoolean(config.getProperty("FORKJOIN_MODE", "false"));
 
         try {        	
         	// Lettura parametri base
@@ -87,21 +92,18 @@ public class ZeroMQWA {
             // Initialize ASM
             this.asmId = this.initializeAsm(this.RUNTIME_MODEL_PATH);
 
-        //    logger.info("zeroMQW instance (in-memory config) initialized successfully for section '{}'", this.sectionPrefix);
-
         } catch (Exception e) {
             logger.fatal("CRITICAL ERROR initializing zeroMQW from in-memory config for '{}': {}", this.sectionPrefix, e.getMessage(), e);
             throw new RuntimeException(e); 
         }
     }
- 
+  
     /////////////////////////////////////////////////////////////////////////////////////////
     private int initializeAsm(String modelPath) throws Exception {
-   //     logger.info("Initializing ASM simulation container...");
+
         sim = new SimulationContainer(Environment.TimeMngt.use_java_time);
         sim.init(1);
-   //     logger.debug("Simulation container initialized.");
-    //    logger.info("Starting ASM execution for model: {}", modelPath);
+
         int currentAsmId = sim.startExecution(modelPath);
         if (currentAsmId < 0) {
             logger.error("Starting ASM model failed: negative id received ({})", currentAsmId);
@@ -133,7 +135,23 @@ public class ZeroMQWA {
         } else {
             logger.error("ZMQ_PUB_SOCKET not defined for this model!");
         }
+        
+     // SUB socket configuration
+        if (this.isForkJoinMode) {
+            // If we are in ForkJoin, we don't connect to the environment or the other models.
+            // We ONLY connect to the Orchestrator to receive commands
+            try {
+                ZMQ.Socket orchSub = context.createSocket(SocketType.SUB);
+                orchSub.connect("tcp://127.0.0.1:5556"); //address of the Orchestrator
+                orchSub.subscribe("ORCH_CMD".getBytes(ZMQ.CHARSET)); // We just listen to the commands
+                subscribers.add(orchSub);
+                logger.info("[{}] ForkJoin mode ON. Connected to Orchestrator on tcp://127.0.0.1:5556", sectionPrefix);
+            } catch (Exception e) {
+                logger.error("Error connecting to Orchestrator: {}", e.getMessage());
+            }
 
+        } else {
+        
         // SUB socket configuration
         if (this.ZMQ_SUB_CONNECT_ADDRESSES != null && !this.ZMQ_SUB_CONNECT_ADDRESSES.isEmpty()) {
             String[] subAddresses = this.ZMQ_SUB_CONNECT_ADDRESSES.split(",");
@@ -157,21 +175,21 @@ public class ZeroMQWA {
             logger.info("No ZMQ_SUB_CONNECT_ADDRESSES defined. This model is not subscribing to other models.");
         }
 
-        // CONFIGURAZIONE ENVIRONMENT (Ricezione Input) 
+        // environment configuration (input reception)
         if (this.ASM_ENVIRONMENT_ADDRESS != null && !this.ASM_ENVIRONMENT_ADDRESS.isEmpty()) {
             try {
                 ZMQ.Socket environmentSocket = context.createSocket(SocketType.SUB);
                 environmentSocket.connect(this.ASM_ENVIRONMENT_ADDRESS);
                 
-                // Subscribe solo ai topic specifici definiti nella lista ASM_ENVIRONMENT_FUNCTIONS
+                // Subscribe only to specific topics defined in the ASM_ENVIRONMENT_FUNCTIONS list
                 if (this.ASM_ENVIRONMENT_FUNCTIONS != null) {
                     for (String topic : this.ASM_ENVIRONMENT_FUNCTIONS) {
                         if (topic != null && !topic.trim().isEmpty()) {
                             environmentSocket.subscribe(topic.trim().getBytes(ZMQ.CHARSET));
                         }
                     }
+
                 }
-                
                 subscribers.add(environmentSocket);
                 logger.info("Environment socket connected to address {}", this.ASM_ENVIRONMENT_ADDRESS);
             } catch (Exception e) {
@@ -181,6 +199,7 @@ public class ZeroMQWA {
         
         logger.info("ZeroMQ Socket initialization completed with {} SUB connections.", subscribers.size());
     }
+    }
  ///////////////////////////////////////////////////////////////////////////////////////////
     private void handleSubscriptionMessages() {
         boolean messageReceived = false;
@@ -188,12 +207,10 @@ public class ZeroMQWA {
             ZMQ.Socket sub = subscribers.get(i);
             String message;
             while ((message = sub.recvStr(ZMQ.DONTWAIT)) != null) {
-         //   	logger.debug("SUB raw frame: '{}'", message);
 
                 boolean topicReceived = false;
                 for (String topic : this.ASM_ENVIRONMENT_FUNCTIONS) {
                     if (message.equals(topic)) {
-             //           logger.debug("Received topic identifier: {} on SUB socket #{}", topic, i);
                         topicReceived = true;
                         break;
                     }
@@ -208,7 +225,6 @@ public class ZeroMQWA {
                     Map<String, String> receivedData = gson.fromJson(message, mapStringStringType);
                     if (receivedData != null) {
                         currentMonitoredValues.putAll(receivedData);
-           //             logger.info("Monitored updated: {}", currentMonitoredValues);
 
                         logger.trace("Monitored values updated: {}", currentMonitoredValues);
                     } else {
@@ -256,11 +272,8 @@ public class ZeroMQWA {
         }
 
         try {
-           // logger.info("Starting zeroMQW run loop for config {}...", this.CONFIG_FILE_PATH);
-        	//create the ZMQ resource manager
             try (ZContext context = new ZContext()) {
                 initializeZmqSockets(context);
-             //   logger.info("Entering main loop for {}...", this.CONFIG_FILE_PATH);
 
                 initializeStartingValues();
                 if (this.CONSOLE_INPUT_FUNCTIONS != null) {
@@ -269,34 +282,105 @@ public class ZeroMQWA {
                     logger.info("No starting values provided.");
                 }
 
-               while (!Thread.currentThread().isInterrupted()) {
-                    Thread.sleep(1000);
-                    handleSubscriptionMessages();
-                    
-                  
-                    if (!hasAllRequiredInputs()) {
-                        logMissingInputsIfAny();
-                        Thread.sleep(500);
-                        continue;  
-                    }
-                    
-                    Map<String, String> monitoredForStep = new HashMap<>();
-                    for (String key : this.requiredMonitored) {
-                        monitoredForStep.put(key, currentMonitoredValues.get(key));
-                    }
+                while (!Thread.currentThread().isInterrupted()) {
+                	//Synchronization Gate
+                    boolean readyToStep = false;
 
-                    logger.debug("Executing ASM step with monitored input: {}", monitoredForStep);
-                    RunOutput output = sim.runStep(this.asmId, monitoredForStep);
+                    // DATA RECEPTION AND COMMANDS
+                    if (this.isForkJoinMode) {
+                        String topic = null, payload = null; //topic = "ORCH_CMD" payload ="2,3,4"
+                        //polling
+                        for (ZMQ.Socket sub : subscribers) {
+                            topic = sub.recvStr(ZMQ.DONTWAIT);
+                            if (topic != null) { 
+                            	payload = sub.recvStr(); 
+                            	break; }
+                        }
+                        //ZMQ.poller?
+                        if (topic == null || payload == null) {
+                            try { 
+                            	Thread.sleep(50); 
+                            	} catch (InterruptedException e) { Thread.currentThread().interrupt(); }
+                            continue;
+                        }
 
-                    if (output.getEsit() == Esit.SAFE) {
-                        logger.info("ASM step SAFE. Output: {}", output.getOutvalues());
-                        handlePublisherMessages(output);
-                        this.currentMonitoredValues.clear();
-                    
+                        if ("ORCH_CMD".equals(topic)) {
+                            if ("CMD:ROLLBACK".equals(payload)) {
+                                logger.warn("[{}] Ricevuto ROLLBACK GLOBALE.", sectionPrefix);
+                                if (this.lastStepWasSafe) {
+                                    sim.rollback(asmId);
+                                    logger.info("[{}] Eseguito rollback. Allineato a S_n-1.", sectionPrefix);
+                                } else {
+                                    //logger.info("[{}] Ignoro comando: ero già a S_n-1.", sectionPrefix);
+                                }
+                                Map<String, String> statusMsg = new HashMap<>();
+                                statusMsg.put("asm_status", "SAFE"); 
+                                publisher.sendMore("STATUS_UPDATE");
+                                publisher.send(gson.toJson(statusMsg));
+                                continue;
+                                
+                            } else if (payload.startsWith("DATA:")) {
+                                Map<String, String> receivedData = gson.fromJson(payload.substring(5), mapStringStringType);
+                                if (receivedData != null) currentMonitoredValues.putAll(receivedData);
+                                readyToStep = true;
+                            }
+                        }
                     } else {
-                        handleUnsafeState(monitoredForStep);
+                        // Classical Sequential Logic
+                        Thread.sleep(1000);
+                        handleSubscriptionMessages();
+                        if (hasAllRequiredInputs()) {
+                            readyToStep = true;
+                        } else {
+                            logMissingInputsIfAny();
+                            Thread.sleep(500);
+                        }
                     }
-                    logger.debug("Step processing complete.");
+
+                    // EXECUTION OF THE ASMETA STEP 
+                    if (readyToStep) {
+                        Map<String, String> monitoredForStep = new HashMap<>();
+                        for (String key : this.requiredMonitored) {
+                            monitoredForStep.put(key, currentMonitoredValues.get(key));
+                        }
+
+                        logger.debug("Executing ASM step with monitored input: {}", monitoredForStep);
+                        RunOutput output = sim.runStep(this.asmId, monitoredForStep);
+
+                        //  RESULT MANAGEMENT AND PUBLICATION
+                        if (this.isForkJoinMode) {
+                            Map<String, Object> response = new HashMap<>(output.getOutvalues());
+                            if (output.getEsit() == Esit.SAFE) {
+                                logger.info("[{}] ASM step SAFE. Output: {}", sectionPrefix, output.getOutvalues());
+                                this.lastStepWasSafe = true;
+                                response.put("asm_status", "SAFE");
+                            } else {
+                                logger.error("[{}] ASM step UNSAFE!", sectionPrefix);
+                                handleUnsafeState(monitoredForStep);                        
+                                this.lastStepWasSafe = false;
+                                response.put("asm_status", "UNSAFE");
+                            }
+                            
+                            String jsonResponse = gson.toJson(response);
+                            publisher.sendMore("STATUS_UPDATE");
+                            publisher.send(jsonResponse);
+                            publisher.sendMore(this.sectionPrefix);
+                            publisher.send(jsonResponse);
+                            
+                            //sequential run
+                        } else {
+                            if (output.getEsit() == Esit.SAFE) {
+                                logger.info("ASM step SAFE. Output: {}", output.getOutvalues());
+                                handlePublisherMessages(output);
+                            } else {
+                                handleUnsafeState(monitoredForStep);
+                                handlePublisherMessages(output);
+                            }
+                        }
+
+
+                        this.currentMonitoredValues.clear();
+                    }
                 }
             }
         } catch (InterruptedException e) {
@@ -305,10 +389,10 @@ public class ZeroMQWA {
         } catch (Exception e) {
             logger.fatal("CRITICAL ERROR in run loop: {}", e.getMessage(), e);
         } finally {
-
             logger.info("zeroMQW run method finished for {}.", this.CONFIG_FILE_PATH);
         }
-    }
+    } 
+    
 
     //////////////////////////////////////////////
     
@@ -323,7 +407,14 @@ public class ZeroMQWA {
     }
 
     public boolean runStep() throws Exception {
+    	
+    	if (this.isForkJoinMode) {
+            logger.error("Il metodo runStep() non supporta la modalità ForkJoin. Usa run() per l'orchestrazione continua.");
+            return false; 
+        }
+    	
         handleSubscriptionMessages();
+   
         if (!hasAllRequiredInputs()) {
         	//Waiting for required inputs
             logMissingInputsIfAny();
@@ -336,20 +427,19 @@ public class ZeroMQWA {
         }
         
         RunOutput output;
-        synchronized (SimulationContainer.class) {     
             output = sim.runStep(this.asmId, monitoredForStep);
-        }                                            
-        
-        if (output.getEsit() == Esit.SAFE) {
-            logger.info("ASM step SAFE. Output: {}", output.getOutvalues());
-            handlePublisherMessages(output);
-            this.currentMonitoredValues.clear();
-            //the model received all its inputs and the ASM completed the step validly
-            return true;
-        } else {
-            handleUnsafeState(monitoredForStep);
-            return false;
-        }
+                                                
+            if (output.getEsit() == Esit.SAFE) {
+                logger.info("ASM step SAFE. Output: {}", output.getOutvalues());
+                handlePublisherMessages(output);
+                this.currentMonitoredValues.clear();
+                return true;
+            } else {
+                handleUnsafeState(monitoredForStep);
+                handlePublisherMessages(output);
+                this.currentMonitoredValues.clear();
+                return false;
+            }
     }
 
     ///////////////////////////////////////////////

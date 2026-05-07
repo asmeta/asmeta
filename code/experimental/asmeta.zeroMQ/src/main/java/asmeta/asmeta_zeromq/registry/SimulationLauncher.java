@@ -60,7 +60,7 @@ public abstract class SimulationLauncher {
         return globalConfig;
     }
 
-    protected Properties extractSection(Properties globalConfig, String modelName) {
+    public static Properties extractSection(Properties globalConfig, String modelName) {
         Properties modelProperties = new Properties();
         String modelPrefix = modelName + ".";
         for (String propertyKey : globalConfig.stringPropertyNames()) {
