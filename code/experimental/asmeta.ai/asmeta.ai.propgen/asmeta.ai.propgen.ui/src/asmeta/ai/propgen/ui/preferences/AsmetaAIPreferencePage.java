@@ -78,7 +78,7 @@ public class AsmetaAIPreferencePage extends FieldEditorPreferencePage implements
 
 	@Override
 	public void propertyChange(org.eclipse.jface.util.PropertyChangeEvent event) {
-		super.propertyChange(event); // IMPORTANT: keep default behavior
+		super.propertyChange(event); 
 
 		if (event.getSource() == llmChoiceEditor && FieldEditor.VALUE.equals(event.getProperty())) {
 			updateLLMFields(String.valueOf(event.getNewValue()));
