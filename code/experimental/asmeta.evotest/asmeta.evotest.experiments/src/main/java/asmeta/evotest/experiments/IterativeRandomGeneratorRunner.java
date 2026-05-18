@@ -184,7 +184,7 @@ public class IterativeRandomGeneratorRunner {
 		HashMap<String, List<AsmCollection>> allMutantions;
 		try {
 			LOG.info("Generating mutants...");
-			mutationExecutor = new MutatedScenarioExecutor();
+			mutationExecutor = MutatedScenarioExecutor.createMutatedScenarioExecutorLocalTemp();
 			allMutantions = mutationExecutor.generateMutants(asm);
 		} catch (Throwable t) {
 			LOG.error("Error while generating mutants " + asmName + ".\n" + t.getClass().getSimpleName() + ": "

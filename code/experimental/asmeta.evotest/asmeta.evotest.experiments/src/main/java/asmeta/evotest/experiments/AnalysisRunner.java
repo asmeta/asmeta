@@ -274,7 +274,7 @@ public class AnalysisRunner {
 						// Run mutation
 						try {
 							LOG.info("Running mutation...");
-							MutatedScenarioExecutor mutationExecutor = new MutatedScenarioExecutor();
+							MutatedScenarioExecutor mutationExecutor = MutatedScenarioExecutor.createMutatedScenarioExecutorLocalTemp();
 							HashMap<String, List<AsmCollection>> allMutantions = mutationExecutor.generateMutants(asm);
 							for (Entry<String, List<AsmCollection>> mutation : allMutantions.entrySet()) {
 								LOG.info("Mutant operator: " + mutation.getKey());

@@ -94,7 +94,7 @@ public class CollectMutantNumber {
 	}
 
 	private static List<String> countMutants(AsmCollection asm) {
-		MutatedScenarioExecutor mutationExecutor = new MutatedScenarioExecutor();
+		MutatedScenarioExecutor mutationExecutor = MutatedScenarioExecutor.createMutatedScenarioExecutorLocalTemp();
 		List<String> counts = new ArrayList<>(NEW_CSV_HEADERS.size());
 		HashMap<String, Integer> countByOperator = new HashMap<>();
 		try {

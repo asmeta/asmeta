@@ -110,6 +110,9 @@ public class AsmetaV {
 		List<String> result = asmetaV.execValidation(scenarioPathFile, coverage, csvPath != null, csvPath, shuffle);
 		// restores the value put in previously
 		TermEvaluator.recoverAllowLazyEval();
+		
+		
+		
 		return result;
 	}
 
@@ -163,6 +166,10 @@ public class AsmetaV {
 		if (coverage.coverage) {
 			String execId = "exec_" + scenarioPath.getName() + "_" + UUID.randomUUID().toString();
 			printCoverage(execId, allCoveredRules, result, printToCsv, csvPath, failedScenarios);
+			// now lets see if the mutation score is requested
+			if (coverage.mutationCoverage) {
+				
+			}
 		}
 		// print a recap of the result
 		if (failedScenarios.isEmpty())
@@ -174,7 +181,7 @@ public class AsmetaV {
 				logger.info("WARNING: mutation can be executed since some scenarios are failing");
 			else {
 				// run the mutation score
-				MutatedScenarioExecutor mutExec  = new MutatedScenarioExecutor();
+				MutatedScenarioExecutor mutExec  = MutatedScenarioExecutor.createMutatedScenarioExecutorLocalTemp();
 				HashMap<String, Entry<Integer, Integer>> mutationScore = mutExec.computeMutationScore(scenarioPath.toString());
 				
 			}

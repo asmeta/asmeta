@@ -67,7 +67,7 @@ public class TestForCoverageShortICTSS {
 //							// load ../../../../src ... etc
 //							//correctLoadSpec(avalla);
 //						
-					MutatedScenarioExecutor executor = new MutatedScenarioExecutor();
+					MutatedScenarioExecutor executor = MutatedScenarioExecutor.createMutatedScenarioExecutorLocalTemp();
 					HashMap<String, Entry<Integer, Integer>> value;
 					try {
 						value = executor.computeMutationScore(avalla.toFile().toString());

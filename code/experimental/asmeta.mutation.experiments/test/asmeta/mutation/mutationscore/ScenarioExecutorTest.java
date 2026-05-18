@@ -61,7 +61,7 @@ public class ScenarioExecutorTest {
 	}
 
 	private void computeMC(String scenarioPath, int nTimes) throws Exception {
-		MutatedScenarioExecutor sc = new MutatedScenarioExecutor();
+		MutatedScenarioExecutor sc = MutatedScenarioExecutor.createMutatedScenarioExecutorLocalTemp();
 		if (nTimes == 1) {
 			HashMap<String, Entry<Integer, Integer>> res = sc.computeMutationScore(scenarioPath);
 			System.out.println(scenarioPath + "mutation score " + res);

@@ -1,6 +1,7 @@
 package asmeta.mutation.mutationscore;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.AbstractMap;
@@ -41,6 +42,30 @@ public class MutatedScenarioExecutor {
 	
 	private static final Logger LOG = Logger.getLogger(MutatedScenarioExecutor.class);
 
+	
+	public static MutatedScenarioExecutor createMutatedScenarioExecutorLocalTemp() {
+		// TEMP. use a temporary directory - local to the project
+		return new MutatedScenarioExecutor(new File("temp/"));
+	}
+
+	public static MutatedScenarioExecutor createMutatedScenarioExecutorTemp() {
+		try {
+			Path tempDir = Files.createTempDirectory("asmeta-mutation");
+			// TEMP. use a temporary directory - local to the project
+			return new MutatedScenarioExecutor(tempDir.toFile());
+		} catch (IOException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e.getMessage());
+		}
+	}
+
+	// where to put all the temporary files (mutants)
+	File temp; 
+	private MutatedScenarioExecutor(File tmpFile){
+		assert temp.exists() && temp.isDirectory();
+		temp = tmpFile;		
+	}
+	
 	// mutation operators to be used
 	List<AsmetaMutationOperator> mutOperators = new ArrayList<AsmetaMutationOperator>();
 			//Arrays.asList(
@@ -61,8 +86,6 @@ public class MutatedScenarioExecutor {
 	// return MAP with key: mutation operator (String) -> a pair (killed,n_mutants)
 	//
 	public HashMap<String,Map.Entry<Integer, Integer>> computeMutationScore(String scenarioPath) throws Exception {
-		// TEMP. use a temporary directory
-		File temp = new File("temp/");
 		HashMap<String,Map.Entry<Integer, Integer>> results = new HashMap<String, Map.Entry<Integer,Integer>>();
 		assert temp.exists() && temp.isDirectory();
 		// parse the scenario to get the ref to the asmeta
