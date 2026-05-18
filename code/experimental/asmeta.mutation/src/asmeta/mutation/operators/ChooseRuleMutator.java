@@ -161,12 +161,12 @@ public class ChooseRuleMutator extends RuleBasedMutator {
 
 		@Override
 		public List<Rule> visit(MacroCallRule rule) throws Exception {
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		}
 
 		@Override
 		public List<Rule> visit(CaseRule rule) {
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 		}
 
 	}

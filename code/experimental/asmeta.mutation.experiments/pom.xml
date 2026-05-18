@@ -3,18 +3,16 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>asmeta</groupId>
-	<artifactId>asmeta.mutation</artifactId>
+	<artifactId>asmeta.mutation.experiments</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
-		<testSourceDirectory>test</testSourceDirectory>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.13.0</version>
 				<configuration>
-					<source>21</source>
-					<target>21</target>
+					<release>21</release>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -22,27 +20,17 @@
 	<dependencies>
 		<dependency>
 			<groupId>asmeta</groupId>
-			<artifactId>asmeta.emf</artifactId>
+			<artifactId>asmeta.mutation</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>asmeta</groupId>
-			<artifactId>asmeta.parser</artifactId>
+			<artifactId>asmeta.validator</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>asmeta</groupId>
-			<artifactId>asmeta.simulator</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.17</version>
 		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter</artifactId>
+			<artifactId>junit-jupiter-engine</artifactId>
 			<version>5.9.1</version>
 			<scope>test</scope>
 		</dependency>
