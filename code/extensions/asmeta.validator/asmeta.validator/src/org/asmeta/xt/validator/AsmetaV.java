@@ -168,7 +168,9 @@ public class AsmetaV {
 			printCoverage(execId, allCoveredRules, result, printToCsv, csvPath, failedScenarios);
 			// now lets see if the mutation score is requested
 			if (coverage.mutationCoverage) {
-				
+				MutatedScenarioExecutor mutExecutor = MutatedScenarioExecutor.createMutatedScenarioExecutorTemp();
+				HashMap<String, Entry<Integer, Integer>> mutResults = mutExecutor.computeMutationScore(scenarioPath.toString());
+				// todo print converage infomation
 			}
 		}
 		// print a recap of the result

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -86,6 +87,8 @@ public class MutatedScenarioExecutor {
 	// return MAP with key: mutation operator (String) -> a pair (killed,n_mutants)
 	//
 	public HashMap<String,Map.Entry<Integer, Integer>> computeMutationScore(String scenarioPath) throws Exception {
+		assert scenarioPath.endsWith(".avalla");
+		assert Files.exists(Paths.get(scenarioPath));
 		HashMap<String,Map.Entry<Integer, Integer>> results = new HashMap<String, Map.Entry<Integer,Integer>>();
 		assert temp.exists() && temp.isDirectory();
 		// parse the scenario to get the ref to the asmeta
