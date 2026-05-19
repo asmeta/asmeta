@@ -27,8 +27,8 @@ public abstract class SimulationLauncher {
             modelThread.start();
         }
         
-        // 3) Pausa per connessione Modelli
-            System.out.println(">>> Attendo 2 secondi per permettere registrazione e connessioni...");
+
+            System.out.println(" wait 2 seconds to allow for registration and connections");
             Thread.sleep(2000); 
       
         // 7) Start Environment and thread synchronization

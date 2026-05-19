@@ -4,7 +4,7 @@ import ../TimeLibrarySimple
 
 signature:
 	// DOMAINS
-	enum domain CorssManagerStatus = {NORMAL | PEDESTRIAN | TRAM}
+	enum domain CrossManagerStatus = {NORMAL | PEDESTRIAN | TRAM}
 	enum domain ControllerStatus = {CONTR_OFF | STANDBY | OPERATE}
 	
 	//FUNCTIONS
@@ -13,7 +13,7 @@ signature:
 	monitored statusC: ControllerStatus
 	
 	
-	out crossManagerController: CorssManagerStatus
+	out crossManagerController: CrossManagerStatus
 	
 	//TIMER
 	static timeTRAM: Timer 
@@ -56,9 +56,19 @@ definitions:
 	endif
 	
 
-default init s0:	
-	function duration($t in Timer) = switch $t
-		case timeTRAM: 2
-		case timePEDESTRIAN: 2
-	endswitch
+//default init s0:	
+	//function duration($t in Timer) = switch $t
+		//case timeTRAM: 2
+		//case timePEDESTRIAN: 2
+	//endswitch
+	//function crossManagerController = NORMAL
+default init s0:
 	function crossManagerController = NORMAL
+	
+	function duration($t in Timer) = 
+		if $t = timePEDESTRIAN then 4
+		else 
+			if $t = timeTRAM then 5
+			else 0
+			endif
+		endif

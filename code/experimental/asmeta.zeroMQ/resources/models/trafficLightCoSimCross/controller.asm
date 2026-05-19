@@ -9,15 +9,15 @@ signature:
 	enum domain ControllerTransition = {TURN_ON | TURN_OFF | OPERATE_T | STANDBY_T}
 	
 	
-	enum domain CorssManagerStatus = {NORMAL | PEDESTRIAN | TRAM}
+	enum domain CrossManagerStatus = {NORMAL | PEDESTRIAN | TRAM}
 	
 	//FUNCTIONS
 	monitored transitionC: ControllerTransition	
 	out statusC: ControllerStatus
 	out operateMode : ControllerOperateMode
 	
-	monitored crossManagerController: CorssManagerStatus
-	controlled crossManagerController_previous: CorssManagerStatus
+	monitored crossManagerController: CrossManagerStatus
+	controlled crossManagerController_previous: CrossManagerStatus
 	
 	//TIMER
 	static timeRED: Timer

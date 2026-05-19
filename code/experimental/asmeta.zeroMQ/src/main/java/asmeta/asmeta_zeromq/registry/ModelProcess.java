@@ -10,14 +10,14 @@ public class ModelProcess {
 
     public static void main(String[] args) {
         if (args.length < 2) {
-            System.err.println("[ModelProcess] Usage: ModelProcess <configPath> <modelName>");
+            System.err.println("[ModelProcess] Usage: ModelProcess <configPath> <modelName> [executionMode] [pubTopic] [subTopics]");
             System.exit(1);
         }
 
-        String configPath = args[0]; //e.g.  "configs/incDecMulti/zmq_config_IncDecForkJoin.properties"
-        String modelName  = args[1]; //e.g. "M1"
+        String configPath = args[0]; // e.g.  "configs/incDecMulti/zmq_config_IncDecForkJoin.properties"
+        String modelName  = args[1]; // e.g. "M1"
         
-        System.out.println("[ModelProcess] Starting model: " + modelName + " from config: " + configPath + " rollback: ");
+        System.out.println("[ModelProcess] Starting model: " + modelName + " from config: " + configPath);
 
         try {
             // Load unified config from classpath
@@ -31,6 +31,20 @@ public class ModelProcess {
 
             Properties modelConfig = SimulationLauncher.extractSection(globalConfig, modelName);  
 
+            if (args.length >= 5) {
+                String executionMode = args[2];
+                String pubTopic = args[3];
+                String subTopics = args[4].equals("NONE") ? "" : args[4];
+
+                modelConfig.setProperty("execution_mode", executionMode);
+                modelConfig.setProperty("calculated_pub_topic", pubTopic);
+                modelConfig.setProperty("calculated_sub_topics", subTopics);
+                
+                System.out.println("[ModelProcess] Parametri AST ricevuti -> Mode: " + executionMode + 
+                                   ", PUB: " + pubTopic + ", SUB: [" + subTopics + "]");
+            }
+
+
             // Instantiate and run
             ZeroMQWA model = new ZeroMQWA(modelConfig, modelName);
             model.run();
@@ -38,7 +52,6 @@ public class ModelProcess {
         } catch (Exception e) {
             System.err.println("[ModelProcess] FATAL error in model " + modelName + ": " + e.getMessage());
             e.printStackTrace();
-            System.exit(2);
         }
     }
 }

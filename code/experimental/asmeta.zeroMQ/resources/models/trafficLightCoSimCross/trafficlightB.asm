@@ -3,12 +3,12 @@ asm trafficlightB
 import ../StandardLibrary
 
 signature:
-	// DOMAINS
+	
 	enum domain Lights = {ALL_OFF | RED | BLINK_YELLOW | GREEN | YELLOW}
 	enum domain ControllerStatus = {CONTR_OFF | STANDBY | OPERATE}
 	enum domain ControllerOperateMode = {RED_AB | GREEN_A_RED_B | YELLOW_A_RED_B | RED_BA | GREEN_B_RED_A | YELLOW_B_RED_A}
 	
-	out lightsB: Lights // traffic light A
+	out lightsB: Lights 
 	monitored statusC: ControllerStatus
 	monitored operateMode : ControllerOperateMode
 	

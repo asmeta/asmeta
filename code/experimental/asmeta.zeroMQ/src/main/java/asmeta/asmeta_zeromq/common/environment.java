@@ -41,7 +41,7 @@ public class environment {
     public static void main(String[] args) {
         Properties env;
         try (InputStream in = environment.class.getClassLoader()
-                .getResourceAsStream("configs/incDecMulti/zmq_config_IncDecForkJoin.properties")) {
+                .getResourceAsStream("configs/trafficLightSimCoSimCross-config/zmq_config_TrafficSimulation.properties")) {
 
             if (in == null) {
                 throw new RuntimeException("zmq_config.properties not found in classpath.");

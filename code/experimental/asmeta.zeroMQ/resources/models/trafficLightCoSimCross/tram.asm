@@ -4,11 +4,11 @@ import ../TimeLibrarySimple
 
 signature:
 	// DOMAINS
-	enum domain CorssManagerStatus = {NORMAL | PEDESTRIAN | TRAM}
+	enum domain CrossManagerStatus = {NORMAL | PEDESTRIAN | TRAM}
 	enum domain Lights = {RED | GREEN}
 	
 	//FUNCTIONS
-	monitored crossManagerController: CorssManagerStatus
+	monitored crossManagerController: CrossManagerStatus
 	monitored newTramComing: Boolean
 	
 	out tramComing: Boolean	
@@ -27,6 +27,7 @@ main rule r_Main =
 			tramLight := RED
 			tramComing := newTramComing
 		endpar
+		
 	endif
 
 // INITIAL STATE
