@@ -116,7 +116,8 @@ public class FMExperiments {
 					FileUtils.deleteDirectory(scenariosDir);
 				}
 				Files.createDirectories(new File(TARGET_DIR).toPath());
-				new File(RESULTS_CSV).delete();
+				boolean deleted = new File(RESULTS_CSV).delete();
+				assert deleted;
 				LOG.info("Old results removed.");
 				// Write the header to the csv that will contain the final results
 				String headers = String.join(",", CSV_HEADERS) + System.lineSeparator();
