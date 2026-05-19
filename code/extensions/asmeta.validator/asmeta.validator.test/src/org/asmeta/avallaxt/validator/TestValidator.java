@@ -29,7 +29,7 @@ public class TestValidator {
 	protected static File tempAsmPath = new File(pathname); //Files.createTempFile("__tempAsmetaV", ASMParser.asmExtension).toFile();
 
 
-	private static Logger log = Logger.getLogger(TestValidator.class);
+	protected static Logger log = Logger.getLogger(TestValidator.class);
 
 	@BeforeAll
 	static void testExamplesDir() throws IOException{

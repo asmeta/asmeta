@@ -1,9 +1,9 @@
 package org.asmeta.xt.validator;
 
-import org.junit.jupiter.api.Test; import static org.junit.jupiter.api.Assertions.assertFalse;
-import org.junit.jupiter.api.Test; import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import org.junit.jupiter.api.Test; import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.Test; import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -20,17 +20,16 @@ import org.apache.log4j.PatternLayout;
 import org.apache.log4j.WriterAppender;
 import org.asmeta.avallaxt.validator.TestValidator;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class TestCoverage extends TestValidator {
 
-	private StringWriter stringWriter;
-	private WriterAppender writerAppender;
+	private static StringWriter stringWriter;
+	private static WriterAppender writerAppender;
 
-	@BeforeAll void setupLogger() {
+	@BeforeAll
+	static void setupLogger() {
 		// set to error to reduc eoutput for gitlab
 		Logger.getLogger(RuleEvalWCov.class).setLevel(Level.ERROR);
 		// this must be in debug since the output is checked with this logger
@@ -42,7 +41,8 @@ class TestCoverage extends TestValidator {
 		Logger.getLogger(AsmetaV.class).addAppender(writerAppender);
 	}
 
-	@AfterAll void cleanAppender() throws IOException {
+	@AfterAll
+	static void cleanAppender() throws IOException {
 		// remove the appender
 		Logger.getLogger(AsmetaV.class).removeAppender(writerAppender);
 	}

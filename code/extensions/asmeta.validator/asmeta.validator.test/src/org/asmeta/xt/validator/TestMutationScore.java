@@ -27,13 +27,6 @@ import org.junit.jupiter.api.Test;
 class TestMutationScore extends TestValidator {
 
 
-	@BeforeAll void setupLogger() {
-		// set to error to reduc eoutput for gitlab
-		Logger.getLogger(RuleEvalWCov.class).setLevel(Level.ERROR);
-		// this must be in debug since the output is checked with this logger
-		Logger.getLogger(AsmetaV.class).setLevel(Level.DEBUG);
-	}
-
 	@Test 
 	void test1() throws Exception {
 		String scenario = "scenariosforexamples/advancedClock/advancedClock1.avalla";

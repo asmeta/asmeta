@@ -38,9 +38,9 @@ public class AsmetaV {
 	
 	public record CoverageRequest(boolean coverage,boolean mutationCoverage) {};
 	
-	static public CoverageRequest doNotcomputeCoverage = new CoverageRequest(false, false);
-	static public CoverageRequest computeCoverage = new CoverageRequest(true, false);
-	static public CoverageRequest computeMutationScore = new CoverageRequest(true, true);
+	public static CoverageRequest doNotcomputeCoverage = new CoverageRequest(false, false);
+	public static CoverageRequest computeCoverage = new CoverageRequest(true, false);
+	public static CoverageRequest computeMutationScore = new CoverageRequest(true, true);
 
 	public static final String SCENARIO_EXTENSION = ".avalla";
 
