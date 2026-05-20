@@ -15,8 +15,7 @@ import org.junit.jupiter.api.Test;
 import asmeta.AsmCollection;
 
 public class RuleRemoverTest {
-	
-	// TestForCoverageShortICTSS.
+
 	private String base_dir;
 
 

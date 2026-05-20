@@ -21,6 +21,7 @@ import org.asmeta.simulator.main.Simulator;
 import org.asmeta.xt.validator.AsmetaV;
 import org.asmeta.xt.validator.RuleEvalWCov;
 import org.asmeta.xt.validator.SimulatorWCov;
+import org.asmeta.xt.validator.mutationscore.MutationScoreExecutor;
 
 import asmeta.AsmCollection;
 import asmeta.evotest.experiments.model.ModelDataCollector;
@@ -30,7 +31,6 @@ import asmeta.evotest.experiments.scenario.ValidationDataCollector;
 import asmeta.evotest.experiments.utils.CsvManager;
 import asmeta.evotest.experiments.utils.CsvManager.STATUS;
 import asmeta.evotest.experiments.utils.YamlManager;
-import asmeta.mutation.mutationscore.MutatedScenarioExecutor;
 
 public class AnalysisRunner {
 	private static final String DATA_CSV = "data.csv";
@@ -274,7 +274,7 @@ public class AnalysisRunner {
 						// Run mutation
 						try {
 							LOG.info("Running mutation...");
-							MutatedScenarioExecutor mutationExecutor = MutatedScenarioExecutor.createMutatedScenarioExecutorLocalTemp();
+							MutationScoreExecutor mutationExecutor = MutationScoreExecutor.createTempExecutor();
 							HashMap<String, List<AsmCollection>> allMutantions = mutationExecutor.generateMutants(asm);
 							for (Entry<String, List<AsmCollection>> mutation : allMutantions.entrySet()) {
 								LOG.info("Mutant operator: " + mutation.getKey());

@@ -22,9 +22,9 @@ import org.asmeta.simulator.Location;
 import org.asmeta.simulator.TermEvaluator;
 import org.asmeta.simulator.main.Simulator;
 import org.asmeta.simulator.value.Value;
+import org.asmeta.xt.validator.mutationscore.MutationScoreExecutor;
 
 import asmeta.definitions.RuleDeclaration;
-import asmeta.mutation.mutationscore.MutatedScenarioExecutor;
 import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
 
 /**
@@ -166,12 +166,6 @@ public class AsmetaV {
 		if (coverage.coverage) {
 			String execId = "exec_" + scenarioPath.getName() + "_" + UUID.randomUUID().toString();
 			printCoverage(execId, allCoveredRules, result, printToCsv, csvPath, failedScenarios);
-			// now lets see if the mutation score is requested
-			if (coverage.mutationCoverage) {
-				MutatedScenarioExecutor mutExecutor = MutatedScenarioExecutor.createMutatedScenarioExecutorTemp();
-				HashMap<String, Entry<Integer, Integer>> mutResults = mutExecutor.computeMutationScore(scenarioPath.toString());
-				// todo print converage infomation
-			}
 		}
 		// print a recap of the result
 		if (failedScenarios.isEmpty())
@@ -180,15 +174,26 @@ public class AsmetaV {
 			logger.info("WARNING: validation incomplete - some checks failed or errors occurred");
 		if (coverage.mutationCoverage) {
 			if (!failedScenarios.isEmpty())
-				logger.info("WARNING: mutation can be executed since some scenarios are failing");
+				logger.info("WARNING: mutation cannot be executed since some scenarios are failing");
 			else {
-				// run the mutation score
-				MutatedScenarioExecutor mutExec  = MutatedScenarioExecutor.createMutatedScenarioExecutorLocalTemp();
-				HashMap<String, Entry<Integer, Integer>> mutationScore = mutExec.computeMutationScore(scenarioPath.toString());
-				
+				MutationScoreExecutor mutExec = MutationScoreExecutor.createTempExecutor();
+				HashMap<String, Entry<Integer, Integer>> mutationScore = mutExec
+						.computeMutationScoreFromScenarios(scenarioPath.toString());
+				printMutationScore(mutationScore);
 			}
 		}
 		return failedScenarios;
+	}
+
+	private void printMutationScore(HashMap<String, Entry<Integer, Integer>> mutationScore) {
+		logger.info("\n** Mutation Score Info: **");
+		for (Entry<String, Entry<Integer, Integer>> entry : mutationScore.entrySet()) {
+			int killed = entry.getValue().getKey();
+			int mutants = entry.getValue().getValue();
+			String score = mutants == 0 ? "-" : String.format(Locale.US, "%.2f%%", ((float) killed) / mutants * 100);
+			logger.info(String.format(Locale.US, "-> %-22s %s (%d/%d)", entry.getKey() + ":", score, killed, mutants));
+		}
+		logger.info("");
 	}
 
 	public static final String[] HEADERS = { "execution_id", "asm_name", "rule_signature", "tot_branches",

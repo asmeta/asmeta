@@ -65,12 +65,7 @@
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.junit.platform</groupId>
-			<artifactId>junit-platform-launcher</artifactId>
-			<version>6.0.1</version> 
+			<version>5.13.3</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

@@ -28,6 +28,7 @@ import org.asmeta.simulator.main.Simulator;
 import org.asmeta.xt.validator.AsmetaV;
 import org.asmeta.xt.validator.RuleEvalWCov;
 import org.asmeta.xt.validator.SimulatorWCov;
+import org.asmeta.xt.validator.mutationscore.MutationScoreExecutor;
 
 import asmeta.AsmCollection;
 import asmeta.evotest.experiments.model.ModelDataCollector;
@@ -36,7 +37,6 @@ import asmeta.evotest.experiments.scenario.ScenarioValidator;
 import asmeta.evotest.experiments.scenario.ValidationDataCollector;
 import asmeta.evotest.experiments.utils.Utils;
 import asmeta.evotest.experiments.utils.YamlManager;
-import asmeta.mutation.mutationscore.MutatedScenarioExecutor;
 
 public class IterativeRandomGeneratorRunner {
 
@@ -74,7 +74,7 @@ public class IterativeRandomGeneratorRunner {
 		Logger.getLogger(RuleEvalWCov.class).setLevel(Level.ERROR);
 		Logger.getLogger(SimulatorWCov.class).setLevel(Level.ERROR);
 		Logger.getLogger(AsmetaV.class).setLevel(Level.ERROR);
-		Logger.getLogger(MutatedScenarioExecutor.class).setLevel(Level.ERROR);
+		Logger.getLogger(MutationScoreExecutor.class).setLevel(Level.ERROR);
 		ASMParser.getResultLogger().setLevel(Level.ERROR);
 		System.setOut(new PrintStream(OutputStream.nullOutputStream()));
 
@@ -180,11 +180,11 @@ public class IterativeRandomGeneratorRunner {
 		}
 
 		// Generate mutants
-		MutatedScenarioExecutor mutationExecutor;
+		MutationScoreExecutor mutationExecutor;
 		HashMap<String, List<AsmCollection>> allMutantions;
 		try {
 			LOG.info("Generating mutants...");
-			mutationExecutor = MutatedScenarioExecutor.createMutatedScenarioExecutorLocalTemp();
+			mutationExecutor = MutationScoreExecutor.createTempExecutor();
 			allMutantions = mutationExecutor.generateMutants(asm);
 		} catch (Throwable t) {
 			LOG.error("Error while generating mutants " + asmName + ".\n" + t.getClass().getSimpleName() + ": "

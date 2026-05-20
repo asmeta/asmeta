@@ -11,6 +11,7 @@ Require-Bundle: asmeta.avallaxt,
  com.google.inject,
  org.eclipse.xtext
 Export-Package: org.asmeta.validator.main,
+ org.asmeta.xt.validator.mutationscore,
  org.asmeta.xt.validator;
   uses:="org.asmeta.avallaXt.util,
    org.asmeta.parser.util,

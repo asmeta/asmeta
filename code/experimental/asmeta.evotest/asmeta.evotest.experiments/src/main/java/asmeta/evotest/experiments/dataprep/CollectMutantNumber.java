@@ -11,9 +11,9 @@ import java.util.Map.Entry;
 
 import org.apache.log4j.Level;
 import org.asmeta.parser.ASMParser;
+import org.asmeta.xt.validator.mutationscore.MutationScoreExecutor;
 
 import asmeta.AsmCollection;
-import asmeta.mutation.mutationscore.MutatedScenarioExecutor;
 
 public class CollectMutantNumber {
 
@@ -94,7 +94,7 @@ public class CollectMutantNumber {
 	}
 
 	private static List<String> countMutants(AsmCollection asm) {
-		MutatedScenarioExecutor mutationExecutor = MutatedScenarioExecutor.createMutatedScenarioExecutorLocalTemp();
+		MutationScoreExecutor mutationExecutor = MutationScoreExecutor.createTempExecutor();
 		List<String> counts = new ArrayList<>(NEW_CSV_HEADERS.size());
 		HashMap<String, Integer> countByOperator = new HashMap<>();
 		try {
