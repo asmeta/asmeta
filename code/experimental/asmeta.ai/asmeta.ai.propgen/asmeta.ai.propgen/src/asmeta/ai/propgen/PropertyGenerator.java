@@ -157,8 +157,7 @@ public class PropertyGenerator {
 	 * @param property       property in CTL or LTL
 	 * @param removeComments whether to remove comments from the ASMETA model before
 	 *                       sending it to the LLM
-	 * @return a list with "HOLD" or "NOT HOLD" in position 0, and the description
-	 *         of the property in position 1
+	 * @return the description of the property
 	 * @throws RuntimeException if the ASMETA file or template cannot be read, or if
 	 *                          there is an error while communicating with the LLM
 	 */

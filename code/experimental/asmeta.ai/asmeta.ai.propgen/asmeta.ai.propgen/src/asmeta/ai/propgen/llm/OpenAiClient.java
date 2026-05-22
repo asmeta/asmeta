@@ -1,5 +1,9 @@
 package asmeta.ai.propgen.llm;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import com.openai.client.OpenAIClient;
@@ -13,8 +17,10 @@ import com.openai.models.responses.ResponseCreateParams;
  */
 public class OpenAiClient extends HttpLlmClient {
 
-	private static final String DEFAULT_BASE_URL = "https://api.openai.com/v1";
+	public static final String DEFAULT_BASE_URL = "https://api.openai.com/v1";
 	private static final ChatModel DEFAULT_MODEL = ChatModel.GPT_5_NANO;
+	public static final String DEFAULT_MODEL_NAME = DEFAULT_MODEL.asString();
+	private static final String[] AVAILABLE_MODEL_NAMES = resolveAvailableModelNames();
 	private static final String KEY_ENV_VAR = "OPENAI_API_KEY";
 	private static final String BASE_URL_ENV_VAR = "OPENAI_BASE_URL";
 
@@ -68,6 +74,22 @@ public class OpenAiClient extends HttpLlmClient {
 		this.model = model;
 	}
 
+	/**
+	 * Sets the model to use for future requests.
+	 *
+	 * @param modelName the model name
+	 */
+	public void setModel(String modelName) {
+		this.model = ChatModel.of(modelName);
+	}
+
+	/**
+	 * @return the OpenAI chat model names supported by the bundled OpenAI client
+	 */
+	public static String[] getAvailableModelNames() {
+		return AVAILABLE_MODEL_NAMES.clone();
+	}
+
 	@Override
 	public String query(String prompt) {
 		try {
@@ -94,5 +116,19 @@ public class OpenAiClient extends HttpLlmClient {
 	private static String resolveEnvOrDefault(String envName, String defaultValue) {
 		String value = System.getenv(envName);
 		return (value == null || value.isBlank()) ? defaultValue : value;
+	}
+
+	private static String[] resolveAvailableModelNames() {
+		List<String> modelNames = new ArrayList<>();
+		for (Field field : ChatModel.class.getFields()) {
+			if (Modifier.isStatic(field.getModifiers()) && ChatModel.class.equals(field.getType())) {
+				try {
+					modelNames.add(((ChatModel) field.get(null)).asString());
+				} catch (IllegalAccessException e) {
+					throw new RuntimeException("Unable to read OpenAI chat model: " + field.getName(), e);
+				}
+			}
+		}
+		return modelNames.toArray(String[]::new);
 	}
 }

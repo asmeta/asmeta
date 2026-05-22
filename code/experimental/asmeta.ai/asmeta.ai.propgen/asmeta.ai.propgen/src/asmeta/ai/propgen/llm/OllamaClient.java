@@ -11,8 +11,9 @@ import io.github.ollama4j.models.response.OllamaResult;
  */
 public class OllamaClient extends HttpLlmClient {
 
-	private static final String DEFAULT_BASE_URL = "https://ollama.com";
+	public static final String DEFAULT_BASE_URL = "https://ollama.com";
 	private static final String DEFAULT_MODEL = "gpt-oss:20b";
+	public static final String DEFAULT_MODEL_NAME = DEFAULT_MODEL;
 	private static final int DEFAULT_TIMEOUT = 300;
 
 	private final OllamaAPI client;

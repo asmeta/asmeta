@@ -43,7 +43,7 @@
             <command
                   commandId="asmeta.ai.propgen.ui.commands.sampleCommand"
                   id="asmeta.ai.propgen.ui.menus.sampleCommand"
-                  icon="incons/sample.png" 
+                  icon="icons/asmetaai.png"
                   tooltip="AsmetaAI">
             </command>
             </menu>
@@ -56,7 +56,7 @@
             <command
                   id="asmeta.ai.propgen.ui.toolbars.sampleCommand"
                   commandId="asmeta.ai.propgen.ui.commands.sampleCommand"
-                  icon="icons/sample.png"
+                  icon="icons/asmetaai.png"
                   tooltip="AsmetaAI">
             </command>
          </toolbar>

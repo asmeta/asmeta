@@ -1,0 +1,95 @@
+package asmeta.ai.propgen.ui.services;
+
+import org.eclipse.jface.preference.IPreferenceStore;
+
+import asmeta.ai.propgen.PropertyType;
+import asmeta.ai.propgen.ui.preferences.PreferenceConstants;
+
+public class AsmetaAISettings {
+
+	public enum LlmChoice {
+		HTTP, OLLAMA, OPENAI
+	}
+
+	private final LlmChoice llmChoice;
+	private final String baseUrl;
+	private final String modelName;
+	private final String apiKey;
+	private final PropertyType propertyType;
+	private final int numberOfProperties;
+	private final int maxRetries;
+	private final boolean debugOutput;
+
+	private AsmetaAISettings(LlmChoice llmChoice, String baseUrl, String modelName, String apiKey,
+			PropertyType propertyType, int numberOfProperties, int maxRetries, boolean debugOutput) {
+		this.llmChoice = llmChoice;
+		this.baseUrl = baseUrl;
+		this.modelName = modelName;
+		this.apiKey = apiKey;
+		this.propertyType = propertyType;
+		this.numberOfProperties = numberOfProperties;
+		this.maxRetries = maxRetries;
+		this.debugOutput = debugOutput;
+	}
+
+	public static AsmetaAISettings fromPreferenceStore(IPreferenceStore store) {
+		return new AsmetaAISettings(
+				parseLlmChoice(store.getString(PreferenceConstants.P_LLM_CHOICE)),
+				store.getString(PreferenceConstants.P_LLM_HTTP_URL).trim(),
+				store.getString(PreferenceConstants.P_MODEL_NAME).trim(),
+				store.getString(PreferenceConstants.P_API_KEY).trim(),
+				parsePropertyType(store.getString(PreferenceConstants.P_PROPERTY_TYPE)),
+				store.getInt(PreferenceConstants.P_NUM_PROP),
+				store.getInt(PreferenceConstants.P_MAX_RETIRES),
+				store.getBoolean(PreferenceConstants.P_DEBUG_OUTPUT));
+	}
+
+	public LlmChoice getLlmChoice() {
+		return llmChoice;
+	}
+
+	public String getBaseUrl() {
+		return baseUrl;
+	}
+
+	public String getModelName() {
+		return modelName;
+	}
+
+	public String getApiKey() {
+		return apiKey;
+	}
+
+	public PropertyType getPropertyType() {
+		return propertyType;
+	}
+
+	public int getNumberOfProperties() {
+		return numberOfProperties;
+	}
+	
+	public int getMaxRetries() {
+		return maxRetries;
+	}
+
+	public boolean isDebugOutput() {
+		return debugOutput;
+	}
+
+	private static LlmChoice parseLlmChoice(String value) {
+		if ("openai".equals(value)) {
+			return LlmChoice.OPENAI;
+		}
+		if ("ollama".equals(value)) {
+			return LlmChoice.OLLAMA;
+		}
+		return LlmChoice.HTTP;
+	}
+
+	private static PropertyType parsePropertyType(String value) {
+		if ("ctl".equals(value)) {
+			return PropertyType.CTLPROP;
+		}
+		return PropertyType.LTLPROP;
+	}
+}
