@@ -16,6 +16,7 @@ import org.eclipse.xtext.testing.extensions.InjectionExtension;
 import org.eclipse.xtext.testing.util.ParseHelper;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.InputOutput;
+import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -49,7 +50,9 @@ public class AvallaXtParsingSetTest {
       final EList<Resource.Diagnostic> errors = result.eResource().getErrors();
       boolean _isEmpty = errors.isEmpty();
       StringConcatenation _builder = new StringConcatenation();
-      _builder.append("Unexpected errors: �errors.join(\", \")�");
+      _builder.append("Unexpected errors: ");
+      String _join = IterableExtensions.join(errors, ", ");
+      _builder.append(_join);
       Assertions.assertTrue(_isEmpty, _builder.toString());
       Element _get = ((Scenario) result).getElements().get(0);
       Assertions.assertEquals(((Set) _get).getLocation(), location.trim());
