@@ -6,14 +6,12 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
-import java.util.Locale;
 
 import org.apache.log4j.Appender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.WriterAppender;
-import org.asmeta.parser.AsmetaParserUtility;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -35,7 +33,6 @@ public abstract class AsmetaActionHandler extends AbstractHandler {
 	private Class<? extends AsmetaConsole> consoleClass;
 	private String action;
 	private boolean addStdOut;
-	private boolean logActionLifecycle;
 	
 	/**
 	 * Instantiates a new asmeta action handler.
@@ -44,15 +41,9 @@ public abstract class AsmetaActionHandler extends AbstractHandler {
 	 * @param action the action for messages - use gerund like validating...
 	 */
 	protected AsmetaActionHandler(Class<? extends AsmetaConsole> consoleClass, String action, boolean addStdOut) {
-		this(consoleClass, action, addStdOut, true);
-	}
-
-	protected AsmetaActionHandler(Class<? extends AsmetaConsole> consoleClass, String action, boolean addStdOut,
-			boolean logActionLifecycle) {
 		this.consoleClass = consoleClass;
 		this.action = action;
 		this.addStdOut = addStdOut;
-		this.logActionLifecycle = logActionLifecycle;
 	}
 	
 
@@ -65,10 +56,8 @@ public abstract class AsmetaActionHandler extends AbstractHandler {
 		File path = null;
 		try {
 			IFile ifile = getModelPath(event, console);
-			if (ifile != null && ifile.getRawLocation() != null) {
-				path = ifile.getRawLocation().makeAbsolute().toFile();
-				assert path.exists();
-			}
+			path = ifile.getRawLocation().makeAbsolute().toFile();
+			assert path.exists();
 		} catch (Exception e) {
 			Display d = Display.getDefault();
 			Shell shell = new Shell(d);
@@ -81,12 +70,6 @@ public abstract class AsmetaActionHandler extends AbstractHandler {
 		// should never happen
 		if (path == null) {
 			console.writeMessage("path not found");
-			showActionError("Open an ASMETA model in an editor before running this action.");
-			return null;
-		}
-		if (!path.getName().toLowerCase(Locale.ROOT).endsWith(AsmetaParserUtility.ASM_EXTENSION)) {
-			console.writeMessage("not an ASMETA model: " + path);
-			showActionError("Open an ASMETA model (" + AsmetaParserUtility.ASM_EXTENSION + ") before running this action.");
 			return null;
 		}
 //		mc.writeMessage("PATH " + path);
@@ -95,13 +78,9 @@ public abstract class AsmetaActionHandler extends AbstractHandler {
 		setUpLoggers();
 		// execute action
 		try {
-			if (logActionLifecycle) {
-				console.writeMessage(action + " on " + path);
-			}
+			console.writeMessage(action + " on " + path);			
 			executeAction(path, event);
-			if (logActionLifecycle) {
-				console.writeMessage(action + " finished");
-			}
+			console.writeMessage(action + " finished");			
 		} catch (Throwable t) {
 			// show in the console
 			console.writeMessage("Error " + t.getLocalizedMessage());
@@ -115,15 +94,6 @@ public abstract class AsmetaActionHandler extends AbstractHandler {
 			t.printStackTrace();
 		}
 		return null;
-	}
-
-	private void showActionError(String messageText) {
-		Display d = Display.getDefault();
-		Shell shell = new Shell(d);
-		MessageBox message = new MessageBox(shell);
-		message.setText("Action error");
-		message.setMessage(messageText);
-		message.open();
 	}
 
 	protected abstract void executeAction(File path, ExecutionEvent event) throws Exception;

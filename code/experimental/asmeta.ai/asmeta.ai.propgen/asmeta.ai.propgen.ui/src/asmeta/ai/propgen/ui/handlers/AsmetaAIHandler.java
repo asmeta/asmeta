@@ -1,9 +1,11 @@
 package asmeta.ai.propgen.ui.handlers;
 
 import java.io.File;
+import java.util.Locale;
 
 import org.asmeta.eclipse.AsmeeConsole;
 import org.asmeta.eclipse.AsmetaActionHandler;
+import org.asmeta.parser.AsmetaParserUtility;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -20,6 +22,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.texteditor.ITextEditor;
 
+import asmeta.ai.propgen.PropertyGenerationListener;
 import asmeta.ai.propgen.ui.Activator;
 import asmeta.ai.propgen.ui.services.AsmetaAIRequestType;
 import asmeta.ai.propgen.ui.services.AsmetaAIService;
@@ -28,15 +31,22 @@ import asmeta.ai.propgen.ui.services.AsmetaAISettings;
 public class AsmetaAIHandler extends AsmetaActionHandler {
 
 	public AsmetaAIHandler() {
-		super(AsmeeConsole.class, "analysing with AI", true, false);
+		super(AsmeeConsole.class, "scheduling AsmetaAI", true, false);
 	}
 
 	@Override
 	protected void executeAction(File path, ExecutionEvent event) throws Exception {
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
+
 		IEditorPart part = window.getActivePage() == null ? null : window.getActivePage().getActiveEditor();
 		if (!(part instanceof ITextEditor)) {
 			MessageDialog.openWarning(window.getShell(), "AsmetaAI", "Open an ASMETA text editor before running AsmetaAI.");
+			return;
+		}
+
+		if (!path.getName().toLowerCase(Locale.ROOT).endsWith(AsmetaParserUtility.ASM_EXTENSION)) {
+			MessageDialog.openWarning(window.getShell(), "AsmetaAI",
+					"Open an ASMETA model (" + AsmetaParserUtility.ASM_EXTENSION + ") before running AsmetaAI.");
 			return;
 		}
 
@@ -63,7 +73,19 @@ public class AsmetaAIHandler extends AsmetaActionHandler {
 				}
 				try {
 					AsmetaAIService service = new AsmetaAIService(preferenceStore);
-					String out = service.execute(path, selectedText, requestType, console::writeMessage);
+					String out = service.execute(path, selectedText, requestType, new PropertyGenerationListener() {
+						@Override
+						public void onProgress(String message) {
+							console.writeMessage(message);
+						}
+
+						@Override
+						public void onDebug(String message) {
+							if (settings.isDebugOutput()) {
+								console.writeMessage("[debug] " + message);
+							}
+						}
+					});
 					console.writeMessage("\n" + requestType.successHeader() + "\n" + out + "\n");
 					return Status.OK_STATUS;
 				} catch (RuntimeException e) {
@@ -91,7 +113,7 @@ public class AsmetaAIHandler extends AsmetaActionHandler {
 
 	@Override
 	protected void setUpLoggers() {
-		// TODO Auto-generated method stub
-
+		// No dedicated logger setup for AsmetaAI.
 	}
+
 }

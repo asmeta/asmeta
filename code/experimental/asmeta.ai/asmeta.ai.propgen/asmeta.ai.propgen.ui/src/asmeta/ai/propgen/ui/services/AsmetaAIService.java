@@ -2,10 +2,10 @@ package asmeta.ai.propgen.ui.services;
 
 import java.io.File;
 import java.util.List;
-import java.util.function.Consumer;
 
 import org.eclipse.jface.preference.IPreferenceStore;
 
+import asmeta.ai.propgen.PropertyGenerationListener;
 import asmeta.ai.propgen.PropertyGenerationSession;
 import asmeta.ai.propgen.PropertyGenerator;
 import asmeta.ai.propgen.llm.LlmClient;
@@ -29,11 +29,11 @@ public class AsmetaAIService {
 	}
 
 	public String execute(File asmFile, String selectedText, AsmetaAIRequestType requestType) {
-		return execute(asmFile, selectedText, requestType, message -> {});
+		return execute(asmFile, selectedText, requestType, PropertyGenerationListener.NO_OP);
 	}
 
 	public String execute(File asmFile, String selectedText, AsmetaAIRequestType requestType,
-			Consumer<String> progressConsumer) {
+			PropertyGenerationListener listener) {
 		AsmetaAISettings settings = AsmetaAISettings.fromPreferenceStore(preferenceStore);
 		LlmClient llmClient = llmClientFactory.create(settings);
 		PropertyGenerator generator = new PropertyGenerator(llmClient);
@@ -48,8 +48,7 @@ public class AsmetaAIService {
 			return generator.fromTLtoNL(asmPath, input, true);
 		}
 		PropertyGenerationSession session = new PropertyGenerationSession(generator);
-		Consumer<String> debugConsumer = settings.isDebugOutput() ? progressConsumer : message -> {};
 		return session.fromNLtoTLSession(asmPath, input, settings.getPropertyType(), true, settings.getMaxRetries(),
-				progressConsumer, debugConsumer);
+				listener);
 	}
 }
