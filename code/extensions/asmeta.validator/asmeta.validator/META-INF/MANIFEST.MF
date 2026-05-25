@@ -12,17 +12,7 @@ Require-Bundle: asmeta.avallaxt,
  org.eclipse.xtext
 Export-Package: org.asmeta.validator.main,
  org.asmeta.xt.validator.mutationscore,
- org.asmeta.xt.validator;
-  uses:="org.asmeta.avallaXt.util,
-   org.asmeta.parser.util,
-   asmeta.definitions,
-   asmeta.transitionrules.basictransitionrules,
-   org.asmeta.simulator.main,
-   org.asmeta.simulator,
-   asmeta.structure,
-   org.asmeta.avallaXt,
-   asmeta,
-   org.asmeta.simulator.wrapper"
+ org.asmeta.xt.validator
 Automatic-Module-Name: org.asmeta.avallaxt.validator
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Import-Package: org.eclipse.ui.console

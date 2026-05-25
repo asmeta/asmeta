@@ -31,7 +31,7 @@ public class AsmetaVPreferencePage
 		addField(
 			new BooleanFieldEditor(
 				PreferenceConstants.P_COMPUTE_MUTATIONSCORE,
-				"Compyte mitation score together with coverage",
+				PreferenceConstants.P_COMPUTE_MUTATIONSCORE_MSG,
 				getFieldEditorParent()));
 	}
 

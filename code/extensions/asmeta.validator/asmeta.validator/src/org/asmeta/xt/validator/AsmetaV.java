@@ -110,14 +110,10 @@ public class AsmetaV {
 		List<String> result = asmetaV.execValidation(scenarioPathFile, coverage, csvPath != null, csvPath, shuffle);
 		// restores the value put in previously
 		TermEvaluator.recoverAllowLazyEval();
-		
-		
-		
 		return result;
 	}
 
-	private AsmetaV() {
-	}
+	private AsmetaV() {}
 
 	/**
 	 * Exec validation and eventually print coverage data to csv.

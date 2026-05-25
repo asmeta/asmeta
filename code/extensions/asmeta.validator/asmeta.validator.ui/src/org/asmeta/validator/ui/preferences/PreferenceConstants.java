@@ -6,5 +6,7 @@ package org.asmeta.validator.ui.preferences;
 public class PreferenceConstants {
 
 	public static final String P_COMPUTE_MUTATIONSCORE = "computemutationscore";
-	
+
+	public static final String P_COMPUTE_MUTATIONSCORE_MSG = "Compute mitation score together with coverage";
+
 }
