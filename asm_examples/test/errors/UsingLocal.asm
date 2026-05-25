@@ -1,3 +1,6 @@
+// wrong use of local in signature
+// it can be used only in turbo rules
+//
 asm UsingLocal
 
 import ../../STDL/StandardLibrary

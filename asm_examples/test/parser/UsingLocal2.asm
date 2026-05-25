@@ -1,4 +1,4 @@
-// correct use of local
+// correct use of local in turbo rule
 asm UsingLocal2
 
 
