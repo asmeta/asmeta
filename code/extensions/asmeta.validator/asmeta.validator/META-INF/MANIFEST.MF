@@ -8,6 +8,7 @@ Require-Bundle: asmeta.avallaxt,
  asmeta.simulator,
  asmeta.emf,
  asmeta.parser,
+ asmeta.mutation,
  com.google.inject,
  org.eclipse.xtext
 Export-Package: org.asmeta.validator.main,

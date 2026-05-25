@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Asmeta Mutation
+Bundle-SymbolicName: asmeta.mutation
+Bundle-Version: 26.03
+Bundle-RequiredExecutionEnvironment: JavaSE-21
+Automatic-Module-Name: asmeta.mutation
+Export-Package: asmeta.mutation,
+ asmeta.mutation.operators
+Require-Bundle: org.eclipse.emf.ecore,
+ asmeta.emf,
+ asmeta.parser,
+ asmeta.simulator
