@@ -31,7 +31,7 @@ import asmeta.ai.propgen.ui.services.AsmetaAISettings;
 public class AsmetaAIHandler extends AsmetaActionHandler {
 
 	public AsmetaAIHandler() {
-		super(AsmeeConsole.class, "scheduling AsmetaAI", true, false);
+		super(AsmeeConsole.class, "scheduling AsmetaAI", true);
 	}
 
 	@Override
