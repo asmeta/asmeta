@@ -27,8 +27,6 @@ public class PreferenceConstants {
 
 	public static final String P_OPENAI_API_KEY = "openai.apiKey";
 
-	public static final String P_LLM_SETTINGS_MIGRATED = "llmSettingsMigrated";
-
 	public static final String P_DEBUG_OUTPUT = "debugOutput";
 
 }

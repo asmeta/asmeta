@@ -37,7 +37,6 @@ public class AsmetaAISettings {
 	}
 
 	public static AsmetaAISettings fromPreferenceStore(IPreferenceStore store) {
-		LlmPreferenceSupport.migrateLegacySettings(store);
 		String llmChoiceValue = LlmPreferenceSupport.normalizeLlmChoice(store.getString(PreferenceConstants.P_LLM_CHOICE));
 		return new AsmetaAISettings(
 				parseLlmChoice(llmChoiceValue),

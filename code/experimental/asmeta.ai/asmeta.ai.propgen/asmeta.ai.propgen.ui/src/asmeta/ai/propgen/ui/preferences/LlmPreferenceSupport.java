@@ -1,7 +1,5 @@
 package asmeta.ai.propgen.ui.preferences;
 
-import org.eclipse.jface.preference.IPreferenceStore;
-
 /**
  * Shared helpers for the provider-specific LLM preference keys.
  */
@@ -33,24 +31,5 @@ public final class LlmPreferenceSupport {
 		return LLM_OPENAI.equals(normalizeLlmChoice(llmChoice))
 				? PreferenceConstants.P_OPENAI_API_KEY
 				: PreferenceConstants.P_OLLAMA_API_KEY;
-	}
-
-	public static void migrateLegacySettings(IPreferenceStore store) {
-		if (store.getBoolean(PreferenceConstants.P_LLM_SETTINGS_MIGRATED)) {
-			return;
-		}
-
-		String selectedLlm = normalizeLlmChoice(store.getString(PreferenceConstants.P_LLM_CHOICE));
-		migrateLegacyValue(store, baseUrlPreferenceFor(selectedLlm), PreferenceConstants.P_LLM_HTTP_URL);
-		migrateLegacyValue(store, modelNamePreferenceFor(selectedLlm), PreferenceConstants.P_MODEL_NAME);
-		migrateLegacyValue(store, apiKeyPreferenceFor(selectedLlm), PreferenceConstants.P_API_KEY);
-		store.setValue(PreferenceConstants.P_LLM_SETTINGS_MIGRATED, true);
-	}
-
-	private static void migrateLegacyValue(IPreferenceStore store, String targetKey, String legacyKey) {
-		String legacyValue = store.getString(legacyKey);
-		if (legacyValue != null && !legacyValue.isBlank()) {
-			store.setValue(targetKey, legacyValue.trim());
-		}
 	}
 }

@@ -55,7 +55,6 @@ public class AsmetaAIPreferencePage extends PreferencePage implements IWorkbench
 	@Override
 	protected Control createContents(Composite parent) {
 		IPreferenceStore store = getPreferenceStore();
-		LlmPreferenceSupport.migrateLegacySettings(store);
 		selectedLlm = LlmPreferenceSupport.normalizeLlmChoice(store.getString(PreferenceConstants.P_LLM_CHOICE));
 		ollamaSettings = ProviderSettings.fromStore(store, LlmPreferenceSupport.LLM_OLLAMA);
 		openAiSettings = ProviderSettings.fromStore(store, LlmPreferenceSupport.LLM_OPENAI);
@@ -273,7 +272,6 @@ public class AsmetaAIPreferencePage extends PreferencePage implements IWorkbench
 
 	private void saveSettings() {
 		IPreferenceStore store = getPreferenceStore();
-		store.setValue(PreferenceConstants.P_LLM_SETTINGS_MIGRATED, true);
 		store.setValue(PreferenceConstants.P_LLM_CHOICE, selectedLlm);
 		ollamaSettings.saveTo(store, LlmPreferenceSupport.LLM_OLLAMA);
 		openAiSettings.saveTo(store, LlmPreferenceSupport.LLM_OPENAI);
@@ -282,11 +280,6 @@ public class AsmetaAIPreferencePage extends PreferencePage implements IWorkbench
 		store.setValue(PreferenceConstants.P_MAX_RETIRES, maxRetriesSpinner.getSelection());
 		store.setValue(PreferenceConstants.P_LLM_TIMEOUT_SECONDS, timeoutSpinner.getSelection());
 		store.setValue(PreferenceConstants.P_DEBUG_OUTPUT, debugOutputButton.getSelection());
-
-		ProviderSettings activeSettings = currentSettings();
-		store.setValue(PreferenceConstants.P_LLM_HTTP_URL, activeSettings.baseUrl);
-		store.setValue(PreferenceConstants.P_MODEL_NAME, activeSettings.modelName);
-		store.setValue(PreferenceConstants.P_API_KEY, activeSettings.apiKey);
 	}
 
 	@Override
