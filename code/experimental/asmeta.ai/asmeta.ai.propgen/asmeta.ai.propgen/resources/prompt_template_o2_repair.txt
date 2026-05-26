@@ -21,7 +21,7 @@ Requirements:
 * Always use parentheses to enclose the intended scope of every logical and temporal operator.
 * You may use quantified expressions in the following forms:
 	- (forall $v1 in D1, $v2 in D2, ... with sub-property)
-	- (exist $v1 in D1, $v2 in D2, ... with sub-property)
+	- (exists $v1 in D1, $v2 in D2, ... with sub-property)
 * Always surround quantified expressions with an additional pair of parentheses.
 * Use quantified expressions only if they improve readability.
 * Do not use any other terms, operators, or symbols beyond those specified.
