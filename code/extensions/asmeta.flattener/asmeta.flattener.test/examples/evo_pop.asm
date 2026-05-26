@@ -38,10 +38,10 @@ rule r_genera ($figlio in Persona, $madre in Persona, $padre in Persona) =
 	
 rule r_riproduci ($madre in Persona) =
 //if eta($madre) < 50n and eta($madre) >= 13n and sesso($madre) = FEM then
-			if (exist $etamadre in EtaFertDonna with $etamadre = eta($madre)) and sesso($madre) = FEM then
+			if (exists $etamadre in EtaFertDonna with $etamadre = eta($madre)) and sesso($madre) = FEM then
 				choose $volonta in {1:5} with $volonta = 1 do //20%
 //choose $padre in Persona with eta($padre) >=13n and sesso($padre) = MAS and vivo($padre) do
-					choose $padre in Persona with (exist $a in EtaFertUomo with $a = eta($padre)) and sesso($padre) = MAS and vivo($padre) do
+					choose $padre in Persona with (exists $a in EtaFertUomo with $a = eta($padre)) and sesso($padre) = MAS and vivo($padre) do
 						extend Persona with $figlio do
 							r_genera[$figlio,$madre,$padre]
 			endif

@@ -320,8 +320,8 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="guard" eType="#//Term"
         containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ExistUniqueTerm" eSuperTypes="#//FiniteQuantificationTerm"/>
-  <eClassifiers xsi:type="ecore:EClass" name="ExistTerm" eSuperTypes="#//FiniteQuantificationTerm"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ExistsUniqueTerm" eSuperTypes="#//FiniteQuantificationTerm"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ExistsTerm" eSuperTypes="#//FiniteQuantificationTerm"/>
   <eClassifiers xsi:type="ecore:EClass" name="ForallTerm" eSuperTypes="#//FiniteQuantificationTerm"/>
   <eClassifiers xsi:type="ecore:EClass" name="LetTerm" eSuperTypes="#//VariableBindingTerm">
     <eStructuralFeatures xsi:type="ecore:EReference" name="assignmentTerm" upperBound="-1"

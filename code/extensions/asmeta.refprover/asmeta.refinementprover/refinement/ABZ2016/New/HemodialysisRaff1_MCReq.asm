@@ -150,8 +150,8 @@ signature:
 	derived bp_status_der: BPStatus
 	derived errorePERbpStatus: Boolean
 	derived signal_lamp_der: SignalLamps
-	derived errorExist: Boolean //True if exist at least one error
-	derived alarmExist: Boolean  //True if exist at least one alarm
+	derived errorExists: Boolean //True if exists at least one error
+	derived alarmExists: Boolean  //True if exists at least one alarm
 	
 	dynamic controlled error: ErrorAlarmType -> Boolean //True--> error true
 	dynamic controlled alarm: ErrorAlarmType -> Boolean //True--> alarm signal on
@@ -189,14 +189,14 @@ definitions:
 			bp_status
 		endif
 	
-	function errorExist = 
-		(exist $t in ErrorAlarmType with error($t) = true)
+	function errorExists = 
+		(exists $t in ErrorAlarmType with error($t) = true)
 		
-	function alarmExist = 
-		(exist $t in ErrorAlarmType with alarm($t) = true)
+	function alarmExists = 
+		(exists $t in ErrorAlarmType with alarm($t) = true)
 	
 	function signal_lamp_der =
-		if errorExist then
+		if errorExists then
 			RED
 		else
 			signal_lamp
@@ -725,10 +725,10 @@ definitions:
 	main rule r_Main =
 		par
 			r_run_dialysis[] 
-			if (errorExist = true) then
+			if (errorExists = true) then
 				r_error[] 
 			endif
-			if (alarmExist = true) then
+			if (alarmExists = true) then
 				r_alarm[]
 			endif
 		endpar

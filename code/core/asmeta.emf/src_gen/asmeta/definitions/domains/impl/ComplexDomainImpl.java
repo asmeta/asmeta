@@ -1,15 +1,11 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.definitions.domains.impl;
 
-import org.eclipse.emf.ecore.EClass;
-
 import asmeta.definitions.domains.ComplexDomain;
 import asmeta.definitions.domains.DomainsPackage;
+
+import org.eclipse.emf.ecore.EClass;
 
 /**
  * <!-- begin-user-doc -->

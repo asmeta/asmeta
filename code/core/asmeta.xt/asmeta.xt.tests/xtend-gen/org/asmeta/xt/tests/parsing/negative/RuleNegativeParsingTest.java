@@ -3,12 +3,12 @@ package org.asmeta.xt.tests.parsing.negative;
 import com.google.inject.Inject;
 import org.asmeta.xt.asmetal.Asm;
 import org.asmeta.xt.asmetal.AsmetalPackage;
+import org.asmeta.xt.tests.AsmParseHelper;
 import org.asmeta.xt.tests.AsmetaLInjectorProvider;
 import org.asmeta.xt.validation.ErrorCode;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.testing.InjectWith;
 import org.eclipse.xtext.testing.extensions.InjectionExtension;
-import org.eclipse.xtext.testing.util.ParseHelper;
 import org.eclipse.xtext.testing.validation.ValidationTestHelper;
 import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.Extension;
@@ -21,7 +21,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 @SuppressWarnings("all")
 public class RuleNegativeParsingTest {
   @Inject
-  private ParseHelper<Asm> parseHelper;
+  private AsmParseHelper parseHelper;
 
   @Inject
   @Extension
@@ -35,7 +35,7 @@ public class RuleNegativeParsingTest {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("asm prova");
       _builder.newLine();
-      _builder.append("import StandardLibrary");
+      _builder.append("import examples/StandardLibrary");
       _builder.newLine();
       _builder.append("signature:");
       _builder.newLine();
@@ -62,12 +62,12 @@ public class RuleNegativeParsingTest {
       _builder.append("\t\t\t");
       _builder.append("endif");
       _builder.newLine();
-      result = this.parseHelper.parse(_builder);
+      result = this.parseHelper.parse(_builder, "prova");
       this._validationTestHelper.assertError(result, AsmetalPackage.Literals.UPDATE_RULE, ErrorCode.UPDATE_RULE__DOMAINS_NOT_COMPATIBLE);
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append("asm prova");
       _builder_1.newLine();
-      _builder_1.append("import StandardLibrary");
+      _builder_1.append("import examples/StandardLibrary");
       _builder_1.newLine();
       _builder_1.append("signature:");
       _builder_1.newLine();
@@ -94,12 +94,12 @@ public class RuleNegativeParsingTest {
       _builder_1.append("\t\t\t");
       _builder_1.append("endif");
       _builder_1.newLine();
-      result = this.parseHelper.parse(_builder_1);
+      result = this.parseHelper.parse(_builder_1, "prova");
       this._validationTestHelper.assertError(result, AsmetalPackage.Literals.UPDATE_RULE, ErrorCode.LOCATION_TERM__NOT_DYNAMIC);
       StringConcatenation _builder_2 = new StringConcatenation();
       _builder_2.append("asm prova");
       _builder_2.newLine();
-      _builder_2.append("import StandardLibrary");
+      _builder_2.append("import examples/StandardLibrary");
       _builder_2.newLine();
       _builder_2.append("signature:");
       _builder_2.newLine();
@@ -126,12 +126,12 @@ public class RuleNegativeParsingTest {
       _builder_2.append("\t\t\t");
       _builder_2.append("endif");
       _builder_2.newLine();
-      result = this.parseHelper.parse(_builder_2);
+      result = this.parseHelper.parse(_builder_2, "prova");
       this._validationTestHelper.assertNoErrors(result);
       StringConcatenation _builder_3 = new StringConcatenation();
       _builder_3.append("asm prova");
       _builder_3.newLine();
-      _builder_3.append("import StandardLibrary");
+      _builder_3.append("import examples/StandardLibrary");
       _builder_3.newLine();
       _builder_3.append("signature:");
       _builder_3.newLine();
@@ -158,7 +158,7 @@ public class RuleNegativeParsingTest {
       _builder_3.append("\t\t\t");
       _builder_3.append("endif");
       _builder_3.newLine();
-      result = this.parseHelper.parse(_builder_3);
+      result = this.parseHelper.parse(_builder_3, "prova");
       this._validationTestHelper.assertError(result, AsmetalPackage.Literals.UPDATE_RULE, ErrorCode.UPDATE_RULE__INVALID_LOCATION);
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
@@ -175,7 +175,7 @@ public class RuleNegativeParsingTest {
       _builder.append("asm prova");
       _builder.newLine();
       _builder.append("\t");
-      _builder.append("import StandardLibrary");
+      _builder.append("import examples/StandardLibrary");
       _builder.newLine();
       _builder.append("\t");
       _builder.append("signature:");
@@ -203,14 +203,14 @@ public class RuleNegativeParsingTest {
       _builder.append("\t\t\t");
       _builder.append("endif");
       _builder.newLine();
-      result = this.parseHelper.parse(_builder);
+      result = this.parseHelper.parse(_builder, "prova");
       this._validationTestHelper.assertNoErrors(result);
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append("\t");
       _builder_1.append("asm prova");
       _builder_1.newLine();
       _builder_1.append("\t");
-      _builder_1.append("import StandardLibrary");
+      _builder_1.append("import examples/StandardLibrary");
       _builder_1.newLine();
       _builder_1.append("\t");
       _builder_1.append("signature:");
@@ -238,7 +238,7 @@ public class RuleNegativeParsingTest {
       _builder_1.append("\t\t\t");
       _builder_1.append("endif");
       _builder_1.newLine();
-      result = this.parseHelper.parse(_builder_1);
+      result = this.parseHelper.parse(_builder_1, "prova");
       this._validationTestHelper.assertError(result, AsmetalPackage.Literals.CONDITIONAL_RULE, ErrorCode.TERM__DOMAIN_GUARD_NOT_BOOLEAN);
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
@@ -253,7 +253,7 @@ public class RuleNegativeParsingTest {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("asm prova");
       _builder.newLine();
-      _builder.append("import StandardLibrary");
+      _builder.append("import examples/StandardLibrary");
       _builder.newLine();
       _builder.append("signature:");
       _builder.newLine();
@@ -310,12 +310,12 @@ public class RuleNegativeParsingTest {
       _builder.append("\t\t");
       _builder.append("endif");
       _builder.newLine();
-      result = this.parseHelper.parse(_builder);
+      result = this.parseHelper.parse(_builder, "prova");
       this._validationTestHelper.assertNoErrors(result);
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append("asm prova");
       _builder_1.newLine();
-      _builder_1.append("import StandardLibrary");
+      _builder_1.append("import examples/StandardLibrary");
       _builder_1.newLine();
       _builder_1.append("signature:");
       _builder_1.newLine();
@@ -372,7 +372,7 @@ public class RuleNegativeParsingTest {
       _builder_1.append("\t\t");
       _builder_1.append("endif");
       _builder_1.newLine();
-      result = this.parseHelper.parse(_builder_1);
+      result = this.parseHelper.parse(_builder_1, "prova");
       this._validationTestHelper.assertError(result, AsmetalPackage.Literals.LET_RULE, ErrorCode.LET_RULE__VARIABLE_ALREADY_USED);
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
@@ -387,7 +387,7 @@ public class RuleNegativeParsingTest {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("asm prova");
       _builder.newLine();
-      _builder.append("import StandardLibrary");
+      _builder.append("import examples/StandardLibrary");
       _builder.newLine();
       _builder.append("signature:");
       _builder.newLine();
@@ -414,12 +414,12 @@ public class RuleNegativeParsingTest {
       _builder.append("\t\t\t");
       _builder.append("endif");
       _builder.newLine();
-      result = this.parseHelper.parse(_builder);
+      result = this.parseHelper.parse(_builder, "prova");
       this._validationTestHelper.assertNoErrors(result);
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append("asm prova");
       _builder_1.newLine();
-      _builder_1.append("import StandardLibrary");
+      _builder_1.append("import examples/StandardLibrary");
       _builder_1.newLine();
       _builder_1.append("signature:");
       _builder_1.newLine();
@@ -446,12 +446,12 @@ public class RuleNegativeParsingTest {
       _builder_1.append("\t\t\t");
       _builder_1.append("endif");
       _builder_1.newLine();
-      result = this.parseHelper.parse(_builder_1);
+      result = this.parseHelper.parse(_builder_1, "prova");
       this._validationTestHelper.assertError(result, AsmetalPackage.Literals.CHOOSE_RULE, ErrorCode.CHOOSE_RULE__RANGE_NOT_POWERSET);
       StringConcatenation _builder_2 = new StringConcatenation();
       _builder_2.append("asm prova");
       _builder_2.newLine();
-      _builder_2.append("import StandardLibrary");
+      _builder_2.append("import examples/StandardLibrary");
       _builder_2.newLine();
       _builder_2.append("signature:");
       _builder_2.newLine();
@@ -484,12 +484,12 @@ public class RuleNegativeParsingTest {
       _builder_2.append("\t\t");
       _builder_2.append("endlet");
       _builder_2.newLine();
-      result = this.parseHelper.parse(_builder_2);
+      result = this.parseHelper.parse(_builder_2, "prova");
       this._validationTestHelper.assertError(result, AsmetalPackage.Literals.CHOOSE_RULE, ErrorCode.CHOOSE_RULE__VARIABLE_ALREADY_USED);
       StringConcatenation _builder_3 = new StringConcatenation();
       _builder_3.append("asm prova");
       _builder_3.newLine();
-      _builder_3.append("import StandardLibrary");
+      _builder_3.append("import examples/StandardLibrary");
       _builder_3.newLine();
       _builder_3.append("signature:");
       _builder_3.newLine();
@@ -516,7 +516,7 @@ public class RuleNegativeParsingTest {
       _builder_3.append("\t\t\t");
       _builder_3.append("endif");
       _builder_3.newLine();
-      result = this.parseHelper.parse(_builder_3);
+      result = this.parseHelper.parse(_builder_3, "prova");
       this._validationTestHelper.assertError(result, AsmetalPackage.Literals.CHOOSE_RULE, ErrorCode.TERM__DOMAIN_GUARD_NOT_BOOLEAN);
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
@@ -531,7 +531,7 @@ public class RuleNegativeParsingTest {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("asm prova");
       _builder.newLine();
-      _builder.append("import StandardLibrary");
+      _builder.append("import examples/StandardLibrary");
       _builder.newLine();
       _builder.append("signature:");
       _builder.newLine();
@@ -552,12 +552,12 @@ public class RuleNegativeParsingTest {
       _builder.append("\t\t\t");
       _builder.append("program($p) ");
       _builder.newLine();
-      result = this.parseHelper.parse(_builder);
+      result = this.parseHelper.parse(_builder, "prova");
       this._validationTestHelper.assertNoErrors(result);
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append("asm prova");
       _builder_1.newLine();
-      _builder_1.append("import StandardLibrary");
+      _builder_1.append("import examples/StandardLibrary");
       _builder_1.newLine();
       _builder_1.append("signature:");
       _builder_1.newLine();
@@ -581,12 +581,12 @@ public class RuleNegativeParsingTest {
       _builder_1.append("\t\t\t");
       _builder_1.append("program($p) ");
       _builder_1.newLine();
-      result = this.parseHelper.parse(_builder_1);
+      result = this.parseHelper.parse(_builder_1, "prova");
       this._validationTestHelper.assertError(result, AsmetalPackage.Literals.FORALL_RULE, ErrorCode.FORALL_RULE__RANGE_NOT_POWERSET);
       StringConcatenation _builder_2 = new StringConcatenation();
       _builder_2.append("asm prova");
       _builder_2.newLine();
-      _builder_2.append("import StandardLibrary");
+      _builder_2.append("import examples/StandardLibrary");
       _builder_2.newLine();
       _builder_2.append("signature:");
       _builder_2.newLine();
@@ -616,12 +616,12 @@ public class RuleNegativeParsingTest {
       _builder_2.append("\t\t");
       _builder_2.append("endlet");
       _builder_2.newLine();
-      result = this.parseHelper.parse(_builder_2);
+      result = this.parseHelper.parse(_builder_2, "prova");
       this._validationTestHelper.assertError(result, AsmetalPackage.Literals.FORALL_RULE, ErrorCode.FORALL_RULE__VARIABLE_ALREADY_USED);
       StringConcatenation _builder_3 = new StringConcatenation();
       _builder_3.append("asm prova");
       _builder_3.newLine();
-      _builder_3.append("import StandardLibrary");
+      _builder_3.append("import examples/StandardLibrary");
       _builder_3.newLine();
       _builder_3.append("signature:");
       _builder_3.newLine();
@@ -642,7 +642,7 @@ public class RuleNegativeParsingTest {
       _builder_3.append("\t\t\t");
       _builder_3.append("program($p) ");
       _builder_3.newLine();
-      result = this.parseHelper.parse(_builder_3);
+      result = this.parseHelper.parse(_builder_3, "prova");
       this._validationTestHelper.assertError(result, AsmetalPackage.Literals.FORALL_RULE, ErrorCode.TERM__DOMAIN_GUARD_NOT_BOOLEAN);
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
@@ -657,7 +657,7 @@ public class RuleNegativeParsingTest {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("asm prova");
       _builder.newLine();
-      _builder.append("import StandardLibrary");
+      _builder.append("import examples/StandardLibrary");
       _builder.newLine();
       _builder.append("signature:");
       _builder.newLine();
@@ -688,12 +688,12 @@ public class RuleNegativeParsingTest {
       _builder.append("alive($child) := true");
       _builder.newLine();
       _builder.newLine();
-      result = this.parseHelper.parse(_builder);
+      result = this.parseHelper.parse(_builder, "prova");
       this._validationTestHelper.assertNoErrors(result);
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append("asm prova");
       _builder_1.newLine();
-      _builder_1.append("import StandardLibrary");
+      _builder_1.append("import examples/StandardLibrary");
       _builder_1.newLine();
       _builder_1.append("signature:");
       _builder_1.newLine();
@@ -724,12 +724,12 @@ public class RuleNegativeParsingTest {
       _builder_1.append("alive($child) := true");
       _builder_1.newLine();
       _builder_1.newLine();
-      result = this.parseHelper.parse(_builder_1);
+      result = this.parseHelper.parse(_builder_1, "prova");
       this._validationTestHelper.assertError(result, AsmetalPackage.Literals.EXTEND_RULE, ErrorCode.EXTENDED_RULE__VARIABLE_ALREADY_USED);
       StringConcatenation _builder_2 = new StringConcatenation();
       _builder_2.append("asm prova");
       _builder_2.newLine();
-      _builder_2.append("import StandardLibrary");
+      _builder_2.append("import examples/StandardLibrary");
       _builder_2.newLine();
       _builder_2.append("signature:");
       _builder_2.newLine();
@@ -760,12 +760,12 @@ public class RuleNegativeParsingTest {
       _builder_2.append("alive($child) := true");
       _builder_2.newLine();
       _builder_2.newLine();
-      result = this.parseHelper.parse(_builder_2);
+      result = this.parseHelper.parse(_builder_2, "prova");
       this._validationTestHelper.assertError(result, AsmetalPackage.Literals.EXTEND_RULE, ErrorCode.EXTENDED_RULE__INVALID_DOMAIN);
       StringConcatenation _builder_3 = new StringConcatenation();
       _builder_3.append("asm prova");
       _builder_3.newLine();
-      _builder_3.append("import StandardLibrary");
+      _builder_3.append("import examples/StandardLibrary");
       _builder_3.newLine();
       _builder_3.append("signature:");
       _builder_3.newLine();
@@ -796,12 +796,12 @@ public class RuleNegativeParsingTest {
       _builder_3.append("alive($child) := true");
       _builder_3.newLine();
       _builder_3.newLine();
-      result = this.parseHelper.parse(_builder_3);
+      result = this.parseHelper.parse(_builder_3, "prova");
       this._validationTestHelper.assertError(result, AsmetalPackage.Literals.EXTEND_RULE, ErrorCode.EXTENDED_RULE__INVALID_DOMAIN);
       StringConcatenation _builder_4 = new StringConcatenation();
       _builder_4.append("asm prova");
       _builder_4.newLine();
-      _builder_4.append("import StandardLibrary");
+      _builder_4.append("import examples/StandardLibrary");
       _builder_4.newLine();
       _builder_4.append("signature:");
       _builder_4.newLine();
@@ -832,12 +832,12 @@ public class RuleNegativeParsingTest {
       _builder_4.append("alive($child) := true");
       _builder_4.newLine();
       _builder_4.newLine();
-      result = this.parseHelper.parse(_builder_4);
+      result = this.parseHelper.parse(_builder_4, "prova");
       this._validationTestHelper.assertError(result, AsmetalPackage.Literals.EXTEND_RULE, ErrorCode.EXTENDED_RULE__INVALID_DOMAIN);
       StringConcatenation _builder_5 = new StringConcatenation();
       _builder_5.append("asm prova");
       _builder_5.newLine();
-      _builder_5.append("import StandardLibrary ( Boolean ) ");
+      _builder_5.append("import examples/StandardLibrary ( Boolean ) ");
       _builder_5.newLine();
       _builder_5.append("signature:");
       _builder_5.newLine();
@@ -868,7 +868,7 @@ public class RuleNegativeParsingTest {
       _builder_5.append("alive($child) := true");
       _builder_5.newLine();
       _builder_5.newLine();
-      result = this.parseHelper.parse(_builder_5);
+      result = this.parseHelper.parse(_builder_5, "prova");
       this._validationTestHelper.assertError(result, AsmetalPackage.Literals.EXTEND_RULE, ErrorCode.EXTENDED_RULE__RESERVE_DOMAIN_NOT_DECLARED);
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
@@ -883,7 +883,7 @@ public class RuleNegativeParsingTest {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("asm prova");
       _builder.newLine();
-      _builder.append("import StandardLibrary");
+      _builder.append("import examples/StandardLibrary");
       _builder.newLine();
       _builder.append("signature:");
       _builder.newLine();
@@ -939,12 +939,12 @@ public class RuleNegativeParsingTest {
       _builder.append("endswitch");
       _builder.newLine();
       _builder.newLine();
-      result = this.parseHelper.parse(_builder);
+      result = this.parseHelper.parse(_builder, "prova");
       this._validationTestHelper.assertNoErrors(result);
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append("asm prova");
       _builder_1.newLine();
-      _builder_1.append("import StandardLibrary");
+      _builder_1.append("import examples/StandardLibrary");
       _builder_1.newLine();
       _builder_1.append("signature:");
       _builder_1.newLine();
@@ -1000,7 +1000,7 @@ public class RuleNegativeParsingTest {
       _builder_1.append("endswitch");
       _builder_1.newLine();
       _builder_1.newLine();
-      result = this.parseHelper.parse(_builder_1);
+      result = this.parseHelper.parse(_builder_1, "prova");
       this._validationTestHelper.assertError(result, AsmetalPackage.Literals.CASE_RULE, ErrorCode.CASE_RULE__BRANCH_DOMAIN_NOT_COMPATIBLE);
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
@@ -1015,7 +1015,7 @@ public class RuleNegativeParsingTest {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("asm prova");
       _builder.newLine();
-      _builder.append("import StandardLibrary");
+      _builder.append("import examples/StandardLibrary");
       _builder.newLine();
       _builder.append("signature:");
       _builder.newLine();
@@ -1053,12 +1053,12 @@ public class RuleNegativeParsingTest {
       _builder.append("endif");
       _builder.newLine();
       _builder.newLine();
-      result = this.parseHelper.parse(_builder);
+      result = this.parseHelper.parse(_builder, "prova");
       this._validationTestHelper.assertNoErrors(result);
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append("asm prova");
       _builder_1.newLine();
-      _builder_1.append("import StandardLibrary");
+      _builder_1.append("import examples/StandardLibrary");
       _builder_1.newLine();
       _builder_1.append("signature:");
       _builder_1.newLine();
@@ -1096,7 +1096,7 @@ public class RuleNegativeParsingTest {
       _builder_1.append("endif");
       _builder_1.newLine();
       _builder_1.newLine();
-      result = this.parseHelper.parse(_builder_1);
+      result = this.parseHelper.parse(_builder_1, "prova");
       this._validationTestHelper.assertError(result, AsmetalPackage.Literals.TURBO_DERIVED_RULE, ErrorCode.TERM__DOMAIN_GUARD_NOT_BOOLEAN);
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);

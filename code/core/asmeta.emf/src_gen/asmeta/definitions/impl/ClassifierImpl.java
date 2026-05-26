@@ -1,16 +1,13 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.definitions.impl;
 
-import org.eclipse.emf.ecore.EClass;
-
 import asmeta.definitions.Classifier;
 import asmeta.definitions.DefinitionsPackage;
+
 import asmeta.structure.impl.NamedElementImpl;
+
+import org.eclipse.emf.ecore.EClass;
 
 /**
  * <!-- begin-user-doc -->

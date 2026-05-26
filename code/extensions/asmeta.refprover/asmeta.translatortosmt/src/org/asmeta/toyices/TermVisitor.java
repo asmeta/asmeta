@@ -28,8 +28,8 @@ import asmeta.terms.basicterms.VariableTerm;
 import asmeta.terms.furtherterms.CaseTerm;
 import asmeta.terms.furtherterms.ConditionalTerm;
 import asmeta.terms.furtherterms.EnumTerm;
-import asmeta.terms.furtherterms.ExistTerm;
-import asmeta.terms.furtherterms.ExistUniqueTerm;
+import asmeta.terms.furtherterms.ExistsTerm;
+import asmeta.terms.furtherterms.ExistsUniqueTerm;
 import asmeta.terms.furtherterms.ForallTerm;
 import asmeta.terms.furtherterms.IntegerTerm;
 import asmeta.terms.furtherterms.MapTerm;
@@ -315,13 +315,13 @@ public class TermVisitor extends ReflectiveVisitor<String> {
 		throw new Error("undef not supported yet.");
 	}
 
-	public String visit(ExistTerm existTerm) {
-		ArrayList<String> operands = getGuardsList(existTerm.getGuard(), existTerm.getVariable(), existTerm.getRanges());
+	public String visit(ExistsTerm existsTerm) {
+		ArrayList<String> operands = getGuardsList(existsTerm.getGuard(), existsTerm.getVariable(), existsTerm.getRanges());
 		return yicesModel.or(operands);
 	}
 
-	public String visit(ExistUniqueTerm existUniqueTerm) {
-		ArrayList<String> operands = getGuardsList(existUniqueTerm.getGuard(), existUniqueTerm.getVariable(), existUniqueTerm.getRanges());
+	public String visit(ExistsUniqueTerm existsUniqueTerm) {
+		ArrayList<String> operands = getGuardsList(existsUniqueTerm.getGuard(), existsUniqueTerm.getVariable(), existsUniqueTerm.getRanges());
 		ArrayList<String> notOperands = new ArrayList<String>();
 		for(String operand: operands) {
 			notOperands.add(yicesModel.not(operand));

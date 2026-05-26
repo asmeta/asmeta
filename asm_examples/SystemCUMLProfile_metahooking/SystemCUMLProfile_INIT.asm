@@ -324,12 +324,12 @@ eval(guard($t), $t) and contains(currState($s,currStateMachine($s)),source($t)) 
 function triggering($t in Transition,$e in Event) = 
 if (//contains(TimeEvent, $e) and //il TimeEvent non � usato
    (eventTime($e) = time) and 
-   (exist $e1 in trigger($t) with event($e1) = $e) and 
+   (exists $e1 in trigger($t) with event($e1) = $e) and 
    size(trigger($t))=1) 
  	then true
 else 
 if (isAnd($t) and 
-	(exist $k in trigger($t) with event($k) = $e) and 
+	(exists $k in trigger($t) with event($k) = $e) and 
 	(forall $c in trigger($t) with ($e != event($c) and contains(andNotHist(selfp,$t), event($c)))))
 	then true
 else 
@@ -339,14 +339,14 @@ else
 if	isCompletionEvent($e) and isEmpty(trigger($t)) 
 	then true 
 else
-if	(exist $ee in trigger($t) with event($ee) = $e)
+if	(exists $ee in trigger($t) with event($ee) = $e)
 	then true
 else false
 endif endif endif endif endif 
 
 //Ritorna vero se si tratta di un wait state e in uscita ad una and transition	
 function isAndWait ($s in State, $e in Event) = if
-(isWait($s) and (exist $t in outgoing($s) with isAnd($t) and (exist $e1 in trigger($t) with event($e1) = $e)))
+(isWait($s) and (exists $t in outgoing($s) with isAnd($t) and (exists $e1 in trigger($t) with event($e1) = $e)))
 then true else false endif
 
 //Verifica del completamento di uno stato attivo		

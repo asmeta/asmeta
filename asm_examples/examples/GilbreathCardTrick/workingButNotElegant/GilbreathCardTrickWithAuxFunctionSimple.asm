@@ -46,28 +46,28 @@ definitions:
 			r_swapCards[$i, $end - ($i - $start)]
 	
 	invariant inv_0 over cardSuit: (forall $q in QuartetIndex, $s in Suit with
-													(exist $i in InQuartetIndex with cardSuit($q * 4 + $i) = $s))
+													(exists $i in InQuartetIndex with cardSuit($q * 4 + $i) = $s))
 	invariant inv_0Bis over cardSuitFinal: step=END implies (forall $q in QuartetIndex, $s in Suit with
-																	(exist $i in InQuartetIndex with cardSuitFinal($q * 4 + $i) = $s))
+																	(exists $i in InQuartetIndex with cardSuitFinal($q * 4 + $i) = $s))
 
 	//no card is created or cancelled
-	invariant inv_1 over cardNumber, cardSuit:  (exist $i in Index with cardNumber($i)=5 and cardSuit($i)=SPADES)
-	invariant inv_2 over cardNumber, cardSuit:  (exist $i in Index with cardNumber($i)=13 and cardSuit($i)=SPADES)
-	invariant inv_3 over cardNumber, cardSuit:  (exist $i in Index with cardNumber($i)=8 and cardSuit($i)=SPADES)
-	invariant inv_4 over cardNumber, cardSuit:  (exist $i in Index with cardNumber($i)=3 and cardSuit($i)=HEARTS)
-	invariant inv_5 over cardNumber, cardSuit:  (exist $i in Index with cardNumber($i)=2 and cardSuit($i)=HEARTS)
-	invariant inv_6 over cardNumber, cardSuit:  (exist $i in Index with cardNumber($i)=11 and cardSuit($i)=HEARTS)
-	invariant inv_7 over cardNumber, cardSuit:  (exist $i in Index with cardNumber($i)=12 and cardSuit($i)=CLUBS)
-	invariant inv_8 over cardNumber, cardSuit:  (exist $i in Index with cardNumber($i)=7 and cardSuit($i)=CLUBS)
-	invariant inv_9 over cardNumber, cardSuit:  (exist $i in Index with cardNumber($i)=9 and cardSuit($i)=CLUBS)
-	invariant inv_10 over cardNumber, cardSuit: (exist $i in Index with cardNumber($i)=8 and cardSuit($i)=DIAMONDS)
-	invariant inv_11 over cardNumber, cardSuit: (exist $i in Index with cardNumber($i)=4 and cardSuit($i)=DIAMONDS)
-	invariant inv_12 over cardNumber, cardSuit: (exist $i in Index with cardNumber($i)=1 and cardSuit($i)=DIAMONDS)
+	invariant inv_1 over cardNumber, cardSuit:  (exists $i in Index with cardNumber($i)=5 and cardSuit($i)=SPADES)
+	invariant inv_2 over cardNumber, cardSuit:  (exists $i in Index with cardNumber($i)=13 and cardSuit($i)=SPADES)
+	invariant inv_3 over cardNumber, cardSuit:  (exists $i in Index with cardNumber($i)=8 and cardSuit($i)=SPADES)
+	invariant inv_4 over cardNumber, cardSuit:  (exists $i in Index with cardNumber($i)=3 and cardSuit($i)=HEARTS)
+	invariant inv_5 over cardNumber, cardSuit:  (exists $i in Index with cardNumber($i)=2 and cardSuit($i)=HEARTS)
+	invariant inv_6 over cardNumber, cardSuit:  (exists $i in Index with cardNumber($i)=11 and cardSuit($i)=HEARTS)
+	invariant inv_7 over cardNumber, cardSuit:  (exists $i in Index with cardNumber($i)=12 and cardSuit($i)=CLUBS)
+	invariant inv_8 over cardNumber, cardSuit:  (exists $i in Index with cardNumber($i)=7 and cardSuit($i)=CLUBS)
+	invariant inv_9 over cardNumber, cardSuit:  (exists $i in Index with cardNumber($i)=9 and cardSuit($i)=CLUBS)
+	invariant inv_10 over cardNumber, cardSuit: (exists $i in Index with cardNumber($i)=8 and cardSuit($i)=DIAMONDS)
+	invariant inv_11 over cardNumber, cardSuit: (exists $i in Index with cardNumber($i)=4 and cardSuit($i)=DIAMONDS)
+	invariant inv_12 over cardNumber, cardSuit: (exists $i in Index with cardNumber($i)=1 and cardSuit($i)=DIAMONDS)
 
 
-	invariant inv_13 over cardSuit: step=END implies (forall $suit in Suit with (exist $i in Index with $i <= 4 and cardSuit($i)=$suit))
-	invariant inv_14 over cardSuit: step=END implies (forall $suit in Suit with (exist $i in Index with $i > 4 and $i <= 8 and cardSuit($i)=$suit))
-	invariant inv_15 over cardSuit: step=END implies (forall $suit in Suit with (exist $i in Index with $i > 8 and $i <= 12 and cardSuit($i)=$suit))
+	invariant inv_13 over cardSuit: step=END implies (forall $suit in Suit with (exists $i in Index with $i <= 4 and cardSuit($i)=$suit))
+	invariant inv_14 over cardSuit: step=END implies (forall $suit in Suit with (exists $i in Index with $i > 4 and $i <= 8 and cardSuit($i)=$suit))
+	invariant inv_15 over cardSuit: step=END implies (forall $suit in Suit with (exists $i in Index with $i > 8 and $i <= 12 and cardSuit($i)=$suit))
 
 	main rule r_Main =
 		switch (step)

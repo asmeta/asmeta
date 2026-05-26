@@ -130,7 +130,7 @@ definitions:
 	macro rule r_pizzaStandardSelezionata =
 	if(statoCassa=PIZZASTANDARD_SELEZIONATA) then
 
-			if((exist $c in Pizza with $c=pizzaInserita) ) then	
+			if((exists $c in Pizza with $c=pizzaInserita) ) then	
 				//seq
 				par
 					pizzaCorrente := pizzaInserita

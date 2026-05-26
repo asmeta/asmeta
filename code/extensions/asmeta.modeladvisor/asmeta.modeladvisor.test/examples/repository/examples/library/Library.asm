@@ -43,7 +43,7 @@ definitions:
    // I libri sono identificati per ISBN
 	function bookExists( $b in Book, $l in Library) =
 		let ( $books = libraryBooks( $l ), $isbn = bookIsbn( $b )) in
-			if ( exist $c in $books with bookIsbn( $c ) = $isbn ) then true
+			if ( exists $c in $books with bookIsbn( $c ) = $isbn ) then true
 			else false
 			endif
 		endlet

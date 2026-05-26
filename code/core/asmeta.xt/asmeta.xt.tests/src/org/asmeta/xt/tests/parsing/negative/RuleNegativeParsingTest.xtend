@@ -14,12 +14,13 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.^extension.ExtendWith
 import org.eclipse.xtext.testing.extensions.InjectionExtension
 import org.junit.jupiter.api.Tag
+import org.asmeta.xt.tests.AsmParseHelper
 
 @ExtendWith(InjectionExtension)
 @InjectWith(AsmetaLInjectorProvider)
 class RuleNegativeParsingTest {
 
-	@Inject	ParseHelper<Asm> parseHelper
+	@Inject	AsmParseHelper parseHelper
 	@Inject extension ValidationTestHelper
 
 	@Test@Tag("TestToMavenSkip")
@@ -28,7 +29,7 @@ class RuleNegativeParsingTest {
 
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				dynamic domain Person subsetof Agent
 				dynamic controlled alive: Person -> Boolean
@@ -38,12 +39,12 @@ class RuleNegativeParsingTest {
 						if($x > 95) then
 							alive(self) := 5
 						endif
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.UPDATE_RULE, ErrorCode.UPDATE_RULE__DOMAINS_NOT_COMPATIBLE)	
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				dynamic domain Person subsetof Agent
 				static alive: Person -> Boolean
@@ -53,12 +54,12 @@ class RuleNegativeParsingTest {
 						if($x > 95) then
 							alive(self) := false
 						endif
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.UPDATE_RULE, ErrorCode.LOCATION_TERM__NOT_DYNAMIC)	
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				dynamic domain Person subsetof Agent
 				controlled alive: Person -> Boolean
@@ -68,12 +69,12 @@ class RuleNegativeParsingTest {
 						if($x > 95) then
 							alive(self) := false
 						endif
-		''')
+		''',"prova")
 		result.assertNoErrors
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				dynamic domain Person subsetof Agent
 				dynamic monitored alive: Person -> Boolean
@@ -83,7 +84,7 @@ class RuleNegativeParsingTest {
 						if($x > 95) then
 							alive(self) := false
 						endif
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.UPDATE_RULE, ErrorCode.UPDATE_RULE__INVALID_LOCATION)		
 		
 	}
@@ -94,7 +95,7 @@ class RuleNegativeParsingTest {
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				dynamic domain Person subsetof Agent
 				dynamic controlled alive: Person -> Boolean
@@ -104,12 +105,12 @@ class RuleNegativeParsingTest {
 					if($x > 95) then
 						alive(self) := false
 					endif
-		''')
+		''',"prova")
 		result.assertNoErrors
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				dynamic domain Person subsetof Agent
 				dynamic controlled alive: Person -> Boolean
@@ -119,7 +120,7 @@ class RuleNegativeParsingTest {
 					if($x + 95) then
 						alive(self) := false
 					endif
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.CONDITIONAL_RULE, ErrorCode.TERM__DOMAIN_GUARD_NOT_BOOLEAN)	
 
 	}
@@ -130,7 +131,7 @@ class RuleNegativeParsingTest {
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				abstract domain Philosopher
 				domain NumOfCherries subsetof Integer
@@ -150,12 +151,12 @@ class RuleNegativeParsingTest {
 							endif
 						endlet
 					endif
-		''')
+		''',"prova")
 		result.assertNoErrors
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				abstract domain Philosopher
 				domain NumOfCherries subsetof Integer
@@ -175,7 +176,7 @@ class RuleNegativeParsingTest {
 							endif
 						endlet
 					endif
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.LET_RULE, ErrorCode.LET_RULE__VARIABLE_ALREADY_USED)	
 		
 	}
@@ -186,7 +187,7 @@ class RuleNegativeParsingTest {
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				dynamic domain Person subsetof Agent
 				dynamic controlled alive: Person -> Boolean
@@ -196,12 +197,12 @@ class RuleNegativeParsingTest {
 						if($x > 95) then
 							alive(self) := false
 						endif
-		''')
+		''',"prova")
 		result.assertNoErrors
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				dynamic domain Person subsetof Agent
 				dynamic controlled alive: Person -> Boolean
@@ -211,12 +212,12 @@ class RuleNegativeParsingTest {
 						if($x > 95) then
 							alive(self) := false
 						endif
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.CHOOSE_RULE, ErrorCode.CHOOSE_RULE__RANGE_NOT_POWERSET)	
 		
 		/*result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				dynamic domain Person subsetof Agent
 				dynamic controlled alive: Person -> Boolean
@@ -226,12 +227,12 @@ class RuleNegativeParsingTest {
 						if($x > 95) then
 							alive(self) := false
 						endif
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.CHOOSE_RULE, ErrorCode.CHOOSE_RULE__DOMAINS_NOT_COMPATIBLE)*/	
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				dynamic domain Person subsetof Agent
 				dynamic controlled alive: Person -> Boolean
@@ -243,12 +244,12 @@ class RuleNegativeParsingTest {
 								alive(self) := false
 							endif
 					endlet
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.CHOOSE_RULE, ErrorCode.CHOOSE_RULE__VARIABLE_ALREADY_USED)	
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				dynamic domain Person subsetof Agent
 				dynamic controlled alive: Person -> Boolean
@@ -258,7 +259,7 @@ class RuleNegativeParsingTest {
 						if($x > 95) then
 							alive(self) := false
 						endif
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.CHOOSE_RULE, ErrorCode.TERM__DOMAIN_GUARD_NOT_BOOLEAN)	
 		
 	}
@@ -269,7 +270,7 @@ class RuleNegativeParsingTest {
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				dynamic domain Person subsetof Agent
 				dynamic controlled alive: Person -> Boolean
@@ -277,12 +278,12 @@ class RuleNegativeParsingTest {
 				main rule r_Main =
 					forall $p in Person with alive($p) do
 						program($p) 
-		''')
+		''',"prova")
 		result.assertNoErrors
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				dynamic domain Person subsetof Agent
 				dynamic controlled alive: Person -> Boolean
@@ -291,13 +292,13 @@ class RuleNegativeParsingTest {
 				main rule r_Main =
 					forall $p in no_powerset with alive($p) do
 						program($p) 
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.FORALL_RULE, ErrorCode.FORALL_RULE__RANGE_NOT_POWERSET)	
 		
 		// TODO ???
 		/*result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				dynamic domain Person subsetof Agent
 				dynamic controlled no_powerset : Person -> Powerset(Person)
@@ -306,12 +307,12 @@ class RuleNegativeParsingTest {
 				main rule r_Main =
 					forall $p in no_powerset with alive($p) do
 						program($p) 
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.FORALL_RULE, ErrorCode.FORALL_RULE__DOMAINS_NOT_COMPATIBLE)	
 		*/
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				dynamic domain Person subsetof Agent
 				dynamic controlled alive: Person -> Boolean
@@ -322,12 +323,12 @@ class RuleNegativeParsingTest {
 						forall $p in Person with alive($p) do
 							program($p) 
 					endlet
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.FORALL_RULE, ErrorCode.FORALL_RULE__VARIABLE_ALREADY_USED)	
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				dynamic domain Person subsetof Agent
 				dynamic controlled age: Person -> Integer
@@ -335,7 +336,7 @@ class RuleNegativeParsingTest {
 				main rule r_Main =
 					forall $p in Person with age($p) do
 						program($p) 
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.FORALL_RULE, ErrorCode.TERM__DOMAIN_GUARD_NOT_BOOLEAN)	
 		
 	}
@@ -347,7 +348,7 @@ class RuleNegativeParsingTest {
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				dynamic domain Person subsetof Agent
 				enum domain GenderDomain = {MALE | FEMALE}
@@ -359,12 +360,12 @@ class RuleNegativeParsingTest {
 							choose $g in GenderDomain with true do
 								alive($child) := true
 
-		''')
+		''',"prova")
 		result.assertNoErrors	
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				dynamic domain Person subsetof Agent
 				enum domain GenderDomain = {MALE | FEMALE}
@@ -376,7 +377,7 @@ class RuleNegativeParsingTest {
 							choose $g in GenderDomain with true do
 								alive($child) := true
 
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.EXTEND_RULE, ErrorCode.EXTENDED_RULE__VARIABLE_ALREADY_USED)	
 		
 		// the domain to extend must be dynamic, and it must be a concrete domain subsetting an abstract TD or an abstract TD."
@@ -389,7 +390,7 @@ class RuleNegativeParsingTest {
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				dynamic domain Person subsetof Integer
 				enum domain GenderDomain = {MALE | FEMALE}
@@ -401,12 +402,12 @@ class RuleNegativeParsingTest {
 							choose $g in GenderDomain with true do
 								alive($child) := true
 
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.EXTEND_RULE, ErrorCode.EXTENDED_RULE__INVALID_DOMAIN)	
 		
 			result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				domain Person subsetof Agent
 				enum domain GenderDomain = {MALE | FEMALE}
@@ -418,12 +419,12 @@ class RuleNegativeParsingTest {
 							choose $g in GenderDomain with true do
 								alive($child) := true
 
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.EXTEND_RULE, ErrorCode.EXTENDED_RULE__INVALID_DOMAIN)	
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				dynamic domain Person subsetof Agent
 				enum domain GenderDomain = {MALE | FEMALE}
@@ -435,12 +436,12 @@ class RuleNegativeParsingTest {
 							choose $g in GenderDomain with true do
 								alive($child) := true
 
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.EXTEND_RULE, ErrorCode.EXTENDED_RULE__INVALID_DOMAIN)	
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary ( Boolean ) 
+			import examples/StandardLibrary ( Boolean ) 
 			signature:
 				dynamic domain Person subsetof Agent
 				enum domain GenderDomain = {MALE | FEMALE}
@@ -452,7 +453,7 @@ class RuleNegativeParsingTest {
 							choose $g in GenderDomain with true do
 								alive($child) := true
 
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.EXTEND_RULE, ErrorCode.EXTENDED_RULE__RESERVE_DOMAIN_NOT_DECLARED)	
 		
 		
@@ -464,7 +465,7 @@ class RuleNegativeParsingTest {
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				enum domain Actors = {FERRYMAN | GO | CA | WO}
 				enum domain CarryDomain = {GOAT | CABBAGE | WOLF | NONE}
@@ -486,12 +487,12 @@ class RuleNegativeParsingTest {
 							position(FERRYMAN) := oppositeSide(position(FERRYMAN))
 					endswitch
 
-		''')
+		''',"prova")
 		result.assertNoErrors
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				enum domain Actors = {FERRYMAN | GO | CA | WO}
 				enum domain CarryDomain = {GOAT | CABBAGE | WOLF | NONE}
@@ -513,7 +514,7 @@ class RuleNegativeParsingTest {
 							position(FERRYMAN) := oppositeSide(position(FERRYMAN))
 					endswitch
 
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.CASE_RULE, ErrorCode.CASE_RULE__BRANCH_DOMAIN_NOT_COMPATIBLE)	
 		
 		
@@ -526,7 +527,7 @@ class RuleNegativeParsingTest {
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				controlled contrC: Integer
 				monitored mon: Integer
@@ -541,12 +542,12 @@ class RuleNegativeParsingTest {
 						contrC := 0
 					endif
 
-		''')
+		''',"prova")
 		result.assertNoErrors
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				controlled contrC: Integer
 				monitored mon: Integer
@@ -561,7 +562,7 @@ class RuleNegativeParsingTest {
 						contrC := 0
 					endif
 
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.TURBO_DERIVED_RULE, ErrorCode.TERM__DOMAIN_GUARD_NOT_BOOLEAN)	
 		
 	}

@@ -26,7 +26,7 @@ definitions:
 function nearestChargerToNow($cs in Powerset(Position)) =
     chooseone(
         { $c in $cs |
-            not(exist $d in $cs with distManhattan((currentPosition, $d)) < distManhattan((currentPosition, $c)))
+            not(exists $d in $cs with distManhattan((currentPosition, $d)) < distManhattan((currentPosition, $c)))
         }
     )
 

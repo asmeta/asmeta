@@ -21,7 +21,7 @@ definitions:
 
 	main rule r_main =
 		par
-			foo := (exist $c in ConcrDom with $c > 5)
+			foo := (exists $c in ConcrDom with $c > 5)
 			fooA := der(5)
 			fooB := der2(-5, 5)
 		endpar

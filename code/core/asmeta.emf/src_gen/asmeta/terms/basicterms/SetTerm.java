@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.terms.basicterms;
 
@@ -29,10 +25,6 @@ public interface SetTerm extends CollectionTerm {
 	 * Returns the value of the '<em><b>Term</b></em>' reference list.
 	 * The list contents are of type {@link asmeta.terms.basicterms.Term}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Term</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Term</em>' reference list.
 	 * @see asmeta.terms.basicterms.BasictermsPackage#getSetTerm_Term()

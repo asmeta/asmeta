@@ -81,9 +81,9 @@ definitions:
     //Knowledge consistency:
     //Pills type consistency between the prescription and the compartments of the pillbox
     invariant over medicine_list:  ( forall $c in Compartment with ( contains(medicine_list,name($c))))
-    invariant over Compartment: (forall $m in asSet(medicine_list) with (exist $c in Compartment with name($c)=$m))
-    //invariant over Compartment, Medicine: (forall $m in Medicine with (exist $c in Compartment with name($c)=id($m)))
-    //invariant over Compartment, Medicine: (forall $c in Compartment with (exist $m in Medicine with name($c)=id($m)))
+    invariant over Compartment: (forall $m in asSet(medicine_list) with (exists $c in Compartment with name($c)=$m))
+    //invariant over Compartment, Medicine: (forall $m in Medicine with (exists $c in Compartment with name($c)=id($m)))
+    //invariant over Compartment, Medicine: (forall $c in Compartment with (exists $m in Medicine with name($c)=id($m)))
     
     //Pills amount consistency: the amount of pills to intake and the number of the corresponding compartment slots must be the same
     //invariant over Medicine: ( forall $m in Medicine with iton(length(time($m))) = amount($m) ) //da NullPointerException 
@@ -111,11 +111,11 @@ definitions:
 			>= (minToInterferer(name($compartment),name($c))) and $c=$compartment)
 		)
     ))
-    //$c != $compartment  and --> non serve perchè il next anche se è dello stesso compartment comunque fa riferimento ad un altro orario
-    //se il compartment è uguale uso il nextDrugIndex altrimenti drugIndex
+    //$c != $compartment  and --> non serve perchï¿½ il next anche se ï¿½ dello stesso compartment comunque fa riferimento ad un altro orario
+    //se il compartment ï¿½ uguale uso il nextDrugIndex altrimenti drugIndex
     	
     //Dynamic interferences checking (pills intake may be delayed; actual time of assumption must be considered)
-    //TODO:Similmente all'invariante precedente, introdurre una funzione actual_time_assumption su Compartment che verrà settata per riportare il tempo effettivo dell'assunzione di una 
+    //TODO:Similmente all'invariante precedente, introdurre una funzione actual_time_assumption su Compartment che verrï¿½ settata per riportare il tempo effettivo dell'assunzione di una 
     //pillola in un dato scomparto (drugIndex).
     //Scrivere un invariante per: per tutte le medicine in un dato compartment e slot, la differenza tra tempo effettivo e tempo nominale deve essere
     //maggiore o uguale al minToInterferer con le medicine successive (slot successivo dello stesso compartment o di un altro compartment)

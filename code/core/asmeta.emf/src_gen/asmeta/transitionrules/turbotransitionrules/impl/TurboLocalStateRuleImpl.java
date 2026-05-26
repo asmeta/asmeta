@@ -1,26 +1,28 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.transitionrules.turbotransitionrules.impl;
+
+import asmeta.definitions.LocalFunction;
+
+import asmeta.transitionrules.basictransitionrules.Rule;
+
+import asmeta.transitionrules.turbotransitionrules.TurboLocalStateRule;
+import asmeta.transitionrules.turbotransitionrules.TurbotransitionrulesPackage;
 
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-
-import asmeta.definitions.LocalFunction;
-import asmeta.transitionrules.basictransitionrules.Rule;
-import asmeta.transitionrules.turbotransitionrules.TurboLocalStateRule;
-import asmeta.transitionrules.turbotransitionrules.TurbotransitionrulesPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -67,7 +69,6 @@ public class TurboLocalStateRuleImpl extends TurboRuleImpl implements TurboLocal
 	 * @ordered
 	 */
 	protected EList<LocalFunction> localFunction;
-
 
 	/**
 	 * <!-- begin-user-doc -->

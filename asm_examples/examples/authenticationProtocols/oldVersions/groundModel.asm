@@ -52,7 +52,7 @@ definitions:
 	//where
 	//	Received(m) = m \in Signal
 	rule r_response($a in Actors, $b in Actors, $na in SignalId) =
-		if((exist $s in Signal with isDef(challengeMsg($s)) and eq(challengeMsg($s), ($a, $b, $na)))) then
+		if((exists $s in Signal with isDef(challengeMsg($s)) and eq(challengeMsg($s), ($a, $b, $na)))) then
 			extend SignalId with $nb do
 				extend Signal with $signal do
 					par
@@ -67,7 +67,7 @@ definitions:
 	//		Send(commitMsg(A;B;Na ;Nb))
 	rule r_commit($a in Actors, $b in Actors, $na in SignalId, $nb in SignalId) =
 		if(isGood($a) and isGood($b) and
-			(exist $s in Signal with isDef(responseMsg($s)) and
+			(exists $s in Signal with isDef(responseMsg($s)) and
 										eq(responseMsg($s), ($a, $b, $na, $nb)) ) ) then
 			extend Signal with $signal do
 				par

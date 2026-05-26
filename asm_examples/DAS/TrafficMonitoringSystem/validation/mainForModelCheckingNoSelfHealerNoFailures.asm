@@ -288,7 +288,7 @@ definitions:
 		endswitch
 
 	function m_offer($c in Camera) =
-	   (exist $s in Camera with newSlave($c, $s) )
+	   (exists $s in Camera with newSlave($c, $s) )
 
 
 
@@ -414,7 +414,7 @@ definitions:
 			par
 				//PA: slaves changed because of model checking
 				//if (not isEmpty(slaves($cameraOCself))) then
-				if (exist $c in Camera with slaves($cameraOCself, $c)) then
+				if (exists $c in Camera with slaves($cameraOCself, $c)) then
 					//seq //PA: commentato
 					par //PA: inserito
 						//PA: slaves changed because of model checking
@@ -438,7 +438,7 @@ definitions:
 			par
 				//PA: slaves changed because of model checking
 				//if (not isEmpty(slaves($cameraOCself))) then
-				if (exist $c in Camera with slaves($cameraOCself, $c)) then
+				if (exists $c in Camera with slaves($cameraOCself, $c)) then
 					//seq //PA: commentato
 					par //PA: inserito
 						//PA: slaves changed because of model checking

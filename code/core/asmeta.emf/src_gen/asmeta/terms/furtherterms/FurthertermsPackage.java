@@ -1,17 +1,13 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.terms.furtherterms;
+
+import asmeta.terms.basicterms.BasictermsPackage;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
-import asmeta.terms.basicterms.BasictermsPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -877,14 +873,14 @@ public interface FurthertermsPackage extends EPackage {
 	int FORALL_TERM_FEATURE_COUNT = FINITE_QUANTIFICATION_TERM_FEATURE_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link asmeta.terms.furtherterms.impl.ExistUniqueTermImpl <em>Exist Unique Term</em>}' class.
+	 * The meta object id for the '{@link asmeta.terms.furtherterms.impl.ExistsUniqueTermImpl <em>Exists Unique Term</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see asmeta.terms.furtherterms.impl.ExistUniqueTermImpl
-	 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getExistUniqueTerm()
+	 * @see asmeta.terms.furtherterms.impl.ExistsUniqueTermImpl
+	 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getExistsUniqueTerm()
 	 * @generated
 	 */
-	int EXIST_UNIQUE_TERM = 13;
+	int EXISTS_UNIQUE_TERM = 13;
 
 	/**
 	 * The feature id for the '<em><b>Domain</b></em>' reference.
@@ -893,7 +889,7 @@ public interface FurthertermsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXIST_UNIQUE_TERM__DOMAIN = FINITE_QUANTIFICATION_TERM__DOMAIN;
+	int EXISTS_UNIQUE_TERM__DOMAIN = FINITE_QUANTIFICATION_TERM__DOMAIN;
 
 	/**
 	 * The feature id for the '<em><b>Term As Rule</b></em>' reference list.
@@ -902,7 +898,7 @@ public interface FurthertermsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXIST_UNIQUE_TERM__TERM_AS_RULE = FINITE_QUANTIFICATION_TERM__TERM_AS_RULE;
+	int EXISTS_UNIQUE_TERM__TERM_AS_RULE = FINITE_QUANTIFICATION_TERM__TERM_AS_RULE;
 
 	/**
 	 * The feature id for the '<em><b>Variable</b></em>' containment reference list.
@@ -911,7 +907,7 @@ public interface FurthertermsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXIST_UNIQUE_TERM__VARIABLE = FINITE_QUANTIFICATION_TERM__VARIABLE;
+	int EXISTS_UNIQUE_TERM__VARIABLE = FINITE_QUANTIFICATION_TERM__VARIABLE;
 
 	/**
 	 * The feature id for the '<em><b>Guard</b></em>' reference.
@@ -920,7 +916,7 @@ public interface FurthertermsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXIST_UNIQUE_TERM__GUARD = FINITE_QUANTIFICATION_TERM__GUARD;
+	int EXISTS_UNIQUE_TERM__GUARD = FINITE_QUANTIFICATION_TERM__GUARD;
 
 	/**
 	 * The feature id for the '<em><b>Ranges</b></em>' attribute list.
@@ -929,26 +925,26 @@ public interface FurthertermsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXIST_UNIQUE_TERM__RANGES = FINITE_QUANTIFICATION_TERM__RANGES;
+	int EXISTS_UNIQUE_TERM__RANGES = FINITE_QUANTIFICATION_TERM__RANGES;
 
 	/**
-	 * The number of structural features of the '<em>Exist Unique Term</em>' class.
+	 * The number of structural features of the '<em>Exists Unique Term</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EXIST_UNIQUE_TERM_FEATURE_COUNT = FINITE_QUANTIFICATION_TERM_FEATURE_COUNT + 0;
+	int EXISTS_UNIQUE_TERM_FEATURE_COUNT = FINITE_QUANTIFICATION_TERM_FEATURE_COUNT + 0;
 
 	/**
-	 * The meta object id for the '{@link asmeta.terms.furtherterms.impl.ExistTermImpl <em>Exist Term</em>}' class.
+	 * The meta object id for the '{@link asmeta.terms.furtherterms.impl.ExistsTermImpl <em>Exists Term</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see asmeta.terms.furtherterms.impl.ExistTermImpl
-	 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getExistTerm()
+	 * @see asmeta.terms.furtherterms.impl.ExistsTermImpl
+	 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getExistsTerm()
 	 * @generated
 	 */
-	int EXIST_TERM = 14;
+	int EXISTS_TERM = 14;
 
 	/**
 	 * The feature id for the '<em><b>Domain</b></em>' reference.
@@ -957,7 +953,7 @@ public interface FurthertermsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXIST_TERM__DOMAIN = FINITE_QUANTIFICATION_TERM__DOMAIN;
+	int EXISTS_TERM__DOMAIN = FINITE_QUANTIFICATION_TERM__DOMAIN;
 
 	/**
 	 * The feature id for the '<em><b>Term As Rule</b></em>' reference list.
@@ -966,7 +962,7 @@ public interface FurthertermsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXIST_TERM__TERM_AS_RULE = FINITE_QUANTIFICATION_TERM__TERM_AS_RULE;
+	int EXISTS_TERM__TERM_AS_RULE = FINITE_QUANTIFICATION_TERM__TERM_AS_RULE;
 
 	/**
 	 * The feature id for the '<em><b>Variable</b></em>' containment reference list.
@@ -975,7 +971,7 @@ public interface FurthertermsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXIST_TERM__VARIABLE = FINITE_QUANTIFICATION_TERM__VARIABLE;
+	int EXISTS_TERM__VARIABLE = FINITE_QUANTIFICATION_TERM__VARIABLE;
 
 	/**
 	 * The feature id for the '<em><b>Guard</b></em>' reference.
@@ -984,7 +980,7 @@ public interface FurthertermsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXIST_TERM__GUARD = FINITE_QUANTIFICATION_TERM__GUARD;
+	int EXISTS_TERM__GUARD = FINITE_QUANTIFICATION_TERM__GUARD;
 
 	/**
 	 * The feature id for the '<em><b>Ranges</b></em>' attribute list.
@@ -993,16 +989,16 @@ public interface FurthertermsPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int EXIST_TERM__RANGES = FINITE_QUANTIFICATION_TERM__RANGES;
+	int EXISTS_TERM__RANGES = FINITE_QUANTIFICATION_TERM__RANGES;
 
 	/**
-	 * The number of structural features of the '<em>Exist Term</em>' class.
+	 * The number of structural features of the '<em>Exists Term</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int EXIST_TERM_FEATURE_COUNT = FINITE_QUANTIFICATION_TERM_FEATURE_COUNT + 0;
+	int EXISTS_TERM_FEATURE_COUNT = FINITE_QUANTIFICATION_TERM_FEATURE_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link asmeta.terms.furtherterms.impl.EnumTermImpl <em>Enum Term</em>}' class.
@@ -1407,7 +1403,6 @@ public interface FurthertermsPackage extends EPackage {
 	 */
 	int BAG_CT_FEATURE_COUNT = COMPREHENSION_TERM_FEATURE_COUNT + 0;
 
-
 	/**
 	 * Returns the meta object for class '{@link asmeta.terms.furtherterms.IntegerTerm <em>Integer Term</em>}'.
 	 * <!-- begin-user-doc -->
@@ -1627,24 +1622,24 @@ public interface FurthertermsPackage extends EPackage {
 	EAttribute getFiniteQuantificationTerm_Ranges();
 
 	/**
-	 * Returns the meta object for class '{@link asmeta.terms.furtherterms.ExistUniqueTerm <em>Exist Unique Term</em>}'.
+	 * Returns the meta object for class '{@link asmeta.terms.furtherterms.ExistsUniqueTerm <em>Exists Unique Term</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Exist Unique Term</em>'.
-	 * @see asmeta.terms.furtherterms.ExistUniqueTerm
+	 * @return the meta object for class '<em>Exists Unique Term</em>'.
+	 * @see asmeta.terms.furtherterms.ExistsUniqueTerm
 	 * @generated
 	 */
-	EClass getExistUniqueTerm();
+	EClass getExistsUniqueTerm();
 
 	/**
-	 * Returns the meta object for class '{@link asmeta.terms.furtherterms.ExistTerm <em>Exist Term</em>}'.
+	 * Returns the meta object for class '{@link asmeta.terms.furtherterms.ExistsTerm <em>Exists Term</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Exist Term</em>'.
-	 * @see asmeta.terms.furtherterms.ExistTerm
+	 * @return the meta object for class '<em>Exists Term</em>'.
+	 * @see asmeta.terms.furtherterms.ExistsTerm
 	 * @generated
 	 */
-	EClass getExistTerm();
+	EClass getExistsTerm();
 
 	/**
 	 * Returns the meta object for class '{@link asmeta.terms.furtherterms.EnumTerm <em>Enum Term</em>}'.
@@ -2075,24 +2070,24 @@ public interface FurthertermsPackage extends EPackage {
 		EAttribute FINITE_QUANTIFICATION_TERM__RANGES = eINSTANCE.getFiniteQuantificationTerm_Ranges();
 
 		/**
-		 * The meta object literal for the '{@link asmeta.terms.furtherterms.impl.ExistUniqueTermImpl <em>Exist Unique Term</em>}' class.
+		 * The meta object literal for the '{@link asmeta.terms.furtherterms.impl.ExistsUniqueTermImpl <em>Exists Unique Term</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see asmeta.terms.furtherterms.impl.ExistUniqueTermImpl
-		 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getExistUniqueTerm()
+		 * @see asmeta.terms.furtherterms.impl.ExistsUniqueTermImpl
+		 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getExistsUniqueTerm()
 		 * @generated
 		 */
-		EClass EXIST_UNIQUE_TERM = eINSTANCE.getExistUniqueTerm();
+		EClass EXISTS_UNIQUE_TERM = eINSTANCE.getExistsUniqueTerm();
 
 		/**
-		 * The meta object literal for the '{@link asmeta.terms.furtherterms.impl.ExistTermImpl <em>Exist Term</em>}' class.
+		 * The meta object literal for the '{@link asmeta.terms.furtherterms.impl.ExistsTermImpl <em>Exists Term</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see asmeta.terms.furtherterms.impl.ExistTermImpl
-		 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getExistTerm()
+		 * @see asmeta.terms.furtherterms.impl.ExistsTermImpl
+		 * @see asmeta.terms.furtherterms.impl.FurthertermsPackageImpl#getExistsTerm()
 		 * @generated
 		 */
-		EClass EXIST_TERM = eINSTANCE.getExistTerm();
+		EClass EXISTS_TERM = eINSTANCE.getExistsTerm();
 
 		/**
 		 * The meta object literal for the '{@link asmeta.terms.furtherterms.impl.EnumTermImpl <em>Enum Term</em>}' class.

@@ -87,7 +87,7 @@ class TermSubstTest {
 	@Test void test06() throws Exception {
 		String actual = subst("test/simulator/term_subst/termsubst06.asm");
 		assertEquals(
-				"(exist $x in Natural with eq($x,plus($y,$z)))", 
+				"(exists $x in Natural with eq($x,plus($y,$z)))", 
 				actual);
 	}
 

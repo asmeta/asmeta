@@ -1,17 +1,15 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.structure;
 
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
-
 import asmeta.definitions.Function;
+
 import asmeta.definitions.domains.Domain;
 import asmeta.definitions.domains.StructuredTd;
+
+import org.eclipse.emf.common.util.EList;
+
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -38,10 +36,6 @@ public interface Signature extends EObject {
 	 * The list contents are of type {@link asmeta.definitions.domains.Domain}.
 	 * It is bidirectional and its opposite is '{@link asmeta.definitions.domains.Domain#getSignature <em>Signature</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Domain</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Domain</em>' containment reference list.
 	 * @see asmeta.structure.StructurePackage#getSignature_Domain()
@@ -56,10 +50,6 @@ public interface Signature extends EObject {
 	 * The list contents are of type {@link asmeta.definitions.Function}.
 	 * It is bidirectional and its opposite is '{@link asmeta.definitions.Function#getSignature <em>Signature</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Function</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Function</em>' containment reference list.
 	 * @see asmeta.structure.StructurePackage#getSignature_Function()
@@ -73,10 +63,6 @@ public interface Signature extends EObject {
 	 * Returns the value of the '<em><b>Header Section</b></em>' container reference.
 	 * It is bidirectional and its opposite is '{@link asmeta.structure.Header#getSignature <em>Signature</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Header Section</em>' container reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Header Section</em>' container reference.
 	 * @see #setHeaderSection(Header)
@@ -101,10 +87,6 @@ public interface Signature extends EObject {
 	 * Returns the value of the '<em><b>Structured Domain</b></em>' containment reference list.
 	 * The list contents are of type {@link asmeta.definitions.domains.StructuredTd}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Structured Domain</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Structured Domain</em>' containment reference list.
 	 * @see asmeta.structure.StructurePackage#getSignature_StructuredDomain()

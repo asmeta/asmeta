@@ -1,18 +1,14 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.transitionrules.basictransitionrules;
+
+import asmeta.definitions.DefinitionsPackage;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
-import asmeta.definitions.DefinitionsPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -588,7 +584,6 @@ public interface BasictransitionrulesPackage extends EPackage {
 	 */
 	int MACRO_DECLARATION_FEATURE_COUNT = DefinitionsPackage.RULE_DECLARATION_FEATURE_COUNT + 0;
 
-
 	/**
 	 * The meta object id for the '<em>Rule DT</em>' data type.
 	 * <!-- begin-user-doc -->
@@ -598,7 +593,6 @@ public interface BasictransitionrulesPackage extends EPackage {
 	 * @generated
 	 */
 	int RULE_DT = 13;
-
 
 	/**
 	 * Returns the meta object for class '{@link asmeta.transitionrules.basictransitionrules.TermAsRule <em>Term As Rule</em>}'.

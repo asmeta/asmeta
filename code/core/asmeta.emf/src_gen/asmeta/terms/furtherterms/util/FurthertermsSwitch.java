@@ -1,44 +1,19 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.terms.furtherterms.util;
-
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.util.Switch;
 
 import asmeta.terms.basicterms.BasicTerm;
 import asmeta.terms.basicterms.CollectionTerm;
 import asmeta.terms.basicterms.ConstantTerm;
 import asmeta.terms.basicterms.ExtendedTerm;
 import asmeta.terms.basicterms.Term;
-import asmeta.terms.furtherterms.BagCt;
-import asmeta.terms.furtherterms.BagTerm;
-import asmeta.terms.furtherterms.CaseTerm;
-import asmeta.terms.furtherterms.CharTerm;
-import asmeta.terms.furtherterms.ComplexTerm;
-import asmeta.terms.furtherterms.ComprehensionTerm;
-import asmeta.terms.furtherterms.ConditionalTerm;
-import asmeta.terms.furtherterms.EnumTerm;
-import asmeta.terms.furtherterms.ExistTerm;
-import asmeta.terms.furtherterms.ExistUniqueTerm;
-import asmeta.terms.furtherterms.FiniteQuantificationTerm;
-import asmeta.terms.furtherterms.ForallTerm;
-import asmeta.terms.furtherterms.FurthertermsPackage;
-import asmeta.terms.furtherterms.IntegerTerm;
-import asmeta.terms.furtherterms.LetTerm;
-import asmeta.terms.furtherterms.MapCt;
-import asmeta.terms.furtherterms.MapTerm;
-import asmeta.terms.furtherterms.NaturalTerm;
-import asmeta.terms.furtherterms.RealTerm;
-import asmeta.terms.furtherterms.SequenceCt;
-import asmeta.terms.furtherterms.SequenceTerm;
-import asmeta.terms.furtherterms.SetCt;
-import asmeta.terms.furtherterms.StringTerm;
-import asmeta.terms.furtherterms.VariableBindingTerm;
+
+import asmeta.terms.furtherterms.*;
+
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+
+import org.eclipse.emf.ecore.util.Switch;
 
 /**
  * <!-- begin-user-doc -->
@@ -217,23 +192,23 @@ public class FurthertermsSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case FurthertermsPackage.EXIST_UNIQUE_TERM: {
-				ExistUniqueTerm existUniqueTerm = (ExistUniqueTerm)theEObject;
-				T result = caseExistUniqueTerm(existUniqueTerm);
-				if (result == null) result = caseFiniteQuantificationTerm(existUniqueTerm);
-				if (result == null) result = caseVariableBindingTerm(existUniqueTerm);
-				if (result == null) result = caseExtendedTerm(existUniqueTerm);
-				if (result == null) result = caseTerm(existUniqueTerm);
+			case FurthertermsPackage.EXISTS_UNIQUE_TERM: {
+				ExistsUniqueTerm existsUniqueTerm = (ExistsUniqueTerm)theEObject;
+				T result = caseExistsUniqueTerm(existsUniqueTerm);
+				if (result == null) result = caseFiniteQuantificationTerm(existsUniqueTerm);
+				if (result == null) result = caseVariableBindingTerm(existsUniqueTerm);
+				if (result == null) result = caseExtendedTerm(existsUniqueTerm);
+				if (result == null) result = caseTerm(existsUniqueTerm);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case FurthertermsPackage.EXIST_TERM: {
-				ExistTerm existTerm = (ExistTerm)theEObject;
-				T result = caseExistTerm(existTerm);
-				if (result == null) result = caseFiniteQuantificationTerm(existTerm);
-				if (result == null) result = caseVariableBindingTerm(existTerm);
-				if (result == null) result = caseExtendedTerm(existTerm);
-				if (result == null) result = caseTerm(existTerm);
+			case FurthertermsPackage.EXISTS_TERM: {
+				ExistsTerm existsTerm = (ExistsTerm)theEObject;
+				T result = caseExistsTerm(existsTerm);
+				if (result == null) result = caseFiniteQuantificationTerm(existsTerm);
+				if (result == null) result = caseVariableBindingTerm(existsTerm);
+				if (result == null) result = caseExtendedTerm(existsTerm);
+				if (result == null) result = caseTerm(existsTerm);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -508,32 +483,32 @@ public class FurthertermsSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Exist Unique Term</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Exists Unique Term</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Exist Unique Term</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Exists Unique Term</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseExistUniqueTerm(ExistUniqueTerm object) {
+	public T caseExistsUniqueTerm(ExistsUniqueTerm object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Exist Term</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Exists Term</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Exist Term</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Exists Term</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseExistTerm(ExistTerm object) {
+	public T caseExistsTerm(ExistsTerm object) {
 		return null;
 	}
 

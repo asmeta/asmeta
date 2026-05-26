@@ -1,28 +1,29 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.structure.impl;
-
-import java.util.Collection;
-
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.InternalEList;
 
 import asmeta.structure.Asm;
 import asmeta.structure.Body;
 import asmeta.structure.Header;
 import asmeta.structure.Initialization;
 import asmeta.structure.StructurePackage;
+
 import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
+
+import java.util.Collection;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+
+import org.eclipse.emf.common.util.EList;
+
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
+import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -177,7 +178,8 @@ public class AsmImpl extends NamedElementImpl implements Asm {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetDefaultInitialState(Initialization newDefaultInitialState, NotificationChain msgs) {
+	public NotificationChain basicSetDefaultInitialState(Initialization newDefaultInitialState,
+			NotificationChain msgs) {
 		Initialization oldDefaultInitialState = defaultInitialState;
 		defaultInitialState = newDefaultInitialState;
 		if (eNotificationRequired()) {

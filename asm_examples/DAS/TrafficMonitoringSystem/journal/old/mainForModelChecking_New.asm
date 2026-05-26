@@ -309,8 +309,8 @@ definitions:
 
 	function slavesNotAlive($c in Camera) =
 		//PA: slaves changed because of model checking
-		//(exist $s in Camera with ( contains(slaves($c), $s) and  slaveGone($c, $s) ))
-		(exist $s in Camera with (slaves($c, $s) and  slaveGone($c, $s)))
+		//(exists $s in Camera with ( contains(slaves($c), $s) and  slaveGone($c, $s) ))
+		(exists $s in Camera with (slaves($c, $s) and  slaveGone($c, $s)))
 
 	function allSlavesAlive($c in Camera) =
 		//PA: slaves changed because of model checking
@@ -318,7 +318,7 @@ definitions:
 		( forall $s in Camera with (slaves($c, $s) and imAlive($c, $s)))
 
 	function m_offer($c in Camera) =
-	   (exist $s in Camera with newSlave($c, $s) )
+	   (exists $s in Camera with newSlave($c, $s) )
 
 
 	//OrganizationMiddleware
@@ -489,7 +489,7 @@ definitions:
 			par
 				//PA: slaves changed because of model checking
 				//if (not isEmpty(slaves($cameraOCself))) then
-				if (exist $c in Camera with slaves($cameraOCself, $c)) then
+				if (exists $c in Camera with slaves($cameraOCself, $c)) then
 					//seq //PA: commentato
 					par //PA: inserito
 						//PA: slaves changed because of model checking
@@ -513,7 +513,7 @@ definitions:
 			par
 				//PA: slaves changed because of model checking
 				//if (not isEmpty(slaves($cameraOCself))) then
-				if (exist $c in Camera with slaves($cameraOCself, $c)) then
+				if (exists $c in Camera with slaves($cameraOCself, $c)) then
 					//seq //PA: commentato
 					par //PA: inserito
 						//PA: slaves changed because of model checking

@@ -1,14 +1,10 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.transitionrules.turbotransitionrules;
 
-import org.eclipse.emf.common.util.EList;
-
 import asmeta.terms.basicterms.Term;
+
+import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
@@ -31,10 +27,6 @@ public interface TurboCallRule extends TurboRule {
 	/**
 	 * Returns the value of the '<em><b>Called Rule</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Called Rule</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Called Rule</em>' reference.
 	 * @see #setCalledRule(TurboDeclaration)
@@ -58,10 +50,6 @@ public interface TurboCallRule extends TurboRule {
 	 * Returns the value of the '<em><b>Parameters</b></em>' attribute list.
 	 * The list contents are of type {@link asmeta.terms.basicterms.Term}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Parameters</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Parameters</em>' attribute list.
 	 * @see asmeta.transitionrules.turbotransitionrules.TurbotransitionrulesPackage#getTurboCallRule_Parameters()

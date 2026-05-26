@@ -13,17 +13,17 @@ signature:
 
 definitions:
 
-	invariant inv_1 over foo: (exist $a in EnumDom with foo($a))
-	invariant inv_2 over foo: (exist unique $a in EnumDom with foo($a))
-	invariant inv_3 over foo2: (exist $a in EnumDom with foo2($a))
-	invariant inv_4 over foo2: not(exist unique $a in EnumDom with foo2($a))
+	invariant inv_1 over foo: (exists $a in EnumDom with foo($a))
+	invariant inv_2 over foo: (exists unique $a in EnumDom with foo($a))
+	invariant inv_3 over foo2: (exists $a in EnumDom with foo2($a))
+	invariant inv_4 over foo2: not(exists unique $a in EnumDom with foo2($a))
 
 	main rule r_Main =
 		par
-			foo3 := (exist $a in EnumDom with foo($a))
-			foo4 := (exist unique $b in EnumDom with foo($b))
-			foo5 := (exist $c in EnumDom with foo2($c))
-			foo6 := not(exist unique $d in EnumDom with foo2($d))
+			foo3 := (exists $a in EnumDom with foo($a))
+			foo4 := (exists unique $b in EnumDom with foo($b))
+			foo5 := (exists $c in EnumDom with foo2($c))
+			foo6 := not(exists unique $d in EnumDom with foo2($d))
 		endpar
 
 default init s0:

@@ -104,7 +104,7 @@ signature:
 definitions:
 
 function  overallWindowsStatus ($set in Powerset(SysAMdA)) = 
-  if (exist $a in $set with windowsStatus($a) = OPEN) then OPEN else CLOSED endif
+  if (exists $a in $set with windowsStatus($a) = OPEN) then OPEN else CLOSED endif
 
 function overallAQInsideCO2 ($set in Powerset(SysAMdA)) =
   //idiv((sum(<$k in asBag($set): aQInsideCO2($k)>),size($set))
@@ -154,7 +154,7 @@ function airLevel ($v in Integer) =
 			endif
 		endlet
 	
-	function heatingsON = (exist $a in IntHCMgA with heatingStatusSaved($a) = ON)
+	function heatingsON = (exists $a in IntHCMgA with heatingStatusSaved($a) = ON)
 	
 	
 	function startIntHCM($b in IntHCMgA) =
@@ -178,11 +178,11 @@ function airLevel ($v in Integer) =
 			(sgnMainAQAtoE($b) and sgnHightoMainAQ_E($b)) //added in refinement 
 
 	function startMainHCM($b in MainHCMgA) =
-		(exist $a in fromMainHCMtoIntHCM($b) with sgnIntHCMMainHCM($a, $b))
+		(exists $a in fromMainHCMtoIntHCM($b) with sgnIntHCMMainHCM($a, $b))
 
 	function startMainHCA($b in MainHCMgA) = //Refined
-		(heatingsON and (exist $a in fromMainHCMtoIntHCM($b) with neq(desiredHeatingSetting($a),computeHeatingSetting($a)))) or
-		(heatingsON and (exist $c in fromMainHCMtoIntHCM($b) with eq(windowsStatusSaved($c),OPEN)) )
+		(heatingsON and (exists $a in fromMainHCMtoIntHCM($b) with neq(desiredHeatingSetting($a),computeHeatingSetting($a)))) or
+		(heatingsON and (exists $c in fromMainHCMtoIntHCM($b) with eq(windowsStatusSaved($c),OPEN)) )
 		
 
 	function startMainHCP($b in MainHCMgA) =

@@ -98,7 +98,7 @@ definitions:
 			tokens($p) := tokens($p) + incidenceMatrix($p, $t)
 
 	//Is it deadlock-free? No.
-	CTLSPEC ag((exist $t in Transition with isEnabled($t)))
+	CTLSPEC ag((exists $t in Transition with isEnabled($t)))
 
 	invariant over tokens: (forall $p in Place with tokens($p) >= 0)
 

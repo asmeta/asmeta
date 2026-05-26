@@ -157,8 +157,8 @@ public class AsmetalFactoryImpl extends EFactoryImpl implements AsmetalFactory
       case AsmetalPackage.BAG_TERM: return createBagTerm();
       case AsmetalPackage.VARIABLE_BINDING_TERM: return createVariableBindingTerm();
       case AsmetalPackage.FINITE_QUANTIFICATION_TERM: return createFiniteQuantificationTerm();
-      case AsmetalPackage.EXIST_UNIQUE_TERM: return createExistUniqueTerm();
-      case AsmetalPackage.EXIST_TERM: return createExistTerm();
+      case AsmetalPackage.EXISTS_UNIQUE_TERM: return createExistsUniqueTerm();
+      case AsmetalPackage.EXISTS_TERM: return createExistsTerm();
       case AsmetalPackage.FORALL_TERM: return createForallTerm();
       case AsmetalPackage.LET_TERM: return createLetTerm();
       case AsmetalPackage.COMPREHENSION_TERM: return createComprehensionTerm();
@@ -1307,10 +1307,10 @@ public class AsmetalFactoryImpl extends EFactoryImpl implements AsmetalFactory
    * @generated
    */
   @Override
-  public ExistUniqueTerm createExistUniqueTerm()
+  public ExistsUniqueTerm createExistsUniqueTerm()
   {
-    ExistUniqueTermImpl existUniqueTerm = new ExistUniqueTermImpl();
-    return existUniqueTerm;
+    ExistsUniqueTermImpl existsUniqueTerm = new ExistsUniqueTermImpl();
+    return existsUniqueTerm;
   }
 
   /**
@@ -1319,10 +1319,10 @@ public class AsmetalFactoryImpl extends EFactoryImpl implements AsmetalFactory
    * @generated
    */
   @Override
-  public ExistTerm createExistTerm()
+  public ExistsTerm createExistsTerm()
   {
-    ExistTermImpl existTerm = new ExistTermImpl();
-    return existTerm;
+    ExistsTermImpl existsTerm = new ExistsTermImpl();
+    return existsTerm;
   }
 
   /**

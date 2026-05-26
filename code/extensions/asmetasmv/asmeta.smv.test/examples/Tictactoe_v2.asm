@@ -24,7 +24,7 @@ definitions:
  
  	//indica se tutte le caselle sono occupate
 	function noSquareLeft =
-		not (exist $x in Coord, $y in Coord with board($x, $y) = EMPTY)
+		not (exists $x in Coord, $y in Coord with board($x, $y) = EMPTY)
 
 	rule r_moveUser =
 		//bisogna usare il forall perche' poi deve essere tradotto in NuSMV.

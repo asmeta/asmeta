@@ -536,14 +536,14 @@ public class AsmetalAdapterFactory extends AdapterFactoryImpl
         return createFiniteQuantificationTermAdapter();
       }
       @Override
-      public Adapter caseExistUniqueTerm(ExistUniqueTerm object)
+      public Adapter caseExistsUniqueTerm(ExistsUniqueTerm object)
       {
-        return createExistUniqueTermAdapter();
+        return createExistsUniqueTermAdapter();
       }
       @Override
-      public Adapter caseExistTerm(ExistTerm object)
+      public Adapter caseExistsTerm(ExistsTerm object)
       {
-        return createExistTermAdapter();
+        return createExistsTermAdapter();
       }
       @Override
       public Adapter caseForallTerm(ForallTerm object)
@@ -2113,31 +2113,31 @@ public class AsmetalAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link org.asmeta.xt.asmetal.ExistUniqueTerm <em>Exist Unique Term</em>}'.
+   * Creates a new adapter for an object of class '{@link org.asmeta.xt.asmetal.ExistsUniqueTerm <em>Exists Unique Term</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
    * it's useful to ignore a case when inheritance will catch all the cases anyway.
    * <!-- end-user-doc -->
    * @return the new adapter.
-   * @see org.asmeta.xt.asmetal.ExistUniqueTerm
+   * @see org.asmeta.xt.asmetal.ExistsUniqueTerm
    * @generated
    */
-  public Adapter createExistUniqueTermAdapter()
+  public Adapter createExistsUniqueTermAdapter()
   {
     return null;
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link org.asmeta.xt.asmetal.ExistTerm <em>Exist Term</em>}'.
+   * Creates a new adapter for an object of class '{@link org.asmeta.xt.asmetal.ExistsTerm <em>Exists Term</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
    * it's useful to ignore a case when inheritance will catch all the cases anyway.
    * <!-- end-user-doc -->
    * @return the new adapter.
-   * @see org.asmeta.xt.asmetal.ExistTerm
+   * @see org.asmeta.xt.asmetal.ExistsTerm
    * @generated
    */
-  public Adapter createExistTermAdapter()
+  public Adapter createExistsTermAdapter()
   {
     return null;
   }

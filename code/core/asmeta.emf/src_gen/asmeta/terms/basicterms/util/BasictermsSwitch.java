@@ -1,30 +1,13 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.terms.basicterms.util;
 
+import asmeta.terms.basicterms.*;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.util.Switch;
 
-import asmeta.terms.basicterms.BasicTerm;
-import asmeta.terms.basicterms.BasictermsPackage;
-import asmeta.terms.basicterms.BooleanTerm;
-import asmeta.terms.basicterms.CollectionTerm;
-import asmeta.terms.basicterms.ConstantTerm;
-import asmeta.terms.basicterms.DomainTerm;
-import asmeta.terms.basicterms.ExtendedTerm;
-import asmeta.terms.basicterms.FunctionTerm;
-import asmeta.terms.basicterms.LocationTerm;
-import asmeta.terms.basicterms.RuleAsTerm;
-import asmeta.terms.basicterms.SetTerm;
-import asmeta.terms.basicterms.Term;
-import asmeta.terms.basicterms.TupleTerm;
-import asmeta.terms.basicterms.UndefTerm;
-import asmeta.terms.basicterms.VariableTerm;
+import org.eclipse.emf.ecore.util.Switch;
 
 /**
  * <!-- begin-user-doc -->

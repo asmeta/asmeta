@@ -1,39 +1,17 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.definitions.util;
 
+import asmeta.definitions.*;
+
+import asmeta.structure.NamedElement;
+
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-import org.eclipse.emf.ecore.EObject;
 
-import asmeta.definitions.BasicFunction;
-import asmeta.definitions.Classifier;
-import asmeta.definitions.CompassionConstraint;
-import asmeta.definitions.ControlledFunction;
-import asmeta.definitions.CtlSpec;
-import asmeta.definitions.DefinitionsPackage;
-import asmeta.definitions.DerivedFunction;
-import asmeta.definitions.DynamicFunction;
-import asmeta.definitions.FairnessConstraint;
-import asmeta.definitions.Function;
-import asmeta.definitions.InvarConstraint;
-import asmeta.definitions.Invariant;
-import asmeta.definitions.JusticeConstraint;
-import asmeta.definitions.LocalFunction;
-import asmeta.definitions.LtlSpec;
-import asmeta.definitions.MonitoredFunction;
-import asmeta.definitions.OutFunction;
-import asmeta.definitions.Property;
-import asmeta.definitions.RuleDeclaration;
-import asmeta.definitions.SharedFunction;
-import asmeta.definitions.StaticFunction;
-import asmeta.definitions.TemporalProperty;
-import asmeta.structure.NamedElement;
+import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
+
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -89,8 +67,7 @@ public class DefinitionsAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected DefinitionsSwitch<Adapter> modelSwitch =
-		new DefinitionsSwitch<Adapter>() {
+	protected DefinitionsSwitch<Adapter> modelSwitch = new DefinitionsSwitch<Adapter>() {
 			@Override
 			public Adapter caseRuleDeclaration(RuleDeclaration object) {
 				return createRuleDeclarationAdapter();
@@ -197,7 +174,6 @@ public class DefinitionsAdapterFactory extends AdapterFactoryImpl {
 	public Adapter createAdapter(Notifier target) {
 		return modelSwitch.doSwitch((EObject)target);
 	}
-
 
 	/**
 	 * Creates a new adapter for an object of class '{@link asmeta.definitions.RuleDeclaration <em>Rule Declaration</em>}'.

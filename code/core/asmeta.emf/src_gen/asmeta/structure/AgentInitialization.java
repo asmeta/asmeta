@@ -1,15 +1,12 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.structure;
 
-import org.eclipse.emf.ecore.EObject;
-
 import asmeta.definitions.domains.Domain;
+
 import asmeta.transitionrules.basictransitionrules.MacroCallRule;
+
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -33,10 +30,6 @@ public interface AgentInitialization extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Program</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Program</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Program</em>' containment reference.
 	 * @see #setProgram(MacroCallRule)
@@ -59,10 +52,6 @@ public interface AgentInitialization extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Domain</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Domain</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Domain</em>' reference.
 	 * @see #setDomain(Domain)
@@ -86,10 +75,6 @@ public interface AgentInitialization extends EObject {
 	 * Returns the value of the '<em><b>Initial State</b></em>' container reference.
 	 * It is bidirectional and its opposite is '{@link asmeta.structure.Initialization#getAgentInitialization <em>Agent Initialization</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Initial State</em>' container reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Initial State</em>' container reference.
 	 * @see #setInitialState(Initialization)

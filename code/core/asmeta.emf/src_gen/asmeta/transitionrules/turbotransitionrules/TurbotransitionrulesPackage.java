@@ -1,18 +1,15 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.transitionrules.turbotransitionrules;
+
+import asmeta.definitions.DefinitionsPackage;
+
+import asmeta.transitionrules.basictransitionrules.BasictransitionrulesPackage;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
-import asmeta.definitions.DefinitionsPackage;
-import asmeta.transitionrules.basictransitionrules.BasictransitionrulesPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -384,7 +381,6 @@ public interface TurbotransitionrulesPackage extends EPackage {
 	 * @ordered
 	 */
 	int ITERATE_RULE_FEATURE_COUNT = TURBO_RULE_FEATURE_COUNT + 1;
-
 
 	/**
 	 * Returns the meta object for class '{@link asmeta.transitionrules.turbotransitionrules.TurboRule <em>Turbo Rule</em>}'.

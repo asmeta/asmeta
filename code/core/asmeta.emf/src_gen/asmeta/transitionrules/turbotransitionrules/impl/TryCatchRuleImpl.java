@@ -1,25 +1,27 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.transitionrules.turbotransitionrules.impl;
+
+import asmeta.terms.basicterms.Term;
+
+import asmeta.transitionrules.basictransitionrules.Rule;
+
+import asmeta.transitionrules.turbotransitionrules.TryCatchRule;
+import asmeta.transitionrules.turbotransitionrules.TurbotransitionrulesPackage;
 
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
-import asmeta.terms.basicterms.Term;
-import asmeta.transitionrules.basictransitionrules.Rule;
-import asmeta.transitionrules.turbotransitionrules.TryCatchRule;
-import asmeta.transitionrules.turbotransitionrules.TurbotransitionrulesPackage;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -66,7 +68,6 @@ public class TryCatchRuleImpl extends TurboRuleImpl implements TryCatchRule {
 	 * @ordered
 	 */
 	protected Rule tryRule;
-
 
 	/**
 	 * <!-- begin-user-doc -->

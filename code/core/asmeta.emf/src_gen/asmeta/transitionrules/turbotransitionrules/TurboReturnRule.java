@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.transitionrules.turbotransitionrules;
 
@@ -29,10 +25,6 @@ public interface TurboReturnRule extends TurboRule {
 	/**
 	 * Returns the value of the '<em><b>Location</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Location</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Location</em>' reference.
 	 * @see #setLocation(Term)
@@ -55,10 +47,6 @@ public interface TurboReturnRule extends TurboRule {
 	/**
 	 * Returns the value of the '<em><b>Update Rule</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Update Rule</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Update Rule</em>' reference.
 	 * @see #setUpdateRule(TurboCallRule)

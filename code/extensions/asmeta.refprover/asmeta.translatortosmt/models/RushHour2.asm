@@ -31,21 +31,21 @@ definitions:
 
 	function isDirMachine($car in Car, $dir in Dir) =
 		if $dir = NORTH or $dir = SOUTH then
-			(exist $r in {0:4}, $c in Coord with board($r, $c) = $car and board($r + 1, $c) = $car)
+			(exists $r in {0:4}, $c in Coord with board($r, $c) = $car and board($r + 1, $c) = $car)
 		else
-			(exist $r2 in Coord, $c2 in {0:4} with board($r2, $c2) = $car and board($r2, $c2 + 1) = $car)
+			(exists $r2 in Coord, $c2 in {0:4} with board($r2, $c2) = $car and board($r2, $c2 + 1) = $car)
 		endif
 
 	function isNextCellFree($car in Car, $dir in Dir) =
 		switch($dir)
 			case NORTH:
-				(exist $r in {1 : 5}, $c in Coord with board($r,$c) = $car and board($r - 1, $c) = 0)
+				(exists $r in {1 : 5}, $c in Coord with board($r,$c) = $car and board($r - 1, $c) = 0)
 			case SOUTH:
-				(exist $r1 in {0:4}, $c1 in Coord with board($r1, $c1) = $car and board($r1 + 1, $c1) = 0)
+				(exists $r1 in {0:4}, $c1 in Coord with board($r1, $c1) = $car and board($r1 + 1, $c1) = 0)
 			case WEST:
-				(exist $r3 in Coord, $c3 in {1 : 5} with board($r3, $c3) = $car and board($r3, $c3 - 1) = 0)
+				(exists $r3 in Coord, $c3 in {1 : 5} with board($r3, $c3) = $car and board($r3, $c3 - 1) = 0)
 			case EAST:
-				(exist $r2 in Coord, $c2 in {0:4} with board($r2, $c2) = $car and board($r2, $c2 + 1) = 0)
+				(exists $r2 in Coord, $c2 in {0:4} with board($r2, $c2) = $car and board($r2, $c2 + 1) = 0)
 		endswitch
 
 	function isMovePermitted($car in Car, $dir in Dir) =

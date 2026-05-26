@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.terms.basicterms;
 
@@ -55,10 +51,6 @@ public enum VariableKind implements Enumerator {
 	/**
 	 * The '<em><b>Logical Var</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Logical Var</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #LOGICAL_VAR
 	 * @model name="logicalVar"
@@ -70,10 +62,6 @@ public enum VariableKind implements Enumerator {
 	/**
 	 * The '<em><b>Location Var</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Location Var</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #LOCATION_VAR
 	 * @model name="locationVar"
@@ -85,10 +73,6 @@ public enum VariableKind implements Enumerator {
 	/**
 	 * The '<em><b>Rule Var</b></em>' literal value.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of '<em><b>Rule Var</b></em>' literal object isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @see #RULE_VAR
 	 * @model name="ruleVar"
@@ -103,8 +87,7 @@ public enum VariableKind implements Enumerator {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	private static final VariableKind[] VALUES_ARRAY =
-		new VariableKind[] {
+	private static final VariableKind[] VALUES_ARRAY = new VariableKind[] {
 			LOGICAL_VAR,
 			LOCATION_VAR,
 			RULE_VAR,
@@ -244,5 +227,5 @@ public enum VariableKind implements Enumerator {
 	public String toString() {
 		return literal;
 	}
-	
+
 } //VariableKind

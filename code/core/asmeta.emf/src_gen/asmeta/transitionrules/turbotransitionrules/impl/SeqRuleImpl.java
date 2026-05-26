@@ -1,20 +1,19 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.transitionrules.turbotransitionrules.impl;
+
+import asmeta.transitionrules.basictransitionrules.Rule;
+
+import asmeta.transitionrules.turbotransitionrules.SeqRule;
+import asmeta.transitionrules.turbotransitionrules.TurbotransitionrulesPackage;
 
 import java.util.Collection;
 
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.util.EDataTypeEList;
 
-import asmeta.transitionrules.basictransitionrules.Rule;
-import asmeta.transitionrules.turbotransitionrules.SeqRule;
-import asmeta.transitionrules.turbotransitionrules.TurbotransitionrulesPackage;
+import org.eclipse.emf.ecore.EClass;
+
+import org.eclipse.emf.ecore.util.EDataTypeEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -39,7 +38,6 @@ public class SeqRuleImpl extends TurboRuleImpl implements SeqRule {
 	 * @ordered
 	 */
 	protected EList<Rule> rules;
-
 
 	/**
 	 * <!-- begin-user-doc -->

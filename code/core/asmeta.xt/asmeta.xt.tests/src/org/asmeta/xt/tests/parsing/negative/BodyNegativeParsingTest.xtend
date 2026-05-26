@@ -12,12 +12,13 @@ import org.eclipse.xtext.testing.validation.ValidationTestHelper
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.^extension.ExtendWith
 import org.junit.jupiter.api.Tag
+import org.asmeta.xt.tests.AsmParseHelper
 
 @ExtendWith(InjectionExtension)
 @InjectWith(AsmetaLInjectorProvider)
 class BodyNegativeParsingTest {
 	
-	@Inject	ParseHelper<Asm> parseHelper
+	@Inject	AsmParseHelper parseHelper
 	@Inject extension ValidationTestHelper
 
 	@Test@Tag("TestToMavenSkip")
@@ -31,97 +32,97 @@ class BodyNegativeParsingTest {
 			definitions:
 				domain Cherries = {0 .. 3} 
 				domain Cherries = {0 .. 5} 
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.DOMAIN_DEFINITION, ErrorCode.DOMAIN_DEFINITION__DEFINED_TWICE)	
 		
 		result = parseHelper.parse('''
 			asm prova
-				import BodyLibrary 
+				import examples/BodyLibrary 
 			signature:
 			definitions:
 				domain Cherries = {0 .. 3} 
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.DOMAIN_DEFINITION, ErrorCode.SIGNATURE__DOMAIN_NOT_IMPORTED)
 		
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				abstract domain Philosopher
 			definitions:
 				domain Philosopher = {0 .. 3} 
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.DOMAIN_DEFINITION, ErrorCode.DOMAIN_DEFINITION__DOMAIN_NOT_CONCRETE)	
 	
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				dynamic domain NumOfCherries subsetof Integer
 			definitions:
 				domain NumOfCherries = {0 .. 3} 
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.DOMAIN_DEFINITION, ErrorCode.DOMAIN_DEFINITION__IS_DYNAMIC_DOMAIN)	
 		
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				domain NumOfCherries subsetof Integer
 			definitions:
 				domain NumOfCherries = {0 .. 3} 
 				domain NumOfCherries = {0 .. 5} 
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.DOMAIN_DEFINITION, ErrorCode.DOMAIN_DEFINITION__DEFINED_TWICE)	
 		
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				domain NumOfCherries subsetof Integer
 			definitions:
 				domain NumOfCherries = "A"
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.DOMAIN_DEFINITION, ErrorCode.DOMAIN_DEFINITION__ILL_FORMED_BODY)	
 		
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				domain NumOfCherries subsetof Integer
 			definitions:
 				domain NumOfCherries = { 1 .. "Z" }
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.SET_TERM, ErrorCode.SET_TERM__DIFFERENT_DOMAINS)	
 		
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				domain NumOfCherries subsetof Integer
 			definitions:
 				domain NumOfCherries = { "A" .. 5 }
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.SET_TERM, ErrorCode.SET_TERM__DIFFERENT_DOMAINS)	
 		
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				domain NumOfCherries subsetof Integer
 			definitions:
 				domain NumOfCherries = { 1, 2, 5.4 }
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.SET_TERM, ErrorCode.SET_TERM__DIFFERENT_DOMAINS)	
 			
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				domain NumOfCherries subsetof Integer
 			definitions:
 				domain NumOfCherries = { "A" .. "Z" }
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.DOMAIN_DEFINITION, ErrorCode.DOMAIN_DEFINITION__ILL_FORMED_BODY)		
 		
 		result = parseHelper.parse('''
@@ -130,87 +131,87 @@ class BodyNegativeParsingTest {
 				domain NumOfCherries subsetof Integer
 			definitions:
 				domain NumOfCherries = {}
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.SET_TERM, ErrorCode.SET_TERM__ANY_DOMAIN_NOT_DECLARED)	
 		
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				domain NumOfCherries subsetof Integer
 			definitions:
 				domain NumOfCherries = {}
-		''')
+		''',"prova")
 		result.assertNoErrors	
 		
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				domain NumOfCherries subsetof Integer
 			definitions:
 				domain NumOfCherries = { 1, 2, 3 }
-		''')
+		''',"prova")
 		result.assertNoErrors	
 		
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				domain NumOfCherries subsetof Integer
 			definitions:
 				domain NumOfCherries = { 1, 2, 2, 3 }
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.SET_TERM, ErrorCode.SET_TERM__ADDED_TWICE)
 	
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				domain NumOfCherries subsetof Integer
 			definitions:
 				domain NumOfCherries = { 1 .. 1 }
-		''')	
+		''',"prova")	
 		result.assertError(AsmetalPackage.Literals.SET_TERM, ErrorCode.SET_TERM__ADDED_TWICE)	
 	
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				domain NumOfCherries subsetof Integer
 			definitions:
 				domain NumOfCherries = { 1 .. 15, 2 }
-		''')
+		''',"prova")
 		result.assertNoErrors	
 		
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				domain NumOfCherries subsetof Integer
 			definitions:
 				domain NumOfCherries = { 1 .. 15, +2 }
-		''')
+		''',"prova")
 		result.assertNoErrors	
 		
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				domain NumOfCherries subsetof Integer
 			definitions:
 				domain NumOfCherries = { 1 .. 15, -2 }
-		''')	
+		''',"prova")	
 		result.assertError(AsmetalPackage.Literals.SET_TERM, ErrorCode.SET_TERM__STEP_NEGATIVE)	
 		
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				domain NumOfCherries subsetof Integer
 			definitions:
 				domain NumOfCherries = { 1 .. 15, "A" }
-		''')	
+		''',"prova")	
 		result.assertError(AsmetalPackage.Literals.SET_TERM, ErrorCode.SET_TERM__STEP_NAN)	
 	}
 	
@@ -237,12 +238,12 @@ class BodyNegativeParsingTest {
 							case philo1: philo1
 							case philo2: philo2
 						endswitch
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.FUNCTION_DEFINITION, ErrorCode.FUNCTION_DEFINITION__DEFINED_TWICE)	
 	
 		result = parseHelper.parse('''
 				asm prova	
-					import StandardLibrary			
+					import examples/StandardLibrary			
 				signature:
 					abstract domain Philosopher	
 					abstract domain PhilosopherOther				
@@ -263,7 +264,7 @@ class BodyNegativeParsingTest {
 							case philo1b: philo1b
 							case philo2b: philo2b
 						endswitch
-		''')
+		''',"prova")
 		result.assertNoErrors
 	
 		result = parseHelper.parse('''
@@ -280,7 +281,7 @@ class BodyNegativeParsingTest {
 							case philo2: philo1
 						endswitch
 
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.FUNCTION_DEFINITION, ErrorCode.SIGNATURE__DOMAIN_NOT_FOUND)	
 	
 		result = parseHelper.parse('''
@@ -297,12 +298,12 @@ class BodyNegativeParsingTest {
 							case 2: philo2
 						endswitch
 
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.FUNCTION_DEFINITION, ErrorCode.SIGNATURE__FUNCTION_NOT_IMPORTED)	
 	
 		result = parseHelper.parse('''
 				asm prova
-					import StandardLibrary		
+					import examples/StandardLibrary		
 				signature:
 
 				definitions:
@@ -312,7 +313,7 @@ class BodyNegativeParsingTest {
 							case 2: philo2
 						endswitch
 
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.FUNCTION_DEFINITION, ErrorCode.SIGNATURE__FUNCTION_NOT_FOUND)	
 	
 		result = parseHelper.parse('''
@@ -329,7 +330,7 @@ class BodyNegativeParsingTest {
 							case philo2: philo1
 						endswitch
 
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.FUNCTION_DEFINITION, ErrorCode.FUNCTION_DEFINITION__FUNCTION_NOT_STATIC_DERIVED)	
 	
 		result = parseHelper.parse('''
@@ -346,12 +347,12 @@ class BodyNegativeParsingTest {
 							case philo2: philo1
 						endswitch
 
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.FUNCTION_DEFINITION, ErrorCode.FUNCTION_DEFINITION__INVALID_VARIABLE)	
 		
 		result = parseHelper.parse('''
 			asm prova	
-			import StandardLibrary				
+			import examples/StandardLibrary				
 			signature:
 
 				dynamic abstract domain Library
@@ -376,12 +377,12 @@ class BodyNegativeParsingTest {
 							endif
 						endlet
 
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.FUNCTION_DEFINITION, ErrorCode.SIGNATURE__FUNCTION_NOT_FOUND)	
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary					
+			import examples/StandardLibrary					
 			signature:
 
 				dynamic abstract domain Library
@@ -399,12 +400,12 @@ class BodyNegativeParsingTest {
 				
 			definitions:
 				function bookExists( $b in Book, $l in Library) = "prova"
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.FUNCTION_DEFINITION, ErrorCode.FUNCTION_DEFINITION__ILL_FORMED_BODY)	
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary					
+			import examples/StandardLibrary					
 			signature:
 			
 				dynamic abstract domain Library
@@ -427,7 +428,7 @@ class BodyNegativeParsingTest {
 						else "b"
 						endif
 					endlet
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.FUNCTION_DEFINITION, ErrorCode.FUNCTION_DEFINITION__ILL_FORMED_BODY)	
 	
 	}
@@ -438,7 +439,7 @@ class BodyNegativeParsingTest {
 	
 		result = parseHelper.parse('''
 				asm prova		
-					import StandardLibrary		
+					import examples/StandardLibrary		
 				signature:
 					domain NumOfCherries subsetof Integer
 					abstract domain Philosopher	
@@ -461,12 +462,12 @@ class BodyNegativeParsingTest {
 						else
 							cherriesInPlate($p) := cherriesInPlate($p) + 1
 						endif
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.RULE_DECLARATION, ErrorCode.RULE_DECLARATION__DEFINED_TWICE)	
 		
 		result = parseHelper.parse('''
 				asm prova		
-					import StandardLibrary		
+					import examples/StandardLibrary		
 				signature:
 					domain NumOfCherries subsetof Integer
 					abstract domain Philosopher	
@@ -483,12 +484,12 @@ class BodyNegativeParsingTest {
 							cherriesInPlate($p) := cherriesInPlate($p) + 1
 						endif
 						
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.RULE_DECLARATION, ErrorCode.RULE_DECLARATION__INVALID_VARIABLE)	
 		
 		result = parseHelper.parse('''
 				asm prova		
-					import StandardLibrary		
+					import examples/StandardLibrary		
 				signature:
 					domain NumOfCherries subsetof Integer
 					abstract domain Philosopher	
@@ -505,7 +506,7 @@ class BodyNegativeParsingTest {
 							cherriesInPlate($p) := cherriesInPlate($p) + 1
 						endif
 						
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.RULE_DECLARATION, ErrorCode.SIGNATURE__DOMAIN_NOT_FOUND)	
 		
 		result = parseHelper.parse('''
@@ -524,7 +525,7 @@ class BodyNegativeParsingTest {
 							cherriesInPlate($p) := cherriesInPlate($p) + 1
 						endif
 						
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.RULE_DECLARATION, ErrorCode.SIGNATURE__DOMAIN_NOT_IMPORTED)	
 		
 		
@@ -536,23 +537,23 @@ class BodyNegativeParsingTest {
 	
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary				
+			import examples/StandardLibrary				
 			signature:
 			definitions:	
 				invariant over position: position(GO)=position(CA) implies position(GO)=position(FERRYMAN)
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.INVARIANT_ELEMENT, ErrorCode.INVARINT__NOT_FOUND)	
 		
 	 	result = parseHelper.parse('''
 			asm prova		
-			import StandardLibrary		
+			import examples/StandardLibrary		
 			signature:
 				enum domain Actors = {FERRYMAN | GO | CA | WO}
 				enum domain Side = {LEFT | RIGHT}
 				dynamic controlled position: Actors -> Side
 			definitions:	
 				invariant over position, position: position(GO)=position(CA) implies position(GO)=position(FERRYMAN)
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.INVARIANT_ELEMENT, ErrorCode.INVARINT__CALLED_TWICE)	
 		
 	}
@@ -563,162 +564,162 @@ class BodyNegativeParsingTest {
 	
 		result = parseHelper.parse('''
 			asm prova		
-			import StandardLibrary		
+			import examples/StandardLibrary		
 				signature:
 				definitions:	
 					CTL prova : 6 > 5
 					CTL prova : 6 > 5
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.CTL_SPEC, ErrorCode.CTL_SPEC__DUPLICATE_NAME)	
 		
 		result = parseHelper.parse('''
 			asm prova	
-			import StandardLibrary			
+			import examples/StandardLibrary			
 				signature:
 				definitions:	
 					LTL prova : 6 > 5
 					LTL prova : 6 > 5
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.LTL_SPEC, ErrorCode.LTL_SPEC__DUPLICATE_NAME)	
 		
 		result = parseHelper.parse('''
 			asm prova		
-			import StandardLibrary		
+			import examples/StandardLibrary		
 			signature:
 			definitions:	
 				LTL prova : 6 > 5 
 				LTL prova2 : 6 > 5
 				CTL prova : 6 > 5
-		''')
+		''',"prova")
 		result.assertNoErrors
 		
 		result = parseHelper.parse('''
 			asm prova	
-			import StandardLibrary			
+			import examples/StandardLibrary			
 				signature:
 				definitions:	
 					CTL prova : 6 + 5
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.CTL_SPEC, ErrorCode.CONSTRAINT_DOMAIN_BODY_NOT_BOOLEAN)	
 	
 		result = parseHelper.parse('''
 			asm prova	
-			import StandardLibrary			
+			import examples/StandardLibrary			
 				signature:
 				definitions:	
 					JUSTICE 6 + 5
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.JUSTICE_CONSTRAINT, ErrorCode.CONSTRAINT_DOMAIN_BODY_NOT_BOOLEAN)	
 	
 		result = parseHelper.parse('''
 			asm prova		
-				import StandardLibrary		
+				import examples/StandardLibrary		
 				signature:
 					static alwaysTrue : Boolean
 				definitions:	
 					COMPASSION ( 6 + 5, alwaysTrue )
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.COMPASSION_CONSTRAINT, ErrorCode.CONSTRAINT_DOMAIN_BODY_NOT_BOOLEAN)	
 		
 		result = parseHelper.parse('''
 			asm prova	
-				import StandardLibrary			
+				import examples/StandardLibrary			
 				signature:
 					static alwaysTrue : Boolean
 				definitions:	
 					COMPASSION ( alwaysTrue, 6 + 5 )
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.COMPASSION_CONSTRAINT, ErrorCode.CONSTRAINT_DOMAIN_BODY_NOT_BOOLEAN)	
 		
 	
 		result = parseHelper.parse('''
 			asm prova		
-				import StandardLibrary		
+				import examples/StandardLibrary		
 				signature:
 					static alwaysTrue : Boolean
 					static notBoolean : String
 				definitions:	
 					COMPASSION ( notBoolean, alwaysTrue )
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.COMPASSION_CONSTRAINT, ErrorCode.CONSTRAINT_DOMAIN_BODY_NOT_BOOLEAN)	
 		
 		result = parseHelper.parse('''
 			asm prova		
-				import StandardLibrary		
+				import examples/StandardLibrary		
 				signature:
 					static alwaysTrue : Boolean
 					static notBoolean : String
 				definitions:	
 					COMPASSION ( alwaysTrue, notBoolean )
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.COMPASSION_CONSTRAINT, ErrorCode.CONSTRAINT_DOMAIN_BODY_NOT_BOOLEAN)	
 		
 		result = parseHelper.parse('''
 			asm prova	
-				import StandardLibrary			
+				import examples/StandardLibrary			
 				signature:
 					static notBoolean : String
 				definitions:	
 					INVAR notBoolean
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.INVARIANT_CONSTRAINT, ErrorCode.CONSTRAINT_DOMAIN_BODY_NOT_BOOLEAN)	
 	
 			result = parseHelper.parse('''
 			asm prova	
-				import StandardLibrary			
+				import examples/StandardLibrary			
 				signature:
 					static notBoolean : String
 				definitions:	
 					CTL prova : notBoolean
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.CTL_SPEC, ErrorCode.CONSTRAINT_DOMAIN_BODY_NOT_BOOLEAN)	
 	
 		result = parseHelper.parse('''
 			asm prova		
-				import StandardLibrary		
+				import examples/StandardLibrary		
 				signature:
 					static notBoolean : String
 				definitions:	
 					JUSTICE notBoolean
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.JUSTICE_CONSTRAINT, ErrorCode.CONSTRAINT_DOMAIN_BODY_NOT_BOOLEAN)	
 
 		result = parseHelper.parse('''
 			asm prova		
-				import StandardLibrary		
+				import examples/StandardLibrary		
 				signature:
 					static alwaysTrue : Boolean
 					static notBoolean : String
 				definitions:	
 					COMPASSION ( notBoolean, alwaysTrue )
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.COMPASSION_CONSTRAINT, ErrorCode.CONSTRAINT_DOMAIN_BODY_NOT_BOOLEAN)	
 		
 		result = parseHelper.parse('''
 			asm prova		
-				import StandardLibrary		
+				import examples/StandardLibrary		
 				signature:
 					static alwaysTrue : Boolean
 				definitions:	
 					COMPASSION ( alwaysTrue, notBoolean )
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.COMPASSION_CONSTRAINT, ErrorCode.CONSTRAINT_DOMAIN_BODY_NOT_BOOLEAN)	
 		
 		
 		result = parseHelper.parse('''
 			asm prova		
-				import StandardLibrary		
+				import examples/StandardLibrary		
 				signature:
 					static alwaysTrue : Boolean
 				definitions:	
 					INVAR notBoolean
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.INVARIANT_CONSTRAINT, ErrorCode.CONSTRAINT_DOMAIN_BODY_NOT_BOOLEAN)	
 	
 	
 		result = parseHelper.parse('''
 			asm prova	
-				import StandardLibrary		
+				import examples/StandardLibrary		
 			signature:
 				static position : Integer
 				static alwaysTrue : Boolean
@@ -730,12 +731,12 @@ class BodyNegativeParsingTest {
 				CTL prova : alwaysTrue	
 				LTL prova : alwaysTrue
 				
-		''')
+		''',"prova")
 		result.assertNoErrors
 	
 		result = parseHelper.parse('''
 			asm prova	
-				import StandardLibrary		
+				import examples/StandardLibrary		
 			signature:
 				static position : Integer
 				static alwaysTrue : Integer -> Boolean
@@ -747,7 +748,7 @@ class BodyNegativeParsingTest {
 				CTL prova : alwaysTrue(1)	
 				LTL prova : alwaysTrue(1)
 				
-		''')
+		''',"prova")
 		result.assertNoErrors
 	
 	}

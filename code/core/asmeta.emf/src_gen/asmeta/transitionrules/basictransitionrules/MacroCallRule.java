@@ -1,14 +1,10 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.transitionrules.basictransitionrules;
 
-import org.eclipse.emf.common.util.EList;
-
 import asmeta.terms.basicterms.Term;
+
+import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
@@ -31,10 +27,6 @@ public interface MacroCallRule extends BasicRule {
 	/**
 	 * Returns the value of the '<em><b>Called Macro</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Called Macro</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Called Macro</em>' reference.
 	 * @see #setCalledMacro(MacroDeclaration)
@@ -58,10 +50,6 @@ public interface MacroCallRule extends BasicRule {
 	 * Returns the value of the '<em><b>Parameters</b></em>' attribute list.
 	 * The list contents are of type {@link asmeta.terms.basicterms.Term}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Parameters</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Parameters</em>' attribute list.
 	 * @see asmeta.transitionrules.basictransitionrules.BasictransitionrulesPackage#getMacroCallRule_Parameters()

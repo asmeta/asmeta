@@ -70,7 +70,7 @@
 'endseq'=120
 'endswitch'=99
 'enum'=83
-'exist'=104
+'exists'=104
 'export'=64
 'extend'=119
 'false'=53

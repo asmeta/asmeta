@@ -1,15 +1,11 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.definitions.domains.impl;
 
-import org.eclipse.emf.ecore.EClass;
-
 import asmeta.definitions.domains.DomainsPackage;
 import asmeta.definitions.domains.StructuredTd;
+
+import org.eclipse.emf.ecore.EClass;
 
 /**
  * <!-- begin-user-doc -->
