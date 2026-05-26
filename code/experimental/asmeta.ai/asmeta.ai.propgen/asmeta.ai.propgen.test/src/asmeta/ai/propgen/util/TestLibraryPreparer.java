@@ -1,4 +1,4 @@
-package asmeta.ai.propgen;
+package asmeta.ai.propgen.util;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -15,6 +15,9 @@ import org.apache.log4j.Logger;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
+
+import asmeta.ai.propgen.PropertyGenerationListener;
+import asmeta.ai.propgen.PropertyType;
 
 class TestLibraryPreparer {
 

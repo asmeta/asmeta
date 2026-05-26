@@ -3,6 +3,7 @@ package asmeta.ai.propgen;
 import org.apache.log4j.Logger;
 
 import asmeta.ai.propgen.PropertyValidator.ParsingResult;
+import asmeta.ai.propgen.util.LibraryPreparer;
 
 public class PropertyGenerationSession {
 
@@ -10,6 +11,11 @@ public class PropertyGenerationSession {
 
 	private static Logger logger = Logger.getLogger(PropertyGenerationSession.class);
 
+	/**
+	 * Creates a session backed by the given property generator.
+	 *
+	 * @param generator generator used for LLM calls and repairs
+	 */
 	public PropertyGenerationSession(PropertyGenerator generator) {
 		this.generator = generator;
 	}
@@ -38,6 +44,17 @@ public class PropertyGenerationSession {
 				PropertyGenerationListener.NO_OP);
 	}
 
+	/**
+	 * Generates and validates a temporal property, reporting progress to a listener.
+	 *
+	 * @param asmPath        path to the ASM model file
+	 * @param nlProperty     natural-language property to translate
+	 * @param type           temporal logic type to generate
+	 * @param removeComments whether comments are removed before prompting the LLM
+	 * @param maxRetries     maximum number of repair attempts
+	 * @param listener       listener for progress and debug messages
+	 * @return a syntactically valid temporal-logic property
+	 */
 	public String fromNLtoTLSession(String asmPath, String nlProperty, PropertyType type, boolean removeComments,
 			int maxRetries, PropertyGenerationListener listener) {
 		LibraryPreparer.prepare(asmPath, type, listener);

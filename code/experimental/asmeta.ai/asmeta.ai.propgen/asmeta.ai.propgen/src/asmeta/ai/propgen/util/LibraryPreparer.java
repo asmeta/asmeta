@@ -1,4 +1,4 @@
-package asmeta.ai.propgen;
+package asmeta.ai.propgen.util;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,9 +13,14 @@ import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.AsmetaParserUtility;
 
 import asmeta.AsmCollection;
+import asmeta.ai.propgen.PropertyGenerationListener;
+import asmeta.ai.propgen.PropertyType;
 import asmeta.structure.ImportClause;
 
-class LibraryPreparer {
+/**
+ * Ensures that an ASM model can reference the temporal library it needs.
+ */
+public final class LibraryPreparer {
 
 	private static final Logger logger = Logger.getLogger(LibraryPreparer.class);
 	private static final String RESOURCE_FOLDER = "/STDL/";
@@ -23,7 +28,14 @@ class LibraryPreparer {
 	private LibraryPreparer() {
 	}
 
-	static void prepare(String asmPath, PropertyType type, PropertyGenerationListener listener) {
+	/**
+	 * Adds the CTL/LTL library import and library file when the model needs them.
+	 *
+	 * @param asmPath  path of the ASM model to prepare
+	 * @param type     temporal property type that determines the required library
+	 * @param listener listener used for progress messages
+	 */
+	public static void prepare(String asmPath, PropertyType type, PropertyGenerationListener listener) {
 		log(listener, "Checking temporal logic library imports...");
 		String libraryName = libraryName(type);
 		Path asmFile = Path.of(asmPath);
@@ -75,6 +87,7 @@ class LibraryPreparer {
 		}
 	}
 
+	// Import detection relies on the parsed AST, not on textual matching.
 	private static boolean hasImport(AsmCollection asm, String libraryName) {
 		for (ImportClause importClause : asm.getMain().getHeaderSection().getImportClause()) {
 			logger.debug("Found import: " + importClause.getModuleName());
@@ -95,6 +108,7 @@ class LibraryPreparer {
 		return libraryName.equals(importedName);
 	}
 
+	// Preserve existing import grouping by inserting after the last import line.
 	private static void addImport(Path asmFile, String libraryName, PropertyGenerationListener listener) {
 		log(listener, "Adding import " + libraryName + " to " + asmFile.getFileName() + "...");
 		try {
