@@ -56,12 +56,16 @@ public class AsmetaAIPreferencePage extends FieldEditorPreferencePage implements
 				"&Maximum number of attempts to generate a parsable formula:",
 				parent));
 
+		addField(new IntegerFieldEditor(
+				PreferenceConstants.P_LLM_TIMEOUT_SECONDS,
+				"LLM request timeout (seconds):",
+				parent));
+
 		llmChoiceEditor = new RadioGroupFieldEditor(
 				PreferenceConstants.P_LLM_CHOICE,
 				"LLM Client",
 				1,
 				new String[][] {
-						{ "&General HTTP Client", "http" },
 						{ "&Ollama", "ollama" },
 						{ "Open&AI", "openai" }
 				},
@@ -70,7 +74,7 @@ public class AsmetaAIPreferencePage extends FieldEditorPreferencePage implements
 
 		httpUrlEditor = new StringFieldEditor(
 				PreferenceConstants.P_LLM_HTTP_URL,
-				"HTTP Client URL:",
+				getUrlLabel(getPreferenceStore().getString(PreferenceConstants.P_LLM_CHOICE)),
 				parent);
 		addField(httpUrlEditor);
 
@@ -133,13 +137,14 @@ public class AsmetaAIPreferencePage extends FieldEditorPreferencePage implements
 	}
 
 	private void updateLLMFields(String selectedLLM, boolean updateUrlDefault) {
+		selectedLLM = normalizeLLMSelection(selectedLLM);
 		boolean isOpenAI = "openai".equals(selectedLLM);
 		boolean isOllama = "ollama".equals(selectedLLM);
-		boolean isHttp = "http".equals(selectedLLM);
 
 		Composite parent = getFieldEditorParent();
 
-		httpUrlEditor.setEnabled(isHttp || isOllama || isOpenAI, parent);
+		httpUrlEditor.setLabelText(getUrlLabel(selectedLLM));
+		httpUrlEditor.setEnabled(isOllama || isOpenAI, parent);
 		modelNameLabel.setEnabled(isOpenAI || isOllama);
 		modelNameText.setEnabled(isOllama);
 		openAiModelCombo.setEnabled(isOpenAI);
@@ -171,6 +176,18 @@ public class AsmetaAIPreferencePage extends FieldEditorPreferencePage implements
 			return OllamaClient.DEFAULT_BASE_URL;
 		}
 		return "";
+	}
+
+	private String getUrlLabel(String selectedLLM) {
+		selectedLLM = normalizeLLMSelection(selectedLLM);
+		if ("openai".equals(selectedLLM)) {
+			return "OpenAI base URL:";
+		}
+		return "Ollama base URL:";
+	}
+
+	private String normalizeLLMSelection(String selectedLLM) {
+		return "openai".equals(selectedLLM) ? "openai" : "ollama";
 	}
 
 	private void createModelNameControls(Composite parent) {
@@ -205,7 +222,7 @@ public class AsmetaAIPreferencePage extends FieldEditorPreferencePage implements
 			return OpenAiClient.DEFAULT_MODEL_NAME;
 		}
 		if ("ollama".equals(selectedLLM)) {
-			return OllamaClient.DEFAULT_MODEL_NAME;
+			return OllamaClient.DEFAULT_MODEL;
 		}
 		return "";
 	}
@@ -222,8 +239,8 @@ public class AsmetaAIPreferencePage extends FieldEditorPreferencePage implements
 		}
 		if ("ollama".equals(selectedLLM)) {
 			if (currentModelName == null || currentModelName.isBlank() || isOpenAiModelName(currentModelName)
-					|| OllamaClient.DEFAULT_MODEL_NAME.equals(currentModelName)) {
-				setModelName(OllamaClient.DEFAULT_MODEL_NAME);
+					|| OllamaClient.DEFAULT_MODEL.equals(currentModelName)) {
+				setModelName(OllamaClient.DEFAULT_MODEL);
 			}
 			return;
 		}
@@ -240,7 +257,7 @@ public class AsmetaAIPreferencePage extends FieldEditorPreferencePage implements
 	}
 
 	private String getModelName() {
-		String selectedLLM = llmChoiceEditor.getSelectionValue();
+		String selectedLLM = normalizeLLMSelection(llmChoiceEditor.getSelectionValue());
 		if ("openai".equals(selectedLLM)) {
 			int selectionIndex = openAiModelCombo.getSelectionIndex();
 			return selectionIndex >= 0 ? openAiModelCombo.getItem(selectionIndex) : OpenAiClient.DEFAULT_MODEL_NAME;

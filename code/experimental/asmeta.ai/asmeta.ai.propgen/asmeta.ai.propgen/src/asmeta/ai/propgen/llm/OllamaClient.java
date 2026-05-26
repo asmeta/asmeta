@@ -12,8 +12,7 @@ import io.github.ollama4j.models.response.OllamaResult;
 public class OllamaClient extends HttpLlmClient {
 
 	public static final String DEFAULT_BASE_URL = "https://ollama.com";
-	private static final String DEFAULT_MODEL = "gpt-oss:20b";
-	public static final String DEFAULT_MODEL_NAME = DEFAULT_MODEL;
+	public static final String DEFAULT_MODEL = "gpt-oss:20b";
 	private static final int DEFAULT_TIMEOUT = 300;
 
 	private final OllamaAPI client;
@@ -57,7 +56,7 @@ public class OllamaClient extends HttpLlmClient {
 	 * @param timeout the timeout in seconds
 	 */
 	public OllamaClient(String baseUrl, String apiKey, int timeout) {
-		super(baseUrl, apiKey);
+		super(baseUrl);
 		this.model = DEFAULT_MODEL;
 		this.client = new OllamaAPI(baseUrl);
 		this.client.setBearerAuth(apiKey);
@@ -78,7 +77,8 @@ public class OllamaClient extends HttpLlmClient {
 		try {
 			return this.client.getModelDetails(this.model).toString();
 		} catch (Exception e) {
-			throw new RuntimeException("Unable to retrieve Ollama model details", e);
+			throw new RuntimeException("Unable to retrieve Ollama model details for " + model + " from " + baseUrl
+					+ ": " + e.getMessage(), e);
 		}
 	}
 
@@ -94,7 +94,8 @@ public class OllamaClient extends HttpLlmClient {
 		try {
 			models = client.listModels();
 		} catch (Exception e) {
-			throw new RuntimeException("Unable to retrieve Ollama model list", e);
+			throw new RuntimeException("Unable to retrieve Ollama model list from " + baseUrl + ": " + e.getMessage(),
+					e);
 		}
 		boolean found = models.stream().anyMatch(model -> model.getName().equals(modelName));
 		if (!found) {
@@ -111,13 +112,15 @@ public class OllamaClient extends HttpLlmClient {
 
 	@Override
 	public String query(String prompt) {
-		if (!this.client.ping())
-			throw new RuntimeException("Ollama server is not reachable");
 		try {
+			if (!this.client.ping()) {
+				throw new RuntimeException("Ollama server did not respond successfully at " + baseUrl);
+			}
 			OllamaResult result = client.generate(model, prompt, null);
 			return result.getResponse();
 		} catch (Exception e) {
-			throw new RuntimeException("Ollama request failed", e);
+			throw new RuntimeException("Ollama request failed for model " + model + " at " + baseUrl + ": "
+					+ e.getMessage(), e);
 		}
 	}
 }

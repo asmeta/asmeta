@@ -9,6 +9,8 @@ public class PreferenceConstants {
 
 	public static final String P_MAX_RETIRES = "maxRetries";
 
+	public static final String P_LLM_TIMEOUT_SECONDS = "llmTimeoutSeconds";
+
 	public static final String P_LLM_CHOICE = "llmChoice";
 
 	public static final String P_PROPERTY_TYPE = "propertyType";

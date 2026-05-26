@@ -6,11 +6,9 @@ package asmeta.ai.propgen.llm;
 public abstract class HttpLlmClient implements LlmClient {
 
 	protected String baseUrl;
-	protected String apiKey;
 
-	protected HttpLlmClient(String baseUrl, String apiKey) {
+	protected HttpLlmClient(String baseUrl) {
 		this.baseUrl = baseUrl;
-		this.apiKey = apiKey;
 	}
 
 }

@@ -8,7 +8,7 @@ import asmeta.ai.propgen.ui.preferences.PreferenceConstants;
 public class AsmetaAISettings {
 
 	public enum LlmChoice {
-		HTTP, OLLAMA, OPENAI
+		OLLAMA, OPENAI
 	}
 
 	private final LlmChoice llmChoice;
@@ -18,10 +18,12 @@ public class AsmetaAISettings {
 	private final PropertyType propertyType;
 	private final int numberOfProperties;
 	private final int maxRetries;
+	private final int requestTimeoutSeconds;
 	private final boolean debugOutput;
 
 	private AsmetaAISettings(LlmChoice llmChoice, String baseUrl, String modelName, String apiKey,
-			PropertyType propertyType, int numberOfProperties, int maxRetries, boolean debugOutput) {
+			PropertyType propertyType, int numberOfProperties, int maxRetries, int requestTimeoutSeconds,
+			boolean debugOutput) {
 		this.llmChoice = llmChoice;
 		this.baseUrl = baseUrl;
 		this.modelName = modelName;
@@ -29,6 +31,7 @@ public class AsmetaAISettings {
 		this.propertyType = propertyType;
 		this.numberOfProperties = numberOfProperties;
 		this.maxRetries = maxRetries;
+		this.requestTimeoutSeconds = requestTimeoutSeconds;
 		this.debugOutput = debugOutput;
 	}
 
@@ -41,6 +44,7 @@ public class AsmetaAISettings {
 				parsePropertyType(store.getString(PreferenceConstants.P_PROPERTY_TYPE)),
 				store.getInt(PreferenceConstants.P_NUM_PROP),
 				store.getInt(PreferenceConstants.P_MAX_RETIRES),
+				store.getInt(PreferenceConstants.P_LLM_TIMEOUT_SECONDS),
 				store.getBoolean(PreferenceConstants.P_DEBUG_OUTPUT));
 	}
 
@@ -72,6 +76,10 @@ public class AsmetaAISettings {
 		return maxRetries;
 	}
 
+	public int getRequestTimeoutSeconds() {
+		return requestTimeoutSeconds;
+	}
+
 	public boolean isDebugOutput() {
 		return debugOutput;
 	}
@@ -83,7 +91,7 @@ public class AsmetaAISettings {
 		if ("ollama".equals(value)) {
 			return LlmChoice.OLLAMA;
 		}
-		return LlmChoice.HTTP;
+		return LlmChoice.OLLAMA;
 	}
 
 	private static PropertyType parsePropertyType(String value) {

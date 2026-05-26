@@ -14,10 +14,11 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 	public void initializeDefaultPreferences() {
 		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
 
-		store.setDefault(PreferenceConstants.P_LLM_CHOICE, "http");
+		store.setDefault(PreferenceConstants.P_LLM_CHOICE, "ollama");
 		store.setDefault(PreferenceConstants.P_PROPERTY_TYPE, "ltl");
 		store.setDefault(PreferenceConstants.P_NUM_PROP, 3);
 		store.setDefault(PreferenceConstants.P_MAX_RETIRES, 3);
+		store.setDefault(PreferenceConstants.P_LLM_TIMEOUT_SECONDS, 300);
 		store.setDefault(PreferenceConstants.P_API_KEY, "");
 		store.setDefault(PreferenceConstants.P_LLM_HTTP_URL, "");
 		store.setDefault(PreferenceConstants.P_MODEL_NAME, "");

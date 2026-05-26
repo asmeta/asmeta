@@ -2,6 +2,7 @@ package asmeta.ai.propgen.llm;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,6 +21,7 @@ public class OpenAiClient extends HttpLlmClient {
 	public static final String DEFAULT_BASE_URL = "https://api.openai.com/v1";
 	private static final ChatModel DEFAULT_MODEL = ChatModel.GPT_5_NANO;
 	public static final String DEFAULT_MODEL_NAME = DEFAULT_MODEL.asString();
+	private static final int DEFAULT_TIMEOUT = 300;
 	private static final String KEY_ENV_VAR = "OPENAI_API_KEY";
 	private static final String BASE_URL_ENV_VAR = "OPENAI_BASE_URL";
 
@@ -49,11 +51,23 @@ public class OpenAiClient extends HttpLlmClient {
 	 * @param apiKey  the API key
 	 */
 	public OpenAiClient(String baseUrl, String apiKey) {
-		super(baseUrl, apiKey);
+		this(baseUrl, apiKey, DEFAULT_TIMEOUT);
+	}
+
+	/**
+	 * Builds the endpoint with an explicit base URL, API key, and timeout.
+	 *
+	 * @param baseUrl the API base URL
+	 * @param apiKey  the API key
+	 * @param timeout the timeout in seconds
+	 */
+	public OpenAiClient(String baseUrl, String apiKey, int timeout) {
+		super(baseUrl);
 		this.model = DEFAULT_MODEL;
 		this.client = OpenAIOkHttpClient.builder()
 				.baseUrl(baseUrl)
 				.apiKey(apiKey)
+				.timeout(Duration.ofSeconds(timeout))
 				.build();
 	}
 
@@ -110,7 +124,8 @@ public class OpenAiClient extends HttpLlmClient {
 					.flatMap(content -> content.outputText().stream())
 					.map(outputText -> outputText.text()).collect(Collectors.joining());
 		} catch (Exception e) {
-			throw new RuntimeException("OpenAI request failed", e);
+			throw new RuntimeException("OpenAI request failed for model " + model.asString() + " at " + baseUrl
+					+ ": " + e.getMessage(), e);
 		}
 	}
 
