@@ -172,6 +172,7 @@ public class AsmetaV {
 			if (!failedScenarios.isEmpty())
 				logger.info("WARNING: mutation cannot be executed since some scenarios are failing");
 			else {
+				logger.info("computing the mutation score");
 				MutationScoreExecutor mutExec = MutationScoreExecutor.createTempExecutor();
 				HashMap<String, Entry<Integer, Integer>> mutationScore = mutExec
 						.computeMutationScoreFromScenarios(scenarioPath.toString());
