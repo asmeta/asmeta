@@ -3,6 +3,7 @@ package asmeta.ai.propgen.ui.services;
 import org.eclipse.jface.preference.IPreferenceStore;
 
 import asmeta.ai.propgen.PropertyType;
+import asmeta.ai.propgen.ui.preferences.LlmPreferenceSupport;
 import asmeta.ai.propgen.ui.preferences.PreferenceConstants;
 
 public class AsmetaAISettings {
@@ -36,11 +37,13 @@ public class AsmetaAISettings {
 	}
 
 	public static AsmetaAISettings fromPreferenceStore(IPreferenceStore store) {
+		LlmPreferenceSupport.migrateLegacySettings(store);
+		String llmChoiceValue = LlmPreferenceSupport.normalizeLlmChoice(store.getString(PreferenceConstants.P_LLM_CHOICE));
 		return new AsmetaAISettings(
-				parseLlmChoice(store.getString(PreferenceConstants.P_LLM_CHOICE)),
-				store.getString(PreferenceConstants.P_LLM_HTTP_URL).trim(),
-				store.getString(PreferenceConstants.P_MODEL_NAME).trim(),
-				store.getString(PreferenceConstants.P_API_KEY).trim(),
+				parseLlmChoice(llmChoiceValue),
+				store.getString(LlmPreferenceSupport.baseUrlPreferenceFor(llmChoiceValue)).trim(),
+				store.getString(LlmPreferenceSupport.modelNamePreferenceFor(llmChoiceValue)).trim(),
+				store.getString(LlmPreferenceSupport.apiKeyPreferenceFor(llmChoiceValue)).trim(),
 				parsePropertyType(store.getString(PreferenceConstants.P_PROPERTY_TYPE)),
 				store.getInt(PreferenceConstants.P_NUM_PROP),
 				store.getInt(PreferenceConstants.P_MAX_RETIRES),

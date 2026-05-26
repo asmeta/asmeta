@@ -1,15 +1,21 @@
 package asmeta.ai.propgen.ui.preferences;
 
-import org.eclipse.jface.preference.*;
+import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
+import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
@@ -18,273 +24,343 @@ import asmeta.ai.propgen.llm.OllamaClient;
 import asmeta.ai.propgen.llm.OpenAiClient;
 import asmeta.ai.propgen.ui.Activator;
 
-public class AsmetaAIPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
+public class AsmetaAIPreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
 
-	private RadioGroupFieldEditor llmChoiceEditor;
-	private StringFieldEditor httpUrlEditor;
-	private Label modelNameLabel;
+	private static final int OLLAMA_INDEX = 0;
+	private static final int OPENAI_INDEX = 1;
+
+	private String selectedLlm;
+	private ProviderSettings ollamaSettings;
+	private ProviderSettings openAiSettings;
+
+	private Combo llmChoiceCombo;
+	private Text baseUrlText;
 	private Text modelNameText;
 	private Combo openAiModelCombo;
 	private Composite modelNameComposite;
 	private StackLayout modelNameLayout;
-	private StringFieldEditor apiKeyEditor;
+	private Text apiKeyText;
+	private Spinner numberOfPropertiesSpinner;
+	private Spinner maxRetriesSpinner;
+	private Spinner timeoutSpinner;
+	private Combo propertyTypeCombo;
+	private Button debugOutputButton;
+	private boolean loadingControls;
 
 	public AsmetaAIPreferencePage() {
-		super(GRID);
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
-		setDescription("AsmetaAI property page");
+		setDescription("Configure AsmetaAI LLM connection and generation defaults.");
 	}
 
 	@Override
 	protected Control createContents(Composite parent) {
-		Control contents = super.createContents(parent);
-		updateLLMFields(getPreferenceStore().getString(PreferenceConstants.P_LLM_CHOICE), true);
-		return contents;
+		IPreferenceStore store = getPreferenceStore();
+		LlmPreferenceSupport.migrateLegacySettings(store);
+		selectedLlm = LlmPreferenceSupport.normalizeLlmChoice(store.getString(PreferenceConstants.P_LLM_CHOICE));
+		ollamaSettings = ProviderSettings.fromStore(store, LlmPreferenceSupport.LLM_OLLAMA);
+		openAiSettings = ProviderSettings.fromStore(store, LlmPreferenceSupport.LLM_OPENAI);
+
+		Composite page = new Composite(parent, SWT.NONE);
+		page.setLayout(new GridLayout(1, false));
+		page.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+
+		createConnectionGroup(page);
+		createGenerationGroup(page);
+		createOutputGroup(page);
+
+		loadGlobalSettings(store);
+		loadProviderSelection();
+		loadSelectedProviderSettings();
+		return page;
 	}
 
-	@Override
-	public void createFieldEditors() {
-		Composite parent = getFieldEditorParent();
+	private void createConnectionGroup(Composite parent) {
+		Group group = createGroup(parent, "LLM connection");
 
-		addField(new IntegerFieldEditor(
-				PreferenceConstants.P_NUM_PROP,
-				"&Number of properties:",
-				parent));
-
-		addField(new IntegerFieldEditor(
-				PreferenceConstants.P_MAX_RETIRES,
-				"&Maximum number of attempts to generate a parsable formula:",
-				parent));
-
-		addField(new IntegerFieldEditor(
-				PreferenceConstants.P_LLM_TIMEOUT_SECONDS,
-				"LLM request timeout (seconds):",
-				parent));
-
-		llmChoiceEditor = new RadioGroupFieldEditor(
-				PreferenceConstants.P_LLM_CHOICE,
-				"LLM Client",
-				1,
-				new String[][] {
-						{ "&Ollama", "ollama" },
-						{ "Open&AI", "openai" }
-				},
-				parent);
-		addField(llmChoiceEditor);
-
-		httpUrlEditor = new StringFieldEditor(
-				PreferenceConstants.P_LLM_HTTP_URL,
-				getUrlLabel(getPreferenceStore().getString(PreferenceConstants.P_LLM_CHOICE)),
-				parent);
-		addField(httpUrlEditor);
-
-		createModelNameControls(parent);
-
-		apiKeyEditor = new StringFieldEditor(
-				PreferenceConstants.P_API_KEY,
-				"API Key:",
-				parent);
-		addField(apiKeyEditor);
-
-		addField(new ComboFieldEditor(
-				PreferenceConstants.P_PROPERTY_TYPE,
-				"Temporal property type",
-				new String[][] {
-						{ "LTL", "ltl" },
-						{ "CTL", "ctl" }
-				},
-				parent));
-
-		addField(new BooleanFieldEditor(
-				PreferenceConstants.P_DEBUG_OUTPUT,
-				"Show AsmetaAI debug output in console",
-				parent));
-
-		// Initialize state
-		updateLLMFields(getPreferenceStore().getString(PreferenceConstants.P_LLM_CHOICE), false);
-	}
-
-	@Override
-	public void propertyChange(org.eclipse.jface.util.PropertyChangeEvent event) {
-		super.propertyChange(event);
-
-		if (event.getSource() == llmChoiceEditor && FieldEditor.VALUE.equals(event.getProperty())) {
-			updateLLMFields(String.valueOf(event.getNewValue()), true);
-		}
-	}
-
-	@Override
-	protected void performDefaults() {
-		super.performDefaults();
-		String selectedLLM = getPreferenceStore().getDefaultString(PreferenceConstants.P_LLM_CHOICE);
-		setModelName(getDefaultModelName(selectedLLM));
-		updateLLMFields(selectedLLM, false);
-	}
-
-	@Override
-	public boolean performOk() {
-		boolean ok = super.performOk();
-		if (ok) {
-			storeModelName();
-		}
-		return ok;
-	}
-
-	@Override
-	protected void performApply() {
-		super.performApply();
-		storeModelName();
-	}
-
-	private void updateLLMFields(String selectedLLM, boolean updateUrlDefault) {
-		selectedLLM = normalizeLLMSelection(selectedLLM);
-		boolean isOpenAI = "openai".equals(selectedLLM);
-		boolean isOllama = "ollama".equals(selectedLLM);
-
-		Composite parent = getFieldEditorParent();
-
-		httpUrlEditor.setLabelText(getUrlLabel(selectedLLM));
-		httpUrlEditor.setEnabled(isOllama || isOpenAI, parent);
-		modelNameLabel.setEnabled(isOpenAI || isOllama);
-		modelNameText.setEnabled(isOllama);
-		openAiModelCombo.setEnabled(isOpenAI);
-		modelNameLayout.topControl = isOpenAI ? openAiModelCombo : modelNameText;
-		apiKeyEditor.setEnabled(isOpenAI || isOllama, parent);
-		if (updateUrlDefault && shouldUpdateUrlDefault(httpUrlEditor.getStringValue())) {
-			httpUrlEditor.setStringValue(getDefaultUrl(selectedLLM));
-		}
-		if (updateUrlDefault) {
-			updateModelNameDefault(selectedLLM);
-		}
-
-		modelNameComposite.layout(true, true);
-		parent.layout(true, true); // Force immediate UI refresh
-	}
-
-	private boolean shouldUpdateUrlDefault(String currentUrl) {
-		return currentUrl == null
-				|| currentUrl.isBlank()
-				|| OpenAiClient.DEFAULT_BASE_URL.equals(currentUrl)
-				|| OllamaClient.DEFAULT_BASE_URL.equals(currentUrl);
-	}
-
-	private String getDefaultUrl(String selectedLLM) {
-		if ("openai".equals(selectedLLM)) {
-			return OpenAiClient.DEFAULT_BASE_URL;
-		}
-		if ("ollama".equals(selectedLLM)) {
-			return OllamaClient.DEFAULT_BASE_URL;
-		}
-		return "";
-	}
-
-	private String getUrlLabel(String selectedLLM) {
-		selectedLLM = normalizeLLMSelection(selectedLLM);
-		if ("openai".equals(selectedLLM)) {
-			return "OpenAI base URL:";
-		}
-		return "Ollama base URL:";
-	}
-
-	private String normalizeLLMSelection(String selectedLLM) {
-		return "openai".equals(selectedLLM) ? "openai" : "ollama";
-	}
-
-	private void createModelNameControls(Composite parent) {
-		modelNameLabel = new Label(parent, SWT.NONE);
-		modelNameLabel.setText("Model name:");
-
-		modelNameComposite = new Composite(parent, SWT.NONE);
-		modelNameLayout = new StackLayout();
-		modelNameComposite.setLayout(modelNameLayout);
-		modelNameComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-
-		modelNameText = new Text(modelNameComposite, SWT.BORDER);
-
-		openAiModelCombo = new Combo(modelNameComposite, SWT.DROP_DOWN | SWT.READ_ONLY);
-		for (String modelName : OpenAiClient.getAvailableModelNames()) {
-			openAiModelCombo.add(modelName);
-		}
-
-		setModelName(getPreferenceStore().getString(PreferenceConstants.P_MODEL_NAME));
-
-		modelNameText.addModifyListener(event -> updateApplyButton());
-		openAiModelCombo.addSelectionListener(new SelectionAdapter() {
+		createLabel(group, "Client:");
+		llmChoiceCombo = new Combo(group, SWT.READ_ONLY);
+		llmChoiceCombo.setItems(new String[] { "Ollama", "OpenAI" });
+		llmChoiceCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		llmChoiceCombo.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent event) {
-				updateApplyButton();
+				saveCurrentProviderSettings();
+				selectedLlm = llmChoiceCombo.getSelectionIndex() == OPENAI_INDEX
+						? LlmPreferenceSupport.LLM_OPENAI
+						: LlmPreferenceSupport.LLM_OLLAMA;
+				loadSelectedProviderSettings();
+				markDirty();
+			}
+		});
+
+		createLabel(group, "Base URL:");
+		baseUrlText = createText(group, SWT.BORDER);
+
+		createLabel(group, "Model name:");
+		modelNameComposite = new Composite(group, SWT.NONE);
+		modelNameLayout = new StackLayout();
+		modelNameComposite.setLayout(modelNameLayout);
+		modelNameComposite.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+
+		modelNameText = new Text(modelNameComposite, SWT.BORDER);
+		modelNameText.addModifyListener(dirtyModifyListener());
+
+		openAiModelCombo = new Combo(modelNameComposite, SWT.DROP_DOWN);
+		openAiModelCombo.setItems(OpenAiClient.getAvailableModelNames());
+		openAiModelCombo.addModifyListener(dirtyModifyListener());
+		openAiModelCombo.addSelectionListener(dirtySelectionListener());
+
+		createLabel(group, "API key:");
+		apiKeyText = createText(group, SWT.BORDER | SWT.PASSWORD);
+
+		new Label(group, SWT.NONE);
+		Button restoreProviderDefaultsButton = new Button(group, SWT.PUSH);
+		restoreProviderDefaultsButton.setText("Restore defaults");
+		restoreProviderDefaultsButton.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent event) {
+				currentSettings().copyFrom(ProviderSettings.defaultsFor(selectedLlm));
+				loadSelectedProviderSettings();
+				markDirty();
 			}
 		});
 	}
 
-	private String getDefaultModelName(String selectedLLM) {
-		if ("openai".equals(selectedLLM)) {
-			return OpenAiClient.DEFAULT_MODEL_NAME;
-		}
-		if ("ollama".equals(selectedLLM)) {
-			return OllamaClient.DEFAULT_MODEL;
-		}
-		return "";
+	private void createGenerationGroup(Composite parent) {
+		Group group = createGroup(parent, "Generation");
+
+		createLabel(group, "Temporal property type:");
+		propertyTypeCombo = new Combo(group, SWT.READ_ONLY);
+		propertyTypeCombo.setItems(new String[] { "LTL", "CTL" });
+		propertyTypeCombo.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		propertyTypeCombo.addSelectionListener(dirtySelectionListener());
+
+		createLabel(group, "Number of properties:");
+		numberOfPropertiesSpinner = createPositiveSpinner(group, 1, 100);
+
+		createLabel(group, "Maximum parsable-formula attempts:");
+		maxRetriesSpinner = createPositiveSpinner(group, 1, 100);
+
+		createLabel(group, "LLM request timeout (seconds):");
+		timeoutSpinner = createPositiveSpinner(group, 1, 3600);
 	}
 
-	private void updateModelNameDefault(String selectedLLM) {
-		String currentModelName = getModelName();
-		if ("openai".equals(selectedLLM)) {
-			if (isOpenAiModelName(currentModelName)) {
-				setModelName(currentModelName);
-			} else {
-				setModelName(OpenAiClient.DEFAULT_MODEL_NAME);
+	private void createOutputGroup(Composite parent) {
+		Group group = createGroup(parent, "Output");
+		group.setLayout(new GridLayout(1, false));
+
+		debugOutputButton = new Button(group, SWT.CHECK);
+		debugOutputButton.setText("Show AsmetaAI debug output in console");
+		debugOutputButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		debugOutputButton.addSelectionListener(dirtySelectionListener());
+	}
+
+	private Group createGroup(Composite parent, String title) {
+		Group group = new Group(parent, SWT.NONE);
+		group.setText(title);
+		group.setLayout(new GridLayout(2, false));
+		group.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false));
+		return group;
+	}
+
+	private Label createLabel(Composite parent, String text) {
+		Label label = new Label(parent, SWT.NONE);
+		label.setText(text);
+		label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
+		return label;
+	}
+
+	private Text createText(Composite parent, int style) {
+		Text text = new Text(parent, style);
+		text.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+		text.addModifyListener(dirtyModifyListener());
+		return text;
+	}
+
+	private Spinner createPositiveSpinner(Composite parent, int minimum, int maximum) {
+		Spinner spinner = new Spinner(parent, SWT.BORDER);
+		spinner.setMinimum(minimum);
+		spinner.setMaximum(maximum);
+		spinner.setIncrement(1);
+		spinner.setPageIncrement(5);
+		spinner.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
+		spinner.addModifyListener(dirtyModifyListener());
+		spinner.addSelectionListener(dirtySelectionListener());
+		return spinner;
+	}
+
+	private ModifyListener dirtyModifyListener() {
+		return event -> markDirty();
+	}
+
+	private SelectionAdapter dirtySelectionListener() {
+		return new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent event) {
+				markDirty();
 			}
+		};
+	}
+
+	private void loadGlobalSettings(IPreferenceStore store) {
+		loadingControls = true;
+		try {
+			propertyTypeCombo.select("ctl".equals(store.getString(PreferenceConstants.P_PROPERTY_TYPE)) ? 1 : 0);
+			numberOfPropertiesSpinner.setSelection(valueOrDefault(store.getInt(PreferenceConstants.P_NUM_PROP), 3));
+			maxRetriesSpinner.setSelection(valueOrDefault(store.getInt(PreferenceConstants.P_MAX_RETIRES), 3));
+			timeoutSpinner.setSelection(valueOrDefault(store.getInt(PreferenceConstants.P_LLM_TIMEOUT_SECONDS), 300));
+			debugOutputButton.setSelection(store.getBoolean(PreferenceConstants.P_DEBUG_OUTPUT));
+		} finally {
+			loadingControls = false;
+		}
+	}
+
+	private int valueOrDefault(int value, int defaultValue) {
+		return value > 0 ? value : defaultValue;
+	}
+
+	private void loadProviderSelection() {
+		llmChoiceCombo.select(LlmPreferenceSupport.LLM_OPENAI.equals(selectedLlm) ? OPENAI_INDEX : OLLAMA_INDEX);
+	}
+
+	private void loadSelectedProviderSettings() {
+		loadingControls = true;
+		try {
+			ProviderSettings settings = currentSettings();
+			baseUrlText.setText(settings.baseUrl);
+			modelNameText.setText(settings.modelName);
+			openAiModelCombo.setText(settings.modelName);
+			apiKeyText.setText(settings.apiKey);
+
+			boolean isOpenAi = LlmPreferenceSupport.LLM_OPENAI.equals(selectedLlm);
+			modelNameLayout.topControl = isOpenAi ? openAiModelCombo : modelNameText;
+			modelNameComposite.layout(true, true);
+		} finally {
+			loadingControls = false;
+		}
+	}
+
+	private void saveCurrentProviderSettings() {
+		ProviderSettings settings = currentSettings();
+		settings.baseUrl = baseUrlText.getText().trim();
+		settings.modelName = getDisplayedModelName().trim();
+		settings.apiKey = apiKeyText.getText().trim();
+	}
+
+	private String getDisplayedModelName() {
+		return LlmPreferenceSupport.LLM_OPENAI.equals(selectedLlm)
+				? openAiModelCombo.getText()
+				: modelNameText.getText();
+	}
+
+	private ProviderSettings currentSettings() {
+		return LlmPreferenceSupport.LLM_OPENAI.equals(selectedLlm) ? openAiSettings : ollamaSettings;
+	}
+
+	@Override
+	public boolean performOk() {
+		saveCurrentProviderSettings();
+		saveSettings();
+		return super.performOk();
+	}
+
+	@Override
+	protected void performApply() {
+		saveCurrentProviderSettings();
+		saveSettings();
+		super.performApply();
+	}
+
+	private void saveSettings() {
+		IPreferenceStore store = getPreferenceStore();
+		store.setValue(PreferenceConstants.P_LLM_SETTINGS_MIGRATED, true);
+		store.setValue(PreferenceConstants.P_LLM_CHOICE, selectedLlm);
+		ollamaSettings.saveTo(store, LlmPreferenceSupport.LLM_OLLAMA);
+		openAiSettings.saveTo(store, LlmPreferenceSupport.LLM_OPENAI);
+		store.setValue(PreferenceConstants.P_PROPERTY_TYPE, propertyTypeCombo.getSelectionIndex() == 1 ? "ctl" : "ltl");
+		store.setValue(PreferenceConstants.P_NUM_PROP, numberOfPropertiesSpinner.getSelection());
+		store.setValue(PreferenceConstants.P_MAX_RETIRES, maxRetriesSpinner.getSelection());
+		store.setValue(PreferenceConstants.P_LLM_TIMEOUT_SECONDS, timeoutSpinner.getSelection());
+		store.setValue(PreferenceConstants.P_DEBUG_OUTPUT, debugOutputButton.getSelection());
+
+		ProviderSettings activeSettings = currentSettings();
+		store.setValue(PreferenceConstants.P_LLM_HTTP_URL, activeSettings.baseUrl);
+		store.setValue(PreferenceConstants.P_MODEL_NAME, activeSettings.modelName);
+		store.setValue(PreferenceConstants.P_API_KEY, activeSettings.apiKey);
+	}
+
+	@Override
+	protected void performDefaults() {
+		selectedLlm = LlmPreferenceSupport.normalizeLlmChoice(
+				getPreferenceStore().getDefaultString(PreferenceConstants.P_LLM_CHOICE));
+		ollamaSettings = ProviderSettings.defaultsFor(LlmPreferenceSupport.LLM_OLLAMA);
+		openAiSettings = ProviderSettings.defaultsFor(LlmPreferenceSupport.LLM_OPENAI);
+		loadProviderSelection();
+		loadSelectedProviderSettings();
+
+		IPreferenceStore store = getPreferenceStore();
+		propertyTypeCombo.select("ctl".equals(store.getDefaultString(PreferenceConstants.P_PROPERTY_TYPE)) ? 1 : 0);
+		numberOfPropertiesSpinner.setSelection(valueOrDefault(store.getDefaultInt(PreferenceConstants.P_NUM_PROP), 3));
+		maxRetriesSpinner.setSelection(valueOrDefault(store.getDefaultInt(PreferenceConstants.P_MAX_RETIRES), 3));
+		timeoutSpinner.setSelection(valueOrDefault(store.getDefaultInt(PreferenceConstants.P_LLM_TIMEOUT_SECONDS), 300));
+		debugOutputButton.setSelection(store.getDefaultBoolean(PreferenceConstants.P_DEBUG_OUTPUT));
+		markDirty();
+		super.performDefaults();
+	}
+
+	private void markDirty() {
+		if (loadingControls) {
 			return;
 		}
-		if ("ollama".equals(selectedLLM)) {
-			if (currentModelName == null || currentModelName.isBlank() || isOpenAiModelName(currentModelName)
-					|| OllamaClient.DEFAULT_MODEL.equals(currentModelName)) {
-				setModelName(OllamaClient.DEFAULT_MODEL);
-			}
-			return;
+		setValid(true);
+		if (getContainer() != null) {
+			getContainer().updateButtons();
 		}
-		setModelName("");
-	}
-
-	private boolean isOpenAiModelName(String modelName) {
-		for (String availableModelName : OpenAiClient.getAvailableModelNames()) {
-			if (availableModelName.equals(modelName)) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	private String getModelName() {
-		String selectedLLM = normalizeLLMSelection(llmChoiceEditor.getSelectionValue());
-		if ("openai".equals(selectedLLM)) {
-			int selectionIndex = openAiModelCombo.getSelectionIndex();
-			return selectionIndex >= 0 ? openAiModelCombo.getItem(selectionIndex) : OpenAiClient.DEFAULT_MODEL_NAME;
-		}
-		if ("ollama".equals(selectedLLM)) {
-			return modelNameText.getText();
-		}
-		return "";
-	}
-
-	private void setModelName(String modelName) {
-		String value = modelName == null ? "" : modelName;
-		modelNameText.setText(value);
-		int openAiIndex = openAiModelCombo.indexOf(value);
-		if (openAiIndex < 0) {
-			openAiIndex = openAiModelCombo.indexOf(OpenAiClient.DEFAULT_MODEL_NAME);
-		}
-		if (openAiIndex >= 0) {
-			openAiModelCombo.select(openAiIndex);
-		}
-	}
-
-	private void storeModelName() {
-		getPreferenceStore().setValue(PreferenceConstants.P_MODEL_NAME, getModelName());
 	}
 
 	@Override
 	public void init(IWorkbench workbench) {
+	}
+
+	private static final class ProviderSettings {
+		private String baseUrl;
+		private String modelName;
+		private String apiKey;
+
+		private ProviderSettings(String baseUrl, String modelName, String apiKey) {
+			this.baseUrl = emptyIfNull(baseUrl);
+			this.modelName = emptyIfNull(modelName);
+			this.apiKey = emptyIfNull(apiKey);
+		}
+
+		private static ProviderSettings fromStore(IPreferenceStore store, String llmChoice) {
+			return new ProviderSettings(
+					store.getString(LlmPreferenceSupport.baseUrlPreferenceFor(llmChoice)),
+					store.getString(LlmPreferenceSupport.modelNamePreferenceFor(llmChoice)),
+					store.getString(LlmPreferenceSupport.apiKeyPreferenceFor(llmChoice)));
+		}
+
+		private static ProviderSettings defaultsFor(String llmChoice) {
+			if (LlmPreferenceSupport.LLM_OPENAI.equals(llmChoice)) {
+				return new ProviderSettings(OpenAiClient.DEFAULT_BASE_URL, OpenAiClient.DEFAULT_MODEL_NAME, "");
+			}
+			return new ProviderSettings(OllamaClient.DEFAULT_BASE_URL, OllamaClient.DEFAULT_MODEL, "");
+		}
+
+		private void saveTo(IPreferenceStore store, String llmChoice) {
+			store.setValue(LlmPreferenceSupport.baseUrlPreferenceFor(llmChoice), baseUrl);
+			store.setValue(LlmPreferenceSupport.modelNamePreferenceFor(llmChoice), modelName);
+			store.setValue(LlmPreferenceSupport.apiKeyPreferenceFor(llmChoice), apiKey);
+		}
+
+		private void copyFrom(ProviderSettings other) {
+			baseUrl = other.baseUrl;
+			modelName = other.modelName;
+			apiKey = other.apiKey;
+		}
+
+		private static String emptyIfNull(String value) {
+			return value == null ? "" : value.trim();
+		}
 	}
 }
