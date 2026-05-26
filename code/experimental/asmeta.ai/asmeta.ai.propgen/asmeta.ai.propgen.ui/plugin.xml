@@ -10,7 +10,7 @@
       </category>
       <command
             categoryId="asmeta.ai.propgen.ui.commands.category"
-            name="Sample Command"
+            name="Run AI Analysis for Properties"
             id="asmeta.ai.propgen.ui.commands.sampleCommand">
       </command>
    </extension>

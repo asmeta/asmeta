@@ -40,6 +40,7 @@ public class PropertyGenerationSession {
 
 	public String fromNLtoTLSession(String asmPath, String nlProperty, PropertyType type, boolean removeComments,
 			int maxRetries, PropertyGenerationListener listener) {
+		LibraryPreparer.prepare(asmPath, type, listener);
 		// First attempt: generate the property from the natural-language input.
 		listener.onProgress("Generating candidate temporal property...");
 		String tlProperty = generator.fromNLtoTL(asmPath, nlProperty, type, removeComments);
