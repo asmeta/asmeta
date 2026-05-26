@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.definitions;
 
@@ -17,5 +13,4 @@ package asmeta.definitions;
  * @generated
  */
 public interface CtlSpec extends TemporalProperty {
-
 } // CtlSpec

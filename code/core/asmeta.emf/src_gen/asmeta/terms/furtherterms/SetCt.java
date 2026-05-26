@@ -1,11 +1,6 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.terms.furtherterms;
-
 
 /**
  * <!-- begin-user-doc -->

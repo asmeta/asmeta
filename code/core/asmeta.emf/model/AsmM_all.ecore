@@ -40,8 +40,8 @@
         <eStructuralFeatures xsi:type="ecore:EAttribute" name="ranges" unique="false"
             lowerBound="1" upperBound="-1" eType="#//terms/basicterms/TermDT"/>
       </eClassifiers>
-      <eClassifiers xsi:type="ecore:EClass" name="ExistUniqueTerm" eSuperTypes="#//terms/furtherterms/FiniteQuantificationTerm"/>
-      <eClassifiers xsi:type="ecore:EClass" name="ExistTerm" eSuperTypes="#//terms/furtherterms/FiniteQuantificationTerm"/>
+      <eClassifiers xsi:type="ecore:EClass" name="ExistsUniqueTerm" eSuperTypes="#//terms/furtherterms/FiniteQuantificationTerm"/>
+      <eClassifiers xsi:type="ecore:EClass" name="ExistsTerm" eSuperTypes="#//terms/furtherterms/FiniteQuantificationTerm"/>
       <eClassifiers xsi:type="ecore:EClass" name="EnumTerm" eSuperTypes="#//terms/basicterms/ConstantTerm"/>
       <eClassifiers xsi:type="ecore:EClass" name="ConditionalTerm" eSuperTypes="#//terms/basicterms/ExtendedTerm">
         <eStructuralFeatures xsi:type="ecore:EReference" name="elseTerm" ordered="false"

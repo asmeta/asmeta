@@ -1,11 +1,6 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.definitions.domains;
-
 
 /**
  * <!-- begin-user-doc -->
@@ -28,10 +23,6 @@ public interface MapDomain extends StructuredTd {
 	/**
 	 * Returns the value of the '<em><b>Source Domain</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Source Domain</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Source Domain</em>' reference.
 	 * @see #setSourceDomain(Domain)
@@ -54,10 +45,6 @@ public interface MapDomain extends StructuredTd {
 	/**
 	 * Returns the value of the '<em><b>Target Domain</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Target Domain</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Target Domain</em>' reference.
 	 * @see #setTargetDomain(Domain)

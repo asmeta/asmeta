@@ -53,14 +53,14 @@ definitions:
 		(not(regina_in_riga($r)) and not(regina_in_colonna($c)) and not(regina_in_diagonali($r, $c)))
 
 	function regina_in_riga($r in Righe) =
-		(exist $c in Colonne with matriceRegine($r, $c))
+		(exists $c in Colonne with matriceRegine($r, $c))
 
 	function regina_in_colonna($c in Colonne) =
-		(exist $r in Righe with matriceRegine($r, $c))
+		(exists $r in Righe with matriceRegine($r, $c))
 
 	function regina_in_diagonali($r in Righe, $c in Colonne) =
-		(exist $x in Righe, $y in Colonne with $x - $y = $r - $c and matriceRegine($x, $y)) or 
-		(exist $i in Righe, $j in Colonne with $i + $j = $r + $c and matriceRegine($i, $j))
+		(exists $x in Righe, $y in Colonne with $x - $y = $r - $c and matriceRegine($x, $y)) or 
+		(exists $i in Righe, $j in Colonne with $i + $j = $r + $c and matriceRegine($i, $j))
 
 	macro rule r_inserisci_regina =
 		if regineInserite < nRegine then	
@@ -72,7 +72,7 @@ definitions:
 					outMess := "Regina inserita"
 				endpar
 			else
-				outMess := "Posizione errata. La regina può essere mangiata."
+				outMess := "Posizione errata. La regina puï¿½ essere mangiata."
 			endif
 		endif
 	

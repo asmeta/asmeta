@@ -80,7 +80,7 @@ definitions:
 
 	macro rule r_insertcard =
 		if(atmState=AWAITCARD) then
-			if(exist $c in NumCard with $c=insertedCard) then
+			if(exists $c in NumCard with $c=insertedCard) then
 				par
 					currCard := insertedCard
 					atmState := AWAITPIN
@@ -181,7 +181,7 @@ definitions:
 	macro rule r_prelievo =
 		par 
 			if(atmState=STANDARDAMOUNTSELECTION) then
-				if(exist $m in MoneySize with $m=insertMoneySizeStandard) then
+				if(exists $m in MoneySize with $m=insertMoneySizeStandard) then
 					if(insertMoneySizeStandard <= moneyLeft) then
 						r_processMoneyRequest[insertMoneySizeStandard]
 					//else

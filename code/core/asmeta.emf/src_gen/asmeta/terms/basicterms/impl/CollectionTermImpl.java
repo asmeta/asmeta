@@ -1,17 +1,15 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.terms.basicterms.impl;
 
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import asmeta.terms.basicterms.BasictermsPackage;
 import asmeta.terms.basicterms.CollectionTerm;
+
+import org.eclipse.emf.common.notify.Notification;
+
+import org.eclipse.emf.ecore.EClass;
+
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -46,7 +44,6 @@ public abstract class CollectionTermImpl extends ExtendedTermImpl implements Col
 	 * @ordered
 	 */
 	protected Integer size = SIZE_EDEFAULT;
-
 
 	/**
 	 * <!-- begin-user-doc -->

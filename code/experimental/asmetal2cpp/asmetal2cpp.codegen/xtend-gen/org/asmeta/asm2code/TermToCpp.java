@@ -20,7 +20,7 @@ import asmeta.terms.basicterms.VariableTerm;
 import asmeta.terms.furtherterms.CaseTerm;
 import asmeta.terms.furtherterms.ConditionalTerm;
 import asmeta.terms.furtherterms.EnumTerm;
-import asmeta.terms.furtherterms.ExistTerm;
+import asmeta.terms.furtherterms.ExistsTerm;
 import asmeta.terms.furtherterms.ForallTerm;
 import asmeta.terms.furtherterms.IntegerTerm;
 import asmeta.terms.furtherterms.LetTerm;
@@ -338,7 +338,7 @@ public class TermToCpp extends ReflectiveVisitor<String> {
     }
   }
 
-  public String visit(final ExistTerm object) {
+  public String visit(final ExistsTerm object) {
     StringBuffer sb = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
     _builder.newLine();

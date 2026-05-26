@@ -20,9 +20,6 @@ import org.junit.jupiter.api.Test;
  */
 public class AllAsmExamplesTesterWOHelper {
 
-
-
-
 	protected static final String ASM_EXAMPLES_PATH = "../../../../asm_examples/examples";
 
 	@SuppressWarnings("serial")
@@ -383,9 +380,9 @@ public class AllAsmExamplesTesterWOHelper {
 
 	@Test
 	public void testAllExamples() throws IOException {
-		Path examplePath = Paths.get("../../../asm_examples");
+		Path examplePath = Paths.get("../../../../asm_examples");
 
-		Assertions.assertTrue(Files.isDirectory(examplePath));
+		Assertions.assertTrue(Files.isDirectory(examplePath),examplePath.toAbsolutePath().toString());
 		Iterator<Path> files = Files.walk(examplePath).iterator();
 		while (files.hasNext()) {
 			Path fileToRead = files.next();

@@ -1,15 +1,11 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.terms.furtherterms.impl;
 
-import org.eclipse.emf.ecore.EClass;
-
 import asmeta.terms.furtherterms.FurthertermsPackage;
 import asmeta.terms.furtherterms.SetCt;
+
+import org.eclipse.emf.ecore.EClass;
 
 /**
  * <!-- begin-user-doc -->
@@ -19,7 +15,6 @@ import asmeta.terms.furtherterms.SetCt;
  * @generated
  */
 public class SetCtImpl extends ComprehensionTermImpl implements SetCt {
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

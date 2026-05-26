@@ -66,21 +66,21 @@ definitions:
 		endpar
 
 	invariant inv_0 over cardSuit: (forall $q in QuartetIndex, $s in Suit with
-										(exist $i in InQuartetIndex with cardSuit($q * 4 + $i) = $s))
+										(exists $i in InQuartetIndex with cardSuit($q * 4 + $i) = $s))
 
 	//no card is created or cancelled
-	invariant inv_1 over cardNumber, cardSuit:  (exist $i in Index with cardNumber($i)=5 and cardSuit($i)=SPADES)
-	invariant inv_2 over cardNumber, cardSuit:  (exist $i in Index with cardNumber($i)=13 and cardSuit($i)=SPADES)
-	invariant inv_3 over cardNumber, cardSuit:  (exist $i in Index with cardNumber($i)=8 and cardSuit($i)=SPADES)
-	invariant inv_4 over cardNumber, cardSuit:  (exist $i in Index with cardNumber($i)=3 and cardSuit($i)=HEARTS)
-	invariant inv_5 over cardNumber, cardSuit:  (exist $i in Index with cardNumber($i)=2 and cardSuit($i)=HEARTS)
-	invariant inv_6 over cardNumber, cardSuit:  (exist $i in Index with cardNumber($i)=11 and cardSuit($i)=HEARTS)
-	invariant inv_7 over cardNumber, cardSuit:  (exist $i in Index with cardNumber($i)=12 and cardSuit($i)=CLUBS)
-	invariant inv_8 over cardNumber, cardSuit:  (exist $i in Index with cardNumber($i)=7 and cardSuit($i)=CLUBS)
-	invariant inv_9 over cardNumber, cardSuit:  (exist $i in Index with cardNumber($i)=9 and cardSuit($i)=CLUBS)
-	invariant inv_10 over cardNumber, cardSuit: (exist $i in Index with cardNumber($i)=8 and cardSuit($i)=DIAMONDS)
-	invariant inv_11 over cardNumber, cardSuit: (exist $i in Index with cardNumber($i)=4 and cardSuit($i)=DIAMONDS)
-	invariant inv_12 over cardNumber, cardSuit: (exist $i in Index with cardNumber($i)=1 and cardSuit($i)=DIAMONDS)
+	invariant inv_1 over cardNumber, cardSuit:  (exists $i in Index with cardNumber($i)=5 and cardSuit($i)=SPADES)
+	invariant inv_2 over cardNumber, cardSuit:  (exists $i in Index with cardNumber($i)=13 and cardSuit($i)=SPADES)
+	invariant inv_3 over cardNumber, cardSuit:  (exists $i in Index with cardNumber($i)=8 and cardSuit($i)=SPADES)
+	invariant inv_4 over cardNumber, cardSuit:  (exists $i in Index with cardNumber($i)=3 and cardSuit($i)=HEARTS)
+	invariant inv_5 over cardNumber, cardSuit:  (exists $i in Index with cardNumber($i)=2 and cardSuit($i)=HEARTS)
+	invariant inv_6 over cardNumber, cardSuit:  (exists $i in Index with cardNumber($i)=11 and cardSuit($i)=HEARTS)
+	invariant inv_7 over cardNumber, cardSuit:  (exists $i in Index with cardNumber($i)=12 and cardSuit($i)=CLUBS)
+	invariant inv_8 over cardNumber, cardSuit:  (exists $i in Index with cardNumber($i)=7 and cardSuit($i)=CLUBS)
+	invariant inv_9 over cardNumber, cardSuit:  (exists $i in Index with cardNumber($i)=9 and cardSuit($i)=CLUBS)
+	invariant inv_10 over cardNumber, cardSuit: (exists $i in Index with cardNumber($i)=8 and cardSuit($i)=DIAMONDS)
+	invariant inv_11 over cardNumber, cardSuit: (exists $i in Index with cardNumber($i)=4 and cardSuit($i)=DIAMONDS)
+	invariant inv_12 over cardNumber, cardSuit: (exists $i in Index with cardNumber($i)=1 and cardSuit($i)=DIAMONDS)
 
 	main rule r_Main =
 		switch (step)

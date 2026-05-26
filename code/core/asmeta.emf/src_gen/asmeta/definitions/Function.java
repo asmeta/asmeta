@@ -1,16 +1,13 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.definitions;
 
-import org.eclipse.emf.common.util.EList;
-
 import asmeta.definitions.domains.Domain;
+
 import asmeta.structure.FunctionDefinition;
 import asmeta.structure.Signature;
+
+import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
@@ -37,10 +34,6 @@ public interface Function extends Classifier {
 	/**
 	 * Returns the value of the '<em><b>Domain</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Domain</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Domain</em>' reference.
 	 * @see #setDomain(Domain)
@@ -63,10 +56,6 @@ public interface Function extends Classifier {
 	/**
 	 * Returns the value of the '<em><b>Codomain</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Codomain</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Codomain</em>' reference.
 	 * @see #setCodomain(Domain)
@@ -90,10 +79,6 @@ public interface Function extends Classifier {
 	 * Returns the value of the '<em><b>Definition</b></em>' reference.
 	 * It is bidirectional and its opposite is '{@link asmeta.structure.FunctionDefinition#getDefinedFunction <em>Defined Function</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Definition</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Definition</em>' reference.
 	 * @see #setDefinition(FunctionDefinition)
@@ -119,10 +104,6 @@ public interface Function extends Classifier {
 	 * The list contents are of type {@link asmeta.definitions.Invariant}.
 	 * It is bidirectional and its opposite is '{@link asmeta.definitions.Invariant#getConstrainedFunction <em>Constrained Function</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Constraint</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Constraint</em>' reference list.
 	 * @see asmeta.definitions.DefinitionsPackage#getFunction_Constraint()
@@ -135,10 +116,6 @@ public interface Function extends Classifier {
 	/**
 	 * Returns the value of the '<em><b>Arity</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Arity</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Arity</em>' attribute.
 	 * @see #setArity(Integer)
@@ -162,10 +139,6 @@ public interface Function extends Classifier {
 	 * Returns the value of the '<em><b>Signature</b></em>' container reference.
 	 * It is bidirectional and its opposite is '{@link asmeta.structure.Signature#getFunction <em>Function</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Signature</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Signature</em>' container reference.
 	 * @see #setSignature(Signature)

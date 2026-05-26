@@ -16,8 +16,8 @@ import asmeta.terms.basicterms.VariableTerm;
 import asmeta.terms.furtherterms.CaseTerm;
 import asmeta.terms.furtherterms.ConditionalTerm;
 import asmeta.terms.furtherterms.EnumTerm;
-import asmeta.terms.furtherterms.ExistTerm;
-import asmeta.terms.furtherterms.ExistUniqueTerm;
+import asmeta.terms.furtherterms.ExistsTerm;
+import asmeta.terms.furtherterms.ExistsUniqueTerm;
 import asmeta.terms.furtherterms.FiniteQuantificationTerm;
 import asmeta.terms.furtherterms.ForallTerm;
 import asmeta.terms.furtherterms.IntegerTerm;
@@ -130,12 +130,12 @@ public class GetUndefInTerm extends ReflectiveVisitor<Boolean> {
 		return visit((FiniteQuantificationTerm) forallTerm);
 	}
 
-	public boolean visit(ExistTerm existTerm) {
-		return visit((FiniteQuantificationTerm) existTerm);
+	public boolean visit(ExistsTerm existsTerm) {
+		return visit((FiniteQuantificationTerm) existsTerm);
 	}
 
-	public boolean visit(ExistUniqueTerm existUniqueTerm) {
-		return visit((FiniteQuantificationTerm) existUniqueTerm);
+	public boolean visit(ExistsUniqueTerm existsUniqueTerm) {
+		return visit((FiniteQuantificationTerm) existsUniqueTerm);
 	}
 
 	public boolean visit(TupleTerm tupleTerm) throws Exception {

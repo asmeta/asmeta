@@ -49,15 +49,15 @@ definitions:
 		(not(queenInRow($r)) and not(queenInColumn($c)) and not(queenInDiagonals($r, $c)))
 
 	function queenInRow($r in Rows) =
-		(exist $c in Columns with queensMatrix($r, $c))
+		(exists $c in Columns with queensMatrix($r, $c))
 
 	function queenInColumn($c in Columns) =
-		(exist $r in Rows with queensMatrix($r, $c))
+		(exists $r in Rows with queensMatrix($r, $c))
 
 
 	function queenInDiagonals($r in Rows, $c in Columns) =
-		(exist $x in Rows, $y in Columns with $x - $y = $r - $c and queensMatrix($x, $y)) or 
-		(exist $i in Rows, $j in Columns with $i + $j = $r + $c and queensMatrix($i, $j))
+		(exists $x in Rows, $y in Columns with $x - $y = $r - $c and queensMatrix($x, $y)) or 
+		(exists $i in Rows, $j in Columns with $i + $j = $r + $c and queensMatrix($i, $j))
 
 
 	macro rule r_insert_queen =

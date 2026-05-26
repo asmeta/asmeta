@@ -1,15 +1,11 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.transitionrules.basictransitionrules.impl;
 
-import org.eclipse.emf.ecore.EClass;
-
 import asmeta.transitionrules.basictransitionrules.BasicRule;
 import asmeta.transitionrules.basictransitionrules.BasictransitionrulesPackage;
+
+import org.eclipse.emf.ecore.EClass;
 
 /**
  * <!-- begin-user-doc -->
@@ -19,7 +15,6 @@ import asmeta.transitionrules.basictransitionrules.BasictransitionrulesPackage;
  * @generated
  */
 public abstract class BasicRuleImpl extends RuleImpl implements BasicRule {
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

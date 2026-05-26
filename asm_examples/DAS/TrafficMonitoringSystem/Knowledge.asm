@@ -67,11 +67,11 @@ function prev($c in Camera) =
 
    
 function  slavesNotAlive ($c in Camera) =    
-   (exist $s in Camera with ( contains(slaves($c),$s) and  slaveGone($c,$s) ))
+   (exists $s in Camera with ( contains(slaves($c),$s) and  slaveGone($c,$s) ))
    
 function  allSlavesAlive ($c in Camera) =    
   ( forall $s in Camera with ( contains(slaves($c),$s) and  imAlive($c,$s) ))   
   
 function  m_offer ($c in Camera) =    
-   (exist $s in Camera with newSlave($c,$s) )
+   (exists $s in Camera with newSlave($c,$s) )
   

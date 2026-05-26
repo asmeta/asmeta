@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.structure;
 
@@ -33,10 +29,6 @@ public interface Initialization extends NamedElement {
 	 * The list contents are of type {@link asmeta.structure.DomainInitialization}.
 	 * It is bidirectional and its opposite is '{@link asmeta.structure.DomainInitialization#getInitialState <em>Initial State</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Domain Initialization</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Domain Initialization</em>' containment reference list.
 	 * @see asmeta.structure.StructurePackage#getInitialization_DomainInitialization()
@@ -51,10 +43,6 @@ public interface Initialization extends NamedElement {
 	 * The list contents are of type {@link asmeta.structure.FunctionInitialization}.
 	 * It is bidirectional and its opposite is '{@link asmeta.structure.FunctionInitialization#getInitialState <em>Initial State</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Function Initialization</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Function Initialization</em>' containment reference list.
 	 * @see asmeta.structure.StructurePackage#getInitialization_FunctionInitialization()
@@ -69,10 +57,6 @@ public interface Initialization extends NamedElement {
 	 * The list contents are of type {@link asmeta.structure.AgentInitialization}.
 	 * It is bidirectional and its opposite is '{@link asmeta.structure.AgentInitialization#getInitialState <em>Initial State</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Agent Initialization</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Agent Initialization</em>' containment reference list.
 	 * @see asmeta.structure.StructurePackage#getInitialization_AgentInitialization()
@@ -86,10 +70,6 @@ public interface Initialization extends NamedElement {
 	 * Returns the value of the '<em><b>Asm</b></em>' reference.
 	 * It is bidirectional and its opposite is '{@link asmeta.structure.Asm#getDefaultInitialState <em>Default Initial State</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Asm</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Asm</em>' reference.
 	 * @see #setAsm(Asm)

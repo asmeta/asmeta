@@ -1,11 +1,6 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.transitionrules.basictransitionrules;
-
 
 /**
  * <!-- begin-user-doc -->

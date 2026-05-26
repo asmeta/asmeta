@@ -119,12 +119,12 @@ signature:
 	dynamic monitored ven_removed: Boolean //True--> patient venously is removed
 	
 	//Alarm Error
-	derived errorExist: Boolean //True if exist at least one error
-	derived alarmExist: Boolean  //True if exist at least one alarm
-	derived err_patient_conn: Boolean //True if exist error during patient conn 
-	derived error_bp: Boolean //True if exist blood pump error
-	derived error_rein_press: Boolean //True if exist error during reinfusion phase
-	derived error_therapy: Boolean //True if exist error during therapy
+	derived errorExists: Boolean //True if exists at least one error
+	derived alarmExists: Boolean  //True if exists at least one alarm
+	derived err_patient_conn: Boolean //True if exists error during patient conn 
+	derived error_bp: Boolean //True if exists blood pump error
+	derived error_rein_press: Boolean //True if exists error during reinfusion phase
+	derived error_therapy: Boolean //True if exists error during therapy
 	
 	/*derived error_bicarbonate_status: Boolean 
 	derived machine_state_status: Boolean 
@@ -216,11 +216,11 @@ definitions:
 			bicarbonate_status
 		endif
 	
-	function errorExist = 
-		(exist $t in ErrorAlarmType with error($t) = true)
+	function errorExists =
+		(exists $t in ErrorAlarmType with error($t) = true)
 		
-	function alarmExist = 
-		(exist $t in ErrorAlarmType with alarm($t) = true)
+	function alarmExists =
+		(exists $t in ErrorAlarmType with alarm($t) = true)
 		
 	function err_patient_conn = 
 		(error(CONN_VP_UP) = true or error(CONN_VP_LOW)= true or error(CONN_AP_LOW)= true or error(FILL_BLOOD_VOL) = true or error(SAD_ERR) = true)
@@ -1716,12 +1716,8 @@ definitions:
 	main rule r_Main =
 		par
 			r_run_therapy[] 
-			if (errorExist = true) then
-				r_run_error[] 
-			endif
-			if (alarmExist = true) then
-				r_run_alarm[]
-			endif
+			if errorExists then r_run_error[] endif
+			if alarmExists then	r_run_alarm[] endif
 		endpar
 
 // INITIAL STATE

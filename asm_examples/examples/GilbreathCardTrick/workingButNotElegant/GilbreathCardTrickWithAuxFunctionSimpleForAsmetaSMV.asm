@@ -39,8 +39,8 @@ definitions:
 		forall $i in Index with $i >= $start and $i <= $start + idiv($end-$start,2) do
 			r_swapCards[$i, $end - ($i - $start)]
 	
-	CTLSPEC ag((forall $q in QuartetIndex, $s in Suit with (exist $i in InQuartetIndex with cardSuit($q * 4 + $i) = $s))) 
-	//CTLSPEC ag(step=END implies (forall $q in QuartetIndex, $s in Suit with (exist $i in InQuartetIndex with tempDeck($q * 4 + $i) = $s)))
+	CTLSPEC ag((forall $q in QuartetIndex, $s in Suit with (exists $i in InQuartetIndex with cardSuit($q * 4 + $i) = $s))) 
+	//CTLSPEC ag(step=END implies (forall $q in QuartetIndex, $s in Suit with (exists $i in InQuartetIndex with tempDeck($q * 4 + $i) = $s)))
 
 	main rule r_Main =
 		switch (step)

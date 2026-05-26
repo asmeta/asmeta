@@ -9,7 +9,7 @@ definitions:
 
 macro rule r_bar($a in Integer, $b in Integer, $c in Integer) =
 	f := 
-		(exist $x in Natural with $x = $a)
+		(exists $x in Natural with $x = $a)
 
 macro rule r_foo($x in Integer, $y in Integer, $z in Integer) =
 	r_bar[$y + $z, $y, $z]

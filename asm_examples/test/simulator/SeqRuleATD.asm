@@ -21,7 +21,7 @@ definitions:
 	main rule r_main = 
 		seq
 	      skip 
-	      if (exist $c in NumCard) then
+	      if (exists $c in NumCard) then
 				check := true							
 		  endif
 	    endseq

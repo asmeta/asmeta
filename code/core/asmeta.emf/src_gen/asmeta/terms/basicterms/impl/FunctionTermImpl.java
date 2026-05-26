@@ -1,21 +1,20 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.terms.basicterms.impl;
 
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import asmeta.definitions.Function;
+
 import asmeta.terms.basicterms.BasictermsPackage;
 import asmeta.terms.basicterms.FunctionTerm;
 import asmeta.terms.basicterms.TupleTerm;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -51,7 +50,6 @@ public class FunctionTermImpl extends BasicTermImpl implements FunctionTerm {
 	 * @ordered
 	 */
 	protected Function function;
-
 
 	/**
 	 * <!-- begin-user-doc -->

@@ -1,23 +1,15 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.transitionrules.derivedtransitionrules.util;
 
+import asmeta.transitionrules.basictransitionrules.Rule;
+
+import asmeta.transitionrules.derivedtransitionrules.*;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.util.Switch;
 
-import asmeta.transitionrules.basictransitionrules.Rule;
-import asmeta.transitionrules.derivedtransitionrules.BasicDerivedRule;
-import asmeta.transitionrules.derivedtransitionrules.CaseRule;
-import asmeta.transitionrules.derivedtransitionrules.DerivedRule;
-import asmeta.transitionrules.derivedtransitionrules.DerivedtransitionrulesPackage;
-import asmeta.transitionrules.derivedtransitionrules.IterativeWhileRule;
-import asmeta.transitionrules.derivedtransitionrules.RecursiveWhileRule;
-import asmeta.transitionrules.derivedtransitionrules.TurboDerivedRule;
+import org.eclipse.emf.ecore.util.Switch;
 
 /**
  * <!-- begin-user-doc -->

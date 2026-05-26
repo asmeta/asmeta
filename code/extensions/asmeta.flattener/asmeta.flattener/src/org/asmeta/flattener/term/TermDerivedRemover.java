@@ -18,8 +18,8 @@ import asmeta.terms.basicterms.VariableTerm;
 import asmeta.terms.furtherterms.CaseTerm;
 import asmeta.terms.furtherterms.ConditionalTerm;
 import asmeta.terms.furtherterms.EnumTerm;
-import asmeta.terms.furtherterms.ExistTerm;
-import asmeta.terms.furtherterms.ExistUniqueTerm;
+import asmeta.terms.furtherterms.ExistsTerm;
+import asmeta.terms.furtherterms.ExistsUniqueTerm;
 import asmeta.terms.furtherterms.FiniteQuantificationTerm;
 import asmeta.terms.furtherterms.ForallTerm;
 import asmeta.terms.furtherterms.IntegerTerm;
@@ -73,12 +73,12 @@ public class TermDerivedRemover extends ReflectiveVisitor<Term> {
 		return enumTerm;
 	}
 
-	public Term visit(ExistTerm existTerm) {
-		return visit(existTerm, ruleFact.createExistTerm());
+	public Term visit(ExistsTerm existsTerm) {
+		return visit(existsTerm, ruleFact.createExistTerm());
 	}
 
-	public Term visit(ExistUniqueTerm existUniqueTerm) {
-		return visit(existUniqueTerm, ruleFact.createExistUniqueTerm());
+	public Term visit(ExistsUniqueTerm existsUniqueTerm) {
+		return visit(existsUniqueTerm, ruleFact.createExistUniqueTerm());
 	}
 
 	public Term visit(FiniteQuantificationTerm fqtTerm, FiniteQuantificationTerm newFqtTerm) {

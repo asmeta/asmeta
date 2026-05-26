@@ -24,8 +24,8 @@ import asmeta.terms.basicterms.VariableTerm;
 import asmeta.terms.furtherterms.CaseTerm;
 import asmeta.terms.furtherterms.ConditionalTerm;
 import asmeta.terms.furtherterms.EnumTerm;
-import asmeta.terms.furtherterms.ExistTerm;
-import asmeta.terms.furtherterms.ExistUniqueTerm;
+import asmeta.terms.furtherterms.ExistsTerm;
+import asmeta.terms.furtherterms.ExistsUniqueTerm;
 import asmeta.terms.furtherterms.FiniteQuantificationTerm;
 import asmeta.terms.furtherterms.ForallTerm;
 import asmeta.terms.furtherterms.IntegerTerm;
@@ -147,12 +147,12 @@ public class RemoveArgumentsTermFlattener extends ReflectiveVisitor<Term> {
 		return visit((FiniteQuantificationTerm) forallTerm);
 	}
 
-	public Term visit(ExistTerm existTerm) {
-		return visit((FiniteQuantificationTerm) existTerm);
+	public Term visit(ExistsTerm existsTerm) {
+		return visit((FiniteQuantificationTerm) existsTerm);
 	}
 
-	public Term visit(ExistUniqueTerm existUniqueTerm) {
-		return visit((FiniteQuantificationTerm) existUniqueTerm);
+	public Term visit(ExistsUniqueTerm existsUniqueTerm) {
+		return visit((FiniteQuantificationTerm) existsUniqueTerm);
 	}
 
 	public Term visit(TupleTerm tupleTerm) throws Exception {

@@ -1,20 +1,18 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.terms.basicterms.impl;
-
-import java.util.Collection;
-
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
 import asmeta.terms.basicterms.BasictermsPackage;
 import asmeta.terms.basicterms.SetTerm;
 import asmeta.terms.basicterms.Term;
+
+import java.util.Collection;
+
+import org.eclipse.emf.common.util.EList;
+
+import org.eclipse.emf.ecore.EClass;
+
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -39,7 +37,6 @@ public class SetTermImpl extends CollectionTermImpl implements SetTerm {
 	 * @ordered
 	 */
 	protected EList<Term> term;
-
 
 	/**
 	 * <!-- begin-user-doc -->

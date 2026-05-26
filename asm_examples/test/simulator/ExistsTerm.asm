@@ -11,4 +11,4 @@ signature:
 		
 definitions:	
       	
-	function attracted = true and (exist $f in Floor with $f = 1n) 
+	function attracted = true and (exists $f in Floor with $f = 1n) 

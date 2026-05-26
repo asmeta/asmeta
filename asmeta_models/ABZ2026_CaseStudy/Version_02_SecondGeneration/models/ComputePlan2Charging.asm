@@ -48,7 +48,7 @@ rule r_PRA_selectShortest =
         plan2C :=
             chooseone(
                 { $p in planSet |
-                    not(exist $q in planSet with planLength($q) < planLength($p))
+                    not(exists $q in planSet with planLength($q) < planLength($p))
                 }
             )
     endif

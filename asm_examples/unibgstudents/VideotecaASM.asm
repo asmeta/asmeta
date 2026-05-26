@@ -118,8 +118,8 @@ definitions:
 //Questa regola permette ad un utente di noleggiare un film (restituendo quello che eventualmente già possiede)
 	rule r_noleggioFilm =
 		if(videotecaStato=NOLEGGIOINSERIMENTO) then
-			if(exist $u in Utenti with $u=utenteRiconosciuto) then
-				if(exist $f in Film with $f=filmRiconosciuto) then
+			if(exists $u in Utenti with $u=utenteRiconosciuto) then
+				if(exists $f in Film with $f=filmRiconosciuto) then
 					par
 						seq
 							if(isDef(associa(utenteRiconosciuto))) then
@@ -136,8 +136,8 @@ definitions:
 //Questa regola permette ad un utente di restituire il film che possiede
 	rule r_restituzioneFilm =
 		if(videotecaStato=RESTITUZIONEINSERIMENTO) then
-			if(exist $u in Utenti with $u=utenteRiconosciuto) then
-				if(exist $f in Film with $f=filmRiconosciuto) then
+			if(exists $u in Utenti with $u=utenteRiconosciuto) then
+				if(exists $f in Film with $f=filmRiconosciuto) then
 					par
 						r_aggiungiFilm[utenteRiconosciuto,filmRiconosciuto]
 						videotecaStato := SCELTAOPERAZIONE
@@ -149,7 +149,7 @@ definitions:
 //Questa regola, dato un film, permette di verificarne la disponibilità
 	rule r_disponibilita =
 		if(videotecaStato=FILMDISPONIBILI) then
-			if(exist $f in Film with $f=filmRiconosciuto) then
+			if(exists $f in Film with $f=filmRiconosciuto) then
 				par
 					videotecaStato := SCELTAOPERAZIONE
 					stampaMessaggio := dispFilm(filmRiconosciuto)
@@ -160,7 +160,7 @@ definitions:
 //Questa regola, dato un utente, permette di verificare quale film della videoteca possiede
 	rule r_consultazione =
 		if(videotecaStato=UTENTEFILM) then
-			if(exist $u in Utenti with $u=utenteRiconosciuto) then
+			if(exists $u in Utenti with $u=utenteRiconosciuto) then
 				par
 					videotecaStato := SCELTAOPERAZIONE
 					stampaMessaggio := associa(utenteRiconosciuto)

@@ -852,22 +852,22 @@ public interface AsmetalFactory extends EFactory
   FiniteQuantificationTerm createFiniteQuantificationTerm();
 
   /**
-   * Returns a new object of class '<em>Exist Unique Term</em>'.
+   * Returns a new object of class '<em>Exists Unique Term</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Exist Unique Term</em>'.
+   * @return a new object of class '<em>Exists Unique Term</em>'.
    * @generated
    */
-  ExistUniqueTerm createExistUniqueTerm();
+  ExistsUniqueTerm createExistsUniqueTerm();
 
   /**
-   * Returns a new object of class '<em>Exist Term</em>'.
+   * Returns a new object of class '<em>Exists Term</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Exist Term</em>'.
+   * @return a new object of class '<em>Exists Term</em>'.
    * @generated
    */
-  ExistTerm createExistTerm();
+  ExistsTerm createExistsTerm();
 
   /**
    * Returns a new object of class '<em>Forall Term</em>'.

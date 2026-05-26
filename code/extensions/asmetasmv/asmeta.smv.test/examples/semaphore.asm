@@ -70,7 +70,7 @@ definitions:
 	//AsmetaL invariant
 	//due processi non possono mai essere contemporaneamente nella regione critica
 	//two processes can never be in the critical section at the same time
-	invariant over processStatus: not(exist $a in Process, $b in Process with $a!=$b and
+	invariant over processStatus: not(exists $a in Process, $b in Process with $a!=$b and
 												processStatus($a)=CRITICAL and
 												processStatus($b)=CRITICAL  )
 
@@ -79,7 +79,7 @@ definitions:
 
 	//due processi non possono mai essere contemporaneamente nella regione critica
 	//two processes can never be in the critical section at the same time
-	CTLSPEC ag(not(exist $a in Process, $b in Process with $a!=$b and
+	CTLSPEC ag(not(exists $a in Process, $b in Process with $a!=$b and
 												processStatus($a)=CRITICAL and
 												processStatus($b)=CRITICAL  ))
 

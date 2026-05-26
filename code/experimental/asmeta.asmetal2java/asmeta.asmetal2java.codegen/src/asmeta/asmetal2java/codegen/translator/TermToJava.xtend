@@ -11,7 +11,6 @@ import asmeta.terms.furtherterms.CaseTerm
 import asmeta.terms.furtherterms.ConditionalTerm
 import asmeta.terms.furtherterms.EnumTerm
 import asmeta.terms.furtherterms.LetTerm
-import asmeta.terms.furtherterms.ExistTerm
 import asmeta.terms.furtherterms.ForallTerm
 import asmeta.terms.furtherterms.IntegerTerm
 import asmeta.terms.furtherterms.MapTerm
@@ -42,6 +41,7 @@ import asmeta.terms.furtherterms.RealTerm
 import asmeta.terms.furtherterms.CharTerm
 import asmeta.terms.basicterms.DomainTerm
 import asmeta.definitions.domains.BooleanDomain
+import asmeta.terms.furtherterms.ExistsTerm
 
 class TermToJava extends ReflectiveVisitor<String> {
 
@@ -230,7 +230,7 @@ class TermToJava extends ReflectiveVisitor<String> {
 
 	}
 
-	def String visit(ExistTerm object) {
+	def String visit(ExistsTerm object) {
 		var StringBuffer sb = new StringBuffer
 		var StringBuffer app = new StringBuffer
 

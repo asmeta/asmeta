@@ -45,9 +45,9 @@ definitions:
 
 	function isDirMachine($car in Car, $dir in Dir) =
 		if($dir = NORTH or $dir = SOUTH) then
-			(exist $r in Coord, $c in Coord with board($r,$c) = $car and board(($r + 1) mod 6, $c) = $car)
+			(exists $r in Coord, $c in Coord with board($r,$c) = $car and board(($r + 1) mod 6, $c) = $car)
 		else
-			(exist $r2 in Coord, $c2 in Coord with board($r2,$c2) = $car and board($r2, ($c2 + 1) mod 6) = $car)
+			(exists $r2 in Coord, $c2 in Coord with board($r2,$c2) = $car and board($r2, ($c2 + 1) mod 6) = $car)
 		endif
 
 	function rMove($d in Dir) =
@@ -89,13 +89,13 @@ definitions:
 	function isNextCellFree($car in Car, $dir in Dir) =
 		switch($dir)
 			case NORTH:
-				(exist $r in Coord, $c in Coord with $r > 0 and board($r,$c) = $car and isUndef(board(($r+5) mod 6,$c)))
+				(exists $r in Coord, $c in Coord with $r > 0 and board($r,$c) = $car and isUndef(board(($r+5) mod 6,$c)))
 			case SOUTH:
-				(exist $r1 in Coord, $c1 in Coord with $r1 < 5 and board($r1,$c1) = $car and isUndef(board(($r1+1) mod 6,$c1)))
+				(exists $r1 in Coord, $c1 in Coord with $r1 < 5 and board($r1,$c1) = $car and isUndef(board(($r1+1) mod 6,$c1)))
 			case WEST:
-				(exist $r3 in Coord, $c3 in Coord with $c3 > 0 and board($r3,$c3) = $car and isUndef(board($r3,($c3+5) mod 6)))
+				(exists $r3 in Coord, $c3 in Coord with $c3 > 0 and board($r3,$c3) = $car and isUndef(board($r3,($c3+5) mod 6)))
 			case EAST:
-				(exist $r2 in Coord, $c2 in Coord with $c2 < 5 and board($r2,$c2) = $car and isUndef(board($r2,($c2+1) mod 6)))
+				(exists $r2 in Coord, $c2 in Coord with $c2 < 5 and board($r2,$c2) = $car and isUndef(board($r2,($c2+1) mod 6)))
 		endswitch
 
 	function isMovePermitted($car in Car, $dir in Dir) =

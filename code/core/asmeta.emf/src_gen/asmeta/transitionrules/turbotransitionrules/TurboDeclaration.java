@@ -1,12 +1,9 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.transitionrules.turbotransitionrules;
 
 import asmeta.definitions.RuleDeclaration;
+
 import asmeta.definitions.domains.Domain;
 
 /**
@@ -29,10 +26,6 @@ public interface TurboDeclaration extends RuleDeclaration {
 	/**
 	 * Returns the value of the '<em><b>Result Type</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Result Type</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Result Type</em>' reference.
 	 * @see #setResultType(Domain)

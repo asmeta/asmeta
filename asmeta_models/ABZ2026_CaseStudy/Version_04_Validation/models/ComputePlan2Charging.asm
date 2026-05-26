@@ -30,7 +30,7 @@ function hasCharger($cs in Powerset(Prod(Coord,Coord))) =
 rule r_PRA_selectShortest =
     if not(isEmpty(planSet)) then
         plan2C :=         
-        	chooseone ({$p in planSet | not(exist $q in planSet with planLength($q) > planLength($p)) : $p})   
+        	chooseone ({$p in planSet | not(exists $q in planSet with planLength($q) > planLength($p)) : $p})   
     endif
 
 // --- CPC4: noplan iff no viable plans, else send plan2C (here: assign plan2C)

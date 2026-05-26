@@ -23,13 +23,13 @@ definitions:
 
 	// FUNCTION DEFINITIONS
 	function winner($s in Sign) =
-		(exist $r in Coord with (forall $c in Coord with board($r, $c) = $s)) or
-		(exist $c2 in Coord with (forall $r2 in Coord with board($r2, $c2) = $s)) or
+		(exists $r in Coord with (forall $c in Coord with board($r, $c) = $s)) or
+		(exists $c2 in Coord with (forall $r2 in Coord with board($r2, $c2) = $s)) or
 		(forall $d in Coord with board($d, $d) = $s) or
 		(forall $d1 in Coord with board($d1, 4 - $d1) = $s)
 
 	function endOfGame =
-		(exist $s in Sign with winner($s)) or
+		(exists $s in Sign with winner($s)) or
 		(forall $r in Coord, $c in Coord with isDef(board($r, $c)))
 
 	// RULE DEFINITIONS

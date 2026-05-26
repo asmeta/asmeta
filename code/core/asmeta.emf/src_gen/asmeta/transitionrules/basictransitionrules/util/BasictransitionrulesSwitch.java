@@ -1,32 +1,18 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.transitionrules.basictransitionrules.util;
 
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.util.Switch;
-
 import asmeta.definitions.Classifier;
 import asmeta.definitions.RuleDeclaration;
+
 import asmeta.structure.NamedElement;
-import asmeta.transitionrules.basictransitionrules.BasicRule;
-import asmeta.transitionrules.basictransitionrules.BasictransitionrulesPackage;
-import asmeta.transitionrules.basictransitionrules.BlockRule;
-import asmeta.transitionrules.basictransitionrules.ChooseRule;
-import asmeta.transitionrules.basictransitionrules.ConditionalRule;
-import asmeta.transitionrules.basictransitionrules.ExtendRule;
-import asmeta.transitionrules.basictransitionrules.ForallRule;
-import asmeta.transitionrules.basictransitionrules.LetRule;
-import asmeta.transitionrules.basictransitionrules.MacroCallRule;
-import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
-import asmeta.transitionrules.basictransitionrules.Rule;
-import asmeta.transitionrules.basictransitionrules.SkipRule;
-import asmeta.transitionrules.basictransitionrules.TermAsRule;
-import asmeta.transitionrules.basictransitionrules.UpdateRule;
+
+import asmeta.transitionrules.basictransitionrules.*;
+
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EPackage;
+
+import org.eclipse.emf.ecore.util.Switch;
 
 /**
  * <!-- begin-user-doc -->

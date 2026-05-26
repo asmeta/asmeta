@@ -1,15 +1,11 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.terms.furtherterms.impl;
 
-import org.eclipse.emf.ecore.EClass;
-
 import asmeta.terms.furtherterms.FurthertermsPackage;
 import asmeta.terms.furtherterms.MapCt;
+
+import org.eclipse.emf.ecore.EClass;
 
 /**
  * <!-- begin-user-doc -->
@@ -19,7 +15,6 @@ import asmeta.terms.furtherterms.MapCt;
  * @generated
  */
 public class MapCtImpl extends ComprehensionTermImpl implements MapCt {
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

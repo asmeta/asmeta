@@ -208,7 +208,7 @@ class BodyParsingTest {
 		var result = parseHelper.parse('''
 			asm invariant_asm
 			
-			import StandardLibrary
+			import examples/StandardLibrary
 			
 			signature:
 				enum domain Side = {LEFT | RIGHT}
@@ -273,13 +273,12 @@ class BodyParsingTest {
 		
 	}
 	
-	// TODO ritestare dopo i controlli sugli import
-	//@Test
+	@Test
 	def void testTemporalProperty() {
 		var result = parseHelper.parse('''
 			asm temporal_pro
-			import LTLlibrary
-			import CTLlibrary
+			import examples/LTLLibrary
+			import examples/CTLLibrary
 			
 			signature:		
 				domain AgentDomain subsetof Agent
@@ -304,7 +303,7 @@ class BodyParsingTest {
 				//proprieta' LTL
 				LTLSPEC g(not( (ccState(a1, 1) = EXCLUSIVE) and (ccState(a2, 1)=EXCLUSIVE) ))
 				CTLSPEC ag(ccState(a1, 1)=INVALID and ccState(a2, 1)=INVALID)	
-			''')
+			''',"temporal_pro")
 		result.assertNoErrors
 		
 		var i = 0
@@ -391,7 +390,7 @@ class BodyParsingTest {
 		// TODO trovare degli esempi validi
 		var result = parseHelper.parse('''
 			asm fairness
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature: 
 				
 			definitions: 

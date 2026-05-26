@@ -98,7 +98,7 @@ definitions:
 		if phase = EVALUATION then seq
 			// executes a runnable process
 			r_evaluationPhase[]
-			if (exist $p in Sc_Thread with status($p) = RUNNABLE) then seq
+			if (exists $p in Sc_Thread with status($p) = RUNNABLE) then seq
 				phase := EVALUATION
 				result := print("setto_evaluation_infase_evaluatio", phase) endseq
 			else
@@ -112,7 +112,7 @@ definitions:
 		endseq else if phase = DELTA_NOTIFICATION then seq
 			// delta notification
 			r_notificationPhase[]
-			if (exist $p1 in Sc_Thread with status($p1) = RUNNABLE) then
+			if (exists $p1 in Sc_Thread with status($p1) = RUNNABLE) then
 				phase := EVALUATION
 			else
 				phase := TIMED_NOTIFICATION
@@ -126,7 +126,7 @@ definitions:
 					// advances simulation time
 					time := min(asSequence({$e1 in $pendingEvents: eventTime($e1)}))
 					r_notificationPhase[]
-					if (exist $p2 in Sc_Thread with status($p2) = RUNNABLE) then
+					if (exists $p2 in Sc_Thread with status($p2) = RUNNABLE) then
 						phase := EVALUATION
 					else
 						phase := TIMED_NOTIFICATION

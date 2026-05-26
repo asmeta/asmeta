@@ -49,7 +49,7 @@ signature:
 	derived ranCurrCard: Powerset(Card)
 	
 definitions:
-	//function ranCurrCard = {$card in Card | (exist $till in Till with currCard($till)=$card)}
+	//function ranCurrCard = {$card in Card | (exists $till in Till with currCard($till)=$card)}
 
 	function isLegal($c in Card) = true //all cards are legal
 
@@ -81,7 +81,7 @@ definitions:
 
 	macro rule r_insertcard =
 		if(tillState(self)=AWAITCARD) then
-			if not(exist $till in Till with $till != self and
+			if not(exists $till in Till with $till != self and
 						                currCard($till)=insertedCard(self)) 
 			then
 				par
@@ -174,7 +174,7 @@ definitions:
 	//to check that the same card is not inserted in two different tills
 	invariant inv_card:
 	(forall $till in Till with currCard($till) != undef implies
-					not(exist $till2 in Till with $till2 != $till and
+					not(exists $till2 in Till with $till2 != $till and
 					                            currCard($till)=currCard($till2)))
 
 	main rule r_Main =

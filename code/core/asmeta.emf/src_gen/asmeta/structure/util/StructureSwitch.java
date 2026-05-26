@@ -1,29 +1,13 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.structure.util;
 
+import asmeta.structure.*;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.util.Switch;
 
-import asmeta.structure.AgentInitialization;
-import asmeta.structure.Asm;
-import asmeta.structure.Body;
-import asmeta.structure.DomainDefinition;
-import asmeta.structure.DomainInitialization;
-import asmeta.structure.ExportClause;
-import asmeta.structure.FunctionDefinition;
-import asmeta.structure.FunctionInitialization;
-import asmeta.structure.Header;
-import asmeta.structure.ImportClause;
-import asmeta.structure.Initialization;
-import asmeta.structure.NamedElement;
-import asmeta.structure.Signature;
-import asmeta.structure.StructurePackage;
+import org.eclipse.emf.ecore.util.Switch;
 
 /**
  * <!-- begin-user-doc -->

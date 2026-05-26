@@ -1,17 +1,15 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.structure;
 
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EObject;
-
 import asmeta.definitions.DynamicFunction;
+
 import asmeta.terms.basicterms.Term;
 import asmeta.terms.basicterms.VariableTerm;
+
+import org.eclipse.emf.common.util.EList;
+
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -37,10 +35,6 @@ public interface FunctionInitialization extends EObject {
 	 * Returns the value of the '<em><b>Initial State</b></em>' container reference.
 	 * It is bidirectional and its opposite is '{@link asmeta.structure.Initialization#getFunctionInitialization <em>Function Initialization</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Initial State</em>' container reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Initial State</em>' container reference.
 	 * @see #setInitialState(Initialization)
@@ -64,10 +58,6 @@ public interface FunctionInitialization extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Body</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Body</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Body</em>' reference.
 	 * @see #setBody(Term)
@@ -91,10 +81,6 @@ public interface FunctionInitialization extends EObject {
 	 * Returns the value of the '<em><b>Initialized Function</b></em>' reference.
 	 * It is bidirectional and its opposite is '{@link asmeta.definitions.DynamicFunction#getInitialization <em>Initialization</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Initialized Function</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Initialized Function</em>' reference.
 	 * @see #setInitializedFunction(DynamicFunction)
@@ -119,10 +105,6 @@ public interface FunctionInitialization extends EObject {
 	 * Returns the value of the '<em><b>Variable</b></em>' containment reference list.
 	 * The list contents are of type {@link asmeta.terms.basicterms.VariableTerm}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Variable</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Variable</em>' containment reference list.
 	 * @see asmeta.structure.StructurePackage#getFunctionInitialization_Variable()

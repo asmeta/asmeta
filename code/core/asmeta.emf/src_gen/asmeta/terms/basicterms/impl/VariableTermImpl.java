@@ -1,23 +1,23 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.terms.basicterms.impl;
-
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import asmeta.terms.basicterms.BasictermsPackage;
 import asmeta.terms.basicterms.VariableKind;
 import asmeta.terms.basicterms.VariableTerm;
+
 import asmeta.terms.furtherterms.FiniteQuantificationTerm;
 import asmeta.terms.furtherterms.FurthertermsPackage;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
  * <!-- begin-user-doc -->
@@ -75,7 +75,6 @@ public class VariableTermImpl extends BasicTermImpl implements VariableTerm {
 	 */
 	protected VariableKind kind = KIND_EDEFAULT;
 
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -111,7 +110,8 @@ public class VariableTermImpl extends BasicTermImpl implements VariableTerm {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public NotificationChain basicSetFiniteQuantificationTerm(FiniteQuantificationTerm newFiniteQuantificationTerm, NotificationChain msgs) {
+	public NotificationChain basicSetFiniteQuantificationTerm(FiniteQuantificationTerm newFiniteQuantificationTerm,
+			NotificationChain msgs) {
 		msgs = eBasicSetContainer((InternalEObject)newFiniteQuantificationTerm, BasictermsPackage.VARIABLE_TERM__FINITE_QUANTIFICATION_TERM, msgs);
 		return msgs;
 	}

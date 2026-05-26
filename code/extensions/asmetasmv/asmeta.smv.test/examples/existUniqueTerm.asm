@@ -21,15 +21,15 @@ definitions:
 
 	main rule r_Main =
 		par 
-			if(exist unique $x in MyDomain with $x=2) then
+			if(exists unique $x in MyDomain with $x=2) then
 				var_a := 3
 			else
 				var_a := 1
 			endif
 			choose $y in MyDomain with true do
 				foo($y) := not(foo($y))
-			fooA := (exist unique $z in MyDomain with foo($z))
-			fooB := (exist unique $k in MyDomain with not(foo($k)))
+			fooA := (exists unique $z in MyDomain with foo($z))
+			fooB := (exists unique $k in MyDomain with not(foo($k)))
 		endpar
 
 default init s0:

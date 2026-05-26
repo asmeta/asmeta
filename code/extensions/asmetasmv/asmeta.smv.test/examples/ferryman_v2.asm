@@ -92,7 +92,7 @@ definitions:
 					//se c'e' un attore che non puo' rimanere solo con un altro attore
 					//il ferryman lo riporta indietro con lui
 					choose $c in Actors with $c!=FERRYMAN and position($c) = RIGHT
-						and (exist $k in Actors with not(goodSituationSide($c, $k, RIGHT))) do
+						and (exists $k in Actors with not(goodSituationSide($c, $k, RIGHT))) do
 						position($c) := LEFT
 				endpar
 			endif

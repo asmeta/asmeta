@@ -15,8 +15,8 @@ import org.asmeta.xt.asmetal.ComprehensionTerm;
 import org.asmeta.xt.asmetal.ConditionalTerm;
 import org.asmeta.xt.asmetal.ConstantTerm;
 import org.asmeta.xt.asmetal.EnumTerm;
-import org.asmeta.xt.asmetal.ExistTerm;
-import org.asmeta.xt.asmetal.ExistUniqueTerm;
+import org.asmeta.xt.asmetal.ExistsTerm;
+import org.asmeta.xt.asmetal.ExistsUniqueTerm;
 import org.asmeta.xt.asmetal.Expression;
 import org.asmeta.xt.asmetal.FiniteQuantificationTerm;
 import org.asmeta.xt.asmetal.ForallTerm;
@@ -636,11 +636,11 @@ public class TermChecker {
     if ((finite_term instanceof ForallTerm)) {
       return TermChecker.isVariableListOK(((ForallTerm)finite_term));
     } else {
-      if ((finite_term instanceof ExistTerm)) {
-        return TermChecker.isVariableListOK(((ExistTerm)finite_term));
+      if ((finite_term instanceof ExistsTerm)) {
+        return TermChecker.isVariableListOK(((ExistsTerm)finite_term));
       } else {
-        if ((finite_term instanceof ExistUniqueTerm)) {
-          return TermChecker.isVariableListOK(((ExistUniqueTerm)finite_term));
+        if ((finite_term instanceof ExistsUniqueTerm)) {
+          return TermChecker.isVariableListOK(((ExistsUniqueTerm)finite_term));
         } else {
           return null;
         }
@@ -654,13 +654,13 @@ public class TermChecker {
     return SharedCheckers.returnErrorVariableDeclared("ForallTerm", feature, code, forall_term.getVariable(), forall_term);
   }
 
-  public static ErrorType isVariableListOK(final ExistTerm exist_term) {
+  public static ErrorType isVariableListOK(final ExistsTerm exist_term) {
     EStructuralFeature feature = AsmetalPackage.Literals.VARIABLE_BINDING_TERM__VARIABLE;
     String code = ErrorCode.EXIST_TERM__VARIABLE_ALREADY_USED;
     return SharedCheckers.returnErrorVariableDeclared("ExistTerm", feature, code, exist_term.getVariable(), exist_term);
   }
 
-  public static ErrorType isVariableListOK(final ExistUniqueTerm exist_unique_term) {
+  public static ErrorType isVariableListOK(final ExistsUniqueTerm exist_unique_term) {
     EStructuralFeature feature = AsmetalPackage.Literals.VARIABLE_BINDING_TERM__VARIABLE;
     String code = ErrorCode.EXIST_UNIQUE_TERM__VARIABLE_ALREADY_USED;
     return SharedCheckers.returnErrorVariableDeclared("ExistUniqueTerm", feature, code, exist_unique_term.getVariable(), exist_unique_term);

@@ -1,24 +1,24 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.definitions.impl;
+
+import asmeta.definitions.DefinitionsPackage;
+import asmeta.definitions.DynamicFunction;
+
+import asmeta.structure.FunctionInitialization;
+import asmeta.structure.StructurePackage;
 
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
-
-import asmeta.definitions.DefinitionsPackage;
-import asmeta.definitions.DynamicFunction;
-import asmeta.structure.FunctionInitialization;
-import asmeta.structure.StructurePackage;
 
 /**
  * <!-- begin-user-doc -->

@@ -84,7 +84,7 @@ definitions:
 		endseq else if phase = EVALUATION then seq
 			// executes a runnable process
 			r_evaluationPhase[]
-			if (exist $p in Process with status($p) = RUNNABLE) then
+			if (exists $p in Process with status($p) = RUNNABLE) then
 				phase := EVALUATION
 			else
 				phase := UPDATE
@@ -96,7 +96,7 @@ definitions:
 		endseq else if phase = DELTA_NOTIFICATION then seq
 			// delta notification
 			r_notificationPhase[]
-			if (exist $p1 in Process with status($p1) = RUNNABLE) then
+			if (exists $p1 in Process with status($p1) = RUNNABLE) then
 				phase := EVALUATION
 			else
 				phase := TIMED_NOTIFICATION
@@ -109,7 +109,7 @@ definitions:
 					// advances simulation time
 					time := min(asSequence({$e1 in $pendingEvents: eventTime($e1)}))
 					r_notificationPhase[]
-					if (exist $p2 in Process with status($p2) = RUNNABLE) then
+					if (exists $p2 in Process with status($p2) = RUNNABLE) then
 						phase := EVALUATION
 					else
 						phase := TIMED_NOTIFICATION

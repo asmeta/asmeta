@@ -44,9 +44,9 @@ definitions:
 		or existsCallFromTo($floor, DOWN)
 		
 	function attracted($dir in Dir, $l in Lift) =
-		$dir = UP and (exist $floor in Floor with $floor > floor($l) and hasToVisit($l, $floor))
+		$dir = UP and (exists $floor in Floor with $floor > floor($l) and hasToVisit($l, $floor))
 		or
-		$dir = DOWN and (exist $floor2 in Floor with $floor2 < floor($l) and hasToVisit($l, $floor2))
+		$dir = DOWN and (exists $floor2 in Floor with $floor2 < floor($l) and hasToVisit($l, $floor2))
 
 	function canContinue($l in Lift) =
 		attracted(dir($l), $l)

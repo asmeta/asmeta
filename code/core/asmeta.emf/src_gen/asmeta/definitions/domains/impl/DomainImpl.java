@@ -1,30 +1,33 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.definitions.domains.impl;
+
+import asmeta.definitions.DefinitionsPackage;
+import asmeta.definitions.Invariant;
+
+import asmeta.definitions.domains.Domain;
+import asmeta.definitions.domains.DomainsPackage;
+
+import asmeta.definitions.impl.ClassifierImpl;
+
+import asmeta.structure.Signature;
+import asmeta.structure.StructurePackage;
 
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.ecore.util.InternalEList;
-
-import asmeta.definitions.DefinitionsPackage;
-import asmeta.definitions.Invariant;
-import asmeta.definitions.domains.Domain;
-import asmeta.definitions.domains.DomainsPackage;
-import asmeta.definitions.impl.ClassifierImpl;
-import asmeta.structure.Signature;
-import asmeta.structure.StructurePackage;
 
 /**
  * <!-- begin-user-doc -->

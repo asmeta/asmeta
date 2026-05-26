@@ -188,8 +188,6 @@ public class HeaderParsingTest {
     }
   }
 
-  @Test
-  @Tag("TestToMavenSkip")
   public void testConcreteDomain() {
     try {
       StringConcatenation _builder = new StringConcatenation();
@@ -197,7 +195,7 @@ public class HeaderParsingTest {
       _builder.newLine();
       _builder.newLine();
       _builder.append("\t");
-      _builder.append("import StandardLibrary");
+      _builder.append("import examples/StandardLibrary");
       _builder.newLine();
       _builder.newLine();
       _builder.append("signature:");
@@ -213,7 +211,7 @@ public class HeaderParsingTest {
       _builder.newLine();
       _builder.append("definitions:");
       _builder.newLine();
-      Asm result = this.parseHelper.parse(_builder);
+      Asm result = this.parseHelper.parse(_builder, "concrete_domain");
       this._validationTestHelper.assertNoErrors(result);
       int i = 0;
       Assertions.assertEquals(3, result.getHeaderSection().getSignature().getDomain().size());
@@ -324,7 +322,7 @@ public class HeaderParsingTest {
       _builder.newLine();
       _builder.newLine();
       _builder.append("\t");
-      _builder.append("import StandardLibrary");
+      _builder.append("import examples/StandardLibrary");
       _builder.newLine();
       _builder.newLine();
       _builder.append("signature:");
@@ -413,7 +411,6 @@ public class HeaderParsingTest {
   }
 
   @Test
-  @Tag("TestToMavenSkip")
   public void testMultipleStructuredDomain() {
     try {
       StringConcatenation _builder = new StringConcatenation();
@@ -421,7 +418,7 @@ public class HeaderParsingTest {
       _builder.newLine();
       _builder.newLine();
       _builder.append("\t");
-      _builder.append("import StandardLibrary");
+      _builder.append("import examples/StandardLibrary");
       _builder.newLine();
       _builder.newLine();
       _builder.append("signature:");
@@ -434,7 +431,7 @@ public class HeaderParsingTest {
       _builder.newLine();
       _builder.append("definitions:");
       _builder.newLine();
-      Asm result = this.parseHelper.parse(_builder);
+      Asm result = this.parseHelper.parse(_builder, "multi_structured_domain");
       this._validationTestHelper.assertNoErrors(result);
       int i = 0;
       Assertions.assertEquals(2, result.getHeaderSection().getSignature().getDomain().size());
@@ -476,7 +473,7 @@ public class HeaderParsingTest {
       _builder.append("\t");
       _builder.newLine();
       _builder.append("\t");
-      _builder.append("import StandardLibrary");
+      _builder.append("import examples/StandardLibrary");
       _builder.newLine();
       _builder.newLine();
       _builder.append("signature:");
@@ -574,7 +571,6 @@ public class HeaderParsingTest {
   }
 
   @Test
-  @Tag("TestToMavenSkip")
   public void testDynamicFunction() {
     try {
       StringConcatenation _builder = new StringConcatenation();
@@ -582,7 +578,7 @@ public class HeaderParsingTest {
       _builder.newLine();
       _builder.newLine();
       _builder.append("\t");
-      _builder.append("import StandardLibrary");
+      _builder.append("import examples/StandardLibrary");
       _builder.newLine();
       _builder.newLine();
       _builder.append("signature:");
@@ -663,7 +659,7 @@ public class HeaderParsingTest {
       _builder.newLine();
       _builder.append("definitions:");
       _builder.newLine();
-      Asm result = this.parseHelper.parse(_builder);
+      Asm result = this.parseHelper.parse(_builder, "dynamic_function");
       this._validationTestHelper.assertNoErrors(result);
       int i = 0;
       Assertions.assertEquals(1, result.getHeaderSection().getSignature().getDomain().size());
@@ -801,7 +797,6 @@ public class HeaderParsingTest {
   }
 
   @Test
-  @Tag("TestToMavenSkip")
   public void testDerivedFunction() {
     try {
       StringConcatenation _builder = new StringConcatenation();
@@ -810,7 +805,7 @@ public class HeaderParsingTest {
       _builder.append("\t");
       _builder.newLine();
       _builder.append("\t");
-      _builder.append("import StandardLibrary");
+      _builder.append("import examples/StandardLibrary");
       _builder.newLine();
       _builder.newLine();
       _builder.append("signature:");
@@ -827,7 +822,7 @@ public class HeaderParsingTest {
       _builder.newLine();
       _builder.append("definitions:");
       _builder.newLine();
-      Asm result = this.parseHelper.parse(_builder);
+      Asm result = this.parseHelper.parse(_builder, "derived_function");
       this._validationTestHelper.assertNoErrors(result);
       int i = 0;
       Assertions.assertEquals(1, result.getHeaderSection().getSignature().getDomain().size());

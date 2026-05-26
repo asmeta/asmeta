@@ -1,16 +1,13 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.transitionrules.basictransitionrules.impl;
 
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
-
 import asmeta.transitionrules.basictransitionrules.BasictransitionrulesPackage;
 import asmeta.transitionrules.basictransitionrules.Rule;
+
+import org.eclipse.emf.ecore.EClass;
+
+import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -20,7 +17,6 @@ import asmeta.transitionrules.basictransitionrules.Rule;
  * @generated
  */
 public abstract class RuleImpl extends EObjectImpl implements Rule {
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

@@ -12,8 +12,6 @@ import org.asmeta.xt.asmetal.CaseTerm
 import org.asmeta.xt.asmetal.ComprehensionTerm
 import org.asmeta.xt.asmetal.ConditionalTerm
 import org.asmeta.xt.asmetal.EnumTerm
-import org.asmeta.xt.asmetal.ExistTerm
-import org.asmeta.xt.asmetal.ExistUniqueTerm
 import org.asmeta.xt.asmetal.Expression
 import org.asmeta.xt.asmetal.FiniteQuantificationTerm
 import org.asmeta.xt.asmetal.ForallTerm
@@ -35,6 +33,8 @@ import org.asmeta.xt.validation.utility.DomainTree
 import org.asmeta.xt.validation.utility.ErrorType
 import org.asmeta.xt.validation.utility.Utility
 import org.eclipse.emf.ecore.EStructuralFeature
+import org.asmeta.xt.asmetal.ExistsTerm
+import org.asmeta.xt.asmetal.ExistsUniqueTerm
 
 class TermChecker {
 	
@@ -633,9 +633,9 @@ class TermChecker {
 	
 	def static ErrorType isVariableListOK(FiniteQuantificationTerm finite_term) {
 		if ( finite_term instanceof ForallTerm ) return isVariableListOK(finite_term)
-		else if ( finite_term instanceof ExistTerm )
+		else if ( finite_term instanceof ExistsTerm )
 			return isVariableListOK(finite_term)
-		else if ( finite_term instanceof ExistUniqueTerm ) return isVariableListOK(finite_term)
+		else if ( finite_term instanceof ExistsUniqueTerm ) return isVariableListOK(finite_term)
 		else return null
 	}
 	
@@ -646,14 +646,14 @@ class TermChecker {
 		return SharedCheckers.returnErrorVariableDeclared("ForallTerm", feature, code, forall_term.variable, forall_term )
 	}
 	
-	def static ErrorType isVariableListOK(ExistTerm exist_term) {
+	def static ErrorType isVariableListOK(ExistsTerm exist_term) {
 		var EStructuralFeature feature = AsmetalPackage.Literals.VARIABLE_BINDING_TERM__VARIABLE
 		var String code = ErrorCode.EXIST_TERM__VARIABLE_ALREADY_USED
 //		Utility.changeFunctionsInDomains(exist_term)
 		return SharedCheckers.returnErrorVariableDeclared("ExistTerm", feature, code, exist_term.variable, exist_term )
 	}
 	
-	def static ErrorType isVariableListOK(ExistUniqueTerm exist_unique_term) {
+	def static ErrorType isVariableListOK(ExistsUniqueTerm exist_unique_term) {
 		var EStructuralFeature feature = AsmetalPackage.Literals.VARIABLE_BINDING_TERM__VARIABLE
 		var String code = ErrorCode.EXIST_UNIQUE_TERM__VARIABLE_ALREADY_USED
 //		Utility.changeFunctionsInDomains(exist_unique_term)
