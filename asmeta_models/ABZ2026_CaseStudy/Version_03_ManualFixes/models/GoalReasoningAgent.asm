@@ -24,7 +24,7 @@ dynamic monitored currentPosition: Position
 definitions:
 
 function nearestChargerToNow($cs in Powerset(Position)) =
-    chooseone ({$c in $cs | not(exist $d in $cs with distManhattan(currentPosition,$d) < distManhattan(currentPosition,$c)) : $c})
+    chooseone ({$c in $cs | not(exists $d in $cs with distManhattan(currentPosition,$d) < distManhattan(currentPosition,$c)) : $c})
 
 // G2: if recharge=true then set goal to nearest charger
 rule r_setGoalToNearestCharger =

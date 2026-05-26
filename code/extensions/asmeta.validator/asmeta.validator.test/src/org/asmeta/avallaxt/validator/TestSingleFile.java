@@ -398,19 +398,28 @@ class TestSingleFile extends TestValidator {
 	}
 
 	// 
-	@Test @Disabled void abz26CaseStudy() throws Exception {
-		String scenarioPath = ASM_EXAMPLES + "/../asmeta_models\\ABZ2026_CaseStudy\\SecondGeneration_AfterSimulation\\abstractests\\testtest0.avalla";
-		test(scenarioPath, false, false, true);		
+	@Test @Disabled 
+	public void testABZ26CaseStudy() throws Exception {
+		String scenarioPath = ASM_EXAMPLES + "/../asmeta_models\\ABZ2026_CaseStudy\\SecondGeneration_AfterValidation\\abstractests\\testtest0.avalla";
+		test(scenarioPath, true, false, true);		
 	}
 
 	// 
-	@Test @Disabled void abz26CaseStudyChatGPT() throws Exception {
-		String scenarioPath = ASM_EXAMPLES + "/../asmeta_models/ABZ2026_CaseStudy/SecondGeneration_AfterSimulation/scenarios_gpt/scenario0_fixed.avalla";
-		test(scenarioPath, false, false, true);		
+	@Test @Disabled
+	public void testABZ26CaseStudyChatGPT() throws Exception {
+		String scenarioPath = ASM_EXAMPLES + "/../asmeta_models/ABZ2026_CaseStudy/SecondGeneration_AfterValidation/scenarios_gpt/scenario1_fixed.avalla";
+		test(scenarioPath, true, true, true);		
 	}
 
-	@Test @Disabled void abz26CaseStudyFolder() throws Exception {
-		String scenarioPath = ASM_EXAMPLES + "/../asmeta_models/ABZ2026_CaseStudy/SecondGeneration_AfterSimulation/abstracttests/";
+	@Test @Disabled
+	public void testABZ26CaseStudyFolder() throws Exception {
+		String scenarioPath = ASM_EXAMPLES + "/../asmeta_models/ABZ2026_CaseStudy/SecondGeneration_AfterValidation/abstracttests/";
+		test(scenarioPath, true, true, true);		
+	}
+	
+	@Test @Disabled
+	public void testABZ26CaseStudyATGT() throws Exception {
+		String scenarioPath = ASM_EXAMPLES + "/../asmeta_models/ABZ2026_CaseStudy/SecondGeneration_AfterValidation/abstracttests/scenario2.avalla";
 		test(scenarioPath, true, true, true);		
 	}
 

@@ -1,15 +1,11 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.definitions.impl;
 
-import org.eclipse.emf.ecore.EClass;
-
 import asmeta.definitions.DefinitionsPackage;
 import asmeta.definitions.OutFunction;
+
+import org.eclipse.emf.ecore.EClass;
 
 /**
  * <!-- begin-user-doc -->
@@ -19,7 +15,6 @@ import asmeta.definitions.OutFunction;
  * @generated
  */
 public class OutFunctionImpl extends DynamicFunctionImpl implements OutFunction {
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

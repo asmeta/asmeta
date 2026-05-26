@@ -4,7 +4,6 @@ package asmeta.definitions;
 
 import asmeta.terms.basicterms.Term;
 
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Invar Constraint</b></em>'.
@@ -22,14 +21,9 @@ import asmeta.terms.basicterms.Term;
  * @generated
  */
 public interface InvarConstraint extends Classifier {
-
 	/**
 	 * Returns the value of the '<em><b>Body</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Body</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Body</em>' containment reference.
 	 * @see #setBody(Term)
@@ -48,4 +42,5 @@ public interface InvarConstraint extends Classifier {
 	 * @generated
 	 */
 	void setBody(Term value);
+
 } // InvarConstraint

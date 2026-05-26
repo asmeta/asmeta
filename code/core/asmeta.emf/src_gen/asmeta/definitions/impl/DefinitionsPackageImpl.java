@@ -1,16 +1,6 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.definitions.impl;
-
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.impl.EPackageImpl;
 
 import asmeta.definitions.BasicFunction;
 import asmeta.definitions.Classifier;
@@ -35,21 +25,44 @@ import asmeta.definitions.RuleDeclaration;
 import asmeta.definitions.SharedFunction;
 import asmeta.definitions.StaticFunction;
 import asmeta.definitions.TemporalProperty;
+
 import asmeta.definitions.domains.DomainsPackage;
+
 import asmeta.definitions.domains.impl.DomainsPackageImpl;
+
 import asmeta.structure.StructurePackage;
+
 import asmeta.structure.impl.StructurePackageImpl;
+
 import asmeta.terms.basicterms.BasictermsPackage;
+
 import asmeta.terms.basicterms.impl.BasictermsPackageImpl;
+
 import asmeta.terms.furtherterms.FurthertermsPackage;
+
 import asmeta.terms.furtherterms.impl.FurthertermsPackageImpl;
+
 import asmeta.transitionrules.basictransitionrules.BasictransitionrulesPackage;
+
 import asmeta.transitionrules.basictransitionrules.impl.BasictransitionrulesPackageImpl;
+
 import asmeta.transitionrules.derivedtransitionrules.DerivedtransitionrulesPackage;
+
 import asmeta.transitionrules.derivedtransitionrules.impl.DerivedtransitionrulesPackageImpl;
+
 import asmeta.transitionrules.turbotransitionrules.TurbotransitionrulesPackage;
+
 import asmeta.transitionrules.turbotransitionrules.impl.TurbotransitionrulesPackageImpl;
+
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
+
+import org.eclipse.emf.ecore.impl.EPackageImpl;
+
 import primitivetypes.PrimitivetypesPackage;
+
 import primitivetypes.impl.PrimitivetypesPackageImpl;
 
 /**

@@ -1,20 +1,18 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.definitions.domains.impl;
-
-import java.util.Collection;
-
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.util.EDataTypeEList;
 
 import asmeta.definitions.domains.Domain;
 import asmeta.definitions.domains.DomainsPackage;
 import asmeta.definitions.domains.RuleDomain;
+
+import java.util.Collection;
+
+import org.eclipse.emf.common.util.EList;
+
+import org.eclipse.emf.ecore.EClass;
+
+import org.eclipse.emf.ecore.util.EDataTypeEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -30,7 +28,7 @@ import asmeta.definitions.domains.RuleDomain;
  * @generated
  */
 public class RuleDomainImpl extends StructuredTdImpl implements RuleDomain {
-/**
+	/**
 	 * The cached value of the '{@link #getDomains() <em>Domains</em>}' attribute list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -40,7 +38,7 @@ public class RuleDomainImpl extends StructuredTdImpl implements RuleDomain {
 	 */
 	protected EList<Domain> domains;
 
-		/**
+	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated

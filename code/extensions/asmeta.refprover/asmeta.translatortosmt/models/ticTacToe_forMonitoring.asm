@@ -18,9 +18,9 @@ definitions:
     domain Coord = {1 : 3}
 
     function winner($s in Sign) =
-        (exist $r in Coord with
+        (exists $r in Coord with
                          (forall $c in Coord with board($r, $c) = $s)) or
-        (exist $k in Coord with
+        (exists $k in Coord with
                          (forall $t in Coord with board($t, $k) = $s)) or
         (forall $d in Coord with board($d, $d) = $s) or
         (forall $d1 in Coord with board($d1, 4 - $d1) = $s)

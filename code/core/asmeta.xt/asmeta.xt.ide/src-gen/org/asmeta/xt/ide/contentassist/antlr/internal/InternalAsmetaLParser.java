@@ -23,7 +23,7 @@ import java.util.HashMap;
 @SuppressWarnings("all")
 public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
     public static final String[] tokenNames = new String[] {
-        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_STRING", "RULE_ID", "RULE_ENUM_ID", "RULE_RULE_ID", "RULE_NUMBER_TOKEN", "RULE_REAL_NUMBER", "RULE_COMPLEX_NUMBER", "RULE_NATNUMBER", "RULE_CHAR_LITERAL", "RULE_STRING_LITERAL", "RULE_DIGIT", "RULE_MAIUSC_ID", "RULE_MIN_ID", "RULE_ACCENT_CHR", "RULE_SPECIAL_CHAR", "RULE_WS", "RULE_IMMAGINARY_NUMBER", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "'asm'", "'module'", "'Agent'", "'CTLSPEC'", "'ctlspec'", "'LTLSPEC'", "'ltlspec'", "'|'", "','", "'and'", "'or'", "'not'", "'xor'", "'mod'", "'iff'", "'implies'", "'while'", "'for'", "'main'", "'='", "'!='", "'>'", "'<'", "'>='", "'<='", "'+'", "'-'", "'*'", "'/'", "'true'", "'false'", "'->'", "'../'", "'./'", "'rule'", "'agent'", "'seq'", "'default'", "'import'", "'('", "')'", "'export'", "'signature'", "':'", "'init'", "'domain'", "'function'", "'in'", "'definitions'", "'macro'", "'turbo'", "'invariant'", "'over'", "'JUSTICE'", "'COMPASSION'", "'INVAR'", "'subsetof'", "'anydomain'", "'basic'", "'abstract'", "'enum'", "'{'", "'}'", "'derived'", "'static'", "'local'", "'controlled'", "'shared'", "'monitored'", "'out'", "'.'", "'if'", "'then'", "'endif'", "'else'", "'switch'", "'endswitch'", "'case'", "'otherwise'", "'['", "']'", "'exist'", "'unique'", "'with'", "'forall'", "'let'", "'endlet'", "'<<'", "'>>'", "'skip'", "':='", "'par'", "'endpar'", "'choose'", "'do'", "'ifnone'", "'extend'", "'endseq'", "'iterate'", "'enditerate'", "'<-'", "'whilerec'", "'$'", "'asyncr'", "'dynamic'", "'Integer'", "'Real'", "'String'", "'Natural'", "'Char'", "'Complex'", "'Boolean'", "'Undef'", "'Reserve'", "'Rule'", "'Prod'", "'Seq'", "'Powerset'", "'Bag'", "'Map'", "'^'", "'undef'"
+        "<invalid>", "<EOR>", "<DOWN>", "<UP>", "RULE_STRING", "RULE_ID", "RULE_ENUM_ID", "RULE_RULE_ID", "RULE_NUMBER_TOKEN", "RULE_REAL_NUMBER", "RULE_COMPLEX_NUMBER", "RULE_NATNUMBER", "RULE_CHAR_LITERAL", "RULE_STRING_LITERAL", "RULE_DIGIT", "RULE_MAIUSC_ID", "RULE_MIN_ID", "RULE_ACCENT_CHR", "RULE_SPECIAL_CHAR", "RULE_WS", "RULE_IMMAGINARY_NUMBER", "RULE_ML_COMMENT", "RULE_SL_COMMENT", "'asm'", "'module'", "'Agent'", "'CTLSPEC'", "'ctlspec'", "'LTLSPEC'", "'ltlspec'", "'|'", "','", "'and'", "'or'", "'not'", "'xor'", "'mod'", "'iff'", "'implies'", "'while'", "'for'", "'main'", "'='", "'!='", "'>'", "'<'", "'>='", "'<='", "'+'", "'-'", "'*'", "'/'", "'true'", "'false'", "'->'", "'../'", "'./'", "'rule'", "'agent'", "'seq'", "'default'", "'import'", "'('", "')'", "'export'", "'signature'", "':'", "'init'", "'domain'", "'function'", "'in'", "'definitions'", "'macro'", "'turbo'", "'invariant'", "'over'", "'JUSTICE'", "'COMPASSION'", "'INVAR'", "'subsetof'", "'anydomain'", "'basic'", "'abstract'", "'enum'", "'{'", "'}'", "'derived'", "'static'", "'local'", "'controlled'", "'shared'", "'monitored'", "'out'", "'.'", "'if'", "'then'", "'endif'", "'else'", "'switch'", "'endswitch'", "'case'", "'otherwise'", "'['", "']'", "'exists'", "'unique'", "'with'", "'forall'", "'let'", "'endlet'", "'<<'", "'>>'", "'skip'", "':='", "'par'", "'endpar'", "'choose'", "'do'", "'ifnone'", "'extend'", "'endseq'", "'iterate'", "'enditerate'", "'<-'", "'whilerec'", "'$'", "'asyncr'", "'dynamic'", "'Integer'", "'Real'", "'String'", "'Natural'", "'Char'", "'Complex'", "'Boolean'", "'Undef'", "'Reserve'", "'Rule'", "'Prod'", "'Seq'", "'Powerset'", "'Bag'", "'Map'", "'^'", "'undef'"
     };
     public static final int T__144=144;
     public static final int T__143=143;
@@ -9467,23 +9467,23 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
     // $ANTLR end "ruleFiniteQuantificationTerm"
 
 
-    // $ANTLR start "entryRuleExistUniqueTerm"
-    // InternalAsmetaL.g:2779:1: entryRuleExistUniqueTerm : ruleExistUniqueTerm EOF ;
-    public final void entryRuleExistUniqueTerm() throws RecognitionException {
+    // $ANTLR start "entryRuleExistsUniqueTerm"
+    // InternalAsmetaL.g:2779:1: entryRuleExistsUniqueTerm : ruleExistsUniqueTerm EOF ;
+    public final void entryRuleExistsUniqueTerm() throws RecognitionException {
         try {
-            // InternalAsmetaL.g:2780:1: ( ruleExistUniqueTerm EOF )
-            // InternalAsmetaL.g:2781:1: ruleExistUniqueTerm EOF
+            // InternalAsmetaL.g:2780:1: ( ruleExistsUniqueTerm EOF )
+            // InternalAsmetaL.g:2781:1: ruleExistsUniqueTerm EOF
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getExistUniqueTermRule()); 
+               before(grammarAccess.getExistsUniqueTermRule()); 
             }
             pushFollow(FOLLOW_1);
-            ruleExistUniqueTerm();
+            ruleExistsUniqueTerm();
 
             state._fsp--;
             if (state.failed) return ;
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getExistUniqueTermRule()); 
+               after(grammarAccess.getExistsUniqueTermRule()); 
             }
             match(input,EOF,FOLLOW_2); if (state.failed) return ;
 
@@ -9498,30 +9498,30 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "entryRuleExistUniqueTerm"
+    // $ANTLR end "entryRuleExistsUniqueTerm"
 
 
-    // $ANTLR start "ruleExistUniqueTerm"
-    // InternalAsmetaL.g:2788:1: ruleExistUniqueTerm : ( ( rule__ExistUniqueTerm__Group__0 ) ) ;
-    public final void ruleExistUniqueTerm() throws RecognitionException {
+    // $ANTLR start "ruleExistsUniqueTerm"
+    // InternalAsmetaL.g:2788:1: ruleExistsUniqueTerm : ( ( rule__ExistsUniqueTerm__Group__0 ) ) ;
+    public final void ruleExistsUniqueTerm() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:2792:2: ( ( ( rule__ExistUniqueTerm__Group__0 ) ) )
-            // InternalAsmetaL.g:2793:2: ( ( rule__ExistUniqueTerm__Group__0 ) )
+            // InternalAsmetaL.g:2792:2: ( ( ( rule__ExistsUniqueTerm__Group__0 ) ) )
+            // InternalAsmetaL.g:2793:2: ( ( rule__ExistsUniqueTerm__Group__0 ) )
             {
-            // InternalAsmetaL.g:2793:2: ( ( rule__ExistUniqueTerm__Group__0 ) )
-            // InternalAsmetaL.g:2794:3: ( rule__ExistUniqueTerm__Group__0 )
+            // InternalAsmetaL.g:2793:2: ( ( rule__ExistsUniqueTerm__Group__0 ) )
+            // InternalAsmetaL.g:2794:3: ( rule__ExistsUniqueTerm__Group__0 )
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getExistUniqueTermAccess().getGroup()); 
+               before(grammarAccess.getExistsUniqueTermAccess().getGroup()); 
             }
-            // InternalAsmetaL.g:2795:3: ( rule__ExistUniqueTerm__Group__0 )
-            // InternalAsmetaL.g:2795:4: rule__ExistUniqueTerm__Group__0
+            // InternalAsmetaL.g:2795:3: ( rule__ExistsUniqueTerm__Group__0 )
+            // InternalAsmetaL.g:2795:4: rule__ExistsUniqueTerm__Group__0
             {
             pushFollow(FOLLOW_2);
-            rule__ExistUniqueTerm__Group__0();
+            rule__ExistsUniqueTerm__Group__0();
 
             state._fsp--;
             if (state.failed) return ;
@@ -9529,7 +9529,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             }
 
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getExistUniqueTermAccess().getGroup()); 
+               after(grammarAccess.getExistsUniqueTermAccess().getGroup()); 
             }
 
             }
@@ -9549,26 +9549,26 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "ruleExistUniqueTerm"
+    // $ANTLR end "ruleExistsUniqueTerm"
 
 
-    // $ANTLR start "entryRuleExistTerm"
-    // InternalAsmetaL.g:2804:1: entryRuleExistTerm : ruleExistTerm EOF ;
-    public final void entryRuleExistTerm() throws RecognitionException {
+    // $ANTLR start "entryRuleExistsTerm"
+    // InternalAsmetaL.g:2804:1: entryRuleExistsTerm : ruleExistsTerm EOF ;
+    public final void entryRuleExistsTerm() throws RecognitionException {
         try {
-            // InternalAsmetaL.g:2805:1: ( ruleExistTerm EOF )
-            // InternalAsmetaL.g:2806:1: ruleExistTerm EOF
+            // InternalAsmetaL.g:2805:1: ( ruleExistsTerm EOF )
+            // InternalAsmetaL.g:2806:1: ruleExistsTerm EOF
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getExistTermRule()); 
+               before(grammarAccess.getExistsTermRule()); 
             }
             pushFollow(FOLLOW_1);
-            ruleExistTerm();
+            ruleExistsTerm();
 
             state._fsp--;
             if (state.failed) return ;
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getExistTermRule()); 
+               after(grammarAccess.getExistsTermRule()); 
             }
             match(input,EOF,FOLLOW_2); if (state.failed) return ;
 
@@ -9583,30 +9583,30 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "entryRuleExistTerm"
+    // $ANTLR end "entryRuleExistsTerm"
 
 
-    // $ANTLR start "ruleExistTerm"
-    // InternalAsmetaL.g:2813:1: ruleExistTerm : ( ( rule__ExistTerm__Group__0 ) ) ;
-    public final void ruleExistTerm() throws RecognitionException {
+    // $ANTLR start "ruleExistsTerm"
+    // InternalAsmetaL.g:2813:1: ruleExistsTerm : ( ( rule__ExistsTerm__Group__0 ) ) ;
+    public final void ruleExistsTerm() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:2817:2: ( ( ( rule__ExistTerm__Group__0 ) ) )
-            // InternalAsmetaL.g:2818:2: ( ( rule__ExistTerm__Group__0 ) )
+            // InternalAsmetaL.g:2817:2: ( ( ( rule__ExistsTerm__Group__0 ) ) )
+            // InternalAsmetaL.g:2818:2: ( ( rule__ExistsTerm__Group__0 ) )
             {
-            // InternalAsmetaL.g:2818:2: ( ( rule__ExistTerm__Group__0 ) )
-            // InternalAsmetaL.g:2819:3: ( rule__ExistTerm__Group__0 )
+            // InternalAsmetaL.g:2818:2: ( ( rule__ExistsTerm__Group__0 ) )
+            // InternalAsmetaL.g:2819:3: ( rule__ExistsTerm__Group__0 )
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getExistTermAccess().getGroup()); 
+               before(grammarAccess.getExistsTermAccess().getGroup()); 
             }
-            // InternalAsmetaL.g:2820:3: ( rule__ExistTerm__Group__0 )
-            // InternalAsmetaL.g:2820:4: rule__ExistTerm__Group__0
+            // InternalAsmetaL.g:2820:3: ( rule__ExistsTerm__Group__0 )
+            // InternalAsmetaL.g:2820:4: rule__ExistsTerm__Group__0
             {
             pushFollow(FOLLOW_2);
-            rule__ExistTerm__Group__0();
+            rule__ExistsTerm__Group__0();
 
             state._fsp--;
             if (state.failed) return ;
@@ -9614,7 +9614,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             }
 
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getExistTermAccess().getGroup()); 
+               after(grammarAccess.getExistsTermAccess().getGroup()); 
             }
 
             }
@@ -9634,7 +9634,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "ruleExistTerm"
+    // $ANTLR end "ruleExistsTerm"
 
 
     // $ANTLR start "entryRuleForallTerm"
@@ -18672,13 +18672,13 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
 
 
     // $ANTLR start "rule__FiniteQuantificationTerm__Alternatives"
-    // InternalAsmetaL.g:5086:1: rule__FiniteQuantificationTerm__Alternatives : ( ( ruleForallTerm ) | ( ruleExistUniqueTerm ) | ( ruleExistTerm ) );
+    // InternalAsmetaL.g:5086:1: rule__FiniteQuantificationTerm__Alternatives : ( ( ruleForallTerm ) | ( ruleExistsUniqueTerm ) | ( ruleExistsTerm ) );
     public final void rule__FiniteQuantificationTerm__Alternatives() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:5090:1: ( ( ruleForallTerm ) | ( ruleExistUniqueTerm ) | ( ruleExistTerm ) )
+            // InternalAsmetaL.g:5090:1: ( ( ruleForallTerm ) | ( ruleExistsUniqueTerm ) | ( ruleExistsTerm ) )
             int alt55=3;
             int LA55_0 = input.LA(1);
 
@@ -18745,21 +18745,21 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
                     }
                     break;
                 case 2 :
-                    // InternalAsmetaL.g:5097:2: ( ruleExistUniqueTerm )
+                    // InternalAsmetaL.g:5097:2: ( ruleExistsUniqueTerm )
                     {
-                    // InternalAsmetaL.g:5097:2: ( ruleExistUniqueTerm )
-                    // InternalAsmetaL.g:5098:3: ruleExistUniqueTerm
+                    // InternalAsmetaL.g:5097:2: ( ruleExistsUniqueTerm )
+                    // InternalAsmetaL.g:5098:3: ruleExistsUniqueTerm
                     {
                     if ( state.backtracking==0 ) {
-                       before(grammarAccess.getFiniteQuantificationTermAccess().getExistUniqueTermParserRuleCall_1()); 
+                       before(grammarAccess.getFiniteQuantificationTermAccess().getExistsUniqueTermParserRuleCall_1()); 
                     }
                     pushFollow(FOLLOW_2);
-                    ruleExistUniqueTerm();
+                    ruleExistsUniqueTerm();
 
                     state._fsp--;
                     if (state.failed) return ;
                     if ( state.backtracking==0 ) {
-                       after(grammarAccess.getFiniteQuantificationTermAccess().getExistUniqueTermParserRuleCall_1()); 
+                       after(grammarAccess.getFiniteQuantificationTermAccess().getExistsUniqueTermParserRuleCall_1()); 
                     }
 
                     }
@@ -18768,21 +18768,21 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
                     }
                     break;
                 case 3 :
-                    // InternalAsmetaL.g:5103:2: ( ruleExistTerm )
+                    // InternalAsmetaL.g:5103:2: ( ruleExistsTerm )
                     {
-                    // InternalAsmetaL.g:5103:2: ( ruleExistTerm )
-                    // InternalAsmetaL.g:5104:3: ruleExistTerm
+                    // InternalAsmetaL.g:5103:2: ( ruleExistsTerm )
+                    // InternalAsmetaL.g:5104:3: ruleExistsTerm
                     {
                     if ( state.backtracking==0 ) {
-                       before(grammarAccess.getFiniteQuantificationTermAccess().getExistTermParserRuleCall_2()); 
+                       before(grammarAccess.getFiniteQuantificationTermAccess().getExistsTermParserRuleCall_2()); 
                     }
                     pushFollow(FOLLOW_2);
-                    ruleExistTerm();
+                    ruleExistsTerm();
 
                     state._fsp--;
                     if (state.failed) return ;
                     if ( state.backtracking==0 ) {
-                       after(grammarAccess.getFiniteQuantificationTermAccess().getExistTermParserRuleCall_2()); 
+                       after(grammarAccess.getFiniteQuantificationTermAccess().getExistsTermParserRuleCall_2()); 
                     }
 
                     }
@@ -58286,23 +58286,23 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
     // $ANTLR end "rule__BagTerm__Group_2_1_1_2__1__Impl"
 
 
-    // $ANTLR start "rule__ExistUniqueTerm__Group__0"
-    // InternalAsmetaL.g:17322:1: rule__ExistUniqueTerm__Group__0 : rule__ExistUniqueTerm__Group__0__Impl rule__ExistUniqueTerm__Group__1 ;
-    public final void rule__ExistUniqueTerm__Group__0() throws RecognitionException {
+    // $ANTLR start "rule__ExistsUniqueTerm__Group__0"
+    // InternalAsmetaL.g:17322:1: rule__ExistsUniqueTerm__Group__0 : rule__ExistsUniqueTerm__Group__0__Impl rule__ExistsUniqueTerm__Group__1 ;
+    public final void rule__ExistsUniqueTerm__Group__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:17326:1: ( rule__ExistUniqueTerm__Group__0__Impl rule__ExistUniqueTerm__Group__1 )
-            // InternalAsmetaL.g:17327:2: rule__ExistUniqueTerm__Group__0__Impl rule__ExistUniqueTerm__Group__1
+            // InternalAsmetaL.g:17326:1: ( rule__ExistsUniqueTerm__Group__0__Impl rule__ExistsUniqueTerm__Group__1 )
+            // InternalAsmetaL.g:17327:2: rule__ExistsUniqueTerm__Group__0__Impl rule__ExistsUniqueTerm__Group__1
             {
             pushFollow(FOLLOW_104);
-            rule__ExistUniqueTerm__Group__0__Impl();
+            rule__ExistsUniqueTerm__Group__0__Impl();
 
             state._fsp--;
             if (state.failed) return ;
             pushFollow(FOLLOW_2);
-            rule__ExistUniqueTerm__Group__1();
+            rule__ExistsUniqueTerm__Group__1();
 
             state._fsp--;
             if (state.failed) return ;
@@ -58321,12 +58321,12 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistUniqueTerm__Group__0"
+    // $ANTLR end "rule__ExistsUniqueTerm__Group__0"
 
 
-    // $ANTLR start "rule__ExistUniqueTerm__Group__0__Impl"
-    // InternalAsmetaL.g:17334:1: rule__ExistUniqueTerm__Group__0__Impl : ( '(' ) ;
-    public final void rule__ExistUniqueTerm__Group__0__Impl() throws RecognitionException {
+    // $ANTLR start "rule__ExistsUniqueTerm__Group__0__Impl"
+    // InternalAsmetaL.g:17334:1: rule__ExistsUniqueTerm__Group__0__Impl : ( '(' ) ;
+    public final void rule__ExistsUniqueTerm__Group__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
@@ -58338,11 +58338,11 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             // InternalAsmetaL.g:17340:2: '('
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getExistUniqueTermAccess().getLeftParenthesisKeyword_0()); 
+               before(grammarAccess.getExistsUniqueTermAccess().getLeftParenthesisKeyword_0()); 
             }
             match(input,62,FOLLOW_2); if (state.failed) return ;
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getExistUniqueTermAccess().getLeftParenthesisKeyword_0()); 
+               after(grammarAccess.getExistsUniqueTermAccess().getLeftParenthesisKeyword_0()); 
             }
 
             }
@@ -58362,26 +58362,26 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistUniqueTerm__Group__0__Impl"
+    // $ANTLR end "rule__ExistsUniqueTerm__Group__0__Impl"
 
 
-    // $ANTLR start "rule__ExistUniqueTerm__Group__1"
-    // InternalAsmetaL.g:17349:1: rule__ExistUniqueTerm__Group__1 : rule__ExistUniqueTerm__Group__1__Impl rule__ExistUniqueTerm__Group__2 ;
-    public final void rule__ExistUniqueTerm__Group__1() throws RecognitionException {
+    // $ANTLR start "rule__ExistsUniqueTerm__Group__1"
+    // InternalAsmetaL.g:17349:1: rule__ExistsUniqueTerm__Group__1 : rule__ExistsUniqueTerm__Group__1__Impl rule__ExistsUniqueTerm__Group__2 ;
+    public final void rule__ExistsUniqueTerm__Group__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:17353:1: ( rule__ExistUniqueTerm__Group__1__Impl rule__ExistUniqueTerm__Group__2 )
-            // InternalAsmetaL.g:17354:2: rule__ExistUniqueTerm__Group__1__Impl rule__ExistUniqueTerm__Group__2
+            // InternalAsmetaL.g:17353:1: ( rule__ExistsUniqueTerm__Group__1__Impl rule__ExistsUniqueTerm__Group__2 )
+            // InternalAsmetaL.g:17354:2: rule__ExistsUniqueTerm__Group__1__Impl rule__ExistsUniqueTerm__Group__2
             {
             pushFollow(FOLLOW_105);
-            rule__ExistUniqueTerm__Group__1__Impl();
+            rule__ExistsUniqueTerm__Group__1__Impl();
 
             state._fsp--;
             if (state.failed) return ;
             pushFollow(FOLLOW_2);
-            rule__ExistUniqueTerm__Group__2();
+            rule__ExistsUniqueTerm__Group__2();
 
             state._fsp--;
             if (state.failed) return ;
@@ -58400,28 +58400,28 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistUniqueTerm__Group__1"
+    // $ANTLR end "rule__ExistsUniqueTerm__Group__1"
 
 
-    // $ANTLR start "rule__ExistUniqueTerm__Group__1__Impl"
-    // InternalAsmetaL.g:17361:1: rule__ExistUniqueTerm__Group__1__Impl : ( 'exist' ) ;
-    public final void rule__ExistUniqueTerm__Group__1__Impl() throws RecognitionException {
+    // $ANTLR start "rule__ExistsUniqueTerm__Group__1__Impl"
+    // InternalAsmetaL.g:17361:1: rule__ExistsUniqueTerm__Group__1__Impl : ( 'exists' ) ;
+    public final void rule__ExistsUniqueTerm__Group__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:17365:1: ( ( 'exist' ) )
-            // InternalAsmetaL.g:17366:1: ( 'exist' )
+            // InternalAsmetaL.g:17365:1: ( ( 'exists' ) )
+            // InternalAsmetaL.g:17366:1: ( 'exists' )
             {
-            // InternalAsmetaL.g:17366:1: ( 'exist' )
-            // InternalAsmetaL.g:17367:2: 'exist'
+            // InternalAsmetaL.g:17366:1: ( 'exists' )
+            // InternalAsmetaL.g:17367:2: 'exists'
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getExistUniqueTermAccess().getExistKeyword_1()); 
+               before(grammarAccess.getExistsUniqueTermAccess().getExistsKeyword_1()); 
             }
             match(input,104,FOLLOW_2); if (state.failed) return ;
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getExistUniqueTermAccess().getExistKeyword_1()); 
+               after(grammarAccess.getExistsUniqueTermAccess().getExistsKeyword_1()); 
             }
 
             }
@@ -58441,26 +58441,26 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistUniqueTerm__Group__1__Impl"
+    // $ANTLR end "rule__ExistsUniqueTerm__Group__1__Impl"
 
 
-    // $ANTLR start "rule__ExistUniqueTerm__Group__2"
-    // InternalAsmetaL.g:17376:1: rule__ExistUniqueTerm__Group__2 : rule__ExistUniqueTerm__Group__2__Impl rule__ExistUniqueTerm__Group__3 ;
-    public final void rule__ExistUniqueTerm__Group__2() throws RecognitionException {
+    // $ANTLR start "rule__ExistsUniqueTerm__Group__2"
+    // InternalAsmetaL.g:17376:1: rule__ExistsUniqueTerm__Group__2 : rule__ExistsUniqueTerm__Group__2__Impl rule__ExistsUniqueTerm__Group__3 ;
+    public final void rule__ExistsUniqueTerm__Group__2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:17380:1: ( rule__ExistUniqueTerm__Group__2__Impl rule__ExistUniqueTerm__Group__3 )
-            // InternalAsmetaL.g:17381:2: rule__ExistUniqueTerm__Group__2__Impl rule__ExistUniqueTerm__Group__3
+            // InternalAsmetaL.g:17380:1: ( rule__ExistsUniqueTerm__Group__2__Impl rule__ExistsUniqueTerm__Group__3 )
+            // InternalAsmetaL.g:17381:2: rule__ExistsUniqueTerm__Group__2__Impl rule__ExistsUniqueTerm__Group__3
             {
             pushFollow(FOLLOW_35);
-            rule__ExistUniqueTerm__Group__2__Impl();
+            rule__ExistsUniqueTerm__Group__2__Impl();
 
             state._fsp--;
             if (state.failed) return ;
             pushFollow(FOLLOW_2);
-            rule__ExistUniqueTerm__Group__3();
+            rule__ExistsUniqueTerm__Group__3();
 
             state._fsp--;
             if (state.failed) return ;
@@ -58479,12 +58479,12 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistUniqueTerm__Group__2"
+    // $ANTLR end "rule__ExistsUniqueTerm__Group__2"
 
 
-    // $ANTLR start "rule__ExistUniqueTerm__Group__2__Impl"
-    // InternalAsmetaL.g:17388:1: rule__ExistUniqueTerm__Group__2__Impl : ( 'unique' ) ;
-    public final void rule__ExistUniqueTerm__Group__2__Impl() throws RecognitionException {
+    // $ANTLR start "rule__ExistsUniqueTerm__Group__2__Impl"
+    // InternalAsmetaL.g:17388:1: rule__ExistsUniqueTerm__Group__2__Impl : ( 'unique' ) ;
+    public final void rule__ExistsUniqueTerm__Group__2__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
@@ -58496,11 +58496,11 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             // InternalAsmetaL.g:17394:2: 'unique'
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getExistUniqueTermAccess().getUniqueKeyword_2()); 
+               before(grammarAccess.getExistsUniqueTermAccess().getUniqueKeyword_2()); 
             }
             match(input,105,FOLLOW_2); if (state.failed) return ;
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getExistUniqueTermAccess().getUniqueKeyword_2()); 
+               after(grammarAccess.getExistsUniqueTermAccess().getUniqueKeyword_2()); 
             }
 
             }
@@ -58520,26 +58520,26 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistUniqueTerm__Group__2__Impl"
+    // $ANTLR end "rule__ExistsUniqueTerm__Group__2__Impl"
 
 
-    // $ANTLR start "rule__ExistUniqueTerm__Group__3"
-    // InternalAsmetaL.g:17403:1: rule__ExistUniqueTerm__Group__3 : rule__ExistUniqueTerm__Group__3__Impl rule__ExistUniqueTerm__Group__4 ;
-    public final void rule__ExistUniqueTerm__Group__3() throws RecognitionException {
+    // $ANTLR start "rule__ExistsUniqueTerm__Group__3"
+    // InternalAsmetaL.g:17403:1: rule__ExistsUniqueTerm__Group__3 : rule__ExistsUniqueTerm__Group__3__Impl rule__ExistsUniqueTerm__Group__4 ;
+    public final void rule__ExistsUniqueTerm__Group__3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:17407:1: ( rule__ExistUniqueTerm__Group__3__Impl rule__ExistUniqueTerm__Group__4 )
-            // InternalAsmetaL.g:17408:2: rule__ExistUniqueTerm__Group__3__Impl rule__ExistUniqueTerm__Group__4
+            // InternalAsmetaL.g:17407:1: ( rule__ExistsUniqueTerm__Group__3__Impl rule__ExistsUniqueTerm__Group__4 )
+            // InternalAsmetaL.g:17408:2: rule__ExistsUniqueTerm__Group__3__Impl rule__ExistsUniqueTerm__Group__4
             {
             pushFollow(FOLLOW_36);
-            rule__ExistUniqueTerm__Group__3__Impl();
+            rule__ExistsUniqueTerm__Group__3__Impl();
 
             state._fsp--;
             if (state.failed) return ;
             pushFollow(FOLLOW_2);
-            rule__ExistUniqueTerm__Group__4();
+            rule__ExistsUniqueTerm__Group__4();
 
             state._fsp--;
             if (state.failed) return ;
@@ -58558,30 +58558,30 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistUniqueTerm__Group__3"
+    // $ANTLR end "rule__ExistsUniqueTerm__Group__3"
 
 
-    // $ANTLR start "rule__ExistUniqueTerm__Group__3__Impl"
-    // InternalAsmetaL.g:17415:1: rule__ExistUniqueTerm__Group__3__Impl : ( ( rule__ExistUniqueTerm__VariableAssignment_3 ) ) ;
-    public final void rule__ExistUniqueTerm__Group__3__Impl() throws RecognitionException {
+    // $ANTLR start "rule__ExistsUniqueTerm__Group__3__Impl"
+    // InternalAsmetaL.g:17415:1: rule__ExistsUniqueTerm__Group__3__Impl : ( ( rule__ExistsUniqueTerm__VariableAssignment_3 ) ) ;
+    public final void rule__ExistsUniqueTerm__Group__3__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:17419:1: ( ( ( rule__ExistUniqueTerm__VariableAssignment_3 ) ) )
-            // InternalAsmetaL.g:17420:1: ( ( rule__ExistUniqueTerm__VariableAssignment_3 ) )
+            // InternalAsmetaL.g:17419:1: ( ( ( rule__ExistsUniqueTerm__VariableAssignment_3 ) ) )
+            // InternalAsmetaL.g:17420:1: ( ( rule__ExistsUniqueTerm__VariableAssignment_3 ) )
             {
-            // InternalAsmetaL.g:17420:1: ( ( rule__ExistUniqueTerm__VariableAssignment_3 ) )
-            // InternalAsmetaL.g:17421:2: ( rule__ExistUniqueTerm__VariableAssignment_3 )
+            // InternalAsmetaL.g:17420:1: ( ( rule__ExistsUniqueTerm__VariableAssignment_3 ) )
+            // InternalAsmetaL.g:17421:2: ( rule__ExistsUniqueTerm__VariableAssignment_3 )
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getExistUniqueTermAccess().getVariableAssignment_3()); 
+               before(grammarAccess.getExistsUniqueTermAccess().getVariableAssignment_3()); 
             }
-            // InternalAsmetaL.g:17422:2: ( rule__ExistUniqueTerm__VariableAssignment_3 )
-            // InternalAsmetaL.g:17422:3: rule__ExistUniqueTerm__VariableAssignment_3
+            // InternalAsmetaL.g:17422:2: ( rule__ExistsUniqueTerm__VariableAssignment_3 )
+            // InternalAsmetaL.g:17422:3: rule__ExistsUniqueTerm__VariableAssignment_3
             {
             pushFollow(FOLLOW_2);
-            rule__ExistUniqueTerm__VariableAssignment_3();
+            rule__ExistsUniqueTerm__VariableAssignment_3();
 
             state._fsp--;
             if (state.failed) return ;
@@ -58589,7 +58589,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             }
 
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getExistUniqueTermAccess().getVariableAssignment_3()); 
+               after(grammarAccess.getExistsUniqueTermAccess().getVariableAssignment_3()); 
             }
 
             }
@@ -58609,26 +58609,26 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistUniqueTerm__Group__3__Impl"
+    // $ANTLR end "rule__ExistsUniqueTerm__Group__3__Impl"
 
 
-    // $ANTLR start "rule__ExistUniqueTerm__Group__4"
-    // InternalAsmetaL.g:17430:1: rule__ExistUniqueTerm__Group__4 : rule__ExistUniqueTerm__Group__4__Impl rule__ExistUniqueTerm__Group__5 ;
-    public final void rule__ExistUniqueTerm__Group__4() throws RecognitionException {
+    // $ANTLR start "rule__ExistsUniqueTerm__Group__4"
+    // InternalAsmetaL.g:17430:1: rule__ExistsUniqueTerm__Group__4 : rule__ExistsUniqueTerm__Group__4__Impl rule__ExistsUniqueTerm__Group__5 ;
+    public final void rule__ExistsUniqueTerm__Group__4() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:17434:1: ( rule__ExistUniqueTerm__Group__4__Impl rule__ExistUniqueTerm__Group__5 )
-            // InternalAsmetaL.g:17435:2: rule__ExistUniqueTerm__Group__4__Impl rule__ExistUniqueTerm__Group__5
+            // InternalAsmetaL.g:17434:1: ( rule__ExistsUniqueTerm__Group__4__Impl rule__ExistsUniqueTerm__Group__5 )
+            // InternalAsmetaL.g:17435:2: rule__ExistsUniqueTerm__Group__4__Impl rule__ExistsUniqueTerm__Group__5
             {
             pushFollow(FOLLOW_32);
-            rule__ExistUniqueTerm__Group__4__Impl();
+            rule__ExistsUniqueTerm__Group__4__Impl();
 
             state._fsp--;
             if (state.failed) return ;
             pushFollow(FOLLOW_2);
-            rule__ExistUniqueTerm__Group__5();
+            rule__ExistsUniqueTerm__Group__5();
 
             state._fsp--;
             if (state.failed) return ;
@@ -58647,12 +58647,12 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistUniqueTerm__Group__4"
+    // $ANTLR end "rule__ExistsUniqueTerm__Group__4"
 
 
-    // $ANTLR start "rule__ExistUniqueTerm__Group__4__Impl"
-    // InternalAsmetaL.g:17442:1: rule__ExistUniqueTerm__Group__4__Impl : ( 'in' ) ;
-    public final void rule__ExistUniqueTerm__Group__4__Impl() throws RecognitionException {
+    // $ANTLR start "rule__ExistsUniqueTerm__Group__4__Impl"
+    // InternalAsmetaL.g:17442:1: rule__ExistsUniqueTerm__Group__4__Impl : ( 'in' ) ;
+    public final void rule__ExistsUniqueTerm__Group__4__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
@@ -58664,11 +58664,11 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             // InternalAsmetaL.g:17448:2: 'in'
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getExistUniqueTermAccess().getInKeyword_4()); 
+               before(grammarAccess.getExistsUniqueTermAccess().getInKeyword_4()); 
             }
             match(input,70,FOLLOW_2); if (state.failed) return ;
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getExistUniqueTermAccess().getInKeyword_4()); 
+               after(grammarAccess.getExistsUniqueTermAccess().getInKeyword_4()); 
             }
 
             }
@@ -58688,26 +58688,26 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistUniqueTerm__Group__4__Impl"
+    // $ANTLR end "rule__ExistsUniqueTerm__Group__4__Impl"
 
 
-    // $ANTLR start "rule__ExistUniqueTerm__Group__5"
-    // InternalAsmetaL.g:17457:1: rule__ExistUniqueTerm__Group__5 : rule__ExistUniqueTerm__Group__5__Impl rule__ExistUniqueTerm__Group__6 ;
-    public final void rule__ExistUniqueTerm__Group__5() throws RecognitionException {
+    // $ANTLR start "rule__ExistsUniqueTerm__Group__5"
+    // InternalAsmetaL.g:17457:1: rule__ExistsUniqueTerm__Group__5 : rule__ExistsUniqueTerm__Group__5__Impl rule__ExistsUniqueTerm__Group__6 ;
+    public final void rule__ExistsUniqueTerm__Group__5() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:17461:1: ( rule__ExistUniqueTerm__Group__5__Impl rule__ExistUniqueTerm__Group__6 )
-            // InternalAsmetaL.g:17462:2: rule__ExistUniqueTerm__Group__5__Impl rule__ExistUniqueTerm__Group__6
+            // InternalAsmetaL.g:17461:1: ( rule__ExistsUniqueTerm__Group__5__Impl rule__ExistsUniqueTerm__Group__6 )
+            // InternalAsmetaL.g:17462:2: rule__ExistsUniqueTerm__Group__5__Impl rule__ExistsUniqueTerm__Group__6
             {
             pushFollow(FOLLOW_106);
-            rule__ExistUniqueTerm__Group__5__Impl();
+            rule__ExistsUniqueTerm__Group__5__Impl();
 
             state._fsp--;
             if (state.failed) return ;
             pushFollow(FOLLOW_2);
-            rule__ExistUniqueTerm__Group__6();
+            rule__ExistsUniqueTerm__Group__6();
 
             state._fsp--;
             if (state.failed) return ;
@@ -58726,30 +58726,30 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistUniqueTerm__Group__5"
+    // $ANTLR end "rule__ExistsUniqueTerm__Group__5"
 
 
-    // $ANTLR start "rule__ExistUniqueTerm__Group__5__Impl"
-    // InternalAsmetaL.g:17469:1: rule__ExistUniqueTerm__Group__5__Impl : ( ( rule__ExistUniqueTerm__RangesAssignment_5 ) ) ;
-    public final void rule__ExistUniqueTerm__Group__5__Impl() throws RecognitionException {
+    // $ANTLR start "rule__ExistsUniqueTerm__Group__5__Impl"
+    // InternalAsmetaL.g:17469:1: rule__ExistsUniqueTerm__Group__5__Impl : ( ( rule__ExistsUniqueTerm__RangesAssignment_5 ) ) ;
+    public final void rule__ExistsUniqueTerm__Group__5__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:17473:1: ( ( ( rule__ExistUniqueTerm__RangesAssignment_5 ) ) )
-            // InternalAsmetaL.g:17474:1: ( ( rule__ExistUniqueTerm__RangesAssignment_5 ) )
+            // InternalAsmetaL.g:17473:1: ( ( ( rule__ExistsUniqueTerm__RangesAssignment_5 ) ) )
+            // InternalAsmetaL.g:17474:1: ( ( rule__ExistsUniqueTerm__RangesAssignment_5 ) )
             {
-            // InternalAsmetaL.g:17474:1: ( ( rule__ExistUniqueTerm__RangesAssignment_5 ) )
-            // InternalAsmetaL.g:17475:2: ( rule__ExistUniqueTerm__RangesAssignment_5 )
+            // InternalAsmetaL.g:17474:1: ( ( rule__ExistsUniqueTerm__RangesAssignment_5 ) )
+            // InternalAsmetaL.g:17475:2: ( rule__ExistsUniqueTerm__RangesAssignment_5 )
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getExistUniqueTermAccess().getRangesAssignment_5()); 
+               before(grammarAccess.getExistsUniqueTermAccess().getRangesAssignment_5()); 
             }
-            // InternalAsmetaL.g:17476:2: ( rule__ExistUniqueTerm__RangesAssignment_5 )
-            // InternalAsmetaL.g:17476:3: rule__ExistUniqueTerm__RangesAssignment_5
+            // InternalAsmetaL.g:17476:2: ( rule__ExistsUniqueTerm__RangesAssignment_5 )
+            // InternalAsmetaL.g:17476:3: rule__ExistsUniqueTerm__RangesAssignment_5
             {
             pushFollow(FOLLOW_2);
-            rule__ExistUniqueTerm__RangesAssignment_5();
+            rule__ExistsUniqueTerm__RangesAssignment_5();
 
             state._fsp--;
             if (state.failed) return ;
@@ -58757,7 +58757,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             }
 
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getExistUniqueTermAccess().getRangesAssignment_5()); 
+               after(grammarAccess.getExistsUniqueTermAccess().getRangesAssignment_5()); 
             }
 
             }
@@ -58777,26 +58777,26 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistUniqueTerm__Group__5__Impl"
+    // $ANTLR end "rule__ExistsUniqueTerm__Group__5__Impl"
 
 
-    // $ANTLR start "rule__ExistUniqueTerm__Group__6"
-    // InternalAsmetaL.g:17484:1: rule__ExistUniqueTerm__Group__6 : rule__ExistUniqueTerm__Group__6__Impl rule__ExistUniqueTerm__Group__7 ;
-    public final void rule__ExistUniqueTerm__Group__6() throws RecognitionException {
+    // $ANTLR start "rule__ExistsUniqueTerm__Group__6"
+    // InternalAsmetaL.g:17484:1: rule__ExistsUniqueTerm__Group__6 : rule__ExistsUniqueTerm__Group__6__Impl rule__ExistsUniqueTerm__Group__7 ;
+    public final void rule__ExistsUniqueTerm__Group__6() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:17488:1: ( rule__ExistUniqueTerm__Group__6__Impl rule__ExistUniqueTerm__Group__7 )
-            // InternalAsmetaL.g:17489:2: rule__ExistUniqueTerm__Group__6__Impl rule__ExistUniqueTerm__Group__7
+            // InternalAsmetaL.g:17488:1: ( rule__ExistsUniqueTerm__Group__6__Impl rule__ExistsUniqueTerm__Group__7 )
+            // InternalAsmetaL.g:17489:2: rule__ExistsUniqueTerm__Group__6__Impl rule__ExistsUniqueTerm__Group__7
             {
             pushFollow(FOLLOW_106);
-            rule__ExistUniqueTerm__Group__6__Impl();
+            rule__ExistsUniqueTerm__Group__6__Impl();
 
             state._fsp--;
             if (state.failed) return ;
             pushFollow(FOLLOW_2);
-            rule__ExistUniqueTerm__Group__7();
+            rule__ExistsUniqueTerm__Group__7();
 
             state._fsp--;
             if (state.failed) return ;
@@ -58815,26 +58815,26 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistUniqueTerm__Group__6"
+    // $ANTLR end "rule__ExistsUniqueTerm__Group__6"
 
 
-    // $ANTLR start "rule__ExistUniqueTerm__Group__6__Impl"
-    // InternalAsmetaL.g:17496:1: rule__ExistUniqueTerm__Group__6__Impl : ( ( rule__ExistUniqueTerm__Group_6__0 )* ) ;
-    public final void rule__ExistUniqueTerm__Group__6__Impl() throws RecognitionException {
+    // $ANTLR start "rule__ExistsUniqueTerm__Group__6__Impl"
+    // InternalAsmetaL.g:17496:1: rule__ExistsUniqueTerm__Group__6__Impl : ( ( rule__ExistsUniqueTerm__Group_6__0 )* ) ;
+    public final void rule__ExistsUniqueTerm__Group__6__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:17500:1: ( ( ( rule__ExistUniqueTerm__Group_6__0 )* ) )
-            // InternalAsmetaL.g:17501:1: ( ( rule__ExistUniqueTerm__Group_6__0 )* )
+            // InternalAsmetaL.g:17500:1: ( ( ( rule__ExistsUniqueTerm__Group_6__0 )* ) )
+            // InternalAsmetaL.g:17501:1: ( ( rule__ExistsUniqueTerm__Group_6__0 )* )
             {
-            // InternalAsmetaL.g:17501:1: ( ( rule__ExistUniqueTerm__Group_6__0 )* )
-            // InternalAsmetaL.g:17502:2: ( rule__ExistUniqueTerm__Group_6__0 )*
+            // InternalAsmetaL.g:17501:1: ( ( rule__ExistsUniqueTerm__Group_6__0 )* )
+            // InternalAsmetaL.g:17502:2: ( rule__ExistsUniqueTerm__Group_6__0 )*
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getExistUniqueTermAccess().getGroup_6()); 
+               before(grammarAccess.getExistsUniqueTermAccess().getGroup_6()); 
             }
-            // InternalAsmetaL.g:17503:2: ( rule__ExistUniqueTerm__Group_6__0 )*
+            // InternalAsmetaL.g:17503:2: ( rule__ExistsUniqueTerm__Group_6__0 )*
             loop159:
             do {
                 int alt159=2;
@@ -58847,10 +58847,10 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
 
                 switch (alt159) {
             	case 1 :
-            	    // InternalAsmetaL.g:17503:3: rule__ExistUniqueTerm__Group_6__0
+            	    // InternalAsmetaL.g:17503:3: rule__ExistsUniqueTerm__Group_6__0
             	    {
             	    pushFollow(FOLLOW_3);
-            	    rule__ExistUniqueTerm__Group_6__0();
+            	    rule__ExistsUniqueTerm__Group_6__0();
 
             	    state._fsp--;
             	    if (state.failed) return ;
@@ -58864,7 +58864,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             } while (true);
 
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getExistUniqueTermAccess().getGroup_6()); 
+               after(grammarAccess.getExistsUniqueTermAccess().getGroup_6()); 
             }
 
             }
@@ -58884,26 +58884,26 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistUniqueTerm__Group__6__Impl"
+    // $ANTLR end "rule__ExistsUniqueTerm__Group__6__Impl"
 
 
-    // $ANTLR start "rule__ExistUniqueTerm__Group__7"
-    // InternalAsmetaL.g:17511:1: rule__ExistUniqueTerm__Group__7 : rule__ExistUniqueTerm__Group__7__Impl rule__ExistUniqueTerm__Group__8 ;
-    public final void rule__ExistUniqueTerm__Group__7() throws RecognitionException {
+    // $ANTLR start "rule__ExistsUniqueTerm__Group__7"
+    // InternalAsmetaL.g:17511:1: rule__ExistsUniqueTerm__Group__7 : rule__ExistsUniqueTerm__Group__7__Impl rule__ExistsUniqueTerm__Group__8 ;
+    public final void rule__ExistsUniqueTerm__Group__7() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:17515:1: ( rule__ExistUniqueTerm__Group__7__Impl rule__ExistUniqueTerm__Group__8 )
-            // InternalAsmetaL.g:17516:2: rule__ExistUniqueTerm__Group__7__Impl rule__ExistUniqueTerm__Group__8
+            // InternalAsmetaL.g:17515:1: ( rule__ExistsUniqueTerm__Group__7__Impl rule__ExistsUniqueTerm__Group__8 )
+            // InternalAsmetaL.g:17516:2: rule__ExistsUniqueTerm__Group__7__Impl rule__ExistsUniqueTerm__Group__8
             {
             pushFollow(FOLLOW_106);
-            rule__ExistUniqueTerm__Group__7__Impl();
+            rule__ExistsUniqueTerm__Group__7__Impl();
 
             state._fsp--;
             if (state.failed) return ;
             pushFollow(FOLLOW_2);
-            rule__ExistUniqueTerm__Group__8();
+            rule__ExistsUniqueTerm__Group__8();
 
             state._fsp--;
             if (state.failed) return ;
@@ -58922,26 +58922,26 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistUniqueTerm__Group__7"
+    // $ANTLR end "rule__ExistsUniqueTerm__Group__7"
 
 
-    // $ANTLR start "rule__ExistUniqueTerm__Group__7__Impl"
-    // InternalAsmetaL.g:17523:1: rule__ExistUniqueTerm__Group__7__Impl : ( ( rule__ExistUniqueTerm__Group_7__0 )? ) ;
-    public final void rule__ExistUniqueTerm__Group__7__Impl() throws RecognitionException {
+    // $ANTLR start "rule__ExistsUniqueTerm__Group__7__Impl"
+    // InternalAsmetaL.g:17523:1: rule__ExistsUniqueTerm__Group__7__Impl : ( ( rule__ExistsUniqueTerm__Group_7__0 )? ) ;
+    public final void rule__ExistsUniqueTerm__Group__7__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:17527:1: ( ( ( rule__ExistUniqueTerm__Group_7__0 )? ) )
-            // InternalAsmetaL.g:17528:1: ( ( rule__ExistUniqueTerm__Group_7__0 )? )
+            // InternalAsmetaL.g:17527:1: ( ( ( rule__ExistsUniqueTerm__Group_7__0 )? ) )
+            // InternalAsmetaL.g:17528:1: ( ( rule__ExistsUniqueTerm__Group_7__0 )? )
             {
-            // InternalAsmetaL.g:17528:1: ( ( rule__ExistUniqueTerm__Group_7__0 )? )
-            // InternalAsmetaL.g:17529:2: ( rule__ExistUniqueTerm__Group_7__0 )?
+            // InternalAsmetaL.g:17528:1: ( ( rule__ExistsUniqueTerm__Group_7__0 )? )
+            // InternalAsmetaL.g:17529:2: ( rule__ExistsUniqueTerm__Group_7__0 )?
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getExistUniqueTermAccess().getGroup_7()); 
+               before(grammarAccess.getExistsUniqueTermAccess().getGroup_7()); 
             }
-            // InternalAsmetaL.g:17530:2: ( rule__ExistUniqueTerm__Group_7__0 )?
+            // InternalAsmetaL.g:17530:2: ( rule__ExistsUniqueTerm__Group_7__0 )?
             int alt160=2;
             int LA160_0 = input.LA(1);
 
@@ -58950,10 +58950,10 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             }
             switch (alt160) {
                 case 1 :
-                    // InternalAsmetaL.g:17530:3: rule__ExistUniqueTerm__Group_7__0
+                    // InternalAsmetaL.g:17530:3: rule__ExistsUniqueTerm__Group_7__0
                     {
                     pushFollow(FOLLOW_2);
-                    rule__ExistUniqueTerm__Group_7__0();
+                    rule__ExistsUniqueTerm__Group_7__0();
 
                     state._fsp--;
                     if (state.failed) return ;
@@ -58964,7 +58964,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             }
 
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getExistUniqueTermAccess().getGroup_7()); 
+               after(grammarAccess.getExistsUniqueTermAccess().getGroup_7()); 
             }
 
             }
@@ -58984,21 +58984,21 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistUniqueTerm__Group__7__Impl"
+    // $ANTLR end "rule__ExistsUniqueTerm__Group__7__Impl"
 
 
-    // $ANTLR start "rule__ExistUniqueTerm__Group__8"
-    // InternalAsmetaL.g:17538:1: rule__ExistUniqueTerm__Group__8 : rule__ExistUniqueTerm__Group__8__Impl ;
-    public final void rule__ExistUniqueTerm__Group__8() throws RecognitionException {
+    // $ANTLR start "rule__ExistsUniqueTerm__Group__8"
+    // InternalAsmetaL.g:17538:1: rule__ExistsUniqueTerm__Group__8 : rule__ExistsUniqueTerm__Group__8__Impl ;
+    public final void rule__ExistsUniqueTerm__Group__8() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:17542:1: ( rule__ExistUniqueTerm__Group__8__Impl )
-            // InternalAsmetaL.g:17543:2: rule__ExistUniqueTerm__Group__8__Impl
+            // InternalAsmetaL.g:17542:1: ( rule__ExistsUniqueTerm__Group__8__Impl )
+            // InternalAsmetaL.g:17543:2: rule__ExistsUniqueTerm__Group__8__Impl
             {
             pushFollow(FOLLOW_2);
-            rule__ExistUniqueTerm__Group__8__Impl();
+            rule__ExistsUniqueTerm__Group__8__Impl();
 
             state._fsp--;
             if (state.failed) return ;
@@ -59017,12 +59017,12 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistUniqueTerm__Group__8"
+    // $ANTLR end "rule__ExistsUniqueTerm__Group__8"
 
 
-    // $ANTLR start "rule__ExistUniqueTerm__Group__8__Impl"
-    // InternalAsmetaL.g:17549:1: rule__ExistUniqueTerm__Group__8__Impl : ( ')' ) ;
-    public final void rule__ExistUniqueTerm__Group__8__Impl() throws RecognitionException {
+    // $ANTLR start "rule__ExistsUniqueTerm__Group__8__Impl"
+    // InternalAsmetaL.g:17549:1: rule__ExistsUniqueTerm__Group__8__Impl : ( ')' ) ;
+    public final void rule__ExistsUniqueTerm__Group__8__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
@@ -59034,11 +59034,11 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             // InternalAsmetaL.g:17555:2: ')'
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getExistUniqueTermAccess().getRightParenthesisKeyword_8()); 
+               before(grammarAccess.getExistsUniqueTermAccess().getRightParenthesisKeyword_8()); 
             }
             match(input,63,FOLLOW_2); if (state.failed) return ;
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getExistUniqueTermAccess().getRightParenthesisKeyword_8()); 
+               after(grammarAccess.getExistsUniqueTermAccess().getRightParenthesisKeyword_8()); 
             }
 
             }
@@ -59058,26 +59058,26 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistUniqueTerm__Group__8__Impl"
+    // $ANTLR end "rule__ExistsUniqueTerm__Group__8__Impl"
 
 
-    // $ANTLR start "rule__ExistUniqueTerm__Group_6__0"
-    // InternalAsmetaL.g:17565:1: rule__ExistUniqueTerm__Group_6__0 : rule__ExistUniqueTerm__Group_6__0__Impl rule__ExistUniqueTerm__Group_6__1 ;
-    public final void rule__ExistUniqueTerm__Group_6__0() throws RecognitionException {
+    // $ANTLR start "rule__ExistsUniqueTerm__Group_6__0"
+    // InternalAsmetaL.g:17565:1: rule__ExistsUniqueTerm__Group_6__0 : rule__ExistsUniqueTerm__Group_6__0__Impl rule__ExistsUniqueTerm__Group_6__1 ;
+    public final void rule__ExistsUniqueTerm__Group_6__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:17569:1: ( rule__ExistUniqueTerm__Group_6__0__Impl rule__ExistUniqueTerm__Group_6__1 )
-            // InternalAsmetaL.g:17570:2: rule__ExistUniqueTerm__Group_6__0__Impl rule__ExistUniqueTerm__Group_6__1
+            // InternalAsmetaL.g:17569:1: ( rule__ExistsUniqueTerm__Group_6__0__Impl rule__ExistsUniqueTerm__Group_6__1 )
+            // InternalAsmetaL.g:17570:2: rule__ExistsUniqueTerm__Group_6__0__Impl rule__ExistsUniqueTerm__Group_6__1
             {
             pushFollow(FOLLOW_35);
-            rule__ExistUniqueTerm__Group_6__0__Impl();
+            rule__ExistsUniqueTerm__Group_6__0__Impl();
 
             state._fsp--;
             if (state.failed) return ;
             pushFollow(FOLLOW_2);
-            rule__ExistUniqueTerm__Group_6__1();
+            rule__ExistsUniqueTerm__Group_6__1();
 
             state._fsp--;
             if (state.failed) return ;
@@ -59096,12 +59096,12 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistUniqueTerm__Group_6__0"
+    // $ANTLR end "rule__ExistsUniqueTerm__Group_6__0"
 
 
-    // $ANTLR start "rule__ExistUniqueTerm__Group_6__0__Impl"
-    // InternalAsmetaL.g:17577:1: rule__ExistUniqueTerm__Group_6__0__Impl : ( ',' ) ;
-    public final void rule__ExistUniqueTerm__Group_6__0__Impl() throws RecognitionException {
+    // $ANTLR start "rule__ExistsUniqueTerm__Group_6__0__Impl"
+    // InternalAsmetaL.g:17577:1: rule__ExistsUniqueTerm__Group_6__0__Impl : ( ',' ) ;
+    public final void rule__ExistsUniqueTerm__Group_6__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
@@ -59113,11 +59113,11 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             // InternalAsmetaL.g:17583:2: ','
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getExistUniqueTermAccess().getCommaKeyword_6_0()); 
+               before(grammarAccess.getExistsUniqueTermAccess().getCommaKeyword_6_0()); 
             }
             match(input,31,FOLLOW_2); if (state.failed) return ;
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getExistUniqueTermAccess().getCommaKeyword_6_0()); 
+               after(grammarAccess.getExistsUniqueTermAccess().getCommaKeyword_6_0()); 
             }
 
             }
@@ -59137,26 +59137,26 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistUniqueTerm__Group_6__0__Impl"
+    // $ANTLR end "rule__ExistsUniqueTerm__Group_6__0__Impl"
 
 
-    // $ANTLR start "rule__ExistUniqueTerm__Group_6__1"
-    // InternalAsmetaL.g:17592:1: rule__ExistUniqueTerm__Group_6__1 : rule__ExistUniqueTerm__Group_6__1__Impl rule__ExistUniqueTerm__Group_6__2 ;
-    public final void rule__ExistUniqueTerm__Group_6__1() throws RecognitionException {
+    // $ANTLR start "rule__ExistsUniqueTerm__Group_6__1"
+    // InternalAsmetaL.g:17592:1: rule__ExistsUniqueTerm__Group_6__1 : rule__ExistsUniqueTerm__Group_6__1__Impl rule__ExistsUniqueTerm__Group_6__2 ;
+    public final void rule__ExistsUniqueTerm__Group_6__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:17596:1: ( rule__ExistUniqueTerm__Group_6__1__Impl rule__ExistUniqueTerm__Group_6__2 )
-            // InternalAsmetaL.g:17597:2: rule__ExistUniqueTerm__Group_6__1__Impl rule__ExistUniqueTerm__Group_6__2
+            // InternalAsmetaL.g:17596:1: ( rule__ExistsUniqueTerm__Group_6__1__Impl rule__ExistsUniqueTerm__Group_6__2 )
+            // InternalAsmetaL.g:17597:2: rule__ExistsUniqueTerm__Group_6__1__Impl rule__ExistsUniqueTerm__Group_6__2
             {
             pushFollow(FOLLOW_36);
-            rule__ExistUniqueTerm__Group_6__1__Impl();
+            rule__ExistsUniqueTerm__Group_6__1__Impl();
 
             state._fsp--;
             if (state.failed) return ;
             pushFollow(FOLLOW_2);
-            rule__ExistUniqueTerm__Group_6__2();
+            rule__ExistsUniqueTerm__Group_6__2();
 
             state._fsp--;
             if (state.failed) return ;
@@ -59175,30 +59175,30 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistUniqueTerm__Group_6__1"
+    // $ANTLR end "rule__ExistsUniqueTerm__Group_6__1"
 
 
-    // $ANTLR start "rule__ExistUniqueTerm__Group_6__1__Impl"
-    // InternalAsmetaL.g:17604:1: rule__ExistUniqueTerm__Group_6__1__Impl : ( ( rule__ExistUniqueTerm__VariableAssignment_6_1 ) ) ;
-    public final void rule__ExistUniqueTerm__Group_6__1__Impl() throws RecognitionException {
+    // $ANTLR start "rule__ExistsUniqueTerm__Group_6__1__Impl"
+    // InternalAsmetaL.g:17604:1: rule__ExistsUniqueTerm__Group_6__1__Impl : ( ( rule__ExistsUniqueTerm__VariableAssignment_6_1 ) ) ;
+    public final void rule__ExistsUniqueTerm__Group_6__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:17608:1: ( ( ( rule__ExistUniqueTerm__VariableAssignment_6_1 ) ) )
-            // InternalAsmetaL.g:17609:1: ( ( rule__ExistUniqueTerm__VariableAssignment_6_1 ) )
+            // InternalAsmetaL.g:17608:1: ( ( ( rule__ExistsUniqueTerm__VariableAssignment_6_1 ) ) )
+            // InternalAsmetaL.g:17609:1: ( ( rule__ExistsUniqueTerm__VariableAssignment_6_1 ) )
             {
-            // InternalAsmetaL.g:17609:1: ( ( rule__ExistUniqueTerm__VariableAssignment_6_1 ) )
-            // InternalAsmetaL.g:17610:2: ( rule__ExistUniqueTerm__VariableAssignment_6_1 )
+            // InternalAsmetaL.g:17609:1: ( ( rule__ExistsUniqueTerm__VariableAssignment_6_1 ) )
+            // InternalAsmetaL.g:17610:2: ( rule__ExistsUniqueTerm__VariableAssignment_6_1 )
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getExistUniqueTermAccess().getVariableAssignment_6_1()); 
+               before(grammarAccess.getExistsUniqueTermAccess().getVariableAssignment_6_1()); 
             }
-            // InternalAsmetaL.g:17611:2: ( rule__ExistUniqueTerm__VariableAssignment_6_1 )
-            // InternalAsmetaL.g:17611:3: rule__ExistUniqueTerm__VariableAssignment_6_1
+            // InternalAsmetaL.g:17611:2: ( rule__ExistsUniqueTerm__VariableAssignment_6_1 )
+            // InternalAsmetaL.g:17611:3: rule__ExistsUniqueTerm__VariableAssignment_6_1
             {
             pushFollow(FOLLOW_2);
-            rule__ExistUniqueTerm__VariableAssignment_6_1();
+            rule__ExistsUniqueTerm__VariableAssignment_6_1();
 
             state._fsp--;
             if (state.failed) return ;
@@ -59206,7 +59206,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             }
 
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getExistUniqueTermAccess().getVariableAssignment_6_1()); 
+               after(grammarAccess.getExistsUniqueTermAccess().getVariableAssignment_6_1()); 
             }
 
             }
@@ -59226,26 +59226,26 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistUniqueTerm__Group_6__1__Impl"
+    // $ANTLR end "rule__ExistsUniqueTerm__Group_6__1__Impl"
 
 
-    // $ANTLR start "rule__ExistUniqueTerm__Group_6__2"
-    // InternalAsmetaL.g:17619:1: rule__ExistUniqueTerm__Group_6__2 : rule__ExistUniqueTerm__Group_6__2__Impl rule__ExistUniqueTerm__Group_6__3 ;
-    public final void rule__ExistUniqueTerm__Group_6__2() throws RecognitionException {
+    // $ANTLR start "rule__ExistsUniqueTerm__Group_6__2"
+    // InternalAsmetaL.g:17619:1: rule__ExistsUniqueTerm__Group_6__2 : rule__ExistsUniqueTerm__Group_6__2__Impl rule__ExistsUniqueTerm__Group_6__3 ;
+    public final void rule__ExistsUniqueTerm__Group_6__2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:17623:1: ( rule__ExistUniqueTerm__Group_6__2__Impl rule__ExistUniqueTerm__Group_6__3 )
-            // InternalAsmetaL.g:17624:2: rule__ExistUniqueTerm__Group_6__2__Impl rule__ExistUniqueTerm__Group_6__3
+            // InternalAsmetaL.g:17623:1: ( rule__ExistsUniqueTerm__Group_6__2__Impl rule__ExistsUniqueTerm__Group_6__3 )
+            // InternalAsmetaL.g:17624:2: rule__ExistsUniqueTerm__Group_6__2__Impl rule__ExistsUniqueTerm__Group_6__3
             {
             pushFollow(FOLLOW_32);
-            rule__ExistUniqueTerm__Group_6__2__Impl();
+            rule__ExistsUniqueTerm__Group_6__2__Impl();
 
             state._fsp--;
             if (state.failed) return ;
             pushFollow(FOLLOW_2);
-            rule__ExistUniqueTerm__Group_6__3();
+            rule__ExistsUniqueTerm__Group_6__3();
 
             state._fsp--;
             if (state.failed) return ;
@@ -59264,12 +59264,12 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistUniqueTerm__Group_6__2"
+    // $ANTLR end "rule__ExistsUniqueTerm__Group_6__2"
 
 
-    // $ANTLR start "rule__ExistUniqueTerm__Group_6__2__Impl"
-    // InternalAsmetaL.g:17631:1: rule__ExistUniqueTerm__Group_6__2__Impl : ( 'in' ) ;
-    public final void rule__ExistUniqueTerm__Group_6__2__Impl() throws RecognitionException {
+    // $ANTLR start "rule__ExistsUniqueTerm__Group_6__2__Impl"
+    // InternalAsmetaL.g:17631:1: rule__ExistsUniqueTerm__Group_6__2__Impl : ( 'in' ) ;
+    public final void rule__ExistsUniqueTerm__Group_6__2__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
@@ -59281,11 +59281,11 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             // InternalAsmetaL.g:17637:2: 'in'
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getExistUniqueTermAccess().getInKeyword_6_2()); 
+               before(grammarAccess.getExistsUniqueTermAccess().getInKeyword_6_2()); 
             }
             match(input,70,FOLLOW_2); if (state.failed) return ;
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getExistUniqueTermAccess().getInKeyword_6_2()); 
+               after(grammarAccess.getExistsUniqueTermAccess().getInKeyword_6_2()); 
             }
 
             }
@@ -59305,21 +59305,21 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistUniqueTerm__Group_6__2__Impl"
+    // $ANTLR end "rule__ExistsUniqueTerm__Group_6__2__Impl"
 
 
-    // $ANTLR start "rule__ExistUniqueTerm__Group_6__3"
-    // InternalAsmetaL.g:17646:1: rule__ExistUniqueTerm__Group_6__3 : rule__ExistUniqueTerm__Group_6__3__Impl ;
-    public final void rule__ExistUniqueTerm__Group_6__3() throws RecognitionException {
+    // $ANTLR start "rule__ExistsUniqueTerm__Group_6__3"
+    // InternalAsmetaL.g:17646:1: rule__ExistsUniqueTerm__Group_6__3 : rule__ExistsUniqueTerm__Group_6__3__Impl ;
+    public final void rule__ExistsUniqueTerm__Group_6__3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:17650:1: ( rule__ExistUniqueTerm__Group_6__3__Impl )
-            // InternalAsmetaL.g:17651:2: rule__ExistUniqueTerm__Group_6__3__Impl
+            // InternalAsmetaL.g:17650:1: ( rule__ExistsUniqueTerm__Group_6__3__Impl )
+            // InternalAsmetaL.g:17651:2: rule__ExistsUniqueTerm__Group_6__3__Impl
             {
             pushFollow(FOLLOW_2);
-            rule__ExistUniqueTerm__Group_6__3__Impl();
+            rule__ExistsUniqueTerm__Group_6__3__Impl();
 
             state._fsp--;
             if (state.failed) return ;
@@ -59338,30 +59338,30 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistUniqueTerm__Group_6__3"
+    // $ANTLR end "rule__ExistsUniqueTerm__Group_6__3"
 
 
-    // $ANTLR start "rule__ExistUniqueTerm__Group_6__3__Impl"
-    // InternalAsmetaL.g:17657:1: rule__ExistUniqueTerm__Group_6__3__Impl : ( ( rule__ExistUniqueTerm__RangesAssignment_6_3 ) ) ;
-    public final void rule__ExistUniqueTerm__Group_6__3__Impl() throws RecognitionException {
+    // $ANTLR start "rule__ExistsUniqueTerm__Group_6__3__Impl"
+    // InternalAsmetaL.g:17657:1: rule__ExistsUniqueTerm__Group_6__3__Impl : ( ( rule__ExistsUniqueTerm__RangesAssignment_6_3 ) ) ;
+    public final void rule__ExistsUniqueTerm__Group_6__3__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:17661:1: ( ( ( rule__ExistUniqueTerm__RangesAssignment_6_3 ) ) )
-            // InternalAsmetaL.g:17662:1: ( ( rule__ExistUniqueTerm__RangesAssignment_6_3 ) )
+            // InternalAsmetaL.g:17661:1: ( ( ( rule__ExistsUniqueTerm__RangesAssignment_6_3 ) ) )
+            // InternalAsmetaL.g:17662:1: ( ( rule__ExistsUniqueTerm__RangesAssignment_6_3 ) )
             {
-            // InternalAsmetaL.g:17662:1: ( ( rule__ExistUniqueTerm__RangesAssignment_6_3 ) )
-            // InternalAsmetaL.g:17663:2: ( rule__ExistUniqueTerm__RangesAssignment_6_3 )
+            // InternalAsmetaL.g:17662:1: ( ( rule__ExistsUniqueTerm__RangesAssignment_6_3 ) )
+            // InternalAsmetaL.g:17663:2: ( rule__ExistsUniqueTerm__RangesAssignment_6_3 )
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getExistUniqueTermAccess().getRangesAssignment_6_3()); 
+               before(grammarAccess.getExistsUniqueTermAccess().getRangesAssignment_6_3()); 
             }
-            // InternalAsmetaL.g:17664:2: ( rule__ExistUniqueTerm__RangesAssignment_6_3 )
-            // InternalAsmetaL.g:17664:3: rule__ExistUniqueTerm__RangesAssignment_6_3
+            // InternalAsmetaL.g:17664:2: ( rule__ExistsUniqueTerm__RangesAssignment_6_3 )
+            // InternalAsmetaL.g:17664:3: rule__ExistsUniqueTerm__RangesAssignment_6_3
             {
             pushFollow(FOLLOW_2);
-            rule__ExistUniqueTerm__RangesAssignment_6_3();
+            rule__ExistsUniqueTerm__RangesAssignment_6_3();
 
             state._fsp--;
             if (state.failed) return ;
@@ -59369,7 +59369,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             }
 
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getExistUniqueTermAccess().getRangesAssignment_6_3()); 
+               after(grammarAccess.getExistsUniqueTermAccess().getRangesAssignment_6_3()); 
             }
 
             }
@@ -59389,26 +59389,26 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistUniqueTerm__Group_6__3__Impl"
+    // $ANTLR end "rule__ExistsUniqueTerm__Group_6__3__Impl"
 
 
-    // $ANTLR start "rule__ExistUniqueTerm__Group_7__0"
-    // InternalAsmetaL.g:17673:1: rule__ExistUniqueTerm__Group_7__0 : rule__ExistUniqueTerm__Group_7__0__Impl rule__ExistUniqueTerm__Group_7__1 ;
-    public final void rule__ExistUniqueTerm__Group_7__0() throws RecognitionException {
+    // $ANTLR start "rule__ExistsUniqueTerm__Group_7__0"
+    // InternalAsmetaL.g:17673:1: rule__ExistsUniqueTerm__Group_7__0 : rule__ExistsUniqueTerm__Group_7__0__Impl rule__ExistsUniqueTerm__Group_7__1 ;
+    public final void rule__ExistsUniqueTerm__Group_7__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:17677:1: ( rule__ExistUniqueTerm__Group_7__0__Impl rule__ExistUniqueTerm__Group_7__1 )
-            // InternalAsmetaL.g:17678:2: rule__ExistUniqueTerm__Group_7__0__Impl rule__ExistUniqueTerm__Group_7__1
+            // InternalAsmetaL.g:17677:1: ( rule__ExistsUniqueTerm__Group_7__0__Impl rule__ExistsUniqueTerm__Group_7__1 )
+            // InternalAsmetaL.g:17678:2: rule__ExistsUniqueTerm__Group_7__0__Impl rule__ExistsUniqueTerm__Group_7__1
             {
             pushFollow(FOLLOW_32);
-            rule__ExistUniqueTerm__Group_7__0__Impl();
+            rule__ExistsUniqueTerm__Group_7__0__Impl();
 
             state._fsp--;
             if (state.failed) return ;
             pushFollow(FOLLOW_2);
-            rule__ExistUniqueTerm__Group_7__1();
+            rule__ExistsUniqueTerm__Group_7__1();
 
             state._fsp--;
             if (state.failed) return ;
@@ -59427,12 +59427,12 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistUniqueTerm__Group_7__0"
+    // $ANTLR end "rule__ExistsUniqueTerm__Group_7__0"
 
 
-    // $ANTLR start "rule__ExistUniqueTerm__Group_7__0__Impl"
-    // InternalAsmetaL.g:17685:1: rule__ExistUniqueTerm__Group_7__0__Impl : ( 'with' ) ;
-    public final void rule__ExistUniqueTerm__Group_7__0__Impl() throws RecognitionException {
+    // $ANTLR start "rule__ExistsUniqueTerm__Group_7__0__Impl"
+    // InternalAsmetaL.g:17685:1: rule__ExistsUniqueTerm__Group_7__0__Impl : ( 'with' ) ;
+    public final void rule__ExistsUniqueTerm__Group_7__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
@@ -59444,11 +59444,11 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             // InternalAsmetaL.g:17691:2: 'with'
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getExistUniqueTermAccess().getWithKeyword_7_0()); 
+               before(grammarAccess.getExistsUniqueTermAccess().getWithKeyword_7_0()); 
             }
             match(input,106,FOLLOW_2); if (state.failed) return ;
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getExistUniqueTermAccess().getWithKeyword_7_0()); 
+               after(grammarAccess.getExistsUniqueTermAccess().getWithKeyword_7_0()); 
             }
 
             }
@@ -59468,21 +59468,21 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistUniqueTerm__Group_7__0__Impl"
+    // $ANTLR end "rule__ExistsUniqueTerm__Group_7__0__Impl"
 
 
-    // $ANTLR start "rule__ExistUniqueTerm__Group_7__1"
-    // InternalAsmetaL.g:17700:1: rule__ExistUniqueTerm__Group_7__1 : rule__ExistUniqueTerm__Group_7__1__Impl ;
-    public final void rule__ExistUniqueTerm__Group_7__1() throws RecognitionException {
+    // $ANTLR start "rule__ExistsUniqueTerm__Group_7__1"
+    // InternalAsmetaL.g:17700:1: rule__ExistsUniqueTerm__Group_7__1 : rule__ExistsUniqueTerm__Group_7__1__Impl ;
+    public final void rule__ExistsUniqueTerm__Group_7__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:17704:1: ( rule__ExistUniqueTerm__Group_7__1__Impl )
-            // InternalAsmetaL.g:17705:2: rule__ExistUniqueTerm__Group_7__1__Impl
+            // InternalAsmetaL.g:17704:1: ( rule__ExistsUniqueTerm__Group_7__1__Impl )
+            // InternalAsmetaL.g:17705:2: rule__ExistsUniqueTerm__Group_7__1__Impl
             {
             pushFollow(FOLLOW_2);
-            rule__ExistUniqueTerm__Group_7__1__Impl();
+            rule__ExistsUniqueTerm__Group_7__1__Impl();
 
             state._fsp--;
             if (state.failed) return ;
@@ -59501,30 +59501,30 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistUniqueTerm__Group_7__1"
+    // $ANTLR end "rule__ExistsUniqueTerm__Group_7__1"
 
 
-    // $ANTLR start "rule__ExistUniqueTerm__Group_7__1__Impl"
-    // InternalAsmetaL.g:17711:1: rule__ExistUniqueTerm__Group_7__1__Impl : ( ( rule__ExistUniqueTerm__GuardAssignment_7_1 ) ) ;
-    public final void rule__ExistUniqueTerm__Group_7__1__Impl() throws RecognitionException {
+    // $ANTLR start "rule__ExistsUniqueTerm__Group_7__1__Impl"
+    // InternalAsmetaL.g:17711:1: rule__ExistsUniqueTerm__Group_7__1__Impl : ( ( rule__ExistsUniqueTerm__GuardAssignment_7_1 ) ) ;
+    public final void rule__ExistsUniqueTerm__Group_7__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:17715:1: ( ( ( rule__ExistUniqueTerm__GuardAssignment_7_1 ) ) )
-            // InternalAsmetaL.g:17716:1: ( ( rule__ExistUniqueTerm__GuardAssignment_7_1 ) )
+            // InternalAsmetaL.g:17715:1: ( ( ( rule__ExistsUniqueTerm__GuardAssignment_7_1 ) ) )
+            // InternalAsmetaL.g:17716:1: ( ( rule__ExistsUniqueTerm__GuardAssignment_7_1 ) )
             {
-            // InternalAsmetaL.g:17716:1: ( ( rule__ExistUniqueTerm__GuardAssignment_7_1 ) )
-            // InternalAsmetaL.g:17717:2: ( rule__ExistUniqueTerm__GuardAssignment_7_1 )
+            // InternalAsmetaL.g:17716:1: ( ( rule__ExistsUniqueTerm__GuardAssignment_7_1 ) )
+            // InternalAsmetaL.g:17717:2: ( rule__ExistsUniqueTerm__GuardAssignment_7_1 )
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getExistUniqueTermAccess().getGuardAssignment_7_1()); 
+               before(grammarAccess.getExistsUniqueTermAccess().getGuardAssignment_7_1()); 
             }
-            // InternalAsmetaL.g:17718:2: ( rule__ExistUniqueTerm__GuardAssignment_7_1 )
-            // InternalAsmetaL.g:17718:3: rule__ExistUniqueTerm__GuardAssignment_7_1
+            // InternalAsmetaL.g:17718:2: ( rule__ExistsUniqueTerm__GuardAssignment_7_1 )
+            // InternalAsmetaL.g:17718:3: rule__ExistsUniqueTerm__GuardAssignment_7_1
             {
             pushFollow(FOLLOW_2);
-            rule__ExistUniqueTerm__GuardAssignment_7_1();
+            rule__ExistsUniqueTerm__GuardAssignment_7_1();
 
             state._fsp--;
             if (state.failed) return ;
@@ -59532,7 +59532,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             }
 
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getExistUniqueTermAccess().getGuardAssignment_7_1()); 
+               after(grammarAccess.getExistsUniqueTermAccess().getGuardAssignment_7_1()); 
             }
 
             }
@@ -59552,26 +59552,26 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistUniqueTerm__Group_7__1__Impl"
+    // $ANTLR end "rule__ExistsUniqueTerm__Group_7__1__Impl"
 
 
-    // $ANTLR start "rule__ExistTerm__Group__0"
-    // InternalAsmetaL.g:17727:1: rule__ExistTerm__Group__0 : rule__ExistTerm__Group__0__Impl rule__ExistTerm__Group__1 ;
-    public final void rule__ExistTerm__Group__0() throws RecognitionException {
+    // $ANTLR start "rule__ExistsTerm__Group__0"
+    // InternalAsmetaL.g:17727:1: rule__ExistsTerm__Group__0 : rule__ExistsTerm__Group__0__Impl rule__ExistsTerm__Group__1 ;
+    public final void rule__ExistsTerm__Group__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:17731:1: ( rule__ExistTerm__Group__0__Impl rule__ExistTerm__Group__1 )
-            // InternalAsmetaL.g:17732:2: rule__ExistTerm__Group__0__Impl rule__ExistTerm__Group__1
+            // InternalAsmetaL.g:17731:1: ( rule__ExistsTerm__Group__0__Impl rule__ExistsTerm__Group__1 )
+            // InternalAsmetaL.g:17732:2: rule__ExistsTerm__Group__0__Impl rule__ExistsTerm__Group__1
             {
             pushFollow(FOLLOW_104);
-            rule__ExistTerm__Group__0__Impl();
+            rule__ExistsTerm__Group__0__Impl();
 
             state._fsp--;
             if (state.failed) return ;
             pushFollow(FOLLOW_2);
-            rule__ExistTerm__Group__1();
+            rule__ExistsTerm__Group__1();
 
             state._fsp--;
             if (state.failed) return ;
@@ -59590,12 +59590,12 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistTerm__Group__0"
+    // $ANTLR end "rule__ExistsTerm__Group__0"
 
 
-    // $ANTLR start "rule__ExistTerm__Group__0__Impl"
-    // InternalAsmetaL.g:17739:1: rule__ExistTerm__Group__0__Impl : ( '(' ) ;
-    public final void rule__ExistTerm__Group__0__Impl() throws RecognitionException {
+    // $ANTLR start "rule__ExistsTerm__Group__0__Impl"
+    // InternalAsmetaL.g:17739:1: rule__ExistsTerm__Group__0__Impl : ( '(' ) ;
+    public final void rule__ExistsTerm__Group__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
@@ -59607,11 +59607,11 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             // InternalAsmetaL.g:17745:2: '('
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getExistTermAccess().getLeftParenthesisKeyword_0()); 
+               before(grammarAccess.getExistsTermAccess().getLeftParenthesisKeyword_0()); 
             }
             match(input,62,FOLLOW_2); if (state.failed) return ;
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getExistTermAccess().getLeftParenthesisKeyword_0()); 
+               after(grammarAccess.getExistsTermAccess().getLeftParenthesisKeyword_0()); 
             }
 
             }
@@ -59631,26 +59631,26 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistTerm__Group__0__Impl"
+    // $ANTLR end "rule__ExistsTerm__Group__0__Impl"
 
 
-    // $ANTLR start "rule__ExistTerm__Group__1"
-    // InternalAsmetaL.g:17754:1: rule__ExistTerm__Group__1 : rule__ExistTerm__Group__1__Impl rule__ExistTerm__Group__2 ;
-    public final void rule__ExistTerm__Group__1() throws RecognitionException {
+    // $ANTLR start "rule__ExistsTerm__Group__1"
+    // InternalAsmetaL.g:17754:1: rule__ExistsTerm__Group__1 : rule__ExistsTerm__Group__1__Impl rule__ExistsTerm__Group__2 ;
+    public final void rule__ExistsTerm__Group__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:17758:1: ( rule__ExistTerm__Group__1__Impl rule__ExistTerm__Group__2 )
-            // InternalAsmetaL.g:17759:2: rule__ExistTerm__Group__1__Impl rule__ExistTerm__Group__2
+            // InternalAsmetaL.g:17758:1: ( rule__ExistsTerm__Group__1__Impl rule__ExistsTerm__Group__2 )
+            // InternalAsmetaL.g:17759:2: rule__ExistsTerm__Group__1__Impl rule__ExistsTerm__Group__2
             {
             pushFollow(FOLLOW_35);
-            rule__ExistTerm__Group__1__Impl();
+            rule__ExistsTerm__Group__1__Impl();
 
             state._fsp--;
             if (state.failed) return ;
             pushFollow(FOLLOW_2);
-            rule__ExistTerm__Group__2();
+            rule__ExistsTerm__Group__2();
 
             state._fsp--;
             if (state.failed) return ;
@@ -59669,28 +59669,28 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistTerm__Group__1"
+    // $ANTLR end "rule__ExistsTerm__Group__1"
 
 
-    // $ANTLR start "rule__ExistTerm__Group__1__Impl"
-    // InternalAsmetaL.g:17766:1: rule__ExistTerm__Group__1__Impl : ( 'exist' ) ;
-    public final void rule__ExistTerm__Group__1__Impl() throws RecognitionException {
+    // $ANTLR start "rule__ExistsTerm__Group__1__Impl"
+    // InternalAsmetaL.g:17766:1: rule__ExistsTerm__Group__1__Impl : ( 'exists' ) ;
+    public final void rule__ExistsTerm__Group__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:17770:1: ( ( 'exist' ) )
-            // InternalAsmetaL.g:17771:1: ( 'exist' )
+            // InternalAsmetaL.g:17770:1: ( ( 'exists' ) )
+            // InternalAsmetaL.g:17771:1: ( 'exists' )
             {
-            // InternalAsmetaL.g:17771:1: ( 'exist' )
-            // InternalAsmetaL.g:17772:2: 'exist'
+            // InternalAsmetaL.g:17771:1: ( 'exists' )
+            // InternalAsmetaL.g:17772:2: 'exists'
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getExistTermAccess().getExistKeyword_1()); 
+               before(grammarAccess.getExistsTermAccess().getExistsKeyword_1()); 
             }
             match(input,104,FOLLOW_2); if (state.failed) return ;
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getExistTermAccess().getExistKeyword_1()); 
+               after(grammarAccess.getExistsTermAccess().getExistsKeyword_1()); 
             }
 
             }
@@ -59710,26 +59710,26 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistTerm__Group__1__Impl"
+    // $ANTLR end "rule__ExistsTerm__Group__1__Impl"
 
 
-    // $ANTLR start "rule__ExistTerm__Group__2"
-    // InternalAsmetaL.g:17781:1: rule__ExistTerm__Group__2 : rule__ExistTerm__Group__2__Impl rule__ExistTerm__Group__3 ;
-    public final void rule__ExistTerm__Group__2() throws RecognitionException {
+    // $ANTLR start "rule__ExistsTerm__Group__2"
+    // InternalAsmetaL.g:17781:1: rule__ExistsTerm__Group__2 : rule__ExistsTerm__Group__2__Impl rule__ExistsTerm__Group__3 ;
+    public final void rule__ExistsTerm__Group__2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:17785:1: ( rule__ExistTerm__Group__2__Impl rule__ExistTerm__Group__3 )
-            // InternalAsmetaL.g:17786:2: rule__ExistTerm__Group__2__Impl rule__ExistTerm__Group__3
+            // InternalAsmetaL.g:17785:1: ( rule__ExistsTerm__Group__2__Impl rule__ExistsTerm__Group__3 )
+            // InternalAsmetaL.g:17786:2: rule__ExistsTerm__Group__2__Impl rule__ExistsTerm__Group__3
             {
             pushFollow(FOLLOW_36);
-            rule__ExistTerm__Group__2__Impl();
+            rule__ExistsTerm__Group__2__Impl();
 
             state._fsp--;
             if (state.failed) return ;
             pushFollow(FOLLOW_2);
-            rule__ExistTerm__Group__3();
+            rule__ExistsTerm__Group__3();
 
             state._fsp--;
             if (state.failed) return ;
@@ -59748,30 +59748,30 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistTerm__Group__2"
+    // $ANTLR end "rule__ExistsTerm__Group__2"
 
 
-    // $ANTLR start "rule__ExistTerm__Group__2__Impl"
-    // InternalAsmetaL.g:17793:1: rule__ExistTerm__Group__2__Impl : ( ( rule__ExistTerm__VariableAssignment_2 ) ) ;
-    public final void rule__ExistTerm__Group__2__Impl() throws RecognitionException {
+    // $ANTLR start "rule__ExistsTerm__Group__2__Impl"
+    // InternalAsmetaL.g:17793:1: rule__ExistsTerm__Group__2__Impl : ( ( rule__ExistsTerm__VariableAssignment_2 ) ) ;
+    public final void rule__ExistsTerm__Group__2__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:17797:1: ( ( ( rule__ExistTerm__VariableAssignment_2 ) ) )
-            // InternalAsmetaL.g:17798:1: ( ( rule__ExistTerm__VariableAssignment_2 ) )
+            // InternalAsmetaL.g:17797:1: ( ( ( rule__ExistsTerm__VariableAssignment_2 ) ) )
+            // InternalAsmetaL.g:17798:1: ( ( rule__ExistsTerm__VariableAssignment_2 ) )
             {
-            // InternalAsmetaL.g:17798:1: ( ( rule__ExistTerm__VariableAssignment_2 ) )
-            // InternalAsmetaL.g:17799:2: ( rule__ExistTerm__VariableAssignment_2 )
+            // InternalAsmetaL.g:17798:1: ( ( rule__ExistsTerm__VariableAssignment_2 ) )
+            // InternalAsmetaL.g:17799:2: ( rule__ExistsTerm__VariableAssignment_2 )
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getExistTermAccess().getVariableAssignment_2()); 
+               before(grammarAccess.getExistsTermAccess().getVariableAssignment_2()); 
             }
-            // InternalAsmetaL.g:17800:2: ( rule__ExistTerm__VariableAssignment_2 )
-            // InternalAsmetaL.g:17800:3: rule__ExistTerm__VariableAssignment_2
+            // InternalAsmetaL.g:17800:2: ( rule__ExistsTerm__VariableAssignment_2 )
+            // InternalAsmetaL.g:17800:3: rule__ExistsTerm__VariableAssignment_2
             {
             pushFollow(FOLLOW_2);
-            rule__ExistTerm__VariableAssignment_2();
+            rule__ExistsTerm__VariableAssignment_2();
 
             state._fsp--;
             if (state.failed) return ;
@@ -59779,7 +59779,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             }
 
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getExistTermAccess().getVariableAssignment_2()); 
+               after(grammarAccess.getExistsTermAccess().getVariableAssignment_2()); 
             }
 
             }
@@ -59799,26 +59799,26 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistTerm__Group__2__Impl"
+    // $ANTLR end "rule__ExistsTerm__Group__2__Impl"
 
 
-    // $ANTLR start "rule__ExistTerm__Group__3"
-    // InternalAsmetaL.g:17808:1: rule__ExistTerm__Group__3 : rule__ExistTerm__Group__3__Impl rule__ExistTerm__Group__4 ;
-    public final void rule__ExistTerm__Group__3() throws RecognitionException {
+    // $ANTLR start "rule__ExistsTerm__Group__3"
+    // InternalAsmetaL.g:17808:1: rule__ExistsTerm__Group__3 : rule__ExistsTerm__Group__3__Impl rule__ExistsTerm__Group__4 ;
+    public final void rule__ExistsTerm__Group__3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:17812:1: ( rule__ExistTerm__Group__3__Impl rule__ExistTerm__Group__4 )
-            // InternalAsmetaL.g:17813:2: rule__ExistTerm__Group__3__Impl rule__ExistTerm__Group__4
+            // InternalAsmetaL.g:17812:1: ( rule__ExistsTerm__Group__3__Impl rule__ExistsTerm__Group__4 )
+            // InternalAsmetaL.g:17813:2: rule__ExistsTerm__Group__3__Impl rule__ExistsTerm__Group__4
             {
             pushFollow(FOLLOW_32);
-            rule__ExistTerm__Group__3__Impl();
+            rule__ExistsTerm__Group__3__Impl();
 
             state._fsp--;
             if (state.failed) return ;
             pushFollow(FOLLOW_2);
-            rule__ExistTerm__Group__4();
+            rule__ExistsTerm__Group__4();
 
             state._fsp--;
             if (state.failed) return ;
@@ -59837,12 +59837,12 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistTerm__Group__3"
+    // $ANTLR end "rule__ExistsTerm__Group__3"
 
 
-    // $ANTLR start "rule__ExistTerm__Group__3__Impl"
-    // InternalAsmetaL.g:17820:1: rule__ExistTerm__Group__3__Impl : ( 'in' ) ;
-    public final void rule__ExistTerm__Group__3__Impl() throws RecognitionException {
+    // $ANTLR start "rule__ExistsTerm__Group__3__Impl"
+    // InternalAsmetaL.g:17820:1: rule__ExistsTerm__Group__3__Impl : ( 'in' ) ;
+    public final void rule__ExistsTerm__Group__3__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
@@ -59854,11 +59854,11 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             // InternalAsmetaL.g:17826:2: 'in'
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getExistTermAccess().getInKeyword_3()); 
+               before(grammarAccess.getExistsTermAccess().getInKeyword_3()); 
             }
             match(input,70,FOLLOW_2); if (state.failed) return ;
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getExistTermAccess().getInKeyword_3()); 
+               after(grammarAccess.getExistsTermAccess().getInKeyword_3()); 
             }
 
             }
@@ -59878,26 +59878,26 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistTerm__Group__3__Impl"
+    // $ANTLR end "rule__ExistsTerm__Group__3__Impl"
 
 
-    // $ANTLR start "rule__ExistTerm__Group__4"
-    // InternalAsmetaL.g:17835:1: rule__ExistTerm__Group__4 : rule__ExistTerm__Group__4__Impl rule__ExistTerm__Group__5 ;
-    public final void rule__ExistTerm__Group__4() throws RecognitionException {
+    // $ANTLR start "rule__ExistsTerm__Group__4"
+    // InternalAsmetaL.g:17835:1: rule__ExistsTerm__Group__4 : rule__ExistsTerm__Group__4__Impl rule__ExistsTerm__Group__5 ;
+    public final void rule__ExistsTerm__Group__4() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:17839:1: ( rule__ExistTerm__Group__4__Impl rule__ExistTerm__Group__5 )
-            // InternalAsmetaL.g:17840:2: rule__ExistTerm__Group__4__Impl rule__ExistTerm__Group__5
+            // InternalAsmetaL.g:17839:1: ( rule__ExistsTerm__Group__4__Impl rule__ExistsTerm__Group__5 )
+            // InternalAsmetaL.g:17840:2: rule__ExistsTerm__Group__4__Impl rule__ExistsTerm__Group__5
             {
             pushFollow(FOLLOW_106);
-            rule__ExistTerm__Group__4__Impl();
+            rule__ExistsTerm__Group__4__Impl();
 
             state._fsp--;
             if (state.failed) return ;
             pushFollow(FOLLOW_2);
-            rule__ExistTerm__Group__5();
+            rule__ExistsTerm__Group__5();
 
             state._fsp--;
             if (state.failed) return ;
@@ -59916,30 +59916,30 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistTerm__Group__4"
+    // $ANTLR end "rule__ExistsTerm__Group__4"
 
 
-    // $ANTLR start "rule__ExistTerm__Group__4__Impl"
-    // InternalAsmetaL.g:17847:1: rule__ExistTerm__Group__4__Impl : ( ( rule__ExistTerm__RangesAssignment_4 ) ) ;
-    public final void rule__ExistTerm__Group__4__Impl() throws RecognitionException {
+    // $ANTLR start "rule__ExistsTerm__Group__4__Impl"
+    // InternalAsmetaL.g:17847:1: rule__ExistsTerm__Group__4__Impl : ( ( rule__ExistsTerm__RangesAssignment_4 ) ) ;
+    public final void rule__ExistsTerm__Group__4__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:17851:1: ( ( ( rule__ExistTerm__RangesAssignment_4 ) ) )
-            // InternalAsmetaL.g:17852:1: ( ( rule__ExistTerm__RangesAssignment_4 ) )
+            // InternalAsmetaL.g:17851:1: ( ( ( rule__ExistsTerm__RangesAssignment_4 ) ) )
+            // InternalAsmetaL.g:17852:1: ( ( rule__ExistsTerm__RangesAssignment_4 ) )
             {
-            // InternalAsmetaL.g:17852:1: ( ( rule__ExistTerm__RangesAssignment_4 ) )
-            // InternalAsmetaL.g:17853:2: ( rule__ExistTerm__RangesAssignment_4 )
+            // InternalAsmetaL.g:17852:1: ( ( rule__ExistsTerm__RangesAssignment_4 ) )
+            // InternalAsmetaL.g:17853:2: ( rule__ExistsTerm__RangesAssignment_4 )
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getExistTermAccess().getRangesAssignment_4()); 
+               before(grammarAccess.getExistsTermAccess().getRangesAssignment_4()); 
             }
-            // InternalAsmetaL.g:17854:2: ( rule__ExistTerm__RangesAssignment_4 )
-            // InternalAsmetaL.g:17854:3: rule__ExistTerm__RangesAssignment_4
+            // InternalAsmetaL.g:17854:2: ( rule__ExistsTerm__RangesAssignment_4 )
+            // InternalAsmetaL.g:17854:3: rule__ExistsTerm__RangesAssignment_4
             {
             pushFollow(FOLLOW_2);
-            rule__ExistTerm__RangesAssignment_4();
+            rule__ExistsTerm__RangesAssignment_4();
 
             state._fsp--;
             if (state.failed) return ;
@@ -59947,7 +59947,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             }
 
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getExistTermAccess().getRangesAssignment_4()); 
+               after(grammarAccess.getExistsTermAccess().getRangesAssignment_4()); 
             }
 
             }
@@ -59967,26 +59967,26 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistTerm__Group__4__Impl"
+    // $ANTLR end "rule__ExistsTerm__Group__4__Impl"
 
 
-    // $ANTLR start "rule__ExistTerm__Group__5"
-    // InternalAsmetaL.g:17862:1: rule__ExistTerm__Group__5 : rule__ExistTerm__Group__5__Impl rule__ExistTerm__Group__6 ;
-    public final void rule__ExistTerm__Group__5() throws RecognitionException {
+    // $ANTLR start "rule__ExistsTerm__Group__5"
+    // InternalAsmetaL.g:17862:1: rule__ExistsTerm__Group__5 : rule__ExistsTerm__Group__5__Impl rule__ExistsTerm__Group__6 ;
+    public final void rule__ExistsTerm__Group__5() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:17866:1: ( rule__ExistTerm__Group__5__Impl rule__ExistTerm__Group__6 )
-            // InternalAsmetaL.g:17867:2: rule__ExistTerm__Group__5__Impl rule__ExistTerm__Group__6
+            // InternalAsmetaL.g:17866:1: ( rule__ExistsTerm__Group__5__Impl rule__ExistsTerm__Group__6 )
+            // InternalAsmetaL.g:17867:2: rule__ExistsTerm__Group__5__Impl rule__ExistsTerm__Group__6
             {
             pushFollow(FOLLOW_106);
-            rule__ExistTerm__Group__5__Impl();
+            rule__ExistsTerm__Group__5__Impl();
 
             state._fsp--;
             if (state.failed) return ;
             pushFollow(FOLLOW_2);
-            rule__ExistTerm__Group__6();
+            rule__ExistsTerm__Group__6();
 
             state._fsp--;
             if (state.failed) return ;
@@ -60005,26 +60005,26 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistTerm__Group__5"
+    // $ANTLR end "rule__ExistsTerm__Group__5"
 
 
-    // $ANTLR start "rule__ExistTerm__Group__5__Impl"
-    // InternalAsmetaL.g:17874:1: rule__ExistTerm__Group__5__Impl : ( ( rule__ExistTerm__Group_5__0 )* ) ;
-    public final void rule__ExistTerm__Group__5__Impl() throws RecognitionException {
+    // $ANTLR start "rule__ExistsTerm__Group__5__Impl"
+    // InternalAsmetaL.g:17874:1: rule__ExistsTerm__Group__5__Impl : ( ( rule__ExistsTerm__Group_5__0 )* ) ;
+    public final void rule__ExistsTerm__Group__5__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:17878:1: ( ( ( rule__ExistTerm__Group_5__0 )* ) )
-            // InternalAsmetaL.g:17879:1: ( ( rule__ExistTerm__Group_5__0 )* )
+            // InternalAsmetaL.g:17878:1: ( ( ( rule__ExistsTerm__Group_5__0 )* ) )
+            // InternalAsmetaL.g:17879:1: ( ( rule__ExistsTerm__Group_5__0 )* )
             {
-            // InternalAsmetaL.g:17879:1: ( ( rule__ExistTerm__Group_5__0 )* )
-            // InternalAsmetaL.g:17880:2: ( rule__ExistTerm__Group_5__0 )*
+            // InternalAsmetaL.g:17879:1: ( ( rule__ExistsTerm__Group_5__0 )* )
+            // InternalAsmetaL.g:17880:2: ( rule__ExistsTerm__Group_5__0 )*
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getExistTermAccess().getGroup_5()); 
+               before(grammarAccess.getExistsTermAccess().getGroup_5()); 
             }
-            // InternalAsmetaL.g:17881:2: ( rule__ExistTerm__Group_5__0 )*
+            // InternalAsmetaL.g:17881:2: ( rule__ExistsTerm__Group_5__0 )*
             loop161:
             do {
                 int alt161=2;
@@ -60037,10 +60037,10 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
 
                 switch (alt161) {
             	case 1 :
-            	    // InternalAsmetaL.g:17881:3: rule__ExistTerm__Group_5__0
+            	    // InternalAsmetaL.g:17881:3: rule__ExistsTerm__Group_5__0
             	    {
             	    pushFollow(FOLLOW_3);
-            	    rule__ExistTerm__Group_5__0();
+            	    rule__ExistsTerm__Group_5__0();
 
             	    state._fsp--;
             	    if (state.failed) return ;
@@ -60054,7 +60054,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             } while (true);
 
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getExistTermAccess().getGroup_5()); 
+               after(grammarAccess.getExistsTermAccess().getGroup_5()); 
             }
 
             }
@@ -60074,26 +60074,26 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistTerm__Group__5__Impl"
+    // $ANTLR end "rule__ExistsTerm__Group__5__Impl"
 
 
-    // $ANTLR start "rule__ExistTerm__Group__6"
-    // InternalAsmetaL.g:17889:1: rule__ExistTerm__Group__6 : rule__ExistTerm__Group__6__Impl rule__ExistTerm__Group__7 ;
-    public final void rule__ExistTerm__Group__6() throws RecognitionException {
+    // $ANTLR start "rule__ExistsTerm__Group__6"
+    // InternalAsmetaL.g:17889:1: rule__ExistsTerm__Group__6 : rule__ExistsTerm__Group__6__Impl rule__ExistsTerm__Group__7 ;
+    public final void rule__ExistsTerm__Group__6() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:17893:1: ( rule__ExistTerm__Group__6__Impl rule__ExistTerm__Group__7 )
-            // InternalAsmetaL.g:17894:2: rule__ExistTerm__Group__6__Impl rule__ExistTerm__Group__7
+            // InternalAsmetaL.g:17893:1: ( rule__ExistsTerm__Group__6__Impl rule__ExistsTerm__Group__7 )
+            // InternalAsmetaL.g:17894:2: rule__ExistsTerm__Group__6__Impl rule__ExistsTerm__Group__7
             {
             pushFollow(FOLLOW_106);
-            rule__ExistTerm__Group__6__Impl();
+            rule__ExistsTerm__Group__6__Impl();
 
             state._fsp--;
             if (state.failed) return ;
             pushFollow(FOLLOW_2);
-            rule__ExistTerm__Group__7();
+            rule__ExistsTerm__Group__7();
 
             state._fsp--;
             if (state.failed) return ;
@@ -60112,26 +60112,26 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistTerm__Group__6"
+    // $ANTLR end "rule__ExistsTerm__Group__6"
 
 
-    // $ANTLR start "rule__ExistTerm__Group__6__Impl"
-    // InternalAsmetaL.g:17901:1: rule__ExistTerm__Group__6__Impl : ( ( rule__ExistTerm__Group_6__0 )? ) ;
-    public final void rule__ExistTerm__Group__6__Impl() throws RecognitionException {
+    // $ANTLR start "rule__ExistsTerm__Group__6__Impl"
+    // InternalAsmetaL.g:17901:1: rule__ExistsTerm__Group__6__Impl : ( ( rule__ExistsTerm__Group_6__0 )? ) ;
+    public final void rule__ExistsTerm__Group__6__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:17905:1: ( ( ( rule__ExistTerm__Group_6__0 )? ) )
-            // InternalAsmetaL.g:17906:1: ( ( rule__ExistTerm__Group_6__0 )? )
+            // InternalAsmetaL.g:17905:1: ( ( ( rule__ExistsTerm__Group_6__0 )? ) )
+            // InternalAsmetaL.g:17906:1: ( ( rule__ExistsTerm__Group_6__0 )? )
             {
-            // InternalAsmetaL.g:17906:1: ( ( rule__ExistTerm__Group_6__0 )? )
-            // InternalAsmetaL.g:17907:2: ( rule__ExistTerm__Group_6__0 )?
+            // InternalAsmetaL.g:17906:1: ( ( rule__ExistsTerm__Group_6__0 )? )
+            // InternalAsmetaL.g:17907:2: ( rule__ExistsTerm__Group_6__0 )?
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getExistTermAccess().getGroup_6()); 
+               before(grammarAccess.getExistsTermAccess().getGroup_6()); 
             }
-            // InternalAsmetaL.g:17908:2: ( rule__ExistTerm__Group_6__0 )?
+            // InternalAsmetaL.g:17908:2: ( rule__ExistsTerm__Group_6__0 )?
             int alt162=2;
             int LA162_0 = input.LA(1);
 
@@ -60140,10 +60140,10 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             }
             switch (alt162) {
                 case 1 :
-                    // InternalAsmetaL.g:17908:3: rule__ExistTerm__Group_6__0
+                    // InternalAsmetaL.g:17908:3: rule__ExistsTerm__Group_6__0
                     {
                     pushFollow(FOLLOW_2);
-                    rule__ExistTerm__Group_6__0();
+                    rule__ExistsTerm__Group_6__0();
 
                     state._fsp--;
                     if (state.failed) return ;
@@ -60154,7 +60154,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             }
 
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getExistTermAccess().getGroup_6()); 
+               after(grammarAccess.getExistsTermAccess().getGroup_6()); 
             }
 
             }
@@ -60174,21 +60174,21 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistTerm__Group__6__Impl"
+    // $ANTLR end "rule__ExistsTerm__Group__6__Impl"
 
 
-    // $ANTLR start "rule__ExistTerm__Group__7"
-    // InternalAsmetaL.g:17916:1: rule__ExistTerm__Group__7 : rule__ExistTerm__Group__7__Impl ;
-    public final void rule__ExistTerm__Group__7() throws RecognitionException {
+    // $ANTLR start "rule__ExistsTerm__Group__7"
+    // InternalAsmetaL.g:17916:1: rule__ExistsTerm__Group__7 : rule__ExistsTerm__Group__7__Impl ;
+    public final void rule__ExistsTerm__Group__7() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:17920:1: ( rule__ExistTerm__Group__7__Impl )
-            // InternalAsmetaL.g:17921:2: rule__ExistTerm__Group__7__Impl
+            // InternalAsmetaL.g:17920:1: ( rule__ExistsTerm__Group__7__Impl )
+            // InternalAsmetaL.g:17921:2: rule__ExistsTerm__Group__7__Impl
             {
             pushFollow(FOLLOW_2);
-            rule__ExistTerm__Group__7__Impl();
+            rule__ExistsTerm__Group__7__Impl();
 
             state._fsp--;
             if (state.failed) return ;
@@ -60207,12 +60207,12 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistTerm__Group__7"
+    // $ANTLR end "rule__ExistsTerm__Group__7"
 
 
-    // $ANTLR start "rule__ExistTerm__Group__7__Impl"
-    // InternalAsmetaL.g:17927:1: rule__ExistTerm__Group__7__Impl : ( ')' ) ;
-    public final void rule__ExistTerm__Group__7__Impl() throws RecognitionException {
+    // $ANTLR start "rule__ExistsTerm__Group__7__Impl"
+    // InternalAsmetaL.g:17927:1: rule__ExistsTerm__Group__7__Impl : ( ')' ) ;
+    public final void rule__ExistsTerm__Group__7__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
@@ -60224,11 +60224,11 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             // InternalAsmetaL.g:17933:2: ')'
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getExistTermAccess().getRightParenthesisKeyword_7()); 
+               before(grammarAccess.getExistsTermAccess().getRightParenthesisKeyword_7()); 
             }
             match(input,63,FOLLOW_2); if (state.failed) return ;
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getExistTermAccess().getRightParenthesisKeyword_7()); 
+               after(grammarAccess.getExistsTermAccess().getRightParenthesisKeyword_7()); 
             }
 
             }
@@ -60248,26 +60248,26 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistTerm__Group__7__Impl"
+    // $ANTLR end "rule__ExistsTerm__Group__7__Impl"
 
 
-    // $ANTLR start "rule__ExistTerm__Group_5__0"
-    // InternalAsmetaL.g:17943:1: rule__ExistTerm__Group_5__0 : rule__ExistTerm__Group_5__0__Impl rule__ExistTerm__Group_5__1 ;
-    public final void rule__ExistTerm__Group_5__0() throws RecognitionException {
+    // $ANTLR start "rule__ExistsTerm__Group_5__0"
+    // InternalAsmetaL.g:17943:1: rule__ExistsTerm__Group_5__0 : rule__ExistsTerm__Group_5__0__Impl rule__ExistsTerm__Group_5__1 ;
+    public final void rule__ExistsTerm__Group_5__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:17947:1: ( rule__ExistTerm__Group_5__0__Impl rule__ExistTerm__Group_5__1 )
-            // InternalAsmetaL.g:17948:2: rule__ExistTerm__Group_5__0__Impl rule__ExistTerm__Group_5__1
+            // InternalAsmetaL.g:17947:1: ( rule__ExistsTerm__Group_5__0__Impl rule__ExistsTerm__Group_5__1 )
+            // InternalAsmetaL.g:17948:2: rule__ExistsTerm__Group_5__0__Impl rule__ExistsTerm__Group_5__1
             {
             pushFollow(FOLLOW_35);
-            rule__ExistTerm__Group_5__0__Impl();
+            rule__ExistsTerm__Group_5__0__Impl();
 
             state._fsp--;
             if (state.failed) return ;
             pushFollow(FOLLOW_2);
-            rule__ExistTerm__Group_5__1();
+            rule__ExistsTerm__Group_5__1();
 
             state._fsp--;
             if (state.failed) return ;
@@ -60286,12 +60286,12 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistTerm__Group_5__0"
+    // $ANTLR end "rule__ExistsTerm__Group_5__0"
 
 
-    // $ANTLR start "rule__ExistTerm__Group_5__0__Impl"
-    // InternalAsmetaL.g:17955:1: rule__ExistTerm__Group_5__0__Impl : ( ',' ) ;
-    public final void rule__ExistTerm__Group_5__0__Impl() throws RecognitionException {
+    // $ANTLR start "rule__ExistsTerm__Group_5__0__Impl"
+    // InternalAsmetaL.g:17955:1: rule__ExistsTerm__Group_5__0__Impl : ( ',' ) ;
+    public final void rule__ExistsTerm__Group_5__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
@@ -60303,11 +60303,11 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             // InternalAsmetaL.g:17961:2: ','
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getExistTermAccess().getCommaKeyword_5_0()); 
+               before(grammarAccess.getExistsTermAccess().getCommaKeyword_5_0()); 
             }
             match(input,31,FOLLOW_2); if (state.failed) return ;
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getExistTermAccess().getCommaKeyword_5_0()); 
+               after(grammarAccess.getExistsTermAccess().getCommaKeyword_5_0()); 
             }
 
             }
@@ -60327,26 +60327,26 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistTerm__Group_5__0__Impl"
+    // $ANTLR end "rule__ExistsTerm__Group_5__0__Impl"
 
 
-    // $ANTLR start "rule__ExistTerm__Group_5__1"
-    // InternalAsmetaL.g:17970:1: rule__ExistTerm__Group_5__1 : rule__ExistTerm__Group_5__1__Impl rule__ExistTerm__Group_5__2 ;
-    public final void rule__ExistTerm__Group_5__1() throws RecognitionException {
+    // $ANTLR start "rule__ExistsTerm__Group_5__1"
+    // InternalAsmetaL.g:17970:1: rule__ExistsTerm__Group_5__1 : rule__ExistsTerm__Group_5__1__Impl rule__ExistsTerm__Group_5__2 ;
+    public final void rule__ExistsTerm__Group_5__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:17974:1: ( rule__ExistTerm__Group_5__1__Impl rule__ExistTerm__Group_5__2 )
-            // InternalAsmetaL.g:17975:2: rule__ExistTerm__Group_5__1__Impl rule__ExistTerm__Group_5__2
+            // InternalAsmetaL.g:17974:1: ( rule__ExistsTerm__Group_5__1__Impl rule__ExistsTerm__Group_5__2 )
+            // InternalAsmetaL.g:17975:2: rule__ExistsTerm__Group_5__1__Impl rule__ExistsTerm__Group_5__2
             {
             pushFollow(FOLLOW_36);
-            rule__ExistTerm__Group_5__1__Impl();
+            rule__ExistsTerm__Group_5__1__Impl();
 
             state._fsp--;
             if (state.failed) return ;
             pushFollow(FOLLOW_2);
-            rule__ExistTerm__Group_5__2();
+            rule__ExistsTerm__Group_5__2();
 
             state._fsp--;
             if (state.failed) return ;
@@ -60365,30 +60365,30 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistTerm__Group_5__1"
+    // $ANTLR end "rule__ExistsTerm__Group_5__1"
 
 
-    // $ANTLR start "rule__ExistTerm__Group_5__1__Impl"
-    // InternalAsmetaL.g:17982:1: rule__ExistTerm__Group_5__1__Impl : ( ( rule__ExistTerm__VariableAssignment_5_1 ) ) ;
-    public final void rule__ExistTerm__Group_5__1__Impl() throws RecognitionException {
+    // $ANTLR start "rule__ExistsTerm__Group_5__1__Impl"
+    // InternalAsmetaL.g:17982:1: rule__ExistsTerm__Group_5__1__Impl : ( ( rule__ExistsTerm__VariableAssignment_5_1 ) ) ;
+    public final void rule__ExistsTerm__Group_5__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:17986:1: ( ( ( rule__ExistTerm__VariableAssignment_5_1 ) ) )
-            // InternalAsmetaL.g:17987:1: ( ( rule__ExistTerm__VariableAssignment_5_1 ) )
+            // InternalAsmetaL.g:17986:1: ( ( ( rule__ExistsTerm__VariableAssignment_5_1 ) ) )
+            // InternalAsmetaL.g:17987:1: ( ( rule__ExistsTerm__VariableAssignment_5_1 ) )
             {
-            // InternalAsmetaL.g:17987:1: ( ( rule__ExistTerm__VariableAssignment_5_1 ) )
-            // InternalAsmetaL.g:17988:2: ( rule__ExistTerm__VariableAssignment_5_1 )
+            // InternalAsmetaL.g:17987:1: ( ( rule__ExistsTerm__VariableAssignment_5_1 ) )
+            // InternalAsmetaL.g:17988:2: ( rule__ExistsTerm__VariableAssignment_5_1 )
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getExistTermAccess().getVariableAssignment_5_1()); 
+               before(grammarAccess.getExistsTermAccess().getVariableAssignment_5_1()); 
             }
-            // InternalAsmetaL.g:17989:2: ( rule__ExistTerm__VariableAssignment_5_1 )
-            // InternalAsmetaL.g:17989:3: rule__ExistTerm__VariableAssignment_5_1
+            // InternalAsmetaL.g:17989:2: ( rule__ExistsTerm__VariableAssignment_5_1 )
+            // InternalAsmetaL.g:17989:3: rule__ExistsTerm__VariableAssignment_5_1
             {
             pushFollow(FOLLOW_2);
-            rule__ExistTerm__VariableAssignment_5_1();
+            rule__ExistsTerm__VariableAssignment_5_1();
 
             state._fsp--;
             if (state.failed) return ;
@@ -60396,7 +60396,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             }
 
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getExistTermAccess().getVariableAssignment_5_1()); 
+               after(grammarAccess.getExistsTermAccess().getVariableAssignment_5_1()); 
             }
 
             }
@@ -60416,26 +60416,26 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistTerm__Group_5__1__Impl"
+    // $ANTLR end "rule__ExistsTerm__Group_5__1__Impl"
 
 
-    // $ANTLR start "rule__ExistTerm__Group_5__2"
-    // InternalAsmetaL.g:17997:1: rule__ExistTerm__Group_5__2 : rule__ExistTerm__Group_5__2__Impl rule__ExistTerm__Group_5__3 ;
-    public final void rule__ExistTerm__Group_5__2() throws RecognitionException {
+    // $ANTLR start "rule__ExistsTerm__Group_5__2"
+    // InternalAsmetaL.g:17997:1: rule__ExistsTerm__Group_5__2 : rule__ExistsTerm__Group_5__2__Impl rule__ExistsTerm__Group_5__3 ;
+    public final void rule__ExistsTerm__Group_5__2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:18001:1: ( rule__ExistTerm__Group_5__2__Impl rule__ExistTerm__Group_5__3 )
-            // InternalAsmetaL.g:18002:2: rule__ExistTerm__Group_5__2__Impl rule__ExistTerm__Group_5__3
+            // InternalAsmetaL.g:18001:1: ( rule__ExistsTerm__Group_5__2__Impl rule__ExistsTerm__Group_5__3 )
+            // InternalAsmetaL.g:18002:2: rule__ExistsTerm__Group_5__2__Impl rule__ExistsTerm__Group_5__3
             {
             pushFollow(FOLLOW_32);
-            rule__ExistTerm__Group_5__2__Impl();
+            rule__ExistsTerm__Group_5__2__Impl();
 
             state._fsp--;
             if (state.failed) return ;
             pushFollow(FOLLOW_2);
-            rule__ExistTerm__Group_5__3();
+            rule__ExistsTerm__Group_5__3();
 
             state._fsp--;
             if (state.failed) return ;
@@ -60454,12 +60454,12 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistTerm__Group_5__2"
+    // $ANTLR end "rule__ExistsTerm__Group_5__2"
 
 
-    // $ANTLR start "rule__ExistTerm__Group_5__2__Impl"
-    // InternalAsmetaL.g:18009:1: rule__ExistTerm__Group_5__2__Impl : ( 'in' ) ;
-    public final void rule__ExistTerm__Group_5__2__Impl() throws RecognitionException {
+    // $ANTLR start "rule__ExistsTerm__Group_5__2__Impl"
+    // InternalAsmetaL.g:18009:1: rule__ExistsTerm__Group_5__2__Impl : ( 'in' ) ;
+    public final void rule__ExistsTerm__Group_5__2__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
@@ -60471,11 +60471,11 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             // InternalAsmetaL.g:18015:2: 'in'
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getExistTermAccess().getInKeyword_5_2()); 
+               before(grammarAccess.getExistsTermAccess().getInKeyword_5_2()); 
             }
             match(input,70,FOLLOW_2); if (state.failed) return ;
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getExistTermAccess().getInKeyword_5_2()); 
+               after(grammarAccess.getExistsTermAccess().getInKeyword_5_2()); 
             }
 
             }
@@ -60495,21 +60495,21 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistTerm__Group_5__2__Impl"
+    // $ANTLR end "rule__ExistsTerm__Group_5__2__Impl"
 
 
-    // $ANTLR start "rule__ExistTerm__Group_5__3"
-    // InternalAsmetaL.g:18024:1: rule__ExistTerm__Group_5__3 : rule__ExistTerm__Group_5__3__Impl ;
-    public final void rule__ExistTerm__Group_5__3() throws RecognitionException {
+    // $ANTLR start "rule__ExistsTerm__Group_5__3"
+    // InternalAsmetaL.g:18024:1: rule__ExistsTerm__Group_5__3 : rule__ExistsTerm__Group_5__3__Impl ;
+    public final void rule__ExistsTerm__Group_5__3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:18028:1: ( rule__ExistTerm__Group_5__3__Impl )
-            // InternalAsmetaL.g:18029:2: rule__ExistTerm__Group_5__3__Impl
+            // InternalAsmetaL.g:18028:1: ( rule__ExistsTerm__Group_5__3__Impl )
+            // InternalAsmetaL.g:18029:2: rule__ExistsTerm__Group_5__3__Impl
             {
             pushFollow(FOLLOW_2);
-            rule__ExistTerm__Group_5__3__Impl();
+            rule__ExistsTerm__Group_5__3__Impl();
 
             state._fsp--;
             if (state.failed) return ;
@@ -60528,30 +60528,30 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistTerm__Group_5__3"
+    // $ANTLR end "rule__ExistsTerm__Group_5__3"
 
 
-    // $ANTLR start "rule__ExistTerm__Group_5__3__Impl"
-    // InternalAsmetaL.g:18035:1: rule__ExistTerm__Group_5__3__Impl : ( ( rule__ExistTerm__RangesAssignment_5_3 ) ) ;
-    public final void rule__ExistTerm__Group_5__3__Impl() throws RecognitionException {
+    // $ANTLR start "rule__ExistsTerm__Group_5__3__Impl"
+    // InternalAsmetaL.g:18035:1: rule__ExistsTerm__Group_5__3__Impl : ( ( rule__ExistsTerm__RangesAssignment_5_3 ) ) ;
+    public final void rule__ExistsTerm__Group_5__3__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:18039:1: ( ( ( rule__ExistTerm__RangesAssignment_5_3 ) ) )
-            // InternalAsmetaL.g:18040:1: ( ( rule__ExistTerm__RangesAssignment_5_3 ) )
+            // InternalAsmetaL.g:18039:1: ( ( ( rule__ExistsTerm__RangesAssignment_5_3 ) ) )
+            // InternalAsmetaL.g:18040:1: ( ( rule__ExistsTerm__RangesAssignment_5_3 ) )
             {
-            // InternalAsmetaL.g:18040:1: ( ( rule__ExistTerm__RangesAssignment_5_3 ) )
-            // InternalAsmetaL.g:18041:2: ( rule__ExistTerm__RangesAssignment_5_3 )
+            // InternalAsmetaL.g:18040:1: ( ( rule__ExistsTerm__RangesAssignment_5_3 ) )
+            // InternalAsmetaL.g:18041:2: ( rule__ExistsTerm__RangesAssignment_5_3 )
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getExistTermAccess().getRangesAssignment_5_3()); 
+               before(grammarAccess.getExistsTermAccess().getRangesAssignment_5_3()); 
             }
-            // InternalAsmetaL.g:18042:2: ( rule__ExistTerm__RangesAssignment_5_3 )
-            // InternalAsmetaL.g:18042:3: rule__ExistTerm__RangesAssignment_5_3
+            // InternalAsmetaL.g:18042:2: ( rule__ExistsTerm__RangesAssignment_5_3 )
+            // InternalAsmetaL.g:18042:3: rule__ExistsTerm__RangesAssignment_5_3
             {
             pushFollow(FOLLOW_2);
-            rule__ExistTerm__RangesAssignment_5_3();
+            rule__ExistsTerm__RangesAssignment_5_3();
 
             state._fsp--;
             if (state.failed) return ;
@@ -60559,7 +60559,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             }
 
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getExistTermAccess().getRangesAssignment_5_3()); 
+               after(grammarAccess.getExistsTermAccess().getRangesAssignment_5_3()); 
             }
 
             }
@@ -60579,26 +60579,26 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistTerm__Group_5__3__Impl"
+    // $ANTLR end "rule__ExistsTerm__Group_5__3__Impl"
 
 
-    // $ANTLR start "rule__ExistTerm__Group_6__0"
-    // InternalAsmetaL.g:18051:1: rule__ExistTerm__Group_6__0 : rule__ExistTerm__Group_6__0__Impl rule__ExistTerm__Group_6__1 ;
-    public final void rule__ExistTerm__Group_6__0() throws RecognitionException {
+    // $ANTLR start "rule__ExistsTerm__Group_6__0"
+    // InternalAsmetaL.g:18051:1: rule__ExistsTerm__Group_6__0 : rule__ExistsTerm__Group_6__0__Impl rule__ExistsTerm__Group_6__1 ;
+    public final void rule__ExistsTerm__Group_6__0() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:18055:1: ( rule__ExistTerm__Group_6__0__Impl rule__ExistTerm__Group_6__1 )
-            // InternalAsmetaL.g:18056:2: rule__ExistTerm__Group_6__0__Impl rule__ExistTerm__Group_6__1
+            // InternalAsmetaL.g:18055:1: ( rule__ExistsTerm__Group_6__0__Impl rule__ExistsTerm__Group_6__1 )
+            // InternalAsmetaL.g:18056:2: rule__ExistsTerm__Group_6__0__Impl rule__ExistsTerm__Group_6__1
             {
             pushFollow(FOLLOW_32);
-            rule__ExistTerm__Group_6__0__Impl();
+            rule__ExistsTerm__Group_6__0__Impl();
 
             state._fsp--;
             if (state.failed) return ;
             pushFollow(FOLLOW_2);
-            rule__ExistTerm__Group_6__1();
+            rule__ExistsTerm__Group_6__1();
 
             state._fsp--;
             if (state.failed) return ;
@@ -60617,12 +60617,12 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistTerm__Group_6__0"
+    // $ANTLR end "rule__ExistsTerm__Group_6__0"
 
 
-    // $ANTLR start "rule__ExistTerm__Group_6__0__Impl"
-    // InternalAsmetaL.g:18063:1: rule__ExistTerm__Group_6__0__Impl : ( 'with' ) ;
-    public final void rule__ExistTerm__Group_6__0__Impl() throws RecognitionException {
+    // $ANTLR start "rule__ExistsTerm__Group_6__0__Impl"
+    // InternalAsmetaL.g:18063:1: rule__ExistsTerm__Group_6__0__Impl : ( 'with' ) ;
+    public final void rule__ExistsTerm__Group_6__0__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
@@ -60634,11 +60634,11 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             // InternalAsmetaL.g:18069:2: 'with'
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getExistTermAccess().getWithKeyword_6_0()); 
+               before(grammarAccess.getExistsTermAccess().getWithKeyword_6_0()); 
             }
             match(input,106,FOLLOW_2); if (state.failed) return ;
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getExistTermAccess().getWithKeyword_6_0()); 
+               after(grammarAccess.getExistsTermAccess().getWithKeyword_6_0()); 
             }
 
             }
@@ -60658,21 +60658,21 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistTerm__Group_6__0__Impl"
+    // $ANTLR end "rule__ExistsTerm__Group_6__0__Impl"
 
 
-    // $ANTLR start "rule__ExistTerm__Group_6__1"
-    // InternalAsmetaL.g:18078:1: rule__ExistTerm__Group_6__1 : rule__ExistTerm__Group_6__1__Impl ;
-    public final void rule__ExistTerm__Group_6__1() throws RecognitionException {
+    // $ANTLR start "rule__ExistsTerm__Group_6__1"
+    // InternalAsmetaL.g:18078:1: rule__ExistsTerm__Group_6__1 : rule__ExistsTerm__Group_6__1__Impl ;
+    public final void rule__ExistsTerm__Group_6__1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:18082:1: ( rule__ExistTerm__Group_6__1__Impl )
-            // InternalAsmetaL.g:18083:2: rule__ExistTerm__Group_6__1__Impl
+            // InternalAsmetaL.g:18082:1: ( rule__ExistsTerm__Group_6__1__Impl )
+            // InternalAsmetaL.g:18083:2: rule__ExistsTerm__Group_6__1__Impl
             {
             pushFollow(FOLLOW_2);
-            rule__ExistTerm__Group_6__1__Impl();
+            rule__ExistsTerm__Group_6__1__Impl();
 
             state._fsp--;
             if (state.failed) return ;
@@ -60691,30 +60691,30 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistTerm__Group_6__1"
+    // $ANTLR end "rule__ExistsTerm__Group_6__1"
 
 
-    // $ANTLR start "rule__ExistTerm__Group_6__1__Impl"
-    // InternalAsmetaL.g:18089:1: rule__ExistTerm__Group_6__1__Impl : ( ( rule__ExistTerm__GuardAssignment_6_1 ) ) ;
-    public final void rule__ExistTerm__Group_6__1__Impl() throws RecognitionException {
+    // $ANTLR start "rule__ExistsTerm__Group_6__1__Impl"
+    // InternalAsmetaL.g:18089:1: rule__ExistsTerm__Group_6__1__Impl : ( ( rule__ExistsTerm__GuardAssignment_6_1 ) ) ;
+    public final void rule__ExistsTerm__Group_6__1__Impl() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
         try {
-            // InternalAsmetaL.g:18093:1: ( ( ( rule__ExistTerm__GuardAssignment_6_1 ) ) )
-            // InternalAsmetaL.g:18094:1: ( ( rule__ExistTerm__GuardAssignment_6_1 ) )
+            // InternalAsmetaL.g:18093:1: ( ( ( rule__ExistsTerm__GuardAssignment_6_1 ) ) )
+            // InternalAsmetaL.g:18094:1: ( ( rule__ExistsTerm__GuardAssignment_6_1 ) )
             {
-            // InternalAsmetaL.g:18094:1: ( ( rule__ExistTerm__GuardAssignment_6_1 ) )
-            // InternalAsmetaL.g:18095:2: ( rule__ExistTerm__GuardAssignment_6_1 )
+            // InternalAsmetaL.g:18094:1: ( ( rule__ExistsTerm__GuardAssignment_6_1 ) )
+            // InternalAsmetaL.g:18095:2: ( rule__ExistsTerm__GuardAssignment_6_1 )
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getExistTermAccess().getGuardAssignment_6_1()); 
+               before(grammarAccess.getExistsTermAccess().getGuardAssignment_6_1()); 
             }
-            // InternalAsmetaL.g:18096:2: ( rule__ExistTerm__GuardAssignment_6_1 )
-            // InternalAsmetaL.g:18096:3: rule__ExistTerm__GuardAssignment_6_1
+            // InternalAsmetaL.g:18096:2: ( rule__ExistsTerm__GuardAssignment_6_1 )
+            // InternalAsmetaL.g:18096:3: rule__ExistsTerm__GuardAssignment_6_1
             {
             pushFollow(FOLLOW_2);
-            rule__ExistTerm__GuardAssignment_6_1();
+            rule__ExistsTerm__GuardAssignment_6_1();
 
             state._fsp--;
             if (state.failed) return ;
@@ -60722,7 +60722,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             }
 
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getExistTermAccess().getGuardAssignment_6_1()); 
+               after(grammarAccess.getExistsTermAccess().getGuardAssignment_6_1()); 
             }
 
             }
@@ -60742,7 +60742,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistTerm__Group_6__1__Impl"
+    // $ANTLR end "rule__ExistsTerm__Group_6__1__Impl"
 
 
     // $ANTLR start "rule__ForallTerm__Group__0"
@@ -90893,9 +90893,9 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
     // $ANTLR end "rule__BagTerm__StepAssignment_2_1_1_2_1"
 
 
-    // $ANTLR start "rule__ExistUniqueTerm__VariableAssignment_3"
-    // InternalAsmetaL.g:27833:1: rule__ExistUniqueTerm__VariableAssignment_3 : ( ruleVariableTerm ) ;
-    public final void rule__ExistUniqueTerm__VariableAssignment_3() throws RecognitionException {
+    // $ANTLR start "rule__ExistsUniqueTerm__VariableAssignment_3"
+    // InternalAsmetaL.g:27833:1: rule__ExistsUniqueTerm__VariableAssignment_3 : ( ruleVariableTerm ) ;
+    public final void rule__ExistsUniqueTerm__VariableAssignment_3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
@@ -90907,7 +90907,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             // InternalAsmetaL.g:27839:3: ruleVariableTerm
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getExistUniqueTermAccess().getVariableVariableTermParserRuleCall_3_0()); 
+               before(grammarAccess.getExistsUniqueTermAccess().getVariableVariableTermParserRuleCall_3_0()); 
             }
             pushFollow(FOLLOW_2);
             ruleVariableTerm();
@@ -90915,7 +90915,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             state._fsp--;
             if (state.failed) return ;
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getExistUniqueTermAccess().getVariableVariableTermParserRuleCall_3_0()); 
+               after(grammarAccess.getExistsUniqueTermAccess().getVariableVariableTermParserRuleCall_3_0()); 
             }
 
             }
@@ -90935,12 +90935,12 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistUniqueTerm__VariableAssignment_3"
+    // $ANTLR end "rule__ExistsUniqueTerm__VariableAssignment_3"
 
 
-    // $ANTLR start "rule__ExistUniqueTerm__RangesAssignment_5"
-    // InternalAsmetaL.g:27848:1: rule__ExistUniqueTerm__RangesAssignment_5 : ( ruleTerm ) ;
-    public final void rule__ExistUniqueTerm__RangesAssignment_5() throws RecognitionException {
+    // $ANTLR start "rule__ExistsUniqueTerm__RangesAssignment_5"
+    // InternalAsmetaL.g:27848:1: rule__ExistsUniqueTerm__RangesAssignment_5 : ( ruleTerm ) ;
+    public final void rule__ExistsUniqueTerm__RangesAssignment_5() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
@@ -90952,7 +90952,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             // InternalAsmetaL.g:27854:3: ruleTerm
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getExistUniqueTermAccess().getRangesTermParserRuleCall_5_0()); 
+               before(grammarAccess.getExistsUniqueTermAccess().getRangesTermParserRuleCall_5_0()); 
             }
             pushFollow(FOLLOW_2);
             ruleTerm();
@@ -90960,7 +90960,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             state._fsp--;
             if (state.failed) return ;
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getExistUniqueTermAccess().getRangesTermParserRuleCall_5_0()); 
+               after(grammarAccess.getExistsUniqueTermAccess().getRangesTermParserRuleCall_5_0()); 
             }
 
             }
@@ -90980,12 +90980,12 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistUniqueTerm__RangesAssignment_5"
+    // $ANTLR end "rule__ExistsUniqueTerm__RangesAssignment_5"
 
 
-    // $ANTLR start "rule__ExistUniqueTerm__VariableAssignment_6_1"
-    // InternalAsmetaL.g:27863:1: rule__ExistUniqueTerm__VariableAssignment_6_1 : ( ruleVariableTerm ) ;
-    public final void rule__ExistUniqueTerm__VariableAssignment_6_1() throws RecognitionException {
+    // $ANTLR start "rule__ExistsUniqueTerm__VariableAssignment_6_1"
+    // InternalAsmetaL.g:27863:1: rule__ExistsUniqueTerm__VariableAssignment_6_1 : ( ruleVariableTerm ) ;
+    public final void rule__ExistsUniqueTerm__VariableAssignment_6_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
@@ -90997,7 +90997,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             // InternalAsmetaL.g:27869:3: ruleVariableTerm
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getExistUniqueTermAccess().getVariableVariableTermParserRuleCall_6_1_0()); 
+               before(grammarAccess.getExistsUniqueTermAccess().getVariableVariableTermParserRuleCall_6_1_0()); 
             }
             pushFollow(FOLLOW_2);
             ruleVariableTerm();
@@ -91005,7 +91005,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             state._fsp--;
             if (state.failed) return ;
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getExistUniqueTermAccess().getVariableVariableTermParserRuleCall_6_1_0()); 
+               after(grammarAccess.getExistsUniqueTermAccess().getVariableVariableTermParserRuleCall_6_1_0()); 
             }
 
             }
@@ -91025,12 +91025,12 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistUniqueTerm__VariableAssignment_6_1"
+    // $ANTLR end "rule__ExistsUniqueTerm__VariableAssignment_6_1"
 
 
-    // $ANTLR start "rule__ExistUniqueTerm__RangesAssignment_6_3"
-    // InternalAsmetaL.g:27878:1: rule__ExistUniqueTerm__RangesAssignment_6_3 : ( ruleTerm ) ;
-    public final void rule__ExistUniqueTerm__RangesAssignment_6_3() throws RecognitionException {
+    // $ANTLR start "rule__ExistsUniqueTerm__RangesAssignment_6_3"
+    // InternalAsmetaL.g:27878:1: rule__ExistsUniqueTerm__RangesAssignment_6_3 : ( ruleTerm ) ;
+    public final void rule__ExistsUniqueTerm__RangesAssignment_6_3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
@@ -91042,7 +91042,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             // InternalAsmetaL.g:27884:3: ruleTerm
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getExistUniqueTermAccess().getRangesTermParserRuleCall_6_3_0()); 
+               before(grammarAccess.getExistsUniqueTermAccess().getRangesTermParserRuleCall_6_3_0()); 
             }
             pushFollow(FOLLOW_2);
             ruleTerm();
@@ -91050,7 +91050,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             state._fsp--;
             if (state.failed) return ;
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getExistUniqueTermAccess().getRangesTermParserRuleCall_6_3_0()); 
+               after(grammarAccess.getExistsUniqueTermAccess().getRangesTermParserRuleCall_6_3_0()); 
             }
 
             }
@@ -91070,12 +91070,12 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistUniqueTerm__RangesAssignment_6_3"
+    // $ANTLR end "rule__ExistsUniqueTerm__RangesAssignment_6_3"
 
 
-    // $ANTLR start "rule__ExistUniqueTerm__GuardAssignment_7_1"
-    // InternalAsmetaL.g:27893:1: rule__ExistUniqueTerm__GuardAssignment_7_1 : ( ruleTerm ) ;
-    public final void rule__ExistUniqueTerm__GuardAssignment_7_1() throws RecognitionException {
+    // $ANTLR start "rule__ExistsUniqueTerm__GuardAssignment_7_1"
+    // InternalAsmetaL.g:27893:1: rule__ExistsUniqueTerm__GuardAssignment_7_1 : ( ruleTerm ) ;
+    public final void rule__ExistsUniqueTerm__GuardAssignment_7_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
@@ -91087,7 +91087,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             // InternalAsmetaL.g:27899:3: ruleTerm
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getExistUniqueTermAccess().getGuardTermParserRuleCall_7_1_0()); 
+               before(grammarAccess.getExistsUniqueTermAccess().getGuardTermParserRuleCall_7_1_0()); 
             }
             pushFollow(FOLLOW_2);
             ruleTerm();
@@ -91095,7 +91095,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             state._fsp--;
             if (state.failed) return ;
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getExistUniqueTermAccess().getGuardTermParserRuleCall_7_1_0()); 
+               after(grammarAccess.getExistsUniqueTermAccess().getGuardTermParserRuleCall_7_1_0()); 
             }
 
             }
@@ -91115,12 +91115,12 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistUniqueTerm__GuardAssignment_7_1"
+    // $ANTLR end "rule__ExistsUniqueTerm__GuardAssignment_7_1"
 
 
-    // $ANTLR start "rule__ExistTerm__VariableAssignment_2"
-    // InternalAsmetaL.g:27908:1: rule__ExistTerm__VariableAssignment_2 : ( ruleVariableTerm ) ;
-    public final void rule__ExistTerm__VariableAssignment_2() throws RecognitionException {
+    // $ANTLR start "rule__ExistsTerm__VariableAssignment_2"
+    // InternalAsmetaL.g:27908:1: rule__ExistsTerm__VariableAssignment_2 : ( ruleVariableTerm ) ;
+    public final void rule__ExistsTerm__VariableAssignment_2() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
@@ -91132,7 +91132,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             // InternalAsmetaL.g:27914:3: ruleVariableTerm
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getExistTermAccess().getVariableVariableTermParserRuleCall_2_0()); 
+               before(grammarAccess.getExistsTermAccess().getVariableVariableTermParserRuleCall_2_0()); 
             }
             pushFollow(FOLLOW_2);
             ruleVariableTerm();
@@ -91140,7 +91140,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             state._fsp--;
             if (state.failed) return ;
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getExistTermAccess().getVariableVariableTermParserRuleCall_2_0()); 
+               after(grammarAccess.getExistsTermAccess().getVariableVariableTermParserRuleCall_2_0()); 
             }
 
             }
@@ -91160,12 +91160,12 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistTerm__VariableAssignment_2"
+    // $ANTLR end "rule__ExistsTerm__VariableAssignment_2"
 
 
-    // $ANTLR start "rule__ExistTerm__RangesAssignment_4"
-    // InternalAsmetaL.g:27923:1: rule__ExistTerm__RangesAssignment_4 : ( ruleTerm ) ;
-    public final void rule__ExistTerm__RangesAssignment_4() throws RecognitionException {
+    // $ANTLR start "rule__ExistsTerm__RangesAssignment_4"
+    // InternalAsmetaL.g:27923:1: rule__ExistsTerm__RangesAssignment_4 : ( ruleTerm ) ;
+    public final void rule__ExistsTerm__RangesAssignment_4() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
@@ -91177,7 +91177,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             // InternalAsmetaL.g:27929:3: ruleTerm
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getExistTermAccess().getRangesTermParserRuleCall_4_0()); 
+               before(grammarAccess.getExistsTermAccess().getRangesTermParserRuleCall_4_0()); 
             }
             pushFollow(FOLLOW_2);
             ruleTerm();
@@ -91185,7 +91185,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             state._fsp--;
             if (state.failed) return ;
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getExistTermAccess().getRangesTermParserRuleCall_4_0()); 
+               after(grammarAccess.getExistsTermAccess().getRangesTermParserRuleCall_4_0()); 
             }
 
             }
@@ -91205,12 +91205,12 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistTerm__RangesAssignment_4"
+    // $ANTLR end "rule__ExistsTerm__RangesAssignment_4"
 
 
-    // $ANTLR start "rule__ExistTerm__VariableAssignment_5_1"
-    // InternalAsmetaL.g:27938:1: rule__ExistTerm__VariableAssignment_5_1 : ( ruleVariableTerm ) ;
-    public final void rule__ExistTerm__VariableAssignment_5_1() throws RecognitionException {
+    // $ANTLR start "rule__ExistsTerm__VariableAssignment_5_1"
+    // InternalAsmetaL.g:27938:1: rule__ExistsTerm__VariableAssignment_5_1 : ( ruleVariableTerm ) ;
+    public final void rule__ExistsTerm__VariableAssignment_5_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
@@ -91222,7 +91222,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             // InternalAsmetaL.g:27944:3: ruleVariableTerm
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getExistTermAccess().getVariableVariableTermParserRuleCall_5_1_0()); 
+               before(grammarAccess.getExistsTermAccess().getVariableVariableTermParserRuleCall_5_1_0()); 
             }
             pushFollow(FOLLOW_2);
             ruleVariableTerm();
@@ -91230,7 +91230,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             state._fsp--;
             if (state.failed) return ;
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getExistTermAccess().getVariableVariableTermParserRuleCall_5_1_0()); 
+               after(grammarAccess.getExistsTermAccess().getVariableVariableTermParserRuleCall_5_1_0()); 
             }
 
             }
@@ -91250,12 +91250,12 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistTerm__VariableAssignment_5_1"
+    // $ANTLR end "rule__ExistsTerm__VariableAssignment_5_1"
 
 
-    // $ANTLR start "rule__ExistTerm__RangesAssignment_5_3"
-    // InternalAsmetaL.g:27953:1: rule__ExistTerm__RangesAssignment_5_3 : ( ruleTerm ) ;
-    public final void rule__ExistTerm__RangesAssignment_5_3() throws RecognitionException {
+    // $ANTLR start "rule__ExistsTerm__RangesAssignment_5_3"
+    // InternalAsmetaL.g:27953:1: rule__ExistsTerm__RangesAssignment_5_3 : ( ruleTerm ) ;
+    public final void rule__ExistsTerm__RangesAssignment_5_3() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
@@ -91267,7 +91267,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             // InternalAsmetaL.g:27959:3: ruleTerm
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getExistTermAccess().getRangesTermParserRuleCall_5_3_0()); 
+               before(grammarAccess.getExistsTermAccess().getRangesTermParserRuleCall_5_3_0()); 
             }
             pushFollow(FOLLOW_2);
             ruleTerm();
@@ -91275,7 +91275,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             state._fsp--;
             if (state.failed) return ;
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getExistTermAccess().getRangesTermParserRuleCall_5_3_0()); 
+               after(grammarAccess.getExistsTermAccess().getRangesTermParserRuleCall_5_3_0()); 
             }
 
             }
@@ -91295,12 +91295,12 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistTerm__RangesAssignment_5_3"
+    // $ANTLR end "rule__ExistsTerm__RangesAssignment_5_3"
 
 
-    // $ANTLR start "rule__ExistTerm__GuardAssignment_6_1"
-    // InternalAsmetaL.g:27968:1: rule__ExistTerm__GuardAssignment_6_1 : ( ruleTerm ) ;
-    public final void rule__ExistTerm__GuardAssignment_6_1() throws RecognitionException {
+    // $ANTLR start "rule__ExistsTerm__GuardAssignment_6_1"
+    // InternalAsmetaL.g:27968:1: rule__ExistsTerm__GuardAssignment_6_1 : ( ruleTerm ) ;
+    public final void rule__ExistsTerm__GuardAssignment_6_1() throws RecognitionException {
 
         		int stackSize = keepStackSize();
         	
@@ -91312,7 +91312,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             // InternalAsmetaL.g:27974:3: ruleTerm
             {
             if ( state.backtracking==0 ) {
-               before(grammarAccess.getExistTermAccess().getGuardTermParserRuleCall_6_1_0()); 
+               before(grammarAccess.getExistsTermAccess().getGuardTermParserRuleCall_6_1_0()); 
             }
             pushFollow(FOLLOW_2);
             ruleTerm();
@@ -91320,7 +91320,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
             state._fsp--;
             if (state.failed) return ;
             if ( state.backtracking==0 ) {
-               after(grammarAccess.getExistTermAccess().getGuardTermParserRuleCall_6_1_0()); 
+               after(grammarAccess.getExistsTermAccess().getGuardTermParserRuleCall_6_1_0()); 
             }
 
             }
@@ -91340,7 +91340,7 @@ public class InternalAsmetaLParser extends AbstractInternalContentAssistParser {
         }
         return ;
     }
-    // $ANTLR end "rule__ExistTerm__GuardAssignment_6_1"
+    // $ANTLR end "rule__ExistsTerm__GuardAssignment_6_1"
 
 
     // $ANTLR start "rule__ForallTerm__VariableAssignment_2"

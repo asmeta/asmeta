@@ -160,7 +160,7 @@ definitions:
 	//maneuvering, i.e., at least one door is not locked in closed position or one
 	//gear is not locked in extension or retraction position
 	function gearsManeuvering($m in ComputingModule) =
-		(exist $s in LandingSet with not(doorClosed($s)) or not(gearExtended($s)) or not(gearRetracted($s)))
+		(exists $s in LandingSet with not(doorClosed($s)) or not(gearExtended($s)) or not(gearRetracted($s)))
 
 	//The second objective of the control software is to detect anomalies and to inform
 	//the pilot. Anomalies are caused by failures on hydraulic equipment, electrical
@@ -168,7 +168,7 @@ definitions:
 	//An anomaly is detected each time a sensor is definitely considered as invalid.
 	function anomaly($m in ComputingModule) =
 		(isUndef(handle) or isUndef(analogicalSwitch) or isUndef(circuitPressurized) or
-		 (exist $s in LandingSet with isUndef(gearExtended($s)) or isUndef(gearRetracted($s)) or
+		 (exists $s in LandingSet with isUndef(gearExtended($s)) or isUndef(gearRetracted($s)) or
 		 								isUndef(gearShockAbsorber($s)) or isUndef(doorClosed($s)) or
 		 								isUndef(doorOpen($s)))
 		)

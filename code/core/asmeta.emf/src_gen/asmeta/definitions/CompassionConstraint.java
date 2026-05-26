@@ -4,7 +4,6 @@ package asmeta.definitions;
 
 import asmeta.terms.basicterms.Term;
 
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Compassion Constraint</b></em>'.
@@ -23,14 +22,9 @@ import asmeta.terms.basicterms.Term;
  * @generated
  */
 public interface CompassionConstraint extends FairnessConstraint {
-
 	/**
 	 * Returns the value of the '<em><b>P</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>P</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>P</em>' containment reference.
 	 * @see #setP(Term)
@@ -53,10 +47,6 @@ public interface CompassionConstraint extends FairnessConstraint {
 	/**
 	 * Returns the value of the '<em><b>Q</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Q</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Q</em>' containment reference.
 	 * @see #setQ(Term)
@@ -75,4 +65,5 @@ public interface CompassionConstraint extends FairnessConstraint {
 	 * @generated
 	 */
 	void setQ(Term value);
+
 } // CompassionConstraint

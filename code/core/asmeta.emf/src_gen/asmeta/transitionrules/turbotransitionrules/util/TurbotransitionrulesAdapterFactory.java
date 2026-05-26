@@ -1,29 +1,22 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.transitionrules.turbotransitionrules.util;
 
-import org.eclipse.emf.common.notify.Adapter;
-import org.eclipse.emf.common.notify.Notifier;
-import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-import org.eclipse.emf.ecore.EObject;
-
 import asmeta.definitions.Classifier;
 import asmeta.definitions.RuleDeclaration;
+
 import asmeta.structure.NamedElement;
+
 import asmeta.transitionrules.basictransitionrules.Rule;
-import asmeta.transitionrules.turbotransitionrules.IterateRule;
-import asmeta.transitionrules.turbotransitionrules.SeqRule;
-import asmeta.transitionrules.turbotransitionrules.TryCatchRule;
-import asmeta.transitionrules.turbotransitionrules.TurboCallRule;
-import asmeta.transitionrules.turbotransitionrules.TurboDeclaration;
-import asmeta.transitionrules.turbotransitionrules.TurboLocalStateRule;
-import asmeta.transitionrules.turbotransitionrules.TurboReturnRule;
-import asmeta.transitionrules.turbotransitionrules.TurboRule;
-import asmeta.transitionrules.turbotransitionrules.TurbotransitionrulesPackage;
+
+import asmeta.transitionrules.turbotransitionrules.*;
+
+import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.common.notify.Notifier;
+
+import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
+
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -79,8 +72,7 @@ public class TurbotransitionrulesAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected TurbotransitionrulesSwitch<Adapter> modelSwitch =
-		new TurbotransitionrulesSwitch<Adapter>() {
+	protected TurbotransitionrulesSwitch<Adapter> modelSwitch = new TurbotransitionrulesSwitch<Adapter>() {
 			@Override
 			public Adapter caseTurboRule(TurboRule object) {
 				return createTurboRuleAdapter();
@@ -147,7 +139,6 @@ public class TurbotransitionrulesAdapterFactory extends AdapterFactoryImpl {
 	public Adapter createAdapter(Notifier target) {
 		return modelSwitch.doSwitch((EObject)target);
 	}
-
 
 	/**
 	 * Creates a new adapter for an object of class '{@link asmeta.transitionrules.turbotransitionrules.TurboRule <em>Turbo Rule</em>}'.

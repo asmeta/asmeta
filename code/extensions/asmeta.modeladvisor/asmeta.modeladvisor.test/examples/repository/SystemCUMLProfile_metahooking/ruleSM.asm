@@ -946,7 +946,7 @@ endif endif
 	macro rule r_enterWaitState($s in State) = 
 	seq
 		r_enterNextState[$s]
-		if (exist $t in outgoing($s) with (exist $e1 in trigger($t), $e2 in Event with event($e1) = $e2 //and contains(TimeEvent, $e2)
+		if (exists $t in outgoing($s) with (exists $e1 in trigger($t), $e2 in Event with event($e1) = $e2 //and contains(TimeEvent, $e2)
 		))
 		then
 			extend TimeEvent with $e do

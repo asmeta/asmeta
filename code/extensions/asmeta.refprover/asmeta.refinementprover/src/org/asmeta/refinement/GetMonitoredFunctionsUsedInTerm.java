@@ -20,8 +20,8 @@ import asmeta.terms.basicterms.VariableTerm;
 import asmeta.terms.furtherterms.CaseTerm;
 import asmeta.terms.furtherterms.ConditionalTerm;
 import asmeta.terms.furtherterms.EnumTerm;
-import asmeta.terms.furtherterms.ExistTerm;
-import asmeta.terms.furtherterms.ExistUniqueTerm;
+import asmeta.terms.furtherterms.ExistsTerm;
+import asmeta.terms.furtherterms.ExistsUniqueTerm;
 import asmeta.terms.furtherterms.ForallTerm;
 import asmeta.terms.furtherterms.IntegerTerm;
 import asmeta.terms.furtherterms.MapTerm;
@@ -73,7 +73,7 @@ public class GetMonitoredFunctionsUsedInTerm extends ReflectiveVisitor<Set<Funct
 		return funcs;
 	}
 
-	public Set<Function> visit(ExistTerm t) {
+	public Set<Function> visit(ExistsTerm t) {
 		Set<Function> funcs = new HashSet<Function>(visit(t.getGuard()));
 		for(TermAsRule term: t.getTermAsRule()) {
 			funcs.addAll(visit(term.getTerm()));
@@ -81,7 +81,7 @@ public class GetMonitoredFunctionsUsedInTerm extends ReflectiveVisitor<Set<Funct
 		return funcs;
 	}
 
-	public Set<Function> visit(ExistUniqueTerm t) {
+	public Set<Function> visit(ExistsUniqueTerm t) {
 		Set<Function> funcs = new HashSet<Function>(visit(t.getGuard()));
 		for(TermAsRule term: t.getTermAsRule()) {
 			funcs.addAll(visit(term.getTerm()));

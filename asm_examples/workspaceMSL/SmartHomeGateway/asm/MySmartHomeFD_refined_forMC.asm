@@ -75,8 +75,7 @@ definitions:
 		endif
 	 endif
 		
-	function startMasterFDA($b in MasterFDMgA) = //Refined
-		//(exist $a in fromMasterFDAtoSlaveFDM($b) with (sgnSlaveFDMMasterFDA($a, $b) and detectFire($a) = ON) )
+	function startMasterFDA($b in MasterFDMgA) = //Refinedexists exists $a in fromMasterFDAtoSlaveFDM($b) with (sgnSlaveFDMMasterFDA($a, $b) and detectFire($a) = ON) )
 		(sgnSlaveFDMMasterFDA(gf_slave, $b) and detectFire(gf_slave) = ON) or (sgnSlaveFDMMasterFDA(ff_slave, $b) and detectFire(ff_slave) = ON)
 
 

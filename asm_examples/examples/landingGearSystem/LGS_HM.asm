@@ -63,10 +63,10 @@ definitions:
 	function doorsClosed = (forall $s in LandingSet with doorsClosed($s))
 	function doorsOpen = (forall $s in LandingSet with doorsOpen($s))
 
-	function aGearExtended = (exist $s in LandingSet with gearsExtended($s))
-	function aGearRetracted = (exist $s in LandingSet with gearsRetracted($s))
-	function aDoorClosed = (exist $s in LandingSet with doorsClosed($s))
-	function aDoorOpen = (exist $s in LandingSet with doorsOpen($s))
+	function aGearExtended = (exists $s in LandingSet with gearsExtended($s))
+	function aGearRetracted = (exists $s in LandingSet with gearsRetracted($s))
+	function aDoorClosed = (exists $s in LandingSet with doorsClosed($s))
+	function aDoorOpen = (exists $s in LandingSet with doorsOpen($s))
 	function gearsShockAbsorber = (forall $s in LandingSet with gearsShockAbsorber($s))
 
 	function greenLight = gears = EXTENDED

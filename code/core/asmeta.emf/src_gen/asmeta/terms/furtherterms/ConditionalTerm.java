@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.terms.furtherterms;
 
@@ -31,10 +27,6 @@ public interface ConditionalTerm extends ExtendedTerm {
 	/**
 	 * Returns the value of the '<em><b>Else Term</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Else Term</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Else Term</em>' reference.
 	 * @see #setElseTerm(Term)
@@ -57,10 +49,6 @@ public interface ConditionalTerm extends ExtendedTerm {
 	/**
 	 * Returns the value of the '<em><b>Guard</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Guard</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Guard</em>' reference.
 	 * @see #setGuard(Term)
@@ -83,10 +71,6 @@ public interface ConditionalTerm extends ExtendedTerm {
 	/**
 	 * Returns the value of the '<em><b>Then Term</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Then Term</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Then Term</em>' reference.
 	 * @see #setThenTerm(Term)

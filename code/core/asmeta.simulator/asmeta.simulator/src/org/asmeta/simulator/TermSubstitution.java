@@ -54,7 +54,7 @@ import asmeta.terms.furtherterms.CaseTerm;
 import asmeta.terms.furtherterms.ComprehensionTerm;
 import asmeta.terms.furtherterms.ConditionalTerm;
 import asmeta.terms.furtherterms.EnumTerm;
-import asmeta.terms.furtherterms.ExistTerm;
+import asmeta.terms.furtherterms.ExistsTerm;
 import asmeta.terms.furtherterms.FiniteQuantificationTerm;
 import asmeta.terms.furtherterms.ForallTerm;
 import asmeta.terms.furtherterms.LetTerm;
@@ -373,13 +373,13 @@ public class TermSubstitution extends ReflectiveVisitor<Term> {
 	 * @param term a term
 	 * @return the new term
 	 */
-	public ExistTerm visit(ExistTerm exist) {
-		logger.debug("<ExistTerm>");
-		ExistTerm newExist = ruleFactory.createExistTerm();
+	public ExistsTerm visit(ExistsTerm exist) {
+		logger.debug("<ExistsTerm>");
+		ExistsTerm newExist = ruleFactory.createExistTerm();
 		visitQuant(exist, newExist);
 		logger.debug("<Before>" + printer.visit(exist) + "</Before>");
     	logger.debug("<After>" + printer.visit(newExist) + "</After>");
-		logger.debug("</ExistTerm>");
+		logger.debug("</ExistsTerm>");
 		return newExist;
 	}
 	

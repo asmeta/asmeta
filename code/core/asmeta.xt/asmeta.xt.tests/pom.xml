@@ -65,7 +65,6 @@
 			<artifactId>junit</artifactId>
 			<version>4.13.2</version>
 		</dependency>
-
 	</dependencies>
 	<parent>
 		<groupId>asmeta</groupId>

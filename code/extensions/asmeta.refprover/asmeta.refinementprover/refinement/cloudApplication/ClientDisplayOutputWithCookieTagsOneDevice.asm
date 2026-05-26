@@ -40,13 +40,13 @@ definitions:
 
 	//define the derived functions
 	function messageArrived($d in Device) = 
-		(exist $t in HTMLTag with htmlTags($d,$t))
+		(exists $t in HTMLTag with htmlTags($d,$t))
 
 	function containsModernizrTests($t in HTMLTag) = 
 		($t=TAG1 or $t=TAG2)
 
 	function clientTestsAvailable($d in Device) = 
-		(exist $t in HTMLTag with (containsModernizrTests($t) and htmlTags($d,$t)))
+		(exists $t in HTMLTag with (containsModernizrTests($t) and htmlTags($d,$t)))
 
 	function keyParentalRel($f in Key, $c in SubKey) =
 		($f = AUDIO and ($c = OGG or $c = MP3))

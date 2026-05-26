@@ -1,17 +1,13 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.transitionrules.derivedtransitionrules;
+
+import asmeta.transitionrules.basictransitionrules.BasictransitionrulesPackage;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
-import asmeta.transitionrules.basictransitionrules.BasictransitionrulesPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -246,7 +242,6 @@ public interface DerivedtransitionrulesPackage extends EPackage {
 	 * @ordered
 	 */
 	int CASE_RULE_FEATURE_COUNT = BASIC_DERIVED_RULE_FEATURE_COUNT + 4;
-
 
 	/**
 	 * Returns the meta object for class '{@link asmeta.transitionrules.derivedtransitionrules.RecursiveWhileRule <em>Recursive While Rule</em>}'.

@@ -32,7 +32,7 @@ signature:
 
 definitions:
 	function startMainHCM($b in MainHCMgA) =
-		(exist $a in fromMainHCMtoIntHCM($b) with sgnIntHCMMainHCM($a, $b))
+		(exists $a in fromMainHCMtoIntHCM($b) with sgnIntHCMMainHCM($a, $b))
 
 	function startMainHCA($b in MainHCMgA) =
 		true

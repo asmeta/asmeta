@@ -241,7 +241,7 @@ public class BodyParsingTest {
       _builder.append("asm invariant_asm");
       _builder.newLine();
       _builder.newLine();
-      _builder.append("import StandardLibrary");
+      _builder.append("import examples/StandardLibrary");
       _builder.newLine();
       _builder.newLine();
       _builder.append("signature:");
@@ -325,14 +325,15 @@ public class BodyParsingTest {
     }
   }
 
+  @Test
   public void testTemporalProperty() {
     try {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("asm temporal_pro");
       _builder.newLine();
-      _builder.append("import LTLlibrary");
+      _builder.append("import examples/LTLLibrary");
       _builder.newLine();
-      _builder.append("import CTLlibrary");
+      _builder.append("import examples/CTLLibrary");
       _builder.newLine();
       _builder.newLine();
       _builder.append("signature:\t\t");
@@ -392,7 +393,7 @@ public class BodyParsingTest {
       _builder.append("\t");
       _builder.append("CTLSPEC ag(ccState(a1, 1)=INVALID and ccState(a2, 1)=INVALID)\t");
       _builder.newLine();
-      Asm result = this.parseHelper.parse(_builder);
+      Asm result = this.parseHelper.parse(_builder, "temporal_pro");
       this._validationTestHelper.assertNoErrors(result);
       int i = 0;
       Assertions.assertEquals(2, result.getBodySection().getProperty().size());
@@ -471,7 +472,7 @@ public class BodyParsingTest {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("asm fairness");
       _builder.newLine();
-      _builder.append("import StandardLibrary");
+      _builder.append("import examples/StandardLibrary");
       _builder.newLine();
       _builder.append("signature: ");
       _builder.newLine();

@@ -1,16 +1,14 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.definitions;
 
-import org.eclipse.emf.common.util.EList;
-
 import asmeta.structure.Body;
+
 import asmeta.terms.basicterms.VariableTerm;
+
 import asmeta.transitionrules.basictransitionrules.Rule;
+
+import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
@@ -37,10 +35,6 @@ public interface RuleDeclaration extends Classifier {
 	 * Returns the value of the '<em><b>Variable</b></em>' reference list.
 	 * The list contents are of type {@link asmeta.terms.basicterms.VariableTerm}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Variable</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Variable</em>' reference list.
 	 * @see asmeta.definitions.DefinitionsPackage#getRuleDeclaration_Variable()
@@ -54,10 +48,6 @@ public interface RuleDeclaration extends Classifier {
 	 * The list contents are of type {@link asmeta.definitions.Invariant}.
 	 * It is bidirectional and its opposite is '{@link asmeta.definitions.Invariant#getConstrainedRule <em>Constrained Rule</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Constraint</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Constraint</em>' reference list.
 	 * @see asmeta.definitions.DefinitionsPackage#getRuleDeclaration_Constraint()
@@ -70,10 +60,6 @@ public interface RuleDeclaration extends Classifier {
 	/**
 	 * Returns the value of the '<em><b>Rule Body</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Rule Body</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Rule Body</em>' reference.
 	 * @see #setRuleBody(Rule)
@@ -97,10 +83,6 @@ public interface RuleDeclaration extends Classifier {
 	 * Returns the value of the '<em><b>Asm Body</b></em>' container reference.
 	 * It is bidirectional and its opposite is '{@link asmeta.structure.Body#getRuleDeclaration <em>Rule Declaration</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Asm Body</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Asm Body</em>' container reference.
 	 * @see #setAsmBody(Body)
@@ -124,10 +106,6 @@ public interface RuleDeclaration extends Classifier {
 	/**
 	 * Returns the value of the '<em><b>Arity</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Arity</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Arity</em>' attribute.
 	 * @see #setArity(Integer)

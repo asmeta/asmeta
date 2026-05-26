@@ -132,7 +132,7 @@ definitions:
 	CTLSPEC ag(ef(isEnabled(t5)))
 
 	//Is it deadlock-free? Yes.
-	CTLSPEC ag((exist $t in Transition with isEnabled($t)))
+	CTLSPEC ag((exists $t in Transition with isEnabled($t)))
 
 	//It is 1-bounded (safe)? Yes it is.
 	CTLSPEC (forall $p in Place with ag(tokens($p) <= 1))

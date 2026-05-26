@@ -1,15 +1,12 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.transitionrules.derivedtransitionrules;
 
-import org.eclipse.emf.common.util.EList;
-
 import asmeta.terms.basicterms.Term;
+
 import asmeta.transitionrules.basictransitionrules.Rule;
+
+import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
@@ -34,10 +31,6 @@ public interface CaseRule extends BasicDerivedRule {
 	/**
 	 * Returns the value of the '<em><b>Term</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Term</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Term</em>' reference.
 	 * @see #setTerm(Term)
@@ -61,10 +54,6 @@ public interface CaseRule extends BasicDerivedRule {
 	 * Returns the value of the '<em><b>Case Term</b></em>' reference list.
 	 * The list contents are of type {@link asmeta.terms.basicterms.Term}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Case Term</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Case Term</em>' reference list.
 	 * @see asmeta.transitionrules.derivedtransitionrules.DerivedtransitionrulesPackage#getCaseRule_CaseTerm()
@@ -76,10 +65,6 @@ public interface CaseRule extends BasicDerivedRule {
 	/**
 	 * Returns the value of the '<em><b>Otherwise Branch</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Otherwise Branch</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Otherwise Branch</em>' containment reference.
 	 * @see #setOtherwiseBranch(Rule)
@@ -103,10 +88,6 @@ public interface CaseRule extends BasicDerivedRule {
 	 * Returns the value of the '<em><b>Case Branches</b></em>' attribute list.
 	 * The list contents are of type {@link asmeta.transitionrules.basictransitionrules.Rule}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Case Branches</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Case Branches</em>' attribute list.
 	 * @see asmeta.transitionrules.derivedtransitionrules.DerivedtransitionrulesPackage#getCaseRule_CaseBranches()

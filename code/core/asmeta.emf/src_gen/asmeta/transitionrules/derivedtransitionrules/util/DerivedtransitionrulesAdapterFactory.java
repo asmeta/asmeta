@@ -1,24 +1,17 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.transitionrules.derivedtransitionrules.util;
 
+import asmeta.transitionrules.basictransitionrules.Rule;
+
+import asmeta.transitionrules.derivedtransitionrules.*;
+
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-import org.eclipse.emf.ecore.EObject;
 
-import asmeta.transitionrules.basictransitionrules.Rule;
-import asmeta.transitionrules.derivedtransitionrules.BasicDerivedRule;
-import asmeta.transitionrules.derivedtransitionrules.CaseRule;
-import asmeta.transitionrules.derivedtransitionrules.DerivedRule;
-import asmeta.transitionrules.derivedtransitionrules.DerivedtransitionrulesPackage;
-import asmeta.transitionrules.derivedtransitionrules.IterativeWhileRule;
-import asmeta.transitionrules.derivedtransitionrules.RecursiveWhileRule;
-import asmeta.transitionrules.derivedtransitionrules.TurboDerivedRule;
+import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
+
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -74,8 +67,7 @@ public class DerivedtransitionrulesAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected DerivedtransitionrulesSwitch<Adapter> modelSwitch =
-		new DerivedtransitionrulesSwitch<Adapter>() {
+	protected DerivedtransitionrulesSwitch<Adapter> modelSwitch = new DerivedtransitionrulesSwitch<Adapter>() {
 			@Override
 			public Adapter caseRecursiveWhileRule(RecursiveWhileRule object) {
 				return createRecursiveWhileRuleAdapter();
@@ -122,7 +114,6 @@ public class DerivedtransitionrulesAdapterFactory extends AdapterFactoryImpl {
 	public Adapter createAdapter(Notifier target) {
 		return modelSwitch.doSwitch((EObject)target);
 	}
-
 
 	/**
 	 * Creates a new adapter for an object of class '{@link asmeta.transitionrules.derivedtransitionrules.RecursiveWhileRule <em>Recursive While Rule</em>}'.

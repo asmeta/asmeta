@@ -16,8 +16,8 @@ import asmeta.terms.basicterms.VariableTerm;
 import asmeta.terms.furtherterms.CaseTerm;
 import asmeta.terms.furtherterms.ConditionalTerm;
 import asmeta.terms.furtherterms.EnumTerm;
-import asmeta.terms.furtherterms.ExistTerm;
-import asmeta.terms.furtherterms.ExistUniqueTerm;
+import asmeta.terms.furtherterms.ExistsTerm;
+import asmeta.terms.furtherterms.ExistsUniqueTerm;
 import asmeta.terms.furtherterms.ForallTerm;
 import asmeta.terms.furtherterms.IntegerTerm;
 import asmeta.terms.furtherterms.LetTerm;
@@ -95,11 +95,11 @@ public class DoesTermContainConds extends org.asmeta.parser.util.ReflectiveVisit
 		return false;
 	}
 
-	public Boolean visit(ExistTerm existTerm) throws Exception {
+	public Boolean visit(ExistsTerm existsTerm) throws Exception {
 		return false;
 	}
 
-	public Boolean visit(ExistUniqueTerm exitUniqueTerm) throws Exception {
+	public Boolean visit(ExistsUniqueTerm exitUniqueTerm) throws Exception {
 		return false;
 	}
 

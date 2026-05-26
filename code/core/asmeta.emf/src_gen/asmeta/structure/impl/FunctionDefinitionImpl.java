@@ -1,28 +1,30 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.structure.impl;
+
+import asmeta.definitions.DefinitionsPackage;
+import asmeta.definitions.Function;
+
+import asmeta.structure.FunctionDefinition;
+import asmeta.structure.StructurePackage;
+
+import asmeta.terms.basicterms.Term;
+import asmeta.terms.basicterms.VariableTerm;
 
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
-import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
-import asmeta.definitions.DefinitionsPackage;
-import asmeta.definitions.Function;
-import asmeta.structure.FunctionDefinition;
-import asmeta.structure.StructurePackage;
-import asmeta.terms.basicterms.Term;
-import asmeta.terms.basicterms.VariableTerm;
+import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
 /**
  * <!-- begin-user-doc -->

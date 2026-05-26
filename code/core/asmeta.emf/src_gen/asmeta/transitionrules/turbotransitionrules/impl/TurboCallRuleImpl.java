@@ -1,24 +1,25 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.transitionrules.turbotransitionrules.impl;
+
+import asmeta.terms.basicterms.Term;
+
+import asmeta.transitionrules.turbotransitionrules.TurboCallRule;
+import asmeta.transitionrules.turbotransitionrules.TurboDeclaration;
+import asmeta.transitionrules.turbotransitionrules.TurbotransitionrulesPackage;
 
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.EDataTypeEList;
 
-import asmeta.terms.basicterms.Term;
-import asmeta.transitionrules.turbotransitionrules.TurboCallRule;
-import asmeta.transitionrules.turbotransitionrules.TurboDeclaration;
-import asmeta.transitionrules.turbotransitionrules.TurbotransitionrulesPackage;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
+import org.eclipse.emf.ecore.util.EDataTypeEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -54,7 +55,6 @@ public class TurboCallRuleImpl extends TurboRuleImpl implements TurboCallRule {
 	 * @ordered
 	 */
 	protected EList<Term> parameters;
-
 
 	/**
 	 * <!-- begin-user-doc -->

@@ -135,7 +135,7 @@ definitions:
  
     main rule r_clustering = 
     
-	//if (exist $c in clusters with isUndef(center($c))) then 
+	//ifexists t $c in clusters with isUndef(center($c))) then 
 	if firstStep then
 			seq
 			    clusters :=  clusters_in 

@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.terms.basicterms;
 
@@ -31,10 +27,6 @@ public interface VariableTerm extends BasicTerm {
 	 * Returns the value of the '<em><b>Finite Quantification Term</b></em>' container reference.
 	 * It is bidirectional and its opposite is '{@link asmeta.terms.furtherterms.FiniteQuantificationTerm#getVariable <em>Variable</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Finite Quantification Term</em>' container reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Finite Quantification Term</em>' container reference.
 	 * @see #setFiniteQuantificationTerm(FiniteQuantificationTerm)
@@ -58,10 +50,6 @@ public interface VariableTerm extends BasicTerm {
 	/**
 	 * Returns the value of the '<em><b>Name</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Name</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Name</em>' attribute.
 	 * @see #setName(String)
@@ -85,10 +73,6 @@ public interface VariableTerm extends BasicTerm {
 	 * Returns the value of the '<em><b>Kind</b></em>' attribute.
 	 * The literals are from the enumeration {@link asmeta.terms.basicterms.VariableKind}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Kind</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Kind</em>' attribute.
 	 * @see asmeta.terms.basicterms.VariableKind

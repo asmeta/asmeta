@@ -8264,11 +8264,11 @@ ruleFiniteQuantificationTerm returns [EObject current=null]
 			/* */
 		}
 		{
-			newCompositeNode(grammarAccess.getFiniteQuantificationTermAccess().getExistUniqueTermParserRuleCall_1());
+			newCompositeNode(grammarAccess.getFiniteQuantificationTermAccess().getExistsUniqueTermParserRuleCall_1());
 		}
-		this_ExistUniqueTerm_1=ruleExistUniqueTerm
+		this_ExistsUniqueTerm_1=ruleExistsUniqueTerm
 		{
-			$current = $this_ExistUniqueTerm_1.current;
+			$current = $this_ExistsUniqueTerm_1.current;
 			afterParserOrEnumRuleCall();
 		}
 		    |
@@ -8276,25 +8276,25 @@ ruleFiniteQuantificationTerm returns [EObject current=null]
 			/* */
 		}
 		{
-			newCompositeNode(grammarAccess.getFiniteQuantificationTermAccess().getExistTermParserRuleCall_2());
+			newCompositeNode(grammarAccess.getFiniteQuantificationTermAccess().getExistsTermParserRuleCall_2());
 		}
-		this_ExistTerm_2=ruleExistTerm
+		this_ExistsTerm_2=ruleExistsTerm
 		{
-			$current = $this_ExistTerm_2.current;
+			$current = $this_ExistsTerm_2.current;
 			afterParserOrEnumRuleCall();
 		}
 	)
 ;
 
-// Entry rule entryRuleExistUniqueTerm
-entryRuleExistUniqueTerm returns [EObject current=null]:
-	{ newCompositeNode(grammarAccess.getExistUniqueTermRule()); }
-	iv_ruleExistUniqueTerm=ruleExistUniqueTerm
-	{ $current=$iv_ruleExistUniqueTerm.current; }
+// Entry rule entryRuleExistsUniqueTerm
+entryRuleExistsUniqueTerm returns [EObject current=null]:
+	{ newCompositeNode(grammarAccess.getExistsUniqueTermRule()); }
+	iv_ruleExistsUniqueTerm=ruleExistsUniqueTerm
+	{ $current=$iv_ruleExistsUniqueTerm.current; }
 	EOF;
 
-// Rule ExistUniqueTerm
-ruleExistUniqueTerm returns [EObject current=null]
+// Rule ExistsUniqueTerm
+ruleExistsUniqueTerm returns [EObject current=null]
 @init {
 	enterRule();
 }
@@ -8304,25 +8304,25 @@ ruleExistUniqueTerm returns [EObject current=null]
 	(
 		otherlv_0='('
 		{
-			newLeafNode(otherlv_0, grammarAccess.getExistUniqueTermAccess().getLeftParenthesisKeyword_0());
+			newLeafNode(otherlv_0, grammarAccess.getExistsUniqueTermAccess().getLeftParenthesisKeyword_0());
 		}
-		otherlv_1='exist'
+		otherlv_1='exists'
 		{
-			newLeafNode(otherlv_1, grammarAccess.getExistUniqueTermAccess().getExistKeyword_1());
+			newLeafNode(otherlv_1, grammarAccess.getExistsUniqueTermAccess().getExistsKeyword_1());
 		}
 		otherlv_2='unique'
 		{
-			newLeafNode(otherlv_2, grammarAccess.getExistUniqueTermAccess().getUniqueKeyword_2());
+			newLeafNode(otherlv_2, grammarAccess.getExistsUniqueTermAccess().getUniqueKeyword_2());
 		}
 		(
 			(
 				{
-					newCompositeNode(grammarAccess.getExistUniqueTermAccess().getVariableVariableTermParserRuleCall_3_0());
+					newCompositeNode(grammarAccess.getExistsUniqueTermAccess().getVariableVariableTermParserRuleCall_3_0());
 				}
 				lv_variable_3_0=ruleVariableTerm
 				{
 					if ($current==null) {
-						$current = createModelElementForParent(grammarAccess.getExistUniqueTermRule());
+						$current = createModelElementForParent(grammarAccess.getExistsUniqueTermRule());
 					}
 					add(
 						$current,
@@ -8335,17 +8335,17 @@ ruleExistUniqueTerm returns [EObject current=null]
 		)
 		otherlv_4='in'
 		{
-			newLeafNode(otherlv_4, grammarAccess.getExistUniqueTermAccess().getInKeyword_4());
+			newLeafNode(otherlv_4, grammarAccess.getExistsUniqueTermAccess().getInKeyword_4());
 		}
 		(
 			(
 				{
-					newCompositeNode(grammarAccess.getExistUniqueTermAccess().getRangesTermParserRuleCall_5_0());
+					newCompositeNode(grammarAccess.getExistsUniqueTermAccess().getRangesTermParserRuleCall_5_0());
 				}
 				lv_ranges_5_0=ruleTerm
 				{
 					if ($current==null) {
-						$current = createModelElementForParent(grammarAccess.getExistUniqueTermRule());
+						$current = createModelElementForParent(grammarAccess.getExistsUniqueTermRule());
 					}
 					add(
 						$current,
@@ -8359,17 +8359,17 @@ ruleExistUniqueTerm returns [EObject current=null]
 		(
 			otherlv_6=','
 			{
-				newLeafNode(otherlv_6, grammarAccess.getExistUniqueTermAccess().getCommaKeyword_6_0());
+				newLeafNode(otherlv_6, grammarAccess.getExistsUniqueTermAccess().getCommaKeyword_6_0());
 			}
 			(
 				(
 					{
-						newCompositeNode(grammarAccess.getExistUniqueTermAccess().getVariableVariableTermParserRuleCall_6_1_0());
+						newCompositeNode(grammarAccess.getExistsUniqueTermAccess().getVariableVariableTermParserRuleCall_6_1_0());
 					}
 					lv_variable_7_0=ruleVariableTerm
 					{
 						if ($current==null) {
-							$current = createModelElementForParent(grammarAccess.getExistUniqueTermRule());
+							$current = createModelElementForParent(grammarAccess.getExistsUniqueTermRule());
 						}
 						add(
 							$current,
@@ -8382,17 +8382,17 @@ ruleExistUniqueTerm returns [EObject current=null]
 			)
 			otherlv_8='in'
 			{
-				newLeafNode(otherlv_8, grammarAccess.getExistUniqueTermAccess().getInKeyword_6_2());
+				newLeafNode(otherlv_8, grammarAccess.getExistsUniqueTermAccess().getInKeyword_6_2());
 			}
 			(
 				(
 					{
-						newCompositeNode(grammarAccess.getExistUniqueTermAccess().getRangesTermParserRuleCall_6_3_0());
+						newCompositeNode(grammarAccess.getExistsUniqueTermAccess().getRangesTermParserRuleCall_6_3_0());
 					}
 					lv_ranges_9_0=ruleTerm
 					{
 						if ($current==null) {
-							$current = createModelElementForParent(grammarAccess.getExistUniqueTermRule());
+							$current = createModelElementForParent(grammarAccess.getExistsUniqueTermRule());
 						}
 						add(
 							$current,
@@ -8407,17 +8407,17 @@ ruleExistUniqueTerm returns [EObject current=null]
 		(
 			otherlv_10='with'
 			{
-				newLeafNode(otherlv_10, grammarAccess.getExistUniqueTermAccess().getWithKeyword_7_0());
+				newLeafNode(otherlv_10, grammarAccess.getExistsUniqueTermAccess().getWithKeyword_7_0());
 			}
 			(
 				(
 					{
-						newCompositeNode(grammarAccess.getExistUniqueTermAccess().getGuardTermParserRuleCall_7_1_0());
+						newCompositeNode(grammarAccess.getExistsUniqueTermAccess().getGuardTermParserRuleCall_7_1_0());
 					}
 					lv_guard_11_0=ruleTerm
 					{
 						if ($current==null) {
-							$current = createModelElementForParent(grammarAccess.getExistUniqueTermRule());
+							$current = createModelElementForParent(grammarAccess.getExistsUniqueTermRule());
 						}
 						set(
 							$current,
@@ -8431,20 +8431,20 @@ ruleExistUniqueTerm returns [EObject current=null]
 		)?
 		otherlv_12=')'
 		{
-			newLeafNode(otherlv_12, grammarAccess.getExistUniqueTermAccess().getRightParenthesisKeyword_8());
+			newLeafNode(otherlv_12, grammarAccess.getExistsUniqueTermAccess().getRightParenthesisKeyword_8());
 		}
 	)
 ;
 
-// Entry rule entryRuleExistTerm
-entryRuleExistTerm returns [EObject current=null]:
-	{ newCompositeNode(grammarAccess.getExistTermRule()); }
-	iv_ruleExistTerm=ruleExistTerm
-	{ $current=$iv_ruleExistTerm.current; }
+// Entry rule entryRuleExistsTerm
+entryRuleExistsTerm returns [EObject current=null]:
+	{ newCompositeNode(grammarAccess.getExistsTermRule()); }
+	iv_ruleExistsTerm=ruleExistsTerm
+	{ $current=$iv_ruleExistsTerm.current; }
 	EOF;
 
-// Rule ExistTerm
-ruleExistTerm returns [EObject current=null]
+// Rule ExistsTerm
+ruleExistsTerm returns [EObject current=null]
 @init {
 	enterRule();
 }
@@ -8454,21 +8454,21 @@ ruleExistTerm returns [EObject current=null]
 	(
 		otherlv_0='('
 		{
-			newLeafNode(otherlv_0, grammarAccess.getExistTermAccess().getLeftParenthesisKeyword_0());
+			newLeafNode(otherlv_0, grammarAccess.getExistsTermAccess().getLeftParenthesisKeyword_0());
 		}
-		otherlv_1='exist'
+		otherlv_1='exists'
 		{
-			newLeafNode(otherlv_1, grammarAccess.getExistTermAccess().getExistKeyword_1());
+			newLeafNode(otherlv_1, grammarAccess.getExistsTermAccess().getExistsKeyword_1());
 		}
 		(
 			(
 				{
-					newCompositeNode(grammarAccess.getExistTermAccess().getVariableVariableTermParserRuleCall_2_0());
+					newCompositeNode(grammarAccess.getExistsTermAccess().getVariableVariableTermParserRuleCall_2_0());
 				}
 				lv_variable_2_0=ruleVariableTerm
 				{
 					if ($current==null) {
-						$current = createModelElementForParent(grammarAccess.getExistTermRule());
+						$current = createModelElementForParent(grammarAccess.getExistsTermRule());
 					}
 					add(
 						$current,
@@ -8481,17 +8481,17 @@ ruleExistTerm returns [EObject current=null]
 		)
 		otherlv_3='in'
 		{
-			newLeafNode(otherlv_3, grammarAccess.getExistTermAccess().getInKeyword_3());
+			newLeafNode(otherlv_3, grammarAccess.getExistsTermAccess().getInKeyword_3());
 		}
 		(
 			(
 				{
-					newCompositeNode(grammarAccess.getExistTermAccess().getRangesTermParserRuleCall_4_0());
+					newCompositeNode(grammarAccess.getExistsTermAccess().getRangesTermParserRuleCall_4_0());
 				}
 				lv_ranges_4_0=ruleTerm
 				{
 					if ($current==null) {
-						$current = createModelElementForParent(grammarAccess.getExistTermRule());
+						$current = createModelElementForParent(grammarAccess.getExistsTermRule());
 					}
 					add(
 						$current,
@@ -8505,17 +8505,17 @@ ruleExistTerm returns [EObject current=null]
 		(
 			otherlv_5=','
 			{
-				newLeafNode(otherlv_5, grammarAccess.getExistTermAccess().getCommaKeyword_5_0());
+				newLeafNode(otherlv_5, grammarAccess.getExistsTermAccess().getCommaKeyword_5_0());
 			}
 			(
 				(
 					{
-						newCompositeNode(grammarAccess.getExistTermAccess().getVariableVariableTermParserRuleCall_5_1_0());
+						newCompositeNode(grammarAccess.getExistsTermAccess().getVariableVariableTermParserRuleCall_5_1_0());
 					}
 					lv_variable_6_0=ruleVariableTerm
 					{
 						if ($current==null) {
-							$current = createModelElementForParent(grammarAccess.getExistTermRule());
+							$current = createModelElementForParent(grammarAccess.getExistsTermRule());
 						}
 						add(
 							$current,
@@ -8528,17 +8528,17 @@ ruleExistTerm returns [EObject current=null]
 			)
 			otherlv_7='in'
 			{
-				newLeafNode(otherlv_7, grammarAccess.getExistTermAccess().getInKeyword_5_2());
+				newLeafNode(otherlv_7, grammarAccess.getExistsTermAccess().getInKeyword_5_2());
 			}
 			(
 				(
 					{
-						newCompositeNode(grammarAccess.getExistTermAccess().getRangesTermParserRuleCall_5_3_0());
+						newCompositeNode(grammarAccess.getExistsTermAccess().getRangesTermParserRuleCall_5_3_0());
 					}
 					lv_ranges_8_0=ruleTerm
 					{
 						if ($current==null) {
-							$current = createModelElementForParent(grammarAccess.getExistTermRule());
+							$current = createModelElementForParent(grammarAccess.getExistsTermRule());
 						}
 						add(
 							$current,
@@ -8553,17 +8553,17 @@ ruleExistTerm returns [EObject current=null]
 		(
 			otherlv_9='with'
 			{
-				newLeafNode(otherlv_9, grammarAccess.getExistTermAccess().getWithKeyword_6_0());
+				newLeafNode(otherlv_9, grammarAccess.getExistsTermAccess().getWithKeyword_6_0());
 			}
 			(
 				(
 					{
-						newCompositeNode(grammarAccess.getExistTermAccess().getGuardTermParserRuleCall_6_1_0());
+						newCompositeNode(grammarAccess.getExistsTermAccess().getGuardTermParserRuleCall_6_1_0());
 					}
 					lv_guard_10_0=ruleTerm
 					{
 						if ($current==null) {
-							$current = createModelElementForParent(grammarAccess.getExistTermRule());
+							$current = createModelElementForParent(grammarAccess.getExistsTermRule());
 						}
 						set(
 							$current,
@@ -8577,7 +8577,7 @@ ruleExistTerm returns [EObject current=null]
 		)?
 		otherlv_11=')'
 		{
-			newLeafNode(otherlv_11, grammarAccess.getExistTermAccess().getRightParenthesisKeyword_7());
+			newLeafNode(otherlv_11, grammarAccess.getExistsTermAccess().getRightParenthesisKeyword_7());
 		}
 	)
 ;

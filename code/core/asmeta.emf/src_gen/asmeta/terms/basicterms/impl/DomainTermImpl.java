@@ -1,15 +1,11 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.terms.basicterms.impl;
 
-import org.eclipse.emf.ecore.EClass;
-
 import asmeta.terms.basicterms.BasictermsPackage;
 import asmeta.terms.basicterms.DomainTerm;
+
+import org.eclipse.emf.ecore.EClass;
 
 /**
  * <!-- begin-user-doc -->
@@ -19,7 +15,6 @@ import asmeta.terms.basicterms.DomainTerm;
  * @generated
  */
 public class DomainTermImpl extends ExtendedTermImpl implements DomainTerm {
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

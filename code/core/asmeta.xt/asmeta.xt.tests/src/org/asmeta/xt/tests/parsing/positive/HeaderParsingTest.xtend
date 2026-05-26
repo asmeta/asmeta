@@ -139,19 +139,18 @@ class HeaderParsingTest {
 		Assertions.assertEquals( false, result.headerSection.exportClause.exportAll )	
 	}
 
-	@Test@Tag("TestToMavenSkip")
 	def void testConcreteDomain() {
 		var result = parseHelper.parse('''
 			asm concrete_domain
 			
-				import StandardLibrary
+				import examples/StandardLibrary
 			
 			signature:
 				dynamic domain Prova1 subsetof Integer
 				domain Book subsetof Prod( String, String, Prova1 )
 				domain Prova2 subsetof Integer
 			definitions:
-		''')
+		''',"concrete_domain")
 		result.assertNoErrors
 		
 		var i = 0
@@ -264,7 +263,7 @@ class HeaderParsingTest {
 		var result = parseHelper.parse('''
 			asm structured_domain
 			
-				import StandardLibrary
+				import examples/StandardLibrary
 			
 			signature:
 				domain Prova1 subsetof Prod( Integer, Complex )
@@ -354,18 +353,18 @@ class HeaderParsingTest {
 		Assertions.assertEquals( "String", temp5.targetDomain.name )
 	}
 
-	@Test@Tag("TestToMavenSkip")
+	@Test
 	def void testMultipleStructuredDomain() {
 		var result = parseHelper.parse('''
 			asm multi_structured_domain
 			
-				import StandardLibrary
+				import examples/StandardLibrary
 			
 			signature:
 				domain Prova1 subsetof Prod( Bag( String ), Integer )
 				domain Prova2 subsetof Seq( Powerset( Complex ) )
 			definitions:
-		''')
+		''', "multi_structured_domain")
 		result.assertNoErrors
 		
 		var i = 0
@@ -413,7 +412,7 @@ class HeaderParsingTest {
 		var result = parseHelper.parse('''
 			asm static_function
 				
-				import StandardLibrary
+				import examples/StandardLibrary
 			
 			signature:
 				dynamic domain Prova1 subsetof Integer
@@ -506,12 +505,12 @@ class HeaderParsingTest {
 				
 	}
 	
-	@Test@Tag("TestToMavenSkip")
+	@Test
 	def void testDynamicFunction() {
 		var result = parseHelper.parse('''
 			asm dynamic_function
 			
-				import StandardLibrary
+				import examples/StandardLibrary
 			
 			signature:
 				dynamic domain Prova1 subsetof Integer
@@ -542,7 +541,7 @@ class HeaderParsingTest {
 				out prova54 : Integer -> String	
 														
 			definitions:
-		''')
+		''',"dynamic_function")
 		result.assertNoErrors
 		
 		var i = 0
@@ -713,12 +712,12 @@ class HeaderParsingTest {
 		
 	}
 	
-	@Test@Tag("TestToMavenSkip")
+	@Test
 	def void testDerivedFunction() {
 		var result = parseHelper.parse('''
 			asm derived_function
 				
-				import StandardLibrary
+				import examples/StandardLibrary
 			
 			signature:
 				dynamic domain Prova1 subsetof Integer
@@ -726,7 +725,7 @@ class HeaderParsingTest {
 				derived prova1 : String
 				derived prova2 : Prova1 -> String
 			definitions:
-		''')
+		''',"derived_function")
 		result.assertNoErrors
 		
 		var i = 0

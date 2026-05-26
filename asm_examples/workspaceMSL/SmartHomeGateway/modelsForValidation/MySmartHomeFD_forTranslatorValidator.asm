@@ -41,7 +41,7 @@ signature:
 
 definitions:
 	function startMasterFDA($b in MasterFDMgA) =
-		//(exist $a in fromMasterFDAtoSlaveFDM($b) with sgnSlaveFDMMasterFDA($a, $b))
+		//(exists $a in fromMasterFDAtoSlaveFDM($b) with sgnSlaveFDMMasterFDA($a, $b))
 		sgnSlaveFDMMasterFDA(gf_slave, $b) or sgnSlaveFDMMasterFDA(ff_slave, $b)
 
 	function startMasterFDP($b in MasterFDMgA) =

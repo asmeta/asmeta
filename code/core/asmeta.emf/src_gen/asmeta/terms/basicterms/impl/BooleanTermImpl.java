@@ -1,15 +1,11 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.terms.basicterms.impl;
 
-import org.eclipse.emf.ecore.EClass;
-
 import asmeta.terms.basicterms.BasictermsPackage;
 import asmeta.terms.basicterms.BooleanTerm;
+
+import org.eclipse.emf.ecore.EClass;
 
 /**
  * <!-- begin-user-doc -->
@@ -19,7 +15,6 @@ import asmeta.terms.basicterms.BooleanTerm;
  * @generated
  */
 public class BooleanTermImpl extends ConstantTermImpl implements BooleanTerm {
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -39,5 +34,4 @@ public class BooleanTermImpl extends ConstantTermImpl implements BooleanTerm {
 		return BasictermsPackage.Literals.BOOLEAN_TERM;
 	}
 
-	
 } //BooleanTermImpl

@@ -1,15 +1,12 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.transitionrules.basictransitionrules;
 
-import org.eclipse.emf.common.util.EList;
-
 import asmeta.definitions.domains.Domain;
+
 import asmeta.terms.basicterms.VariableTerm;
+
+import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
@@ -33,10 +30,6 @@ public interface ExtendRule extends BasicRule {
 	/**
 	 * Returns the value of the '<em><b>Extended Domain</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Extended Domain</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Extended Domain</em>' reference.
 	 * @see #setExtendedDomain(Domain)
@@ -60,10 +53,6 @@ public interface ExtendRule extends BasicRule {
 	 * Returns the value of the '<em><b>Bound Var</b></em>' containment reference list.
 	 * The list contents are of type {@link asmeta.terms.basicterms.VariableTerm}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Bound Var</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Bound Var</em>' containment reference list.
 	 * @see asmeta.transitionrules.basictransitionrules.BasictransitionrulesPackage#getExtendRule_BoundVar()
@@ -75,10 +64,6 @@ public interface ExtendRule extends BasicRule {
 	/**
 	 * Returns the value of the '<em><b>Do Rule</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Do Rule</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Do Rule</em>' containment reference.
 	 * @see #setDoRule(Rule)

@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.transitionrules.basictransitionrules;
 
@@ -29,10 +25,6 @@ public interface UpdateRule extends BasicRule {
 	/**
 	 * Returns the value of the '<em><b>Updating Term</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Updating Term</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Updating Term</em>' reference.
 	 * @see #setUpdatingTerm(Term)
@@ -55,10 +47,6 @@ public interface UpdateRule extends BasicRule {
 	/**
 	 * Returns the value of the '<em><b>Location</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Location</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Location</em>' reference.
 	 * @see #setLocation(Term)

@@ -1,16 +1,13 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.terms.furtherterms.impl;
 
-import org.eclipse.emf.ecore.EClass;
-
 import asmeta.terms.basicterms.impl.ConstantTermImpl;
+
 import asmeta.terms.furtherterms.EnumTerm;
 import asmeta.terms.furtherterms.FurthertermsPackage;
+
+import org.eclipse.emf.ecore.EClass;
 
 /**
  * <!-- begin-user-doc -->
@@ -20,7 +17,6 @@ import asmeta.terms.furtherterms.FurthertermsPackage;
  * @generated
  */
 public class EnumTermImpl extends ConstantTermImpl implements EnumTerm {
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

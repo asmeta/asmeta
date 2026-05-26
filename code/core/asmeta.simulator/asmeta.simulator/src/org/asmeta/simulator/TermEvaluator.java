@@ -93,8 +93,8 @@ import asmeta.terms.furtherterms.CaseTerm;
 import asmeta.terms.furtherterms.ComprehensionTerm;
 import asmeta.terms.furtherterms.ConditionalTerm;
 import asmeta.terms.furtherterms.EnumTerm;
-import asmeta.terms.furtherterms.ExistTerm;
-import asmeta.terms.furtherterms.ExistUniqueTerm;
+import asmeta.terms.furtherterms.ExistsTerm;
+import asmeta.terms.furtherterms.ExistsUniqueTerm;
 import asmeta.terms.furtherterms.ForallTerm;
 import asmeta.terms.furtherterms.IntegerTerm;
 import asmeta.terms.furtherterms.LetTerm;
@@ -675,14 +675,14 @@ public class TermEvaluator extends ReflectiveVisitor<Value> implements ITermVisi
 	 * @return term's value
 	 */
 	@Override
-	public BooleanValue visit(ExistTerm existTerm) {
-		logger.debug("<ExistTerm>");
-		Value[] boundValues = new Value[existTerm.getVariable().size()];
-		Object/* Term */[] domains = existTerm.getRanges().toArray();
-		boolean bool = visitExistTerm(0, domains, boundValues, existTerm);
+	public BooleanValue visit(ExistsTerm existsTerm) {
+		logger.debug("<ExistsTerm>");
+		Value[] boundValues = new Value[existsTerm.getVariable().size()];
+		Object/* Term */[] domains = existsTerm.getRanges().toArray();
+		boolean bool = visitExistTerm(0, domains, boundValues, existsTerm);
 		BooleanValue value = BooleanValue.parseBooleanValue(bool);
 		logger.debug("<Value>" + value + "</Value>");
-		logger.debug("</ExistTerm>");
+		logger.debug("</ExistsTerm>");
 		return value;
 	}
 
@@ -692,24 +692,24 @@ public class TermEvaluator extends ReflectiveVisitor<Value> implements ITermVisi
 	 * @param varIndex    next variable to bound a value
 	 * @param domains     an array of range term
 	 * @param boundValues current values of the bound variables
-	 * @param existTerm   the term to evaluate
+	 * @param existsTerm   the term to evaluate
 	 * @return the exist term value
 	 */
-	boolean visitExistTerm(int varIndex, Object/* Term */[] domains, Value[] boundValues, ExistTerm existTerm) {
-		if (varIndex < existTerm.getVariable().size()) {
+	boolean visitExistTerm(int varIndex, Object/* Term */[] domains, Value[] boundValues, ExistsTerm existsTerm) {
+		if (varIndex < existsTerm.getVariable().size()) {
 			Term rangeTerm = (Term) domains[varIndex];
 			CollectionValue<?> range = (CollectionValue) visit(rangeTerm);
 			for (Value<?> value : range) {
 				boundValues[varIndex] = value;
-				boolean bool = visitExistTerm(varIndex + 1, domains, boundValues, existTerm);
+				boolean bool = visitExistTerm(varIndex + 1, domains, boundValues, existsTerm);
 				if (bool) {
 					return true;
 				}
 			}
 		} else {
-			TermEvaluator newEvaluator = buildNewInstance(existTerm.getVariable(), boundValues) ;
+			TermEvaluator newEvaluator = buildNewInstance(existsTerm.getVariable(), boundValues) ;
 			logger.debug("<ExistTermGuard>");
-			Term existTermGuard = existTerm.getGuard();
+			Term existTermGuard = existsTerm.getGuard();
 			BooleanValue guard = BooleanValue.TRUE;
 			if (existTermGuard != null) {
 				guard = (BooleanValue) newEvaluator.visit(existTermGuard);
@@ -726,14 +726,14 @@ public class TermEvaluator extends ReflectiveVisitor<Value> implements ITermVisi
 	 * @param term an exist term
 	 * @return term's value
 	 */
-	public BooleanValue visit(ExistUniqueTerm existUniqueTerm) {
-		logger.debug("<ExistUniqueTerm>");
-		Value[] boundValues = new Value[existUniqueTerm.getVariable().size()];
-		Object/* Term */[] domains = existUniqueTerm.getRanges().toArray();
-		boolean bool = visitExistUniqueTerm(0, domains, boundValues, existUniqueTerm);
+	public BooleanValue visit(ExistsUniqueTerm existsUniqueTerm) {
+		logger.debug("<ExistsUniqueTerm>");
+		Value[] boundValues = new Value[existsUniqueTerm.getVariable().size()];
+		Object/* Term */[] domains = existsUniqueTerm.getRanges().toArray();
+		boolean bool = visitExistUniqueTerm(0, domains, boundValues, existsUniqueTerm);
 		BooleanValue value = BooleanValue.parseBooleanValue(bool);
 		logger.debug("<Value>" + value + "</Value>");
-		logger.debug("</ExistUniqueTerm>");
+		logger.debug("</ExistsUniqueTerm>");
 		return value;
 	}
 
@@ -747,14 +747,14 @@ public class TermEvaluator extends ReflectiveVisitor<Value> implements ITermVisi
 	 * @return the exist term value
 	 */
 	boolean visitExistUniqueTerm(int varIndex, Object/* Term */[] domains, Value[] boundValues,
-			ExistUniqueTerm existUniqueTerm) {
-		if (varIndex < existUniqueTerm.getVariable().size()) {
+			ExistsUniqueTerm existsUniqueTerm) {
+		if (varIndex < existsUniqueTerm.getVariable().size()) {
 			Term rangeTerm = (Term) domains[varIndex];
 			CollectionValue<?> range = (CollectionValue<?>) visit(rangeTerm);
 			int trueCounter = 0;
 			for (Value<?> value : range) {
 				boundValues[varIndex] = value;
-				boolean bool = visitExistUniqueTerm(varIndex + 1, domains, boundValues, existUniqueTerm);
+				boolean bool = visitExistUniqueTerm(varIndex + 1, domains, boundValues, existsUniqueTerm);
 				if (bool) {
 					trueCounter++;
 					// System.out.println("trueCounter " + trueCounter);
@@ -765,9 +765,9 @@ public class TermEvaluator extends ReflectiveVisitor<Value> implements ITermVisi
 			}
 			return trueCounter == 1;
 		} else {
-			TermEvaluator newEvaluator = buildNewInstance(existUniqueTerm.getVariable(), boundValues) ;
+			TermEvaluator newEvaluator = buildNewInstance(existsUniqueTerm.getVariable(), boundValues) ;
 			logger.debug("<ExistUniqueTermGuard>");
-			Term existTermGuard = existUniqueTerm.getGuard();
+			Term existTermGuard = existsUniqueTerm.getGuard();
 			BooleanValue guard = BooleanValue.TRUE;
 			if (existTermGuard != null) {
 				guard = (BooleanValue) newEvaluator.visit(existTermGuard);

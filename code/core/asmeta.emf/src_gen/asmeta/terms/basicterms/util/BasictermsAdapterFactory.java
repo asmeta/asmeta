@@ -1,31 +1,15 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.terms.basicterms.util;
 
+import asmeta.terms.basicterms.*;
+
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
-import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-import org.eclipse.emf.ecore.EObject;
 
-import asmeta.terms.basicterms.BasicTerm;
-import asmeta.terms.basicterms.BasictermsPackage;
-import asmeta.terms.basicterms.BooleanTerm;
-import asmeta.terms.basicterms.CollectionTerm;
-import asmeta.terms.basicterms.ConstantTerm;
-import asmeta.terms.basicterms.DomainTerm;
-import asmeta.terms.basicterms.ExtendedTerm;
-import asmeta.terms.basicterms.FunctionTerm;
-import asmeta.terms.basicterms.LocationTerm;
-import asmeta.terms.basicterms.RuleAsTerm;
-import asmeta.terms.basicterms.SetTerm;
-import asmeta.terms.basicterms.Term;
-import asmeta.terms.basicterms.TupleTerm;
-import asmeta.terms.basicterms.UndefTerm;
-import asmeta.terms.basicterms.VariableTerm;
+import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
+
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -81,8 +65,7 @@ public class BasictermsAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected BasictermsSwitch<Adapter> modelSwitch =
-		new BasictermsSwitch<Adapter>() {
+	protected BasictermsSwitch<Adapter> modelSwitch = new BasictermsSwitch<Adapter>() {
 			@Override
 			public Adapter caseVariableTerm(VariableTerm object) {
 				return createVariableTermAdapter();
@@ -157,7 +140,6 @@ public class BasictermsAdapterFactory extends AdapterFactoryImpl {
 	public Adapter createAdapter(Notifier target) {
 		return modelSwitch.doSwitch((EObject)target);
 	}
-
 
 	/**
 	 * Creates a new adapter for an object of class '{@link asmeta.terms.basicterms.VariableTerm <em>Variable Term</em>}'.

@@ -1,15 +1,11 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.transitionrules.basictransitionrules;
 
-import org.eclipse.emf.common.util.EList;
-
 import asmeta.terms.basicterms.Term;
 import asmeta.terms.basicterms.VariableTerm;
+
+import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
@@ -33,10 +29,6 @@ public interface LetRule extends BasicRule {
 	/**
 	 * Returns the value of the '<em><b>In Rule</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>In Rule</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>In Rule</em>' containment reference.
 	 * @see #setInRule(Rule)
@@ -60,10 +52,6 @@ public interface LetRule extends BasicRule {
 	 * Returns the value of the '<em><b>Init Expression</b></em>' reference list.
 	 * The list contents are of type {@link asmeta.terms.basicterms.Term}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Init Expression</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Init Expression</em>' reference list.
 	 * @see asmeta.transitionrules.basictransitionrules.BasictransitionrulesPackage#getLetRule_InitExpression()
@@ -76,10 +64,6 @@ public interface LetRule extends BasicRule {
 	 * Returns the value of the '<em><b>Variable</b></em>' reference list.
 	 * The list contents are of type {@link asmeta.terms.basicterms.VariableTerm}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Variable</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Variable</em>' reference list.
 	 * @see asmeta.transitionrules.basictransitionrules.BasictransitionrulesPackage#getLetRule_Variable()

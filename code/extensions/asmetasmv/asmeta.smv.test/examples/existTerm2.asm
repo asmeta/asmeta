@@ -16,7 +16,7 @@ definitions:
 
 	main rule r_Main =
 		par
-			if(exist $x in MyDomain with foo(foo($x))=foo(2)) then
+			if(exists $x in MyDomain with foo(foo($x))=foo(2)) then
 				var_a := 3
 			else
 				var_a := 1
@@ -24,9 +24,9 @@ definitions:
 			forall $k in MyDomain with true do
 				choose $j in MyDomain with true do
 					foo($k) := $j
-			foo1 := (exist $q in MyDomain with foo(foo($x))=1)
-			foo2 := (exist $w in MyDomain with foo(foo($w))=foo(2))
-			foo3 := (exist $e in MyDomain with foo(foo($e))=foo($e))
+			foo1 := (exists $q in MyDomain with foo(foo($x))=1)
+			foo2 := (exists $w in MyDomain with foo(foo($w))=foo(2))
+			foo3 := (exists $e in MyDomain with foo(foo($e))=foo($e))
 		endpar
 
 default init s0:

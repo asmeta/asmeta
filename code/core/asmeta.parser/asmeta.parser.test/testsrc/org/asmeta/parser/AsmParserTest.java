@@ -20,6 +20,7 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.asmeta.parser.util.AsmPrinter;
 import org.asmeta.parser.util.ReflectiveVisitor;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -47,6 +48,11 @@ public class AsmParserTest {
 		 * Logger.getLogger(AsmetaParserUtility.class).setLevel(Level.ALL);
 		 * PropertyConfigurator.configure("log4j.properties");
 		 */
+	}
+
+	@AfterAll
+	static void cleanLogger() {
+		// TODO remove all the appenders.
 	}
 
 	@BeforeEach void checkLogger() {

@@ -41,9 +41,9 @@ definitions:
 			cardSuit($i + 1) := cardSuit($i)
 
 	CTLSPEC ag((forall $q in QuartetIndex, $s in Suit with
-										(exist $i in InQuartetIndex with cardSuit($q * 4 + $i) = $s)))
+										(exists $i in InQuartetIndex with cardSuit($q * 4 + $i) = $s)))
 	LTLSPEC g((forall $q in QuartetIndex, $s in Suit with
-										(exist $i in InQuartetIndex with cardSuit($q * 4 + $i) = $s)))
+										(exists $i in InQuartetIndex with cardSuit($q * 4 + $i) = $s)))
 
 	main rule r_Main =
 		switch (step)

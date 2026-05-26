@@ -253,8 +253,8 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmetaL.ecore#//FiniteQuantificationTerm/ranges"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmetaL.ecore#//FiniteQuantificationTerm/guard"/>
     </genClasses>
-    <genClasses ecoreClass="AsmetaL.ecore#//ExistUniqueTerm"/>
-    <genClasses ecoreClass="AsmetaL.ecore#//ExistTerm"/>
+    <genClasses ecoreClass="AsmetaL.ecore#//ExistsUniqueTerm"/>
+    <genClasses ecoreClass="AsmetaL.ecore#//ExistsTerm"/>
     <genClasses ecoreClass="AsmetaL.ecore#//ForallTerm"/>
     <genClasses ecoreClass="AsmetaL.ecore#//LetTerm">
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference AsmetaL.ecore#//LetTerm/assignmentTerm"/>

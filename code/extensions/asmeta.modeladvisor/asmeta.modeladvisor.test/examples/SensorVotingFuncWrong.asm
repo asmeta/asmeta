@@ -14,7 +14,7 @@ signature:
 	dynamic monitored sensorMon:  Channel -> Boolean
 
 definitions:
-	function valid = (exist $c1 in Channel, $c2 in Channel with $c1!=$c2
+	function valid = (exists $c1 in Channel, $c2 in Channel with $c1!=$c2
 	           and validCh($c1) and  validCh($c2))
 
     // check $vc1 equal $vc2 and then $vc3
@@ -61,7 +61,7 @@ definitions:
 	//in modo equivalente
 	invariant over validCh: not((validCh(ONE) and not(validCh(TWO)) and not(validCh(THREE))) or (not(validCh(ONE)) and validCh(TWO) and not(validCh(THREE))) or (not(validCh(ONE)) and not(validCh(TWO)) and validCh(THREE)))
 	//in modo equivalente
-	invariant over validCh: not(exist $c1 in Channel, $c2 in Channel, $c3 in Channel with $c1 != $c2 and $c1 != $c3 and $c2 != $c3 and validCh($c1) and not(validCh($c2)) and not(validCh($c3)))
+	invariant over validCh: not(exists $c1 in Channel, $c2 in Channel, $c3 in Channel with $c1 != $c2 and $c1 != $c3 and $c2 != $c3 and validCh($c1) and not(validCh($c2)) and not(validCh($c3)))
 	//in modo equivalente
 	//invariant over validCh: size({$c in Channel | validCh($c) : $c}) !=1
 

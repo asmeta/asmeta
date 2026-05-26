@@ -154,7 +154,7 @@ definitions:
 		endseq
 
 //	invariant over tids: forall $tid in TidDomain with (contains(tids, $tid) and
-//							exist $from in Name, $to in Name with )
+//							exists $from in Name, $to in Name with )
 
 	main rule r_irule =
 		//choose $receiver in Name with authentic($receiver) do

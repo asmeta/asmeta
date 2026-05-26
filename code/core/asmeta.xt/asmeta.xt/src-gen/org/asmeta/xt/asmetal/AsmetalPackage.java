@@ -3867,14 +3867,14 @@ public interface AsmetalPackage extends EPackage
   int FINITE_QUANTIFICATION_TERM_FEATURE_COUNT = BASIC_EXPR_FEATURE_COUNT + 3;
 
   /**
-   * The meta object id for the '{@link org.asmeta.xt.asmetal.impl.ExistUniqueTermImpl <em>Exist Unique Term</em>}' class.
+   * The meta object id for the '{@link org.asmeta.xt.asmetal.impl.ExistsUniqueTermImpl <em>Exists Unique Term</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see org.asmeta.xt.asmetal.impl.ExistUniqueTermImpl
-   * @see org.asmeta.xt.asmetal.impl.AsmetalPackageImpl#getExistUniqueTerm()
+   * @see org.asmeta.xt.asmetal.impl.ExistsUniqueTermImpl
+   * @see org.asmeta.xt.asmetal.impl.AsmetalPackageImpl#getExistsUniqueTerm()
    * @generated
    */
-  int EXIST_UNIQUE_TERM = 92;
+  int EXISTS_UNIQUE_TERM = 92;
 
   /**
    * The feature id for the '<em><b>Op</b></em>' attribute.
@@ -3883,7 +3883,7 @@ public interface AsmetalPackage extends EPackage
    * @generated
    * @ordered
    */
-  int EXIST_UNIQUE_TERM__OP = FINITE_QUANTIFICATION_TERM__OP;
+  int EXISTS_UNIQUE_TERM__OP = FINITE_QUANTIFICATION_TERM__OP;
 
   /**
    * The feature id for the '<em><b>Operand</b></em>' containment reference.
@@ -3892,7 +3892,7 @@ public interface AsmetalPackage extends EPackage
    * @generated
    * @ordered
    */
-  int EXIST_UNIQUE_TERM__OPERAND = FINITE_QUANTIFICATION_TERM__OPERAND;
+  int EXISTS_UNIQUE_TERM__OPERAND = FINITE_QUANTIFICATION_TERM__OPERAND;
 
   /**
    * The feature id for the '<em><b>Variable</b></em>' containment reference list.
@@ -3901,7 +3901,7 @@ public interface AsmetalPackage extends EPackage
    * @generated
    * @ordered
    */
-  int EXIST_UNIQUE_TERM__VARIABLE = FINITE_QUANTIFICATION_TERM__VARIABLE;
+  int EXISTS_UNIQUE_TERM__VARIABLE = FINITE_QUANTIFICATION_TERM__VARIABLE;
 
   /**
    * The feature id for the '<em><b>Ranges</b></em>' containment reference list.
@@ -3910,7 +3910,7 @@ public interface AsmetalPackage extends EPackage
    * @generated
    * @ordered
    */
-  int EXIST_UNIQUE_TERM__RANGES = FINITE_QUANTIFICATION_TERM__RANGES;
+  int EXISTS_UNIQUE_TERM__RANGES = FINITE_QUANTIFICATION_TERM__RANGES;
 
   /**
    * The feature id for the '<em><b>Guard</b></em>' containment reference.
@@ -3919,26 +3919,26 @@ public interface AsmetalPackage extends EPackage
    * @generated
    * @ordered
    */
-  int EXIST_UNIQUE_TERM__GUARD = FINITE_QUANTIFICATION_TERM__GUARD;
+  int EXISTS_UNIQUE_TERM__GUARD = FINITE_QUANTIFICATION_TERM__GUARD;
 
   /**
-   * The number of structural features of the '<em>Exist Unique Term</em>' class.
+   * The number of structural features of the '<em>Exists Unique Term</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int EXIST_UNIQUE_TERM_FEATURE_COUNT = FINITE_QUANTIFICATION_TERM_FEATURE_COUNT + 0;
+  int EXISTS_UNIQUE_TERM_FEATURE_COUNT = FINITE_QUANTIFICATION_TERM_FEATURE_COUNT + 0;
 
   /**
-   * The meta object id for the '{@link org.asmeta.xt.asmetal.impl.ExistTermImpl <em>Exist Term</em>}' class.
+   * The meta object id for the '{@link org.asmeta.xt.asmetal.impl.ExistsTermImpl <em>Exists Term</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see org.asmeta.xt.asmetal.impl.ExistTermImpl
-   * @see org.asmeta.xt.asmetal.impl.AsmetalPackageImpl#getExistTerm()
+   * @see org.asmeta.xt.asmetal.impl.ExistsTermImpl
+   * @see org.asmeta.xt.asmetal.impl.AsmetalPackageImpl#getExistsTerm()
    * @generated
    */
-  int EXIST_TERM = 93;
+  int EXISTS_TERM = 93;
 
   /**
    * The feature id for the '<em><b>Op</b></em>' attribute.
@@ -3947,7 +3947,7 @@ public interface AsmetalPackage extends EPackage
    * @generated
    * @ordered
    */
-  int EXIST_TERM__OP = FINITE_QUANTIFICATION_TERM__OP;
+  int EXISTS_TERM__OP = FINITE_QUANTIFICATION_TERM__OP;
 
   /**
    * The feature id for the '<em><b>Operand</b></em>' containment reference.
@@ -3956,7 +3956,7 @@ public interface AsmetalPackage extends EPackage
    * @generated
    * @ordered
    */
-  int EXIST_TERM__OPERAND = FINITE_QUANTIFICATION_TERM__OPERAND;
+  int EXISTS_TERM__OPERAND = FINITE_QUANTIFICATION_TERM__OPERAND;
 
   /**
    * The feature id for the '<em><b>Variable</b></em>' containment reference list.
@@ -3965,7 +3965,7 @@ public interface AsmetalPackage extends EPackage
    * @generated
    * @ordered
    */
-  int EXIST_TERM__VARIABLE = FINITE_QUANTIFICATION_TERM__VARIABLE;
+  int EXISTS_TERM__VARIABLE = FINITE_QUANTIFICATION_TERM__VARIABLE;
 
   /**
    * The feature id for the '<em><b>Ranges</b></em>' containment reference list.
@@ -3974,7 +3974,7 @@ public interface AsmetalPackage extends EPackage
    * @generated
    * @ordered
    */
-  int EXIST_TERM__RANGES = FINITE_QUANTIFICATION_TERM__RANGES;
+  int EXISTS_TERM__RANGES = FINITE_QUANTIFICATION_TERM__RANGES;
 
   /**
    * The feature id for the '<em><b>Guard</b></em>' containment reference.
@@ -3983,16 +3983,16 @@ public interface AsmetalPackage extends EPackage
    * @generated
    * @ordered
    */
-  int EXIST_TERM__GUARD = FINITE_QUANTIFICATION_TERM__GUARD;
+  int EXISTS_TERM__GUARD = FINITE_QUANTIFICATION_TERM__GUARD;
 
   /**
-   * The number of structural features of the '<em>Exist Term</em>' class.
+   * The number of structural features of the '<em>Exists Term</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int EXIST_TERM_FEATURE_COUNT = FINITE_QUANTIFICATION_TERM_FEATURE_COUNT + 0;
+  int EXISTS_TERM_FEATURE_COUNT = FINITE_QUANTIFICATION_TERM_FEATURE_COUNT + 0;
 
   /**
    * The meta object id for the '{@link org.asmeta.xt.asmetal.impl.ForallTermImpl <em>Forall Term</em>}' class.
@@ -7433,24 +7433,24 @@ public interface AsmetalPackage extends EPackage
   EReference getFiniteQuantificationTerm_Guard();
 
   /**
-   * Returns the meta object for class '{@link org.asmeta.xt.asmetal.ExistUniqueTerm <em>Exist Unique Term</em>}'.
+   * Returns the meta object for class '{@link org.asmeta.xt.asmetal.ExistsUniqueTerm <em>Exists Unique Term</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Exist Unique Term</em>'.
-   * @see org.asmeta.xt.asmetal.ExistUniqueTerm
+   * @return the meta object for class '<em>Exists Unique Term</em>'.
+   * @see org.asmeta.xt.asmetal.ExistsUniqueTerm
    * @generated
    */
-  EClass getExistUniqueTerm();
+  EClass getExistsUniqueTerm();
 
   /**
-   * Returns the meta object for class '{@link org.asmeta.xt.asmetal.ExistTerm <em>Exist Term</em>}'.
+   * Returns the meta object for class '{@link org.asmeta.xt.asmetal.ExistsTerm <em>Exists Term</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Exist Term</em>'.
-   * @see org.asmeta.xt.asmetal.ExistTerm
+   * @return the meta object for class '<em>Exists Term</em>'.
+   * @see org.asmeta.xt.asmetal.ExistsTerm
    * @generated
    */
-  EClass getExistTerm();
+  EClass getExistsTerm();
 
   /**
    * Returns the meta object for class '{@link org.asmeta.xt.asmetal.ForallTerm <em>Forall Term</em>}'.
@@ -10129,24 +10129,24 @@ public interface AsmetalPackage extends EPackage
     EReference FINITE_QUANTIFICATION_TERM__GUARD = eINSTANCE.getFiniteQuantificationTerm_Guard();
 
     /**
-     * The meta object literal for the '{@link org.asmeta.xt.asmetal.impl.ExistUniqueTermImpl <em>Exist Unique Term</em>}' class.
+     * The meta object literal for the '{@link org.asmeta.xt.asmetal.impl.ExistsUniqueTermImpl <em>Exists Unique Term</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see org.asmeta.xt.asmetal.impl.ExistUniqueTermImpl
-     * @see org.asmeta.xt.asmetal.impl.AsmetalPackageImpl#getExistUniqueTerm()
+     * @see org.asmeta.xt.asmetal.impl.ExistsUniqueTermImpl
+     * @see org.asmeta.xt.asmetal.impl.AsmetalPackageImpl#getExistsUniqueTerm()
      * @generated
      */
-    EClass EXIST_UNIQUE_TERM = eINSTANCE.getExistUniqueTerm();
+    EClass EXISTS_UNIQUE_TERM = eINSTANCE.getExistsUniqueTerm();
 
     /**
-     * The meta object literal for the '{@link org.asmeta.xt.asmetal.impl.ExistTermImpl <em>Exist Term</em>}' class.
+     * The meta object literal for the '{@link org.asmeta.xt.asmetal.impl.ExistsTermImpl <em>Exists Term</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see org.asmeta.xt.asmetal.impl.ExistTermImpl
-     * @see org.asmeta.xt.asmetal.impl.AsmetalPackageImpl#getExistTerm()
+     * @see org.asmeta.xt.asmetal.impl.ExistsTermImpl
+     * @see org.asmeta.xt.asmetal.impl.AsmetalPackageImpl#getExistsTerm()
      * @generated
      */
-    EClass EXIST_TERM = eINSTANCE.getExistTerm();
+    EClass EXISTS_TERM = eINSTANCE.getExistsTerm();
 
     /**
      * The meta object literal for the '{@link org.asmeta.xt.asmetal.impl.ForallTermImpl <em>Forall Term</em>}' class.

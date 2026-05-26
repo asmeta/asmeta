@@ -1,14 +1,10 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.definitions;
 
-import org.eclipse.emf.common.util.EList;
-
 import asmeta.structure.FunctionInitialization;
+
+import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
@@ -32,10 +28,6 @@ public interface DynamicFunction extends BasicFunction {
 	 * The list contents are of type {@link asmeta.structure.FunctionInitialization}.
 	 * It is bidirectional and its opposite is '{@link asmeta.structure.FunctionInitialization#getInitializedFunction <em>Initialized Function</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Initialization</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Initialization</em>' reference list.
 	 * @see asmeta.definitions.DefinitionsPackage#getDynamicFunction_Initialization()

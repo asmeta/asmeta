@@ -98,7 +98,8 @@ definitions:
 		endif	*/
 	rule r_priority_aumenta =
 		if ((state_priority(self) > 0) and (state_priority(self) < 5)) then
-			if(exist $c in Position with (	$c > state_priority(self) and
+		// there is an error here...
+			if(exist exists  Position with (	$c > state_priority(self) and
 											(forall $g in ZoneAgent with state_priority($g) != $c )
 										)) then
 				state_priority(self) :=  state_priority(self) + 1

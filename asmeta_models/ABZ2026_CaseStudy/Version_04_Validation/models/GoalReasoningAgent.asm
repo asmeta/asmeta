@@ -21,7 +21,7 @@ derived nearestChargerToNow: Powerset(Prod(Coord,Coord)) -> Prod(Coord,Coord)
 definitions:
 
 function nearestChargerToNow($cs in Powerset(Prod(Coord,Coord))) =
-    chooseone ({$c in $cs | not(exist $d in $cs with distManhattan(currentPosition,$d) < distManhattan(currentPosition,$c)) : $c})
+    chooseone ({$c in $cs | not(exists $d in $cs with distManhattan(currentPosition,$d) < distManhattan(currentPosition,$c)) : $c})
 
 // G2: if recharge=true then set goal to nearest charger
 rule r_setGoalToNearestCharger =
