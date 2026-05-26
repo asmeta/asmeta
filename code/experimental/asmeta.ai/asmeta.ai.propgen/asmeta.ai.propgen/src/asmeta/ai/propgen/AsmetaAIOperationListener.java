@@ -1,12 +1,11 @@
 package asmeta.ai.propgen;
 
 /**
- * Receives progress and debug messages emitted during a property generation
- * session.
+ * Receives progress and debug messages emitted while an AsmetaAI operation runs.
  */
-public interface PropertyGenerationListener {
+public interface AsmetaAIOperationListener {
 
-	PropertyGenerationListener NO_OP = new PropertyGenerationListener() {
+	AsmetaAIOperationListener NO_OP = new AsmetaAIOperationListener() {
 		@Override
 		public void onProgress(String message) {
 			// No operation.

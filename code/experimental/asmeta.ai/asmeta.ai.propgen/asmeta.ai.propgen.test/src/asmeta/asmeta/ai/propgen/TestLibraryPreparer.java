@@ -1,4 +1,4 @@
-package asmeta.ai.propgen.util;
+package asmeta.asmeta.ai.propgen;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -16,7 +16,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
-import asmeta.ai.propgen.PropertyGenerationListener;
+import asmeta.ai.propgen.AsmetaAIOperationListener;
+import asmeta.ai.propgen.LibraryPreparer;
 import asmeta.ai.propgen.PropertyType;
 
 class TestLibraryPreparer {
@@ -34,7 +35,7 @@ class TestLibraryPreparer {
 	void prepareLtlLibraryAdvancedClock() throws Exception {
 		Path asm = copyAdvancedClock();
 
-		LibraryPreparer.prepare(asm.toString(), PropertyType.LTLPROP, PropertyGenerationListener.NO_OP);
+		LibraryPreparer.prepare(asm.toString(), PropertyType.LTLPROP, AsmetaAIOperationListener.NO_OP);
 
 		assertEquals(1, countImport(asm, "LTLLibrary"));
 		assertTrue(Files.exists(asm.getParent().resolve("LTLLibrary.asm")));

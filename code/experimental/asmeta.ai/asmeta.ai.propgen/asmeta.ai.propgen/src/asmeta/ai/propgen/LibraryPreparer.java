@@ -1,4 +1,4 @@
-package asmeta.ai.propgen.util;
+package asmeta.ai.propgen;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,8 +13,6 @@ import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.AsmetaParserUtility;
 
 import asmeta.AsmCollection;
-import asmeta.ai.propgen.PropertyGenerationListener;
-import asmeta.ai.propgen.PropertyType;
 import asmeta.structure.ImportClause;
 
 /**
@@ -35,7 +33,7 @@ public final class LibraryPreparer {
 	 * @param type     temporal property type that determines the required library
 	 * @param listener listener used for progress messages
 	 */
-	public static void prepare(String asmPath, PropertyType type, PropertyGenerationListener listener) {
+	public static void prepare(String asmPath, PropertyType type, AsmetaAIOperationListener listener) {
 		log(listener, "Checking temporal logic library imports...");
 		String libraryName = libraryName(type);
 		Path asmFile = Path.of(asmPath);
@@ -59,7 +57,7 @@ public final class LibraryPreparer {
 		return type == PropertyType.CTLPROP ? "CTLLibrary" : "LTLLibrary";
 	}
 
-	private static void copyLibraryIfMissing(Path asmDirectory, String libraryName, PropertyGenerationListener listener) {
+	private static void copyLibraryIfMissing(Path asmDirectory, String libraryName, AsmetaAIOperationListener listener) {
 		String fileName = libraryName + AsmetaParserUtility.ASM_EXTENSION;
 		Path target = asmDirectory.resolve(fileName);
 		if (Files.exists(target)) {
@@ -109,7 +107,7 @@ public final class LibraryPreparer {
 	}
 
 	// Preserve existing import grouping by inserting after the last import line.
-	private static void addImport(Path asmFile, String libraryName, PropertyGenerationListener listener) {
+	private static void addImport(Path asmFile, String libraryName, AsmetaAIOperationListener listener) {
 		log(listener, "Adding import " + libraryName + " to " + asmFile.getFileName() + "...");
 		try {
 			List<String> lines = new ArrayList<>(Files.readAllLines(asmFile, StandardCharsets.UTF_8));
@@ -151,7 +149,7 @@ public final class LibraryPreparer {
 		return trimmedLine.startsWith("asm ");
 	}
 
-	private static void log(PropertyGenerationListener listener, String message) {
+	private static void log(AsmetaAIOperationListener listener, String message) {
 		logger.info(message);
 		listener.onProgress(message);
 	}

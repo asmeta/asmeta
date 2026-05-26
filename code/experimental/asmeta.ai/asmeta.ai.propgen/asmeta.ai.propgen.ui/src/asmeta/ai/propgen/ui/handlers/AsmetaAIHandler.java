@@ -26,7 +26,7 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.texteditor.IDocumentProvider;
 import org.eclipse.ui.texteditor.ITextEditor;
 
-import asmeta.ai.propgen.PropertyGenerationListener;
+import asmeta.ai.propgen.AsmetaAIOperationListener;
 import asmeta.ai.propgen.ui.Activator;
 import asmeta.ai.propgen.ui.services.AsmetaAIRequestType;
 import asmeta.ai.propgen.ui.services.AsmetaAIService;
@@ -84,7 +84,7 @@ public class AsmetaAIHandler extends AsmetaActionHandler {
 				}
 				try {
 					AsmetaAIService service = new AsmetaAIService(preferenceStore);
-					String out = service.execute(path, selectedText, requestType, new PropertyGenerationListener() {
+					String out = service.execute(path, selectedText, requestType, new AsmetaAIOperationListener() {
 						@Override
 						public void onProgress(String message) {
 							console.writeMessage(message);
