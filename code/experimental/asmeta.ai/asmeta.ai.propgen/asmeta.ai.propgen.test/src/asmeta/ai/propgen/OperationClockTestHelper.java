@@ -1,4 +1,4 @@
-package asmeta.asmeta.ai.propgen;
+package asmeta.ai.propgen;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;

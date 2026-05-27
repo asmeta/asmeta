@@ -137,7 +137,7 @@ public class AsmetaAIPreferencePage extends PreferencePage implements IWorkbench
 		createLabel(group, "Number of properties:");
 		numberOfPropertiesSpinner = createPositiveSpinner(group, 1, 100);
 
-		createLabel(group, "Maximum parsable-formula attempts:");
+		createLabel(group, "Maximum repair attempts:");
 		maxRetriesSpinner = createPositiveSpinner(group, 1, 100);
 
 		createLabel(group, "LLM request timeout (seconds):");

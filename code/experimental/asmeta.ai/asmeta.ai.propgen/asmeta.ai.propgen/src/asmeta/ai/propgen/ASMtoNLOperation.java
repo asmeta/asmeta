@@ -30,7 +30,7 @@ public final class ASMtoNLOperation implements AsmetaAIOperation {
 		return String.join(System.lineSeparator(), properties);
 	}
 
-	public List<String> generate(String asmPath, int numberOfProperties, boolean removeComments) {
+	protected List<String> generate(String asmPath, int numberOfProperties, boolean removeComments) {
 		Map<String, String> substitutions = new HashMap<>();
 		substitutions.put("MODEL_PLACEHOLDER", readModel(asmPath, removeComments));
 		substitutions.put("N_PROP_PLACEHOLDER", String.valueOf(numberOfProperties));

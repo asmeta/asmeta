@@ -14,7 +14,8 @@ public enum AsmetaAIRequestType {
 		if (input.isEmpty()) {
 			return ASM_TO_NL;
 		}
-		if (input.startsWith("CTLSPEC") || input.startsWith("LTLSPEC")) {
+		if (input.startsWith("CTLSPEC") || input.startsWith("LTLSPEC") ||
+				input.startsWith("ctlspec") || input.startsWith("ltlspec")) {
 			return TL_TO_NL;
 		}
 		return NL_TO_TL;

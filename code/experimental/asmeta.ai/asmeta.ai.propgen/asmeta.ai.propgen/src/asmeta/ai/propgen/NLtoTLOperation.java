@@ -37,7 +37,7 @@ public final class NLtoTLOperation implements AsmetaAIOperation {
 
 	private static final Map<PropertyType, String[]> PROPERTY_CONFIG = Map.of(
 			PropertyType.CTLPROP, new String[] {"CTL (Computation Tree Logic)", "ex, ef, eg, eu, ax, af, ag, au", "CTLSPEC"},
-			PropertyType.LTLPROP, new String[] {"LTL (Linear Temporal Logic)", "x, f, g, u", "LTLSPEC"}
+			PropertyType.LTLPROP, new String[] {"LTL (Linear Temporal Logic)", "x, f, g, u, v", "LTLSPEC"}
 		);
 
 	private static final Logger logger = Logger.getLogger(NLtoTLOperation.class);
@@ -54,7 +54,7 @@ public final class NLtoTLOperation implements AsmetaAIOperation {
 				request.isRemoveComments(), request.getMaxRetries(), request.getListener());
 	}
 
-	public String generate(String asmPath, String property, PropertyType type, boolean removeComments) {
+	protected String generate(String asmPath, String property, PropertyType type, boolean removeComments) {
 		Map<String, String> substitutions = propertySubstitutions(asmPath, property, type, removeComments);
 		String prompt = applySubstitutions(getFileContent(O2_PROMPT_TEMPLATE), substitutions);
 		logger.debug("Prompt: \n" + prompt);
@@ -63,7 +63,7 @@ public final class NLtoTLOperation implements AsmetaAIOperation {
 		return response;
 	}
 
-	public String repair(String asmPath, String nlProperty, String brokenProperty, PropertyType type,
+	protected String repair(String asmPath, String nlProperty, String brokenProperty, PropertyType type,
 			String compilerError, boolean removeComments) {
 		Map<String, String> substitutions = propertySubstitutions(asmPath, nlProperty, type, removeComments);
 		substitutions.put("BROKEN_PROPERTY_PLACEHOLDER", brokenProperty);
@@ -75,13 +75,13 @@ public final class NLtoTLOperation implements AsmetaAIOperation {
 		return response;
 	}
 
-	public String generateValidated(String asmPath, String nlProperty, PropertyType type, boolean removeComments,
+	protected String generateValidated(String asmPath, String nlProperty, PropertyType type, boolean removeComments,
 			int maxRetries) {
 		return generateValidated(asmPath, nlProperty, type, removeComments, maxRetries,
 				AsmetaAIOperationListener.NO_OP);
 	}
 
-	public String generateValidated(String asmPath, String nlProperty, PropertyType type, boolean removeComments,
+	protected String generateValidated(String asmPath, String nlProperty, PropertyType type, boolean removeComments,
 			int maxRetries, AsmetaAIOperationListener listener) {
 		LibraryPreparer.prepare(asmPath, type, listener);
 		listener.onProgress("Generating candidate temporal property...");

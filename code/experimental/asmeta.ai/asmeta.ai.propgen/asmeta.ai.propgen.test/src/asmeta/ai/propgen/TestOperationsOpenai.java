@@ -1,4 +1,4 @@
-package asmeta.asmeta.ai.propgen;
+package asmeta.ai.propgen;
 
 import java.io.FileReader;
 

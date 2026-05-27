@@ -27,7 +27,7 @@ public final class TLtoNLOperation implements AsmetaAIOperation {
 		return explain(request.getAsmPath(), request.getInput(), request.isRemoveComments());
 	}
 
-	public String explain(String asmPath, String property, boolean removeComments) {
+	protected String explain(String asmPath, String property, boolean removeComments) {
 		Map<String, String> substitutions = new HashMap<>();
 		substitutions.put("MODEL_PLACEHOLDER", readModel(asmPath, removeComments));
 		substitutions.put("TL_PROPERTY_PLACEHOLDER", property);
