@@ -70,6 +70,12 @@
             id="asmeta.ai.propgen.ui.preferences.AsmetaAIPreferencePage"
             name="AsmetaAI">
       </page>
+      <page
+      		category="asmeta.ai.propgen.ui.preferences.AsmetaAIPreferencePage"
+            class="asmeta.ai.propgen.ui.preferences.AsmetaPropAIPreferencePage"
+            id="asmeta.ai.propgen.ui.preferences.AsmetaPropAIPreferencePage"
+            name="AsmetaPropAI">
+      </page>
    </extension>
    <extension
          point="org.eclipse.core.runtime.preferences">
