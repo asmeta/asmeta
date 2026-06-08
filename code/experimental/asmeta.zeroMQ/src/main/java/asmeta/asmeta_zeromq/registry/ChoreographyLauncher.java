@@ -90,14 +90,4 @@ public class ChoreographyLauncher extends SimulationLauncher {
         }
     }
 
-    public static void main(String[] args) {
-        try {
-            String configPath = "configs/MRM/zmq_config_MRM.properties"; 
-            //String configPath = "configs/incDecMulti/zmq_config_IncDecMulti.properties"; 
-            ChoreographyLauncher launcher = new ChoreographyLauncher(configPath);
-            launcher.run();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }

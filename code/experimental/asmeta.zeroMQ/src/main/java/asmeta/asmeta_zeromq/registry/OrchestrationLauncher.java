@@ -152,10 +152,5 @@ public class OrchestrationLauncher extends SimulationLauncher {
         return names;
     }
 
-    public static void main(String[] args) {
-        try {
-            String configPath = "configs/MRM/zmq_config_MRM.properties"; 
-            new OrchestrationLauncher(configPath).run();
-        } catch (Exception e) { e.printStackTrace(); }
-    }
+
 }
