@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.concurrent.Semaphore;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.zeromq.SocketType;
 import org.zeromq.ZContext;
@@ -41,7 +39,7 @@ public class environment {
     public static void main(String[] args) {
         Properties env;
         try (InputStream in = environment.class.getClassLoader()
-                .getResourceAsStream("configs/trafficLightSimCoSimCross-config/zmq_config_TrafficSimulation.properties")) {
+                .getResourceAsStream("configs/MRM/zmq_config_MRM.properties")) {
 
             if (in == null) {
                 throw new RuntimeException("zmq_config.properties not found in classpath.");
@@ -59,17 +57,53 @@ public class environment {
         environmentFunctions = Arrays.asList(env.getProperty(ENVIRONMENT_FUNCTIONS).split(","));
         System.out.println("Environment functions: " + environmentFunctions);
 
+        // For each function declared in env_functions, we populate
+        // environmentFunctionsValues and publishOrder, handling both forms:
+        //  - Scalar form: key properties = ‘<name>’ (e.g. ‘systemTime’) publishes to the topic ‘<name>’
+        //  - Parameterised form: keys properties = ‘<name>(arg)’ (e.g. ‘openSwitch(compartment1)’, ‘openSwitch(compartment2)’)
+        //  publishes a separate topic for each argument
+        // The two forms are mutually exclusive for the same function, but the configuration can mix functions of both types (e.g. scalar systemTime
+        // + parameterised openSwitch).
+
+
         int maxLength = 0;
+        List<String> publishOrder = new java.util.ArrayList<>();
+
         for (String function : environmentFunctions) {
-            environmentFunctionsValues.put(function, Arrays.asList(env.getProperty(function).split(",")));
-            if (environmentFunctionsValues.get(function).size() > maxLength) {
-                maxLength = environmentFunctionsValues.get(function).size();
+            String funcTrim = function.trim();
+            String scalarValues = env.getProperty(funcTrim);
+
+            if (scalarValues != null) {
+            	   // Scalar form (backward-compatible with existing cases)
+                List<String> values = Arrays.asList(scalarValues.split(","));
+                environmentFunctionsValues.put(funcTrim, values);
+                publishOrder.add(funcTrim);
+                if (values.size() > maxLength) maxLength = values.size();
+            } else {
+            	// Parameterised form: searches for all keys ‘<funcTrim>(...)’ 
+                String prefix = funcTrim + "(";
+                boolean foundAny = false;
+                for (String key : env.stringPropertyNames()) {
+                    if (key.startsWith(prefix) && key.endsWith(")")) {
+                        List<String> values = Arrays.asList(env.getProperty(key).split(","));
+                        environmentFunctionsValues.put(key, values);
+                        publishOrder.add(key);
+                        if (values.size() > maxLength) maxLength = values.size();
+                        foundAny = true;
+                    }
+                }
+                if (!foundAny) {
+                    System.err.println("[environment] WARN: function '" + funcTrim
+                            + "' dichiarata in env_functions ma nessun valore trovato "
+                            + "(ne' scalare ne' parametrizzato)");
+                }
             }
         }
-        for (String function : environmentFunctions) {
-            System.out.println("Function: " + function + " values: " + environmentFunctionsValues.get(function));
-        }
 
+        for (String topic : publishOrder) {
+            System.out.println("Function: " + topic + " values: " + environmentFunctionsValues.get(topic));
+        }
+    
         int pause = Integer.parseInt(env.getProperty("pause", "1000"));
 
         try (ZContext context = new ZContext()) {
@@ -83,20 +117,21 @@ public class environment {
             while (i < maxLength) {
                 System.err.println("Step: " + i);
 
-                for (String function : environmentFunctions) {
-                    if (i < environmentFunctionsValues.get(function).size()) {
+
+                for (String topic : publishOrder) {
+                    if (i < environmentFunctionsValues.get(topic).size()) {
                         Map<String, String> payload = new HashMap<>();
-                        payload.put(function, environmentFunctionsValues.get(function).get(i));
-                        pub.sendMore(function);
+                        payload.put(topic, environmentFunctionsValues.get(topic).get(i));
+                        pub.sendMore(topic);
                         pub.send(gson.toJson(payload));
-                        System.out.println("Sent " + function + " value "
-                                + environmentFunctionsValues.get(function).get(i)
-                                + " to " + address + " at topic " + function);
+                        System.out.println("Sent " + topic + " value "
+                                + environmentFunctionsValues.get(topic).get(i)
+                                + " to " + address + " at topic " + topic);
                     }
                 }
 
                 Thread.sleep(pause);
-               i++;
+                i++;
             }
 
         } catch (Exception e) {
@@ -105,3 +140,4 @@ public class environment {
         }
     }
 }
+

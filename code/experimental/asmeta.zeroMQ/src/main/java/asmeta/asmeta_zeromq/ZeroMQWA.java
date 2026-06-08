@@ -65,11 +65,8 @@ public class ZeroMQWA {
     private List<String> mySubTopics;
     private Map<String, Object> previousOutvalues = new HashMap<>();
     
-    
-    
- 
+
     public ZeroMQWA(Properties config, String sectionPrefix) {
-    	
     	this.requiredMonitored = new HashSet<>();
         this.gson = new Gson();
         this.currentMonitoredValues = new HashMap<>();
@@ -90,17 +87,21 @@ public class ZeroMQWA {
             String initialOutputsStr = config.getProperty("INITIAL_OUTPUTS", "");
             this.INITIAL_OUTPUTS = new HashMap<>();
             if (!initialOutputsStr.isEmpty()) {
-                for (String pair : initialOutputsStr.split(",")) {
-                    String[] kv = pair.trim().split("=");
-                    if (kv.length == 2) {
-                        this.INITIAL_OUTPUTS.put(kv[0].trim(), kv[1].trim());
+
+            	for (String pair : splitRespectingBrackets(initialOutputsStr, ',')) {
+                    String trimmed = pair.trim();
+                    if (trimmed.isEmpty()) continue;
+                    int eqIdx = trimmed.indexOf('=');
+                    if (eqIdx > 0 && eqIdx < trimmed.length() - 1) {
+                        String key = trimmed.substring(0, eqIdx).trim();
+                        String value = trimmed.substring(eqIdx + 1).trim();
+                        this.INITIAL_OUTPUTS.put(key, value);
+                    } else {
+                        logger.warn("[{}] INITIAL_OUTPUTS: voce malformata ignorata: '{}'", sectionPrefix, trimmed);
                     }
                 }
+	
             }
-            
-            
-            
-           
 
             String subAddresses = config.getProperty("ZMQ_SUB_CONNECT_ADDRESSES", "");
             this.ZMQ_SUB_CONNECT_ADDRESSES = "null".equalsIgnoreCase(subAddresses.trim()) ? "" : subAddresses.trim();
@@ -108,19 +109,25 @@ public class ZeroMQWA {
             // environment functions
             String envFuncs = config.getProperty("ASM_ENVIRONMENT_FUNCTIONS", "");
             this.ASM_ENVIRONMENT_FUNCTIONS = envFuncs.isEmpty() ? new ArrayList<>() : Arrays.asList(envFuncs.split(","));
-            // Console Inputs
-            String consoleInputs = config.getProperty("CONSOLE_INPUT_FUNCTIONS");
-            this.CONSOLE_INPUT_FUNCTIONS = (consoleInputs == null || consoleInputs.trim().isEmpty()) 
-                                           ? null 
-                                           : Arrays.asList(consoleInputs.split(","));  
             
+            String consoleInputs = config.getProperty("CONSOLE_INPUT_FUNCTIONS");
+            if (consoleInputs == null || consoleInputs.trim().isEmpty()) {
+                this.CONSOLE_INPUT_FUNCTIONS = null;
+            } else {
+
+                this.CONSOLE_INPUT_FUNCTIONS = new ArrayList<>();
+                for (String token : splitRespectingBrackets(consoleInputs, ',')) {
+                    this.CONSOLE_INPUT_FUNCTIONS.add(token.trim());
+                }
+            }
+
             this.executionMode = config.getProperty("execution_mode", "LEGACY"); 
             
             if ("CHOREOGRAPHED".equals(this.executionMode)) {
                 this.myPubTopic = config.getProperty("calculated_pub_topic");
                 String subs = config.getProperty("calculated_sub_topics");
                 this.mySubTopics = (subs != null && !subs.isEmpty()) 
-                                   ? Arrays.asList(subs.split(",")) 
+                                   ? Arrays.asList(subs.split(";")) 
                                    : new ArrayList<>();
             }
         	       	        	       	
@@ -136,7 +143,8 @@ public class ZeroMQWA {
     /////////////////////////////////////////////////////////////////////////////////////////
     private int initializeAsm(String modelPath) throws Exception {
 
-        sim = new SimulationContainer(Environment.TimeMngt.use_java_time);
+       // sim = new SimulationContainer(Environment.TimeMngt.use_java_time);
+    	sim = new SimulationContainer();
         sim.init(1);
 
         int currentAsmId = sim.startExecution(modelPath);
@@ -155,9 +163,7 @@ public class ZeroMQWA {
         return currentAsmId;
     }
    
-    /////////////////////////////////////////////////////////////////////////////////////////
-
-    
+    /////////////////////////////////////////////////////////////////////////////////////////    
  //initializeZmqSockets
     private void initializeZmqSockets(ZContext context) {
  //       logger.info("Initializing ZeroMQ sockets...");
@@ -258,7 +264,7 @@ public class ZeroMQWA {
 
                 boolean topicReceived = false;
                 for (String topic : this.ASM_ENVIRONMENT_FUNCTIONS) {
-                    if (message.equals(topic)) {
+                    if (message.equals(topic)|| message.startsWith(topic + "(")) {
                         topicReceived = true;
                         break;
                     }
@@ -311,6 +317,9 @@ public class ZeroMQWA {
             currentMonitoredValues.put(key, value);
             logger.info("Initialized starting value for key: {} with value: {}", key, value);
         }
+        if (this.CONSOLE_INPUT_FUNCTIONS.size() % 2 != 0) {
+            logger.warn("[{}] CONSOLE_INPUT_FUNCTIONS ha numero dispari di elementi, ultimo ignorato", sectionPrefix);
+        }
     }
 /////////////////////////////////////////////////////////////////////////////////////////////////////
     public void run() {
@@ -322,7 +331,6 @@ public class ZeroMQWA {
             runAsLegacyOrchestrated();
         }
     }
-
 ////////////////////////////////////////////////////////
     public void runAsChoreographed() {
         if (this.asmId <= 0) {
@@ -333,31 +341,34 @@ public class ZeroMQWA {
         try (ZContext context = new ZContext()) {
             initializeZmqSockets(context);
             initializeStartingValues();
-            
-            //pre publishing to avoid deadlock
             publishBootstrap();
-
-           // logger.info("[{}] CHOREOGRAPHED execution has begun.Waiting topics: {}", sectionPrefix, mySubTopics);
-            
+      
             while (!Thread.currentThread().isInterrupted()) {
                 boolean receivedData = false;
 
                 for (ZMQ.Socket sub : subscribers) {
-                    String topic = sub.recvStr(ZMQ.DONTWAIT);
-                    if (topic != null) {
-                        String payload = sub.recvStr();
-                        logger.debug("[{}] Payload ricevuto su [{}]: {}", sectionPrefix, topic, payload);
-                        updateMonitoredFromPayload(payload);
-                        receivedData = true;
-                    }
+
+                	String topic;
+                	while ((topic = sub.recvStr(ZMQ.DONTWAIT)) != null) {
+                	    String payload = sub.recvStr();
+                	    logger.debug("[{}] Payload received on [{}]: {}", sectionPrefix, topic, payload);
+                	    updateMonitoredFromPayload(payload);
+                	    receivedData = true;
+                	}
+  
                 }
 
                 if (receivedData && hasAllRequiredInputs()) {
                 	logger.debug("[{}] Conditions satisfied. Execute step.", sectionPrefix);
                     
                     Map<String, String> monitoredForStep = new HashMap<>();
-                    for (String key : this.requiredMonitored) {
-                        monitoredForStep.put(key, currentMonitoredValues.get(key));
+
+                    for (String baseKey : this.requiredMonitored) {
+                        for (Map.Entry<String, String> entry : currentMonitoredValues.entrySet()) {
+                            if (entry.getKey().equals(baseKey) || entry.getKey().startsWith(baseKey + "(")) {
+                                monitoredForStep.put(entry.getKey(), entry.getValue());
+                            }
+                        }
                     }
 
                     java.io.PrintStream originalOut = System.out;
@@ -382,7 +393,7 @@ public class ZeroMQWA {
                         if (publisher != null && myPubTopic != null) {
                             publisher.sendMore(this.myPubTopic);
                             publisher.send(jsonOut);
-                            logger.debug("[{}] Step SAFE. Pubblicato su [{}]", sectionPrefix, this.myPubTopic);
+                            logger.debug("[{}] Step SAFE. published on [{}]", sectionPrefix, this.myPubTopic);
                         }
 
                         previousOutvalues = new HashMap<>(currentOutvalues);
@@ -401,10 +412,10 @@ public class ZeroMQWA {
                 }
             }
         } catch (InterruptedException e) {
-            logger.warn("[{}] Ciclo coreografico interrotto.", sectionPrefix);
+            logger.warn("[{}]  Interrupted choreographic cycle.", sectionPrefix);
             Thread.currentThread().interrupt();
         } catch (Exception e) {
-            logger.fatal("[{}] ERRORE FATALE: {}", sectionPrefix, e.getMessage(), e);
+            logger.fatal("[{}] Fatal error: {}", sectionPrefix, e.getMessage(), e);
         }
     }
 
@@ -433,12 +444,10 @@ public class ZeroMQWA {
             Thread.sleep(1500);
             
             if (INITIAL_OUTPUTS == null || INITIAL_OUTPUTS.isEmpty()) {
-                //logger.warn("[{}] Bootstrap saltato: INITIAL_OUTPUTS non definiti nel config", sectionPrefix);
                 return;
             }
             
             if (publisher == null || myPubTopic == null) {
-               // logger.warn("[{}] Bootstrap saltato: publisher non configurato", sectionPrefix);
                 return;
             }
             
@@ -448,16 +457,41 @@ public class ZeroMQWA {
             String jsonOut = gson.toJson(bootstrapPayload);
             publisher.sendMore(this.myPubTopic);
             publisher.send(jsonOut);
-           // logger.info("[{}] Bootstrap pubblicato su [{}]: {}", sectionPrefix, myPubTopic, jsonOut);
             
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
-           // logger.warn("[{}] Bootstrap interrotto", sectionPrefix);
         } catch (Exception e) {
-            logger.error("[{}] Errore durante il bootstrap publish: {}",  sectionPrefix, e.getMessage(), e);
+            logger.error("[{}] Error during bootstrap publish: {}",  sectionPrefix, e.getMessage(), e);
         }
     }
     
+
+     //Backward-compatible: if ‘[’ and ‘]’ are omitted, it produces the same output as `String.split(separator)`.
+     
+    private static List<String> splitRespectingBrackets(String input, char separator) {
+        List<String> tokens = new ArrayList<>();
+        StringBuilder current = new StringBuilder();
+        int bracketDepth = 0;
+        for (int i = 0; i < input.length(); i++) {
+            char c = input.charAt(i);
+            if (c == '[') {
+                bracketDepth++;
+                current.append(c);
+            } else if (c == ']') {
+                bracketDepth--;
+                current.append(c);
+            } else if (c == separator && bracketDepth == 0) {
+                tokens.add(current.toString());
+                current.setLength(0);
+            } else {
+                current.append(c);
+            }
+        }
+        if (current.length() > 0 || !tokens.isEmpty()) {
+            tokens.add(current.toString());
+        }
+        return tokens;
+    }
     
     private void logStateTransition(Map<String, String> currentOutvalues) {
         List<String> changes = new ArrayList<>();
@@ -503,28 +537,42 @@ public class ZeroMQWA {
 
             pubSocket.connect(orchSubAddr);
 
-            logger.info("[{}] Worker ORCHESTRATO Avviato. Connesso al Master.", this.sectionPrefix);
+            logger.info("[{}] ORCHESTRATED Worker Started. Connected to the Master.", this.sectionPrefix);
             initializeStartingValues();
+            
+            if (this.INITIAL_OUTPUTS != null && !this.INITIAL_OUTPUTS.isEmpty()) {
+                currentMonitoredValues.putAll(this.INITIAL_OUTPUTS);
+                logger.info("[{}] Seed INITIAL_OUTPUTS in currentMonitoredValues: {} key", 
+                            this.sectionPrefix, this.INITIAL_OUTPUTS.size());
+            }
+            
+            
+            if (this.INITIAL_OUTPUTS != null && !this.INITIAL_OUTPUTS.isEmpty()) {
+                Map<String, Object> bootstrapMsg = new HashMap<>(this.INITIAL_OUTPUTS);
+                bootstrapMsg.put("asm_status", "BOOTSTRAP");
+                pubSocket.sendMore("BOOTSTRAP_" + this.sectionPrefix);
+                pubSocket.send(gson.toJson(bootstrapMsg));
+                logger.info("[{}] Bootstrap INITIAL_OUTPUTS pubblicato sulla mailbox", this.sectionPrefix);
+            }
+
 
             while (!Thread.currentThread().isInterrupted()) {
                 String topic = subSocket.recvStr();
                 String payload = subSocket.recvStr();
 
-                // 1. Comando di Rollback Globale
+   
                 if ("CMD:ROLLBACK_ALL".equals(topic)) {
-                    logger.warn("[{}] Eseguo ROLLBACK su ordine dell'Orchestratore!", this.sectionPrefix);
+                    logger.warn("[{}] ROLLBACK on the Orchestrator's command", this.sectionPrefix);
                     sim.rollback(this.asmId);
                     continue;
                 }
 
-                // 2. Comando di Esecuzione Step
                 if (("CMD_" + this.sectionPrefix).equals(topic)) {
                     try {
-                        // Parsa i dati passati dal Visitor
+
                         Map<String, Object> command = gson.fromJson(payload, new TypeToken<Map<String, Object>>(){}.getType());
                         Object dataObj = command.get("data");
                         
-                        // Estrae i JSON dal payload per caricare i valori monitorati
                         if (dataObj instanceof List) {
                             for(Object item : (List<?>)dataObj) {
                                 String jsonStr = String.valueOf(item);
@@ -534,8 +582,13 @@ public class ZeroMQWA {
 
                         if (hasAllRequiredInputs()) {
                             Map<String, String> monitoredForStep = new HashMap<>();
-                            for (String key : this.requiredMonitored) {
-                                monitoredForStep.put(key, currentMonitoredValues.get(key));
+
+                            for (String baseKey : this.requiredMonitored) {
+                                for (Map.Entry<String, String> entry : currentMonitoredValues.entrySet()) {
+                                    if (entry.getKey().equals(baseKey) || entry.getKey().startsWith(baseKey + "(")) {
+                                        monitoredForStep.put(entry.getKey(), entry.getValue());
+                                    }
+                                }
                             }
 
                             RunOutput output = sim.runStep(this.asmId, monitoredForStep);
@@ -553,7 +606,7 @@ public class ZeroMQWA {
                             pubSocket.sendMore("STATUS_" + this.sectionPrefix);
                             pubSocket.send(gson.toJson(response));
                             
-                            currentMonitoredValues.clear(); 
+                           // currentMonitoredValues.clear(); 
                         } else {
                             logMissingInputsIfAny();
                             Map<String, Object> response = new HashMap<>();
@@ -562,12 +615,12 @@ public class ZeroMQWA {
                             pubSocket.send(gson.toJson(response));
                         }
                     } catch (Exception e) {
-                        logger.error("[{}] Errore durante l'esecuzione: {}", this.sectionPrefix, e.getMessage());
+                        logger.error("[{}] Error during execution: {}", this.sectionPrefix, e.getMessage());
                     }
                 }
             }
         } catch (Exception e) {
-            logger.fatal("[{}] ERRORE in runAsOrchestrated: {}", this.sectionPrefix, e.getMessage(), e);
+            logger.fatal("[{}] error in runAsOrchestrated: {}", this.sectionPrefix, e.getMessage(), e);
         }
     }
     //////////////////////////////////////////////
@@ -613,9 +666,14 @@ public class ZeroMQWA {
                     }
 
                     if (readyToStep) {
-                        Map<String, String> monitoredForStep = new HashMap<>();
-                        for (String key : this.requiredMonitored) monitoredForStep.put(key, currentMonitoredValues.get(key));
-
+                    	Map<String, String> monitoredForStep = new HashMap<>();
+                    	for (String baseKey : this.requiredMonitored) {
+                    	    for (Map.Entry<String, String> entry : currentMonitoredValues.entrySet()) {
+                    	        if (entry.getKey().equals(baseKey) || entry.getKey().startsWith(baseKey + "(")) {
+                    	            monitoredForStep.put(entry.getKey(), entry.getValue());
+                    	        }
+                    	    }
+                    	}
                         RunOutput output = sim.runStep(this.asmId, monitoredForStep);
 
                         if (this.isForkJoinMode) {
@@ -644,9 +702,7 @@ public class ZeroMQWA {
         } catch (Exception e) {
             logger.fatal("CRITICAL ERROR in run loop: {}", e.getMessage(), e);
         }
-    }
-    
-    
+    }    
     /////////////////////////////////////////////
     
     public void initializeSockets(ZContext context) {
@@ -662,7 +718,7 @@ public class ZeroMQWA {
     public boolean runStep() throws Exception {
     	
     	if (this.isForkJoinMode) {
-            logger.error("Il metodo runStep() non supporta la modalità ForkJoin. Usa run() per l'orchestrazione continua.");
+            logger.error("The runStep() method does not support ForkJoin mode. Use run() for continuous orchestration.");
             return false; 
         }
     	
@@ -697,21 +753,44 @@ public class ZeroMQWA {
 
     ///////////////////////////////////////////////
 
-                
     private boolean hasAllRequiredInputs() {
         if (requiredMonitored == null || requiredMonitored.isEmpty()) return true;
-        for (String k : requiredMonitored) {
-            if (!currentMonitoredValues.containsKey(k) || currentMonitoredValues.get(k) == null) return false;
+
+        for (String required : requiredMonitored) {
+            if (currentMonitoredValues.containsKey(required)
+                    && currentMonitoredValues.get(required) != null) continue;
+            String prefix = required + "(";
+            boolean foundParameterized = false;
+            for (String key : currentMonitoredValues.keySet()) {
+                if (key.startsWith(prefix) && key.endsWith(")")) {
+                    String val = currentMonitoredValues.get(key);
+                    
+                    if (val != null) {
+                        foundParameterized = true;
+                        break;
+                    }
+                }
+            }
+            if (!foundParameterized) {
+                logger.info("[{}] MISSING: {}", sectionPrefix, required);
+                return false;
+            }
         }
         return true;
     }
 
     private void logMissingInputsIfAny() {
         List<String> missing = new ArrayList<>();
-        for (String k : requiredMonitored) {
-            if (!currentMonitoredValues.containsKey(k) || currentMonitoredValues.get(k) == null) missing.add(k);
+        for (String baseKey : requiredMonitored) {
+            boolean found = false;
+            for (String currentKey : currentMonitoredValues.keySet()) {
+                if (currentKey.equals(baseKey) || currentKey.startsWith(baseKey + "(")) {
+                    found = true; break;
+                }
+            }
+            if (!found) missing.add(baseKey);
         }
-        if (!missing.isEmpty()) logger.warn("Waiting for required inputs: {}", missing);
-    }
- 
+        if (!missing.isEmpty()) 
+        	logger.warn("[{}] Waiting for required inputs: {}", sectionPrefix, missing);
+    } 
 }

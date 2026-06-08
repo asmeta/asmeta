@@ -1,6 +1,6 @@
 asm processPressureModel
 
-import ../libraries/StandardLibrary
+import StandardLibrary
 
 signature:
     dynamic monitored respiratoryRate: Integer

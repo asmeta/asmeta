@@ -3,6 +3,7 @@ package asmeta.asmeta_zeromq.ast;
 import java.util.List;
 
 //AST Visitor Agreement
+//defines the operational semantics associated with each node type once it is reached during the traversal
 
 public interface ISimulationVisitor {
     List<String> visit(ModelNode node, List<String> inputTopics);

@@ -1,4 +1,4 @@
-package asmeta.asmeta_zeromq;
+/*package asmeta.asmeta_zeromq;
 
 import java.io.InputStream;
 import java.util.Arrays;
@@ -106,4 +106,4 @@ public class EnvironmentZMQ implements Runnable{
 	
 	
 
-}
+}*/

@@ -36,10 +36,12 @@ public class ChoreographyLauncher extends SimulationLauncher {
         System.out.println("[ChoreographyLauncher] : Parsing the formula" + compositionalFormula);
 
         CompositionParser parser = new CompositionParser();
+        //the reference to the root of tree
         ISimulationNode astRoot = parser.parse(compositionalFormula);
 
         //Wiring calculation via Visitor
         ChoreographyVisitor visitor = new ChoreographyVisitor();
+        
         String envFuncs = systemConfig.getProperty("common.ASM_ENVIRONMENT_FUNCTIONS", "");
         List<String> envTopics = new ArrayList<>();
         if (!envFuncs.isEmpty()) {
@@ -47,8 +49,9 @@ public class ChoreographyLauncher extends SimulationLauncher {
         } else {
             envTopics.add("env_output");
         }
-        
+        //Start the recursive traversal of the tree
         astRoot.accept(visitor, envTopics);
+        //a map that associates each model name with the list of topics it must subscribe to, generates by Visitor
         Map<String, List<String>> subscriptionsMap = visitor.getModelSubscriptions();
 
         List<Process> activeProcesses = new ArrayList<>();
@@ -89,7 +92,7 @@ public class ChoreographyLauncher extends SimulationLauncher {
 
     public static void main(String[] args) {
         try {
-            String configPath = "configs/trafficLightSimCoSimCross-config/zmq_config_TrafficSimulation.properties"; 
+            String configPath = "configs/MRM/zmq_config_MRM.properties"; 
             //String configPath = "configs/incDecMulti/zmq_config_IncDecMulti.properties"; 
             ChoreographyLauncher launcher = new ChoreographyLauncher(configPath);
             launcher.run();

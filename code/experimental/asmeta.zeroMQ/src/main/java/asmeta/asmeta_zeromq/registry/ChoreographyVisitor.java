@@ -15,9 +15,10 @@ public class ChoreographyVisitor implements ISimulationVisitor {
     //base case: leaf
     @Override
     public List<String> visit(ModelNode node, List<String> inputTopics) {
-    	//This model must be subscribed to all topics received in inputTopics—the outputs from the upstream
+    	//This model must be subscribed to all topics received in inputTopics. the outputs from the upstream
     	//nodes in the causal graph, plus any environmental topics
     	
+    	//Model X is subscribed to these topics
         modelSubscriptions.put(node.getModelName(), new ArrayList<>(inputTopics)); 
         String myOutputTopic = "OUT_" + node.getModelName(); //declare his output 
         System.out.println("[Wiring] " + node.getModelName() + " SUB: " + inputTopics + " | PUB: [" + myOutputTopic + "]");

@@ -1,5 +1,5 @@
 asm invariantViolation
-import ../libraries/StandardLibrary
+import StandardLibrary
 	
 signature:
 controlled f: Integer
