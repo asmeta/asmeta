@@ -16,6 +16,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.xt.validator.AsmetaFromAvallaBuilder;
@@ -41,6 +42,8 @@ import asmeta.structure.Asm;
 public class MutationScoreExecutor {
 
 	private static final Logger LOG = Logger.getLogger(MutationScoreExecutor.class);
+
+	private static final boolean suppressLog = true;
 
 	private Path tempDirectory;
 
@@ -134,12 +137,26 @@ public class MutationScoreExecutor {
 		return killedMutations;
 	}
 
+	private void suppressLog(String logger, HashMap<String, Level> oldlevels) {
+		oldlevels.put(logger,  Logger.getLogger(logger).getLevel());
+		Logger.getLogger(logger).setLevel(Level.OFF);
+	}
+
+	private void restoreLog(String logger, HashMap<String, Level> oldlevels) {
+		Logger.getLogger(logger).setLevel(oldlevels.get(logger));
+	}
+
 	/**
 	 * Runs all scenarios against one mutant and returns true at the first failure.
 	 */
 	private boolean isKilledByAnyScenario(AsmCollection mutant, List<Path> scenarios) throws Exception {
 		for (Path avalla : scenarios) {
 			try {
+				HashMap<String, Level> levelMap = new HashMap<>();
+				if (suppressLog) {
+					suppressLog("org.asmeta.simulator.main.Simulator", levelMap);
+					suppressLog("org.asmeta.parser",levelMap);
+				}
 				AsmetaMutatedFromAvalla asmetaBuilder =
 						new AsmetaMutatedFromAvalla(avalla.toString(), ensureTempDirectory());
 				Map<String, Boolean> allCoveredRules = new HashMap<>();
@@ -147,6 +164,10 @@ public class MutationScoreExecutor {
 				asmetaBuilder.save();
 				ValidationResult result = AsmetaV.executeAsmetaFromAvalla(AsmetaV.doNotcomputeCoverage, allCoveredRules,
 						asmetaBuilder.getTempAsmPath(), false);
+				if (suppressLog) {
+					restoreLog("org.asmeta.simulator.main.Simulator", levelMap);
+					restoreLog("org.asmeta.parser",levelMap);
+				}
 				if (!result.isCheckSucceeded()) {
 					LOG.info("Validation failed => killed mutant.");
 					return true;
