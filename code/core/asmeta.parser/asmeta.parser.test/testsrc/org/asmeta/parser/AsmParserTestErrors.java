@@ -1,5 +1,6 @@
 package org.asmeta.parser;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
@@ -43,4 +44,10 @@ class AsmParserTestErrors extends AsmParserTest {
 			fail("wrong message");
 		}
 	}
+	
+	@Test void ae() throws Exception {
+		assertThrows(ParseException.class, () ->
+			ASMParser.setUpReadAsm(new File(FILE_BASE + "test/errors/ArithmeticExpr02.asm")));
+	}
+	
 }

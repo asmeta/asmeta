@@ -1,0 +1,7 @@
+scenario chooseinteger_fail
+load chooseinteger.asm
+
+step
+check foo1 = 5;
+step
+check foo1 = 5;

@@ -10,6 +10,7 @@
 	<modules>
 		<module>asmeta.avallaxt</module>
 		<module>asmeta.avallaxt.tests</module>
+		<module>../asmeta.mutation</module>
 		<module>asmeta.validator</module>
 		<module>asmeta.validator.test</module>
 	</modules>

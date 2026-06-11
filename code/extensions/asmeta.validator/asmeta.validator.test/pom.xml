@@ -37,6 +37,11 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
+			<groupId>asmeta</groupId>
+			<artifactId>asmeta.mutation</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
 			<groupId>org.eclipse.xtext</groupId>
 			<artifactId>org.eclipse.xtext</artifactId>
 			<version>${xtext.version}</version>
@@ -64,7 +69,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter</artifactId>			
+			<artifactId>junit-jupiter</artifactId>
+			<version>5.13.3</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

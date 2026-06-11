@@ -1,5 +1,0 @@
-scenario scenario1
-load CoffeeVendingMachineGround.asm
-
-step
-check dispensed = TEA;

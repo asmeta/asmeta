@@ -78,7 +78,7 @@ public abstract class AsmetaActionHandler extends AbstractHandler {
 		setUpLoggers();
 		// execute action
 		try {
-			console.writeMessage(action + " on " + path);			
+			console.writeMessage(action + " on " + path);
 			executeAction(path);
 			console.writeMessage(action + " finished");			
 		} catch (Throwable t) {

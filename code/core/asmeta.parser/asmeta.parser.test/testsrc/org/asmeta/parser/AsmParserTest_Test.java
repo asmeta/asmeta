@@ -23,12 +23,5 @@ class AsmParserTest_Test extends AsmParserTest {
 
 	@Test void parserNeqAndNot(){
 		testOneSpec("test/parser/neqAndNot.asm");
-	}
-
-	@Test void ae() throws Exception {
-		assertThrows(ParseException.class, () ->
-			ASMParser.setUpReadAsm(new File(FILE_BASE + "test/errors/ArithmeticExpr02.asm")));
-	}
-
-	
+	}	
 }

@@ -30,12 +30,13 @@ import org.asmeta.simulator.Environment.TimeMngt;
 import org.asmeta.simulator.RuleEvaluator;
 import org.asmeta.simulator.main.Simulator;
 import org.asmeta.xt.validator.AsmetaV;
+import org.asmeta.xt.validator.mutationscore.MutationScoreExecutor;
 
 import asmeta.AsmCollection;
 import asmeta.evotest.experiments.scenario.ScenarioDataCollector;
 import asmeta.evotest.experiments.scenario.ScenarioGenerator;
 import asmeta.evotest.experiments.utils.Utils;
-import asmeta.mutation.mutationscore.FMMutationScoreExecutor;
+import asmeta.mutation.operators.ParToSeqMutator;
 
 public class FMExperiments {
 	/*
@@ -66,7 +67,7 @@ public class FMExperiments {
 		Logger.getLogger(RuleEvaluator.class).setLevel(Level.ERROR);
 		Logger.getLogger(Simulator.class).setLevel(Level.ERROR);
 		Logger.getLogger(AsmetaV.class).setLevel(Level.ERROR);
-		Logger.getLogger(FMMutationScoreExecutor.class).setLevel(Level.INFO);
+		Logger.getLogger(MutationScoreExecutor.class).setLevel(Level.INFO);
 		ASMParser.getResultLogger().setLevel(Level.ERROR);
 		System.setOut(new PrintStream(OutputStream.nullOutputStream()));
 
@@ -116,7 +117,8 @@ public class FMExperiments {
 					FileUtils.deleteDirectory(scenariosDir);
 				}
 				Files.createDirectories(new File(TARGET_DIR).toPath());
-				new File(RESULTS_CSV).delete();
+				boolean deleted = new File(RESULTS_CSV).delete();
+				assert deleted;
 				LOG.info("Old results removed.");
 				// Write the header to the csv that will contain the final results
 				String headers = String.join(",", CSV_HEADERS) + System.lineSeparator();
@@ -232,10 +234,10 @@ public class FMExperiments {
 
 		// Generate mutants
 		LOG.info("Mutating the ASM...");
-		FMMutationScoreExecutor mutationExecutor = new FMMutationScoreExecutor();
+		MutationScoreExecutor mutationExecutor = MutationScoreExecutor.createTempExecutor();
 		List<AsmCollection> mutants;
 		try {
-			mutants = mutationExecutor.generateMutants(asmPath);
+			mutants = mutationExecutor.generateMutants(asmPath, new ParToSeqMutator());
 		} catch (Throwable e) {
 			throw new RuntimeException(
 					"Mutation analysis failed.\n" + e.getClass().getSimpleName() + ": " + e.getMessage());
@@ -299,7 +301,7 @@ public class FMExperiments {
 				// Validate the .avalla files generated during this iteration
 				if (f.isFile() && name.endsWith(AsmetaV.SCENARIO_EXTENSION)) {
 					try {
-						List<String> failing = AsmetaV.execValidation(f.toString(), false, false);
+						List<String> failing = AsmetaV.execValidation(f.toString(), AsmetaV.doNotcomputeCoverage, false);
 						if (failing.size() > 0) {
 							LOG.error(name + ": validation failed.");
 							totalFailingScenarios++;
