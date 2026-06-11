@@ -7,6 +7,6 @@ public class PreferenceConstants {
 
 	public static final String P_COMPUTE_MUTATIONSCORE = "computemutationscore";
 
-	public static final String P_COMPUTE_MUTATIONSCORE_MSG = "Compute mitation score together with coverage";
+	public static final String P_COMPUTE_MUTATIONSCORE_MSG = "Compute mutation score together with coverage";
 
 }
