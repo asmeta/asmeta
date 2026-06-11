@@ -1,11 +1,12 @@
 package asmeta.mutation.operators;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.nio.file.Path;
 import java.util.List;
 
 import org.asmeta.parser.ASMParser;
@@ -16,8 +17,8 @@ import asmeta.AsmCollection;
 
 public class RuleRemoverTest {
 
-	private String base_dir;
-
+	private String base_dir = Path.of("..", "..", "experimental", "asmeta.evotest", "asmeta.evotest.experiments",
+			"data", "ase-25-exp-OLD").toString();
 
 	@Test
 	public void testMutatate() throws Exception {

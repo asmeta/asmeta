@@ -28,7 +28,7 @@ class MutationScoreExecutorTest extends TestValidator {
 		var result = executor.computeMutationScoreFromScenarios(ADVANCED_CLOCK_SCENARIO);
 
 		assertStandardOperators(result.keySet());
-		assertValidScores(result.entrySet());
+		Utils.assertValidScores(result.entrySet());
 	}
 
 	@Test
@@ -38,7 +38,7 @@ class MutationScoreExecutorTest extends TestValidator {
 		var result = executor.computeMutationScoreFromScenarios(COFFEE_VENDING_MACHINE_SCENARIOS);
 
 		assertStandardOperators(result.keySet());
-		assertValidScores(result.entrySet());
+		Utils.assertValidScores(result.entrySet());
 	}
 
 	@Test
@@ -53,15 +53,5 @@ class MutationScoreExecutorTest extends TestValidator {
 	private void assertStandardOperators(Set<String> operatorNames) {
 		assertEquals(Set.of("CaseMutator", "ChooseRuleMutator", "CondNegator", "CondRemover", "ForAllMutator",
 				"ParToSeqMutator", "RuleRemover", "SeqToParMutator"), operatorNames);
-	}
-
-	private void assertValidScores(Set<Entry<String, Entry<Integer, Integer>>> scores) {
-		for (Entry<String, Entry<Integer, Integer>> score : scores) {
-			int killedMutants = score.getValue().getKey();
-			int generatedMutants = score.getValue().getValue();
-			assertTrue(generatedMutants >= 0, score.getKey());
-			assertTrue(killedMutants >= 0, score.getKey());
-			assertTrue(killedMutants <= generatedMutants, score.getKey());
-		}
 	}
 }

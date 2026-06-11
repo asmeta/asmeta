@@ -295,5 +295,9 @@ public class MutationScoreExecutor {
 			asmCollection = mutant;
 			asm = asmCollection.getMain();
 		}
+
+		public AsmCollection getAsm() {
+			return asmCollection;
+		}
 	}
 }

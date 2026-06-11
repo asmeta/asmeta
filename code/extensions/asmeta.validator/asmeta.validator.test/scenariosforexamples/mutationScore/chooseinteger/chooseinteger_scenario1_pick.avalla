@@ -1,0 +1,6 @@
+scenario chooseinteger_pick
+load chooseinteger.asm
+
+pick $s := 5;
+step
+check foo1 = 5;
