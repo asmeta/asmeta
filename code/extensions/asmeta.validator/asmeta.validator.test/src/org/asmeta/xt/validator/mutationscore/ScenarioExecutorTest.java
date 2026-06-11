@@ -25,23 +25,23 @@ class ScenarioExecutorTest {
 
 	@Test
 	void testComputeMutationScoreChooseIntegerScenarios() throws Exception {
-		Utils.assertValidScores(compute(Path.of(CHOOSE_INTEGER_DIR, "chooseinteger_scenario1_pick.avalla")));
-		Utils.assertValidScores(compute(Path.of(CHOOSE_INTEGER_DIR, "chooseinteger_scenario2_flaky.avalla")));
-		Utils.assertValidScores(compute(Path.of(CHOOSE_INTEGER_DIR, "chooseinteger_scenario1_fail.avalla")));
+		MutationTestUtils.assertValidScores(compute(Path.of(CHOOSE_INTEGER_DIR, "chooseinteger_scenario1_pick.avalla")));
+		MutationTestUtils.assertValidScores(compute(Path.of(CHOOSE_INTEGER_DIR, "chooseinteger_scenario2_flaky.avalla")));
+		MutationTestUtils.assertValidScores(compute(Path.of(CHOOSE_INTEGER_DIR, "chooseinteger_scenario1_fail.avalla")));
 	}
 
 	@Test
 	void testComputeMutationExperimentsNfmGround() throws Exception {
-		Utils.assertValidScores(compute(Path.of(NFM_DIR, "scenario_ground_pick.avalla")));
-		Utils.assertValidScores(compute(Path.of(NFM_DIR, "scenario_ground_flaky.avalla")));
-		Utils.assertValidScores(compute(Path.of(NFM_DIR, "scenario_ground_nofail.avalla")));
+		MutationTestUtils.assertValidScores(compute(Path.of(NFM_DIR, "scenario_ground_pick.avalla")));
+		MutationTestUtils.assertValidScores(compute(Path.of(NFM_DIR, "scenario_ground_flaky.avalla")));
+		MutationTestUtils.assertValidScores(compute(Path.of(NFM_DIR, "scenario_ground_nofail.avalla")));
 	}
 
 	@Test
 	void testComputeMutationExperimentsNfmRefined() throws Exception {
-		Utils.assertValidScores(compute(Path.of(NFM_DIR, "scenario_ref_pick.avalla")));
-		Utils.assertValidScores(compute(Path.of(NFM_DIR, "scenario_ref_flaky.avalla")));
-		Utils.assertValidScores(compute(Path.of(NFM_DIR, "scenario_ref_nofail.avalla")));
+		MutationTestUtils.assertValidScores(compute(Path.of(NFM_DIR, "scenario_ref_pick.avalla")));
+		MutationTestUtils.assertValidScores(compute(Path.of(NFM_DIR, "scenario_ref_flaky.avalla")));
+		MutationTestUtils.assertValidScores(compute(Path.of(NFM_DIR, "scenario_ref_nofail.avalla")));
 	}
 
 	private static Set<Entry<String, Entry<Integer, Integer>>> compute(Path scenario) throws Exception {

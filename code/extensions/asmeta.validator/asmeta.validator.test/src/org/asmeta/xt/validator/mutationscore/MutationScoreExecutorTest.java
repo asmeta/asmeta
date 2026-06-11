@@ -28,7 +28,7 @@ class MutationScoreExecutorTest extends TestValidator {
 		var result = executor.computeMutationScoreFromScenarios(ADVANCED_CLOCK_SCENARIO);
 
 		assertStandardOperators(result.keySet());
-		Utils.assertValidScores(result.entrySet());
+		MutationTestUtils.assertValidScores(result.entrySet());
 	}
 
 	@Test
@@ -38,7 +38,7 @@ class MutationScoreExecutorTest extends TestValidator {
 		var result = executor.computeMutationScoreFromScenarios(COFFEE_VENDING_MACHINE_SCENARIOS);
 
 		assertStandardOperators(result.keySet());
-		Utils.assertValidScores(result.entrySet());
+		MutationTestUtils.assertValidScores(result.entrySet());
 	}
 
 	@Test
