@@ -17,8 +17,7 @@ import asmeta.AsmCollection;
 
 public class RuleRemoverTest {
 
-	private String base_dir = Path.of("..", "..", "experimental", "asmeta.evotest", "asmeta.evotest.experiments",
-			"data", "ase-25-exp-OLD").toString();
+	private String base_dir ="../../experimental/asmeta.evotest/asmeta.evotest.experiments/data/ase-25-exp-OLD";
 
 	@Test
 	public void testMutatate() throws Exception {
@@ -47,20 +46,20 @@ public class RuleRemoverTest {
 	@Test
 	public void testASESPEC() throws Exception {
 		// only if
-		String string = base_dir +  "\\models\\ATM.asm";
+		String string = base_dir +  "/models/ATM.asm";
 		mutate(string, 56);
 	}
 	@Test
 	public void testASESPEC2() throws Exception {
 		// only if
-		String string = base_dir +  "\\models\\CoffeeVendingMachine.asm";
+		String string = base_dir +  "/models/CoffeeVendingMachine.asm";
 		mutate(string, 12);
 	}
 	
 	@Test
 	public void testASESPEC_ATM() throws Exception {
 		// only if
-		String string = base_dir +  "\\models\\ATM.asm";
+		String string = base_dir +  "/models/ATM.asm";
 		mutate(string, 56);
 	}
 
