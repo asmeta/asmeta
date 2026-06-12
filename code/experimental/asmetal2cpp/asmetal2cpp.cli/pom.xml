@@ -94,6 +94,11 @@
 		https://www.p2repository.com/-->
 	<repositories>
 		<repository>
+			<id>eclipse-2026-06</id>
+			<url>https://p2repository.com/mvn4/eclipse-2026-06/</url>
+		</repository>
+
+		<repository>
 			<id>eclipse-2026-03</id>
 			<url>https://p2repository.com/mvn4/eclipse-2026-03/</url>
 		</repository>
