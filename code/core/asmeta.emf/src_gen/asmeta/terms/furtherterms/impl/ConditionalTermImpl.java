@@ -1,20 +1,20 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.terms.furtherterms.impl;
 
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import asmeta.terms.basicterms.Term;
+
 import asmeta.terms.basicterms.impl.ExtendedTermImpl;
+
 import asmeta.terms.furtherterms.ConditionalTerm;
 import asmeta.terms.furtherterms.FurthertermsPackage;
+
+import org.eclipse.emf.common.notify.Notification;
+
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -61,7 +61,6 @@ public class ConditionalTermImpl extends ExtendedTermImpl implements Conditional
 	 * @ordered
 	 */
 	protected Term thenTerm;
-
 
 	/**
 	 * <!-- begin-user-doc -->

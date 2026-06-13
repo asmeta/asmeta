@@ -1,9 +1,9 @@
 package org.asmeta.xt.validator;
 
-import org.junit.jupiter.api.Test; import static org.junit.jupiter.api.Assertions.assertFalse;
-import org.junit.jupiter.api.Test; import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import org.junit.jupiter.api.Test; import static org.junit.jupiter.api.Assertions.assertTrue;
-import org.junit.jupiter.api.Test; import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -19,46 +19,60 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.WriterAppender;
 import org.asmeta.avallaxt.validator.TestValidator;
-import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class TestCoverage extends TestValidator {
 
+	private static WriterAppender writerAppender;
 	private StringWriter stringWriter;
-	private WriterAppender writerAppender;
 
-	@BeforeEach void setupLogger() {
-		// set to error to reduc eoutput for gitlab
+	@BeforeAll
+	static void setupLoggerConfig() {
+		// global logger setup once
 		Logger.getLogger(RuleEvalWCov.class).setLevel(Level.ERROR);
-		// this must be in debug since the output is checked with this logger
 		Logger.getLogger(AsmetaV.class).setLevel(Level.DEBUG);
-		// get the logger output
-		stringWriter = new StringWriter();
+
 		Layout layout = new PatternLayout();
-		writerAppender = new WriterAppender(layout, stringWriter);
+		writerAppender = new WriterAppender(layout, new StringWriter());
+
 		Logger.getLogger(AsmetaV.class).addAppender(writerAppender);
 	}
 
-	@AfterEach void cleanAppender() throws IOException {
-		// remove the appender
+	@BeforeEach
+	void resetLogCapture() {
+		// fresh buffer for each test
+		stringWriter = new StringWriter();
+
+		// replace writer used by appender
+		writerAppender.setWriter(stringWriter);
+	}
+
+	@AfterAll
+	static void cleanupLogger() {
 		Logger.getLogger(AsmetaV.class).removeAppender(writerAppender);
 	}
 
-	@Test void withCoverageAndWithoutEmptyAvalla() throws Exception {
+	@Test
+	void withCoverageAndWithoutEmptyAvalla() throws Exception {
 		testWithCoverageAndWithout("scenariosforexamples/ferryman/emptyScenario.avalla", true);
 	}
 
-	@Test void withCoverageAndWithoutAvallaWithNoStepAndNoCheck() throws Exception {
+	@Test
+	void withCoverageAndWithoutAvallaWithNoStepAndNoCheck() throws Exception {
 		testWithCoverageAndWithout("scenariosforexamples/ferryman/noStepNoCheckScenario.avalla", true);
 	}
 
-	@Test void withCoverageAndWithoutAdvancedClock() throws Exception {
+	@Test
+	void withCoverageAndWithoutAdvancedClock() throws Exception {
 		testWithCoverageAndWithout("scenariosforexamples/advancedClock/advancedClock1.avalla", true,
 				cov("r_Main()", branch(1, 0, 1), rule(4, 3), update(1, 1), forall(0, 0, 0, 0)));
 	}
 
-	@Test void withCoverageAndWithoutNestedForall() throws Exception {
+	@Test
+	void withCoverageAndWithoutNestedForall() throws Exception {
 		List<CoverageOracle> oracles = new ArrayList<>();
 		oracles.add(cov("r_Main()", branch(1, 1, 0), rule(2, 2), update(0, 0), forall(1, 0, 0, 1)));
 		oracles.add(cov("r_inc(Rows)", branch(3, 2, 2), rule(7, 6), update(1, 1), forall(3, 2, 1, 1)));
@@ -66,7 +80,8 @@ class TestCoverage extends TestValidator {
 				oracles.toArray(new CoverageOracle[0]));
 	}
 
-	@Test void withCoverageAndWithoutNestedChooseAndLet() throws Exception {
+	@Test
+	void withCoverageAndWithoutNestedChooseAndLet() throws Exception {
 		testWithCoverageAndWithout("scenariosforexamples/nestedChooseAndLet/no_pick.avalla", true,
 				cov("r_Main()", branch(2, 2, 0), rule(4, 4), update(1, 1), forall(0, 0, 0, 0)));
 		RuleEvalWCov.reset();
@@ -79,7 +94,8 @@ class TestCoverage extends TestValidator {
 				cov("r_Main()", branch(2, 0, 0), rule(4, 0), update(1, 0), forall(0, 0, 0, 0))); // should fail
 	}
 
-	@Test void withCoverageAndWithoutSchedulerNFM26() throws Exception {
+	@Test
+	void withCoverageAndWithoutSchedulerNFM26() throws Exception {
 		List<CoverageOracle> oracles = new ArrayList<>();
 		oracles.add(cov("r_Main()", branch(0, 0, 0), rule(3, 3), update(0, 0), forall(0, 0, 0, 0)));
 		oracles.add(cov("r_SetRunning()", branch(1, 1, 0), rule(3, 2), update(2, 1), forall(0, 0, 0, 0)));
@@ -88,7 +104,8 @@ class TestCoverage extends TestValidator {
 				oracles.toArray(new CoverageOracle[0]));
 	}
 
-	@Test void withCoverageAndWithoutTinyScheduler() throws Exception {
+	@Test
+	void withCoverageAndWithoutTinyScheduler() throws Exception {
 		testWithCoverageAndWithout(
 				"scenariosfortest/flaky/tiny_scheduler/correct_scenarios/check_ifnone_no_pick.avalla", true,
 				cov("r_Main()", branch(4, 3, 3), rule(8, 7), update(3, 2), forall(1, 1, 1, 1)));
@@ -111,14 +128,18 @@ class TestCoverage extends TestValidator {
 
 	}
 
-	@Test void withCoverageAndWithoutPickAndNoPick() throws Exception {
-		// Test two scenarios together, one picks the first choose rule and the other does not
+	@Test
+	void withCoverageAndWithoutPickAndNoPick() throws Exception {
+		// Test two scenarios together, one picks the first choose rule and the other
+		// does not
 		testWithCoverageAndWithout("scenariosfortest/flaky/tiny_scheduler/correct_scenarios", true,
 				cov("r_Main()", branch(4, 3, 3), rule(8, 7), update(3, 2), forall(1, 1, 1, 1)));
 	}
 
-	@Test void withCoverageAndWithoutChooseWithoutGuard() throws Exception {
-		// Test coverage of a choose that does not define the guard, with picked variable
+	@Test
+	void withCoverageAndWithoutChooseWithoutGuard() throws Exception {
+		// Test coverage of a choose that does not define the guard, with picked
+		// variable
 		testWithCoverageAndWithout("scenariosfortest/flaky/unbounded_domains/pickReal.avalla", true,
 				cov("r_Main()", branch(1, 1, 0), rule(3, 2), update(2, 1), forall(0, 0, 0, 0)));
 		RuleEvalWCov.reset();
@@ -128,13 +149,16 @@ class TestCoverage extends TestValidator {
 				cov("r_Main()", branch(1, 1, 0), rule(3, 2), update(2, 1), forall(0, 0, 0, 0)));
 	}
 
-	@Test void withCoverageAndWithoutTrivialUpdateCoverage() throws Exception {
-		// If an update rule always fires a trivial update, it is not considered covered in update rule coverage
+	@Test
+	void withCoverageAndWithoutTrivialUpdateCoverage() throws Exception {
+		// If an update rule always fires a trivial update, it is not considered covered
+		// in update rule coverage
 		testWithCoverageAndWithout("scenariosfortest/flaky/unbounded_domains/pickInt_Trivial.avalla", true,
 				cov("r_Main()", branch(1, 1, 0), rule(3, 2), update(2, 0), forall(0, 0, 0, 0)));
 	}
 
-	@Test void withCoverageAndWithoutPickWithImports() throws Exception {
+	@Test
+	void withCoverageAndWithoutPickWithImports() throws Exception {
 		List<CoverageOracle> oracles = new ArrayList<>();
 		oracles.add(cov("r_Main()", branch(2, 1, 1), rule(6, 5), update(2, 1), forall(0, 0, 0, 0)));
 		// r_random is defined in the imported module
@@ -143,24 +167,29 @@ class TestCoverage extends TestValidator {
 				oracles.toArray(new CoverageOracle[0]));
 	}
 
-	@Test void withCoverageAndWithoutPopulation() throws Exception {
+	@Test
+	void withCoverageAndWithoutPopulation() throws Exception {
 		List<CoverageOracle> oracles = new ArrayList<>();
-		// scenario 1: forall executed two times, the first with more than one  iteration, the second with zero iterations
+		// scenario 1: forall executed two times, the first with more than one
+		// iteration, the second with zero iterations
 		String scenario = "scenariosforexamples/population/zero_executions.avalla";
 		oracles.add(cov("r_Main()", branch(1, 1, 1), rule(5, 5), update(3, 3), forall(1, 1, 0, 1)));
 		oracles.add(cov("r_dead(Person)", branch(2, 2, 0), rule(3, 3), update(1, 1), forall(0, 0, 0, 0)));
 		oracles.add(cov("r_reproduce(Person)", branch(5, 2, 2), rule(12, 3), update(5, 0), forall(0, 0, 0, 0)));
 		testWithCoverageAndWithout(scenario, true, oracles.toArray(new CoverageOracle[0]));
-		// scenario 2: forall executed two times, the first with more than one iteration, the second with a single iteration
+		// scenario 2: forall executed two times, the first with more than one
+		// iteration, the second with a single iteration
 		scenario = "scenariosforexamples/population/exactly_one_execution.avalla";
 		RuleEvalWCov.reset();
 		oracles.clear();
 		stringWriter.getBuffer().setLength(0);
 		oracles.add(cov("r_Main()", branch(1, 1, 0), rule(5, 5), update(3, 3), forall(1, 0, 1, 1)));
 		oracles.add(cov("r_dead(Person)", branch(2, 2, 1), rule(3, 3), update(1, 1), forall(0, 0, 0, 0)));
-		// Update rules in r_reproduce(Person) can be trivial (depending on 'extend' random initialization).
+		// Update rules in r_reproduce(Person) can be trivial (depending on 'extend'
+		// random initialization).
 		// To avoid test flakiness, coverage is not checked
-		// oracles.add(cov("r_reproduce(Person)", branch(5, 5, 1), rule(12, 12), update(5, 5), forall(0, 0, 0, 0)));
+		// oracles.add(cov("r_reproduce(Person)", branch(5, 5, 1), rule(12, 12),
+		// update(5, 5), forall(0, 0, 0, 0)));
 		testWithCoverageAndWithout(scenario, true, oracles.toArray(new CoverageOracle[0]));
 		// scenario 3: forall executed two times, both with more than one iteration
 		scenario = "scenariosforexamples/population/multiple_executions.avalla";
@@ -169,13 +198,16 @@ class TestCoverage extends TestValidator {
 		stringWriter.getBuffer().setLength(0);
 		oracles.add(cov("r_Main()", branch(1, 1, 0), rule(5, 5), update(3, 3), forall(1, 0, 0, 1)));
 		oracles.add(cov("r_dead(Person)", branch(2, 1, 1), rule(3, 2), update(1, 0), forall(0, 0, 0, 0)));
-		// Update rules in r_reproduce(Person) can be trivial (depending on 'extend' random initialization). 
+		// Update rules in r_reproduce(Person) can be trivial (depending on 'extend'
+		// random initialization).
 		// To avoid test flakiness, coverage is not checked
-		// oracles.add(cov("r_reproduce(Person)", branch(5, 5, 2), rule(12, 12), update(5, 5), forall(0, 0, 0, 0)));
+		// oracles.add(cov("r_reproduce(Person)", branch(5, 5, 2), rule(12, 12),
+		// update(5, 5), forall(0, 0, 0, 0)));
 		testWithCoverageAndWithout(scenario, true, oracles.toArray(new CoverageOracle[0]));
 	}
 
-	@Test void withCoverageAndWithoutSluiceGate() throws Exception {
+	@Test
+	void withCoverageAndWithoutSluiceGate() throws Exception {
 		String scenario = "scenariosforexamples/sluiceGate";
 		List<CoverageOracle> oracles = new ArrayList<>();
 		oracles.add(cov("r_Main()", branch(8, 8, 8), rule(21, 21), update(4, 4), forall(0, 0, 0, 0)));
@@ -185,10 +217,12 @@ class TestCoverage extends TestValidator {
 		testWithCoverageAndWithout(scenario, true, oracles.toArray(new CoverageOracle[0]));
 	}
 
-	@Test void withCoverageAndWithoutATM() throws Exception {
+	@Test
+	void withCoverageAndWithoutATM() throws Exception {
 		String scenario = "scenariosforexamples/atm/atm4.avalla";
 		List<CoverageOracle> oracles = new ArrayList<>();
-		// NOTE: the correctness of the coverage is checked only for a subset of the macro rules in the asm
+		// NOTE: the correctness of the coverage is checked only for a subset of the
+		// macro rules in the asm
 		oracles.add(cov("r_Main()", branch(2, 1, 2), rule(11, 10), update(1, 1), forall(0, 0, 0, 0)));
 		oracles.add(cov("r_insertcard()", branch(2, 2, 1), rule(6, 6), update(3, 3), forall(0, 0, 0, 0)));
 		oracles.add(cov("r_enterPin()", branch(4, 2, 1), rule(12, 6), update(6, 3), forall(0, 0, 0, 0)));
@@ -199,7 +233,8 @@ class TestCoverage extends TestValidator {
 		testWithCoverageAndWithout(scenario, true, oracles.toArray(new CoverageOracle[0]));
 	}
 
-	@Test void withCoverageAndWithoutCoffeVendingMachine() throws Exception {
+	@Test
+	void withCoverageAndWithoutCoffeVendingMachine() throws Exception {
 		String baseFolder = "scenariosforexamples/coffeeVendingMachine";
 		String scenario1 = baseFolder + "/scenario1.avalla";
 		String scenario2 = baseFolder + "/scenario2.avalla";

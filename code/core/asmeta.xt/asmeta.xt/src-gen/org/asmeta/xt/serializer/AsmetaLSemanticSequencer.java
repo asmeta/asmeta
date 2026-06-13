@@ -40,8 +40,8 @@ import org.asmeta.xt.asmetal.DomainInitialization;
 import org.asmeta.xt.asmetal.EnumElement;
 import org.asmeta.xt.asmetal.EnumTD;
 import org.asmeta.xt.asmetal.EnumTerm;
-import org.asmeta.xt.asmetal.ExistTerm;
-import org.asmeta.xt.asmetal.ExistUniqueTerm;
+import org.asmeta.xt.asmetal.ExistsTerm;
+import org.asmeta.xt.asmetal.ExistsUniqueTerm;
 import org.asmeta.xt.asmetal.ExportClause;
 import org.asmeta.xt.asmetal.Expression;
 import org.asmeta.xt.asmetal.ExtendRule;
@@ -242,11 +242,11 @@ public class AsmetaLSemanticSequencer extends AbstractDelegatingSemanticSequence
 			case AsmetalPackage.ENUM_TERM:
 				sequence_EnumTerm(context, (EnumTerm) semanticObject); 
 				return; 
-			case AsmetalPackage.EXIST_TERM:
-				sequence_ExistTerm(context, (ExistTerm) semanticObject); 
+			case AsmetalPackage.EXISTS_TERM:
+				sequence_ExistsTerm(context, (ExistsTerm) semanticObject); 
 				return; 
-			case AsmetalPackage.EXIST_UNIQUE_TERM:
-				sequence_ExistUniqueTerm(context, (ExistUniqueTerm) semanticObject); 
+			case AsmetalPackage.EXISTS_UNIQUE_TERM:
+				sequence_ExistsUniqueTerm(context, (ExistsUniqueTerm) semanticObject); 
 				return; 
 			case AsmetalPackage.EXPORT_CLAUSE:
 				sequence_ExportClause(context, (ExportClause) semanticObject); 
@@ -1195,37 +1195,37 @@ public class AsmetaLSemanticSequencer extends AbstractDelegatingSemanticSequence
 	/**
 	 * <pre>
 	 * Contexts:
-	 *     Term returns ExistTerm
-	 *     Expression returns ExistTerm
-	 *     ImpliesIffExpression returns ExistTerm
-	 *     ImpliesIffExpression.BinaryOperation_1_0_0_0 returns ExistTerm
-	 *     XorOrExpression returns ExistTerm
-	 *     XorOrExpression.BinaryOperation_1_0_0_0 returns ExistTerm
-	 *     AndExpression returns ExistTerm
-	 *     AndExpression.BinaryOperation_1_0_0_0 returns ExistTerm
-	 *     EqualityExpression returns ExistTerm
-	 *     EqualityExpression.BinaryOperation_1_0_0_0 returns ExistTerm
-	 *     CompareExpression returns ExistTerm
-	 *     CompareExpression.BinaryOperation_1_0_0_0 returns ExistTerm
-	 *     AdditiveExpression returns ExistTerm
-	 *     AdditiveExpression.BinaryOperation_1_0_0_0 returns ExistTerm
-	 *     MultiplicativeExpression returns ExistTerm
-	 *     MultiplicativeExpression.BinaryOperation_1_0_0_0 returns ExistTerm
-	 *     PowerExpression returns ExistTerm
-	 *     PowerExpression.BinaryOperation_1_0_0_0 returns ExistTerm
-	 *     UnaryOperation returns ExistTerm
-	 *     ParenthesizedExpression returns ExistTerm
-	 *     basicExpr returns ExistTerm
-	 *     ExtendedTerm returns ExistTerm
-	 *     VariableBindingTerm returns ExistTerm
-	 *     FiniteQuantificationTerm returns ExistTerm
-	 *     ExistTerm returns ExistTerm
+	 *     Term returns ExistsTerm
+	 *     Expression returns ExistsTerm
+	 *     ImpliesIffExpression returns ExistsTerm
+	 *     ImpliesIffExpression.BinaryOperation_1_0_0_0 returns ExistsTerm
+	 *     XorOrExpression returns ExistsTerm
+	 *     XorOrExpression.BinaryOperation_1_0_0_0 returns ExistsTerm
+	 *     AndExpression returns ExistsTerm
+	 *     AndExpression.BinaryOperation_1_0_0_0 returns ExistsTerm
+	 *     EqualityExpression returns ExistsTerm
+	 *     EqualityExpression.BinaryOperation_1_0_0_0 returns ExistsTerm
+	 *     CompareExpression returns ExistsTerm
+	 *     CompareExpression.BinaryOperation_1_0_0_0 returns ExistsTerm
+	 *     AdditiveExpression returns ExistsTerm
+	 *     AdditiveExpression.BinaryOperation_1_0_0_0 returns ExistsTerm
+	 *     MultiplicativeExpression returns ExistsTerm
+	 *     MultiplicativeExpression.BinaryOperation_1_0_0_0 returns ExistsTerm
+	 *     PowerExpression returns ExistsTerm
+	 *     PowerExpression.BinaryOperation_1_0_0_0 returns ExistsTerm
+	 *     UnaryOperation returns ExistsTerm
+	 *     ParenthesizedExpression returns ExistsTerm
+	 *     basicExpr returns ExistsTerm
+	 *     ExtendedTerm returns ExistsTerm
+	 *     VariableBindingTerm returns ExistsTerm
+	 *     FiniteQuantificationTerm returns ExistsTerm
+	 *     ExistsTerm returns ExistsTerm
 	 *
 	 * Constraint:
 	 *     (variable+=VariableTerm ranges+=Term (variable+=VariableTerm ranges+=Term)* guard=Term?)
 	 * </pre>
 	 */
-	protected void sequence_ExistTerm(ISerializationContext context, ExistTerm semanticObject) {
+	protected void sequence_ExistsTerm(ISerializationContext context, ExistsTerm semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
@@ -1233,37 +1233,37 @@ public class AsmetaLSemanticSequencer extends AbstractDelegatingSemanticSequence
 	/**
 	 * <pre>
 	 * Contexts:
-	 *     Term returns ExistUniqueTerm
-	 *     Expression returns ExistUniqueTerm
-	 *     ImpliesIffExpression returns ExistUniqueTerm
-	 *     ImpliesIffExpression.BinaryOperation_1_0_0_0 returns ExistUniqueTerm
-	 *     XorOrExpression returns ExistUniqueTerm
-	 *     XorOrExpression.BinaryOperation_1_0_0_0 returns ExistUniqueTerm
-	 *     AndExpression returns ExistUniqueTerm
-	 *     AndExpression.BinaryOperation_1_0_0_0 returns ExistUniqueTerm
-	 *     EqualityExpression returns ExistUniqueTerm
-	 *     EqualityExpression.BinaryOperation_1_0_0_0 returns ExistUniqueTerm
-	 *     CompareExpression returns ExistUniqueTerm
-	 *     CompareExpression.BinaryOperation_1_0_0_0 returns ExistUniqueTerm
-	 *     AdditiveExpression returns ExistUniqueTerm
-	 *     AdditiveExpression.BinaryOperation_1_0_0_0 returns ExistUniqueTerm
-	 *     MultiplicativeExpression returns ExistUniqueTerm
-	 *     MultiplicativeExpression.BinaryOperation_1_0_0_0 returns ExistUniqueTerm
-	 *     PowerExpression returns ExistUniqueTerm
-	 *     PowerExpression.BinaryOperation_1_0_0_0 returns ExistUniqueTerm
-	 *     UnaryOperation returns ExistUniqueTerm
-	 *     ParenthesizedExpression returns ExistUniqueTerm
-	 *     basicExpr returns ExistUniqueTerm
-	 *     ExtendedTerm returns ExistUniqueTerm
-	 *     VariableBindingTerm returns ExistUniqueTerm
-	 *     FiniteQuantificationTerm returns ExistUniqueTerm
-	 *     ExistUniqueTerm returns ExistUniqueTerm
+	 *     Term returns ExistsUniqueTerm
+	 *     Expression returns ExistsUniqueTerm
+	 *     ImpliesIffExpression returns ExistsUniqueTerm
+	 *     ImpliesIffExpression.BinaryOperation_1_0_0_0 returns ExistsUniqueTerm
+	 *     XorOrExpression returns ExistsUniqueTerm
+	 *     XorOrExpression.BinaryOperation_1_0_0_0 returns ExistsUniqueTerm
+	 *     AndExpression returns ExistsUniqueTerm
+	 *     AndExpression.BinaryOperation_1_0_0_0 returns ExistsUniqueTerm
+	 *     EqualityExpression returns ExistsUniqueTerm
+	 *     EqualityExpression.BinaryOperation_1_0_0_0 returns ExistsUniqueTerm
+	 *     CompareExpression returns ExistsUniqueTerm
+	 *     CompareExpression.BinaryOperation_1_0_0_0 returns ExistsUniqueTerm
+	 *     AdditiveExpression returns ExistsUniqueTerm
+	 *     AdditiveExpression.BinaryOperation_1_0_0_0 returns ExistsUniqueTerm
+	 *     MultiplicativeExpression returns ExistsUniqueTerm
+	 *     MultiplicativeExpression.BinaryOperation_1_0_0_0 returns ExistsUniqueTerm
+	 *     PowerExpression returns ExistsUniqueTerm
+	 *     PowerExpression.BinaryOperation_1_0_0_0 returns ExistsUniqueTerm
+	 *     UnaryOperation returns ExistsUniqueTerm
+	 *     ParenthesizedExpression returns ExistsUniqueTerm
+	 *     basicExpr returns ExistsUniqueTerm
+	 *     ExtendedTerm returns ExistsUniqueTerm
+	 *     VariableBindingTerm returns ExistsUniqueTerm
+	 *     FiniteQuantificationTerm returns ExistsUniqueTerm
+	 *     ExistsUniqueTerm returns ExistsUniqueTerm
 	 *
 	 * Constraint:
 	 *     (variable+=VariableTerm ranges+=Term (variable+=VariableTerm ranges+=Term)* guard=Term?)
 	 * </pre>
 	 */
-	protected void sequence_ExistUniqueTerm(ISerializationContext context, ExistUniqueTerm semanticObject) {
+	protected void sequence_ExistsUniqueTerm(ISerializationContext context, ExistsUniqueTerm semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	

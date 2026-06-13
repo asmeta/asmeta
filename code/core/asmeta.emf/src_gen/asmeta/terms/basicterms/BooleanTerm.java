@@ -1,11 +1,6 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.terms.basicterms;
-
 
 /**
  * <!-- begin-user-doc -->
@@ -18,6 +13,4 @@ package asmeta.terms.basicterms;
  * @generated
  */
 public interface BooleanTerm extends ConstantTerm {
-
-	
 } // BooleanTerm

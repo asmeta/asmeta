@@ -2,15 +2,18 @@
  */
 package asmeta.definitions.impl;
 
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import asmeta.definitions.CompassionConstraint;
 import asmeta.definitions.DefinitionsPackage;
+
 import asmeta.terms.basicterms.Term;
+
+import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.common.notify.NotificationChain;
+
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -36,6 +39,7 @@ public class CompassionConstraintImpl extends FairnessConstraintImpl implements 
 	 * @ordered
 	 */
 	protected Term p;
+
 	/**
 	 * The cached value of the '{@link #getQ() <em>Q</em>}' containment reference.
 	 * <!-- begin-user-doc -->

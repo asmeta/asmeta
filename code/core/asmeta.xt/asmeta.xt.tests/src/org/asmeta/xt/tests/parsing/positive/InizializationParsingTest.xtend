@@ -22,7 +22,7 @@ class InizializationParsingTest {
 		var result = parseHelper.parse('''
 			asm __synthetic0
 				
-				import StandardLibrary
+				import examples/StandardLibrary
 			
 			signature: 
 				dynamic domain Prova1 subsetof String

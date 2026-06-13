@@ -24,8 +24,8 @@ import asmeta.terms.basicterms.VariableTerm;
 import asmeta.terms.furtherterms.CaseTerm;
 import asmeta.terms.furtherterms.ConditionalTerm;
 import asmeta.terms.furtherterms.EnumTerm;
-import asmeta.terms.furtherterms.ExistTerm;
-import asmeta.terms.furtherterms.ExistUniqueTerm;
+import asmeta.terms.furtherterms.ExistsTerm;
+import asmeta.terms.furtherterms.ExistsUniqueTerm;
 import asmeta.terms.furtherterms.ForallTerm;
 import asmeta.terms.furtherterms.IntegerTerm;
 import asmeta.terms.furtherterms.LetTerm;
@@ -399,20 +399,20 @@ public class TermVisitor extends org.asmeta.parser.util.ReflectiveVisitor<String
 	/**
 	 * Visits an existTerm.
 	 * 
-	 * @param existTerm the exist term
+	 * @param existsTerm the exist term
 	 * 
 	 * @return the string
 	 * 
 	 * @throws Exception the exception
 	 */
-	public String visit(ExistTerm existTerm) throws Exception {
-		return Util.or(getGuardWithAllValues(existTerm.getVariable(),
-											existTerm.getRanges(),
-											existTerm.getGuard()));
+	public String visit(ExistsTerm existsTerm) throws Exception {
+		return Util.or(getGuardWithAllValues(existsTerm.getVariable(),
+											existsTerm.getRanges(),
+											existsTerm.getGuard()));
 	}
 
 	/**
-	 * Visit an ExistUniqueTerm.
+	 * Visit an ExistsUniqueTerm.
 	 * 
 	 * @param exitUniqueTerm the exit unique term
 	 * 
@@ -420,7 +420,7 @@ public class TermVisitor extends org.asmeta.parser.util.ReflectiveVisitor<String
 	 * 
 	 * @throws Exception the exception
 	 */
-	public String visit(ExistUniqueTerm exitUniqueTerm) throws Exception {
+	public String visit(ExistsUniqueTerm exitUniqueTerm) throws Exception {
 		return Util.xor(getGuardWithAllValues(exitUniqueTerm.getVariable(),
 											exitUniqueTerm.getRanges(),
 											exitUniqueTerm.getGuard()));

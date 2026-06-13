@@ -1,18 +1,14 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.definitions.domains;
+
+import asmeta.definitions.DefinitionsPackage;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-
-import asmeta.definitions.DefinitionsPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -1329,7 +1325,6 @@ public interface DomainsPackage extends EPackage {
 	 */
 	int AGENT_DOMAIN_FEATURE_COUNT = ABSTRACT_TD_FEATURE_COUNT + 0;
 
-
 	/**
 	 * The meta object id for the '<em>Domain DT</em>' data type.
 	 * <!-- begin-user-doc -->
@@ -1339,7 +1334,6 @@ public interface DomainsPackage extends EPackage {
 	 * @generated
 	 */
 	int DOMAIN_DT = 25;
-
 
 	/**
 	 * Returns the meta object for class '{@link asmeta.definitions.domains.NaturalDomain <em>Natural Domain</em>}'.

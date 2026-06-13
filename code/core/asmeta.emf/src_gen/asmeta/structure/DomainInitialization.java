@@ -1,15 +1,12 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.structure;
 
-import org.eclipse.emf.ecore.EObject;
-
 import asmeta.definitions.domains.ConcreteDomain;
+
 import asmeta.terms.basicterms.Term;
+
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -34,10 +31,6 @@ public interface DomainInitialization extends EObject {
 	 * Returns the value of the '<em><b>Initialized Domain</b></em>' reference.
 	 * It is bidirectional and its opposite is '{@link asmeta.definitions.domains.ConcreteDomain#getInitialization <em>Initialization</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Initialized Domain</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Initialized Domain</em>' reference.
 	 * @see #setInitializedDomain(ConcreteDomain)
@@ -61,10 +54,6 @@ public interface DomainInitialization extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Body</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Body</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Body</em>' containment reference.
 	 * @see #setBody(Term)
@@ -88,10 +77,6 @@ public interface DomainInitialization extends EObject {
 	 * Returns the value of the '<em><b>Initial State</b></em>' container reference.
 	 * It is bidirectional and its opposite is '{@link asmeta.structure.Initialization#getDomainInitialization <em>Domain Initialization</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Initial State</em>' container reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Initial State</em>' container reference.
 	 * @see #setInitialState(Initialization)

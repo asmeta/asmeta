@@ -11,6 +11,7 @@ import java.util.stream.Stream;
 
 import org.apache.log4j.Logger;
 import org.asmeta.xt.validator.AsmetaV;
+import org.asmeta.xt.validator.AsmetaV.CoverageRequest;
 
 import asmeta.evotest.experiments.utils.CsvManager;
 
@@ -46,7 +47,7 @@ public class ScenarioValidator {
 			for (Path path : filesList) {
 				LOG.info("validating " + path);
 				try {
-					AsmetaV.execValidation(path.toString(), true, csvPath, shuffle);
+					AsmetaV.execValidation(path.toString(), AsmetaV.computeCoverage, csvPath, shuffle);
 					// Extract the value from the last column of the last row in the CSV to check if
 					// the scenario fails
 					List<String[]> rows = CsvManager.readCsv(csvPath);

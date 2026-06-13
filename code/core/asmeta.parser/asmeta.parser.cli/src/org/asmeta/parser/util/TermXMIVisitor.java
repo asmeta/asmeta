@@ -56,8 +56,8 @@ import asmeta.terms.furtherterms.CaseTerm;
 import asmeta.terms.furtherterms.ComprehensionTerm;
 import asmeta.terms.furtherterms.ConditionalTerm;
 import asmeta.terms.furtherterms.EnumTerm;
-import asmeta.terms.furtherterms.ExistTerm;
-import asmeta.terms.furtherterms.ExistUniqueTerm;
+import asmeta.terms.furtherterms.ExistsTerm;
+import asmeta.terms.furtherterms.ExistsUniqueTerm;
 import asmeta.terms.furtherterms.FiniteQuantificationTerm;
 import asmeta.terms.furtherterms.ForallTerm;
 import asmeta.terms.furtherterms.IntegerTerm;
@@ -164,13 +164,13 @@ public class TermXMIVisitor extends ReflectiveVisitor<String> {
 	}
 	
     
-	public String visit(ExistTerm exist) {
-		return visitQuant(exist, "exist");
+	public String visit(ExistsTerm exist) {
+		return visitQuant(exist, "exists");
 	}
 
 	
-	public String visit(ExistUniqueTerm exist) {
-		return visitQuant(exist, "exist unique");
+	public String visit(ExistsUniqueTerm exist) {
+		return visitQuant(exist, "exists unique");
 	}
 
     
@@ -182,14 +182,14 @@ public class TermXMIVisitor extends ReflectiveVisitor<String> {
      * Converte in stringa un <i>FiniteQuantificationTerm</i>.
      * 
      * @param term termine da convertire
-     * @param quantName "exist" o "forall"
+     * @param quantName "exists" o "forall"
      * @return la rappresentazione in stringa del termine
      */
     /**
      * Converts a finite quantification term into string.
      * 
 	 * @param quantTerm a finite quantification term
-	 * @param quantName "exist" or "forall"
+	 * @param quantName "exists" or "forall"
 	 * @return a string
 	 */
 	protected String visitQuant(FiniteQuantificationTerm quantTerm, String quantName) {

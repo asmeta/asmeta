@@ -183,4 +183,8 @@ public class AsmetaFromAvallaBuilder {
 		return asmetaPrinterforAvalla.tempAsmPath;
 	}
 
+	protected Path getLoadedAsmPath() {
+		return modelPath;
+	}
+
 }

@@ -22,6 +22,7 @@ import org.asmeta.simulator.Location;
 import org.asmeta.simulator.TermEvaluator;
 import org.asmeta.simulator.main.Simulator;
 import org.asmeta.simulator.value.Value;
+import org.asmeta.xt.validator.mutationscore.MutationScoreExecutor;
 
 import asmeta.definitions.RuleDeclaration;
 import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
@@ -33,6 +34,13 @@ import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
  *
  */
 public class AsmetaV {
+	
+	
+	public record CoverageRequest(boolean coverage,boolean mutationCoverage) {};
+	
+	public static CoverageRequest doNotcomputeCoverage = new CoverageRequest(false, false);
+	public static CoverageRequest computeCoverage = new CoverageRequest(true, false);
+	public static CoverageRequest computeMutationScore = new CoverageRequest(true, true);
 
 	public static final String SCENARIO_EXTENSION = ".avalla";
 
@@ -47,7 +55,7 @@ public class AsmetaV {
 	 * @return the list of scenarios that fail
 	 * @throws Exception the exception
 	 */
-	public static List<String> execValidation(String scenarioPath, boolean coverage) throws Exception {
+	public static List<String> execValidation(String scenarioPath, CoverageRequest coverage) throws Exception {
 		return execValidation(scenarioPath, coverage, null, true);
 	}
 	
@@ -61,7 +69,7 @@ public class AsmetaV {
 	 * @return the list of scenarios that fail
 	 * @throws Exception the exception
 	 */
-	public static List<String> execValidation(String scenarioPath, boolean coverage, boolean shuffle) throws Exception {
+	public static List<String> execValidation(String scenarioPath, CoverageRequest coverage, boolean shuffle) throws Exception {
 		return execValidation(scenarioPath, coverage, null, shuffle);
 	}
 	
@@ -76,7 +84,7 @@ public class AsmetaV {
 	 * @return the list of scenarios that fail
 	 * @throws Exception the exception
 	 */
-	public static List<String> execValidation(String scenarioPath, boolean coverage, String csvPath) throws Exception {
+	public static List<String> execValidation(String scenarioPath, CoverageRequest coverage, String csvPath) throws Exception {
 		return execValidation(scenarioPath, coverage, csvPath, true);
 	}
 	
@@ -92,7 +100,7 @@ public class AsmetaV {
 	 * @return the list of scenarios that fail
 	 * @throws Exception the exception
 	 */
-	public static List<String> execValidation(String scenarioPath, boolean coverage, String csvPath, boolean shuffle) throws Exception {
+	public static List<String> execValidation(String scenarioPath, CoverageRequest coverage, String csvPath, boolean shuffle) throws Exception {
 		AsmetaV asmetaV = new AsmetaV();
 		File scenarioPathFile = new File(scenarioPath);
 		if (!scenarioPathFile.exists())
@@ -105,8 +113,7 @@ public class AsmetaV {
 		return result;
 	}
 
-	private AsmetaV() {
-	}
+	private AsmetaV() {}
 
 	/**
 	 * Exec validation and eventually print coverage data to csv.
@@ -121,7 +128,7 @@ public class AsmetaV {
 	 * @return true, if successful
 	 * @throws Exception the exception
 	 */
-	private List<String> execValidation(File scenarioPath, boolean coverage, boolean printToCsv, String csvPath, boolean shuffle)
+	private List<String> execValidation(File scenarioPath, CoverageRequest coverage, boolean printToCsv, String csvPath, boolean shuffle)
 			throws Exception {
 		List<String> failedScenarios = new ArrayList<>();
 		// get all rules covered by a set of string
@@ -152,7 +159,7 @@ public class AsmetaV {
 			if (!result.isCheckSucceeded())
 				failedScenarios.add(scenarioPath.getCanonicalPath());
 		}
-		if (coverage) {
+		if (coverage.coverage) {
 			String execId = "exec_" + scenarioPath.getName() + "_" + UUID.randomUUID().toString();
 			printCoverage(execId, allCoveredRules, result, printToCsv, csvPath, failedScenarios);
 		}
@@ -161,7 +168,29 @@ public class AsmetaV {
 			logger.info("validation terminated without errors");
 		else
 			logger.info("WARNING: validation incomplete - some checks failed or errors occurred");
+		if (coverage.mutationCoverage) {
+			if (!failedScenarios.isEmpty())
+				logger.info("WARNING: mutation cannot be executed since some scenarios are failing");
+			else {
+				logger.info("computing the mutation score");
+				MutationScoreExecutor mutExec = MutationScoreExecutor.createTempExecutor();
+				HashMap<String, Entry<Integer, Integer>> mutationScore = mutExec
+						.computeMutationScoreFromScenarios(scenarioPath.toString());
+				printMutationScore(mutationScore);
+			}
+		}
 		return failedScenarios;
+	}
+
+	private void printMutationScore(HashMap<String, Entry<Integer, Integer>> mutationScore) {
+		logger.info("\n** Mutation Score Info: **");
+		for (Entry<String, Entry<Integer, Integer>> entry : mutationScore.entrySet()) {
+			int killed = entry.getValue().getKey();
+			int mutants = entry.getValue().getValue();
+			String score = mutants == 0 ? "-" : String.format(Locale.US, "%.2f%%", ((float) killed) / mutants * 100);
+			logger.info(String.format(Locale.US, "-> %-22s %s (%d/%d)", entry.getKey() + ":", score, killed, mutants));
+		}
+		logger.info("");
 	}
 
 	public static final String[] HEADERS = { "execution_id", "asm_name", "rule_signature", "tot_branches",
@@ -311,7 +340,7 @@ public class AsmetaV {
 	 *         information about coverage (till now)
 	 * @throws Exception the exception
 	 */
-	private ValidationResult validateSingleFile(boolean coverage, Map<String, Boolean> coveredRules, String path, boolean shuffle)
+	private ValidationResult validateSingleFile(CoverageRequest coverage, Map<String, Boolean> coveredRules, String path, boolean shuffle)
 			throws Exception {
 		assert path.endsWith(SCENARIO_EXTENSION) : " the validator works only with " + SCENARIO_EXTENSION + " files";
 		logger.info("\n** Simulation " + path + " **\n");
@@ -334,7 +363,7 @@ public class AsmetaV {
 	 *         information about coverage (till now)
 	 * @throws Exception the exception
 	 */
-	public static ValidationResult executeAsmetaFromAvalla(boolean coverage, Map<String, Boolean> coveredRules,
+	public static ValidationResult executeAsmetaFromAvalla(CoverageRequest coverage, Map<String, Boolean> coveredRules,
 			File tempAsmPath) throws Exception {
 		return executeAsmetaFromAvalla(coverage, coveredRules, tempAsmPath, true);
 	}
@@ -351,12 +380,12 @@ public class AsmetaV {
 	 *         information about coverage (till now)
 	 * @throws Exception the exception
 	 */
-	public static ValidationResult executeAsmetaFromAvalla(boolean coverage, Map<String, Boolean> coveredRules,
+	public static ValidationResult executeAsmetaFromAvalla(CoverageRequest coverage, Map<String, Boolean> coveredRules,
 			File tempAsmPath, boolean shuffle) throws Exception {
 		assert tempAsmPath.toString().endsWith(AsmetaParserUtility.ASM_EXTENSION) : " can execute only asmeta files";
 		// create the simulator with the coverage
 		Simulator sim;
-		if (coverage) {
+		if (coverage.coverage) {
 			sim = SimulatorWCov.createSimulatorWC(tempAsmPath.getPath());
 			assert sim instanceof SimulatorWCov;
 			assert RuleEvalWCov.coveredMacros != null;
@@ -392,7 +421,7 @@ public class AsmetaV {
 		// succeed only if step is found, is greater or equal 0 and no invariant is
 		// violated
 		result.setCheckSucceeded(check_succeded && !invariantViolated);
-		if (coverage) { // for each scenario insert rules covered
+		if (coverage.coverage) { // for each scenario insert rules covered
 						// into list if they aren't covered
 			List<RuleDeclaration> ruleDeclaration = sim.getAsmModel().getBodySection().getRuleDeclaration();
 			// for each rule which is declared in the current ASM

@@ -1,25 +1,26 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.transitionrules.basictransitionrules.impl;
+
+import asmeta.terms.basicterms.BasictermsPackage;
+import asmeta.terms.basicterms.Term;
+
+import asmeta.transitionrules.basictransitionrules.BasictransitionrulesPackage;
+import asmeta.transitionrules.basictransitionrules.TermAsRule;
 
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-import org.eclipse.emf.ecore.util.EDataTypeEList;
 
-import asmeta.terms.basicterms.BasictermsPackage;
-import asmeta.terms.basicterms.Term;
-import asmeta.transitionrules.basictransitionrules.BasictransitionrulesPackage;
-import asmeta.transitionrules.basictransitionrules.TermAsRule;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
+import org.eclipse.emf.ecore.util.EDataTypeEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -46,7 +47,7 @@ public class TermAsRuleImpl extends RuleImpl implements TermAsRule {
 	 */
 	protected Term term;
 
-/**
+	/**
 	 * The cached value of the '{@link #getParameters() <em>Parameters</em>}' attribute list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -56,7 +57,6 @@ public class TermAsRuleImpl extends RuleImpl implements TermAsRule {
 	 */
 	protected EList<Term> parameters;
 
-	
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

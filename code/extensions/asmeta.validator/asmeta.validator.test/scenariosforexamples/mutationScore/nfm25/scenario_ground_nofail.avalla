@@ -1,0 +1,5 @@
+scenario scenario_ground_nofail
+load CoffeeVendingMachineGround.asm
+
+step
+check dispensed = TEA or dispensed = COFFEE or dispensed = MILK;

@@ -15,7 +15,6 @@ import org.junit.jupiter.api.^extension.ExtendWith
 
 @ExtendWith(InjectionExtension)
 @InjectWith(AsmetaLInjectorProvider)
-@Tag("TestToMavenSkip")
 class TermNegativeParsingTest {
 	
 	@Inject	AsmParseHelper parseHelper
@@ -27,7 +26,7 @@ class TermNegativeParsingTest {
 		
 		result = parseHelper.parse('''
 			asm prova
-			import TermLibrary
+			import examples/TermLibrary
 			signature:
 				abstract domain Philosopher
 				domain NumOfCherries subsetof Integer
@@ -35,13 +34,13 @@ class TermNegativeParsingTest {
 			definitions:
 			default init s0:
 				function cherriesInPlate($p in Philosopher) = 3 + 5
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.BINARY_OPERATION, ErrorCode.SIGNATURE__FUNCTION_NOT_FOUND)
 				
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
-			import CTLLibrary
+			import examples/StandardLibrary
+			import examples/CTLLibrary
 			signature:
 				abstract domain Philosopher
 				domain NumOfCherries subsetof Integer
@@ -56,12 +55,12 @@ class TermNegativeParsingTest {
 								cherriesInPlate(philo4) + cherriesInPlate(philo5) <= 15)
 			default init s0:
 				function cherriesInPlate($p in Philosopher) = 3
-		''')
+		''',"prova")
 		result.assertNoErrors
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				abstract domain Philosopher
 				domain NumOfCherries subsetof Integer
@@ -75,7 +74,7 @@ class TermNegativeParsingTest {
 				CTLSPEC ( "a" + 2 ) > 5
 			default init s0:
 				function cherriesInPlate($p in Philosopher) = 3
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.BINARY_OPERATION, ErrorCode.SIGNATURE__FUNCTION_NOT_FOUND)	
 		
 		result = parseHelper.parse('''
@@ -84,12 +83,12 @@ class TermNegativeParsingTest {
 				static alwaysFalse: Boolean
 			definitions:
 				CTLSPEC not( alwaysFalse )
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.EXPRESSION, ErrorCode.SIGNATURE__FUNCTION_NOT_FOUND)	
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				abstract domain Philosopher
 				domain NumOfCherries subsetof Integer
@@ -103,13 +102,13 @@ class TermNegativeParsingTest {
 				CTLSPEC not( "a" )
 			default init s0:
 				function cherriesInPlate($p in Philosopher) = 3
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.EXPRESSION, ErrorCode.SIGNATURE__FUNCTION_NOT_FOUND)	
 							
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
-			import CTLLibrary
+			import examples/StandardLibrary
+			import examples/CTLLibrary
 			signature:
 				abstract domain Philosopher
 				domain NumOfCherries subsetof Integer
@@ -122,13 +121,13 @@ class TermNegativeParsingTest {
 			definitions:
 				CTLSPEC ag(cherriesInPlateERROR(philo1) + cherriesInPlate(philo2) + cherriesInPlate(philo3) +
 								cherriesInPlate(philo4) + cherriesInPlate(philo5) <= 15)
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.FUNCTION_TERM, ErrorCode.SIGNATURE__FUNCTION_NOT_FOUND)	
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
-			import CTLLibrary
+			import examples/StandardLibrary
+			import examples/CTLLibrary
 			signature:
 				abstract domain Philosopher
 				domain NumOfCherries subsetof Integer
@@ -140,13 +139,13 @@ class TermNegativeParsingTest {
 				static philo5: Philosopher
 			definitions:
 				CTLSPEC ag( cherriesInPlateERROR <= 15)
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.FUNCTION_TERM, ErrorCode.SIGNATURE__DOMAIN_NOT_FOUND)	
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
-			import CTLLibrary
+			import examples/StandardLibrary
+			import examples/CTLLibrary
 			signature:
 				abstract domain Philosopher
 				domain NumOfCherries subsetof Integer
@@ -158,13 +157,13 @@ class TermNegativeParsingTest {
 				static philo5: Philosopher
 			definitions:
 				CTLSPEC ag(cherriesInPlate(philo1, philo2) <= 15)
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.FUNCTION_TERM, ErrorCode.FUNCTION_TERM__INVALID_ARITY_FOR_N_ARITY)	
 	
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
-			import CTLLibrary
+			import examples/StandardLibrary
+			import examples/CTLLibrary
 			signature:
 				abstract domain Philosopher
 				domain NumOfCherries subsetof Integer
@@ -176,7 +175,7 @@ class TermNegativeParsingTest {
 				static philo5: Philosopher
 			definitions:
 				CTLSPEC ag(cherriesInPlate( philo1(philo2) ) <= 15)
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.FUNCTION_TERM, ErrorCode.FUNCTION_TERM__INVALID_ARITY_FOR_ZERO_ARITY)	
 			
 	}
@@ -188,7 +187,7 @@ class TermNegativeParsingTest {
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				enum domain Side = {LEFT | RIGHT}
 				derived oppositeSide: Side -> Side
@@ -201,12 +200,12 @@ class TermNegativeParsingTest {
 					else
 						LEFT
 					endif
-		''')
+		''',"prova")
 		result.assertNoErrors
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				enum domain Side = {LEFT | RIGHT}
 				derived oppositeSide: Side -> Side
@@ -219,7 +218,7 @@ class TermNegativeParsingTest {
 					else
 						LEFT
 					endif
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.ENUM_TERM, ErrorCode.ENUM_TERM__SYMBOL_NOT_FOUND)	
 
 	}
@@ -231,7 +230,7 @@ class TermNegativeParsingTest {
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				enum domain Side = {LEFT | RIGHT}
 				derived oppositeSide: Side -> Side
@@ -242,12 +241,12 @@ class TermNegativeParsingTest {
 					if($s = LEFT) then
 						RIGHT
 					endif
-		''')
+		''',"prova")
 		result.assertNoErrors
 	
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				enum domain Side = {LEFT | RIGHT}
 				derived oppositeSide: Side -> Side
@@ -260,12 +259,12 @@ class TermNegativeParsingTest {
 					else
 						LEFT
 					endif
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.CONDITIONAL_TERM, ErrorCode.CONDITIONAL_TERM__IF_ELSE_DOMAIN_NOT_COMPATIBLE)	
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				enum domain Side = {LEFT | RIGHT}
 				derived oppositeSide: Side -> Side
@@ -278,12 +277,12 @@ class TermNegativeParsingTest {
 					else
 						3
 					endif
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.CONDITIONAL_TERM, ErrorCode.CONDITIONAL_TERM__IF_ELSE_DOMAIN_NOT_COMPATIBLE)	
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				enum domain Side = {LEFT | RIGHT}
 				derived oppositeSide: Side -> Side
@@ -296,12 +295,12 @@ class TermNegativeParsingTest {
 					else
 						LEFT
 					endif
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.CONDITIONAL_TERM, ErrorCode.TERM__DOMAIN_GUARD_NOT_BOOLEAN)	
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				enum domain Side = {LEFT | RIGHT}
 				derived oppositeSide: Side -> Side
@@ -314,7 +313,7 @@ class TermNegativeParsingTest {
 					else
 						LEFT
 					endif
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.CONDITIONAL_TERM, ErrorCode.TERM__DOMAIN_GUARD_NOT_BOOLEAN)	
 
 	}
@@ -326,7 +325,7 @@ class TermNegativeParsingTest {
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				abstract domain Philosopher
 				static leftNeighbour: Philosopher -> Philosopher
@@ -347,12 +346,12 @@ class TermNegativeParsingTest {
 						case philo4: philo3
 						case philo5: philo4
 					endswitch
-		''')
+		''',"prova")
 		result.assertNoErrors
 						
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				abstract domain Philosopher
 				abstract domain PhilosopherOther
@@ -377,12 +376,12 @@ class TermNegativeParsingTest {
 						case philo4: other
 						case philo5: philo4
 					endswitch
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.CASE_TERM, ErrorCode.CASE_TERM__RESULT_TERM_DOMAIN_NOT_COMPATIBLE)	
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				abstract domain Philosopher
 				abstract domain PhilosopherOther
@@ -408,12 +407,12 @@ class TermNegativeParsingTest {
 						case philo5: philo4
 						otherwise other
 					endswitch
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.CASE_TERM, ErrorCode.CASE_TERM__OTHERWISE_DOMAIN_NOT_COMPATIBLE)	
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				abstract domain Philosopher
 				abstract domain PhilosopherOther
@@ -437,7 +436,7 @@ class TermNegativeParsingTest {
 						case philo4: philo3
 						case philo5: philo4
 					endswitch
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.CASE_TERM, ErrorCode.CASE_TERM__COMPARED_AND_COMPARING_DOMAIN_NOT_COMPATIBLE)	
 
 	}
@@ -450,93 +449,93 @@ class TermNegativeParsingTest {
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				dynamic domain Person subsetof Agent
 				dynamic controlled alive: Person -> Boolean
 				dynamic controlled myRule : Rule 
 			definitions:
 				rule r_dead =
-					choose $x in {1 .. 100} with true do
-						if($x > 95) then
+					choose $x in {1 : 100} with true do
+						if $x > 95  then
 							alive(self) := false
 						endif
 			default init s0:
 				function alive($p in Person) = true
 				function myRule = <<r_dead>>
-		''')
+		''',"prova")
 		result.assertNoErrors
 		
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				dynamic domain Person subsetof Agent
 				dynamic controlled alive: Person -> Boolean
 				dynamic controlled myRule : Rule 
 			definitions:
 				rule r_dead =
-					choose $x in {1 .. 100} with true do
+					choose $x in {1 : 100} with true do
 						if($x > 95) then
 							alive(self) := false
 						endif
 			default init s0:
 				function alive($p in Person) = true
 				function myRule = <<r_deadddddd>>
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.RULE_AS_TERM, ErrorCode.BODY__RULE_NOT_FOUND)	
 
 	}
 
 		
-	@Test
+	@Test@Tag("TestToMavenSkip")
 	def void testSetTerm() {
 		
 		var Asm result
 		
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				dynamic domain NumOfCherries subsetof Integer
 			definitions:
 			default init s0:
-				domain NumOfCherries = { 1 .. "Z" }
-		''')
+				domain NumOfCherries = { 1 : "Z" }
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.SET_TERM, ErrorCode.SET_TERM__DIFFERENT_DOMAINS)	
 		
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				dynamic domain NumOfCherries subsetof Integer
 			definitions:
 			default init s0:
-				domain NumOfCherries = { "A" .. 5 }
-		''')
+				domain NumOfCherries = { "A" : 5 }
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.SET_TERM, ErrorCode.SET_TERM__DIFFERENT_DOMAINS)	
 		
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				dynamic domain NumOfCherries subsetof Integer
 			definitions:
 			default init s0:
 				domain NumOfCherries = { 1, 2, 5.4 }
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.SET_TERM, ErrorCode.SET_TERM__DIFFERENT_DOMAINS)	
 			
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				dynamic domain NumOfCherries subsetof Integer
 			definitions:
 			default init s0:
-				domain NumOfCherries = { "A" .. "Z" }
-		''')
+				domain NumOfCherries = { "A" : "Z" }
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.DOMAIN_INITIALIZATION, ErrorCode.DOMAIN_INIZIALIZATION__ILL_FORMED_BODY)		
 		
 		result = parseHelper.parse('''
@@ -546,102 +545,102 @@ class TermNegativeParsingTest {
 			definitions:
 			default init s0:
 				domain NumOfCherries = {}
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.SET_TERM, ErrorCode.SET_TERM__ANY_DOMAIN_NOT_DECLARED)	
 		
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				dynamic domain NumOfCherries subsetof Integer
 			definitions:
 			default init s0:
 				domain NumOfCherries = {}
-		''')
+		''',"prova")
 		result.assertNoErrors	
 		
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				dynamic domain NumOfCherries subsetof Integer
 			definitions:
 			default init s0:
 				domain NumOfCherries = { 1, 2, 3 }
-		''')
+		''',"prova")
 		result.assertNoErrors	
 		
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				dynamic domain NumOfCherries subsetof Integer
 			definitions:
 			default init s0:
 				domain NumOfCherries = { 1, 2, 2, 3 }
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.SET_TERM, ErrorCode.SET_TERM__ADDED_TWICE)
 	
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				dynamic domain NumOfCherries subsetof Integer
 			definitions:
 			default init s0:
-				domain NumOfCherries = { 1 .. 1 }
-		''')	
+				domain NumOfCherries = { 1 : 1 }
+		''',"prova")	
 		result.assertError(AsmetalPackage.Literals.SET_TERM, ErrorCode.SET_TERM__ADDED_TWICE)	
 	
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				dynamic domain NumOfCherries subsetof Integer
 			definitions:
 			default init s0:
-				domain NumOfCherries = { 1 .. 15, 2 }
-		''')
+				domain NumOfCherries = { 1 : 15, 2 }
+		''',"prova")
 		result.assertNoErrors	
 		
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				dynamic domain NumOfCherries subsetof Integer
 			definitions:
 			default init s0:
 				domain NumOfCherries = { 1 .. 15, +2 }
-		''')
+		''',"prova")
 		result.assertNoErrors	
 		
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				dynamic domain NumOfCherries subsetof Integer
 			definitions:
 			default init s0:
 				domain NumOfCherries = { 1 .. 15, -2 }
-		''')	
+		''',"prova")	
 		result.assertError(AsmetalPackage.Literals.SET_TERM, ErrorCode.SET_TERM__STEP_NEGATIVE)	
 		
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				dynamic domain NumOfCherries subsetof Integer
 			definitions:
 			default init s0:
 				domain NumOfCherries = { 1 .. 15, "A" }
-		''')	
+		''',"prova")	
 		result.assertError(AsmetalPackage.Literals.SET_TERM, ErrorCode.SET_TERM__STEP_NAN)	
 		
 	
 	}
 	
 		
-	@Test
+	@Test@Tag("TestToMavenSkip")
 	def void testBagTerm() {
 	
 
@@ -649,197 +648,197 @@ class TermNegativeParsingTest {
 		
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				dynamic controlled bag_function : Bag(Integer)
 			definitions:
 			default init s0:
 				function bag_function = < 1 .. "Z" >
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.BAG_TERM, ErrorCode.BAG_TERM__DIFFERENT_DOMAINS)	
 		
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				dynamic controlled bag_function : Bag(Integer)
 			definitions:
 			default init s0:
 				function bag_function = < "A" .. 5 >
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.BAG_TERM, ErrorCode.BAG_TERM__DIFFERENT_DOMAINS)	
 		
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				dynamic controlled bag_function : Bag(Integer)
 			definitions:
 			default init s0:
 				function bag_function = < 1, 2, 5.4 >
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.BAG_TERM, ErrorCode.BAG_TERM__DIFFERENT_DOMAINS)	
 			
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				dynamic controlled bag_function : Bag(Integer)
 			definitions:
 			default init s0:
 				function bag_function = < "A" .. "Z" >
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.FUNCTION_INITIALIZATION, ErrorCode.FUNCTION_INIZIALIZATION__ILL_FORMED_BODY)		
 		
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary ( Integer )
+				import examples/StandardLibrary ( Integer )
 			signature:
 				dynamic controlled bag_function : Bag(Integer)
 			definitions:
 			default init s0:
 				function bag_function = <>
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.BAG_TERM, ErrorCode.BAG_TERM__ANY_DOMAIN_NOT_DECLARED)	
 		
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				dynamic controlled bag_function : Bag(Integer)
 			definitions:
 			default init s0:
 				function bag_function = <>
-		''')
+		''',"prova")
 		result.assertNoErrors
 				
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				dynamic controlled bag_function : Bag(Integer)
 			definitions:
 			default init s0:
 				function bag_function = < 1, 2, 3 >
-		''')
+		''',"prova")
 		result.assertNoErrors	
 		
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				dynamic controlled bag_function : Bag(Integer)
 			definitions:
 			default init s0:
 				function bag_function = < 1, 2, 2, 3 >
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.BAG_TERM, ErrorCode.BAG_TERM__ADDED_TWICE)
 	
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				dynamic controlled bag_function : Bag(Integer)
 			definitions:
 			default init s0:
 				function bag_function = < 1 .. 1 >
-		''')	
+		''',"prova")	
 		result.assertError(AsmetalPackage.Literals.BAG_TERM, ErrorCode.BAG_TERM__ADDED_TWICE)	
 	
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				dynamic controlled bag_function : Bag(Integer)
 			definitions:
 			default init s0:
 				function bag_function = < 1 .. 15, 2 >
-		''')
+		''',"prova")
 		result.assertNoErrors	
 		
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				dynamic controlled bag_function : Bag(Integer)
 			definitions:
 			default init s0:
 				function bag_function = < 1 .. 15, +2 >
-		''')
+		''',"prova")
 		result.assertNoErrors	
 		
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				dynamic controlled bag_function : Bag(Integer)
 			definitions:
 			default init s0:
 				function bag_function = < 1 .. 15, -2 >
-		''')	
+		''',"prova")	
 		result.assertError(AsmetalPackage.Literals.BAG_TERM, ErrorCode.BAG_TERM__STEP_NEGATIVE)	
 		
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				dynamic controlled bag_function : Bag(Integer)
 			definitions:
 			default init s0:
 				function bag_function = < 1 .. 15, "A" >
-		''')	
+		''',"prova")	
 		result.assertError(AsmetalPackage.Literals.BAG_TERM, ErrorCode.BAG_TERM__STEP_NAN)	
 		
 	
 	}
 	
-	@Test
+	@Test@Tag("TestToMavenSkip")
 	def void testSequenceTerm() {
 		
 		var Asm result
 		
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				dynamic controlled seq_function : Bag(Integer)
 			definitions:
 			default init s0:
 				function seq_function = [ 1 .. "Z" ]
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.SEQUENCE_TERM, ErrorCode.SEQUENCE_TERM__DIFFERENT_DOMAINS)	
 		
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				dynamic controlled seq_function : Seq(Integer)
 			definitions:
 			default init s0:
 				function seq_function = [ "A" .. 5 ]
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.SEQUENCE_TERM, ErrorCode.SEQUENCE_TERM__DIFFERENT_DOMAINS)	
 		
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				dynamic controlled seq_function : Seq(Integer)
 			definitions:
 			default init s0:
 				function seq_function = [ 1, 2, 5.4 ]
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.SEQUENCE_TERM, ErrorCode.SEQUENCE_TERM__DIFFERENT_DOMAINS)	
 			
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				dynamic controlled seq_function : Seq(Integer)
 			definitions:
 			default init s0:
 				function seq_function = [ "A" .. "Z" ]
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.FUNCTION_INITIALIZATION, ErrorCode.FUNCTION_INIZIALIZATION__ILL_FORMED_BODY)		
 		
 		result = parseHelper.parse('''
@@ -849,109 +848,109 @@ class TermNegativeParsingTest {
 			definitions:
 			default init s0:
 				function seq_function = []
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.SEQUENCE_TERM, ErrorCode.SEQUENCE_TERM__ANY_DOMAIN_NOT_DECLARED)	
 		
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				dynamic controlled seq_function : Seq(Integer)
 			definitions:
 			default init s0:
 				function seq_function = []
-		''')
+		''',"prova")
 		result.assertNoErrors	
 		
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				dynamic controlled seq_function : Seq(Integer)
 			definitions:
 			default init s0:
 				function seq_function = [ 1, 2, 3 ]
-		''')
+		''',"prova")
 		result.assertNoErrors	
 		
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				dynamic controlled seq_function : Seq(Integer)
 			definitions:
 			default init s0:
 				function seq_function = [ 1, 2, 2, 3 ]
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.SEQUENCE_TERM, ErrorCode.SEQUENCE_TERM__ADDED_TWICE)
 	
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				dynamic controlled seq_function : Seq(Integer)
 			definitions:
 			default init s0:
 				function seq_function = [ 1 .. 1 ]
-		''')	
+		''',"prova")	
 		result.assertError(AsmetalPackage.Literals.SEQUENCE_TERM, ErrorCode.SEQUENCE_TERM__ADDED_TWICE)	
 		
 		
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				dynamic controlled seq_function : Seq(Integer)
 			definitions:
 			default init s0:
 				function seq_function = [ 1 .. 15, 2 ]
-		''')
+		''',"prova")
 		result.assertNoErrors	
 		
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				dynamic controlled seq_function : Seq(Integer)
 			definitions:
 			default init s0:
 				function seq_function = [ 1 .. 15, +2 ]
-		''')
+		''',"prova")
 		result.assertNoErrors	
 		
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				dynamic controlled seq_function : Seq(Integer)
 			definitions:
 			default init s0:
 				function seq_function = [ 1 .. 15, -2 ]
-		''')	
+		''',"prova")	
 		result.assertError(AsmetalPackage.Literals.SEQUENCE_TERM, ErrorCode.SEQUENCE_TERM__STEP_NEGATIVE)	
 		
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				dynamic controlled seq_function : Seq(Integer)
 			definitions:
 			default init s0:
 				function seq_function = [ 1 .. 15, "A" ]
-		''')	
+		''',"prova")	
 		result.assertError(AsmetalPackage.Literals.SEQUENCE_TERM, ErrorCode.SEQUENCE_TERM__STEP_NAN)	
 		
 	
 	}
 	
-	@Test
+	@Test@Tag("TestToMavenSkip")
 	def void testMapTerm() {
 		
 		var Asm result		
 		
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 			 	 dynamic abstract domain State
 				 dynamic abstract domain Transition
@@ -965,12 +964,12 @@ class TermNegativeParsingTest {
 			definitions:
 			default init s0:
 				 function source = {t1->s1,t2->s1,t3->s2,t4->s2}
-		''')
+		''',"prova")
 		result.assertNoErrors
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 			 	 dynamic abstract domain State
 				 dynamic abstract domain Transition
@@ -984,7 +983,7 @@ class TermNegativeParsingTest {
 			definitions:
 			default init s0:
 				 function source = {}
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.FUNCTION_INITIALIZATION, ErrorCode.FUNCTION_INIZIALIZATION__ILL_FORMED_BODY)	
 		
 		result = parseHelper.parse('''
@@ -1002,12 +1001,12 @@ class TermNegativeParsingTest {
 			definitions:
 			default init s0:
 				 function source = {->}
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.MAP_TERM, ErrorCode.MAP_TERM__ANY_DOMAIN_NOT_DECLARED)	
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 			 	 dynamic abstract domain State
 				 dynamic abstract domain Transition
@@ -1021,12 +1020,12 @@ class TermNegativeParsingTest {
 			definitions:
 			default init s0:
 				 function source = {->}
-		''')
+		''',"prova")
 		result.assertNoErrors
 		
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 			 	 dynamic abstract domain State
 				 dynamic abstract domain Transition
@@ -1040,12 +1039,12 @@ class TermNegativeParsingTest {
 			definitions:
 			default init s0:
 				 function source = {t1->t2,t2->s1,t3->s2,t4->s2}
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.MAP_TERM, ErrorCode.MAP_TERM__DIFFERENT_DOMAINS)	
 			
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 			 	 dynamic abstract domain State
 				 dynamic abstract domain Transition
@@ -1059,29 +1058,29 @@ class TermNegativeParsingTest {
 			definitions:
 			default init s0:
 				 function source = {s1->s1,t2->s1,t3->s2,t4->s2}
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.MAP_TERM, ErrorCode.MAP_TERM__DIFFERENT_DOMAINS)	
 		
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				 controlled first: Integer
 			definitions:
 			default init s0:
 				 function first = at( {"1"->1,"2"->2,"3"->3}, "1" ) 
-		''')
+		''',"prova")
 		result.assertNoErrors
 		
 		result = parseHelper.parse('''
 			asm prova
-				import StandardLibrary
+				import examples/StandardLibrary
 			signature:
 				 controlled first: Integer
 			definitions:
 			default init s0:
 				 function first = at( {"1"->1,"2"->2,"3"->3}, 1 ) 
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.FUNCTION_TERM, ErrorCode.SIGNATURE__FUNCTION_NOT_FOUND)	
 		
 		
@@ -1096,7 +1095,7 @@ class TermNegativeParsingTest {
 		
 		result = parseHelper.parse('''
 		asm prova
-					import StandardLibrary
+					import examples/StandardLibrary
 				signature:
 						dynamic abstract domain Library
 					   
@@ -1115,13 +1114,13 @@ class TermNegativeParsingTest {
 								true
 							endlet
 
-		''')
+		''',"prova")
 		result.assertNoErrors
 
 		
 		result = parseHelper.parse('''
 			asm prova
-					import StandardLibrary
+					import examples/StandardLibrary
 				signature:
 						dynamic abstract domain Library
 					   
@@ -1140,12 +1139,12 @@ class TermNegativeParsingTest {
 								true
 							endlet
 
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.LET_TERM, ErrorCode.LET_TERM__VARIABLE_ALREADY_USED)	
 
 	}
 	
-	@Test
+	@Test@Tag("TestToMavenSkip")
 	def void testFiniteQuantificationTest() {
 		
 		var Asm result
@@ -1153,7 +1152,7 @@ class TermNegativeParsingTest {
 		// FORALL
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				enum domain Actors = {FERRYMAN | GO | CA | WO}
 				enum domain Side = {LEFT | RIGHT}
@@ -1163,12 +1162,12 @@ class TermNegativeParsingTest {
 				function allOnRightSide =
 					(forall $a in Actors with position($a) = RIGHT)
 
-		''')
+		''',"prova")
 		result.assertNoErrors
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				enum domain Actors = {FERRYMAN | GO | CA | WO}
 				enum domain Side = {LEFT | RIGHT}
@@ -1178,12 +1177,12 @@ class TermNegativeParsingTest {
 				function allOnRightSide =
 					(forall $a in Actors with position($a) = RIGHT)
 
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.FUNCTION_DEFINITION, ErrorCode.FUNCTION_DEFINITION__ILL_FORMED_BODY)		
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				enum domain Actors = {FERRYMAN | GO | CA | WO}
 				enum domain Side = {LEFT | RIGHT}
@@ -1195,12 +1194,12 @@ class TermNegativeParsingTest {
 				function allOnRightSide =
 					(forall $a in Actors with position($a) + RIGHT)
 
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.FINITE_QUANTIFICATION_TERM, ErrorCode.TERM__DOMAIN_GUARD_NOT_BOOLEAN)		
 	
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				enum domain Actors = {FERRYMAN | GO | CA | WO}
 				enum domain Side = {LEFT | RIGHT}
@@ -1212,12 +1211,12 @@ class TermNegativeParsingTest {
 				function allOnRightSide($a in Actors) =
 					(forall $a in Actors with position($a) = RIGHT)
 
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.FINITE_QUANTIFICATION_TERM, ErrorCode.FORALL_TERM__VARIABLE_ALREADY_USED)		
 	
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				enum domain Actors = {FERRYMAN | GO | CA | WO}
 				enum domain Side = {LEFT | RIGHT}
@@ -1229,12 +1228,12 @@ class TermNegativeParsingTest {
 				function allOnRightSide =
 					(forall $a in [ FERRYMAN ] with position($a) = RIGHT)
 
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.FINITE_QUANTIFICATION_TERM, ErrorCode.FINITE_QUANT_TERM__VARIABLE_DOMAIN_NOT_POWERSET)		
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				enum domain Actors = {FERRYMAN | GO | CA | WO}
 				enum domain Side = {LEFT | RIGHT}
@@ -1247,12 +1246,12 @@ class TermNegativeParsingTest {
 				function allOnRightSide =
 					(forall $a in pos_NOK with position($a) = RIGHT)
 
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.FINITE_QUANTIFICATION_TERM, ErrorCode.FINITE_QUANT_TERM__VARIABLE_DOMAIN_NOT_POWERSET)		
 	
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				enum domain Actors = {FERRYMAN | GO | CA | WO}
 				enum domain Side = {LEFT | RIGHT}
@@ -1264,12 +1263,12 @@ class TermNegativeParsingTest {
 				function allOnRightSide =
 					(forall $a in { FERRYMAN } with position($a) = RIGHT)
 
-		''')
+		''',"prova")
 		result.assertNoErrors
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				enum domain Actors = {FERRYMAN | GO | CA | WO}
 				enum domain Side = {LEFT | RIGHT}
@@ -1282,14 +1281,14 @@ class TermNegativeParsingTest {
 				function allOnRightSide =
 					(forall $a in position_power(5) with position($a) = RIGHT)
 
-		''')
+		''',"prova")
 		result.assertNoErrors
 	
 		// EXIST
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				enum domain Actors = {FERRYMAN | GO | CA | WO}
 				enum domain Side = {LEFT | RIGHT}
@@ -1299,14 +1298,14 @@ class TermNegativeParsingTest {
 						
 			definitions:
 				function allOnRightSide =
-					(exist $a in Actors with position($a) = RIGHT)
+					(exists $a in Actors with position($a) = RIGHT)
 
-		''')
+		''',"prova")
 		result.assertNoErrors
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				enum domain Actors = {FERRYMAN | GO | CA | WO}
 				enum domain Side = {LEFT | RIGHT}
@@ -1316,14 +1315,14 @@ class TermNegativeParsingTest {
 						
 			definitions:
 				function allOnRightSide =
-					(exist $a in Actors with position($a) = RIGHT)
+					(exists $a in Actors with position($a) = RIGHT)
 
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.FUNCTION_DEFINITION, ErrorCode.FUNCTION_DEFINITION__ILL_FORMED_BODY)		
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				enum domain Actors = {FERRYMAN | GO | CA | WO}
 				enum domain Side = {LEFT | RIGHT}
@@ -1333,14 +1332,14 @@ class TermNegativeParsingTest {
 						
 			definitions:
 				function allOnRightSide =
-					(exist $a in Actors with position($a) + RIGHT)
+					(exists $a in Actors with position($a) + RIGHT)
 
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.FINITE_QUANTIFICATION_TERM, ErrorCode.TERM__DOMAIN_GUARD_NOT_BOOLEAN)		
 	
 			result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				enum domain Actors = {FERRYMAN | GO | CA | WO}
 				enum domain Side = {LEFT | RIGHT}
@@ -1350,14 +1349,14 @@ class TermNegativeParsingTest {
 						
 			definitions:
 				function allOnRightSide($a in Actors) =
-					(exist $a in Actors with position($a) = RIGHT)
+					(exists $a in Actors with position($a) = RIGHT)
 
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.FINITE_QUANTIFICATION_TERM, ErrorCode.EXIST_TERM__VARIABLE_ALREADY_USED)		
 	
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				enum domain Actors = {FERRYMAN | GO | CA | WO}
 				enum domain Side = {LEFT | RIGHT}
@@ -1368,14 +1367,14 @@ class TermNegativeParsingTest {
 						
 			definitions:
 				function allOnRightSide =
-					(exist $a in pos_NOK with position($a) = RIGHT)
+					(exists $a in pos_NOK with position($a) = RIGHT)
 
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.FINITE_QUANTIFICATION_TERM, ErrorCode.FINITE_QUANT_TERM__VARIABLE_DOMAIN_NOT_POWERSET)		
 	
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				enum domain Actors = {FERRYMAN | GO | CA | WO}
 				enum domain Side = {LEFT | RIGHT}
@@ -1385,14 +1384,14 @@ class TermNegativeParsingTest {
 						
 			definitions:
 				function allOnRightSide =
-					(exist $a in { FERRYMAN } with position($a) = RIGHT)
+					(exists $a in { FERRYMAN } with position($a) = RIGHT)
 
-		''')
+		''',"prova")
 		result.assertNoErrors
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import vStandardLibrary
 			signature:
 				enum domain Actors = {FERRYMAN | GO | CA | WO}
 				enum domain Side = {LEFT | RIGHT}
@@ -1403,16 +1402,16 @@ class TermNegativeParsingTest {
 						
 			definitions:
 				function allOnRightSide =
-					(exist $a in position_power(5) with position($a) = RIGHT)
+					(exists $a in position_power(5) with position($a) = RIGHT)
 
-		''')
+		''',"prova")
 		result.assertNoErrors
 		
-		// EXIST UNIQUE
+		// EXISTS UNIQUE
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				enum domain Actors = {FERRYMAN | GO | CA | WO}
 				enum domain Side = {LEFT | RIGHT}
@@ -1422,14 +1421,14 @@ class TermNegativeParsingTest {
 						
 			definitions:
 				function allOnRightSide =
-					(exist unique $a in Actors with position($a) = RIGHT)
+					(exists unique $a in Actors with position($a) = RIGHT)
 
-		''')
+		''',"prova")
 		result.assertNoErrors
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				enum domain Actors = {FERRYMAN | GO | CA | WO}
 				enum domain Side = {LEFT | RIGHT}
@@ -1439,14 +1438,14 @@ class TermNegativeParsingTest {
 						
 			definitions:
 				function allOnRightSide =
-					(exist unique $a in Actors with position($a) = RIGHT)
+					(exists unique $a in Actors with position($a) = RIGHT)
 
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.FUNCTION_DEFINITION, ErrorCode.FUNCTION_DEFINITION__ILL_FORMED_BODY)		
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				enum domain Actors = {FERRYMAN | GO | CA | WO}
 				enum domain Side = {LEFT | RIGHT}
@@ -1456,14 +1455,14 @@ class TermNegativeParsingTest {
 						
 			definitions:
 				function allOnRightSide =
-					(exist unique $a in Actors with position($a) + RIGHT)
+					(exists unique $a in Actors with position($a) + RIGHT)
 
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.FINITE_QUANTIFICATION_TERM, ErrorCode.TERM__DOMAIN_GUARD_NOT_BOOLEAN)		
 	
 			result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				enum domain Actors = {FERRYMAN | GO | CA | WO}
 				enum domain Side = {LEFT | RIGHT}
@@ -1473,14 +1472,14 @@ class TermNegativeParsingTest {
 						
 			definitions:
 				function allOnRightSide($a in Actors) =
-					(exist unique $a in Actors with position($a) = RIGHT)
+					(exists unique $a in Actors with position($a) = RIGHT)
 
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.FINITE_QUANTIFICATION_TERM, ErrorCode.EXIST_UNIQUE_TERM__VARIABLE_ALREADY_USED)		
 	
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				enum domain Actors = {FERRYMAN | GO | CA | WO}
 				enum domain Side = {LEFT | RIGHT}
@@ -1491,14 +1490,14 @@ class TermNegativeParsingTest {
 						
 			definitions:
 				function allOnRightSide =
-					(exist unique $a in pos_NOK with position($a) = RIGHT)
+					(exists unique $a in pos_NOK with position($a) = RIGHT)
 
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.FINITE_QUANTIFICATION_TERM, ErrorCode.FINITE_QUANT_TERM__VARIABLE_DOMAIN_NOT_POWERSET)		
 	
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				enum domain Actors = {FERRYMAN | GO | CA | WO}
 				enum domain Side = {LEFT | RIGHT}
@@ -1508,14 +1507,14 @@ class TermNegativeParsingTest {
 						
 			definitions:
 				function allOnRightSide =
-					(exist unique $a in { FERRYMAN } with position($a) = RIGHT)
+					(exists unique $a in { FERRYMAN } with position($a) = RIGHT)
 
-		''')
+		''',"prova")
 		result.assertNoErrors
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				enum domain Actors = {FERRYMAN | GO | CA | WO}
 				enum domain Side = {LEFT | RIGHT}
@@ -1526,14 +1525,14 @@ class TermNegativeParsingTest {
 						
 			definitions:
 				function allOnRightSide =
-					(exist unique $a in position_power(5) with position($a) = RIGHT)
+					(exists unique $a in position_power(5) with position($a) = RIGHT)
 
-		''')
+		''',"prova")
 		result.assertNoErrors
 		
 	}
 	
-	@Test
+	@Test@Tag("TestToMavenSkip")
 	def void testComprehensionTerm() {
 		
 		var Asm result	
@@ -1541,7 +1540,7 @@ class TermNegativeParsingTest {
 		// SET CT
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				 abstract domain NamedElement
 				 dynamic domain Fsm subsetof NamedElement
@@ -1552,12 +1551,12 @@ class TermNegativeParsingTest {
 			definitions:
 			default init s0:
 				function currentState($m in Fsm) = chooseone({$s in states($m) | isStart($s) : $s}) 
-		''')
+		''',"prova")
 		result.assertNoErrors	
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				 abstract domain NamedElement
 				 dynamic domain Fsm subsetof NamedElement
@@ -1569,12 +1568,12 @@ class TermNegativeParsingTest {
 			definitions:
 			default init s0:
 				function currentState($m in Fsm) = chooseone_mine({$s in states($m) | isStart($s) : $s}) 
-		''')
+		''',"prova")
 		result.assertNoErrors	
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				 abstract domain NamedElement
 				 dynamic domain Fsm subsetof NamedElement
@@ -1586,12 +1585,12 @@ class TermNegativeParsingTest {
 			definitions:
 			default init s0:
 				function currentState($m in Fsm) = chooseone_mine({$s in states($m) | isStart($s) : $s}) 
-		''')
+		''',"prova")
 		result.assertNoErrors	
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				 abstract domain NamedElement
 				 dynamic domain Fsm subsetof NamedElement
@@ -1602,12 +1601,12 @@ class TermNegativeParsingTest {
 			definitions:
 			default init s0:
 				function currentState($m in Fsm) = chooseone({$s in states($m) : $s}) 
-		''')
+		''',"prova")
 		result.assertNoErrors	
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				 abstract domain NamedElement
 				 dynamic domain Fsm subsetof NamedElement
@@ -1618,12 +1617,12 @@ class TermNegativeParsingTest {
 			definitions:
 			default init s0:
 				function currentState($m in Fsm) = chooseone({$s in states($m) | 5 + 6 : $s}) 
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.SET_CT, ErrorCode.TERM__DOMAIN_GUARD_NOT_BOOLEAN)	
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				 abstract domain NamedElement
 				 dynamic domain Fsm subsetof NamedElement
@@ -1634,12 +1633,12 @@ class TermNegativeParsingTest {
 			definitions:
 			default init s0:
 				function currentState($m in Fsm) = chooseone({$s in states($m) : $s}) 
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.SET_CT, ErrorCode.SET_CT_TERM__VARIABLE_DOMAIN_NOT_POWERSET)	
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				 abstract domain NamedElement
 				 dynamic domain Fsm subsetof NamedElement
@@ -1650,12 +1649,12 @@ class TermNegativeParsingTest {
 			definitions:
 			default init s0:
 				function currentState($m in Fsm) = chooseone({$m in states($m) | isStart($s) : $s}) 
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.SET_CT, ErrorCode.SET_CT_TERM__VARIABLE_ALREADY_USED)	
 				
 		/*result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				 abstract domain NamedElement
 				 dynamic domain Fsm subsetof NamedElement
@@ -1667,13 +1666,13 @@ class TermNegativeParsingTest {
 			definitions:
 			default init s0:
 				function currentState($m in Fsm) = chooseone_mine(<$s in states($m) | isStart($s) : $s>) 
-		''')
+		''',"prova")
 		result.assertNoErrors*/
 		
 		// BAG CT
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				 abstract domain NamedElement
 				 dynamic domain Fsm subsetof NamedElement
@@ -1685,12 +1684,12 @@ class TermNegativeParsingTest {
 			definitions:
 			default init s0:
 				function currentState($m in Fsm) = chooseone_mine(<$s in states($m) | isStart($s) : $s>) 
-		''')
+		''',"prova")
 		result.assertNoErrors	
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				 abstract domain NamedElement
 				 dynamic domain Fsm subsetof NamedElement
@@ -1702,12 +1701,12 @@ class TermNegativeParsingTest {
 			definitions:
 			default init s0:
 				function currentState($m in Fsm) = chooseone_mine(<$s in states($m) | isStart($s) : $s>) 
-		''')
+		''',"prova")
 		result.assertNoErrors	
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				 abstract domain NamedElement
 				 dynamic domain Fsm subsetof NamedElement
@@ -1718,12 +1717,12 @@ class TermNegativeParsingTest {
 			definitions:
 			default init s0:
 				function currentState($m in Fsm) = chooseone(<$s in states($m) : $s>) 
-		''')
+		''',"prova")
 		result.assertNoErrors	
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				 abstract domain NamedElement
 				 dynamic domain Fsm subsetof NamedElement
@@ -1734,12 +1733,12 @@ class TermNegativeParsingTest {
 			definitions:
 			default init s0:
 				function currentState($m in Fsm) = chooseone(<$s in states($m) | 5 + 6 : $s>) 
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.BAG_CT, ErrorCode.TERM__DOMAIN_GUARD_NOT_BOOLEAN)	
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				 abstract domain NamedElement
 				 dynamic domain Fsm subsetof NamedElement
@@ -1750,12 +1749,12 @@ class TermNegativeParsingTest {
 			definitions:
 			default init s0:
 				function currentState($m in Fsm) = chooseone(<$s in states($m) : $s>) 
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.BAG_CT, ErrorCode.BAG_CT_TERM__VARIABLE_DOMAIN_NOT_BAG)	
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				 abstract domain NamedElement
 				 dynamic domain Fsm subsetof NamedElement
@@ -1766,13 +1765,13 @@ class TermNegativeParsingTest {
 			definitions:
 			default init s0:
 				function currentState($m in Fsm) = chooseone(<$m in states($m) | isStart($s) : $s>) 
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.BAG_CT, ErrorCode.BAG_CT_TERM__VARIABLE_ALREADY_USED)	
 			
 		// SEQUENCE CT
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				 abstract domain NamedElement
 				 dynamic domain Fsm subsetof NamedElement
@@ -1784,12 +1783,12 @@ class TermNegativeParsingTest {
 			definitions:
 			default init s0:
 				function currentState($m in Fsm) = chooseone_mine([$s in states($m) | isStart($s) : $s]) 
-		''')
+		''',"prova")
 		result.assertNoErrors	
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				 abstract domain NamedElement
 				 dynamic domain Fsm subsetof NamedElement
@@ -1801,12 +1800,12 @@ class TermNegativeParsingTest {
 			definitions:
 			default init s0:
 				function currentState($m in Fsm) = chooseone_mine([$s in states($m) | isStart($s) : $s]) 
-		''')
+		''',"prova")
 		result.assertNoErrors	
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				 abstract domain NamedElement
 				 dynamic domain Fsm subsetof NamedElement
@@ -1817,12 +1816,12 @@ class TermNegativeParsingTest {
 			definitions:
 			default init s0:
 				function currentState($m in Fsm) = chooseone([$s in states($m) : $s]) 
-		''')
+		''',"prova")
 		result.assertNoErrors	
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				 abstract domain NamedElement
 				 dynamic domain Fsm subsetof NamedElement
@@ -1834,12 +1833,12 @@ class TermNegativeParsingTest {
 			definitions:
 			default init s0:
 				function currentState($m in Fsm) = chooseone_mine([$s in states($m) | 5 + 6 : $s]) 
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.SEQUENCE_CT, ErrorCode.TERM__DOMAIN_GUARD_NOT_BOOLEAN)	
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				 abstract domain NamedElement
 				 dynamic domain Fsm subsetof NamedElement
@@ -1851,12 +1850,12 @@ class TermNegativeParsingTest {
 			definitions:
 			default init s0:
 				function currentState($m in Fsm) = chooseone_mine([$s in states($m) : $s]) 
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.SEQUENCE_CT, ErrorCode.SEQUENCE_CT_TERM__VARIABLE_DOMAIN_NOT_SEQUENCE)	
 		
 		result = parseHelper.parse('''
 			asm prova
-			import StandardLibrary
+			import examples/StandardLibrary
 			signature:
 				 abstract domain NamedElement
 				 dynamic domain Fsm subsetof NamedElement
@@ -1868,7 +1867,7 @@ class TermNegativeParsingTest {
 			definitions:
 			default init s0:
 				function currentState($m in Fsm) = chooseone_mine([$m in states($m) | isStart($s) : $s]) 
-		''')
+		''',"prova")
 		result.assertError(AsmetalPackage.Literals.SEQUENCE_CT, ErrorCode.SEQUENCE_CT_TERM__VARIABLE_ALREADY_USED)	
 	
 	

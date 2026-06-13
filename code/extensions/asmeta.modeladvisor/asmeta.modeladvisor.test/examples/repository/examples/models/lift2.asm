@@ -43,12 +43,12 @@ definitions:
 		or existsCallFromTo($floor, DOWN)
 		
 	function attracted($dir in Dir, $l in Lift) =
-		$dir = UP and (exist $floor in Floor with $floor > floor($l) and hasToVisit($l, $floor))
+		$dir = UP and (exists $floor in Floor with $floor > floor($l) and hasToVisit($l, $floor))
 		or
-		$dir = DOWN and (exist $floor2 in Floor with $floor2 < floor($l) and hasToVisit($l, $floor2))
+		$dir = DOWN and (exists $floor2 in Floor with $floor2 < floor($l) and hasToVisit($l, $floor2))
 
 	/*function canContinue($l in Lift) =
-	exist $d in Dir, $f in Floor with $d=dir($l) and $f=floor($l) and 
+	exists $d in Dir, $f in Floor with $d=dir($l) and $f=floor($l) and 
 		(attracted($d, $l)
 		and not hasToDeliverAt($l, $f)
 		and not existsCallFromTo($f, $d))*/
@@ -80,7 +80,7 @@ definitions:
 	macro rule r_continue($l in Lift) =
 		if ctlState($l) = MOVING and 
 		//canContinue($l)
-		(exist $d in Dir, $f in Floor with $d=dir($l) and $f=floor($l) and 
+		(exists $d in Dir, $f in Floor with $d=dir($l) and $f=floor($l) and 
 		(attracted($d, $l)
 		and not hasToDeliverAt($l, $f)
 		and not existsCallFromTo($f, $d))) 
@@ -91,7 +91,7 @@ definitions:
 	macro rule r_stop($l in Lift) =
 			if ctlState($l) = MOVING and
 			//not canContinue($l)
-			not(exist $d in Dir, $f in Floor with $d=dir($l) and $f=floor($l) and 
+			not(exists $d in Dir, $f in Floor with $d=dir($l) and $f=floor($l) and 
 		(attracted($d, $l)
 		and not hasToDeliverAt($l, $f)
 		and not existsCallFromTo($f, $d)))

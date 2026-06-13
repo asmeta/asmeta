@@ -1,7 +1,7 @@
 //Adaptation goal: guarantee fire detection
 //Adaptation actions: Being a domestic building, fire detection takes the form of a fire alarm system, incorporating three smoke devices in two zones: one in the Corridor (First Floor), and two in the
-//kitchen and LivingRoom (Ground floor). In addition, if the temperature of a specific room is higher than 45°C the fire alarm is set to ON. To compute this  
-//we consider the max temperature of all room temperatures per each floor and compare it with the threeshold 45°C.  
+//kitchen and LivingRoom (Ground floor). In addition, if the temperature of a specific room is higher than 45ï¿½C the fire alarm is set to ON. To compute this  
+//we consider the max temperature of all room temperatures per each floor and compare it with the threeshold 45ï¿½C.  
  
 //Managed items: group switch gSmokeFF, gSmokeGF, Number maxTemperatureGF, maxTemperatureFF, Switch  fireAlarmGF, Switch  fireAlarmFF 
 asm MySmartHomeFD_refined
@@ -66,7 +66,7 @@ definitions:
 	//Added in refinement
 	function detectFire($a in SlaveFDMgA) =	
 	 if gsmokeSaved($a) = ON then ON //first, check if the smoke sensor is active
-	 else //otherwise, check if the max temperature overtakes the threshold 45C°
+	 else //otherwise, check if the max temperature overtakes the threshold 45Cï¿½
 		if isDef( maxTemperatureSaved($a) ) then
 			if (maxTemperatureSaved($a) >= 45) then ON else OFF endif 
 		else OFF //No further knowledge to detect a fire
@@ -74,7 +74,7 @@ definitions:
 	 endif
 		
 	function startMasterFDA($b in MasterFDMgA) = //Refined
-		(exist $a in fromMasterFDAtoSlaveFDM($b) with 
+		(exists $a in fromMasterFDAtoSlaveFDM($b) with 
 			(sgnSlaveFDMMasterFDA($a, $b) and detectFire($a) = ON) )
 
 	function startMasterFDP($b in MasterFDMgA) =

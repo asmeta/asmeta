@@ -104,14 +104,14 @@ definitions:
 		endlet
 
 	function startMainHCM($b in MainHCMgA) =
-		//(exist $a in fromMainHCMtoIntHCM($b) with sgnIntHCMMainHCM($a, $b))
+		//(exists $a in fromMainHCMtoIntHCM($b) with sgnIntHCMMainHCM($a, $b))
 		sgnIntHCMMainHCM(int_hc_gf, $b) or sgnIntHCMMainHCM(int_hc_ff, $b)
 
-    function heatingsON = (exist $a in IntHCMgA with heatingStatusSaved($a) = ON)
+    function heatingsON = (exists $a in IntHCMgA with heatingStatusSaved($a) = ON)
 
 	function startMainHCA($b in MainHCMgA) =  //Refined
-		//(heatingsON and (exist $a in fromMainHCMtoIntHCM($b) with neq(desiredHeatingSetting($a),computeHeatingSetting($a)))) or
-		//(heatingsON and (exist $c in fromMainHCMtoIntHCM($b) with eq(windowsStatusSaved($c),OPEN)) )
+		//(heatingsON and (exists $a in fromMainHCMtoIntHCM($b) with neq(desiredHeatingSetting($a),computeHeatingSetting($a)))) or
+		//(heatingsON and (exists $c in fromMainHCMtoIntHCM($b) with eq(windowsStatusSaved($c),OPEN)) )
 		(heatingsON and
 			(
 				(neq(desiredHeatingSetting(int_hc_gf),computeHeatingSetting(int_hc_gf)) or neq(desiredHeatingSetting(int_hc_ff),computeHeatingSetting(int_hc_ff)))

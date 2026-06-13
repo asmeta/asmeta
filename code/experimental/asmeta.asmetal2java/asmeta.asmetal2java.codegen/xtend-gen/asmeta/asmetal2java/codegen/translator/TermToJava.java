@@ -31,7 +31,7 @@ import asmeta.terms.furtherterms.CaseTerm;
 import asmeta.terms.furtherterms.CharTerm;
 import asmeta.terms.furtherterms.ConditionalTerm;
 import asmeta.terms.furtherterms.EnumTerm;
-import asmeta.terms.furtherterms.ExistTerm;
+import asmeta.terms.furtherterms.ExistsTerm;
 import asmeta.terms.furtherterms.ForallTerm;
 import asmeta.terms.furtherterms.IntegerTerm;
 import asmeta.terms.furtherterms.LetTerm;
@@ -350,7 +350,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
     }
   }
 
-  public String visit(final ExistTerm object) {
+  public String visit(final ExistsTerm object) {
     StringBuffer sb = new StringBuffer();
     StringBuffer app = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();

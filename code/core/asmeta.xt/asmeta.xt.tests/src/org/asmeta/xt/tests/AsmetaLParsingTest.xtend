@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Tag
 class AsmetaLParsingTest {
 	@Inject
 	ParseHelper<Asm> parseHelper
-	
+	// TODO - to complete the test, this is just a template
 	@Test@Tag("TestToMavenSkip")
 	def void loadModel() {
 		val result = parseHelper.parse('''

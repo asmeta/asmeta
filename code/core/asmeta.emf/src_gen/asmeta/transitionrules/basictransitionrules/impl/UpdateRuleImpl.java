@@ -1,19 +1,18 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.transitionrules.basictransitionrules.impl;
 
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import asmeta.terms.basicterms.Term;
+
 import asmeta.transitionrules.basictransitionrules.BasictransitionrulesPackage;
 import asmeta.transitionrules.basictransitionrules.UpdateRule;
+
+import org.eclipse.emf.common.notify.Notification;
+
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -49,7 +48,6 @@ public class UpdateRuleImpl extends BasicRuleImpl implements UpdateRule {
 	 * @ordered
 	 */
 	protected Term location;
-
 
 	/**
 	 * <!-- begin-user-doc -->

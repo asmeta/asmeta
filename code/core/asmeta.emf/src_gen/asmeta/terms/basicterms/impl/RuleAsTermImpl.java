@@ -1,19 +1,18 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.terms.basicterms.impl;
 
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import asmeta.definitions.RuleDeclaration;
+
 import asmeta.terms.basicterms.BasictermsPackage;
 import asmeta.terms.basicterms.RuleAsTerm;
+
+import org.eclipse.emf.common.notify.Notification;
+
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -38,7 +37,6 @@ public class RuleAsTermImpl extends ExtendedTermImpl implements RuleAsTerm {
 	 * @ordered
 	 */
 	protected RuleDeclaration rule;
-
 
 	/**
 	 * <!-- begin-user-doc -->

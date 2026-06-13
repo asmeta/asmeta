@@ -7,7 +7,7 @@ controlled f: Boolean
 definitions:
 
 macro rule r_foo($z in Integer, $p in Powerset(Integer)) =
-	f := (exist $x in $p, $y in {5, 10, 20} with $x + $y = $z)
+	f := (exists $x in $p, $y in {5, 10, 20} with $x + $y = $z)
 
 main rule r_main =
 		let ($x = 12, $y = 1) in

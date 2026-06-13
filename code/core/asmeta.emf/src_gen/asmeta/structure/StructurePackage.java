@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.structure;
 
@@ -755,7 +751,6 @@ public interface StructurePackage extends EPackage {
 	 * @ordered
 	 */
 	int ASM_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 6;
-
 
 	/**
 	 * Returns the meta object for class '{@link asmeta.structure.NamedElement <em>Named Element</em>}'.

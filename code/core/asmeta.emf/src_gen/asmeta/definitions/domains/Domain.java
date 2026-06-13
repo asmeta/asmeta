@@ -1,16 +1,13 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.definitions.domains;
 
-import org.eclipse.emf.common.util.EList;
-
 import asmeta.definitions.Classifier;
 import asmeta.definitions.Invariant;
+
 import asmeta.structure.Signature;
+
+import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
@@ -35,10 +32,6 @@ public interface Domain extends Classifier {
 	 * The list contents are of type {@link asmeta.definitions.Invariant}.
 	 * It is bidirectional and its opposite is '{@link asmeta.definitions.Invariant#getConstrainedDomain <em>Constrained Domain</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Constraint</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Constraint</em>' reference list.
 	 * @see asmeta.definitions.domains.DomainsPackage#getDomain_Constraint()
@@ -52,10 +45,6 @@ public interface Domain extends Classifier {
 	 * Returns the value of the '<em><b>Signature</b></em>' container reference.
 	 * It is bidirectional and its opposite is '{@link asmeta.structure.Signature#getDomain <em>Domain</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Signature</em>' container reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Signature</em>' container reference.
 	 * @see #setSignature(Signature)

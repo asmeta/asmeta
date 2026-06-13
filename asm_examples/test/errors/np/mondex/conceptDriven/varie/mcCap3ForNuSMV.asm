@@ -68,28 +68,28 @@ with(
 
 
 	function outMessIsReq($receiver in Name) =
-		if(exist $na in Name, $value in MoneyDomain, $tid in TidDomain with 				outbox($receiver, REQ, $na, $value, $tid)) then
+		if(exists $na in Name, $value in MoneyDomain, $tid in TidDomain with 				outbox($receiver, REQ, $na, $value, $tid)) then
 			true
 		else
 			false
 		endif
 
 	function outMessIsVal($receiver in Name) =
-		if(exist $na in Name, $value in MoneyDomain, $tid in TidDomain with 				outbox($receiver, VAL, $na, $value, $tid)) then
+		if(exists $na in Name, $value in MoneyDomain, $tid in TidDomain with 				outbox($receiver, VAL, $na, $value, $tid)) then
 			true
 		else
 			false
 		endif
 
 	/*function outMessIsAck($receiver in Name) =
-		if(exist $na in Name, $value in MoneyDomain, $tid in TidDomain with 				outbox($receiver, ACK, $na, $value, $tid)) then
+		if(exists $na in Name, $value in MoneyDomain, $tid in TidDomain with 				outbox($receiver, ACK, $na, $value, $tid)) then
 			true
 		else
 			false
 		endif*/
 
 	function outMessIsNone($receiver in Name) =
-		if(not(exist $t in MessageType, $na in Name, $value in MoneyDomain, $tid in TidDomain with 				outbox($receiver, $t, $na, $value, $tid))) then
+		if(not(exists $t in MessageType, $na in Name, $value in MoneyDomain, $tid in TidDomain with 				outbox($receiver, $t, $na, $value, $tid))) then
 			true
 		else
 			false

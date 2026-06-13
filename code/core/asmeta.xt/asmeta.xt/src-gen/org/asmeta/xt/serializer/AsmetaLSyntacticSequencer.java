@@ -151,8 +151,8 @@ public class AsmetaLSyntacticSequencer extends AbstractSyntacticSequencer {
 	 *     '('*
 	 *
 	 * This ambiguous syntax occurs at:
-	 *     (rule start) (ambiguity) '(' 'exist' 'unique' variable+=VariableTerm
-	 *     (rule start) (ambiguity) '(' 'exist' variable+=VariableTerm
+	 *     (rule start) (ambiguity) '(' 'exists' 'unique' variable+=VariableTerm
+	 *     (rule start) (ambiguity) '(' 'exists' variable+=VariableTerm
 	 *     (rule start) (ambiguity) '(' 'forall' variable+=VariableTerm
 	 *     (rule start) (ambiguity) agent=extendedName
 	 *     (rule start) (ambiguity) functionName=extendedNameForFunction
@@ -185,8 +185,8 @@ public class AsmetaLSyntacticSequencer extends AbstractSyntacticSequencer {
 	 *     '('+
 	 *
 	 * This ambiguous syntax occurs at:
-	 *     (rule start) (ambiguity) '(' 'exist' 'unique' variable+=VariableTerm
-	 *     (rule start) (ambiguity) '(' 'exist' variable+=VariableTerm
+	 *     (rule start) (ambiguity) '(' 'exists' 'unique' variable+=VariableTerm
+	 *     (rule start) (ambiguity) '(' 'exists' variable+=VariableTerm
 	 *     (rule start) (ambiguity) '(' 'forall' variable+=VariableTerm
 	 *     (rule start) (ambiguity) agent=extendedName
 	 *     (rule start) (ambiguity) functionName=extendedNameForFunction

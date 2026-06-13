@@ -117,7 +117,6 @@ public interface PrimitivetypesPackage extends EPackage {
 	 */
 	int STRING = 5;
 
-
 	/**
 	 * Returns the meta object for data type '{@link java.lang.Integer <em>Integer</em>}'.
 	 * <!-- begin-user-doc -->

@@ -120,8 +120,8 @@ definitions:
 //Questa regola permette ad un utente di prendere in prestito un libro (restituendo quello che eventualmente già possiede)		
 	rule r_prestitoLibro =
 		if(bibliotecaStato=PRESTITOINSERIMENTO) then
-			if(exist $u in Utenti with $u=utenteRiconosciuto) then
-				if(exist $l in Libri with $l=libroRiconosciuto) then
+			if(exists $u in Utenti with $u=utenteRiconosciuto) then
+				if(exists $l in Libri with $l=libroRiconosciuto) then
 					par
 						r_aggiungiLibro[utenteRiconosciuto,associa(utenteRiconosciuto)]
 						r_sottraiLibro[utenteRiconosciuto,libroRiconosciuto]
@@ -134,8 +134,8 @@ definitions:
 //Questa regola permette ad un utente di restituire il libro che possiede		
 	rule r_restituzioneLibro =
 		if(bibliotecaStato=RESTITUZIONEINSERIMENTO) then
-			if(exist $u in Utenti with $u=utenteRiconosciuto) then
-				if(exist $l in Libri with $l=libroRiconosciuto) then
+			if(exists $u in Utenti with $u=utenteRiconosciuto) then
+				if(exists $l in Libri with $l=libroRiconosciuto) then
 					par
 						r_aggiungiLibro[utenteRiconosciuto,libroRiconosciuto]
 						bibliotecaStato := SCELTAOPERAZIONE
@@ -147,7 +147,7 @@ definitions:
 //Questa regola dato un libro, permette di verificarne la disponibilità 		
 	rule r_disponibilita =
 		if(bibliotecaStato=LIBRIDISPONIBILI) then
-			if(exist $l in Libri with $l=libroRiconosciuto) then
+			if(exists $l in Libri with $l=libroRiconosciuto) then
 				par
 					bibliotecaStato := SCELTAOPERAZIONE
 					stampaMessaggio := dispLibri(libroRiconosciuto)
@@ -158,7 +158,7 @@ definitions:
 //Questa regola dato un utente, permette di verificare quale libro della biblioteca possiede
 	rule r_consultazione =
 		if(bibliotecaStato=UTENTELIBRO) then
-			if(exist $u in Utenti with $u=utenteRiconosciuto) then
+			if(exists $u in Utenti with $u=utenteRiconosciuto) then
 				par
 					bibliotecaStato := SCELTAOPERAZIONE
 					stampaMessaggio := associa(utenteRiconosciuto)

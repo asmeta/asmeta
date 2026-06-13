@@ -1,8 +1,4 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.transitionrules.basictransitionrules;
 
@@ -30,10 +26,6 @@ public interface ConditionalRule extends BasicRule {
 	/**
 	 * Returns the value of the '<em><b>Guard</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Guard</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Guard</em>' reference.
 	 * @see #setGuard(Term)
@@ -56,10 +48,6 @@ public interface ConditionalRule extends BasicRule {
 	/**
 	 * Returns the value of the '<em><b>Else Rule</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Else Rule</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Else Rule</em>' containment reference.
 	 * @see #setElseRule(Rule)
@@ -82,10 +70,6 @@ public interface ConditionalRule extends BasicRule {
 	/**
 	 * Returns the value of the '<em><b>Then Rule</b></em>' containment reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Then Rule</em>' containment reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Then Rule</em>' containment reference.
 	 * @see #setThenRule(Rule)

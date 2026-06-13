@@ -61,7 +61,7 @@ signature:
 
 definitions:
 	function  overallWindowsStatus ($set in Powerset(AirMdA)) = 
-    if (exist $a in $set with windowsStatus($a) = OPEN) then OPEN else CLOSED endif
+    if (exists $a in $set with windowsStatus($a) = OPEN) then OPEN else CLOSED endif
  
  	function overallAQInsideCO2 ($set in Powerset(AirMdA)) =
     let ($agf=first(asSequence($set)), $aff=last(asSequence($set))) in  

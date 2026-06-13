@@ -34,7 +34,7 @@ class AbstractAndAgentDomain extends ParserTest{
 		var result =  test('''
 asm CashPoint
 
-import StandardLibrary
+import ../examples/StandardLibrary
 
 signature:
 	// domains

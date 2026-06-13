@@ -3137,7 +3137,7 @@ Logger.logDebug("match:UndefTerm");
     } else if (jj_2_161(2)) {
       t = CaseTerm(localVar);
     } else if (jj_2_162(2)) {
-      //to solve the conflict with the finite quantification terms  (exist... | existUnique... |forall... )
+      //to solve the conflict with the finite quantification terms  (exists... | existsUnique... |forall... )
           t = TupleTerm(localVar, areAllowedNewVar);
     } else if (jj_2_163(2147483647)) {
       t = VariableBindingTerm(localVar);
@@ -3240,7 +3240,7 @@ Logger.logDebug("\totherwise");
       ;
     }
     jj_consume_token(END_SWITCH);
-//set TypeDomain with either the type domain of the last case result term or the one of the otherwise term (if it exist)
+//set TypeDomain with either the type domain of the last case result term or the one of the otherwise term (if it exists)
     TypeDomain td = OCL_Checker.getTypeDomain(resT.getDomain());
     term.setDomain(td);
     //check OCL constraints
@@ -3719,9 +3719,9 @@ AsmetaParserUtility.createTermCollection(firstElem, lastElem, elemColl, step, na
     if (jj_2_199(2147483647)) {
       t = ForallTerm(localVar);
     } else if (jj_2_200(2147483647)) {
-      t = ExistUniqueTerm(localVar);
+      t = existsUniqueTerm(localVar);
     } else if (jj_2_201(2)) {
-      t = ExistTerm(localVar);
+      t = existsTerm(localVar);
     } else {
       jj_consume_token(-1);
       throw new ParseException();
@@ -3744,16 +3744,16 @@ AsmetaParserUtility.createTermCollection(firstElem, lastElem, elemColl, step, na
 }
 
 //NEW by Patrizia Added ranges
-  final public ExistTerm ExistTerm(HashMap localVar) throws ParseException {VariableTerm variable;
+  final public ExistsTerm existsTerm(HashMap localVar) throws ParseException {VariableTerm variable;
   Term inTerm, guard;
     jj_consume_token(114);
-    jj_consume_token(EXIST);
-Logger.logDebug("\t(exist\t\tExistTerm beginning");
-    ExistTerm term = termsPack.getFurtherTerms().createExistTerm();
+    jj_consume_token(EXISTS);
+Logger.logDebug("\t(exists\t\tExistsTerm beginning");
+    ExistsTerm term = termsPack.getFurtherTerms().createExistsTerm();
     List < Term > rangeList = term.getRanges();
     //check if the next variable is already used (look for it in the localVar HashMap)
     String nextVar = getToken(1).image;
-    if (localVar.get(nextVar) != null) {if (true) throw new ParseException("Error: The variable " + nextVar + " cannot be bound to a value in the ExistTerm. It is already used.");}
+    if (localVar.get(nextVar) != null) {if (true) throw new ParseException("Error: The variable " + nextVar + " cannot be bound to a value in the ExistsTerm. It is already used.");}
     variable = VariableTerm(localVar, true);
     jj_consume_token(IN);
 Logger.logDebug("\tin");
@@ -3762,7 +3762,7 @@ Logger.logDebug("\tin");
     Collection variableList = term.getVariable();
     variableList.add(variable);
     //check constraint 2 of superclass(part of it is granted for construction)
-    if (!(OCL_Checker.getTypeDomain(inTerm.getDomain()) instanceof PowersetDomain)) {if (true) throw new ParseException("Error: The type-domain of terms after \"in\"  must be the power set domain \n" + "       At an ExistTerm");}
+    if (!(OCL_Checker.getTypeDomain(inTerm.getDomain()) instanceof PowersetDomain)) {if (true) throw new ParseException("Error: The type-domain of terms after \"in\"  must be the power set domain \n" + "       At an ExistsTerm");}
     //update variable features
     AsmetaParserUtility.updateVariable(variable, inTerm);
     Logger.logDebug("\t\t\t" + variable.getName() + " updated: TD=" + variable.getDomain().getName() + ", kind=" + variable.getKind().toString());
@@ -3777,7 +3777,7 @@ Logger.logDebug("\tin");
       jj_consume_token(115);
 //check if the next variable is already used (look for it in the localVar HashMap)
       nextVar = getToken(1).image;
-      if (localVar.get(nextVar) != null) {if (true) throw new ParseException("Error: The variable " + nextVar + " cannot be bound to a value in the ExistTerm. It is already used.");}
+      if (localVar.get(nextVar) != null) {if (true) throw new ParseException("Error: The variable " + nextVar + " cannot be bound to a value in the ExistsTerm. It is already used.");}
       variable = VariableTerm(localVar, true);
       jj_consume_token(IN);
 Logger.logDebug("\tin");
@@ -3787,7 +3787,7 @@ Logger.logDebug("\tin");
       //create the association
       //X a_FinQuantT_Var.add(variable,term);
       //check constraint 2 of superclass(part of it is granted for construction)
-      if (!(inTerm.getDomain() instanceof PowersetDomain)) {if (true) throw new ParseException("Error: The type-domain of terms after \"in\"  must be a power set domain \n" + "       At an ExistTerm");}
+      if (!(inTerm.getDomain() instanceof PowersetDomain)) {if (true) throw new ParseException("Error: The type-domain of terms after \"in\"  must be a power set domain \n" + "       At an ExistsTerm");}
       //update variable features
       AsmetaParserUtility.updateVariable(variable, inTerm);
       Logger.logDebug("\t\t\t" + variable.getName() + " updated: TD=" + variable.getDomain().getName() + ", kind=" + variable.getKind().toString());
@@ -3807,23 +3807,23 @@ Logger.logDebug("\twith");
       ;
     }
     jj_consume_token(116);
-Logger.logDebug("\t)\t\tExistTerm end");
+Logger.logDebug("\t)\t\tExistsTerm end");
 {if ("" != null) return term;}
     throw new Error("Missing return statement in function");
 }
 
 //NEW by Patrizia Added ranges
-  final public ExistUniqueTerm ExistUniqueTerm(HashMap localVar) throws ParseException {VariableTerm variable;
+  final public ExistsUniqueTerm existsUniqueTerm(HashMap localVar) throws ParseException {VariableTerm variable;
   Term inTerm, guard;
     jj_consume_token(114);
-    jj_consume_token(EXIST);
+    jj_consume_token(EXISTS);
     jj_consume_token(UNIQUE);
-Logger.logDebug("\t(exist unique\t\tExistUniqueTerm beginning");
-    ExistUniqueTerm term = termsPack.getFurtherTerms().createExistUniqueTerm();
+Logger.logDebug("\t(exists unique\t\tExistsUniqueTerm beginning");
+    ExistsUniqueTerm term = termsPack.getFurtherTerms().createExistsUniqueTerm();
     List < Term > rangeList = term.getRanges();
     //check if the next variable is already used (look for it in the localVar HashMap)
     String nextVar = getToken(1).image;
-    if (localVar.get(nextVar) != null) {if (true) throw new ParseException("Error: The variable " + nextVar + " cannot be bound to a value in the ExistUniqueTerm. It is already used.");}
+    if (localVar.get(nextVar) != null) {if (true) throw new ParseException("Error: The variable " + nextVar + " cannot be bound to a value in the ExistsUniqueTerm. It is already used.");}
     variable = VariableTerm(localVar, true);
     jj_consume_token(IN);
 Logger.logDebug("\tin");
@@ -3835,7 +3835,7 @@ Logger.logDebug("\tin");
     //X AFiniteQuantificationTermVariable a_FinQuantT_Var = termsPack.getFurtherTerms().getAFiniteQuantificationTermVariable();
     //X a_FinQuantT_Var.add(variable,term);
     //check constraint 2 of superclass(part of it is granted for construction)
-    if (!(inTerm.getDomain() instanceof PowersetDomain)) {if (true) throw new ParseException("Error: The type-domain of terms after \"in\"  must be a power set domain \n" + "       At an ExistUniqueTerm");}
+    if (!(inTerm.getDomain() instanceof PowersetDomain)) {if (true) throw new ParseException("Error: The type-domain of terms after \"in\"  must be a power set domain \n" + "       At an ExistsUniqueTerm");}
     //update variable features
     AsmetaParserUtility.updateVariable(variable, inTerm);
     Logger.logDebug("\t\t\t" + variable.getName() + " updated: TD=" + variable.getDomain().getName() + ", kind=" + variable.getKind().toString());
@@ -3850,7 +3850,7 @@ Logger.logDebug("\tin");
       jj_consume_token(115);
 //check if the next variable is already used (look for it in the localVar HashMap)
       nextVar = getToken(1).image;
-      if (localVar.get(nextVar) != null) {if (true) throw new ParseException("Error: The variable " + nextVar + " cannot be bound to a value in the ExistUniqueTerm. It is already used.");}
+      if (localVar.get(nextVar) != null) {if (true) throw new ParseException("Error: The variable " + nextVar + " cannot be bound to a value in the ExistsUniqueTerm. It is already used.");}
       variable = VariableTerm(localVar, true);
       jj_consume_token(IN);
 Logger.logDebug("\tin");
@@ -3860,7 +3860,7 @@ Logger.logDebug("\tin");
       //create the association
       //X a_FinQuantT_Var.add(variable,term);
       //check constraint 2 of superclass(part of it is granted for construction)
-      if (!(inTerm.getDomain() instanceof PowersetDomain)) {if (true) throw new ParseException("Error: The type-domain of terms after \"in\"  must be a power set domain \n" + "       At an ExistUniqueTerm");}
+      if (!(inTerm.getDomain() instanceof PowersetDomain)) {if (true) throw new ParseException("Error: The type-domain of terms after \"in\"  must be a power set domain \n" + "       At an ExistsUniqueTerm");}
       //update variable features
       AsmetaParserUtility.updateVariable(variable, inTerm);
       Logger.logDebug("\t\t\t" + variable.getName() + " updated: TD=" + variable.getDomain().getName() + ", kind=" + variable.getKind().toString());
@@ -3880,7 +3880,7 @@ Logger.logDebug("\twith");
       ;
     }
     jj_consume_token(116);
-Logger.logDebug("\t)\t\tExistUniqueTerm end");
+Logger.logDebug("\t)\t\tExistsUniqueTerm end");
 {if ("" != null) return term;}
     throw new Error("Missing return statement in function");
 }
@@ -4160,7 +4160,7 @@ Logger.logDebug("\t:");
   final public MapCt MapCT(HashMap localVar) throws ParseException {Term t1, t2, inTerm, guard;
   VariableTerm variable;
   List < Term > rangeList = new ArrayList < Term > ();
-  MapCt term = termsPack.getFurtherTerms().createMapCt(rangeList);
+  MapCt term = AsmetaParserUtility.createMapCt(termsPack.getFurtherTerms(),rangeList);
     jj_consume_token(118);
 Logger.logDebug("\t{\t\tMapCT beginning");
     variable = VariableTerm(localVar, true);
@@ -8756,10 +8756,10 @@ IterativeWhileRule rule = rulesPack.getDerivedTransitionRules().createIterativeW
     return false;
   }
 
-  private boolean jj_3R_ExistUniqueTerm_4398_3_211()
+  private boolean jj_3R_existsUniqueTerm_4398_3_211()
  {
     if (jj_scan_token(114)) return true;
-    if (jj_scan_token(EXIST)) return true;
+    if (jj_scan_token(EXISTS)) return true;
     if (jj_scan_token(UNIQUE)) return true;
     if (jj_3R_VariableTerm_3403_3_72()) return true;
     if (jj_scan_token(IN)) return true;
@@ -9054,10 +9054,10 @@ IterativeWhileRule rule = rulesPack.getDerivedTransitionRules().createIterativeW
     return false;
   }
 
-  private boolean jj_3R_ExistTerm_4322_3_155()
+  private boolean jj_3R_existsTerm_4322_3_155()
  {
     if (jj_scan_token(114)) return true;
-    if (jj_scan_token(EXIST)) return true;
+    if (jj_scan_token(EXISTS)) return true;
     if (jj_3R_VariableTerm_3403_3_72()) return true;
     if (jj_scan_token(IN)) return true;
     if (jj_3R_Term_2861_3_148()) return true;
@@ -9144,7 +9144,7 @@ IterativeWhileRule rule = rulesPack.getDerivedTransitionRules().createIterativeW
   private boolean jj_3_200()
  {
     if (jj_scan_token(114)) return true;
-    if (jj_scan_token(EXIST)) return true;
+    if (jj_scan_token(EXISTS)) return true;
     if (jj_scan_token(UNIQUE)) return true;
     return false;
   }
@@ -9165,7 +9165,7 @@ IterativeWhileRule rule = rulesPack.getDerivedTransitionRules().createIterativeW
 
   private boolean jj_3_201()
  {
-    if (jj_3R_ExistTerm_4322_3_155()) return true;
+    if (jj_3R_existsTerm_4322_3_155()) return true;
     return false;
   }
 
@@ -9177,7 +9177,7 @@ IterativeWhileRule rule = rulesPack.getDerivedTransitionRules().createIterativeW
 
   private boolean jj_3R_FiniteQuantificationTerm_4294_5_197()
  {
-    if (jj_3R_ExistUniqueTerm_4398_3_211()) return true;
+    if (jj_3R_existsUniqueTerm_4398_3_211()) return true;
     return false;
   }
 

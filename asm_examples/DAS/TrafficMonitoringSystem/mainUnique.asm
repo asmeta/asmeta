@@ -217,8 +217,8 @@ definitions:
 
 	function slavesNotAlive($c in Camera) =
 		//PA: slaves changed because of model checking
-		//(exist $s in Camera with ( contains(slaves($c), $s) and  slaveGone($c, $s) ))
-		(exist $s in Camera with (slaves($c, $s) and  slaveGone($c, $s)))
+		//(exists $s in Camera with ( contains(slaves($c), $s) and  slaveGone($c, $s) ))
+		(exists $s in Camera with (slaves($c, $s) and  slaveGone($c, $s)))
 
 	function allSlavesAlive($c in Camera) =
 		//PA: slaves changed because of model checking
@@ -226,7 +226,7 @@ definitions:
 		( forall $s in Camera with (slaves($c, $s) and imAlive($c, $s)))
 
 	function m_offer($c in Camera) =
-	   (exist $s in Camera with newSlave($c, $s) )
+	   (exists $s in Camera with newSlave($c, $s) )
 	//END: -- Knowledge -------------------
 
 
@@ -307,7 +307,7 @@ definitions:
 	//Remove all slaves (if any) turning SLAVE2
 	macro rule r_removeSlavesTurningSlave =
 		par
-			if (exist $c in Camera with slaves(cameraOC(self), $c)) then
+			if (exists $c in Camera with slaves(cameraOC(self), $c)) then
 				par
 					forall $s in Camera with slaves(cameraOC(self), $s) do
 						if not change_master($s) then //set signal
@@ -323,7 +323,7 @@ definitions:
 	//Remove all slaves (if any) turning MASTER2
 	macro rule r_removeSlavesTurningMaster =
 		par
-			if (exist $c in Camera with slaves(cameraOC(self), $c)) then
+			if (exists $c in Camera with slaves(cameraOC(self), $c)) then
 				par
 					forall $s in Camera with slaves(cameraOC(self), $s) do
 						if not masterGone($s) then //set signal

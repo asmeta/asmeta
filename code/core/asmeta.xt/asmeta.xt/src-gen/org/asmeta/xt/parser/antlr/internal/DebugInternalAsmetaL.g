@@ -1342,16 +1342,16 @@ ruleFiniteQuantificationTerm:
 	(
 		ruleForallTerm
 		    |
-		ruleExistUniqueTerm
+		ruleExistsUniqueTerm
 		    |
-		ruleExistTerm
+		ruleExistsTerm
 	)
 ;
 
-// Rule ExistUniqueTerm
-ruleExistUniqueTerm:
+// Rule ExistsUniqueTerm
+ruleExistsUniqueTerm:
 	'('
-	'exist'
+	'exists'
 	'unique'
 	ruleVariableTerm
 	'in'
@@ -1369,10 +1369,10 @@ ruleExistUniqueTerm:
 	')'
 ;
 
-// Rule ExistTerm
-ruleExistTerm:
+// Rule ExistsTerm
+ruleExistsTerm:
 	'('
-	'exist'
+	'exists'
 	ruleVariableTerm
 	'in'
 	ruleTerm

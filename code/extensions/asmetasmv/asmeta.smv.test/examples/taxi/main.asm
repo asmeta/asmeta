@@ -14,7 +14,7 @@ definitions:
 	CTLSPEC ef(numtaxis = 0 and ex(numtaxis = 0 and ex(numtaxis = 0)))
 
 	//non esiste un cammino in cui i taxi sono sempre occupati
-	//it does not exist a path where the taxis are always busy
+	//it does not exists a path where the taxis are always busy
 	CTLSPEC not(ef(numtaxis = 0 and eg(numtaxis = 0)))
 
 	//proprieta' di liveness: se non ci sono taxi liberi, prima o poi se ne libera almeno uno

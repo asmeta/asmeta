@@ -1,16 +1,13 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.transitionrules.basictransitionrules.impl;
 
-import org.eclipse.emf.ecore.EClass;
-
 import asmeta.definitions.impl.RuleDeclarationImpl;
+
 import asmeta.transitionrules.basictransitionrules.BasictransitionrulesPackage;
 import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
+
+import org.eclipse.emf.ecore.EClass;
 
 /**
  * <!-- begin-user-doc -->
@@ -20,7 +17,6 @@ import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
  * @generated
  */
 public class MacroDeclarationImpl extends RuleDeclarationImpl implements MacroDeclaration {
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

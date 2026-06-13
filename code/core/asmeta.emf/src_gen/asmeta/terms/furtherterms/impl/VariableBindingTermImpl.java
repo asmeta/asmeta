@@ -1,16 +1,13 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.terms.furtherterms.impl;
 
-import org.eclipse.emf.ecore.EClass;
-
 import asmeta.terms.basicterms.impl.ExtendedTermImpl;
+
 import asmeta.terms.furtherterms.FurthertermsPackage;
 import asmeta.terms.furtherterms.VariableBindingTerm;
+
+import org.eclipse.emf.ecore.EClass;
 
 /**
  * <!-- begin-user-doc -->
@@ -20,7 +17,6 @@ import asmeta.terms.furtherterms.VariableBindingTerm;
  * @generated
  */
 public abstract class VariableBindingTermImpl extends ExtendedTermImpl implements VariableBindingTerm {
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

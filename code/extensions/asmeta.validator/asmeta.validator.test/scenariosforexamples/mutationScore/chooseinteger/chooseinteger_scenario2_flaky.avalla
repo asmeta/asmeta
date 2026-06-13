@@ -1,0 +1,5 @@
+scenario chooseinteger_flaky
+load chooseinteger.asm
+
+step
+check foo1 >= 0;

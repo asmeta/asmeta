@@ -1,45 +1,21 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.terms.furtherterms.util;
-
-import org.eclipse.emf.common.notify.Adapter;
-import org.eclipse.emf.common.notify.Notifier;
-import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
-import org.eclipse.emf.ecore.EObject;
 
 import asmeta.terms.basicterms.BasicTerm;
 import asmeta.terms.basicterms.CollectionTerm;
 import asmeta.terms.basicterms.ConstantTerm;
 import asmeta.terms.basicterms.ExtendedTerm;
 import asmeta.terms.basicterms.Term;
-import asmeta.terms.furtherterms.BagCt;
-import asmeta.terms.furtherterms.BagTerm;
-import asmeta.terms.furtherterms.CaseTerm;
-import asmeta.terms.furtherterms.CharTerm;
-import asmeta.terms.furtherterms.ComplexTerm;
-import asmeta.terms.furtherterms.ComprehensionTerm;
-import asmeta.terms.furtherterms.ConditionalTerm;
-import asmeta.terms.furtherterms.EnumTerm;
-import asmeta.terms.furtherterms.ExistTerm;
-import asmeta.terms.furtherterms.ExistUniqueTerm;
-import asmeta.terms.furtherterms.FiniteQuantificationTerm;
-import asmeta.terms.furtherterms.ForallTerm;
-import asmeta.terms.furtherterms.FurthertermsPackage;
-import asmeta.terms.furtherterms.IntegerTerm;
-import asmeta.terms.furtherterms.LetTerm;
-import asmeta.terms.furtherterms.MapCt;
-import asmeta.terms.furtherterms.MapTerm;
-import asmeta.terms.furtherterms.NaturalTerm;
-import asmeta.terms.furtherterms.RealTerm;
-import asmeta.terms.furtherterms.SequenceCt;
-import asmeta.terms.furtherterms.SequenceTerm;
-import asmeta.terms.furtherterms.SetCt;
-import asmeta.terms.furtherterms.StringTerm;
-import asmeta.terms.furtherterms.VariableBindingTerm;
+
+import asmeta.terms.furtherterms.*;
+
+import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.common.notify.Notifier;
+
+import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
+
+import org.eclipse.emf.ecore.EObject;
 
 /**
  * <!-- begin-user-doc -->
@@ -95,8 +71,7 @@ public class FurthertermsAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected FurthertermsSwitch<Adapter> modelSwitch =
-		new FurthertermsSwitch<Adapter>() {
+	protected FurthertermsSwitch<Adapter> modelSwitch = new FurthertermsSwitch<Adapter>() {
 			@Override
 			public Adapter caseIntegerTerm(IntegerTerm object) {
 				return createIntegerTermAdapter();
@@ -150,12 +125,12 @@ public class FurthertermsAdapterFactory extends AdapterFactoryImpl {
 				return createFiniteQuantificationTermAdapter();
 			}
 			@Override
-			public Adapter caseExistUniqueTerm(ExistUniqueTerm object) {
-				return createExistUniqueTermAdapter();
+			public Adapter caseExistsUniqueTerm(ExistsUniqueTerm object) {
+				return createExistsUniqueTermAdapter();
 			}
 			@Override
-			public Adapter caseExistTerm(ExistTerm object) {
-				return createExistTermAdapter();
+			public Adapter caseExistsTerm(ExistsTerm object) {
+				return createExistsTermAdapter();
 			}
 			@Override
 			public Adapter caseEnumTerm(EnumTerm object) {
@@ -227,7 +202,6 @@ public class FurthertermsAdapterFactory extends AdapterFactoryImpl {
 	public Adapter createAdapter(Notifier target) {
 		return modelSwitch.doSwitch((EObject)target);
 	}
-
 
 	/**
 	 * Creates a new adapter for an object of class '{@link asmeta.terms.furtherterms.IntegerTerm <em>Integer Term</em>}'.
@@ -412,30 +386,30 @@ public class FurthertermsAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link asmeta.terms.furtherterms.ExistUniqueTerm <em>Exist Unique Term</em>}'.
+	 * Creates a new adapter for an object of class '{@link asmeta.terms.furtherterms.ExistsUniqueTerm <em>Exists Unique Term</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see asmeta.terms.furtherterms.ExistUniqueTerm
+	 * @see asmeta.terms.furtherterms.ExistsUniqueTerm
 	 * @generated
 	 */
-	public Adapter createExistUniqueTermAdapter() {
+	public Adapter createExistsUniqueTermAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link asmeta.terms.furtherterms.ExistTerm <em>Exist Term</em>}'.
+	 * Creates a new adapter for an object of class '{@link asmeta.terms.furtherterms.ExistsTerm <em>Exists Term</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see asmeta.terms.furtherterms.ExistTerm
+	 * @see asmeta.terms.furtherterms.ExistsTerm
 	 * @generated
 	 */
-	public Adapter createExistTermAdapter() {
+	public Adapter createExistsTermAdapter() {
 		return null;
 	}
 

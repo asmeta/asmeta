@@ -34,8 +34,8 @@ import asmeta.terms.basicterms.VariableTerm;
 import asmeta.terms.furtherterms.CaseTerm;
 import asmeta.terms.furtherterms.ConditionalTerm;
 import asmeta.terms.furtherterms.EnumTerm;
-import asmeta.terms.furtherterms.ExistTerm;
-import asmeta.terms.furtherterms.ExistUniqueTerm;
+import asmeta.terms.furtherterms.ExistsTerm;
+import asmeta.terms.furtherterms.ExistsUniqueTerm;
 import asmeta.terms.furtherterms.ForallTerm;
 import asmeta.terms.furtherterms.IntegerTerm;
 import asmeta.terms.furtherterms.LetTerm;
@@ -318,7 +318,7 @@ public class DerivedVisitor extends org.asmeta.parser.util.ReflectiveVisitor<Str
 	 * 
 	 * @throws Exception the exception
 	 */
-	public String visit(ExistTerm term) throws Exception {
+	public String visit(ExistsTerm term) throws Exception {
 		return env.tv.visit(term);
 	}
 
@@ -331,7 +331,7 @@ public class DerivedVisitor extends org.asmeta.parser.util.ReflectiveVisitor<Str
 	 * 
 	 * @throws Exception the exception
 	 */
-	public String visit(ExistUniqueTerm term) throws Exception {
+	public String visit(ExistsUniqueTerm term) throws Exception {
 		return env.tv.visit(term);
 	}
 

@@ -1,8 +1,8 @@
 package org.asmeta.avallaxt.validator;
 
-import org.junit.jupiter.api.Test; import static org.junit.jupiter.api.Assertions.assertFalse;
-import org.junit.jupiter.api.Test; import static org.junit.jupiter.api.Assertions.assertNotNull;
-import org.junit.jupiter.api.Test; import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,9 +13,9 @@ import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.AsmetaParserUtility;
 import org.asmeta.xt.validator.AsmetaFromAvallaBuilder;
 import org.asmeta.xt.validator.AsmetaV;
+import org.junit.jupiter.api.BeforeAll;
 
 import asmeta.AsmCollection;
-import org.junit.jupiter.api.BeforeAll;
 
 public class TestValidator {
 
@@ -29,7 +29,7 @@ public class TestValidator {
 	protected static File tempAsmPath = new File(pathname); //Files.createTempFile("__tempAsmetaV", ASMParser.asmExtension).toFile();
 
 
-	private static Logger log = Logger.getLogger(TestValidator.class);
+	protected static Logger log = Logger.getLogger(TestValidator.class);
 
 	@BeforeAll
 	static void testExamplesDir() throws IOException{
@@ -79,7 +79,7 @@ public class TestValidator {
 		if (runValidator) {
 			log.debug("executing " + scenarioPath);
 			// it should be runnable
-			List<String> result = AsmetaV.execValidation(scenarioPath, computeCoverage);
+			List<String> result = AsmetaV.execValidation(scenarioPath, computeCoverage ? AsmetaV.computeCoverage : AsmetaV.doNotcomputeCoverage);
 			if (expectedSuccess) assertTrue(result.isEmpty(), "failed " + result);
 			else assertFalse(result.isEmpty(), scenarioPath + " must fail but it is not"); 
 		} else {

@@ -1,15 +1,11 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.definitions.impl;
 
-import org.eclipse.emf.ecore.EClass;
-
 import asmeta.definitions.DefinitionsPackage;
 import asmeta.definitions.MonitoredFunction;
+
+import org.eclipse.emf.ecore.EClass;
 
 /**
  * <!-- begin-user-doc -->
@@ -19,7 +15,6 @@ import asmeta.definitions.MonitoredFunction;
  * @generated
  */
 public class MonitoredFunctionImpl extends DynamicFunctionImpl implements MonitoredFunction {
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

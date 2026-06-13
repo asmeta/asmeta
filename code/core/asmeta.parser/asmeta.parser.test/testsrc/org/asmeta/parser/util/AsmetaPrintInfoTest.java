@@ -6,7 +6,6 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
-import org.asmeta.parser.ASMFileFilter;
 import org.asmeta.parser.AsmParserTest;
 import org.asmeta.parser.util.AsmetaPrintInfo.AsmInfo;
 import org.junit.jupiter.api.Disabled;
@@ -19,7 +18,7 @@ class AsmetaPrintInfoTest {
 		assertTrue(dir.isDirectory(), "example dir " + dir.getAbsolutePath() + " does not exist, current dir: "
 				+ new File(".").getAbsolutePath());
 		// read all the specs
-		for (File f : dir.listFiles(new ASMFileFilter())) {
+		for (File f : dir.listFiles(new org.asmeta.parser.ASMFileFilter())) {
 			AsmetaPrintInfo pi = new AsmetaPrintInfo(f.getAbsolutePath());
 			AsmInfo info = pi.getInfo();
 			System.out.println(f.getName());

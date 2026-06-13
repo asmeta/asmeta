@@ -1,15 +1,11 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.definitions.impl;
 
-import org.eclipse.emf.ecore.EClass;
-
 import asmeta.definitions.DefinitionsPackage;
 import asmeta.definitions.StaticFunction;
+
+import org.eclipse.emf.ecore.EClass;
 
 /**
  * <!-- begin-user-doc -->
@@ -19,7 +15,6 @@ import asmeta.definitions.StaticFunction;
  * @generated
  */
 public class StaticFunctionImpl extends BasicFunctionImpl implements StaticFunction {
-
 	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

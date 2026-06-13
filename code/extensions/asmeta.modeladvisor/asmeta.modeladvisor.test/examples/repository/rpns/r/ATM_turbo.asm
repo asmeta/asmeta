@@ -1,7 +1,7 @@
 // DANIELA CUGLIETTA
 // Esercizio pag. 92
 // AsmetaS cannot simulate it because it contains turbo rules
-// there exist the ATM without turbo rules and that can be simulated
+// there exists the ATM without turbo rules and that can be simulated
 
 
 asm ATM_turbo

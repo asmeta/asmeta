@@ -1,15 +1,11 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.terms.furtherterms;
 
-import org.eclipse.emf.common.util.EList;
-
 import asmeta.terms.basicterms.Term;
 import asmeta.terms.basicterms.VariableTerm;
+
+import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
@@ -34,10 +30,6 @@ public interface LetTerm extends VariableBindingTerm {
 	 * Returns the value of the '<em><b>Variable</b></em>' containment reference list.
 	 * The list contents are of type {@link asmeta.terms.basicterms.VariableTerm}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Variable</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Variable</em>' containment reference list.
 	 * @see asmeta.terms.furtherterms.FurthertermsPackage#getLetTerm_Variable()
@@ -50,10 +42,6 @@ public interface LetTerm extends VariableBindingTerm {
 	 * Returns the value of the '<em><b>Assignment Term</b></em>' reference list.
 	 * The list contents are of type {@link asmeta.terms.basicterms.Term}.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Assignment Term</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Assignment Term</em>' reference list.
 	 * @see asmeta.terms.furtherterms.FurthertermsPackage#getLetTerm_AssignmentTerm()
@@ -65,10 +53,6 @@ public interface LetTerm extends VariableBindingTerm {
 	/**
 	 * Returns the value of the '<em><b>Body</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Body</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Body</em>' reference.
 	 * @see #setBody(Term)

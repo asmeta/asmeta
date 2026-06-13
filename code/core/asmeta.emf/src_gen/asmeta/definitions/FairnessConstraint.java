@@ -2,7 +2,6 @@
  */
 package asmeta.definitions;
 
-
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Fairness Constraint</b></em>'.

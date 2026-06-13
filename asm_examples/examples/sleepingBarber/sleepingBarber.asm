@@ -77,7 +77,7 @@ definitions:
 	//d'attesa perche' non ci sono sedie libere
 	CTLSPEC ef(newClient and not(barberSleeping) and chairOccupied(chair1)=false and chairOccupied(chair2)=false)
 	//equivalente alla precedente
-	CTLSPEC ef(newClient and not(barberSleeping) and not((exist $c in Chair with not(chairOccupied($c)))))
+	CTLSPEC ef(newClient and not(barberSleeping) and not((exists $c in Chair with not(chairOccupied($c)))))
 	//equivalente alla precedente
 	CTLSPEC ef(newClient and not(barberSleeping) and (forall $c in Chair with chairOccupied($c)))
 

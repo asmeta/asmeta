@@ -1,15 +1,11 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.definitions.domains;
 
-import org.eclipse.emf.common.util.EList;
-
 import asmeta.structure.DomainDefinition;
 import asmeta.structure.DomainInitialization;
+
+import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
@@ -36,10 +32,6 @@ public interface ConcreteDomain extends Domain {
 	 * The list contents are of type {@link asmeta.structure.DomainInitialization}.
 	 * It is bidirectional and its opposite is '{@link asmeta.structure.DomainInitialization#getInitializedDomain <em>Initialized Domain</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Initialization</em>' reference list isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Initialization</em>' reference list.
 	 * @see asmeta.definitions.domains.DomainsPackage#getConcreteDomain_Initialization()
@@ -53,10 +45,6 @@ public interface ConcreteDomain extends Domain {
 	 * Returns the value of the '<em><b>Definition</b></em>' reference.
 	 * It is bidirectional and its opposite is '{@link asmeta.structure.DomainDefinition#getDefinedDomain <em>Defined Domain</em>}'.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Definition</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Definition</em>' reference.
 	 * @see #setDefinition(DomainDefinition)
@@ -80,10 +68,6 @@ public interface ConcreteDomain extends Domain {
 	/**
 	 * Returns the value of the '<em><b>Type Domain</b></em>' reference.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Type Domain</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Type Domain</em>' reference.
 	 * @see #setTypeDomain(TypeDomain)
@@ -106,10 +90,6 @@ public interface ConcreteDomain extends Domain {
 	/**
 	 * Returns the value of the '<em><b>Is Dynamic</b></em>' attribute.
 	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Is Dynamic</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Is Dynamic</em>' attribute.
 	 * @see #setIsDynamic(Boolean)

@@ -57,7 +57,7 @@ definitions:
 	//controlla che non la carta $receiver non abbia ricevuto una richiesta da $na
 	//In caso affermativo $receiver puo' fare una richiesta a $na
 	function check ($receiver in Name, $na in Name) =
-		if(not(exist $v in MoneyDomain, $t in TidDomain with inbox($receiver, REQ, $na, $v, $t))) then
+		if(not(exists $v in MoneyDomain, $t in TidDomain with inbox($receiver, REQ, $na, $v, $t))) then
 			true
 		else
 			false

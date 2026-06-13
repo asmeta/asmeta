@@ -1,20 +1,19 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.transitionrules.turbotransitionrules.impl;
 
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
-import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
 import asmeta.terms.basicterms.Term;
+
 import asmeta.transitionrules.turbotransitionrules.TurboCallRule;
 import asmeta.transitionrules.turbotransitionrules.TurboReturnRule;
 import asmeta.transitionrules.turbotransitionrules.TurbotransitionrulesPackage;
+
+import org.eclipse.emf.common.notify.Notification;
+
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.InternalEObject;
+
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
  * <!-- begin-user-doc -->
@@ -50,7 +49,6 @@ public class TurboReturnRuleImpl extends TurboRuleImpl implements TurboReturnRul
 	 * @ordered
 	 */
 	protected TurboCallRule updateRule;
-
 
 	/**
 	 * <!-- begin-user-doc -->

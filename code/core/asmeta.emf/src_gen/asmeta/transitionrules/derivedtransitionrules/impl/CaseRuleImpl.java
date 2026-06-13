@@ -1,26 +1,28 @@
 /**
- * <copyright>
- * </copyright>
- *
- * $Id$
  */
 package asmeta.transitionrules.derivedtransitionrules.impl;
+
+import asmeta.terms.basicterms.Term;
+
+import asmeta.transitionrules.basictransitionrules.Rule;
+
+import asmeta.transitionrules.derivedtransitionrules.CaseRule;
+import asmeta.transitionrules.derivedtransitionrules.DerivedtransitionrulesPackage;
 
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
 import org.eclipse.emf.ecore.util.EDataTypeEList;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
-
-import asmeta.terms.basicterms.Term;
-import asmeta.transitionrules.basictransitionrules.Rule;
-import asmeta.transitionrules.derivedtransitionrules.CaseRule;
-import asmeta.transitionrules.derivedtransitionrules.DerivedtransitionrulesPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -78,7 +80,6 @@ public class CaseRuleImpl extends BasicDerivedRuleImpl implements CaseRule {
 	 * @ordered
 	 */
 	protected EList<Rule> caseBranches;
-
 
 	/**
 	 * <!-- begin-user-doc -->

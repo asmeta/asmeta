@@ -20,21 +20,21 @@ definitions:
 
 	function isDirMachine($car in Car, $dir in Dir) =
 		if $dir = NORTH or $dir = SOUTH then
-			(exist $c in Coord with board(0, $c) = $car and board(1, $c) = $car)
+			(exists $c in Coord with board(0, $c) = $car and board(1, $c) = $car)
 		else
-			(exist $r2 in Coord with board($r2, 0) = $car and board($r2, 1) = $car)
+			(exists $r2 in Coord with board($r2, 0) = $car and board($r2, 1) = $car)
 		endif
 
 	function isNextCellFree($car in Car, $dir in Dir) =
 		switch($dir)
 			case NORTH:
-				(exist $c in Coord with board(1, $c) = $car and board(0, $c) = 0)
+				(exists $c in Coord with board(1, $c) = $car and board(0, $c) = 0)
 			case SOUTH:
-				(exist $c1 in Coord with board(0, $c1) = $car and board(1, $c1) = 0)
+				(exists $c1 in Coord with board(0, $c1) = $car and board(1, $c1) = 0)
 			case WEST:
-				(exist $r3 in Coord with board($r3, 1) = $car and board($r3, 0) = 0)
+				(exists $r3 in Coord with board($r3, 1) = $car and board($r3, 0) = 0)
 			case EAST:
-				(exist $r2 in Coord with board($r2, 0) = $car and board($r2, 1) = 0)
+				(exists $r2 in Coord with board($r2, 0) = $car and board($r2, 1) = 0)
 		endswitch
 
 	function isMovePermitted($car in Car, $dir in Dir) =
