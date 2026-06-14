@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Asmeta Mutation
-Bundle-SymbolicName: asmeta.mutation
+Bundle-SymbolicName: asmeta.mutation;singleton:=true
 Bundle-Version: 26.06
 Bundle-RequiredExecutionEnvironment: JavaSE-21
 Automatic-Module-Name: asmeta.mutation
