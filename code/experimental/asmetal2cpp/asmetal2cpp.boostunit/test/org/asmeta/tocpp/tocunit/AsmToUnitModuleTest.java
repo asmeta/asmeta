@@ -28,8 +28,8 @@ import org.asmeta.simulator.Environment.TimeMngt;
 import org.asmeta.simulator.main.Simulator;
 import org.asmeta.tocpp.abstracttestgenerator.AsmTSGeneratorByNuSMV;
 import org.asmeta.tocpp.tocunit.AsmToBoostModule.UNITFM;
-import org.junit.Test;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import asmeta.AsmCollection;
 import asmetal2cpp_boostunit.ExampleTaker;

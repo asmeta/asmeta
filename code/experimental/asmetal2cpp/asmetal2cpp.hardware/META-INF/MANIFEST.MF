@@ -18,6 +18,5 @@ Import-Package: asmeta.structure
 Export-Package: org.asmeta.codegenerator,
  org.asmeta.codegenerator.arduino,
  org.asmeta.codegenerator.configuration
-Bundle-ClassPath: gson-2.2.2.jar,
- .
+Bundle-ClassPath: .
 Automatic-Module-Name: asmeta.asmetal2cpp.hw

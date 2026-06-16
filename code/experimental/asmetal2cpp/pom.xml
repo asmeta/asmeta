@@ -35,6 +35,8 @@
 	<modules>
 		<module>asmetal2cpp.codegen</module>
 		<module>asmetal2cpp.cli</module>
+		<module>asmetal2cpp.boostunit</module>
+		<module>asmetal2cpp.hardware</module>
 	</modules>
 	<parent>
 		<groupId>asmeta</groupId>

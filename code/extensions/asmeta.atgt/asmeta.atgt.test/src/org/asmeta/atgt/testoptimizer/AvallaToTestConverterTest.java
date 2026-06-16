@@ -10,7 +10,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.resource.XtextResourceSet;
-import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import com.google.inject.Injector;
@@ -21,7 +21,7 @@ import atgt.specification.location.Location;
 public class AvallaToTestConverterTest {
 
 	@Test
-	@Ignore
+	@Disabled("TODO: fiz this test")
 	public void testFromAvallaToTestSequence() throws IOException {
 		String avallaPath = "examples/optimizer/scenario.avalla";
 		// TODO: Fails when run as plain JUnit in Eclipse probably due to some classpath conflict:

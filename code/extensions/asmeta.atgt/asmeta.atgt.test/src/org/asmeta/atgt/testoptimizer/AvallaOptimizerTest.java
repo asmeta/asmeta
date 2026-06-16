@@ -2,15 +2,15 @@ package org.asmeta.atgt.testoptimizer;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
-import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+
 
 
 public class AvallaOptimizerTest {
 
 	@Test
-	@Ignore
-	// TODO: complete when the classpath conflict in AvallaOptimizer is fixed
+	@Disabled("TODO: complete when the classpath conflict in AvallaOptimizer is fixed")
 	public void testFromAvallaToOptimizedAvalla() {
 		AvallaOptimizer optimizer = new AvallaOptimizer();
 		try {
