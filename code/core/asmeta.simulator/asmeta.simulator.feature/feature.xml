@@ -2,7 +2,7 @@
 <feature
       id="org.asmeta.simulator.feature"
       label="Asmeta simulator"
-      version="26.03"
+      version="26.06"
       provider-name="https://foselab.unibg.it/">
 
    <description>
@@ -34,9 +34,7 @@ See https://asmeta.github.io
       <import plugin="org.eclipse.jface.text"/>
       <import plugin="org.eclipse.emf.common"/>
       <import plugin="org.eclipse.ui.workbench"/>
-      <import plugin="org.asmeta.xt"/>
-      <import plugin="org.asmeta.xt.ui"/>
-      <import plugin="org.asmeta.xt.ide"/>
+      <import feature="org.asmeta.xt.feature" version="26.06"/>
    </requires>
 
    <plugin

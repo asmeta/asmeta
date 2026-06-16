@@ -2,7 +2,7 @@
 <feature
       id="org.asmeta.xt.feature"
       label="Asmeta xtext editor"
-      version="26.03"
+      version="26.06"
       provider-name="https://foselab.unibg.it/">
 
    <description url="asmeta.sf.net">
@@ -46,17 +46,13 @@ See https://asmeta.github.io
       <import plugin="org.eclipse.xtext.xbase.ide"/>
       <import feature="org.asmeta.simulator.feature"/>
    </requires>
-
    <plugin
-         id="org.asmeta.xt"
+         id="asmeta.xt"
          version="0.0.0"/>
-
    <plugin
-         id="org.asmeta.xt.ui"
+         id="asmeta.xt.ui"
          version="0.0.0"/>
-
    <plugin
-         id="org.asmeta.xt.ide"
+         id="asmeta.xt.ide"
          version="0.0.0"/>
-
 </feature>

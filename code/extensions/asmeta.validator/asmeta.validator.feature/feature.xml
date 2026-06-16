@@ -2,7 +2,7 @@
 <feature
       id="org.asmeta.validator.feature"
       label="Asmeta validator"
-      version="26.03"
+      version="26.06"
       provider-name="https://foselab.unibg.it/">
 
    <description>
@@ -53,7 +53,7 @@ See https://asmeta.github.io
       <import plugin="org.eclipse.xtext.builder"/>
       <import plugin="org.eclipse.xtext.ide"/>
       <import plugin="org.eclipse.xtext.xbase.ide"/>
-      <import feature="org.asmeta.simulator.feature" version="26.03"/>
+      <import feature="org.asmeta.simulator.feature" version="26.06"/>
    </requires>
 
    <plugin
@@ -62,6 +62,10 @@ See https://asmeta.github.io
 
    <plugin
          id="asmeta.validator"
+         version="0.0.0"/>
+
+   <plugin
+         id="asmeta.mutation"
          version="0.0.0"/>
 
 </feature>
