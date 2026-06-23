@@ -6,10 +6,10 @@
    <extension
          point="org.eclipse.ui.views">
       <view
-            id="org.asmeta.visualdesigner.views.DesignView"
-            name="ASM Designer"
-            class="org.asmeta.visualdesigner.views.DesignView">
-      </view>
+      		name="ASM Designer (GEF)"
+      		class="org.asmeta.visualdesigner.views.GefDesignView"
+      		id="org.asmeta.visualdesigner.views.GefDesignView">
+	  </view>
    </extension>
 
 </plugin>

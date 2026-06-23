@@ -7,7 +7,8 @@ Bundle-Activator: asmeta.visualdesigner.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.ui.ide;bundle-version="3.22.600",
- org.eclipse.draw2d;bundle-version="3.20.0"
+ org.eclipse.draw2d;bundle-version="3.20.0",
+ org.eclipse.gef
 Bundle-RequiredExecutionEnvironment: JavaSE-24
 Automatic-Module-Name: asmeta.visualdesigner
 Bundle-ActivationPolicy: lazy
