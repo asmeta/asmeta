@@ -9,8 +9,7 @@ public class DeleteTransitionCommand extends Command {
     private final DiagramModel diagram;
     private final Transition transition;
 
-    private int oldIndex = -1;
-    private boolean removedByThisCommand = false;
+    private int oldIndex;
 
     public DeleteTransitionCommand(DiagramModel diagram, Transition transition) {
         this.diagram = diagram;
@@ -20,9 +19,7 @@ public class DeleteTransitionCommand extends Command {
 
     @Override
     public boolean canExecute() {
-        return diagram != null
-            && transition != null
-            && diagram.getTransitions().contains(transition);
+        return diagram != null && transition != null;
     }
 
     @Override
@@ -33,18 +30,11 @@ public class DeleteTransitionCommand extends Command {
 
     @Override
     public void redo() {
-        if (diagram.getTransitions().contains(transition)) {
-            diagram.removeTransition(transition);
-            removedByThisCommand = true;
-        } else {
-            removedByThisCommand = false;
-        }
+        diagram.removeTransition(transition);
     }
 
     @Override
     public void undo() {
-        if (removedByThisCommand) {
-            diagram.addTransition(oldIndex, transition);
-        }
+        diagram.addTransitionAt(oldIndex, transition);
     }
 }

@@ -4,28 +4,35 @@ public class Transition {
 
     private DiagramNode source;
     private DiagramNode target;
+    private String label;
 
     public Transition() {
+        this(null, null, null);
     }
 
     public Transition(DiagramNode source, DiagramNode target) {
+        this(source, target, null);
+    }
+
+    public Transition(DiagramNode source, DiagramNode target, String label) {
         this.source = source;
         this.target = target;
+        this.label = label;
     }
 
     public DiagramNode getSource() {
         return source;
     }
 
-    public void setSource(DiagramNode source) {
-        this.source = source;
-    }
-
     public DiagramNode getTarget() {
         return target;
     }
 
-    public void setTarget(DiagramNode target) {
-        this.target = target;
+    public String getLabel() {
+        return label;
+    }
+
+    public boolean hasLabel() {
+        return label != null && !label.isBlank();
     }
 }

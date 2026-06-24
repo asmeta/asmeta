@@ -1,5 +1,7 @@
 package org.asmeta.visualdesigner.editparts;
 
+import org.asmeta.visualdesigner.model.Transition;
+import org.asmeta.visualdesigner.policies.TransitionComponentEditPolicy;
 import org.eclipse.draw2d.ConnectionEndpointLocator;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
@@ -9,10 +11,10 @@ import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 import org.eclipse.gef.editpolicies.ConnectionEndpointEditPolicy;
-import org.asmeta.visualdesigner.policies.TransitionComponentEditPolicy;
-
 
 public class TransitionEditPart extends AbstractConnectionEditPart {
+
+    private Label label;
 
     @Override
     protected IFigure createFigure() {
@@ -28,11 +30,27 @@ public class TransitionEditPart extends AbstractConnectionEditPart {
 
         connection.setTargetDecoration(decoration);
 
-        Label label = new Label("transition");
-        ConnectionEndpointLocator locator = new ConnectionEndpointLocator(connection, false);
-        connection.add(label, locator);
-
         return connection;
+    }
+
+    @Override
+    protected void refreshVisuals() {
+        super.refreshVisuals();
+
+        Transition transition = (Transition) getModel();
+        PolylineConnection connection = (PolylineConnection) getFigure();
+
+        if (label != null) {
+            connection.remove(label);
+            label = null;
+        }
+
+        if (transition.hasLabel()) {
+            label = new Label(transition.getLabel());
+            ConnectionEndpointLocator locator = new ConnectionEndpointLocator(connection, false);
+
+            connection.add(label, locator);
+        }
     }
 
     @Override

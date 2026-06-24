@@ -10,13 +10,12 @@ import org.eclipse.gef.requests.GroupRequest;
 
 public class RuleComponentEditPolicy extends ComponentEditPolicy {
 
+  
     @Override
     protected Command createDeleteCommand(GroupRequest deleteRequest) {
-        RuleNodeEditPart rulePart = (RuleNodeEditPart) getHost();
+        RuleNode rule = (RuleNode) getHost().getModel();
+        DiagramModel diagram = (DiagramModel) getHost().getParent().getModel();
 
-        RuleNode node = rulePart.getRuleNode();
-        DiagramModel diagram = (DiagramModel) rulePart.getParent().getModel();
-
-        return new DeleteRuleCommand(diagram, node);
+        return new DeleteRuleCommand(diagram, rule);
     }
 }

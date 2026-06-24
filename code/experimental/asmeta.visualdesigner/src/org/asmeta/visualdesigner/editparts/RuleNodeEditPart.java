@@ -43,18 +43,8 @@ implements PropertyChangeListener, DiagramNodeEditPart {
     protected void refreshVisuals() {
         RuleNode node = (RuleNode) getModel();
 
-        Rectangle bounds = new Rectangle(
-            node.getX(),
-            node.getY(),
-            node.getWidth(),
-            node.getHeight()
-        );
-
-        ((GraphicalEditPart) getParent()).setLayoutConstraint(
-            this,
-            getFigure(),
-            bounds
-        );
+        Rectangle bounds = new Rectangle( node.getX(), node.getY(), node.getWidth(), node.getHeight());
+        ((GraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(), bounds);
     }
 
     @Override

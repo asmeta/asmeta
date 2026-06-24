@@ -33,12 +33,14 @@ public class CreateTransitionCommand extends Command {
             && source != null
             && target != null
             && source != target
-            && !(target instanceof StartNode);
+            && !(target instanceof StartNode)
+            && diagram.canAddTransitionFrom(source);
     }
 
     @Override
     public void execute() {
-        transition = new Transition(source, target);
+        String label = diagram.getNextTransitionLabel(source);
+        transition = new Transition(source, target, label);
         redo();
     }
 

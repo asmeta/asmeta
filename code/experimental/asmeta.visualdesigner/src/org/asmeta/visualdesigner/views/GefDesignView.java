@@ -44,6 +44,13 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.custom.StyledText;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 
 /*
  * Main view: here manage the panels and interactions to create the different rules and transitions.
@@ -68,23 +75,27 @@ public class GefDesignView extends ViewPart {
     private Text calledRuleText;
     private Text parametersText;
 
+    private StyledText asmetaCodeText;
+    
     private RuleNode selectedRule;
     private boolean updatingPropertiesPanel = false;
 
     @Override
     public void createPartControl(Composite parent) {
-        SashForm sash = new SashForm(parent, SWT.HORIZONTAL);
+        SashForm verticalSash = new SashForm(parent, SWT.VERTICAL);
+
+        SashForm topSash = new SashForm(verticalSash, SWT.HORIZONTAL);
 
         editDomain = new DefaultEditDomain(null);
 
         paletteViewer = new PaletteViewer();
-        paletteViewer.createControl(sash);
+        paletteViewer.createControl(topSash);
         paletteViewer.setPaletteRoot(createPaletteRoot());
 
         viewer = new ScrollingGraphicalViewer();
-        viewer.createControl(sash);
+        viewer.createControl(topSash);
 
-        propertiesPanel = createPropertiesPanel(sash);
+        propertiesPanel = createPropertiesPanel(topSash);
 
         editDomain.addViewer(viewer);
         editDomain.setPaletteViewer(paletteViewer);
@@ -100,7 +111,41 @@ public class GefDesignView extends ViewPart {
 
         installKeyboardShortcuts();
 
-        sash.setWeights(new int[] { 1, 4, 2 });
+        topSash.setWeights(new int[] { 1, 4, 2 });
+
+        createAsmetaCodePanel(verticalSash);
+
+        verticalSash.setWeights(new int[] { 75, 25 });
+    }
+    
+    private void createAsmetaCodePanel(Composite parent) {
+        Composite panel = new Composite(parent, SWT.BORDER);
+        panel.setLayout(new GridLayout(1, false));
+
+        Label title = new Label(panel, SWT.NONE);
+        title.setText("ASMETA code section");
+
+        asmetaCodeText = new StyledText(
+                panel,
+                SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL | SWT.BORDER
+        );
+
+        asmetaCodeText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+
+        String initialText =
+                "signature:\n" +
+                "\n" +
+                "domains:\n" +
+                "\n" +
+                "properties:\n";
+
+        asmetaCodeText.setText(initialText);
+
+        model.setAsmetaCode(initialText);
+
+        asmetaCodeText.addModifyListener(e -> {
+            model.setAsmetaCode(asmetaCodeText.getText());
+        });
     }
 
     private PaletteRoot createPaletteRoot() {
@@ -119,6 +164,24 @@ public class GefDesignView extends ViewPart {
         	    "Create a conditional rule",
         	    RuleType.CONDITIONAL,
         	    new RuleCreationFactory(RuleType.CONDITIONAL, "Conditional Rule"),
+        	    null,
+        	    null
+        	));
+        
+        rulesDrawer.add(new CombinedTemplateCreationEntry(
+        	    "CHOOSE Rule",
+        	    "Create a choose rule",
+        	    RuleType.CHOOSE,
+        	    new RuleCreationFactory(RuleType.CHOOSE, "CHOOSE Rule"),
+        	    null,
+        	    null
+        	));
+
+        rulesDrawer.add(new CombinedTemplateCreationEntry(
+        	    "CALL Rule",
+        	    "Create a call rule",
+        	    RuleType.CALL,
+        	    new RuleCreationFactory(RuleType.CALL, "CALL Rule"),
         	    null,
         	    null
         	));
@@ -141,23 +204,7 @@ public class GefDesignView extends ViewPart {
         	    null
         	));
 
-        	rulesDrawer.add(new CombinedTemplateCreationEntry(
-        	    "CHOOSE Rule",
-        	    "Create a choose rule",
-        	    RuleType.CHOOSE,
-        	    new RuleCreationFactory(RuleType.CHOOSE, "CHOOSE Rule"),
-        	    null,
-        	    null
-        	));
-
-        	rulesDrawer.add(new CombinedTemplateCreationEntry(
-        	    "CALL Rule",
-        	    "Create a call rule",
-        	    RuleType.CALL,
-        	    new RuleCreationFactory(RuleType.CALL, "CALL Rule"),
-        	    null,
-        	    null
-        	));
+        	
 
         	rulesDrawer.add(new CombinedTemplateCreationEntry(
         	    "UPDATE Rule",
@@ -337,46 +384,38 @@ public class GefDesignView extends ViewPart {
         nameText.addModifyListener(new ModifyListener() {
             @Override
             public void modifyText(ModifyEvent event) {
-                if (updatingPropertiesPanel || selectedRule == null) {
-                    return;
+                if (!updatingPropertiesPanel && selectedRule != null) {
+                    selectedRule.setName(nameText.getText());
+                    selectedTitle.setText("Rule: " + selectedRule.getName());
+                    propertiesPanel.layout(true, true);
                 }
-
-                selectedRule.setName(nameText.getText());
-                selectedTitle.setText("Rule: " + selectedRule.getName());
-                propertiesPanel.layout(true, true);
             }
         });
 
         conditionText.addModifyListener(new ModifyListener() {
             @Override
             public void modifyText(ModifyEvent event) {
-                if (updatingPropertiesPanel || selectedRule == null) {
-                    return;
+                if (!updatingPropertiesPanel && selectedRule != null) {
+                    selectedRule.setCondition(conditionText.getText());
                 }
-
-                selectedRule.setCondition(conditionText.getText());
             }
         });
 
         calledRuleText.addModifyListener(new ModifyListener() {
             @Override
             public void modifyText(ModifyEvent event) {
-                if (updatingPropertiesPanel || selectedRule == null) {
-                    return;
+                if (!updatingPropertiesPanel && selectedRule != null) {
+                    selectedRule.setCalledRuleName(calledRuleText.getText());
                 }
-
-                selectedRule.setCalledRuleName(calledRuleText.getText());
             }
         });
 
         parametersText.addModifyListener(new ModifyListener() {
             @Override
             public void modifyText(ModifyEvent event) {
-                if (updatingPropertiesPanel || selectedRule == null) {
-                    return;
+                if (!updatingPropertiesPanel && selectedRule != null) {
+                    selectedRule.setParameters(parametersText.getText());
                 }
-
-                selectedRule.setParameters(parametersText.getText());
             }
         });
     }
@@ -384,37 +423,28 @@ public class GefDesignView extends ViewPart {
     private void handleSelectionChanged(SelectionChangedEvent event) {
         ISelection selection = event.getSelection();
 
-        if (!(selection instanceof IStructuredSelection)) {
+        if (selection instanceof IStructuredSelection) {
+            IStructuredSelection structuredSelection = (IStructuredSelection) selection;
+
+            if (!structuredSelection.isEmpty()) {
+                Object selected = structuredSelection.getFirstElement();
+
+                if (selected instanceof RuleNodeEditPart) {
+                    RuleNodeEditPart rulePart = (RuleNodeEditPart) selected;
+                    showRuleProperties(rulePart.getRuleNode());
+                } else if (selected instanceof StartNodeEditPart) {
+                    showStartNodeProperties();
+                } else if (selected instanceof TransitionEditPart) {
+                    showTransitionProperties();
+                } else {
+                    showNoSelection();
+                }
+            } else {
+                showNoSelection();
+            }
+        } else {
             showNoSelection();
-            return;
         }
-
-        IStructuredSelection structuredSelection = (IStructuredSelection) selection;
-
-        if (structuredSelection.isEmpty()) {
-            showNoSelection();
-            return;
-        }
-
-        Object selected = structuredSelection.getFirstElement();
-
-        if (selected instanceof RuleNodeEditPart) {
-            RuleNodeEditPart rulePart = (RuleNodeEditPart) selected;
-            showRuleProperties(rulePart.getRuleNode());
-            return;
-        }
-
-        if (selected instanceof StartNodeEditPart) {
-            showStartNodeProperties();
-            return;
-        }
-
-        if (selected instanceof TransitionEditPart) {
-            showTransitionProperties();
-            return;
-        }
-
-        showNoSelection();
     }
     
     private void showRuleProperties(RuleNode rule) {

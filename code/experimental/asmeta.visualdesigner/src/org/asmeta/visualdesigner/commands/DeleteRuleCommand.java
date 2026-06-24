@@ -1,9 +1,7 @@
 package org.asmeta.visualdesigner.commands;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.asmeta.visualdesigner.model.DiagramModel;
 import org.asmeta.visualdesigner.model.RuleNode;
@@ -13,38 +11,40 @@ import org.eclipse.gef.commands.Command;
 public class DeleteRuleCommand extends Command {
 
     private final DiagramModel diagram;
-    private final RuleNode node;
+    private final RuleNode rule;
 
     private int oldRuleIndex;
 
     private final List<Transition> removedTransitions = new ArrayList<>();
     private final List<Integer> removedTransitionIndexes = new ArrayList<>();
 
-    public DeleteRuleCommand(DiagramModel diagram, RuleNode node) {
+    public DeleteRuleCommand(DiagramModel diagram, RuleNode rule) {
         this.diagram = diagram;
-        this.node = node;
+        this.rule = rule;
         setLabel("Delete rule");
     }
 
     @Override
     public boolean canExecute() {
-        return diagram != null && node != null && diagram.getRules().contains(node);
+        return diagram != null && rule != null;
     }
 
     @Override
     public void execute() {
-        oldRuleIndex = diagram.getRules().indexOf(node);
+        oldRuleIndex = diagram.getRules().indexOf(rule);
 
         removedTransitions.clear();
         removedTransitionIndexes.clear();
 
-        Set<Transition> connectedTransitions = new LinkedHashSet<>();
-        connectedTransitions.addAll(node.getSourceTransitions());
-        connectedTransitions.addAll(node.getTargetTransitions());
+        List<Transition> transitionsSnapshot = new ArrayList<>(diagram.getTransitions());
 
-        for (Transition transition : connectedTransitions) {
-            removedTransitions.add(transition);
-            removedTransitionIndexes.add(diagram.getTransitions().indexOf(transition));
+        for (int i = 0; i < transitionsSnapshot.size(); i++) {
+            Transition transition = transitionsSnapshot.get(i);
+
+            if (transition.getSource() == rule || transition.getTarget() == rule) {
+                removedTransitions.add(transition);
+                removedTransitionIndexes.add(i);
+            }
         }
 
         redo();
@@ -52,22 +52,22 @@ public class DeleteRuleCommand extends Command {
 
     @Override
     public void redo() {
-        for (Transition transition : new ArrayList<>(removedTransitions)) {
+        for (Transition transition : removedTransitions) {
             diagram.removeTransition(transition);
         }
 
-        diagram.removeRule(node);
+        diagram.removeRule(rule);
     }
 
     @Override
     public void undo() {
-        diagram.addRule(oldRuleIndex, node);
+        diagram.addRule(oldRuleIndex, rule);
 
         for (int i = 0; i < removedTransitions.size(); i++) {
             Transition transition = removedTransitions.get(i);
             int index = removedTransitionIndexes.get(i);
 
-            diagram.addTransition(index, transition);
+            diagram.addTransitionAt(index, transition);
         }
     }
 }

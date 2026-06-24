@@ -35,18 +35,8 @@ public class StartNodeEditPart extends AbstractGraphicalEditPart
     protected void refreshVisuals() {
         StartNode node = getStartNode();
 
-        Rectangle bounds = new Rectangle(
-            node.getX(),
-            node.getY(),
-            node.getWidth(),
-            node.getHeight()
-        );
-
-        ((GraphicalEditPart) getParent()).setLayoutConstraint(
-            this,
-            getFigure(),
-            bounds
-        );
+        Rectangle bounds = new Rectangle(node.getX(), node.getY(), node.getWidth(), node.getHeight());
+        ((GraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(), bounds);
     }
 
     @Override

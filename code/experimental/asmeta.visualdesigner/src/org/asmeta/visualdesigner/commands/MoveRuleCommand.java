@@ -23,33 +23,17 @@ public class MoveRuleCommand extends Command {
 
     @Override
     public void execute() {
-        oldBounds = new Rectangle(
-            node.getX(),
-            node.getY(),
-            node.getWidth(),
-            node.getHeight()
-        );
-
+        oldBounds = new Rectangle(node.getX(), node.getY(), node.getWidth(), node.getHeight());
         redo();
     }
 
     @Override
     public void redo() {
-        node.setLayout(
-            newBounds.x,
-            newBounds.y,
-            newBounds.width,
-            newBounds.height
-        );
+        node.setLayout(newBounds.x, newBounds.y, newBounds.width, newBounds.height );
     }
 
     @Override
     public void undo() {
-        node.setLayout(
-            oldBounds.x,
-            oldBounds.y,
-            oldBounds.width,
-            oldBounds.height
-        );
+        node.setLayout(oldBounds.x, oldBounds.y, oldBounds.width, oldBounds.height);
     }
 }
