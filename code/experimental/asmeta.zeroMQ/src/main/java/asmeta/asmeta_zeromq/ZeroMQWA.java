@@ -97,7 +97,6 @@ public class ZeroMQWA {
                         String value = trimmed.substring(eqIdx + 1).trim();
                         this.INITIAL_OUTPUTS.put(key, value);
                     } else {
-                        logger.warn("[{}] INITIAL_OUTPUTS: voce malformata ignorata: '{}'", sectionPrefix, trimmed);
                     }
                 }
 	
@@ -143,7 +142,7 @@ public class ZeroMQWA {
     /////////////////////////////////////////////////////////////////////////////////////////
     private int initializeAsm(String modelPath) throws Exception {
 
-       // sim = new SimulationContainer(Environment.TimeMngt.use_java_time);
+        //sim = new SimulationContainer(Environment.TimeMngt.use_java_time);
     	sim = new SimulationContainer();
         sim.init(1);
 
@@ -320,6 +319,10 @@ public class ZeroMQWA {
         if (this.CONSOLE_INPUT_FUNCTIONS.size() % 2 != 0) {
             logger.warn("[{}] CONSOLE_INPUT_FUNCTIONS ha numero dispari di elementi, ultimo ignorato", sectionPrefix);
         }
+        if (this.INITIAL_OUTPUTS != null && !this.INITIAL_OUTPUTS.isEmpty()) {
+            this.currentMonitoredValues.putAll(this.INITIAL_OUTPUTS);
+            logger.info("[{}] Seed INITIAL_OUTPUTS in currentMonitoredValues", this.sectionPrefix);
+        }
     }
 /////////////////////////////////////////////////////////////////////////////////////////////////////
     public void run() {
@@ -373,7 +376,7 @@ public class ZeroMQWA {
 
                     java.io.PrintStream originalOut = System.out;
                     System.setOut(new java.io.PrintStream(new java.io.OutputStream() {
-                        public void write(int b) { /* vuoto */ }
+                        public void write(int b) { /*  */ }
                     }));
 
 
@@ -406,6 +409,10 @@ public class ZeroMQWA {
                         sim.rollback(this.asmId);
                     }
                     
+                    for (String envFunc : this.ASM_ENVIRONMENT_FUNCTIONS) {
+                        currentMonitoredValues.keySet().removeIf(
+                            k -> k.equals(envFunc) || k.startsWith(envFunc + "("));
+                    }
                    // currentMonitoredValues.clear(); 
                 } else if (!receivedData) {
                     Thread.sleep(10); 
@@ -425,9 +432,8 @@ public class ZeroMQWA {
             Map<String, String> receivedData = gson.fromJson(payload, mapStringStringType);
             if (receivedData != null) {
                 currentMonitoredValues.putAll(receivedData);
-                logger.debug("[{}] monitored attuali: {}", sectionPrefix, currentMonitoredValues);
+                logger.debug("[{}] monitored: {}", sectionPrefix, currentMonitoredValues);
             } else {
-                logger.warn("[{}] DEBUG payload non parsato come JSON: {}", sectionPrefix, payload);
             }
         } catch (Exception e) {
             logger.error("[{}] Failed to parse JSON payload '{}': {}", sectionPrefix, payload, e.getMessage());
@@ -530,38 +536,51 @@ public class ZeroMQWA {
 
             String orchPubAddr = "tcp://127.0.0.1:5550"; 
             String orchSubAddr = "tcp://127.0.0.1:5551"; 
-
+           
             subSocket.connect(orchPubAddr);
             subSocket.subscribe(("CMD_" + this.sectionPrefix).getBytes(ZMQ.CHARSET));
             subSocket.subscribe("CMD:ROLLBACK_ALL".getBytes(ZMQ.CHARSET));
+            subSocket.subscribe("CMD:READY".getBytes(ZMQ.CHARSET)); 
 
             pubSocket.connect(orchSubAddr);
 
             logger.info("[{}] ORCHESTRATED Worker Started. Connected to the Master.", this.sectionPrefix);
             initializeStartingValues();
-            
+
             if (this.INITIAL_OUTPUTS != null && !this.INITIAL_OUTPUTS.isEmpty()) {
                 currentMonitoredValues.putAll(this.INITIAL_OUTPUTS);
-                logger.info("[{}] Seed INITIAL_OUTPUTS in currentMonitoredValues: {} key", 
+                logger.info("[{}] Seed INITIAL_OUTPUTS in currentMonitoredValues: {} key",
                             this.sectionPrefix, this.INITIAL_OUTPUTS.size());
             }
-            
-            
+
+   
+            boolean orchestratorReady = false;
+            while (!orchestratorReady && !Thread.currentThread().isInterrupted()) {
+                String readyTopic = subSocket.recvStr();
+                String readyPayload = subSocket.recvStr();
+                if ("CMD:READY".equals(readyTopic)) {
+                    orchestratorReady = true;
+                }
+
+            }
+            Map<String, Object> bootstrapMsg = new HashMap<>();
             if (this.INITIAL_OUTPUTS != null && !this.INITIAL_OUTPUTS.isEmpty()) {
-                Map<String, Object> bootstrapMsg = new HashMap<>(this.INITIAL_OUTPUTS);
+              //  Map<String, Object> bootstrapMsg = new HashMap<>(this.INITIAL_OUTPUTS);
                 bootstrapMsg.put("asm_status", "BOOTSTRAP");
                 pubSocket.sendMore("BOOTSTRAP_" + this.sectionPrefix);
                 pubSocket.send(gson.toJson(bootstrapMsg));
-                logger.info("[{}] Bootstrap INITIAL_OUTPUTS pubblicato sulla mailbox", this.sectionPrefix);
+              
             }
 
 
             while (!Thread.currentThread().isInterrupted()) {
+ 
                 String topic = subSocket.recvStr();
                 String payload = subSocket.recvStr();
 
    
                 if ("CMD:ROLLBACK_ALL".equals(topic)) {
+                	if (this.lastStepWasSafe) 
                     logger.warn("[{}] ROLLBACK on the Orchestrator's command", this.sectionPrefix);
                     sim.rollback(this.asmId);
                     continue;
@@ -571,7 +590,21 @@ public class ZeroMQWA {
                     try {
 
                         Map<String, Object> command = gson.fromJson(payload, new TypeToken<Map<String, Object>>(){}.getType());
-                        Object dataObj = command.get("data");
+                        
+                     if (command != null && "ROLLBACK".equals(command.get("cmd"))) {
+                         if (this.lastStepWasSafe) {
+                             sim.rollback(this.asmId);
+                             logger.warn("[{}] Targeted ROLLBACK applied (back to last SAFE state).", this.sectionPrefix);
+                         } else {
+                             logger.warn("[{}] ROLLBACK skipped: already auto-reverted by AsmetaS.", this.sectionPrefix);
+                         }
+                         this.lastStepWasSafe = false;
+                         continue;
+                     }
+
+                     Object dataObj = command.get("data");   // <-- resto invariato da qui                     
+                        
+                        
                         
                         if (dataObj instanceof List) {
                             for(Object item : (List<?>)dataObj) {
@@ -595,10 +628,12 @@ public class ZeroMQWA {
 
                             Map<String, Object> response = new HashMap<>();
                             if (output.getEsit() == Esit.SAFE) {
+                            	this.lastStepWasSafe = true;  
                                 response.put("asm_status", "SAFE");
                                 response.put("out_data", output.getOutvalues());
                                 logger.info("[{}] Step COMPLETED (SAFE).", this.sectionPrefix);
                             } else {
+                            	 this.lastStepWasSafe = false;  
                                 response.put("asm_status", "UNSAFE");
                                 handleUnsafeState(monitoredForStep);
                             }
@@ -606,14 +641,15 @@ public class ZeroMQWA {
                             pubSocket.sendMore("STATUS_" + this.sectionPrefix);
                             pubSocket.send(gson.toJson(response));
                             
-                           // currentMonitoredValues.clear(); 
-                        } else {
-                            logMissingInputsIfAny();
-                            Map<String, Object> response = new HashMap<>();
-                            response.put("asm_status", "UNSAFE");
-                            pubSocket.sendMore("STATUS_" + this.sectionPrefix);
-                            pubSocket.send(gson.toJson(response));
-                        }
+                           //currentMonitoredValues.clear(); 
+                        } 
+                     else {
+                        logMissingInputsIfAny();
+                        Map<String, Object> response = new HashMap<>();
+                        response.put("asm_status", "NOT_READY");
+                        pubSocket.sendMore("STATUS_" + this.sectionPrefix);
+                        pubSocket.send(gson.toJson(response));
+                    }
                     } catch (Exception e) {
                         logger.error("[{}] Error during execution: {}", this.sectionPrefix, e.getMessage());
                     }

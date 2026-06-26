@@ -39,7 +39,7 @@ public class environment {
     public static void main(String[] args) {
         Properties env;
         try (InputStream in = environment.class.getClassLoader()
-                .getResourceAsStream("configs/MRM/zmq_config_MRM.properties")) {
+                .getResourceAsStream("configs/MVM/zmq_config_MVM.properties")) {
 
             if (in == null) {
                 throw new RuntimeException("zmq_config.properties not found in classpath.");

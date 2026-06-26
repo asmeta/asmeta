@@ -38,10 +38,7 @@ public class ModelProcess {
 
                 modelConfig.setProperty("execution_mode", executionMode);
                 modelConfig.setProperty("calculated_pub_topic", pubTopic);
-                modelConfig.setProperty("calculated_sub_topics", subTopics);
-                
-                System.out.println("[ModelProcess] Parametri AST ricevuti -> Mode: " + executionMode + 
-                                   ", PUB: " + pubTopic + ", SUB: [" + subTopics + "]");
+                modelConfig.setProperty("calculated_sub_topics", subTopics);               
             }
 
 

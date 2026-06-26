@@ -83,9 +83,40 @@ public class OrchestrationLauncher extends SimulationLauncher {
                     }
                 }
             });
-            receiverThread.start();
+          
+            
+            receiverThread.start();       
+            ConcurrentHashMap<String, String> bootstrapState = new ConcurrentHashMap<>();
+        
+            int expectedBootstraps = countModelsWithInitialOutputs(systemConfig, modelsToSpawn);
+            long handshakeStart = System.currentTimeMillis();
+            final long HANDSHAKE_TIMEOUT_MS = 15000; 
 
-            OrchestrationVisitor visitor = new OrchestrationVisitor(orchPub, mailbox);
+            while (bootstrapState.size() < expectedBootstraps) {
+       
+                synchronized (orchPub) {
+                    orchPub.sendMore("CMD:READY");
+                    orchPub.send("READY");
+                }
+
+ 
+                for (String key : mailbox.keySet()) {
+                    if (key.startsWith("BOOTSTRAP_")) {
+                        bootstrapState.put(key, mailbox.get(key));
+                    }
+                }
+
+                if (System.currentTimeMillis() - handshakeStart > HANDSHAKE_TIMEOUT_MS) {
+
+                    break;
+                }
+
+                try { Thread.sleep(100); } catch (InterruptedException e) { Thread.currentThread().interrupt(); break; }
+            }
+            System.out.println("[Orchestrator] Handshake completed: " + bootstrapState.size()
+                             + "/" + expectedBootstraps);
+
+            OrchestrationVisitor visitor = new OrchestrationVisitor(orchPub, mailbox, bootstrapState);
 
 
             startEnvironment();
@@ -108,24 +139,28 @@ public class OrchestrationLauncher extends SimulationLauncher {
                     String nextPayload = envSub.recvStr();
                     envPayloads.add(nextPayload);
                 }
-
-                System.out.println("\n--- GLOBAL STEP " + stepCorrente 
-                                  + " (from env: " + topic 
-                                  + ", " + envPayloads.size());
                 
                 List<String> envData = new ArrayList<>(envPayloads);
 
+                visitor.resetStepTracking();
                 try {
                     astRoot.accept(visitor, envData);
-                    System.out.println("--- STEP " + stepCorrente + " OK ---");
-                } catch (OrchestrationVisitor.UnsafeExecutionException e) {
-                    System.err.println("[Orchestratore] ROLLBACK GLOBALE!");
+                } catch (OrchestrationVisitor.UnsafeExecutionException
+                       | java.util.concurrent.CompletionException e) {
+
+                    java.util.List<String> toRollback = visitor.getCommittedThisStep();
+                    System.err.println("[Orchestrator] STEP " + stepCorrente
+                                     + " UNSAFE -> targeted rollback of: " + toRollback);
+
                     synchronized (orchPub) {
-                        orchPub.sendMore("CMD:ROLLBACK_ALL");
-                        orchPub.send("RESET");
+                        for (String model : toRollback) {
+                            orchPub.sendMore("CMD_" + model);
+                            orchPub.send("{\"cmd\":\"ROLLBACK\"}");
+                        }
                     }
-                    break; 
+                    continue;
                 }
+                
 
                 stepCorrente++;
             }
@@ -150,6 +185,18 @@ public class OrchestrationLauncher extends SimulationLauncher {
             names.addAll(extractModelNames(((asmeta.asmeta_zeromq.ast.FullBiPipeNode) node).getRightChild()));
         }
         return names;
+    }
+
+    private int countModelsWithInitialOutputs(Properties systemConfig, List<String> modelNames) {
+        int count = 0;
+        for (String model : modelNames) {
+            String key = model + ".INITIAL_OUTPUTS";
+            String val = systemConfig.getProperty(key);
+            if (val != null && !val.trim().isEmpty()) {
+                count++;
+            }
+        }
+        return count;
     }
 
 

@@ -24,5 +24,6 @@ public class ModelNode implements ISimulationNode {
     @Override
     public List<String> accept(ISimulationVisitor visitor, List<String> inputTopics) {
         return visitor.visit(this, inputTopics);
-    }    
+    }  
+ 
 }
