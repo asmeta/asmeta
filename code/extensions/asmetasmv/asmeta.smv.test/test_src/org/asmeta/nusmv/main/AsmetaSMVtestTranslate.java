@@ -446,6 +446,13 @@ public class AsmetaSMVtestTranslate extends AsmetaSMVtestTranslateBase{
 		testOneSpec(ASMETA_MODELS + "/tutorials/tutorial_FM24/pillbox_ground.asm", options);
 	}
 
+	@Test
+	public void testEBike() {
+		AsmetaSMVOptions options = new AsmetaSMVOptions();
+		options.keepNuSMVfile = true;
+		//AsmetaSMVOptions.FLATTEN = true;
+		testOneSpec("examples/tvsw_angelo/ebike.asm", options);
+	}
 	
 	
 	@Test

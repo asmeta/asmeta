@@ -8,5 +8,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-21
 Require-Bundle: asmeta.validator,
  asmeta.parser,
  org.eclipse.core.resources,
- asmeta.emf
+ asmeta.emf,
+ asmeta.simulator,
+ asmeta.mutation
 Import-Package: org.apache.log4j
