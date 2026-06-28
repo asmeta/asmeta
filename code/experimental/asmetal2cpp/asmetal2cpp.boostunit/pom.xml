@@ -4,7 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>asmeta.asmetal2cpp.boostunit</groupId>
 	<artifactId>asmeta.asmetal2cpp.boostunit</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<properties>
+		<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
+		<!--
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>-->
+	</properties>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<testSourceDirectory>test</testSourceDirectory>
