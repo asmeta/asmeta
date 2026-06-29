@@ -2,7 +2,9 @@ package org.asmeta.nusmv.main;
 
 
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -35,8 +37,24 @@ public abstract class AsmetaSMVtestTranslateBase {
 			if (!Files.exists(Paths.get(a.smvFileName)))
 				return false;
 			//System.out.println(Paths.get(a.smvFileName));
-			// TODO parse the file with nusmv
-			if (AsmetaSMVOptions.isRunNuSMV()) a.executeNuSMV();
+			if (AsmetaSMVOptions.isRunNuSMV()) {
+				a.executeNuSMV();
+			}
+			else {
+				// parse the file with nusmv: option -lp to list the properties without executing them
+				ProcessBuilder pb = new ProcessBuilder("NuSMV", "-lp", spec.replace(".asm", ".smv"));
+				try {
+					Process p = pb.start();
+					int exitCode = p.waitFor();
+					String errors = new String(p.getErrorStream().readAllBytes());
+					String output = new String(p.getInputStream().readAllBytes());
+					System.out.println(output);
+					System.err.println(errors);
+					assertEquals(0, exitCode);
+				} catch (Exception e) {
+					fail("Exception while running NuSMV: " + e.getMessage());
+				}
+			}
 			return true;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

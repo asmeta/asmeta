@@ -631,7 +631,7 @@ public class TermVisitorToSMV extends org.asmeta.parser.util.ReflectiveVisitor<S
 			return elseBranch;
 		}
 		else {
-			return guard + " ? " + thenTermStr + " : " + elseBranch;
+			return "(" + guard + " ? " + thenTermStr + " : " + elseBranch + ")";
 		}
 	}
 }
