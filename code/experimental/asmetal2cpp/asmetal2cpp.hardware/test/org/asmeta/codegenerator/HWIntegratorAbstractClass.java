@@ -1,7 +1,7 @@
 package org.asmeta.codegenerator;
 
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
@@ -102,7 +102,7 @@ public abstract class HWIntegratorAbstractClass {
 			reader = new JsonReader(new FileReader(u2cFile));
 			HWConfiguration config = gson.fromJson(reader, HWConfiguration.class);
 			
-			assertTrue("Configuration file not correct", config.isValid());
+			assertTrue(config.isValid(), "Configuration file not correct");
 			
 			HWIntegrationGenerator hwGen = new HWIntegrationGenerator(config);
 			AsmCollection model = ASMParser.setUpReadAsm(asmFile);

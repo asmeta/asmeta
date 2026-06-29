@@ -1,7 +1,7 @@
 package org.asmeta.codegenerator;
 
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
@@ -13,7 +13,7 @@ import java.util.Collection;
 import org.asmeta.codegenerator.arduino.ArduinoVersion;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.AsmetaParserUtility;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import asmeta.structure.Asm;
 

@@ -13,7 +13,6 @@ Require-Bundle: org.eclipse.emf.mwe2.language;bundle-version="2.9.0",
  asmeta.emf,
  asmeta.asm2cpp,
  asmeta.parser,
- junit-jupiter-api;bundle-version="5.14.3",
  com.google.gson
 Import-Package: asmeta.structure
 Export-Package: org.asmeta.codegenerator,

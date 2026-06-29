@@ -1,6 +1,6 @@
 package org.asmeta.codegenerator;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class JsonGeneratorTestSingletest extends HWIntegratorAbstractClass {
 	

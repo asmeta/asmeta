@@ -1,6 +1,6 @@
 package org.asmeta.codegenerator;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
@@ -11,7 +11,7 @@ import java.io.IOException;
 import org.asmeta.codegenerator.configuration.HWConfiguration;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.AsmetaParserUtility;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
@@ -49,7 +49,7 @@ public class CarSystemGeneratorTest {
 		try {
 			reader = new JsonReader(new FileReader(u2cFile));
 			HWConfiguration config = gson.fromJson(reader, HWConfiguration.class);
-			assertTrue("Configuration file not correct", config.isValid());
+			assertTrue(config.isValid(), "Configuration file not correct");
 			HWIntegrationGenerator hwGen = new HWIntegrationGenerator(config);
 			//final Asm model = ASMParser.setUpReadAsm(asmFile).getMain();
 			AsmCollection model = ASMParser.setUpReadAsm(asmFile);
