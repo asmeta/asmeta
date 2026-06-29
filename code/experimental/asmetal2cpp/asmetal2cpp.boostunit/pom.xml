@@ -5,9 +5,8 @@
 	<groupId>asmeta.asmetal2cpp.boostunit</groupId>
 	<artifactId>asmeta.asmetal2cpp.boostunit</artifactId>
 	<properties>
-		<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
-		<!--
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>-->
+		<!--<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>-->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
