@@ -760,6 +760,13 @@ public class AsmetaSMVnoFlattenerTest extends AsmetaSMVtest {
 	public void armadioTest2() {
 		testAllCtlPropsAreFalse("examples\\tvsw_angelo\\ArmadioCaramelle3.asm");
 	}
+
+	@Test
+	@Tag("TestToMavenSkip")
+	public void ebikeMAI() {
+		testAllCtlPropsAreTrue("examples/tvsw_angelo/ebike.asm");
+	}
+
 	
 	@Test
 	public void pillBox() {

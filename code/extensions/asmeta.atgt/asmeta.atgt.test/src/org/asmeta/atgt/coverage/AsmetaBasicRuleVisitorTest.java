@@ -1,6 +1,7 @@
 package org.asmeta.atgt.coverage;
 
-import static org.junit.Assert.assertEquals;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
 
@@ -13,8 +14,18 @@ import atgt.coverage.AsmCoverage;
 
 public class AsmetaBasicRuleVisitorTest {
 
-	@Test
-	@Tag("TestToMavenSkip")
+	@BeforeAll
+	public static void setup() {
+//		Logger.getLogger(AsmTestGenerator.class).setLevel(Level.DEBUG);
+//		Logger.getLogger(TestGenerationWithNuSMV.class).setLevel(Level.DEBUG);
+//		Logger.getLogger(NuSMVtestGenerator.class).setLevel(Level.DEBUG);
+//		Logger.getLogger(ConverterCounterExample.class).setLevel(Level.DEBUG);
+//		Logger.getLogger("org.asmeta.parser").setLevel(Level.OFF);
+//		AsmetaSMV.modelCheckerMode = ModelCheckerMode.LTLandBMC;
+	}
+
+	
+	@Test@Tag("TestToMavenSkip")
 	public void testGetTPTree() throws Exception {
 		// String ex =
 		// "D:\\AgDocuments\\progettiDaSVN\\asmeta\\mvm-asmeta\\VentilatoreASM\\Ventilatore2.asm";
@@ -24,8 +35,7 @@ public class AsmetaBasicRuleVisitorTest {
 		generateCoverageFor(ex);
 	}
 
-	@Test
-	@Tag("TestToMavenSkip")
+	@Test@Tag("TestToMavenSkip")
 	public void testGetTPTreeMVM() throws Exception {
 		generateCoverageFor("examples\\mvm0.asm");
 	}
@@ -37,6 +47,9 @@ public class AsmetaBasicRuleVisitorTest {
 		assertEquals(1, tps);
 	}
 
+	
+	
+	
 	/**
 	 * @param ex
 	 * @return 
@@ -52,14 +65,5 @@ public class AsmetaBasicRuleVisitorTest {
 		return tp.getNumberofTPs();
 	}
 
-	@BeforeAll
-	public static void setup() {
-//		Logger.getLogger(AsmTestGenerator.class).setLevel(Level.DEBUG);
-//		Logger.getLogger(TestGenerationWithNuSMV.class).setLevel(Level.DEBUG);
-//		Logger.getLogger(NuSMVtestGenerator.class).setLevel(Level.DEBUG);
-//		Logger.getLogger(ConverterCounterExample.class).setLevel(Level.DEBUG);
-//		Logger.getLogger("org.asmeta.parser").setLevel(Level.OFF);
-//		AsmetaSMV.modelCheckerMode = ModelCheckerMode.LTLandBMC;
-	}
 
 }

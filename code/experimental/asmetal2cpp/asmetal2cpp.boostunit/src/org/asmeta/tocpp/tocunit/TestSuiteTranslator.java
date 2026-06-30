@@ -11,7 +11,6 @@ import org.eclipse.xtext.xbase.lib.Conversions;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
 import org.eclipse.xtext.xbase.lib.InputOutput;
 import org.eclipse.xtext.xbase.lib.IterableExtensions;
-import org.junit.Assert;
 
 import asmeta.AsmCollection;
 import asmeta.definitions.ControlledFunction;
@@ -23,6 +22,15 @@ import atgt.coverage.AsmTestSuite;
 import atgt.specification.location.FunctionApplication;
 import atgt.specification.location.Location;
 import tgtlib.definitions.expression.IdExpression;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTimeout;
+import static org.junit.jupiter.api.Assertions.assertTimeoutPreemptively;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public abstract class TestSuiteTranslator {
 
@@ -54,13 +62,13 @@ public abstract class TestSuiteTranslator {
 					String monLoc = null;
 					if ((location instanceof FunctionApplication)) {
 						final String arg = ((FunctionApplication) location).getArgs().toString();
-						Assert.assertTrue((arg + " does not contain ["), arg.contains("["));
+						assertTrue(arg.contains("["),arg + " does not contain [");
 						final String name = ((FunctionApplication) location).getName();
-						Assert.assertFalse(name.contains("("));
+						assertFalse(name.contains("("));
 						monLoc = (name + arg);
 					} else {
 						monLoc = location.toString();
-						Assert.assertFalse(monLoc.contains("("));
+						assertFalse(monLoc.contains("("));
 					}
 					String _lowerCase = this.asmName.toLowerCase();
 					String _plus = (_lowerCase + ".");
@@ -107,7 +115,7 @@ public abstract class TestSuiteTranslator {
 						InputOutput.<String>println(_plus_4);
 					} else {
 						if ((location.isControlled() || (location.getVarKind() == null))) {
-							Assert.assertTrue((f instanceof ControlledFunction));
+							assertTrue((f instanceof ControlledFunction));
 							Location.VarKind _varKind_1 = location.getVarKind();
 							String _plus_5 = ((("controlled location: " + location) + " ") + _varKind_1);
 							InputOutput.<String>println(_plus_5);
