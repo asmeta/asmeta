@@ -49,7 +49,7 @@ import tgtlib.definitions.expression.type.EnumConst;
 import tgtlib.definitions.expression.type.Variable;
 
 // OVERWRITE THE CLASS IN THE LIBRARY
-
+// to extend the behavior
 /**
  * evaluates an expression against a list of assignments and returns true if it
  * is satisfied by the expression. The model must be complete: it must give the
@@ -61,9 +61,12 @@ import tgtlib.definitions.expression.type.Variable;
 public class ExpressionEvaluator implements tgtlib.definitions.expression.ExpressionVisitor<Boolean> {
 
 	static private Logger logger = Logger.getLogger(ExpressionEvaluator.class);
-
+	
 	/** The list of assignments variable -> value. represents a state */
-	Map<IdExpression, String> state;
+	// id expression for location term is function name + ( agrs)
+	private Map<IdExpression, String> state;
+	
+	
 	private boolean modelMustBeComplete;
 
 	/**
@@ -492,6 +495,7 @@ public class ExpressionEvaluator implements tgtlib.definitions.expression.Expres
 	 */
 	public void add(Map<? extends Variable, String> list) {
 		for (Entry<? extends Variable, String> i : list.entrySet()) {
+			assert ! i.getKey().getIdExpression().toString().contains("(");
 			state.put(i.getKey().getIdExpression(), i.getValue());
 		}
 	}
@@ -525,7 +529,8 @@ public class ExpressionEvaluator implements tgtlib.definitions.expression.Expres
 
 	@Override
 	public Boolean forFunctionTerm(FunctionTerm ft) {
-		System.err.println(state);
+		
+		System.err.println("STATE " + state);
 		throw new EvaluationNotSupported("class:" + ft.getClass() + " function "+ ft.getFunction().getIdString() + "  not supported");
 	}
 
