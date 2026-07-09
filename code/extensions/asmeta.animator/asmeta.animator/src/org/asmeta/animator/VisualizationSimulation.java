@@ -2,6 +2,7 @@ package org.asmeta.animator;
 
 import java.awt.Dimension;
 import java.io.File;
+import java.io.FileNotFoundException;
 //Usare collections -> scrivere un wrapper ! gestione thread concorrenti
 import java.text.Collator;
 import java.util.ArrayList;
@@ -19,6 +20,12 @@ import org.asmeta.simulator.main.MainRuleNotFoundException;
 import org.asmeta.simulator.main.Simulator;
 import org.asmeta.simulator.main.Simulator.SimulatorLogger;
 import org.asmeta.simulator.value.Value;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -95,6 +102,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 	private Image arrowDown;
 	private String lastMonitoredInteractiveValue;
 	private boolean stopAnimation;
+	private File asmPath;
 
 	/**
 	 * build the viewer from a path sort of a factory
@@ -117,7 +125,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 		SimulatorLogger.logger.removeAllAppenders();
 
 		// System.out.println(System.getProperty("user.dir"));
-		VisualizationSimulation  sim = new VisualizationSimulation(model);
+		VisualizationSimulation  sim = new VisualizationSimulation(model,asmPath);
 		sim.run();
 	}
 
@@ -125,10 +133,12 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 	 * Launch the application. Open the window for interactive simulation.
 	 * 
 	 * @param asm
+	 * @param asmPath 
 	 * 
 	 * @param args
 	 */
-	private VisualizationSimulation(AsmCollection asm) {
+	private VisualizationSimulation(AsmCollection asm, File asmPath) {
+		this.asmPath = asmPath; 
 		this.asm = asm;
 		// Display display = PlatformUI.getWorkbench().getDisplay();
 		// String filePath = System.getProperty("user.dir");
@@ -430,66 +440,28 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 
 	/** export the table content to avalla */
 	protected void exportToAvalla() {
-		simulatorLogger.info("//// starting scenario");
-		simulatorLogger.info("scenario " + "SCENARIO_NAME");
-		simulatorLogger.info("load " + asm.getMain().getName() + AsmetaParserUtility.ASM_EXTENSION);
-		// TODO create new file/document
-		// DOWN
-		TableItem[] states_down = table_states_right_down.getItems();
-		TableItem[] functions_down = table_functions_left_down.getItems();
-		// UP
-		TableItem[] states_up = table_states_right_up.getItems();
-		TableItem[] functions_up = table_functions_left_up.getItems();
-		// get the states in items
-		for (int column = 0; column < table_states_right_down.getColumnCount(); column++) {
-			// all the controlled and then monitored
-			String[] functionTypes = { CONTROLLED, MONITORED };
-			for (String functionT : functionTypes) {
-				addStateToAvalla(states_down, functions_down, column, functionT);
-				addStateToAvalla(states_up, functions_up, column, functionT);
-			}
-			// new step
-			simulatorLogger.info("step");
+		try {
+			ToAvallaExporter exporter;
+			exporter = new ToAvallaExporter(asmPath.getParentFile(), asm);
+			String fileAvalla = exporter.exportToAvalla(
+					// DOWN
+					table_states_right_down.getItems(), table_functions_left_down.getItems(),
+					// UP
+					table_states_right_up.getItems(), table_functions_left_up.getItems(),
+					// count of columns
+					table_states_right_down.getColumnCount());
+			simulatorLogger.info("scenario saved in " + fileAvalla);
+			//
+			// referesh the project to show the generated files
+			IPath asmetaSpecPath = IPath.fromFile(asmPath);
+			IProject project = ResourcesPlugin.getWorkspace().getRoot().findFilesForLocation(asmetaSpecPath)[0].getProject();
+			project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
+		} catch (FileNotFoundException | CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
-	/**
-	 * @param states_down
-	 * @param functions_down
-	 * @param column
-	 * @param functionT
-	 */
-	private void addStateToAvalla(TableItem[] states_down, TableItem[] functions_down, int column, String functionT) {
-		for (int i = 0; i < states_down.length; i++) {
-			// get the value of i-th state
-			String text = states_down[i].getText(column);
-			if (text.length() > 0) {
-				// get function name
-				TableItem left = functions_down[i];
-				String functionName = left.getText(2);
-				// function type (C for controlled and so on)
-				String functionType = left.getText(1);
-				if (!functionType.equals(functionT))
-					continue;
-				// if the type is a string add the quotes
-				// get the functions of this ASM
-				Collection<Function> functions = new ArrayList<>();
-				for (Asm a : this.asm) {
-					functions.addAll(a.getHeaderSection().getSignature().getFunction());
-				}
-				// add the quotes AG 04-2022
-				Function function = org.asmeta.parser.AsmetaParserUtility.search_funcName(functions, functionName);
-				if (function != null && function.getCodomain() instanceof StringDomain) {
-					text = "\"" + text + "\"";
-				}
-				// print
-				if (functionType.equals(VisualizationSimulation.MONITORED))
-					simulatorLogger.info("set " + functionName + " := " + text + ";");
-				else
-					simulatorLogger.info("check " + functionName + " = " + text + ";");
-			}
-		}
-	}
 
 	void moveMultipleFunctions(Table table_functions_left_origin, Table table_states_right_origin,
 			Table table_functions_left_dest, Table table_states_right_dest, String type, Image arrow, boolean check) {
