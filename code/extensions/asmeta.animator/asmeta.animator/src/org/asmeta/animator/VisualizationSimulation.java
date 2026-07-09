@@ -5,15 +5,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 //Usare collections -> scrivere un wrapper ! gestione thread concorrenti
 import java.text.Collator;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
 import org.asmeta.parser.ASMParser;
-import org.asmeta.parser.AsmetaParserUtility;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.main.AsmModelNotFoundException;
 import org.asmeta.simulator.main.MainRuleNotFoundException;
@@ -26,6 +23,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -56,9 +54,6 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.SWTResourceManager;
 
 import asmeta.AsmCollection;
-import asmeta.definitions.Function;
-import asmeta.definitions.domains.StringDomain;
-import asmeta.structure.Asm;
 
 public class VisualizationSimulation implements VisualizationSimulationI {
 
@@ -453,7 +448,7 @@ public class VisualizationSimulation implements VisualizationSimulationI {
 			simulatorLogger.info("scenario saved in " + fileAvalla);
 			//
 			// referesh the project to show the generated files
-			IPath asmetaSpecPath = IPath.fromFile(asmPath);
+			IPath asmetaSpecPath = new Path(asmPath.getAbsolutePath());
 			IProject project = ResourcesPlugin.getWorkspace().getRoot().findFilesForLocation(asmetaSpecPath)[0].getProject();
 			project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 		} catch (FileNotFoundException | CoreException e) {

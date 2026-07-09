@@ -32,7 +32,7 @@ public class ToAvallaExporter {
 		String fileName = "scenario_from_animation_";
 		int i = 0;
 		do {
-			scenarioFile = new File(specFolder.toString()+ File.separator + fileName + i + ".avalla");
+			scenarioFile = new File(specFolder.toString() + File.separator + fileName + i++ + ".avalla");
 		} while (scenarioFile.exists());
 		out = new PrintWriter(scenarioFile);
 	}
@@ -53,7 +53,8 @@ public class ToAvallaExporter {
 				addStateToAvalla(states_up, functions_up, column, functionT);
 			}
 			// new step
-			print("step");
+			if (column < colCount - 1)
+				print("step");
 		}
 		out.close();
 		return scenarioFile.getAbsolutePath();
