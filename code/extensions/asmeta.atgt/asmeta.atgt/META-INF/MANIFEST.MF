@@ -17,7 +17,8 @@ Require-Bundle: asmeta.smv,
  asmeta.simulator,
  org.eclipse.core.resources,
  asmeta.flattener,
- asmeta.atgt
+ asmeta.atgt,
+ org.junit
 Bundle-ClassPath: atgt4asmeta.jar,
  .
 Export-Package: atgt.combinatorial,
