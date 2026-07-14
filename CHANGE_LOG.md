@@ -1,3 +1,7 @@
+## version 26.07
+ - bug regarding the translation of the ifthenelse term
+ - atgt fixed dependendy
+
 ## version 26.06
  - update to version 26.06 of eclipse (and libraries - like xtext)
  - mutation score is shown during validation (https://github.com/asmeta/asmeta/issues/189) - see NFM paper
