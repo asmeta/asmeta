@@ -2,7 +2,7 @@
 <feature
       id="org.asmeta.xt.feature"
       label="Asmeta xtext editor"
-      version="26.06"
+      version="26.07"
       provider-name="https://foselab.unibg.it/">
 
    <description url="asmeta.sf.net">
