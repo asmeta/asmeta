@@ -1,52 +1,34 @@
 package org.asmeta.visualdesigner.figures;
 
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
-import org.eclipse.draw2d.geometry.Rectangle;
 
 public class ParRuleFigure extends RuleFigure {
 
+    public static final int PREFERRED_WIDTH = 35;
+    public static final int PREFERRED_HEIGHT = 22;
+
     public ParRuleFigure(String text) {
-        super(text);
+        super("par");
+    }
+
+    public ParRuleFigure() {
+        super("par");
     }
 
     @Override
     protected void paintFigure(Graphics graphics) {
-        Rectangle r = getBounds().getCopy().shrink(1, 1);
+        // Intentionally empty.
+        // The PAR rule is represented only by the label "par",
+        // following the visual notation from the paper ASM visualization paper
+    }
 
-        graphics.setForegroundColor(ColorConstants.black);
-        graphics.setBackgroundColor(ColorConstants.white);
+    @Override
+    public void setRuleText(String text) {
+        super.setRuleText("par");
+    }
 
-        int offset = 6;
-
-        Rectangle front = new Rectangle(
-            r.x,
-            r.y + 2 * offset,
-            r.width - 2 * offset,
-            r.height - 2 * offset
-        );
-
-        Rectangle middle = new Rectangle(
-            front.x + offset,
-            front.y - offset,
-            front.width,
-            front.height
-        );
-
-        Rectangle back = new Rectangle(
-            front.x + 2 * offset,
-            front.y - 2 * offset,
-            front.width,
-            front.height
-        );
-
-        graphics.fillRectangle(back);
-        graphics.drawRectangle(back);
-
-        graphics.fillRectangle(middle);
-        graphics.drawRectangle(middle);
-
-        graphics.fillRectangle(front);
-        graphics.drawRectangle(front);
+    @Override
+    public void setRuleName(String name) {
+        setRuleText("par");
     }
 }

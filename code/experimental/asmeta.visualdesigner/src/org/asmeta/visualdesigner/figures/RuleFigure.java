@@ -54,6 +54,11 @@ import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Graphics;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.geometry.Rectangle;
+import org.eclipse.draw2d.AbstractConnectionAnchor;
+import org.eclipse.draw2d.ConnectionAnchor;
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.geometry.Point;
+
 
 public class RuleFigure extends Figure {
 
@@ -89,4 +94,39 @@ public class RuleFigure extends Figure {
     public void setRuleName(String name) {
         setRuleText(name);
     }
+    
+    public ConnectionAnchor getSourceConnectionAnchor() {
+        return new RuleSideAnchor(this, true);
+    }
+
+    public ConnectionAnchor getTargetConnectionAnchor() {
+        return new RuleSideAnchor(this, false);
+    }
+
+    private static class RuleSideAnchor extends AbstractConnectionAnchor {
+
+        private boolean sourceAnchor;
+
+        public RuleSideAnchor(IFigure owner, boolean sourceAnchor) {
+            super(owner);
+            this.sourceAnchor = sourceAnchor;
+        }
+
+        @Override
+        public Point getLocation(Point reference) {
+            Rectangle bounds = getOwner().getBounds().getCopy();
+            getOwner().translateToAbsolute(bounds);
+
+            int x = bounds.x;
+
+            if (sourceAnchor) {
+                x = bounds.x + bounds.width;
+            }
+
+            int y = bounds.y + bounds.height / 2;
+
+            return new Point(x, y);
+        }
+    }
+    
 }

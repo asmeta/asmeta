@@ -2,6 +2,8 @@ package org.asmeta.visualdesigner.commands;
 
 import org.asmeta.visualdesigner.model.DiagramModel;
 import org.asmeta.visualdesigner.model.DiagramNode;
+import org.asmeta.visualdesigner.model.RuleNode;
+import org.asmeta.visualdesigner.model.RuleType;
 import org.asmeta.visualdesigner.model.StartNode;
 import org.asmeta.visualdesigner.model.Transition;
 import org.eclipse.gef.commands.Command;
@@ -34,7 +36,21 @@ public class CreateTransitionCommand extends Command {
             && target != null
             && source != target
             && !(target instanceof StartNode)
-            && diagram.canAddTransitionFrom(source);
+            && canAddTransitionFromSource();
+    }
+
+    private boolean canAddTransitionFromSource() {
+        boolean canAdd = diagram.canAddTransitionFrom(source);
+
+        if (source instanceof RuleNode) {
+            RuleNode sourceRule = (RuleNode) source;
+
+            if (sourceRule.getType() == RuleType.PAR) {
+                canAdd = true;
+            }
+        }
+
+        return canAdd;
     }
 
     @Override

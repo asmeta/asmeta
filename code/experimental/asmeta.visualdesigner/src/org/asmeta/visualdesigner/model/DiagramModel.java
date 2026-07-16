@@ -17,7 +17,18 @@ public class DiagramModel {
     private StartNode startNode = new StartNode("Starting point", 80, 100);
     
     private String asmetaCode = "";
+    
+    private List<DomainSignature> domains = new ArrayList<>();
+    private List<FunctionSignature> functions = new ArrayList<>();
 
+    public List<DomainSignature> getDomains() {
+        return domains;
+    }
+
+    public List<FunctionSignature> getFunctions() {
+        return functions;
+    }
+    
     public List<RuleNode> getRules() {
         return rules;
     }
@@ -50,24 +61,30 @@ public class DiagramModel {
     }
     
     public boolean canAddTransitionFrom(DiagramNode source) {
-        if (source == null) {
-            return false;
-        }
+        boolean canAdd = false;
 
-        int outgoingCount = getOutgoingTransitions(source).size();
+        if (source != null) {
+            int outgoingCount = getOutgoingTransitions(source).size();
 
-        if (source instanceof RuleNode) {
-            RuleNode rule = (RuleNode) source;
+            if (source instanceof RuleNode) {
+                RuleNode rule = (RuleNode) source;
 
-            if (rule.getType() == RuleType.CONDITIONAL) {
-                return outgoingCount < 2;
+                if (rule.getType() == RuleType.CONDITIONAL) {
+                    canAdd = outgoingCount < 2;
+                } else if (rule.getType() == RuleType.PAR) {
+                    canAdd = true;
+                } else {
+                    canAdd = outgoingCount < 1;
+                }
+            } else {
+                canAdd = outgoingCount < 1;
             }
         }
 
-        return outgoingCount < 1;
+        return canAdd;
     }
     
-    public String getNextConditionalLabel(RuleNode source) {
+    /*public String getNextConditionalLabel(RuleNode source) {
         if (source == null || source.getType() != RuleType.CONDITIONAL) {
             return null;
         }
@@ -93,6 +110,46 @@ public class DiagramModel {
         }
 
         return null;
+    }*/
+    
+        public String getNextConditionalLabel(RuleNode source) {
+        String label = null;
+
+        if (source != null && source.getType() == RuleType.CONDITIONAL) {
+            label = getNextTransitionLabel(source);
+        }
+
+        return label;
+    }
+
+    public String getNextTransitionLabel(DiagramNode source) {
+        String label = null;
+
+        if (source instanceof RuleNode) {
+            RuleNode rule = (RuleNode) source;
+
+            if (rule.getType() == RuleType.CONDITIONAL) {
+                if (!hasOutgoingTransitionWithLabel(source, "true")) {
+                    label = "true";
+                } else if (!hasOutgoingTransitionWithLabel(source, "false")) {
+                    label = "false";
+                }
+            }
+        }
+
+        return label;
+    }
+
+    private boolean hasOutgoingTransitionWithLabel(DiagramNode source, String label) {
+        boolean found = false;
+
+        for (Transition transition : getOutgoingTransitions(source)) {
+            if (label.equals(transition.getLabel())) {
+                found = true;
+            }
+        }
+
+        return found;
     }
 
     public void addRule(RuleNode rule) {
@@ -116,9 +173,7 @@ public class DiagramModel {
     }
 
    /* public void addTransition(Transition transition) {
-        if (transition == null || transitions.contains(transition)) {
-            return;
-        }
+        
 
         transitions.add(transition);
 
@@ -136,7 +191,7 @@ public class DiagramModel {
    
     
     
-    public String getNextTransitionLabel(DiagramNode source) {
+    /*public String getNextTransitionLabel(DiagramNode source) {
         if (!(source instanceof RuleNode)) {
             return null;
         }
@@ -169,7 +224,7 @@ public class DiagramModel {
         }
 
         return null;
-    }
+    }*/
     
 
     /*public void addTransition(int index, Transition transition) {
