@@ -1,12 +1,12 @@
 ## version 26.07
  - bug regarding the translation of the ifthenelse term
  - atgt fixed dependendy
+ - animator *export to avalla* now saves the scenario to an .avalla file - see [193](https://github.com/asmeta/asmeta/issues/193)
 
 ## version 26.06
  - update to version 26.06 of eclipse (and libraries - like xtext)
  - mutation score is shown during validation (https://github.com/asmeta/asmeta/issues/189) - see NFM paper
  - now the exitsterm is with *exists* keyword with **s** (https://github.com/asmeta/asmeta/issues/182)
- - 
 
 ## version 26.03
  - fixed bug about the configuration of ATGT[168](https://github.com/asmeta/asmeta/issues/168)
