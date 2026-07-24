@@ -25,6 +25,7 @@ public class RuleNode implements DiagramNode {
 
     private final PropertyChangeSupport listeners = new PropertyChangeSupport(this);
     
+    
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         listeners.addPropertyChangeListener(listener);
     }
@@ -36,6 +37,35 @@ public class RuleNode implements DiagramNode {
     private String condition = "";
     private String calledRuleName = "";
     private String parameters = "";
+    private String assignment = "";
+    private String choose = "";
+
+    
+    public String getChoose() {
+        return choose;
+    }
+
+    public void setChoose(String choose) {
+        String newValue = choose != null ? choose : "";
+
+        if (!this.choose.equals(newValue)) {
+            this.choose = newValue;
+            listeners.firePropertyChange(PROPERTY_RULE_DATA, null, null);
+        }
+    }
+    
+    public String getAssignment() {
+        return assignment;
+    }
+
+    public void setAssignment(String assignment) {
+        String newValue = assignment != null ? assignment : "";
+
+        if (!this.assignment.equals(newValue)) {
+            this.assignment = newValue;
+            listeners.firePropertyChange(PROPERTY_RULE_DATA, null, null);
+        }
+    }
 
     public String getCondition() {
         return condition;
@@ -217,7 +247,7 @@ public class RuleNode implements DiagramNode {
                 return "";
 
             case UPDATE:
-                return isNonEmpty(name) ? name : "update";
+                return isNonEmpty(assignment) ? assignment : "[assignment]";
 
             case FORALL:
                 return isNonEmpty(name) ? name : "forall";
@@ -229,7 +259,7 @@ public class RuleNode implements DiagramNode {
                 return isNonEmpty(name) ? name : "par";
 
             case CHOOSE:
-                return isNonEmpty(name) ? name : "choose";
+                return "choose";
 
             case UNKNOWN:
             default:

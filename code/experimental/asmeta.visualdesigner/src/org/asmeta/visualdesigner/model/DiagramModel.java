@@ -19,10 +19,15 @@ public class DiagramModel {
     private String asmetaCode = "";
     
     private List<DomainSignature> domains = new ArrayList<>();
+    private List<String> customDomainTypes = new ArrayList<>();
     private List<FunctionSignature> functions = new ArrayList<>();
 
     public List<DomainSignature> getDomains() {
         return domains;
+    }
+    
+    public List<String> getCustomDomainTypes() {
+        return customDomainTypes;
     }
 
     public List<FunctionSignature> getFunctions() {
@@ -69,7 +74,7 @@ public class DiagramModel {
             if (source instanceof RuleNode) {
                 RuleNode rule = (RuleNode) source;
 
-                if (rule.getType() == RuleType.CONDITIONAL) {
+                if (rule.getType() == RuleType.CONDITIONAL || rule.getType() == RuleType.CHOOSE) {
                     canAdd = outgoingCount < 2;
                 } else if (rule.getType() == RuleType.PAR) {
                     canAdd = true;
@@ -122,23 +127,29 @@ public class DiagramModel {
         return label;
     }
 
-    public String getNextTransitionLabel(DiagramNode source) {
-        String label = null;
+        public String getNextTransitionLabel(DiagramNode source) {
+            String label = null;
 
-        if (source instanceof RuleNode) {
-            RuleNode rule = (RuleNode) source;
+            if (source instanceof RuleNode) {
+                RuleNode rule = (RuleNode) source;
 
-            if (rule.getType() == RuleType.CONDITIONAL) {
-                if (!hasOutgoingTransitionWithLabel(source, "true")) {
-                    label = "true";
-                } else if (!hasOutgoingTransitionWithLabel(source, "false")) {
-                    label = "false";
+                if (rule.getType() == RuleType.CONDITIONAL) {
+                    if (!hasOutgoingTransitionWithLabel(source, "true")) {
+                        label = "true";
+                    } else if (!hasOutgoingTransitionWithLabel(source, "false")) {
+                        label = "false";
+                    }
+                } else if (rule.getType() == RuleType.CHOOSE) {
+                    if (!hasOutgoingTransitionWithLabel(source, "do")) {
+                        label = "do";
+                    } else if (!hasOutgoingTransitionWithLabel(source, "ifnone")) {
+                        label = "ifnone";
+                    }
                 }
             }
-        }
 
-        return label;
-    }
+            return label;
+        }
 
     private boolean hasOutgoingTransitionWithLabel(DiagramNode source, String label) {
         boolean found = false;

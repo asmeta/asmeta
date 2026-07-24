@@ -1,0 +1,177 @@
+{
+  "formatVersion": 2,
+  "diagrams": {
+    "main": {
+      "startNode": {
+        "x": 403,
+        "y": 42,
+        "width": 20,
+        "height": 20
+      },
+      "rules": [
+        {
+          "id": "rule-0",
+          "name": "Conditional Rule 1",
+          "type": "CONDITIONAL",
+          "x": 362,
+          "y": 84,
+          "width": 100,
+          "height": 50,
+          "condition": "coins \u003c 25",
+          "calledRuleName": "",
+          "parameters": ""
+        },
+        {
+          "id": "rule-1",
+          "name": "Conditional Rule 2",
+          "type": "CONDITIONAL",
+          "x": 309,
+          "y": 177,
+          "width": 100,
+          "height": 50,
+          "condition": "insertedCoin \u003d HALF",
+          "calledRuleName": "",
+          "parameters": ""
+        },
+        {
+          "id": "rule-2",
+          "name": "Conditional Rule 3",
+          "type": "CONDITIONAL",
+          "x": 250,
+          "y": 268,
+          "width": 100,
+          "height": 50,
+          "condition": "avaiable(MILK) \u003e 0",
+          "calledRuleName": "",
+          "parameters": ""
+        },
+        {
+          "id": "rule-3",
+          "name": "CALL Rule 4",
+          "type": "CALL",
+          "x": 232,
+          "y": 370,
+          "width": 100,
+          "height": 50,
+          "condition": "",
+          "calledRuleName": "r_serveProduct",
+          "parameters": "MILK"
+        },
+        {
+          "id": "rule-4",
+          "name": "CHOOSE Rule 5",
+          "type": "CHOOSE",
+          "x": 415,
+          "y": 270,
+          "width": 100,
+          "height": 50,
+          "condition": "",
+          "calledRuleName": "",
+          "parameters": ""
+        },
+        {
+          "id": "rule-5",
+          "name": "CALL Rule 6",
+          "type": "CALL",
+          "x": 417,
+          "y": 366,
+          "width": 100,
+          "height": 50,
+          "condition": "",
+          "calledRuleName": "r_serveProduct",
+          "parameters": "$p"
+        }
+      ],
+      "transitions": [
+        {
+          "source": "start",
+          "target": "rule-0"
+        },
+        {
+          "source": "rule-0",
+          "target": "rule-1",
+          "label": "true"
+        },
+        {
+          "source": "rule-1",
+          "target": "rule-2",
+          "label": "true"
+        },
+        {
+          "source": "rule-2",
+          "target": "rule-3",
+          "label": "true"
+        },
+        {
+          "source": "rule-1",
+          "target": "rule-4",
+          "label": "false"
+        },
+        {
+          "source": "rule-4",
+          "target": "rule-5"
+        }
+      ]
+    },
+    "r_serveProduct": {
+      "startNode": {
+        "x": 175,
+        "y": 34,
+        "width": 20,
+        "height": 20
+      },
+      "rules": [
+        {
+          "id": "rule-0",
+          "name": "PAR Rule 7",
+          "type": "PAR",
+          "x": 255,
+          "y": 110,
+          "width": 100,
+          "height": 50,
+          "condition": "",
+          "calledRuleName": "",
+          "parameters": ""
+        },
+        {
+          "id": "rule-1",
+          "name": "UPDATE Rule 8",
+          "type": "UPDATE",
+          "x": 415,
+          "y": 198,
+          "width": 100,
+          "height": 50,
+          "condition": "",
+          "calledRuleName": "",
+          "parameters": ""
+        },
+        {
+          "id": "rule-2",
+          "name": "UPDATE Rule 9",
+          "type": "UPDATE",
+          "x": 434,
+          "y": 46,
+          "width": 100,
+          "height": 50,
+          "condition": "",
+          "calledRuleName": "",
+          "parameters": ""
+        }
+      ],
+      "transitions": [
+        {
+          "source": "start",
+          "target": "rule-0"
+        },
+        {
+          "source": "rule-0",
+          "target": "rule-1"
+        },
+        {
+          "source": "rule-0",
+          "target": "rule-2"
+        }
+      ]
+    }
+  }
+}

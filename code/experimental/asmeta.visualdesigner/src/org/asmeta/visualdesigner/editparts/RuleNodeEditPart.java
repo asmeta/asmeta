@@ -35,6 +35,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.Request;
 
+import org.asmeta.visualdesigner.figures.SkipRuleFigure;
 
 public class RuleNodeEditPart extends AbstractGraphicalEditPart
 implements PropertyChangeListener, DiagramNodeEditPart {
@@ -66,9 +67,17 @@ implements PropertyChangeListener, DiagramNodeEditPart {
         if (node.getType() == RuleType.PAR) {
             width = ParRuleFigure.PREFERRED_WIDTH;
             height = ParRuleFigure.PREFERRED_HEIGHT;
+        } else if (node.getType() == RuleType.SKIP) {
+            width = SkipRuleFigure.PREFERRED_WIDTH;
+            height = SkipRuleFigure.PREFERRED_HEIGHT;
         }
 
-        return new Rectangle(node.getX(), node.getY(), width, height);
+        return new Rectangle(
+                node.getX(),
+                node.getY(),
+                width,
+                height
+        );
     }
 
     @Override
