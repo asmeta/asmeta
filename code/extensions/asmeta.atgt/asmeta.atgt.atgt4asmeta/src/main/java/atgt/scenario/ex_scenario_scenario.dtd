@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<!--
+    Typical usage:
+
+    <?xml version="1.0"?>
+
+    <!DOCTYPE scenario SYSTEM "ex_scenario_scenario.dtd">
+
+    <scenario>
+    ...
+    </scenario>
+-->
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT assignement (value|variable)*>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT scenario (state)*>
+<!ATTLIST scenario
+    name CDATA #IMPLIED
+  >
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT state (assignement)*>
+<!ATTLIST state
+    number CDATA #IMPLIED
+  >
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT value (#PCDATA)>
+
+<!--- Put your DTDDoc comment here. -->
+<!ELEMENT variable (#PCDATA)>

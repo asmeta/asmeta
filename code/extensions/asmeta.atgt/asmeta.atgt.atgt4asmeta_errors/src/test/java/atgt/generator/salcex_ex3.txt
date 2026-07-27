@@ -1,0 +1,36 @@
+Counterexample:
+========================
+Path
+========================
+Step 0:
+--- Input Variables (assignments) ---
+igOn = false
+fast = false
+engRun = false
+brake = false
+lever = DEACTIVATE
+mode = OFF
+--- System Variables (assignments) ---
+ba-pc!1 = 3
+------------------------
+Step 1:
+--- Input Variables (assignments) ---
+igOn = false
+fast = false
+engRun = false
+brake = false
+lever = RESUME
+mode = OFF
+--- System Variables (assignments) ---
+ba-pc!1 = 0
+------------------------
+Step 2:
+--- Input Variables (assignments) ---
+igOn = false
+fast = false
+engRun = false
+brake = false
+lever = ACTIVATE
+mode = OFF
+--- System Variables (assignments) ---
+ba-pc!1 = 2

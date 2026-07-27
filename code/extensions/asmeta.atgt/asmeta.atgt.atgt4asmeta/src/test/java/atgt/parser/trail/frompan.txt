@@ -1,0 +1,28 @@
+_Monitored_value_update: fast  false.
+_Monitored_value_update: igOn  false.
+_Monitored_value_update: brake  false.
+_Monitored_value_update: engRun  false.
+_Monitored_value_update: lever  DEACTIVATE.
+_Update_value mode  OFF.
+_New_State
+_Update_value mode  INACTIVE.
+_Monitored_value_update: fast true.
+_Monitored_value_update: igOn false.
+_Monitored_value_update: brake true.
+_Monitored_value_update: engRun false.
+_Monitored_value_update: lever ACTIVATE.
+_New_State
+_Update_value mode  CRUISE.
+pan: assertion violated  !((igOn&&(engRun&&((((mode==2)&& !(brake))&& !(fast))&&(lever==1))))) (at depth 11)
+spin: trail ends after 11 steps
+#processes 1:
+ 11:	proc 0 (:init:)  line 110 (state 60) (invalid end state)
+		assert(!((igOn&&(engRun&&((((mode==2)&&!(brake))&&!(fast))&&(lever==1))))))
+global vars:
+	bit    fast:	0
+	bit    igOn:	1
+	bit    brake:	0
+	bit    engRun:	1
+	byte   lever:	1
+	byte   mode:	2
+	byte   mode___P:	1

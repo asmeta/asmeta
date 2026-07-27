@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE scenario>
+
+<!--
+    Document   : ex_scenario.xml
+    Created on : 14 febbraio 2003, 18.25
+    Author     : garganti
+    Description:
+        Purpose of the document follows.
+-->
+
+<scenario name="attribute name">
+    <state number="1">
+        <assignement>
+            <variable>X</variable>
+            <value>20</value>
+        </assignement>
+    </state>    
+    <state>
+            <assignement>
+            <variable>X</variable>
+            <value>10</value>
+        </assignement>
+</state>    
+<state>        <assignement>
+            <variable>X</variable>
+            <value>10</value>
+        </assignement>
+</state>    
+<state>        <assignement>
+            <variable>X</variable>
+            <value>10</value>
+        </assignement>
+</state>
+</scenario>
+

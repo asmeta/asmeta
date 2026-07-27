@@ -1,0 +1,43 @@
+Counterexample:
+========================
+Path
+========================
+Step 0:
+--- Input Variables (assignments) ---
+b = THREE
+a = THREE
+d = THREE
+c = THREE
+--- System Variables (assignments) ---
+------------------------
+Step 1:
+--- Input Variables (assignments) ---
+b = THREE
+a = THREE
+d = THREE
+c = THREE
+--- System Variables (assignments) ---
+------------------------
+Step 2:
+--- Input Variables (assignments) ---
+b = THREE
+a = THREE
+d = THREE
+c = THREE
+--- System Variables (assignments) ---
+------------------------
+Step 3:
+--- Input Variables (assignments) ---
+b = THREE
+a = THREE
+d = THREE
+c = THREE
+--- System Variables (assignments) ---
+------------------------
+Step 4:
+--- Input Variables (assignments) ---
+b = ONE
+a = ONE
+d = THREE
+c = THREE
+--- System Variables (assignments) ---

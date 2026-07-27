@@ -22,6 +22,8 @@ Require-Bundle: asmeta.atgt,
 Export-Package: org.asmeta.atgt.generator.ui
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.asmeta.atgt.generator.ui.ATGTActivator
-Import-Package: org.asmeta.eclipse,
+Import-Package: atgt.coverage,
+ atgt.parser.asmeta,
+ org.asmeta.eclipse,
  org.asmeta.parser,
  org.eclipse.ui.console

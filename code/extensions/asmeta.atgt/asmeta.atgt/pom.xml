@@ -4,14 +4,6 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>asmeta.atgt</artifactId>
-	<repositories>
-		<repository>
-			<id>atgt-local</id>
-			<name>Local ATGT JAR Repository</name>
-			<url>file://${project.basedir}/local-repo</url>
-		</repository>
-	</repositories>
-
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<resources>
@@ -34,11 +26,6 @@
 			<groupId>org.eclipse.xtext</groupId>
 			<artifactId>org.eclipse.xtext.testing</artifactId>
 			<version>${xtext.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>asmeta</groupId>
-			<artifactId>atgt4asmeta</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>asmeta</groupId>

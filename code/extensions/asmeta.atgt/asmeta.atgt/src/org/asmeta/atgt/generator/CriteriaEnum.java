@@ -39,8 +39,8 @@ public enum CriteriaEnum {
 	COMBINATORIAL_MON("pairwise monitored", AsmCombCovBuilder.get(AsmCombCovBuilder.makePairwiseCovBuilder())),
 	COMBINATORIAL_ALL("pairwise all", org.asmeta.atgt.generator.combinatorial.AsmAllDataExtractor.getAsmCombCovBuilder()),
 
-	THREEWISE_ALL("3wise", triwiseCoveBuilder(true)),
-	THREEWISE_MON("3wise", triwiseCoveBuilder(false));
+	THREEWISE_ALL("3wise mon", triwiseCoveBuilder(true)),
+	THREEWISE_MON("3wise all", triwiseCoveBuilder(false));
 
 	/** TOFIX: temp per avere una AsmCoverageBuilder a partrie da una sottoclasse generica
 	 * @param all (monitored and controlled)  if false only monitroed*/
