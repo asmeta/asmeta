@@ -31,11 +31,11 @@ public class ModelIncomplete extends RuntimeException {
 		super(s + " not defined when evaluating " + e.toString());
 	}
 
-	public ModelIncomplete(IdExpression e, Map<String, String> state) {
+	public ModelIncomplete(IdExpression e, Map<IdExpression, String> state) {
 		super("value not defined when evaluating " + e.toString() + " in " + state.toString());
 	}
 
-	public ModelIncomplete(IdExpression id, Expression e, Map<String, String> state) {
+	public ModelIncomplete(IdExpression id, Expression e, Map<IdExpression, String> state) {
 		super("value of "+id+" ("+id.getClass()+") not defined when evaluating " + e.toString() + " in expression " + e.toString() + " state "+ state.toString());
 	}
 }

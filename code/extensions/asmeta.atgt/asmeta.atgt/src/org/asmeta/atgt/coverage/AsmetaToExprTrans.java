@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import org.asmeta.parser.util.AsmetaTermPrinter;
 
+import asmeta.definitions.Function;
 import asmeta.definitions.domains.Domain;
 import asmeta.terms.basicterms.BooleanTerm;
 import asmeta.terms.basicterms.DomainTerm;
@@ -83,15 +84,26 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 	 * @return the string
 	 *
 	 * @throws Exception the exception
+		List<Expression> args = funcTerm.getArguments().getTerms().stream().map( x -> this.visit(x)).collect(Collectors.toList());
 	 */
 	public Expression visit(FunctionTerm funcTerm) throws Exception {
-		assert !(funcTerm.getArguments() == null): "function term without arguments " + AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(funcTerm);
-		assert !(funcTerm.getArguments().getTerms().isEmpty());
-		List<Expression> args = funcTerm.getArguments().getTerms().stream().map( x -> this.visit(x)).collect(Collectors.toList());
-		// dominio o codominio??
-		Type t = getType(funcTerm.getDomain());
-		IdExpression fid = icc.createIdExpression(funcTerm.getFunction().getName(), t);
-		return  new tgtlib.definitions.expression.FunctionTerm(fid, t, args);
+		Function func = funcTerm.getFunction();
+		if (funcTerm.getArguments() == null) {
+			assert func.getDomain() == null;
+			Type t = getType(func.getCodomain());
+			IdExpression fid = icc.createIdExpression(funcTerm.getFunction().getName(), t);
+			return fid;
+		} else {
+			assert !(funcTerm.getArguments() == null) : "function term without arguments "
+					+ AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(funcTerm);
+			assert !(funcTerm.getArguments().getTerms().isEmpty());
+			List<Expression> args = funcTerm.getArguments().getTerms().stream().map(x -> this.visit(x))
+					.collect(Collectors.toList());
+			// dominio o codominio??
+			Type t = getType(funcTerm.getDomain());
+			IdExpression fid = icc.createIdExpression(funcTerm.getFunction().getName(), t);
+			return new tgtlib.definitions.expression.FunctionTerm(fid, t, args);
+		}
 	}
 
 	/**

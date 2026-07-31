@@ -54,9 +54,9 @@ public class MathExpressionToIntEvaluator implements
 	static private Logger logger = Logger.getLogger(MathExpressionToIntEvaluator.class);
 
 	/** The list of assignments variable -> value. represents a state */
-	Map<String, String> state; 
+	Map<IdExpression, String> state; 
 
-	public MathExpressionToIntEvaluator(Map<String, String> state) {
+	public MathExpressionToIntEvaluator(Map<IdExpression, String> state) {
 		this.state = state;
 	}
 

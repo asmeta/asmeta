@@ -1,10 +1,11 @@
 /*******************************************************************************
+
  * Copyright (c) 2008 Angelo Gargantini.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     Angelo Gargantini - initial API and implementation
  ******************************************************************************/
@@ -46,27 +47,31 @@ import tgtlib.definitions.expression.XOrExpression;
 import tgtlib.definitions.expression.type.BoolType;
 import tgtlib.definitions.expression.type.EnumConst;
 import tgtlib.definitions.expression.type.Variable;
-import tgtlib.util.Pair;
 
+// OVERWRITE THE CLASS IN THE LIBRARY
+// to extend the behavior
 /**
  * evaluates an expression against a list of assignments and returns true if it
  * is satisfied by the expression. The model must be complete: it must give the
  * value for every variable
- * 
+ *
  * It is implemented as ExpressionVisitor, which returns a boolean. The
  * assignments are a field of the visitor.
  */
 public class ExpressionEvaluator implements tgtlib.definitions.expression.ExpressionVisitor<Boolean> {
 
 	static private Logger logger = Logger.getLogger(ExpressionEvaluator.class);
-
+	
 	/** The list of assignments variable -> value. represents a state */
-	Map<String, String> state;
+	// id expression for location term is function name + ( agrs)
+	private Map<IdExpression, String> state;
+	
+	
 	private boolean modelMustBeComplete;
 
 	/**
 	 * Instantiates a new expression evaluator.
-	 * 
+	 *
 	 * @param list
 	 *            the list of assignments
 	 * @param vars
@@ -75,15 +80,16 @@ public class ExpressionEvaluator implements tgtlib.definitions.expression.Expres
 	 */
 	public ExpressionEvaluator(Map<? extends Variable, String> list, Iterable<? extends Variable> vars) {
 		logger.debug("evaluating over " + list + " with vars " + vars);
-		state = new HashMap<String, String>();
+		state = new HashMap<>();
 		add(list);
 		// get the initial values of controlled vars
 		assert vars != null;
 		for (tgtlib.definitions.expression.type.Variable v : vars) {
 			if (v.isControlled()) {
 				Expression e = v.getValue();
-				if (e != null && e != Undef.UNDEF)
-					state.put(v.getIdExpression().getIdString(), e.toString());
+				if (e != null && e != Undef.UNDEF) {
+					state.put(v.getIdExpression(), e.toString());
+				}
 			}
 		}
 		modelMustBeComplete = true;
@@ -91,7 +97,7 @@ public class ExpressionEvaluator implements tgtlib.definitions.expression.Expres
 
 	/**
 	 * call the evaluator : TODO use only this entry point
-	 * 
+	 *
 	 * @param e
 	 * @return
 	 */
@@ -114,14 +120,14 @@ public class ExpressionEvaluator implements tgtlib.definitions.expression.Expres
 	}
 
 	/*
-	 * 
+	 *
 	 * @see
 	 * atgt.specification.expression.AsmExpressionVisitor#forAndExpression(atgt
 	 * .specification.expression.AndExpression)
 	 */
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * atgt.specification.expression.AsmExpressionVisitor#forAndExpression(atgt
 	 * .specification.expression.AndExpression)
@@ -133,7 +139,7 @@ public class ExpressionEvaluator implements tgtlib.definitions.expression.Expres
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * atgt.specification.expression.AsmExpressionVisitor#forDivExpression(atgt
 	 * .specification.expression.DivExpression)
@@ -145,7 +151,7 @@ public class ExpressionEvaluator implements tgtlib.definitions.expression.Expres
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * atgt.specification.expression.AsmExpressionVisitor#forEqualsExpression
 	 * (atgt.specification.expression.EqualsExpression)
@@ -158,25 +164,29 @@ public class ExpressionEvaluator implements tgtlib.definitions.expression.Expres
 		}
 		Expression firstOperand = e.getFirstOperand();
 		Expression secondOperand = e.getSecondOperand();
+		//System.err.println(firstOperand.getClass() + " " + secondOperand.getClass());
 		if (firstOperand instanceof IdExpression && secondOperand instanceof IdExpression) {
 			// BOTH IDs
 			// e1 == e2 identical
 			IdExpression e1 = (IdExpression) firstOperand;
 			IdExpression e2 = (IdExpression) secondOperand;
-			if (e1 == e2)
+			if (e1 == e2) {
 				return true;
+			}
 			assert (!e1.toString().equals(e2.toString()));
 			// val_i is not null iff e_i is a var
 			String val1 = state.get(e1);
 			// e1 is not a constant and val1 is null
-			if (!(e1 instanceof EnumConst) && val1 == null)
+			if (!(e1 instanceof EnumConst) && val1 == null) {
 				throw new ModelIncomplete(e1.getIdString(), e);
+			}
 			// val1 ==null <=> e1 is a constant
 			assert (e1 instanceof EnumConst) == (val1 == null);
 			String val2 = state.get(e2);
 			// e2 is not a constant and val2 is null
-			if (!(e2 instanceof EnumConst) && val2 == null)
+			if (!(e2 instanceof EnumConst) && val2 == null) {
 				throw new ModelIncomplete(e2, e, state);
+			}
 			// val2 ==null <=> e2 is a constant
 			assert (e2 instanceof EnumConst) == (val2 == null);
 			// if both are constants
@@ -205,26 +215,39 @@ public class ExpressionEvaluator implements tgtlib.definitions.expression.Expres
 	}
 
 	// eval the two expression assuming that are mathematical expression
-	// return true if they are not
-	// throw if par ti math and part not
+	// return the comparison value (as the comparator)
+	// throw if part is math and part not
 	private Optional<Integer> evalAsmath(BinaryExpression e) {
+		// note that they can be idexpressions of math expression like 4+5
 		Expression firstOperand = e.getFirstOperand();
 		Expression secondOperand = e.getSecondOperand();
-		// try as math expressions
+		// try as math expressions like a = 3
 		MathExpressionToIntEvaluator mm = new MathExpressionToIntEvaluator(state);
 		Integer ii1 = mathValue(mm, firstOperand);
 		Integer ii2 = mathValue(mm, secondOperand);
 		if (ii1 != null && ii2 != null) {
-			// both are math values, must be equal
+			// both are math values, compare them as numbers
 			return Optional.of(ii1.compareTo(ii2));
 		} else if (ii1 != null || ii2 != null) {
-			// one if math value, the other no, error
+			//System.err.println(firstOperand + " " + secondOperand);
+			// one if math value, the other no
+			// add the case in which one is undef
+			if (ii1 != null &&
+					(secondOperand instanceof IdExpression) && state.get(secondOperand).equals(Undef.UNDEF.toString())) {
+				return Optional.of(-1);
+			}
+			// add the case in which one is undef
+			if (ii2 != null &&
+					(firstOperand instanceof IdExpression) && state.get(firstOperand).equals(Undef.UNDEF.toString())) {
+				return Optional.of(-1);
+			}
 			throw new EvaluationNotSupported("evaluation not supported " + ii1 + " != " + ii2);
 		}
 		// both are not math expression
 		assert ii1 == null && ii2 == null;
 		return Optional.empty();
 	}
+
 
 	private Integer mathValue(MathExpressionToIntEvaluator mm, Expression firstOperand) {
 		Integer ii1 = null;
@@ -237,13 +260,13 @@ public class ExpressionEvaluator implements tgtlib.definitions.expression.Expres
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atgt.specification.expression.AsmExpressionVisitor#
 	 * forGreaterEqualExpression
 	 * (atgt.specification.expression.GreaterEqualExpression)
 	 */
 	@Override
-	public Boolean forGreaterEqualExpression(GreaterEqualExpression e) {		
+	public Boolean forGreaterEqualExpression(GreaterEqualExpression e) {
 		Optional<Integer> eval = evalAsmath(e);
 		if (eval.isPresent()) {
 			return eval.isPresent() && eval.get() >= 0;
@@ -253,7 +276,7 @@ public class ExpressionEvaluator implements tgtlib.definitions.expression.Expres
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see atgt.specification.expression.AsmExpressionVisitor#
 	 * forGreaterThanExpression
 	 * (atgt.specification.expression.GreaterThanExpression)
@@ -269,7 +292,7 @@ public class ExpressionEvaluator implements tgtlib.definitions.expression.Expres
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * atgt.specification.expression.AsmExpressionVisitor#forIdExpression(atgt
 	 * .specification.expression.IdExpression)
@@ -277,10 +300,12 @@ public class ExpressionEvaluator implements tgtlib.definitions.expression.Expres
 	@Override
 	public Boolean forIdExpression(IdExpression var) {
 		// in case it is false or true
-		if (var == BoolType.FALSE_CONST)
+		if (var == BoolType.FALSE_CONST) {
 			return false;
-		if (var == BoolType.TRUE_CONST)
+		}
+		if (var == BoolType.TRUE_CONST) {
 			return true;
+		}
 		assert (!var.getIdString().equalsIgnoreCase(BoolType.FALSE_CONST.getIdString()));
 		assert (!var.getIdString().equalsIgnoreCase(BoolType.TRUE_CONST.getIdString()));
 		// assuming e is a boolean
@@ -293,16 +318,18 @@ public class ExpressionEvaluator implements tgtlib.definitions.expression.Expres
 				return false;
 			}
 		}
-		if (val.equalsIgnoreCase(BoolType.FALSE_CONST.getIdString()))
+		if (val.equalsIgnoreCase(BoolType.FALSE_CONST.getIdString())) {
 			return false;
-		if (val.equalsIgnoreCase(BoolType.TRUE_CONST.getIdString()))
+		}
+		if (val.equalsIgnoreCase(BoolType.TRUE_CONST.getIdString())) {
 			return true;
-		throw new RuntimeException("var " + var.getIdString() + " has no bool value but" + val);
+		}
+		throw new RuntimeException("var " + var.getIdString() + " has no bool value but " + val);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * atgt.specification.expression.AsmExpressionVisitor#forLessEqualExpression
 	 * (atgt.specification.expression.LessEqualExpression)
@@ -318,7 +345,7 @@ public class ExpressionEvaluator implements tgtlib.definitions.expression.Expres
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * atgt.specification.expression.AsmExpressionVisitor#forLessThanExpression
 	 * (atgt.specification.expression.LessThanExpression)
@@ -334,7 +361,7 @@ public class ExpressionEvaluator implements tgtlib.definitions.expression.Expres
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * atgt.specification.expression.AsmExpressionVisitor#forMinusExpression
 	 * (atgt.specification.expression.MinusExpression)
@@ -346,7 +373,7 @@ public class ExpressionEvaluator implements tgtlib.definitions.expression.Expres
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * atgt.specification.expression.AsmExpressionVisitor#forMultExpression(
 	 * atgt.specification.expression.MultExpression)
@@ -358,7 +385,7 @@ public class ExpressionEvaluator implements tgtlib.definitions.expression.Expres
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * atgt.specification.expression.AsmExpressionVisitor#forNegExpression(atgt
 	 * .specification.expression.NegExpression)
@@ -370,7 +397,7 @@ public class ExpressionEvaluator implements tgtlib.definitions.expression.Expres
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * atgt.specification.expression.AsmExpressionVisitor#forNotEqualsExpression
 	 * (atgt.specification.expression.NotEqualsExpression)
@@ -382,7 +409,7 @@ public class ExpressionEvaluator implements tgtlib.definitions.expression.Expres
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * atgt.specification.expression.AsmExpressionVisitor#forNotExpression(atgt
 	 * .specification.expression.NotExpression)
@@ -394,7 +421,7 @@ public class ExpressionEvaluator implements tgtlib.definitions.expression.Expres
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * atgt.specification.expression.AsmExpressionVisitor#forOrExpression(atgt
 	 * .specification.expression.OrExpression)
@@ -406,7 +433,7 @@ public class ExpressionEvaluator implements tgtlib.definitions.expression.Expres
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * atgt.specification.expression.AsmExpressionVisitor#forPlusExpression(
 	 * atgt.specification.expression.PlusExpression)
@@ -418,17 +445,17 @@ public class ExpressionEvaluator implements tgtlib.definitions.expression.Expres
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * atgt.specification.expression.AsmExpressionVisitor#forUnaryExpression
 	 * (atgt.specification.expression.UnaryExpression)
 	 */
 	/**
 	 * For unary expression.
-	 * 
+	 *
 	 * @param e
 	 *            the e
-	 * 
+	 *
 	 * @return the boolean
 	 */
 	public Boolean forUnaryExpression(Expression e) {
@@ -437,7 +464,7 @@ public class ExpressionEvaluator implements tgtlib.definitions.expression.Expres
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * atgt.specification.expression.AsmExpressionVisitor#forXOrExpression(atgt
 	 * .specification.expression.XOrExpression)
@@ -449,7 +476,7 @@ public class ExpressionEvaluator implements tgtlib.definitions.expression.Expres
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * atgt.specification.expression.AsmExpressionVisitor#forImpliesExpression
 	 * (atgt.specification.expression.ImpliesExpression)
@@ -462,21 +489,20 @@ public class ExpressionEvaluator implements tgtlib.definitions.expression.Expres
 
 	/**
 	 * Adds the.
-	 * 
+	 *
 	 * @param list
 	 *            the list
 	 */
 	public void add(Map<? extends Variable, String> list) {
 		for (Entry<? extends Variable, String> i : list.entrySet()) {
-			// TODO: consider the arguments. How?
-			System.out.println(i.getKey().toString());
-			state.put(i.getKey().toString()/*.getIdExpression().getIdString()*/, i.getValue());
+			assert ! i.getKey().getIdExpression().toString().contains("(");
+			state.put(i.getKey().getIdExpression(), i.getValue());
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * atgt.specification.expression.AsmExpressionVisitor#forNextExpression(
 	 * atgt.specification.expression.NextExpression)
@@ -493,34 +519,19 @@ public class ExpressionEvaluator implements tgtlib.definitions.expression.Expres
 
 	@Override
 	public Boolean forModuloExpression(ModuloExpression e) {
-		throw new EvaluationNotSupported(e.getClass() + " not supported");
+		throw new EvaluationNotSupported(e.getClass() + "not supported");
 	}
 
 	@Override
 	public Boolean forPrimedIdExpression(PrimedIdExpression e) {
-		throw new EvaluationNotSupported(e.getClass() + " not supported");
+		throw new EvaluationNotSupported(e.getClass() + "not supported");
 	}
 
 	@Override
 	public Boolean forFunctionTerm(FunctionTerm ft) {
-		// Unary function
-		String ftString = ft.toString().replace("[", "(").replace("]", ")");
-		String res = state.get(ftString);
-		assert res != null : ftString;
-		if (res.equalsIgnoreCase("true") || res.equalsIgnoreCase("false"))
-				return Boolean.valueOf(res);
 		
-		// Function with a single parameter
-		if (ft.getArguments().size() == 1) {
-			System.err.println(ft.getArguments().get(0));
-			//String res = state.get(ft.getFunction() + "[" + ft.getArguments().get(0).);
-			if (res.equalsIgnoreCase("true") || res.equalsIgnoreCase("false"))
-					return Boolean.valueOf(res);
-			else
-				throw new EvaluationNotSupported(ft.getClass() + " not supported - [function: " + ft.getFunction().getIdString() + "]");
-		} else {
-			throw new EvaluationNotSupported(ft.getClass() + " not supported - [function: " + ft.getFunction().getIdString() + "]");
-		}
+		System.err.println("STATE " + state);
+		throw new EvaluationNotSupported("class:" + ft.getClass() + " function "+ ft.getFunction().getIdString() + "  not supported");
 	}
 
 	@Override
