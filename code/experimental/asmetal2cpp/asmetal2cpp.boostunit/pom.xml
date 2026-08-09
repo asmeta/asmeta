@@ -14,7 +14,7 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.13.0</version>
+				<version>3.15.0</version>
 				<configuration>
 					<release>21</release>
 				</configuration>
@@ -45,7 +45,11 @@
 			<artifactId>junit-jupiter</artifactId>
 			<scope>test</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>asmeta</groupId>
+			<artifactId>asmeta.atgt.atgt4asmeta</artifactId>
+			<version>0.0.1-SNAPSHOT</version>			
+		</dependency>
 	</dependencies>
 	<parent>
 		<groupId>asmeta</groupId>

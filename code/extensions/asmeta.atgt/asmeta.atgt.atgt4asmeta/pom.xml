@@ -2,9 +2,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>asmeta.atgt.atgt4asmeta</groupId>
 	<artifactId>asmeta.atgt.atgt4asmeta</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<build>
 		<sourceDirectory>src\main\java</sourceDirectory>
 		<testSourceDirectory>src\test\java</testSourceDirectory>
@@ -13,7 +11,7 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.15.0</version>
 				<configuration>
-					<release>21</release>
+					<release>17</release>
 				</configuration>
 			</plugin>
 			<!--			<plugin>
@@ -60,4 +58,10 @@
 			<version>4.13.2</version>
 		</dependency>
 	</dependencies>
+	<parent>
+		<groupId>asmeta</groupId>
+		<artifactId>asmeta.all</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../../../pom.xml</relativePath>
+	</parent>
 </project>
