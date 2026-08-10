@@ -2,6 +2,7 @@ package org.asmeta.visualdesigner.figures;
 
 import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.draw2d.Graphics;
+import org.eclipse.draw2d.geometry.PointList;
 import org.eclipse.draw2d.geometry.Rectangle;
 
 public class ForAllRuleFigure extends RuleFigure {
@@ -12,14 +13,37 @@ public class ForAllRuleFigure extends RuleFigure {
 
     @Override
     protected void paintFigure(Graphics graphics) {
-        Rectangle outer = getBounds().getCopy().shrink(1, 1);
-        Rectangle inner = outer.getCopy().shrink(4, 4);
+        Rectangle bounds = getBounds().getCopy().shrink(1, 1);
 
-        graphics.setBackgroundColor(ColorConstants.white);
+        PointList points = new PointList();
+        points.addPoint(
+                bounds.x + bounds.width / 2,
+                bounds.y
+        );
+        points.addPoint(
+                bounds.x + bounds.width,
+                bounds.y + bounds.height / 2
+        );
+        points.addPoint(
+                bounds.x + bounds.width / 2,
+                bounds.y + bounds.height
+        );
+        points.addPoint(
+                bounds.x,
+                bounds.y + bounds.height / 2
+        );
+
+        graphics.setBackgroundColor(ColorConstants.lightGray);
         graphics.setForegroundColor(ColorConstants.black);
 
-        graphics.fillRectangle(outer);
-        graphics.drawRectangle(outer);
-        graphics.drawRectangle(inner);
+        graphics.fillPolygon(points);
+        graphics.drawPolygon(points);
+    }
+
+    @Override
+    public void setRuleText(String text) {
+        label.setText("FORALL");
+        revalidate();
+        repaint();
     }
 }

@@ -3,13 +3,34 @@
 
 <plugin>
 
-   <extension
-         point="org.eclipse.ui.views">
-      <view
-      		name="ASM Designer (GEF)"
-      		class="org.asmeta.visualdesigner.views.GefDesignView"
-      		id="org.asmeta.visualdesigner.views.GefDesignView">
-	  </view>
+   <extension point="org.eclipse.ui.editors">
+      <editor
+            id="org.asmeta.visualdesigner.views.GefDesignEditor"
+            name="ASM Designer"
+            class="org.asmeta.visualdesigner.views.GefDesignEditor"
+            extensions="asmdesign"
+            default="true">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.exportWizards">
+      <category
+            id="org.asmeta.visualdesigner.exportCategory"
+            name="ASMETA">
+      </category>
+
+      <wizard
+            id="org.asmeta.visualdesigner.export.AsmExportWizard"
+            name="ASM model"
+            category="org.asmeta.visualdesigner.exportCategory"
+            class="org.asmeta.visualdesigner.export.AsmExportWizard">
+         <description>
+            Export an ASM Designer model to an ASM file.
+         </description>
+         <selection
+               class="org.eclipse.core.resources.IFile">
+         </selection>
+      </wizard>
    </extension>
 
 </plugin>

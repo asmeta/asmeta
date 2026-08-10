@@ -19,7 +19,9 @@
           "height": 50,
           "condition": "coins \u003c 25",
           "calledRuleName": "",
-          "parameters": ""
+          "parameters": "",
+          "assignment": "",
+          "choose": ""
         },
         {
           "id": "rule-1",
@@ -31,7 +33,9 @@
           "height": 50,
           "condition": "insertedCoin \u003d HALF",
           "calledRuleName": "",
-          "parameters": ""
+          "parameters": "",
+          "assignment": "",
+          "choose": ""
         },
         {
           "id": "rule-2",
@@ -43,7 +47,9 @@
           "height": 50,
           "condition": "avaiable(MILK) \u003e 0",
           "calledRuleName": "",
-          "parameters": ""
+          "parameters": "",
+          "assignment": "",
+          "choose": ""
         },
         {
           "id": "rule-3",
@@ -55,7 +61,9 @@
           "height": 50,
           "condition": "",
           "calledRuleName": "r_serveProduct",
-          "parameters": "MILK"
+          "parameters": "MILK",
+          "assignment": "",
+          "choose": ""
         },
         {
           "id": "rule-4",
@@ -67,7 +75,9 @@
           "height": 50,
           "condition": "",
           "calledRuleName": "",
-          "parameters": ""
+          "parameters": "",
+          "assignment": "",
+          "choose": "$p in Product with $p !\u003d MILK and available($p) \u003e 0"
         },
         {
           "id": "rule-5",
@@ -79,7 +89,9 @@
           "height": 50,
           "condition": "",
           "calledRuleName": "r_serveProduct",
-          "parameters": "$p"
+          "parameters": "$p",
+          "assignment": "",
+          "choose": ""
         }
       ],
       "transitions": [
@@ -109,9 +121,13 @@
         },
         {
           "source": "rule-4",
-          "target": "rule-5"
+          "target": "rule-5",
+          "label": "do"
         }
-      ]
+      ],
+      "domains": [],
+      "functions": [],
+      "customDomainTypes": []
     },
     "r_serveProduct": {
       "startNode": {
@@ -131,7 +147,9 @@
           "height": 50,
           "condition": "",
           "calledRuleName": "",
-          "parameters": ""
+          "parameters": "",
+          "assignment": "",
+          "choose": ""
         },
         {
           "id": "rule-1",
@@ -143,7 +161,9 @@
           "height": 50,
           "condition": "",
           "calledRuleName": "",
-          "parameters": ""
+          "parameters": "",
+          "assignment": "coins :\u003d coins + 1",
+          "choose": ""
         },
         {
           "id": "rule-2",
@@ -155,7 +175,9 @@
           "height": 50,
           "condition": "",
           "calledRuleName": "",
-          "parameters": ""
+          "parameters": "",
+          "assignment": "available($p) :\u003d available($p) - 1",
+          "choose": ""
         }
       ],
       "transitions": [
@@ -171,7 +193,10 @@
           "source": "rule-0",
           "target": "rule-2"
         }
-      ]
+      ],
+      "domains": [],
+      "functions": [],
+      "customDomainTypes": []
     }
   }
 }

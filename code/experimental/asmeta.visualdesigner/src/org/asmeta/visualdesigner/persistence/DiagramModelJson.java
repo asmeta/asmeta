@@ -1,8 +1,6 @@
 package org.asmeta.visualdesigner.persistence;
 
 import java.io.IOException;
-import java.io.Reader;
-import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -24,6 +22,14 @@ import com.google.gson.JsonParseException;
 import org.asmeta.visualdesigner.model.DomainSignature;
 import org.asmeta.visualdesigner.model.FunctionSignature;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Reader;
+import java.io.Writer;
+import java.nio.charset.StandardCharsets;
+
 public class DiagramModelJson {
 
     private static final int FORMAT_VERSION = 2;
@@ -32,47 +38,65 @@ public class DiagramModelJson {
 
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-    public void save(
-            Map<String, DiagramModel> diagrams,
-            Path path
-    ) throws IOException {
-
-        ProjectData projectData = new ProjectData();
-        projectData.formatVersion = FORMAT_VERSION;
-
-        for (Map.Entry<String, DiagramModel> entry : diagrams.entrySet()) {
-            projectData.diagrams.put(entry.getKey(), createDiagramData(entry.getValue()));
-        }
-
-        try (Writer writer = Files.newBufferedWriter(path)) {
-            gson.toJson(projectData, writer);
+    public void save(Map<String, DiagramModel> diagrams, Path path) throws IOException {
+        try (OutputStream output = Files.newOutputStream(path)) {
+            save(diagrams, output);
         }
     }
 
+    public void save(Map<String, DiagramModel> diagrams, OutputStream output) throws IOException {
+        ProjectData projectData = createProjectData(diagrams);
+
+        Writer writer = new OutputStreamWriter(output, StandardCharsets.UTF_8);
+        gson.toJson(projectData, writer);
+        writer.flush();
+    }
+
     public Map<String, DiagramModel> load(Path path) throws IOException {
+
+        Map<String, DiagramModel> diagrams;
+
+        try (InputStream input = Files.newInputStream(path)) {
+            diagrams = load(input);
+        }
+
+        return diagrams;
+    }
+
+    public Map<String, DiagramModel> load(InputStream input) throws IOException {
+
         ProjectData projectData;
 
-        try (Reader reader = Files.newBufferedReader(path)) {
+        try {
+            Reader reader = new InputStreamReader(input, StandardCharsets.UTF_8);
             projectData = gson.fromJson(reader, ProjectData.class);
         } catch (JsonParseException exception) {
-            throw new IOException(
-                    "The selected file does not contain valid JSON.",
-                    exception
-            );
+            throw new IOException("The selected file does not contain valid JSON.", exception);
         }
 
         validateProject(projectData);
 
         Map<String, DiagramModel> diagrams = new LinkedHashMap<>();
 
-        for (Map.Entry<String, DiagramData> entry  : projectData.diagrams.entrySet()) {
-
+        for (Map.Entry<String, DiagramData> entry : projectData.diagrams.entrySet()) {
             validateDiagram(entry.getKey(), entry.getValue());
-
-            diagrams.put(entry.getKey(),createDiagramModel(entry.getValue()));
+            diagrams.put(entry.getKey(), createDiagramModel(entry.getValue()));
         }
 
         return diagrams;
+    }
+    
+    private ProjectData createProjectData(Map<String, DiagramModel> diagrams) {
+
+        ProjectData projectData = new ProjectData();
+        projectData.formatVersion = FORMAT_VERSION;
+
+        for (Map.Entry<String, DiagramModel> entry : diagrams.entrySet()) {
+
+            projectData.diagrams.put(entry.getKey(), createDiagramData(entry.getValue()));
+        }
+
+        return projectData;
     }
 
     private DiagramData createDiagramData(DiagramModel model) {
@@ -130,9 +154,7 @@ public class DiagramModelJson {
             diagramData.functions.add(functionData);
         }
 
-        diagramData.customDomainTypes.addAll(
-                model.getCustomDomainTypes()
-        );
+        diagramData.customDomainTypes.addAll(model.getCustomDomainTypes());
         
         return diagramData;
     }
@@ -150,34 +172,26 @@ public class DiagramModelJson {
         ruleData.condition = rule.getCondition();
         ruleData.calledRuleName = rule.getCalledRuleName();
         ruleData.parameters = rule.getParameters();
+        ruleData.assignment = rule.getAssignment();
+        ruleData.choose = rule.getChoose();
+        ruleData.forall = rule.getForall();
 
         return ruleData;
     }
 
-    private DiagramModel createDiagramModel(
-            DiagramData diagramData
-    ) throws IOException {
+    private DiagramModel createDiagramModel(DiagramData diagramData) throws IOException {
 
         DiagramModel model = new DiagramModel();
         
         for (DomainData domainData : diagramData.domains) {
-            model.getDomains().add(new DomainSignature(
-                            			safeText(domainData.name),
-                            			safeText(domainData.type),
-                            			domainData.dynamic,
-                            			safeText(domainData.values)
-                    				));
+            model.getDomains().add(
+            		new DomainSignature(safeText(domainData.name), safeText(domainData.type), domainData.dynamic, safeText(domainData.values))
+            );
         }
 
         for (FunctionData functionData : diagramData.functions) {
             model.getFunctions().add(
-                    new FunctionSignature(
-                            safeText(functionData.name),
-                            safeText(functionData.type),
-                            safeText(functionData.domain),
-                            safeText(functionData.codomain),
-                            safeText(functionData.definition)
-                    )
+                    new FunctionSignature( safeText(functionData.name), safeText(functionData.type), safeText(functionData.domain), safeText(functionData.codomain), safeText(functionData.definition))
             );
         }
 
@@ -205,6 +219,9 @@ public class DiagramModelJson {
             rule.setCondition(ruleData.condition);
             rule.setCalledRuleName(ruleData.calledRuleName);
             rule.setParameters(ruleData.parameters);
+            rule.setAssignment(safeText(ruleData.assignment));
+            rule.setChoose(safeText(ruleData.choose));
+            rule.setForall(safeText(ruleData.forall));
 
             model.addRule(rule);
             nodesById.put(ruleData.id, rule);
@@ -215,9 +232,7 @@ public class DiagramModelJson {
             DiagramNode target = nodesById.get(transitionData.target);
 
             if (source == null || target == null) {
-                throw new IOException(
-                        "A transition references an unknown node."
-                );
+                throw new IOException("A transition references an unknown node.");
             }
 
             Transition transition = new Transition(source,target, transitionData.label);
@@ -250,36 +265,22 @@ public class DiagramModelJson {
         }
 
         if (projectData.formatVersion != FORMAT_VERSION) {
-            throw new IOException(
-                    "Unsupported format version: "
-                    + projectData.formatVersion
-            );
+            throw new IOException("Unsupported format version: " + projectData.formatVersion);
         }
 
         if (projectData.diagrams == null || !projectData.diagrams.containsKey(MAIN_DIAGRAM_NAME)) {
 
-            throw new IOException(
-                    "The file does not contain the main diagram."
-            );
+            throw new IOException("The file does not contain the main diagram.");
         }
     }
 
-    private void validateDiagram(
-            String name,
-            DiagramData diagramData
-    ) throws IOException {
-
+    private void validateDiagram(String name, DiagramData diagramData) throws IOException {
         if (diagramData == null) {
-            throw new IOException(
-                    "Diagram '" + name + "' does not contain data."
-            );
+            throw new IOException("Diagram '" + name + "' does not contain data.");
         }
 
         if (diagramData.startNode == null) {
-            throw new IOException(
-                    "Diagram '" + name
-                    + "' does not contain a starting point."
-            );
+            throw new IOException("Diagram '" + name + "' does not contain a starting point.");
         }
 
         if (diagramData.rules == null) {
@@ -309,8 +310,7 @@ public class DiagramModelJson {
 
     private static class ProjectData {
         private int formatVersion;
-        private Map<String, DiagramData> diagrams =
-                new LinkedHashMap<>();
+        private Map<String, DiagramData> diagrams = new LinkedHashMap<>();
     }
 
     private static class DiagramData {
@@ -355,6 +355,9 @@ public class DiagramModelJson {
         private String condition;
         private String calledRuleName;
         private String parameters;
+        private String assignment;
+        private String choose;
+        private String forall;
     }
 
     private static class TransitionData {

@@ -39,7 +39,21 @@ public class RuleNode implements DiagramNode {
     private String parameters = "";
     private String assignment = "";
     private String choose = "";
+    private String forall = "";
 
+    
+    public String getForall() {
+        return forall;
+    }
+
+    public void setForall(String forall) {
+        String newValue = forall != null ? forall : "";
+
+        if (!this.forall.equals(newValue)) {
+            this.forall = newValue;
+            listeners.firePropertyChange(PROPERTY_RULE_DATA, null, null);
+        }
+    }
     
     public String getChoose() {
         return choose;
@@ -250,7 +264,7 @@ public class RuleNode implements DiagramNode {
                 return isNonEmpty(assignment) ? assignment : "[assignment]";
 
             case FORALL:
-                return isNonEmpty(name) ? name : "forall";
+                return "forall";
 
             case SEQ:
                 return isNonEmpty(name) ? name : "seq";

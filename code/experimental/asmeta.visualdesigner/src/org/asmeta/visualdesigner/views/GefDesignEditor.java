@@ -74,34 +74,48 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.part.ViewPart;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.gef.commands.CommandStackListener;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorSite;
+import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.dialogs.SaveAsDialog;
+import org.eclipse.ui.part.EditorPart;
+import org.eclipse.ui.part.FileEditorInput;
+
 import org.eclipse.jface.viewers.ColumnWeightData;
-import org.eclipse.jface.layout.TableColumnLayout;
 import java.io.IOException;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.window.Window;
-import org.eclipse.swt.widgets.FileDialog;
-import org.eclipse.swt.widgets.MessageBox;
 import org.asmeta.visualdesigner.persistence.DiagramModelJson;
-import org.eclipse.swt.widgets.FileDialog;
-import org.eclipse.swt.widgets.MessageBox;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.io.File;
-import java.nio.file.Path;
 
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.Platform;
-import org.osgi.framework.Bundle;
+
+
+
 /*
  * Main view: here manage the panels and interactions to create the different rules and transitions.
  * Also to modify the information.
  */
-public class GefDesignView extends ViewPart {
 
-    public static final String ID = "org.asmeta.visualdesigner.views.GefDesignView";
+
+
+
+public class GefDesignEditor extends EditorPart {
+
+	public static final String ID = "org.asmeta.visualdesigner.views.GefDesignEditor";
 
     private static final String MAIN_DIAGRAM_NAME = "main";
+    
+    private IFile modelFile;
 
     private DefaultEditDomain editDomain;
     private PaletteViewer paletteViewer;
@@ -136,6 +150,9 @@ public class GefDesignView extends ViewPart {
 
     private Label parametersLabel;
     private Text parametersText;
+    
+    private Label forallLabel;
+    private Text forallText;
 
     private StyledText asmetaCodeText;
 
@@ -146,6 +163,8 @@ public class GefDesignView extends ViewPart {
     private TableViewer functionViewer;
 
     private CTabFolder diagramTabs;
+    
+    private boolean modelDirty;
   
     
 
@@ -171,10 +190,44 @@ public class GefDesignView extends ViewPart {
     }
 
     @Override
+    public void init(IEditorSite site, IEditorInput input) throws PartInitException {
+        if (input instanceof IFileEditorInput) {
+            setSite(site);
+            setInput(input);
+
+            modelFile = ((IFileEditorInput) input).getFile();
+            setPartName(modelFile.getName());
+
+            loadEditorInput();
+        } else {
+            throw new PartInitException("ASM Designer can only open workspace files.");
+        }
+    }
+
+    private void loadEditorInput() throws PartInitException {
+        try (InputStream input = modelFile.getContents()) {
+            Map<String, DiagramModel> loadedDiagrams = diagramModelJson.load(input);
+            diagramsByName.clear();
+            diagramsByName.putAll(loadedDiagrams);
+        } catch (CoreException | IOException exception) {
+            throw new PartInitException("Could not open the ASM design file.",exception);
+        }
+    }
+    
+    @Override
     public void createPartControl(Composite parent) {
         SashForm sash = new SashForm(parent, SWT.HORIZONTAL);
 
-        editDomain = new DefaultEditDomain(null);
+        editDomain = new DefaultEditDomain(this);
+
+        editDomain.getCommandStack().addCommandStackListener(
+                new CommandStackListener() {
+                    @Override
+                    public void commandStackChanged(java.util.EventObject event) {
+                        firePropertyChange(PROP_DIRTY);
+                    }
+                }
+        );
 
         Composite palettePanel = new Composite(sash, SWT.NONE);
         palettePanel.setLayout(new GridLayout(1, false));
@@ -194,26 +247,7 @@ public class GefDesignView extends ViewPart {
             }
         });
         
-        Button saveButton = new Button(palettePanel, SWT.PUSH);
-        saveButton.setText("Save desing");
-        saveButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-        saveButton.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent event) {
-                saveMainDiagram();
-            }
-        });
-
-        Button loadButton = new Button(palettePanel, SWT.PUSH);
-        loadButton.setText("Load desing");
-        loadButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-        loadButton.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent event) {
-                loadMainDiagram();
-            }
-        });
-
+        
         rightSash = new SashForm(sash, SWT.VERTICAL);
 
         diagramTabs = new CTabFolder(rightSash, SWT.BORDER);
@@ -245,228 +279,98 @@ public class GefDesignView extends ViewPart {
         });
 
         createDiagramTab(MAIN_DIAGRAM_NAME);
+        editDomain.getCommandStack().markSaveLocation();
     }
     
-    private void saveMainDiagram() {
+    
+    
+    
+    @Override
+    public void doSave(IProgressMonitor monitor) {
         try {
-            Path toolDirectory = getToolDirectory();
+            ByteArrayOutputStream output =new ByteArrayOutputStream();
+            diagramModelJson.save(diagramsByName, output);
 
-            FileDialog dialog = new FileDialog(
-                    getSite().getShell(),
-                    SWT.SAVE
-            );
-
-            dialog.setText("Save visual model");
-            dialog.setFilterPath(toolDirectory.toString());
-            dialog.setFileName("model.asmdesign");
-            dialog.setFilterExtensions(
-                    new String[] { "*.asmdesign", "*.*" }
-            );
-            dialog.setFilterNames(
-                    new String[] {
-                            "ASM design files",
-                            "All files"
-                    }
-            );
-            dialog.setOverwrite(true);
-
-            String selectedPath = dialog.open();
-
-            if (selectedPath != null) {
-                Path filePath = Path.of(
-                        ensureDesignExtension(selectedPath)
-                );
-
-                diagramModelJson.save(
-                        diagramsByName,
-                        filePath
-                );
-            }
-        } catch (IOException exception) {
-            showFileError(
-                    "Could not save the visual model.",
-                    exception
-            );
+            ByteArrayInputStream input = new ByteArrayInputStream(output.toByteArray());
+            modelFile.setContents(input, true, false, monitor);
+            markModelSaved();
+        } catch (CoreException | IOException exception) {
+            MessageDialog.openError(getSite().getShell(), "ASM Designer", "Could not save the ASM design.\n\n" + exception.getMessage());
         }
     }
 
+    @Override
+    public boolean isDirty() {
+        boolean commandStackDirty = false;
 
-    
-    private void loadMainDiagram() {
-        try {
-            Path toolDirectory = getToolDirectory();
-
-            FileDialog dialog = new FileDialog(
-                    getSite().getShell(),
-                    SWT.OPEN
-            );
-
-            dialog.setText("Load visual model");
-            dialog.setFilterPath(toolDirectory.toString());
-            dialog.setFilterExtensions(
-                    new String[] { "*.asmdesign", "*.*" }
-            );
-            dialog.setFilterNames(
-                    new String[] {
-                            "ASM design files",
-                            "All files"
-                    }
-            );
-
-            String selectedPath = dialog.open();
-
-            if (selectedPath != null) {
-                Map<String, DiagramModel> loadedDiagrams =
-                        diagramModelJson.load(
-                                Path.of(selectedPath)
-                        );
-
-                replaceDiagrams(loadedDiagrams);
-            }
-        } catch (IOException exception) {
-            showFileError(
-                    "Could not load the visual model.",
-                    exception
-            );
+        if (editDomain != null) {
+            commandStackDirty = editDomain.getCommandStack().isDirty();
         }
+        return modelDirty || commandStackDirty;
     }
-   
     
-    private void replaceDiagrams(
-            Map<String, DiagramModel> loadedDiagrams
-    ) {
-        List<DiagramPage> auxiliaryPages = new ArrayList<>();
+    @Override
+    public void doSaveAs() {
+        SaveAsDialog dialog = new SaveAsDialog(getSite().getShell());
 
-        for (DiagramPage page : openPagesByName.values()) {
-            if (!MAIN_DIAGRAM_NAME.equals(page.name)) {
-                auxiliaryPages.add(page);
+        dialog.setOriginalFile(modelFile);
+        dialog.open();
+
+        if (dialog.getResult() != null) {
+            IFile newFile = modelFile.getWorkspace().getRoot().getFile(dialog.getResult());
+
+            try {
+                ByteArrayOutputStream output = new ByteArrayOutputStream();
+                diagramModelJson.save(diagramsByName,output);
+
+                ByteArrayInputStream input = new ByteArrayInputStream(output.toByteArray());
+
+                if (newFile.exists()) {
+                    newFile.setContents(input, true, false,null);
+                } else {
+                    newFile.create(input, true, null);
+                }
+
+                modelFile = newFile;
+                setInput(new FileEditorInput(newFile));
+                setPartName(newFile.getName());
+
+                markModelSaved();
+
+                firePropertyChange(PROP_INPUT);
+                firePropertyChange(PROP_TITLE);
+                
+            } catch (CoreException | IOException exception) {
+                MessageDialog.openError(getSite().getShell(), "ASM Designer", "Could not save the ASM design.\n\n" + exception.getMessage());
             }
         }
+    }
 
-        for (DiagramPage page : auxiliaryPages) {
-            if (!page.tabItem.isDisposed()) {
-                page.tabItem.dispose();
-            }
-        }
-
-        diagramsByName.clear();
-        diagramsByName.putAll(loadedDiagrams);
-
-        DiagramPage mainPage =
-                openPagesByName.get(MAIN_DIAGRAM_NAME);
-
-        DiagramModel mainModel =
-                diagramsByName.get(MAIN_DIAGRAM_NAME);
-
-        if (mainPage != null && mainModel != null) {
-            mainPage.model = mainModel;
-            mainPage.viewer.setContents(mainModel);
-
-            diagramTabs.setSelection(mainPage.tabItem);
-            activePage = mainPage;
-
-            mainPage.viewer.getControl().setFocus();
-        }
-
-        selectedRule = null;
-        showNoSelection();
-
-        editDomain.getCommandStack().flush();
+    @Override
+    public boolean isSaveAsAllowed() {
+        return true;
     }
     
     
-
-    
-    private Path getToolDirectory() throws IOException {
-        Bundle bundle = Platform.getBundle(
-                "asmeta.visualdesigner"
-        );
-
-        if (bundle == null) {
-            throw new IOException(
-                    "Could not locate the ASM Visual Designer plug-in."
-            );
+    private void markModelDirty() {
+        if (!modelDirty) {
+            modelDirty = true;
+            firePropertyChange(PROP_DIRTY);
         }
-
-        File bundleFile = FileLocator.getBundleFile(bundle);
-        Path toolDirectory;
-
-        if (bundleFile.isDirectory()) {
-            toolDirectory = bundleFile.toPath();
-        } else {
-            toolDirectory = bundleFile.toPath().getParent();
-        }
-
-        return toolDirectory;
-    }
-    
-    
-    private String validateModelFileName(String value) {
-        String errorMessage = null;
-
-        if (value == null || value.trim().isEmpty()) {
-            errorMessage = "Enter a file name.";
-        } else if (value.contains("/")
-                || value.contains("\\")) {
-            errorMessage = "Enter only a file name, without folders.";
-        }
-
-        return errorMessage;
     }
 
-    private String ensureDesignExtension(String fileName) {
-        String result = fileName.trim();
-
-        if (!result.toLowerCase().endsWith(".asmdesign")) {
-            result = result + ".asmdesign";
-        }
-
-        return result;
+    private void markModelSaved() {
+        modelDirty = false;
+        editDomain.getCommandStack().markSaveLocation();
+        firePropertyChange(PROP_DIRTY);
     }
     
     
     
-    
-    
-    
-
-    private void replaceMainModel(DiagramModel loadedModel) {
-        diagramsByName.put(MAIN_DIAGRAM_NAME, loadedModel);
-
-        DiagramPage mainPage = openPagesByName.get(MAIN_DIAGRAM_NAME);
-
-        if (mainPage != null) {
-            mainPage.model = loadedModel;
-            mainPage.viewer.setContents(loadedModel);
-
-            diagramTabs.setSelection(mainPage.tabItem);
-            activePage = mainPage;
-            mainPage.viewer.getControl().setFocus();
-        }
-
-        selectedRule = null;
-        showNoSelection();
-
-        editDomain.getCommandStack().flush();
-    }
-    
-    private void showFileError(String message, Exception exception) {
-        MessageBox errorDialog = new MessageBox(
-                getSite().getShell(),
-                SWT.OK | SWT.ICON_ERROR
-        );
-
-        errorDialog.setText("ASM Designer");
-        errorDialog.setMessage(message + "\n\n" + exception.getMessage());
-        errorDialog.open();
-    }
-    
-    
-
+//revisar panel.
     private void toggleDefinitionsPanel() {
-        boolean definitionsVisible = definitionsPanel != null && !definitionsPanel.isDisposed()
-                && bottomStack.topControl == definitionsPanel;
-        if (definitionsVisible) {
+        if (definitionsPanel != null && !definitionsPanel.isDisposed()
+                && bottomStack.topControl == definitionsPanel) {
             closeDefinitionsPanel();
         } else {
             openDefinitionsPanel();
@@ -642,10 +546,8 @@ public class GefDesignView extends ViewPart {
 
             if (selectedEditParts != null && selectedEditParts.size() == 1) {
                 Object selected = selectedEditParts.get(0);
-
                 if (selected instanceof EditPart) {
                     Object selectedModel = ((EditPart) selected).getModel();
-
                     if (selectedModel instanceof RuleNode) {
                         rule = (RuleNode) selectedModel;
                     }
@@ -671,11 +573,12 @@ public class GefDesignView extends ViewPart {
     private void refreshCurrentViewer() {
         ScrollingGraphicalViewer currentViewer = getCurrentViewer();
         DiagramModel currentModel = getCurrentModel();
-
         if (currentViewer != null && currentModel != null) {
             currentViewer.setContents(currentModel);
         }
     }
+    
+
 
     private void createAsmetaCodePanel(Composite parent) {
         Composite panel = new Composite(parent, SWT.BORDER);
@@ -684,22 +587,11 @@ public class GefDesignView extends ViewPart {
         Label title = new Label(panel, SWT.NONE);
         title.setText("ASMETA code section");
 
-        asmetaCodeText = new StyledText(
-                panel,
-                SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL | SWT.BORDER
-        );
-
+        asmetaCodeText = new StyledText(panel, SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL | SWT.BORDER);
         asmetaCodeText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
-        String initialText =
-                "signature:\n" +
-                "\n" +
-                "domains:\n" +
-                "\n" +
-                "properties:\n";
-
+        String initialText ="signature:\n" + "\n" + "domains:\n" + "\n" + "properties:\n";
         asmetaCodeText.setText(initialText);
-
         DiagramModel mainModel = getMainModel();
         mainModel.setAsmetaCode(initialText);
 
@@ -825,31 +717,16 @@ public class GefDesignView extends ViewPart {
             diagram.getDomains().add(new DomainSignature("Coin", "enum", false, "HALF, ONE"));
             diagram.getDomains().add(new DomainSignature("NumberOfSlot", "subsetof Integer", false, "1:20"));
             diagram.getDomains().add(new DomainSignature("Student", "abstract", true, "s1, s2"));
-
             diagram.getFunctions().add(new FunctionSignature("x", "monitored", "", "Boolean", ""));
-            diagram.getFunctions().add(new FunctionSignature(
-                    "max",
-                    "static",
-                    "Prod(Integer, Integer)",
-                    "Integer",
-                    "max(x in Integer, y in Integer) = if x > y then x else y endif"
-            ));
-            diagram.getFunctions().add(new FunctionSignature(
-                    "temperature",
-                    "controlled",
-                    "",
-                    "Real",
-                    "temperature = 10.4"
-            ));
+            diagram.getFunctions().add(new FunctionSignature("max", "static", "Prod(Integer, Integer)", "Integer", "max(x in Integer, y in Integer) = if x > y then x else y endif"));
+            diagram.getFunctions().add(new FunctionSignature( "temperature", "controlled", "", "Real", "temperature = 10.4"));
         }
-
         return diagram;
     }
 
     @Override
     public void setFocus() {
         ScrollingGraphicalViewer currentViewer = getCurrentViewer();
-
         if (currentViewer != null) {
             currentViewer.getControl().setFocus();
         }
@@ -933,15 +810,16 @@ public class GefDesignView extends ViewPart {
         createLabel(panel, "Type:");
         typeValueLabel = new Label(panel, SWT.NONE);
         typeValueLabel.setText("-");
-        typeValueLabel.setLayoutData(
-                new GridData(SWT.FILL, SWT.CENTER, true, false)
-        );
+        typeValueLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
         conditionLabel = createLabel(panel, "Condition:");
         conditionText = createText(panel);
 
         chooseLabel = createLabel(panel, "Choose:");
         chooseText = createText(panel);
+
+        forallLabel = createLabel(panel, "Forall:");
+        forallText = createText(panel);
 
         assignmentLabel = createLabel(panel, "Assignment:");
         assignmentText = createText(panel);
@@ -952,11 +830,8 @@ public class GefDesignView extends ViewPart {
         openCalledRuleLabel = createLabel(panel, "");
         openCalledRuleButton = new Button(panel, SWT.PUSH);
         openCalledRuleButton.setText("Open rule model");
-        openCalledRuleButton.setLayoutData(
-                new GridData(SWT.FILL, SWT.CENTER, true, false)
-        );
+        openCalledRuleButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
         openCalledRuleButton.setEnabled(false);
-
         openCalledRuleButton.addSelectionListener(
                 new SelectionAdapter() {
                     @Override
@@ -998,10 +873,7 @@ public class GefDesignView extends ViewPart {
     private Label createLabel(Composite parent, String text) {
         Label label = new Label(parent, SWT.NONE);
         label.setText(text);
-        label.setLayoutData(
-                new GridData(SWT.LEFT, SWT.CENTER, false, false)
-        );
-
+        label.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
         return label;
     }
 
@@ -1016,15 +888,10 @@ public class GefDesignView extends ViewPart {
         setControlVisible(field, visible);
     }
 
-    private void setControlVisible(
-            Control control,
-            boolean visible
-    ) {
+    private void setControlVisible(Control control, boolean visible) {
         if (control != null && !control.isDisposed()) {
             control.setVisible(visible);
-
             Object layoutData = control.getLayoutData();
-
             if (layoutData instanceof GridData) {
                 GridData gridData = (GridData) layoutData;
                 gridData.exclude = !visible;
@@ -1045,6 +912,7 @@ public class GefDesignView extends ViewPart {
                     selectedRule.setName(nameText.getText());
                     selectedTitle.setText("Rule: " + selectedRule.getName());
                     refreshPropertiesPanelLayout();
+                    markModelDirty();
                 }
             }
         });
@@ -1054,6 +922,7 @@ public class GefDesignView extends ViewPart {
             public void modifyText(ModifyEvent event) {
                 if (!updatingPropertiesPanel && selectedRule != null) {
                     selectedRule.setCondition(conditionText.getText());
+                    markModelDirty();
                 }
             }
         });
@@ -1063,6 +932,7 @@ public class GefDesignView extends ViewPart {
             public void modifyText(ModifyEvent event) {
                 if (!updatingPropertiesPanel && selectedRule != null) {
                     selectedRule.setAssignment(assignmentText.getText());
+                    markModelDirty();
                 }
             }
         });
@@ -1073,6 +943,7 @@ public class GefDesignView extends ViewPart {
                 if (!updatingPropertiesPanel && selectedRule != null) {
                     selectedRule.setCalledRuleName(calledRuleText.getText());
                     updateOpenCalledRuleButton();
+                    markModelDirty();
                 }
             }
         });
@@ -1082,6 +953,7 @@ public class GefDesignView extends ViewPart {
             public void modifyText(ModifyEvent event) {
                 if (!updatingPropertiesPanel && selectedRule != null) {
                     selectedRule.setParameters(parametersText.getText());
+                    markModelDirty();
                 }
             }
         });
@@ -1091,6 +963,17 @@ public class GefDesignView extends ViewPart {
             public void modifyText(ModifyEvent event) {
                 if (!updatingPropertiesPanel && selectedRule != null) {
                     selectedRule.setChoose(chooseText.getText());
+                    markModelDirty();
+                }
+            }
+        });
+        
+        forallText.addModifyListener(new ModifyListener() {
+            @Override
+            public void modifyText(ModifyEvent event) {
+                if (!updatingPropertiesPanel && selectedRule != null) {
+                    selectedRule.setForall(forallText.getText());
+                    markModelDirty();
                 }
             }
         });
@@ -1136,6 +1019,7 @@ public class GefDesignView extends ViewPart {
 
         conditionText.setText(safeText(rule.getCondition()));
         chooseText.setText(safeText(rule.getChoose()));
+        forallText.setText(safeText(rule.getForall()));
         assignmentText.setText(safeText(rule.getAssignment()));
         calledRuleText.setText(safeText(rule.getCalledRuleName()));
         parametersText.setText(safeText(rule.getParameters()));
@@ -1160,6 +1044,7 @@ public class GefDesignView extends ViewPart {
         assignmentText.setText("");
         calledRuleText.setText("");
         parametersText.setText("");
+        forallText.setText("");
 
         setRuleFieldsEnabled(false);
         updateSemanticFieldsForType(null);
@@ -1181,6 +1066,7 @@ public class GefDesignView extends ViewPart {
         assignmentText.setText("");
         calledRuleText.setText("");
         parametersText.setText("");
+        forallText.setText("");
 
         setRuleFieldsEnabled(false);
         updateSemanticFieldsForType(null);
@@ -1202,6 +1088,7 @@ public class GefDesignView extends ViewPart {
         assignmentText.setText("");
         calledRuleText.setText("");
         parametersText.setText("");
+        forallText.setText("");
 
         setRuleFieldsEnabled(false);
         updateSemanticFieldsForType(null);
@@ -1214,6 +1101,7 @@ public class GefDesignView extends ViewPart {
         nameText.setEnabled(enabled);
         conditionText.setEnabled(enabled);
         chooseText.setEnabled(enabled);
+        forallText.setEnabled(enabled);
         assignmentText.setEnabled(enabled);
         calledRuleText.setEnabled(enabled);
         parametersText.setEnabled(enabled);
@@ -1223,27 +1111,22 @@ public class GefDesignView extends ViewPart {
 
     private void updateSemanticFieldsForType(RuleType type) {
         boolean isConditional = type == RuleType.CONDITIONAL;
-
         boolean isChoose = type == RuleType.CHOOSE;
-
+        boolean isForall = type == RuleType.FORALL;
         boolean isUpdate = type == RuleType.UPDATE;
-
         boolean isCall = type == RuleType.CALL;
 
-        setFieldVisible(conditionLabel, conditionText,isConditional );
-
+        setFieldVisible(conditionLabel, conditionText, isConditional);
         setFieldVisible(chooseLabel, chooseText, isChoose);
-
+        setFieldVisible(forallLabel, forallText, isForall);
         setFieldVisible(assignmentLabel, assignmentText, isUpdate);
-
-        setFieldVisible(calledRuleLabel, calledRuleText,isCall);
-
+        setFieldVisible(calledRuleLabel, calledRuleText, isCall);
         setFieldVisible(openCalledRuleLabel, openCalledRuleButton, isCall);
-
         setFieldVisible(parametersLabel, parametersText, isCall);
 
         conditionText.setEnabled(isConditional);
         chooseText.setEnabled(isChoose);
+        forallText.setEnabled(isForall);
         assignmentText.setEnabled(isUpdate);
         calledRuleText.setEnabled(isCall);
         parametersText.setEnabled(isCall);
@@ -1259,10 +1142,7 @@ public class GefDesignView extends ViewPart {
     }
 
     private boolean canOpenCalledRule(RuleNode rule) {
-        return rule != null
-                && rule.getType() == RuleType.CALL
-                && rule.getCalledRuleName() != null
-                && !rule.getCalledRuleName().trim().isEmpty();
+        return rule != null && rule.getType() == RuleType.CALL && rule.getCalledRuleName() != null && !rule.getCalledRuleName().trim().isEmpty();
     }
 
     private String safeText(String value) {
@@ -1344,7 +1224,7 @@ public class GefDesignView extends ViewPart {
                         DomainSignature::getName,
                         (domain, value) -> {
                             domain.setName(value);
-
+                            markModelDirty();
                             if (functionViewer != null) {
                                 functionViewer.refresh();
                             }
@@ -1360,8 +1240,11 @@ public class GefDesignView extends ViewPart {
                 new ComboEditingSupport<>(
                         domainViewer,
                         DomainSignature::getType,
-                        DomainSignature::setType,
-                        this::getDomainTypeOptions
+                        (domain, value) -> {
+                            domain.setType(value);
+                            markModelDirty();
+                        },
+                        () -> getDomainTypeOptions()
                 )
         );
 
@@ -1373,7 +1256,10 @@ public class GefDesignView extends ViewPart {
                 new ComboEditingSupport<>(
                         domainViewer,
                         domain -> ((DomainSignature) domain).isDynamic() ? "yes" : "no",
-                        (domain, value) -> ((DomainSignature) domain).setDynamic("yes".equals(value)),
+                        		(domain, value) -> {
+                        		    ((DomainSignature) domain).setDynamic("yes".equals(value));
+                        		    markModelDirty();
+                        		},
                         () -> YES_NO_OPTIONS
                 )
         );
@@ -1386,7 +1272,10 @@ public class GefDesignView extends ViewPart {
                 new TextEditingSupport<>(
                         domainViewer,
                         DomainSignature::getValues,
-                        DomainSignature::setValues
+                        (domain, value) -> {
+                            domain.setValues(value);
+                            markModelDirty();
+                        }
                 )
         );
 
@@ -1402,6 +1291,7 @@ public class GefDesignView extends ViewPart {
 
             signatureModel.getDomains().add(domain);
             domainViewer.refresh();
+            markModelDirty();
         });
 
         addTypeButton.addListener(SWT.Selection, event -> {
@@ -1418,20 +1308,30 @@ public class GefDesignView extends ViewPart {
 
                 signatureModel.getCustomDomainTypes().add(newType);
                 domainViewer.refresh();
+                markModelDirty();
             }
         });
         
         deleteButton.addListener(SWT.Selection, event -> {
-            IStructuredSelection selection = (IStructuredSelection) domainViewer.getSelection();
+            IStructuredSelection selection =
+                    (IStructuredSelection) domainViewer.getSelection();
+
+            boolean domainRemoved = false;
 
             for (Object selected : selection.toArray()) {
-                signatureModel.getDomains().remove(selected);
+                if (signatureModel.getDomains().remove(selected)) {
+                    domainRemoved = true;
+                }
             }
 
-            domainViewer.refresh();
+            if (domainRemoved) {
+                domainViewer.refresh();
 
-            if (functionViewer != null) {
-                functionViewer.refresh();
+                if (functionViewer != null) {
+                    functionViewer.refresh();
+                }
+
+                markModelDirty();
             }
         });
 
@@ -1464,10 +1364,7 @@ public class GefDesignView extends ViewPart {
         }
 
         for (String type : signatureModel.getCustomDomainTypes()) {
-            if (type != null
-                    && !type.isBlank()
-                    && !containsIgnoreCase(options, type)) {
-
+            if (type != null && !type.isBlank() && !containsIgnoreCase(options, type)) {
                 options.add(type);
             }
         }
@@ -1475,18 +1372,13 @@ public class GefDesignView extends ViewPart {
         return options.toArray(new String[0]);
     }
 
-    private boolean containsIgnoreCase(
-            List<String> values,
-            String searchedValue
-    ) {
+    private boolean containsIgnoreCase(List<String> values, String searchedValue) {
         boolean found = false;
-
         for (String value : values) {
             if (value.equalsIgnoreCase(searchedValue)) {
                 found = true;
             }
         }
-
         return found;
     }
 
@@ -1522,7 +1414,10 @@ public class GefDesignView extends ViewPart {
                 new TextEditingSupport<>(
                         functionViewer,
                         FunctionSignature::getName,
-                        FunctionSignature::setName
+                        (function, value) -> {
+                            function.setName(value);
+                            markModelDirty();
+                        }
                 )
         );
 
@@ -1534,7 +1429,10 @@ public class GefDesignView extends ViewPart {
                 new ComboEditingSupport<>(
                         functionViewer,
                         FunctionSignature::getType,
-                        FunctionSignature::setType,
+                        (function, value) -> {
+                            function.setType(value);
+                            markModelDirty();
+                        },
                         () -> FUNCTION_TYPE_OPTIONS
                 )
         );
@@ -1547,7 +1445,10 @@ public class GefDesignView extends ViewPart {
                 new TextEditingSupport<>(
                         functionViewer,
                         FunctionSignature::getDomain,
-                        FunctionSignature::setDomain
+                        (function, value) -> {
+                            function.setDomain(value);
+                            markModelDirty();
+                        }
                 )
         );
 
@@ -1559,8 +1460,11 @@ public class GefDesignView extends ViewPart {
                 new ComboEditingSupport<>(
                         functionViewer,
                         FunctionSignature::getCodomain,
-                        FunctionSignature::setCodomain,
-                        this::getCodomainOptions
+                        (function, value) -> {
+                            function.setCodomain(value);
+                            markModelDirty();
+                        },
+                        () -> getCodomainOptions()
                 )
         );
 
@@ -1572,7 +1476,10 @@ public class GefDesignView extends ViewPart {
                 new MultilineTextEditingSupport<>(
                         functionViewer,
                         FunctionSignature::getDefinition,
-                        FunctionSignature::setDefinition,
+                        (function, value) -> {
+                            function.setDefinition(value);
+                            markModelDirty();
+                        },
                         "Function definition"
                 )
         );
@@ -1596,26 +1503,32 @@ public class GefDesignView extends ViewPart {
 
             signatureModel.getFunctions().add(function);
             functionViewer.refresh();
+            markModelDirty();
         });
 
         deleteButton.addListener(SWT.Selection, event -> {
-            IStructuredSelection selection = (IStructuredSelection) functionViewer.getSelection();
+            IStructuredSelection selection =
+                    (IStructuredSelection) functionViewer.getSelection();
+
+            boolean functionRemoved = false;
 
             for (Object selected : selection.toArray()) {
-                signatureModel.getFunctions().remove(selected);
+                if (signatureModel.getFunctions().remove(selected)) {
+                    functionRemoved = true;
+                }
             }
 
-            functionViewer.refresh();
+            if (functionRemoved) {
+                functionViewer.refresh();
+                markModelDirty();
+            }
         });
 
         return container;
     }
 
     private TableViewer createTableViewer(Composite parent) {
-        TableViewer viewer = new TableViewer(
-                parent,
-                SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL
-        );
+        TableViewer viewer = new TableViewer(parent, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL);
 
         Table table = viewer.getTable();
         table.setHeaderVisible(true);
@@ -1627,13 +1540,7 @@ public class GefDesignView extends ViewPart {
         return viewer;
     }
 
-    private <T> TableViewerColumn addColumn(
-            TableViewer viewer,
-            String title,
-            int width,
-            Function<T, String> textProvider,
-            EditingSupport editingSupport
-    ) {
+    private <T> TableViewerColumn addColumn(TableViewer viewer, String title, int width, Function<T, String> textProvider, EditingSupport editingSupport) {
         TableViewerColumn column = new TableViewerColumn(viewer, SWT.LEFT);
         column.getColumn().setText(title);
         column.getColumn().setWidth(width);
@@ -1689,11 +1596,7 @@ public class GefDesignView extends ViewPart {
         private final Function<T, String> getter;
         private final BiConsumer<T, String> setter;
 
-        public TextEditingSupport(
-                TableViewer viewer,
-                Function<T, String> getter,
-                BiConsumer<T, String> setter
-        ) {
+        public TextEditingSupport(TableViewer viewer, Function<T, String> getter, BiConsumer<T, String> setter) {
             super(viewer);
             this.viewer = viewer;
             this.getter = getter;
@@ -1733,12 +1636,7 @@ public class GefDesignView extends ViewPart {
         private final BiConsumer<T, String> setter;
         private final String title;
 
-        public MultilineTextEditingSupport(
-                TableViewer viewer,
-                Function<T, String> getter,
-                BiConsumer<T, String> setter,
-                String title
-        ) {
+        public MultilineTextEditingSupport( TableViewer viewer, Function<T, String> getter, BiConsumer<T, String> setter, String title) {
             super(viewer);
             this.viewer = viewer;
             this.getter = getter;
@@ -1840,12 +1738,7 @@ public class GefDesignView extends ViewPart {
         private final BiConsumer<T, String> setter;
         private final Supplier<String[]> valuesSupplier;
 
-        public ComboEditingSupport(
-                TableViewer viewer,
-                Function<T, String> getter,
-                BiConsumer<T, String> setter,
-                Supplier<String[]> valuesSupplier
-        ) {
+        public ComboEditingSupport(TableViewer viewer, Function<T, String> getter, BiConsumer<T, String> setter, Supplier<String[]> valuesSupplier) {
             super(viewer);
             this.viewer = viewer;
             this.getter = getter;
@@ -1855,11 +1748,7 @@ public class GefDesignView extends ViewPart {
 
         @Override
         protected CellEditor getCellEditor(Object element) {
-            return new ComboBoxCellEditor(
-                    viewer.getTable(),
-                    valuesSupplier.get(),
-                    SWT.READ_ONLY
-            );
+            return new ComboBoxCellEditor(viewer.getTable(), valuesSupplier.get(), SWT.READ_ONLY);
         }
 
         @Override
