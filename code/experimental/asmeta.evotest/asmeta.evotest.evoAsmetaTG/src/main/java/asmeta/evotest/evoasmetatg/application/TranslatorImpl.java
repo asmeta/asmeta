@@ -320,7 +320,7 @@ public class TranslatorImpl implements Translator {
 		 * -Dreport_dir="<<workingDir>/evosuite/evosuite-report>"
 		 */
 		listOfOptions.addAll(List.of(fileManager.getJavaExePathToString(), TranslatorConstants.JAR, evosuiteJar,
-				TranslatorConstants.TARGET, evosuiteTargetDir, TranslatorConstants.CLASS, evosuiteJavaInputFile,
+				TranslatorConstants.PROJECT_CP, evosuiteTargetDir, TranslatorConstants.TARGET, evosuiteTargetDir, TranslatorConstants.CLASS, evosuiteJavaInputFile,
 				evosuiteTestsOption, TranslatorConstants.CRITERION, TranslatorConstants.COVERAGE_CRITERION,
 				TranslatorConstants.DMINIMIZE_TRUE, TranslatorConstants.DASSERTION_STRATEGY_ALL, evosuiteReportOption));
 
@@ -513,6 +513,23 @@ public class TranslatorImpl implements Translator {
 		return extractJdkVersionFromFolder(javaJdkFolderPath);
 	}
 
+	/*
+	 * Pattern Explanation:
+	 *
+	 * (?:java|openjdk) : Matches either the literal text "java" or "openjdk".
+	 * version\\s+ : Matches the literal text "version" followed by one or more
+	 * spaces.
+	 * \" : Matches the opening double quote character.
+	 * ( : Starts capturing group 1, which will contain the entire version string.
+	 * [^\"]+ : Matches one or more characters that are not a double quote.
+	 * This allows different Java version formats such as "1.8.0_411", "9",
+	 * "9.0.4" or "9-ea".
+	 * ) : Ends capturing group 1.
+	 * \" : Matches the closing double quote character.
+	 */
+	private static final Pattern JAVA_VERSION_PATTERN =
+	        Pattern.compile("(?:java|openjdk) version\\s+\"([^\"]+)\"");
+	
 	/**
 	 * Get the java version string (example: 1.8.3) from the java -version command
 	 * output.
@@ -527,25 +544,7 @@ public class TranslatorImpl implements Translator {
 		logger.info("Extracting the java version...");
 		logger.debug("from:\n{}", processBuilderOutput);
 
-		/*
-		 * Pattern Explanation:
-		 * 
-		 * java version\\s+ : Matches the literal text "java version" followed by one or
-		 * more spaces. 
-		 * \" : Matches the opening double quote character (escaped with
-		 * \). 
-		 * ( : Starts capturing group 1, which will contain the entire version
-		 * string. 
-		 * \\d+ : Matches one or more digits (the major version number).
-		 * (\\.\\d+)* : Matches zero or more sequences of a dot (.) followed by one or
-		 * more digits (used for minor and patch version numbers). 
-		 * (_\\d+)? : Matches an optional underscore (_) followed by one or more digits (used
-		 *  for build numbers like in "1.8.0_411"). 
-		 * ) : Ends capturing group 1. 
-		 * \" : Matches the closing double quote character.
-		 */
-		Pattern versionPattern = Pattern.compile("java version\\s+\"(\\d+(\\.\\d+)*(_\\d+)?)\"");
-		Matcher matcher = versionPattern.matcher(processBuilderOutput);
+		Matcher matcher = JAVA_VERSION_PATTERN.matcher(processBuilderOutput);
 
 		if (matcher.find()) {
 			// return the version found example: 1.8.3

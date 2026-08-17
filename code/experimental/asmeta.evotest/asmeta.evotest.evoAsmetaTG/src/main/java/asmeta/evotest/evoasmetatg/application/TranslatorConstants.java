@@ -21,6 +21,8 @@ final class TranslatorConstants {
 	static final String SEARCH_BUDGET = "-Dsearch_budget=";
 
 	static final String CRITERION = "-criterion";
+	
+	static final String PROJECT_CP = "-projectCP";
 
 	static final String ASM_EXTENSION = AsmetaParserUtility.ASM_EXTENSION;
 	
