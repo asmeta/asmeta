@@ -132,7 +132,7 @@ class FunctionClassDef {
 					     * effectively promoting the new value to the current value.</p>
 					     */
 					    void update() {
-					        currValues = newValues;
+					        currValues = new HashMap<>(newValues);
 					    }
 						
 					}
