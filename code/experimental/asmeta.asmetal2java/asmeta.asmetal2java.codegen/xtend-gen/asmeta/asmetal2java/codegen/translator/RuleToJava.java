@@ -652,17 +652,15 @@ public class RuleToJava extends RuleVisitor<String> {
     boolean _tripleNotEquals_1 = (_ifnone != null);
     if (_tripleNotEquals_1) {
       StringConcatenation _builder_7 = new StringConcatenation();
-      _builder_7.append("\t");
       _builder_7.append("else{");
       _builder_7.newLine();
-      _builder_7.append("\t \t");
+      _builder_7.append(" \t");
       String _visit_1 = this.visit(chooseRule.getIfnone());
-      _builder_7.append(_visit_1, "\t \t");
+      _builder_7.append(_visit_1, " \t");
       _builder_7.newLineIfNotEmpty();
-      _builder_7.append("\t ");
+      _builder_7.append(" ");
       _builder_7.append("}");
       _builder_7.newLine();
-      _builder_7.append("}");
       sb.append(_builder_7);
     }
     return sb.toString();

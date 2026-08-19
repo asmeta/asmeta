@@ -378,7 +378,7 @@ class RuleToJava extends RuleVisitor<String> {
 				else{
 				 	«visit(chooseRule.getIfnone)»
 				 }
-			}''')
+			''')
 		}
 		return sb.toString
 	}
