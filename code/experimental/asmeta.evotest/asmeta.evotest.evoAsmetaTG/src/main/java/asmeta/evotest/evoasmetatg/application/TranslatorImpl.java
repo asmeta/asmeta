@@ -297,10 +297,13 @@ public class TranslatorImpl implements Translator {
 
 		// Set the location of the report.csv file
 		// -Dreport_dir="<<workingDir>/evosuite/evosuite-report>"
-		String evosuiteReportOption = TranslatorConstants.EVOSUITE_REPORT_DIR + TranslatorConstants.EQ
-				/*+ TranslatorConstants.DOUBLE_QUOTES*/ + Paths.get(fileManager.getWorkingDirPathToString(),
-						TranslatorConstants.EVOSUITE, TranslatorConstants.EVOSUITE_REPORT).toString()
-				/*+ TranslatorConstants.DOUBLE_QUOTES*/;
+			String evosuiteReportOption = TranslatorConstants.EVOSUITE_REPORT_DIR + TranslatorConstants.EQ
+					/*+ TranslatorConstants.DOUBLE_QUOTES*/ + Paths.get(fileManager.getWorkingDirPathToString(),
+							TranslatorConstants.EVOSUITE, TranslatorConstants.EVOSUITE_REPORT).toString()
+					/*+ TranslatorConstants.DOUBLE_QUOTES*/;
+
+			String choiceTraceFile = Paths.get(fileManager.getEvosuiteTestsPathToString(),
+					asmName + TranslatorConstants.CHOICE_TRACE_EXTENSION).toString();
 
 		// Set the java input class (add _ATG to the asmeta specification file name)
 		String evosuiteJavaInputFile = asmName + TranslatorConstants.ATG;
@@ -319,10 +322,12 @@ public class TranslatorImpl implements Translator {
 		 * -Dminimize=true -Dassertion_strategy=all
 		 * -Dreport_dir="<<workingDir>/evosuite/evosuite-report>"
 		 */
-		listOfOptions.addAll(List.of(fileManager.getJavaExePathToString(), TranslatorConstants.JAR, evosuiteJar,
-				TranslatorConstants.PROJECT_CP, evosuiteTargetDir, TranslatorConstants.TARGET, evosuiteTargetDir, TranslatorConstants.CLASS, evosuiteJavaInputFile,
-				evosuiteTestsOption, TranslatorConstants.CRITERION, TranslatorConstants.COVERAGE_CRITERION,
-				TranslatorConstants.DMINIMIZE_TRUE, TranslatorConstants.DASSERTION_STRATEGY_ALL, evosuiteReportOption));
+			listOfOptions.addAll(List.of(fileManager.getJavaExePathToString(), TranslatorConstants.JAR, evosuiteJar,
+					TranslatorConstants.PROJECT_CP, evosuiteTargetDir, TranslatorConstants.TARGET, evosuiteTargetDir, TranslatorConstants.CLASS, evosuiteJavaInputFile,
+					evosuiteTestsOption, TranslatorConstants.CRITERION, TranslatorConstants.COVERAGE_CRITERION,
+					TranslatorConstants.DMINIMIZE_TRUE));
+			listOfOptions.addAll(buildChoiceTraceOptions(choiceTraceFile));
+			listOfOptions.add(evosuiteReportOption);
 
 		// Set the search budget option
 		// -Dsearch_budget=<searchBudget>
@@ -330,8 +335,15 @@ public class TranslatorImpl implements Translator {
 			listOfOptions.add(TranslatorConstants.SEARCH_BUDGET.concat(this.searchBudget));
 		}
 
-		return listOfOptions;
-	}
+			return listOfOptions;
+		}
+
+		static List<String> buildChoiceTraceOptions(String choiceTraceFile) {
+			return List.of(TranslatorConstants.DASSERTION_STRATEGY_ALL,
+					TranslatorConstants.DFILTER_ASSERTIONS_FALSE,
+					TranslatorConstants.DJUNIT_CHECK_COMPILE_ONLY,
+					TranslatorConstants.ASMETA_CHOICE_TRACE_FILE_OPTION + TranslatorConstants.EQ + choiceTraceFile);
+		}
 
 	/**
 	 * Build the option for the {@code Junit2Avalla} CLI.

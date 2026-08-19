@@ -16,6 +16,12 @@ final class TranslatorConstants {
 
 	static final String DASSERTION_STRATEGY_ALL = "-Dassertion_strategy=all";
 
+	static final String DFILTER_ASSERTIONS_FALSE = "-Dfilter_assertions=false";
+
+	static final String DJUNIT_CHECK_COMPILE_ONLY = "-Djunit_check=compile_only";
+
+	static final String ASMETA_CHOICE_TRACE_FILE_OPTION = "-Dasmeta_choice_trace_file";
+
 	static final String DMINIMIZE_TRUE = "-Dminimize=true";
 	
 	static final String SEARCH_BUDGET = "-Dsearch_budget=";
@@ -29,6 +35,8 @@ final class TranslatorConstants {
 	static final String ATG = FileManager.ATG;
 	
 	static final String JUNIT_TEST_EXTENSION = ATG + "_ESTest.java";
+
+	static final String CHOICE_TRACE_EXTENSION = ATG + "_ESTest.choices.properties";
 	
 	static final String USER_DIR = "user.dir";
 
