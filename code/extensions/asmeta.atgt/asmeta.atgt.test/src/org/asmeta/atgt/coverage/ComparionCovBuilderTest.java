@@ -2,8 +2,12 @@ package org.asmeta.atgt.coverage;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -39,13 +43,53 @@ public class ComparionCovBuilderTest {
 			public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
 				if (!file.toString().endsWith(AsmetaParserUtility.ASM_EXTENSION))
 					return FileVisitResult.CONTINUE;
-				return 	compare(file);
+				return compare(file);
 			}
 		});
-
 	}
 
-	private FileVisitResult compare(Path f){
+	@Test
+	void testAllExperimentsEvoavalla() throws IOException {
+		Path listFile = Path.of("model_list.txt");
+		PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("analysys.txt", true)));
+		try (BufferedReader paths = Files.newBufferedReader(listFile)) {
+			String line;
+			while ((line = paths.readLine()) != null) {
+				String filePath = line.trim();
+				if (filePath.isEmpty() || filePath.startsWith("//")) {
+					continue;
+				}
+				File f = new File("../../../../asm_examples/"+filePath);
+				// OLD
+				String resOld = "";
+				String resNew;
+				try {
+					ASMSpecification spec = new AsmetaLLoader().read(f);
+					AsmCoverage tp_old = tpbuilder_old.getTPTree(spec);
+					resOld = "" + tp_old.getNumberofTPs();
+				} catch (ParseException e) {
+					resOld = "Error";
+				} catch (AssertionError e) {
+					resOld = "AssertionError";
+				} catch (RuntimeException e) {
+					resOld = "RuntimeException";
+				}
+				try {
+					// NEW
+					asmeta.AsmCollection asms = ASMParser.setUpReadAsm(f);
+					AsmCoverage tp_new = tpbuilder_new.getTPTree(new AsmetaAsSpec(asms));
+					resNew = "" + tp_new.getNumberofTPs();
+				} catch (Exception e) {
+					resNew = "Error";
+				}
+				out.println(f + "\t-->\t" + resOld + "\t" + resNew);
+				out.flush();
+			}
+		}
+		out.close();
+	}
+
+	private FileVisitResult compare(Path f) {
 		try {
 			// OLD
 			ASMSpecification spec = new AsmetaLLoader().read(f.toFile());
@@ -55,7 +99,10 @@ public class ComparionCovBuilderTest {
 			AsmCoverage tp_new = tpbuilder_new.getTPTree(new AsmetaAsSpec(asms));
 			// print
 			if (tp_new.getNumberofTPs() < tp_old.getNumberofTPs()) {
+				System.err.println("new < old");
+				System.err.println("old");
 				tp_old.allTPs().forEach(x -> System.out.println(x.getCondition()));
+				System.err.println("new");
 				tp_new.allTPs().forEach(x -> System.out.println(x.getCondition()));
 				return FileVisitResult.TERMINATE;
 			}

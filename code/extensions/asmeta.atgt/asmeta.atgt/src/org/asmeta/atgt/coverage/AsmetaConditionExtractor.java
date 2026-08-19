@@ -4,6 +4,7 @@ package org.asmeta.atgt.coverage;
 import java.util.List;
 import java.util.Vector;
 
+import org.apache.log4j.Logger;
 import org.asmeta.simulator.RuleVisitor;
 
 import asmeta.terms.basicterms.impl.BasictermsFactoryImpl;
@@ -24,6 +25,8 @@ import tgtlib.definitions.expression.Expression;
 
 public class AsmetaConditionExtractor extends RuleVisitor<List<NamedTerm>>{
 
+	
+	private static Logger logger = Logger.getLogger(AsmetaConditionExtractor.class); 
 
 	public AsmetaConditionExtractor() {
 	}
@@ -130,7 +133,7 @@ public class AsmetaConditionExtractor extends RuleVisitor<List<NamedTerm>>{
 
 		// get the guard
 		Expression guard = translator.visit(ite.getGuard());
-		System.out.println("guard  "+ guard);
+		logger.debug("guard  "+ guard);
 		List<NamedTerm> then_list = this.visit(ite.getThenRule());
 		if (!then_list.isEmpty()) {
 			for (NamedTerm tc : then_list) {

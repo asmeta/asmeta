@@ -8,7 +8,7 @@ import atgt.coverage.AsmTestCondition;
 import atgt.coverage.Coverage;
 import tgtlib.definitions.NamedTerm;
 
-
+// sobstitute the atgt.coverage.BasicRuleVisitor
 public class AsmetaBasicRuleVisitor implements AsmetaCoverageBuilder {
 
 	/**
