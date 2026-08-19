@@ -80,8 +80,9 @@ public class AsmTestGeneratorTest {
 		NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(asmPath);
 		AsmetaSMV.modelCheckerMode = ModelCheckerMode.LTLandBMC;
 		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(Integer.MAX_VALUE, ".*");
-
 	}
+	
+	
 
 	@Test
 	public void generate3CombaPHD6() throws Exception {

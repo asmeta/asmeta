@@ -10,6 +10,7 @@ import asmeta.terms.basicterms.ConstantTerm;
 import asmeta.terms.basicterms.DomainTerm;
 import asmeta.terms.basicterms.FunctionTerm;
 import asmeta.terms.basicterms.LocationTerm;
+import asmeta.terms.basicterms.SetTerm;
 import asmeta.terms.basicterms.Term;
 import asmeta.terms.basicterms.TupleTerm;
 import asmeta.terms.basicterms.UndefTerm;
@@ -68,7 +69,7 @@ public class ReplaceValueInTerm extends TermFlattenerVisitor {
 
 		// set arguments in new LocationTerm
 		TupleTerm tupleTerm = lt.getArguments();
-		if(tupleTerm != null) {
+		if (tupleTerm != null) {
 			TupleTerm newTupleTerm = ruleFact.createTupleTerm();
 			newTupleTerm.setArity(tupleTerm.getArity());
 			newTupleTerm.setDomain(tupleTerm.getDomain());
@@ -87,12 +88,12 @@ public class ReplaceValueInTerm extends TermFlattenerVisitor {
 		newFunctionTerm.setFunction(ft.getFunction());
 
 		// set arguments in new FunctionTerm
-		if(ft.getArguments() != null) {
+		if (ft.getArguments() != null) {
 			TupleTerm tupleTerm = ft.getArguments();
 			TupleTerm newTupleTerm = ruleFact.createTupleTerm(); // TODO newLocTerm.getArguments();
 			newTupleTerm.setArity(tupleTerm.getArity());
 			newTupleTerm.setDomain(tupleTerm.getDomain());
-	
+
 			List<Term> terms = newTupleTerm.getTerms();
 			for (Term arg : tupleTerm.getTerms()) {
 				terms.add(visit(arg));
@@ -105,7 +106,7 @@ public class ReplaceValueInTerm extends TermFlattenerVisitor {
 	public Term visit(IntegerTerm it) {
 		return it;
 	}
-	
+
 	public Term visit(StringTerm strTerm) {
 		return strTerm;
 	}
@@ -116,6 +117,19 @@ public class ReplaceValueInTerm extends TermFlattenerVisitor {
 
 	public Term visit(BooleanTerm bt) {
 		return bt;
+	}
+
+	public Term visit(SetTerm st) {
+		boolean sometermChanged = false;
+		for (Term t : st.getTerm()) {
+			Term newterm = visit(t);
+			if (newterm != t)
+				sometermChanged = true;
+		}
+		if (!sometermChanged)
+			return st;
+		else
+			throw new RuntimeException("errore");
 	}
 
 	public Term visit(ConditionalTerm ct) {

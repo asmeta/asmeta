@@ -1,0 +1,17 @@
+examples\simple_example\population.asm error
+examples\landingGearSystem\LGS_EV.asm 18
+PillBox\Level1\pillbox_1.asm error
+examples\RushHour\RushHourMon.asm timeout	
+examples\RushHour\RushHour.asm error
+stereoacuity\certifier_nochoose_noundef.asm 38
+examples\fsmsemantics\FSM_hooking.asm error
+PillBox\Level2\pillbox_2.asm error
+erinda\FMS_IO_2.asm error
+examples\RushHour\RushHourMonSimplForAsmetaSMV.asm 38880
+examples\NeedhamSchroeder\NeedhamSchroederWithSpy.asm error
+examples\traffic_light\oneWayTrafficLight.asm error
+examples\coffeeVendingMachine\coffeeVendingMachine.asm error
+examples\sleepingBarber\sleepingBarber.asm error
+examples\sluicegate\sluiceGateMotorCtl.asm error
+examples\ABZ2020\CarSystemModule\CarSystem007\CarSystem007main.asm error
+DAS\TrafficMonitoringSystem\validation\mainForModelCheckingR4.asm 

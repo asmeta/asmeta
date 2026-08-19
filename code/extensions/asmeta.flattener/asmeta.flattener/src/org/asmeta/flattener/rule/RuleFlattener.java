@@ -1,5 +1,7 @@
 package org.asmeta.flattener.rule;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,6 +10,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.asmeta.flattener.term.DomainVisitor;
 import org.asmeta.flattener.term.TermRenameVars;
+import org.asmeta.parser.util.AsmPrinter;
 import org.asmeta.parser.util.ReflectiveVisitor;
 import org.asmeta.simulator.wrapper.RuleFactory;
 import org.eclipse.emf.common.util.EList;
@@ -139,6 +142,7 @@ public abstract class RuleFlattener extends ReflectiveVisitor<Rule> implements A
 	}
 
 	public Rule visit(ExtendRule extendRule) {
+		new AsmPrinter(new PrintWriter(System.out)).visit(extendRule);		
 		ExtendRule newExtendRule = ruleFact.createExtendRule();
 		newExtendRule.setExtendedDomain(extendRule.getExtendedDomain());
 
@@ -160,7 +164,6 @@ public abstract class RuleFlattener extends ReflectiveVisitor<Rule> implements A
 			newVars.add((VariableTerm) trv.visit(v));
 		}
 		newExtendRule.getBoundVar().addAll(newVars);
-
 		Rule doRule = extendRule.getDoRule();
 		assert doRule != null;
 		newExtendRule.setDoRule(visit(doRule));

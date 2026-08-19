@@ -3,9 +3,11 @@ package org.asmeta.flattener;
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.lang.reflect.Constructor;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.asmeta.flattener.nesting.RemoveNestingFlattener;
 import org.asmeta.flattener.rule.AsmetaFlattener;
@@ -15,6 +17,7 @@ import org.asmeta.flattener.rule.ForallRuleFlattener;
 import org.asmeta.flattener.rule.LetRuleFlattener;
 import org.asmeta.flattener.rule.MacroCallRuleFlattener;
 import org.asmeta.flattener.rule.RuleSimplifier;
+import org.asmeta.flattener.rule.RuleFlattener;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.util.AsmPrinter;
 
@@ -57,8 +60,13 @@ public class AsmetaMultipleFlattener {
 	public static Asm flatten(Asm asm, Class<? extends AsmetaFlattener>... flats) throws Exception {
 		return flatten(asm, Arrays.asList(flats));
 	}
+	
 
 	public static Asm flatten(Asm asm, Collection<Class<? extends AsmetaFlattener>> flats) throws Exception {
+//		for (Class<? extends AsmetaFlattener> flat : flats) {
+//			Constructor<?>[] constuctor = flat.getConstructors();
+//			assert constuctor.length == 1;
+//		}
 		// logger.info(flats);
 		if (flats.contains(MacroCallRuleFlattener.class)) {
 			asm = new MacroCallRuleFlattener(asm).flattenASM();
