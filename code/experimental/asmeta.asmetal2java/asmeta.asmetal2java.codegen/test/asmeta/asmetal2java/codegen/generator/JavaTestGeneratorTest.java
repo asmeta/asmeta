@@ -2,15 +2,21 @@ package asmeta.asmetal2java.codegen.generator;
 
 
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.List;
 
 import org.asmeta.parser.ASMParser;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 
 import asmeta.AsmCollection;
+import asmeta.asmetal2java.codegen.compiler.CompileResult;
+import asmeta.asmetal2java.codegen.compiler.CompilerImpl;
 import asmeta.asmetal2java.codegen.config.TranslatorOptions;
 import asmeta.asmetal2java.codegen.config.TranslatorOptionsImpl;
 import asmeta.asmetal2java.codegen.evosuite.RulesMap;
@@ -77,6 +83,47 @@ public class JavaTestGeneratorTest {
 		assertTrue(javaATGFile.isFile());
 		assertTrue(javaATGFile.exists());
 
+	}
+
+	@Test
+	public void choiceRecorderIsGeneratedOnlyForTestGeneration() throws Exception {
+		Path asmPath = GeneratorCompilerUtil.dirExamples.resolve("chooseTest").resolve("ChooseFromDT.asm");
+		final AsmCollection model = ASMParser.setUpReadAsm(asmPath.toFile());
+
+		RulesMap choiceRules = new RulesMap();
+		JavaTestGenerator testGenerator = new JavaTestGenerator(choiceRules);
+		JavaAtgGenerator atgGenerator = new JavaAtgGenerator(choiceRules);
+		Path testJava = GeneratorCompilerUtil.dirTraduzione.resolve("ChooseFromDT.java");
+		Path atgJava = GeneratorCompilerUtil.dirTraduzione.resolve("ChooseFromDT_ATG.java");
+
+		testGenerator.compileAndWrite(model.getMain(), testJava.toString(), options);
+		atgGenerator.compileAndWrite(model.getMain(), atgJava.toString(), options);
+
+		String testSource = Files.readString(testJava);
+		String atgSource = Files.readString(atgJava);
+		int nonEmptyGuard = testSource.indexOf("point0.isEmpty()");
+		int randomSelection = testSource.indexOf("nextInt(0, point0.size())");
+		int selectedValue = testSource.indexOf("point0.get(rndm)");
+
+		assertTrue(nonEmptyGuard >= 0);
+		assertTrue(nonEmptyGuard < randomSelection);
+		assertTrue(randomSelection < selectedValue);
+		assertTrue(testSource.contains("__asmetaRecordChoice"));
+		assertTrue(testSource.contains("Character.toString((char) 36) + \"b\""));
+		assertTrue(atgSource.contains("private static void __asmetaStartChoiceRecording"));
+		assertTrue(atgSource.contains("private static String[][] __asmetaStopChoiceRecording"));
+		assertTrue(atgSource.contains("private static void __asmetaBeginStep"));
+		assertTrue(atgSource.contains("static void __asmetaRecordChoice"));
+		assertFalse(atgSource.contains("public static void __asmetaRecordChoice"));
+		assertTrue(atgSource.indexOf("__asmetaBeginStep();") < atgSource.indexOf("this.execution.updateASM();"));
+
+		CompileResult compilation = new CompilerImpl().compileFiles(
+				List.of(testJava.toFile(), atgJava.toFile()), GeneratorCompilerUtil.dirCompilazione, "8");
+		assertTrue(compilation.getSuccess(), compilation.toString());
+
+		Path regularJava = GeneratorCompilerUtil.dirTraduzione.resolve("ChooseFromDT_regular.java");
+		new JavaGenerator().compileAndWrite(model.getMain(), regularJava.toString(), options);
+		assertFalse(Files.readString(regularJava).contains("__asmetaRecordChoice"));
 	}
 
 }

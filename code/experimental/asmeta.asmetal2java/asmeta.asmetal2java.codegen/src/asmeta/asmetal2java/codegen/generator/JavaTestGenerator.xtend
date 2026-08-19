@@ -147,8 +147,16 @@ class JavaTestGenerator extends JavaGenerator {
 		return ""
 	}
 
+	private def String asmRuleSignature(RuleDeclaration rule) {
+		if (rule.arity == 0) {
+			return rule.name
+		}
+		return rule.name + "(" + rule.variable.map[domain.name].join(",") + ")"
+	}
+
 	override String ruleTranslationDef(RuleDeclaration r, String methodName, Asm asm) { 
 		var rule = new JavaRule()
+		rule.asmSignature = asmRuleSignature(r)
 		// add the rule to the rules Map and get the rule name
 		rule.name = rules.addRule(methodName, rule)
 		var sb = new StringBuffer();

@@ -67,6 +67,44 @@ class JavaAtgGenerator extends AsmToJavaGenerator {
 			
 			/** current state. */
 			private int state;
+
+			/** Choice trace used only by the modified EvoSuite assertion run. */
+			private static final java.util.List<String[]> __asmetaChoiceTrace = new java.util.ArrayList<>();
+			private static boolean __asmetaChoiceRecording;
+			private static int __asmetaChoiceStep;
+
+			private static void __asmetaStartChoiceRecording(){
+				__asmetaChoiceTrace.clear();
+				__asmetaChoiceStep = -1;
+				__asmetaChoiceRecording = true;
+			}
+
+			private static String[][] __asmetaStopChoiceRecording(){
+				__asmetaChoiceRecording = false;
+				return __asmetaChoiceTrace.toArray(new String[__asmetaChoiceTrace.size()][]);
+			}
+
+			private static void __asmetaBeginStep(){
+				if (__asmetaChoiceRecording){
+					__asmetaChoiceStep++;
+				}
+			}
+
+			static void __asmetaRecordChoice(String rule, int occurrence, String variable,
+					String domain, int rndm, String value){
+				if (!__asmetaChoiceRecording){
+					return;
+				}
+				__asmetaChoiceTrace.add(new String[]{
+					Integer.toString(__asmetaChoiceStep),
+					rule,
+					Integer.toString(occurrence),
+					variable,
+					domain,
+					Integer.toString(rndm),
+					value
+				});
+			}
 		
 		   /**
 		    * Constructor of the {@code «asmName»_ATG} class. Creates a private instance of the asm
@@ -81,6 +119,8 @@ class JavaAtgGenerator extends AsmToJavaGenerator {
 			*/
 			public void step(){
 				
+				__asmetaBeginStep();
+
 				this.execution.updateASM();
 				
 				System.out.println("</State "+ state +" >");

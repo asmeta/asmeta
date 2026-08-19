@@ -28,6 +28,12 @@ public class JavaRule {
 	/** number of branches */
 	private int count;
 
+	/** ASM signature used to identify the rule in a choice trace. */
+	private String asmSignature;
+
+	/** Number of choose rules already translated for this rule. */
+	private int chooseCount;
+
 	/**
 	 * Default constructor that initializes an empty list of branches and set the
 	 * branch count to 0.
@@ -35,6 +41,7 @@ public class JavaRule {
 	public JavaRule() {
 		this.branches = new LinkedList<>();
 		this.count = 0;
+		this.chooseCount = 0;
 	}
 
 	/**
@@ -53,6 +60,33 @@ public class JavaRule {
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	/**
+	 * Retrieves the original ASM rule signature.
+	 *
+	 * @return the ASM rule signature
+	 */
+	public String getAsmSignature() {
+		return asmSignature;
+	}
+
+	/**
+	 * Sets the original ASM rule signature.
+	 *
+	 * @param asmSignature the ASM rule signature
+	 */
+	public void setAsmSignature(String asmSignature) {
+		this.asmSignature = asmSignature;
+	}
+
+	/**
+	 * Returns the identifier of the next choose rule in this ASM rule.
+	 *
+	 * @return a zero-based progressive choose identifier
+	 */
+	public int addNewChoose() {
+		return chooseCount++;
 	}
 
 	/**

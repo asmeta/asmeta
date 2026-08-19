@@ -230,10 +230,27 @@ class RuleToJava extends RuleVisitor<String> {
 		return result.toString
 	}
 
+	/**
+	 * Return the identifier used for the next translated choose rule.
+	 * The standard generator does not need an identifier.
+	 */
+	protected def int nextChoiceOccurrence() {
+		return -1
+	}
+
+	/**
+	 * Hook used by specialised generators to record a selected choose value.
+	 */
+	protected def String recordChoice(ChooseRule chooseRule, int variableIndex, Domain baseDomain,
+		String javaVariable, int occurrence) {
+		return ""
+	}
+
 	// Metodo di supporto per tradurre gli elementi di un confronto nella classe precedente
 	override String visit(ChooseRule chooseRule) {
 		var counter = 0
 		var StringBuffer sb = new StringBuffer
+		val occurrence = nextChoiceOccurrence()
 		// TODo move aas a field?
 		val domainToJavaString = new DomainToJavaString(res)
 		// Add as comments
@@ -331,6 +348,9 @@ class RuleToJava extends RuleVisitor<String> {
 		sb.append('''
 			}
 		''')
+		sb.append('''
+			if(!point0.isEmpty()){
+		''')
 		if (options.getShuffleRandom())
 			sb.append('''
 				int rndm = ThreadLocalRandom.current().nextInt(0, point0.size());
@@ -339,37 +359,24 @@ class RuleToJava extends RuleVisitor<String> {
 			sb.append('''
 				int rndm = 0;
 			''')
-		sb.append('''
-			{
-		''')
 		for (var i = 0; i < chooseRule.getVariable.size; i++){
 			val baseDomain = (chooseRule.getRanges.get(i).domain as PowersetDomain).baseDomain
 			val type = new DomainToJavaString(res).visit(baseDomain)
 			val variable = new TermToJava(res).visit(chooseRule.getVariable.get(i))
 			sb.append('''
 				«type» «variable» = point«i».get(rndm);
-			''')	
+				«recordChoice(chooseRule, i, baseDomain, variable, occurrence)»
+			''')
 		}
+		sb.append(visit(chooseRule.getDoRule))
+		sb.append(System.lineSeparator)
+		sb.append('''
+			}
+		''')
 		if (chooseRule.getIfnone !== null) {
-			var doRule = visit(chooseRule.getDoRule)
-			/*for (var j=0; j<pointerTerms.size; j++){
-			 * 	doRule=doRule.replaceAll(pointerTerms.get(j), ("&"+pointerTerms.get(j)))
-			 }*/
 			sb.append('''
-			  if(!point0.isEmpty()){
-				«doRule»
-				 }else{
+				else{
 				 	«visit(chooseRule.getIfnone)»
-				 }
-			}''')
-		} else {
-			var doRule = visit(chooseRule.getDoRule)
-			/*for (var j=0; j<pointerTerms.size; j++){
-			 * 	doRule=(doRule.replaceAll(pointerTerms.get(j), ("&"+pointerTerms.get(j))))
-			 }*/
-			sb.append('''
-			  if(!point0.isEmpty()){
-				«doRule»
 				 }
 			}''')
 		}

@@ -11,11 +11,15 @@ import asmeta.asmetal2java.codegen.translator.SeqRuleCollector;
 import asmeta.asmetal2java.codegen.translator.Util;
 import asmeta.definitions.RuleDeclaration;
 import asmeta.structure.Asm;
+import asmeta.terms.basicterms.VariableTerm;
 import asmeta.transitionrules.basictransitionrules.Rule;
 import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
+import org.eclipse.xtext.xbase.lib.Functions.Function1;
+import org.eclipse.xtext.xbase.lib.IterableExtensions;
+import org.eclipse.xtext.xbase.lib.ListExtensions;
 
 /**
  * This generator creates a translated version of the Java class for testing purposes only,
@@ -306,9 +310,26 @@ public class JavaTestGenerator extends JavaGenerator {
     return "";
   }
 
+  private String asmRuleSignature(final RuleDeclaration rule) {
+    Integer _arity = rule.getArity();
+    boolean _equals = ((_arity).intValue() == 0);
+    if (_equals) {
+      return rule.getName();
+    }
+    String _name = rule.getName();
+    String _plus = (_name + "(");
+    final Function1<VariableTerm, String> _function = (VariableTerm it) -> {
+      return it.getDomain().getName();
+    };
+    String _join = IterableExtensions.join(ListExtensions.<VariableTerm, String>map(rule.getVariable(), _function), ",");
+    String _plus_1 = (_plus + _join);
+    return (_plus_1 + ")");
+  }
+
   @Override
   public String ruleTranslationDef(final RuleDeclaration r, final String methodName, final Asm asm) {
     JavaRule rule = new JavaRule();
+    rule.setAsmSignature(this.asmRuleSignature(r));
     rule.setName(this.rules.addRule(methodName, rule));
     StringBuffer sb = new StringBuffer();
     Integer _arity = r.getArity();

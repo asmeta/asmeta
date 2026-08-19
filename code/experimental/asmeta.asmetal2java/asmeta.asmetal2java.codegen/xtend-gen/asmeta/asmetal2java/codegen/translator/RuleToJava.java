@@ -370,10 +370,26 @@ public class RuleToJava extends RuleVisitor<String> {
     return result.toString();
   }
 
+  /**
+   * Return the identifier used for the next translated choose rule.
+   * The standard generator does not need an identifier.
+   */
+  protected int nextChoiceOccurrence() {
+    return (-1);
+  }
+
+  /**
+   * Hook used by specialised generators to record a selected choose value.
+   */
+  protected String recordChoice(final ChooseRule chooseRule, final int variableIndex, final Domain baseDomain, final String javaVariable, final int occurrence) {
+    return "";
+  }
+
   @Override
   public String visit(final ChooseRule chooseRule) {
     int counter = 0;
     StringBuffer sb = new StringBuffer();
+    final int occurrence = this.nextChoiceOccurrence();
     final DomainToJavaString domainToJavaString = new DomainToJavaString(this.res);
     for (int i = 0; (i < chooseRule.getRanges().size()); i++) {
       String _name = chooseRule.getVariable().get(i).getName();
@@ -590,22 +606,22 @@ public class RuleToJava extends RuleVisitor<String> {
     _builder_2.append("}");
     _builder_2.newLine();
     sb.append(_builder_2);
+    StringConcatenation _builder_3 = new StringConcatenation();
+    _builder_3.append("if(!point0.isEmpty()){");
+    _builder_3.newLine();
+    sb.append(_builder_3);
     boolean _shuffleRandom = this.options.getShuffleRandom();
     if (_shuffleRandom) {
-      StringConcatenation _builder_3 = new StringConcatenation();
-      _builder_3.append("int rndm = ThreadLocalRandom.current().nextInt(0, point0.size());");
-      _builder_3.newLine();
-      sb.append(_builder_3);
-    } else {
       StringConcatenation _builder_4 = new StringConcatenation();
-      _builder_4.append("int rndm = 0;");
+      _builder_4.append("int rndm = ThreadLocalRandom.current().nextInt(0, point0.size());");
       _builder_4.newLine();
       sb.append(_builder_4);
+    } else {
+      StringConcatenation _builder_5 = new StringConcatenation();
+      _builder_5.append("int rndm = 0;");
+      _builder_5.newLine();
+      sb.append(_builder_5);
     }
-    StringConcatenation _builder_5 = new StringConcatenation();
-    _builder_5.append("{");
-    _builder_5.newLine();
-    sb.append(_builder_5);
     for (int i = 0; (i < chooseRule.getVariable().size()); i++) {
       {
         Domain _domain = chooseRule.getRanges().get(i).getDomain();
@@ -620,40 +636,28 @@ public class RuleToJava extends RuleVisitor<String> {
         _builder_6.append(i);
         _builder_6.append(".get(rndm);");
         _builder_6.newLineIfNotEmpty();
+        String _recordChoice = this.recordChoice(chooseRule, i, baseDomain, variable, occurrence);
+        _builder_6.append(_recordChoice);
+        _builder_6.newLineIfNotEmpty();
         sb.append(_builder_6);
       }
     }
+    sb.append(this.visit(chooseRule.getDoRule()));
+    sb.append(System.lineSeparator());
+    StringConcatenation _builder_6 = new StringConcatenation();
+    _builder_6.append("}");
+    _builder_6.newLine();
+    sb.append(_builder_6);
     Rule _ifnone = chooseRule.getIfnone();
     boolean _tripleNotEquals_1 = (_ifnone != null);
     if (_tripleNotEquals_1) {
-      String doRule = this.visit(chooseRule.getDoRule());
-      StringConcatenation _builder_6 = new StringConcatenation();
-      _builder_6.append("  ");
-      _builder_6.append("if(!point0.isEmpty()){");
-      _builder_6.newLine();
-      _builder_6.append("\t");
-      _builder_6.append(doRule, "\t");
-      _builder_6.newLineIfNotEmpty();
-      _builder_6.append("\t ");
-      _builder_6.append("}else{");
-      _builder_6.newLine();
-      _builder_6.append("\t \t");
-      String _visit_1 = this.visit(chooseRule.getIfnone());
-      _builder_6.append(_visit_1, "\t \t");
-      _builder_6.newLineIfNotEmpty();
-      _builder_6.append("\t ");
-      _builder_6.append("}");
-      _builder_6.newLine();
-      _builder_6.append("}");
-      sb.append(_builder_6);
-    } else {
-      String doRule_1 = this.visit(chooseRule.getDoRule());
       StringConcatenation _builder_7 = new StringConcatenation();
-      _builder_7.append("  ");
-      _builder_7.append("if(!point0.isEmpty()){");
-      _builder_7.newLine();
       _builder_7.append("\t");
-      _builder_7.append(doRule_1, "\t");
+      _builder_7.append("else{");
+      _builder_7.newLine();
+      _builder_7.append("\t \t");
+      String _visit_1 = this.visit(chooseRule.getIfnone());
+      _builder_7.append(_visit_1, "\t \t");
       _builder_7.newLineIfNotEmpty();
       _builder_7.append("\t ");
       _builder_7.append("}");

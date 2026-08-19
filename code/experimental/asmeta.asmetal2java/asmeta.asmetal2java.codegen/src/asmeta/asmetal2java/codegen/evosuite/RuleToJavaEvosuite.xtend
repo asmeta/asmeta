@@ -1,10 +1,13 @@
 package asmeta.asmetal2java.codegen.evosuite
 
 import asmeta.asmetal2java.codegen.translator.RuleToJava
-import asmeta.structure.Asm
 import asmeta.asmetal2java.codegen.config.TranslatorOptions
-import asmeta.transitionrules.basictransitionrules.ConditionalRule
 import asmeta.asmetal2java.codegen.translator.TermToJava
+import asmeta.definitions.domains.ConcreteDomain
+import asmeta.definitions.domains.Domain
+import asmeta.structure.Asm
+import asmeta.transitionrules.basictransitionrules.ChooseRule
+import asmeta.transitionrules.basictransitionrules.ConditionalRule
 import asmeta.transitionrules.derivedtransitionrules.CaseRule
 
 /**
@@ -33,6 +36,25 @@ class RuleToJavaEvosuite extends RuleToJava {
 	 */
 	override DomainToJavaEvosuiteSigDef createDomainToJavaSigDef(Asm resource) {
 		new DomainToJavaEvosuiteSigDef(resource)
+	}
+
+	override protected int nextChoiceOccurrence() {
+		return currRule.addNewChoose()
+	}
+
+	override protected String recordChoice(ChooseRule chooseRule, int variableIndex, Domain baseDomain,
+		String javaVariable, int occurrence) {
+		val value = if (baseDomain instanceof ConcreteDomain) javaVariable + ".value" else javaVariable
+		val asmVariable = chooseRule.variable.get(variableIndex).name.replace("$", "")
+		return '''
+			«res.name»_ATG.__asmetaRecordChoice(
+				"«currRule.asmSignature»",
+				«occurrence»,
+				Character.toString((char) 36) + "«asmVariable»",
+				"«baseDomain.name»",
+				rndm,
+				String.valueOf(«value»));
+		'''
 	}
 
 	/** 
