@@ -389,6 +389,7 @@ public class RuleToJava extends RuleVisitor<String> {
   public String visit(final ChooseRule chooseRule) {
     int counter = 0;
     StringBuffer sb = new StringBuffer();
+    sb.append("{\n");
     final int occurrence = this.nextChoiceOccurrence();
     final DomainToJavaString domainToJavaString = new DomainToJavaString(this.res);
     for (int i = 0; (i < chooseRule.getRanges().size()); i++) {
@@ -663,6 +664,7 @@ public class RuleToJava extends RuleVisitor<String> {
       _builder_7.newLine();
       sb.append(_builder_7);
     }
+    sb.append("}\n");
     return sb.toString();
   }
 

@@ -250,6 +250,7 @@ class RuleToJava extends RuleVisitor<String> {
 	override String visit(ChooseRule chooseRule) {
 		var counter = 0
 		var StringBuffer sb = new StringBuffer
+		sb.append("{\n")
 		val occurrence = nextChoiceOccurrence()
 		// TODo move aas a field?
 		val domainToJavaString = new DomainToJavaString(res)
@@ -380,6 +381,7 @@ class RuleToJava extends RuleVisitor<String> {
 				 }
 			''')
 		}
+		sb.append("}\n")
 		return sb.toString
 	}
 
