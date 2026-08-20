@@ -106,6 +106,8 @@ final class TranslatorConstants {
 	
 	static final String JUNIT2AVALLA_PARSER = DASH + Junit2AvallaCLI.PARSER;
 
+	static final String JUNIT2AVALLA_CHOICE_TRACE = DASH + Junit2AvallaCLI.CHOICE_TRACE;
+
 	static final String CLEAN = "-clean";
 
 	static final String COMPILER_VERSION = DASH + Asmeta2JavaCLI.COMPILER_VERSION;

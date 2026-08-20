@@ -357,13 +357,16 @@ public class TranslatorImpl implements Translator {
 		// Set the location of the junit input file
 		String junitInputFile = fileManager.getEvosuiteTestsPathToString() + File.separator + asmName
 				+ TranslatorConstants.JUNIT_TEST_EXTENSION;
+		String choiceTraceFile = fileManager.getEvosuiteTestsPathToString() + File.separator + asmName
+				+ TranslatorConstants.CHOICE_TRACE_EXTENSION;
 
 		String junit2AvallaWorkingDir = Paths
 				.get(fileManager.getWorkingDirPathToString(), TranslatorConstants.JUNIT2AVALLA).toString();
 
 		listOfOptions.addAll(List.of(TranslatorConstants.JUNIT2AVALLA_WORKING_DIR, junit2AvallaWorkingDir,
 				TranslatorConstants.JUNIT2AVALLA_INPUT, junitInputFile, TranslatorConstants.JUNIT2AVALLA_OUTPUT,
-				fileManager.getOutputFolderToString(), TranslatorConstants.JUNIT2AVALLA_PARSER, this.parserType.getType()));
+				fileManager.getOutputFolderToString(), TranslatorConstants.JUNIT2AVALLA_PARSER, this.parserType.getType(),
+				TranslatorConstants.JUNIT2AVALLA_CHOICE_TRACE, choiceTraceFile));
 
 		if (clean) {
 			listOfOptions.add(TranslatorConstants.CLEAN);
