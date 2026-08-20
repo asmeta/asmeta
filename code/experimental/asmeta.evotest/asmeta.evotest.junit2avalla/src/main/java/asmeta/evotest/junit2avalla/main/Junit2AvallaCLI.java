@@ -33,6 +33,7 @@ public class Junit2AvallaCLI {
 	public static final String WORKING_DIR = "workingDir";
 	public static final String CLEAN = "clean";
 	public static final String PARSER = "parser";
+	public static final String CHOICE_TRACE = "choiceTrace";
 	public static final String HELP = "help";
 	private static final String DEBUG_LOG = "debug.log";
 	private static final String LOGS = "logs";
@@ -181,6 +182,9 @@ public class Junit2AvallaCLI {
 		Option parser = Option.builder(PARSER).argName(PARSER).type(String.class).hasArg(true)
 				.desc(ParserType.getDescrition() + " (optional, defaults to customParser)").build();
 
+		Option choiceTrace = Option.builder(CHOICE_TRACE).argName(CHOICE_TRACE).type(String.class).hasArg(true)
+				.desc("The EvoSuite choices properties file (optional)").build();
+
 		// clean option
 		Option clean = Option.builder(CLEAN).hasArg(false).desc("Clean the input and the stepFunctionArgs files.")
 				.build();
@@ -190,6 +194,7 @@ public class Junit2AvallaCLI {
 		options.addOption(input);
 		options.addOption(output);
 		options.addOption(parser);
+		options.addOption(choiceTrace);
 		options.addOption(clean);
 
 		return options;
@@ -238,6 +243,10 @@ public class Junit2AvallaCLI {
 
 		if (line.hasOption(PARSER)) {
 			translator.setParser(line.getOptionValue(PARSER));
+		}
+
+		if (line.hasOption(CHOICE_TRACE)) {
+			translator.setChoiceTrace(line.getOptionValue(CHOICE_TRACE));
 		}
 
 		translator.generate();

@@ -8,6 +8,7 @@ import asmeta.evotest.junit2avalla.model.ScenarioFile;
 import asmeta.evotest.junit2avalla.model.terms.AvallaCheckTerm;
 import asmeta.evotest.junit2avalla.model.terms.AvallaHeaderTerm;
 import asmeta.evotest.junit2avalla.model.terms.AvallaLoadTerm;
+import asmeta.evotest.junit2avalla.model.terms.AvallaPickTerm;
 import asmeta.evotest.junit2avalla.model.terms.AvallaSetTerm;
 import asmeta.evotest.junit2avalla.model.terms.AvallaStepTerm;
 import asmeta.evotest.junit2avalla.model.terms.AvallaTerm;
@@ -27,6 +28,8 @@ class ScenarioWriter {
 	private static final String SCENARIO = "scenario";
 	private static final String LOAD = "load";
 	private static final String SET = "set";
+	private static final String PICK = "pick";
+	private static final String IN = "in";
 	private static final String STEP = "step";
 	private static final String CHECK = "check";
 
@@ -63,6 +66,8 @@ class ScenarioWriter {
 				writeLoad(avallaLoadTerm);
 			} else if (avallaTerm instanceof AvallaSetTerm avallaSetTerm) {
 				writeSet(avallaSetTerm);
+			} else if (avallaTerm instanceof AvallaPickTerm avallaPickTerm) {
+				writePick(avallaPickTerm);
 			} else if (avallaTerm instanceof AvallaStepTerm) {
 				writeStep();
 			} else if (avallaTerm instanceof AvallaCheckTerm avallaCheckTerm) {
@@ -108,6 +113,12 @@ class ScenarioWriter {
 	private void writeSet(AvallaSetTerm avallaSetTerm) {
 		this.stringBuilder.append(SET).append(WS).append(avallaSetTerm.getName()).append(WS).append(LET).append(WS)
 				.append(avallaSetTerm.getValue()).append(SEMI).append(System.lineSeparator());
+	}
+
+	private void writePick(AvallaPickTerm avallaPickTerm) {
+		this.stringBuilder.append(PICK).append(WS).append(avallaPickTerm.getVariable()).append(WS).append(IN)
+				.append(WS).append(avallaPickTerm.getRule()).append(WS).append(LET).append(WS)
+				.append(avallaPickTerm.getValue()).append(SEMI).append(System.lineSeparator());
 	}
 
 	/**

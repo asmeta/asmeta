@@ -12,6 +12,7 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import asmeta.evotest.junit2avalla.avallascenario.ChoiceTraceEnricher;
 import asmeta.evotest.junit2avalla.avallascenario.ScenarioListMapper;
 import asmeta.evotest.junit2avalla.avallascenario.ScenarioListMapperImpl;
 import asmeta.evotest.junit2avalla.filewriter.FileWriter;
@@ -55,6 +56,9 @@ public class FileManager {
 	/** Path to the output folder. */
 	private Path outputFolderPath;
 
+	/** Path to the optional EvoSuite choice trace. */
+	private Path choiceTracePath;
+
 	/**
 	 * Constructs a {@code FileManager} instance with the default input and output
 	 * directories.
@@ -86,6 +90,14 @@ public class FileManager {
 			throw new FileNotFoundException("Unable to find the file: " + inputFilePath);
 		}
 		logger.info("Found the input file: {}", inputFilePath);
+	}
+
+	void setChoiceTracePath(String choiceTrace) throws FileNotFoundException {
+		this.choiceTracePath = Paths.get(choiceTrace);
+		if (Files.notExists(choiceTracePath)) {
+			throw new FileNotFoundException("Unable to find the choice trace file: " + choiceTracePath);
+		}
+		logger.info("Found the choice trace file: {}", choiceTracePath);
 	}
 
 	/**
@@ -131,6 +143,11 @@ public class FileManager {
 		} catch (Exception e) {
 			logger.error("Failed to parse the JUnit file: {}.", inputPath.getFileName());
 			throw new JUnitParseException("Unable to parse the JUnit file: " + inputPath.getFileName(), e);
+		}
+
+		if (choiceTracePath != null) {
+			logger.info("Adding recorded choices to the scenarios...");
+			new ChoiceTraceEnricher().enrich(scenarioList, choiceTracePath);
 		}
 
 		logger.info("Mapping Scenario Files...");

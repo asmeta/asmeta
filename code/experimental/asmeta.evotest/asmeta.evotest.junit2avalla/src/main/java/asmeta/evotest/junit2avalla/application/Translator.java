@@ -39,6 +39,15 @@ public interface Translator {
      * @throws SetupException if an error occurs during the setup process.
      */
     void setParser(String parser) throws SetupException;
+
+    /**
+     * Sets the optional EvoSuite choice trace used to make generated scenarios
+     * deterministic.
+     *
+     * @param choiceTracePath path to the choices properties file.
+     * @throws SetupException if the file cannot be found.
+     */
+    void setChoiceTrace(String choiceTracePath) throws SetupException;
     
     /**
      * Executes the translation process.
