@@ -47,7 +47,7 @@ class RuleToJavaEvosuite extends RuleToJava {
 		val value = if (baseDomain instanceof ConcreteDomain) javaVariable + ".value" else javaVariable
 		val asmVariable = chooseRule.variable.get(variableIndex).name.replace("$", "")
 		return '''
-			«res.name»_ATG.__asmetaRecordChoice(
+			__asmetaRecordChoice(
 				"«currRule.asmSignature»",
 				«occurrence»,
 				Character.toString((char) 36) + "«asmVariable»",

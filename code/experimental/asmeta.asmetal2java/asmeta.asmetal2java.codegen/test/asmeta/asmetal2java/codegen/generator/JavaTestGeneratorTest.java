@@ -108,14 +108,13 @@ public class JavaTestGeneratorTest {
 		assertTrue(nonEmptyGuard >= 0);
 		assertTrue(nonEmptyGuard < randomSelection);
 		assertTrue(randomSelection < selectedValue);
-		assertTrue(testSource.contains("__asmetaRecordChoice"));
+		assertTrue(testSource.contains("private static void __asmetaRecordChoice"));
+		assertFalse(testSource.contains("_ATG.__asmetaRecordChoice"));
 		assertTrue(testSource.contains("Character.toString((char) 36) + \"b\""));
 		assertTrue(atgSource.contains("private static void __asmetaStartChoiceRecording"));
 		assertTrue(atgSource.contains("private static String[][] __asmetaStopChoiceRecording"));
-		assertTrue(atgSource.contains("private static void __asmetaBeginStep"));
-		assertTrue(atgSource.contains("static void __asmetaRecordChoice"));
-		assertFalse(atgSource.contains("public static void __asmetaRecordChoice"));
-		assertTrue(atgSource.indexOf("__asmetaBeginStep();") < atgSource.indexOf("this.execution.updateASM();"));
+		assertFalse(atgSource.contains("void __asmetaRecordChoice"));
+		assertTrue(atgSource.indexOf("ChooseFromDT.__asmetaBeginStep();") < atgSource.indexOf("this.execution.updateASM();"));
 
 		CompileResult compilation = new CompilerImpl().compileFiles(
 				List.of(testJava.toFile(), atgJava.toFile()), GeneratorCompilerUtil.dirCompilazione, "8");

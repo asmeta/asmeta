@@ -68,6 +68,44 @@ class JavaTestGenerator extends JavaGenerator {
 			
 			class «asmName» {
 				
+				/** Choice trace used only by the modified EvoSuite assertion run. */
+				private static final java.util.List<String[]> __asmetaChoiceTrace = new java.util.ArrayList<>();
+				private static boolean __asmetaChoiceRecording;
+				private static int __asmetaChoiceStep;
+
+				static void __asmetaStartChoiceRecording(){
+					__asmetaChoiceTrace.clear();
+					__asmetaChoiceStep = -1;
+					__asmetaChoiceRecording = true;
+				}
+
+				static String[][] __asmetaStopChoiceRecording(){
+					__asmetaChoiceRecording = false;
+					return __asmetaChoiceTrace.toArray(new String[__asmetaChoiceTrace.size()][]);
+				}
+
+				static void __asmetaBeginStep(){
+					if (__asmetaChoiceRecording){
+						__asmetaChoiceStep++;
+					}
+				}
+
+				private static void __asmetaRecordChoice(String rule, int occurrence, String variable,
+						String domain, int rndm, String value){
+					if (!__asmetaChoiceRecording){
+						return;
+					}
+					__asmetaChoiceTrace.add(new String[]{
+						Integer.toString(__asmetaChoiceStep),
+						rule,
+						Integer.toString(occurrence),
+						variable,
+						domain,
+						Integer.toString(rndm),
+						value
+					});
+				}
+
 				/////////////////////////////////////////////////
 				/// DOMAIN CONTAINERS
 				/////////////////////////////////////////////////

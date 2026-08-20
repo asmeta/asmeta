@@ -60,10 +60,8 @@ public class RuleToJavaEvosuite extends RuleToJava {
     final String value = _xifexpression;
     final String asmVariable = chooseRule.getVariable().get(variableIndex).getName().replace("$", "");
     StringConcatenation _builder = new StringConcatenation();
-    String _name = this.res.getName();
-    _builder.append(_name);
-    _builder.append("_ATG.__asmetaRecordChoice(");
-    _builder.newLineIfNotEmpty();
+    _builder.append("__asmetaRecordChoice(");
+    _builder.newLine();
     _builder.append("\t");
     _builder.append("\"");
     String _asmSignature = this.currRule.getAsmSignature();
@@ -81,8 +79,8 @@ public class RuleToJavaEvosuite extends RuleToJava {
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
     _builder.append("\"");
-    String _name_1 = baseDomain.getName();
-    _builder.append(_name_1, "\t");
+    String _name = baseDomain.getName();
+    _builder.append(_name, "\t");
     _builder.append("\",");
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
