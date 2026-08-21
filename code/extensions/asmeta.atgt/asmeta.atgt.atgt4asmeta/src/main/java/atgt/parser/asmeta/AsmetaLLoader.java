@@ -49,6 +49,7 @@ import atgt.specification.ASMSpecification;
 import atgt.specification.location.Constant;
 import atgt.specification.location.Location;
 import atgt.specification.location.Variable;
+import atgt.specification.type.AbstractType;
 import atgt.specification.type.DummyType;
 import tgtlib.definitions.expression.Expression;
 import tgtlib.definitions.expression.IdExpression;
@@ -412,7 +413,7 @@ public class AsmetaLLoader extends AsmSpecReader {
 						+ CD.getTypeDomain().getName(), null);
 			}
 		} else if (dom instanceof AbstractTd) {
-			return new DummyType(dom.getName());
+			return new AbstractType(dom.getName());
 		}
 		throw new RuntimeException("what type *" + dom.getName());
 	}

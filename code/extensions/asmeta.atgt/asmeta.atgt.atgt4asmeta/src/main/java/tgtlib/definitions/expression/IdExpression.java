@@ -150,5 +150,11 @@ public class IdExpression implements Comparable<IdExpression>,
 	 */
 	public Type getType(){
 		return type;
+	}
+
+	public void setType(Type _type) {
+		// allow only if type is not already set. This is to avoid problems with the type of the same id expression created in different contexts
+		assert type == null : "type already set for " + id + " to " + type + " cannot set to " + _type;
+		type = _type;
 	}	
 }

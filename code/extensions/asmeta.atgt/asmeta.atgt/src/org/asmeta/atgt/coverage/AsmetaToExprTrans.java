@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.log4j.Logger;
 import org.asmeta.parser.util.AsmetaTermPrinter;
 
 import asmeta.definitions.Function;
@@ -38,6 +39,8 @@ import tgtlib.definitions.expression.type.Type;
  */
 public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<Expression> {
 
+	static Logger logger = Logger.getLogger(AsmetaToExprTrans.class);
+	
 	static EnumConstCreator icc = new EnumConstCreator();
 
 	static Map<Domain, Type> types = new HashMap<>();
@@ -50,7 +53,7 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 	 * @return the string
 	 */
 	public Expression visit(Term term) {
-		System.out.println("visit term "+AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(term));
+		logger.debug("visit term "+AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(term));
 		return visit((Object) term);
 	}
 

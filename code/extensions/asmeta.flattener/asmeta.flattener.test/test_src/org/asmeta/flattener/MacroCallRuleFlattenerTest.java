@@ -51,4 +51,10 @@ class MacroCallRuleFlattenerTest extends FlattenerTest {
 	void macroSwitchChoose() throws Exception {
 		flattenerTest("examples/macroSwitchChoose.asm", MacroCallRuleFlattener.class);
 	}
+
+//	@Test
+//	void macroSluiceGate() throws Exception {
+//		String result = flattenerTest(examplesDir + "examples\\sluicegate\\sluiceGateMotorCtl.asm", MacroCallRuleFlattener.class);
+//		System.out.println("MacroCallRuleFlattenerTest.macroSluiceGate result: " + result);
+//	}
 }

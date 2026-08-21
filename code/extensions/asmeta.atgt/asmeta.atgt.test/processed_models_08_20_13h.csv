@@ -1,0 +1,127 @@
+model_path  num_tps time_taken_ms
+examplesexamples\simple_example\population.asm	error	462
+examples\landingGearSystem\LGS_EV.asm	18	134
+PillBox\Level1\pillbox_1.asm	17	60
+examples\RushHour\RushHourMon.asm	timeout 10 seconds
+examples\RushHour\RushHour.asm	error	787
+stereoacuity\certifier_nochoose_noundef.asm	38	90
+examples\fsmsemantics\FSM_hooking.asm	error	18
+PillBox\Level2\pillbox_2.asm	error	45
+erinda\FMS_IO_2.asm	error	80
+examples\RushHour\RushHourMonSimplForAsmetaSMV.asm	38880	9878
+examples\NeedhamSchroeder\NeedhamSchroederWithSpy.asm	error	51
+examples\traffic_light\oneWayTrafficLight.asm	error	22
+examples\coffeeVendingMachine\coffeeVendingMachine.asm	error	16
+examples\sleepingBarber\sleepingBarber.asm	error	10
+examples\sluicegate\sluiceGateMotorCtl.asm	error	13
+examples\ABZ2020\CarSystemModule\CarSystem007\CarSystem007main.asm	error	53
+DAS\TrafficMonitoringSystem\validation\mainForModelCheckingR4.asm	timeout 10 seconds
+examples\traffic_light\oneWayTrafficLightUsingEnum.asm	4	410
+examples\flashProtocol\flashProtocol_N2_L1_Q1_C.asm	error	206
+examples\petriNets\petriNetEdgeWeightNoPlaceCapacity_NoSeq_Matrix_v2.asm	error	35
+examples\TrafficLightYakindu\TrafficLight0\TrafficLight_0.asm	4	23
+examples\landingGearSystem\LGS_GM_withError.asm	18	39
+examples\simple_example\ATM3.asm	error	137
+examples\GilbreathCardTrick\GilbreathCardTrick.asm	error	107
+DAS\TrafficMonitoringSystem\mainUnique.asm	error	65
+examples\railRoadGate\railroadGate.asm	error	11
+examples\fsmsemantics\FSM_hooking2.asm	error	17
+examples\hemodialysisDevice\SCP2017\HemodialysisRef3.asm	error	426
+examples\hemodialysisDevice\ABZ2016\Hemodialysis_ref3_forMC.asm	error	98
+examples\traffic_light\forAsmetaSMV\oneWayTrafficLight.asm	error	17
+RTPatternLibrary\Test\Test_Sem_Sync.asm	error	26
+PillBox\Level1\pillbox_1_elia.asm	10	24
+unibgstudents\Rubrica.asm	error	7
+examples\petriNets\petriNetNoEdgeWeightNoPlaceCapacity_seq.asm	error	10
+examples\ermts_etcs\scenarios\ertms_hl3_scenario6.asm	timeout 10 seconds
+examples\fsmsemantics\FSM_map0_2.asm	4	375
+stereoacuity\certifierRaff2.asm	14	88
+examples\conwayGameOfLife\gameOfLifeAgents.asm	32	55
+examples\hemodialysisDevice\ABZ2016\Hemodialysis_ref1_par.asm	57	132
+examples\smartHome\smartHomeNoMultiChannel.asm	25	73
+stereoacuity\certifierRaff3.asm	error	27
+examples\SemaforiAttraversamentoPedonale.asm	3	17
+examples\petriNets\petriNetNoEdgeWeightNoPlaceCapacity_NoSeq_Matrix.asm	error	16
+examples\sluicegate\Timer\sluiceGateGround.asm	error	19
+examples_for_nuXmv\FunctionInt.asm	100	23
+erinda\for_atgt.asm	10	37
+examples\ferryman\ferrymanSimulator.asm	error	23
+examples\traffic_light\Timer\oneWayTrafficLight_refinedMillisecSec.asm	error	15
+examples\production_cell\Production_Cell_with_agents.asm	error	34
+examples\agents\producerConsumerRaff.asm	error	17
+examples\sluicegate\sluiceGate_with_agents.asm	error	15
+examples\traffic_light\Timer\oneWayTrafficLight.asm	error	7
+examples\petriNets\petriNetNoEdgeWeightNoPlaceCapacity_NoSeq.asm	error	9
+examples\traffic_light\oneWayTrafficLightUsingEnumFlat.asm	error	12
+PHD\phd_master_flat2_v6.asm	81	46
+examples\hemodialysisDevice\ABZ2016\Hemodialysis_GM.asm	error	6
+PillBox\Level0\pillbox_0.asm	error	14
+examples\authenticationProtocols\groundModel.asm	error	23
+examples\agents\SeqSelf.asm	error	5
+examples\simple_example\FLIP_FLOP_0.asm	error	10
+examples\simple_example\euclideMCD.asm	error	13
+examples\ermts_etcs\scenarios\ertms_hl3_scenario5.asm	timeout 10 seconds
+examples\production_cell\press.asm	0	393
+examples\ermts_etcs\models\ertms_hl3_integer_disco_lostint_lengthchanged_reco_sweep_timer.asm	timeout 10 seconds
+examples\authenticationProtocols\groundModel_v2.asm	error	413
+examples\production_cell\robot.asm	0	58
+examples\traffic_light\Timer\oneWayTrafficLight_refinedMillisec.asm	error	38
+examples\ABZ2020\CarSystemModule\CarSystem004\CarSystem004main.asm	error	139
+stereoacuity\certifier_nochoose.asm	34	65
+unibgstudents\Contatore_U_DA_H.asm	4	10
+examples\models\LIFTDC.asm	error	15
+examples\ABZ2020\CarSystemModule\CarSystem008\CarSystem008main.asm	error	105
+RTPatternLibrary\Application\CompleteApplication.asm	error	52
+examples\simple_example\MorraCinese\withActors\MorraCinese_withActors_raff3.asm	error	42
+DAS\TrafficMonitoringSystem\validation\mainForModelCheckingThreeCameras.asm	timeout 10 seconds
+PHD\phd_master_flat2_v3.asm	error	125
+examples\GilbreathCardTrick\GilbreathCardTrickSimpl.asm	error	150
+examples\simple_example\fattoriale.asm	error	14
+examples\sultanSuccessors\sultanGreedy.asm	error	21
+DAS\TrafficMonitoringSystem\validation\mainForModelCheckingNoSelfHealerNoFailures.asm	timeout 10 seconds
+examples\models\wiper_abs2.asm	32	531
+examples\parkingSimple.asm	2	30
+PillBox\Level3\pillbox_FULL.asm	0	89
+unibgstudents\RegistroDiCassa.asm	0	33
+examples\simple_example\euclideMCD_init.asm	2	10
+examples\models\lift2.asm	0	47
+examples\models\SwapSortMon.asm	error	14
+examples\trafficLightCoSim\controller.asm	0	26
+examples\fsmsemantics\meta_hooking\myFSM.asm	0	18
+examples\RushHour\emptyCellAs0\RushHour.asm	error	360
+examples\ermts_etcs\scenarios\ertms_hl3_scenario4.asm	timeout 10 seconds
+examples\cards.asm	error	26
+examples\petriNets\forAsmetaSMV\petriNet_forNuSMV.asm	error	25
+examples\simple_example\SwapSort.asm	error	10
+DAS\TrafficMonitoringSystem\validation\mainForModelCheckingWithPatterns.asm	timeout 10 seconds
+examples\simple_example\MorraCinese\MorraCinese_raff3.asm	11	62
+examples\landingGearSystem\LGS_GM.asm	error	32
+examples\TrafficLightYakindu\TrafficLight2\TrafficLight_2.asm	error	39
+examples\parking.asm	error	47
+PillBox\Level1\pillbox_1_for_RefProv.asm	error	28
+examples\hemodialysisDevice\ABZ2016\Hemodialysis_ref4.asm	error	539
+stereoacuity\certifierGround.asm	9	33
+systemc\counterAG\main_user.asm	error	78
+examples\production_cell\ert.asm	0	17
+examples\landingGearSystem\LGS_SE_v2.asm	error	23
+examples\simple_example\MorraCinese\MorraCinese_raff1.asm	error	9
+examples\sensorVotingSimpleVersion.asm	5	15
+examples\agents\FileSystem.asm	error	14
+examples\petriNets\forAsmetaSMV\petriNet_forNuSMV_notLive_bound1_deadlockFree.asm	error	17
+examples\Yahalom\FlawedYahalom.asm	error	42
+examples\models\lift3.asm	error	30
+examples\ABZ2020\CarSystemModule\CarSystem006\CarSystem006main.asm	error	66
+examples\RushHour\emptyCellAs0\RushHourMon.asm	timeout 10 seconds
+examples\simple_example\AdvancedClockDeciSecond.asm	3	379
+examples\traffic_light\oneWayTrafficLightOnlyPassed.asm	4	35
+examples\ferryman\ferrymanSimulator_raff1.asm	error	88
+examples\agents\producerConsumerGround.asm	error	19
+erinda\FMS_IO_3.asm	error	94
+examples\ermts_etcs\models\ertms_hl3_integer_disconnected_train.asm	timeout 10 seconds
+examples\filosofiEciliegie\filosofiEciliegieJustLeft.asm	2	44
+examples\simple_example\population_raff1_twoPersons.asm	error	28
+examples\diceKnuthYao.asm	10	16
+examples\agents\processesSchedulerShortestJobNext.asm	error	13
+examples\ermts_etcs\models\ertms_hl3_integer_train.asm	timeout 10 seconds
+examples\smartHome\smartHome.asm	error	64
+examples\ermts_etcs\scenarios\ertms_hl3_scenario3.asm	timeout 10 seconds

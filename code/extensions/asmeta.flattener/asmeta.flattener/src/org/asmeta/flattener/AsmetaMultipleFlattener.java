@@ -4,8 +4,10 @@ import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -26,6 +28,9 @@ import asmeta.structure.Asm;
 /** flatter using multiple flatteners */
 public class AsmetaMultipleFlattener {
 
+	private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(AsmetaMultipleFlattener.class);
+
+	
 	public static String flattenAsStr(String asmPath, Class<? extends AsmetaFlattener>... flats) throws Exception {
 		return flattenAsStr(asmPath, Arrays.asList(flats));
 	}
@@ -61,66 +66,51 @@ public class AsmetaMultipleFlattener {
 		return flatten(asm, Arrays.asList(flats));
 	}
 	
-
+	
+	private static AsmetaFlattener[] standardFlattenerInOrder(Asm asm) {
+		return new AsmetaFlattener[] {
+				new MacroCallRuleFlattener(asm),
+				new ForallRuleFlattener(asm),
+				new ChooseRuleFlattener(asm),
+				new RemoveArgumentsFlattener(asm),
+				new LetRuleFlattener(asm),
+				new CaseRuleFlattener(asm),
+				new RemoveNestingFlattener(asm)
+		};
+	}
+	
+	// flatten using the given flatteners in the order of standardFlattenerInOrder
 	public static Asm flatten(Asm asm, Collection<Class<? extends AsmetaFlattener>> flats) throws Exception {
-//		for (Class<? extends AsmetaFlattener> flat : flats) {
-//			Constructor<?>[] constuctor = flat.getConstructors();
-//			assert constuctor.length == 1;
-//		}
-		// logger.info(flats);
-		if (flats.contains(MacroCallRuleFlattener.class)) {
-			asm = new MacroCallRuleFlattener(asm).flattenASM();
-			if (FlattenerSetting.simplify) {
-				asm = new RuleSimplifier(asm).flattenASM();
+		logger.debug(flats);
+		List<Class<? extends AsmetaFlattener>> flatsToApply = new ArrayList<Class<? extends AsmetaFlattener>>(flats);
+		for (AsmetaFlattener flattener : standardFlattenerInOrder(asm)) {
+			if (flatsToApply.contains(flattener.getClass())) {
+				if (logger.isDebugEnabled()) {
+					StringWriter sw = new StringWriter();
+					AsmPrinter ap = new AsmPrinter(sw);
+					ap.visit(asm);
+					ap.flush();
+					logger.debug("before " + flattener.getClass().getSimpleName() + " : " + sw.toString());
+				}
+				flatsToApply.remove(flattener.getClass());
+				asm = flattener.flattenASM();
+				if (FlattenerSetting.simplify) {
+					asm = new RuleSimplifier(asm).flattenASM();
+				}
 			}
-			//System.out.println(printASM(asm));
 		}
-		if (flats.contains(ForallRuleFlattener.class)) {
-			asm = new ForallRuleFlattener(asm).flattenASM();
-			if (FlattenerSetting.simplify) {
-				asm = new RuleSimplifier(asm).flattenASM();
-			}
-			//System.out.println(printASM(asm));
-		}
-		if (flats.contains(ChooseRuleFlattener.class)) {
-			//assert flats.contains(ForallRuleFlattener.class) : flats;
-			asm = new ChooseRuleFlattener(asm).flattenASM();
-			if (FlattenerSetting.simplify) {
-				asm = new RuleSimplifier(asm).flattenASM();
-			}
-			//System.out.println(printASM(asm));
-		}
-		if (flats.contains(RemoveArgumentsFlattener.class)) {
-			asm = new RemoveArgumentsFlattener(asm).flattenASM();
-			if (FlattenerSetting.simplify) {
-				asm = new RuleSimplifier(asm).flattenASM();
-			}
-			//System.out.println(printASM(asm));
-		}
-		if (flats.contains(LetRuleFlattener.class)) {
-			asm = new LetRuleFlattener(asm).flattenASM();
-			if (FlattenerSetting.simplify) {
-				asm = new RuleSimplifier(asm).flattenASM();
-			}
-			//System.out.println(printASM(asm));
+		if (logger.isDebugEnabled()) {
+			StringWriter sw = new StringWriter();
+			AsmPrinter ap = new AsmPrinter(sw);
+			ap.visit(asm);
+			ap.flush();
+			logger.debug("final  : " + sw.toString());
 		}
 
-		if (flats.contains(CaseRuleFlattener.class)) {
-			asm = new CaseRuleFlattener(asm).flattenASM();
-			if (FlattenerSetting.simplify) {
-				asm = new RuleSimplifier(asm).flattenASM();
-			}
-			//System.out.println(printASM(asm));
-		}
-		if (flats.contains(RemoveNestingFlattener.class)) {
-			asm = new RemoveNestingFlattener(asm).flattenASM();
-			if (FlattenerSetting.simplify) {
-				asm = new RuleSimplifier(asm).flattenASM();
-			}
-			//System.out.println(printASM(asm));
-		}
+		if (!flatsToApply.isEmpty()) {
+			throw new Exception("Unknown flattener(s): " + flatsToApply);
+		}		
 		asm.setName(asm.getName() + "_flat");
-		//System.out.println(printASM(asm));
 		return asm;
 	}
 }

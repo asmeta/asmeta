@@ -2,6 +2,7 @@ package org.asmeta.flattener.rule;
 
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -142,7 +143,13 @@ public abstract class RuleFlattener extends ReflectiveVisitor<Rule> implements A
 	}
 
 	public Rule visit(ExtendRule extendRule) {
-		new AsmPrinter(new PrintWriter(System.out)).visit(extendRule);		
+		if (logger.isDebugEnabled()){
+			StringWriter sw = new StringWriter();
+			AsmPrinter ap = new AsmPrinter(sw);
+			ap.visit(extendRule);
+			ap.flush();
+			logger.debug("visit extend rule : " + sw.toString());
+		}
 		ExtendRule newExtendRule = ruleFact.createExtendRule();
 		newExtendRule.setExtendedDomain(extendRule.getExtendedDomain());
 

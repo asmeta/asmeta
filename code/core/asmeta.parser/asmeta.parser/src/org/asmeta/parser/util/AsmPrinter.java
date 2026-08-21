@@ -3,6 +3,7 @@ package org.asmeta.parser.util;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -76,8 +77,11 @@ import asmeta.transitionrules.turbotransitionrules.TurboReturnRule;
 
 /** class used to print an ASM */
 public class AsmPrinter extends ReflectiveVisitor<Void> {
+	
 	protected AsmetaTermPrinter tp = AsmetaTermPrinter.getAsmetaTermPrinter(false);
+	
 	static final private String tabWidth = "    ";
+	
 	private int indentation = 0;
 	private PrintWriter out;
 	protected Asm model;
@@ -100,6 +104,16 @@ public class AsmPrinter extends ReflectiveVisitor<Void> {
 
 	public AsmPrinter(PrintWriter writer) {
 		out = writer;
+	}
+
+	public AsmPrinter(StringWriter writer) {
+		out = new PrintWriter(writer);
+	}
+
+	
+	// make an AsmPrinter that prints to standard output
+	static public AsmPrinter makeAsmPrinterStdOut() {
+		return new AsmPrinter(new PrintWriter(System.out));
 	}
 
 	public void visitUnknown(Object object) {
@@ -991,5 +1005,9 @@ public class AsmPrinter extends ReflectiveVisitor<Void> {
 
 	public void visitTerm(Term t) {
 		out.print(tp.visit(t));
+	}
+
+	public void flush() {
+		out.flush();
 	}
 }

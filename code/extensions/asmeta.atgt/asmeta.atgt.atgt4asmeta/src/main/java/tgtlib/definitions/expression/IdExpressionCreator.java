@@ -15,6 +15,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+import tgtlib.definitions.expression.type.EnumType;
 import tgtlib.definitions.expression.type.Type;
 
 /**
@@ -62,8 +63,11 @@ public class IdExpressionCreator {
 	 */
 	public IdExpression createIdExpression(final String _id, Type _type) {
 		//System.out.println(_id + "\t" + _type);
+		assert _id != null : "creating an id with null name";
 		assert !_id.equalsIgnoreCase("true");
 		assert !_id.equalsIgnoreCase("false");
+		// not enum consts, for those use EnumConstCreator
+		assert !(_type instanceof EnumType) : "creating an id with enum type, use EnumConstCreator instead";
 		// check if another expression already exists
 		IdExpression idS = createdExprs.get(_id);
 		if (idS == null) {
@@ -85,7 +89,12 @@ public class IdExpressionCreator {
 			// check if the expression is already created with a different type
 			// and a new type is requested 
 			// note that in case of null is ok
-			throw new RuntimeException(_id + " already created with type " + idS.getType());
+			if (idS.getType() == null) {
+				LOGGER.debug("setting the type of " + _id + " to " + _type);
+				idS.setType(_type);
+			} else {
+				throw new RuntimeException(_id + " already created with (not null) type " + idS.getType());
+			}
 		}		
 		LOGGER.debug("getting the same ID " + _id + " with " + toString());	
 		return idS;

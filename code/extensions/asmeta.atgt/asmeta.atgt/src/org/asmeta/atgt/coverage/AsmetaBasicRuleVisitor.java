@@ -3,6 +3,8 @@ package org.asmeta.atgt.coverage;
 import java.util.List;
 import java.util.Vector;
 
+import org.asmeta.parser.util.AsmPrinter;
+
 import atgt.coverage.AsmCoverage;
 import atgt.coverage.AsmTestCondition;
 import atgt.coverage.Coverage;
@@ -27,9 +29,22 @@ public class AsmetaBasicRuleVisitor implements AsmetaCoverageBuilder {
 	public AsmCoverage getTPTree(AsmetaAsSpec spec) {
 		AsmetaConditionExtractor ce = new AsmetaConditionExtractor();
 		List<AsmTestCondition> list = new Vector<>();
-		List<NamedTerm> conditions = ce.visit(spec.asm.getMainrule().getRuleBody());
-		for (NamedTerm ne : conditions) {
-				list.add(new AsmTestCondition(ne.getName(), ne.getCondition()));
+		try{
+			List<NamedTerm> conditions = ce.visit(spec.asm.getMainrule().getRuleBody());
+			for (NamedTerm ne : conditions) {
+				AsmTestCondition e = new AsmTestCondition(ne.getName(), ne.getCondition());
+				list.add(e);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.err.println("Error in AsmetaBasicRuleVisitor.getTPTree: " + e.getMessage());
+			System.err.println("Printing the ASM for debugging purposes:");
+			AsmPrinter asmPrinterStdOut = AsmPrinter.makeAsmPrinterStdOut();
+			asmPrinterStdOut.visit(spec.asm);
+			asmPrinterStdOut.close();
+			System.err.println(spec.asm);
+			System.err.println("End of ASM printing.");
+			return null;
 		}
 		return new Coverage("ABR", list);
 	}

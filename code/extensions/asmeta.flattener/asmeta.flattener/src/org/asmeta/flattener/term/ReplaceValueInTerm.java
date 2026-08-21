@@ -1,10 +1,13 @@
 package org.asmeta.flattener.term;
 
+import java.util.Arrays;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.asmeta.simulator.wrapper.RuleFactory;
 import org.eclipse.emf.common.util.EList;
 
+import asmeta.definitions.domains.AbstractTd;
 import asmeta.terms.basicterms.BooleanTerm;
 import asmeta.terms.basicterms.ConstantTerm;
 import asmeta.terms.basicterms.DomainTerm;
@@ -24,11 +27,16 @@ import asmeta.terms.furtherterms.NaturalTerm;
 import asmeta.terms.furtherterms.StringTerm;
 
 public class ReplaceValueInTerm extends TermFlattenerVisitor {
+	
+	static Logger logger = Logger.getLogger(ReplaceValueInTerm.class);
+	
 	private Term[] values;
 	private List<VariableTerm> vars;
 	private RuleFactory ruleFact;
 
 	public ReplaceValueInTerm(Term[] values, List<VariableTerm> vars) {
+		logger.debug("ReplaceValueInTerm: " + Arrays.toString(values) + " " + vars);
+		logger.debug("-->" + ((FunctionTerm)values[0]).getFunction());
 		assert values.length == vars.size();
 		this.values = values;
 		this.vars = vars;
@@ -38,23 +46,33 @@ public class ReplaceValueInTerm extends TermFlattenerVisitor {
 	public Term visit(VariableTerm vt) {
 		int i = 0;
 		for (VariableTerm var : vars) {
+			// var is the variable to be replaced, vt is the variable in the term replace with values[i]
 			if (vt.getName().equals(var.getName())) {
-				ConstantTerm newValue = null;
-				if (values[i] instanceof NaturalTerm) {
-					newValue = ruleFact.createNaturalTerm();
-				} else if (values[i] instanceof IntegerTerm) {
-					// modified 01.03.25 - originally was NaturalTerm
-					newValue = ruleFact.createIntegerTerm();
-				} else if (values[i] instanceof BooleanTerm) {
-					newValue = ruleFact.createBooleanTerm();
-				} else if (values[i] instanceof EnumTerm) {
-					newValue = ruleFact.createEnumTerm();
-				} else {
-					throw new Error(values[i].getClass().getSimpleName() + " not supported!");
+				logger.debug("replace vt " +vt + " with " + values[i]);
+				if (values[i] instanceof ConstantTerm) {
+					ConstantTerm newValue = null;
+					if (values[i] instanceof NaturalTerm) {
+						newValue = ruleFact.createNaturalTerm();
+					} else if (values[i] instanceof IntegerTerm) {
+						// modified 01.03.25 - originally was NaturalTerm
+						newValue = ruleFact.createIntegerTerm();
+					} else if (values[i] instanceof BooleanTerm) {
+						newValue = ruleFact.createBooleanTerm();
+					} else if (values[i] instanceof EnumTerm) {
+						newValue = ruleFact.createEnumTerm();
+					} 
+					String symbol = ((ConstantTerm) values[i]).getSymbol();
+					newValue.setSymbol(symbol);
+					return newValue;
 				}
-				String symbol = ((ConstantTerm) values[i]).getSymbol();
-				newValue.setSymbol(symbol);
-				return newValue;
+				if (values[i] instanceof FunctionTerm ft && values[i].getDomain() instanceof AbstractTd) {
+					FunctionTerm newValue = ruleFact.createFunctionTerm();
+					newValue.setFunction(ft.getFunction());
+					return newValue; 
+				}
+				logger.error("ReplaceValueInTerm: " + values[i].getClass().getSimpleName() + " not supported!");
+				logger.error("VT: " + vt + " --> " + var);
+				throw new Error(values[i].getClass().getSimpleName() + " not supported!");
 			}
 			i++;
 		}

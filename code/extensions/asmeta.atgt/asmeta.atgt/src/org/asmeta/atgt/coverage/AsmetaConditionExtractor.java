@@ -109,7 +109,6 @@ public class AsmetaConditionExtractor extends RuleVisitor<List<NamedTerm>>{
 		Vector<NamedTerm> list = new Vector<>();
 		int i = 1;
 		for (Rule r : block.getRules()) {
-			System.out.println("rule " + r.getClass());
 			List<NamedTerm> l = visitor.visit(r);
 			// add the name
 			for (NamedTerm ne : l) {

@@ -37,7 +37,11 @@ public class EnumConstCreator extends IdExpressionCreator {
 			if (idS instanceof EnumConst) {
 				return (EnumConst) idS;
 			} else {
-				throw new RuntimeException("enum " + _id + " already created as IdExpression");
+				// static expression sometimes are created as idexpressions with static type
+				if (idS.getType() instanceof atgt.specification.type.AbstractType) {
+					return new EnumConst(_id);
+				}
+				throw new RuntimeException("enum " + _id + " already created as IdExpression (not enum) of type " + idS.getType() + " of " + idS.getType().getClass().getName());
 			}
 		}
 	}
@@ -59,6 +63,9 @@ public class EnumConstCreator extends IdExpressionCreator {
 			return BoolType.TRUE_CONST;
 		if (_id.equalsIgnoreCase("false"))
 			return BoolType.FALSE_CONST;
+		if (_type instanceof EnumType) {
+			return createEnumConst(_id);
+		}
 		return super.createIdExpression(_id, _type);
 	}
 }
