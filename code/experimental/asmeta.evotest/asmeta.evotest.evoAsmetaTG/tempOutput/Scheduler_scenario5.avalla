@@ -1,0 +1,16 @@
+scenario Scheduler_scenario5
+
+load Scheduler.asm
+
+check idle = false;
+check st(JOB3) = RDY;
+check st(JOB1) = RDY;
+check st(JOB2) = RDY;
+pick $j in r_SetRunning(Integer,Boolean) := JOB3;
+
+step
+
+check idle = false;
+check st(JOB3) = RUN;
+check st(JOB1) = RDY;
+check st(JOB2) = RDY;

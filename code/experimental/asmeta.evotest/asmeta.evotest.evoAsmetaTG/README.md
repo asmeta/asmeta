@@ -108,6 +108,7 @@ This section covers all available command-line options for the application and h
  | `-evosuitePath` 			| String 			| Set the path to the evosuite jars folder. Defaults to `./evosuite/evosuite-jar`. 	 			 	|
  | `-output`				| String 			| Specifies the output folder. Defaults to `./output/`. 										 	|  
  | `-clean` 				| None				| Delete all intermediate files created and processed by the application. 							|
+ | `-flaky` 				| None				| Do not record nondeterministic choices; generated scenarios may be flaky. 						|
  | `-timeBudget` 			| String 			| Set the time budget allocated for the Evosuite process. 										 	|
  | `-parser`         		| String			| Select the desired parser to parse the JUnit file. Defaults to `customParser`					 	|
  | `-Dcompiler` 			| boolean 			| whether to translate and compile the generated java class. 									 	|

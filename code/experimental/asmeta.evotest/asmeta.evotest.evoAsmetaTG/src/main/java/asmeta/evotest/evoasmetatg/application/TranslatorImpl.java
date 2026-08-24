@@ -49,6 +49,9 @@ public class TranslatorImpl implements Translator {
 	/** Indicates whether to clean the folders {@code true} or not {@code false} */
 	private boolean clean;
 
+	/** Indicates whether generated scenarios may be flaky. */
+	private boolean flaky;
+
 	/** File manager instance for handling file operations. */
 	private FileManager fileManager;
 	
@@ -63,6 +66,7 @@ public class TranslatorImpl implements Translator {
 		this.options = new OptionsImpl();
 		this.fileManager = new FileManager();
 		this.clean = false;
+		this.flaky = false;
 	}
 
 	@Override
@@ -215,6 +219,11 @@ public class TranslatorImpl implements Translator {
 	}
 
 	@Override
+	public void setFlaky(boolean flaky) {
+		this.flaky = flaky;
+	}
+
+	@Override
 	public void clean() {
 		logger.debug("Cleaning the resources...");
 		cleanFolder(fileManager.getEvosuiteTestsPathToString());
@@ -302,8 +311,6 @@ public class TranslatorImpl implements Translator {
 							TranslatorConstants.EVOSUITE, TranslatorConstants.EVOSUITE_REPORT).toString()
 					/*+ TranslatorConstants.DOUBLE_QUOTES*/;
 
-			String choiceTraceFile = Paths.get(fileManager.getEvosuiteTestsPathToString(),
-					asmName + TranslatorConstants.CHOICE_TRACE_EXTENSION).toString();
 
 		// Set the java input class (add _ATG to the asmeta specification file name)
 		String evosuiteJavaInputFile = asmName + TranslatorConstants.ATG;
@@ -326,7 +333,11 @@ public class TranslatorImpl implements Translator {
 					TranslatorConstants.PROJECT_CP, evosuiteTargetDir, TranslatorConstants.TARGET, evosuiteTargetDir, TranslatorConstants.CLASS, evosuiteJavaInputFile,
 					evosuiteTestsOption, TranslatorConstants.CRITERION, TranslatorConstants.COVERAGE_CRITERION,
 					TranslatorConstants.DMINIMIZE_TRUE));
-			listOfOptions.addAll(buildChoiceTraceOptions(choiceTraceFile));
+			if (!flaky) {
+				String choiceTraceFile = Paths.get(fileManager.getEvosuiteTestsPathToString(),
+						asmName + TranslatorConstants.CHOICE_TRACE_EXTENSION).toString();
+				listOfOptions.addAll(buildChoiceTraceOptions(choiceTraceFile));
+			}
 			listOfOptions.add(evosuiteReportOption);
 
 		// Set the search budget option
@@ -357,16 +368,19 @@ public class TranslatorImpl implements Translator {
 		// Set the location of the junit input file
 		String junitInputFile = fileManager.getEvosuiteTestsPathToString() + File.separator + asmName
 				+ TranslatorConstants.JUNIT_TEST_EXTENSION;
-		String choiceTraceFile = fileManager.getEvosuiteTestsPathToString() + File.separator + asmName
-				+ TranslatorConstants.CHOICE_TRACE_EXTENSION;
 
 		String junit2AvallaWorkingDir = Paths
 				.get(fileManager.getWorkingDirPathToString(), TranslatorConstants.JUNIT2AVALLA).toString();
 
 		listOfOptions.addAll(List.of(TranslatorConstants.JUNIT2AVALLA_WORKING_DIR, junit2AvallaWorkingDir,
 				TranslatorConstants.JUNIT2AVALLA_INPUT, junitInputFile, TranslatorConstants.JUNIT2AVALLA_OUTPUT,
-				fileManager.getOutputFolderToString(), TranslatorConstants.JUNIT2AVALLA_PARSER, this.parserType.getType(),
-				TranslatorConstants.JUNIT2AVALLA_CHOICE_TRACE, choiceTraceFile));
+				fileManager.getOutputFolderToString(), TranslatorConstants.JUNIT2AVALLA_PARSER, this.parserType.getType()));
+
+		if (!flaky) {
+			String choiceTraceFile = fileManager.getEvosuiteTestsPathToString() + File.separator + asmName
+					+ TranslatorConstants.CHOICE_TRACE_EXTENSION;
+			listOfOptions.addAll(List.of(TranslatorConstants.JUNIT2AVALLA_CHOICE_TRACE, choiceTraceFile));
+		}
 
 		if (clean) {
 			listOfOptions.add(TranslatorConstants.CLEAN);
