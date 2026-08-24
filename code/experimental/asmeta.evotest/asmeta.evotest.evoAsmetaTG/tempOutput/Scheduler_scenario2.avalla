@@ -1,7 +1,0 @@
-scenario Scheduler_scenario2
-
-load Scheduler.asm
-
-
-step
-

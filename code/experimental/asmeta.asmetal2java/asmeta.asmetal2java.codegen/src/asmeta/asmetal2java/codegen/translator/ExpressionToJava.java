@@ -231,12 +231,8 @@ public class ExpressionToJava {
 	 * @return the string
 	 */
 	String minusUnary(List<Term> argsTerm) {
-		String str = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		if (Boolean.TRUE.equals(new Util().isNumber(str))) {
-			return String.valueOf(Integer.valueOf(str) * (-1));
-		} else {
-			return new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		}
+		String operand = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
+		return "-(" + operand + ")";
 	}
 
 	/**
