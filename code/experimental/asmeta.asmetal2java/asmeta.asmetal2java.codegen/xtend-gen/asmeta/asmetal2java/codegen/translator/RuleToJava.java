@@ -1,7 +1,6 @@
 package asmeta.asmetal2java.codegen.translator;
 
 import asmeta.asmetal2java.codegen.config.TranslatorOptions;
-import asmeta.definitions.ControlledFunction;
 import asmeta.definitions.Function;
 import asmeta.definitions.domains.AbstractTd;
 import asmeta.definitions.domains.BasicTd;
@@ -342,10 +341,10 @@ public class RuleToJava extends RuleVisitor<String> {
       for (final Function cf : _function) {
         boolean _equals = cf.getName().equals(functionName);
         if (_equals) {
-          if (((cf instanceof ControlledFunction) && (cf.getDomain() != null))) {
+          if ((Util.isControlledOrOut(cf) && (cf.getDomain() != null))) {
             isZeroC = false;
           } else {
-            if (((cf instanceof ControlledFunction) && (cf.getDomain() == null))) {
+            if ((Util.isControlledOrOut(cf) && (cf.getDomain() == null))) {
               isZeroC = true;
             }
           }

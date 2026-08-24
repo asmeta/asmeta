@@ -19,6 +19,7 @@ import asmeta.terms.furtherterms.SetCt
 import asmeta.terms.furtherterms.StringTerm
 import asmeta.terms.furtherterms.SequenceCt
 import asmeta.definitions.ControlledFunction
+import asmeta.definitions.OutFunction
 import asmeta.definitions.MonitoredFunction
 import asmeta.definitions.DerivedFunction
 import asmeta.definitions.StaticFunction
@@ -28,6 +29,7 @@ import asmeta.definitions.domains.AbstractTd
 import asmeta.definitions.domains.Domain
 import asmeta.definitions.domains.EnumTd
 import asmeta.definitions.Function
+import asmeta.definitions.DynamicFunction
 import asmeta.definitions.domains.MapDomain
 import asmeta.terms.furtherterms.SequenceTerm
 import asmeta.definitions.domains.SequenceDomain
@@ -404,15 +406,15 @@ class TermToJava extends ReflectiveVisitor<String> {
 		} // In questo caso l'operatore rilevato » := 
 		else {
 
-			if (term.function instanceof ControlledFunction && term.domain instanceof ConcreteDomain)
-				functionTerm.append(caseFunctionTermSuppCont(term.function, term))
-			if (term.function instanceof ControlledFunction && term.domain instanceof MapDomain)
-				functionTerm.append(caseFunctionTermSuppCont(term.function, term))
+			if (Util.isControlledOrOut(term.function) && term.domain instanceof ConcreteDomain)
+				functionTerm.append(caseFunctionTermSuppCont(term.function as DynamicFunction, term))
+			if (Util.isControlledOrOut(term.function) && term.domain instanceof MapDomain)
+				functionTerm.append(caseFunctionTermSuppCont(term.function as DynamicFunction, term))
 
 			functionTerm.append(term.function.name)
 
 			functionTerm.append(caseFunctionTermSupp(term.function, term))
-			if (term.function instanceof ControlledFunction && term.domain instanceof ConcreteDomain)
+			if (Util.isControlledOrOut(term.function) && term.domain instanceof ConcreteDomain)
 				functionTerm.append("\n")
 
 			return functionTerm.toString
@@ -420,7 +422,7 @@ class TermToJava extends ReflectiveVisitor<String> {
 
 	}
 
-	def String caseFunctionTermSuppCont(Function fd, FunctionTerm ft) {
+	def String caseFunctionTermSuppCont(DynamicFunction fd, FunctionTerm ft) {
 
 		var StringBuffer functionTerm = new StringBuffer
 
@@ -458,7 +460,7 @@ class TermToJava extends ReflectiveVisitor<String> {
 			} // Caso di studio con variabili multiple in ingresso
 			// da controllare se corretto come metodo
 			else {
-				if (fd instanceof ControlledFunction)
+				if (Util.isControlledOrOut(fd))
 					if (leftHandSide) {
 
 						functionTerm.append(fd.name + "_elem = null;\n")
@@ -605,6 +607,14 @@ class TermToJava extends ReflectiveVisitor<String> {
 
 	// Identifico la tipologia delle variabili e la loro posizione rispetto all'operatore
 	def dispatch String caseFunctionTermSupp(ControlledFunction fd, FunctionTerm ft) {
+		return caseControlledOrOutputFunctionSupp(fd, ft)
+	}
+
+	def dispatch String caseFunctionTermSupp(OutFunction fd, FunctionTerm ft) {
+		return caseControlledOrOutputFunctionSupp(fd, ft)
+	}
+
+	private def String caseControlledOrOutputFunctionSupp(DynamicFunction fd, FunctionTerm ft) {
 		var StringBuffer functionTerm = new StringBuffer
 		if (ft.arguments === null) {
 			// Identifico Dx o Sx

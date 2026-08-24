@@ -2,6 +2,7 @@ package asmeta.asmetal2java.codegen.translator
 
 import asmeta.definitions.ControlledFunction
 import asmeta.definitions.DerivedFunction
+import asmeta.definitions.DynamicFunction
 import asmeta.definitions.MonitoredFunction
 import asmeta.definitions.OutFunction
 import asmeta.definitions.StaticFunction
@@ -133,8 +134,16 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 
 	// Metodo per identificare le funzioni controllate
 	def String visit(ControlledFunction object) {
+		return visitControlledOrOutputFunction(object)
+	}
+
+	def String visit(OutFunction object) {
+		return visitControlledOrOutputFunction(object)
+	}
+
+	private def String visitControlledOrOutputFunction(DynamicFunction object) {
 		var StringBuffer function = new StringBuffer
-		function.append('''//Controlled Function
+		function.append('''//Controlled or Output Function
 		''')
 		if (object.domain === null) {
 			// product domain
@@ -309,7 +318,9 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 		return function.toString
 	}
 
-	def String visit(OutFunction object) {
+
+/* // OLD OutFunction visit method, now Out functions are threated like Controlled functions
+   def String visit(OutFunction object) {
 
 		var StringBuffer function = new StringBuffer
 
@@ -396,7 +407,7 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 		}
 
 		return function.toString
-	}
+	}*/
 
 	def String visit(DerivedFunction object) {
 

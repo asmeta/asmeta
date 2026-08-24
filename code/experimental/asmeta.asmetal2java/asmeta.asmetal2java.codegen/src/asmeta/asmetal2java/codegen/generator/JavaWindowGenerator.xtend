@@ -4,7 +4,6 @@ import asmeta.structure.Asm
 import asmeta.transitionrules.basictransitionrules.Rule
 import asmeta.asmetal2java.codegen.translator.SeqRuleCollector
 import asmeta.definitions.domains.AbstractTd
-import asmeta.definitions.ControlledFunction
 import asmeta.definitions.domains.ConcreteDomain
 import asmeta.definitions.domains.MapDomain
 import asmeta.definitions.domains.SequenceDomain
@@ -12,8 +11,8 @@ import asmeta.definitions.domains.EnumTd
 import asmeta.definitions.MonitoredFunction
 import asmeta.asmetal2java.codegen.config.TranslatorOptions
 import java.util.List
-import org.junit.Assert
 import java.util.ArrayList
+import asmeta.asmetal2java.codegen.translator.Util
 
 /**
  * Generates a class with the graphical user interface (GUI) to interact 
@@ -22,7 +21,8 @@ import java.util.ArrayList
 class JavaWindowGenerator extends AsmToJavaGenerator {
 
 	def compileAndWrite(Asm asm, String writerPath, TranslatorOptions userOptions) {
-		Assert.assertTrue(writerPath.endsWith(".java"));
+		if (!writerPath.endsWith(".java"))
+			throw new IllegalArgumentException("The output file must have the .java extension")
 		compileAndWrite(asm, writerPath, "JAVA", userOptions)
 	}
 
@@ -248,7 +248,7 @@ class JavaWindowGenerator extends AsmToJavaGenerator {
 
 		for (fd : asm.headerSection.signature.function) {
 
-			if (fd instanceof ControlledFunction) {
+				if (Util.isControlledOrOut(fd)) {
 				if (fd.domain === null) {
 					sb.append('''
 						
@@ -706,7 +706,7 @@ class JavaWindowGenerator extends AsmToJavaGenerator {
 		for (fd : asm.headerSection.signature.function) {
 
 			// Studio dei casi controlled con il dominio nullo, quindi funzioni che ricadono nella struttura zeroC<Valore>
-			if (fd instanceof ControlledFunction) {
+			if (Util.isControlledOrOut(fd)) {
 				if (fd.domain === null) {
 					if (fd.codomain instanceof ConcreteDomain) {
 						sb.append('''

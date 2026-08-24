@@ -1,7 +1,6 @@
 package asmeta.asmetal2java.codegen.translator
 
 import asmeta.asmetal2java.codegen.config.TranslatorOptions
-import asmeta.definitions.ControlledFunction
 import asmeta.definitions.domains.AbstractTd
 import asmeta.definitions.domains.BasicTd
 import asmeta.definitions.domains.ConcreteDomain
@@ -27,8 +26,6 @@ import asmeta.transitionrules.derivedtransitionrules.CaseRule
 import asmeta.transitionrules.derivedtransitionrules.IterativeWhileRule
 import asmeta.transitionrules.turbotransitionrules.IterateRule
 import asmeta.transitionrules.turbotransitionrules.SeqRule
-import org.asmeta.parser.util.AsmPrinter
-import org.asmeta.parser.util.AsmetaPrintInfo
 import org.asmeta.parser.util.AsmetaTermPrinter
 import org.asmeta.simulator.RuleVisitor
 import org.eclipse.emf.common.util.EList
@@ -208,9 +205,9 @@ class RuleToJava extends RuleVisitor<String> {
 			var isZeroC = false
 			for (cf : res.headerSection.signature.function)
 				if (cf.name.equals(functionName))
-					if (cf instanceof ControlledFunction && cf.domain !== null)
-						isZeroC = false
-					else if (cf instanceof ControlledFunction && cf.domain === null)
+						if (Util.isControlledOrOut(cf) && cf.domain !== null)
+							isZeroC = false
+						else if (Util.isControlledOrOut(cf) && cf.domain === null)
 						isZeroC = true
 
 			if (isZeroC){

@@ -10,7 +10,6 @@ import asmeta.asmetal2java.codegen.translator.FunctionToJavaSig
 import asmeta.asmetal2java.codegen.translator.RuleToJava
 import asmeta.asmetal2java.codegen.translator.SeqRuleCollector
 import asmeta.asmetal2java.codegen.translator.Util
-import asmeta.definitions.ControlledFunction
 import asmeta.definitions.DerivedFunction
 import asmeta.definitions.RuleDeclaration
 import asmeta.definitions.StaticFunction
@@ -22,7 +21,6 @@ import asmeta.structure.Asm
 import asmeta.transitionrules.basictransitionrules.Rule
 import java.util.ArrayList
 import java.util.List
-import org.junit.Assert
 
 /** 
  * Generates the translation of an Asm specification to a java class from an ASMeta specification.
@@ -32,7 +30,8 @@ class JavaGenerator extends AsmToJavaGenerator {
 	protected String initConrolledMonitored
 
 	def compileAndWrite(Asm asm, String writerPath, TranslatorOptions userOptions) {
-		Assert.assertTrue(writerPath.endsWith(".java"));
+		if (!writerPath.endsWith(".java"))
+			throw new IllegalArgumentException("The output file must have the .java extension")
 		compileAndWrite(asm, writerPath, "JAVA", userOptions)
 	}
 
@@ -513,13 +512,13 @@ class JavaGenerator extends AsmToJavaGenerator {
 	def updateSet(Asm asm) {
 		var StringBuffer updateset = new StringBuffer
 		for (cf : asm.headerSection.signature.function){
-			if (cf instanceof ControlledFunction && cf.domain !== null){
+			if (Util.isControlledOrOut(cf) && cf.domain !== null){
 				updateset.append('''«cf.name».update();
 				''')
 //				updateset.append('''«cf.name».oldValues = «cf.name».newValues;
 //				''')
 			}
-			else if (cf instanceof ControlledFunction && cf.domain === null){
+			else if (Util.isControlledOrOut(cf) && cf.domain === null){
 				updateset.append('''«cf.name».update();
 				''')
 //				updateset.append('''«cf.name».oldValue = «cf.name».newValue;

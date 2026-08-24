@@ -4,6 +4,7 @@ import asmeta.definitions.ControlledFunction;
 import asmeta.definitions.DerivedFunction;
 import asmeta.definitions.Function;
 import asmeta.definitions.MonitoredFunction;
+import asmeta.definitions.OutFunction;
 import asmeta.definitions.StaticFunction;
 import asmeta.definitions.domains.AbstractTd;
 import asmeta.definitions.domains.Domain;
@@ -203,6 +204,15 @@ public class TermToJavaInAssignments extends TermToJava {
 
   @Override
   protected String _caseFunctionTermSupp(final ControlledFunction fd, final FunctionTerm ft) {
+    return this.caseControlledOrOutputFunctionSupp(fd, ft);
+  }
+
+  @Override
+  protected String _caseFunctionTermSupp(final OutFunction fd, final FunctionTerm ft) {
+    return this.caseControlledOrOutputFunctionSupp(fd, ft);
+  }
+
+  private String caseControlledOrOutputFunctionSupp(final Function fd, final FunctionTerm ft) {
     StringBuffer functionTerm = new StringBuffer();
     TupleTerm _arguments = ft.getArguments();
     boolean _tripleEquals = (_arguments == null);
@@ -278,6 +288,8 @@ public class TermToJavaInAssignments extends TermToJava {
       return _caseFunctionTermSupp((ControlledFunction)fd, ft);
     } else if (fd instanceof MonitoredFunction) {
       return _caseFunctionTermSupp((MonitoredFunction)fd, ft);
+    } else if (fd instanceof OutFunction) {
+      return _caseFunctionTermSupp((OutFunction)fd, ft);
     } else if (fd instanceof StaticFunction) {
       return _caseFunctionTermSupp((StaticFunction)fd, ft);
     } else if (fd instanceof DerivedFunction) {

@@ -2,8 +2,10 @@ package asmeta.asmetal2java.codegen.translator;
 
 import asmeta.definitions.ControlledFunction;
 import asmeta.definitions.DerivedFunction;
+import asmeta.definitions.DynamicFunction;
 import asmeta.definitions.Function;
 import asmeta.definitions.MonitoredFunction;
+import asmeta.definitions.OutFunction;
 import asmeta.definitions.StaticFunction;
 import asmeta.definitions.domains.AbstractTd;
 import asmeta.definitions.domains.BagDomain;
@@ -665,22 +667,24 @@ public class TermToJava extends ReflectiveVisitor<String> {
       String expression = new ExpressionToJava(this.res).evaluateFunction(name, term.getArguments().getTerms());
       return expression.replaceAll(".value.value", ".value");
     } else {
-      if (((term.getFunction() instanceof ControlledFunction) && (term.getDomain() instanceof ConcreteDomain))) {
-        functionTerm.append(this.caseFunctionTermSuppCont(term.getFunction(), term));
+      if ((Util.isControlledOrOut(term.getFunction()) && (term.getDomain() instanceof ConcreteDomain))) {
+        Function _function = term.getFunction();
+        functionTerm.append(this.caseFunctionTermSuppCont(((DynamicFunction) _function), term));
       }
-      if (((term.getFunction() instanceof ControlledFunction) && (term.getDomain() instanceof MapDomain))) {
-        functionTerm.append(this.caseFunctionTermSuppCont(term.getFunction(), term));
+      if ((Util.isControlledOrOut(term.getFunction()) && (term.getDomain() instanceof MapDomain))) {
+        Function _function_1 = term.getFunction();
+        functionTerm.append(this.caseFunctionTermSuppCont(((DynamicFunction) _function_1), term));
       }
       functionTerm.append(term.getFunction().getName());
       functionTerm.append(this.caseFunctionTermSupp(term.getFunction(), term));
-      if (((term.getFunction() instanceof ControlledFunction) && (term.getDomain() instanceof ConcreteDomain))) {
+      if ((Util.isControlledOrOut(term.getFunction()) && (term.getDomain() instanceof ConcreteDomain))) {
         functionTerm.append("\n");
       }
       return functionTerm.toString();
     }
   }
 
-  public String caseFunctionTermSuppCont(final Function fd, final FunctionTerm ft) {
+  public String caseFunctionTermSuppCont(final DynamicFunction fd, final FunctionTerm ft) {
     StringBuffer functionTerm = new StringBuffer();
     TupleTerm _arguments = ft.getArguments();
     boolean _tripleEquals = (_arguments == null);
@@ -737,23 +741,24 @@ public class TermToJava extends ReflectiveVisitor<String> {
           }
         }
       } else {
-        if ((fd instanceof ControlledFunction)) {
+        boolean _isControlledOrOut = Util.isControlledOrOut(fd);
+        if (_isControlledOrOut) {
           if (this.leftHandSide) {
-            String _name_8 = ((ControlledFunction)fd).getName();
+            String _name_8 = fd.getName();
             String _plus_16 = (_name_8 + "_elem = null;\n");
             functionTerm.append(_plus_16);
-            for (int i = 0; (i < ((ControlledFunction)fd).getInitialization().get(0).getVariable().size()); i++) {
-              String _name_9 = ((ControlledFunction)fd).getInitialization().get(0).getVariable().get(i).getDomain().getName();
+            for (int i = 0; (i < fd.getInitialization().get(0).getVariable().size()); i++) {
+              String _name_9 = fd.getInitialization().get(0).getVariable().get(i).getDomain().getName();
               String _plus_17 = (_name_9 + "_elem.value = ");
               String _visit = this.visit(ft.getArguments().getTerms().get(i));
               String _plus_18 = (_plus_17 + _visit);
               String _plus_19 = (_plus_18 + ";\n");
               functionTerm.append(_plus_19);
             }
-            String _name_9 = ((ControlledFunction)fd).getName();
+            String _name_9 = fd.getName();
             String _plus_17 = (_name_9 + "_elem = new ");
             functionTerm.append(_plus_17);
-            int _size_1 = ((ControlledFunction)fd).getInitialization().get(0).getVariable().size();
+            int _size_1 = fd.getInitialization().get(0).getVariable().size();
             switch (_size_1) {
               case 2:
                 functionTerm.append("Pair<");
@@ -783,30 +788,30 @@ public class TermToJava extends ReflectiveVisitor<String> {
                 functionTerm.append("Decade<");
                 break;
             }
-            for (int i = 0; (i < ((ControlledFunction)fd).getInitialization().get(0).getVariable().size()); i++) {
-              int _size_2 = ((ControlledFunction)fd).getInitialization().get(0).getVariable().size();
+            for (int i = 0; (i < fd.getInitialization().get(0).getVariable().size()); i++) {
+              int _size_2 = fd.getInitialization().get(0).getVariable().size();
               int _minus = (_size_2 - 1);
               boolean _notEquals = (i != _minus);
               if (_notEquals) {
-                String _name_10 = ((ControlledFunction)fd).getInitialization().get(0).getVariable().get(i).getDomain().getName();
+                String _name_10 = fd.getInitialization().get(0).getVariable().get(i).getDomain().getName();
                 String _plus_18 = (_name_10 + ",");
                 functionTerm.append(_plus_18);
               } else {
-                String _name_11 = ((ControlledFunction)fd).getInitialization().get(0).getVariable().get(i).getDomain().getName();
+                String _name_11 = fd.getInitialization().get(0).getVariable().get(i).getDomain().getName();
                 String _plus_19 = (_name_11 + ">(");
                 functionTerm.append(_plus_19);
               }
             }
-            for (int i = 0; (i < ((ControlledFunction)fd).getInitialization().get(0).getVariable().size()); i++) {
-              int _size_2 = ((ControlledFunction)fd).getInitialization().get(0).getVariable().size();
+            for (int i = 0; (i < fd.getInitialization().get(0).getVariable().size()); i++) {
+              int _size_2 = fd.getInitialization().get(0).getVariable().size();
               int _minus = (_size_2 - 1);
               boolean _notEquals = (i != _minus);
               if (_notEquals) {
-                String _name_10 = ((ControlledFunction)fd).getInitialization().get(0).getVariable().get(i).getDomain().getName();
+                String _name_10 = fd.getInitialization().get(0).getVariable().get(i).getDomain().getName();
                 String _plus_18 = (_name_10 + "_elem,");
                 functionTerm.append(_plus_18);
               } else {
-                String _name_11 = ((ControlledFunction)fd).getInitialization().get(0).getVariable().get(i).getDomain().getName();
+                String _name_11 = fd.getInitialization().get(0).getVariable().get(i).getDomain().getName();
                 String _plus_19 = (_name_11 + "_elem);\n");
                 functionTerm.append(_plus_19);
               }
@@ -821,21 +826,21 @@ public class TermToJava extends ReflectiveVisitor<String> {
           } else {
             functionTerm.append("true))\n");
             functionTerm.append("System.out.println();\n");
-            String _name_12 = ((ControlledFunction)fd).getName();
+            String _name_12 = fd.getName();
             String _plus_21 = (_name_12 + "_elem = null;\n");
             functionTerm.append(_plus_21);
-            for (int i = 0; (i < ((ControlledFunction)fd).getInitialization().get(0).getVariable().size()); i++) {
-              String _name_13 = ((ControlledFunction)fd).getInitialization().get(0).getVariable().get(i).getDomain().getName();
+            for (int i = 0; (i < fd.getInitialization().get(0).getVariable().size()); i++) {
+              String _name_13 = fd.getInitialization().get(0).getVariable().get(i).getDomain().getName();
               String _plus_22 = (_name_13 + "_elem.value = ");
               String _visit = this.visit(ft.getArguments().getTerms().get(i));
               String _plus_23 = (_plus_22 + _visit);
               String _plus_24 = (_plus_23 + ";\n");
               functionTerm.append(_plus_24);
             }
-            String _name_13 = ((ControlledFunction)fd).getName();
+            String _name_13 = fd.getName();
             String _plus_22 = (_name_13 + "_elem = new ");
             functionTerm.append(_plus_22);
-            int _size_2 = ((ControlledFunction)fd).getInitialization().get(0).getVariable().size();
+            int _size_2 = fd.getInitialization().get(0).getVariable().size();
             switch (_size_2) {
               case 2:
                 functionTerm.append("Pair<");
@@ -865,38 +870,38 @@ public class TermToJava extends ReflectiveVisitor<String> {
                 functionTerm.append("Decade<");
                 break;
             }
-            for (int i = 0; (i < ((ControlledFunction)fd).getInitialization().get(0).getVariable().size()); i++) {
-              int _size_3 = ((ControlledFunction)fd).getInitialization().get(0).getVariable().size();
+            for (int i = 0; (i < fd.getInitialization().get(0).getVariable().size()); i++) {
+              int _size_3 = fd.getInitialization().get(0).getVariable().size();
               int _minus = (_size_3 - 1);
               boolean _notEquals = (i != _minus);
               if (_notEquals) {
-                String _name_14 = ((ControlledFunction)fd).getInitialization().get(0).getVariable().get(i).getDomain().getName();
+                String _name_14 = fd.getInitialization().get(0).getVariable().get(i).getDomain().getName();
                 String _plus_23 = (_name_14 + ",");
                 functionTerm.append(_plus_23);
               } else {
-                String _name_15 = ((ControlledFunction)fd).getInitialization().get(0).getVariable().get(i).getDomain().getName();
+                String _name_15 = fd.getInitialization().get(0).getVariable().get(i).getDomain().getName();
                 String _plus_24 = (_name_15 + ">(");
                 functionTerm.append(_plus_24);
               }
             }
-            for (int i = 0; (i < ((ControlledFunction)fd).getInitialization().get(0).getVariable().size()); i++) {
-              int _size_3 = ((ControlledFunction)fd).getInitialization().get(0).getVariable().size();
+            for (int i = 0; (i < fd.getInitialization().get(0).getVariable().size()); i++) {
+              int _size_3 = fd.getInitialization().get(0).getVariable().size();
               int _minus = (_size_3 - 1);
               boolean _notEquals = (i != _minus);
               if (_notEquals) {
-                String _name_14 = ((ControlledFunction)fd).getInitialization().get(0).getVariable().get(i).getDomain().getName();
+                String _name_14 = fd.getInitialization().get(0).getVariable().get(i).getDomain().getName();
                 String _plus_23 = (_name_14 + "_elem,");
                 functionTerm.append(_plus_23);
               } else {
-                String _name_15 = ((ControlledFunction)fd).getInitialization().get(0).getVariable().get(i).getDomain().getName();
+                String _name_15 = fd.getInitialization().get(0).getVariable().get(i).getDomain().getName();
                 String _plus_24 = (_name_15 + "_elem);\n");
                 functionTerm.append(_plus_24);
               }
             }
-            String _name_14 = ((ControlledFunction)fd).getName();
+            String _name_14 = fd.getName();
             String _plus_23 = ("if((" + _name_14);
             String _plus_24 = (_plus_23 + ".get(");
-            String _name_15 = ((ControlledFunction)fd).getName();
+            String _name_15 = fd.getName();
             String _plus_25 = (_plus_24 + _name_15);
             String _plus_26 = (_plus_25 + "_elem).value //");
             functionTerm.append(_plus_26);
@@ -908,6 +913,14 @@ public class TermToJava extends ReflectiveVisitor<String> {
   }
 
   protected String _caseFunctionTermSupp(final ControlledFunction fd, final FunctionTerm ft) {
+    return this.caseControlledOrOutputFunctionSupp(fd, ft);
+  }
+
+  protected String _caseFunctionTermSupp(final OutFunction fd, final FunctionTerm ft) {
+    return this.caseControlledOrOutputFunctionSupp(fd, ft);
+  }
+
+  private String caseControlledOrOutputFunctionSupp(final DynamicFunction fd, final FunctionTerm ft) {
     StringBuffer functionTerm = new StringBuffer();
     TupleTerm _arguments = ft.getArguments();
     boolean _tripleEquals = (_arguments == null);
@@ -1141,6 +1154,8 @@ public class TermToJava extends ReflectiveVisitor<String> {
       return _caseFunctionTermSupp((ControlledFunction)fd, ft);
     } else if (fd instanceof MonitoredFunction) {
       return _caseFunctionTermSupp((MonitoredFunction)fd, ft);
+    } else if (fd instanceof OutFunction) {
+      return _caseFunctionTermSupp((OutFunction)fd, ft);
     } else if (fd instanceof StaticFunction) {
       return _caseFunctionTermSupp((StaticFunction)fd, ft);
     } else if (fd instanceof DerivedFunction) {

@@ -33,15 +33,15 @@ class TermToJavaInUpdateRule extends TermToJava {
 
 		// Controllo se l'operatore » del tipo: &,|,<=,>=,<,>...
 		if (!ExpressionToJava.hasEvaluateVisitor(name)) {
-			if (term.function instanceof ControlledFunction && term.domain instanceof ConcreteDomain &&
+			if (Util.isControlledOrOut(term.function) && term.domain instanceof ConcreteDomain &&
 				!(term.function.domain instanceof ProductDomain))
 				functionTerm.append(caseFunctionTermSupp(term.function, term))
-			if (term.function instanceof ControlledFunction && term.function.domain instanceof ProductDomain &&
+			if (Util.isControlledOrOut(term.function) && term.function.domain instanceof ProductDomain &&
 				term.domain instanceof ConcreteDomain)
 				functionTerm.append(caseFunctionTermSupp(term.function, term))
-			if (term.function instanceof ControlledFunction && term.domain instanceof MapDomain)
+			if (Util.isControlledOrOut(term.function) && term.domain instanceof MapDomain)
 				functionTerm.append(caseFunctionTermSupp(term.function, term))
-			if (term.function instanceof ControlledFunction && term.domain instanceof SequenceDomain)
+			if (Util.isControlledOrOut(term.function) && term.domain instanceof SequenceDomain)
 				functionTerm.append(caseFunctionTermSupp(term.function, term))
 			return functionTerm.toString
 		}

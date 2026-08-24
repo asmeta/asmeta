@@ -2,7 +2,9 @@ package asmeta.asmetal2java.codegen.translator;
 
 import asmeta.definitions.ControlledFunction;
 import asmeta.definitions.DerivedFunction;
+import asmeta.definitions.DynamicFunction;
 import asmeta.definitions.MonitoredFunction;
+import asmeta.definitions.OutFunction;
 import asmeta.definitions.StaticFunction;
 import asmeta.definitions.domains.AbstractTd;
 import asmeta.definitions.domains.ConcreteDomain;
@@ -48,6 +50,14 @@ public class FunctionToJavaDef extends ReflectiveVisitor<String> {
   }
 
   public String visit(final ControlledFunction object) {
+    return this.visitControlledOrOutputFunction(object);
+  }
+
+  public String visit(final OutFunction object) {
+    return this.visitControlledOrOutputFunction(object);
+  }
+
+  private String visitControlledOrOutputFunction(final DynamicFunction object) {
     StringBuffer sb = new StringBuffer();
     if (((object.getCodomain() instanceof SequenceDomain) || (object.getDomain() instanceof SequenceDomain))) {
       StringConcatenation _builder = new StringConcatenation();

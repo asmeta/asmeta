@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
-import org.junit.Assert;
 
 /**
  * This generator creates a Java wrapper class that queries the translated java class
@@ -29,7 +28,11 @@ public class JavaAtgGenerator extends AsmToJavaGenerator {
   }
 
   public void compileAndWrite(final Asm asm, final String writerPath, final TranslatorOptions userOptions) {
-    Assert.assertTrue(writerPath.endsWith(".java"));
+    boolean _endsWith = writerPath.endsWith(".java");
+    boolean _not = (!_endsWith);
+    if (_not) {
+      throw new IllegalArgumentException("The output file must have the .java extension");
+    }
     this.compileAndWrite(asm, writerPath, "JAVA", userOptions);
   }
 

@@ -1,6 +1,5 @@
 package asmeta.asmetal2java.codegen.evosuite
 
-import asmeta.definitions.ControlledFunction
 import asmeta.definitions.MonitoredFunction
 import asmeta.definitions.StaticFunction
 import asmeta.definitions.domains.AbstractTd
@@ -11,6 +10,7 @@ import asmeta.asmetal2java.codegen.translator.TermToJava
 import asmeta.asmetal2java.codegen.translator.DomainToJavaString
 import asmeta.definitions.domains.SequenceDomain
 import asmeta.asmetal2java.codegen.config.TranslatorOptions
+import asmeta.asmetal2java.codegen.translator.Util
 
 /**
  * Contains all the methods to control the translated java class as 
@@ -36,7 +36,7 @@ class AsmMethods {
 
 		var asmName = asm.name;
 		for (fd : asm.headerSection.signature.function) {
-			if (fd instanceof ControlledFunction) {
+			if (Util.isControlledOrOut(fd)) {
 				sb.append(System.lineSeparator)
 				if (fd.domain === null) { // [] -> ...
 				// use the wrapper objects to prevent NullPointerException

@@ -2,7 +2,7 @@ package asmeta.asmetal2java.codegen.evosuite;
 
 import asmeta.asmetal2java.codegen.translator.DomainToJavaString;
 import asmeta.asmetal2java.codegen.translator.TermToJava;
-import asmeta.definitions.ControlledFunction;
+import asmeta.asmetal2java.codegen.translator.Util;
 import asmeta.definitions.Function;
 import asmeta.definitions.MonitoredFunction;
 import asmeta.definitions.StaticFunction;
@@ -33,7 +33,7 @@ public class CoverOutputs {
     final StringBuffer sb = new StringBuffer();
     EList<Function> _function = asm.getHeaderSection().getSignature().getFunction();
     for (final Function fd : _function) {
-      if (((fd instanceof MonitoredFunction) || (fd instanceof ControlledFunction))) {
+      if (((fd instanceof MonitoredFunction) || Util.isControlledOrOut(fd))) {
         Domain _codomain = fd.getCodomain();
         if ((_codomain instanceof EnumTd)) {
           Domain _domain = fd.getDomain();
@@ -200,7 +200,7 @@ public class CoverOutputs {
     _append.append(_builder_1);
     EList<Function> _function = asm.getHeaderSection().getSignature().getFunction();
     for (final Function fd : _function) {
-      if (((fd instanceof MonitoredFunction) || (fd instanceof ControlledFunction))) {
+      if (((fd instanceof MonitoredFunction) || Util.isControlledOrOut(fd))) {
         Domain _codomain = fd.getCodomain();
         if ((_codomain instanceof EnumTd)) {
           Domain _domain = fd.getDomain();
