@@ -3,7 +3,6 @@ package asmeta.evotest.junit2avalla.model;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import asmeta.evotest.junit2avalla.model.terms.AvallaCheckTerm;
 import asmeta.evotest.junit2avalla.model.terms.AvallaStepTerm;
 import asmeta.evotest.junit2avalla.model.terms.AvallaTerm;
 
@@ -55,7 +54,7 @@ public class Scenario {
 	 * @param avallaTerm the term to be added to the scenario.
 	 */
 	public void add(AvallaTerm avallaTerm) {
-		if (avallaTerm instanceof AvallaStepTerm || avallaTerm instanceof AvallaCheckTerm) {
+		if (avallaTerm instanceof AvallaStepTerm) {
 			this.valid = true;
 		}
 		this.scenarioList.add(avallaTerm);
@@ -78,7 +77,7 @@ public class Scenario {
 	public AvallaTerm element() {
 		return this.scenarioList.element();
 	}
-
+	
 	/**
 	 * Returns the queue of {@link AvallaTerm} objects in the scenario.
 	 *
@@ -87,7 +86,7 @@ public class Scenario {
 	public Queue<AvallaTerm> getScenarioList() {
 		return scenarioList;
 	}
-
+	
 	/**
 	 * Returns whether the scenario is valid, i.e., contains at least one
 	 * {@link AvallaStepTerm}.
