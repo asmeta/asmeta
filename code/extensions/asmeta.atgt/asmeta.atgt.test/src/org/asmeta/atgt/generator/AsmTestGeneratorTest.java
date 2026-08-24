@@ -16,6 +16,7 @@ import org.asmeta.atgt.testoptimizer.UnchangedRemover;
 import org.asmeta.atgt.testoptimizer.UnecessaryChangesRemover;
 import org.asmeta.nusmv.main.AsmetaSMV;
 import org.asmeta.nusmv.main.AsmetaSMV.ModelCheckerMode;
+import org.asmeta.nusmv.util.AsmetaSMVOptions;
 import org.asmeta.parser.ASMParser;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -296,5 +297,22 @@ public class AsmTestGeneratorTest {
 				.generateAbstractTests(Collections.singleton(CriteriaEnum.RULE_GUARD.criteria), 1, ".*");
 
 	}
+	
+	@Test
+	public void generateChoose() throws Exception {
+		String ex = "examples/simplechoose.asm";
+		var f = new File(ex);
+		assert f.exists() : Paths.get(f.getCanonicalPath()).normalize() + " does not exists";
+		asmeta.AsmCollection asms = ASMParser.setUpReadAsm(f);
+		// first, convert to SMV
+		AsmetaSMVOptions.keepNuSMVfile = true;
+		AsmetaSMV smvConverter = new AsmetaSMV(f);
+		smvConverter.translation();		
+		smvConverter.createNuSMVfile();
+		// generate the 
+//		NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(ex, true);
+//		AsmTestSuite result = nuSMVtestGenerator
+//				.generateAbstractTests(Collections.singleton(CriteriaEnum.RULE_GUARD.criteria), 1, ".*");
 
+	}
 }

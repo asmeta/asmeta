@@ -21,6 +21,8 @@ import atgt.coverage.AsmCoverage;
 
 public class AsmetaBasicRuleVisitorTestExp {
 
+	private static final String PROCESSED_MODELS_CSV = "processed_models.csv";
+
 	@BeforeAll
 	public static void setup() {
 //		Logger.getLogger(AsmTestGenerator.class).setLevel(Level.DEBUG);
@@ -37,18 +39,21 @@ public class AsmetaBasicRuleVisitorTestExp {
 		// Logger.getLogger(RuleFlattener.class).setLevel(Level.DEBUG);
 		Path listFile = Path.of("model_list.txt");
 		// set the output file
-		Path outputFile = Path.of("processed_models.csv");
+		Path outputFile = Path.of(PROCESSED_MODELS_CSV);
 		// put the results in a file
 		java.util.List<String> processedModels = Files.exists(outputFile) ? Files.readAllLines(outputFile)
 				: new java.util.ArrayList<>();
 		int consideredModels = 0;
 		try (BufferedReader paths = Files.newBufferedReader(listFile)) {
-			String line;
-			try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile.toFile(), true))) {
-				writer.write("model_path\tnum_tps\ttime_taken_ms");
-				writer.newLine();
-				writer.flush();
+			// if the outpput file is new, write the header
+			if (Files.notExists(outputFile)) {
+				try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile.toFile(), true))) {
+					writer.write("model_path\tnum_tps\ttime_taken_ms");
+					writer.newLine();
+					writer.flush();
+				}
 			}
+			String line;
 			while ((line = paths.readLine()) != null) {
 				String filePath = line.trim();
 				if (filePath.isEmpty() || filePath.startsWith("//")) {
@@ -92,7 +97,7 @@ public class AsmetaBasicRuleVisitorTestExp {
 					timer.cancel();
 				}
 			}
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

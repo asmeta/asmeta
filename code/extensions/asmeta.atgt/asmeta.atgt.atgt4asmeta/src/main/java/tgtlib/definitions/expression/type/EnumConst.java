@@ -43,7 +43,7 @@ public class EnumConst extends IdExpression {
 	 */
 	public void setType(ElementsType et) {
 		// ///assert type == null : this.id + " has already type " + this.type;
-		assert type == null : "type of " + this.id + " already set to "	+ type.getName();
+		assert type == null || et == type : "type of " + this.id + " already set to "	+ type.getName();
 		type = et;
 	}
 

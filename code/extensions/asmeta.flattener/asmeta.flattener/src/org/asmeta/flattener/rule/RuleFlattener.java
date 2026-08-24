@@ -43,6 +43,8 @@ public abstract class RuleFlattener extends ReflectiveVisitor<Rule> implements A
 	protected TermRenameVars trv = new TermRenameVars();
 	protected DomainVisitor dv;
 	protected boolean rename = false;
+	// keep track of the current rules delcation being visited
+	protected RuleDeclaration currentRuleDeclaration;
 	// public static boolean DO_STATS = true;
 
 	public RuleFlattener(Asm asm) {
@@ -55,7 +57,9 @@ public abstract class RuleFlattener extends ReflectiveVisitor<Rule> implements A
 		for (RuleDeclaration r : rules) {
 			Rule ruleBody = r.getRuleBody();
 			assert ruleBody != null;
-			r.setRuleBody(visit(ruleBody));
+			currentRuleDeclaration = r;
+			Rule visit = visit(ruleBody);
+			r.setRuleBody(visit);
 		}
 		return asm;
 	}

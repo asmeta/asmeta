@@ -34,7 +34,6 @@ public class AsmetaBasicRuleVisitorTest {
 
 	private static final String FILE_BASE = AsmetaBasicRuleVisitorTestExp.FILE_BASE;
 
-
 	@BeforeAll
 	public static void setup() {
 //		Logger.getLogger(AsmTestGenerator.class).setLevel(Level.DEBUG);
@@ -64,30 +63,25 @@ public class AsmetaBasicRuleVisitorTest {
 
 	@Test
 	public void testGetTPWithErrorsCorrected() throws Exception {
-		//Logger.getLogger(AsmetaToExprTrans.class).setLevel(Level.DEBUG);
-		Optional<Integer> tps = generateCoverageFor(FILE_BASE + "examples\\sluicegate\\sluiceGateMotorCtl.asm");
-		assertTrue(tps.isPresent(), "tps should be present");
-		assertTrue(tps.get() > 0, "tps should be present");
-		//
-		tps = generateCoverageFor(FILE_BASE + "examples\\traffic_light\\forAsmetaSMV\\oneWayTrafficLight.asm");
-		assertTrue(tps.isPresent(), "tps should be present");
-		assertTrue(tps.get() > 0, "tps should be present");
-		//
-		tps = generateCoverageFor(FILE_BASE + "PillBox\\Level2\\pillbox_2.asm");
+		// Logger.getLogger(AsmetaToExprTrans.class).setLevel(Level.DEBUG);
+		checkSpec(FILE_BASE + "examples\\sluicegate\\sluiceGateMotorCtl.asm");
+		checkSpec(FILE_BASE + "examples\\traffic_light\\forAsmetaSMV\\oneWayTrafficLight.asm");
+		checkSpec(FILE_BASE + "PillBox\\Level2\\pillbox_2.asm");
+		checkSpec(FILE_BASE + "examples\\models\\lift2.asm");
+	}
+
+	private void checkSpec(String ex) throws Exception {
+		Optional<Integer> tps = generateCoverageFor(ex);
 		assertTrue(tps.isPresent(), "tps should be present");
 		assertTrue(tps.get() > 0, "tps should be present");
 	}
 
 	@Test
 	public void testGetTPWithErrors() throws Exception {
-		//Logger.getLogger(AsmetaToExprTrans.class).setLevel(Level.DEBUG);
-		Optional<Integer> tps = generateCoverageFor(FILE_BASE + "examples\\models\\lift2.asm");
-		assertTrue(tps.isPresent(), "tps should be present");
-		assertTrue(tps.get() > 0, "tps should be present");
+		// Logger.getLogger(AsmetaToExprTrans.class).setLevel(Level.DEBUG);
+		checkSpec(FILE_BASE + "examples\\petriNets\\forAsmetaSMV\\petriNet_forNuSMV.asm");
 	}
 
-	
-	
 	@Test
 	public void testGetTPTreeChoose() throws Exception {
 		int tps = generateCoverageFor("examples\\SpecWithChoose.asm").get();
@@ -95,21 +89,23 @@ public class AsmetaBasicRuleVisitorTest {
 		assertEquals(1, tps);
 	}
 
-
 	/**
 	 * @param ex
 	 * @return
 	 * @throws Exception
 	 */
 	static Optional<Integer> generateCoverageFor(String ex) throws Exception {
-		// String ex =
-		// "C:\\Users\\garganti\\code_from_repos\\asmeta\\mvm-asmeta\\asm_models\\VentilatoreASM_NewTime\\Ventilatore4SimpleTimeLtd.asm";
-		asmeta.AsmCollection asms = ASMParser.setUpReadAsm(new File(ex));
+		File f = new File(ex);
+		if (!f.exists()) {
+			System.err.println(f + " does not exists");
+			return Optional.empty();
+		}
+		asmeta.AsmCollection asms = ASMParser.setUpReadAsm(f);
 		AsmetaBasicRuleVisitor tpbuilder = new AsmetaBasicRuleVisitor();
 		try {
 			AsmetaAsSpec spec = new AsmetaAsSpec(asms);
 			AsmCoverage tp = tpbuilder.getTPTree(spec);
-			//tp.allTPs().forEach(x -> System.out.println(x.getCondition()));
+			// tp.allTPs().forEach(x -> System.out.println(x.getCondition()));
 			return Optional.of(tp.getNumberofTPs());
 		} catch (Throwable t) {
 			System.err.println("spec not analyzable");

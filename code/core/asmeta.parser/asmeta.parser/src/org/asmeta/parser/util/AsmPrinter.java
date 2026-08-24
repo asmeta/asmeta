@@ -7,6 +7,7 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -19,6 +20,7 @@ import asmeta.definitions.DerivedFunction;
 import asmeta.definitions.DynamicFunction;
 import asmeta.definitions.FairnessConstraint;
 import asmeta.definitions.Function;
+import asmeta.definitions.InvarConstraint;
 import asmeta.definitions.Invariant;
 import asmeta.definitions.LtlSpec;
 import asmeta.definitions.MonitoredFunction;
@@ -171,13 +173,28 @@ public class AsmPrinter extends ReflectiveVisitor<Void> {
 			visitFunDefs(funcs);
 			println();
 		}
+		// except the main rule
 		if (rules.size() > 0) {
 			visitRuleDefs(rules);
 			println();
 		}
 		visitFairness(body.getFairnessConstraint());// TODO
 		visitProperties(property);
+		visitINVAR(body.getInvariantConstraint());
 		unIndent();
+	}
+
+	private void visitINVAR(List<InvarConstraint> invarConstraints) {
+		println("// InvarConstraints if any");
+		for (InvarConstraint f : invarConstraints) {
+			print("INVAR ");
+			String name = f.getName();
+			if (name != null) {
+				print(name + ": ");
+			}
+			println(tp.visit(f.getBody()));
+		}
+		println();
 	}
 
 	protected void visitFairness(List<FairnessConstraint> fairness) {

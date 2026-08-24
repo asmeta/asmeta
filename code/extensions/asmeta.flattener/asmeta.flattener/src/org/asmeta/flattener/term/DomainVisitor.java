@@ -159,6 +159,7 @@ public class DomainVisitor {
 		for (Function f : functions) {
 			// the criterion is: static, without arguments, its codomain is the abstract
 			// domain
+			assert f.getCodomain() != null : "function " + f + " has no codomain";
 			if (f.getCodomain().getName().equals("Agent") && f.getArity() == 0 && Defs.isAbstractConst(f)) {
 				// create the EnumTerm relative to the static function
 				EnumTerm enumTerm = rf.createEnumTerm();

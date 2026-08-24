@@ -7,11 +7,11 @@ class CaseRuleFlattenerTest extends FlattenerTest {
 
 	@Test
 	void testCase() throws Exception {
-		flattenerTest("./examples/nestedIfCase.asm", CaseRuleFlattener.class);
+		flattenerTest("./examples/nestedIfCase.asm", false, CaseRuleFlattener.class);
 	}
 
 	@Test
 	void abstractDomain() throws Exception {
-		flattenerTest("./examples/abstractDomain.asm", CaseRuleFlattener.class);
+		flattenerTest("./examples/abstractDomain.asm", false, CaseRuleFlattener.class);
 	}
 }

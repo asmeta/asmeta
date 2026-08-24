@@ -1,6 +1,7 @@
 package org.asmeta.flattener.rule;
 
 import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +28,10 @@ import asmeta.terms.furtherterms.SetCt;
 import asmeta.transitionrules.basictransitionrules.ChooseRule;
 import asmeta.transitionrules.basictransitionrules.ConditionalRule;
 import asmeta.transitionrules.basictransitionrules.Rule;
-
+//
+//  transform a choose rule in a standard rule with the element chosen using the standard function chooseone
+//  this flattener is not used by NUSMV
+//  
 public class ChooseRuleFlattener extends RuleFlattener {
 	private StdlFunction stdlFunction;
 	private int counter;
@@ -110,7 +114,7 @@ public class ChooseRuleFlattener extends RuleFlattener {
 
 		Map<VariableTerm, Term> map = new HashMap<>();
 		map.put(var, lt);
-		trv.addMap(map);
+		trv.addMap(var, lt);
 		Rule newDoRule = visit(chooseRule.getDoRule());
 		trv.removeMap(map);
 		newCondRule.setThenRule(newDoRule);

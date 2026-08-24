@@ -36,7 +36,6 @@ public class ReplaceValueInTerm extends TermFlattenerVisitor {
 
 	public ReplaceValueInTerm(Term[] values, List<VariableTerm> vars) {
 		logger.debug("ReplaceValueInTerm: " + Arrays.toString(values) + " " + vars);
-		logger.debug("-->" + ((FunctionTerm)values[0]).getFunction());
 		assert values.length == vars.size();
 		this.values = values;
 		this.vars = vars;

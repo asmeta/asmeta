@@ -29,12 +29,12 @@ class NuSMVflatternTest extends FlattenerTest {
 		org.apache.log4j.Logger.getLogger(AsmetaMultipleFlattener.class).setLevel(org.apache.log4j.Level.DEBUG);
 		Logger.getRootLogger().addAppender(new org.apache.log4j.ConsoleAppender(new org.apache.log4j.SimpleLayout()));
 		AsmetaTermPrinter.CHECK_ENUM_TERM = true;
-		String res = flattenerTest(examplesDir + "examples\\sluicegate\\sluiceGateMotorCtl.asm",	ALL_SMV_FLATTENERS);
+		String res = flattenerTest(examplesDir + "examples\\sluicegate\\sluiceGateMotorCtl.asm",	false, ALL_SMV_FLATTENERS);
 		System.out.println("NuSMVflatternTest.sluicegate result: " + res);
 	}
 	@Test
 	void sluicegateSimplified() throws Exception {
-		String res = flattenerTest("examples\\sluiceGateMotorCtl.asm",	ALL_SMV_FLATTENERS);
+		String res = flattenerTest("examples\\sluiceGateMotorCtl.asm",	false, ALL_SMV_FLATTENERS);
 		System.out.println("NuSMVflatternTest.sluicegate result: " + res);
 	}
 }

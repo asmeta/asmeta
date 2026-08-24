@@ -27,7 +27,7 @@ import atgt.specification.ASMSpecification;
 import tgtlib.specification.ParseException;
 
 // compare the new and old way to compute the TPTree (for example for basic rule coverage)
-public class ComparionCovBuilderTest {
+public class ComparisonCovBuilderTest {
 
 	// old coverage builder
 	AsmCoverageBuilder tpbuilder_old = new BasicRuleVisitor();
