@@ -66,7 +66,7 @@ public class Location {
 	 * 
 	 * @return the location name
 	 */
-	String getName() {
+	protected String getName() {
 		return signature.getName();
 	}
 

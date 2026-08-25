@@ -34,16 +34,16 @@ import tgtlib.definitions.expression.type.Type;
 
 /**
  *
- * returns the
+ * transform an asmeta term to an expression (in the library tgtlib.definitions.expression)
  *
  */
 public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<Expression> {
 
 	static Logger logger = Logger.getLogger(AsmetaToExprTrans.class);
 	
-	static EnumConstCreator icc = new EnumConstCreator();
-
-	static Map<Domain, Type> types = new HashMap<>();
+	// to create the ids (including the enum constants)
+	EnumConstCreator icc = new EnumConstCreator();
+	Map<Domain, Type> types = new HashMap<>();
 
 	/**
 	 * Visita un termine.

@@ -28,8 +28,7 @@ public class AsmetaConditionExtractor extends RuleVisitor<List<NamedTerm>>{
 	
 	private static Logger logger = Logger.getLogger(AsmetaConditionExtractor.class); 
 
-	public AsmetaConditionExtractor() {
-	}
+	public AsmetaConditionExtractor() {}
 
 	AsmetaToExprTrans translator = new AsmetaToExprTrans();
 

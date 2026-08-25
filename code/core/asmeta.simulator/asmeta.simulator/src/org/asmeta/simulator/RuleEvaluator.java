@@ -39,6 +39,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 
@@ -127,6 +128,8 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 	static HashMap<String, Rule> macros = new HashMap<String, Rule>();
 
 	public final TermEvaluator termEval;
+
+	private RuleDeclaration currentRuleDeclaration = null;
 
 	/**
 	 * Constructs an evaluator: reuses the covered macros
@@ -564,10 +567,16 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		CollectionValue[] domains = evaluateRanges(chooseRule.getRanges());
 		boolean visitChoose = visitChoose(0, domains, boundValues, chooseRule, updateSet);
 		if (visitChoose) {
-			notify(Arrays.toString(boundValues));
-			System.err.println(Arrays.toString(boundValues));
-		}
-		if (!visitChoose) {
+			// build the string to pass to the
+			Map<String,Value> valueforVar = new HashMap<>();
+			EList<VariableTerm> variable = chooseRule.getVariable();
+			for (int i = 0; i < variable.size(); i++) {
+				var var = variable.get(i);
+				valueforVar.put(var.getName() + " in " + currentRuleDeclaration,boundValues[i]);
+			}
+			notify(valueforVar);
+		} else {
+			// none
 			onChooseGuardAlwaysFalse(chooseRule); // Hook method for RuleEvalWCov
 			if (chooseRule.getIfnone() != null) {
 				logger.debug("<IfnoneRule>");
@@ -837,6 +846,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 	 * @return the rule's update set
 	 */
 	public UpdateSet visit(RuleDeclaration dcl, List<Term> arguments) {
+		currentRuleDeclaration = dcl;
 		List<VariableTerm> variables = dcl.getVariable();
 		UpdateSet updateSet = null;
 		Rule body = dcl.getRuleBody();
@@ -1033,7 +1043,9 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 	 * @return
 	 */
 	protected RuleEvaluator createRuleEvaluator(State state, Environment environment, ValueAssignment assignment) {
-		return new RuleEvaluator(state, environment, assignment);
+		RuleEvaluator newRE = new RuleEvaluator(state, environment, assignment);
+		newRE.currentRuleDeclaration = currentRuleDeclaration;
+		return newRE;
 	}
 
 	// adding the Observer/Obervable pattern

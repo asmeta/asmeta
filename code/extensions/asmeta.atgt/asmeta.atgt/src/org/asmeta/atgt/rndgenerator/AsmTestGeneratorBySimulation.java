@@ -117,7 +117,8 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 				// build the simulator
 				SimulatorForRndGeneration simulator = new SimulatorForRndGeneration(modelName, asm, env);
 				simulator.setShuffleFlag(shuffle);
-				simulator.addObserver(new ChosenVars());
+				ChosenVarsObserver observer = new ChosenVarsObserver();
+				simulator.addObserver(observer);
 				String testName = "test" + Math.addExact(test, testNumberOffset);
 				AsmTestSequence testsequence = new AsmTestSequence(new AsmTestCondition(testName, null));
 				State state;
@@ -136,6 +137,8 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 					state.applyLocationUpdates(simulator.previousState.getLocationMap());
 					// get the monitored value of the previous step
 					state.applyLocationUpdates(randomMFReader.getValues());
+					// add the picked values if any
+					state.applyLocationUpdates(observer.getPickedValues());
 					// add this (previous) state to the sequence
 					addState(testsequence, state);
 					// if no step was required
@@ -216,6 +219,13 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 		testsequence.addState();
 		for (Entry<Location, Value> stateValues : state.getLocationMap().entrySet()) {
 			Location location = stateValues.getKey();
+			String value = stateValues.getValue().toString();
+			// not a proper set or check, it is a pick
+			if (location instanceof LogicalVarChoosen varc) {
+				System.out.println(varc);
+				testsequence.addAssignment(varc.getName(), value);
+				continue;
+			}
 			// TODO store the variables somewhere
 			// check if monitored or controlled
 			Function function = location.getSignature();
@@ -223,7 +233,6 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 			assert monitored || function instanceof ControlledFunction;
 			Value[] elements = location.getElements();
 			boolean isvar = elements.length == 0;
-			String value = stateValues.getValue().toString();
 			if (isvar) {
 				Type type;
 				if (function.getCodomain() instanceof asmeta.definitions.domains.StringDomain) {

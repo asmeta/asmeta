@@ -76,14 +76,27 @@ public class AsmetaBasicRuleVisitorTest {
 	}
 
 	@Test
+	public void testdoubleGeneration() throws Exception {
+		// generating twice should wkr well
+		int tp1 = generateCoverageFor(FILE_BASE + "stereoacuity\\certifierRaff5.asm");
+		int tp2 =generateCoverageFor(FILE_BASE + "stereoacuity\\certifierRaff5.asm");
+		assertTrue(tp1>0);
+		assertEquals(tp1, tp2);
+	}
+
+	
+	@Test
 	public void testGetTPWithErrors() throws Exception {
 		// Logger.getLogger(AsmetaToExprTrans.class).setLevel(Level.DEBUG);
-		checkSpec(FILE_BASE + "examples\\petriNets\\forAsmetaSMV\\petriNet_forNuSMV.asm");
+		int tps = generateCoverageFor(FILE_BASE + "stereoacuity\\certifierRaff5.asm");
+		System.out.println(tps);
+		tps = generateCoverageFor(FILE_BASE + "stereoacuity\\certifierRaff5.asm");
 	}
 
 	@Test
 	public void testGetTPTreeChoose() throws Exception {
 		int tps = generateCoverageFor("examples\\SpecWithChoose.asm");
+		generateCoverageFor(FILE_BASE + "examples\\petriNets\\forAsmetaSMV\\petriNet_forNuSMV.asm");
 		// one tp: $i = 0
 		assertEquals(1, tps);
 	}
@@ -111,6 +124,7 @@ public class AsmetaBasicRuleVisitorTest {
 				t.printStackTrace();
 				System.err.println("***");
 			}
+			t.printStackTrace();
 			throw new RuntimeException("spec not analyzable " + t.getMessage());
 		}
 	}

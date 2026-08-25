@@ -56,6 +56,7 @@ import tgtlib.definitions.expression.IdExpression;
 import tgtlib.definitions.expression.type.BoolType;
 import tgtlib.definitions.expression.type.BoundType;
 import tgtlib.definitions.expression.type.ElementsType;
+import tgtlib.definitions.expression.type.EnumConst;
 import tgtlib.definitions.expression.type.EnumConstCreator;
 import tgtlib.definitions.expression.type.EnumType;
 import tgtlib.definitions.expression.type.IntegerType;
@@ -361,8 +362,10 @@ public class AsmetaLLoader extends AsmSpecReader {
 			List<EnumElement> elemnts = new ArrayList<EnumElement>();
 			elemnts.addAll(enumTD.getElement());
 			Collections.reverse(elemnts);
-			for (EnumElement element : elemnts)
-				enumT.addElement(ecc.createEnumConst(element.getSymbol()));
+			for (EnumElement element : elemnts) {
+				EnumConst enumConst = ecc.createEnumConst(element.getSymbol());
+				enumT.addElement(enumConst);
+			}
 			return enumT;
 		} else if (dom instanceof BooleanDomain) {
 			return BoolType.BOOLTYPE;
