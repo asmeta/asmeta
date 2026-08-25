@@ -36,7 +36,7 @@ import asmeta.transitionrules.basictransitionrules.impl.LetRuleImpl;
 public class AsmetaFeatureCheckerTest {
 
 	// Marker to exclude not valid ASM files from the model_list.txt file
-	private static final String MARKER = "// valid asm: 296";
+	private static final String MARKER = "// valid asm: 308";
 
 	Map<String, Predicate<EObject>> featurePredicates = Map.of(
 //			"IntegerDomain", x -> ((x instanceof Function) && ((Function) x).getCodomain() instanceof IntegerDomain),
@@ -114,7 +114,7 @@ public class AsmetaFeatureCheckerTest {
 		AsmetaFeatureChecker spr;
 
 		// Read the "model_list.txt" file containing the list of ASM files to be tested,
-		// but delete all lines before "// valid asm: 296"
+		// but delete all lines before "// valid asm: 308"
 		List<String> modelList = readFilteredModelList(Path.of("model_list.txt"));
 
 		// Fetch all files in the directory and all features
