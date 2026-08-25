@@ -98,12 +98,12 @@ public class AllAsmExamplesTesterWOHelper {
 			// FUNCTION FROM STDL NOT RECOGNIZED
 			// ---------- ALL CHECKED
 			add(ASM_EXAMPLES_PATH + "/parking.asm");
-			add(ASM_EXAMPLES_PATH + "/RushHour/emptyCellAs0/RushHour.asm");
-			add(ASM_EXAMPLES_PATH + "/RushHour/emptyCellAs0/RushHourForAsmetaSMV.asm");
-			add(ASM_EXAMPLES_PATH + "/RushHour/emptyCellAs0/RushHourMon.asm");
-			add(ASM_EXAMPLES_PATH + "/RushHour/emptyCellAs0/RushHourMonForAsmetaSMV.asm");
-			add(ASM_EXAMPLES_PATH + "/RushHour/emptyCellAs0/RushHourMonSimplForAsmetaSMV.asm");
-			add(ASM_EXAMPLES_PATH + "/RushHour/emptyCellAs0/RushHourSimplForAsmetaSMV.asm");
+			add(ASM_EXAMPLES_PATH + "/RushHour/emptyCellAs0/RushHour_EmptyAs0.asm");
+			add(ASM_EXAMPLES_PATH + "/RushHour/emptyCellAs0/RushHourForAsmetaSMV_EmptyAs0.asm");
+			add(ASM_EXAMPLES_PATH + "/RushHour/emptyCellAs0/RushHourMon_EmptyAs0.asm");
+			add(ASM_EXAMPLES_PATH + "/RushHour/emptyCellAs0/RushHourMonForAsmetaSMV_EmptyAs0.asm");
+			add(ASM_EXAMPLES_PATH + "/RushHour/emptyCellAs0/RushHourMonSimplForAsmetaSMV_EmptyAs0.asm");
+			add(ASM_EXAMPLES_PATH + "/RushHour/emptyCellAs0/RushHourSimplForAsmetaSMV_EmptyAs0.asm");
 			add(ASM_EXAMPLES_PATH + "/RushHour/RushHour.asm");
 			add(ASM_EXAMPLES_PATH + "/RushHour/RushHourForAsmetaSMV.asm");
 			add(ASM_EXAMPLES_PATH + "/RushHour/RushHourMon.asm");
@@ -174,7 +174,7 @@ public class AllAsmExamplesTesterWOHelper {
 
 			// ASM CANNOT BE IMPORTED: EXPORT WAS NOT MANAGED
 			// ---------- ALL CHECKED
-			add("../../../../asm_examples/SystemCUMLProfile_metahooking/main.asm");
+			add("../../../../asm_examples/SystemCUMLProfile_metahooking/system_cuml_main.asm");
 
 			// FUNCTION WAS NOT IMPORTED IF THE IMPORT WAS WRITTEN AS "./AsmName"
 			// ---------- ALL CHECKED
