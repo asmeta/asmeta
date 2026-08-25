@@ -41,6 +41,8 @@ import tgtlib.definitions.expression.type.TypeVisitorI;
  */
 public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 
+	boolean shuffle = false;
+	
 	private int stepNumber;
 	private AsmCollection asm;
 	private IdExpressionCreator icc;
@@ -101,7 +103,7 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 	@Override
 	public AsmTestSuite getTestSuite() {
 		// do not use real random values when choosing
-		return getTestSuite(false);
+		return getTestSuite(shuffle);
 	}
 
 	public AsmTestSuite getTestSuite(boolean shuffle) {
@@ -113,9 +115,9 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 				// build the random environment
 				Environment env = new Environment(randomMFReader);
 				// build the simulator
-				Simulator simulator = new Simulator(modelName, asm, env);
+				SimulatorForRndGeneration simulator = new SimulatorForRndGeneration(modelName, asm, env);
 				simulator.setShuffleFlag(shuffle);
-				// simulator.createSimulatorRnd(modelName);
+				simulator.addObserver(new ChosenVars());
 				String testName = "test" + Math.addExact(test, testNumberOffset);
 				AsmTestSequence testsequence = new AsmTestSequence(new AsmTestCondition(testName, null));
 				State state;

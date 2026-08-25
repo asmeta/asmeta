@@ -13,6 +13,7 @@ import java.util.Optional;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.asmeta.nusmv.main.AsmetaSMV;
 import org.asmeta.parser.ASMParser;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -60,12 +61,12 @@ public class AsmetaBasicRuleVisitorTestExp {
 					continue;
 				}
 				consideredModels++;
-				String ex = FILE_BASE + filePath;
+				String spec = FILE_BASE + filePath;
 				if (processedModels.stream().anyMatch(p -> p.startsWith(filePath))) {
-					System.out.println("already processed " + ex);					
+					System.out.println("already processed " + spec);					
 					continue;
 				}
-				System.out.println("generating tps for " + ex);
+				System.out.println("generating tps for " + spec);
 				try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile.toFile(), true))) {
 					writer.write(filePath + "\t");
 					writer.flush();
@@ -74,7 +75,7 @@ public class AsmetaBasicRuleVisitorTestExp {
 					timer.schedule(new TimerTask() {
 						@Override
 						public void run() {
-							System.err.println("raggiunti 10 secondi per " + ex);
+							System.err.println("raggiunti 10 secondi per " + spec);
 							try {
 								writer.write("timeout 10 seconds");
 								writer.newLine();
@@ -86,13 +87,27 @@ public class AsmetaBasicRuleVisitorTestExp {
 						}
 					}, 	10000);
 					Instant start = Instant.now();
-					Optional<Integer> numTp = AsmetaBasicRuleVisitorTest.generateCoverageFor(ex);
-					// write the result to the output file
-					System.out.println("number of tps for " + ex + ": " + numTp);
-					writer.write(numTp.isPresent() ? numTp.get().toString() : "error");
+					try {
+						int numTp = AsmetaBasicRuleVisitorTest.generateCoverageFor(spec);
+						// write the result to the output file
+						System.out.println("number of tps for " + spec + ": " + numTp);
+						writer.write(String.valueOf(numTp));
+					} catch (Throwable e) {
+						System.err.println("**** " + filePath);
+						e.printStackTrace();
+						writer.write("ERROR " +e.getMessage());
+					}
 					// write time taken to process the model
 					Instant finish = Instant.now();
 					writer.write("\t" + Duration.between(start, finish).toMillis());
+					// check if it would be tranalble to NUSMV
+					AsmetaSMV smv = new AsmetaSMV(new File(spec), true, false, true, false, false);
+					try{
+						smv.translation();
+						writer.write("\t YES_NUSMV");
+					} catch (Throwable e) {
+						writer.write("\t NO_NUSMV " + e.getMessage());
+					}
 					writer.newLine();
 					timer.cancel();
 				}
@@ -105,9 +120,16 @@ public class AsmetaBasicRuleVisitorTestExp {
 		System.out.println("Processed " + consideredModels);
 		long count = processedModels.stream().filter(p -> (!p.startsWith("//") && p.contains("timeout"))).count();
 		System.out.println("Timeouts: "  + count);
-		long count2 = processedModels.stream().filter(p -> (!p.startsWith("//") && p.contains("error"))).count();
+		long count2 = processedModels.stream().filter(p -> (!p.startsWith("//") && p.contains("ERROR"))).count();
 		System.out.println("Errors: "  + count2);
-		System.out.println("Valid: "  + (consideredModels - count - count2));
+		System.out.println("currently working (tp): "  + (consideredModels - count - count2));
+		long count3 = processedModels.stream().filter(p -> (!p.startsWith("//") && p.contains("YES_NUSMV"))).count();
+		System.out.println("nusmv working: "  + count3);
+		long count4 = processedModels.stream().filter(p -> (!p.startsWith("//") && p.contains("YES_NUSMV") && p.contains("ERROR"))).count();
+		System.out.println("nusmv working and tp not (error): "  + count4);
+		long count5 = processedModels.stream().filter(p -> (!p.startsWith("//") && p.contains("NO_NUSMV") && !p.contains("ERROR"))).count();
+		System.out.println("nusmv not working but tp yes: "  + count5);
+
 	}
 
 

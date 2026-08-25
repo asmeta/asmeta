@@ -176,7 +176,7 @@ public abstract class RuleFlattener extends ReflectiveVisitor<Rule> implements A
 		}
 		newExtendRule.getBoundVar().addAll(newVars);
 		Rule doRule = extendRule.getDoRule();
-		assert doRule != null;
+		assert doRule != null : "extend rule with a null do rule";
 		newExtendRule.setDoRule(visit(doRule));
 		if (rename) {
 			trv.removeMap(variablesMap);

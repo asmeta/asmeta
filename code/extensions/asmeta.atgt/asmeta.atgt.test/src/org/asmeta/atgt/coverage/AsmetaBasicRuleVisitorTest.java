@@ -71,9 +71,8 @@ public class AsmetaBasicRuleVisitorTest {
 	}
 
 	private void checkSpec(String ex) throws Exception {
-		Optional<Integer> tps = generateCoverageFor(ex);
-		assertTrue(tps.isPresent(), "tps should be present");
-		assertTrue(tps.get() > 0, "tps should be present");
+		int tps = generateCoverageFor(ex);
+		assertTrue(tps > 0, "tps should be present");
 	}
 
 	@Test
@@ -84,7 +83,7 @@ public class AsmetaBasicRuleVisitorTest {
 
 	@Test
 	public void testGetTPTreeChoose() throws Exception {
-		int tps = generateCoverageFor("examples\\SpecWithChoose.asm").get();
+		int tps = generateCoverageFor("examples\\SpecWithChoose.asm");
 		// one tp: $i = 0
 		assertEquals(1, tps);
 	}
@@ -94,11 +93,10 @@ public class AsmetaBasicRuleVisitorTest {
 	 * @return
 	 * @throws Exception
 	 */
-	static Optional<Integer> generateCoverageFor(String ex) throws Exception {
+	static int generateCoverageFor(String ex) throws Exception {
 		File f = new File(ex);
 		if (!f.exists()) {
-			System.err.println(f + " does not exists");
-			return Optional.empty();
+			throw new RuntimeException(f + " does not exists");
 		}
 		asmeta.AsmCollection asms = ASMParser.setUpReadAsm(f);
 		AsmetaBasicRuleVisitor tpbuilder = new AsmetaBasicRuleVisitor();
@@ -106,12 +104,14 @@ public class AsmetaBasicRuleVisitorTest {
 			AsmetaAsSpec spec = new AsmetaAsSpec(asms);
 			AsmCoverage tp = tpbuilder.getTPTree(spec);
 			// tp.allTPs().forEach(x -> System.out.println(x.getCondition()));
-			return Optional.of(tp.getNumberofTPs());
+			return tp.getNumberofTPs();
 		} catch (Throwable t) {
-			System.err.println("spec not analyzable");
-			System.err.println(t.getMessage());
-			t.printStackTrace();
-			return Optional.empty();
+			if (t.getMessage() == null) {
+				System.err.println("*** no resason provided");
+				t.printStackTrace();
+				System.err.println("***");
+			}
+			throw new RuntimeException("spec not analyzable " + t.getMessage());
 		}
 	}
 

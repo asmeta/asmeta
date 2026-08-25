@@ -36,15 +36,14 @@ public class AsmetaBasicRuleVisitor implements AsmetaCoverageBuilder {
 				list.add(e);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
-			System.err.println("Error in AsmetaBasicRuleVisitor.getTPTree: " + e.getMessage());
+			/*System.err.println("Error in AsmetaBasicRuleVisitor.getTPTree: " + e.getMessage());
 			System.err.println("Printing the ASM for debugging purposes:");
 			AsmPrinter asmPrinterStdOut = AsmPrinter.makeAsmPrinterStdOut();
 			asmPrinterStdOut.visit(spec.asm);
 			asmPrinterStdOut.close();
 			System.err.println(spec.asm);
-			System.err.println("End of ASM printing.");
-			return null;
+			System.err.println("End of ASM printing.");*/
+			throw new RuntimeException(e.getMessage());
 		}
 		return new Coverage("ABR", list);
 	}

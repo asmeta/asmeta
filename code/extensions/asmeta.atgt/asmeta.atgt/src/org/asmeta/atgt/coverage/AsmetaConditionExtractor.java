@@ -76,9 +76,7 @@ public class AsmetaConditionExtractor extends RuleVisitor<List<NamedTerm>>{
 
 	@Override
 	public List<NamedTerm> visit(asmeta.transitionrules.basictransitionrules.ChooseRule rule) {
-		// assuming no condition in the choose
-		assert(rule.getGuard() == BasictermsFactoryImpl.eINSTANCE.createBooleanTerm(true));
-		return visit(rule.getDoRule());
+		throw new RuntimeException("choose not supported yet");
 	}
 
 	@Override

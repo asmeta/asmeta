@@ -32,6 +32,8 @@
 
 package org.asmeta.simulator;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -560,7 +562,12 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		// the variable content
 		Value[] boundValues = new Value[chooseRule.getVariable().size()];
 		CollectionValue[] domains = evaluateRanges(chooseRule.getRanges());
-		if (!visitChoose(0, domains, boundValues, chooseRule, updateSet)) {
+		boolean visitChoose = visitChoose(0, domains, boundValues, chooseRule, updateSet);
+		if (visitChoose) {
+			notify(Arrays.toString(boundValues));
+			System.err.println(Arrays.toString(boundValues));
+		}
+		if (!visitChoose) {
 			onChooseGuardAlwaysFalse(chooseRule); // Hook method for RuleEvalWCov
 			if (chooseRule.getIfnone() != null) {
 				logger.debug("<IfnoneRule>");
@@ -1029,6 +1036,24 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		return new RuleEvaluator(state, environment, assignment);
 	}
 
+	// adding the Observer/Obervable pattern
+	private List<RuleEvaluatorObserver> observers = new ArrayList<>();
+
+    public void addObserver(RuleEvaluatorObserver observer) {
+        this.observers.add(observer);
+    }
+
+    public void removeObserver(RuleEvaluatorObserver observer) {
+        this.observers.remove(observer);
+    }
+
+    private void notify(Object change) {
+        for (RuleEvaluatorObserver observer : this.observers) {
+        	observer.update(change);
+        }
+    }
+	
+	
 }
 
 
