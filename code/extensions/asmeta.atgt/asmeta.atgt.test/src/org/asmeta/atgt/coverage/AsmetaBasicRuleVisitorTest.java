@@ -86,13 +86,24 @@ public class AsmetaBasicRuleVisitorTest {
 
 	
 	@Test
-	public void testGetTPWithErrors() throws Exception {
+	public void testDoubleCall() throws Exception {
 		// Logger.getLogger(AsmetaToExprTrans.class).setLevel(Level.DEBUG);
 		int tps = generateCoverageFor(FILE_BASE + "stereoacuity\\certifierRaff5.asm");
 		System.out.println(tps);
 		tps = generateCoverageFor(FILE_BASE + "stereoacuity\\certifierRaff5.asm");
 	}
 
+	@Test
+	public void testNuSMVWorking() throws Exception {
+		// Logger.getLogger(AsmetaToExprTrans.class).setLevel(Level.DEBUG);
+		Logger.getLogger(AsmetaBasicRuleVisitor.class).setLevel(Level.DEBUG);
+		// Sequential rules - how to treat them????
+		// int tps = generateCoverageFor(FILE_BASE + "examples\\simple_example\\FLIP_FLOP_0.asm");
+		int tps = generateCoverageFor(FILE_BASE + "examples\\ABZ2020\\CarSystemModule\\CarSystem006\\CarSystem006main.asm");
+		System.out.println(tps);
+	}
+	
+	
 	@Test
 	public void testGetTPTreeChoose() throws Exception {
 		int tps = generateCoverageFor("examples\\SpecWithChoose.asm");

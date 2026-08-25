@@ -49,7 +49,7 @@ public class AsmetaBasicRuleVisitorTestExp {
 			// if the outpput file is new, write the header
 			if (Files.notExists(outputFile)) {
 				try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile.toFile(), true))) {
-					writer.write("model_path\tnum_tps\ttime_taken_ms");
+					writer.write("model_path\tnum_tps\ttime_taken_ms\tNUSMV?");
 					writer.newLine();
 					writer.flush();
 				}

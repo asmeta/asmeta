@@ -45,7 +45,7 @@ public class AsmetaConditionExtractor extends RuleVisitor<List<NamedTerm>>{
 
 	@Override
 	public List<NamedTerm> visit(TermAsRule rule) {
-		throw new RuntimeException("not implemented yet");
+		throw new RuntimeException("TermAsRule not implemented yet");
 	}
 
 	@Override
@@ -55,7 +55,7 @@ public class AsmetaConditionExtractor extends RuleVisitor<List<NamedTerm>>{
 
 	@Override
 	public List<NamedTerm> visit(SeqRule seq) {
-		throw new RuntimeException("not implemented yet");
+		throw new RuntimeException("Sequential rules are not supported");
 	}
 
 	@Override
@@ -65,22 +65,22 @@ public class AsmetaConditionExtractor extends RuleVisitor<List<NamedTerm>>{
 
 	@Override
 	public List<NamedTerm> visit(ExtendRule rule) {
-		throw new RuntimeException("not implemented yet");
+		throw new RuntimeException("ExtendRule not implemented yet");
 	}
 
 	@Override
-	public List<NamedTerm> visit(LetRule rule) {
-		throw new RuntimeException("not implemented yet");
+	public List<NamedTerm> visit(LetRule rule) {		
+		throw new RuntimeException("LetRule not implemented yet");
 	}
 
 	@Override
 	public List<NamedTerm> visit(asmeta.transitionrules.basictransitionrules.ChooseRule rule) {
-		throw new RuntimeException("choose not supported yet");
+		throw new RuntimeException("ChooseRule not supported yet");
 	}
 
 	@Override
 	public List<NamedTerm> visit(ForallRule rule) {
-		throw new RuntimeException("not implemented yet");
+		throw new RuntimeException("ForallRule not implemented yet");
 	}
 
 	@Override
@@ -91,7 +91,7 @@ public class AsmetaConditionExtractor extends RuleVisitor<List<NamedTerm>>{
 
 	@Override
 	public List<NamedTerm> visit(CaseRule rule) {
-		throw new RuntimeException("not implemented yet");
+		throw new RuntimeException("CaseRule not implemented yet");
 	}
 
 

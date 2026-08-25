@@ -1,245 +1,297 @@
-model_path	num_tps	time_taken_ms
-examples\simple_example\population.asm	ERROR spec not analyzable extend rule with a null do rule	389	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsRuleFlattener@51671b08 visit(interface asmeta.transitionrules.basictransitionrules.ExtendRule)
-examples\landingGearSystem\LGS_EV.asm	18	94	 YES_NUSMV
-PillBox\Level1\pillbox_1.asm	17	42	 YES_NUSMV
+model_path	num_tps	time_taken_ms	NUSMV?
+examples\simple_example\population.asm	ERROR spec not analyzable extend rule with a null do rule	412	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsRuleFlattener@51671b08 visit(interface asmeta.transitionrules.basictransitionrules.ExtendRule)
+examples\landingGearSystem\LGS_EV.asm	18	122	 YES_NUSMV
+PillBox\Level1\pillbox_1.asm	17	47	 YES_NUSMV
 examples\RushHour\RushHourMon.asm	timeout 10 seconds
-examples\RushHour\RushHour.asm	ERROR spec not analyzable choose not supported yet	813	 NO_NUSMV Unknown function org.asmeta.nusmv.TermVisitorToSMV@69a19717 visit(interface asmeta.terms.furtherterms.SetCt)
-stereoacuity\certifier_nochoose_noundef.asm	38	59	 YES_NUSMV
-examples\fsmsemantics\FSM_hooking.asm	ERROR spec not analyzable choose not supported yet	18	 NO_NUSMV Domain Powerset(Transition) not supported.
+examples\RushHour\RushHour.asm	ERROR spec not analyzable ChooseRule not supported yet	956	 NO_NUSMV Unknown function org.asmeta.nusmv.TermVisitorToSMV@572f2041 visit(interface asmeta.terms.furtherterms.SetCt)
+stereoacuity\certifier_nochoose_noundef.asm	38	70	 YES_NUSMV
+examples\fsmsemantics\FSM_hooking.asm	ERROR spec not analyzable ChooseRule not supported yet	16	 NO_NUSMV Domain Powerset(Transition) not supported.
 PillBox\Level2\pillbox_2.asm	timeout 10 seconds
-erinda\FMS_IO_2.asm	ERROR spec not analyzable not implemented yet	567	 NO_NUSMV The type domain of Label_IN11_value cannot be Real. Only Integer and Natural are allowed.
-examples\RushHour\RushHourMonSimplForAsmetaSMV.asm	38880	7037timeout 10 seconds
-examples\NeedhamSchroeder\NeedhamSchroederWithSpy.asm	ERROR spec not analyzable null	460	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsRuleFlattener@5942ee04 visit(interface asmeta.transitionrules.basictransitionrules.ExtendRule)
-examples\traffic_light\oneWayTrafficLight.asm	ERROR spec not analyzable not implemented yet	36	 NO_NUSMV Domain Integer not supported.
-examples\coffeeVendingMachine\coffeeVendingMachine.asm	ERROR spec not analyzable choose not supported yet	24	 YES_NUSMV
-examples\sleepingBarber\sleepingBarber.asm	ERROR spec not analyzable choose not supported yet	17	 YES_NUSMV
-examples\sluicegate\sluiceGateMotorCtl.asm	6	32	 YES_NUSMV
-examples\ABZ2020\CarSystemModule\CarSystem007\CarSystem007main.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.term.TermRenameVars@29147c12 visit(interface asmeta.terms.furtherterms.RealTerm)	53	 NO_NUSMV Unknown function org.asmeta.flattener.term.TermRenameVars@56402642 visit(interface asmeta.terms.furtherterms.RealTerm)
-DAS\TrafficMonitoringSystem\validation\mainForModelCheckingR4.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	86	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
-examples\traffic_light\oneWayTrafficLightUsingEnum.asm	4	9	 YES_NUSMV
-examples\flashProtocol\flashProtocol_N2_L1_Q1_C.asm	ERROR spec not analyzable null	75	 NO_NUSMV null
-examples\petriNets\petriNetEdgeWeightNoPlaceCapacity_NoSeq_Matrix_v2.asm	ERROR spec not analyzable choose not supported yet	99	 NO_NUSMV Domain Integer not supported.
-examples\TrafficLightYakindu\TrafficLight0\TrafficLight_0.asm	4	10	 YES_NUSMV
+erinda\FMS_IO_2.asm	ERROR spec not analyzable LetRule not implemented yet	595	 NO_NUSMV The type domain of Label_IN5_value cannot be Real. Only Integer and Natural are allowed.
+examples\RushHour\RushHourMonSimplForAsmetaSMV.asm	timeout 10 seconds
+examples\NeedhamSchroeder\NeedhamSchroederWithSpy.asm	ERROR spec not analyzable null	485	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsRuleFlattener@5942ee04 visit(interface asmeta.transitionrules.basictransitionrules.ExtendRule)
+examples\traffic_light\oneWayTrafficLight.asm	ERROR spec not analyzable LetRule not implemented yet	44	 NO_NUSMV Domain Integer not supported.
+examples\coffeeVendingMachine\coffeeVendingMachine.asm	ERROR spec not analyzable ChooseRule not supported yet	26	 YES_NUSMV
+examples\sleepingBarber\sleepingBarber.asm	ERROR spec not analyzable ChooseRule not supported yet	19	 YES_NUSMV
+examples\sluicegate\sluiceGateMotorCtl.asm	6	36	 YES_NUSMV
+examples\ABZ2020\CarSystemModule\CarSystem007\CarSystem007main.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.term.TermRenameVars@7c421952 visit(interface asmeta.terms.furtherterms.RealTerm)	57	 NO_NUSMV Unknown function org.asmeta.flattener.term.TermRenameVars@737ff5c4 visit(interface asmeta.terms.furtherterms.RealTerm)
+DAS\TrafficMonitoringSystem\validation\mainForModelCheckingR4.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	90	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
+examples\traffic_light\oneWayTrafficLightUsingEnum.asm	4	13	 YES_NUSMV
+examples\flashProtocol\flashProtocol_N2_L1_Q1_C.asm	ERROR spec not analyzable null	72	 NO_NUSMV null
+examples\petriNets\petriNetEdgeWeightNoPlaceCapacity_NoSeq_Matrix_v2.asm	ERROR spec not analyzable ChooseRule not supported yet	93	 NO_NUSMV Domain Integer not supported.
+examples\TrafficLightYakindu\TrafficLight0\TrafficLight_0.asm	4	11	 YES_NUSMV
 examples\landingGearSystem\LGS_GM_withError.asm	18	25	 YES_NUSMV
-examples\simple_example\ATM3.asm	ERROR spec not analyzable Unknown function org.asmeta.atgt.coverage.AsmetaToExprTrans@316129ae visit(interface asmeta.terms.furtherterms.ExistsTerm)	83	 NO_NUSMV Domain Any not supported.
-examples\GilbreathCardTrick\GilbreathCardTrick.asm	ERROR spec not analyzable choose not supported yet	64	 YES_NUSMV
-DAS\TrafficMonitoringSystem\mainUnique.asm	ERROR spec not analyzable All the domains in a forall should be finite. Therefore, it should be possible to combine them.	50	 NO_NUSMV All the domains in a forall should be finite. Therefore, it should be possible to combine them.
-examples\railRoadGate\railroadGate.asm	4	8	 YES_NUSMV
-examples\fsmsemantics\FSM_hooking2.asm	ERROR spec not analyzable choose not supported yet	12	 YES_NUSMV
-examples\hemodialysisDevice\SCP2017\HemodialysisRef3.asm	154	368	 YES_NUSMV
-examples\hemodialysisDevice\ABZ2016\Hemodialysis_ref3_forMC.asm	78	88	 YES_NUSMV
-examples\traffic_light\forAsmetaSMV\oneWayTrafficLight.asm	4	12	 YES_NUSMV
-RTPatternLibrary\Test\Test_Sem_Sync.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.term.TermRenameVars@6ab8c915 visit(interface asmeta.terms.furtherterms.SequenceTerm)	15	 NO_NUSMV Unknown function org.asmeta.flattener.term.TermRenameVars@2b4d9969 visit(interface asmeta.terms.furtherterms.SequenceTerm)
-PillBox\Level1\pillbox_1_elia.asm	10	18	 YES_NUSMV
-unibgstudents\Rubrica.asm	ERROR spec not analyzable not implemented yet	7	 NO_NUSMV Domain Seq(String) not supported.
-examples\petriNets\petriNetNoEdgeWeightNoPlaceCapacity_seq.asm	ERROR spec not analyzable choose not supported yet	15	 NO_NUSMV Domain Integer not supported.
-examples\ermts_etcs\scenarios\ertms_hl3_scenario6.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	65	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
-examples\fsmsemantics\FSM_map0_2.asm	4	5	 YES_NUSMV
-stereoacuity\certifierRaff2.asm	14	14	 YES_NUSMV
-examples\conwayGameOfLife\gameOfLifeAgents.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	11	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
-examples\hemodialysisDevice\ABZ2016\Hemodialysis_ref1_par.asm	57	49	 NO_NUSMV Domain Integer not supported.
-examples\smartHome\smartHomeNoMultiChannel.asm	25	18	 YES_NUSMV
-stereoacuity\certifierRaff3.asm	16	11	 YES_NUSMV
-examples\SemaforiAttraversamentoPedonale.asm	ERROR spec not analyzable choose not supported yet	7	 YES_NUSMV
-examples\petriNets\petriNetNoEdgeWeightNoPlaceCapacity_NoSeq_Matrix.asm	ERROR spec not analyzable choose not supported yet	39	 NO_NUSMV Domain Integer not supported.
-examples\sluicegate\Timer\sluiceGateGround.asm	ERROR spec not analyzable not implemented yet	8	 NO_NUSMV Domain Integer not supported.
-examples_for_nuXmv\FunctionInt.asm	ERROR spec not analyzable choose not supported yet	6	 YES_NUSMV
-erinda\for_atgt.asm	10	24	 YES_NUSMV
-examples\ferryman\ferrymanSimulator.asm	ERROR spec not analyzable what type *String	15	 NO_NUSMV Domain String not supported.
-examples\traffic_light\Timer\oneWayTrafficLight_refinedMillisecSec.asm	ERROR spec not analyzable not implemented yet	14	 NO_NUSMV Domain Integer not supported.
-examples\production_cell\Production_Cell_with_agents.asm	ERROR spec not analyzable not implemented yet	25	 NO_NUSMV no agent found in {ROBOTAgent=[[Lorg.asmeta.simulator.value.EnumValue;@79b31df5], CRANEAgent=[[Lorg.asmeta.simulator.value.EnumValue;@201ec1f], Phasert=[[Lorg.asmeta.simulator.value.EnumValue;@2cb6265d, [Lorg.asmeta.simulator.value.EnumValue;@352d687b, [Lorg.asmeta.simulator.value.EnumValue;@5410879e, [Lorg.asmeta.simulator.value.EnumValue;@597cf817], Phasecrane=[[Lorg.asmeta.simulator.value.EnumValue;@44e5b9ab, [Lorg.asmeta.simulator.value.EnumValue;@1ad56ffc, [Lorg.asmeta.simulator.value.EnumValue;@4a29374f, [Lorg.asmeta.simulator.value.EnumValue;@742bd25d, [Lorg.asmeta.simulator.value.EnumValue;@1d6a1592, [Lorg.asmeta.simulator.value.EnumValue;@2c71334c], DEPOSITAgent=[[Lorg.asmeta.simulator.value.EnumValue;@2f61fac2], Phasepress=[[Lorg.asmeta.simulator.value.EnumValue;@5f27c49, [Lorg.asmeta.simulator.value.EnumValue;@48793fe0, [Lorg.asmeta.simulator.value.EnumValue;@6db78ef0, [Lorg.asmeta.simulator.value.EnumValue;@4d20de6e, [Lorg.asmeta.simulator.value.EnumValue;@5ba6f3b7, [Lorg.asmeta.simulator.value.EnumValue;@5aa1511c], ERTAgent=[[Lorg.asmeta.simulator.value.EnumValue;@bb094b6], Phasedeposit=[[Lorg.asmeta.simulator.value.EnumValue;@4028f800, [Lorg.asmeta.simulator.value.EnumValue;@2cff90f9, [Lorg.asmeta.simulator.value.EnumValue;@7c860dcb], PRESSAgent=[[Lorg.asmeta.simulator.value.EnumValue;@739c33c9], Boolean=[[Lorg.asmeta.simulator.value.BooleanValue;@74f32d42, [Lorg.asmeta.simulator.value.BooleanValue;@245b137d], Phasetransport=[[Lorg.asmeta.simulator.value.EnumValue;@68ffaa68, [Lorg.asmeta.simulator.value.EnumValue;@7a6fdec5, [Lorg.asmeta.simulator.value.EnumValue;@179b65f7, [Lorg.asmeta.simulator.value.EnumValue;@6ba74c82], Phaserobot=[[Lorg.asmeta.simulator.value.EnumValue;@7e9e0774, [Lorg.asmeta.simulator.value.EnumValue;@7a837794, [Lorg.asmeta.simulator.value.EnumValue;@367b11ee, [Lorg.asmeta.simulator.value.EnumValue;@67e988ff, [Lorg.asmeta.simulator.value.EnumValue;@694286d1, [Lorg.asmeta.simulator.value.EnumValue;@81c63ba, [Lorg.asmeta.simulator.value.EnumValue;@6606f736, [Lorg.asmeta.simulator.value.EnumValue;@4d833579, [Lorg.asmeta.simulator.value.EnumValue;@308a5616, [Lorg.asmeta.simulator.value.EnumValue;@5b60f20e, [Lorg.asmeta.simulator.value.EnumValue;@a0e0113, [Lorg.asmeta.simulator.value.EnumValue;@5ef2c5d6, [Lorg.asmeta.simulator.value.EnumValue;@3c2a12f8, [Lorg.asmeta.simulator.value.EnumValue;@608677f1, [Lorg.asmeta.simulator.value.EnumValue;@1a7af46b], TransportAgent=[[Lorg.asmeta.simulator.value.EnumValue;@526e5e87]}
-examples\agents\producerConsumerRaff.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.args.RemoveArgumentsRuleFlattener@2812e1cb visit(interface asmeta.transitionrules.basictransitionrules.ExtendRule)	7	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsRuleFlattener@1253b390 visit(interface asmeta.transitionrules.basictransitionrules.ExtendRule)
-examples\sluicegate\sluiceGate_with_agents.asm	ERROR spec not analyzable not implemented yet	11	 NO_NUSMV Domain Minutes must be defined.
-examples\traffic_light\Timer\oneWayTrafficLight.asm	4	9	 YES_NUSMV
-examples\petriNets\petriNetNoEdgeWeightNoPlaceCapacity_NoSeq.asm	ERROR spec not analyzable choose not supported yet	12	 NO_NUSMV Domain Integer not supported.
-examples\traffic_light\oneWayTrafficLightUsingEnumFlat.asm	4	7	 YES_NUSMV
-PHD\phd_master_flat2_v6.asm	81	21	 YES_NUSMV
-examples\hemodialysisDevice\ABZ2016\Hemodialysis_GM.asm	3	5	 YES_NUSMV
-PillBox\Level0\pillbox_0.asm	11	10	 YES_NUSMV
-examples\authenticationProtocols\groundModel.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	12	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsRuleFlattener@51606b4f visit(interface asmeta.transitionrules.basictransitionrules.ExtendRule)
-examples\agents\SeqSelf.asm	ERROR spec not analyzable not implemented yet	7	 NO_NUSMV Domain Integer not supported.
-examples\simple_example\FLIP_FLOP_0.asm	ERROR spec not analyzable not implemented yet	7	 YES_NUSMV
-examples\simple_example\euclideMCD.asm	2	5	 NO_NUSMV Domain Integer not supported.
-examples\ermts_etcs\scenarios\ertms_hl3_scenario5.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	75	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
-examples\production_cell\press.asm	0	11	 YES_NUSMV
-examples\ermts_etcs\models\ertms_hl3_integer_disco_lostint_lengthchanged_reco_sweep_timer.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	58	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
-examples\authenticationProtocols\groundModel_v2.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	8	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsRuleFlattener@71bd4b44 visit(interface asmeta.transitionrules.basictransitionrules.ExtendRule)
-examples\production_cell\robot.asm	0	7	 YES_NUSMV
-examples\traffic_light\Timer\oneWayTrafficLight_refinedMillisec.asm	ERROR spec not analyzable not implemented yet	9	 NO_NUSMV Domain Integer not supported.
-examples\ABZ2020\CarSystemModule\CarSystem004\CarSystem004main.asm	ERROR spec not analyzable not implemented yet	66	 NO_NUSMV Unknown function org.asmeta.nusmv.AsValueListVisitor@170e2832 visit(interface asmeta.definitions.domains.IntegerDomain)
-stereoacuity\certifier_nochoose.asm	34	15	 YES_NUSMV
-unibgstudents\Contatore_U_DA_H.asm	4	5	 NO_NUSMV "h" cannot be used as a function name because it's a keyword.
-examples\models\LIFTDC.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.term.TermRenameVars@7e630631 visit(interface asmeta.terms.basicterms.RuleAsTerm)	7	 NO_NUSMV null
-examples\ABZ2020\CarSystemModule\CarSystem008\CarSystem008main.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.term.TermRenameVars@46216e40 visit(interface asmeta.terms.furtherterms.RealTerm)	71	 NO_NUSMV Unknown function org.asmeta.flattener.term.TermRenameVars@506824fe visit(interface asmeta.terms.furtherterms.RealTerm)
-RTPatternLibrary\Application\CompleteApplication.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.term.TermRenameVars@cb8d04e visit(interface asmeta.terms.furtherterms.SequenceTerm)	26	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsTermFlattener@4faafed visit(interface asmeta.terms.furtherterms.SequenceTerm)
-examples\simple_example\MorraCinese\withActors\MorraCinese_withActors_raff3.asm	ERROR spec not analyzable choose not supported yet	10	 NO_NUSMV Domain Natural not supported.
-DAS\TrafficMonitoringSystem\validation\mainForModelCheckingThreeCameras.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	36	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
-PHD\phd_master_flat2_v3.asm	69	30	 YES_NUSMV
-examples\GilbreathCardTrick\GilbreathCardTrickSimpl.asm	ERROR spec not analyzable choose not supported yet	40	 YES_NUSMV
-examples\simple_example\fattoriale.asm	ERROR spec not analyzable not implemented yet	6	 NO_NUSMV Domain Integer not supported.
-examples\sultanSuccessors\sultanGreedy.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.args.RemoveArgumentsTermFlattener@12ba4dc8 visit(interface asmeta.terms.furtherterms.SequenceTerm)	8	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsTermFlattener@9bbfff3 visit(interface asmeta.terms.furtherterms.SequenceTerm)
-DAS\TrafficMonitoringSystem\validation\mainForModelCheckingNoSelfHealerNoFailures.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	22	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
-examples\models\wiper_abs2.asm	32	11	 YES_NUSMV
-examples\parkingSimple.asm	2	6	 YES_NUSMV
-PillBox\Level3\pillbox_FULL.asm	ERROR spec not analyzable not implemented yet	1768	 NO_NUSMV Domain String not supported.
-unibgstudents\RegistroDiCassa.asm	ERROR spec not analyzable not implemented yet	17	 NO_NUSMV Domain Any not supported.
-examples\simple_example\euclideMCD_init.asm	2	4	 NO_NUSMV Domain Integer not supported.
-examples\models\lift2.asm	68	16	 NO_NUSMV Domain Integer not supported.
-examples\models\SwapSortMon.asm	ERROR spec not analyzable choose not supported yet	6	 NO_NUSMV Domain Integer not supported.
-examples\trafficLightCoSim\controller.asm	ERROR spec not analyzable not implemented yet	12	 NO_NUSMV Domain Integer not supported.
-examples\fsmsemantics\meta_hooking\myFSM.asm	ERROR spec not analyzable not implemented yet	6	 NO_NUSMV Domain State must be initialized.
-examples\RushHour\emptyCellAs0\RushHour.asm	ERROR spec not analyzable choose not supported yet	223	 NO_NUSMV Unknown function org.asmeta.nusmv.TermVisitorToSMV@1aa32692 visit(interface asmeta.terms.furtherterms.SetCt)
-examples\ermts_etcs\scenarios\ertms_hl3_scenario4.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	81	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
-examples\cards.asm	ERROR spec not analyzable choose not supported yet	8	 YES_NUSMV
-examples\petriNets\forAsmetaSMV\petriNet_forNuSMV.asm	ERROR spec not analyzable choose not supported yet	12	 YES_NUSMV
-examples\simple_example\SwapSort.asm	ERROR spec not analyzable choose not supported yet	4	 NO_NUSMV Domain Integer not supported.
-DAS\TrafficMonitoringSystem\validation\mainForModelCheckingWithPatterns.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	43	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
-examples\simple_example\MorraCinese\MorraCinese_raff3.asm	ERROR spec not analyzable choose not supported yet	7	 NO_NUSMV Domain Natural not supported.
-examples\landingGearSystem\LGS_GM.asm	18	10	 YES_NUSMV
-examples\TrafficLightYakindu\TrafficLight2\TrafficLight_2.asm	10	10	 YES_NUSMV
-examples\parking.asm	ERROR spec not analyzable choose not supported yet	7	 YES_NUSMV
-PillBox\Level1\pillbox_1_for_RefProv.asm	17	9	 YES_NUSMV
-examples\hemodialysisDevice\ABZ2016\Hemodialysis_ref4.asm	ERROR spec not analyzable not implemented yet	257	 NO_NUSMV Unknown function org.asmeta.nusmv.AsValueListVisitor@343c08da visit(interface asmeta.definitions.domains.IntegerDomain)
-stereoacuity\certifierGround.asm	9	10	 YES_NUSMV
-systemc\counterAG\main_user.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.term.TermRenameVars@49dc4182 visit(interface asmeta.terms.basicterms.RuleAsTerm)	29	 NO_NUSMV Unknown function org.asmeta.flattener.term.TermRenameVars@580602a3 visit(interface asmeta.terms.basicterms.RuleAsTerm)
-examples\production_cell\ert.asm	0	5	 YES_NUSMV
-examples\landingGearSystem\LGS_SE_v2.asm	18	11	 YES_NUSMV
-examples\simple_example\MorraCinese\MorraCinese_raff1.asm	ERROR spec not analyzable choose not supported yet	5	 NO_NUSMV Domain Natural not supported.
-examples\sensorVotingSimpleVersion.asm	5	5	 YES_NUSMV
-examples\agents\FileSystem.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.term.TermRenameVars@5a1ef559 visit(interface asmeta.terms.basicterms.SetTerm)	4	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsRuleFlattener@6d7d34c4 visit(interface asmeta.transitionrules.basictransitionrules.ExtendRule)
-examples\petriNets\forAsmetaSMV\petriNet_forNuSMV_notLive_bound1_deadlockFree.asm	ERROR spec not analyzable choose not supported yet	10	 YES_NUSMV
-examples\Yahalom\FlawedYahalom.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	11	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsRuleFlattener@c8dcd6a visit(interface asmeta.transitionrules.basictransitionrules.ExtendRule)
-examples\models\lift3.asm	98	17	 NO_NUSMV Domain Integer not supported.
-examples\ABZ2020\CarSystemModule\CarSystem006\CarSystem006main.asm	ERROR spec not analyzable not implemented yet	35	 YES_NUSMV
+examples\simple_example\ATM3.asm	ERROR spec not analyzable Unknown function org.asmeta.atgt.coverage.AsmetaToExprTrans@f6b6b60 visit(interface asmeta.terms.furtherterms.ExistsTerm)	91	 NO_NUSMV Domain Any not supported.
+examples\GilbreathCardTrick\GilbreathCardTrick.asm	ERROR spec not analyzable ChooseRule not supported yet	70	 YES_NUSMV
+DAS\TrafficMonitoringSystem\mainUnique.asm	ERROR spec not analyzable All the domains in a forall should be finite. Therefore, it should be possible to combine them.	42	 NO_NUSMV All the domains in a forall should be finite. Therefore, it should be possible to combine them.
+examples\railRoadGate\railroadGate.asm	4	11	 YES_NUSMV
+examples\fsmsemantics\FSM_hooking2.asm	ERROR spec not analyzable ChooseRule not supported yet	14	 YES_NUSMV
+examples\hemodialysisDevice\SCP2017\HemodialysisRef3.asm	154	405	 YES_NUSMV
+examples\hemodialysisDevice\ABZ2016\Hemodialysis_ref3_forMC.asm	78	131	 YES_NUSMV
+examples\traffic_light\forAsmetaSMV\oneWayTrafficLight.asm	4	17	 YES_NUSMV
+RTPatternLibrary\Test\Test_Sem_Sync.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.term.TermRenameVars@5189b0e1 visit(interface asmeta.terms.furtherterms.SequenceTerm)	21	 NO_NUSMV Unknown function org.asmeta.flattener.term.TermRenameVars@539429ad visit(interface asmeta.terms.furtherterms.SequenceTerm)
+PillBox\Level1\pillbox_1_elia.asm	10	19	 YES_NUSMV
+unibgstudents\Rubrica.asm	ERROR spec not analyzable Sequential rules are not supported	12	 NO_NUSMV Domain Seq(String) not supported.
+examples\petriNets\petriNetNoEdgeWeightNoPlaceCapacity_seq.asm	ERROR spec not analyzable ChooseRule not supported yet	14	 NO_NUSMV Domain Integer not supported.
+examples\ermts_etcs\scenarios\ertms_hl3_scenario6.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	114	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
+examples\fsmsemantics\FSM_map0_2.asm	4	3	 YES_NUSMV
+stereoacuity\certifierRaff2.asm	14	13	 YES_NUSMV
+examples\conwayGameOfLife\gameOfLifeAgents.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	14	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
+examples\hemodialysisDevice\ABZ2016\Hemodialysis_ref1_par.asm	57	90	 NO_NUSMV Domain Integer not supported.
+examples\smartHome\smartHomeNoMultiChannel.asm	25	32	 YES_NUSMV
+stereoacuity\certifierRaff3.asm	16	21	 YES_NUSMV
+examples\SemaforiAttraversamentoPedonale.asm	ERROR spec not analyzable ChooseRule not supported yet	2	 YES_NUSMV
+examples\petriNets\petriNetNoEdgeWeightNoPlaceCapacity_NoSeq_Matrix.asm	ERROR spec not analyzable ChooseRule not supported yet	61	 NO_NUSMV Domain Integer not supported.
+examples\sluicegate\Timer\sluiceGateGround.asm	ERROR spec not analyzable LetRule not implemented yet	27	 NO_NUSMV Domain Integer not supported.
+examples_for_nuXmv\FunctionInt.asm	ERROR spec not analyzable ChooseRule not supported yet	8	 YES_NUSMV
+erinda\for_atgt.asm	10	33	 YES_NUSMV
+examples\ferryman\ferrymanSimulator.asm	ERROR spec not analyzable what type *String	37	 NO_NUSMV Domain String not supported.
+examples\traffic_light\Timer\oneWayTrafficLight_refinedMillisecSec.asm	ERROR spec not analyzable LetRule not implemented yet	13	 NO_NUSMV Domain Integer not supported.
+examples\production_cell\Production_Cell_with_agents.asm	ERROR spec not analyzable Sequential rules are not supported	42	 NO_NUSMV no agent found in {ROBOTAgent=[[Lorg.asmeta.simulator.value.EnumValue;@1fa9fc8], CRANEAgent=[[Lorg.asmeta.simulator.value.EnumValue;@77c34dab], Phasert=[[Lorg.asmeta.simulator.value.EnumValue;@7218f741, [Lorg.asmeta.simulator.value.EnumValue;@579c8cac, [Lorg.asmeta.simulator.value.EnumValue;@2cd4d48, [Lorg.asmeta.simulator.value.EnumValue;@6f8ee6af], DEPOSITAgent=[[Lorg.asmeta.simulator.value.EnumValue;@5a99b6e0], Phasecrane=[[Lorg.asmeta.simulator.value.EnumValue;@6953b8f3, [Lorg.asmeta.simulator.value.EnumValue;@11c0f9c, [Lorg.asmeta.simulator.value.EnumValue;@19bf2a8e, [Lorg.asmeta.simulator.value.EnumValue;@e86b1ef, [Lorg.asmeta.simulator.value.EnumValue;@7a6604ec, [Lorg.asmeta.simulator.value.EnumValue;@1be784d3], Phasepress=[[Lorg.asmeta.simulator.value.EnumValue;@7bec267b, [Lorg.asmeta.simulator.value.EnumValue;@40dee920, [Lorg.asmeta.simulator.value.EnumValue;@ad5c4b3, [Lorg.asmeta.simulator.value.EnumValue;@2db31826, [Lorg.asmeta.simulator.value.EnumValue;@37762c15, [Lorg.asmeta.simulator.value.EnumValue;@564432], ERTAgent=[[Lorg.asmeta.simulator.value.EnumValue;@2402e8d7], Phasedeposit=[[Lorg.asmeta.simulator.value.EnumValue;@1145a659, [Lorg.asmeta.simulator.value.EnumValue;@175526e0, [Lorg.asmeta.simulator.value.EnumValue;@259097ec], PRESSAgent=[[Lorg.asmeta.simulator.value.EnumValue;@166787d9], Boolean=[[Lorg.asmeta.simulator.value.BooleanValue;@2aac8c22, [Lorg.asmeta.simulator.value.BooleanValue;@14f0cdb1], Phasetransport=[[Lorg.asmeta.simulator.value.EnumValue;@357e1734, [Lorg.asmeta.simulator.value.EnumValue;@1f8d170d, [Lorg.asmeta.simulator.value.EnumValue;@510e4542, [Lorg.asmeta.simulator.value.EnumValue;@43019797], Phaserobot=[[Lorg.asmeta.simulator.value.EnumValue;@683ff74, [Lorg.asmeta.simulator.value.EnumValue;@71c1a5d6, [Lorg.asmeta.simulator.value.EnumValue;@52c6caf9, [Lorg.asmeta.simulator.value.EnumValue;@1db44219, [Lorg.asmeta.simulator.value.EnumValue;@4556684, [Lorg.asmeta.simulator.value.EnumValue;@78468ccd, [Lorg.asmeta.simulator.value.EnumValue;@1c33103e, [Lorg.asmeta.simulator.value.EnumValue;@23282d2b, [Lorg.asmeta.simulator.value.EnumValue;@c660e8c, [Lorg.asmeta.simulator.value.EnumValue;@400acb29, [Lorg.asmeta.simulator.value.EnumValue;@44bc91f6, [Lorg.asmeta.simulator.value.EnumValue;@269fad3f, [Lorg.asmeta.simulator.value.EnumValue;@1ab1d50e, [Lorg.asmeta.simulator.value.EnumValue;@cf406f2, [Lorg.asmeta.simulator.value.EnumValue;@2c6715bb], TransportAgent=[[Lorg.asmeta.simulator.value.EnumValue;@774aa35d]}
+examples\agents\producerConsumerRaff.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.args.RemoveArgumentsRuleFlattener@75a8efe5 visit(interface asmeta.transitionrules.basictransitionrules.ExtendRule)	18	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsRuleFlattener@6686ebb6 visit(interface asmeta.transitionrules.basictransitionrules.ExtendRule)
+examples\sluicegate\sluiceGate_with_agents.asm	ERROR spec not analyzable Sequential rules are not supported	13	 NO_NUSMV Domain Minutes must be defined.
+examples\traffic_light\Timer\oneWayTrafficLight.asm	4	5	 YES_NUSMV
+examples\petriNets\petriNetNoEdgeWeightNoPlaceCapacity_NoSeq.asm	ERROR spec not analyzable ChooseRule not supported yet	21	 NO_NUSMV Domain Integer not supported.
+examples\traffic_light\oneWayTrafficLightUsingEnumFlat.asm	4	0	 YES_NUSMV
+PHD\phd_master_flat2_v6.asm	81	29	 YES_NUSMV
+examples\hemodialysisDevice\ABZ2016\Hemodialysis_GM.asm	3	8	 YES_NUSMV
+PillBox\Level0\pillbox_0.asm	11	6	 YES_NUSMV
+examples\authenticationProtocols\groundModel.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	16	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsRuleFlattener@8fa6a8 visit(interface asmeta.transitionrules.basictransitionrules.ExtendRule)
+examples\agents\SeqSelf.asm	ERROR spec not analyzable Sequential rules are not supported	13	 NO_NUSMV Domain Integer not supported.
+examples\simple_example\FLIP_FLOP_0.asm	ERROR spec not analyzable Sequential rules are not supported	8	 YES_NUSMV
+examples\simple_example\euclideMCD.asm	2	10	 NO_NUSMV Domain Integer not supported.
+examples\ermts_etcs\scenarios\ertms_hl3_scenario5.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	136	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
+examples\production_cell\press.asm	0	14	 YES_NUSMV
+examples\ermts_etcs\models\ertms_hl3_integer_disco_lostint_lengthchanged_reco_sweep_timer.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	99	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
+examples\authenticationProtocols\groundModel_v2.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	13	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsRuleFlattener@55989277 visit(interface asmeta.transitionrules.basictransitionrules.ExtendRule)
+examples\production_cell\robot.asm	0	13	 YES_NUSMV
+examples\traffic_light\Timer\oneWayTrafficLight_refinedMillisec.asm	ERROR spec not analyzable LetRule not implemented yet	18	 NO_NUSMV Domain Integer not supported.
+examples\ABZ2020\CarSystemModule\CarSystem004\CarSystem004main.asm	ERROR spec not analyzable LetRule not implemented yet	138	 NO_NUSMV Unknown function org.asmeta.nusmv.AsValueListVisitor@51a77218 visit(interface asmeta.definitions.domains.IntegerDomain)
+stereoacuity\certifier_nochoose.asm	34	29	 YES_NUSMV
+unibgstudents\Contatore_U_DA_H.asm	4	11	 NO_NUSMV "h" cannot be used as a function name because it's a keyword.
+examples\models\LIFTDC.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.term.TermRenameVars@46df4e3d visit(interface asmeta.terms.basicterms.RuleAsTerm)	15	 NO_NUSMV null
+examples\ABZ2020\CarSystemModule\CarSystem008\CarSystem008main.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.term.TermRenameVars@6871cf31 visit(interface asmeta.terms.furtherterms.RealTerm)	105	 NO_NUSMV Unknown function org.asmeta.flattener.term.TermRenameVars@32bfd0a4 visit(interface asmeta.terms.furtherterms.RealTerm)
+RTPatternLibrary\Application\CompleteApplication.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.term.TermRenameVars@78dd8817 visit(interface asmeta.terms.furtherterms.SequenceTerm)	37	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsTermFlattener@595fc6bd visit(interface asmeta.terms.furtherterms.SequenceTerm)
+examples\simple_example\MorraCinese\withActors\MorraCinese_withActors_raff3.asm	ERROR spec not analyzable ChooseRule not supported yet	18	 NO_NUSMV Domain Natural not supported.
+DAS\TrafficMonitoringSystem\validation\mainForModelCheckingThreeCameras.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	58	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
+PHD\phd_master_flat2_v3.asm	69	58	 YES_NUSMV
+examples\GilbreathCardTrick\GilbreathCardTrickSimpl.asm	ERROR spec not analyzable ChooseRule not supported yet	81	 YES_NUSMV
+examples\simple_example\fattoriale.asm	ERROR spec not analyzable Sequential rules are not supported	0	 NO_NUSMV Domain Integer not supported.
+examples\sultanSuccessors\sultanGreedy.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.args.RemoveArgumentsTermFlattener@6c97d920 visit(interface asmeta.terms.furtherterms.SequenceTerm)	0	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsTermFlattener@7c1bca20 visit(interface asmeta.terms.furtherterms.SequenceTerm)
+DAS\TrafficMonitoringSystem\validation\mainForModelCheckingNoSelfHealerNoFailures.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	33	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
+examples\models\wiper_abs2.asm	32	14	 YES_NUSMV
+examples\parkingSimple.asm	2	7	 YES_NUSMV
+PillBox\Level3\pillbox_FULL.asm	ERROR spec not analyzable LetRule not implemented yet	2676timeout 10 seconds
+unibgstudents\RegistroDiCassa.asm	ERROR spec not analyzable Sequential rules are not supported	578	 NO_NUSMV Domain Any not supported.
+examples\simple_example\euclideMCD_init.asm	2	30	 NO_NUSMV Domain Integer not supported.
+examples\models\lift2.asm	68	75	 NO_NUSMV Domain Integer not supported.
+examples\models\SwapSortMon.asm	ERROR spec not analyzable ChooseRule not supported yet	14	 NO_NUSMV Domain Integer not supported.
+examples\trafficLightCoSim\controller.asm	ERROR spec not analyzable LetRule not implemented yet	22	 NO_NUSMV Domain Integer not supported.
+examples\fsmsemantics\meta_hooking\myFSM.asm	ERROR spec not analyzable LetRule not implemented yet	24	 NO_NUSMV Domain Fsm must be initialized.
+examples\RushHour\emptyCellAs0\RushHour.asm	ERROR spec not analyzable ChooseRule not supported yet	388	 NO_NUSMV Unknown function org.asmeta.nusmv.TermVisitorToSMV@e3b3c76 visit(interface asmeta.terms.furtherterms.SetCt)
+examples\ermts_etcs\scenarios\ertms_hl3_scenario4.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	211	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
+examples\cards.asm	ERROR spec not analyzable ChooseRule not supported yet	32	 YES_NUSMV
+examples\petriNets\forAsmetaSMV\petriNet_forNuSMV.asm	ERROR spec not analyzable ChooseRule not supported yet	43	 YES_NUSMV
+examples\simple_example\SwapSort.asm	ERROR spec not analyzable ChooseRule not supported yet	13	 NO_NUSMV Domain Integer not supported.
+DAS\TrafficMonitoringSystem\validation\mainForModelCheckingWithPatterns.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	123	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
+examples\simple_example\MorraCinese\MorraCinese_raff3.asm	ERROR spec not analyzable ChooseRule not supported yet	26	 NO_NUSMV Domain Natural not supported.
+examples\landingGearSystem\LGS_GM.asm	18	28	 YES_NUSMV
+examples\TrafficLightYakindu\TrafficLight2\TrafficLight_2.asm	10	30	 YES_NUSMV
+examples\parking.asm	ERROR spec not analyzable ChooseRule not supported yet	19	 YES_NUSMV
+PillBox\Level1\pillbox_1_for_RefProv.asm	17	34	 YES_NUSMV
+examples\hemodialysisDevice\ABZ2016\Hemodialysis_ref4.asm	ERROR spec not analyzable LetRule not implemented yet	553	 NO_NUSMV Unknown function org.asmeta.nusmv.AsValueListVisitor@7b741502 visit(interface asmeta.definitions.domains.IntegerDomain)
+stereoacuity\certifierGround.asm	9	20	 YES_NUSMV
+systemc\counterAG\main_user.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.term.TermRenameVars@1276c482 visit(interface asmeta.terms.basicterms.RuleAsTerm)	63	 NO_NUSMV Unknown function org.asmeta.flattener.term.TermRenameVars@6d4e894b visit(interface asmeta.terms.basicterms.RuleAsTerm)
+examples\production_cell\ert.asm	0	7	 YES_NUSMV
+examples\landingGearSystem\LGS_SE_v2.asm	18	31	 YES_NUSMV
+examples\simple_example\MorraCinese\MorraCinese_raff1.asm	ERROR spec not analyzable ChooseRule not supported yet	0	 NO_NUSMV Domain Natural not supported.
+examples\sensorVotingSimpleVersion.asm	5	19	 YES_NUSMV
+examples\agents\FileSystem.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.term.TermRenameVars@28d8cd31 visit(interface asmeta.terms.basicterms.SetTerm)	12	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsRuleFlattener@e7b41e9 visit(interface asmeta.transitionrules.basictransitionrules.ExtendRule)
+examples\petriNets\forAsmetaSMV\petriNet_forNuSMV_notLive_bound1_deadlockFree.asm	ERROR spec not analyzable ChooseRule not supported yet	21	 YES_NUSMV
+examples\Yahalom\FlawedYahalom.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	26	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsRuleFlattener@21d729ef visit(interface asmeta.transitionrules.basictransitionrules.ExtendRule)
+examples\models\lift3.asm	98	24	 NO_NUSMV Domain Integer not supported.
+examples\ABZ2020\CarSystemModule\CarSystem006\CarSystem006main.asm	ERROR spec not analyzable LetRule not implemented yet	66	 YES_NUSMV
 examples\RushHour\emptyCellAs0\RushHourMon.asm	timeout 10 seconds
-examples\simple_example\AdvancedClockDeciSecond.asm	3	388	 YES_NUSMV
-examples\traffic_light\oneWayTrafficLightOnlyPassed.asm	4	23	 YES_NUSMV
-examples\ferryman\ferrymanSimulator_raff1.asm	ERROR spec not analyzable what type *String	86	 NO_NUSMV Domain String not supported.
-examples\agents\producerConsumerGround.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.args.RemoveArgumentsRuleFlattener@bcfe29c visit(interface asmeta.transitionrules.basictransitionrules.ExtendRule)	24	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsRuleFlattener@1f6c4ae visit(interface asmeta.transitionrules.basictransitionrules.ExtendRule)
-erinda\FMS_IO_3.asm	ERROR spec not analyzable not implemented yet	101	 NO_NUSMV The type domain of Label_IN10_value cannot be Real. Only Integer and Natural are allowed.
-examples\ermts_etcs\models\ertms_hl3_integer_disconnected_train.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	103	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
-examples\filosofiEciliegie\filosofiEciliegieJustLeft.asm	ERROR spec not analyzable choose not supported yet	26	 YES_NUSMV
-examples\simple_example\population_raff1_twoPersons.asm	ERROR spec not analyzable extend rule with a null do rule	32	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsRuleFlattener@6271e058 visit(interface asmeta.transitionrules.basictransitionrules.ExtendRule)
-examples\diceKnuthYao.asm	10	25	 YES_NUSMV
-examples\agents\processesSchedulerShortestJobNext.asm	ERROR spec not analyzable Unknown function org.asmeta.parser.util.AsmetaTermPrinter@2b71c393 visit(interface asmeta.terms.furtherterms.ExistsUniqueTerm)	15	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsRuleFlattener@1895fcb6 visit(interface asmeta.transitionrules.basictransitionrules.ExtendRule)
-examples\ermts_etcs\models\ertms_hl3_integer_train.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	32	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
-examples\smartHome\smartHome.asm	25	55	 YES_NUSMV
-examples\ermts_etcs\scenarios\ertms_hl3_scenario3.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	117	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
-DAS\TrafficMonitoringSystem\validation\mainForModelCheckingTwoCameras.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	64	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
-examples\petriNets\forModelAdvisor\petriNet_forModelAdvisor_InconsUpdateViolation.asm	ERROR spec not analyzable choose not supported yet	16	 NO_NUSMV location tokens_P1 is set to (tokens_P1 - 1) but it was set to (tokens_P1 + 1) under condition ((var_$t_0 = T1) & isEnabled_T1)
-stereoacuity\modelReview\certifierGroundWrongGuard.asm	9	5	 YES_NUSMV
-PillBox\Level3\pillbox_FULL_elia.asm	ERROR spec not analyzable not implemented yet	29	 NO_NUSMV Domain String not supported.
-examples\simple_example\MorraCinese\MorraCinese_raff2.asm	ERROR spec not analyzable choose not supported yet	8	 NO_NUSMV Domain Natural not supported.
-examples\fsmsemantics\FSM_map0.asm	ERROR spec not analyzable what type *String	9	 NO_NUSMV Domain String not supported.
-examples\traffic_light\oneWayTrafficLight_refined_with_agents_problem.asm	ERROR spec not analyzable not implemented yet	7	 NO_NUSMV Domain Integer not supported.
-examples\giocoDelleTreScatole.asm	ERROR spec not analyzable choose not supported yet	15	 YES_NUSMV
-stereoacuity\certifierRaff1.asm	13	11	 YES_NUSMV
-examples\sluicegate\sluiceGateGround.asm	4	7	 YES_NUSMV
+examples\simple_example\AdvancedClockDeciSecond.asm	3	425	 YES_NUSMV
+examples\traffic_light\oneWayTrafficLightOnlyPassed.asm	4	32	 YES_NUSMV
+examples\ferryman\ferrymanSimulator_raff1.asm	ERROR spec not analyzable what type *String	105	 NO_NUSMV Domain String not supported.
+examples\agents\producerConsumerGround.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.args.RemoveArgumentsRuleFlattener@bcfe29c visit(interface asmeta.transitionrules.basictransitionrules.ExtendRule)	30	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsRuleFlattener@1f6c4ae visit(interface asmeta.transitionrules.basictransitionrules.ExtendRule)
+erinda\FMS_IO_3.asm	ERROR spec not analyzable LetRule not implemented yet	133	 NO_NUSMV The type domain of Label_IN10_value cannot be Real. Only Integer and Natural are allowed.
+examples\ermts_etcs\models\ertms_hl3_integer_disconnected_train.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	98	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
+examples\filosofiEciliegie\filosofiEciliegieJustLeft.asm	ERROR spec not analyzable ChooseRule not supported yet	38	 YES_NUSMV
+examples\simple_example\population_raff1_twoPersons.asm	ERROR spec not analyzable extend rule with a null do rule	25	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsRuleFlattener@6271e058 visit(interface asmeta.transitionrules.basictransitionrules.ExtendRule)
+examples\diceKnuthYao.asm	10	17	 YES_NUSMV
+examples\agents\processesSchedulerShortestJobNext.asm	ERROR spec not analyzable Unknown function org.asmeta.parser.util.AsmetaTermPrinter@2b71c393 visit(interface asmeta.terms.furtherterms.ExistsUniqueTerm)	13	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsRuleFlattener@1895fcb6 visit(interface asmeta.transitionrules.basictransitionrules.ExtendRule)
+examples\ermts_etcs\models\ertms_hl3_integer_train.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	35	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
+examples\smartHome\smartHome.asm	25	50	 YES_NUSMV
+examples\ermts_etcs\scenarios\ertms_hl3_scenario3.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	132	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
+DAS\TrafficMonitoringSystem\validation\mainForModelCheckingTwoCameras.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	71	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
+examples\petriNets\forModelAdvisor\petriNet_forModelAdvisor_InconsUpdateViolation.asm	ERROR spec not analyzable ChooseRule not supported yet	18	 NO_NUSMV location tokens_P1 is set to (tokens_P1 - 1) but it was set to (tokens_P1 + 1) under condition ((var_$t_0 = T1) & isEnabled_T1)
+stereoacuity\modelReview\certifierGroundWrongGuard.asm	9	28	 YES_NUSMV
+PillBox\Level3\pillbox_FULL_elia.asm	ERROR spec not analyzable LetRule not implemented yet	39	 NO_NUSMV Domain String not supported.
+examples\simple_example\MorraCinese\MorraCinese_raff2.asm	ERROR spec not analyzable ChooseRule not supported yet	11	 NO_NUSMV Domain Natural not supported.
+examples\fsmsemantics\FSM_map0.asm	ERROR spec not analyzable what type *String	14	 NO_NUSMV Domain String not supported.
+examples\traffic_light\oneWayTrafficLight_refined_with_agents_problem.asm	ERROR spec not analyzable LetRule not implemented yet	19	 NO_NUSMV Domain Integer not supported.
+examples\giocoDelleTreScatole.asm	ERROR spec not analyzable ChooseRule not supported yet	18	 YES_NUSMV
+stereoacuity\certifierRaff1.asm	13	20	 YES_NUSMV
+examples\sluicegate\sluiceGateGround.asm	4	14	 YES_NUSMV
 examples\ermts_etcs\models\integer_train.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	23	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
-examples\simple_example\MorraCinese\withActors\MorraCinese_withActors_raff1.asm	ERROR spec not analyzable choose not supported yet	8	 NO_NUSMV Domain Natural not supported.
-examples_for_nuXmv\FunctionInt2.asm	42	10	 YES_NUSMV
-RTPatternLibrary\Application\Test_SB.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.term.TermRenameVars@6efa5d57 visit(interface asmeta.terms.furtherterms.SequenceTerm)	47	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsTermFlattener@556a4a61 visit(interface asmeta.terms.furtherterms.SequenceTerm)
-examples\library\Library.asm	ERROR spec not analyzable not implemented yet	14	 NO_NUSMV Domain AuthorSurname must be defined.
-examples\ABZ2020\CarSystemModule\CarSystem002\CarSystem002main.asm	ERROR spec not analyzable not implemented yet	110	 YES_NUSMV
-PHD\phd_master_flat2_v1.asm	26	26	 YES_NUSMV
-examples\NeedhamSchroeder\NeedhamSchroeder.asm	ERROR spec not analyzable null	15	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsRuleFlattener@46f881e visit(interface asmeta.transitionrules.basictransitionrules.ExtendRule)
-examples\filosofiEciliegie\filosofiEciliegie.asm	ERROR spec not analyzable choose not supported yet	111	 YES_NUSMV
-examples\models\FlipFlop.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.term.TermRenameVars@4e18b83c visit(interface asmeta.terms.basicterms.RuleAsTerm)	15	 NO_NUSMV Unknown function org.asmeta.flattener.term.TermRenameVars@2b3c69de visit(interface asmeta.terms.basicterms.RuleAsTerm)
-examples\agents\populationAgent_raff1_fourPersons.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	19	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsRuleFlattener@7f524b48 visit(interface asmeta.transitionrules.basictransitionrules.ExtendRule)
-examples\fsmsemantics\meta_hooking\FSM.asm	ERROR spec not analyzable All the domains in a forall should be finite. Therefore, it should be possible to combine them.	13	 NO_NUSMV All the domains in a forall should be finite. Therefore, it should be possible to combine them.
-examples\sluicegate\Timer\sluiceGateMotorCtl.asm	ERROR spec not analyzable not implemented yet	15	 NO_NUSMV Domain Integer not supported.
-examples\battleship.asm	ERROR spec not analyzable choose not supported yet	17	 YES_NUSMV
-examples\traffic_light\oneWayTrafficLight_refined_with_agents_seq.asm	ERROR spec not analyzable not implemented yet	14	 NO_NUSMV Domain Integer not supported.
-examples\ermts_etcs\scenarios\ertms_hl3_scenario9.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	117	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
-examples\simple_example\Invariants.asm	ERROR spec not analyzable choose not supported yet	8	 NO_NUSMV Domain Integer not supported.
-SystemCUMLProfile_metahooking\main.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.term.TermRenameVars@7cabf8c3 visit(interface asmeta.terms.basicterms.RuleAsTerm)	73	 NO_NUSMV Unknown function org.asmeta.flattener.term.TermRenameVars@585a5e55 visit(interface asmeta.terms.basicterms.RuleAsTerm)
-examples\simple_example\ExtendRule1.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.args.RemoveArgumentsRuleFlattener@5f87dfae visit(interface asmeta.transitionrules.basictransitionrules.ExtendRule)	6	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsRuleFlattener@33782101 visit(interface asmeta.transitionrules.basictransitionrules.ExtendRule)
-examples\hemodialysisDevice\SCP2017\HemodialysisGround.asm	3	7	 YES_NUSMV
-examples\hemodialysisDevice\ABZ2016\Hemodialysis_ref4_forMC.asm	169	455	 YES_NUSMV
-stereoacuity\certifierRaff4_noundef.asm	ERROR spec not analyzable choose not supported yet	30	 NO_NUSMV Unknown function org.asmeta.nusmv.TermVisitorToSMV@3d99e7a8 visit(interface asmeta.terms.furtherterms.SetCt)
-DAS\TrafficMonitoringSystem\validation\mainForModelCheckingNoSelfHealer.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	47	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
-examples\traffic_light\forAsmetaSMV\oneWayTrafficLight_refined.asm	12	12	 YES_NUSMV
-examples\simple_example\AdvancedClock2.asm	3	3	 YES_NUSMV
-examples\ermts_etcs\scenarios\ertms_hl3_scenario2.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	106	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
-examples\GilbreathCardTrick\workingButNotElegant\GilbreathCardTrickWithAuxFunctionSimple.asm	ERROR spec not analyzable choose not supported yet	81	 YES_NUSMV
-examples\trafficLightCoSim\trafficlightA.asm	5	12	 YES_NUSMV
-RTPatternLibrary\Application\RobotController.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.term.TermRenameVars@681b57c0 visit(interface asmeta.terms.furtherterms.SequenceTerm)	42	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsTermFlattener@3f2fc027 visit(interface asmeta.terms.furtherterms.SequenceTerm)
-DAS\TrafficMonitoringSystem\validation\mainForModelCheckingR1.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	83	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
-examples\traffic_light\Timer\oneWayTrafficLight_refinedSec.asm	ERROR spec not analyzable not implemented yet	15	 NO_NUSMV Domain Integer not supported.
-examples\simple_example\IncosistentUpdate.asm	ERROR spec not analyzable choose not supported yet	15	 YES_NUSMV
-systemc\counter\main.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.term.TermRenameVars@72a7f68c visit(interface asmeta.terms.basicterms.RuleAsTerm)	32	 NO_NUSMV Unknown function org.asmeta.flattener.term.TermRenameVars@39d10695 visit(interface asmeta.terms.basicterms.RuleAsTerm)
-examples\ermts_etcs\models\ertms_hl3_integer_disco_lostint_lengthchanged_reco_sweep.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	37	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
-systemc\counter2\main.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.term.TermRenameVars@1274bad5 visit(interface asmeta.terms.basicterms.RuleAsTerm)	49	 NO_NUSMV Unknown function org.asmeta.flattener.term.TermRenameVars@2ddf4340 visit(interface asmeta.terms.basicterms.RuleAsTerm)
-examples\hemodialysisDevice\ABZ2016\Hemodialysis_ref3_par.asm	ERROR spec not analyzable not implemented yet	196	 NO_NUSMV Unknown function org.asmeta.nusmv.AsValueListVisitor@5c5fc688 visit(interface asmeta.definitions.domains.IntegerDomain)
-DAS\TrafficMonitoringSystem\seams2015\trafficMonitoringSystem.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	51	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
-unibgstudents\VideotecaASM.asm	ERROR spec not analyzable Unknown function org.asmeta.atgt.coverage.AsmetaToExprTrans@44026001 visit(interface asmeta.terms.furtherterms.ExistsTerm)	2159	 NO_NUSMV Domain Any not supported.
-examples\ticTacToe\ticTacToe_simulator_with_inv.asm	ERROR spec not analyzable choose not supported yet	27	 NO_NUSMV Domain Powerset(Prod(Coord,Coord)) not supported.
-unibgstudents\stufa.asm	ERROR spec not analyzable not implemented yet	8	 NO_NUSMV Domain Any not supported.
-examples\RushHour\emptyCellAs0\RushHourMonForAsmetaSMV.asm	15556	3482	 YES_NUSMV
-examples\traffic_light\oneWayTrafficLight_refined_with_agents.asm	ERROR spec not analyzable not implemented yet	13	 NO_NUSMV Domain Integer not supported.
-examples\agents\populationAgent.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	11	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsRuleFlattener@3dd927a visit(interface asmeta.transitionrules.basictransitionrules.ExtendRule)
-examples\slotMachine.asm	ERROR spec not analyzable choose not supported yet	13	 YES_NUSMV
-DAS\TrafficMonitoringSystem\validation\mainForModelChecking.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	73	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
-examples\NeedhamSchroeder\NeedhamSchroederLoweWithSpy.asm	ERROR spec not analyzable null	26	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsRuleFlattener@2d268189 visit(interface asmeta.transitionrules.basictransitionrules.ExtendRule)
-examples\RushHour\emptyCellAs0\RushHourForAsmetaSMV.asm	ERROR spec not analyzable choose not supported yet	80	 YES_NUSMV
-examples\philosophers\philosophers2.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	9	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
-examples\ABZ2020\CarSystemModule\CarSystem005\CarSystem005main.asm	ERROR spec not analyzable not implemented yet	31	 YES_NUSMV
-examples\simple_example\MorraCinese\withActors\MorraCinese_withActors_raff2.asm	ERROR spec not analyzable choose not supported yet	9	 NO_NUSMV Domain Natural not supported.
-PHD\phd_master_flat2_v2.asm	67	22	 YES_NUSMV
-examples\GilbreathCardTrick\GilbreathCardTrickFasterShuffleForAsmetaSMV.asm	ERROR spec not analyzable choose not supported yet	30	 YES_NUSMV
-examples\trafficLightCoSim\emptyModel.asm	0	8	 YES_NUSMV
-examples\simple_example\while.asm	3	6	 NO_NUSMV Domain Integer not supported.
-DAS\TrafficMonitoringSystem\journal\trafficMonitoringForExperiments.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	88	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
+examples\simple_example\MorraCinese\withActors\MorraCinese_withActors_raff1.asm	ERROR spec not analyzable ChooseRule not supported yet	11	 NO_NUSMV Domain Natural not supported.
+examples_for_nuXmv\FunctionInt2.asm	42	12	 YES_NUSMV
+RTPatternLibrary\Application\Test_SB.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.term.TermRenameVars@6efa5d57 visit(interface asmeta.terms.furtherterms.SequenceTerm)	40	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsTermFlattener@556a4a61 visit(interface asmeta.terms.furtherterms.SequenceTerm)
+examples\library\Library.asm	ERROR spec not analyzable LetRule not implemented yet	15	 NO_NUSMV Domain AuthorSurname must be defined.
+examples\ABZ2020\CarSystemModule\CarSystem002\CarSystem002main.asm	ERROR spec not analyzable LetRule not implemented yet	79	 YES_NUSMV
+PHD\phd_master_flat2_v1.asm	26	11	 YES_NUSMV
+examples\NeedhamSchroeder\NeedhamSchroeder.asm	ERROR spec not analyzable null	14	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsRuleFlattener@46f881e visit(interface asmeta.transitionrules.basictransitionrules.ExtendRule)
+examples\filosofiEciliegie\filosofiEciliegie.asm	ERROR spec not analyzable ChooseRule not supported yet	71	 YES_NUSMV
+examples\models\FlipFlop.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.term.TermRenameVars@4e18b83c visit(interface asmeta.terms.basicterms.RuleAsTerm)	8	 NO_NUSMV Unknown function org.asmeta.flattener.term.TermRenameVars@2b3c69de visit(interface asmeta.terms.basicterms.RuleAsTerm)
+examples\agents\populationAgent_raff1_fourPersons.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	11	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsRuleFlattener@7f524b48 visit(interface asmeta.transitionrules.basictransitionrules.ExtendRule)
+examples\fsmsemantics\meta_hooking\FSM.asm	ERROR spec not analyzable All the domains in a forall should be finite. Therefore, it should be possible to combine them.	8	 NO_NUSMV All the domains in a forall should be finite. Therefore, it should be possible to combine them.
+examples\sluicegate\Timer\sluiceGateMotorCtl.asm	ERROR spec not analyzable LetRule not implemented yet	12	 NO_NUSMV Domain Integer not supported.
+examples\battleship.asm	ERROR spec not analyzable ChooseRule not supported yet	10	 YES_NUSMV
+examples\traffic_light\oneWayTrafficLight_refined_with_agents_seq.asm	ERROR spec not analyzable Sequential rules are not supported	11	 NO_NUSMV Domain Integer not supported.
+examples\ermts_etcs\scenarios\ertms_hl3_scenario9.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	85	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
+examples\simple_example\Invariants.asm	ERROR spec not analyzable ChooseRule not supported yet	7	 NO_NUSMV Domain Integer not supported.
+SystemCUMLProfile_metahooking\main.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.term.TermRenameVars@7cabf8c3 visit(interface asmeta.terms.basicterms.RuleAsTerm)	52	 NO_NUSMV Unknown function org.asmeta.flattener.term.TermRenameVars@585a5e55 visit(interface asmeta.terms.basicterms.RuleAsTerm)
+examples\simple_example\ExtendRule1.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.args.RemoveArgumentsRuleFlattener@5f87dfae visit(interface asmeta.transitionrules.basictransitionrules.ExtendRule)	5	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsRuleFlattener@33782101 visit(interface asmeta.transitionrules.basictransitionrules.ExtendRule)
+examples\hemodialysisDevice\SCP2017\HemodialysisGround.asm	3	9	 YES_NUSMV
+examples\hemodialysisDevice\ABZ2016\Hemodialysis_ref4_forMC.asm	169	319	 YES_NUSMV
+stereoacuity\certifierRaff4_noundef.asm	ERROR spec not analyzable ChooseRule not supported yet	15	 NO_NUSMV Unknown function org.asmeta.nusmv.TermVisitorToSMV@3d99e7a8 visit(interface asmeta.terms.furtherterms.SetCt)
+DAS\TrafficMonitoringSystem\validation\mainForModelCheckingNoSelfHealer.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	28	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
+examples\traffic_light\forAsmetaSMV\oneWayTrafficLight_refined.asm	12	11	 YES_NUSMV
+examples\simple_example\AdvancedClock2.asm	3	8	 YES_NUSMV
+examples\ermts_etcs\scenarios\ertms_hl3_scenario2.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	68	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
+examples\GilbreathCardTrick\workingButNotElegant\GilbreathCardTrickWithAuxFunctionSimple.asm	ERROR spec not analyzable ChooseRule not supported yet	43	 YES_NUSMV
+examples\trafficLightCoSim\trafficlightA.asm	5	9	 YES_NUSMV
+RTPatternLibrary\Application\RobotController.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.term.TermRenameVars@681b57c0 visit(interface asmeta.terms.furtherterms.SequenceTerm)	22	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsTermFlattener@3f2fc027 visit(interface asmeta.terms.furtherterms.SequenceTerm)
+DAS\TrafficMonitoringSystem\validation\mainForModelCheckingR1.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	34	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
+examples\traffic_light\Timer\oneWayTrafficLight_refinedSec.asm	ERROR spec not analyzable LetRule not implemented yet	11	 NO_NUSMV Domain Integer not supported.
+examples\simple_example\IncosistentUpdate.asm	ERROR spec not analyzable ChooseRule not supported yet	5	 YES_NUSMV
+systemc\counter\main.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.term.TermRenameVars@72a7f68c visit(interface asmeta.terms.basicterms.RuleAsTerm)	29	 NO_NUSMV Unknown function org.asmeta.flattener.term.TermRenameVars@39d10695 visit(interface asmeta.terms.basicterms.RuleAsTerm)
+examples\ermts_etcs\models\ertms_hl3_integer_disco_lostint_lengthchanged_reco_sweep.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	36	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
+systemc\counter2\main.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.term.TermRenameVars@1274bad5 visit(interface asmeta.terms.basicterms.RuleAsTerm)	31	 NO_NUSMV Unknown function org.asmeta.flattener.term.TermRenameVars@2ddf4340 visit(interface asmeta.terms.basicterms.RuleAsTerm)
+examples\hemodialysisDevice\ABZ2016\Hemodialysis_ref3_par.asm	ERROR spec not analyzable LetRule not implemented yet	121	 NO_NUSMV Unknown function org.asmeta.nusmv.AsValueListVisitor@5c5fc688 visit(interface asmeta.definitions.domains.IntegerDomain)
+DAS\TrafficMonitoringSystem\seams2015\trafficMonitoringSystem.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	44	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
+unibgstudents\VideotecaASM.asm	ERROR spec not analyzable Unknown function org.asmeta.atgt.coverage.AsmetaToExprTrans@44026001 visit(interface asmeta.terms.furtherterms.ExistsTerm)	1417	 NO_NUSMV Domain Any not supported.
+examples\ticTacToe\ticTacToe_simulator_with_inv.asm	ERROR spec not analyzable ChooseRule not supported yet	18	 NO_NUSMV Domain Powerset(Prod(Coord,Coord)) not supported.
+unibgstudents\stufa.asm	ERROR spec not analyzable Sequential rules are not supported	7	 NO_NUSMV Domain Any not supported.
+examples\RushHour\emptyCellAs0\RushHourMonForAsmetaSMV.asm	15556	2484	 YES_NUSMV
+examples\traffic_light\oneWayTrafficLight_refined_with_agents.asm	ERROR spec not analyzable LetRule not implemented yet	10	 NO_NUSMV Domain Integer not supported.
+examples\agents\populationAgent.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	8	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsRuleFlattener@3dd927a visit(interface asmeta.transitionrules.basictransitionrules.ExtendRule)
+examples\slotMachine.asm	ERROR spec not analyzable ChooseRule not supported yet	8	 YES_NUSMV
+DAS\TrafficMonitoringSystem\validation\mainForModelChecking.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	45	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
+examples\NeedhamSchroeder\NeedhamSchroederLoweWithSpy.asm	ERROR spec not analyzable null	11	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsRuleFlattener@2d268189 visit(interface asmeta.transitionrules.basictransitionrules.ExtendRule)
+examples\RushHour\emptyCellAs0\RushHourForAsmetaSMV.asm	ERROR spec not analyzable ChooseRule not supported yet	58	 YES_NUSMV
+examples\philosophers\philosophers2.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	6	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
+examples\ABZ2020\CarSystemModule\CarSystem005\CarSystem005main.asm	ERROR spec not analyzable LetRule not implemented yet	29	 YES_NUSMV
+examples\simple_example\MorraCinese\withActors\MorraCinese_withActors_raff2.asm	ERROR spec not analyzable ChooseRule not supported yet	8	 NO_NUSMV Domain Natural not supported.
+PHD\phd_master_flat2_v2.asm	67	30	 YES_NUSMV
+examples\GilbreathCardTrick\GilbreathCardTrickFasterShuffleForAsmetaSMV.asm	ERROR spec not analyzable ChooseRule not supported yet	25	 YES_NUSMV
+examples\trafficLightCoSim\emptyModel.asm	0	4	 YES_NUSMV
+examples\simple_example\while.asm	3	4	 NO_NUSMV Domain Integer not supported.
+DAS\TrafficMonitoringSystem\journal\trafficMonitoringForExperiments.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	72	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
 PillBox\Level2\pillbox_2_for_RefProv.asm	timeout 10 seconds
-examples\swapBoard.asm	ERROR spec not analyzable choose not supported yet	390	 YES_NUSMV
-examples\agents\populationAgent_raff1_twoPersons.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	52	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsRuleFlattener@746cd757 visit(interface asmeta.transitionrules.basictransitionrules.ExtendRule)
-examples\models\SIS.asm	11	30	 YES_NUSMV
-examples\ermts_etcs\scenarios\ertms_hl3_scenario1.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	183	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
-examples\GilbreathCardTrick\GilbreathCardTrickForAsmetaSMV.asm	ERROR spec not analyzable choose not supported yet	65	 YES_NUSMV
-examples\simple_example\AdvancedClock.asm	2	12	 YES_NUSMV
-examples\fsmsemantics\meta_hooking\FSM_spec.asm	ERROR spec not analyzable choose not supported yet	23	 NO_NUSMV Domain Powerset(State) not supported.
-DAS\TrafficMonitoringSystem\validation\mainForModelCheckingR2.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	80	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
-examples\filosofiEciliegie\filosofiEciliegieAgents.asm	ERROR spec not analyzable choose not supported yet	106	 YES_NUSMV
-examples\production_cell\TRANSPORTBELT.asm	0	14	 YES_NUSMV
-unibgstudents\Prova.asm	2	9	 YES_NUSMV
-examples\landingGearSystem\LGS_SE.asm	18	30	 YES_NUSMV
-examples_for_nuXmv\provaint.asm	0	8	 YES_NUSMV
-examples\dice\diceWithProbability.asm	ERROR spec not analyzable choose not supported yet	13	 YES_NUSMV
-examples\RushHour\emptyCellAs0\RushHourSimplForAsmetaSMV.asm	ERROR spec not analyzable choose not supported yet	80	 YES_NUSMV
-examples\dice\diceNoProbability.asm	ERROR spec not analyzable choose not supported yet	14	 YES_NUSMV
-examples\darts.asm	ERROR spec not analyzable choose not supported yet	11	 YES_NUSMV
-examples\petriNets\forAsmetaSMV\petriNet_forNuSMV_withDeadlock.asm	ERROR spec not analyzable choose not supported yet	12	 YES_NUSMV
-examples\whatTimeIsIt.asm	ERROR spec not analyzable not implemented yet	9	 NO_NUSMV Domain String not supported.
-examples\philosophers\philosophers1.asm	ERROR spec not analyzable choose not supported yet	45	 YES_NUSMV
-examples\traffic_light\oneWayTrafficLight_inline.asm	ERROR spec not analyzable not implemented yet	15	 NO_NUSMV Domain Integer not supported.
-examples\GilbreathCardTrick\workingButNotElegant\GilbreathCardTrickWithAuxFunctionSimpleForAsmetaSMV.asm	ERROR spec not analyzable choose not supported yet	26	 YES_NUSMV
-examples\ABZ2020\CarSystemModule\CarSystem009\CarSystem009main.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.term.TermRenameVars@31d1a522 visit(interface asmeta.terms.furtherterms.RealTerm)	85	 NO_NUSMV Unknown function org.asmeta.flattener.term.TermRenameVars@2580dcf3 visit(interface asmeta.terms.furtherterms.RealTerm)
-examples\carController.asm	5	9	 YES_NUSMV
+examples\swapBoard.asm	ERROR spec not analyzable ChooseRule not supported yet	438	 YES_NUSMV
+examples\agents\populationAgent_raff1_twoPersons.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	54	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsRuleFlattener@746cd757 visit(interface asmeta.transitionrules.basictransitionrules.ExtendRule)
+examples\models\SIS.asm	11	36	 YES_NUSMV
+examples\ermts_etcs\scenarios\ertms_hl3_scenario1.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	212	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
+examples\GilbreathCardTrick\GilbreathCardTrickForAsmetaSMV.asm	ERROR spec not analyzable ChooseRule not supported yet	79	 YES_NUSMV
+examples\simple_example\AdvancedClock.asm	2	16	 YES_NUSMV
+examples\fsmsemantics\meta_hooking\FSM_spec.asm	ERROR spec not analyzable ChooseRule not supported yet	25	 NO_NUSMV Domain Powerset(State) not supported.
+DAS\TrafficMonitoringSystem\validation\mainForModelCheckingR2.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	90	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
+examples\filosofiEciliegie\filosofiEciliegieAgents.asm	ERROR spec not analyzable ChooseRule not supported yet	119	 YES_NUSMV
+examples\production_cell\TRANSPORTBELT.asm	0	12	 YES_NUSMV
+unibgstudents\Prova.asm	2	6	 YES_NUSMV
+examples\landingGearSystem\LGS_SE.asm	18	24	 YES_NUSMV
+examples_for_nuXmv\provaint.asm	0	7	 YES_NUSMV
+examples\dice\diceWithProbability.asm	ERROR spec not analyzable ChooseRule not supported yet	13	 YES_NUSMV
+examples\RushHour\emptyCellAs0\RushHourSimplForAsmetaSMV.asm	ERROR spec not analyzable ChooseRule not supported yet	94	 YES_NUSMV
+examples\dice\diceNoProbability.asm	ERROR spec not analyzable ChooseRule not supported yet	16	 YES_NUSMV
+examples\darts.asm	ERROR spec not analyzable ChooseRule not supported yet	13	 YES_NUSMV
+examples\petriNets\forAsmetaSMV\petriNet_forNuSMV_withDeadlock.asm	ERROR spec not analyzable ChooseRule not supported yet	18	 YES_NUSMV
+examples\whatTimeIsIt.asm	ERROR spec not analyzable LetRule not implemented yet	12	 NO_NUSMV Domain String not supported.
+examples\philosophers\philosophers1.asm	ERROR spec not analyzable ChooseRule not supported yet	52	 YES_NUSMV
+examples\traffic_light\oneWayTrafficLight_inline.asm	ERROR spec not analyzable LetRule not implemented yet	12	 NO_NUSMV Domain Integer not supported.
+examples\GilbreathCardTrick\workingButNotElegant\GilbreathCardTrickWithAuxFunctionSimpleForAsmetaSMV.asm	ERROR spec not analyzable ChooseRule not supported yet	31	 YES_NUSMV
+examples\ABZ2020\CarSystemModule\CarSystem009\CarSystem009main.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.term.TermRenameVars@31d1a522 visit(interface asmeta.terms.furtherterms.RealTerm)	96	 NO_NUSMV Unknown function org.asmeta.flattener.term.TermRenameVars@2580dcf3 visit(interface asmeta.terms.furtherterms.RealTerm)
+examples\carController.asm	5	12	 YES_NUSMV
 examples\fsmsemantics\Sle\ASM_even.asm	ERROR spec not analyzable All the domains in a forall should be finite. Therefore, it should be possible to combine them.	8	 NO_NUSMV All the domains in a forall should be finite. Therefore, it should be possible to combine them.
-examples\ermts_etcs\models\ertms_hl3_integer_disco_lostint_lengthchanged.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	39	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
-examples\flashProtocol\flashProtocol_N2_L2_Q1.asm	ERROR spec not analyzable null	47	 NO_NUSMV null
-examples\ticTacToe\ticTacToe_simulator.asm	ERROR spec not analyzable choose not supported yet	24	 YES_NUSMV
-examples\conwayGameOfLife\gameOfLife.asm	32	11	 NO_NUSMV Domain Integer not supported.
+examples\ermts_etcs\models\ertms_hl3_integer_disco_lostint_lengthchanged.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	51	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
+examples\flashProtocol\flashProtocol_N2_L2_Q1.asm	ERROR spec not analyzable null	71	 NO_NUSMV null
+examples\ticTacToe\ticTacToe_simulator.asm	ERROR spec not analyzable ChooseRule not supported yet	36	 YES_NUSMV
+examples\conwayGameOfLife\gameOfLife.asm	32	21	 NO_NUSMV Domain Integer not supported.
 examples\traffic_light\oneWayTrafficLightOnlyPassedFlat.asm	4	6	 YES_NUSMV
-examples\TrafficLightYakindu\TrafficLight3\TrafficLight_3.asm	10	14	 YES_NUSMV
-examples\NeedhamSchroeder\NeedhamSchroederLowe.asm	ERROR spec not analyzable null	11	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsRuleFlattener@4cf13378 visit(interface asmeta.transitionrules.basictransitionrules.ExtendRule)
-examples\philosophers\philosophers3.asm	ERROR spec not analyzable choose not supported yet	53	 YES_NUSMV
-examples\models\ordersystem_april2010.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.term.TermRenameVars@3395e5e6 visit(interface asmeta.terms.furtherterms.SetCt)	12	 NO_NUSMV Unknown function org.asmeta.flattener.term.TermRenameVars@19d9e311 visit(interface asmeta.terms.furtherterms.SetCt)
-examples\petriNets\forModelAdvisor\petriNet_forModelAdvisor_InconsUpdateViolation2.asm	ERROR spec not analyzable choose not supported yet	19	 YES_NUSMV
-examples\ermts_etcs\scenarios\ertms_hl3_scenario7.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	66	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
-examples\TrafficLightYakindu\TrafficLight4\TrafficLight_4.asm	10	12	 YES_NUSMV
-examples\tombola.asm	ERROR spec not analyzable choose not supported yet	8	 YES_NUSMV
-examples\ermts_etcs\models\ertms_hl3_integer_disco_lostint_lengthchanged_reco.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	33	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
-examples\petriNets\petriNetEdgeWeightNoPlaceCapacity_NoSeq_Matrix_Murata17a.asm	ERROR spec not analyzable choose not supported yet	13	 NO_NUSMV Domain Integer not supported.
-stereoacuity\certifierRaff4.asm	ERROR spec not analyzable choose not supported yet	14	 YES_NUSMV
-examples\filosofiEciliegie\filosofiEciliegieAgentsJustLeft.asm	ERROR spec not analyzable choose not supported yet	14	 YES_NUSMV
-erinda\fms_io_for_atgt.asm	ERROR spec not analyzable not implemented yet	17	 NO_NUSMV Domain Prod(Label_IN3_value,Label_IN1_validity) not supported.
-examples\fsmsemantics\meta_hooking\FSM_spec0.asm	ERROR spec not analyzable choose not supported yet	8	 NO_NUSMV Domain Powerset(State) not supported.
-examples\landingGearSystem\LGS_EV_v2.asm	18	15	 YES_NUSMV
-systemc\clock\main.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.term.TermRenameVars@31a310ce visit(interface asmeta.terms.basicterms.RuleAsTerm)	23	 NO_NUSMV Unknown function org.asmeta.flattener.term.TermRenameVars@6b936542 visit(interface asmeta.terms.basicterms.RuleAsTerm)
-examples\ABZ2020\CarSystemModule\CarSystem001\CarSystem001main.asm	ERROR spec not analyzable not implemented yet	36	 YES_NUSMV
-erinda\FMS_IO.asm	ERROR spec not analyzable not implemented yet	43	 NO_NUSMV The type domain of Label_IN1_value cannot be Real. Only Integer and Natural are allowed.
-examples\production_cell\crane.asm	0	11	 YES_NUSMV
-examples\petriNets\petriNetEdgeWeightNoPlaceCapacity_NoSeq_Matrix.asm	ERROR spec not analyzable choose not supported yet	44	 NO_NUSMV Domain Integer not supported.
-PHD\phd_master_flat2_v7.asm	98	25	 YES_NUSMV
-examples\testRanges.asm	ERROR ..\..\..\..\asm_examples\examples\testRanges.asm does not exists	0
+examples\TrafficLightYakindu\TrafficLight3\TrafficLight_3.asm	10	15	 YES_NUSMV
+examples\NeedhamSchroeder\NeedhamSchroederLowe.asm	ERROR spec not analyzable null	14	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsRuleFlattener@4cf13378 visit(interface asmeta.transitionrules.basictransitionrules.ExtendRule)
+examples\philosophers\philosophers3.asm	ERROR spec not analyzable ChooseRule not supported yet	59	 YES_NUSMV
+examples\models\ordersystem_april2010.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.term.TermRenameVars@3395e5e6 visit(interface asmeta.terms.furtherterms.SetCt)	11	 NO_NUSMV Unknown function org.asmeta.flattener.term.TermRenameVars@19d9e311 visit(interface asmeta.terms.furtherterms.SetCt)
+examples\petriNets\forModelAdvisor\petriNet_forModelAdvisor_InconsUpdateViolation2.asm	ERROR spec not analyzable ChooseRule not supported yet	21	 YES_NUSMV
+examples\ermts_etcs\scenarios\ertms_hl3_scenario7.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	76	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
+examples\TrafficLightYakindu\TrafficLight4\TrafficLight_4.asm	10	14	 YES_NUSMV
+examples\tombola.asm	ERROR spec not analyzable ChooseRule not supported yet	10	 YES_NUSMV
+examples\ermts_etcs\models\ertms_hl3_integer_disco_lostint_lengthchanged_reco.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	42	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
+examples\petriNets\petriNetEdgeWeightNoPlaceCapacity_NoSeq_Matrix_Murata17a.asm	ERROR spec not analyzable ChooseRule not supported yet	13	 NO_NUSMV Domain Integer not supported.
+stereoacuity\certifierRaff4.asm	ERROR spec not analyzable ChooseRule not supported yet	15	 YES_NUSMV
+examples\filosofiEciliegie\filosofiEciliegieAgentsJustLeft.asm	ERROR spec not analyzable ChooseRule not supported yet	15	 YES_NUSMV
+erinda\fms_io_for_atgt.asm	ERROR spec not analyzable LetRule not implemented yet	22	 NO_NUSMV Domain Prod(Label_IN3_value,Label_IN1_validity) not supported.
+examples\fsmsemantics\meta_hooking\FSM_spec0.asm	ERROR spec not analyzable ChooseRule not supported yet	8	 NO_NUSMV Domain Powerset(State) not supported.
+examples\landingGearSystem\LGS_EV_v2.asm	18	16	 YES_NUSMV
+systemc\clock\main.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.term.TermRenameVars@31a310ce visit(interface asmeta.terms.basicterms.RuleAsTerm)	35	 NO_NUSMV Unknown function org.asmeta.flattener.term.TermRenameVars@6b936542 visit(interface asmeta.terms.basicterms.RuleAsTerm)
+examples\ABZ2020\CarSystemModule\CarSystem001\CarSystem001main.asm	ERROR spec not analyzable LetRule not implemented yet	41	 YES_NUSMV
+erinda\FMS_IO.asm	ERROR spec not analyzable Sequential rules are not supported	54	 NO_NUSMV The type domain of Label_IN1_value cannot be Real. Only Integer and Natural are allowed.
+examples\production_cell\crane.asm	0	16	 YES_NUSMV
+examples\petriNets\petriNetEdgeWeightNoPlaceCapacity_NoSeq_Matrix.asm	ERROR spec not analyzable ChooseRule not supported yet	46	 NO_NUSMV Domain Integer not supported.
+PHD\phd_master_flat2_v7.asm	98	35	 YES_NUSMV
+examples\testRanges.asm	ERROR ..\..\..\..\asm_examples\examples\testRanges.asm does not exists	0examples\models\OrderSystem2.asm	ERROR spec not analyzable All the domains in a forall should be finite. Therefore, it should be possible to combine them.	421	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsRuleFlattener@29d2d081 visit(interface asmeta.transitionrules.basictransitionrules.ExtendRule)
+examples\simple_example\QuickSort.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.term.TermRenameVars@2e6ee0bc visit(interface asmeta.terms.furtherterms.SequenceTerm)	19	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsTermFlattener@30457e14 visit(interface asmeta.terms.furtherterms.SequenceTerm)
+RTPatternLibrary\Application\VisualServoing.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.term.TermRenameVars@4aeaadc1 visit(interface asmeta.terms.furtherterms.SequenceTerm)	67	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsTermFlattener@2f6bcf87 visit(interface asmeta.terms.furtherterms.SequenceTerm)
+examples\ABZ2020\CarSystemModule\CarSystem003\CarSystem003main.asm	ERROR spec not analyzable LetRule not implemented yet	181	 NO_NUSMV Unknown function org.asmeta.nusmv.AsValueListVisitor@377788fc visit(interface asmeta.definitions.domains.IntegerDomain)
+systemc\orgate\main.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.term.TermRenameVars@67c2d80a visit(interface asmeta.terms.basicterms.RuleAsTerm)	45	 NO_NUSMV Unknown function org.asmeta.flattener.term.TermRenameVars@7e029e0a visit(interface asmeta.terms.basicterms.RuleAsTerm)
+examples\landingGearSystem\LGS_3L.asm	18	70	 YES_NUSMV
+examples\Yahalom\Yahalom.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	49	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsRuleFlattener@4083c7e5 visit(interface asmeta.transitionrules.basictransitionrules.ExtendRule)
+examples\traffic_light\oneWayTrafficLight2.asm	ERROR spec not analyzable LetRule not implemented yet	19	 NO_NUSMV Domain Integer not supported.
+PHD\phd_master_flat2_v0.asm	26	37	 YES_NUSMV
+examples\hemodialysisDevice\SCP2017\HemodialysisRef1.asm	55	127	 YES_NUSMV
+examples\simple_example\MorraCinese\MorraCineseWithAgents.asm	ERROR spec not analyzable Sequential rules are not supported	16	 NO_NUSMV Domain String not supported.
+examples\models\LIFT.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.term.TermRenameVars@63c996bb visit(interface asmeta.terms.basicterms.RuleAsTerm)	17	 NO_NUSMV null
+examples\petriNets\forAsmetaSMV\petriNet_forNuSMV_reversable.asm	ERROR spec not analyzable ChooseRule not supported yet	50	 YES_NUSMV
+examples\ermts_etcs\scenarios\ertms_hl3_scenario8.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	127	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
+examples\RushHour\RushHourForAsmetaSMV.asm	ERROR spec not analyzable ChooseRule not supported yet	250	 YES_NUSMV
+stereoacuity\certifierRaff5ForSMTproof.asm	20	14	 YES_NUSMV
+examples\hemodialysisDevice\ABZ2016\Hemodialysis_ref2_forMC.asm	67	59	 YES_NUSMV
+examples\models\ordersystem.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.term.TermRenameVars@6f2519f7 visit(interface asmeta.terms.furtherterms.SetCt)	9	 NO_NUSMV Unknown function org.asmeta.flattener.term.TermRenameVars@739b7a25 visit(interface asmeta.terms.furtherterms.SetCt)
+examples\traffic_light\forAsmetaSMV\oneWayTrafficLight_refined_with_agents.asm	12	13	 YES_NUSMV
+examples\TrafficLightYakindu\TrafficLight1\TrafficLight_1.asm	7	9	 YES_NUSMV
+examples\traffic_light\oneWayTrafficLight_refined.asm	ERROR spec not analyzable LetRule not implemented yet	9	 NO_NUSMV Domain Integer not supported.
+examples\petriNets\petriNetEdgeWeightPlaceCapacity_NoSeq_Matrix.asm	ERROR spec not analyzable ChooseRule not supported yet	15	 NO_NUSMV Domain Integer not supported.
+stereoacuity\certifierRaff5.asm	16	14	 YES_NUSMV
+examples\hemodialysisDevice\ABZ2016\Hemodialysis_ref1_forMC.asm	48	29	 YES_NUSMV
+examples\RushHour\RushHourMonForAsmetaSMV.asm	timeout 10 seconds
+examples\models\OrderSystem2.asm	ERROR spec not analyzable All the domains in a forall should be finite. Therefore, it should be possible to combine them.	414	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsRuleFlattener@29d2d081 visit(interface asmeta.transitionrules.basictransitionrules.ExtendRule)
+RTPatternLibrary\Test\Test_Sem_Async.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.term.TermRenameVars@5a12c728 visit(interface asmeta.terms.furtherterms.SequenceTerm)	32	 NO_NUSMV Unknown function org.asmeta.flattener.term.TermRenameVars@328572f0 visit(interface asmeta.terms.furtherterms.SequenceTerm)
+examples\simple_example\fibonacci.asm	ERROR spec not analyzable Sequential rules are not supported	21	 NO_NUSMV Domain Integer not supported.
+examples\petriNets\forModelAdvisor\petriNet_forModelAdvisor_InconsUpdateViolation3.asm	timeout 10 seconds
+examples\trafficLightCoSim\trafficlightB.asm	5	409	 YES_NUSMV
+DAS\TrafficMonitoringSystem\main.asm	ERROR spec not analyzable All the domains in a forall should be finite. Therefore, it should be possible to combine them.	87	 NO_NUSMV All the domains in a forall should be finite. Therefore, it should be possible to combine them.
+examples\flashProtocol\flashProtocol_N2_L1_Q1.asm	ERROR spec not analyzable null	172	 NO_NUSMV null
+examples\RushHour\RushHourSimplForAsmetaSMV.asm	ERROR spec not analyzable ChooseRule not supported yet	427	 YES_NUSMV
+examples\simple_example\swapSortOnSeq.asm	ERROR spec not analyzable Unknown function org.asmeta.flattener.args.RemoveArgumentsTermFlattener@1c137efd visit(interface asmeta.terms.furtherterms.SequenceTerm)	15	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsTermFlattener@30a2ea49 visit(interface asmeta.terms.furtherterms.SequenceTerm)
+examples\landingGearSystem\LGS_HM.asm	26	48	 YES_NUSMV
+examples\hemodialysisDevice\ABZ2016\Hemodialysis_ref2_par.asm	ERROR spec not analyzable LetRule not implemented yet	179	 NO_NUSMV Unknown function org.asmeta.nusmv.AsValueListVisitor@d9b5b99 visit(interface asmeta.definitions.domains.IntegerDomain)
+PillBox\Level2\pillbox_2_elia.asm	63	51	 NO_NUSMV No definition for drawer2
+stereoacuity\certifierRaff4ForSMTproof.asm	ERROR spec not analyzable ChooseRule not supported yet	25	 YES_NUSMV
+examples\TrafficLightYakindu\TrafficLight_NOREF\TrafficLight_4.asm	ERROR ..\..\..\..\asm_examples\examples\TrafficLightYakindu\TrafficLight_NOREF\TrafficLight_4.asm does not exists	1examples\simple_example\MorraCinese\MorraCinese.asm	ERROR spec not analyzable ChooseRule not supported yet	420	 NO_NUSMV Domain String not supported.
+examples\production_cell\DEPOSITBELT.asm	0	25	 YES_NUSMV
+examples\sultanSuccessors\sultan.asm	8322	1054	 NO_NUSMV Domain String not supported.
+examples\fsmsemantics\FSM_hooking3.asm	ERROR spec not analyzable what type *State	16	 NO_NUSMV The type domain of State cannot be String. Only Integer and Natural are allowed.
+examples\petriNets\petriNetEdgeWeightNoPlaceCapacity_NoSeq_Matrix_v3.asm	ERROR spec not analyzable ChooseRule not supported yet	33	 NO_NUSMV Domain Integer not supported.
+examples\roulette\roulette.asm	ERROR spec not analyzable ChooseRule not supported yet	27	 YES_NUSMV
+examples\simpleMinesweeper.asm	ERROR spec not analyzable Unknown function org.asmeta.atgt.coverage.AsmetaToExprTrans@63d5d0ec visit(interface asmeta.terms.furtherterms.ExistsTerm)	39	 YES_NUSMV
+examples\sluicegate\Timer\sluiceGateMotorCtl2.asm	ERROR spec not analyzable LetRule not implemented yet	26	 NO_NUSMV Domain Integer not supported.
+examples\simple_example\population_raff1_fourPersons.asm	ERROR spec not analyzable extend rule with a null do rule	38	 NO_NUSMV Unknown function org.asmeta.flattener.args.RemoveArgumentsRuleFlattener@1431ef8a visit(interface asmeta.transitionrules.basictransitionrules.ExtendRule)
+DAS\TrafficMonitoringSystem\journal\trafficMonitoring.asm	ERROR spec not analyzable java.lang.Error: FunctionTermImpl not supported!	197	 NO_NUSMV java.lang.Error: FunctionTermImpl not supported!
+examples\hemodialysisDevice\SCP2017\HemodialysisRef2.asm	138	428	 YES_NUSMV
+examples\flashProtocol\flashProtocol_N2_L2_Q1_C.asm	ERROR spec not analyzable null	68	 NO_NUSMV null
+examples\RushHour\emptyCellAs0\RushHourMonSimplForAsmetaSMV.asm	7778	1393	 YES_NUSMV
+examples_for_nuXmv\EuclideInt.asm	2	5	 YES_NUSMV
+examples\simple_example\MorraCinese\MorraCinese.asm	ERROR spec not analyzable ChooseRule not supported yet	403	 NO_NUSMV Domain String not supported.

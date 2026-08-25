@@ -28,22 +28,24 @@ import asmeta.structure.Asm;
 /** flatter using multiple flatteners */
 public class AsmetaMultipleFlattener {
 
-	private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(AsmetaMultipleFlattener.class);
+	private static final org.apache.log4j.Logger logger = org.apache.log4j.Logger
+			.getLogger(AsmetaMultipleFlattener.class);
 
-	
 	public static String flattenAsStr(String asmPath, Class<? extends AsmetaFlattener>... flats) throws Exception {
 		return flattenAsStr(asmPath, Arrays.asList(flats));
 	}
 
 	public static String flattenAsStr(String asmPath, List<Class<? extends AsmetaFlattener>> flats) throws Exception {
 		Asm asm = ASMParser.setUpReadAsm(new File(asmPath)).getMain();
-		asm = flatten(asm, flats,false); 
+		asm = flatten(asm, flats, false);
 		return printASM(flats, asm);
 	}
 
-	public static String flattenAsStrWEF(String asmPath, List<Class<? extends AsmetaFlattener>> flats) throws Exception {
+	// with extra faltteeners
+	public static String flattenAsStrWEF(String asmPath, List<Class<? extends AsmetaFlattener>> flats)
+			throws Exception {
 		Asm asm = ASMParser.setUpReadAsm(new File(asmPath)).getMain();
-		asm = flatten(asm, flats,true); 
+		asm = flatten(asm, flats, true);
 		return printASM(flats, asm);
 	}
 
@@ -69,29 +71,23 @@ public class AsmetaMultipleFlattener {
 	}
 
 	public static Asm flatten(Asm asm, Class<? extends AsmetaFlattener>... flats) throws Exception {
-		return flatten(asm, Arrays.asList(flats),false);
-	}
-	
-	public static Asm flattenWithExtra(Asm asm, Class<? extends AsmetaFlattener>... flats) throws Exception {
-		return flatten(asm, Arrays.asList(flats),true);
+		return flatten(asm, Arrays.asList(flats), false);
 	}
 
-	
-	private static AsmetaFlattener[] standardFlattenerInOrder(Asm asm) {
-		return new AsmetaFlattener[] {
-				new MacroCallRuleFlattener(asm),
-				new ForallRuleFlattener(asm),
-				new ChooseRuleFlattener(asm),
-				new RemoveArgumentsFlattener(asm),
-				new LetRuleFlattener(asm),
-				new CaseRuleFlattener(asm),
-				new RemoveNestingFlattener(asm)
-		};
+	public static Asm flattenWithExtra(Asm asm, Class<? extends AsmetaFlattener>... flats) throws Exception {
+		return flatten(asm, Arrays.asList(flats), true);
 	}
-	
-	
+
+
+	private static AsmetaFlattener[] standardFlattenerInOrder(Asm asm) {
+		return new AsmetaFlattener[] { new MacroCallRuleFlattener(asm), new ForallRuleFlattener(asm),
+				new ChooseRuleFlattener(asm), new RemoveArgumentsFlattener(asm), new LetRuleFlattener(asm),
+				new CaseRuleFlattener(asm), new RemoveNestingFlattener(asm) };
+	}
+
 	// flatten using the given flatteners in the order of standardFlattenerInOrder
-	private static Asm flatten(Asm asm, Collection<Class<? extends AsmetaFlattener>> flats, boolean ALLOW_EXTRA_FLATTENERS) throws Exception {
+	private static Asm flatten(Asm asm, Collection<Class<? extends AsmetaFlattener>> flats,
+			boolean ALLOW_EXTRA_FLATTENERS) throws Exception {
 		logger.debug(flats);
 		List<Class<? extends AsmetaFlattener>> flatsToApply = new ArrayList<Class<? extends AsmetaFlattener>>(flats);
 		for (AsmetaFlattener flattener : standardFlattenerInOrder(asm)) {
@@ -118,13 +114,14 @@ public class AsmetaMultipleFlattener {
 			logger.debug("final  : " + sw.toString());
 		}
 		if (!flatsToApply.isEmpty()) {
-			if (! ALLOW_EXTRA_FLATTENERS) 
+			if (!ALLOW_EXTRA_FLATTENERS)
 				throw new Exception("Unknown flattener(s): " + flatsToApply);
 			else {
 				// apply extra flatteners
-				for (var f: flatsToApply) {
+				for (var f : flatsToApply) {
 					Constructor<?>[] constructs = f.getConstructors();
-					assert constructs.length == 1 : "flattener " + f + " has constructors " + constructs + " " + constructs.length;
+					assert constructs.length == 1
+							: "flattener " + f + " has constructors " + constructs + " " + constructs.length;
 					AsmetaFlattener flattener = (AsmetaFlattener) constructs[0].newInstance(asm);
 					asm = flattener.flattenASM();
 					if (FlattenerSetting.simplify) {
@@ -132,7 +129,7 @@ public class AsmetaMultipleFlattener {
 					}
 				}
 			}
-		}		
+		}
 		asm.setName(asm.getName() + "_flat");
 		return asm;
 	}
