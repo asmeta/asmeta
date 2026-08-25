@@ -1,4 +1,4 @@
-asm oneWayTrafficLight_refined
+asm oneWayTrafficLight_refined_4SMV
 
 /*
 ...the traffic is controlled by a pair of simple portable traffic light

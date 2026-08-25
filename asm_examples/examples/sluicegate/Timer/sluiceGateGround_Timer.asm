@@ -10,7 +10,7 @@
 //The gate is opened and closed by rotating vertical screws. The screws
 //are driven by a small motor, which can be controlled by clockwise,
 //anticlockwise, on and off pulses.
-asm sluiceGateGround
+asm sluiceGateGround_Timer
 
 import ../../../STDL/TimeLibrary
 

@@ -1,4 +1,4 @@
-asm oneWayTrafficLight_refinedMillisec
+asm oneWayTrafficLight_refinedMillisecSec_Timer
 
 /*
 ...the traffic is controlled by a pair of simple portable traffic light
@@ -124,15 +124,15 @@ default init s0:
 	function phase = STOP1STOP2
 	function rPulse($l in LightUnit) = false
 	function gPulse($l in LightUnit) = false
+	
 	function duration($t in Timer) = if $t = timer50Passed 	then 50000 //50000
     									else 
-    										if $t = timer120Passed	then 120000 endif //120000
+    										if $t = timer120Passed	then 120 endif //120000
    									endif
+   									
+	function start($t in Timer) = currentTime($t)
 	
 	function timerUnit($t in Timer) = if $t = timer50Passed 	then MILLISEC //50
     									else 
-    								  if $t = timer120Passed	then MILLISEC endif //120
-   									  endif
-	
-	function start($t in Timer) = currentTime($t)
-	
+    										if $t = timer120Passed	then SEC endif //120
+   									endif

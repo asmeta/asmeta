@@ -10,7 +10,7 @@
 //The gate is opened and closed by rotating vertical screws. The screws
 //are driven by a small motor, which can be controlled by clockwise,
 //anticlockwise, on and off pulses.
-asm sluiceGateMotorCtl2
+asm sluiceGateMotorCtl_Timer
 
 import ../../../STDL/CTLLibrary
 import ../../../STDL/TimeLibrary
@@ -28,7 +28,7 @@ signature:
 	dynamic monitored event: Position -> Boolean
 	
 	static timer10MinPassed: Timer
-	static timer170MinPassed: Timer
+	static timer3hPassed: Timer
 
 definitions:
 
@@ -53,7 +53,7 @@ definitions:
 	main rule r_Main =
 		par
 			if(phase=FULLYCLOSED) then
-				if expired(timer170MinPassed) then
+				if expired(timer3hPassed) then
 					par
 						r_start_to_raise[]
 						phase := OPENING
@@ -82,7 +82,7 @@ definitions:
 					par
 						r_stop_motor[]
 						phase := FULLYCLOSED
-						r_reset_timer[timer170MinPassed]
+						r_reset_timer[timer3hPassed]
 					endpar
 				endif
 			endif
@@ -95,12 +95,12 @@ default init s0:
 	
 	function duration($t in Timer) = if $t = timer10MinPassed 	then 10 //600=10 min in sec
     								else 
-    									if $t = timer170MinPassed	then 170 endif //10200=3h-10min in sec
+    									if $t = timer3hPassed	then 3 endif //10200=3h-10min in sec
    									endif
    									
 	function start($t in Timer) = currentTime($t)
 	
 	function timerUnit($t in Timer) = if $t = timer10MinPassed 	then MIN 
     									else 
-    										if $t = timer170MinPassed	then MIN endif 
+    										if $t = timer3hPassed	then HOUR endif 
    									endif

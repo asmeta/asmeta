@@ -1,4 +1,4 @@
-asm oneWayTrafficLight
+asm oneWayTrafficLight_Timer
 
 //One-Way Traffic Light
 //from the paper "The Abstract State Machines Method for High-Level System Design and Analysis" by Egon Boerger

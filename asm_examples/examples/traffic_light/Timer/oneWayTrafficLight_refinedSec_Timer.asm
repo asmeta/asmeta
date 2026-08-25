@@ -1,4 +1,4 @@
-asm oneWayTrafficLight_refinedSec
+asm oneWayTrafficLight_refinedSec_Timer
 
 /*
 ...the traffic is controlled by a pair of simple portable traffic light

@@ -1,6 +1,6 @@
 scenario test
 
-load ./main.asm
+load ./clock_main.asm
 
 step until time = 0 and phase = TIMED_NOTIFICATION;
 check read(clockOutput(clock_top)) = false;
