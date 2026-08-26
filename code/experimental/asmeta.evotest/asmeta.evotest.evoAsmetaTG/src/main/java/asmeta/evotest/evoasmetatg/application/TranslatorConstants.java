@@ -70,7 +70,7 @@ final class TranslatorConstants {
 		
 	static final String EVOSUITE_REPORT = "evosuite-report";
 	
-	static final String EVOSUITE_JAR_DIR = "evosuite-jar";
+	static final String DEPENDENCIES_DIR = "dependencies";
 	
 	static final String JAVA_EXE = "java.exe";
 	

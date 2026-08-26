@@ -252,7 +252,7 @@ public class EvoAsmetaTgCLI {
 
 		// Evosuite path
 		Option evosuitePath = Option.builder(EVOSUITE_PATH).argName(EVOSUITE_PATH).type(String.class).hasArg(true)
-				.desc("Set the path of Evosuite jar folder (optional, defaults to `./evosuite/evosuite-jar`).").build();
+				.desc("Set the path of the dependencies folder containing EvoSuite and runtime jars (optional, defaults to `./dependencies`).").build();
 
 		// compiler version
 		Option evosuiteVersion = Option.builder(EVOSUITE_VERSION).argName(EVOSUITE_VERSION).type(String.class)

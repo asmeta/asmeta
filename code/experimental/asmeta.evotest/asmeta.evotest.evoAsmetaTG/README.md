@@ -47,7 +47,7 @@
 
 6. Customize execution with additional options:
     ```shell
-   java -jar .\dist\asmetal2java.jar -workingDir <workingDir> -input <input> -output <output> -javaPath <path to the java jdk dir> -evosuitePath <path to the evosuite jars dir> -evosuiteVersion <desired evosuite version> -timeBudget <desired time budget for the evosuite process> -parser customParser -D<property=value> -clean
+   java -jar .\dist\asmetal2java.jar -workingDir <workingDir> -input <input> -output <output> -javaPath <path to the java jdk dir> -evosuitePath <path to the dependencies dir> -evosuiteVersion <desired evosuite version> -timeBudget <desired time budget for the evosuite process> -parser customParser -D<property=value> -clean
     ```
     
     - `-workingDir` : The custom working directory path (optional, defaults to `./input/`).
@@ -58,7 +58,7 @@
 
     - `javaPath` : Set the path to the java jdk folder used to run Evosuite.
     
-    - `evosuitePath` : Set the path to the evosuite jars folder. Defaults to `./evosuite/evosuite-jar`.
+    - `evosuitePath` : Set the path to the dependencies folder. Defaults to `./dependencies`.
     
     - `evosuiteVersion` : Set the version of Evosuite to use for test scenarios generation.
     
@@ -76,7 +76,7 @@
 
 8. Example of a use case:
     ```shell
-    java -jar .\dist\evoasmetatg.jar  -workingDir "." -input ".\src\test\resources\Pillbox_1.asm" -output ".\output" -javaPath "C:\Program Files\Java\jdk-1.8" -evosuitePath "evosuite\evosuite-jar" -evosuiteVersion "1.0.6" -timeBudget 10 -clean
+    java -jar .\dist\evoasmetatg.jar  -workingDir "." -input ".\src\test\resources\Pillbox_1.asm" -output ".\output" -javaPath "C:\Program Files\Java\jdk-1.8" -evosuitePath "dependencies" -evosuiteVersion "1.0.6" -timeBudget 10 -clean
      ```
 
 ### Using the zip file
@@ -90,7 +90,7 @@
 
 3. Customize execution with additional options:
     ```shell
-   java -jar .\dist\asmetal2java.jar -workingDir <workingDir> -input <input> -output <output> -javaPath <path to the java jdk dir> -evosuitePath <path to the evosuite jars dir> -evosuiteVersion <desired evosuite version> -timeBudget <desired time budget for the evosuite process> -D<property=value> -clean
+   java -jar .\dist\asmetal2java.jar -workingDir <workingDir> -input <input> -output <output> -javaPath <path to the java jdk dir> -evosuitePath <path to the dependencies dir> -evosuiteVersion <desired evosuite version> -timeBudget <desired time budget for the evosuite process> -D<property=value> -clean
     ```
     By default, the application creates the working directories and intermediate files in the same directory where the Java application is launched.
     To keep your environment organized, use the `-workingDir <pat to the working dir>` option to specify a separate folder for the generated file
@@ -105,7 +105,7 @@ This section covers all available command-line options for the application and h
  | `-input` 				| String (required)	| Path to the ASM input file. 																	 	|
  | `-javaPath` 				| String (required)	| Set the path of java jdk folder used to run Evosuite. Example: "C:\Program Files\Java\jdk-1.8".	|
  | `-evosuiteVersion` 		| String (required) | Set the version of Evosuite to use for test scenarios generation. 							 	|
- | `-evosuitePath` 			| String 			| Set the path to the evosuite jars folder. Defaults to `./evosuite/evosuite-jar`. 	 			 	|
+ | `-evosuitePath` 			| String 			| Set the path to the dependencies folder. It must contain the EvoSuite jars and javatuples-3.0.jar Defaults to `./dependencies`. 	 			 	|
  | `-output`				| String 			| Specifies the output folder. Defaults to `./output/`. 										 	|  
  | `-clean` 				| None				| Delete all intermediate files created and processed by the application. 							|
  | `-flaky` 				| None				| Do not record nondeterministic choices; generated scenarios may be flaky. 						|
@@ -125,7 +125,7 @@ Below is an example use case using the above mentioned options:
 -input ".\src\test\resources\Pillbox_1.asm"
 -output ".\output"
 -javaPath "C:\Program Files\Java\jdk-1.8"
--evosuitePath "evosuite/evosuite-jar"
+-evosuitePath "dependencies"
 -evosuiteVersion "1.0.6"
 -timeBudget 10
 -clean
@@ -141,7 +141,7 @@ The project is structured in the following packages:
 and in the following folders, in addition to the classic src and test (considering the default position of the working directory: `-workingDir "."`):
 - [asmetal2java](#asmetal2java)
 - [output](#output)
-- [evosuite/evosuite-jars](#evosuite-evosuite-jars)
+- [dependencies](#dependencies)
 - [evosuite/evosuite-target](#evosuite-evosuite-target)
 - [evosuite/evosuite-report](#evosuite-evosuite-report)
 - [evosuite/evosuite-tests](#evosuite-evosuite-tests)
@@ -169,8 +169,8 @@ This folder performs the role of the asmetal2java project input folder, in fact 
 If this directory doesn't exist the application creates a new one with the required libraries.
 If we add the `-clean` option to the CLI, all the contents of the asmetal2java folder are deleted except the STDL folder.
 
-### evosuite/evosuite-jars
-This directory contains the Evosuite jars, the application by default searches in this folder for the selected evosuite jar, we can provide another path using `-evosuitePath <path to the evosuite path dir>`
+### dependencies
+This directory contains the EvoSuite launcher jars and the runtime jars required by translated classes. By default, the application selects the requested EvoSuite launcher from this directory and adds every other jar (for example `javatuples`) to EvoSuite's project classpath. A different directory can be provided with `-evosuitePath <path to the dependencies directory>`.
 
 ### evosuite/evosuite-target
 This folder is where Evosuite looks for compiled java files (.class) to generate junit tests, so it's the output folder of the asmetal2java service and the input folder for Evosuite. 

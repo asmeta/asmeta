@@ -5,8 +5,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -289,10 +292,31 @@ public class TranslatorImpl implements Translator {
 	}
 
 	/**
-	 * Build the option for the {@code Evosuite} jar command.
-	 * 
-	 * @return list of String containing the desired options.
+	 * Builds the classpath of the project analyzed by EvoSuite. The EvoSuite
+	 * launcher jars are excluded because they are tools, not dependencies of the
+	 * generated Java class. Every other jar in the dependencies directory is made
+	 * available to both instrumentation and test generation.
 	 */
+	private String buildEvosuiteProjectClasspath(String evosuiteTargetDir) {
+		List<String> classpathEntries = new LinkedList<>();
+		classpathEntries.add(evosuiteTargetDir);
+
+		File dependenciesDir = new File(fileManager.getEvosuiteJarDirPathToString());
+		File[] dependencyJars = dependenciesDir.listFiles(file -> file.isFile()
+				&& file.getName().toLowerCase(Locale.ROOT).endsWith(".jar")
+				&& !TranslatorConstants.EVOSUITE_1_0_6_JAR.equals(file.getName())
+				&& !TranslatorConstants.EVOSUITE_1_2_0_JAR.equals(file.getName()));
+
+		if (dependencyJars != null) {
+			Arrays.sort(dependencyJars, Comparator.comparing(File::getName));
+			for (File dependencyJar : dependencyJars) {
+				classpathEntries.add(dependencyJar.getAbsolutePath());
+			}
+		}
+
+		return String.join(File.pathSeparator, classpathEntries);
+	}
+
 	private List<String> buildEvosuiteOptions() {
 
 		List<String> listOfOptions = new LinkedList<>();
@@ -321,6 +345,8 @@ public class TranslatorImpl implements Translator {
 
 		// Set the location of the current evosuite jar
 		String evosuiteJar = fileManager.getEvosuiteJarDirPathToString() + File.separator + evosuiteVersion;
+		String evosuiteProjectClasspath = buildEvosuiteProjectClasspath(evosuiteTargetDir);
+		logger.info("EvoSuite project classpath: {}.", evosuiteProjectClasspath);
 
 		/*
 		 * java.exe -jar <evosuiteJar> -target <workingDir>/evosuite/evosuite-target
@@ -330,7 +356,7 @@ public class TranslatorImpl implements Translator {
 		 * -Dreport_dir="<<workingDir>/evosuite/evosuite-report>"
 		 */
 			listOfOptions.addAll(List.of(fileManager.getJavaExePathToString(), TranslatorConstants.JAR, evosuiteJar,
-					TranslatorConstants.PROJECT_CP, evosuiteTargetDir, TranslatorConstants.TARGET, evosuiteTargetDir, TranslatorConstants.CLASS, evosuiteJavaInputFile,
+					TranslatorConstants.PROJECT_CP, evosuiteProjectClasspath, TranslatorConstants.TARGET, evosuiteTargetDir, TranslatorConstants.CLASS, evosuiteJavaInputFile,
 					evosuiteTestsOption, TranslatorConstants.CRITERION, TranslatorConstants.COVERAGE_CRITERION,
 					TranslatorConstants.DMINIMIZE_TRUE));
 			if (!flaky) {

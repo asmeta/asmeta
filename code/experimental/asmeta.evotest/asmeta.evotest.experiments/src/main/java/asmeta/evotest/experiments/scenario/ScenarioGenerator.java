@@ -176,7 +176,7 @@ public class ScenarioGenerator {
 			evosuiteJarFolder = new File(runningClass.getProtectionDomain().getCodeSource().getLocation().toURI())
 					.getParentFile().toString();
 		} else {
-			evosuiteJarFolder = "..\\asmeta.evotest.evoasmetatg\\evosuite\\evosuite-jar";
+			evosuiteJarFolder = "..\\asmeta.evotest.evoasmetatg\\dependencies";
 		}
 		// Run evoavalla
 		List<String> evoAsmetaTgArguments = List.of(DASH + EvoAsmetaTgCLI.WORKING_DIR, EVOAVALLA_WORKING_DIR,

@@ -14,10 +14,10 @@
 	  		<include>evoasmetatg.jar</include>
 	  	</includes>  	
   	</fileSet>
-	<!-- include the Evosuite jar folder -->
+	<!-- include the dependencies folder -->
     <fileSet>
-    	<directory>evosuite/evosuite-jar</directory>
-    	<outputDirectory>evosuite/evosuite-jar</outputDirectory>
+    	<directory>dependencies</directory>
+    	<outputDirectory>dependencies</outputDirectory>
     	<includes>
     		<include>**/*</include>
     	</includes>
