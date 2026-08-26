@@ -55,7 +55,7 @@ variableDeclaration
     ;
 
 variableType
-	// A variable type can be an Identifier (if the type is not primitive) or a generic ID (for a primitive type).
+	// A variable type can be an Identifier (if the type is not primitive) or an ID (for a primitive type).
 	// example:
 	// RegistroDiCassav4.Servizio	--> Identifier
 	// String 						--> ID
@@ -144,7 +144,7 @@ setFunction
 	// registroDiCassav4_AggiungiPizza0					--> setVariableValue
 	// ) 												--> RPAREN
 	// ;												--> SEMI
-    : SetFunc LPAREN setVariableValue RPAREN SEMI
+    : SetFunc LPAREN setVariableValue (COMMA setVariableValue)* RPAREN SEMI
     ;
 
 stepFunction

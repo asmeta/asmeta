@@ -111,7 +111,7 @@ public class VariableValueVisitor extends VoidVisitorAdapter<Context> {
 	@Override
 	public void visit(StringLiteralExpr node, Context context) {
 		logger.debug("VALUE STRING: {}.", node);
-		ScenarioParserUtil.setStringVariableValue(node.getValue(), context.getCurrentJavaVariable());
+		ScenarioParserUtil.setStringVariableValue(node.toString(), context.getCurrentJavaVariable());
 	}
 
 	/**
