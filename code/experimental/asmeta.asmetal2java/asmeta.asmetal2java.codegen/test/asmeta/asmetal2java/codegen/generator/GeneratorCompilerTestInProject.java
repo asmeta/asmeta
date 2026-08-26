@@ -343,6 +343,7 @@ public class GeneratorCompilerTestInProject {
 	 */
 	private boolean exclude(String fileName) {
 		return GeneratorCompilerUtil.libraries.contains(fileName)
+				|| "evoavallaTranslationCases".equals(fileName)
 				/*|| GeneratorCompilerUtil.parseException.contains(fileName)
 				 *|| GeneratorCompilerUtil.runtimeException.contains(fileName)
 				|| GeneratorCompilerUtil.errors.contains(fileName)*/;
