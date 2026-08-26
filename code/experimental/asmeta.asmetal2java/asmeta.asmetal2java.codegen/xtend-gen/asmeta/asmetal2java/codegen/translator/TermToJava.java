@@ -3,7 +3,6 @@ package asmeta.asmetal2java.codegen.translator;
 import asmeta.definitions.ControlledFunction;
 import asmeta.definitions.DerivedFunction;
 import asmeta.definitions.DynamicFunction;
-import asmeta.definitions.Function;
 import asmeta.definitions.MonitoredFunction;
 import asmeta.definitions.OutFunction;
 import asmeta.definitions.StaticFunction;
@@ -45,6 +44,7 @@ import asmeta.terms.furtherterms.SequenceTerm;
 import asmeta.terms.furtherterms.SetCt;
 import asmeta.terms.furtherterms.StringTerm;
 import java.util.Arrays;
+import java.util.function.Function;
 import org.asmeta.parser.util.ReflectiveVisitor;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
@@ -228,31 +228,10 @@ public class TermToJava extends ReflectiveVisitor<String> {
   }
 
   public String visit(final TupleTerm object) {
-    int _size = object.getTerms().size();
-    boolean _equals = (_size == 0);
-    if (_equals) {
-      throw new RuntimeException("Error: a tuple term with size 0 has been found... why?? **BUG** ");
-    }
-    int _size_1 = object.getTerms().size();
-    boolean _equals_1 = (_size_1 == 1);
-    if (_equals_1) {
-      StringConcatenation _builder = new StringConcatenation();
-      _builder.append("(");
-      String _visit = this.visit(object.getTerms().get(0));
-      _builder.append(_visit);
-      _builder.append(")");
-      return _builder.toString();
-    }
-    StringBuffer initial = new StringBuffer("make_tuple(");
-    for (int i = 0; (i < object.getTerms().size()); i++) {
-      String _visit_1 = this.visit(object.getTerms().get(i));
-      String _plus = (_visit_1 + ", ");
-      initial.append(_plus);
-    }
-    int _length = initial.length();
-    int _minus = (_length - 2);
-    String _substring = initial.substring(0, _minus);
-    return (_substring + ")");
+    final Function<Term, String> _function = (Term term) -> {
+      return this.visit(term);
+    };
+    return ProductToJava.value(object, _function);
   }
 
   public String visit(final SequenceTerm object) {
@@ -668,11 +647,11 @@ public class TermToJava extends ReflectiveVisitor<String> {
       return expression.replaceAll(".value.value", ".value");
     } else {
       if ((Util.isControlledOrOut(term.getFunction()) && (term.getDomain() instanceof ConcreteDomain))) {
-        Function _function = term.getFunction();
+        asmeta.definitions.Function _function = term.getFunction();
         functionTerm.append(this.caseFunctionTermSuppCont(((DynamicFunction) _function), term));
       }
       if ((Util.isControlledOrOut(term.getFunction()) && (term.getDomain() instanceof MapDomain))) {
-        Function _function_1 = term.getFunction();
+        asmeta.definitions.Function _function_1 = term.getFunction();
         functionTerm.append(this.caseFunctionTermSuppCont(((DynamicFunction) _function_1), term));
       }
       functionTerm.append(term.getFunction().getName());
@@ -993,6 +972,20 @@ public class TermToJava extends ReflectiveVisitor<String> {
           }
         }
       } else {
+        final Function<Term, String> _function = (Term term) -> {
+          return this.visit(term);
+        };
+        final String tuple = ProductToJava.value(ft.getArguments(), _function);
+        if (this.leftHandSide) {
+          this.leftHandSide = false;
+          functionTerm.append(((".set(" + tuple) + ", "));
+        } else {
+          functionTerm.append(((".get(" + tuple) + ")"));
+          Boolean _controllo_4 = this.controllo(fd.getCodomain());
+          if ((_controllo_4).booleanValue()) {
+            functionTerm.append(".value");
+          }
+        }
       }
     }
     return functionTerm.toString();
@@ -1028,18 +1021,16 @@ public class TermToJava extends ReflectiveVisitor<String> {
           functionTerm.append(_plus_3);
         }
       } else {
-        functionTerm.append("[make_tuple(");
-        for (int i = 0; (i < ft.getArguments().getTerms().size()); i++) {
-          String _visit_2 = this.visit(ft.getArguments().getTerms().get(i));
-          String _plus_4 = (_visit_2 + ", ");
-          functionTerm.append(_plus_4);
+        final Function<Term, String> _function = (Term term) -> {
+          return this.visit(term);
+        };
+        final String tuple = ProductToJava.value(ft.getArguments(), _function);
+        if (this.leftHandSide) {
+          this.leftHandSide = false;
+          functionTerm.append(((".set(" + tuple) + ", "));
+        } else {
+          functionTerm.append(((".get(" + tuple) + ")"));
         }
-        int _length = functionTerm.length();
-        int _minus = (_length - 2);
-        String _substring = functionTerm.substring(0, _minus);
-        String _plus_4 = (_substring + ")]");
-        StringBuffer _stringBuffer = new StringBuffer(_plus_4);
-        functionTerm = _stringBuffer;
       }
     }
     return functionTerm.toString();
@@ -1149,7 +1140,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
   }
 
   @XbaseGenerated
-  public String caseFunctionTermSupp(final Function fd, final FunctionTerm ft) {
+  public String caseFunctionTermSupp(final asmeta.definitions.Function fd, final FunctionTerm ft) {
     if (fd instanceof ControlledFunction) {
       return _caseFunctionTermSupp((ControlledFunction)fd, ft);
     } else if (fd instanceof MonitoredFunction) {

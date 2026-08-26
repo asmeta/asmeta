@@ -28,7 +28,6 @@ import asmeta.definitions.domains.PowersetDomain
 import asmeta.definitions.domains.AbstractTd
 import asmeta.definitions.domains.Domain
 import asmeta.definitions.domains.EnumTd
-import asmeta.definitions.Function
 import asmeta.definitions.DynamicFunction
 import asmeta.definitions.domains.MapDomain
 import asmeta.terms.furtherterms.SequenceTerm
@@ -162,21 +161,11 @@ class TermToJava extends ReflectiveVisitor<String> {
 		«""»   ''')
 		return sb.toString
 	}
-
 	def String visit(TupleTerm object) {
-		if (object.terms.size == 0)
-			throw new RuntimeException("Error: a tuple term with size 0 has been found... why?? **BUG** ")
-
-		if (object.terms.size == 1)
-			return '''(«visit(object.terms.get(0))»)'''
-
-		var StringBuffer initial = new StringBuffer("make_tuple(")
-
-		for (var i = 0; i < object.terms.size; i++)
-			initial.append(visit(object.terms.get(i)) + ", ")
-
-		return initial.substring(0, initial.length - 2) + ")"
+		return ProductToJava.value(object, [ term | visit(term) ])
 	}
+
+
 
 	def String visit(SequenceTerm object) {
 
@@ -675,7 +664,15 @@ class TermToJava extends ReflectiveVisitor<String> {
 			} // Caso di studio con variabili multiple in ingresso
 			// da controllare se corretto come metodo
 			else {
-				// functionTerm.append("[make_tuple(")
+				val tuple = ProductToJava.value(ft.arguments, [ term | visit(term) ])
+				if (leftHandSide) {
+					leftHandSide = false
+					functionTerm.append(".set(" + tuple + ", ")
+				} else {
+					functionTerm.append(".get(" + tuple + ")")
+					if (controllo(fd.codomain))
+						functionTerm.append(".value")
+				}
 			}
 		}
 		return functionTerm.toString
@@ -706,10 +703,12 @@ class TermToJava extends ReflectiveVisitor<String> {
 				}
 
 			} else {
-				functionTerm.append("[make_tuple(")
-				for (var i = 0; i < ft.arguments.terms.size; i++)
-					functionTerm.append(visit(ft.arguments.terms.get(i)) + ", ")
-				functionTerm = new StringBuffer(functionTerm.substring(0, functionTerm.length - 2) + ")]")
+				val tuple = ProductToJava.value(ft.arguments, [ term | visit(term) ])
+				if (leftHandSide) {
+					leftHandSide = false
+					functionTerm.append(".set(" + tuple + ", ")
+				} else
+					functionTerm.append(".get(" + tuple + ")")
 			}
 		}
 		return functionTerm.toString

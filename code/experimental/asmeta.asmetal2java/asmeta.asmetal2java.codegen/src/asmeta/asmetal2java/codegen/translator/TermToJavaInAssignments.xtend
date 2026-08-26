@@ -122,6 +122,8 @@ class TermToJavaInAssignments extends TermToJava {
 		} // In questo caso l'operatore rilevato » := 
 		else {
 
+			if (!leftHandSide)
+				functionTerm.append(" = ")
 			functionTerm.append(term.function.name)
 			functionTerm.append(caseFunctionTermSupp(term.function, term))
 			return functionTerm.toString
@@ -138,39 +140,15 @@ class TermToJavaInAssignments extends TermToJava {
 	}
 
 	private def String caseControlledOrOutputFunctionSupp(Function fd, FunctionTerm ft) {
+		if (leftHandSide)
+			return ""
+		if (ft.arguments === null)
+			return ".get()"
+		if (ft.arguments.terms.size == 1)
+			return ".get(" + new TermToJava(res).visit(ft.arguments.terms.get(0)) + ")"
 
-		var StringBuffer functionTerm = new StringBuffer
-
-		if (ft.arguments === null) {
-			// Identifico Dx o Sx
-			if (leftHandSide)
-				functionTerm.append("")
-			else
-				functionTerm.append("")
-		}
-
-		// Identifico se la funzione dipende da delle variabili in ingresso
-		if (ft.arguments !== null) {
-
-			// Caso di studio con una sola variabile
-			if (ft.arguments.terms.size == 1) {
-				if (leftHandSide) {
-
-					functionTerm.append("")
-
-				} else
-					functionTerm.append("")
-			} // Caso di studio con variabili multiple in ingresso
-			// da controllare se corretto come metodo
-			else {
-				functionTerm.append("[make_tuple(")
-				for (var i = 0; i < ft.arguments.terms.size; i++)
-					functionTerm.append(visit(ft.arguments.terms.get(i)) + ", ")
-
-				functionTerm = new StringBuffer(functionTerm.substring(0, functionTerm.length - 2) + ")]")
-			}
-		}
-		return functionTerm.toString
+		val tuple = ProductToJava.value(ft.arguments, [ term | new TermToJava(res).visit(term) ])
+		return ".get(" + tuple + ")"
 	}
 
 	override dispatch String caseFunctionTermSupp(StaticFunction fd, FunctionTerm ft) {

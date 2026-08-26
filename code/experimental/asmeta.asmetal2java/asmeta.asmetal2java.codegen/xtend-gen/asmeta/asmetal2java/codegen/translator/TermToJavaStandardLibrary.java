@@ -18,6 +18,7 @@ import asmeta.structure.Asm;
 import asmeta.terms.basicterms.ConstantTerm;
 import asmeta.terms.basicterms.FunctionTerm;
 import asmeta.terms.basicterms.LocationTerm;
+import asmeta.terms.basicterms.Term;
 import asmeta.terms.basicterms.TupleTerm;
 import java.util.Arrays;
 import org.eclipse.emf.ecore.EObject;
@@ -119,6 +120,16 @@ public class TermToJavaStandardLibrary extends TermToJava {
           }
         }
       } else {
+        final java.util.function.Function<Term, String> _function = (Term term) -> {
+          return this.visit(term);
+        };
+        final String tuple = ProductToJava.value(ft.getArguments(), _function);
+        if (this.leftHandSide) {
+          this.leftHandSide = false;
+          functionTerm.append(((".set(" + tuple) + ", "));
+        } else {
+          functionTerm.append(((".get(" + tuple) + ")"));
+        }
       }
     }
     return functionTerm.toString();
@@ -160,18 +171,16 @@ public class TermToJavaStandardLibrary extends TermToJava {
           functionTerm.append(_plus_3);
         }
       } else {
-        functionTerm.append("[make_tuple(");
-        for (int i = 0; (i < ft.getArguments().getTerms().size()); i++) {
-          String _visit_2 = this.visit(ft.getArguments().getTerms().get(i));
-          String _plus_4 = (_visit_2 + ", ");
-          functionTerm.append(_plus_4);
+        final java.util.function.Function<Term, String> _function = (Term term) -> {
+          return this.visit(term);
+        };
+        final String tuple = ProductToJava.value(ft.getArguments(), _function);
+        if (this.leftHandSide) {
+          this.leftHandSide = false;
+          functionTerm.append(((".set(" + tuple) + ", "));
+        } else {
+          functionTerm.append(((".get(" + tuple) + ")"));
         }
-        int _length = functionTerm.length();
-        int _minus = (_length - 2);
-        String _substring = functionTerm.substring(0, _minus);
-        String _plus_4 = (_substring + ")]");
-        StringBuffer _stringBuffer = new StringBuffer(_plus_4);
-        functionTerm = _stringBuffer;
       }
     }
     return functionTerm.toString();

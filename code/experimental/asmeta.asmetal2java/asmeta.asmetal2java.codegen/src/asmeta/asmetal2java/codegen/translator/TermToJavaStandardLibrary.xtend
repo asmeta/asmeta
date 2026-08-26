@@ -101,7 +101,12 @@ class TermToJavaStandardLibrary extends TermToJava {
 			} // Caso di studio con variabili multiple in ingresso
 			// da controllare se corretto come metodo
 			else {
-				// functionTerm.append("[make_tuple(")
+				val tuple = ProductToJava.value(ft.arguments, [ term | visit(term) ])
+				if (leftHandSide) {
+					leftHandSide = false
+					functionTerm.append(".set(" + tuple + ", ")
+				} else
+					functionTerm.append(".get(" + tuple + ")")
 			}
 		}
 		return functionTerm.toString
@@ -130,10 +135,12 @@ class TermToJavaStandardLibrary extends TermToJava {
 				}
 
 			} else {
-				functionTerm.append("[make_tuple(")
-				for (var i = 0; i < ft.arguments.terms.size; i++)
-					functionTerm.append(visit(ft.arguments.terms.get(i)) + ", ")
-				functionTerm = new StringBuffer(functionTerm.substring(0, functionTerm.length - 2) + ")]")
+				val tuple = ProductToJava.value(ft.arguments, [ term | visit(term) ])
+				if (leftHandSide) {
+					leftHandSide = false
+					functionTerm.append(".set(" + tuple + ", ")
+				} else
+					functionTerm.append(".get(" + tuple + ")")
 			}
 		}
 		return functionTerm.toString

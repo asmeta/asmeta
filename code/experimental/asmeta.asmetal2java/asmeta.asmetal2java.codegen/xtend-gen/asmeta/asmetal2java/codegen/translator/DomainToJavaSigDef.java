@@ -3,6 +3,7 @@ package asmeta.asmetal2java.codegen.translator;
 import asmeta.definitions.domains.AbstractTd;
 import asmeta.definitions.domains.BagDomain;
 import asmeta.definitions.domains.ConcreteDomain;
+import asmeta.definitions.domains.Domain;
 import asmeta.definitions.domains.EnumTd;
 import asmeta.definitions.domains.MapDomain;
 import asmeta.definitions.domains.PowersetDomain;
@@ -12,6 +13,7 @@ import asmeta.definitions.domains.SequenceDomain;
 import asmeta.structure.Asm;
 import asmeta.structure.DomainDefinition;
 import asmeta.structure.DomainInitialization;
+import java.util.function.Function;
 import org.asmeta.parser.util.ReflectiveVisitor;
 import org.eclipse.xtend2.lib.StringConcatenation;
 
@@ -42,122 +44,10 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
   }
 
   public String visit(final ProductDomain object) {
-    StringBuffer sb = new StringBuffer();
-    int _size = object.getDomains().size();
-    switch (_size) {
-      case 2:
-        StringConcatenation _builder = new StringConcatenation();
-        _builder.append("Pair<");
-        sb.append(_builder);
-        for (int i = 0; (i < object.getDomains().size()); i++) {
-          StringConcatenation _builder_1 = new StringConcatenation();
-          String _visit = this.createDomainToJavaString(this.res).visit(object.getDomains().get(i));
-          _builder_1.append(_visit);
-          _builder_1.append(", ");
-          sb.append(_builder_1);
-        }
-        break;
-      case 3:
-        StringConcatenation _builder_1 = new StringConcatenation();
-        _builder_1.append("Triplet<");
-        sb.append(_builder_1);
-        for (int i = 0; (i < object.getDomains().size()); i++) {
-          StringConcatenation _builder_2 = new StringConcatenation();
-          String _visit = this.createDomainToJavaString(this.res).visit(object.getDomains().get(i));
-          _builder_2.append(_visit);
-          _builder_2.append(", ");
-          sb.append(_builder_2);
-        }
-        break;
-      case 4:
-        StringConcatenation _builder_2 = new StringConcatenation();
-        _builder_2.append("Quartet<");
-        sb.append(_builder_2);
-        for (int i = 0; (i < object.getDomains().size()); i++) {
-          StringConcatenation _builder_3 = new StringConcatenation();
-          String _visit = this.createDomainToJavaString(this.res).visit(object.getDomains().get(i));
-          _builder_3.append(_visit);
-          _builder_3.append(", ");
-          sb.append(_builder_3);
-        }
-        break;
-      case 5:
-        StringConcatenation _builder_3 = new StringConcatenation();
-        _builder_3.append("Quintet<");
-        sb.append(_builder_3);
-        for (int i = 0; (i < object.getDomains().size()); i++) {
-          StringConcatenation _builder_4 = new StringConcatenation();
-          String _visit = this.createDomainToJavaString(this.res).visit(object.getDomains().get(i));
-          _builder_4.append(_visit);
-          _builder_4.append(", ");
-          sb.append(_builder_4);
-        }
-        break;
-      case 6:
-        StringConcatenation _builder_4 = new StringConcatenation();
-        _builder_4.append("Sextet<");
-        sb.append(_builder_4);
-        for (int i = 0; (i < object.getDomains().size()); i++) {
-          StringConcatenation _builder_5 = new StringConcatenation();
-          String _visit = this.createDomainToJavaString(this.res).visit(object.getDomains().get(i));
-          _builder_5.append(_visit);
-          _builder_5.append(", ");
-          sb.append(_builder_5);
-        }
-        break;
-      case 7:
-        StringConcatenation _builder_5 = new StringConcatenation();
-        _builder_5.append("Septet<");
-        sb.append(_builder_5);
-        for (int i = 0; (i < object.getDomains().size()); i++) {
-          StringConcatenation _builder_6 = new StringConcatenation();
-          String _visit = this.createDomainToJavaString(this.res).visit(object.getDomains().get(i));
-          _builder_6.append(_visit);
-          _builder_6.append(", ");
-          sb.append(_builder_6);
-        }
-        break;
-      case 8:
-        StringConcatenation _builder_6 = new StringConcatenation();
-        _builder_6.append("Octet<");
-        sb.append(_builder_6);
-        for (int i = 0; (i < object.getDomains().size()); i++) {
-          StringConcatenation _builder_7 = new StringConcatenation();
-          String _visit = this.createDomainToJavaString(this.res).visit(object.getDomains().get(i));
-          _builder_7.append(_visit);
-          _builder_7.append(", ");
-          sb.append(_builder_7);
-        }
-        break;
-      case 9:
-        StringConcatenation _builder_7 = new StringConcatenation();
-        _builder_7.append("Ennead<");
-        sb.append(_builder_7);
-        for (int i = 0; (i < object.getDomains().size()); i++) {
-          StringConcatenation _builder_8 = new StringConcatenation();
-          String _visit = this.createDomainToJavaString(this.res).visit(object.getDomains().get(i));
-          _builder_8.append(_visit);
-          _builder_8.append(", ");
-          sb.append(_builder_8);
-        }
-        break;
-      case 10:
-        StringConcatenation _builder_8 = new StringConcatenation();
-        _builder_8.append("Decade<");
-        sb.append(_builder_8);
-        for (int i = 0; (i < object.getDomains().size()); i++) {
-          StringConcatenation _builder_9 = new StringConcatenation();
-          String _visit = this.createDomainToJavaString(this.res).visit(object.getDomains().get(i));
-          _builder_9.append(_visit);
-          _builder_9.append(", ");
-          sb.append(_builder_9);
-        }
-        break;
-    }
-    String _string = sb.toString();
-    int _length = sb.length();
-    int _minus = (_length - 2);
-    return _string.substring(0, _minus).concat(">");
+    final Function<Domain, String> _function = (Domain domain) -> {
+      return this.createDomainToJavaString(this.res).visit(domain);
+    };
+    return ProductToJava.type(object, _function);
   }
 
   public String visit(final DomainDefinition object) {
