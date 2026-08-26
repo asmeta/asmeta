@@ -12,7 +12,9 @@ import java.util.Map.Entry;
 
 import atgt.coverage.AsmTestSequence;
 import atgt.specification.location.Location;
-/** export to avalla*/
+import atgt.specification.location.PickedVariable;
+
+/** export to avalla */
 public class toAvalla extends TestSeqTrad {
 
 	static protected String nomeScenario;
@@ -32,23 +34,23 @@ public class toAvalla extends TestSeqTrad {
 	public toAvalla(File f, AsmTestSequence ts, String asmFile) {
 		super(f, ts);
 		// remove extension from file name
-		nomeScenario =  f.getName().replaceFirst("[.][^.]+$", "");
+		nomeScenario = f.getName().replaceFirst("[.][^.]+$", "");
 		toAvalla.fOpened = asmFile;
 	}
+
 	/**
 	 * 
-	 * @param out output strema where to save scenario
-	 * @param ts scenario
-	 * @param asmFile asm, load in avalla
+	 * @param out          output strema where to save scenario
+	 * @param ts           scenario
+	 * @param asmFile      asm, load in avalla
 	 * @param scenarioName first line in avalla, name of the scenario (no extension)
 	 */
 	public toAvalla(OutputStream out, AsmTestSequence ts, String asmFile, String scenarioName) {
-		super(out,ts);
+		super(out, ts);
 		nomeScenario = scenarioName;
 		toAvalla.fOpened = asmFile;
 	}
-	
-	
+
 	@Override
 	public void saveToStream() {
 		PrintStream dst = new PrintStream(out);
@@ -58,17 +60,17 @@ public class toAvalla extends TestSeqTrad {
 		// write as comment the test goal
 		dst.println("//// test name " + testSequence.getName());
 		dst.println("//// generated for (test goal): " + testSequence.getGeneratedFor().toString());
-		
+
 		while (it.hasNext()) {
 			Map<Location, String> state = it.next();
 			// first all the checks for controlled
 			for (Entry<Location, String> p : state.entrySet()) {
 				Location v = p.getKey();
 				String value = p.getValue();
-				assert (v.isControlled() || v.isMonitored());
-				if (v.isControlled()) {
+				assert (v instanceof PickedVariable || v.isControlled() || v.isMonitored());
+				if (v.isControlled())
 					dst.println("check " + v.toString() + " = " + value + ";");
-				} 
+
 			}
 			// all the monitored
 			for (Entry<Location, String> p : state.entrySet()) {
@@ -76,9 +78,15 @@ public class toAvalla extends TestSeqTrad {
 				String value = p.getValue();
 				if (v.isMonitored()) {
 					dst.println("set " + v.toString() + " := " + value + ";");
-				} 
+				}
 			}
-			//if (it.hasNext())
+			for (Entry<Location, String> p : state.entrySet()) {
+				Location v = p.getKey();
+				String value = p.getValue();
+				if (v instanceof PickedVariable pick)
+					dst.println("pick " + pick.getName() + " in " + pick.getInRuleDecl() + " = " + value + ";");
+			}
+			// if (it.hasNext())
 			dst.println("step");
 		}
 		dst.close();

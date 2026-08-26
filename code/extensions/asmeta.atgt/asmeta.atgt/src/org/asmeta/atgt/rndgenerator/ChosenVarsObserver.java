@@ -48,9 +48,14 @@ class LogicalVarChoosen extends Location{
 	 * @return the location name
 	 */
 	protected String getName() {
-		return logicalVar + " in " + ruleDecl;
+		return logicalVar;
 	}
 
+	protected String getInRuleDecl() {
+		return ruleDecl;
+	}
+
+	
 	@Override
 	public String toString() {
 		return getName();

@@ -78,6 +78,7 @@ import asmeta.structure.Asm;
 import asmeta.structure.Body;
 import asmeta.structure.Initialization;
 import asmeta.terms.basicterms.Term;
+import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
 import asmeta.transitionrules.basictransitionrules.Rule;
 
 /**
@@ -178,9 +179,10 @@ public class Simulator {
 
 	/**
 	 * The main rule of the model.
-	 *
+	 * use the main declaration instead
 	 */
-	protected Rule mainRule;
+	//protected Rule mainRule;
+	protected MacroDeclaration mainRuleDec;
 
 	/**
 	 * The number of the current state.
@@ -432,7 +434,7 @@ public class Simulator {
 		// Visit the main rule to compute the update set. Ask the value of the
 		// monitored functions in the current state.
 		// Current state is completed with the monitored values.
-		UpdateSet updateSet = ruleEvaluator.visit(mainRule);
+		UpdateSet updateSet = ruleEvaluator.visit(mainRuleDec);
 		// System.out.println("Locations updated for model
 		// "+this.asmModel.getName()+updateSet.getLocationsUpdated().toString());
 		// //Patrizia for debugging Jan 2021
@@ -576,10 +578,9 @@ public class Simulator {
 		//
 		assert asmModel.getName().equals(modelName);
 		// check the main rule
-		RuleDeclaration mainRuleDec = asmModel.getMainrule();
+		mainRuleDec = asmModel.getMainrule();
 		if (mainRuleDec == null)
-			throw new MainRuleNotFoundException(modelName);
-		mainRule = mainRuleDec.getRuleBody();
+			throw new MainRuleNotFoundException(modelName);		
 	}
 
 	/**

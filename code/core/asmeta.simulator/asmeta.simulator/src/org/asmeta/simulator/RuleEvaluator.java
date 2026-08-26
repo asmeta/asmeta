@@ -572,7 +572,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 			EList<VariableTerm> variable = chooseRule.getVariable();
 			for (int i = 0; i < variable.size(); i++) {
 				var var = variable.get(i);
-				valueforVar.put(var.getName() + " in " + currentRuleDeclaration,boundValues[i]);
+				valueforVar.put(var.getName() + " in " + currentRuleDeclaration.getName(),boundValues[i]);
 			}
 			notify(valueforVar);
 		} else {
@@ -706,9 +706,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		MacroDeclaration dcl = macroRule.getCalledMacro();
 		logger.debug("<MacroCallRule name=\"" + dcl.getName() + "\">");
 		List<Term> actualParameters = macroRule.getParameters();
-
 		// PA 10/11/2011 - Inizio
-		Rule rule1 = macroRule.getCalledMacro().getRuleBody();
 		Iterator<VariableTerm> formalParameters = macroRule.getCalledMacro().getVariable().iterator();
 		for (Term actualParameter : actualParameters) {
 			Domain actualParameterDomain = actualParameter.getDomain();
@@ -836,6 +834,11 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		return updateSet;
 	}
 
+	public UpdateSet visit(RuleDeclaration dcl) {
+		assert dcl.getArity() == 0;
+		return visit(dcl, Collections.EMPTY_LIST);
+	}
+	
 	/**
 	 * Evaluates a rule given the declaration and the arguments.
 	 * 

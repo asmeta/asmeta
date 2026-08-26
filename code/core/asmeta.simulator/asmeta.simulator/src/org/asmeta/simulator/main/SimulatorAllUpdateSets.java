@@ -252,7 +252,7 @@ public class SimulatorAllUpdateSets extends Simulator {
 	}
 
 	public SetUpdateSet getNextUpdates() {
-		return ruleEvaluator.visit(mainRule);
+		return ruleEvaluator.visit(mainRuleDec);
 	}
 
 	/**
@@ -435,10 +435,9 @@ public class SimulatorAllUpdateSets extends Simulator {
 		// 
 		assert asmModel.getName().equals(modelName);
 		// check the main rule
-		RuleDeclaration mainRuleDec = asmModel.getMainrule();
+		mainRuleDec = asmModel.getMainrule();
 		if (mainRuleDec == null)
 			throw new MainRuleNotFoundException(modelName);
-		mainRule = mainRuleDec.getRuleBody();
 	}
 
 

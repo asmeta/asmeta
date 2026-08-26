@@ -26,6 +26,7 @@ import asmeta.definitions.domains.Domain;
 import atgt.coverage.AsmTestCondition;
 import atgt.coverage.AsmTestSequence;
 import atgt.coverage.AsmTestSuite;
+import atgt.specification.location.PickedVariable;
 import atgt.specification.location.Location.VarKind;
 import atgt.specification.type.DummyType;
 import tgtlib.definitions.expression.FunctionTerm;
@@ -35,6 +36,7 @@ import tgtlib.definitions.expression.type.BoolType;
 import tgtlib.definitions.expression.type.IntegerType;
 import tgtlib.definitions.expression.type.Type;
 import tgtlib.definitions.expression.type.TypeVisitorI;
+import tgtlib.definitions.expression.type.Variable;
 
 /**
  * random generation by random simulation
@@ -223,7 +225,8 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 			// not a proper set or check, it is a pick
 			if (location instanceof LogicalVarChoosen varc) {
 				System.out.println(varc);
-				testsequence.addAssignment(varc.getName(), value);
+				PickedVariable pvar = new PickedVariable(varc.getName(), varc.getInRuleDecl());
+				testsequence.addAssignment(pvar, value);
 				continue;
 			}
 			// TODO store the variables somewhere
@@ -279,4 +282,5 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 			// System.out.println("PRINT" + testsequence.get(i).locationMap);
 		}
 	}
+	
 }
