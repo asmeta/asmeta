@@ -2,7 +2,9 @@ package asmeta.asmetal2java.codegen.translator;
 
 import asmeta.definitions.ControlledFunction;
 import asmeta.definitions.DerivedFunction;
+import asmeta.definitions.DynamicFunction;
 import asmeta.definitions.MonitoredFunction;
+import asmeta.definitions.OutFunction;
 import asmeta.definitions.StaticFunction;
 import asmeta.definitions.domains.AbstractTd;
 import asmeta.definitions.domains.ConcreteDomain;
@@ -17,6 +19,7 @@ import asmeta.terms.furtherterms.ForallTerm;
 import asmeta.terms.furtherterms.SequenceTerm;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.IntFunction;
 import org.asmeta.parser.util.ReflectiveVisitor;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
@@ -48,6 +51,14 @@ public class FunctionToJavaDef extends ReflectiveVisitor<String> {
   }
 
   public String visit(final ControlledFunction object) {
+    return this.visitControlledOrOutputFunction(object);
+  }
+
+  public String visit(final OutFunction object) {
+    return this.visitControlledOrOutputFunction(object);
+  }
+
+  private String visitControlledOrOutputFunction(final DynamicFunction object) {
     StringBuffer sb = new StringBuffer();
     if (((object.getCodomain() instanceof SequenceDomain) || (object.getDomain() instanceof SequenceDomain))) {
       StringConcatenation _builder = new StringConcatenation();
@@ -286,191 +297,125 @@ public class FunctionToJavaDef extends ReflectiveVisitor<String> {
             sb.append(_builder_9);
             Domain _domain_1 = object.getDomain();
             if ((_domain_1 instanceof ProductDomain)) {
-              StringConcatenation _builder_10 = new StringConcatenation();
-              _builder_10.append(" ");
+              Domain _domain_2 = object.getDomain();
+              final IntFunction<String> _function = (int index) -> {
+                String _visit_21 = new DomainToJavaString(this.asm).visit(object.getInitialization().get(0).getVariable().get(index).getDomain());
+                return (_visit_21 + "_elem");
+              };
+              final String productKey = ProductToJava.value(((ProductDomain) _domain_2), _function);
               String _name_7 = object.getName();
-              _builder_10.append(_name_7, " ");
-              _builder_10.append("_elem = new ");
-              sb.append(_builder_10);
-              int _size = object.getInitialization().get(0).getVariable().size();
-              switch (_size) {
-                case 2:
-                  StringConcatenation _builder_11 = new StringConcatenation();
-                  _builder_11.append("Pair<");
-                  sb.append(_builder_11);
-                  break;
-                case 3:
-                  StringConcatenation _builder_12 = new StringConcatenation();
-                  _builder_12.append("Triplet<");
-                  sb.append(_builder_12);
-                  break;
-                case 4:
-                  StringConcatenation _builder_13 = new StringConcatenation();
-                  _builder_13.append("Quartet<");
-                  sb.append(_builder_13);
-                  break;
-                case 5:
-                  StringConcatenation _builder_14 = new StringConcatenation();
-                  _builder_14.append("Quintet<");
-                  sb.append(_builder_14);
-                  break;
-                case 6:
-                  StringConcatenation _builder_15 = new StringConcatenation();
-                  _builder_15.append("Sextet<");
-                  sb.append(_builder_15);
-                  break;
-                case 7:
-                  StringConcatenation _builder_16 = new StringConcatenation();
-                  _builder_16.append("Septet<");
-                  sb.append(_builder_16);
-                  break;
-                case 8:
-                  StringConcatenation _builder_17 = new StringConcatenation();
-                  _builder_17.append("Octet<");
-                  sb.append(_builder_17);
-                  break;
-                case 9:
-                  StringConcatenation _builder_18 = new StringConcatenation();
-                  _builder_18.append("Ennead<");
-                  sb.append(_builder_18);
-                  break;
-                case 10:
-                  StringConcatenation _builder_19 = new StringConcatenation();
-                  _builder_19.append("Decade<");
-                  sb.append(_builder_19);
-                  break;
-              }
-              for (int i = 0; (i < object.getInitialization().get(0).getVariable().size()); i++) {
-                int _size_1 = object.getInitialization().get(0).getVariable().size();
-                int _minus = (_size_1 - 1);
-                boolean _notEquals = (i != _minus);
-                if (_notEquals) {
-                  StringConcatenation _builder_20 = new StringConcatenation();
-                  String _visit_21 = new DomainToJavaString(this.asm).visit(object.getInitialization().get(0).getVariable().get(i).getDomain());
-                  _builder_20.append(_visit_21);
-                  _builder_20.append(",");
-                  sb.append(_builder_20);
-                } else {
-                  StringConcatenation _builder_21 = new StringConcatenation();
-                  String _visit_22 = new DomainToJavaString(this.asm).visit(object.getInitialization().get(0).getVariable().get(i).getDomain());
-                  _builder_21.append(_visit_22);
-                  _builder_21.append(">(");
-                  sb.append(_builder_21);
-                }
-              }
-              for (int i = 0; (i < object.getInitialization().get(0).getVariable().size()); i++) {
-                int _size_1 = object.getInitialization().get(0).getVariable().size();
-                int _minus = (_size_1 - 1);
-                boolean _notEquals = (i != _minus);
-                if (_notEquals) {
-                  StringConcatenation _builder_20 = new StringConcatenation();
-                  String _visit_21 = new DomainToJavaString(this.asm).visit(object.getInitialization().get(0).getVariable().get(i).getDomain());
-                  _builder_20.append(_visit_21);
-                  _builder_20.append("_elem,");
-                  sb.append(_builder_20);
-                } else {
-                  StringConcatenation _builder_21 = new StringConcatenation();
-                  String _visit_22 = new DomainToJavaString(this.asm).visit(object.getInitialization().get(0).getVariable().get(i).getDomain());
-                  _builder_21.append(_visit_22);
-                  _builder_21.append("_elem);");
-                  _builder_21.newLineIfNotEmpty();
-                  sb.append(_builder_21);
-                }
-              }
-              StringConcatenation _builder_20 = new StringConcatenation();
+              String _plus = (" " + _name_7);
+              String _plus_1 = (_plus + "_elem = ");
+              String _plus_2 = (_plus_1 + productKey);
+              String _plus_3 = (_plus_2 + ";\n");
+              sb.append(_plus_3);
+              StringConcatenation _builder_10 = new StringConcatenation();
               String _name_8 = object.getName();
-              _builder_20.append(_name_8);
-              _builder_20.append(".init(");
+              _builder_10.append(_name_8);
+              _builder_10.append(".init(");
               String _name_9 = object.getName();
-              _builder_20.append(_name_9);
-              _builder_20.append("_elem,a);");
-              _builder_20.newLineIfNotEmpty();
-              sb.append(_builder_20);
+              _builder_10.append(_name_9);
+              _builder_10.append("_elem,a);");
+              _builder_10.newLineIfNotEmpty();
+              sb.append(_builder_10);
             } else {
-              StringConcatenation _builder_21 = new StringConcatenation();
+              StringConcatenation _builder_11 = new StringConcatenation();
               String _name_10 = object.getName();
-              _builder_21.append(_name_10);
-              _builder_21.append(".init(");
+              _builder_11.append(_name_10);
+              _builder_11.append(".init(");
               String _visit_21 = new TermToJava(this.asm).visit(object.getInitialization().get(0).getVariable().get(this.i));
-              _builder_21.append(_visit_21);
-              _builder_21.append(",a);");
-              _builder_21.newLineIfNotEmpty();
-              sb.append(_builder_21);
+              _builder_11.append(_visit_21);
+              _builder_11.append(",a);");
+              _builder_11.newLineIfNotEmpty();
+              sb.append(_builder_11);
             }
           }
         }
         for (int i = 0; (i < object.getInitialization().get(0).getVariable().size()); i++) {
-          StringConcatenation _builder_22 = new StringConcatenation();
-          _builder_22.append("}");
-          sb.append(_builder_22);
+          StringConcatenation _builder_12 = new StringConcatenation();
+          _builder_12.append("}");
+          sb.append(_builder_12);
         }
       } else {
         if (((this.controllo(object.getCodomain().getName())).booleanValue() || (object.getCodomain() instanceof EnumTd))) {
-          StringConcatenation _builder_22 = new StringConcatenation();
+          StringConcatenation _builder_12 = new StringConcatenation();
           String _name_11 = object.getName();
-          _builder_22.append(_name_11);
-          _builder_22.append(".init(");
+          _builder_12.append(_name_11);
+          _builder_12.append(".init(");
           String _visit_22 = new TermToJava(this.asm).visit(object.getInitialization().get(0).getBody());
-          _builder_22.append(_visit_22);
-          _builder_22.append(");");
-          _builder_22.newLineIfNotEmpty();
-          sb.append(_builder_22);
+          _builder_12.append(_visit_22);
+          _builder_12.append(");");
+          _builder_12.newLineIfNotEmpty();
+          sb.append(_builder_12);
         } else {
           Domain _codomain_1 = object.getCodomain();
-          if ((_codomain_1 instanceof AbstractTd)) {
-            StringConcatenation _builder_23 = new StringConcatenation();
+          if ((_codomain_1 instanceof ProductDomain)) {
+            StringConcatenation _builder_13 = new StringConcatenation();
             String _name_12 = object.getName();
-            _builder_23.append(_name_12);
-            _builder_23.append(".init(");
-            String _name_13 = object.getCodomain().getName();
-            _builder_23.append(_name_13);
-            _builder_23.append(".get(\"");
+            _builder_13.append(_name_12);
+            _builder_13.append(".init(");
             String _visit_23 = new TermToJava(this.asm).visit(object.getInitialization().get(0).getBody());
-            _builder_23.append(_visit_23);
-            _builder_23.append("\"));");
-            _builder_23.newLineIfNotEmpty();
-            sb.append(_builder_23);
+            _builder_13.append(_visit_23);
+            _builder_13.append(");");
+            _builder_13.newLineIfNotEmpty();
+            sb.append(_builder_13);
           } else {
-            boolean dec = this.declaredDomainIninit.contains(object.getCodomain().getName());
-            if ((!dec)) {
-              StringConcatenation _builder_24 = new StringConcatenation();
+            Domain _codomain_2 = object.getCodomain();
+            if ((_codomain_2 instanceof AbstractTd)) {
+              StringConcatenation _builder_14 = new StringConcatenation();
+              String _name_13 = object.getName();
+              _builder_14.append(_name_13);
+              _builder_14.append(".init(");
               String _name_14 = object.getCodomain().getName();
-              _builder_24.append(_name_14);
-              _builder_24.append("  ");
-              String _name_15 = object.getCodomain().getName();
-              _builder_24.append(_name_15);
-              _builder_24.append("_elem = new  ");
-              String _name_16 = object.getCodomain().getName();
-              _builder_24.append(_name_16);
-              _builder_24.append("();");
-              sb.append(_builder_24);
-              this.declaredDomainIninit.add(object.getCodomain().getName());
+              _builder_14.append(_name_14);
+              _builder_14.append(".get(\"");
+              String _visit_24 = new TermToJava(this.asm).visit(object.getInitialization().get(0).getBody());
+              _builder_14.append(_visit_24);
+              _builder_14.append("\"));");
+              _builder_14.newLineIfNotEmpty();
+              sb.append(_builder_14);
             } else {
-              StringConcatenation _builder_25 = new StringConcatenation();
-              String _name_17 = object.getCodomain().getName();
-              _builder_25.append(_name_17);
-              _builder_25.append("_elem = new  ");
-              String _name_18 = object.getCodomain().getName();
-              _builder_25.append(_name_18);
-              _builder_25.append("();");
-              sb.append(_builder_25);
+              boolean dec = this.declaredDomainIninit.contains(object.getCodomain().getName());
+              if ((!dec)) {
+                StringConcatenation _builder_15 = new StringConcatenation();
+                String _name_15 = object.getCodomain().getName();
+                _builder_15.append(_name_15);
+                _builder_15.append("  ");
+                String _name_16 = object.getCodomain().getName();
+                _builder_15.append(_name_16);
+                _builder_15.append("_elem = new  ");
+                String _name_17 = object.getCodomain().getName();
+                _builder_15.append(_name_17);
+                _builder_15.append("();");
+                sb.append(_builder_15);
+                this.declaredDomainIninit.add(object.getCodomain().getName());
+              } else {
+                StringConcatenation _builder_16 = new StringConcatenation();
+                String _name_18 = object.getCodomain().getName();
+                _builder_16.append(_name_18);
+                _builder_16.append("_elem = new  ");
+                String _name_19 = object.getCodomain().getName();
+                _builder_16.append(_name_19);
+                _builder_16.append("();");
+                sb.append(_builder_16);
+              }
+              StringConcatenation _builder_17 = new StringConcatenation();
+              String _name_20 = object.getCodomain().getName();
+              _builder_17.append(_name_20);
+              _builder_17.append("_elem.value = ");
+              String _visit_25 = new TermToJava(this.asm).visit(object.getInitialization().get(0).getBody());
+              _builder_17.append(_visit_25);
+              _builder_17.append(";");
+              sb.append(_builder_17);
+              StringConcatenation _builder_18 = new StringConcatenation();
+              String _name_21 = object.getName();
+              _builder_18.append(_name_21);
+              _builder_18.append(".init(");
+              String _name_22 = object.getCodomain().getName();
+              _builder_18.append(_name_22);
+              _builder_18.append("_elem);");
+              sb.append(_builder_18);
             }
-            StringConcatenation _builder_26 = new StringConcatenation();
-            String _name_19 = object.getCodomain().getName();
-            _builder_26.append(_name_19);
-            _builder_26.append("_elem.value = ");
-            String _visit_24 = new TermToJava(this.asm).visit(object.getInitialization().get(0).getBody());
-            _builder_26.append(_visit_24);
-            _builder_26.append(";");
-            sb.append(_builder_26);
-            StringConcatenation _builder_27 = new StringConcatenation();
-            String _name_20 = object.getName();
-            _builder_27.append(_name_20);
-            _builder_27.append(".init(");
-            String _name_21 = object.getCodomain().getName();
-            _builder_27.append(_name_21);
-            _builder_27.append("_elem);");
-            sb.append(_builder_27);
           }
         }
       }
@@ -677,157 +622,78 @@ public class FunctionToJavaDef extends ReflectiveVisitor<String> {
           sb.append(_builder_3);
           Domain _domain_1 = object.getDomain();
           if ((_domain_1 instanceof ProductDomain)) {
-            StringConcatenation _builder_4 = new StringConcatenation();
-            _builder_4.append(" ");
+            Domain _domain_2 = object.getDomain();
+            final IntFunction<String> _function = (int index) -> {
+              String _visit_14 = new TermToJava(this.asm).visit(object.getInitialization().get(0).getVariable().get(index));
+              return (_visit_14 + "Val");
+            };
+            final String productKey = ProductToJava.value(((ProductDomain) _domain_2), _function);
             String _name_3 = object.getName();
-            _builder_4.append(_name_3, " ");
-            _builder_4.append("_elem = new ");
-            sb.append(_builder_4);
-            int _size = object.getInitialization().get(0).getVariable().size();
-            switch (_size) {
-              case 2:
-                StringConcatenation _builder_5 = new StringConcatenation();
-                _builder_5.append("Pair<");
-                sb.append(_builder_5);
-                break;
-              case 3:
-                StringConcatenation _builder_6 = new StringConcatenation();
-                _builder_6.append("Triplet<");
-                sb.append(_builder_6);
-                break;
-              case 4:
-                StringConcatenation _builder_7 = new StringConcatenation();
-                _builder_7.append("Quartet<");
-                sb.append(_builder_7);
-                break;
-              case 5:
-                StringConcatenation _builder_8 = new StringConcatenation();
-                _builder_8.append("Quintet<");
-                sb.append(_builder_8);
-                break;
-              case 6:
-                StringConcatenation _builder_9 = new StringConcatenation();
-                _builder_9.append("Sextet<");
-                sb.append(_builder_9);
-                break;
-              case 7:
-                StringConcatenation _builder_10 = new StringConcatenation();
-                _builder_10.append("Septet<");
-                sb.append(_builder_10);
-                break;
-              case 8:
-                StringConcatenation _builder_11 = new StringConcatenation();
-                _builder_11.append("Octet<");
-                sb.append(_builder_11);
-                break;
-              case 9:
-                StringConcatenation _builder_12 = new StringConcatenation();
-                _builder_12.append("Ennead<");
-                sb.append(_builder_12);
-                break;
-              case 10:
-                StringConcatenation _builder_13 = new StringConcatenation();
-                _builder_13.append("Decade<");
-                sb.append(_builder_13);
-                break;
-            }
-            for (int i = 0; (i < object.getInitialization().get(0).getVariable().size()); i++) {
-              int _size_1 = object.getInitialization().get(0).getVariable().size();
-              int _minus = (_size_1 - 1);
-              boolean _notEquals = (i != _minus);
-              if (_notEquals) {
-                StringConcatenation _builder_14 = new StringConcatenation();
-                String _visit_14 = new DomainToJavaString(this.asm).visit(object.getInitialization().get(0).getVariable().get(i).getDomain());
-                _builder_14.append(_visit_14);
-                _builder_14.append(",");
-                sb.append(_builder_14);
-              } else {
-                StringConcatenation _builder_15 = new StringConcatenation();
-                String _visit_15 = new DomainToJavaString(this.asm).visit(object.getInitialization().get(0).getVariable().get(i).getDomain());
-                _builder_15.append(_visit_15);
-                _builder_15.append(">(");
-                sb.append(_builder_15);
-              }
-            }
-            for (int i = 0; (i < object.getInitialization().get(0).getVariable().size()); i++) {
-              int _size_1 = object.getInitialization().get(0).getVariable().size();
-              int _minus = (_size_1 - 1);
-              boolean _notEquals = (i != _minus);
-              if (_notEquals) {
-                StringConcatenation _builder_14 = new StringConcatenation();
-                String _visit_14 = new TermToJava(this.asm).visit(object.getInitialization().get(0).getVariable().get(i));
-                _builder_14.append(_visit_14);
-                _builder_14.append("Val,");
-                sb.append(_builder_14);
-              } else {
-                StringConcatenation _builder_15 = new StringConcatenation();
-                String _visit_15 = new TermToJava(this.asm).visit(object.getInitialization().get(0).getVariable().get(i));
-                _builder_15.append(_visit_15);
-                _builder_15.append("Val);");
-                _builder_15.newLineIfNotEmpty();
-                sb.append(_builder_15);
-              }
-            }
-            StringConcatenation _builder_14 = new StringConcatenation();
+            String _plus = (" " + _name_3);
+            String _plus_1 = (_plus + "_elem = ");
+            String _plus_2 = (_plus_1 + productKey);
+            String _plus_3 = (_plus_2 + ";\n");
+            sb.append(_plus_3);
+            StringConcatenation _builder_4 = new StringConcatenation();
             String _name_4 = object.getName();
-            _builder_14.append(_name_4);
-            _builder_14.append(".values.put(");
+            _builder_4.append(_name_4);
+            _builder_4.append(".values.put(");
             String _name_5 = object.getName();
-            _builder_14.append(_name_5);
-            _builder_14.append("_elem,a);");
-            _builder_14.newLineIfNotEmpty();
-            sb.append(_builder_14);
+            _builder_4.append(_name_5);
+            _builder_4.append("_elem,a);");
+            _builder_4.newLineIfNotEmpty();
+            sb.append(_builder_4);
           }
-          StringConcatenation _builder_15 = new StringConcatenation();
+          StringConcatenation _builder_5 = new StringConcatenation();
           String _name_6 = object.getName();
-          _builder_15.append(_name_6);
-          _builder_15.append(".values.put(");
+          _builder_5.append(_name_6);
+          _builder_5.append(".values.put(");
           String _visit_14 = new TermToJava(this.asm).visit(object.getInitialization().get(0).getVariable().get(this.i));
-          _builder_15.append(_visit_14);
-          _builder_15.append(",a);");
-          _builder_15.newLineIfNotEmpty();
-          sb.append(_builder_15);
+          _builder_5.append(_visit_14);
+          _builder_5.append(",a);");
+          _builder_5.newLineIfNotEmpty();
+          sb.append(_builder_5);
         }
       }
       for (int i = 0; (i < object.getInitialization().get(0).getVariable().size()); i++) {
-        StringConcatenation _builder_16 = new StringConcatenation();
-        _builder_16.append("}");
-        sb.append(_builder_16);
+        StringConcatenation _builder_6 = new StringConcatenation();
+        _builder_6.append("}");
+        sb.append(_builder_6);
       }
     } else {
       if (((this.controllo(object.getCodomain().getName())).booleanValue() || (object.getCodomain() instanceof EnumTd))) {
-        StringConcatenation _builder_16 = new StringConcatenation();
+        StringConcatenation _builder_6 = new StringConcatenation();
         String _name_7 = object.getName();
-        _builder_16.append(_name_7);
-        _builder_16.append(".value = ");
+        _builder_6.append(_name_7);
+        _builder_6.append(".value = ");
         String _visit_15 = new TermToJava(this.asm).visit(object.getInitialization().get(0).getBody());
-        _builder_16.append(_visit_15);
-        _builder_16.append(";");
-        _builder_16.newLineIfNotEmpty();
-        sb.append(_builder_16);
+        _builder_6.append(_visit_15);
+        _builder_6.append(";");
+        _builder_6.newLineIfNotEmpty();
+        sb.append(_builder_6);
       } else {
-        StringConcatenation _builder_17 = new StringConcatenation();
-        _builder_17.newLine();
+        StringConcatenation _builder_7 = new StringConcatenation();
+        _builder_7.newLine();
         String _name_8 = object.getCodomain().getName();
-        _builder_17.append(_name_8);
-        _builder_17.append("_elem.value = ");
+        _builder_7.append(_name_8);
+        _builder_7.append("_elem.value = ");
         String _visit_16 = new TermToJava(this.asm).visit(object.getInitialization().get(0).getBody());
-        _builder_17.append(_visit_16);
-        _builder_17.append(";");
-        _builder_17.newLineIfNotEmpty();
-        _builder_17.newLine();
+        _builder_7.append(_visit_16);
+        _builder_7.append(";");
+        _builder_7.newLineIfNotEmpty();
+        _builder_7.newLine();
         String _name_9 = object.getName();
-        _builder_17.append(_name_9);
-        _builder_17.append(".value = ");
+        _builder_7.append(_name_9);
+        _builder_7.append(".value = ");
         String _name_10 = object.getName();
-        _builder_17.append(_name_10);
-        _builder_17.append(".value = ");
+        _builder_7.append(_name_10);
+        _builder_7.append(".value = ");
         String _name_11 = object.getCodomain().getName();
-        _builder_17.append(_name_11);
-        _builder_17.append("_elem;");
-        _builder_17.newLineIfNotEmpty();
-        _builder_17.newLine();
-        sb.append(_builder_17);
+        _builder_7.append(_name_11);
+        _builder_7.append("_elem;");
+        _builder_7.newLineIfNotEmpty();
+        _builder_7.newLine();
+        sb.append(_builder_7);
       }
     }
     return sb.toString();

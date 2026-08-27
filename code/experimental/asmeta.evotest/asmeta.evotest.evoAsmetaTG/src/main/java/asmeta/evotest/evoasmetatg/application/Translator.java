@@ -107,6 +107,15 @@ public interface Translator {
 	void setClean(boolean clean);
 
 	/**
+	 * Set whether scenarios may be generated without recording nondeterministic
+	 * choices.
+	 *
+	 * @param flaky {@code true} to use the original, potentially flaky generation
+	 *              process.
+	 */
+	void setFlaky(boolean flaky);
+
+	/**
 	 * Cleans up resources.
 	 */
 	void clean();

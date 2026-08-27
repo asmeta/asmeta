@@ -1,6 +1,5 @@
 package asmeta.asmetal2java.codegen.evosuite
 
-import asmeta.definitions.ControlledFunction
 import asmeta.definitions.MonitoredFunction
 import asmeta.definitions.StaticFunction
 import asmeta.definitions.domains.AbstractTd
@@ -10,7 +9,10 @@ import asmeta.structure.Asm
 import asmeta.asmetal2java.codegen.translator.TermToJava
 import asmeta.asmetal2java.codegen.translator.DomainToJavaString
 import asmeta.definitions.domains.SequenceDomain
+import asmeta.definitions.domains.ProductDomain
+import asmeta.asmetal2java.codegen.translator.ProductToJava
 import asmeta.asmetal2java.codegen.config.TranslatorOptions
+import asmeta.asmetal2java.codegen.translator.Util
 
 /**
  * Contains all the methods to control the translated java class as 
@@ -36,7 +38,7 @@ class AsmMethods {
 
 		var asmName = asm.name;
 		for (fd : asm.headerSection.signature.function) {
-			if (fd instanceof ControlledFunction) {
+			if (Util.isControlledOrOut(fd)) {
 				sb.append(System.lineSeparator)
 				if (fd.domain === null) { // [] -> ...
 				// use the wrapper objects to prevent NullPointerException
@@ -62,6 +64,13 @@ class AsmMethods {
 							public String get_«fd.name»(){
 								String value = this.execution.«fd.name».get().toString();
 								return value != null ? "abstract_" + value : null;
+							}
+						''');
+					} else if (fd.codomain instanceof ProductDomain) { // [] -> Product
+						sb.append('''
+							public String get_«fd.name»(){
+								org.javatuples.Tuple value = this.execution.«fd.name».get();
+								return value != null ? value.toString() : null;
 							}
 						''');
 					} else if (fd.codomain instanceof SequenceDomain) { // [] -> Sequence
@@ -338,6 +347,45 @@ class AsmMethods {
 
 	}
 
+	/** Generates an EvoSuite-friendly setter for a monitored function with Product domain. */
+	static private def String productMonitoredSetter(Asm asm, MonitoredFunction fd, TranslatorOptions translatorOptions) {
+		val domain = fd.domain as ProductDomain
+		val parameters = new StringBuffer
+		for (var int i = 0; i < domain.domains.size; i++) {
+			val component = domain.domains.get(i)
+			if (!AsmMethodsUtil.basicTdList.contains(component.name)) {
+				manageNotSupportedDomain(translatorOptions, component.name)
+				return ""
+			}
+			if (i > 0)
+				parameters.append(", ")
+			parameters.append(AsmMethodsUtil.getBasicTdType(component.name)).append(" ").
+				append(fd.name).append("_key").append(i)
+		}
+
+		if (!AsmMethodsUtil.basicTdList.contains(fd.codomain.name)) {
+			manageNotSupportedDomain(translatorOptions, fd.codomain.name)
+			return ""
+		}
+
+		val valueType = AsmMethodsUtil.getBasicTdType(fd.codomain.name)
+		val tuple = ProductToJava.qualifiedValue(domain, [ index | fd.name + "_key" + index ])
+		val sb = new StringBuffer
+		sb.append("\tpublic void set_").append(fd.name).append("(").append(parameters).
+			append(", ").append(valueType).append(" ").append(fd.name).append(") {\n")
+		sb.append("\t\tthis.execution.").append(fd.name).append(".set(").append(tuple).
+			append(", ").append(fd.name).append(");\n")
+		sb.append("\t\tSystem.out.println(\"Set ").append(fd.name).append("(\" + ")
+		for (var int i = 0; i < domain.domains.size; i++) {
+			if (i > 0)
+				sb.append(" + \", \" + ")
+			sb.append(fd.name).append("_key").append(i)
+		}
+		sb.append(" + \") = \" + ").append(fd.name).append(");\n")
+		sb.append("\t}\n")
+		return sb.toString
+	}
+
 	/** 
 	 * Monitored functions setters (public setters)
 	 * 
@@ -421,7 +469,9 @@ class AsmMethods {
 				} else { // (Enum|Abstract|ConcreteDomain) -> (Integer|String|Boolean|ConcreteDomain|Enum|Abstract)
 				// add the marker _fromDomain_ to the setter name
 					var dd = fd.domain
-					if (dd instanceof EnumTd) { // Enum -> ...
+					if (dd instanceof ProductDomain) { // Product -> ...
+						sb.append(productMonitoredSetter(asm, fd, translatorOptions))
+					} else if (dd instanceof EnumTd) { // Enum -> ...
 						for (var int i = 0; i < dd.element.size; i++) {
 							var symbol = new DomainToJavaStringEvosuite(asm).visit(dd.element.get(i))
 							if (fd.codomain instanceof ConcreteDomain) { // Enum -> ConcreteDomain 

@@ -3,6 +3,7 @@ package asmeta.asmetal2java.codegen.translator;
 import java.util.List;
 
 import asmeta.definitions.domains.ConcreteDomain;
+import asmeta.definitions.domains.ProductDomain;
 import asmeta.structure.Asm;
 import asmeta.terms.basicterms.SetTerm;
 import asmeta.terms.basicterms.Term;
@@ -28,7 +29,11 @@ public class ExpressionToJava {
 				|| function.equals("&") || function.equals("|") || function.equals("xor") || function.equals("mod")
 				|| function.equals("isDef") || function.equals("+") || function.equals("*") || function.equals("/")
 				|| function.equals("^") || function.equals("iton") || function.equals("at")
-				|| function.equals("chooseone") || function.equals("first") || function.equals("length") || function.equals("union");
+				|| function.equals("indexOf") || function.equals("chooseone") || function.equals("first")
+				|| function.equals("second") || function.equals("third") || function.equals("fourth")
+				|| function.equals("fifth") || function.equals("sixth") || function.equals("seventh")
+				|| function.equals("eighth") || function.equals("ninth") || function.equals("length")
+				|| function.equals("union");
 	}
 
 	/**
@@ -61,6 +66,8 @@ public class ExpressionToJava {
 			return addOperator(argsTerm, "==");
 		case ("at"):
 			return at(argsTerm);
+		case ("indexOf"):
+			return indexOf(argsTerm);
 		case ("length"):
 			return length(argsTerm);
 		case ("!="):
@@ -76,7 +83,23 @@ public class ExpressionToJava {
 		case ("isDef"):
 			return isDef(argsTerm);
 		case ("first"):
-			return first(argsTerm);
+			return projection(argsTerm, 0);
+		case ("second"):
+			return projection(argsTerm, 1);
+		case ("third"):
+			return projection(argsTerm, 2);
+		case ("fourth"):
+			return projection(argsTerm, 3);
+		case ("fifth"):
+			return projection(argsTerm, 4);
+		case ("sixth"):
+			return projection(argsTerm, 5);
+		case ("seventh"):
+			return projection(argsTerm, 6);
+		case ("eighth"):
+			return projection(argsTerm, 7);
+		case ("ninth"):
+			return projection(argsTerm, 8);
 		case ("union"):
 			return union(argsTerm);
 		case ("+"):
@@ -122,15 +145,23 @@ public class ExpressionToJava {
 	}
 
 	/**
-	 * Executes the first function.
+	 * Translates first through ninth for products and preserves first for sequences.
 	 *
 	 * @param argsTerm the args term
 	 *
 	 * @return the string
 	 */
-	private String first(List<Term> argsTerm) {
-		String first = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		return first + ".get(0)";
+	private String projection(List<Term> argsTerm, int index) {
+		Term source = argsTerm.get(0);
+		String value = new TermToJavaStandardLibrary(asm).visit(source);
+		if (source.getDomain() instanceof ProductDomain) {
+			return value + ".getValue" + index + "()";
+		}
+		if (index == 0) {
+			// first is overloaded for sequences in the StandardLibrary.
+			return value + ".get(0)";
+		}
+		throw new InvalidFunctionException("Projection " + (index + 1) + " requires a ProductDomain argument");
 	}
 
 	private String chooseone(List<Term> argsTerm) {
@@ -149,7 +180,14 @@ public class ExpressionToJava {
 	private String at(List<Term> argsTerm) {
 		String first = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
 		String second = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
-		return first + ".get(" + second + ")";
+		String getter = argsTerm.get(0).getDomain() instanceof ProductDomain ? ".getValue(" : ".get(";
+		return first + getter + second + ")";
+	}
+
+	private String indexOf(List<Term> argsTerm) {
+		String product = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
+		String value = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
+		return product + ".indexOf(" + value + ")";
 	}
 
 	private String and(List<Term> argsTerm) {
@@ -231,12 +269,8 @@ public class ExpressionToJava {
 	 * @return the string
 	 */
 	String minusUnary(List<Term> argsTerm) {
-		String str = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		if (Boolean.TRUE.equals(new Util().isNumber(str))) {
-			return String.valueOf(Integer.valueOf(str) * (-1));
-		} else {
-			return new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		}
+		String operand = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
+		return "-(" + operand + ")";
 	}
 
 	/**

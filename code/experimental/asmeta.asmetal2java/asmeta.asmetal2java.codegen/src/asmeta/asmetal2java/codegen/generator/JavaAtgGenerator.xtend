@@ -3,7 +3,6 @@ package asmeta.asmetal2java.codegen.generator
 import asmeta.structure.Asm
 import java.util.List
 import asmeta.transitionrules.basictransitionrules.Rule
-import org.junit.Assert
 import java.util.ArrayList
 import asmeta.asmetal2java.codegen.translator.SeqRuleCollector
 import asmeta.asmetal2java.codegen.config.TranslatorOptions
@@ -26,7 +25,8 @@ class JavaAtgGenerator extends AsmToJavaGenerator {
 	}
 
 	def compileAndWrite(Asm asm, String writerPath, TranslatorOptions userOptions) {
-		Assert.assertTrue(writerPath.endsWith(".java"));
+		if (!writerPath.endsWith(".java"))
+			throw new IllegalArgumentException("The output file must have the .java extension")
 		compileAndWrite(asm, writerPath, "JAVA", userOptions)
 	}
 
@@ -67,6 +67,14 @@ class JavaAtgGenerator extends AsmToJavaGenerator {
 			
 			/** current state. */
 			private int state;
+
+			private static void __asmetaStartChoiceRecording(){
+				«asmName».__asmetaStartChoiceRecording();
+			}
+
+			private static String[][] __asmetaStopChoiceRecording(){
+				return «asmName».__asmetaStopChoiceRecording();
+			}
 		
 		   /**
 		    * Constructor of the {@code «asmName»_ATG} class. Creates a private instance of the asm
@@ -81,6 +89,8 @@ class JavaAtgGenerator extends AsmToJavaGenerator {
 			*/
 			public void step(){
 				
+				«asmName».__asmetaBeginStep();
+
 				this.execution.updateASM();
 				
 				System.out.println("</State "+ state +" >");

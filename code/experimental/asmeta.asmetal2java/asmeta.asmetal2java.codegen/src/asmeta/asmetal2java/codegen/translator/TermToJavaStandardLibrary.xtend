@@ -1,7 +1,9 @@
 package asmeta.asmetal2java.codegen.translator
 
 import asmeta.definitions.ControlledFunction
+import asmeta.definitions.Function
 import asmeta.definitions.MonitoredFunction
+import asmeta.definitions.OutFunction
 import asmeta.definitions.StaticFunction
 import asmeta.definitions.domains.AbstractTd
 import asmeta.definitions.domains.BasicTd
@@ -31,6 +33,14 @@ class TermToJavaStandardLibrary extends TermToJava {
 
 	// Identifico la tipologia delle variabili e la loro posizione rispetto all'operatore
 	override dispatch String caseFunctionTermSupp(ControlledFunction fd, FunctionTerm ft) {
+		return caseControlledOrOutputFunctionSupp(fd, ft)
+	}
+
+	override dispatch String caseFunctionTermSupp(OutFunction fd, FunctionTerm ft) {
+		return caseControlledOrOutputFunctionSupp(fd, ft)
+	}
+
+	private def String caseControlledOrOutputFunctionSupp(Function fd, FunctionTerm ft) {
 
 		var StringBuffer functionTerm = new StringBuffer
 
@@ -91,7 +101,12 @@ class TermToJavaStandardLibrary extends TermToJava {
 			} // Caso di studio con variabili multiple in ingresso
 			// da controllare se corretto come metodo
 			else {
-				// functionTerm.append("[make_tuple(")
+				val tuple = ProductToJava.value(ft.arguments, [ term | visit(term) ])
+				if (leftHandSide) {
+					leftHandSide = false
+					functionTerm.append(".set(" + tuple + ", ")
+				} else
+					functionTerm.append(".get(" + tuple + ")")
 			}
 		}
 		return functionTerm.toString
@@ -120,10 +135,12 @@ class TermToJavaStandardLibrary extends TermToJava {
 				}
 
 			} else {
-				functionTerm.append("[make_tuple(")
-				for (var i = 0; i < ft.arguments.terms.size; i++)
-					functionTerm.append(visit(ft.arguments.terms.get(i)) + ", ")
-				functionTerm = new StringBuffer(functionTerm.substring(0, functionTerm.length - 2) + ")]")
+				val tuple = ProductToJava.value(ft.arguments, [ term | visit(term) ])
+				if (leftHandSide) {
+					leftHandSide = false
+					functionTerm.append(".set(" + tuple + ", ")
+				} else
+					functionTerm.append(".get(" + tuple + ")")
 			}
 		}
 		return functionTerm.toString

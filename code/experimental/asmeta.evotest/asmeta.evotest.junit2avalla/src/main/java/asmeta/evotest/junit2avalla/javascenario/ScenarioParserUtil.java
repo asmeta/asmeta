@@ -105,6 +105,16 @@ public class ScenarioParserUtil {
 		currentJavaVariable.setPrimitive(false);
 	}
 
+	/** Converts a parsed Java argument to the corresponding Avalla literal. */
+	static String toAvallaValue(JavaVariableTerm variable) {
+		String value = variable.getValue();
+		if (value == null) {
+			throw new JUnitParseException("Unable to translate a null Java argument.");
+		}
+		return variable.isPrimitive() ? value.replace("\"", "")
+				: value.substring(value.lastIndexOf('.') + 1);
+	}
+
 	/**
 	 * Sets the value field of a String variable and adds it to the
 	 * currentJavaVariable

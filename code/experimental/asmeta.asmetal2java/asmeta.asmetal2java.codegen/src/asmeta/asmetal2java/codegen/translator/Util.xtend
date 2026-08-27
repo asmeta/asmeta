@@ -10,6 +10,9 @@ import asmeta.structure.Asm
 import asmeta.terms.basicterms.VariableTerm
 import org.eclipse.emf.common.util.EList
 import asmeta.definitions.domains.BooleanDomain
+import asmeta.definitions.Function
+import asmeta.definitions.OutFunction
+import asmeta.definitions.ControlledFunction
 
 class Util {
 
@@ -128,6 +131,11 @@ class Util {
 			return true
 		else
 			return false
+	}
+	
+	// Return true if function is Controlled or Out
+	static def boolean isControlledOrOut(Function function) {
+		return function instanceof ControlledFunction || function instanceof OutFunction;
 	}
 
 }

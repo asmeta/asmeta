@@ -10,7 +10,6 @@ import asmeta.asmetal2java.codegen.translator.FunctionToJavaSig;
 import asmeta.asmetal2java.codegen.translator.RuleToJava;
 import asmeta.asmetal2java.codegen.translator.SeqRuleCollector;
 import asmeta.asmetal2java.codegen.translator.Util;
-import asmeta.definitions.ControlledFunction;
 import asmeta.definitions.DerivedFunction;
 import asmeta.definitions.Function;
 import asmeta.definitions.RuleDeclaration;
@@ -33,7 +32,6 @@ import java.util.Set;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.xbase.lib.CollectionLiterals;
-import org.junit.Assert;
 
 /**
  * Generates the translation of an Asm specification to a java class from an ASMeta specification.
@@ -43,7 +41,11 @@ public class JavaGenerator extends AsmToJavaGenerator {
   protected String initConrolledMonitored;
 
   public void compileAndWrite(final Asm asm, final String writerPath, final TranslatorOptions userOptions) {
-    Assert.assertTrue(writerPath.endsWith(".java"));
+    boolean _endsWith = writerPath.endsWith(".java");
+    boolean _not = (!_endsWith);
+    if (_not) {
+      throw new IllegalArgumentException("The output file must have the .java extension");
+    }
     this.compileAndWrite(asm, writerPath, "JAVA", userOptions);
   }
 
@@ -823,7 +825,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
     StringBuffer updateset = new StringBuffer();
     EList<Function> _function = asm.getHeaderSection().getSignature().getFunction();
     for (final Function cf : _function) {
-      if (((cf instanceof ControlledFunction) && (cf.getDomain() != null))) {
+      if ((Util.isControlledOrOut(cf) && (cf.getDomain() != null))) {
         StringConcatenation _builder = new StringConcatenation();
         String _name = cf.getName();
         _builder.append(_name);
@@ -831,7 +833,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
         _builder.newLineIfNotEmpty();
         updateset.append(_builder);
       } else {
-        if (((cf instanceof ControlledFunction) && (cf.getDomain() == null))) {
+        if ((Util.isControlledOrOut(cf) && (cf.getDomain() == null))) {
           StringConcatenation _builder_1 = new StringConcatenation();
           String _name_1 = cf.getName();
           _builder_1.append(_name_1);

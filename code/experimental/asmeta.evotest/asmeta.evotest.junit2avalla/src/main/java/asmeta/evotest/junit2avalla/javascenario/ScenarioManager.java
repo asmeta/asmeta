@@ -107,8 +107,7 @@ class ScenarioManager {
 	 * @return the processed value as a string.
 	 */
 	private String retrieveValue(JavaVariableTerm javaVariable) {
-		String value = javaVariable.getValue();
-		return javaVariable.isPrimitive() ? value.replace("\"", "") : value.substring(value.lastIndexOf('.') + 1);
+		return ScenarioParserUtil.toAvallaValue(javaVariable);
 	}
 
 	/**
@@ -134,8 +133,9 @@ class ScenarioManager {
 			// if it's an abstract type remove the double quotes and the abstract_ flag
 			expected = expected.replace("\"", "");
 			expected = expected.replace("abstract_", "");
-		} else if (expected.startsWith("\"[") && expected.endsWith("]\"")) {
-			// if it's a sequence type remove the double quotes
+		} else if ((expected.startsWith("\"[") && expected.endsWith("]\""))
+				|| (expected.startsWith("\"(") && expected.endsWith(")\""))) {
+			// if it's a sequence or tuple type remove the double quotes
 			expected = expected.replace("\"", "");
 		}
 		return javaAssertionTerm.isPrimitive() ? expected : expected.substring(expected.lastIndexOf(".") + 1);

@@ -115,20 +115,28 @@ public class TermsVisitor extends VoidVisitorAdapter<Context> {
      * @param context the context containing shared data for the visitor operations.
      */
 	private void handleSetTerm(MethodCallExpr node, Context context) {
+		if (node.getArguments().isEmpty())
+			throw new JUnitParseException("The set method must have at least one argument.");
+
+		String setterName = ScenarioParserUtil.buildDomainCodomain(node.getNameAsString());
+		StringBuilder avallaSetter = new StringBuilder(setterName);
+		if (node.getArguments().size() > 1) {
+			avallaSetter.append("(");
+			for (int index = 0; index < node.getArguments().size() - 1; index++) {
+				if (index > 0) avallaSetter.append(", ");
+				context.setCurrentJavaVariable(new JavaVariableTerm());
+				context.getCurrentJavaVariable().setName(setterName);
+				node.getArgument(index).accept(new VariableValueVisitor(), context);
+				avallaSetter.append(ScenarioParserUtil.toAvallaValue(context.getCurrentJavaVariable()));
+			}
+			avallaSetter.append(")");
+		}
+
 		context.setCurrentJavaVariable(new JavaVariableTerm());
+		context.getCurrentJavaVariable().setName(avallaSetter.toString());
+		node.getArgument(node.getArguments().size() - 1).accept(new VariableValueVisitor(), context);
 
-		// set name
-		context.getCurrentJavaVariable().setName(ScenarioParserUtil.buildDomainCodomain(node.getNameAsString()));
-
-		// set value
-		if (node.getArguments().size() != 1)
-			throw new JUnitParseException("The argument of the set method must be 1.");
-		node.getArgument(0).accept(new VariableValueVisitor(), context);
-
-		// add term to scenario
 		context.getScenarioManager().setSetTerm(context.getCurrentScenario(), context.getCurrentJavaVariable());
-		
-		// ignore the next checks until the next step
 		context.setIgnoreChecks(true);
 	}
 

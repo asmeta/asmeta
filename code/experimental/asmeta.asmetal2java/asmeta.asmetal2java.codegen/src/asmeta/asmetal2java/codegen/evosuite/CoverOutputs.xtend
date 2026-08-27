@@ -2,13 +2,13 @@ package asmeta.asmetal2java.codegen.evosuite
 
 import asmeta.asmetal2java.codegen.translator.DomainToJavaString
 import asmeta.asmetal2java.codegen.translator.TermToJava
-import asmeta.definitions.ControlledFunction
 import asmeta.definitions.MonitoredFunction
 import asmeta.definitions.StaticFunction
 import asmeta.definitions.domains.AbstractTd
 import asmeta.definitions.domains.ConcreteDomain
 import asmeta.definitions.domains.EnumTd
 import asmeta.structure.Asm
+import asmeta.asmetal2java.codegen.translator.Util
 
 /**
  * Contains the methods to cover the outputs of the abstract state machine (ASM),
@@ -26,7 +26,7 @@ class CoverOutputs {
 		val sb = new StringBuffer();
 		
 		for (fd : asm.headerSection.signature.function){
-			if(fd instanceof MonitoredFunction || fd instanceof ControlledFunction){
+			if(fd instanceof MonitoredFunction || Util.isControlledOrOut(fd)){
 				// cover only enum codomain
 				if(fd.codomain instanceof EnumTd){ // ... -> Enum
 					if(fd.domain === null){ // [] -> Enum
@@ -120,7 +120,7 @@ class CoverOutputs {
 
 		for (fd : asm.headerSection.signature.function) {
 			// cover monitored and controlled outputs
-			if (fd instanceof MonitoredFunction || fd instanceof ControlledFunction) {
+			if (fd instanceof MonitoredFunction || Util.isControlledOrOut(fd)) {
 				// cover only enum codomain states
 				if(fd.codomain instanceof EnumTd){ // ... -> Enum
 					if(fd.domain === null){  // [] -> Enum

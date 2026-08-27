@@ -39,72 +39,13 @@ class DomainToJavaSigDef extends ReflectiveVisitor<String> {
 	protected def String isPrivate(){
 		return ""
 	}
-
-	// Translate product dmains
+	
+	// Translate product domains using the shared javatuples mapping.
 	def String visit(ProductDomain object) {
-		var StringBuffer sb = new StringBuffer
-
-		switch (object.domains.size) {
-			case 2: {
-				sb.append('''Pair<''')
-				for (var int i = 0; i < object.domains.size; i++) {
-					sb.append('''«createDomainToJavaString(res).visit(object.domains.get(i))», ''')
-
-				}
-			}
-			case 3: {
-				sb.append('''Triplet<''')
-				for (var int i = 0; i < object.domains.size; i++) {
-					sb.append('''«createDomainToJavaString(res).visit(object.domains.get(i))», ''')
-				}
-			}
-			case 4: {
-				sb.append('''Quartet<''')
-				for (var int i = 0; i < object.domains.size; i++) {
-					sb.append('''«createDomainToJavaString(res).visit(object.domains.get(i))», ''')
-				}
-			}
-			case 5: {
-				sb.append('''Quintet<''')
-				for (var int i = 0; i < object.domains.size; i++) {
-					sb.append('''«createDomainToJavaString(res).visit(object.domains.get(i))», ''')
-				}
-			}
-			case 6: {
-				sb.append('''Sextet<''')
-				for (var int i = 0; i < object.domains.size; i++) {
-					sb.append('''«createDomainToJavaString(res).visit(object.domains.get(i))», ''')
-				}
-			}
-			case 7: {
-				sb.append('''Septet<''')
-				for (var int i = 0; i < object.domains.size; i++) {
-					sb.append('''«createDomainToJavaString(res).visit(object.domains.get(i))», ''')
-				}
-			}
-			case 8: {
-				sb.append('''Octet<''')
-				for (var int i = 0; i < object.domains.size; i++) {
-					sb.append('''«createDomainToJavaString(res).visit(object.domains.get(i))», ''')
-				}
-			}
-			case 9: {
-				sb.append('''Ennead<''')
-				for (var int i = 0; i < object.domains.size; i++) {
-					sb.append('''«createDomainToJavaString(res).visit(object.domains.get(i))», ''')
-				}
-
-			}
-			case 10: {
-				sb.append('''Decade<''')
-				for (var int i = 0; i < object.domains.size; i++) {
-					sb.append('''«createDomainToJavaString(res).visit(object.domains.get(i))», ''')
-				}
-			}
-		}
-
-		return sb.toString.substring(0, sb.length - 2).concat(">")
+		return ProductToJava.type(object, [ domain | createDomainToJavaString(res).visit(domain) ])
 	}
+
+
 
 	def String visit(DomainDefinition object) {
 		return new TermToJava(res).visit(object.body)

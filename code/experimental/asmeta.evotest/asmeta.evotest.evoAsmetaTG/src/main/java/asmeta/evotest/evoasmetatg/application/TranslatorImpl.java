@@ -5,8 +5,11 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -49,6 +52,9 @@ public class TranslatorImpl implements Translator {
 	/** Indicates whether to clean the folders {@code true} or not {@code false} */
 	private boolean clean;
 
+	/** Indicates whether generated scenarios may be flaky. */
+	private boolean flaky;
+
 	/** File manager instance for handling file operations. */
 	private FileManager fileManager;
 	
@@ -63,6 +69,7 @@ public class TranslatorImpl implements Translator {
 		this.options = new OptionsImpl();
 		this.fileManager = new FileManager();
 		this.clean = false;
+		this.flaky = false;
 	}
 
 	@Override
@@ -215,6 +222,11 @@ public class TranslatorImpl implements Translator {
 	}
 
 	@Override
+	public void setFlaky(boolean flaky) {
+		this.flaky = flaky;
+	}
+
+	@Override
 	public void clean() {
 		logger.debug("Cleaning the resources...");
 		cleanFolder(fileManager.getEvosuiteTestsPathToString());
@@ -280,10 +292,31 @@ public class TranslatorImpl implements Translator {
 	}
 
 	/**
-	 * Build the option for the {@code Evosuite} jar command.
-	 * 
-	 * @return list of String containing the desired options.
+	 * Builds the classpath of the project analyzed by EvoSuite. The EvoSuite
+	 * launcher jars are excluded because they are tools, not dependencies of the
+	 * generated Java class. Every other jar in the dependencies directory is made
+	 * available to both instrumentation and test generation.
 	 */
+	private String buildEvosuiteProjectClasspath(String evosuiteTargetDir) {
+		List<String> classpathEntries = new LinkedList<>();
+		classpathEntries.add(evosuiteTargetDir);
+
+		File dependenciesDir = new File(fileManager.getEvosuiteJarDirPathToString());
+		File[] dependencyJars = dependenciesDir.listFiles(file -> file.isFile()
+				&& file.getName().toLowerCase(Locale.ROOT).endsWith(".jar")
+				&& !TranslatorConstants.EVOSUITE_1_0_6_JAR.equals(file.getName())
+				&& !TranslatorConstants.EVOSUITE_1_2_0_JAR.equals(file.getName()));
+
+		if (dependencyJars != null) {
+			Arrays.sort(dependencyJars, Comparator.comparing(File::getName));
+			for (File dependencyJar : dependencyJars) {
+				classpathEntries.add(dependencyJar.getAbsolutePath());
+			}
+		}
+
+		return String.join(File.pathSeparator, classpathEntries);
+	}
+
 	private List<String> buildEvosuiteOptions() {
 
 		List<String> listOfOptions = new LinkedList<>();
@@ -297,10 +330,11 @@ public class TranslatorImpl implements Translator {
 
 		// Set the location of the report.csv file
 		// -Dreport_dir="<<workingDir>/evosuite/evosuite-report>"
-		String evosuiteReportOption = TranslatorConstants.EVOSUITE_REPORT_DIR + TranslatorConstants.EQ
-				/*+ TranslatorConstants.DOUBLE_QUOTES*/ + Paths.get(fileManager.getWorkingDirPathToString(),
-						TranslatorConstants.EVOSUITE, TranslatorConstants.EVOSUITE_REPORT).toString()
-				/*+ TranslatorConstants.DOUBLE_QUOTES*/;
+			String evosuiteReportOption = TranslatorConstants.EVOSUITE_REPORT_DIR + TranslatorConstants.EQ
+					/*+ TranslatorConstants.DOUBLE_QUOTES*/ + Paths.get(fileManager.getWorkingDirPathToString(),
+							TranslatorConstants.EVOSUITE, TranslatorConstants.EVOSUITE_REPORT).toString()
+					/*+ TranslatorConstants.DOUBLE_QUOTES*/;
+
 
 		// Set the java input class (add _ATG to the asmeta specification file name)
 		String evosuiteJavaInputFile = asmName + TranslatorConstants.ATG;
@@ -311,6 +345,8 @@ public class TranslatorImpl implements Translator {
 
 		// Set the location of the current evosuite jar
 		String evosuiteJar = fileManager.getEvosuiteJarDirPathToString() + File.separator + evosuiteVersion;
+		String evosuiteProjectClasspath = buildEvosuiteProjectClasspath(evosuiteTargetDir);
+		logger.info("EvoSuite project classpath: {}.", evosuiteProjectClasspath);
 
 		/*
 		 * java.exe -jar <evosuiteJar> -target <workingDir>/evosuite/evosuite-target
@@ -319,10 +355,16 @@ public class TranslatorImpl implements Translator {
 		 * -Dminimize=true -Dassertion_strategy=all
 		 * -Dreport_dir="<<workingDir>/evosuite/evosuite-report>"
 		 */
-		listOfOptions.addAll(List.of(fileManager.getJavaExePathToString(), TranslatorConstants.JAR, evosuiteJar,
-				TranslatorConstants.TARGET, evosuiteTargetDir, TranslatorConstants.CLASS, evosuiteJavaInputFile,
-				evosuiteTestsOption, TranslatorConstants.CRITERION, TranslatorConstants.COVERAGE_CRITERION,
-				TranslatorConstants.DMINIMIZE_TRUE, TranslatorConstants.DASSERTION_STRATEGY_ALL, evosuiteReportOption));
+			listOfOptions.addAll(List.of(fileManager.getJavaExePathToString(), TranslatorConstants.JAR, evosuiteJar,
+					TranslatorConstants.PROJECT_CP, evosuiteProjectClasspath, TranslatorConstants.TARGET, evosuiteTargetDir, TranslatorConstants.CLASS, evosuiteJavaInputFile,
+					evosuiteTestsOption, TranslatorConstants.CRITERION, TranslatorConstants.COVERAGE_CRITERION,
+					TranslatorConstants.DMINIMIZE_TRUE));
+			if (!flaky) {
+				String choiceTraceFile = Paths.get(fileManager.getEvosuiteTestsPathToString(),
+						asmName + TranslatorConstants.CHOICE_TRACE_EXTENSION).toString();
+				listOfOptions.addAll(buildChoiceTraceOptions(choiceTraceFile));
+			}
+			listOfOptions.add(evosuiteReportOption);
 
 		// Set the search budget option
 		// -Dsearch_budget=<searchBudget>
@@ -330,8 +372,15 @@ public class TranslatorImpl implements Translator {
 			listOfOptions.add(TranslatorConstants.SEARCH_BUDGET.concat(this.searchBudget));
 		}
 
-		return listOfOptions;
-	}
+			return listOfOptions;
+		}
+
+		static List<String> buildChoiceTraceOptions(String choiceTraceFile) {
+			return List.of(TranslatorConstants.DASSERTION_STRATEGY_ALL,
+					TranslatorConstants.DFILTER_ASSERTIONS_FALSE,
+					TranslatorConstants.DJUNIT_CHECK_COMPILE_ONLY,
+					TranslatorConstants.ASMETA_CHOICE_TRACE_FILE_OPTION + TranslatorConstants.EQ + choiceTraceFile);
+		}
 
 	/**
 	 * Build the option for the {@code Junit2Avalla} CLI.
@@ -352,6 +401,12 @@ public class TranslatorImpl implements Translator {
 		listOfOptions.addAll(List.of(TranslatorConstants.JUNIT2AVALLA_WORKING_DIR, junit2AvallaWorkingDir,
 				TranslatorConstants.JUNIT2AVALLA_INPUT, junitInputFile, TranslatorConstants.JUNIT2AVALLA_OUTPUT,
 				fileManager.getOutputFolderToString(), TranslatorConstants.JUNIT2AVALLA_PARSER, this.parserType.getType()));
+
+		if (!flaky) {
+			String choiceTraceFile = fileManager.getEvosuiteTestsPathToString() + File.separator + asmName
+					+ TranslatorConstants.CHOICE_TRACE_EXTENSION;
+			listOfOptions.addAll(List.of(TranslatorConstants.JUNIT2AVALLA_CHOICE_TRACE, choiceTraceFile));
+		}
 
 		if (clean) {
 			listOfOptions.add(TranslatorConstants.CLEAN);
@@ -513,6 +568,23 @@ public class TranslatorImpl implements Translator {
 		return extractJdkVersionFromFolder(javaJdkFolderPath);
 	}
 
+	/*
+	 * Pattern Explanation:
+	 *
+	 * (?:java|openjdk) : Matches either the literal text "java" or "openjdk".
+	 * version\\s+ : Matches the literal text "version" followed by one or more
+	 * spaces.
+	 * \" : Matches the opening double quote character.
+	 * ( : Starts capturing group 1, which will contain the entire version string.
+	 * [^\"]+ : Matches one or more characters that are not a double quote.
+	 * This allows different Java version formats such as "1.8.0_411", "9",
+	 * "9.0.4" or "9-ea".
+	 * ) : Ends capturing group 1.
+	 * \" : Matches the closing double quote character.
+	 */
+	private static final Pattern JAVA_VERSION_PATTERN =
+	        Pattern.compile("(?:java|openjdk) version\\s+\"([^\"]+)\"");
+	
 	/**
 	 * Get the java version string (example: 1.8.3) from the java -version command
 	 * output.
@@ -527,25 +599,7 @@ public class TranslatorImpl implements Translator {
 		logger.info("Extracting the java version...");
 		logger.debug("from:\n{}", processBuilderOutput);
 
-		/*
-		 * Pattern Explanation:
-		 * 
-		 * java version\\s+ : Matches the literal text "java version" followed by one or
-		 * more spaces. 
-		 * \" : Matches the opening double quote character (escaped with
-		 * \). 
-		 * ( : Starts capturing group 1, which will contain the entire version
-		 * string. 
-		 * \\d+ : Matches one or more digits (the major version number).
-		 * (\\.\\d+)* : Matches zero or more sequences of a dot (.) followed by one or
-		 * more digits (used for minor and patch version numbers). 
-		 * (_\\d+)? : Matches an optional underscore (_) followed by one or more digits (used
-		 *  for build numbers like in "1.8.0_411"). 
-		 * ) : Ends capturing group 1. 
-		 * \" : Matches the closing double quote character.
-		 */
-		Pattern versionPattern = Pattern.compile("java version\\s+\"(\\d+(\\.\\d+)*(_\\d+)?)\"");
-		Matcher matcher = versionPattern.matcher(processBuilderOutput);
+		Matcher matcher = JAVA_VERSION_PATTERN.matcher(processBuilderOutput);
 
 		if (matcher.find()) {
 			// return the version found example: 1.8.3

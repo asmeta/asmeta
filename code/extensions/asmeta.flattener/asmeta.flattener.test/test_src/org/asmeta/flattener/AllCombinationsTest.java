@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 //asm_examples/examples/petriNets/forAsmetaSMV/petriNet_forNuSMV.asm
 
 //passaggio per riferimento. come appiattirlo?
-//asm_examples/examples/traffic_light/forAsmetaSMV/oneWayTrafficLight_refined_with_agents.asm
+//asm_examples/examples/traffic_light/forAsmetaSMV/oneWayTrafficLight_refined_with_agents_4SMV.asm
 
 class AllCombinationsTest extends FlattenerTest {
 

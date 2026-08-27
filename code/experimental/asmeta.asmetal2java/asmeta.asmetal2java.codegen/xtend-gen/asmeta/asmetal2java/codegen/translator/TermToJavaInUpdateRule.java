@@ -1,6 +1,5 @@
 package asmeta.asmetal2java.codegen.translator;
 
-import asmeta.definitions.ControlledFunction;
 import asmeta.definitions.Function;
 import asmeta.definitions.domains.ConcreteDomain;
 import asmeta.definitions.domains.Domain;
@@ -35,18 +34,18 @@ public class TermToJavaInUpdateRule extends TermToJava {
     boolean _hasEvaluateVisitor = ExpressionToJava.hasEvaluateVisitor(name);
     boolean _not = (!_hasEvaluateVisitor);
     if (_not) {
-      if ((((term.getFunction() instanceof ControlledFunction) && (term.getDomain() instanceof ConcreteDomain)) && 
+      if (((Util.isControlledOrOut(term.getFunction()) && (term.getDomain() instanceof ConcreteDomain)) && 
         (!(term.getFunction().getDomain() instanceof ProductDomain)))) {
         functionTerm.append(this.caseFunctionTermSupp(term.getFunction(), term));
       }
-      if ((((term.getFunction() instanceof ControlledFunction) && (term.getFunction().getDomain() instanceof ProductDomain)) && 
+      if (((Util.isControlledOrOut(term.getFunction()) && (term.getFunction().getDomain() instanceof ProductDomain)) && 
         (term.getDomain() instanceof ConcreteDomain))) {
         functionTerm.append(this.caseFunctionTermSupp(term.getFunction(), term));
       }
-      if (((term.getFunction() instanceof ControlledFunction) && (term.getDomain() instanceof MapDomain))) {
+      if ((Util.isControlledOrOut(term.getFunction()) && (term.getDomain() instanceof MapDomain))) {
         functionTerm.append(this.caseFunctionTermSupp(term.getFunction(), term));
       }
-      if (((term.getFunction() instanceof ControlledFunction) && (term.getDomain() instanceof SequenceDomain))) {
+      if ((Util.isControlledOrOut(term.getFunction()) && (term.getDomain() instanceof SequenceDomain))) {
         functionTerm.append(this.caseFunctionTermSupp(term.getFunction(), term));
       }
       return functionTerm.toString();

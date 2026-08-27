@@ -71,6 +71,16 @@ public class TranslatorImpl implements Translator {
 	}
 
 	@Override
+	public void setChoiceTrace(String choiceTracePath) throws SetupException {
+		try {
+			fileManager.setChoiceTracePath(choiceTracePath);
+		} catch (Exception e) {
+			logger.error("Failed to set the choice trace file");
+			throw new SetupException("Unable to set the choice trace file", e);
+		}
+	}
+
+	@Override
 	public void generate() throws SetupException, TranslationException, JUnitParseException {
 		// retrieve the input file
 		File inputFile = null;

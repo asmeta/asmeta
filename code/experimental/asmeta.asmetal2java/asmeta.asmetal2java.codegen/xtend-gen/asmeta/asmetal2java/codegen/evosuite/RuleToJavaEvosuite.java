@@ -3,7 +3,10 @@ package asmeta.asmetal2java.codegen.evosuite;
 import asmeta.asmetal2java.codegen.config.TranslatorOptions;
 import asmeta.asmetal2java.codegen.translator.RuleToJava;
 import asmeta.asmetal2java.codegen.translator.TermToJava;
+import asmeta.definitions.domains.ConcreteDomain;
+import asmeta.definitions.domains.Domain;
 import asmeta.structure.Asm;
+import asmeta.transitionrules.basictransitionrules.ChooseRule;
 import asmeta.transitionrules.basictransitionrules.ConditionalRule;
 import asmeta.transitionrules.basictransitionrules.Rule;
 import asmeta.transitionrules.derivedtransitionrules.CaseRule;
@@ -39,6 +42,56 @@ public class RuleToJavaEvosuite extends RuleToJava {
   @Override
   public DomainToJavaEvosuiteSigDef createDomainToJavaSigDef(final Asm resource) {
     return new DomainToJavaEvosuiteSigDef(resource);
+  }
+
+  @Override
+  protected int nextChoiceOccurrence() {
+    return this.currRule.addNewChoose();
+  }
+
+  @Override
+  protected String recordChoice(final ChooseRule chooseRule, final int variableIndex, final Domain baseDomain, final String javaVariable, final int occurrence) {
+    String _xifexpression = null;
+    if ((baseDomain instanceof ConcreteDomain)) {
+      _xifexpression = (javaVariable + ".value");
+    } else {
+      _xifexpression = javaVariable;
+    }
+    final String value = _xifexpression;
+    final String asmVariable = chooseRule.getVariable().get(variableIndex).getName().replace("$", "");
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("__asmetaRecordChoice(");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("\"");
+    String _asmSignature = this.currRule.getAsmSignature();
+    _builder.append(_asmSignature, "\t");
+    _builder.append("\",");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t");
+    _builder.append(occurrence, "\t");
+    _builder.append(",");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t");
+    _builder.append("Character.toString((char) 36) + \"");
+    _builder.append(asmVariable, "\t");
+    _builder.append("\",");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t");
+    _builder.append("\"");
+    String _name = baseDomain.getName();
+    _builder.append(_name, "\t");
+    _builder.append("\",");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t");
+    _builder.append("rndm,");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("String.valueOf(");
+    _builder.append(value, "\t");
+    _builder.append("));");
+    _builder.newLineIfNotEmpty();
+    return _builder.toString();
   }
 
   /**

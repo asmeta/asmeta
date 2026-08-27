@@ -19,6 +19,7 @@ import asmeta.terms.furtherterms.SetCt
 import asmeta.terms.furtherterms.StringTerm
 import asmeta.terms.furtherterms.SequenceCt
 import asmeta.definitions.ControlledFunction
+import asmeta.definitions.OutFunction
 import asmeta.definitions.MonitoredFunction
 import asmeta.definitions.DerivedFunction
 import asmeta.definitions.StaticFunction
@@ -27,7 +28,7 @@ import asmeta.definitions.domains.PowersetDomain
 import asmeta.definitions.domains.AbstractTd
 import asmeta.definitions.domains.Domain
 import asmeta.definitions.domains.EnumTd
-import asmeta.definitions.Function
+import asmeta.definitions.DynamicFunction
 import asmeta.definitions.domains.MapDomain
 import asmeta.terms.furtherterms.SequenceTerm
 import asmeta.definitions.domains.SequenceDomain
@@ -160,21 +161,11 @@ class TermToJava extends ReflectiveVisitor<String> {
 		«""»   ''')
 		return sb.toString
 	}
-
 	def String visit(TupleTerm object) {
-		if (object.terms.size == 0)
-			throw new RuntimeException("Error: a tuple term with size 0 has been found... why?? **BUG** ")
-
-		if (object.terms.size == 1)
-			return '''(«visit(object.terms.get(0))»)'''
-
-		var StringBuffer initial = new StringBuffer("make_tuple(")
-
-		for (var i = 0; i < object.terms.size; i++)
-			initial.append(visit(object.terms.get(i)) + ", ")
-
-		return initial.substring(0, initial.length - 2) + ")"
+		return ProductToJava.value(object, [ term | visit(term) ])
 	}
+
+
 
 	def String visit(SequenceTerm object) {
 
@@ -404,15 +395,15 @@ class TermToJava extends ReflectiveVisitor<String> {
 		} // In questo caso l'operatore rilevato » := 
 		else {
 
-			if (term.function instanceof ControlledFunction && term.domain instanceof ConcreteDomain)
-				functionTerm.append(caseFunctionTermSuppCont(term.function, term))
-			if (term.function instanceof ControlledFunction && term.domain instanceof MapDomain)
-				functionTerm.append(caseFunctionTermSuppCont(term.function, term))
+			if (Util.isControlledOrOut(term.function) && term.domain instanceof ConcreteDomain)
+				functionTerm.append(caseFunctionTermSuppCont(term.function as DynamicFunction, term))
+			if (Util.isControlledOrOut(term.function) && term.domain instanceof MapDomain)
+				functionTerm.append(caseFunctionTermSuppCont(term.function as DynamicFunction, term))
 
 			functionTerm.append(term.function.name)
 
 			functionTerm.append(caseFunctionTermSupp(term.function, term))
-			if (term.function instanceof ControlledFunction && term.domain instanceof ConcreteDomain)
+			if (Util.isControlledOrOut(term.function) && term.domain instanceof ConcreteDomain)
 				functionTerm.append("\n")
 
 			return functionTerm.toString
@@ -420,7 +411,7 @@ class TermToJava extends ReflectiveVisitor<String> {
 
 	}
 
-	def String caseFunctionTermSuppCont(Function fd, FunctionTerm ft) {
+	def String caseFunctionTermSuppCont(DynamicFunction fd, FunctionTerm ft) {
 
 		var StringBuffer functionTerm = new StringBuffer
 
@@ -458,7 +449,7 @@ class TermToJava extends ReflectiveVisitor<String> {
 			} // Caso di studio con variabili multiple in ingresso
 			// da controllare se corretto come metodo
 			else {
-				if (fd instanceof ControlledFunction)
+				if (Util.isControlledOrOut(fd))
 					if (leftHandSide) {
 
 						functionTerm.append(fd.name + "_elem = null;\n")
@@ -605,6 +596,14 @@ class TermToJava extends ReflectiveVisitor<String> {
 
 	// Identifico la tipologia delle variabili e la loro posizione rispetto all'operatore
 	def dispatch String caseFunctionTermSupp(ControlledFunction fd, FunctionTerm ft) {
+		return caseControlledOrOutputFunctionSupp(fd, ft)
+	}
+
+	def dispatch String caseFunctionTermSupp(OutFunction fd, FunctionTerm ft) {
+		return caseControlledOrOutputFunctionSupp(fd, ft)
+	}
+
+	private def String caseControlledOrOutputFunctionSupp(DynamicFunction fd, FunctionTerm ft) {
 		var StringBuffer functionTerm = new StringBuffer
 		if (ft.arguments === null) {
 			// Identifico Dx o Sx
@@ -665,7 +664,15 @@ class TermToJava extends ReflectiveVisitor<String> {
 			} // Caso di studio con variabili multiple in ingresso
 			// da controllare se corretto come metodo
 			else {
-				// functionTerm.append("[make_tuple(")
+				val tuple = ProductToJava.value(ft.arguments, [ term | visit(term) ])
+				if (leftHandSide) {
+					leftHandSide = false
+					functionTerm.append(".set(" + tuple + ", ")
+				} else {
+					functionTerm.append(".get(" + tuple + ")")
+					if (controllo(fd.codomain))
+						functionTerm.append(".value")
+				}
 			}
 		}
 		return functionTerm.toString
@@ -696,10 +703,12 @@ class TermToJava extends ReflectiveVisitor<String> {
 				}
 
 			} else {
-				functionTerm.append("[make_tuple(")
-				for (var i = 0; i < ft.arguments.terms.size; i++)
-					functionTerm.append(visit(ft.arguments.terms.get(i)) + ", ")
-				functionTerm = new StringBuffer(functionTerm.substring(0, functionTerm.length - 2) + ")]")
+				val tuple = ProductToJava.value(ft.arguments, [ term | visit(term) ])
+				if (leftHandSide) {
+					leftHandSide = false
+					functionTerm.append(".set(" + tuple + ", ")
+				} else
+					functionTerm.append(".get(" + tuple + ")")
 			}
 		}
 		return functionTerm.toString

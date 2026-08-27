@@ -338,7 +338,7 @@ public class FunctionClassDef {
     _builder.append("void update() {");
     _builder.newLine();
     _builder.append("        ");
-    _builder.append("currValues = newValues;");
+    _builder.append("currValues = new HashMap<>(newValues);");
     _builder.newLine();
     _builder.append("    ");
     _builder.append("}");

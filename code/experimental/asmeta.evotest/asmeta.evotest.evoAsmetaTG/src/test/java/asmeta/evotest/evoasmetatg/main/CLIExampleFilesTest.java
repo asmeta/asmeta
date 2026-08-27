@@ -15,6 +15,7 @@ import org.asmeta.parser.AsmetaParserUtility;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 
 /**
  * This test class tests the entire application directly via the CLI with all
@@ -24,6 +25,7 @@ import org.junit.jupiter.api.Test;
  * pipelines. ( ignored using the maven-surefire-plugin and excluding the group
  * TestToMavenSkip from the Asmeta Parser).
  */
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class CLIExampleFilesTest {
 
 	/** Logger */
@@ -38,11 +40,11 @@ public class CLIExampleFilesTest {
 	private static final String OUTPUT = "-output";
 	private static final String OUTPUT_DIR = "tempOutput";
 	private static final String EVOSUITE_VERSION = "-evosuiteVersion";
-	private static final String EVOSUITE_VERSION_VALUE = "1.0.6";
+	private static String EVOSUITE_VERSION_VALUE = "1.0.6";
 	private static final String TIME_BUDGET = "-timeBudget";
-	private static final String TIME_BUDGET_VALUE = "5";
+	private static final String TIME_BUDGET_VALUE = "2";
 	private static final String COVER_OUTPUTS_OPTION = "-DCoverOutputs=true";
-	private static final String CLEAN = "-clean";
+	private static String CLEAN = "-clean";
 	private static final String ASM_EXTENSION = AsmetaParserUtility.ASM_EXTENSION;
 
 	/** temp output folder */
@@ -104,7 +106,8 @@ public class CLIExampleFilesTest {
 
 		List<String> args = List.of(INPUT, "\"" + file.getAbsolutePath() + "\"", OUTPUT,
 				"\"" + tempOutputDir.getAbsolutePath() + "\"", JAVA_PATH, JAVA_PATH_VALUE, EVOSUITE_VERSION,
-				EVOSUITE_VERSION_VALUE, TIME_BUDGET, TIME_BUDGET_VALUE, COVER_OUTPUTS_OPTION, CLEAN);
+				EVOSUITE_VERSION_VALUE, TIME_BUDGET, TIME_BUDGET_VALUE, COVER_OUTPUTS_OPTION, CLEAN,
+				"-DshuffleRandom=true");
 
 		logger.info("args: {} ", args);
 
@@ -128,10 +131,14 @@ public class CLIExampleFilesTest {
 	@Test
 	@Tag("TestToMavenSkip")
 	public void testOneSpecificfile() {
-		JAVA_PATH_VALUE= "C:\\Program Files (x86)\\Java\\jre1.8.0_451";
-		//File f = new File("..\\asmeta.evotest.experiments\\src\\main\\resources\\models\\QuickSort.asm");
-		File f = new File("..\\asmeta.evotest.experiments\\src\\main\\resources\\models\\Population.asm");
+		CLEAN = "";
+		EVOSUITE_VERSION_VALUE= "1.2.0";
+		if (EVOSUITE_VERSION_VALUE.equals("1.2.0"))
+			JAVA_PATH_VALUE= "C:\\Program Files\\Java\\jdk-9.0.4";
+		else
+			JAVA_PATH_VALUE= "C:\\Program Files\\Java\\jdk1.8.0_202";
+		File f = new File("temp/Scheduler.asm");
 		assertTrue(f.exists());
-		testFile(f);
+		assertEquals(0, testFile(f));
 	}	
 }

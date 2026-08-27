@@ -1,6 +1,8 @@
 package asmeta.evotest.junit2avalla.javascenario;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import asmeta.evotest.junit2avalla.model.Scenario;
@@ -26,6 +28,12 @@ public class Context {
 
 	/** The current Java variable being processed. */
 	private JavaVariableTerm currentJavaVariable;
+
+	/** Name of the setter currently being parsed. */
+	private String currentSetterName;
+
+	/** Arguments of the setter currently being parsed. */
+	private List<JavaVariableTerm> currentSetArguments;
 
 	/** The current scenario being processed. */
 	private Scenario currentScenario;
@@ -58,6 +66,8 @@ public class Context {
 		this.currentScenario = new Scenario();
 		this.variablesMap = new HashMap<>();
 		this.getterMap = new HashMap<>();
+		this.currentSetArguments = new ArrayList<>();
+		this.currentSetterName = null;
 		this.ignoreEvents = false;
 		this.ignoreChecks = false;
 		this.scenarioIndex ++;
@@ -104,6 +114,18 @@ public class Context {
 
 	void setCurrentJavaVariable(JavaVariableTerm currentJavaVariable) {
 		this.currentJavaVariable = currentJavaVariable;
+	}
+
+	String getCurrentSetterName() {
+		return currentSetterName;
+	}
+
+	void setCurrentSetterName(String currentSetterName) {
+		this.currentSetterName = currentSetterName;
+	}
+
+	List<JavaVariableTerm> getCurrentSetArguments() {
+		return currentSetArguments;
 	}
 
 	Scenario getCurrentScenario() {

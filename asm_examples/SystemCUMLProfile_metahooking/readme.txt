@@ -3,7 +3,7 @@ FILE DISTRIBUTION
 Semantic mapping applied to the SystemC UML profile
 ----------------------------------------------------
 
-main.asm: to start the simulation  -- by Alessandro
+system_cuml_main.asm: to start the simulation  -- by Alessandro
 top.asm: to initialize the top module and sub-modules -- by Alessandro
 chan.asm: contains common.asm, chanint.asm, chanbool.asm for layer 1 of SystemC originally defined by Alessandro-- by Sara
 clock.asm: clock for layer 1 of SystemC 

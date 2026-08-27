@@ -16,17 +16,27 @@ final class TranslatorConstants {
 
 	static final String DASSERTION_STRATEGY_ALL = "-Dassertion_strategy=all";
 
+	static final String DFILTER_ASSERTIONS_FALSE = "-Dfilter_assertions=false";
+
+	static final String DJUNIT_CHECK_COMPILE_ONLY = "-Djunit_check=compile_only";
+
+	static final String ASMETA_CHOICE_TRACE_FILE_OPTION = "-Dasmeta_choice_trace_file";
+
 	static final String DMINIMIZE_TRUE = "-Dminimize=true";
 	
 	static final String SEARCH_BUDGET = "-Dsearch_budget=";
 
 	static final String CRITERION = "-criterion";
+	
+	static final String PROJECT_CP = "-projectCP";
 
 	static final String ASM_EXTENSION = AsmetaParserUtility.ASM_EXTENSION;
 	
 	static final String ATG = FileManager.ATG;
 	
 	static final String JUNIT_TEST_EXTENSION = ATG + "_ESTest.java";
+
+	static final String CHOICE_TRACE_EXTENSION = ATG + "_ESTest.choices.properties";
 	
 	static final String USER_DIR = "user.dir";
 
@@ -60,7 +70,7 @@ final class TranslatorConstants {
 		
 	static final String EVOSUITE_REPORT = "evosuite-report";
 	
-	static final String EVOSUITE_JAR_DIR = "evosuite-jar";
+	static final String DEPENDENCIES_DIR = "dependencies";
 	
 	static final String JAVA_EXE = "java.exe";
 	
@@ -95,6 +105,8 @@ final class TranslatorConstants {
 	static final String JUNIT2AVALLA_INPUT = DASH + Junit2AvallaCLI.INPUT;
 	
 	static final String JUNIT2AVALLA_PARSER = DASH + Junit2AvallaCLI.PARSER;
+
+	static final String JUNIT2AVALLA_CHOICE_TRACE = DASH + Junit2AvallaCLI.CHOICE_TRACE;
 
 	static final String CLEAN = "-clean";
 

@@ -2,7 +2,9 @@ package asmeta.asmetal2java.codegen.translator
 
 import asmeta.definitions.ControlledFunction
 import asmeta.definitions.DerivedFunction
+import asmeta.definitions.DynamicFunction
 import asmeta.definitions.MonitoredFunction
+import asmeta.definitions.OutFunction
 import asmeta.definitions.StaticFunction
 import asmeta.definitions.domains.AbstractTd
 import asmeta.definitions.domains.ConcreteDomain
@@ -17,7 +19,6 @@ import asmeta.terms.furtherterms.SequenceTerm
 import org.asmeta.parser.util.ReflectiveVisitor
 import java.util.List
 import java.util.ArrayList
-import asmeta.terms.furtherterms.ConditionalTerm
 
 class FunctionToJavaDef extends ReflectiveVisitor<String> {
 
@@ -40,6 +41,14 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 	}
 
 	def String visit(ControlledFunction object) {
+		return visitControlledOrOutputFunction(object)
+	}
+
+	def String visit(OutFunction object) {
+		return visitControlledOrOutputFunction(object)
+	}
+
+	private def String visitControlledOrOutputFunction(DynamicFunction object) {
 		var StringBuffer sb = new StringBuffer
 
 		if (object.codomain instanceof SequenceDomain || object.domain instanceof SequenceDomain) {
@@ -151,67 +160,10 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 			           ''')
 
 					if (object.domain instanceof ProductDomain) {
-						sb.append(''' «object.name»_elem = new ''')
-
-						switch (object.initialization.get(0).variable.size) {
-							case 2: {
-								sb.append('''Pair<''')
-
-							}
-							case 3: {
-								sb.append('''Triplet<''')
-
-							}
-							case 4: {
-								sb.append('''Quartet<''')
-
-							}
-							case 5: {
-								sb.append('''Quintet<''')
-
-							}
-							case 6: {
-								sb.append('''Sextet<''')
-
-							}
-							case 7: {
-								sb.append('''Septet<''')
-
-							}
-							case 8: {
-								sb.append('''Octet<''')
-
-							}
-							case 9: {
-								sb.append('''Ennead<''')
-
-							}
-							case 10: {
-								sb.append('''Decade<''')
-
-							}
-						}
-
-						for (var i = 0; i < object.initialization.get(0).variable.size; i++) {
-							if (i != object.initialization.get(0).variable.size - 1)
-								sb.
-									append('''«new DomainToJavaString(asm).visit(object.initialization.get(0).variable.get(i).domain)»,''')
-							else
-								sb.
-									append('''«new DomainToJavaString(asm).visit(object.initialization.get(0).variable.get(i).domain)»>(''')
-
-						}
-
-						for (var i = 0; i < object.initialization.get(0).variable.size; i++) {
-							if (i != object.initialization.get(0).variable.size - 1)
-								sb.
-									append('''«new DomainToJavaString(asm).visit(object.initialization.get(0).variable.get(i).domain)»_elem,''')
-							else
-								sb.
-									append('''«new DomainToJavaString(asm).visit(object.initialization.get(0).variable.get(i).domain)»_elem);
-									''')
-
-						}
+						val productKey = ProductToJava.value(object.domain as ProductDomain, [ index |
+							new DomainToJavaString(asm).visit(object.initialization.get(0).variable.get(index).domain) + "_elem"
+						])
+						sb.append(" " + object.name + "_elem = " + productKey + ";\n")
 						sb.append('''    
 								«object.name».init(«object.name»_elem,a);
 							''')
@@ -243,6 +195,10 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 //					sb.append('''
 //						«object.name».oldValue = «object.name».newValue = «new TermToJava(asm).visit(object.initialization.get(0).body)»;
 //					''')
+				} else if (object.codomain instanceof ProductDomain) { // [] -> Product
+					sb.append('''
+						«object.name».init(«new TermToJava(asm).visit(object.initialization.get(0).body)»);
+					''')
 				} else if (object.codomain instanceof AbstractTd){ // [] -> Abstract
 					// get the abstract domain from the static list of the Abstract domain class
 					// do not use «new TermToJava(asm).visit(object.initialization.get(0).body).toString()
@@ -341,67 +297,10 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 			           ''')
 
 				if (object.domain instanceof ProductDomain) {
-					sb.append(''' «object.name»_elem = new ''')
-
-					switch (object.initialization.get(0).variable.size) {
-						case 2: {
-							sb.append('''Pair<''')
-
-						}
-						case 3: {
-							sb.append('''Triplet<''')
-
-						}
-						case 4: {
-							sb.append('''Quartet<''')
-
-						}
-						case 5: {
-							sb.append('''Quintet<''')
-
-						}
-						case 6: {
-							sb.append('''Sextet<''')
-
-						}
-						case 7: {
-							sb.append('''Septet<''')
-
-						}
-						case 8: {
-							sb.append('''Octet<''')
-
-						}
-						case 9: {
-							sb.append('''Ennead<''')
-
-						}
-						case 10: {
-							sb.append('''Decade<''')
-
-						}
-					}
-
-					for (var i = 0; i < object.initialization.get(0).variable.size; i++) {
-						if (i != object.initialization.get(0).variable.size - 1)
-							sb.
-								append('''«new DomainToJavaString(asm).visit(object.initialization.get(0).variable.get(i).domain)»,''')
-						else
-							sb.
-								append('''«new DomainToJavaString(asm).visit(object.initialization.get(0).variable.get(i).domain)»>(''')
-
-					}
-
-					for (var i = 0; i < object.initialization.get(0).variable.size; i++) {
-						if (i != object.initialization.get(0).variable.size - 1)
-							sb.
-								append('''«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»Val,''')
-						else
-							sb.append('''«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»Val);
-							''')
-
-					}
-
+					val productKey = ProductToJava.value(object.domain as ProductDomain, [ index |
+						new TermToJava(asm).visit(object.initialization.get(0).variable.get(index)) + "Val"
+					])
+					sb.append(" " + object.name + "_elem = " + productKey + ";\n")
 					sb.append('''    
 						«object.name».values.put(«object.name»_elem,a);
 					''')

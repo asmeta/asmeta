@@ -43,10 +43,10 @@ public class FileManager {
 
 	/*
 	 * Absolute path of the directory containing the Evosuite jars (Defaults to
-	 * ./evosuite/evosuite-jar).
+	 * ./dependencies).
 	 */
 	private Path evosuiteJarDirPath = Paths.get(System.getProperty(TranslatorConstants.USER_DIR),
-			TranslatorConstants.EVOSUITE, TranslatorConstants.EVOSUITE_JAR_DIR);
+			TranslatorConstants.DEPENDENCIES_DIR);
 
 	/**
 	 * Constructs a {@code FileManager} instance.
@@ -223,23 +223,23 @@ public class FileManager {
 	}
 	
 	/**
-	 * Sets the path to the Evosuite jar folder.
+	 * Sets the path to the folder containing EvoSuite and its runtime dependency jars.
 	 * 
-	 * @param evosuitePath path to the evosuite jar folder.
+	 * @param evosuitePath path to the dependencies folder.
 	 * @throws FileNotFoundException if the file is not found.
 	 * @return File of the evosuite jar folder.
 	 */
 	File setEvosuitePath(String evosuitePath) throws FileNotFoundException {
 		File evosuiteFolder = new File(evosuitePath);
 		if (!evosuiteFolder.exists() || !evosuiteFolder.isDirectory()) {
-			logger.error("Evosuite jar directory location not valid: {}.", evosuiteFolder.getAbsolutePath());
+			logger.error("Dependencies directory location not valid: {}.", evosuiteFolder.getAbsolutePath());
 			logger.error(
 					"Please note: If your argument is a string and contains a space, put it in double quotes like \"Program Files\"");
 			throw new FileNotFoundException("Evosuite directory not found: " + evosuitePath);
 		}
-		logger.info("Evosuite jar directory found at: {}.", evosuiteFolder.getAbsolutePath());
+		logger.info("Dependencies directory found at: {}.", evosuiteFolder.getAbsolutePath());
 		this.evosuiteJarDirPath = evosuiteFolder.toPath();
-		logger.info("Setting the path to the Evosuite jar folder: {}.", this.evosuiteJarDirPath);
+		logger.info("Setting the path to the dependencies folder: {}.", this.evosuiteJarDirPath);
 		
 		return evosuiteFolder;
 	}

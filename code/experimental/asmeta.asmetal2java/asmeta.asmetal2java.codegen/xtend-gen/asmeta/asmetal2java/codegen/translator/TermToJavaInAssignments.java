@@ -4,6 +4,7 @@ import asmeta.definitions.ControlledFunction;
 import asmeta.definitions.DerivedFunction;
 import asmeta.definitions.Function;
 import asmeta.definitions.MonitoredFunction;
+import asmeta.definitions.OutFunction;
 import asmeta.definitions.StaticFunction;
 import asmeta.definitions.domains.AbstractTd;
 import asmeta.definitions.domains.Domain;
@@ -195,6 +196,9 @@ public class TermToJavaInAssignments extends TermToJava {
       String _evaluateFunction = new ExpressionToJava(this.res).evaluateFunction(name, term.getArguments().getTerms());
       return ("=" + _evaluateFunction);
     } else {
+      if ((!this.leftHandSide)) {
+        functionTerm.append(" = ");
+      }
       functionTerm.append(term.getFunction().getName());
       functionTerm.append(this.caseFunctionTermSupp(term.getFunction(), term));
       return functionTerm.toString();
@@ -203,43 +207,35 @@ public class TermToJavaInAssignments extends TermToJava {
 
   @Override
   protected String _caseFunctionTermSupp(final ControlledFunction fd, final FunctionTerm ft) {
-    StringBuffer functionTerm = new StringBuffer();
+    return this.caseControlledOrOutputFunctionSupp(fd, ft);
+  }
+
+  @Override
+  protected String _caseFunctionTermSupp(final OutFunction fd, final FunctionTerm ft) {
+    return this.caseControlledOrOutputFunctionSupp(fd, ft);
+  }
+
+  private String caseControlledOrOutputFunctionSupp(final Function fd, final FunctionTerm ft) {
+    if (this.leftHandSide) {
+      return "";
+    }
     TupleTerm _arguments = ft.getArguments();
     boolean _tripleEquals = (_arguments == null);
     if (_tripleEquals) {
-      if (this.leftHandSide) {
-        functionTerm.append("");
-      } else {
-        functionTerm.append("");
-      }
+      return ".get()";
     }
-    TupleTerm _arguments_1 = ft.getArguments();
-    boolean _tripleNotEquals = (_arguments_1 != null);
-    if (_tripleNotEquals) {
-      int _size = ft.getArguments().getTerms().size();
-      boolean _equals = (_size == 1);
-      if (_equals) {
-        if (this.leftHandSide) {
-          functionTerm.append("");
-        } else {
-          functionTerm.append("");
-        }
-      } else {
-        functionTerm.append("[make_tuple(");
-        for (int i = 0; (i < ft.getArguments().getTerms().size()); i++) {
-          String _visit = this.visit(ft.getArguments().getTerms().get(i));
-          String _plus = (_visit + ", ");
-          functionTerm.append(_plus);
-        }
-        int _length = functionTerm.length();
-        int _minus = (_length - 2);
-        String _substring = functionTerm.substring(0, _minus);
-        String _plus = (_substring + ")]");
-        StringBuffer _stringBuffer = new StringBuffer(_plus);
-        functionTerm = _stringBuffer;
-      }
+    int _size = ft.getArguments().getTerms().size();
+    boolean _equals = (_size == 1);
+    if (_equals) {
+      String _visit = new TermToJava(this.res).visit(ft.getArguments().getTerms().get(0));
+      String _plus = (".get(" + _visit);
+      return (_plus + ")");
     }
-    return functionTerm.toString();
+    final java.util.function.Function<Term, String> _function = (Term term) -> {
+      return new TermToJava(this.res).visit(term);
+    };
+    final String tuple = ProductToJava.value(ft.getArguments(), _function);
+    return ((".get(" + tuple) + ")");
   }
 
   @Override
@@ -278,6 +274,8 @@ public class TermToJavaInAssignments extends TermToJava {
       return _caseFunctionTermSupp((ControlledFunction)fd, ft);
     } else if (fd instanceof MonitoredFunction) {
       return _caseFunctionTermSupp((MonitoredFunction)fd, ft);
+    } else if (fd instanceof OutFunction) {
+      return _caseFunctionTermSupp((OutFunction)fd, ft);
     } else if (fd instanceof StaticFunction) {
       return _caseFunctionTermSupp((StaticFunction)fd, ft);
     } else if (fd instanceof DerivedFunction) {

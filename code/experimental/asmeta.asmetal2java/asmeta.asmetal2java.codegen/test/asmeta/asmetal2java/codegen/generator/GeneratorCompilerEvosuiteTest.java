@@ -136,6 +136,14 @@ public class GeneratorCompilerEvosuiteTest {
 		}
 	}
 
+	@Test
+	public void translateAndCompileMultipleChooseInSameRule() throws Exception {
+		Path asmPath = path.resolve("chooseTest").resolve("MultipleChoose.asm");
+		CompileResult result = genandcompileEvosuite(asmPath.toString(), options, dirTestGen,
+				GeneratorCompilerUtil.dirCompilazione);
+		assertTrue(result.toString(), result.getSuccess());
+	}
+
 	/**
 	 * generates the test generation translation for Evosuite and compile it.
 	 *

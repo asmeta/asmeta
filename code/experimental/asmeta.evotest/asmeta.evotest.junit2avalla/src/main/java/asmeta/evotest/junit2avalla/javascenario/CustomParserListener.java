@@ -264,11 +264,11 @@ public class CustomParserListener extends JavaScenarioBaseListener {
 			return;
 		String setName = ctx.SetFunc().getText();
 		logger.debug("Entering start_test_scenario_setFunction: {} .", setName);
-		context.setCurrentJavaVariable(new JavaVariableTerm());
 		// Set a function with Domain -> Codomain
 		setName = ScenarioParserUtil.buildDomainCodomain(setName);
 		// example: set_function_fromDomain_STATE1 -> set_function(STATE1)
-		context.getCurrentJavaVariable().setName(setName);
+		context.setCurrentSetterName(setName);
+		context.getCurrentSetArguments().clear();
 	}
 
 	/**
@@ -285,6 +285,8 @@ public class CustomParserListener extends JavaScenarioBaseListener {
 		if (ignoreListenerEvent(ctx.getText()))
 			return;
 		logger.debug("Entering start_test_scenario_setFunction_setVariableValue: {} .", ctx.getText());
+		context.setCurrentJavaVariable(new JavaVariableTerm());
+		context.getCurrentJavaVariable().setName(context.getCurrentSetterName());
 		if (ctx.STRING() != null) {
 			// String type
 			String value = ctx.getText();
@@ -316,6 +318,7 @@ public class CustomParserListener extends JavaScenarioBaseListener {
 			}
 			setVariableValue(ctx);
 		}
+		context.getCurrentSetArguments().add(context.getCurrentJavaVariable());
 	}
 
 	/**
@@ -361,7 +364,20 @@ public class CustomParserListener extends JavaScenarioBaseListener {
 		if (ignoreListenerEvent(ctx.getText()))
 			return;
 		logger.debug("Exiting start_test_scenario_setFunction: {} .", ctx.getText());
-		context.getScenarioManager().setSetTerm(context.getCurrentScenario(), context.getCurrentJavaVariable());
+		List<JavaVariableTerm> arguments = context.getCurrentSetArguments();
+		JavaVariableTerm value = arguments.get(arguments.size() - 1);
+		StringBuilder setter = new StringBuilder(value.getName());
+		if (arguments.size() > 1) {
+			setter.append("(");
+			for (int index = 0; index < arguments.size() - 1; index++) {
+				if (index > 0) setter.append(", ");
+				setter.append(ScenarioParserUtil.toAvallaValue(arguments.get(index)));
+			}
+			setter.append(")");
+		}
+		value.setName(setter.toString());
+		context.setCurrentJavaVariable(value);
+		context.getScenarioManager().setSetTerm(context.getCurrentScenario(), value);
 		context.setIgnoreChecks(true);
 	}
 

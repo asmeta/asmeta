@@ -1,5 +1,8 @@
 package asmeta.asmetal2java.codegen.translator;
 
+import asmeta.definitions.ControlledFunction;
+import asmeta.definitions.Function;
+import asmeta.definitions.OutFunction;
 import asmeta.definitions.domains.BooleanDomain;
 import asmeta.definitions.domains.CharDomain;
 import asmeta.definitions.domains.Domain;
@@ -189,5 +192,9 @@ public class Util {
     } else {
       return false;
     }
+  }
+
+  public static boolean isControlledOrOut(final Function function) {
+    return ((function instanceof ControlledFunction) || (function instanceof OutFunction));
   }
 }
