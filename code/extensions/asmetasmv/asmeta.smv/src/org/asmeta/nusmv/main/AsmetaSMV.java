@@ -38,9 +38,10 @@ public class AsmetaSMV {
 	private static final String APPLICATIONS_NU_SMV_MACOS = "/Applications/NuSMV/bin/NuSMV";
 
 	private static final String EXEC_NAME = "NuSMV";
+	private static final String EXEC_NAME_NUXMV = "nuXmv";
 
 	
-	// LTL and BMC means using bounded model checking and LTL (with X for next state in case of generation of tests)
+	// LTLandBMC means using bounded model checking and LTL (with X for next state in case of generation of tests)
 	// LTLFMC: forward model checking
 	// CTL: classical model checking - it does not complete the next step
 	public enum ModelCheckerMode {LTLandBMC, LTLFMC, CTL}
@@ -51,15 +52,16 @@ public class AsmetaSMV {
 	public static int BMCLength = -1;
 
 	public MapVisitor mv;
+	
 	public String outputRunNuSMV;
 	public String outputRunNuSMVreplace;
+	public String outputRunNuXMV;
+	public String outputRunNuXMVreplace;
+
 	public static Process proc;
 	private File asmFile;
 	protected Asm asm;
 	String smvFileName;
-	public String outputRunNuXMV;
-	// System.out.println(outputRunNuSMV);
-	public String outputRunNuXMVreplace;
 
 	AsmetaSMVOptions asmetaOptions;
 

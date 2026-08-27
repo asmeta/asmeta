@@ -38,6 +38,7 @@ import asmeta.terms.basicterms.LocationTerm;
 import asmeta.terms.basicterms.Term;
 import asmeta.terms.basicterms.UndefTerm;
 import asmeta.terms.basicterms.VariableTerm;
+import asmeta.terms.basicterms.impl.BasictermsFactoryImpl;
 import asmeta.transitionrules.basictransitionrules.BlockRule;
 import asmeta.transitionrules.basictransitionrules.ChooseRule;
 import asmeta.transitionrules.basictransitionrules.ConditionalRule;
@@ -207,10 +208,13 @@ public class NuSMVRuleVisitor extends ReflectiveVisitor<Void> implements IRuleVi
 				chooseStack.push(Util.equals(chooseVar.get(var), value));
 			}
 			conds.addAll(chooseStack);
-			condStr = tp.visit(cond);//la condizione con i valori attuali
-			conds.push(condStr);
+			// if the condition is not true, then add it
+			if (cond != BasictermsFactoryImpl.eINSTANCE.createBooleanTerm(true)) { 
+				condStr = tp.visit(cond);//la condizione con i valori attuali
+				conds.push(condStr);
+				ifNoneCond.push(not(condStr));
+			}
 			updateVisitRestore(conds, doRule);//visita la doRule
-			ifNoneCond.push(not(condStr));
 			chooseCond.push(and(conds));
 			conds.clear();
 			for (int j = 0; j < vars.size(); j++) {
@@ -238,8 +242,8 @@ public class NuSMVRuleVisitor extends ReflectiveVisitor<Void> implements IRuleVi
 			//inVar.put(chooseName, and(inVar.get(chooseName), condStr));
 			//da verificare: una choose di una choose va con l'and o con l'or?
 			mv.invars.put(chooseName, or(mv.invars.get(chooseName), condStr));
-		}
-		else {
+		} else {
+			// if it is not true
 			mv.invars.put(chooseName, condStr);
 		}
 		return null;

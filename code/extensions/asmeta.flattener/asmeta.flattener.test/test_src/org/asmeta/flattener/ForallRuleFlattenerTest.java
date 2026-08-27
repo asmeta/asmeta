@@ -7,36 +7,36 @@ class ForallRuleFlattenerTest extends FlattenerTest {
 
 	@Test
 	void forallChoose() throws Exception {
-		flattenerTest("./examples/forallRuleChoose.asm", ForallRuleFlattener.class);
+		flattenerTest("./examples/forallRuleChoose.asm", false, ForallRuleFlattener.class);
 	}
 
 	@Test
 	void rushHour() throws Exception {
-		flattenerTest("../../../../asm_examples/examples/RushHour/RushHour.asm", ForallRuleFlattener.class);
+		flattenerTest("../../../../asm_examples/examples/RushHour/RushHour.asm", false, ForallRuleFlattener.class);
 	}
 
 	@Test
 	void enumerative() throws Exception {
-		flattenerTest("./examples/forallRule3.asm", ForallRuleFlattener.class);
+		flattenerTest("./examples/forallRule3.asm", false, ForallRuleFlattener.class);
 	}
 
 	@Test
 	void limitingCase() throws Exception {
-		flattenerTest("./examples/forallRule.asm", ForallRuleFlattener.class);
+		flattenerTest("./examples/forallRule.asm", false, ForallRuleFlattener.class);
 	}
 
 	@Test
 	void abstractDomain() throws Exception {
-		flattenerTest("./examples/abstractDomain.asm", ForallRuleFlattener.class);
+		flattenerTest("./examples/abstractDomain.asm", false, ForallRuleFlattener.class);
 	}
 
 	@Test
 	void conwayGameOfLife() throws Exception {
-		flattenerTest(examplesDir + "examples/conwayGameOfLife/gameOfLife.asm", ForallRuleFlattener.class);
+		flattenerTest(examplesDir + "examples/conwayGameOfLife/gameOfLife.asm", false, ForallRuleFlattener.class);
 	}
 
 	@Test
 	void conwayGameOfLifeAgents() throws Exception {
-		flattenerTest(examplesDir + "examples/conwayGameOfLife/gameOfLifeAgents.asm", ForallRuleFlattener.class);
+		flattenerTest(examplesDir + "examples/conwayGameOfLife/gameOfLifeAgents.asm", false, ForallRuleFlattener.class);
 	}
 }

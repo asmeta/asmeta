@@ -6,8 +6,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.log4j.Logger;
 import org.asmeta.parser.util.AsmetaTermPrinter;
 
+import asmeta.definitions.Function;
 import asmeta.definitions.domains.Domain;
 import asmeta.terms.basicterms.BooleanTerm;
 import asmeta.terms.basicterms.DomainTerm;
@@ -32,14 +34,16 @@ import tgtlib.definitions.expression.type.Type;
 
 /**
  *
- * returns the
+ * transform an asmeta term to an expression (in the library tgtlib.definitions.expression)
  *
  */
 public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<Expression> {
 
-	static EnumConstCreator icc = new EnumConstCreator();
-
-	static Map<Domain, Type> types = new HashMap<>();
+	static Logger logger = Logger.getLogger(AsmetaToExprTrans.class);
+	
+	// to create the ids (including the enum constants)
+	EnumConstCreator icc = new EnumConstCreator();
+	Map<Domain, Type> types = new HashMap<>();
 
 	/**
 	 * Visita un termine.
@@ -49,7 +53,7 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 	 * @return the string
 	 */
 	public Expression visit(Term term) {
-		System.out.println("visit term "+AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(term));
+		logger.debug("visit term "+AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(term));
 		return visit((Object) term);
 	}
 
@@ -83,15 +87,26 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 	 * @return the string
 	 *
 	 * @throws Exception the exception
+		List<Expression> args = funcTerm.getArguments().getTerms().stream().map( x -> this.visit(x)).collect(Collectors.toList());
 	 */
 	public Expression visit(FunctionTerm funcTerm) throws Exception {
-		assert !(funcTerm.getArguments() == null): "function term without arguments " + AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(funcTerm);
-		assert !(funcTerm.getArguments().getTerms().isEmpty());
-		List<Expression> args = funcTerm.getArguments().getTerms().stream().map( x -> this.visit(x)).collect(Collectors.toList());
-		// dominio o codominio??
-		Type t = getType(funcTerm.getDomain());
-		IdExpression fid = icc.createIdExpression(funcTerm.getFunction().getName(), t);
-		return  new tgtlib.definitions.expression.FunctionTerm(fid, t, args);
+		Function func = funcTerm.getFunction();
+		if (funcTerm.getArguments() == null) {
+			assert func.getDomain() == null;
+			Type t = getType(func.getCodomain());
+			IdExpression fid = icc.createIdExpression(funcTerm.getFunction().getName(), t);
+			return fid;
+		} else {
+			assert !(funcTerm.getArguments() == null) : "function term without arguments "
+					+ AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(funcTerm);
+			assert !(funcTerm.getArguments().getTerms().isEmpty());
+			List<Expression> args = funcTerm.getArguments().getTerms().stream().map(x -> this.visit(x))
+					.collect(Collectors.toList());
+			// dominio o codominio??
+			Type t = getType(funcTerm.getDomain());
+			IdExpression fid = icc.createIdExpression(funcTerm.getFunction().getName(), t);
+			return new tgtlib.definitions.expression.FunctionTerm(fid, t, args);
+		}
 	}
 
 	/**

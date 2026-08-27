@@ -1,8 +1,13 @@
 package org.asmeta.atgt.coverage;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import org.asmeta.flattener.AsmetaMultipleFlattener;
+import org.asmeta.flattener.rule.AsmetaFlattener;
+import org.asmeta.flattener.rule.LetRuleFlattener;
 import org.asmeta.nusmv.MapVisitor;
 
 import asmeta.AsmCollection;
@@ -20,7 +25,7 @@ public class AsmetaAsSpec implements Specification {
 
 	public AsmetaAsSpec(AsmCollection asm) throws Exception {
 		// flatten the spec
-		this.asm = AsmetaMultipleFlattener.flatten(asm.getMain(), MapVisitor.ALL_SMV_FLATTENERS);
+		this.asm = AsmetaMultipleFlattener.flattenWithExtra(asm.getMain(), MapVisitor.ALL_SMV_FLATTENERS);
 	}
 
 	@Override

@@ -10,6 +10,7 @@ import java.util.Map;
 
 import org.asmeta.atgt.generator.AsmTestGeneratorTest;
 import org.asmeta.parser.ASMParser;
+import org.asmeta.simulator.RuleEvaluatorObserver;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -103,4 +104,23 @@ public class AsmTestGeneratorBySimulationTest {
 		System.out.println(output.toString());
 	}
 
+	
+	@Test
+	public void testWithChoose() throws Exception {
+		AsmCollection asm = ASMParser.setUpReadAsm(new File("examples/simplechoose.asm"));
+		assertNotNull(asm);
+		AsmTestGeneratorBySimulation gen = new AsmTestGeneratorBySimulation(asm, 4, 1);
+		gen.shuffle = true;
+		AsmTestSequence test = gen.getTestSuite().getTests().get(0);
+		// bug outMess=Scegli il tipo di pizza desiderata:
+		int last = test.allInstructions().size() - 1;
+		Map<? extends Variable, String> state = test.getState(last);
+		// TODO add the assert
+		System.err.println("STATE " + state);
+		//
+		ByteArrayOutputStream output = new ByteArrayOutputStream();
+		toAvalla ta = new toAvalla(output, test, "filename", "scenarioname");
+		ta.saveToStream();
+		System.out.println(output.toString());
+	}	
 }

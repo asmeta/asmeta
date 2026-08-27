@@ -24,6 +24,8 @@ public final class Statistics {
 		infoMap.put("CaR", 0);
 		infoMap.put("TS", 0);
 		infoMap.put("RS", 0);
+		infoMap.put("ChRI", 0);
+
 	}
 
 	public static void resetStats() {

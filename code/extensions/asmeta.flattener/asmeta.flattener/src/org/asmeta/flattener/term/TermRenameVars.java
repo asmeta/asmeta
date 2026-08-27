@@ -47,6 +47,14 @@ public class TermRenameVars extends TermFlattenerVisitor {
 		setVariableMap(variableMap);
 	}
 
+	// replace var with term
+	public void addMap(VariableTerm var, Term variableTerm) {
+		Map<VariableTerm, Term> map = new HashMap<>();
+		map.put(var, variableTerm);
+		addMap(map);
+	}
+
+	
 	public void addMap(Map<VariableTerm, Term> variableMap) {
 		/*
 		 * for(Entry<VariableTerm, Term> e: variableMap.entrySet()) { VariableTerm key =

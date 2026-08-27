@@ -1,0 +1,26 @@
+/*******************************************************************************
+ * Copyright (c) 2008, 2010 Angelo Gargantini.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     Angelo Gargantini - initial API and implementation
+ ******************************************************************************/
+
+package tgtlib.preferences;
+
+class ChoiceNotValidException extends RuntimeException {
+
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3899477777467658623L;
+
+	ChoiceNotValidException(String message) {
+		super(message);
+	}
+
+}

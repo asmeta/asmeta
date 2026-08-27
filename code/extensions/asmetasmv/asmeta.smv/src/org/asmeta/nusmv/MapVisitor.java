@@ -336,9 +336,10 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 		}
 		printSmv(smvFileName, smv);
 		if (!AsmetaSMVOptions.keepNuSMVfile) {
-			System.err.println("destroy");
+			System.err.println("delete generated file on exit");
 			smvFile.deleteOnExit();// it should be "delete" (but not here). "delete" here is too early
 		}
+		smv.flush();
 		smv.close();
 	}
 

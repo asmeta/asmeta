@@ -22,62 +22,62 @@ public class ExperimentsFIDE2018 extends FlattenerTest {
 
 	@Test
 	void hemodialysis() throws Exception {
-		flattenerTest("benchmarksFIDE2018/HemodialysisRef3.asm", ALL_FLATTENERS);
+		flattenerTest("benchmarksFIDE2018/HemodialysisRef3.asm", false, ALL_FLATTENERS);
 	}
 
 	@Test
 	void landingGearSystem() throws Exception {
-		flattenerTest("benchmarksFIDE2018/LandingGearSystem_3L.asm", ALL_FLATTENERS);
+		flattenerTest("benchmarksFIDE2018/LandingGearSystem_3L.asm", false, ALL_FLATTENERS);
 	}
 
 	@Test
 	void roulette() throws Exception {
-		flattenerTest("benchmarksFIDE2018/Roulette.asm", ALL_FLATTENERS);
+		flattenerTest("benchmarksFIDE2018/Roulette.asm", false, ALL_FLATTENERS);
 	}
 
 	@Test
 	void dijkstraTermination() throws Exception {
-		flattenerTest("benchmarksFIDE2018/DijkstraTermination.asm", ALL_FLATTENERS);
+		flattenerTest("benchmarksFIDE2018/DijkstraTermination.asm", false, ALL_FLATTENERS);
 	}
 
 	@Test
 	void gilbreathCardTrick() throws Exception {
-		flattenerTest("benchmarksFIDE2018/GilbreathCardTrick.asm", ALL_FLATTENERS);
+		flattenerTest("benchmarksFIDE2018/GilbreathCardTrick.asm", false, ALL_FLATTENERS);
 	}
 
 	@Test
 	void coffeeVendingMachine() throws Exception {
-		flattenerTest("benchmarksFIDE2018/CoffeeVendingMachine.asm", ALL_FLATTENERS);
+		flattenerTest("benchmarksFIDE2018/CoffeeVendingMachine.asm", false, ALL_FLATTENERS);
 	}
 
 	@Test
 	void conwayGameOfLife() throws Exception {
-		flattenerTest("benchmarksFIDE2018/GameOfLife.asm", ALL_FLATTENERS);
+		flattenerTest("benchmarksFIDE2018/GameOfLife.asm", false, ALL_FLATTENERS);
 	}
 
 	@Test
 	void stereoacuity() throws Exception {
-		flattenerTest("benchmarksFIDE2018/StereoacuityRaff5.asm", ALL_FLATTENERS);
+		flattenerTest("benchmarksFIDE2018/StereoacuityRaff5.asm", false, ALL_FLATTENERS);
 	}
 
 	@Test
 	void petriNets() throws Exception {
-		flattenerTest("benchmarksFIDE2018/PetriNet.asm", ALL_FLATTENERS);
+		flattenerTest("benchmarksFIDE2018/PetriNet.asm", false, ALL_FLATTENERS);
 	}
 
 	@Test
 	void trafficLight() throws Exception {
-		flattenerTest("benchmarksFIDE2018/OneWayTrafficLight.asm", ALL_FLATTENERS);
+		flattenerTest("benchmarksFIDE2018/OneWayTrafficLight.asm", false, ALL_FLATTENERS);
 	}
 
 	@Test
 	void sluiceGate() throws Exception {
-		flattenerTest("benchmarksFIDE2018/SluiceGateMotorCtl.asm", ALL_FLATTENERS);
+		flattenerTest("benchmarksFIDE2018/SluiceGateMotorCtl.asm", false, ALL_FLATTENERS);
 	}
 
 	@Test
 	void ferryman() throws Exception {
-		String result = flattenerTest("benchmarksFIDE2018/ferrymanSimulator_raff1.asm", ALL_FLATTENERS);
+		String result = flattenerTest("benchmarksFIDE2018/ferrymanSimulator_raff1.asm", false, ALL_FLATTENERS);
 		//System.out.println(result);
 		// 	derived oppositeSide: Side -> Side
 		// derived allOnRightSide: Boolean

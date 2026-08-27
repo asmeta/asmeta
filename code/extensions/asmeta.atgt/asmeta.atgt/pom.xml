@@ -1,17 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>asmeta.atgt</artifactId>
-	<repositories>
-		<repository>
-			<id>atgt-local</id>
-			<name>Local ATGT JAR Repository</name>
-			<url>file://${project.basedir}/local-repo</url>
-		</repository>
-	</repositories>
-
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<resources>
@@ -34,11 +25,6 @@
 			<groupId>org.eclipse.xtext</groupId>
 			<artifactId>org.eclipse.xtext.testing</artifactId>
 			<version>${xtext.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>asmeta</groupId>
-			<artifactId>atgt4asmeta</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>asmeta</groupId>

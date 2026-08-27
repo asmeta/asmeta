@@ -3,9 +3,11 @@ package org.asmeta.parser.util;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -18,6 +20,7 @@ import asmeta.definitions.DerivedFunction;
 import asmeta.definitions.DynamicFunction;
 import asmeta.definitions.FairnessConstraint;
 import asmeta.definitions.Function;
+import asmeta.definitions.InvarConstraint;
 import asmeta.definitions.Invariant;
 import asmeta.definitions.LtlSpec;
 import asmeta.definitions.MonitoredFunction;
@@ -76,8 +79,11 @@ import asmeta.transitionrules.turbotransitionrules.TurboReturnRule;
 
 /** class used to print an ASM */
 public class AsmPrinter extends ReflectiveVisitor<Void> {
+	
 	protected AsmetaTermPrinter tp = AsmetaTermPrinter.getAsmetaTermPrinter(false);
+	
 	static final private String tabWidth = "    ";
+	
 	private int indentation = 0;
 	private PrintWriter out;
 	protected Asm model;
@@ -89,6 +95,7 @@ public class AsmPrinter extends ReflectiveVisitor<Void> {
 		out.close();
 	}
 
+	// file name
 	public AsmPrinter(String fileName) throws FileNotFoundException {
 		this(new File(fileName));
 	}
@@ -99,6 +106,16 @@ public class AsmPrinter extends ReflectiveVisitor<Void> {
 
 	public AsmPrinter(PrintWriter writer) {
 		out = writer;
+	}
+
+	public AsmPrinter(StringWriter writer) {
+		out = new PrintWriter(writer);
+	}
+
+	
+	// make an AsmPrinter that prints to standard output
+	static public AsmPrinter makeAsmPrinterStdOut() {
+		return new AsmPrinter(new PrintWriter(System.out));
 	}
 
 	public void visitUnknown(Object object) {
@@ -156,13 +173,28 @@ public class AsmPrinter extends ReflectiveVisitor<Void> {
 			visitFunDefs(funcs);
 			println();
 		}
+		// except the main rule
 		if (rules.size() > 0) {
 			visitRuleDefs(rules);
 			println();
 		}
 		visitFairness(body.getFairnessConstraint());// TODO
 		visitProperties(property);
+		visitINVAR(body.getInvariantConstraint());
 		unIndent();
+	}
+
+	private void visitINVAR(List<InvarConstraint> invarConstraints) {
+		println("// InvarConstraints if any");
+		for (InvarConstraint f : invarConstraints) {
+			print("INVAR ");
+			String name = f.getName();
+			if (name != null) {
+				print(name + ": ");
+			}
+			println(tp.visit(f.getBody()));
+		}
+		println();
 	}
 
 	protected void visitFairness(List<FairnessConstraint> fairness) {
@@ -990,5 +1022,9 @@ public class AsmPrinter extends ReflectiveVisitor<Void> {
 
 	public void visitTerm(Term t) {
 		out.print(tp.visit(t));
+	}
+
+	public void flush() {
+		out.flush();
 	}
 }

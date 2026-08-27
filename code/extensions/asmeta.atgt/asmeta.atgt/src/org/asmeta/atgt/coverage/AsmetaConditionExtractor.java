@@ -4,6 +4,7 @@ package org.asmeta.atgt.coverage;
 import java.util.List;
 import java.util.Vector;
 
+import org.apache.log4j.Logger;
 import org.asmeta.simulator.RuleVisitor;
 
 import asmeta.terms.basicterms.impl.BasictermsFactoryImpl;
@@ -24,9 +25,10 @@ import tgtlib.definitions.expression.Expression;
 
 public class AsmetaConditionExtractor extends RuleVisitor<List<NamedTerm>>{
 
+	
+	private static Logger logger = Logger.getLogger(AsmetaConditionExtractor.class); 
 
-	public AsmetaConditionExtractor() {
-	}
+	public AsmetaConditionExtractor() {}
 
 	AsmetaToExprTrans translator = new AsmetaToExprTrans();
 
@@ -43,7 +45,7 @@ public class AsmetaConditionExtractor extends RuleVisitor<List<NamedTerm>>{
 
 	@Override
 	public List<NamedTerm> visit(TermAsRule rule) {
-		throw new RuntimeException("not implemented yet");
+		throw new RuntimeException("TermAsRule not implemented yet");
 	}
 
 	@Override
@@ -53,7 +55,7 @@ public class AsmetaConditionExtractor extends RuleVisitor<List<NamedTerm>>{
 
 	@Override
 	public List<NamedTerm> visit(SeqRule seq) {
-		throw new RuntimeException("not implemented yet");
+		throw new RuntimeException("Sequential rules are not supported");
 	}
 
 	@Override
@@ -63,24 +65,22 @@ public class AsmetaConditionExtractor extends RuleVisitor<List<NamedTerm>>{
 
 	@Override
 	public List<NamedTerm> visit(ExtendRule rule) {
-		throw new RuntimeException("not implemented yet");
+		throw new RuntimeException("ExtendRule not implemented yet");
 	}
 
 	@Override
-	public List<NamedTerm> visit(LetRule rule) {
-		throw new RuntimeException("not implemented yet");
+	public List<NamedTerm> visit(LetRule rule) {		
+		throw new RuntimeException("LetRule not implemented yet");
 	}
 
 	@Override
 	public List<NamedTerm> visit(asmeta.transitionrules.basictransitionrules.ChooseRule rule) {
-		// assuming no condition in the choose
-		assert(rule.getGuard() == BasictermsFactoryImpl.eINSTANCE.createBooleanTerm(true));
-		return visit(rule.getDoRule());
+		throw new RuntimeException("ChooseRule not supported yet");
 	}
 
 	@Override
 	public List<NamedTerm> visit(ForallRule rule) {
-		throw new RuntimeException("not implemented yet");
+		throw new RuntimeException("ForallRule not implemented yet");
 	}
 
 	@Override
@@ -91,7 +91,7 @@ public class AsmetaConditionExtractor extends RuleVisitor<List<NamedTerm>>{
 
 	@Override
 	public List<NamedTerm> visit(CaseRule rule) {
-		throw new RuntimeException("not implemented yet");
+		throw new RuntimeException("CaseRule not implemented yet");
 	}
 
 
@@ -106,7 +106,6 @@ public class AsmetaConditionExtractor extends RuleVisitor<List<NamedTerm>>{
 		Vector<NamedTerm> list = new Vector<>();
 		int i = 1;
 		for (Rule r : block.getRules()) {
-			System.out.println("rule " + r.getClass());
 			List<NamedTerm> l = visitor.visit(r);
 			// add the name
 			for (NamedTerm ne : l) {
@@ -130,7 +129,7 @@ public class AsmetaConditionExtractor extends RuleVisitor<List<NamedTerm>>{
 
 		// get the guard
 		Expression guard = translator.visit(ite.getGuard());
-		System.out.println("guard  "+ guard);
+		logger.debug("guard  "+ guard);
 		List<NamedTerm> then_list = this.visit(ite.getThenRule());
 		if (!then_list.isEmpty()) {
 			for (NamedTerm tc : then_list) {

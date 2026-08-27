@@ -1,5 +1,6 @@
 package org.asmeta.flattener.rule;
 
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -7,9 +8,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
+import org.apache.log4j.Logger;
 import org.asmeta.flattener.statistics.Statistics;
 import org.asmeta.flattener.term.DomainVisitor;
 import org.asmeta.flattener.term.ValuesCombinator;
+import org.asmeta.parser.util.AsmPrinter;
+import org.asmeta.parser.util.AsmetaTermPrinter;
 import org.asmeta.simulator.util.StdlFunction;
 import org.eclipse.emf.common.util.EList;
 
@@ -17,12 +21,15 @@ import asmeta.structure.Asm;
 import asmeta.terms.basicterms.FunctionTerm;
 import asmeta.terms.basicterms.Term;
 import asmeta.terms.basicterms.VariableTerm;
+import asmeta.terms.furtherterms.EnumTerm;
 import asmeta.transitionrules.basictransitionrules.BlockRule;
 import asmeta.transitionrules.basictransitionrules.ConditionalRule;
 import asmeta.transitionrules.basictransitionrules.LetRule;
 import asmeta.transitionrules.basictransitionrules.Rule;
 
 public class LetRuleFlattener extends RuleFlattener {
+	
+	Logger logger = Logger.getLogger(LetRuleFlattener.class);
 
 	public LetRuleFlattener(Asm asm) {
 		super(asm);
@@ -67,20 +74,19 @@ public class LetRuleFlattener extends RuleFlattener {
 			Map<VariableTerm, Term> map = new HashMap<>();
 			for (int i = 0; i < values.length; i++) {
 				map.put(vars.get(i), values[i]);
-				// System.err.println(vars.get(i) + " -> " + values[i]);
 			}
-
 			ConditionalRule newCondRule = ruleFact.createConditionalRule();
-
 			// build guard
 			List<Term> eqs = new ArrayList<>();
 			assert values.length == inits.size() : Arrays.toString(values) + "\n" + inits;
 			trv.addMap(map);
-			for (int i = 0; i < values.length; i++) {
-				FunctionTerm eq = stdlFunction.eq(trv.visit(inits.get(i)), values[i]);
+			for (int i = 0; i < values.length; i++) {				
+				Term inits_i = trv.visit(inits.get(i));
+				FunctionTerm eq = stdlFunction.eq(inits_i, values[i]);
 				eqs.add(eq);
 			}
-			newCondRule.setGuard(stdlFunction.and(eqs));
+			Term and = stdlFunction.and(eqs);
+			newCondRule.setGuard(and);
 			ruleWithValue = visit(rule);
 			trv.removeMap(map);
 			newCondRule.setThenRule(ruleWithValue);

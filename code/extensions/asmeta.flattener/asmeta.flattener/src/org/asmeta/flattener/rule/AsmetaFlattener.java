@@ -13,7 +13,6 @@ import asmeta.structure.Asm;
 public interface AsmetaFlattener {
 	
 
-
 	// TODO this should be an abstract class not an interface - use composition and noy inheriatnce AG
 	//protected Asm asm;
 	
@@ -29,7 +28,7 @@ public interface AsmetaFlattener {
 	
 	// TODO altro costruttore flatten che prende una lista di flattener
 	// istanziati(oggetti) e non class
-	public static String getFlattenerCode(Class<? extends AsmetaFlattener> flattener) {
+	public static String getFlattenerCode(Class<? extends AsmetaFlattener> flattener) {		
 		if (flattener == MacroCallRuleFlattener.class) {
 			return "MCR";
 		} else if (flattener == ForallRuleFlattener.class) {
@@ -46,6 +45,8 @@ public interface AsmetaFlattener {
 			return "NR";
 		} else if (flattener == RuleSimplifier.class) {
 			return "RS";
+		} else if (flattener == ChooseRuleINVARFlattener.class) {
+			return "ChRI";
 		} else {
 			throw new Error("Flattener " + flattener.getSimpleName() + " not supported.");
 		}

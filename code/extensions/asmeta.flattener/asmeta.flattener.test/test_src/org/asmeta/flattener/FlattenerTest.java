@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -59,7 +60,6 @@ public class FlattenerTest {
 		Logger.getRootLogger().removeAllAppenders();
 	}
 
-
 	@BeforeEach
 	void initTest() {
 		// RuleFlattener.DO_STATS = false;
@@ -71,14 +71,17 @@ public class FlattenerTest {
 		Set<Set<Class<? extends AsmetaFlattener>>> allSubsets = buildPowerset(flatteners);
 		for (Set<Class<? extends AsmetaFlattener>> a : allSubsets) {
 			initTest();
-			flattenerTest(asmModel, a.toArray(new Class[a.size()]));
+			flattenerTest(asmModel, false, a.toArray(new Class[a.size()]));
 		}
 	}
 
-	public String flattenerTest(String asmModel, Class<? extends AsmetaFlattener>... flatteners) throws Exception {
+	public String flattenerTest(String asmModel, boolean allowExtraFlatteners,
+			Class<? extends AsmetaFlattener>... flatteners) throws Exception {
 		Statistics.resetStats();
-		String refactoredAsm = AsmetaMultipleFlattener.flattenAsStr(asmModel, flatteners);
-		//System.out.println(refactoredAsm);
+		String refactoredAsm = allowExtraFlatteners
+				? AsmetaMultipleFlattener.flattenAsStrWEF(asmModel, Arrays.asList(flatteners))
+				: AsmetaMultipleFlattener.flattenAsStr(asmModel, flatteners);
+		System.out.println(refactoredAsm);
 		String asmName = Paths.get(asmModel).getFileName().toString();
 		String path = asmModel.substring(0, asmModel.indexOf(asmName));
 		String asmPath = path + asmName;
@@ -86,7 +89,7 @@ public class FlattenerTest {
 		Asm asm = ASMParser.setUpReadAsm(new File(asmPath)).getMain();
 		// stuff for statistics
 		Statistics.getInstance().setEnabled(true);
-		//Statistics.getInstance().getStatistics(asm, flattenedAsm);
+		// Statistics.getInstance().getStatistics(asm, flattenedAsm);
 		return refactoredAsm;
 	}
 
@@ -111,7 +114,8 @@ public class FlattenerTest {
 		return flattenedAsm;
 	}
 
-	private static Set<Set<Class<? extends AsmetaFlattener>>> buildPowerset(Class<? extends AsmetaFlattener>[] flatteners) {
+	private static Set<Set<Class<? extends AsmetaFlattener>>> buildPowerset(
+			Class<? extends AsmetaFlattener>[] flatteners) {
 		Set<Set<Class<? extends AsmetaFlattener>>> result = new HashSet<>();
 		HashSet<Class<? extends AsmetaFlattener>> empty = new HashSet<Class<? extends AsmetaFlattener>>();
 		result.add(empty);

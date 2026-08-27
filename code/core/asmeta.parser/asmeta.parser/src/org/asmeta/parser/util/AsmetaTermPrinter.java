@@ -38,6 +38,7 @@ import java.util.Iterator;
 import org.eclipse.emf.common.util.EList;
 
 import asmeta.definitions.domains.Domain;
+import asmeta.definitions.domains.EnumTd;
 import asmeta.definitions.domains.PowersetDomain;
 import asmeta.definitions.domains.RuleDomain;
 import asmeta.terms.basicterms.BooleanTerm;
@@ -74,6 +75,8 @@ import asmeta.terms.furtherterms.SetCt;
 public class AsmetaTermPrinter extends ReflectiveVisitor<String> {
 
 	
+	public static boolean CHECK_ENUM_TERM = false;
+
 	private static AsmetaTermPrinter  asmetaTermPrinterWAsmName = new AsmetaTermPrinter(true);
 
 	private static AsmetaTermPrinter  asmetaTermPrinterNoAsmName = new AsmetaTermPrinter(false);
@@ -492,6 +495,15 @@ public class AsmetaTermPrinter extends ReflectiveVisitor<String> {
 	 * @return a string
 	 */
 	public String visit(EnumTerm enumTerm) {
+		// ANGELO 2026/07/31
+		if (CHECK_ENUM_TERM) {
+			// check that the enum term is well-formed
+			Domain domain = enumTerm.getDomain();
+			if (domain == null || !(domain instanceof EnumTd)) {
+				throw new RuntimeException("EnumTerm " + enumTerm.getSymbol()
+						+ " should be with type EnumTd, but it is " + (domain == null ? "null" : domain.getClass().getName()));
+			}
+		}
 		return (showAsmName ? Defs.getAsmName(enumTerm.getDomain()) + "::" : "") + enumTerm.getSymbol();
 	}
 

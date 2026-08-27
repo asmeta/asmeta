@@ -23,6 +23,7 @@ import asmeta.transitionrules.basictransitionrules.Rule;
 import asmeta.transitionrules.basictransitionrules.UpdateRule;
 
 public class RewriteRules extends RuleFlattener {
+	
 	private Set<Function> funcsWithUndef;
 	private Map<Domain, Term> mapDomainsUndefTerm;
 

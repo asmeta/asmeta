@@ -1,0 +1,13 @@
+Counterexample:
+========================
+Path
+========================
+Step 0:
+--- Input Variables (assignments) ---
+cruiseControl = Inactive
+engRun = false
+brake = false
+ignited = false
+tooFast = false
+cruiseEvent = Activate
+--- System Variables (assignments) ---

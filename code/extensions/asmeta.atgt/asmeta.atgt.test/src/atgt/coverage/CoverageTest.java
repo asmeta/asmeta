@@ -35,7 +35,7 @@ public class CoverageTest {
 		// build the tree depending on the criteria
 		ASMSpecification spec = new AsmetaLLoader().read(new File(asmSpec));
 		AsmCoverage ct = new MBTCoverage(coverageCriteria).getTPTree(spec);
-		ct.allTPs().forEach(x -> System.out.println(x.getName() + " " + x.getCondition()));
+		//ct.allTPs().forEach(x -> System.out.println(x.getName() + " " + x.getCondition()));
 	}
 
 }

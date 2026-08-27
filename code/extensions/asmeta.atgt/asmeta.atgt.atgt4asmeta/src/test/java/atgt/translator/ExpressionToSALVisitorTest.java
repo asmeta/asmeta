@@ -1,0 +1,61 @@
+/*******************************************************************************
+ * Copyright (c) 2008 Angelo Gargantini.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     Angelo Gargantini - initial API and implementation
+ ******************************************************************************/
+package atgt.translator;
+
+import static org.junit.Assert.assertEquals;
+
+import java.io.StringReader;
+
+import org.junit.Test;
+
+import atgt.parser.asmgofer.AsmGoferParser;
+import atgt.parser.asmgofer.ParseException;
+import tgtlib.definitions.expression.Expression;
+import tgtlib.definitions.expression.ExpressionTranslator;
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ExpressionToSALVisitorTest.
+ */
+public class ExpressionToSALVisitorTest {
+
+	/**
+	 * Test for and expression.
+	 * 
+	 * @throws ParseException
+	 *             the parse exception
+	 */
+	@Test
+	public void testForAndExpression() throws ParseException {
+
+		StringReader sr = new StringReader(
+				"((cruiseControl == Off) && (engRun == Override))");
+		AsmGoferParser parser = new AsmGoferParser(sr);
+		Expression e = parser.logicExpression();
+		ExpressionTranslator t = new ExpressionToSALVisitor();
+		assertEquals("(cruiseControl = Off) AND (engRun = Override)", e
+				.accept(t).toString());
+
+	}
+
+	@Test
+	public void testForNotExpression() throws ParseException {
+
+		StringReader sr = new StringReader(
+				"not (a && b)");
+		AsmGoferParser parser = new AsmGoferParser(sr);
+		Expression e = parser.logicExpression();
+		ExpressionTranslator t = new ExpressionToSALVisitor();
+		assertEquals("NOT(a AND b)", e.accept(t).toString());
+	}
+
+	
+}

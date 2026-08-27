@@ -9,22 +9,22 @@ class RemoveArgumentsFlattenerTest extends FlattenerTest {
 
 	@Test
 	void derivedArgs() throws Exception {
-		String outputAsStr = flattenerTest("./examples/derivedLocArgs.asm", RemoveArgumentsFlattener.class);
+		String outputAsStr = flattenerTest("./examples/derivedLocArgs.asm", false, RemoveArgumentsFlattener.class);
 		assertFalse(outputAsStr.contains("moveExists(move)"));
 	}
 
 	@Test
 	void macroArgs() throws Exception {
-		flattenerTest("./examples/macroArgs.asm", RemoveArgumentsFlattener.class);
+		flattenerTest("./examples/macroArgs.asm", false, RemoveArgumentsFlattener.class);
 	}
 
 	@Test
 	void rushHour() throws Exception {
-		flattenerTest("../../../../asm_examples/examples/RushHour/RushHour.asm", RemoveArgumentsFlattener.class);
+		flattenerTest("../../../../asm_examples/examples/RushHour/RushHour.asm", false, RemoveArgumentsFlattener.class);
 	}
 
 	@Test
 	void coffeeVendingMachine() throws Exception {
-		flattenerTest(examplesDir + "examples/coffeeVendingMachine/coffeeVendingMachine.asm", RemoveArgumentsFlattener.class);
+		flattenerTest(examplesDir + "examples/coffeeVendingMachine/coffeeVendingMachine.asm", false, RemoveArgumentsFlattener.class);
 	}
 }

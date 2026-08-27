@@ -1,0 +1,7 @@
+..\..\..\..\asm_examples\examples\simple_example\population.asm	-->	AssertionError	Error
+..\..\..\..\asm_examples\examples\landingGearSystem\LGS_EV.asm	-->	38	18
+..\..\..\..\asm_examples\PillBox\Level1\pillbox_1.asm	-->	28	17
+..\..\..\..\asm_examples\examples\RushHour\RushHourMon.asm	-->	RuntimeException	Error
+..\..\..\..\asm_examples\examples\simple_example\population.asm	-->	AssertionError	Error
+..\..\..\..\asm_examples\examples\landingGearSystem\LGS_EV.asm	-->	38	18
+..\..\..\..\asm_examples\PillBox\Level1\pillbox_1.asm	-->	28	17

@@ -1,5 +1,8 @@
 package org.asmeta.flattener.rule;
 
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,6 +11,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.asmeta.flattener.term.DomainVisitor;
 import org.asmeta.flattener.term.TermRenameVars;
+import org.asmeta.parser.util.AsmPrinter;
 import org.asmeta.parser.util.ReflectiveVisitor;
 import org.asmeta.simulator.wrapper.RuleFactory;
 import org.eclipse.emf.common.util.EList;
@@ -39,6 +43,8 @@ public abstract class RuleFlattener extends ReflectiveVisitor<Rule> implements A
 	protected TermRenameVars trv = new TermRenameVars();
 	protected DomainVisitor dv;
 	protected boolean rename = false;
+	// keep track of the current rules delcation being visited
+	protected RuleDeclaration currentRuleDeclaration;
 	// public static boolean DO_STATS = true;
 
 	public RuleFlattener(Asm asm) {
@@ -51,7 +57,9 @@ public abstract class RuleFlattener extends ReflectiveVisitor<Rule> implements A
 		for (RuleDeclaration r : rules) {
 			Rule ruleBody = r.getRuleBody();
 			assert ruleBody != null;
-			r.setRuleBody(visit(ruleBody));
+			currentRuleDeclaration = r;
+			Rule visit = visit(ruleBody);
+			r.setRuleBody(visit);
 		}
 		return asm;
 	}
@@ -139,6 +147,13 @@ public abstract class RuleFlattener extends ReflectiveVisitor<Rule> implements A
 	}
 
 	public Rule visit(ExtendRule extendRule) {
+		if (logger.isDebugEnabled()){
+			StringWriter sw = new StringWriter();
+			AsmPrinter ap = new AsmPrinter(sw);
+			ap.visit(extendRule);
+			ap.flush();
+			logger.debug("visit extend rule : " + sw.toString());
+		}
 		ExtendRule newExtendRule = ruleFact.createExtendRule();
 		newExtendRule.setExtendedDomain(extendRule.getExtendedDomain());
 
@@ -160,9 +175,8 @@ public abstract class RuleFlattener extends ReflectiveVisitor<Rule> implements A
 			newVars.add((VariableTerm) trv.visit(v));
 		}
 		newExtendRule.getBoundVar().addAll(newVars);
-
 		Rule doRule = extendRule.getDoRule();
-		assert doRule != null;
+		assert doRule != null : "extend rule with a null do rule";
 		newExtendRule.setDoRule(visit(doRule));
 		if (rename) {
 			trv.removeMap(variablesMap);

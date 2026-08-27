@@ -32,11 +32,14 @@
 
 package org.asmeta.simulator;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 
@@ -125,6 +128,8 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 	static HashMap<String, Rule> macros = new HashMap<String, Rule>();
 
 	public final TermEvaluator termEval;
+
+	private RuleDeclaration currentRuleDeclaration = null;
 
 	/**
 	 * Constructs an evaluator: reuses the covered macros
@@ -560,7 +565,18 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		// the variable content
 		Value[] boundValues = new Value[chooseRule.getVariable().size()];
 		CollectionValue[] domains = evaluateRanges(chooseRule.getRanges());
-		if (!visitChoose(0, domains, boundValues, chooseRule, updateSet)) {
+		boolean visitChoose = visitChoose(0, domains, boundValues, chooseRule, updateSet);
+		if (visitChoose) {
+			// build the string to pass to the
+			Map<String,Value> valueforVar = new HashMap<>();
+			EList<VariableTerm> variable = chooseRule.getVariable();
+			for (int i = 0; i < variable.size(); i++) {
+				var var = variable.get(i);
+				valueforVar.put(var.getName() + " in " + currentRuleDeclaration.getName(),boundValues[i]);
+			}
+			notify(valueforVar);
+		} else {
+			// none
 			onChooseGuardAlwaysFalse(chooseRule); // Hook method for RuleEvalWCov
 			if (chooseRule.getIfnone() != null) {
 				logger.debug("<IfnoneRule>");
@@ -690,9 +706,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		MacroDeclaration dcl = macroRule.getCalledMacro();
 		logger.debug("<MacroCallRule name=\"" + dcl.getName() + "\">");
 		List<Term> actualParameters = macroRule.getParameters();
-
 		// PA 10/11/2011 - Inizio
-		Rule rule1 = macroRule.getCalledMacro().getRuleBody();
 		Iterator<VariableTerm> formalParameters = macroRule.getCalledMacro().getVariable().iterator();
 		for (Term actualParameter : actualParameters) {
 			Domain actualParameterDomain = actualParameter.getDomain();
@@ -820,6 +834,11 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		return updateSet;
 	}
 
+	public UpdateSet visit(RuleDeclaration dcl) {
+		assert dcl.getArity() == 0;
+		return visit(dcl, Collections.EMPTY_LIST);
+	}
+	
 	/**
 	 * Evaluates a rule given the declaration and the arguments.
 	 * 
@@ -830,6 +849,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 	 * @return the rule's update set
 	 */
 	public UpdateSet visit(RuleDeclaration dcl, List<Term> arguments) {
+		currentRuleDeclaration = dcl;
 		List<VariableTerm> variables = dcl.getVariable();
 		UpdateSet updateSet = null;
 		Rule body = dcl.getRuleBody();
@@ -1026,9 +1046,29 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 	 * @return
 	 */
 	protected RuleEvaluator createRuleEvaluator(State state, Environment environment, ValueAssignment assignment) {
-		return new RuleEvaluator(state, environment, assignment);
+		RuleEvaluator newRE = new RuleEvaluator(state, environment, assignment);
+		newRE.currentRuleDeclaration = currentRuleDeclaration;
+		return newRE;
 	}
 
+	// adding the Observer/Obervable pattern
+	private List<RuleEvaluatorObserver> observers = new ArrayList<>();
+
+    public void addObserver(RuleEvaluatorObserver observer) {
+        this.observers.add(observer);
+    }
+
+    public void removeObserver(RuleEvaluatorObserver observer) {
+        this.observers.remove(observer);
+    }
+
+    private void notify(Object change) {
+        for (RuleEvaluatorObserver observer : this.observers) {
+        	observer.update(change);
+        }
+    }
+	
+	
 }
 
 

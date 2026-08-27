@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Atgt4asmeta
+Bundle-SymbolicName: asmeta.atgt.atgt4asmeta_errors
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-21
+Automatic-Module-Name: asmeta.atgt.atgt4asmeta
+Require-Bundle: org.eclipse.emf.common;bundle-version="[2.45.0,3.0.0)"

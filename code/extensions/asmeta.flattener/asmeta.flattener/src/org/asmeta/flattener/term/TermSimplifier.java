@@ -14,6 +14,7 @@ import org.asmeta.simulator.util.StdlFunction;
 import org.asmeta.simulator.wrapper.RuleFactory;
 
 import asmeta.definitions.Function;
+import asmeta.definitions.domains.AbstractTd;
 import asmeta.definitions.domains.Domain;
 import asmeta.structure.Asm;
 import asmeta.terms.basicterms.BooleanTerm;
@@ -45,7 +46,7 @@ public class TermSimplifier extends ReflectiveVisitor<Term> {
 	public static BooleanTerm falseT;
 	public static BooleanTerm trueT;
 	private AsmetaTermPrinter tp;
-	//public final static TermSimplifier TS = new TermSimplifier();
+	// public final static TermSimplifier TS = new TermSimplifier();
 	private DomainVisitor dv;
 	private StdlFunction sl;
 
@@ -101,11 +102,11 @@ public class TermSimplifier extends ReflectiveVisitor<Term> {
 			String value = ((BooleanTerm) guard).getSymbol();
 			if (value.equals("true")) {
 				logger.debug("ConditionalTerm simplified");
-				//Statistics.getInstance().increaseValue("TS");
+				// Statistics.getInstance().increaseValue("TS");
 				return visit(condTerm.getThenTerm());
 			} else if (value.equals("false") && condTerm.getElseTerm() != null) {
 				logger.debug("ConditionalTerm simplified");
-				//Statistics.getInstance().increaseValue("TS");
+				// Statistics.getInstance().increaseValue("TS");
 				return visit(condTerm.getElseTerm());
 			}
 		}
@@ -122,20 +123,21 @@ public class TermSimplifier extends ReflectiveVisitor<Term> {
 	}
 
 	public Term visit(ForallTerm forallTerm) throws Exception {
-		//return visit((FiniteQuantificationTerm) forallTerm);
-		List<Term> operands = getGuardWithAllValues(forallTerm.getVariable(), forallTerm.getRanges(), forallTerm.getGuard());
+		// return visit((FiniteQuantificationTerm) forallTerm);
+		List<Term> operands = getGuardWithAllValues(forallTerm.getVariable(), forallTerm.getRanges(),
+				forallTerm.getGuard());
 		return sl.and(operands);
 	}
-	
+
 	private List<Term> getGuardWithAllValues(List<VariableTerm> vars, List<Term> ranges, Term guard) throws Exception {
 		List<Domain> domains = new ArrayList<Domain>();
-		for(Term t: ranges) {
+		for (Term t : ranges) {
 			domains.add(t.getDomain());
 		}
 		ArrayList<Term[]> result = new ArrayList<Term[]>();
 		ValuesCombinator.combineValuesFromVars(vars, 0, result, new Stack<Term>(), dv.getDomainSet());
 		List<Term> operands = new ArrayList<Term>();
-		for(Term[] values: result) {
+		for (Term[] values : result) {
 			ReplaceValueInTerm rvt = new ReplaceValueInTerm(values, vars);
 			operands.add(rvt.visit(guard));
 		}
@@ -165,7 +167,7 @@ public class TermSimplifier extends ReflectiveVisitor<Term> {
 			}
 		}
 		return buildNewLocTerm(locTerm, newArgs);
-		//return locTerm;
+		// return locTerm;
 	}
 
 	private Term buildNewLocTerm(LocationTerm locTerm, Term... args) {
@@ -250,12 +252,36 @@ public class TermSimplifier extends ReflectiveVisitor<Term> {
 			Statistics.getInstance().increaseValue("TS");
 			return firstArg;
 		}
-		if (tp.visit(firstArg).equals(tp.visit(secondArg))) {
+		// identical strings are equal, so we can simplify the eq term
+		String asString1 = tp.visit(firstArg);
+		String asString2 = tp.visit(secondArg);
+		if (asString1.equals(asString2)) {
 			// System.out.println(tp.visit(firstArg) + "\t" + tp.visit(secondArg) + "\t" +
 			// tp.visit(firstArg).equals(tp.visit(secondArg)));
 			logger.debug("eq simplified");
 			Statistics.getInstance().increaseValue("TS");
 			return trueT;
+		}
+		// sometimes with static constants we can simplify the eq term, for example if
+		// we have a function with domain a static constant, then the function is always
+		// false
+		// like
+		// static top: Position --> this is a FunctionTerm with domain Position
+		// static bottom: Position --> this is an FunctionTerm with domain Position 
+		//
+		if (firstArg instanceof FunctionTerm f1 && secondArg instanceof FunctionTerm f2) {
+			// same abstract domains
+			Domain domain1 = f1.getFunction().getCodomain();
+			Domain domain2 = f2.getFunction().getCodomain();
+			if (f1.getFunction().getArity() == 0 && f2.getFunction().getArity() == 0 && 
+					domain1.equals(domain2) && domain1 instanceof AbstractTd) {
+				if (f1.getFunction() instanceof asmeta.definitions.StaticFunction && f2.getFunction() instanceof asmeta.definitions.StaticFunction) {
+					if (!f1.getFunction().getName().equals(f2.getFunction().getName())){
+						Statistics.getInstance().increaseValue("TS");
+						return falseT;
+					}
+				}
+			}
 		}
 		return buildNewFuncTerm(funcTerm, firstArg, secondArg);
 	}
@@ -279,7 +305,7 @@ public class TermSimplifier extends ReflectiveVisitor<Term> {
 		}
 		if (secondArg instanceof BooleanTerm && ((BooleanTerm) secondArg).getSymbol().equals("false")) {
 			logger.debug("neq simplified");
-			//Statistics.getInstance().increaseValue("TS");
+			// Statistics.getInstance().increaseValue("TS");
 			return firstArg;
 		}
 		return buildNewFuncTerm(funcTerm, firstArg, secondArg);
@@ -293,16 +319,16 @@ public class TermSimplifier extends ReflectiveVisitor<Term> {
 			String v = ((BooleanTerm) arg).getSymbol();
 			if (v.equals("false")) {
 				logger.debug("not simplified");
-				//Statistics.getInstance().increaseValue("TS");
+				// Statistics.getInstance().increaseValue("TS");
 				return trueT;
 			} else if (v.equals("true")) {
 				logger.debug("not simplified");
-				//Statistics.getInstance().increaseValue("TS");
+				// Statistics.getInstance().increaseValue("TS");
 				return falseT;
 			}
 		}
-		if(arg instanceof FunctionTerm) {
-			if(((FunctionTerm) arg).getFunction().getName().equals("not")) {
+		if (arg instanceof FunctionTerm) {
+			if (((FunctionTerm) arg).getFunction().getName().equals("not")) {
 				return ((FunctionTerm) arg).getArguments().getTerms().get(0);
 			}
 		}
@@ -325,21 +351,21 @@ public class TermSimplifier extends ReflectiveVisitor<Term> {
 		if (v1 != null) {
 			if (v1.equals("false")) {
 				logger.debug("and simplified");
-				//Statistics.getInstance().increaseValue("TS");
+				// Statistics.getInstance().increaseValue("TS");
 				return falseT;
 			} else if (v1.equals("true")) {
 				logger.debug("and simplified");
-				//Statistics.getInstance().increaseValue("TS");
+				// Statistics.getInstance().increaseValue("TS");
 				return secondArg;
 			}
 		} else if (v2 != null) {
 			if (v2.equals("false")) {
 				logger.debug("and simplified");
-				//Statistics.getInstance().increaseValue("TS");
+				// Statistics.getInstance().increaseValue("TS");
 				return falseT;
 			} else if (v2.equals("true")) {
 				logger.debug("and simplified");
-				//Statistics.getInstance().increaseValue("TS");
+				// Statistics.getInstance().increaseValue("TS");
 				return firstArg;
 			}
 		}
@@ -387,11 +413,11 @@ public class TermSimplifier extends ReflectiveVisitor<Term> {
 		} else if (v2 != null) {
 			if (v2.equals("true")) {
 				logger.debug("or simplified");
-				//Statistics.getInstance().increaseValue("TS");
+				// Statistics.getInstance().increaseValue("TS");
 				return trueT;
 			} else if (v2.equals("false")) {
 				logger.debug("or simplified");
-				//Statistics.getInstance().increaseValue("TS");
+				// Statistics.getInstance().increaseValue("TS");
 				return firstArg;
 			}
 		}
@@ -408,7 +434,7 @@ public class TermSimplifier extends ReflectiveVisitor<Term> {
 			int v1 = Integer.parseInt(((ConstantTerm) firstArg).getSymbol());
 			int v2 = Integer.parseInt(((ConstantTerm) secondArg).getSymbol());
 			logger.debug("rel operator simplified");
-			//Statistics.getInstance().increaseValue("TS");
+			// Statistics.getInstance().increaseValue("TS");
 			if (intRelation.apply(v1, v2)) {
 				return trueT;
 			} else {
@@ -424,23 +450,23 @@ public class TermSimplifier extends ReflectiveVisitor<Term> {
 		Term firstArg = visit(args.get(0));
 		Term secondArg = visit(args.get(1));
 		if ((firstArg instanceof IntegerTerm || firstArg instanceof NaturalTerm)
-				&& (secondArg instanceof IntegerTerm || secondArg instanceof NaturalTerm)) {			
-			int v1 = intOrNatToint((ConstantTerm)firstArg);
+				&& (secondArg instanceof IntegerTerm || secondArg instanceof NaturalTerm)) {
+			int v1 = intOrNatToint((ConstantTerm) firstArg);
 			int v2 = intOrNatToint((ConstantTerm) secondArg);
 			IntegerTerm intTerm = ruleFact.createIntegerTerm();
 			intTerm.setSymbol(intRelation.apply(v1, v2).toString());
 			logger.debug("math operator simplified");
-			//Statistics.getInstance().increaseValue("TS");
+			// Statistics.getInstance().increaseValue("TS");
 			return intTerm;
 		}
 		return buildNewFuncTerm(funcTerm, firstArg, secondArg);
 	}
-	
+
 	private int intOrNatToint(ConstantTerm num) {
 		String sym = num.getSymbol();
 		if (num instanceof NaturalTerm) {
 			assert sym.endsWith("n");
-			sym = sym.substring(0, sym.length()-1);
+			sym = sym.substring(0, sym.length() - 1);
 		}
 		return Integer.parseInt(sym);
 	}

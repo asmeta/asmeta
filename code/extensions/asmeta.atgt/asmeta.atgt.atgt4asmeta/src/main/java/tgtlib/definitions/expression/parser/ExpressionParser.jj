@@ -1,0 +1,306 @@
+/**Grammar for expressions. For every expression it builds a new ID Creator.**/
+options
+{
+  STATIC = false;
+  // so it can be build
+  DEBUG_PARSER = false;
+  DEBUG_LOOKAHEAD = false;
+  DEBUG_TOKEN_MANAGER = false;
+  ERROR_REPORTING = true;
+  TOKEN_EXTENDS = "";
+  // to be put as not public (false)  SUPPORT_CLASS_VISIBILITY_PUBLIC = true;
+}
+
+PARSER_BEGIN(ExpressionParser)
+package tgtlib.definitions.expression.parser;
+import java.io.StringReader;
+import tgtlib.definitions.expression.type.EnumConstCreator;
+import tgtlib.definitions.expression.type.Type;
+import tgtlib.definitions.expression.type.BoolType;
+import tgtlib.definitions.expression.*;
+
+public class ExpressionParser
+{
+  // in order to build the ids  private static EnumConstCreator ecc;
+
+  // type of all the variables (if possible) otherwise null  // TODO substutute with a map from string to types   private Type varsType = null;
+
+  /**	 * Method parse. assumes all the ids are new in the expression. All will be interpreted as boolean, except numbers	 * @param tcS String	 * @return Expression	 * @throws ParseException	 */
+  public static Expression parseAsNewBooleanExpression(String tcS) throws ParseException
+  {
+    return parseAsBooleanExpression(tcS, new EnumConstCreator());
+  }
+
+  /**	 * Method parse. all will be interpreted as boolean, except numbers	 * @param tcS String	 * @return Expression	 * @throws ParseException	 */
+  public static Expression parseAsBooleanExpression(String tcS, EnumConstCreator idcreator) throws ParseException
+  {
+    ecc = idcreator;
+    StringReader sr = new StringReader(tcS);
+    ExpressionParser ep = new ExpressionParser(sr);
+    ep.varsType = BoolType.BOOLTYPE;
+    Expression e = ep.parseExpression();
+    return e;
+  }
+
+  /**	 * Method parse.	 * @param tcS String	 * @param e EnumConstCreator	 * @return Expression	 * @throws ParseException	 */
+  public static Expression parse(String tcS, EnumConstCreator idcreator) throws ParseException
+  {
+    ecc = idcreator;
+    StringReader sr = new StringReader(tcS);
+    Expression e = new ExpressionParser(sr).parseExpression();
+    return e;
+  }
+}
+
+PARSER_END(ExpressionParser)
+
+SKIP :
+{
+  " "
+| "\r"
+| "\n"
+| "\t"
+}
+
+TOKEN :
+{
+  < EQ : "==" >
+| < LT : "<" >
+| < LE : "<=" >
+| < GT : ">" >
+| < GE : ">=" >
+| < NEQ : "!=" >
+| < AND :
+    "&&"
+  | "&"
+  | "and"
+  | "AND" >
+| < OR :
+    (
+      "||"
+    | "|"
+    | "or"
+    ) >
+| < XOR : "xor" >
+| < IMPLIES :
+    "implies"
+  | "=>"  | "->" >
+| < IFF :
+    "<=>"
+  | "iff"  | "<->">
+| < NOT :
+    (
+      "not"
+    | "!"
+    ) >
+| < PLUS : "+" >
+| < MINUS : "-" >
+| < MULT : "*" >
+| < DIV : "/" >
+//| < NUMBER : ([ "0"-"9" ])+ >//| < DECIMALNUMBER : ([ "0"-"9" ])+"."([ "0"-"9" ])+ >| < NUMBER : ([ "0"-"9" ])+("."([ "0"-"9" ])+)? >
+| < ID : [ "a"-"z", "_", "A"-"Z" ] ([ "a"-"z", "A"-"Z", "0"-"9", "_" ])* >
+}
+
+// precedence order (inverse order):// IMPLIES  ---  OR|XOR --- AND // 
+Expression parseExpression() :
+{
+  Expression e1;
+  Expression e2;
+}
+{
+  // TODO fix the associativity of the implication (should be right associative)  e1 = orLogicExpr()
+  (
+    < IMPLIES > e2 = orLogicExpr()
+    {
+      e1 = new ImpliesExpression(e1, e2);
+    }
+  | < IFF > e2 = orLogicExpr()
+    {
+      e1 = new EqualsExpression(e1, e2);
+    }
+  )*
+  {
+    return e1;
+  }
+}
+
+// OR and XORExpression orLogicExpr() :
+{
+  Expression e1;
+  Expression e2;
+}
+{
+  e1 = andLogicExpr()
+  (
+    < OR > e2 = andLogicExpr()
+    {
+      e1 = new OrExpression(e1, e2);
+    }
+  | < XOR > e2 = andLogicExpr()
+    {
+      e1 = new XOrExpression(e1, e2);
+    }
+  )*
+  {
+    return e1;
+  }
+}
+
+// AND
+Expression andLogicExpr() :
+{
+  Expression e1;
+  Expression e2;
+}
+{
+  e1 = notExpr()
+  (
+    < AND > e2 = notExpr()
+    {
+      e1 = new AndExpression(e1, e2);
+    }
+  )*
+  {
+    return e1;
+  }
+}
+
+//NOT
+Expression notExpr() :
+{
+  Expression e;
+}
+{
+  (
+    < NOT > e = logicElement()
+    {
+      return UnaryExpression.mkUnExpr(Operator.NOT, e);
+    }
+  | e = logicElement()
+    {
+      return e;
+    }
+  )
+}
+
+// in SAL it could be a mathExpression
+// cfr := != > >= < <=
+Expression logicElement() :
+{
+  Expression e;
+  Expression e2;
+}
+{
+  e = mathExpression()
+  [
+    < EQ > e2 = mathExpression()
+    {
+      e = new EqualsExpression(e, e2);
+    }
+  | < NEQ > e2 = mathExpression()
+    {
+      e = new NotEqualsExpression(e, e2);
+    }
+  | < LT > e2 = mathExpression()
+    {
+      e = new LessThanExpression(e, e2);
+    }
+  | < LE > e2 = mathExpression()
+    {
+      e = new LessEqualExpression(e, e2);
+    }
+  | < GT > e2 = mathExpression()
+    {
+      e = new GreaterThanExpression(e, e2);
+    }
+  | < GE > e2 = mathExpression()
+    {
+      e = new GreaterEqualExpression(e, e2);
+    }
+  ]
+  {
+    return e;
+  }
+}
+
+Expression mathExpression() :
+{
+  Expression m1;
+  Expression m2;
+}
+{
+  m1 = mathTerm()
+  (
+    < PLUS > m2 = mathTerm()
+    {
+      m1 = new PlusExpression(m1, m2);
+    }
+  | < MINUS > m2 = mathTerm()
+    {
+      m1 = new MinusExpression(m1, m2);
+    }
+  )*
+  {
+    return m1;
+  }
+}
+
+Expression mathTerm() :
+{
+  Expression m1;
+  Expression m2;
+}
+{
+  m1 = unary()
+  (
+    < MULT > m2 = unary()
+    {
+      m1 = new MultExpression(m1, m2);
+    }
+  | < DIV > m2 = unary()
+    {
+      m1 = new DivExpression(m1, m2);
+    }
+  )*
+  {
+    return m1;
+  }
+}
+
+Expression unary() :
+{
+  Expression m;
+}
+{
+  < MINUS > m = mathElement()
+  {
+    return new NegExpression(m);
+  }
+| m = mathElement()
+  {
+    return m;
+  }
+}
+
+Expression mathElement() :
+{
+  Token t;
+  Expression m;
+  String id;
+}
+{
+  (
+    t = < NUMBER >
+    {
+      return new NumericLiteral(IdExpressionCreator.parse(t.image));
+    }
+  | t = < ID >
+    {
+      return ecc.createIdExpression(t.image, varsType);
+    }
+  | "(" m = parseExpression() ")"
+    {
+      return m;
+    }
+  )
+}

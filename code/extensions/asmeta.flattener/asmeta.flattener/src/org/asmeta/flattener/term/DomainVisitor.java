@@ -20,6 +20,7 @@ import asmeta.structure.Asm;
 import asmeta.structure.DomainDefinition;
 import asmeta.structure.Signature;
 import asmeta.terms.basicterms.BooleanTerm;
+import asmeta.terms.basicterms.FunctionTerm;
 import asmeta.terms.basicterms.SetTerm;
 import asmeta.terms.basicterms.Term;
 import asmeta.terms.furtherterms.EnumTerm;
@@ -92,7 +93,6 @@ public class DomainVisitor {
 				domainSet.put(domain.getName(), set);
 			} else if (Defs.isAbstractDomain(domain)) {
 				AbstractTd abstractDomain = (AbstractTd) domain;
-				EnumTerm enumTerm = null;
 				set = new HashSet<Term>();
 				// find the abstract domain elements from the functions of the signature
 				for (Function f : functions) {
@@ -100,12 +100,31 @@ public class DomainVisitor {
 					// domain
 					if (f.getCodomain().getName().equals(abstractDomain.getName()) && f.getArity() == 0
 							&& Defs.isAbstractConst(f)) {
-						// create the EnumTerm relative to the static function
-						enumTerm = rf.createEnumTerm();
-						enumTerm.setSymbol(f.getName());
-						enumTerm.setDomain(f.getCodomain());
-						// add the EnumDomain values to the set of terms
-						set.add(enumTerm);
+						FunctionTerm fterm = rf.createFunctionTerm();
+						// create the function Term relative to the static function
+						fterm.setFunction(f);
+						fterm.setDomain(f.getCodomain());
+						// add the fterm values to the set of terms
+						set.add(fterm);
+					}
+				}
+				// add to the domains map, the name of domain and the values inside
+				domainSet.put(domain.getName(), set);
+			} else if (Defs.isConcreteDomain(domain)
+					&& ((ConcreteDomain) domain).getTypeDomain() instanceof AbstractTd) {
+				// if it's an agent domain
+				// AgentDomain agentDomain = ((ConcreteDomain)domain).getTypeDomain();
+				set = new HashSet<Term>();
+				// find the agents from the functions of the signature
+				for (Function f : functions) {
+					// the criterion is: .....
+					if (f.getCodomain().getName().equals(domain.getName()) && f.getArity() == 0) {
+						FunctionTerm fterm = rf.createFunctionTerm();
+						// create the function Term relative to the static function
+						fterm.setFunction(f);
+						fterm.setDomain(f.getCodomain());
+						// add the fterm values to the set of terms
+						set.add(fterm);
 					}
 				}
 				// add to the domains map, the name of domain and the values inside
@@ -131,30 +150,7 @@ public class DomainVisitor {
 				}
 				// add to the domains map, the name of domain and the values inside
 				domainSet.put(domain.getName(), set);
-			} else if (Defs.isConcreteDomain(domain)
-					&& ((ConcreteDomain) domain).getTypeDomain() instanceof AbstractTd) {
-				// if it's an agent domain
-				// AgentDomain agentDomain = ((ConcreteDomain)domain).getTypeDomain();
-				EnumTerm enumTerm = null;
-				set = new HashSet<Term>();
-
-				// find the agents from the functions of the signature
-				for (Function f : functions) {
-					// the criterion is: .....
-					if (f.getCodomain().getName().equals(domain.getName()) && f.getArity() == 0) {
-						// create the EnumTerm relative to the agent
-						enumTerm = rf.createEnumTerm();
-						enumTerm.setSymbol(f.getName());
-						enumTerm.setDomain(f.getCodomain());
-						// add the EnumDomain values to the set of terms
-						set.add(enumTerm);
-					}
-				}
-				// add to the domains map, the name of domain and the values inside
-				domainSet.put(domain.getName(), set);
-			}
-
-			else {
+			} else {
 				throw new Error("Domain " + domain.getClass().getSimpleName() + " not supported.");
 			}
 		}
@@ -163,6 +159,7 @@ public class DomainVisitor {
 		for (Function f : functions) {
 			// the criterion is: static, without arguments, its codomain is the abstract
 			// domain
+			assert f.getCodomain() != null : "function " + f + " has no codomain";
 			if (f.getCodomain().getName().equals("Agent") && f.getArity() == 0 && Defs.isAbstractConst(f)) {
 				// create the EnumTerm relative to the static function
 				EnumTerm enumTerm = rf.createEnumTerm();

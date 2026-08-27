@@ -1,0 +1,1 @@
+options{ BUILD_PARSER = false; BUILD_TOKEN_MANAGER = false;}PARSER_BEGIN(temp)package tgtlib.javaccparser;public class temp{}PARSER_END(temp)SKIP :{" "}
