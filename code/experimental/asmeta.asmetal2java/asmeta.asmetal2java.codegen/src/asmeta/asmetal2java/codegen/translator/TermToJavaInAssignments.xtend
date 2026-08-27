@@ -10,6 +10,7 @@ import asmeta.terms.basicterms.BooleanTerm
 import asmeta.terms.basicterms.FunctionTerm
 import asmeta.terms.basicterms.LocationTerm
 import asmeta.terms.furtherterms.CaseTerm
+import asmeta.terms.furtherterms.ConditionalTerm
 import asmeta.terms.furtherterms.EnumTerm
 import asmeta.terms.furtherterms.IntegerTerm
 import asmeta.terms.furtherterms.NaturalTerm
@@ -52,6 +53,11 @@ class TermToJavaInAssignments extends TermToJava {
 
 	override String visit(BooleanTerm term) {
 		return " = " + super.visit(term)
+	}
+
+	override String visit(ConditionalTerm term) {
+		// If we use super.visit(term), TermToJavaInAssignments will execute recursive calls to visit, introducing not required "="
+		return " = " + new TermToJava(res).visit(term)
 	}
 
 	override String visit(EnumTerm term) {

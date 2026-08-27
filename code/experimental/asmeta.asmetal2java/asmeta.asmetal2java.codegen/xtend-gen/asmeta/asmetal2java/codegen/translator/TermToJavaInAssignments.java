@@ -16,6 +16,7 @@ import asmeta.terms.basicterms.Term;
 import asmeta.terms.basicterms.TupleTerm;
 import asmeta.terms.furtherterms.CaseTerm;
 import asmeta.terms.furtherterms.CharTerm;
+import asmeta.terms.furtherterms.ConditionalTerm;
 import asmeta.terms.furtherterms.EnumTerm;
 import asmeta.terms.furtherterms.IntegerTerm;
 import asmeta.terms.furtherterms.NaturalTerm;
@@ -71,6 +72,12 @@ public class TermToJavaInAssignments extends TermToJava {
   @Override
   public String visit(final BooleanTerm term) {
     String _visit = super.visit(term);
+    return (" = " + _visit);
+  }
+
+  @Override
+  public String visit(final ConditionalTerm term) {
+    String _visit = new TermToJava(this.res).visit(term);
     return (" = " + _visit);
   }
 

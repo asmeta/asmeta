@@ -44,12 +44,13 @@ public class EvoAvallaTranslationCases {
 		translateAndCompile("ProductTupleInitialization.asm");
 	}
 
-//	@Test
-//	@Tag("TestToMavenSkip")
-//	void nestedTermsInInitializationMustNotRepeatAssignmentOperator() throws Exception {
-//		translateAndCompile("ConditionalTermInitialization.asm");
-//	}
-//
+	@Test
+	@Tag("TestToMavenSkip")
+	void nestedTermsInInitializationMustNotRepeatAssignmentOperator() throws Exception {
+		translateAndCompile("ConditionalTermInitialization.asm");
+		translateAndCompile("ConditionalTermInitialization_static.asm");
+	}
+
 //	@Test
 //	@Tag("TestToMavenSkip")
 //	void enumCaseTermInitializationMustGenerateCompilableTestAndAtgClasses() throws Exception {
