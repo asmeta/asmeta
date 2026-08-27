@@ -168,63 +168,32 @@ public class TermToJava extends ReflectiveVisitor<String> {
   }
 
   public String visit(final CaseTerm object) {
-    StringBuffer sb = new StringBuffer();
-    for (int i = 0; (i < object.getComparingTerm().size()); i++) {
-      if ((i == 0)) {
-        StringConcatenation _builder = new StringConcatenation();
-        _builder.append("\tif(");
-        String _visit = this.visit(object.getComparedTerm());
-        _builder.append(_visit);
-        _builder.append("==");
-        String _visit_1 = this.visit(object.getComparingTerm().get(i));
-        _builder.append(_visit_1);
-        _builder.append(") ");
-        _builder.newLineIfNotEmpty();
-        _builder.append("\t\t");
-        _builder.append("return ");
-        String _visit_2 = this.visit(object.getResultTerms().get(i));
-        _builder.append(_visit_2, "\t\t");
-        _builder.append(";");
-        _builder.newLineIfNotEmpty();
-        sb.append(_builder);
-      } else {
-        StringConcatenation _builder_1 = new StringConcatenation();
-        _builder_1.append("\telse if(");
-        String _visit_3 = this.visit(object.getComparedTerm());
-        _builder_1.append(_visit_3);
-        _builder_1.append("==");
-        String _visit_4 = this.visit(object.getComparingTerm().get(i));
-        _builder_1.append(_visit_4);
-        _builder_1.append(")");
-        _builder_1.newLineIfNotEmpty();
-        _builder_1.append("\t\t");
-        _builder_1.append("return ");
-        String _visit_5 = this.visit(object.getResultTerms().get(i));
-        _builder_1.append(_visit_5, "\t\t");
-        _builder_1.append(";");
-        _builder_1.newLineIfNotEmpty();
-        sb.append(_builder_1);
-      }
-    }
+    String _xifexpression = null;
     Term _otherwiseTerm = object.getOtherwiseTerm();
     boolean _tripleNotEquals = (_otherwiseTerm != null);
     if (_tripleNotEquals) {
-      StringConcatenation _builder = new StringConcatenation();
-      _builder.append("\telse return ");
-      String _visit = this.visit(object.getOtherwiseTerm());
-      _builder.append(_visit);
-      _builder.append("; ");
-      _builder.newLineIfNotEmpty();
-      sb.append(_builder);
+      _xifexpression = this.visit(object.getOtherwiseTerm());
+    } else {
+      _xifexpression = "null";
     }
-    StringConcatenation _builder_1 = new StringConcatenation();
-    _builder_1.append(" ");
-    _builder_1.append("return null;");
-    _builder_1.newLine();
-    _builder_1.append("\t\t");
-    _builder_1.append("   ");
-    sb.append(_builder_1);
-    return sb.toString();
+    String result = _xifexpression;
+    for (int i = (object.getComparingTerm().size() - 1); (i >= 0); i--) {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("((");
+      String _visit = this.visit(object.getComparedTerm());
+      _builder.append(_visit);
+      _builder.append(" == ");
+      String _visit_1 = this.visit(object.getComparingTerm().get(i));
+      _builder.append(_visit_1);
+      _builder.append(") ? ");
+      String _visit_2 = this.visit(object.getResultTerms().get(i));
+      _builder.append(_visit_2);
+      _builder.append(" : ");
+      _builder.append(result);
+      _builder.append(")");
+      result = _builder.toString();
+    }
+    return result;
   }
 
   public String visit(final TupleTerm object) {

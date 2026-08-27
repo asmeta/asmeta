@@ -51,12 +51,13 @@ public class EvoAvallaTranslationCases {
 		translateAndCompile("ConditionalTermInitialization_static.asm");
 	}
 
-//	@Test
-//	@Tag("TestToMavenSkip")
-//	void enumCaseTermInitializationMustGenerateCompilableTestAndAtgClasses() throws Exception {
-//		translateAndCompile("CaseTermEnumInitialization.asm");
-//	}
-//
+	@Test
+	@Tag("TestToMavenSkip")
+	void enumCaseTermInitializationMustGenerateCompilableTestAndAtgClasses() throws Exception {
+		translateAndCompile("CaseTermEnumInitialization.asm");
+		translateAndCompile("CaseTermEnumInitialization_static.asm");
+	}
+
 //	@Test
 //	@Tag("TestToMavenSkip")
 //	void sequenceInitializationMustGenerateCompilableTestAndAtgClasses() throws Exception {

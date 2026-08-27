@@ -1,20 +1,36 @@
-asm CaseTermEnumInitialization
+asm CaseTermEnumInitialization_static
 
 import ../STDL/StandardLibrary
 
 signature:
 	enum domain Switch = {ON | OFF | STANDBY}
 	controlled selector: Switch
-
-	// should be static, but we want to test case term in initialization
-	controlled value: Switch -> Integer
-	controlled label: Switch -> String
-	controlled enabled: Switch -> Boolean
-
+	static value: Switch -> Integer
+	static label: Switch -> String
+	static enabled: Switch -> Boolean
 	controlled selectedValue: Integer
 	controlled selectedLabel: String
 
 definitions:
+	function value($sw in Switch) =
+		switch($sw)
+			case ON: 1
+			case OFF: 0
+			otherwise -1
+		endswitch
+	function label($sw in Switch) =
+		switch($sw)
+			case ON: "on"
+			case OFF: "off"
+			otherwise "standby"
+		endswitch
+	function enabled($sw in Switch) =
+		switch($sw)
+			case ON: true
+			case OFF: true
+			otherwise false
+		endswitch
+
 	main rule r_Main =
 		par
 			selector :=
@@ -41,21 +57,3 @@ default init s0:
 	function selector = STANDBY
 	function selectedValue = 0
 	function selectedLabel = "none"
-	function value($sw in Switch) =
-		switch($sw)
-			case ON: 1
-			case OFF: 0
-			otherwise -1
-		endswitch
-	function label($sw in Switch) =
-		switch($sw)
-			case ON: "on"
-			case OFF: "off"
-			otherwise "standby"
-		endswitch
-	function enabled($sw in Switch) =
-		switch($sw)
-			case ON: true
-			case OFF: true
-			otherwise false
-		endswitch

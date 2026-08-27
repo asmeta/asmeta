@@ -23,7 +23,6 @@ import asmeta.terms.furtherterms.NaturalTerm;
 import asmeta.terms.furtherterms.RealTerm;
 import asmeta.terms.furtherterms.StringTerm;
 import java.util.Arrays;
-import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.xbase.lib.XbaseGenerated;
 
 /**
@@ -88,105 +87,9 @@ public class TermToJavaInAssignments extends TermToJava {
   }
 
   @Override
-  public String visit(final CaseTerm object) {
-    StringBuffer sb = new StringBuffer();
-    StringConcatenation _builder = new StringConcatenation();
-    _builder.append("= null;");
-    sb.append(_builder);
-    Domain _domain = object.getComparedTerm().getDomain();
-    if ((_domain instanceof AbstractTd)) {
-      for (int i = 0; (i < object.getComparingTerm().size()); i++) {
-        if ((i == 0)) {
-          StringConcatenation _builder_1 = new StringConcatenation();
-          _builder_1.append("\t");
-          _builder_1.newLine();
-          _builder_1.append("\tif(");
-          String _visit = this.visit(object.getComparedTerm());
-          _builder_1.append(_visit);
-          _builder_1.append(".toString().equals(\"");
-          String _visit_1 = this.visit(object.getComparingTerm().get(i));
-          _builder_1.append(_visit_1);
-          _builder_1.append("\"))");
-          _builder_1.newLineIfNotEmpty();
-          _builder_1.append("\t\t");
-          _builder_1.append("a  ");
-          String _visit_2 = this.visit(object.getResultTerms().get(i));
-          _builder_1.append(_visit_2, "\t\t");
-          _builder_1.append(";");
-          _builder_1.newLineIfNotEmpty();
-          sb.append(_builder_1);
-        } else {
-          StringConcatenation _builder_2 = new StringConcatenation();
-          _builder_2.append("\telse if(");
-          String _visit_3 = this.visit(object.getComparedTerm());
-          _builder_2.append(_visit_3);
-          _builder_2.append(".toString().equals(\"");
-          String _visit_4 = this.visit(object.getComparingTerm().get(i));
-          _builder_2.append(_visit_4);
-          _builder_2.append("\"))");
-          _builder_2.newLineIfNotEmpty();
-          _builder_2.append("\t\t");
-          _builder_2.append("a  ");
-          String _visit_5 = this.visit(object.getResultTerms().get(i));
-          _builder_2.append(_visit_5, "\t\t");
-          _builder_2.append(";");
-          _builder_2.newLineIfNotEmpty();
-          sb.append(_builder_2);
-        }
-      }
-    } else {
-      for (int i = 0; (i < object.getComparingTerm().size()); i++) {
-        if ((i == 0)) {
-          StringConcatenation _builder_1 = new StringConcatenation();
-          _builder_1.append("\t");
-          _builder_1.newLine();
-          _builder_1.append("\tif(");
-          String _name = object.getComparedTerm().getDomain().getName();
-          _builder_1.append(_name);
-          _builder_1.append("_elem.value.equals(");
-          String _substring = this.visit(object.getComparingTerm().get(i)).substring(3, this.visit(object.getComparingTerm().get(i)).length());
-          _builder_1.append(_substring);
-          _builder_1.append("))");
-          _builder_1.newLineIfNotEmpty();
-          _builder_1.append("\t\t");
-          _builder_1.append("a  ");
-          String _visit = this.visit(object.getResultTerms().get(i));
-          _builder_1.append(_visit, "\t\t");
-          _builder_1.append(";");
-          _builder_1.newLineIfNotEmpty();
-          sb.append(_builder_1);
-        } else {
-          StringConcatenation _builder_2 = new StringConcatenation();
-          _builder_2.append("\telse if(");
-          String _name_1 = object.getComparedTerm().getDomain().getName();
-          _builder_2.append(_name_1);
-          _builder_2.append("_elem.value.equals(");
-          String _substring_1 = this.visit(object.getComparingTerm().get(i)).substring(3, this.visit(object.getComparingTerm().get(i)).length());
-          _builder_2.append(_substring_1);
-          _builder_2.append("))");
-          _builder_2.newLineIfNotEmpty();
-          _builder_2.append("\t\t");
-          _builder_2.append("a  ");
-          String _visit_1 = this.visit(object.getResultTerms().get(i));
-          _builder_2.append(_visit_1, "\t\t");
-          _builder_2.append(";");
-          _builder_2.newLineIfNotEmpty();
-          sb.append(_builder_2);
-        }
-      }
-    }
-    Term _otherwiseTerm = object.getOtherwiseTerm();
-    boolean _tripleNotEquals = (_otherwiseTerm != null);
-    if (_tripleNotEquals) {
-      StringConcatenation _builder_1 = new StringConcatenation();
-      _builder_1.append("\telse return ");
-      String _visit = this.visit(object.getOtherwiseTerm());
-      _builder_1.append(_visit);
-      _builder_1.append("; ");
-      _builder_1.newLineIfNotEmpty();
-      sb.append(_builder_1);
-    }
-    return sb.toString();
+  public String visit(final CaseTerm term) {
+    String _visit = new TermToJava(this.res).visit(term);
+    return (" = " + _visit);
   }
 
   @Override

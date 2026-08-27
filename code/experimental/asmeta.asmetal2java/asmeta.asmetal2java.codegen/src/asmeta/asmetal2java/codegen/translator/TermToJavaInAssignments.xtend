@@ -64,52 +64,8 @@ class TermToJavaInAssignments extends TermToJava {
 		return " = " + super.visit(term)
 	}
 
-	override String visit(CaseTerm object) {
-		var StringBuffer sb = new StringBuffer
-		sb.append('''= null;''')
-
-		if (object.comparedTerm.domain instanceof AbstractTd) {
-			for (var i = 0; i < object.comparingTerm.size; i++) {
-				if (i == 0){
-					sb.append(
-							'''
-							
-						«""»	if(«visit(object.comparedTerm)».toString().equals("«visit(object.comparingTerm.get(i))»"))
-								a  «visit(object.resultTerms.get(i))»;
-					''')
-				} else {
-					sb.append(
-								'''
-						«""»	else if(«visit(object.comparedTerm)».toString().equals("«visit(object.comparingTerm.get(i))»"))
-								a  «visit(object.resultTerms.get(i))»;
-					''')
-				}
-			}
-		} else {
-			for (var i = 0; i < object.comparingTerm.size; i++) {
-				if (i == 0)
-					sb.append(
-						'''
-							
-						«""»	if(«object.comparedTerm.domain.name»_elem.value.equals(«visit(object.comparingTerm.get(i)).substring(3,visit(object.comparingTerm.get(i)).length)»))
-								a  «visit(object.resultTerms.get(i))»;
-					''')
-				else
-					sb.append(
-							'''
-						«""»	else if(«object.comparedTerm.domain.name»_elem.value.equals(«visit(object.comparingTerm.get(i)).substring(3,visit(object.comparingTerm.get(i)).length)»))
-								a  «visit(object.resultTerms.get(i))»;
-					''')
-			}
-
-		}
-		if ((object.otherwiseTerm !== null))
-			sb.append(
-			'''
-				«""»	else return «visit(object.otherwiseTerm)»; 
-			''')
-
-		return sb.toString
+	override String visit(CaseTerm term) {
+		return " = " + new TermToJava(res).visit(term)
 	}
 
 	override String visit(LocationTerm term) {

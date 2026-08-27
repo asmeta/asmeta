@@ -136,31 +136,13 @@ class TermToJava extends ReflectiveVisitor<String> {
 	}
 
 	def String visit(CaseTerm object) {
-		var StringBuffer sb = new StringBuffer
-
-		for (var i = 0; i < object.comparingTerm.size; i++) {
-			if (i == 0)
-				sb.append(
-						'''
-					«""»	if(«visit(object.comparedTerm)»==«visit(object.comparingTerm.get(i))») 
-							return «visit(object.resultTerms.get(i))»;
-				''')
-			else
-				sb.append(
-							'''
-					«""»	else if(«visit(object.comparedTerm)»==«visit(object.comparingTerm.get(i))»)
-							return «visit(object.resultTerms.get(i))»;
-				''')
+		var result = if (object.otherwiseTerm !== null) visit(object.otherwiseTerm) else "null"
+		for (var i = object.comparingTerm.size - 1; i >= 0; i--) {
+			result = '''((«visit(object.comparedTerm)» == «visit(object.comparingTerm.get(i))») ? «visit(object.resultTerms.get(i))» : «result»)'''
 		}
-		if ((object.otherwiseTerm !== null))
-			sb.append(
-			'''
-				«""»	else return «visit(object.otherwiseTerm)»; 
-			''')
-		sb.append(	''' return null;
-		«""»   ''')
-		return sb.toString
+		return result
 	}
+	
 	def String visit(TupleTerm object) {
 		return ProductToJava.value(object, [ term | visit(term) ])
 	}
