@@ -256,7 +256,7 @@ public class EvoAsmetaTgCLI {
 
 		// compiler version
 		Option evosuiteVersion = Option.builder(EVOSUITE_VERSION).argName(EVOSUITE_VERSION).type(String.class)
-				.hasArg(true).desc("Set the version of Evosuite to use for test scenarios generation (required).")
+				.hasArg(true).desc("Set the EvoSuite version used for test scenario generation (required; supported: 1.0.6, 1.2.0).")
 				.build();
 
 		// clean the directories after use
@@ -264,7 +264,7 @@ public class EvoAsmetaTgCLI {
 				.desc("Delete all intermediate files created and processed by the application.").build();
 
 		Option flaky = Option.builder(FLAKY).hasArg(false)
-				.desc("Generate scenarios without recording choices; scenarios may be flaky.").build();
+				.desc("Generate scenarios without recording choices; scenarios may be flaky. Required with EvoSuite 1.0.6.").build();
 
 		// timeBudget property
 		Option timeBudget = Option.builder(TIME_BUDGET).argName(TIME_BUDGET).type(Integer.class).hasArg(true)
