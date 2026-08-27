@@ -28,9 +28,8 @@ public class RuleCounter {
 	/*
 	 * Change the following private fields as needed
 	 */
-	private static final Class<? extends Rule> RULE_CLASS = ChooseRule.class;
-	private static final String SEARCH_STRING = "chooseone";
 	private static final boolean SEARCH_BY_STRING = true;
+	
 	private static final String INPUT_LIST = "data/icst-26-exp/model_list_ok_atgt.txt";
 	private static final String OUTUPT_LIST = "data/icst-26-exp/model_list_output.txt";
 	
@@ -63,28 +62,9 @@ public class RuleCounter {
 			// Parse asm and check for rule
 			boolean ruleFound = false;
 			try {
-				AsmCollection asms = ASMParser.setUpReadAsm(asmFile);
-				EList<RuleDeclaration> ruleDeclarations = asms.getMain().getBodySection().getRuleDeclaration();
-				for (RuleDeclaration ruleDecl : ruleDeclarations) {
-					List<Rule> a = RuleExtractorFromMacroDecl.getAllContainedRules((MacroDeclaration) ruleDecl);
-					if (a.stream().anyMatch(rule -> RULE_CLASS.isInstance(rule))) {
-						ruleFound = true;
-						break;
-					}
-				}
-				if (SEARCH_BY_STRING) {
-					StringWriter out = new StringWriter();
-					PrintWriter st = new PrintWriter(out);
-					AsmPrinter asmPrint = new AsmPrinter(st);
-					asmPrint.visit(asms.getMain());
-					// Remove all comments
-					String content = out.toString();
-					content = content.replaceAll("(?s)/\\*.*?\\*/", "");
-					content = content.replaceAll("(?m)//.*?$", "");
-					if (content.contains(SEARCH_STRING)) {
-						searchByStringLines.add(line);
-					}
-				}
+				ruleFound = containsInternalNonDeterminism(asmFile);
+				if (ruleFound)
+					searchByStringLines.add(line);
 			} catch (Exception e) {
 				searchByRuleLines.add("//check manually: " + line);
 			}
@@ -99,14 +79,14 @@ public class RuleCounter {
 		FileOutputStream os;
 		try {
 			os = new FileOutputStream(OUTUPT_LIST);
-			String initialComment = "// total ASM with " + RULE_CLASS.toString() +  ": " + searchByRuleLines.size() + System.lineSeparator();
+			String initialComment = "// total ASM with " + CHOOSE_RULE_CLASS.toString() +  ": " + searchByRuleLines.size() + System.lineSeparator();
 	        os.write(initialComment.getBytes());
 	        os.write(System.lineSeparator().getBytes());
 	        for (String line: searchByRuleLines) {
 	        	os.write(line.getBytes());
 	        	os.write(System.lineSeparator().getBytes());
 	        }
-			String stringSearchComment = System.lineSeparator() + System.lineSeparator() + "// total ASM with '" + SEARCH_STRING +  "': " + searchByStringLines.size() + System.lineSeparator();
+			String stringSearchComment = System.lineSeparator() + System.lineSeparator() + "// total ASM with '" + CHOOSEONE_STRING +  "': " + searchByStringLines.size() + System.lineSeparator();
 	        os.write(stringSearchComment.getBytes());
 	        os.write(System.lineSeparator().getBytes());
 	        for (String line: searchByStringLines) {
@@ -118,6 +98,36 @@ public class RuleCounter {
 			e.printStackTrace();
 		}
 		System.out.println("Finished");
+	}
+	
+	
+	private static final Class<? extends Rule> CHOOSE_RULE_CLASS = ChooseRule.class;
+	private static final String CHOOSEONE_STRING = "chooseone";
+	
+	public static boolean containsInternalNonDeterminism(File asmFile)
+			throws Exception {
+		AsmCollection asms = ASMParser.setUpReadAsm(asmFile);
+		EList<RuleDeclaration> ruleDeclarations = asms.getMain().getBodySection().getRuleDeclaration();
+		for (RuleDeclaration ruleDecl : ruleDeclarations) {
+			List<Rule> a = RuleExtractorFromMacroDecl.getAllContainedRules((MacroDeclaration) ruleDecl);
+			if (a.stream().anyMatch(rule -> CHOOSE_RULE_CLASS.isInstance(rule))) {
+				return true;
+			}
+		}
+		if (SEARCH_BY_STRING) {
+			StringWriter out = new StringWriter();
+			PrintWriter st = new PrintWriter(out);
+			AsmPrinter asmPrint = new AsmPrinter(st);
+			asmPrint.visit(asms.getMain());
+			// Remove all comments
+			String content = out.toString();
+			content = content.replaceAll("(?s)/\\*.*?\\*/", "");
+			content = content.replaceAll("(?m)//.*?$", "");
+			if (content.contains(CHOOSEONE_STRING)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }
