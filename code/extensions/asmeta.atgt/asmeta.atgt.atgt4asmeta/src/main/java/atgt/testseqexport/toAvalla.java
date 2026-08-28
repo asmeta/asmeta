@@ -1,6 +1,7 @@
 package atgt.testseqexport;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -20,7 +21,7 @@ public class toAvalla extends TestSeqTrad {
 	static protected String nomeScenario;
 	static protected String fOpened;
 
-	public toAvalla(File f, AsmTestSequence ts, File fOpened) {
+	public toAvalla(File f, AsmTestSequence ts, File fOpened) throws FileNotFoundException {
 		this(f, ts, fOpened.getName());
 	}
 
@@ -30,8 +31,9 @@ public class toAvalla extends TestSeqTrad {
 	 * @param f       the file where the file is written
 	 * @param ts      the ts
 	 * @param fOpened the f opened
+	 * @throws FileNotFoundException 
 	 */
-	public toAvalla(File f, AsmTestSequence ts, String asmFile) {
+	public toAvalla(File f, AsmTestSequence ts, String asmFile) throws FileNotFoundException {
 		super(f, ts);
 		// remove extension from file name
 		nomeScenario = f.getName().replaceFirst("[.][^.]+$", "");
@@ -53,6 +55,7 @@ public class toAvalla extends TestSeqTrad {
 
 	@Override
 	public void saveToStream() {
+		assert out != null : "use another constructor";
 		PrintStream dst = new PrintStream(out);
 		List<Map<Location, String>> instrList = testSequence.allInstructions();
 		Iterator<Map<Location, String>> it = instrList.iterator();

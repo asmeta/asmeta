@@ -104,23 +104,36 @@ public class AsmTestGeneratorBySimulationTest {
 		System.out.println(output.toString());
 	}
 
-	
 	@Test
 	public void testWithChoose() throws Exception {
-		AsmCollection asm = ASMParser.setUpReadAsm(new File("examples/simplechoose.asm"));
+		generateFor("examples/simplechoose.asm");
+	}
+
+	@Test
+	public void testWithChoose2() throws Exception {
+		generateFor(AsmTestGeneratorTest.FILE_BASE + "examples\\fsmsemantics\\FSM_hooking.asm");
+	}
+
+	@Test
+	public void testproblematic() throws Exception {
+		generateFor(AsmTestGeneratorTest.FILE_BASE + "examples\\NeedhamSchroeder\\NeedhamSchroederWithSpy.asm");
+	}
+
+	private void generateFor(String pathname) throws Exception {
+		AsmCollection asm = ASMParser.setUpReadAsm(new File(pathname));
 		assertNotNull(asm);
-		AsmTestGeneratorBySimulation gen = new AsmTestGeneratorBySimulation(asm, 4, 1);
+		AsmTestGeneratorBySimulation gen = new AsmTestGeneratorBySimulation(asm, 40, 1);
 		gen.shuffle = true;
 		AsmTestSequence test = gen.getTestSuite().getTests().get(0);
-		// bug outMess=Scegli il tipo di pizza desiderata:
 		int last = test.allInstructions().size() - 1;
 		Map<? extends Variable, String> state = test.getState(last);
 		// TODO add the assert
-		System.err.println("STATE " + state);
+		// System.err.println("STATE " + state);
 		//
 		ByteArrayOutputStream output = new ByteArrayOutputStream();
 		toAvalla ta = new toAvalla(output, test, "filename", "scenarioname");
 		ta.saveToStream();
 		System.out.println(output.toString());
-	}	
+	}
+
 }

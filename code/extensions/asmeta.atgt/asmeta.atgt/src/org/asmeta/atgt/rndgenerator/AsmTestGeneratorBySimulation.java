@@ -110,66 +110,7 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 
 	public AsmTestSuite getTestSuite(boolean shuffle) {
 		try {
-			AsmTestSuite testSuite = new AsmTestSuite();
-			for (int test = 0; test < numberofTests; test++) {
-				// get the name
-				String modelName = asm.getMain().getName();
-				// build the random environment
-				Environment env = new Environment(randomMFReader);
-				// build the simulator
-				SimulatorForRndGeneration simulator = new SimulatorForRndGeneration(modelName, asm, env);
-				simulator.setShuffleFlag(shuffle);
-				ChosenVarsObserver observer = new ChosenVarsObserver();
-				simulator.addObserver(observer);
-				String testName = "test" + Math.addExact(test, testNumberOffset);
-				AsmTestSequence testsequence = new AsmTestSequence(new AsmTestCondition(testName, null));
-				State state;
-				int currentStep = 0;
-				while (true) {
-					// get the current state - duplicate
-					state = new State(simulator.getCurrentState());
-					// execute the step
-					try {
-						simulator.runNoCatchInv(1);
-					} catch (InvalidInvariantException e) {
-						System.out.println("Invariant violation");
-						break;
-					}
-					// get previous controlled part
-					state.applyLocationUpdates(simulator.previousState.getLocationMap());
-					// get the monitored value of the previous step
-					state.applyLocationUpdates(randomMFReader.getValues());
-					// add the picked values if any
-					state.applyLocationUpdates(observer.getPickedValues());
-					// add this (previous) state to the sequence
-					addState(testsequence, state);
-					// if no step was required
-					if (stepNumber <= 0) {
-						break;
-					}
-					// reached the end of the sequence steps
-					if (currentStep >= stepNumber - 1) {
-						// add also the last step and exit
-						addState(testsequence, simulator.getCurrentState());
-						break;
-					}
-					// go to the next state
-					currentStep++;
-					// restart the env
-					randomMFReader.clear();
-				}
-				testNumberOffset += 1;
-				// add all the dynamic sets in the last state for now
-				EList<Domain> domains = asm.getMain().getHeaderSection().getSignature().getDomain();
-				for (Domain d : domains) {
-					if ((d instanceof ConcreteDomain cd) && cd.getIsDynamic())
-						addDomainElementsInStateAsContains(simulator.getCurrentState(), testsequence, cd);
-					else if ((d instanceof AbstractTd atd) && atd.getIsDynamic())
-						addDomainElementsInStateAsContains(simulator.getCurrentState(), testsequence, atd);
-				}
-				testSuite.addTest(testsequence);
-			}
-			return testSuite;
+			return getTestSuiteException(shuffle);
 		} catch (AsmModelNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -183,6 +124,69 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 			e.printStackTrace();
 			return AsmTestSuite.getEmptyTestSuite();
 		}
+	}
+
+	public AsmTestSuite getTestSuiteException(boolean shuffle) throws AsmModelNotFoundException, MainRuleNotFoundException {
+		AsmTestSuite testSuite = new AsmTestSuite();
+		for (int test = 0; test < numberofTests; test++) {
+			// get the name
+			String modelName = asm.getMain().getName();
+			// build the random environment
+			Environment env = new Environment(randomMFReader);
+			// build the simulator
+			SimulatorForRndGeneration simulator = new SimulatorForRndGeneration(modelName, asm, env);
+			simulator.setShuffleFlag(shuffle);
+			ChosenVarsObserver observer = new ChosenVarsObserver();
+			simulator.addObserver(observer);
+			String testName = "test" + Math.addExact(test, testNumberOffset);
+			AsmTestSequence testsequence = new AsmTestSequence(new AsmTestCondition(testName, null));
+			State state;
+			int currentStep = 0;
+			while (true) {
+				// get the current state - duplicate
+				state = new State(simulator.getCurrentState());
+				// execute the step
+				try {
+					simulator.runNoCatchInv(1);
+				} catch (InvalidInvariantException e) {
+					System.out.println("Invariant violation");
+					break;
+				}
+				// get previous controlled part
+				state.applyLocationUpdates(simulator.previousState.getLocationMap());
+				// get the monitored value of the previous step
+				state.applyLocationUpdates(randomMFReader.getValues());
+				// add the picked values if any
+				state.applyLocationUpdates(observer.getPickedValues());
+				// add this (previous) state to the sequence
+				addState(testsequence, state);
+				// if no step was required
+				if (stepNumber <= 0) {
+					break;
+				}
+				// reached the end of the sequence steps
+				if (currentStep >= stepNumber - 1) {
+					// add also the last step and exit
+					addState(testsequence, simulator.getCurrentState());
+					break;
+				}
+				// go to the next state
+				currentStep++;
+				// restart the env
+				randomMFReader.clear();
+			}
+			testNumberOffset += 1;
+			// add all the dynamic sets in the last state for now
+			EList<Domain> domains = asm.getMain().getHeaderSection().getSignature().getDomain();
+			for (Domain d : domains) {
+				if ((d instanceof ConcreteDomain cd) && cd.getIsDynamic())
+					addDomainElementsInStateAsContains(simulator.getCurrentState(), testsequence, cd);
+				else if ((d instanceof AbstractTd atd) && atd.getIsDynamic())
+					addDomainElementsInStateAsContains(simulator.getCurrentState(), testsequence, atd);
+			}
+			testSuite.addTest(testsequence);
+		}
+		return testSuite;
 	}
 
 	private IdExpression idContains;

@@ -1,6 +1,7 @@
 package atgt.testseqexport;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -30,7 +31,7 @@ public class toXmlDOM extends TestSeqTrad {
 
 	static String scenarioDTD;
 
-	public toXmlDOM(File f, AsmTestSequence ts) {
+	public toXmlDOM(File f, AsmTestSequence ts) throws FileNotFoundException {
 		super(f, ts);
 		scenarioDTD = new File("src/atgt/gui/tree/DTD_atgt.dtd").getAbsoluteFile().toString();
 	}

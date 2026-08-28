@@ -62,7 +62,8 @@ public class RuleCounter {
 			// Parse asm and check for rule
 			boolean ruleFound = false;
 			try {
-				ruleFound = containsInternalNonDeterminism(asmFile);
+				AsmCollection asms = ASMParser.setUpReadAsm(asmFile);
+				ruleFound = containsInternalNonDeterminism(asms);
 				if (ruleFound)
 					searchByStringLines.add(line);
 			} catch (Exception e) {
@@ -104,9 +105,8 @@ public class RuleCounter {
 	private static final Class<? extends Rule> CHOOSE_RULE_CLASS = ChooseRule.class;
 	private static final String CHOOSEONE_STRING = "chooseone";
 	
-	public static boolean containsInternalNonDeterminism(File asmFile)
+	public static boolean containsInternalNonDeterminism(AsmCollection asms)
 			throws Exception {
-		AsmCollection asms = ASMParser.setUpReadAsm(asmFile);
 		EList<RuleDeclaration> ruleDeclarations = asms.getMain().getBodySection().getRuleDeclaration();
 		for (RuleDeclaration ruleDecl : ruleDeclarations) {
 			List<Rule> a = RuleExtractorFromMacroDecl.getAllContainedRules((MacroDeclaration) ruleDecl);

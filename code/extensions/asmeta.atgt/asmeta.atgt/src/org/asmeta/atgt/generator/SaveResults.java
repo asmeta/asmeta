@@ -2,6 +2,7 @@ package org.asmeta.atgt.generator;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.PrintStream;
@@ -254,9 +255,13 @@ public class SaveResults {
 
 		for (AsmTestSequence tc : result.getTests()) {
 			// Create the new avalla file
-			new toAvalla(new File(baseAvallaName.split("\\.avalla")[0] + counter + ".avalla"), tc, asmName).save();
-			avallaPath[counter] = baseAvallaName.split("\\.avalla")[0] + counter + ".avalla";
-
+			String pathname = baseAvallaName.split("\\.avalla")[0] + counter + ".avalla";
+			try {
+				new toAvalla(new File(pathname), tc, asmName).save();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+			avallaPath[counter] = pathname;
 			counter++;
 		}
 
@@ -273,10 +278,14 @@ public class SaveResults {
 
 		for (AsmTestSequence tc : result.getTests()) {
 			// Create the new avalla file
-			new toAvalla(new File(destinationPath + baseAvallaName.split("\\.avalla")[0] + counter + ".avalla"), tc,
-					asmName).save();
-			avallaPath[counter] = destinationPath + baseAvallaName.split("\\.avalla")[0] + counter + ".avalla";
-
+			String pathname = destinationPath + baseAvallaName.split("\\.avalla")[0] + counter + ".avalla";
+			try {
+				new toAvalla(new File(pathname), tc, asmName).save();
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			avallaPath[counter] = pathname;
 			counter++;
 		}
 

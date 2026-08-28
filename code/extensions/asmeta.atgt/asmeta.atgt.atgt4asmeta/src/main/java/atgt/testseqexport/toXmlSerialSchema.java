@@ -1,6 +1,7 @@
 package atgt.testseqexport;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -17,7 +18,7 @@ public class toXmlSerialSchema extends TestSeqTrad {
 	/* TODO specificare nome stringa x dtd */
 	static String scenarioXSD;
 
-	public toXmlSerialSchema(File f, AsmTestSequence ts) {
+	public toXmlSerialSchema(File f, AsmTestSequence ts) throws FileNotFoundException {
 		super(f, ts);
 		scenarioXSD = new File("src/atgt/gui/tree/schema_atgt.xsd").getAbsoluteFile().toString();
 
