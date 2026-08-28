@@ -52,9 +52,10 @@ class ScenarioRndGeneratorWPickTest {
 	void testRunRandomWithPick() {
 		//
 	}
-	
+
 	public static void main(String[] args) throws IOException {
 		Logger.getLogger(org.asmeta.simulator.main.Simulator.class).setLevel(Level.OFF);
+		Logger.getLogger("org.asmeta.parser").setLevel(Level.OFF);
 		// enable assertions
 		ClassLoader.getSystemClassLoader().setDefaultAssertionStatus(true);
 		// Read the file with the list of asms to be processed
@@ -86,38 +87,44 @@ class ScenarioRndGeneratorWPickTest {
 					AsmCollection asms = ASMParser.setUpReadAsm(new File(asmPath));
 					if (asmeta.evotest.experiments.dataprep.RuleCounter.containsInternalNonDeterminism(asms)) {
 						writer.write(specCounter + "\t" + asmPath);
-						// generate 
-						AsmTestGeneratorBySimulation rndgen = new AsmTestGeneratorBySimulation(asms,4,1);
-						try{
+						// generate
+						AsmTestGeneratorBySimulation rndgen = new AsmTestGeneratorBySimulation(asms, 4, 1);
+						try {
 							AsmTestSuite ts = rndgen.getTestSuiteException(true);
 							writer.write("\t" + ts.getNActualTest());
 							// execute the scenario
 							if (ts.getNActualTest() == 1) {
 								// save avalla
 								AsmTestSequence test = ts.getTests().getFirst();
-								String scenarioName = "scenarios/scenario_"+ String.format("%03d", specCounter)+ ".avalla";
-								toAvalla exporter = new toAvalla(new File(scenarioName), test, new File(asmPath).toString());
+								String scenarioName = "scenarios/scenario_" + String.format("%03d", specCounter)
+										+ ".avalla";
+								toAvalla exporter = new toAvalla(new File(scenarioName), test,
+										new File(asmPath).toString());
 								exporter.saveToStream();
 								// call the validator
 								boolean shuffle = true;
-								List<String> results = AsmetaV.execValidation(scenarioName, AsmetaV.doNotcomputeCoverage, shuffle);
-								writer.write("\t" + results.toString());																
+								List<String> results = AsmetaV.execValidation(scenarioName,
+										AsmetaV.doNotcomputeCoverage, shuffle);
+								assert results != null;
+								writer.write("\t" + results.toString());
 							}
-						}  catch (Throwable t) {
-							writer.write("\t" +t.getMessage());							
+						} catch (Throwable t) {
+							if (t instanceof java.lang.AssertionError) {
+								t.printStackTrace();
+							}
+							writer.write("\t" + t);
 						}
 						// Next specification
 						specCounter++;
-						// 
+						//
 						writer.write("\n");
 						writer.flush();
 					}
 				} catch (Throwable t) {
-					System.err.println(
-							"Unexpected error while processing ASM line '" + line + "'. Continuing with next ASM.\n"
-									+ t.getClass().getSimpleName() + ": " + t.getMessage());
+					System.err.println("Unexpected error while processing ASM line '" + line
+							+ "'. Continuing with next ASM.\n" + t.getClass().getSimpleName() + ": " + t.getMessage());
 					t.printStackTrace();
-					System.exit(-1);					
+					System.exit(-1);
 				}
 			}
 		}

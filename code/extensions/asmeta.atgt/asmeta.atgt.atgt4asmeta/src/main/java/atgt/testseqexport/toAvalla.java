@@ -87,7 +87,7 @@ public class toAvalla extends TestSeqTrad {
 				Location v = p.getKey();
 				String value = p.getValue();
 				if (v instanceof PickedVariable pick)
-					dst.println("pick " + pick.getName() + " in " + pick.getInRuleDecl() + " = " + value + ";");
+					dst.println("pick " + pick.getName() + " in " + pick.getInRuleDecl() + " := " + value + ";");
 			}
 			// if (it.hasNext())
 			dst.println("step");

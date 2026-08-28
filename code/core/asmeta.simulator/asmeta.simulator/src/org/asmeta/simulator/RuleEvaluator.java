@@ -76,6 +76,7 @@ import asmeta.definitions.domains.UndefDomain;
 import asmeta.terms.basicterms.BooleanTerm;
 import asmeta.terms.basicterms.CollectionTerm;
 import asmeta.terms.basicterms.DomainTerm;
+import asmeta.terms.basicterms.FunctionTerm;
 import asmeta.terms.basicterms.LocationTerm;
 import asmeta.terms.basicterms.Term;
 import asmeta.terms.basicterms.TupleTerm;
@@ -132,15 +133,11 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 	private RuleDeclaration currentRuleDeclaration = null;
 
 	/**
-	 * Constructs an evaluator: reuses the covered macros
-	 * to be used in the same run
+	 * Constructs an evaluator: reuses the covered macros to be used in the same run
 	 * 
-	 * @param state
-	 *            state
-	 * @param environment
-	 *            environment
-	 * @param assignment
-	 *            assignment
+	 * @param state       state
+	 * @param environment environment
+	 * @param assignment  assignment
 	 */
 	protected RuleEvaluator(State state, Environment environment, ValueAssignment assignment) {
 		termEval = new TermEvaluator(state, environment, assignment);
@@ -149,12 +146,9 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 	/**
 	 * Constructs a new fresh evaluator.
 	 * 
-	 * @param state
-	 *            state
-	 * @param environment
-	 *            environment
-	 * @param factory
-	 *            factory
+	 * @param state       state
+	 * @param environment environment
+	 * @param factory     factory
 	 */
 	public RuleEvaluator(State state, Environment environment, RuleFactory factory) {
 		this(state, environment, new ValueAssignment());
@@ -168,8 +162,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 	/**
 	 * Evaluates a skip rule.
 	 * 
-	 * @param rule
-	 *            a rule
+	 * @param rule a rule
 	 * @return the rule's update set
 	 */
 	@Override
@@ -183,8 +176,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 	/**
 	 * Evaluates an update rule.
 	 * 
-	 * @param rule
-	 *            a rule
+	 * @param rule a rule
 	 * @return the rule's update set
 	 */
 	@Override
@@ -196,33 +188,35 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		Value content = visitTerm(rhsTerm);
 		logger.debug("</UpdatingTerm>");
 		Term lhsTerm = rule.getLocation();
-		switch(lhsTerm) {
-			case LocationTerm locationTerm -> {
-				logger.debug("<LocationTerm>");
-				Function signature = locationTerm.getFunction();
-				logger.debug("<Name>" + signature.getName() + "</Name>");
-				TupleTerm tupleTerm = locationTerm.getArguments();
-				logger.debug("<Arguments>" + tupleTerm + "</Arguments>");
-				List arguments;
-				// if tuple term has no arguments (plain variable), then build an empty value
-				// array
-				if (tupleTerm == null) {
-					arguments = Collections.emptyList();
-				} else {
-					//assert tupleTerm.getTerms().size() == tupleTerm.getArity() : "tupleTerm.getTerms().size(): " + tupleTerm.getTerms().size() + "  tupleTerm.getArity(): " + tupleTerm.getArity();
-					arguments = ((TupleValue) visitTerm(tupleTerm)).getValue();
-				}
-				logger.debug("</LocationTerm>");
-				Location location = new Location(signature, (Value[]) arguments.toArray(new Value[arguments.size()]));
-				checkCompatibility(content, location);
-				updateSet.putUpdate(location, content);
+		switch (lhsTerm) {
+		case LocationTerm locationTerm -> {
+			logger.debug("<LocationTerm>");
+			Function signature = locationTerm.getFunction();
+			logger.debug("<Name>" + signature.getName() + "</Name>");
+			TupleTerm tupleTerm = locationTerm.getArguments();
+			logger.debug("<Arguments>" + tupleTerm + "</Arguments>");
+			List arguments;
+			// if tuple term has no arguments (plain variable), then build an empty value
+			// array
+			if (tupleTerm == null) {
+				arguments = Collections.emptyList();
+			} else {
+				// assert tupleTerm.getTerms().size() == tupleTerm.getArity() :
+				// "tupleTerm.getTerms().size(): " + tupleTerm.getTerms().size() + "
+				// tupleTerm.getArity(): " + tupleTerm.getArity();
+				arguments = ((TupleValue) visitTerm(tupleTerm)).getValue();
 			}
-			case VariableTerm variable -> {
-				// FIXME experimental!!
-				termEval.assignment.put(variable, content);
-				// throw new UnsupportedOperationException();
-			}
-			case null, default -> throw new RuntimeException("Unknown left-hand-side term " + lhsTerm.getClass());
+			logger.debug("</LocationTerm>");
+			Location location = new Location(signature, (Value[]) arguments.toArray(new Value[arguments.size()]));
+			checkCompatibility(content, location);
+			updateSet.putUpdate(location, content);
+		}
+		case VariableTerm variable -> {
+			// FIXME experimental!!
+			termEval.assignment.put(variable, content);
+			// throw new UnsupportedOperationException();
+		}
+		case null, default -> throw new RuntimeException("Unknown left-hand-side term " + lhsTerm.getClass());
 		}
 		logger.debug("<UpdateSet>" + updateSet + "</UpdateSet>");
 		logger.debug("</UpdateRule>");
@@ -232,29 +226,30 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 	/**
 	 * Check compatibility.
 	 *
-	 * @param content the content to be assign to the location
+	 * @param content  the content to be assign to the location
 	 * @param location the location
 	 */
-	// check the compatibility of content with location (i.e. content can be copied into location)
+	// check the compatibility of content with location (i.e. content can be copied
+	// into location)
 	private void checkCompatibility(Value content, Location location) {
-		// if the conte is undef, it is correct in any case - undef can be assigned to any domain
+		// if the conte is undef, it is correct in any case - undef can be assigned to
+		// any domain
 		if (content instanceof UndefValue)
-			return; 
+			return;
 		Domain codomain = location.getSignature().getCodomain();
 		if (codomain instanceof ConcreteDomain domain) {
 			ConcreteDomain concreteDomain = domain;
 			// get the values in the domain (should work both static and dynamic)
 			SetValue values = termEval.getValues(concreteDomain);
 			if (!values.getValue().stream().anyMatch(x -> x.equals(content)))
-				throw new InvalidValueException(content,location);
+				throw new InvalidValueException(content, location);
 		}
 	}
 
 	/**
 	 * Evaluates a conditional rule.
 	 * 
-	 * @param rule
-	 *            a rule
+	 * @param rule a rule
 	 * @return the rule's update set
 	 */
 	@Override
@@ -285,10 +280,12 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 	protected BooleanValue evalGuard(ConditionalRule condRule) {
 		logger.debug("<Guard>");
 		Value value = visitTerm(condRule.getGuard());
-		assert value instanceof BooleanValue : value + "\n" + AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(condRule.getGuard());
+		assert value instanceof BooleanValue
+				: value + "\n" + AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(condRule.getGuard());
 		// if undef launch an execption
-		if (value instanceof UndefValue) 
-			throw new RuntimeException(AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(condRule.getGuard()) + " is undef");
+		if (value instanceof UndefValue)
+			throw new RuntimeException(
+					AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(condRule.getGuard()) + " is undef");
 		BooleanValue guardValue = (BooleanValue) value;
 		logger.debug("</Guard>");
 		return guardValue;
@@ -297,8 +294,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 	/**
 	 * Evaluates a switch rule.
 	 * 
-	 * @param rule
-	 *            a rule
+	 * @param rule a rule
 	 * @return the rule's update set
 	 */
 	@Override
@@ -336,18 +332,16 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		logger.debug("</CaseRule>");
 		return updateset;
 	}
-	
+
 	// Hook method for RuleEvalWCov
 	protected void checkComparedValue(CaseRule caseRule, Value comparedValue) {
 		// do no additional operations by default
 	}
 
-
 	/**
 	 * Evaluates a block rule.
 	 * 
-	 * @param rule
-	 *            a rule
+	 * @param rule a rule
 	 * @return the rule's update set
 	 */
 	@Override
@@ -367,8 +361,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 	/**
 	 * Evaluates a sequential rule.
 	 * 
-	 * @param rule
-	 *            a rule
+	 * @param rule a rule
 	 * @return the rule's update set
 	 */
 	@Override
@@ -387,7 +380,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 				// all the value changes are committed, clear them
 				// nextUpdateSet.resetValueChanges();
 			}
-			RuleEvaluator newRuleEvaluator = createRuleEvaluator(nextState,termEval.environment,termEval.assignment);
+			RuleEvaluator newRuleEvaluator = createRuleEvaluator(nextState, termEval.environment, termEval.assignment);
 			nextUpdateSet = newRuleEvaluator.visit(nextRule);
 			updateSet.merge(nextUpdateSet);
 		}
@@ -400,8 +393,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 	/**
 	 * Evaluates an IterativeWhileRule.
 	 * 
-	 * @param rule
-	 *            a rule
+	 * @param rule a rule
 	 * @return the rule's update set
 	 */
 	public UpdateSet visit(IterativeWhileRule iterativeWhileRule) {
@@ -414,7 +406,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		State nextState = new State(termEval.state);
 		// TODO controllare che sia corretto
 		while (guardValue.getValue()) {
-			RuleEvaluator newRuleEvaluator = createRuleEvaluator(nextState,termEval.environment,termEval.assignment);
+			RuleEvaluator newRuleEvaluator = createRuleEvaluator(nextState, termEval.environment, termEval.assignment);
 			nextUpdateSet = newRuleEvaluator.visit(rule);
 			updateSet.merge(nextUpdateSet);
 			// PA 2014/01/16: il seguente if prima era all'inizio del ciclo.
@@ -432,8 +424,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 	/**
 	 * Evaluates a let rule.
 	 * 
-	 * @param rule
-	 *            a rule
+	 * @param rule a rule
 	 * @return the rule's update set
 	 */
 	@Override
@@ -458,19 +449,19 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		afterInitExpressionVisit(letRule);
 		logger.debug("</InitList>");
 		logger.debug("<InRule>");
-		RuleEvaluator newRuleEvaluator = createRuleEvaluator(termEval.state,termEval.environment,newAssignment);
+		RuleEvaluator newRuleEvaluator = createRuleEvaluator(termEval.state, termEval.environment, newAssignment);
 		UpdateSet updateSet = newRuleEvaluator.visit(letRule.getInRule());
 		logger.debug("</InRule>");
 		logger.debug("<UpdateSet>" + updateSet + "</UpdateSet>");
 		logger.debug("</LetRule>");
 		return updateSet;
 	}
-	
+
 	// Hook method for RuleEvalWCov
 	protected void checkInitTerm(LetRule letRule, Value initValue, Term initTerm) {
 		// do no additional operations by default
 	}
-	
+
 	// Hook method for RuleEvalWCov
 	protected void afterInitExpressionVisit(LetRule letRule) {
 		// do no additional operations by default
@@ -479,8 +470,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 	/**
 	 * Evaluates a forall rule.
 	 * 
-	 * @param rule
-	 *            a rule
+	 * @param rule a rule
 	 * @return the rule's update set
 	 */
 	@Override
@@ -507,18 +497,13 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 	 * Poiche' pero' il numero della variabili non e' noto a priori, uso un
 	 * algoritmo ricorsivo che nasconde un po' l'idea di partenza.
 	 * 
-	 * @param varIndex
-	 *            indice della variabile a cui assegnare un valore appartenente al
-	 *            dominio associato
-	 * @param domains
-	 *            domini su cui variano le variabili logiche della regola
-	 * @param boundValues
-	 *            array che contiene i valori delle variabili gia' fissate
-	 * @param forRule
-	 *            regola da valutare
-	 * @param updateSet
-	 *            update set prodotto dalla valutazione. La costruzione avviene in
-	 *            modo incrementale.
+	 * @param varIndex    indice della variabile a cui assegnare un valore
+	 *                    appartenente al dominio associato
+	 * @param domains     domini su cui variano le variabili logiche della regola
+	 * @param boundValues array che contiene i valori delle variabili gia' fissate
+	 * @param forRule     regola da valutare
+	 * @param updateSet   update set prodotto dalla valutazione. La costruzione
+	 *                    avviene in modo incrementale.
 	 */
 	private void visitForall(int varIndex, CollectionValue<?>[] domains, Value<?>[] boundValues, ForallRule forRule,
 			UpdateSet updateSet) {
@@ -531,7 +516,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		} else {
 			ValueAssignment newAssignment = new ValueAssignment(termEval.assignment);
 			newAssignment.put(forRule.getVariable(), boundValues);
-			RuleEvaluator newEvaluator = createRuleEvaluator(termEval.state,termEval.environment,newAssignment);
+			RuleEvaluator newEvaluator = createRuleEvaluator(termEval.state, termEval.environment, newAssignment);
 			logger.debug("<Guard>");
 			BooleanValue guard = (BooleanValue) newEvaluator.visitTerm(forRule.getGuard());
 			logger.debug("</Guard>");
@@ -544,7 +529,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 			}
 		}
 	}
-	
+
 	// Hook method for RuleEvalWCov
 	protected void onForallGuardTrue() {
 		// do no additional operations by default
@@ -553,8 +538,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 	/**
 	 * Evaluates a choose rule.
 	 * 
-	 * @param rule
-	 *            a rule
+	 * @param rule a rule
 	 * @return the rule's update set
 	 */
 	@Override
@@ -568,11 +552,11 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		boolean visitChoose = visitChoose(0, domains, boundValues, chooseRule, updateSet);
 		if (visitChoose) {
 			// build the string to pass to the
-			Map<String,Value> valueforVar = new HashMap<>();
+			Map<String, Value> valueforVar = new HashMap<>();
 			EList<VariableTerm> variable = chooseRule.getVariable();
 			for (int i = 0; i < variable.size(); i++) {
 				var var = variable.get(i);
-				valueforVar.put(var.getName() + " in " + currentRuleDeclaration.getName(),boundValues[i]);
+				valueforVar.put(var.getName() + " in " + currentRuleDeclaration.getName(), boundValues[i]);
 			}
 			notify(valueforVar);
 		} else {
@@ -593,18 +577,13 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 	 * Valuta una <i>ChooseRule</i>.<br>
 	 * NOTA: vedi la documentazione relativa al metodo <i>visit(ForallRule)</i>.
 	 * 
-	 * @param varIndex
-	 *            indice della variabile a cui assegnare un valore appartenente al
-	 *            dominio associato
-	 * @param domains
-	 *            domini su cui variano le variabili logiche della regola
-	 * @param boundContent
-	 *            array che contiene i valori delle variabili gia' fissate
-	 * @param chooseRule
-	 *            regola da valutare
-	 * @param updateSet
-	 *            update set prodotto dalla valutazione. La costruzione avviene in
-	 *            modo incrementale.
+	 * @param varIndex     indice della variabile a cui assegnare un valore
+	 *                     appartenente al dominio associato
+	 * @param domains      domini su cui variano le variabili logiche della regola
+	 * @param boundContent array che contiene i valori delle variabili gia' fissate
+	 * @param chooseRule   regola da valutare
+	 * @param updateSet    update set prodotto dalla valutazione. La costruzione
+	 *                     avviene in modo incrementale.
 	 * 
 	 * @return true se e' riuscito a fissare la varIndex variable ad un valore
 	 */
@@ -614,20 +593,20 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 			CollectionValue currentDomain = domains[varIndex];
 			if (currentDomain instanceof InfiniteCollection collection) {
 				// check the guard - must be true
-				if ((chooseRule.getGuard() instanceof BooleanTerm bt) && 
-						(bt.getSymbol().equals(Boolean.toString(true)))){
-						// take a radom value
-						boundContent[varIndex] = collection.getRndValue();
-						// go to next variable
-						if (visitChoose(varIndex + 1, domains, boundContent, chooseRule, updateSet)) {
-							return true;
+				if ((chooseRule.getGuard() instanceof BooleanTerm bt)
+						&& (bt.getSymbol().equals(Boolean.toString(true)))) {
+					// take a radom value
+					boundContent[varIndex] = collection.getRndValue();
+					// go to next variable
+					if (visitChoose(varIndex + 1, domains, boundContent, chooseRule, updateSet)) {
+						return true;
 					}
 				} else {
 					throw new RuntimeException("Infinite domain without \"true\" as guard");
 				}
 				// no value found in one visitchoose
-				return false; 
-			} 
+				return false;
+			}
 			Iterator<Value> values = currentDomain.iterator();
 			// shuffle stuff
 			Object o = currentDomain.getValue();
@@ -661,14 +640,14 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 			// all variables have been fixed
 			ValueAssignment newAssignment = new ValueAssignment(termEval.assignment);
 			newAssignment.put(chooseRule.getVariable(), boundContent);
-			RuleEvaluator newEvaluator = createRuleEvaluator(termEval.state,termEval.environment,newAssignment);
+			RuleEvaluator newEvaluator = createRuleEvaluator(termEval.state, termEval.environment, newAssignment);
 			logger.debug("<Guard>");
 			BooleanValue guard = null;
 			Term guardTerm = chooseRule.getGuard();
-			if (guardTerm != null) {				
+			if (guardTerm != null) {
 				Value termValue = newEvaluator.visitTerm(guardTerm);
 				if (termValue instanceof UndefValue)
-					throw new RuntimeException("Guard "+ printer.visit(guardTerm) +"is undef");
+					throw new RuntimeException("Guard " + printer.visit(guardTerm) + "is undef");
 				guard = (BooleanValue) termValue;
 			}
 			logger.debug("</Guard>");
@@ -682,12 +661,12 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 			return guard.getValue();
 		}
 	}
-	
+
 	// Hook method for RuleEvalWCov
 	protected void onChooseGuardTrue(ChooseRule chooseRule) {
 		// do no additional operations by default
 	}
-	
+
 	// Hook method for RuleEvalWCov
 	protected void onChooseGuardAlwaysFalse(ChooseRule chooseRule) {
 		// do no additional operations by default
@@ -696,8 +675,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 	/**
 	 * Evaluates a macro call rule.
 	 * 
-	 * @param rule
-	 *            a rule
+	 * @param rule a rule
 	 * @return the rule's update set
 	 * @throws Exception
 	 */
@@ -753,8 +731,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 	/**
 	 * Evaluates a turbo call rule.
 	 * 
-	 * @param rule
-	 *            a rule
+	 * @param rule a rule
 	 * @return the rule's update set
 	 */
 	public UpdateSet visit(TurboCallRule turboRule) {
@@ -765,7 +742,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		EList<VariableTerm> vars = dcl.getVariable();
 		ValueAssignment newAssignment = new ValueAssignment();
 		newAssignment.put(vars, values);
-		RuleEvaluator newEval = createRuleEvaluator(termEval.state,termEval.environment,newAssignment);
+		RuleEvaluator newEval = createRuleEvaluator(termEval.state, termEval.environment, newAssignment);
 		UpdateSet updates = newEval.visit(dcl.getRuleBody());
 		logger.debug("</TurboCallRule>");
 		return updates;
@@ -805,29 +782,29 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		Value content = getResult(updateSet);
 		logger.debug("</UpdatingTerm>");
 		Term lhsTerm = retRule.getLocation();
-		switch(lhsTerm) {
-			case LocationTerm locationTerm -> {
-				logger.debug("<LocationTerm>");
-				Function signature = locationTerm.getFunction();
-				logger.debug("<Name>" + signature.getName() + "</Name>");
-				TupleTerm tupleTerm = locationTerm.getArguments();
-				Value[] arguments;
-				if (tupleTerm != null) {
-					//assert tupleTerm.getTerms().size() == tupleTerm.getArity();
-					arguments = ((TupleValue) visitTerm(tupleTerm)).getValueAsArray();
-				} else {
-					arguments = new Value[0];
-				}
-				logger.debug("</LocationTerm>");
-				Location location = new Location(signature, arguments);
-				updateSet.putUpdate(location, content);
+		switch (lhsTerm) {
+		case LocationTerm locationTerm -> {
+			logger.debug("<LocationTerm>");
+			Function signature = locationTerm.getFunction();
+			logger.debug("<Name>" + signature.getName() + "</Name>");
+			TupleTerm tupleTerm = locationTerm.getArguments();
+			Value[] arguments;
+			if (tupleTerm != null) {
+				// assert tupleTerm.getTerms().size() == tupleTerm.getArity();
+				arguments = ((TupleValue) visitTerm(tupleTerm)).getValueAsArray();
+			} else {
+				arguments = new Value[0];
 			}
-			case VariableTerm variable -> {
-				// FIXME experimental!!
-				termEval.assignment.put(variable, content);
-				// throw new UnsupportedOperationException();
-			}
-			case null, default -> throw new RuntimeException("Unknown left-hand-side term " + lhsTerm.getClass());
+			logger.debug("</LocationTerm>");
+			Location location = new Location(signature, arguments);
+			updateSet.putUpdate(location, content);
+		}
+		case VariableTerm variable -> {
+			// FIXME experimental!!
+			termEval.assignment.put(variable, content);
+			// throw new UnsupportedOperationException();
+		}
+		case null, default -> throw new RuntimeException("Unknown left-hand-side term " + lhsTerm.getClass());
 		}
 		logger.debug("<UpdateSet>" + updateSet + "</UpdateSet>");
 		logger.debug("</TurboReturnRule>");
@@ -838,14 +815,12 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		assert dcl.getArity() == 0;
 		return visit(dcl, Collections.EMPTY_LIST);
 	}
-	
+
 	/**
 	 * Evaluates a rule given the declaration and the arguments.
 	 * 
-	 * @param dcl
-	 *            rule's declaration
-	 * @param arguments
-	 *            arguments
+	 * @param dcl       rule's declaration
+	 * @param arguments arguments
 	 * @return the rule's update set
 	 */
 	public UpdateSet visit(RuleDeclaration dcl, List<Term> arguments) {
@@ -882,7 +857,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 			logger.debug("<Substitution>");
 			TermAssignment macroAssignment = new TermAssignment();
 			macroAssignment.put(variables, arguments);
-			RuleSubstitution substitution = new RuleSubstitution(macroAssignment,TermSubstitution.ruleFactory);
+			RuleSubstitution substitution = new RuleSubstitution(macroAssignment, TermSubstitution.ruleFactory);
 			newRule = substitution.visit(body);
 			logger.debug("</Substitution>");
 			macros.put(signature, newRule);
@@ -893,8 +868,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 	/**
 	 * Evaluates an extend rule.
 	 * 
-	 * @param rule
-	 *            a rule
+	 * @param rule a rule
 	 * @return the rule's update set
 	 */
 	@Override
@@ -918,7 +892,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 			updateSet.add(dom, newValue);
 			newAssignment.put(var, newValue);
 		}
-		RuleEvaluator newEvaluator = createRuleEvaluator(termEval.state,termEval.environment,newAssignment);
+		RuleEvaluator newEvaluator = createRuleEvaluator(termEval.state, termEval.environment, newAssignment);
 		UpdateSet doSet = newEvaluator.visit(extendRule.getDoRule());
 		updateSet.union(doSet);
 		logger.debug("<UpdateSet>" + updateSet + "</UpdateSet>");
@@ -929,8 +903,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 	/**
 	 * Evaluates a term as a rule.
 	 * 
-	 * @param rule
-	 *            a rule
+	 * @param rule a rule
 	 * @return the rule's update set
 	 */
 	@Override
@@ -948,11 +921,11 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		 */
 		RuleValue ruleValue = (RuleValue) visitTerm(term);
 		AgentValue agent = ruleValue.getAgent();
-		// if agent is null, assume that it is self agent 
-		// with as program the current rule which is evaluated 
+		// if agent is null, assume that it is self agent
+		// with as program the current rule which is evaluated
 		if (agent == null) {
 			Domain selfvalueDomain = TermEvaluator.self.getSignature().getCodomain();
-			agent = new AgentValue(TermEvaluator.self.getName(),selfvalueDomain, termAsRule);
+			agent = new AgentValue(TermEvaluator.self.getName(), selfvalueDomain, termAsRule);
 		}
 		RuleDeclaration dcl = ruleValue.getRule();
 		List<Term> arguments = termAsRule.getParameters();
@@ -963,21 +936,21 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		return updateSet;
 	}
 
-	
-	
 	// this represents an infinite collection - iteration is not possible !!
 	class InfiniteCollection<T extends Number> extends CollectionValue {
-		
+
 		static Random random = new Random();
-		
+
 		private Class<T> creator;
-		
-		InfiniteCollection(Class<T> creator){
+
+		InfiniteCollection(Class<T> creator) {
 			this.creator = creator;
 		}
-		
+
 		@Override
-		public Iterator iterator() {throw new RuntimeException();}
+		public Iterator iterator() {
+			throw new RuntimeException();
+		}
 
 		public Value getRndValue() {
 			if (creator == NaturalNumber.class) {
@@ -993,52 +966,62 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		}
 
 		@Override
-		public Collection getValue() {throw new RuntimeException();}
+		public Collection getValue() {
+			throw new RuntimeException();
+		}
 
 		@Override
-		public Value clone() {throw new RuntimeException();}
-		
+		public Value clone() {
+			throw new RuntimeException();
+		}
+
 	}
-	
-	private abstract class NaturalNumber extends Number{}
-	
+
+	private abstract class NaturalNumber extends Number {
+	}
+
 	/**
 	 * Evaluates a list of domain terms.
 	 * 
-	 * @param domains
-	 *            domain terms
+	 * @param domains domain terms
 	 * @return an array of CollectionValue
 	 */
 	private CollectionValue[] evaluateRanges(List<Term> domains) {
 		CollectionValue[] values = new CollectionValue[domains.size()];
 		logger.debug("<Domains total=\"" + domains.size() + "\">");
 		for (int i = 0; i < domains.size(); i++) {
-			Term domain = domains.get(i);	
-			assert domain instanceof DomainTerm || domain instanceof CollectionTerm;
-			if (domain instanceof DomainTerm dom) {
-				Domain baseDomain = dom.getDomain();
-				assert baseDomain instanceof PowersetDomain;
-				// VariableTerm var = (VariableTerm) varList.get(i);
-				if (((PowersetDomain)baseDomain).getBaseDomain() instanceof NaturalDomain) {
-					values[i] = new InfiniteCollection<NaturalNumber>(NaturalNumber.class) {};
-					continue;
-				}
-				if (((PowersetDomain)baseDomain).getBaseDomain() instanceof IntegerDomain) {
-					values[i] = new InfiniteCollection<Integer>(Integer.class) {};
-					continue;
-				}
-				if (((PowersetDomain)baseDomain).getBaseDomain() instanceof RealDomain) {
-					values[i] = new InfiniteCollection<Double>(Double.class) {};
-					continue;
-				}
-			} 
-			values[i] = (CollectionValue) visitTerm(domain);			
+			Term domain = domains.get(i);
+			values[i] = evaluateRanges(domain);
 		}
 		logger.debug("</Domains>");
 		return values;
 	}
 
-	/** make a new rule evaluator similar to this but with a different parts
+	private CollectionValue evaluateRanges(Term domain) {
+		assert domain instanceof DomainTerm || domain instanceof CollectionTerm ||
+		// it can be also a function term like
+		// output($t) with output a function to Powerset of something
+				domain instanceof FunctionTerm ft && ft.getDomain() instanceof PowersetDomain
+				: "domain " + domain + " cannot be converted to a collection of values";
+		if (domain instanceof DomainTerm dom) {
+			Domain baseDomain = dom.getDomain();
+			assert baseDomain instanceof PowersetDomain;
+			// VariableTerm var = (VariableTerm) varList.get(i);
+			if (((PowersetDomain) baseDomain).getBaseDomain() instanceof NaturalDomain) {
+				return new InfiniteCollection<NaturalNumber>(NaturalNumber.class);
+			}
+			if (((PowersetDomain) baseDomain).getBaseDomain() instanceof IntegerDomain) {
+				return new InfiniteCollection<Integer>(Integer.class);
+			}
+			if (((PowersetDomain) baseDomain).getBaseDomain() instanceof RealDomain) {
+				return new InfiniteCollection<Double>(Double.class); 
+			}
+		}
+		return (CollectionValue) visitTerm(domain);
+	}
+
+	/**
+	 * make a new rule evaluator similar to this but with a different parts
 	 * 
 	 * @param state
 	 * @param environment
@@ -1054,21 +1037,18 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 	// adding the Observer/Obervable pattern
 	private List<RuleEvaluatorObserver> observers = new ArrayList<>();
 
-    public void addObserver(RuleEvaluatorObserver observer) {
-        this.observers.add(observer);
-    }
+	public void addObserver(RuleEvaluatorObserver observer) {
+		this.observers.add(observer);
+	}
 
-    public void removeObserver(RuleEvaluatorObserver observer) {
-        this.observers.remove(observer);
-    }
+	public void removeObserver(RuleEvaluatorObserver observer) {
+		this.observers.remove(observer);
+	}
 
-    private void notify(Object change) {
-        for (RuleEvaluatorObserver observer : this.observers) {
-        	observer.update(change);
-        }
-    }
-	
-	
+	private void notify(Object change) {
+		for (RuleEvaluatorObserver observer : this.observers) {
+			observer.update(change);
+		}
+	}
+
 }
-
-
