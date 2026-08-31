@@ -1,7 +1,10 @@
 package asmeta.asmetal2java.codegen.generator;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.lang.reflect.InvocationTargetException;
+import java.net.URLClassLoader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -69,13 +72,12 @@ public class EvoAvallaTranslationCases {
 //	void powersetInitializationMustGenerateCompilableTestAndAtgClasses() throws Exception {
 //		translateAndCompile("PowersetInitialization.asm");
 //	}
-//
-//	@Test
-//	@Tag("TestToMavenSkip")
-//	void naturalInitializationMustGenerateCompilableTestAndAtgClasses() throws Exception {
-//		translateAndCompile("NaturalInitialization.asm");
-//	}
-//
+
+	@Test
+	void naturalMustGenerateCompilableTestAndAtgClasses() throws Exception {
+		translateAndCompile("Natural.asm");
+	}
+
 //	@Test
 //	@Tag("TestToMavenSkip")
 //	void extendRuleMustGenerateCompilableTestAndAtgClasses() throws Exception {

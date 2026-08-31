@@ -10,6 +10,7 @@ import asmeta.asmetal2java.codegen.translator.TermToJava
 import asmeta.asmetal2java.codegen.translator.DomainToJavaString
 import asmeta.definitions.domains.SequenceDomain
 import asmeta.definitions.domains.ProductDomain
+import asmeta.definitions.domains.NaturalDomain
 import asmeta.asmetal2java.codegen.translator.ProductToJava
 import asmeta.asmetal2java.codegen.config.TranslatorOptions
 import asmeta.asmetal2java.codegen.translator.Util
@@ -357,8 +358,9 @@ class AsmMethods {
 				manageNotSupportedDomain(translatorOptions, component.name)
 				return ""
 			}
-			if (i > 0)
+			if (i > 0){
 				parameters.append(", ")
+			}
 			parameters.append(AsmMethodsUtil.getBasicTdType(component.name)).append(" ").
 				append(fd.name).append("_key").append(i)
 		}
@@ -369,12 +371,22 @@ class AsmMethods {
 		}
 
 		val valueType = AsmMethodsUtil.getBasicTdType(fd.codomain.name)
-		val tuple = ProductToJava.qualifiedValue(domain, [ index | fd.name + "_key" + index ])
+		val tuple = ProductToJava.qualifiedValue(domain, [ index |
+			val parameter = fd.name + "_key" + index
+			if (domain.domains.get(index) instanceof NaturalDomain)
+				'''checkNatural(«parameter», "«parameter»")'''
+			else
+				parameter
+		])
+		val value = if (fd.codomain instanceof NaturalDomain)
+			'''checkNatural(«fd.name», "«fd.name»")'''
+		else
+			fd.name
 		val sb = new StringBuffer
 		sb.append("\tpublic void set_").append(fd.name).append("(").append(parameters).
 			append(", ").append(valueType).append(" ").append(fd.name).append(") {\n")
 		sb.append("\t\tthis.execution.").append(fd.name).append(".set(").append(tuple).
-			append(", ").append(fd.name).append(");\n")
+			append(", ").append(value).append(");\n")
 		sb.append("\t\tSystem.out.println(\"Set ").append(fd.name).append("(\" + ")
 		for (var int i = 0; i < domain.domains.size; i++) {
 			if (i > 0)
@@ -429,6 +441,9 @@ class AsmMethods {
 							// Seq(BasicTD) example: seq(Integer)
 							type = AsmMethodsUtil.getWrapperBasicTdType(type)
 							var parsingMethod = AsmMethodsUtil.getParsingMethod(type)
+							if ((fd.codomain as SequenceDomain).domain instanceof NaturalDomain) {
+								parsingMethod = '''e -> checkNatural(Integer.parseInt(e), "«fd.name» element")'''
+							}
 
 							sb.append(AsmMethodsUtil.genSequenceSetter(fd.name, type, parsingMethod))
 						} else {
@@ -450,7 +465,7 @@ class AsmMethods {
 					} else if (fd.codomain.name.equals(NATURAL)) { // [] -> Natural
 						sb.append('''
 						public void set_natural_«fd.name»(int «fd.name») {
-							this.execution.«fd.name».set(«fd.name»);
+							this.execution.«fd.name».set(checkNatural(«fd.name», "«fd.name»"));
 							System.out.println("Set «fd.name» = " + «fd.name» +"n");
 						}''')
 					} else if (fd.codomain.name.equals(INTEGER) || fd.codomain.name.equals(BOOLEAN) ||
@@ -501,7 +516,8 @@ class AsmMethods {
 							// use the set_natural flag
 								sb.append('''
 								public void set_natural_«fd.name»_fromDomain_«symbol»(int «fd.name»_«symbol») {
-									this.execution.«fd.name».set(«asm.name».«dd.name».«symbol», «fd.name»_«symbol»);
+									this.execution.«fd.name».set(«asm.name».«dd.name».«symbol»,
+										checkNatural(«fd.name»_«symbol», "«fd.name»_«symbol»"));
 									System.out.println("Set «fd.name»_«symbol» = " + «fd.name»_«symbol» + "n");
 								}''')
 							} else if (fd.codomain.name.equals(INTEGER) || fd.codomain.name.equals(BOOLEAN) ||
@@ -553,7 +569,8 @@ class AsmMethods {
 										sb.append('''
 										public void set_natural_«fd.name»_fromDomain_«symbol»(int «fd.name»_«symbol») {
 											this.execution.«fd.name».set(
-											«asm.name».«fd.domain.name».get("«symbol»"),«fd.name»_«symbol»);
+											«asm.name».«fd.domain.name».get("«symbol»"),
+											checkNatural(«fd.name»_«symbol», "«fd.name»_«symbol»"));
 											System.out.println("Set «fd.name»_«symbol» = " + «fd.name»_«symbol» + "n");
 										}''')
 									} else if (fd.codomain.name.equals(INTEGER) || fd.codomain.name.equals(BOOLEAN) ||
@@ -623,7 +640,8 @@ class AsmMethods {
 											sb.append('''
 											public void set_natural_«fd.name»_fromDomain_«elem»(int «fd.name»_«elem») {
 												this.execution.«fd.name».set(
-												«asm.name».«fd.domain.name».valueOf(«symbol»),«fd.name»_«elem»);
+												«asm.name».«fd.domain.name».valueOf(«symbol»),
+												checkNatural(«fd.name»_«elem», "«fd.name»_«elem»"));
 												System.out.println("Set «fd.name»_«elem» = " + «fd.name»_«elem» + "n");
 											}''')
 										} else if (fd.codomain.name.equals(INTEGER) ||

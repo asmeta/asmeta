@@ -119,6 +119,11 @@ public class JavaGenerator extends AsmToJavaGenerator {
     _builder.append(asmName);
     _builder.append("Sig {");
     _builder.newLineIfNotEmpty();
+    _builder.newLine();
+    _builder.append("\t");
+    String _toNaturalMethod = this.getToNaturalMethod();
+    _builder.append(_toNaturalMethod, "\t");
+    _builder.newLineIfNotEmpty();
     _builder.append("\t");
     _builder.newLine();
     _builder.append("\t");
@@ -375,6 +380,26 @@ public class JavaGenerator extends AsmToJavaGenerator {
     _builder.newLine();
     _builder.append("}");
     _builder.newLine();
+    _builder.newLine();
+    return _builder.toString();
+  }
+
+  protected String getToNaturalMethod() {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("//Support methods for translating to Natural");
+    _builder.newLine();
+    _builder.append("protected static int toNatural(int value) {");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("if (value < 0)");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("throw new IllegalArgumentException(\"Cannot convert negative value \" + value + \" to Natural\");");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("return value;");
+    _builder.newLine();
+    _builder.append("}");
     _builder.newLine();
     return _builder.toString();
   }

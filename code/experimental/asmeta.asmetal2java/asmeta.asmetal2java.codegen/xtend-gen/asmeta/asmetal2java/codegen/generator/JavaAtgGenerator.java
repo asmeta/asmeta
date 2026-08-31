@@ -98,6 +98,9 @@ public class JavaAtgGenerator extends AsmToJavaGenerator {
     _builder.newLine();
     _builder.newLine();
     _builder.append("\t");
+    _builder.append("//--- CHOOSE RULE TRACE RECORDING UTILTIES ----------------------------------------------------------------");
+    _builder.newLine();
+    _builder.append("\t");
     _builder.append("private static void __asmetaStartChoiceRecording(){");
     _builder.newLine();
     _builder.append("\t\t");
@@ -118,6 +121,9 @@ public class JavaAtgGenerator extends AsmToJavaGenerator {
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
     _builder.append("}");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("//---------------------------------------------------------------------------------------------------------");
     _builder.newLine();
     _builder.newLine();
     _builder.append("   ");
@@ -271,10 +277,25 @@ public class JavaAtgGenerator extends AsmToJavaGenerator {
     _append_6.append(_builder_10);
     sb.append(System.lineSeparator());
     sb.append(AsmMethods.monitoredSetters(asm, this.options));
-    sb.append(System.lineSeparator());
     StringConcatenation _builder_11 = new StringConcatenation();
+    _builder_11.append("private static int checkNatural(int value, String parameterName) {");
+    _builder_11.newLine();
+    _builder_11.append("\t");
+    _builder_11.append("if (value < 0)");
+    _builder_11.newLine();
+    _builder_11.append("\t\t");
+    _builder_11.append("throw new IllegalArgumentException(parameterName + \" must be a Natural, but was \" + value);");
+    _builder_11.newLine();
+    _builder_11.append("\t");
+    _builder_11.append("return value;");
+    _builder_11.newLine();
     _builder_11.append("}");
+    _builder_11.newLine();
     sb.append(_builder_11);
+    sb.append(System.lineSeparator());
+    StringConcatenation _builder_12 = new StringConcatenation();
+    _builder_12.append("}");
+    sb.append(_builder_12);
     return sb.toString();
   }
 }

@@ -438,7 +438,8 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 	}
 
 	def Boolean controllo(String domain) {
-		if (domain.equals("Integer") || domain.equals("String") || domain.equals("Boolean") || domain.equals("Real"))
+		if (domain.equals("Integer") || domain.equals("Natural") || domain.equals("String") ||
+			domain.equals("Boolean") || domain.equals("Real"))
 			return true
 		else
 			return false

@@ -28,7 +28,8 @@ public class ExpressionToJava {
 				|| function.equals("=") || function.equals("!=") || function.equals("-") || function.equals("!")
 				|| function.equals("&") || function.equals("|") || function.equals("xor") || function.equals("mod")
 				|| function.equals("isDef") || function.equals("+") || function.equals("*") || function.equals("/")
-				|| function.equals("^") || function.equals("iton") || function.equals("at")
+				|| function.equals("^") || function.equals("iton") || function.equals("rton")
+				|| function.equals("toNatural") || function.equals("at")
 				|| function.equals("indexOf") || function.equals("chooseone") || function.equals("first")
 				|| function.equals("second") || function.equals("third") || function.equals("fourth")
 				|| function.equals("fifth") || function.equals("sixth") || function.equals("seventh")
@@ -62,6 +63,10 @@ public class ExpressionToJava {
 			return chooseone(argsTerm);
 		case ("iton"):
 			return iton(argsTerm);
+		case ("rton"):
+			return rton(argsTerm);
+		case ("toNatural"):
+			return toNatural(argsTerm);
 		case ("="):
 			return addOperator(argsTerm, "==");
 		case ("at"):
@@ -141,7 +146,29 @@ public class ExpressionToJava {
 	 * @return the string
 	 */
 	private String iton(List<Term> argsTerm) {
-		return new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
+		return "toNatural(" + new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0)) + ")";
+	}
+
+	/**
+	 * Executes the rton function.
+	 *
+	 * @param argsTerm the args term
+	 *
+	 * @return the string
+	 */
+	private String rton(List<Term> argsTerm) {
+		return "toNatural((int) (" + new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0)) + "))";
+	}
+
+	/**
+	 * Executes the toNatural function.
+	 *
+	 * @param argsTerm the args term
+	 *
+	 * @return the string
+	 */
+	private String toNatural(List<Term> argsTerm) {
+		return "toNatural(Integer.parseInt(" + new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0)) + "))";
 	}
 
 	/**

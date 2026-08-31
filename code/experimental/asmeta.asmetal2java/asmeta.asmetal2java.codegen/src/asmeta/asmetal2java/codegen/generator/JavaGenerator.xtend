@@ -98,6 +98,8 @@ class JavaGenerator extends AsmToJavaGenerator {
 			«getImports()»
 			
 			abstract class «asmName»Sig {
+
+				«getToNaturalMethod()»
 				
 				/////////////////////////////////////////////////
 				/// DOMAIN CONTAINERS
@@ -189,6 +191,17 @@ class JavaGenerator extends AsmToJavaGenerator {
 
 	}
 	
+	protected def String getToNaturalMethod() {
+		return '''
+			//Support methods for translating to Natural
+			protected static int toNatural(int value) {
+				if (value < 0)
+					throw new IllegalArgumentException("Cannot convert negative value " + value + " to Natural");
+				return value;
+			}
+		'''
+	}
+
 	protected def String getImports(){
 		return	'''
 				import java.util.ArrayList;

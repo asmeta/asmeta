@@ -68,6 +68,7 @@ class JavaAtgGenerator extends AsmToJavaGenerator {
 			/** current state. */
 			private int state;
 
+			//--- CHOOSE RULE TRACE RECORDING UTILTIES ----------------------------------------------------------------
 			private static void __asmetaStartChoiceRecording(){
 				«asmName».__asmetaStartChoiceRecording();
 			}
@@ -75,6 +76,7 @@ class JavaAtgGenerator extends AsmToJavaGenerator {
 			private static String[][] __asmetaStopChoiceRecording(){
 				return «asmName».__asmetaStopChoiceRecording();
 			}
+			//---------------------------------------------------------------------------------------------------------
 		
 		   /**
 		    * Constructor of the {@code «asmName»_ATG} class. Creates a private instance of the asm
@@ -181,6 +183,14 @@ class JavaAtgGenerator extends AsmToJavaGenerator {
 		sb.append("\t\t").append('''// Monitored setters''');
 		sb.append(System.lineSeparator)
 		sb.append(AsmMethods.monitoredSetters(asm, options));
+		
+		sb.append('''
+		private static int checkNatural(int value, String parameterName) {
+			if (value < 0)
+				throw new IllegalArgumentException(parameterName + " must be a Natural, but was " + value);
+			return value;
+		}
+		''')
 		
 		sb.append(System.lineSeparator)
 		sb.append('''}''')

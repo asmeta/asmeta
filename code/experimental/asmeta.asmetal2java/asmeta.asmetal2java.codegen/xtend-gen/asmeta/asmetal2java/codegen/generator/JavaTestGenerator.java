@@ -90,6 +90,9 @@ public class JavaTestGenerator extends JavaGenerator {
     _builder.append("\t");
     _builder.newLine();
     _builder.append("\t");
+    _builder.append("//--- CHOOSE RULE TRACE RECORDING UTILTIES ----------------------------------------------------------------");
+    _builder.newLine();
+    _builder.append("\t");
     _builder.append("/** Choice trace used only by the modified EvoSuite assertion run. */");
     _builder.newLine();
     _builder.append("\t");
@@ -192,6 +195,15 @@ public class JavaTestGenerator extends JavaGenerator {
     _builder.append("\t");
     _builder.append("}");
     _builder.newLine();
+    _builder.append("\t");
+    _builder.append("//---------------------------------------------------------------------------------------------------------");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.newLine();
+    _builder.append("\t");
+    String _toNaturalMethod = this.getToNaturalMethod();
+    _builder.append(_toNaturalMethod, "\t");
+    _builder.newLineIfNotEmpty();
     _builder.newLine();
     _builder.append("\t");
     _builder.append("/////////////////////////////////////////////////");
