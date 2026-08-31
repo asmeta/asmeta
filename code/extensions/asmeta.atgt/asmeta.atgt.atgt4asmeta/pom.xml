@@ -53,6 +53,11 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
+			<groupId>asmeta</groupId>
+			<artifactId>asmeta.flattener</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.13.2</version>
@@ -60,8 +65,8 @@
 	</dependencies>
 	<parent>
 		<groupId>asmeta</groupId>
-		<artifactId>asmeta.all</artifactId>
+		<artifactId>asmeta.atgt.parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-		<relativePath>../../../pom.xml</relativePath>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 </project>

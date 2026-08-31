@@ -5,14 +5,6 @@
 	<artifactId>asmeta.atgt</artifactId>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
-		<resources>
-			<resource>
-				<directory>src</directory>
-				<excludes>
-					<exclude>**/*.java</exclude>
-				</excludes>
-			</resource>
-		</resources>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -25,6 +17,11 @@
 			<groupId>org.eclipse.xtext</groupId>
 			<artifactId>org.eclipse.xtext.testing</artifactId>
 			<version>${xtext.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>asmeta</groupId>
+			<artifactId>asmeta.emf</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>asmeta</groupId>
@@ -47,6 +44,11 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
+			<groupId>asmeta</groupId>
+			<artifactId>asmeta.atgt.atgt4asmeta</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
 			<!-- 
 			 ADDED AS SRUN TIME SINCE IT IS USED 
 			 todo: remove junit asserts in atgt code -->
@@ -57,8 +59,8 @@
 	</dependencies>
 	<parent>
 		<groupId>asmeta</groupId>
-		<artifactId>asmeta.all</artifactId>
+		<artifactId>asmeta.atgt.parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-		<relativePath>../../../pom.xml</relativePath>
+		<relativePath>../pom.xml</relativePath>
 	</parent>
 </project>

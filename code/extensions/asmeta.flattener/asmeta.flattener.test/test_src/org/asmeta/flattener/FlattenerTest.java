@@ -33,6 +33,7 @@ import org.junit.jupiter.api.BeforeEach;
 import asmeta.structure.Asm;
 
 public class FlattenerTest {
+	
 	protected String examplesDir = "../../../../asm_examples/";
 	protected static Class<? extends AsmetaFlattener>[] ALL_FLATTENERS = new Class[] { MacroCallRuleFlattener.class,
 			ForallRuleFlattener.class, ChooseRuleFlattener.class, RemoveArgumentsFlattener.class,
@@ -64,6 +65,7 @@ public class FlattenerTest {
 	void initTest() {
 		// RuleFlattener.DO_STATS = false;
 		Statistics.resetMap();
+		Logger.getRootLogger().setLevel(Level.OFF);
 	}
 
 	public void flattenerTestAllCombinations(String asmModel, Class<? extends AsmetaFlattener>... flatteners)
@@ -81,7 +83,7 @@ public class FlattenerTest {
 		String refactoredAsm = allowExtraFlatteners
 				? AsmetaMultipleFlattener.flattenAsStrWEF(asmModel, Arrays.asList(flatteners))
 				: AsmetaMultipleFlattener.flattenAsStr(asmModel, flatteners);
-		System.out.println(refactoredAsm);
+		//System.out.println(refactoredAsm);
 		String asmName = Paths.get(asmModel).getFileName().toString();
 		String path = asmModel.substring(0, asmModel.indexOf(asmName));
 		String asmPath = path + asmName;
