@@ -73,6 +73,7 @@ public class ReplaceValueInTerm extends TermFlattenerVisitor {
 			}
 			String symbol = ((ConstantTerm) term).getSymbol();
 			newValue.setSymbol(symbol);
+			newValue.setDomain(term.getDomain());
 			return newValue;
 		}
 		if (term instanceof FunctionTerm ft) {
@@ -131,7 +132,6 @@ public class ReplaceValueInTerm extends TermFlattenerVisitor {
 
 			List<Term> terms = newTupleTerm.getTerms();
 			for (Term arg : tupleTerm.getTerms()) {
-				System.err.println(arg.toString() + arg.getClass());
 				terms.add(visit(arg));
 			}
 			newFunctionTerm.setArguments(newTupleTerm);

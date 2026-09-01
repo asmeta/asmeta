@@ -5,6 +5,7 @@ import java.util.List;
 import org.asmeta.simulator.wrapper.RuleFactory;
 import org.eclipse.emf.common.util.EList;
 
+import asmeta.definitions.domains.EnumTd;
 import asmeta.terms.basicterms.BooleanTerm;
 import asmeta.terms.basicterms.DomainTerm;
 import asmeta.terms.basicterms.FunctionTerm;
@@ -121,6 +122,7 @@ public class ReplaceTerm extends TermFlattenerVisitor {
 
 	public Term visit(EnumTerm et) {
 		if (mustBeChanged(et)) {
+			assert newTerm.getDomain() instanceof EnumTd;
 			return newTerm;
 		}
 		return et;

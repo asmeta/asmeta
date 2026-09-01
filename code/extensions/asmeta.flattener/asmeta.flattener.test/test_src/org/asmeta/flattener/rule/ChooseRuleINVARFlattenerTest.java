@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.asmeta.flattener.FlattenerTest;
 import org.asmeta.flattener.rule.ChooseRuleFlattener;
+import org.asmeta.flattener.rule.ChooseRuleINVARFlattener;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

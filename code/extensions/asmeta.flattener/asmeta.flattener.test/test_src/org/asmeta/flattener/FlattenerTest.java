@@ -72,6 +72,7 @@ public class FlattenerTest {
 			throws Exception {
 		Set<Set<Class<? extends AsmetaFlattener>>> allSubsets = buildPowerset(flatteners);
 		for (Set<Class<? extends AsmetaFlattener>> a : allSubsets) {
+			//System.out.println("Testing with flatteners: " + a);
 			initTest();
 			flattenerTest(asmModel, false, a.toArray(new Class[a.size()]));
 		}

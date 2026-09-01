@@ -113,15 +113,13 @@ public class ReplaceValue extends ReflectiveVisitor<Rule> {
 
 	public Rule visit(TermAsRule termAsRule) {
 		TermAsRule newTermAsRule = ruleFact.createTermAsRule();
-
 		newTermAsRule.setTerm(tv.visit(termAsRule.getTerm()));
-
 		EList<Term> parameters = termAsRule.getParameters();
 		EList<Term> newParameters = newTermAsRule.getParameters();
 		for (Term t : parameters) {
+			System.out.println("visiting parameter: " + t);
 			newParameters.add(tv.visit(t));
 		}
-
 		return newTermAsRule;
 	}
 
