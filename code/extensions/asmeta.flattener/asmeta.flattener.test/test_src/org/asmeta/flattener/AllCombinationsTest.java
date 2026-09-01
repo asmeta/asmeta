@@ -2,6 +2,11 @@ package org.asmeta.flattener;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import org.apache.log4j.ConsoleAppender;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.apache.log4j.SimpleLayout;
+import org.asmeta.flattener.term.ReplaceValueInTerm;
 import org.junit.jupiter.api.Test;
 
 //asm_examples/examples/hemodialysisDevice/SCP2017/HemodialysisRef3.asm
@@ -40,6 +45,8 @@ class AllCombinationsTest extends FlattenerTest {
 
 	@Test
 	void conwayGameOfLifeAgents() throws Exception {
+		//Logger.getLogger(ReplaceValueInTerm.class).setLevel(Level.ALL);
+		//Logger.getRootLogger().addAppender(new ConsoleAppender(new SimpleLayout()));
 		flattenerTestAllCombinations(examplesDir + "examples/conwayGameOfLife/gameOfLifeAgents.asm",
 				ALL_FLATTENERS);
 	}

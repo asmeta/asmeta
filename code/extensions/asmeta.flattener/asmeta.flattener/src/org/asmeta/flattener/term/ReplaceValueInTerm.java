@@ -8,6 +8,7 @@ import org.asmeta.simulator.wrapper.RuleFactory;
 import org.eclipse.emf.common.util.EList;
 
 import asmeta.definitions.domains.AbstractTd;
+import asmeta.definitions.domains.ConcreteDomain;
 import asmeta.terms.basicterms.BooleanTerm;
 import asmeta.terms.basicterms.ConstantTerm;
 import asmeta.terms.basicterms.DomainTerm;
@@ -27,15 +28,15 @@ import asmeta.terms.furtherterms.NaturalTerm;
 import asmeta.terms.furtherterms.StringTerm;
 
 public class ReplaceValueInTerm extends TermFlattenerVisitor {
-	
+
 	static Logger logger = Logger.getLogger(ReplaceValueInTerm.class);
-	
+
 	private Term[] values;
 	private List<VariableTerm> vars;
 	private RuleFactory ruleFact;
 
 	public ReplaceValueInTerm(Term[] values, List<VariableTerm> vars) {
-		logger.debug("ReplaceValueInTerm: " + Arrays.toString(values) + " " + vars);
+		logger.debug("ReplaceValueInTerm: values: " + Arrays.toString(values) + " vars:" + vars);
 		assert values.length == vars.size();
 		this.values = values;
 		this.vars = vars;
@@ -45,37 +46,54 @@ public class ReplaceValueInTerm extends TermFlattenerVisitor {
 	public Term visit(VariableTerm vt) {
 		int i = 0;
 		for (VariableTerm var : vars) {
-			// var is the variable to be replaced, vt is the variable in the term replace with values[i]
+			// var is the variable to be replaced, vt is the variable in the term replace
+			// with values[i]
 			if (vt.getName().equals(var.getName())) {
-				logger.debug("replace vt " +vt + " with " + values[i]);
-				if (values[i] instanceof ConstantTerm) {
-					ConstantTerm newValue = null;
-					if (values[i] instanceof NaturalTerm) {
-						newValue = ruleFact.createNaturalTerm();
-					} else if (values[i] instanceof IntegerTerm) {
-						// modified 01.03.25 - originally was NaturalTerm
-						newValue = ruleFact.createIntegerTerm();
-					} else if (values[i] instanceof BooleanTerm) {
-						newValue = ruleFact.createBooleanTerm();
-					} else if (values[i] instanceof EnumTerm) {
-						newValue = ruleFact.createEnumTerm();
-					} 
-					String symbol = ((ConstantTerm) values[i]).getSymbol();
-					newValue.setSymbol(symbol);
-					return newValue;
-				}
-				if (values[i] instanceof FunctionTerm ft && values[i].getDomain() instanceof AbstractTd) {
-					FunctionTerm newValue = ruleFact.createFunctionTerm();
-					newValue.setFunction(ft.getFunction());
-					return newValue; 
-				}
-				logger.error("ReplaceValueInTerm: " + values[i].getClass().getSimpleName() + " not supported!");
-				logger.error("VT: " + vt + " --> " + var);
-				throw new Error(values[i].getClass().getSimpleName() + " not supported!");
+				Term term = values[i];
+				return replaceVTWithInTerm(vt, term);
 			}
 			i++;
 		}
 		return vt;
+	}
+
+	private Term replaceVTWithInTerm(VariableTerm vt, Term term) throws Error {
+		logger.debug("replace vt " + vt + " with " + term);
+		if (term instanceof ConstantTerm) {
+			ConstantTerm newValue = null;
+			if (term instanceof NaturalTerm) {
+				newValue = ruleFact.createNaturalTerm();
+			} else if (term instanceof IntegerTerm) {
+				// modified 01.03.25 - originally was NaturalTerm
+				newValue = ruleFact.createIntegerTerm();
+			} else if (term instanceof BooleanTerm) {
+				newValue = ruleFact.createBooleanTerm();
+			} else if (term instanceof EnumTerm) {
+				newValue = ruleFact.createEnumTerm();
+			}
+			String symbol = ((ConstantTerm) term).getSymbol();
+			newValue.setSymbol(symbol);
+			return newValue;
+		}
+		if (term instanceof FunctionTerm ft) {
+			// FIXME
+			return ft;
+//			if (term.getDomain() instanceof AbstractTd) {
+//				FunctionTerm newValue = ruleFact.createFunctionTerm();
+//				newValue.setFunction(ft.getFunction());
+//				return newValue;
+//			}
+//			// domain Cell subsetof Agent
+//			// static cell11: Cell
+//			if (term.getDomain() instanceof ConcreteDomain cd && cd.getTypeDomain() instanceof AbstractTd) {
+//				FunctionTerm newValue = ruleFact.createFunctionTerm();
+//				newValue.setFunction(ft.getFunction());
+//				return newValue;
+//			}
+		}
+		logger.error("ReplaceValueInTerm: " + term.getClass().getSimpleName() + " not supported!");
+		logger.error("VT: " + vt + " --> " + term);
+		throw new Error(term.getClass().getSimpleName() + " not supported!");
 	}
 
 	public Term visit(LocationTerm lt) {
@@ -113,6 +131,7 @@ public class ReplaceValueInTerm extends TermFlattenerVisitor {
 
 			List<Term> terms = newTupleTerm.getTerms();
 			for (Term arg : tupleTerm.getTerms()) {
+				System.err.println(arg.toString() + arg.getClass());
 				terms.add(visit(arg));
 			}
 			newFunctionTerm.setArguments(newTupleTerm);
