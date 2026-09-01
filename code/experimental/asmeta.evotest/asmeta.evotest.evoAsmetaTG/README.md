@@ -47,7 +47,7 @@
 
 6. Customize execution with additional options:
     ```shell
-   java -jar .\dist\asmetal2java.jar -workingDir <workingDir> -input <input> -output <output> -javaPath <path to the java jdk dir> -evosuitePath <path to the dependencies dir> -evosuiteVersion <desired evosuite version> -timeBudget <desired time budget for the evosuite process> -parser customParser [-flaky] -D<property=value> -clean
+   java -jar .\dist\asmetal2java.jar -workingDir <workingDir> -input <input> -output <output> -javaPath <path to the java jdk dir> -evosuitePath <path to the dependencies dir> -evosuiteVersion <desired evosuite version> -timeBudget <desired time budget for the evosuite process> -parser customParser -D<property=value> -clean
     ```
     
     - `-workingDir` : The custom working directory path (optional, defaults to `./input/`).
@@ -69,8 +69,6 @@
     - `-D <property=value>` : Additional translator options.
     
     - `-clean` : Delete the files used by the translator in the input folder.
-
-    - `-flaky` : Do not record nondeterministic choices. This option is required when using EvoSuite `1.0.6`.
       
     - `-help` : Displays a help message describing all available options.
 
@@ -78,7 +76,7 @@
 
 8. Example of a use case:
     ```shell
-    java -jar .\dist\evoasmetatg.jar  -workingDir "." -input ".\src\test\resources\Pillbox_1.asm" -output ".\output" -javaPath "C:\Program Files\Java\jdk-1.8" -evosuitePath "dependencies" -evosuiteVersion "1.0.6" -flaky -timeBudget 10 -clean
+    java -jar .\dist\evoasmetatg.jar  -workingDir "." -input ".\src\test\resources\Pillbox_1.asm" -output ".\output" -javaPath "C:\Program Files\Java\jdk-1.8" -evosuitePath "dependencies" -evosuiteVersion "1.0.6" -DchooseMode=flaky -timeBudget 10 -clean
      ```
 
 ### Using the zip file
@@ -101,28 +99,32 @@
 
 This section covers all available command-line options for the application and how to use them effectively.
 
- | Option  					| Argument Type 	| Description 																					 	|
- |--------------------------|-------------------|---------------------------------------------------------------------------------------------------|
- | `-workingDir` 			| String 			| Path to the working directory of the application. Defaults to `.`. 							 	|
- | `-input` 				| String (required)	| Path to the ASM input file. 																	 	|
- | `-javaPath` 				| String (required)	| Set the path of java jdk folder used to run Evosuite. Example: "C:\Program Files\Java\jdk-1.8".	|
- | `-evosuiteVersion`  		| String (required) | Set the EvoSuite version (`1.0.6` or `1.2.0`) used for test scenario generation. |
- | `-evosuitePath` 			| String 			| Set the path to the dependencies folder. It must contain the EvoSuite jars and javatuples-3.0.jar Defaults to `./dependencies`. 	 			 	|
- | `-output`				| String 			| Specifies the output folder. Defaults to `./output/`. 										 	|  
- | `-clean` 				| None				| Delete all intermediate files created and processed by the application. 							|
- | `-flaky`  				| None				| Do not record nondeterministic choices; generated scenarios may be flaky. Required with EvoSuite `1.0.6`. |
- | `-timeBudget` 			| String 			| Set the time budget allocated for the Evosuite process. 										 	|
- | `-parser`         		| String			| Select the desired parser to parse the JUnit file. Defaults to `customParser`					 	|
- | `-Dcompiler` 			| boolean 			| whether to translate and compile the generated java class. 									 	|
- | `-DcoverOutputs` 		| boolean 			| whether to  cover the outputs in the testGen class. 											 	|
- | `-DcoverRules` 			| boolean 			| whether to cover the rules in the testGen class. 												 	|
- | `-DignoreDomainException`| boolean			| whether to ignore exceptions due to domain not supported in the ATG class.	   					|
+ | Option  					| Argument Type 	| Description 																					 	                              |
+ |--------------------------|-------------------|---------------------------------------------------------------------------------------------------------------------------------|
+ | `-workingDir` 			| String 			| Path to the working directory of the application. Defaults to `.`. 							 	                              |
+ | `-input` 				| String (required)	| Path to the ASM input file. 																	 	                              |
+ | `-javaPath` 				| String (required)	| Set the path of java jdk folder used to run Evosuite. Example: "C:\Program Files\Java\jdk-1.8".	                              |
+ | `-evosuiteVersion`  		| String (required) | Set the EvoSuite version (`1.0.6` or `1.2.0`) used for test scenario generation.                                                |
+ | `-evosuitePath` 			| String 			| Set the path to the dependencies folder. It must contain the EvoSuite jars and javatuples-3.0.jar Defaults to `./dependencies`. |
+ | `-output`				| String 			| Specifies the output folder. Defaults to `./output/`. 										 	                              |  
+ | `-clean` 				| None				| Delete all intermediate files created and processed by the application. 							                              |
+ | `-timeBudget` 			| String 			| Set the time budget allocated for the Evosuite process. 										 	                              |
+ | `-parser`         		| String			| Select the desired parser to parse the JUnit file. Defaults to `customParser`					 	                              |
+ | `-DchooseMode`           | String            | Choose handling mode: `flaky`, `noShuffle`, or `pick` (default).                                                                |
+ | `-Dcompiler` 			| boolean 			| whether to translate and compile the generated java class. 									 	                              |
+ | `-DcoverOutputs` 		| boolean 			| whether to  cover the outputs in the testGen class. 											 	                              |
+ | `-DcoverRules` 			| boolean 			| whether to cover the rules in the testGen class. 												 	                              |
+ | `-DignoreDomainException`| boolean			| whether to ignore exceptions due to domain not supported in the ATG class.	   					                              |
  
 ### EvoSuite version compatibility
 
-EvoSuite `1.0.6` must be used with `-flaky`. That version does not support the ASMETA choice-trace extension, so EvoAsmetaTG cannot record nondeterministic choices when it is selected. The generated scenarios may therefore be flaky.
+`chooseMode` controls how choose rules are translated in the generated Java code and the EvoSuite choice trace:
 
-EvoSuite `1.2.0` supports choice recording and does not require `-flaky`. Omitting `-flaky` is the recommended mode with this version because it produces reproducible scenarios.
+- `flaky`: randomly selects a value with `ThreadLocalRandom` and does not generate the `__asmeta` recording methods or a `.choices.properties` file.
+- `noShuffle`: always selects the first available value and does not generate the `__asmeta` recording methods or a `.choices.properties` file.
+- `pick`: selects a value with `ThreadLocalRandom`, generates the `__asmeta` recording methods in both Java classes, and generates the `.choices.properties` file used to add `pick` statements to Avalla scenarios. This is the default mode.
+
+`chooseMode=pick` requires EvoSuite `1.2.0`, because EvoSuite `1.0.6` does not support the ASMETA choice-trace extension. With EvoSuite `1.0.6`, explicitly select either `flaky` or `noShuffle`.
 
  
 ### Example
@@ -135,7 +137,7 @@ Below is an example use case using the above mentioned options:
 -javaPath "C:\Program Files\Java\jdk-1.8"
 -evosuitePath "dependencies"
 -evosuiteVersion "1.0.6"
--flaky
+-DchooseMode=flaky
 -timeBudget 10
 -clean
 ```

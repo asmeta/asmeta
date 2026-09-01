@@ -35,7 +35,6 @@ public class EvoAsmetaTgCLI {
 	public static final String OUTPUT = "output";
 	public static final String WORKING_DIR = "workingDir";
 	public static final String CLEAN = "clean";
-	public static final String FLAKY = "flaky";
 	public static final String HELP = "help";
 	public static final String JAVA_PATH = "javaPath";
 	public static final String EVOSUITE_PATH = "evosuitePath";
@@ -203,9 +202,6 @@ public class EvoAsmetaTgCLI {
 			translator.setClean(true);
 		}
 
-		if (line.hasOption(FLAKY)) {
-			translator.setFlaky(true);
-		}
 
 		if (line.hasOption(TIME_BUDGET)) {
 			translator.setTimeBudget(line.getOptionValue(TIME_BUDGET));
@@ -263,9 +259,6 @@ public class EvoAsmetaTgCLI {
 		Option clean = Option.builder(CLEAN).hasArg(false)
 				.desc("Delete all intermediate files created and processed by the application.").build();
 
-		Option flaky = Option.builder(FLAKY).hasArg(false)
-				.desc("Generate scenarios without recording choices; scenarios may be flaky. Required with EvoSuite 1.0.6.").build();
-
 		// timeBudget property
 		Option timeBudget = Option.builder(TIME_BUDGET).argName(TIME_BUDGET).type(Integer.class).hasArg(true)
 				.desc("Set the time budget allocated for the Evosuite process.").build();
@@ -286,7 +279,6 @@ public class EvoAsmetaTgCLI {
 		options.addOption(evosuitePath);
 		options.addOption(evosuiteVersion);
 		options.addOption(clean);
-		options.addOption(flaky);
 		options.addOption(timeBudget);
 		options.addOption(parser);
 		options.addOption(property);

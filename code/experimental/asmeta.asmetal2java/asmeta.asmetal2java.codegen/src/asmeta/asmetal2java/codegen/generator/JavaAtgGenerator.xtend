@@ -68,6 +68,7 @@ class JavaAtgGenerator extends AsmToJavaGenerator {
 			/** current state. */
 			private int state;
 
+			«IF options.getChooseMode().recordsChoices()»
 			//--- CHOOSE RULE TRACE RECORDING UTILTIES ----------------------------------------------------------------
 			private static void __asmetaStartChoiceRecording(){
 				«asmName».__asmetaStartChoiceRecording();
@@ -77,6 +78,7 @@ class JavaAtgGenerator extends AsmToJavaGenerator {
 				return «asmName».__asmetaStopChoiceRecording();
 			}
 			//---------------------------------------------------------------------------------------------------------
+			«ENDIF»
 		
 		   /**
 		    * Constructor of the {@code «asmName»_ATG} class. Creates a private instance of the asm
@@ -91,7 +93,9 @@ class JavaAtgGenerator extends AsmToJavaGenerator {
 			*/
 			public void step(){
 				
+				«IF options.getChooseMode().recordsChoices()»
 				«asmName».__asmetaBeginStep();
+				«ENDIF»
 
 				this.execution.updateASM();
 				

@@ -51,6 +51,11 @@ public class RuleToJavaEvosuite extends RuleToJava {
 
   @Override
   protected String recordChoice(final ChooseRule chooseRule, final int variableIndex, final Domain baseDomain, final String javaVariable, final int occurrence) {
+    boolean _recordsChoices = this.options.getChooseMode().recordsChoices();
+    boolean _not = (!_recordsChoices);
+    if (_not) {
+      return "";
+    }
     String _xifexpression = null;
     if ((baseDomain instanceof ConcreteDomain)) {
       _xifexpression = (javaVariable + ".value");

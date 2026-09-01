@@ -8,6 +8,7 @@ import java.util.function.Consumer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import asmeta.asmetal2java.codegen.config.ChooseMode;
 import asmeta.asmetal2java.codegen.config.ModeConstantsConfig;
 import asmeta.asmetal2java.codegen.config.TranslatorOptionsImpl;
 
@@ -41,10 +42,8 @@ public class OptionsImpl implements Options {
 	 */
 	private boolean ignoreDomainException;
 	
-	/**
-	 * if false, run choose rules deterministically (always choose first element)
-	 */
-	private boolean shuffleRandom;
+	/** Controls how choose rules select and record values. */
+	private ChooseMode chooseMode;
 
 	/** A map that associates property names with actions that modify the corresponding boolean fields. */
 	private Map<String, Consumer<Boolean>> optionMapper;
@@ -52,7 +51,7 @@ public class OptionsImpl implements Options {
 	/**
 	 * Constructs a {@code OptionsImpl} instance with the default settings: <p>
 	 * coverRules, compiler = {@code true}. <p>
-	 * coverOutput = {@code false}.
+	 * coverOutput = {@code false}; chooseMode = {@code pick}.
 	 */
 	public OptionsImpl() {
 		coverRules = true;
@@ -60,7 +59,7 @@ public class OptionsImpl implements Options {
 		compiler = true;
 		copyAsm = false;
 		ignoreDomainException = false;
-		shuffleRandom = true;
+		chooseMode = ChooseMode.PICK;
 		mapperSetup();
 	}
 
@@ -74,16 +73,21 @@ public class OptionsImpl implements Options {
 		optionMapper.put(ModeConstantsConfig.COMPILER, value -> compiler = value);
 		optionMapper.put(TranslatorOptionsImpl.COPY_ASM_OPTION, value -> copyAsm = value);
 		optionMapper.put(TranslatorOptionsImpl.IGNORE_NOT_SUPPORTED_DOMAIN_EXCEPTION, value -> ignoreDomainException = value);	
-		optionMapper.put(TranslatorOptionsImpl.SHUFFLE_RANDOM, value -> shuffleRandom = value);	
 	}
 
 	@Override
-	public void setValue(String optionName, Boolean optionValue) {
+	public void setValue(String optionName, String optionValue) {
+		if (TranslatorOptionsImpl.CHOOSE_MODE_OPTION.equals(optionName)) {
+			chooseMode = ChooseMode.fromValue(optionValue);
+			logger.info("Setting the translator option: {} to: {}.", optionName, chooseMode.getValue());
+			return;
+		}
+
 		Consumer<Boolean> action = optionMapper.get(optionName);
 
 		if (action != null) {
-			action.accept(optionValue);
-			logger.info("Setting the translator option: {} to: {}.", optionName, optionValue );
+			action.accept(Boolean.parseBoolean(optionValue));
+			logger.info("Setting the translator option: {} to: {}.", optionName, optionValue);
 		} else {
 			logger.error("Failed to set the value: {} for the option: {}", optionValue, optionName);
 			throw new IllegalArgumentException("Unexpected value: " + optionName);
@@ -98,7 +102,7 @@ public class OptionsImpl implements Options {
 				ModeConstantsConfig.COMPILER,
 				TranslatorOptionsImpl.COPY_ASM_OPTION,
 				TranslatorOptionsImpl.IGNORE_NOT_SUPPORTED_DOMAIN_EXCEPTION,
-				TranslatorOptionsImpl.SHUFFLE_RANDOM);
+				TranslatorOptionsImpl.CHOOSE_MODE_OPTION);
 	}
 
 	@Override
@@ -109,7 +113,7 @@ public class OptionsImpl implements Options {
 				+ OPTIONS_ID + TranslatorOptionsImpl.COVER_OUTPUTS_OPTION + " = true/(false) : cover the outputs in the testGen class.\n"
 				+ OPTIONS_ID + TranslatorOptionsImpl.COPY_ASM_OPTION + " = true/(false) : copy the amseta spec file to another folder for processing.\n"
 				+ OPTIONS_ID + TranslatorOptionsImpl.IGNORE_NOT_SUPPORTED_DOMAIN_EXCEPTION + " = true/(false) : do not stop the execution if a domain is not supported by the ATG class. \n"
-				+ OPTIONS_ID + TranslatorOptionsImpl.SHUFFLE_RANDOM + " = (true)/false : if false, run choose rules deterministically (always choose first element). \n";
+				+ OPTIONS_ID + TranslatorOptionsImpl.CHOOSE_MODE_OPTION + " = flaky/noShuffle/(pick) : control choose-rule selection and recording. \n";
 	}
 
 	@Override
@@ -120,7 +124,7 @@ public class OptionsImpl implements Options {
 				OPTIONS_ID + TranslatorOptionsImpl.COVER_OUTPUTS_OPTION + EQ + String.valueOf(coverOutput),
 				OPTIONS_ID + TranslatorOptionsImpl.COPY_ASM_OPTION + EQ + String.valueOf(copyAsm),
 				OPTIONS_ID + TranslatorOptionsImpl.IGNORE_NOT_SUPPORTED_DOMAIN_EXCEPTION + EQ + String.valueOf(ignoreDomainException),
-				OPTIONS_ID + TranslatorOptionsImpl.SHUFFLE_RANDOM+ EQ + String.valueOf(shuffleRandom)
+				OPTIONS_ID + TranslatorOptionsImpl.CHOOSE_MODE_OPTION + EQ + chooseMode.getValue()
 				);
 	}
 	
@@ -142,6 +146,11 @@ public class OptionsImpl implements Options {
 	@Override
 	public boolean isCopyAsm() {
 		return copyAsm;
+	}
+
+	@Override
+	public ChooseMode getChooseMode() {
+		return chooseMode;
 	}
 
 }

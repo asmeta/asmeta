@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 
 import asmeta.asmetal2java.codegen.compiler.CompileResult;
 import asmeta.asmetal2java.codegen.config.TranslatorOptions;
+import asmeta.asmetal2java.codegen.config.ChooseMode;
 import asmeta.asmetal2java.codegen.config.TranslatorOptionsImpl;
 
 /**
@@ -29,9 +30,9 @@ public class GeneratorCompilerDomainTest {
 	private Path domainTestPath = GeneratorCompilerUtil.dirExamples.resolve("domainTests");
 
 	/**
-	 * formatter = true, shuffleRandom = true, optimizeSeqRule = true
+	 * formatter = true, chooseMode = pick, optimizeSeqRule = true
 	 */
-	private TranslatorOptions options = new TranslatorOptionsImpl(true, true, true);
+	private TranslatorOptions options = new TranslatorOptionsImpl(true, ChooseMode.PICK, true);
 
 	/**
 	 * {@code True} to stop the generation at the first error, {@code False}

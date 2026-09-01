@@ -184,7 +184,7 @@ public class ScenarioGenerator {
 				DASH + EvoAsmetaTgCLI.JAVA_PATH, jdkPath, DASH + EvoAsmetaTgCLI.EVOSUITE_VERSION, "1.0.6",
 				DASH + EvoAsmetaTgCLI.EVOSUITE_PATH, evosuiteJarFolder, DASH + EvoAsmetaTgCLI.TIME_BUDGET,
 				String.valueOf(budget), DASH + EvoAsmetaTgCLI.CLEAN, "-DignoreDomainException=true",
-				"-DshuffleRandom=" + (shuffle ? "true" : "false"));
+				"-DchooseMode=" + (shuffle ? "flaky" : "noShuffle"));
 		Instant start = Instant.now();
 		EvoAsmetaTgCLI.main(evoAsmetaTgArguments.toArray(new String[0]));
 		Instant end = Instant.now();

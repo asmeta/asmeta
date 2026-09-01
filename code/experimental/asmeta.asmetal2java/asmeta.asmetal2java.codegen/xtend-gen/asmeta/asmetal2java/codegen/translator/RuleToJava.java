@@ -1,5 +1,6 @@
 package asmeta.asmetal2java.codegen.translator;
 
+import asmeta.asmetal2java.codegen.config.ChooseMode;
 import asmeta.asmetal2java.codegen.config.TranslatorOptions;
 import asmeta.definitions.Function;
 import asmeta.definitions.domains.AbstractTd;
@@ -27,6 +28,7 @@ import asmeta.transitionrules.derivedtransitionrules.CaseRule;
 import asmeta.transitionrules.derivedtransitionrules.IterativeWhileRule;
 import asmeta.transitionrules.turbotransitionrules.IterateRule;
 import asmeta.transitionrules.turbotransitionrules.SeqRule;
+import java.util.Objects;
 import org.asmeta.parser.util.AsmetaTermPrinter;
 import org.asmeta.simulator.RuleVisitor;
 import org.eclipse.emf.common.util.EList;
@@ -610,15 +612,16 @@ public class RuleToJava extends RuleVisitor<String> {
     _builder_3.append("if(!point0.isEmpty()){");
     _builder_3.newLine();
     sb.append(_builder_3);
-    boolean _shuffleRandom = this.options.getShuffleRandom();
-    if (_shuffleRandom) {
+    ChooseMode _chooseMode = this.options.getChooseMode();
+    boolean _equals = Objects.equals(_chooseMode, ChooseMode.NO_SHUFFLE);
+    if (_equals) {
       StringConcatenation _builder_4 = new StringConcatenation();
-      _builder_4.append("int rndm = ThreadLocalRandom.current().nextInt(0, point0.size());");
+      _builder_4.append("int rndm = 0;");
       _builder_4.newLine();
       sb.append(_builder_4);
     } else {
       StringConcatenation _builder_5 = new StringConcatenation();
-      _builder_5.append("int rndm = 0;");
+      _builder_5.append("int rndm = ThreadLocalRandom.current().nextInt(0, point0.size());");
       _builder_5.newLine();
       sb.append(_builder_5);
     }

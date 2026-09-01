@@ -23,6 +23,7 @@ import org.junit.runner.notification.RunListener;
 import com.google.inject.Injector;
 
 import asmeta.asmetal2java.codegen.config.TranslatorOptions;
+import asmeta.asmetal2java.codegen.config.ChooseMode;
 import asmeta.asmetal2java.codegen.config.TranslatorOptionsImpl;
 import asmeta.asmetal2java.codegen.formatter.Formatter;
 import asmeta.asmetal2java.codegen.formatter.FormatterImpl;
@@ -128,7 +129,7 @@ public class Asmetal2JUnit_Generator {
 
 	private void generateTest(String asmspec,String avaTest) throws Exception, IOException {
 		
-		TranslatorOptions options = new TranslatorOptionsImpl(true, true, true);
+		TranslatorOptions options = new TranslatorOptionsImpl(true, ChooseMode.PICK, true);
 		GeneratorCompilerUtil.genandcompile(asmspec, options, JAVA_GEN_path, JAVA_GEN_path);
 		
 

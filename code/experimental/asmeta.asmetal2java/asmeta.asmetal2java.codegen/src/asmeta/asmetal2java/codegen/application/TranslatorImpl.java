@@ -55,7 +55,7 @@ public class TranslatorImpl implements Translator {
 
 	@Override
 	public void setOptions(String propertyName, String propertyValue) {
-		this.translatorOptions.setValue(propertyName, Boolean.parseBoolean(propertyValue));
+		this.translatorOptions.setValue(propertyName, propertyValue);
 	}
 
 	@Override

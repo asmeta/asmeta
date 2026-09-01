@@ -97,34 +97,41 @@ public class JavaAtgGenerator extends AsmToJavaGenerator {
     _builder.append("private int state;");
     _builder.newLine();
     _builder.newLine();
-    _builder.append("\t");
-    _builder.append("//--- CHOOSE RULE TRACE RECORDING UTILTIES ----------------------------------------------------------------");
-    _builder.newLine();
-    _builder.append("\t");
-    _builder.append("private static void __asmetaStartChoiceRecording(){");
-    _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append(asmName, "\t\t");
-    _builder.append(".__asmetaStartChoiceRecording();");
-    _builder.newLineIfNotEmpty();
-    _builder.append("\t");
-    _builder.append("}");
-    _builder.newLine();
-    _builder.newLine();
-    _builder.append("\t");
-    _builder.append("private static String[][] __asmetaStopChoiceRecording(){");
-    _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("return ");
-    _builder.append(asmName, "\t\t");
-    _builder.append(".__asmetaStopChoiceRecording();");
-    _builder.newLineIfNotEmpty();
-    _builder.append("\t");
-    _builder.append("}");
-    _builder.newLine();
-    _builder.append("\t");
-    _builder.append("//---------------------------------------------------------------------------------------------------------");
-    _builder.newLine();
+    {
+      boolean _recordsChoices = this.options.getChooseMode().recordsChoices();
+      if (_recordsChoices) {
+        _builder.append("\t");
+        _builder.append("//--- CHOOSE RULE TRACE RECORDING UTILTIES ----------------------------------------------------------------");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("private static void __asmetaStartChoiceRecording(){");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("\t");
+        _builder.append(asmName, "\t\t");
+        _builder.append(".__asmetaStartChoiceRecording();");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t");
+        _builder.append("}");
+        _builder.newLine();
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("private static String[][] __asmetaStopChoiceRecording(){");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("\t");
+        _builder.append("return ");
+        _builder.append(asmName, "\t\t");
+        _builder.append(".__asmetaStopChoiceRecording();");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t");
+        _builder.append("}");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("//---------------------------------------------------------------------------------------------------------");
+        _builder.newLine();
+      }
+    }
     _builder.newLine();
     _builder.append("   ");
     _builder.append("/**");
@@ -170,10 +177,15 @@ public class JavaAtgGenerator extends AsmToJavaGenerator {
     _builder.newLine();
     _builder.append("\t\t");
     _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append(asmName, "\t\t");
-    _builder.append(".__asmetaBeginStep();");
-    _builder.newLineIfNotEmpty();
+    {
+      boolean _recordsChoices_1 = this.options.getChooseMode().recordsChoices();
+      if (_recordsChoices_1) {
+        _builder.append("\t\t");
+        _builder.append(asmName, "\t\t");
+        _builder.append(".__asmetaBeginStep();");
+        _builder.newLineIfNotEmpty();
+      }
+    }
     _builder.newLine();
     _builder.append("\t\t");
     _builder.append("this.execution.updateASM();");

@@ -114,7 +114,7 @@ This section covers all available command-line options for the application and h
  | 							| `custom` 			| set a custom behavior by adding properties with -D. 																				|
  | `-compilerVersion`		| int 				| set the java version used by the compiler																							|
  | `-Dformatter` 			| boolean  			| whether the generated code should be formatted. 																					|
- | `-DshuffleRandom` 		| boolean  			| whether a random shuffle should be applied. 																						|
+ | `-DchooseMode`           | String            | choose handling mode: `flaky`, `noShuffle`, or `pick` (default). 																    |
  | `-DoptimizeSeqMacroRule` | boolean  			| whether to optimize the sequence macro rule. 																						|
  | `-Dtranslator` 			| boolean  			| whether to  translate the asm file to a java class. 																				|
  | `-Dcompiler` 			| boolean 			| whether to translate and compile the generated java class. 																		|
@@ -129,6 +129,16 @@ This section covers all available command-line options for the application and h
 
  > **Note:** Please use translator, compiler, generateExe, generateWin and testGen options only if you have selected the -mode custom option.
 
+### Choose modes
+
+`chooseMode` controls how choose rules are translated in the generated Java code:
+
+- `flaky` randomly selects a value using `ThreadLocalRandom`.
+- `noShuffle` always selects the first available value.
+- `pick` randomly selects a value using `ThreadLocalRandom` and generates the `__asmeta` methods used to record selected values. It is the default.
+
+The `__asmeta` methods are emitted by `JavaTestGenerator` and `JavaAtgGenerator` only in `pick` mode. The other modes generate no choice-recording code.
+When this output is used through EvoAsmetaTG, `pick` requires EvoSuite 1.2.0; with EvoSuite 1.0.6 use `flaky` or `noShuffle`.
 
 ## Developer guide
  

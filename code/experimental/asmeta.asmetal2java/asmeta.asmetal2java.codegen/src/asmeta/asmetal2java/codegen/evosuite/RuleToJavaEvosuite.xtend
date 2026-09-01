@@ -44,6 +44,9 @@ class RuleToJavaEvosuite extends RuleToJava {
 
 	override protected String recordChoice(ChooseRule chooseRule, int variableIndex, Domain baseDomain,
 		String javaVariable, int occurrence) {
+		if (!options.getChooseMode().recordsChoices()) {
+			return ""
+		}
 		val value = if (baseDomain instanceof ConcreteDomain) javaVariable + ".value" else javaVariable
 		val asmVariable = chooseRule.variable.get(variableIndex).name.replace("$", "")
 		return '''

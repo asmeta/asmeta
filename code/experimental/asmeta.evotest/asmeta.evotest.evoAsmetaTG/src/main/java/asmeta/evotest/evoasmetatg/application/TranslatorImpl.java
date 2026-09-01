@@ -52,8 +52,6 @@ public class TranslatorImpl implements Translator {
 	/** Indicates whether to clean the folders {@code true} or not {@code false} */
 	private boolean clean;
 
-	/** Indicates whether generated scenarios may be flaky. */
-	private boolean flaky;
 
 	/** File manager instance for handling file operations. */
 	private FileManager fileManager;
@@ -69,7 +67,6 @@ public class TranslatorImpl implements Translator {
 		this.options = new OptionsImpl();
 		this.fileManager = new FileManager();
 		this.clean = false;
-		this.flaky = false;
 	}
 
 	@Override
@@ -152,7 +149,7 @@ public class TranslatorImpl implements Translator {
 	@Override
 	public void setOptions(String propertyName, String propertyValue) {
 		logger.debug("Setting the option: {} to: {}.", propertyName, propertyValue);
-		options.setValue(propertyName, Boolean.parseBoolean(propertyValue));
+		options.setValue(propertyName, propertyValue);
 	}
 
 	@Override
@@ -160,6 +157,9 @@ public class TranslatorImpl implements Translator {
 		int version = Integer.parseInt((evosuiteVersion).replace(".", ""));
 		switch (version) {
 		case 106:
+			if (options.getChooseMode().recordsChoices()) {
+				throw new SetupException("chooseMode=pick requires EvoSuite 1.2.0.");
+			}
 			this.compilerVersion = TranslatorConstants.JAVA_8;
 			this.evosuiteVersion = TranslatorConstants.EVOSUITE_1_0_6_JAR;
 			break;
@@ -199,6 +199,11 @@ public class TranslatorImpl implements Translator {
 	@Override
 	public void generate() throws TranslationException {
 
+		if (TranslatorConstants.EVOSUITE_1_0_6_JAR.equals(evosuiteVersion)
+				&& options.getChooseMode().recordsChoices()) {
+			throw new TranslationException("chooseMode=pick requires EvoSuite 1.2.0.");
+		}
+
 		// check consistency between java and Evosuite version
 		logger.info("Checking consistency between java and evosuite versions.");
 		checkJavaConsistency();
@@ -221,10 +226,6 @@ public class TranslatorImpl implements Translator {
 		this.clean = clean;
 	}
 
-	@Override
-	public void setFlaky(boolean flaky) {
-		this.flaky = flaky;
-	}
 
 	@Override
 	public void clean() {
@@ -359,7 +360,7 @@ public class TranslatorImpl implements Translator {
 					TranslatorConstants.PROJECT_CP, evosuiteProjectClasspath, TranslatorConstants.TARGET, evosuiteTargetDir, TranslatorConstants.CLASS, evosuiteJavaInputFile,
 					evosuiteTestsOption, TranslatorConstants.CRITERION, TranslatorConstants.COVERAGE_CRITERION,
 					TranslatorConstants.DMINIMIZE_TRUE));
-			if (!flaky) {
+			if (options.getChooseMode().recordsChoices()) {
 				String choiceTraceFile = Paths.get(fileManager.getEvosuiteTestsPathToString(),
 						asmName + TranslatorConstants.CHOICE_TRACE_EXTENSION).toString();
 				listOfOptions.addAll(buildChoiceTraceOptions(choiceTraceFile));
@@ -402,7 +403,7 @@ public class TranslatorImpl implements Translator {
 				TranslatorConstants.JUNIT2AVALLA_INPUT, junitInputFile, TranslatorConstants.JUNIT2AVALLA_OUTPUT,
 				fileManager.getOutputFolderToString(), TranslatorConstants.JUNIT2AVALLA_PARSER, this.parserType.getType()));
 
-		if (!flaky) {
+		if (options.getChooseMode().recordsChoices()) {
 			String choiceTraceFile = fileManager.getEvosuiteTestsPathToString() + File.separator + asmName
 					+ TranslatorConstants.CHOICE_TRACE_EXTENSION;
 			listOfOptions.addAll(List.of(TranslatorConstants.JUNIT2AVALLA_CHOICE_TRACE, choiceTraceFile));

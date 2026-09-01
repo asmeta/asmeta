@@ -22,6 +22,7 @@ import asmeta.asmetal2java.codegen.compiler.CompileResultImpl;
 import asmeta.asmetal2java.codegen.compiler.Compiler;
 import asmeta.asmetal2java.codegen.compiler.CompilerImpl;
 import asmeta.asmetal2java.codegen.config.TranslatorOptions;
+import asmeta.asmetal2java.codegen.config.ChooseMode;
 import asmeta.asmetal2java.codegen.config.TranslatorOptionsImpl;
 import asmeta.asmetal2java.codegen.evosuite.RulesMap;
 
@@ -59,9 +60,9 @@ public class GeneratorCompilerEvosuiteTest {
 	private static final JavaAtgGenerator jGeneratorAtg = new JavaAtgGenerator(rulesMap);
 
 	/**
-	 * formatter = true, shuffleRandom = true, optimizeSeqRule = true
+	 * formatter = true, chooseMode = pick, optimizeSeqRule = true
 	 */
-	private static final TranslatorOptions options = new TranslatorOptionsImpl(true, true, true);
+	private static final TranslatorOptions options = new TranslatorOptionsImpl(true, ChooseMode.PICK, true);
 
 	/**
 	 * {@code True} to stop the generation at the first error, {@code False}

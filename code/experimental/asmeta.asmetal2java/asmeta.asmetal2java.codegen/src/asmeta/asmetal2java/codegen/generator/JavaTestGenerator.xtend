@@ -68,6 +68,7 @@ class JavaTestGenerator extends JavaGenerator {
 			
 			class «asmName» {
 				
+				«IF options.getChooseMode().recordsChoices()»
 				//--- CHOOSE RULE TRACE RECORDING UTILTIES ----------------------------------------------------------------
 				/** Choice trace used only by the modified EvoSuite assertion run. */
 				private static final java.util.List<String[]> __asmetaChoiceTrace = new java.util.ArrayList<>();
@@ -107,6 +108,7 @@ class JavaTestGenerator extends JavaGenerator {
 					});
 				}
 				//---------------------------------------------------------------------------------------------------------
+				«ENDIF»
 				
 				«getToNaturalMethod()»
 

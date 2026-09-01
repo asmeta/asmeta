@@ -1,6 +1,7 @@
 package asmeta.asmetal2java.codegen.translator
 
 import asmeta.asmetal2java.codegen.config.TranslatorOptions
+import asmeta.asmetal2java.codegen.config.ChooseMode
 import asmeta.definitions.domains.AbstractTd
 import asmeta.definitions.domains.BasicTd
 import asmeta.definitions.domains.ConcreteDomain
@@ -349,13 +350,13 @@ class RuleToJava extends RuleVisitor<String> {
 		sb.append('''
 			if(!point0.isEmpty()){
 		''')
-		if (options.getShuffleRandom())
+		if (options.getChooseMode() == ChooseMode.NO_SHUFFLE)
 			sb.append('''
-				int rndm = ThreadLocalRandom.current().nextInt(0, point0.size());
+				int rndm = 0;
 			''')
 		else
 			sb.append('''
-				int rndm = 0;
+				int rndm = ThreadLocalRandom.current().nextInt(0, point0.size());
 			''')
 		for (var i = 0; i < chooseRule.getVariable.size; i++){
 			val baseDomain = (chooseRule.getRanges.get(i).domain as PowersetDomain).baseDomain

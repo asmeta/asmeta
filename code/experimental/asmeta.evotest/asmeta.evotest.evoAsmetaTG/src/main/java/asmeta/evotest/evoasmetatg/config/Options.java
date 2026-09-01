@@ -2,6 +2,8 @@ package asmeta.evotest.evoasmetatg.config;
 
 import java.util.List;
 
+import asmeta.asmetal2java.codegen.config.ChooseMode;
+
 /**
  * Includes all the available operations regarding the options of the Translator.
  */
@@ -13,7 +15,7 @@ public interface Options {
 	 * @param optionName name of the considered option.
 	 * @param optionValue value of the considered option.
 	 */
-	void setValue(String optionName, Boolean optionValue);
+	void setValue(String optionName, String optionValue);
 	
 	/**
 	 * Gets all the name of the options.
@@ -64,5 +66,12 @@ public interface Options {
 	 *         folder to be processed, {@code false} otherwise.
 	 */
 	public boolean isCopyAsm();
+
+	/**
+	 * Returns the choose-rule generation mode.
+	 *
+	 * @return the configured mode.
+	 */
+	public ChooseMode getChooseMode();
 
 }
