@@ -1,5 +1,5 @@
 model_path	num_tps	time_taken_ms	NUSMV?
-0	../../../../asm_examples/examples/simple_example/population.asm	1	org.asmeta.parser.TokenMgrError: Lexical error at line 192, column 23.  Encountered: '49' (49), after prefix "!"
+0	../../../../asm_examples/examples/simple_example/population.asm	1	[]
 1	../../../../asm_examples/examples/RushHour/RushHour.asm	1	[]
 2	../../../../asm_examples/examples/fsmsemantics/FSM_hooking.asm	1	org.asmeta.parser.ParseException: Encountered " "=" "="" at line 59, column 28.
 
@@ -7,12 +7,12 @@ Was expecting:
 
 "then" ...
      Line: 59 column: 26
-3	../../../../asm_examples/examples/NeedhamSchroeder/NeedhamSchroederWithSpy.asm	1	org.asmeta.parser.ParseException: Encountered " "=" "="" at line 242, column 27.
+3	../../../../asm_examples/examples/NeedhamSchroeder/NeedhamSchroederWithSpy.asm	1	org.asmeta.parser.ParseException: Encountered " "=" "="" at line 269, column 27.
 
 Was expecting:
 
 "then" ...
-     Line: 242 column: 25
+     Line: 269 column: 25
 4	../../../../asm_examples/examples/coffeeVendingMachine/coffeeVendingMachine.asm	1	[]
 5	../../../../asm_examples/examples/sleepingBarber/sleepingBarber.asm	1	[]
 6	../../../../asm_examples/examples/coffeeVendingMachine/coffeeVendingMachine_flat.asm	1	[]
@@ -29,61 +29,60 @@ Was expecting:
      Line: 238 column: 18
 13	../../../../asm_examples/examples/petriNets/petriNetNoEdgeWeightNoPlaceCapacity_seq.asm	1	[]
 14	../../../../asm_examples/examples/GilbreathCardTrick/GilbreathCardTrick_flat.asm	1	java.lang.NullPointerException: Cannot invoke "String.trim()" because the return value of "org.asmeta.avallaxt.avalla.Check.getExpression()" is null
-15	../../../../asm_examples/examples/SemaforiAttraversamentoPedonale.asm	1	java.lang.AssertionError: undef
-prenotazione
+15	../../../../asm_examples/examples/SemaforiAttraversamentoPedonale.asm	1	[]
 16	../../../../asm_examples/examples/petriNets/petriNetNoEdgeWeightNoPlaceCapacity_NoSeq_Matrix.asm	1	[]
 17	../../../../asm_examples/examples_for_nuXmv/FunctionInt.asm	1	[]
 18	../../../../asm_examples/examples/petriNets/petriNetNoEdgeWeightNoPlaceCapacity_NoSeq.asm	1	[]
-19	../../../../asm_examples/examples/authenticationProtocols/groundModel.asm	1	org.asmeta.parser.TokenMgrError: Lexical error at line 174, column 29.  Encountered: '50' (50), after prefix "!"
+19	../../../../asm_examples/examples/authenticationProtocols/groundModel.asm	1	org.asmeta.parser.TokenMgrError: Lexical error at line 173, column 29.  Encountered: '50' (50), after prefix "!"
 20	../../../../asm_examples/examples/RushHour/emptyCellAs0/RushHourSimplForAsmetaSMV_EmptyAs0.asm	1	[]
-21	../../../../asm_examples/examples/authenticationProtocols/groundModel_v2.asm	1	org.asmeta.parser.TokenMgrError: Lexical error at line 166, column 29.  Encountered: '49' (49), after prefix "!"
+21	../../../../asm_examples/examples/authenticationProtocols/groundModel_v2.asm	1	org.asmeta.parser.TokenMgrError: Lexical error at line 165, column 27.  Encountered: '49' (49), after prefix "!"
 22	../../../../asm_examples/examples/simple_example/Scheduler.asm	1	[]
 23	../../../../asm_examples/examples/simple_example/MorraCinese/withActors/MorraCinese_withActors_raff3.asm	1	org.asmeta.parser.ParseException: Error: The domain of the function body must be compatible with the function codomain Natural.
        At the initialization of the function maxNumberOfPlaysInit(). Line: 347 column: 41
 24	../../../../asm_examples/examples/GilbreathCardTrick/GilbreathCardTrickSimpl.asm	1	java.lang.NullPointerException: Cannot invoke "String.trim()" because the return value of "org.asmeta.avallaxt.avalla.Check.getExpression()" is null
 25	../../../../asm_examples/examples/sultanSuccessors/sultanGreedy.asm	1	org.asmeta.parser.ParseException: Error: The variable $r2 cannot be bound to a value in the ForallTerm. It is already used. Line: 645 column: 97
-26	../../../../asm_examples/examples/models/SwapSortMon.asm	1	org.asmeta.parser.ParseException: Problems in creating Function Term (vect) Line: 38 column: 15
+26	../../../../asm_examples/examples/models/SwapSortMon.asm	1	org.asmeta.parser.ParseException: Problems in creating Function Term (vect) Line: 48 column: 15
 27	../../../../asm_examples/examples/fsmsemantics/meta_hooking/myFSM.asm	1	java.lang.RuntimeException: r_run is not defined in the main asm
 28	../../../../asm_examples/examples/cards.asm	1	[]
 29	../../../../asm_examples/examples/petriNets/forAsmetaSMV/petriNet_forNuSMV.asm	1	[]
 30	../../../../asm_examples/examples/simple_example/SwapSort.asm	1	[]
 31	../../../../asm_examples/examples/simple_example/MorraCinese/MorraCinese_raff3.asm	1	org.asmeta.parser.ParseException: Error: The domain of the function body must be compatible with the function codomain Natural.
-       At the initialization of the function maxNumberOfPlaysInit(). Line: 390 column: 41
+       At the initialization of the function maxNumberOfPlaysInit(). Line: 391 column: 41
 32	../../../../asm_examples/examples/parking.asm	1	[]
 33	../../../../asm_examples/examples/GilbreathCardTrick/GilbreathCardTrickForAsmetaSMV_flat.asm	1	java.lang.NullPointerException: Cannot invoke "String.trim()" because the return value of "org.asmeta.avallaxt.avalla.Check.getExpression()" is null
 34	../../../../asm_examples/examples/simple_example/MorraCinese/MorraCinese_raff1.asm	1	[]
 35	../../../../asm_examples/examples/petriNets/forAsmetaSMV/petriNet_forNuSMV_notLive_bound1_deadlockFree.asm	1	[]
 36	../../../../asm_examples/examples/Yahalom/FlawedYahalom.asm	java.lang.AssertionError: shrkeyB
 37	../../../../asm_examples/examples/filosofiEciliegie/filosofiEciliegieJustLeft.asm	1	[]
-38	../../../../asm_examples/examples/simple_example/population_raff1_twoPersons.asm	1	org.asmeta.parser.TokenMgrError: Lexical error at line 159, column 23.  Encountered: '50' (50), after prefix "!"
-39	../../../../asm_examples/examples/agents/processesSchedulerShortestJobNext.asm	1	java.lang.RuntimeException: Unknown function org.asmeta.parser.util.AsmetaTermPrinter@317334f5 visit(interface asmeta.terms.furtherterms.ExistsUniqueTerm)
+38	../../../../asm_examples/examples/simple_example/population_raff1_twoPersons.asm	1	[]
+39	../../../../asm_examples/examples/agents/processesSchedulerShortestJobNext.asm	1	java.lang.RuntimeException: Unknown function org.asmeta.parser.util.AsmetaTermPrinter@7c000414 visit(interface asmeta.terms.furtherterms.ExistsUniqueTerm)
 40	../../../../asm_examples/examples/petriNets/forModelAdvisor/petriNet_forModelAdvisor_InconsUpdateViolation.asm	org.asmeta.simulator.UpdateClashException: tokens(p1) updated to 0 and 2
-41	../../../../asm_examples/examples/philosophers/philosophers3_flat.asm	1	org.asmeta.parser.ParseException: Error reading relationalExpr  Line: 4179 column: 25
+41	../../../../asm_examples/examples/philosophers/philosophers3_flat.asm	1	org.asmeta.parser.ParseException: Error reading relationalExpr  Line: 101 column: 25
 42	../../../../asm_examples/examples/simple_example/MorraCinese/MorraCinese_raff2.asm	1	org.asmeta.parser.ParseException: Error: The domain of the function body must be compatible with the function codomain Natural.
-       At the initialization of the function maxNumberOfPlaysInit(). Line: 378 column: 41
+       At the initialization of the function maxNumberOfPlaysInit(). Line: 362 column: 41
 43	../../../../asm_examples/examples/giocoDelleTreScatole.asm	1	[]
 44	../../../../asm_examples/examples/simple_example/MorraCinese/withActors/MorraCinese_withActors_raff1.asm	1	[]
-45	../../../../asm_examples/examples/NeedhamSchroeder/NeedhamSchroeder.asm	1	org.asmeta.parser.TokenMgrError: Lexical error at line 168, column 29.  Encountered: '49' (49), after prefix "!"
+45	../../../../asm_examples/examples/NeedhamSchroeder/NeedhamSchroeder.asm	1	org.asmeta.parser.TokenMgrError: Lexical error at line 170, column 29.  Encountered: '55' (55), after prefix "!"
 46	../../../../asm_examples/examples/filosofiEciliegie/filosofiEciliegie.asm	1	[]
-47	../../../../asm_examples/examples/agents/populationAgent_raff1_fourPersons.asm	1	org.asmeta.parser.TokenMgrError: Lexical error at line 259, column 20.  Encountered: '52' (52), after prefix "!"
+47	../../../../asm_examples/examples/agents/populationAgent_raff1_fourPersons.asm	1	org.asmeta.parser.TokenMgrError: Lexical error at line 341, column 20.  Encountered: '52' (52), after prefix "!"
 48	../../../../asm_examples/examples/fsmsemantics/meta_hooking/FSM.asm	0
 49	../../../../asm_examples/examples/ticTacToe/ticTacToe_simulator_flat.asm	1	[]
 50	../../../../asm_examples/examples/battleship.asm	1	[]
-51	../../../../asm_examples/examples/ermts_etcs/scenarios/ertms_hl3_scenario9.asm	org.asmeta.simulator.UpdateClashException: vss_states(vss_11) updated to AMBIGUOUS and FREE
+51	../../../../asm_examples/examples/ermts_etcs/scenarios/ertms_hl3_scenario9.asm	org.asmeta.simulator.util.UnresolvedReferenceException: ERROR: Unresolved reference le(UndefValue,IntegerValue) as in  le(ttd_related_to_absolute_position(first(ma($trains))),position_related_to_ttd($ttd)) as in  ma_on_ttd($ttd2,self)
 52	../../../../asm_examples/examples/simple_example/Invariants.asm	1	[]
 53	../../../../asm_examples/stereoacuity/certifierRaff4_noundef.asm	1	[]
 54	../../../../asm_examples/examples/GilbreathCardTrick/workingButNotElegant/GilbreathCardTrickWithAuxFunctionSimple.asm	1	java.lang.NullPointerException: Cannot invoke "String.trim()" because the return value of "org.asmeta.avallaxt.avalla.Check.getExpression()" is null
-55	../../../../asm_examples/examples/simple_example/IncosistentUpdate.asm	1	[]
+55	../../../../asm_examples/examples/simple_example/IncosistentUpdate.asm	org.asmeta.simulator.UpdateClashException: orderStatus(o2) updated to INVOICED and CANCELLED
 56	../../../../asm_examples/examples/RushHour/emptyCellAs0/RushHour_EmptyAs0.asm	1	[]
 57	../../../../asm_examples/examples/ticTacToe/ticTacToe_simulator_with_inv.asm	1	[]
-58	../../../../asm_examples/examples/agents/populationAgent.asm	1	org.asmeta.parser.TokenMgrError: Lexical error at line 125, column 23.  Encountered: '54' (54), after prefix "!"
+58	../../../../asm_examples/examples/agents/populationAgent.asm	1	org.asmeta.parser.TokenMgrError: Lexical error at line 125, column 23.  Encountered: '53' (53), after prefix "!"
 59	../../../../asm_examples/examples/slotMachine.asm	1	[]
-60	../../../../asm_examples/examples/NeedhamSchroeder/NeedhamSchroederLoweWithSpy.asm	java.lang.AssertionError: pubKeyA
+60	../../../../asm_examples/examples/NeedhamSchroeder/NeedhamSchroederLoweWithSpy.asm	java.lang.AssertionError: pubKeySpy
 61	../../../../asm_examples/examples/simple_example/MorraCinese/withActors/MorraCinese_withActors_raff2.asm	1	org.asmeta.parser.ParseException: Error: The domain of the function body must be compatible with the function codomain Natural.
-       At the initialization of the function maxNumberOfPlaysInit(). Line: 323 column: 41
+       At the initialization of the function maxNumberOfPlaysInit(). Line: 346 column: 41
 62	../../../../asm_examples/examples/GilbreathCardTrick/GilbreathCardTrickFasterShuffleForAsmetaSMV.asm	1	java.lang.NullPointerException: Cannot invoke "String.trim()" because the return value of "org.asmeta.avallaxt.avalla.Check.getExpression()" is null
 63	../../../../asm_examples/examples/swapBoard.asm	1	[]
-64	../../../../asm_examples/examples/agents/populationAgent_raff1_twoPersons.asm	1	[C:\Users\angel\Documents\codefromrepos\asmeta\asmeta\code\experimental\asmeta.evotest\asmeta.evotest.experiments\scenarios\scenario_064.avalla]
+64	../../../../asm_examples/examples/agents/populationAgent_raff1_twoPersons.asm	1	org.asmeta.parser.TokenMgrError: Lexical error at line 199, column 23.  Encountered: '55' (55), after prefix "!"
 65	../../../../asm_examples/examples/GilbreathCardTrick/GilbreathCardTrickForAsmetaSMV.asm	1	java.lang.NullPointerException: Cannot invoke "String.trim()" because the return value of "org.asmeta.avallaxt.avalla.Check.getExpression()" is null
 66	../../../../asm_examples/examples/fsmsemantics/meta_hooking/FSM_spec.asm	1	org.asmeta.parser.ParseException: Encountered " "=" "="" at line 93, column 32.
 
@@ -113,26 +112,62 @@ Was expecting:
 86	../../../../asm_examples/examples/fsmsemantics/meta_hooking/FSM_spec0.asm	1	java.lang.RuntimeException: r_run is not defined in the main asm
 87	../../../../asm_examples/examples/RushHour/RushHour_flat.asm	1	[]
 88	../../../../asm_examples/examples/petriNets/petriNetEdgeWeightNoPlaceCapacity_NoSeq_Matrix.asm	1	[]
-89	../../../../asm_examples/examples/models/OrderSystem2.asm	org.asmeta.simulator.InvalidValueException: value out of domain: cannot assign -892320976 to orderQuantity(orders!1)
+89	../../../../asm_examples/examples/models/OrderSystem2.asm	org.asmeta.simulator.InvalidValueException: value out of domain: cannot assign 1736355658 to orderQuantity(orders!1)
 90	../../../../asm_examples/examples/Yahalom/Yahalom.asm	java.lang.AssertionError: shrkeyB
 91	../../../../asm_examples/examples/simple_example/MorraCinese/MorraCineseWithAgents.asm	0
 92	../../../../asm_examples/examples/petriNets/forAsmetaSMV/petriNet_forNuSMV_reversable.asm	1	[]
 93	../../../../asm_examples/examples/RushHour/RushHourForAsmetaSMV.asm	1	[]
 94	../../../../asm_examples/examples/models/ordersystem.asm	1	[]
 95	../../../../asm_examples/examples/petriNets/petriNetEdgeWeightPlaceCapacity_NoSeq_Matrix.asm	1	[]
-96	../../../../asm_examples/RTPatternLibrary/Test/Test_Sem_Async.asm	1	org.asmeta.parser.ParseException: Encountered " "=" "="" at line 232, column 20.
+96	../../../../asm_examples/RTPatternLibrary/Test/Test_Sem_Async.asm	1	org.asmeta.parser.ParseException: Encountered " "=" "="" at line 224, column 20.
 
 Was expecting:
 
 "then" ...
-     Line: 232 column: 18
+     Line: 224 column: 18
 97	../../../../asm_examples/examples/petriNets/forModelAdvisor/petriNet_forModelAdvisor_InconsUpdateViolation3.asm	1	[]
 98	../../../../asm_examples/examples/RushHour/RushHourSimplForAsmetaSMV.asm	1	[]
 99	../../../../asm_examples/examples/simple_example/swapSortOnSeq.asm	1	org.asmeta.parser.ParseException: Problems in creating Function Term (contains) Line: 47 column: 43
 100	../../../../asm_examples/stereoacuity/certifierRaff4ForSMTproof.asm	1	[]
 101	../../../../asm_examples/examples/simple_example/MorraCinese/MorraCinese.asm	1	[]
-102	../../../../asm_examples/examples/fsmsemantics/FSM_hooking3.asm	1	org.asmeta.parser.ParseException: Problems in creating Function Term (s1) Line: 58 column: 22
+102	../../../../asm_examples/examples/fsmsemantics/FSM_hooking3.asm	1	org.asmeta.parser.ParseException: Problems in creating Function Term (s2) Line: 58 column: 22
 103	../../../../asm_examples/examples/petriNets/petriNetEdgeWeightNoPlaceCapacity_NoSeq_Matrix_v3.asm	1	[]
 104	../../../../asm_examples/examples/roulette/roulette.asm	1	[]
-105	../../../../asm_examples/examples/simple_example/population_raff1_fourPersons.asm	1	org.asmeta.parser.TokenMgrError: Lexical error at line 243, column 22.  Encountered: '56' (56), after prefix "!"
+105	../../../../asm_examples/examples/simple_example/population_raff1_fourPersons.asm	1	org.asmeta.parser.TokenMgrError: Lexical error at line 280, column 22.  Encountered: '56' (56), after prefix "!"
 106	../../../../asm_examples/examples/flashProtocol/flashProtocol_N2_L2_Q1_C.asm	1	[C:\Users\angel\Documents\codefromrepos\asmeta\asmeta\code\experimental\asmeta.evotest\asmeta.evotest.experiments\scenarios\scenario_106.avalla]
+0	../../../../asm_examples/examples/simple_example/population.asm	1	[C:\Users\angel\Documents\codefromrepos\asmeta\asmeta\code\experimental\asmeta.evotest\asmeta.evotest.experiments\scenarios\scenario_000.avalla]
+1	../../../../asm_examples/examples/RushHour/RushHour.asm	1	[]
+2	../../../../asm_examples/examples/fsmsemantics/FSM_hooking.asm	1	org.asmeta.parser.ParseException: Encountered " "=" "="" at line 59, column 28.
+
+Was expecting:
+
+"then" ...
+     Line: 59 column: 26
+3	../../../../asm_examples/examples/NeedhamSchroeder/NeedhamSchroederWithSpy.asm	1	org.asmeta.parser.TokenMgrError: Lexical error at line 267, column 25.  Encountered: '49' (49), after prefix "!"
+4	../../../../asm_examples/examples/coffeeVendingMachine/coffeeVendingMachine.asm	1	[]
+5	../../../../asm_examples/examples/sleepingBarber/sleepingBarber.asm	1	[]
+6	../../../../asm_examples/examples/coffeeVendingMachine/coffeeVendingMachine_flat.asm	1	[]
+7	../../../../asm_examples/examples/flashProtocol/flashProtocol_N2_L1_Q1_C.asm	1	[C:\Users\angel\Documents\codefromrepos\asmeta\asmeta\code\experimental\asmeta.evotest\asmeta.evotest.experiments\scenarios\scenario_007.avalla]
+8	../../../../asm_examples/examples/petriNets/petriNetEdgeWeightNoPlaceCapacity_NoSeq_Matrix_v2.asm	1	[]
+9	../../../../asm_examples/examples/GilbreathCardTrick/GilbreathCardTrick.asm	1	java.lang.NullPointerException: Cannot invoke "String.trim()" because the return value of "org.asmeta.avallaxt.avalla.Check.getExpression()" is null
+10	../../../../asm_examples/examples/fsmsemantics/FSM_hooking2.asm	1	[]
+11	../../../../asm_examples/examples/petriNets/forAsmetaSMV/petriNet_forNuSMV_flat.asm	1	[]
+12	../../../../asm_examples/RTPatternLibrary/Test/Test_Sem_Sync.asm	1	org.asmeta.parser.ParseException: Encountered " "=" "="" at line 230, column 20.
+
+Was expecting:
+
+"then" ...
+     Line: 230 column: 18
+13	../../../../asm_examples/examples/petriNets/petriNetNoEdgeWeightNoPlaceCapacity_seq.asm	1	[]
+14	../../../../asm_examples/examples/GilbreathCardTrick/GilbreathCardTrick_flat.asm	1	java.lang.NullPointerException: Cannot invoke "String.trim()" because the return value of "org.asmeta.avallaxt.avalla.Check.getExpression()" is null
+15	../../../../asm_examples/examples/SemaforiAttraversamentoPedonale.asm	1	[]
+16	../../../../asm_examples/examples/petriNets/petriNetNoEdgeWeightNoPlaceCapacity_NoSeq_Matrix.asm	1	[]
+17	../../../../asm_examples/examples_for_nuXmv/FunctionInt.asm	1	[]
+18	../../../../asm_examples/examples/petriNets/petriNetNoEdgeWeightNoPlaceCapacity_NoSeq.asm	1	[]
+19	../../../../asm_examples/examples/authenticationProtocols/groundModel.asm	1	org.asmeta.parser.TokenMgrError: Lexical error at line 167, column 29.  Encountered: '50' (50), after prefix "!"
+20	../../../../asm_examples/examples/RushHour/emptyCellAs0/RushHourSimplForAsmetaSMV_EmptyAs0.asm	1	[]
+21	../../../../asm_examples/examples/authenticationProtocols/groundModel_v2.asm	1	org.asmeta.parser.TokenMgrError: Lexical error at line 166, column 27.  Encountered: '49' (49), after prefix "!"
+22	../../../../asm_examples/examples/simple_example/Scheduler.asm	1	[]
+23	../../../../asm_examples/examples/simple_example/MorraCinese/withActors/MorraCinese_withActors_raff3.asm	1	org.asmeta.parser.ParseException: Error: The domain of the function body must be compatible with the function codomain Natural.
+       At the initialization of the function maxNumberOfPlaysInit(). Line: 355 column: 41
+24	../../../../asm_examples/examples/GilbreathCardTrick/GilbreathCardTrickSimpl.asm	1	java.lang.NullPointerException: Cannot invoke "String.trim()" because the return value of "org.asmeta.avallaxt.avalla.Check.getExpression()" is null
