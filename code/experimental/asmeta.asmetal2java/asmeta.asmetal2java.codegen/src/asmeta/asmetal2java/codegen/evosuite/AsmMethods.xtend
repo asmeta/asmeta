@@ -11,6 +11,7 @@ import asmeta.asmetal2java.codegen.translator.DomainToJavaString
 import asmeta.definitions.domains.SequenceDomain
 import asmeta.definitions.domains.ProductDomain
 import asmeta.definitions.domains.NaturalDomain
+import asmeta.definitions.domains.AnyDomain
 import asmeta.asmetal2java.codegen.translator.ProductToJava
 import asmeta.asmetal2java.codegen.config.TranslatorOptions
 import asmeta.asmetal2java.codegen.translator.Util
@@ -95,6 +96,12 @@ class AsmMethods {
 								}
 							}
 						}
+					} else if (fd.codomain instanceof AnyDomain) { // [] -> Any
+						sb.append('''
+							public Object get_«fd.name»(){
+								return this.execution.«fd.name».get();
+							}
+						''');
 					} else if (fd.codomain.name.equals(BOOLEAN)) { // [] -> Boolean
 						sb.append('''
 							public Boolean get_«fd.name»(){
@@ -407,6 +414,7 @@ class AsmMethods {
 		val sb = new StringBuffer;
 		for (fd : asm.headerSection.signature.function) {
 			if (fd instanceof MonitoredFunction) {
+				// Any is primarily used as the codomain of controlled functions; monitored Any is not currently exposed by the ATG wrapper.
 				sb.append(System.lineSeparator)
 				if (fd.domain === null) { // [] -> (Integer|String|Boolean|ConcreteDomain|Enum|Abstract)
 				// var cd = fd.codomain

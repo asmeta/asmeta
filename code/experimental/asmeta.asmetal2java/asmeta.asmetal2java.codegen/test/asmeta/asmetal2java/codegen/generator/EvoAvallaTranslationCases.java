@@ -59,6 +59,7 @@ public class EvoAvallaTranslationCases {
 	void enumCaseTermInitializationMustGenerateCompilableTestAndAtgClasses() throws Exception {
 		translateAndCompile("CaseTermEnumInitialization.asm");
 		translateAndCompile("CaseTermEnumInitialization_static.asm");
+		translateAndCompile("CaseTermAbstractInitialization.asm");
 	}
 
 //	@Test
