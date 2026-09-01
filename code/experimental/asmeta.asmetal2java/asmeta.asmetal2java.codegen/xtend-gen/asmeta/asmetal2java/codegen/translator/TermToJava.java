@@ -204,7 +204,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
   }
 
   public String visit(final SequenceTerm object) {
-    StringBuffer list = new StringBuffer("");
+    StringBuffer list = new StringBuffer("new ArrayList<>(Arrays.asList(");
     for (int i = 0; (i < object.getTerms().size()); i++) {
       int _size = object.getTerms().size();
       int _minus = (_size - 1);
@@ -217,7 +217,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
         list.append(_plus);
       }
     }
-    list.append(")");
+    list.append("))");
     return list.toString();
   }
 
@@ -885,7 +885,11 @@ public class TermToJava extends ReflectiveVisitor<String> {
       } else {
         Domain _domain_1 = ft.getDomain();
         if ((_domain_1 instanceof SequenceDomain)) {
-          functionTerm.append("_elem = Collections.unmodifiableList(Arrays.asList(");
+          if (this.leftHandSide) {
+            functionTerm.append(".set(");
+          } else {
+            functionTerm.append(".get()");
+          }
         } else {
           Domain _domain_2 = ft.getDomain();
           if ((_domain_2 instanceof MapDomain)) {
@@ -1067,19 +1071,6 @@ public class TermToJava extends ReflectiveVisitor<String> {
       for (int i = 0; (i < ft.getArguments().getTerms().size()); i++) {
         {
           String parameter = this.visit(ft.getArguments().getTerms().get(i));
-          Term _get = ft.getArguments().getTerms().get(i);
-          if ((_get instanceof SequenceTerm)) {
-            Term _get_1 = ft.getArguments().getTerms().get(i);
-            Domain _domain = ((SequenceTerm) _get_1).getDomain();
-            String _visit = new DomainToJavaString(this.res).visit(
-              ((SequenceDomain) _domain).getDomain());
-            String _plus = ("(ArrayList<" + _visit);
-            String _plus_1 = (_plus + 
-              ">)Arrays.asList(");
-            String _plus_2 = (_plus_1 + parameter);
-            String _plus_3 = (_plus_2 + ")");
-            parameter = _plus_3;
-          }
           functionTerm.append((parameter + ", "));
         }
       }

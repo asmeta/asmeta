@@ -62,12 +62,12 @@ public class EvoAvallaTranslationCases {
 		translateAndCompile("CaseTermAbstractInitialization.asm");
 	}
 
-//	@Test
-//	@Tag("TestToMavenSkip")
-//	void sequenceInitializationMustGenerateCompilableTestAndAtgClasses() throws Exception {
-//		translateAndCompile("SequenceInitialization.asm");
-//	}
-//
+	@Test
+	@Tag("TestToMavenSkip")
+	void sequenceInitializationMustGenerateCompilableTestAndAtgClasses() throws Exception {
+		translateAndCompile("SequenceInitialization.asm");
+	}
+
 //	@Test
 //	@Tag("TestToMavenSkip")
 //	void powersetInitializationMustGenerateCompilableTestAndAtgClasses() throws Exception {

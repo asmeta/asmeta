@@ -64,10 +64,19 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
 
   public String visit(final SequenceDomain object) {
     StringBuffer sb = new StringBuffer();
+    String _xifexpression = null;
+    Domain _domain = object.getDomain();
+    if ((_domain instanceof SequenceDomain)) {
+      Domain _domain_1 = object.getDomain();
+      String _trim = this.visit(((SequenceDomain) _domain_1)).trim();
+      _xifexpression = ("List" + _trim);
+    } else {
+      _xifexpression = this.createDomainToJavaString(this.res).visit(object.getDomain());
+    }
+    final String elementType = _xifexpression;
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("<");
-    String _visit = this.createDomainToJavaString(this.res).visit(object.getDomain());
-    _builder.append(_visit);
+    _builder.append(elementType);
     _builder.append("> ");
     sb.append(_builder);
     return sb.toString();

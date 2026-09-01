@@ -4,9 +4,11 @@ import java.util.List;
 
 import asmeta.definitions.domains.ConcreteDomain;
 import asmeta.definitions.domains.ProductDomain;
+import asmeta.definitions.domains.SequenceDomain;
 import asmeta.structure.Asm;
 import asmeta.terms.basicterms.SetTerm;
 import asmeta.terms.basicterms.Term;
+import asmeta.terms.furtherterms.SequenceTerm;
 
 public class ExpressionToJava {
 	private static final String VALUE_FIELD_NAME = ".value";
@@ -34,7 +36,8 @@ public class ExpressionToJava {
 				|| function.equals("second") || function.equals("third") || function.equals("fourth")
 				|| function.equals("fifth") || function.equals("sixth") || function.equals("seventh")
 				|| function.equals("eighth") || function.equals("ninth") || function.equals("length")
-				|| function.equals("union");
+				|| function.equals("union") || function.equals("append") || function.equals("prepend")
+				|| function.equals("tail") || function.equals("contains");
 	}
 
 	/**
@@ -107,6 +110,14 @@ public class ExpressionToJava {
 			return projection(argsTerm, 8);
 		case ("union"):
 			return union(argsTerm);
+		case ("append"):
+			return append(argsTerm);
+		case ("prepend"):
+			return prepend(argsTerm);
+		case ("tail"):
+			return tail(argsTerm);
+		case ("contains"):
+			return contains(argsTerm);
 		case ("+"):
 			if (argsTerm.size() == 1) {
 				return plusUnary(argsTerm);
@@ -125,6 +136,41 @@ public class ExpressionToJava {
 			throw new InvalidFunctionException(function + "not found");
 		}
 
+	}
+
+	private String append(List<Term> argsTerm) {
+		String sequence = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
+		String elementStream = streamOf(argsTerm.get(1));
+		return "java.util.stream.Stream.concat(" + sequence
+				+ ".stream(), " + elementStream + ").collect(java.util.stream.Collectors.toList())";
+	}
+
+	private String streamOf(Term elementTerm) {
+		String element = new TermToJavaStandardLibrary(asm).visit(elementTerm);
+		if (elementTerm instanceof SequenceTerm && elementTerm.getDomain() instanceof SequenceDomain sequenceDomain
+				&& sequenceDomain.getDomain() instanceof SequenceDomain) {
+			String elementType = "List" + new DomainToJavaString(asm).visit(sequenceDomain).trim();
+			return "java.util.stream.Stream.<" + elementType + ">of(" + element + ")";
+		}
+		return "java.util.stream.Stream.of(" + element + ")";
+	}
+
+	private String prepend(List<Term> argsTerm) {
+		String elementStream = streamOf(argsTerm.get(0));
+		String sequence = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
+		return "java.util.stream.Stream.concat(" + elementStream + ", " + sequence
+				+ ".stream()).collect(java.util.stream.Collectors.toList())";
+	}
+
+	private String tail(List<Term> argsTerm) {
+		String sequence = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
+		return "new ArrayList<>(" + sequence + ".subList(1, " + sequence + ".size()))";
+	}
+
+	private String contains(List<Term> argsTerm) {
+		String sequence = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
+		String element = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
+		return sequence + ".contains(" + element + ")";
 	}
 
 	private String union(List<Term> argsTerm) {

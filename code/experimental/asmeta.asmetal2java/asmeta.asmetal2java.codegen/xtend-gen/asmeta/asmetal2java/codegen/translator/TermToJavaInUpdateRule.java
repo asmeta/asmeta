@@ -80,28 +80,19 @@ public class TermToJavaInUpdateRule extends TermToJava {
       String _plus_6 = (_name_4 + ".set(supporto);\n");
       functionTerm.append(_plus_6);
     }
-    Domain _domain_3 = ft.getDomain();
-    if ((_domain_3 instanceof SequenceDomain)) {
-      String _name_5 = fd.getName();
-      String _plus_7 = (_name_5 + ".set(");
-      String _name_6 = fd.getName();
-      String _plus_8 = (_plus_7 + _name_6);
-      String _plus_9 = (_plus_8 + "_elem);\n");
-      functionTerm.append(_plus_9);
-    }
     TupleTerm _arguments = ft.getArguments();
     boolean _tripleEquals = (_arguments == null);
     if (_tripleEquals) {
-      Domain _domain_4 = ft.getDomain();
-      if ((_domain_4 instanceof ConcreteDomain)) {
+      Domain _domain_3 = ft.getDomain();
+      if ((_domain_3 instanceof ConcreteDomain)) {
         if ((!this.leftHandSide)) {
-          String _name_7 = fd.getName();
-          String _plus_10 = (_name_7 + ".set(");
-          String _name_8 = ft.getDomain().getName();
-          String _plus_11 = (_plus_10 + _name_8);
-          String _plus_12 = (_plus_11 + this.varName);
-          String _plus_13 = (_plus_12 + "_s);");
-          functionTerm.append(_plus_13);
+          String _name_5 = fd.getName();
+          String _plus_7 = (_name_5 + ".set(");
+          String _name_6 = ft.getDomain().getName();
+          String _plus_8 = (_plus_7 + _name_6);
+          String _plus_9 = (_plus_8 + this.varName);
+          String _plus_10 = (_plus_9 + "_s);");
+          functionTerm.append(_plus_10);
         }
       }
       return functionTerm.toString();
@@ -112,20 +103,20 @@ public class TermToJavaInUpdateRule extends TermToJava {
       int _size = ft.getArguments().getTerms().size();
       boolean _equals = (_size == 1);
       if (_equals) {
-        Domain _domain_5 = ft.getDomain();
-        if ((_domain_5 instanceof ConcreteDomain)) {
+        Domain _domain_4 = ft.getDomain();
+        if ((_domain_4 instanceof ConcreteDomain)) {
           if ((!this.leftHandSide)) {
-            String _name_9 = fd.getName();
-            String _plus_14 = (_name_9 + ".set(");
+            String _name_7 = fd.getName();
+            String _plus_11 = (_name_7 + ".set(");
             String _visit = this.visit(ft.getArguments().getTerms().get(0));
-            String _plus_15 = (_plus_14 + _visit);
-            String _plus_16 = (_plus_15 + ", ");
-            String _name_10 = ft.getDomain().getName();
-            String _plus_17 = (_plus_16 + _name_10);
-            String _plus_18 = (_plus_17 + this.varName);
-            String _plus_19 = (_plus_18 + 
+            String _plus_12 = (_plus_11 + _visit);
+            String _plus_13 = (_plus_12 + ", ");
+            String _name_8 = ft.getDomain().getName();
+            String _plus_14 = (_plus_13 + _name_8);
+            String _plus_15 = (_plus_14 + this.varName);
+            String _plus_16 = (_plus_15 +
               "_s);");
-            functionTerm.append(_plus_19);
+            functionTerm.append(_plus_16);
           } else {
           }
         }

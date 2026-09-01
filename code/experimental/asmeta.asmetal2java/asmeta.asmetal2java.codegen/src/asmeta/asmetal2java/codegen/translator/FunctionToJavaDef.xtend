@@ -49,10 +49,16 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 
 	def String visit(SequenceTerm object) {
 		var StringBuffer sb = new StringBuffer
-		for (Term t : object.terms) {
-			sb.append(new TermToJava(asm).visit(t) + ",")
+		for (var index = 0; index < object.terms.size; index++) {
+			if (index > 0)
+				sb.append(",")
+			val Term term = object.terms.get(index)
+			if (term instanceof SequenceTerm)
+				sb.append("new ArrayList<>(Arrays.asList(" + visit(term) + "))")
+			else
+				sb.append(new TermToJava(asm).visit(term))
 		}
-		return sb.toString().substring(0, sb.toString().length() - 1)
+		return sb.toString()
 	}
 
 	def String visit(ControlledFunction object) {

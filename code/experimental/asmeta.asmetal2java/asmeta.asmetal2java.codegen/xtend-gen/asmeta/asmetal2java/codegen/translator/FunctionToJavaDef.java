@@ -22,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.IntFunction;
 import org.asmeta.parser.util.ReflectiveVisitor;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
 
 @SuppressWarnings("all")
@@ -59,16 +58,23 @@ public class FunctionToJavaDef extends ReflectiveVisitor<String> {
 
   public String visit(final SequenceTerm object) {
     StringBuffer sb = new StringBuffer();
-    EList<Term> _terms = object.getTerms();
-    for (final Term t : _terms) {
-      String _visit = new TermToJava(this.asm).visit(t);
-      String _plus = (_visit + ",");
-      sb.append(_plus);
+    for (int index = 0; (index < object.getTerms().size()); index++) {
+      {
+        if ((index > 0)) {
+          sb.append(",");
+        }
+        final Term term = object.getTerms().get(index);
+        if ((term instanceof SequenceTerm)) {
+          String _visit = this.visit(((SequenceTerm)term));
+          String _plus = ("new ArrayList<>(Arrays.asList(" + _visit);
+          String _plus_1 = (_plus + "))");
+          sb.append(_plus_1);
+        } else {
+          sb.append(new TermToJava(this.asm).visit(term));
+        }
+      }
     }
-    String _string = sb.toString();
-    int _length = sb.toString().length();
-    int _minus = (_length - 1);
-    return _string.substring(0, _minus);
+    return sb.toString();
   }
 
   public String visit(final ControlledFunction object) {

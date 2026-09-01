@@ -62,7 +62,11 @@ class DomainToJavaSigDef extends ReflectiveVisitor<String> {
 	// Translate Seq
 	def String visit(SequenceDomain object) {
 		var StringBuffer sb = new StringBuffer
-		sb.append('''<«createDomainToJavaString(res).visit(object.domain)»> ''')
+		val elementType = if (object.domain instanceof SequenceDomain)
+			"List" + visit(object.domain as SequenceDomain).trim
+		else
+			createDomainToJavaString(res).visit(object.domain)
+		sb.append('''<«elementType»> ''')
 		return sb.toString
 	}
 

@@ -150,18 +150,15 @@ class TermToJava extends ReflectiveVisitor<String> {
 
 
 	def String visit(SequenceTerm object) {
-
-		var StringBuffer list = new StringBuffer("")
+		var StringBuffer list = new StringBuffer("new ArrayList<>(Arrays.asList(")
 		for (var i = 0; i < object.terms.size; i++) {
 			if (i == object.terms.size - 1)
 				list.append(visit(object.terms.get(i)))
 			else
 				list.append(visit(object.terms.get(i)) + ", ")
 		}
-
-		list.append(")")
+		list.append("))")
 		return list.toString
-
 	}
 
 	// Metodo per settare i domini statici e dinamici atttraverso i vettori 
@@ -597,9 +594,10 @@ class TermToJava extends ReflectiveVisitor<String> {
 					}
 				}
 			} else if (ft.domain instanceof SequenceDomain) {
-				functionTerm.append("_elem = Collections.unmodifiableList(Arrays.asList(");
-				// alcune volte sarebeb da mettere
-				//functionTerm.append("_elem = Collections.unmodifiableList(");
+				if (leftHandSide)
+					functionTerm.append(".set(")
+				else
+					functionTerm.append(".get()")
 			} else if (ft.domain instanceof MapDomain) {
 				functionTerm.append("")
 			} else {
@@ -738,12 +736,6 @@ class TermToJava extends ReflectiveVisitor<String> {
 			functionTerm.append("(")
 			for (var i = 0; i < ft.arguments.terms.size; i++) {
 				var String parameter = visit(ft.arguments.terms.get(i))
-				if (ft.arguments.terms.get(i) instanceof SequenceTerm) {
-					parameter = "(ArrayList<" +
-						new DomainToJavaString(res).visit(
-							((ft.arguments.terms.get(i) as SequenceTerm).domain as SequenceDomain).domain) +
-						">)Arrays.asList(" + parameter + ")"
-				}
 				functionTerm.append(parameter + ", ")
 			}
 			functionTerm = new StringBuffer(functionTerm.substring(0, functionTerm.length - 2) + ")")

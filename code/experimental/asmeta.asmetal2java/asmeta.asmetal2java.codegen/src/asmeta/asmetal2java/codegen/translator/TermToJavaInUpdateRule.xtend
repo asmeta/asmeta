@@ -65,10 +65,8 @@ class TermToJavaInUpdateRule extends TermToJava {
 			functionTerm.append(fd.name + ".set(supporto);\n")
 
 		}
-		if (ft.domain instanceof SequenceDomain) {
-			functionTerm.append(fd.name + ".set(" + fd.name + "_elem);\n")
-
-		}
+		// Sequence updates are emitted directly by TermToJava as
+		// function.set(translatedUpdatingTerm). No auxiliary assignment is needed.
 
 		if (ft.arguments === null) {
 			if (ft.domain instanceof ConcreteDomain)
