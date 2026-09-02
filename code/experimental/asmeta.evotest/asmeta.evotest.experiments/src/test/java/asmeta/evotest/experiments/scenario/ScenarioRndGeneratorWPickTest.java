@@ -49,12 +49,8 @@ class ScenarioRndGeneratorWPickTest {
 	}
 
 	@Test
-	void testRunRandomWithPick() {
-		//
-	}
-
-	public static void main(String[] args) throws IOException {
-		Logger.getLogger(org.asmeta.simulator.main.Simulator.class).setLevel(Level.OFF);
+	void testRunRandomWithPick() throws IOException {
+		// Logger.getLogger(org.asmeta.simulator.main.Simulator.class).setLevel(Level.OFF);
 		Logger.getLogger("org.asmeta.parser").setLevel(Level.OFF);
 		// enable assertions
 		ClassLoader.getSystemClassLoader().setDefaultAssertionStatus(true);
@@ -78,6 +74,7 @@ class ScenarioRndGeneratorWPickTest {
 		BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile.toFile(), true));
 		// For each asm in the list: generate tests -> run validation -> run mutation
 		int specCounter = 0;
+		int successCounter = 0;
 		for (String line : lines) {
 			// Skip commented asms
 			if (!line.isEmpty() && !line.startsWith("//")) {
@@ -107,6 +104,9 @@ class ScenarioRndGeneratorWPickTest {
 										AsmetaV.doNotcomputeCoverage, shuffle);
 								assert results != null;
 								writer.write("\t" + results.toString());
+								if (results.isEmpty()) {
+									successCounter++;
+								} 
 							}
 						} catch (Throwable t) {
 							if (t instanceof java.lang.AssertionError) {
@@ -126,6 +126,8 @@ class ScenarioRndGeneratorWPickTest {
 					t.printStackTrace();
 					System.exit(-1);
 				}
+				System.out.println("Processed " + specCounter + " specifications, with " + successCounter
+						+ " successful validations.");
 			}
 		}
 	}

@@ -425,7 +425,7 @@ class TestSingleFile extends TestValidator {
 
 	@Test 
 	public void testAvoavallaEXP() throws Exception {
-		String scenarioPath = "scenariofortest/scenario_066.avalla";
+		String scenarioPath = "scenariosfortest/scenario_066.avalla";
 		test(scenarioPath, true, true, true);		
 	}
 		

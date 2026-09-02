@@ -29,6 +29,7 @@ public class AdvancedTermPrinter extends AsmetaTermPrinter {
 				return this.visit(args.get(0)) + " and " + this.visit(args.get(1));
 			case "or":
 				return this.visit(args.get(0)) + " or " + this.visit(args.get(1));
+			// WARNING: sometimes it is better to use eq
 			case "eq":
 				return this.visit(args.get(0)) + " = " + this.visit(args.get(1));
 			case "neq":

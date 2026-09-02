@@ -20,6 +20,8 @@ class TestStatementStringBuffer {
 		// This is translated to eq but in a wrong way
 		//result = StatementToStringBuffer.putEqInsteadOf("f(a = (2,1))");
 		//assertEquals("f(eq(a,(2,1)))", result); // fails
+		result = StatementToStringBuffer.putEqInsteadOf("outgoingTransition(s0) = {t01,t02}");
+		assertEquals("eq(outgoingTransition(s0),{t01,t02})", result);
 	}
 
 	@Test void notChanged() {

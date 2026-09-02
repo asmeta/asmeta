@@ -273,7 +273,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 		String right = data[1].trim();
 
 		// change only if ID = tuple (,) or sequence [] or collection {}, or vice-versa
-		if ((isId(left) && isTupleListOrSet(right)) || (isTupleListOrSet(left) && isId(right))) {
+		if (((isId(left) ||isFunctionTerm(left))  && isTupleListOrSet(right)) || (isTupleListOrSet(left) && isId(right))) {
 			return "eq(" + left + "," + right + ")";
 		}
 		return cond;
@@ -281,6 +281,9 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 
 	private static boolean isId(String s) {
 		return s.matches("[A-Za-z_][A-Za-z0-9_]*");
+	}
+	private static boolean isFunctionTerm(String s) {
+		return s.matches("[A-Za-z_][A-Za-z0-9_]*\\([A-Za-z_][A-Za-z0-9_]*\\)");
 	}
 
 	private static boolean isTupleListOrSet(String s) {
