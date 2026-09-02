@@ -384,9 +384,9 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 //				rules.add(undefInDomains.get(dom.getName()));
 //			}
 //		}
-//		if(conds.contains(Util.trueString)) {
-//			assert conds.indexOf(Util.trueString) == conds.lastIndexOf(Util.trueString);
-//			return rules.get(conds.indexOf(Util.trueString));
+//		if(conds.contains(Util.TRUE_STRING)) {
+//			assert conds.indexOf(Util.TRUE_STRING) == conds.lastIndexOf(Util.TRUE_STRING);
+//			return rules.get(conds.indexOf(Util.TRUE_STRING));
 //		}
 //		else {
 //			StringBuilder sb = new StringBuilder();
@@ -404,7 +404,7 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 //	public String visit(ConditionalTerm condTerm) {
 //		String guard = visit(condTerm.getGuard());
 //		String thenTermStr = visit(condTerm.getThenTerm());
-//		if(guard.endsWith(Util.trueString)) {
+//		if(guard.endsWith(Util.TRUE_STRING)) {
 //			return thenTermStr;
 //		}
 //		Term elseTerm = condTerm.getElseTerm();

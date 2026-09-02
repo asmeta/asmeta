@@ -526,7 +526,7 @@ public class FunctionVisitor {
 				int leftNumber = Integer.parseInt(left);
 				int rightNumber = Integer.parseInt(right);
 				if (leftNumber < rightNumber) {
-					return Util.trueString;
+					return Util.TRUE_STRING;
 				} else {
 					return Util.falseString;
 				}
@@ -551,7 +551,7 @@ public class FunctionVisitor {
 				int leftNumber = Integer.parseInt(left);
 				int rightNumber = Integer.parseInt(right);
 				if (leftNumber <= rightNumber) {
-					return Util.trueString;
+					return Util.TRUE_STRING;
 				} else {
 					return Util.falseString;
 				}
@@ -576,7 +576,7 @@ public class FunctionVisitor {
 				int leftNumber = Integer.parseInt(left);
 				int rightNumber = Integer.parseInt(right);
 				if (leftNumber > rightNumber) {
-					return Util.trueString;
+					return Util.TRUE_STRING;
 				} else {
 					return Util.falseString;
 				}
@@ -601,7 +601,7 @@ public class FunctionVisitor {
 				int leftNumber = Integer.parseInt(left);
 				int rightNumber = Integer.parseInt(right);
 				if (leftNumber >= rightNumber) {
-					return Util.trueString;
+					return Util.TRUE_STRING;
 				} else {
 					return Util.falseString;
 				}

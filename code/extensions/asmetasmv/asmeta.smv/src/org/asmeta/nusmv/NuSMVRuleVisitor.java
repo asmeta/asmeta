@@ -7,7 +7,7 @@ import static org.asmeta.nusmv.util.Util.implies;
 import static org.asmeta.nusmv.util.Util.not;
 import static org.asmeta.nusmv.util.Util.notEquals;
 import static org.asmeta.nusmv.util.Util.or;
-import static org.asmeta.nusmv.util.Util.trueString;
+import static org.asmeta.nusmv.util.Util.TRUE_STRING;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,6 +22,7 @@ import org.asmeta.nusmv.util.AsmNotSupportedException;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
 import org.asmeta.nusmv.util.ConditionStack;
 import org.asmeta.nusmv.util.Util;
+import org.asmeta.parser.util.AsmPrinter;
 import org.asmeta.parser.util.ReflectiveVisitor;
 import org.asmeta.simulator.IRuleVisitor;
 
@@ -57,7 +58,7 @@ import asmeta.transitionrules.turbotransitionrules.SeqRule;
 public class NuSMVRuleVisitor extends ReflectiveVisitor<Void> implements IRuleVisitor<Void> {
 
 	static final Logger log = Logger.getLogger(NuSMVRuleVisitor.class);
-	
+
 	private MapVisitor mv;
 	private Environment env;
 	private TermVisitorToSMV tp;
@@ -66,7 +67,8 @@ public class NuSMVRuleVisitor extends ReflectiveVisitor<Void> implements IRuleVi
 	private int chooseCounter;
 	private Map<VariableTerm, String> chooseVar;
 	private Map<ChooseRule, String> chooseInstance;
-	private Stack<String> chooseStack;//ha un senso metterlo qui, ma ora non mi ricordo perche'. Credo che sia dovuto ai casi con choose innestate
+	private Stack<String> chooseStack;// ha un senso metterlo qui, ma ora non mi ricordo perche'. Credo che sia dovuto
+										// ai casi con choose innestate
 
 	NuSMVRuleVisitor(MapVisitor mapVisitor) {
 		mv = mapVisitor;
@@ -86,7 +88,7 @@ public class NuSMVRuleVisitor extends ReflectiveVisitor<Void> implements IRuleVi
 	 */
 	@Override
 	public Void visit(BlockRule blockRule) {
-		for (Rule rule: blockRule.getRules()) {
+		for (Rule rule : blockRule.getRules()) {
 			visit(rule);
 		}
 		return null;
@@ -102,7 +104,7 @@ public class NuSMVRuleVisitor extends ReflectiveVisitor<Void> implements IRuleVi
 	@Override
 	public Void visit(ForallRule forallRule) throws AsmNotSupportedException {
 		String cond;
-		List<String> conds = new ArrayList<String>();		
+		List<String> conds = new ArrayList<String>();
 		List<VariableTerm> vars = forallRule.getVariable();
 		Term guard = forallRule.getGuard();
 		Rule doRule = forallRule.getDoRule();
@@ -110,15 +112,15 @@ public class NuSMVRuleVisitor extends ReflectiveVisitor<Void> implements IRuleVi
 		Map<ChooseRule, String> oldChooseInstance;
 		Map<VariableTerm, String> oldChooseVar;
 		combineValues(vars, 0, values, new String[vars.size()]);
-		for(String[] value: values) {
+		for (String[] value : values) {
 			env.setVarsValues(vars, value);
-			//Map<ChooseRule, String> oldChooseInstance = chooseInstance;
-			//Map<VariableTerm, String> oldChooseVar = chooseVar;
+			// Map<ChooseRule, String> oldChooseInstance = chooseInstance;
+			// Map<VariableTerm, String> oldChooseVar = chooseVar;
 			oldChooseInstance = chooseInstance;
 			oldChooseVar = chooseVar;
 			chooseInstance = new HashMap<ChooseRule, String>();
 			chooseVar = new HashMap<VariableTerm, String>();
-			
+
 			cond = tp.visit(guard);
 			updateVisitRestore(cond, doRule);
 			chooseInstance = oldChooseInstance;
@@ -126,13 +128,12 @@ public class NuSMVRuleVisitor extends ReflectiveVisitor<Void> implements IRuleVi
 			conds.add(cond);
 		}
 
-		if(AsmetaSMVOptions.doAsmetaMA) {
-			//AsmetaMA: Every forall set is not always empty
-			//AsmetaMA: Every forall set is always not empty
+		if (AsmetaSMVOptions.doAsmetaMA) {
+			// AsmetaMA: Every forall set is not always empty
+			// AsmetaMA: Every forall set is always not empty
 			if (mv.forallRuleSetIsEmpty.containsKey(forallRule)) {
 				mv.forallRuleSetIsEmpty.get(forallRule).add(and(or(conds), and(conditions)));
-			}
-			else {
+			} else {
 				List<String> condsTemp = new ArrayList<String>();
 				condsTemp.add(and(or(conds), and(conditions)));
 				mv.forallRuleSetIsEmpty.put(forallRule, condsTemp);
@@ -141,7 +142,7 @@ public class NuSMVRuleVisitor extends ReflectiveVisitor<Void> implements IRuleVi
 		return null;
 	}
 
-	//TODO: quando la condizione e' "true", si puo' semplificare la traduzione.
+	// TODO: quando la condizione e' "true", si puo' semplificare la traduzione.
 	/**
 	 * Visit the choose rule.
 	 * 
@@ -230,8 +231,12 @@ public class NuSMVRuleVisitor extends ReflectiveVisitor<Void> implements IRuleVi
 			}
 			mv.chooseRuleSetIsEmpty.get(chooseRule).add(new String[]{and(conditions), or(chooseCond)});
 		}
-
-		ifNoneCondStr = and(ifNoneCond);
+		// if the condition is empty it is like TRUE
+		if (ifNoneCond.isEmpty()) {
+			ifNoneCondStr = TRUE_STRING;
+		}else {
+			ifNoneCondStr = and(ifNoneCond);
+		}
 		if (ifNoneRule != null) {
 			updateVisitRestore(ifNoneCondStr, ifNoneRule);
 		}
@@ -258,18 +263,18 @@ public class NuSMVRuleVisitor extends ReflectiveVisitor<Void> implements IRuleVi
 	public Void visit(MacroCallRule macroCallRule) {
 		MacroDeclaration calledMacro = macroCallRule.getCalledMacro();
 		Iterator<Term> params = macroCallRule.getParameters().iterator();
-		for (VariableTerm var: calledMacro.getVariable()) {
+		for (VariableTerm var : calledMacro.getVariable()) {
 			env.varsValues.put(var, tp.visit(params.next()));
 		}
 		visit(calledMacro.getRuleBody());
 
-		if(AsmetaSMVOptions.doAsmetaMA) {
-			//AsmetaMA
-			//dovrebbe essere questo
-			//macroRuleCalled.put(calledMacro, macroRuleCalled.get(calledMacro) + 1);
-			//ma per problemi di riferimento deve essere fatta cosi'
-			for(MacroDeclaration r: mv.macroRuleCalled.keySet()) {
-				if(r.getName().equals(calledMacro.getName())) {
+		if (AsmetaSMVOptions.doAsmetaMA) {
+			// AsmetaMA
+			// dovrebbe essere questo
+			// macroRuleCalled.put(calledMacro, macroRuleCalled.get(calledMacro) + 1);
+			// ma per problemi di riferimento deve essere fatta cosi'
+			for (MacroDeclaration r : mv.macroRuleCalled.keySet()) {
+				if (r.getName().equals(calledMacro.getName())) {
 					mv.macroRuleCalled.put(r, mv.macroRuleCalled.get(r) + 1);
 				}
 			}
@@ -278,9 +283,9 @@ public class NuSMVRuleVisitor extends ReflectiveVisitor<Void> implements IRuleVi
 	}
 
 	/**
-	 * Visita una conditional rule.
-	 * Si aggiunge sullo stack la condizione e si visita il ramo then.
-	 * Poi si aggiunge allo stack la condizione negata e si visita il ramo else.
+	 * Visita una conditional rule. Si aggiunge sullo stack la condizione e si
+	 * visita il ramo then. Poi si aggiunge allo stack la condizione negata e si
+	 * visita il ramo else.
 	 * 
 	 * @param rule the conditional rule
 	 * 
@@ -289,51 +294,48 @@ public class NuSMVRuleVisitor extends ReflectiveVisitor<Void> implements IRuleVi
 	@Override
 	public Void visit(ConditionalRule conditionalRule) {
 		String condStr = tp.visit(conditionalRule.getGuard());
-		//System.err.println("condRule Guard = " + condStr);
+		// System.err.println("condRule Guard = " + condStr);
 		updateVisitRestore(condStr, conditionalRule.getThenRule());
 		Rule elseRule = conditionalRule.getElseRule();
 		if (elseRule != null) {
 			updateVisitRestore(not(condStr), elseRule);
 		}
 
-		if(AsmetaSMVOptions.doAsmetaMA) {
+		if (AsmetaSMVOptions.doAsmetaMA) {
 			if (elseRule != null) {
-				//AsmetaMA: se c'e' il ramo else la conditional rule e' di sicuro completa
+				// AsmetaMA: se c'e' il ramo else la conditional rule e' di sicuro completa
 				List<String> conds = new ArrayList<String>();
-				conds.add(Util.trueString);
+				conds.add(Util.TRUE_STRING);
 				mv.condRuleIsComplete.put(conditionalRule, conds);
-			}
-			else {
-				//AsmetaMA: cond rule is complete
-				//La proprieta' deve essere valutata quando la conditional rule
-				//viene effettivamente eseguita.
-				//Cond e' vera se la conditional rule e' irraggiugibile
-				//lungo questo percorso (and(conditions) e' false).
+			} else {
+				// AsmetaMA: cond rule is complete
+				// La proprieta' deve essere valutata quando la conditional rule
+				// viene effettivamente eseguita.
+				// Cond e' vera se la conditional rule e' irraggiugibile
+				// lungo questo percorso (and(conditions) e' false).
 				String cond = implies(and(conditions), condStr);
-				if(mv.condRuleIsComplete.containsKey(conditionalRule)) {
+				if (mv.condRuleIsComplete.containsKey(conditionalRule)) {
 					mv.condRuleIsComplete.get(conditionalRule).add(cond);
-				}
-				else {
+				} else {
 					List<String> conds = new ArrayList<String>();
 					conds.add(cond);
 					mv.condRuleIsComplete.put(conditionalRule, conds);
 				}
 			}
-			//AsmetaMA: CondRuleEvalToTrue
-			String reachCond = and(conditions);//condizione d'arrivo
+			// AsmetaMA: CondRuleEvalToTrue
+			String reachCond = and(conditions);// condizione d'arrivo
 			String condThen = and(reachCond, condStr);
 			String condElse = and(reachCond, not(condStr));
-			if(mv.condRuleEvalToTrueThen.containsKey(conditionalRule)) {
+			if (mv.condRuleEvalToTrueThen.containsKey(conditionalRule)) {
 				mv.condRuleEvalToTrueThen.get(conditionalRule).add(condThen);
-				if(conditionalRule.getElseRule() != null) {
+				if (conditionalRule.getElseRule() != null) {
 					mv.condRuleEvalToTrueElse.get(conditionalRule).add(condThen);
 				}
-			}
-			else {
+			} else {
 				List<String> condsThen = new ArrayList<String>();
 				condsThen.add(condThen);
 				mv.condRuleEvalToTrueThen.put(conditionalRule, condsThen);
-				if(conditionalRule.getElseRule() != null) {
+				if (conditionalRule.getElseRule() != null) {
 					List<String> condsElse = new ArrayList<String>();
 					condsElse.add(condElse);
 					mv.condRuleEvalToTrueElse.put(conditionalRule, condsElse);
@@ -344,22 +346,22 @@ public class NuSMVRuleVisitor extends ReflectiveVisitor<Void> implements IRuleVi
 	}
 
 	/**
-	 * Visita della case rule. Ogni ramo viene visitato aggiungendo la
-	 * condizione opportuna nello stack delle condizioni.
+	 * Visita della case rule. Ogni ramo viene visitato aggiungendo la condizione
+	 * opportuna nello stack delle condizioni.
 	 * 
 	 * @param caseRule the case rule
 	 * 
 	 * @throws Exception the exception
 	 */
 	@Override
-	public Void visit(CaseRule caseRule){
+	public Void visit(CaseRule caseRule) {
 		String location = tp.visit(caseRule.getTerm());
 		Iterator<Term> caseTerms = caseRule.getCaseTerm().iterator();
 		Rule otherRule = caseRule.getOtherwiseBranch();
 		Stack<String> condsOther = new Stack<String>();
 		Stack<String> conds = new Stack<String>();
 		String value;
-		for (Rule branch: caseRule.getCaseBranches()) {
+		for (Rule branch : caseRule.getCaseBranches()) {
 			value = tp.visit(caseTerms.next());
 			updateVisitRestore(Util.equals(location, value), branch);
 			condsOther.push(notEquals(location, value));
@@ -369,24 +371,22 @@ public class NuSMVRuleVisitor extends ReflectiveVisitor<Void> implements IRuleVi
 			updateVisitRestore(condsOther, otherRule);
 		}
 
-		if(AsmetaSMVOptions.doAsmetaMA) {
+		if (AsmetaSMVOptions.doAsmetaMA) {
 			if (otherRule != null) {
-				//AsmetaMA: caseRule is complete
+				// AsmetaMA: caseRule is complete
 				List<String> newConds = new ArrayList<String>();
-				newConds.add(trueString);
+				newConds.add(TRUE_STRING);
 				mv.caseRuleIsComplete.put(caseRule, newConds);
-			}
-			else {
-				//AsmetaMA: caseRule is complete
-				//La proprieta' deve essere valutata quando la case rule viene
-				//effettivamente eseguita.
-				//Cond e' vera se la case rule e' irraggiugibile
-				//lungo questo percorso (and(conditions) e' false).
+			} else {
+				// AsmetaMA: caseRule is complete
+				// La proprieta' deve essere valutata quando la case rule viene
+				// effettivamente eseguita.
+				// Cond e' vera se la case rule e' irraggiugibile
+				// lungo questo percorso (and(conditions) e' false).
 				String cond = implies(and(conditions), or(conds));
-				if(mv.caseRuleIsComplete.containsKey(caseRule)) {
+				if (mv.caseRuleIsComplete.containsKey(caseRule)) {
 					mv.caseRuleIsComplete.get(caseRule).add(cond);
-				}
-				else {
+				} else {
 					List<String> newConds = new ArrayList<String>();
 					newConds.add(cond);
 					mv.caseRuleIsComplete.put(caseRule, newConds);
@@ -400,20 +400,20 @@ public class NuSMVRuleVisitor extends ReflectiveVisitor<Void> implements IRuleVi
 	 * Visit the let rule.
 	 * 
 	 * @param letRule the let rule
-	 * @throws AsmNotSupportedException 
+	 * @throws AsmNotSupportedException
 	 */
 	@Override
 	public Void visit(LetRule letRule) throws AsmNotSupportedException {
 		List<VariableTerm> vars = letRule.getVariable();
 		ArrayList<String[]> values = new ArrayList<String[]>();
 		combineValues(vars, 0, values, new String[vars.size()]);
-		for(String[] value: values) {
-			//System.err.println(Arrays.toString(vars.toArray()));
-			//System.err.println(Arrays.toString(value));
+		for (String[] value : values) {
+			// System.err.println(Arrays.toString(vars.toArray()));
+			// System.err.println(Arrays.toString(value));
 			env.setVarsValues(vars, value);
 			Iterator<Term> terms = letRule.getInitExpression().iterator();
 			ArrayList<String> conds = new ArrayList<String>();
-			for(String v: value) {
+			for (String v : value) {
 				conds.add(Util.equals(v, tp.visit(terms.next())));
 			}
 			updateVisitRestore(conds, letRule.getInRule());
@@ -425,46 +425,42 @@ public class NuSMVRuleVisitor extends ReflectiveVisitor<Void> implements IRuleVi
 	 * Visita l'update rule memorizzando nell'updateMap l'aggiornamento.
 	 * 
 	 * @param updateRule the update rule
-	 * @throws Exception 
+	 * @throws Exception
 	 * 
 	 * @throws Exception the exception
 	 */
 	@Override
-	public Void visit(UpdateRule updateRule){		
+	public Void visit(UpdateRule updateRule) {
 		Term loc = updateRule.getLocation();
 		String location;
-		if(loc instanceof LocationTerm) {
+		if (loc instanceof LocationTerm) {
 			location = tp.locationName((LocationTerm) loc);
-		}
-		else {
+		} else {
 			location = tp.visit(loc);
 		}
 		String value;
-		//String location = termTran.visit(updateRule.getLocation());
+		// String location = termTran.visit(updateRule.getLocation());
 		Term updatingTerm = updateRule.getUpdatingTerm();
 		// if it is undef
-		if(updatingTerm instanceof UndefTerm) {
+		if (updatingTerm instanceof UndefTerm) {
 			String undef = mv.getUndefValue(mv.locationDomain.get(location));
-			if(undef != null) {
+			if (undef != null) {
 				value = undef;
-			}
-			else {
-				//System.out.println(mv.getUndefValue());
-				//System.out.println(mv.locationDomain);
-				throw new AsmNotSupportedException("The location " + location + 
-					" can not be updated to the undef value, because its " + 
-					"codomain " + mv.locationDomain.get(location) + " does " +
-					"not have an undef value for NuSMV.");
+			} else {
+				// System.out.println(mv.getUndefValue());
+				// System.out.println(mv.locationDomain);
+				throw new AsmNotSupportedException("The location " + location
+						+ " can not be updated to the undef value, because its " + "codomain "
+						+ mv.locationDomain.get(location) + " does " + "not have an undef value for NuSMV.");
 			}
 		} else {
 			// not undef
-			value = tp.visit(updatingTerm);			
+			value = tp.visit(updatingTerm);
 		}
 		log.debug("visiting update rule " + location + ":=" + value);
-		if(env.inSeqRule) {
+		if (env.inSeqRule) {
 			env.srv.seqRuleUpdate(location, value);
-		}
-		else {
+		} else {
 			mv.updateMap.update(location, conditions, value);
 		}
 		return null;
@@ -478,11 +474,11 @@ public class NuSMVRuleVisitor extends ReflectiveVisitor<Void> implements IRuleVi
 	 * @throws Exception the exception
 	 */
 	@Override
-	public Void visit(SeqRule seqRule){
+	public Void visit(SeqRule seqRule) {
 		SeqRuleVisitor srv, oldSrv;
 		srv = new SeqRuleVisitor(mv, tp, env);
 		oldSrv = env.srv;
-		if(oldSrv != null) {
+		if (oldSrv != null) {
 			throw new AsmNotSupportedException("Nested SeqRule are not supported");
 		}
 		env.srv = srv;
@@ -495,21 +491,20 @@ public class NuSMVRuleVisitor extends ReflectiveVisitor<Void> implements IRuleVi
 	 * Visita una regola generica.
 	 * 
 	 * @param rule the rule
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	@Override
 	public Void visit(Rule rule) {
 		// visit((Object) rule);
-		//System.out.println("visit "+rule);
+		// System.out.println("visit "+rule);
 		invokeMethod(rule, "visit");
 
-		if(AsmetaSMVOptions.doAsmetaMA) {
-			//AsmetaMA model advisor: Every rule can eventually fire
+		if (AsmetaSMVOptions.doAsmetaMA) {
+			// AsmetaMA model advisor: Every rule can eventually fire
 			String cond = and(mv.getConditions());
-			if(mv.ruleCond.containsKey(rule)) {
+			if (mv.ruleCond.containsKey(rule)) {
 				mv.ruleCond.get(rule).add(cond);
-			}
-			else {
+			} else {
 				List<String> conds = new ArrayList<String>();
 				conds.add(cond);
 				mv.ruleCond.put(rule, conds);
@@ -525,8 +520,8 @@ public class NuSMVRuleVisitor extends ReflectiveVisitor<Void> implements IRuleVi
 	 */
 	@Override
 	public Void visit(SkipRule skipRule) {
-		//do nothing
-		//System.err.println("skip rule " + conditions);
+		// do nothing
+		// System.err.println("skip rule " + conditions);
 		return null;
 	}
 
@@ -534,9 +529,9 @@ public class NuSMVRuleVisitor extends ReflectiveVisitor<Void> implements IRuleVi
 	public Void visit(ExtendRule extendRule) throws AsmNotSupportedException {
 		throw new AsmNotSupportedException("ExtendRule not supported");
 	}
-	
+
 	@Override
-	public Void visit(TermAsRule r){
+	public Void visit(TermAsRule r) {
 		tp.visit(r.getTerm());
 		return null;
 	}
@@ -544,14 +539,15 @@ public class NuSMVRuleVisitor extends ReflectiveVisitor<Void> implements IRuleVi
 	/**
 	 * Combine values.
 	 * 
-	 * @param vars the vars
+	 * @param vars    the vars
 	 * @param domains the domains
-	 * @param index the index
-	 * @param result the result
-	 * @param tupla the tupla
-	 * @throws AsmNotSupportedException 
+	 * @param index   the index
+	 * @param result  the result
+	 * @param tupla   the tupla
+	 * @throws AsmNotSupportedException
 	 */
-	public void combineValues(List<VariableTerm> vars, List<Domain> domains, int index, ArrayList<String[]> result, String[] tupla) throws AsmNotSupportedException {
+	public void combineValues(List<VariableTerm> vars, List<Domain> domains, int index, ArrayList<String[]> result,
+			String[] tupla) throws AsmNotSupportedException {
 		Domain domain = domains.get(index);
 		SortedSet<String> elements = (SortedSet<String>) asSet(domain);
 		Iterator<String> i = elements.iterator();
@@ -559,8 +555,7 @@ public class NuSMVRuleVisitor extends ReflectiveVisitor<Void> implements IRuleVi
 			tupla[index] = i.next();
 			if (vars.size() == index + 1) {
 				result.add(tupla.clone());
-			}
-			else {
+			} else {
 				combineValues(vars, index + 1, result, tupla);
 			}
 		}
@@ -569,25 +564,26 @@ public class NuSMVRuleVisitor extends ReflectiveVisitor<Void> implements IRuleVi
 	/**
 	 * Combine values.
 	 * 
-	 * @param vars the vars
-	 * @param index the index
+	 * @param vars   the vars
+	 * @param index  the index
 	 * @param result the result
-	 * @param tupla the tupla
-	 * @throws AsmNotSupportedException 
+	 * @param tupla  the tupla
+	 * @throws AsmNotSupportedException
 	 */
-	public void combineValues(List<VariableTerm> vars, int index, ArrayList<String[]> result, String[] tupla) throws AsmNotSupportedException {
+	public void combineValues(List<VariableTerm> vars, int index, ArrayList<String[]> result, String[] tupla)
+			throws AsmNotSupportedException {
 		VariableTerm var = vars.get(index);
 		Domain domain = var.getDomain();
-		//System.out.println("var = " + var.getName() + "  domain = " + domain.getName());
-		//Controlla se la let � eseguita su una funzione con dominio ammesso o no
+		// System.out.println("var = " + var.getName() + " domain = " +
+		// domain.getName());
+		// Controlla se la let � eseguita su una funzione con dominio ammesso o no
 		checkRuleDomain(domain.getName());
 		SortedSet<String> elements = (SortedSet<String>) asSet(domain);
-		for(String element: elements) {
+		for (String element : elements) {
 			tupla[index] = element;
 			if (vars.size() == index + 1) {
 				result.add(tupla.clone());
-			}
-			else {
+			} else {
 				combineValues(vars, index + 1, result, tupla);
 			}
 		}
@@ -596,33 +592,33 @@ public class NuSMVRuleVisitor extends ReflectiveVisitor<Void> implements IRuleVi
 	public Object asSet(Domain d) {
 		return invokeMethod(d, "asSet");
 	}
-	
-	public SortedSet<String> asSet(IntegerDomain domain){
+
+	public SortedSet<String> asSet(IntegerDomain domain) {
 		return mv.domainSet.get(domain.getName());
 	}
 
-	public SortedSet<String> asSet(NaturalDomain domain){
-		//System.out.println(domain.getName());
+	public SortedSet<String> asSet(NaturalDomain domain) {
+		// System.out.println(domain.getName());
 		return mv.domainSet.get(domain.getName());
 	}
 
-	public SortedSet<String> asSet(BooleanDomain domain){
+	public SortedSet<String> asSet(BooleanDomain domain) {
 		return mv.domainSet.get(domain.getName());
 	}
 
-	public SortedSet<String> asSet(EnumTd domain){
+	public SortedSet<String> asSet(EnumTd domain) {
 		return mv.domainSet.get(getDomainName(domain));
 	}
 
-	public SortedSet<String> asSet(AbstractTd domain){
+	public SortedSet<String> asSet(AbstractTd domain) {
 		return mv.domainSet.get(getDomainName(domain));
 	}
 
-	public SortedSet<String> asSet(AgentDomain domain){
+	public SortedSet<String> asSet(AgentDomain domain) {
 		return mv.domainSet.get(getDomainName(domain));
 	}
 
-	public SortedSet<String> asSet(ConcreteDomain domain){
+	public SortedSet<String> asSet(ConcreteDomain domain) {
 		return mv.domainSet.get(getDomainName(domain));
 	}
 
@@ -631,11 +627,11 @@ public class NuSMVRuleVisitor extends ReflectiveVisitor<Void> implements IRuleVi
 	}
 
 	/**
-	 * Aggiunge la condizione condition allo stack conditions, visita la 
-	 * regola rule e, infine, rimuove la condizione dallo stack.
+	 * Aggiunge la condizione condition allo stack conditions, visita la regola rule
+	 * e, infine, rimuove la condizione dallo stack.
 	 * 
 	 * @param condition la condizione da aggiungere allo stack
-	 * @param rule la regola da visitare
+	 * @param rule      la regola da visitare
 	 */
 	private void updateVisitRestore(String condition, Rule rule) {
 		ConditionStack.updateCondition(conditions, condition);
@@ -644,11 +640,11 @@ public class NuSMVRuleVisitor extends ReflectiveVisitor<Void> implements IRuleVi
 	}
 
 	/**
-	 * Aggiunge la lista di condizioni conds allo stack conditions, visita la 
-	 * regola rule e, infine, rimuove la lista di condizioni dallo stack.
+	 * Aggiunge la lista di condizioni conds allo stack conditions, visita la regola
+	 * rule e, infine, rimuove la lista di condizioni dallo stack.
 	 * 
 	 * @param conds la lista di condizioni da aggiungere allo stack
-	 * @param rule la regola da visitare
+	 * @param rule  la regola da visitare
 	 */
 	private void updateVisitRestore(List<String> conds, Rule rule) {
 		ConditionStack.updateCondition(conditions, conds);

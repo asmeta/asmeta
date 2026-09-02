@@ -132,7 +132,7 @@ public class DerivedVisitor extends org.asmeta.parser.util.ReflectiveVisitor<Str
 				updateMap.put(Util.and(conds), node.value);
 			}
 			else {
-				updateMap.put(Util.trueString, node.value);
+				updateMap.put(Util.TRUE_STRING, node.value);
 			}
 		}
 	}

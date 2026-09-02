@@ -25,7 +25,7 @@ public class Util {
 	private static final String CTL_LIBRARY_NAME = "CTLLibrary";
 	private static final String STANDARD_LIBRARY_NAME = "StandardLibrary";
 	
-	public static final String trueString = "TRUE";
+	public static final String TRUE_STRING = "TRUE";
 	public static final String falseString = "FALSE";
 	public final static String notUsedMess = " has not been exported in NuSMV since it is never used.";
 	private static Boolean isAsynchr;
@@ -557,11 +557,11 @@ public class Util {
 	 */
 	public static String not(String cond) {
 		if (AsmetaSMVOptions.simplify) {
-			if (cond.equals(trueString)) {
+			if (cond.equals(TRUE_STRING)) {
 				return falseString;
 			}
 			else if (cond.equals(falseString)) {
-				return trueString;
+				return TRUE_STRING;
 			}
 			//se e' cond = !(fooCond) ritorna fooCond
 			//e' giusto eliminare le parentesi? Credo di si'.
@@ -628,9 +628,9 @@ public class Util {
 				return falseString;
 			}
 			Set<String> set = new HashSet<String>(conds);// rimuovo i duplicati
-			set.remove(trueString);
+			set.remove(TRUE_STRING);
 			if (set.size() == 0) {
-				return trueString;//vuol dire che erano tutti true
+				return TRUE_STRING;//vuol dire che erano tutti true
 			}
 			else {
 				for(String cond: set) {
@@ -666,8 +666,8 @@ public class Util {
 	public static String or(Collection<String> conds) {
 		if (AsmetaSMVOptions.simplify) {
 			// se un elemento dell'or e' true, allora l'or e' true
-			if (conds.contains(trueString)) {
-				return trueString;
+			if (conds.contains(TRUE_STRING)) {
+				return TRUE_STRING;
 			}
 			// le condizioni false non concorrono alla valutazione del valore
 			// di verita' dell'or. Le posso eliminare.
@@ -681,7 +681,7 @@ public class Util {
 			for (String cond : set) {
 				if (set.contains(Util.not(cond))) {
 					// cond or not(cond) = true
-					return trueString;
+					return TRUE_STRING;
 				}
 			}
 			return mergeConditions(set, "|");
@@ -758,7 +758,7 @@ public class Util {
 		int numFalse = 0;
 		boolean tempRes = false;//risultato temporaneo
 		for (String cond : conds) {
-			if (cond.equals(trueString)) {
+			if (cond.equals(TRUE_STRING)) {
 				numTrue++;
 				tempRes = (tempRes)? false: true;
 			}
@@ -773,7 +773,7 @@ public class Util {
 		int numConds = condTemp.size();//numero di condizioni diverse da true e false
 		//se la lista contiene solo true e false, si puo' ritornare direttamente il risultato
 		if (numConds == 0) {
-			return (tempRes)? trueString: falseString;
+			return (tempRes)? TRUE_STRING: falseString;
 		}
 		else if (numTrue > 0 || numFalse > 0) {
 			//se c'e' almeno un true o un false, e c'e' una sola condizione cond diversa
@@ -819,7 +819,7 @@ public class Util {
 			//true -> true
 			//cond -> cond
 			if(left.equals(right)) {
-				return trueString;
+				return TRUE_STRING;
 			}
 			else {
 				// Se "left" e' false, l'implicazione logica e' true
@@ -829,12 +829,12 @@ public class Util {
 				//false -> cond
 				//cond -> true
 				//false -> true
-				if (left.equals(falseString) || right.equals(trueString)) {
-					return trueString;
+				if (left.equals(falseString) || right.equals(TRUE_STRING)) {
+					return TRUE_STRING;
 				}
 				// Se "left" e' true e "right" e' false, l'implicazione logica e' false
 				//true -> false
-				else if (left.equals(trueString) && right.equals(falseString)) {
+				else if (left.equals(TRUE_STRING) && right.equals(falseString)) {
 					return falseString;
 				}
 				//cond -> false = not(cond)
@@ -842,7 +842,7 @@ public class Util {
 					return not(left);
 				}
 				//true -> cond = cond
-				else if(left.equals(trueString)) {
+				else if(left.equals(TRUE_STRING)) {
 					return right;
 				}
 			}
@@ -859,11 +859,11 @@ public class Util {
 			// false <-> false
 			// cond <-> cond
 			if(left.equals(right)) {
-				return trueString;
+				return TRUE_STRING;
 			}
 			else if (left.equals(falseString)) {
 				//false <-> true 
-				if(right.equals(trueString)) {
+				if(right.equals(TRUE_STRING)) {
 					return falseString;
 				}
 				//false <-> cond = not(cond)
@@ -871,7 +871,7 @@ public class Util {
 					return Util.not(right);
 				}
 			}
-			else if (left.equals(trueString)) {
+			else if (left.equals(TRUE_STRING)) {
 				//true <-> false 
 				if(right.equals(falseString)) {
 					return falseString;
@@ -886,7 +886,7 @@ public class Util {
 				return Util.not(left);
 			}
 			// cond <-> true = cond
-			else if (right.equals(trueString)) {
+			else if (right.equals(TRUE_STRING)) {
 				return left;
 			}
 		}
@@ -955,7 +955,7 @@ public class Util {
 	}
 
 	private static boolean isBoolean(String str) {
-		return str.equals(falseString) || str.equals(trueString);
+		return str.equals(falseString) || str.equals(TRUE_STRING);
 	}
 
 	/**
@@ -975,7 +975,7 @@ public class Util {
 			// Se le due stringhe sono uguali, qualsiasi cosa siano (termini,
 			// numeri, enum, boolean) ritorna true.
 			if (left.equals(right)) {
-				return trueString;
+				return TRUE_STRING;
 			}
 			// Se non sono uguali, ma sono due numeri, due enum o due boolean, allora vuol
 			// dire che sono diversi e allora ritorna false.
@@ -985,7 +985,7 @@ public class Util {
 				return falseString;
 			}
 			else if(isBoolean(left)) {
-				if(left.equals(trueString)) {
+				if(left.equals(TRUE_STRING)) {
 					return right;
 				}
 				else {
@@ -993,7 +993,7 @@ public class Util {
 				}
 			}
 			else if(isBoolean(right)) {
-				if(right.equals(trueString)) {
+				if(right.equals(TRUE_STRING)) {
 					return left;
 				}
 				else {
@@ -1026,7 +1026,7 @@ public class Util {
 			else if ((isNumber(left) && isNumber(right))
 					|| (isEnum(left) && isEnum(right))
 					|| (isBoolean(left) && isBoolean(right))) {
-				return trueString;
+				return TRUE_STRING;
 			}
 			else if(isBoolean(left)) {
 				if(left.equals(falseString)) {

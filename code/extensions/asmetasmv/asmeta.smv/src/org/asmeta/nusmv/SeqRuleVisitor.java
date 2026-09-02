@@ -267,7 +267,7 @@ class SeqRuleVisitor {
 				seqRuleUpdateMap.put(location, new HashMap<List<String>,String>());
 				map = seqRuleUpdateMap.get(location);
 				List<String> tempList = new ArrayList<String>();
-				tempList.add(Util.trueString);
+				tempList.add(Util.TRUE_STRING);
 				map.put(tempList, location);
 			}
 			if(remove) {
