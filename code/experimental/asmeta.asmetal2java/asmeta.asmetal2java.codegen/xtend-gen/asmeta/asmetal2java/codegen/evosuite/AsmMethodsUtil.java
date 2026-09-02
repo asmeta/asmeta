@@ -329,6 +329,86 @@ public class AsmMethodsUtil {
     return sb.toString();
   }
 
+  protected static String genPowersetGetter(final String functionName) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("public String get_");
+    _builder.append(functionName);
+    _builder.append("(){");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t");
+    _builder.append("java.util.Set<?> set = this.execution.");
+    _builder.append(functionName, "\t");
+    _builder.append(".get();");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t");
+    _builder.append("if(set == null || set.isEmpty()){");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("return \"{}\";");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("}");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("return \"{\" + set.stream().map(Object::toString).sorted()");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append(".collect(java.util.stream.Collectors.joining(\", \")) + \"}\";");
+    _builder.newLine();
+    _builder.append("}");
+    _builder.newLine();
+    return _builder.toString();
+  }
+
+  protected static String genPowersetSetter(final String functionName, final String type, final String parsingMethod) {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("public void set_powerset_");
+    _builder.append(functionName);
+    _builder.append("(String ");
+    _builder.append(functionName);
+    _builder.append(") {");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t");
+    _builder.append("String content = ");
+    _builder.append(functionName, "\t");
+    _builder.append(".replaceAll(\"[\\\\{\\\\}]\", \"\").trim();");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t");
+    _builder.append("java.util.Set<");
+    _builder.append(type, "\t");
+    _builder.append("> set = content.isEmpty()");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t\t");
+    _builder.append("? new java.util.HashSet<>()");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append(": java.util.Arrays.stream(content.split(\",\"))");
+    _builder.newLine();
+    _builder.append("\t\t\t");
+    _builder.append(".map(String::trim).map(");
+    _builder.append(parsingMethod, "\t\t\t");
+    _builder.append(")");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t\t\t");
+    _builder.append(".collect(java.util.stream.Collectors.toSet());");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("this.execution.");
+    _builder.append(functionName, "\t");
+    _builder.append(".set(set);");
+    _builder.newLineIfNotEmpty();
+    _builder.append("\t");
+    _builder.append("System.out.println(\"Set ");
+    _builder.append(functionName, "\t");
+    _builder.append(" = \" + ");
+    _builder.append(functionName, "\t");
+    _builder.append(");");
+    _builder.newLineIfNotEmpty();
+    _builder.append("}");
+    _builder.newLine();
+    return _builder.toString();
+  }
+
   /**
    * Generates the private method that covers the outputs
    */

@@ -23,6 +23,7 @@ import asmeta.terms.furtherterms.NaturalTerm;
 import asmeta.terms.furtherterms.RealTerm;
 import asmeta.terms.furtherterms.StringTerm;
 import java.util.Arrays;
+import org.asmeta.parser.util.Defs;
 import org.eclipse.xtext.xbase.lib.XbaseGenerated;
 
 /**
@@ -101,11 +102,18 @@ public class TermToJavaInAssignments extends TermToJava {
   public String visit(final FunctionTerm term) {
     StringBuffer functionTerm = new StringBuffer();
     String name = new Util().parseFunction(term.getFunction().getName());
-    boolean _hasEvaluateVisitor = ExpressionToJava.hasEvaluateVisitor(name);
-    if (_hasEvaluateVisitor) {
+    if ((((term.getArguments() != null) && Defs.getAsmName(term.getFunction()).equals("StandardLibrary")) && 
+      ExpressionToJava.hasEvaluateVisitor(name))) {
       String _evaluateFunction = new ExpressionToJava(this.res).evaluateFunction(name, term.getArguments().getTerms());
       return ("=" + _evaluateFunction);
     } else {
+      if (((term.getFunction() instanceof StaticFunction) && Defs.getAsmName(term.getFunction()).equals("StandardLibrary"))) {
+        String _name = term.getFunction().getName();
+        String _plus = ("StandardLibrary function \'" + _name);
+        String _plus_1 = (_plus + 
+          "\' is not supported by the Java generator");
+        throw new InvalidFunctionException(_plus_1);
+      }
       if ((!this.leftHandSide)) {
         functionTerm.append(" = ");
       }

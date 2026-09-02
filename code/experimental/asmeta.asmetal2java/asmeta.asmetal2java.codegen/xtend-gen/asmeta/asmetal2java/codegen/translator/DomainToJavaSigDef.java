@@ -10,12 +10,18 @@ import asmeta.definitions.domains.PowersetDomain;
 import asmeta.definitions.domains.ProductDomain;
 import asmeta.definitions.domains.RuleDomain;
 import asmeta.definitions.domains.SequenceDomain;
+import asmeta.definitions.domains.TypeDomain;
 import asmeta.structure.Asm;
 import asmeta.structure.DomainDefinition;
 import asmeta.structure.DomainInitialization;
+import asmeta.terms.basicterms.SetTerm;
+import asmeta.terms.basicterms.Term;
 import java.util.function.Function;
 import org.asmeta.parser.util.ReflectiveVisitor;
 import org.eclipse.xtend2.lib.StringConcatenation;
+import org.eclipse.xtext.xbase.lib.Functions.Function1;
+import org.eclipse.xtext.xbase.lib.IterableExtensions;
+import org.eclipse.xtext.xbase.lib.ListExtensions;
 
 /**
  * Translates the signature and the definition of the domains
@@ -51,6 +57,19 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
   }
 
   public String visit(final DomainDefinition object) {
+    if (((object.getDefinedDomain() instanceof ConcreteDomain) && 
+      (((ConcreteDomain) object.getDefinedDomain()).getTypeDomain() instanceof PowersetDomain))) {
+      Term _body = object.getBody();
+      final SetTerm values = ((SetTerm) _body);
+      final Function1<Term, String> _function = (Term it) -> {
+        String _visit = new TermToJava(this.res).visit(it);
+        String _plus = ("new HashSet<>(Arrays.asList" + _visit);
+        return (_plus + ")");
+      };
+      String _join = IterableExtensions.join(ListExtensions.<Term, String>map(values.getTerm(), _function), ", ");
+      String _plus = ("(" + _join);
+      return (_plus + ")");
+    }
     return new TermToJava(this.res).visit(object.getBody());
   }
 
@@ -71,7 +90,16 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
       String _trim = this.visit(((SequenceDomain) _domain_1)).trim();
       _xifexpression = ("List" + _trim);
     } else {
-      _xifexpression = this.createDomainToJavaString(this.res).visit(object.getDomain());
+      String _xifexpression_1 = null;
+      Domain _domain_2 = object.getDomain();
+      if ((_domain_2 instanceof PowersetDomain)) {
+        Domain _domain_3 = object.getDomain();
+        String _trim_1 = this.visit(((PowersetDomain) _domain_3)).trim();
+        _xifexpression_1 = ("Set" + _trim_1);
+      } else {
+        _xifexpression_1 = this.createDomainToJavaString(this.res).visit(object.getDomain());
+      }
+      _xifexpression = _xifexpression_1;
     }
     final String elementType = _xifexpression;
     StringConcatenation _builder = new StringConcatenation();
@@ -84,10 +112,28 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
 
   public String visit(final PowersetDomain object) {
     StringBuffer sb = new StringBuffer();
+    String _xifexpression = null;
+    Domain _baseDomain = object.getBaseDomain();
+    if ((_baseDomain instanceof PowersetDomain)) {
+      Domain _baseDomain_1 = object.getBaseDomain();
+      String _trim = this.visit(((PowersetDomain) _baseDomain_1)).trim();
+      _xifexpression = ("Set" + _trim);
+    } else {
+      String _xifexpression_1 = null;
+      Domain _baseDomain_2 = object.getBaseDomain();
+      if ((_baseDomain_2 instanceof SequenceDomain)) {
+        Domain _baseDomain_3 = object.getBaseDomain();
+        String _trim_1 = this.visit(((SequenceDomain) _baseDomain_3)).trim();
+        _xifexpression_1 = ("List" + _trim_1);
+      } else {
+        _xifexpression_1 = this.createDomainToJavaString(this.res).visit(object.getBaseDomain());
+      }
+      _xifexpression = _xifexpression_1;
+    }
+    final String elementType = _xifexpression;
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("<");
-    String _visit = this.createDomainToJavaString(this.res).visit(object.getBaseDomain());
-    _builder.append(_visit);
+    _builder.append(elementType);
     _builder.append("> ");
     sb.append(_builder);
     return sb.toString();
@@ -273,6 +319,23 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
 
   public String visit(final ConcreteDomain object) {
     StringBuffer sb = new StringBuffer();
+    String _xifexpression = null;
+    TypeDomain _typeDomain = object.getTypeDomain();
+    if ((_typeDomain instanceof SequenceDomain)) {
+      String _trim = this.createDomainToJavaString(this.res).visit(object.getTypeDomain()).trim();
+      _xifexpression = ("List" + _trim);
+    } else {
+      String _xifexpression_1 = null;
+      TypeDomain _typeDomain_1 = object.getTypeDomain();
+      if ((_typeDomain_1 instanceof PowersetDomain)) {
+        String _trim_1 = this.createDomainToJavaString(this.res).visit(object.getTypeDomain()).trim();
+        _xifexpression_1 = ("Set" + _trim_1);
+      } else {
+        _xifexpression_1 = this.createDomainToJavaString(this.res).visit(object.getTypeDomain());
+      }
+      _xifexpression = _xifexpression_1;
+    }
+    final String type = _xifexpression;
     Boolean _isDynamic = object.getIsDynamic();
     if ((_isDynamic).booleanValue()) {
       StringConcatenation _builder = new StringConcatenation();
@@ -283,20 +346,17 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
       _builder.newLineIfNotEmpty();
       _builder.newLine();
       _builder.append("List<");
-      String _visit = this.createDomainToJavaString(this.res).visit(object.getTypeDomain());
-      _builder.append(_visit);
-      _builder.append("> elems = new ArrayList<>();\t\t\t      ");
+      _builder.append(type);
+      _builder.append("> elems = new ArrayList<>();");
       _builder.newLineIfNotEmpty();
-      String _visit_1 = this.createDomainToJavaString(this.res).visit(object.getTypeDomain());
-      _builder.append(_visit_1);
-      _builder.append(" value;\t\t\t      ");
+      _builder.append(type);
+      _builder.append(" value;");
       _builder.newLineIfNotEmpty();
       String _name_1 = object.getName();
       _builder.append(_name_1);
       _builder.append("(");
-      String _visit_2 = this.createDomainToJavaString(this.res).visit(object.getTypeDomain());
-      _builder.append(_visit_2);
-      _builder.append(" i) { ");
+      _builder.append(type);
+      _builder.append(" i) {");
       _builder.newLineIfNotEmpty();
       _builder.append("   ");
       _builder.append("value = i;");
@@ -311,8 +371,7 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
       _builder.newLine();
       _builder.append("   ");
       _builder.append("List<");
-      String _visit_3 = this.createDomainToJavaString(this.res).visit(object.getTypeDomain());
-      _builder.append(_visit_3, "   ");
+      _builder.append(type, "   ");
       _builder.append("> ");
       String _name_2 = object.getName();
       _builder.append(_name_2, "   ");
@@ -330,13 +389,11 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
       String _isPrivate = this.isPrivate();
       _builder_1.append(_isPrivate, "\t\t\t\t");
       _builder_1.append("static List<");
-      String _visit_4 = this.createDomainToJavaString(this.res).visit(object.getTypeDomain());
-      _builder_1.append(_visit_4, "\t\t\t\t");
+      _builder_1.append(type, "\t\t\t\t");
       _builder_1.append("> elems = new ArrayList<>();");
       _builder_1.newLineIfNotEmpty();
       _builder_1.append("                ");
-      String _visit_5 = this.createDomainToJavaString(this.res).visit(object.getTypeDomain());
-      _builder_1.append(_visit_5, "                ");
+      _builder_1.append(type, "                ");
       _builder_1.append(" value;");
       _builder_1.newLineIfNotEmpty();
       _builder_1.append("                ");
@@ -346,8 +403,7 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
       String _name_4 = object.getName();
       _builder_1.append(_name_4, "                ");
       _builder_1.append(" valueOf(");
-      String _visit_6 = this.createDomainToJavaString(this.res).visit(object.getTypeDomain());
-      _builder_1.append(_visit_6, "                ");
+      _builder_1.append(type, "                ");
       _builder_1.append(" val) {");
       _builder_1.newLineIfNotEmpty();
       _builder_1.append("                \t");
@@ -455,8 +511,7 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
       _builder_1.newLineIfNotEmpty();
       _builder_1.append("\t\t\t\t");
       _builder_1.append("List<");
-      String _visit_7 = this.createDomainToJavaString(this.res).visit(object.getTypeDomain());
-      _builder_1.append(_visit_7, "\t\t\t\t");
+      _builder_1.append(type, "\t\t\t\t");
       _builder_1.append("> ");
       String _name_14 = object.getName();
       _builder_1.append(_name_14, "\t\t\t\t");

@@ -5,6 +5,7 @@ import asmeta.asmetal2java.codegen.config.ChooseMode
 import asmeta.definitions.domains.AbstractTd
 import asmeta.definitions.domains.BasicTd
 import asmeta.definitions.domains.ConcreteDomain
+import asmeta.definitions.domains.PowersetDomain
 import asmeta.definitions.domains.Domain
 import asmeta.definitions.domains.EnumTd
 import asmeta.definitions.domains.PowersetDomain
@@ -184,7 +185,15 @@ class RuleToJava extends RuleVisitor<String> {
 			result.
 				append('''«termToJavaL.visit(object.location)» = «termToJavaR.visit(object.updatingTerm)»;			   
 			''')
-		else if (object.updatingTerm.domain instanceof ConcreteDomain){			
+		else if (object.location.domain instanceof ConcreteDomain &&
+			(object.location.domain as ConcreteDomain).typeDomain instanceof PowersetDomain) {
+			val varName = object.hashCode.toString
+			val concreteDomain = object.location.domain as ConcreteDomain
+			result.append('''«concreteDomain.name» «concreteDomain.name»«varName»_s = new «concreteDomain.name»();
+				«concreteDomain.name»«varName»_s.value = new HashSet<>(Arrays.asList«termToJavaR.visit(object.updatingTerm)»);
+				«new TermToJavaInUpdateRule(res,false,varName).visit(object.location)»
+			''')
+		} else if (object.updatingTerm.domain instanceof ConcreteDomain) {
 			result.
 				append('''«termToJavaL.visit(object.location)» «termToJavaR.visit(object.updatingTerm)»''');
 				// when the updating term is a variable term, the visitor misses a ".value"

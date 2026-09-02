@@ -3,6 +3,8 @@ package asmeta.asmetal2java.codegen.translator;
 import java.util.List;
 
 import asmeta.definitions.domains.ConcreteDomain;
+import asmeta.definitions.domains.Domain;
+import asmeta.definitions.domains.PowersetDomain;
 import asmeta.definitions.domains.ProductDomain;
 import asmeta.definitions.domains.SequenceDomain;
 import asmeta.structure.Asm;
@@ -37,7 +39,14 @@ public class ExpressionToJava {
 				|| function.equals("fifth") || function.equals("sixth") || function.equals("seventh")
 				|| function.equals("eighth") || function.equals("ninth") || function.equals("length")
 				|| function.equals("union") || function.equals("append") || function.equals("prepend")
-				|| function.equals("tail") || function.equals("contains");
+				|| function.equals("tail") || function.equals("contains") || function.equals("including")
+				|| function.equals("excluding") || function.equals("isEmpty") || function.equals("replaceAt")
+				|| function.equals("asSequence") || function.equals("asSet") || function.equals("last")
+				|| function.equals("count") || function.equals("insertAt") || function.equals("subSequence")
+				|| function.equals("abs") || function.equals("floor") || function.equals("round")
+				|| function.equals("sqrt") || function.equals("min") || function.equals("max")
+				|| function.equals("idiv") || function.equals("concat") || function.equals("intersection")
+				|| function.equals("difference") || function.equals("symmetricDifference");
 	}
 
 	/**
@@ -118,6 +127,52 @@ public class ExpressionToJava {
 			return tail(argsTerm);
 		case ("contains"):
 			return contains(argsTerm);
+		case ("including"):
+			return including(argsTerm);
+		case ("excluding"):
+			return excluding(argsTerm);
+		case ("isEmpty"):
+			return isEmpty(argsTerm);
+		case ("replaceAt"):
+			return replaceAt(argsTerm);
+		case ("asSequence"):
+			return asSequence(argsTerm);
+		case ("asSet"):
+			return asSet(argsTerm);
+		case ("last"):
+			return last(argsTerm);
+		case ("count"):
+			return count(argsTerm);
+		case ("insertAt"):
+			return insertAt(argsTerm);
+		case ("subSequence"):
+			return subSequence(argsTerm);
+		case ("abs"):
+			return numericUnary(argsTerm, "Math.abs");
+		case ("floor"):
+			return floor(argsTerm);
+		case ("round"):
+			return round(argsTerm);
+		case ("sqrt"):
+			return numericUnary(argsTerm, "Math.sqrt");
+		case ("min"):
+			return numericBinary(argsTerm, "Math.min");
+		case ("max"):
+			return numericBinary(argsTerm, "Math.max");
+		case ("idiv"):
+			return idiv(argsTerm);
+		case ("concat"):
+			return concat(argsTerm);
+		case ("intersection"):
+			return intersection(argsTerm);
+		case ("difference"):
+			return difference(argsTerm);
+		case ("symmetricDifference"):
+			return symmetricDifference(argsTerm);
+		case ("^"):
+			return numericBinary(argsTerm, "Math.pow");
+		case ("/"):
+			return divide(argsTerm);
 		case ("+"):
 			if (argsTerm.size() == 1) {
 				return plusUnary(argsTerm);
@@ -173,10 +228,152 @@ public class ExpressionToJava {
 		return sequence + ".contains(" + element + ")";
 	}
 
+	private String including(List<Term> argsTerm) {
+		String set = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
+		String element = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
+		return "java.util.stream.Stream.concat(" + set + ".stream(), java.util.stream.Stream.of(" + element
+				+ ")).collect(java.util.stream.Collectors.toSet())";
+	}
+
+	private String excluding(List<Term> argsTerm) {
+		String collection = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
+		String element = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
+		Domain domain = argsTerm.get(0).getDomain();
+		if (domain instanceof ConcreteDomain)
+			domain = ((ConcreteDomain) domain).getTypeDomain();
+		if (domain instanceof SequenceDomain)
+			return "new java.util.ArrayList<>(" + collection + ") {{ remove(" + element + "); }}";
+		return collection + ".stream().filter(e -> !java.util.Objects.equals(e, " + element
+				+ ")).collect(java.util.stream.Collectors.toSet())";
+	}
+
 	private String union(List<Term> argsTerm) {
+		String first = collectionOperand(argsTerm.get(0));
+		String second = collectionOperand(argsTerm.get(1));
+		Domain domain = argsTerm.get(0).getDomain();
+		if (domain instanceof ConcreteDomain)
+			domain = ((ConcreteDomain) domain).getTypeDomain();
+		String collector = domain instanceof PowersetDomain ? "toSet()" : "toList()";
+		return "java.util.stream.Stream.concat(" + first + ".stream(), " + second
+				+ ".stream()).collect(java.util.stream.Collectors." + collector + ")";
+	}
+
+	private String intersection(List<Term> argsTerm) {
+		requirePowerset("intersection", argsTerm.get(0));
+		String first = collectionOperand(argsTerm.get(0));
+		String second = collectionOperand(argsTerm.get(1));
+		return first + ".stream().filter(" + second
+				+ "::contains).collect(java.util.stream.Collectors.toSet())";
+	}
+
+	private String difference(List<Term> argsTerm) {
+		requirePowerset("difference", argsTerm.get(0));
+		String first = collectionOperand(argsTerm.get(0));
+		String second = collectionOperand(argsTerm.get(1));
+		return first + ".stream().filter(e -> !" + second
+				+ ".contains(e)).collect(java.util.stream.Collectors.toSet())";
+	}
+
+	private String symmetricDifference(List<Term> argsTerm) {
+		requirePowerset("symmetricDifference", argsTerm.get(0));
+		String first = collectionOperand(argsTerm.get(0));
+		String second = collectionOperand(argsTerm.get(1));
+		return "java.util.stream.Stream.concat(" + first + ".stream().filter(e -> !" + second
+				+ ".contains(e)), " + second + ".stream().filter(e -> !" + first
+				+ ".contains(e))).collect(java.util.stream.Collectors.toSet())";
+	}
+
+	private void requirePowerset(String function, Term term) {
+		Domain domain = term.getDomain();
+		if (domain instanceof ConcreteDomain)
+			domain = ((ConcreteDomain) domain).getTypeDomain();
+		if (!(domain instanceof PowersetDomain))
+			throw new InvalidFunctionException("StandardLibrary function '" + function
+					+ "' is supported only for Powerset arguments by the Java generator");
+	}
+
+	private String numericUnary(List<Term> argsTerm, String javaFunction) {
+		return javaFunction + "(" + new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0)) + ")";
+	}
+
+	private String numericBinary(List<Term> argsTerm, String javaFunction) {
 		String first = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
 		String second = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
-		return first + ".addAll(" + second +")";
+		return javaFunction + "(" + first + ", " + second + ")";
+	}
+
+	private String floor(List<Term> argsTerm) {
+		return "(int) Math.floor(" + new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0)) + ")";
+	}
+
+	private String round(List<Term> argsTerm) {
+		return "(int) Math.round(" + new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0)) + ")";
+	}
+
+	private String divide(List<Term> argsTerm) {
+		String first = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
+		String second = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
+		return new Util().setPars(first + " / (double) " + second);
+	}
+
+	private String concat(List<Term> argsTerm) {
+		return addOperator(argsTerm, "+");
+	}
+
+	private String isEmpty(List<Term> argsTerm) {
+		return new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0)) + ".isEmpty()";
+	}
+
+	private String replaceAt(List<Term> argsTerm) {
+		String sequence = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
+		String index = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
+		String element = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(2));
+		return "java.util.stream.IntStream.range(0, " + sequence + ".size())"
+				+ ".mapToObj(i -> i == " + index + " ? " + element + " : " + sequence + ".get(i))"
+				+ ".collect(java.util.stream.Collectors.toList())";
+	}
+
+	private String asSequence(List<Term> argsTerm) {
+		return "new java.util.ArrayList<>(" + new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0)) + ")";
+	}
+
+	private String asSet(List<Term> argsTerm) {
+		return "new java.util.HashSet<>(" + new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0)) + ")";
+	}
+
+	private String last(List<Term> argsTerm) {
+		String sequence = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
+		return sequence + ".get(" + sequence + ".size() - 1)";
+	}
+
+	private String count(List<Term> argsTerm) {
+		String collection = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
+		String element = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
+		return "(int) " + collection + ".stream().filter(e -> java.util.Objects.equals(e, " + element
+				+ ")).count()";
+	}
+
+	private String insertAt(List<Term> argsTerm) {
+		String sequence = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
+		String index = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
+		String element = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(2));
+		return "java.util.stream.Stream.concat(java.util.stream.Stream.concat(" + sequence + ".subList(0, "
+				+ index + ").stream(), java.util.stream.Stream.of(" + element + ")), " + sequence + ".subList("
+				+ index + ", " + sequence + ".size()).stream()).collect(java.util.stream.Collectors.toList())";
+	}
+
+	private String subSequence(List<Term> argsTerm) {
+		String sequence = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
+		String from = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
+		String to = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(2));
+		return "new java.util.ArrayList<>(" + sequence + ".subList(" + from + ", " + to + "))";
+	}
+
+	private String collectionOperand(Term term) {
+		String translated = new TermToJavaStandardLibrary(asm).visit(term);
+		if (term instanceof SetTerm)
+			return "new HashSet<>(Arrays.asList" + translated + ")";
+		return translated;
 	}
 
 	private String length(List<Term> argsTerm) {

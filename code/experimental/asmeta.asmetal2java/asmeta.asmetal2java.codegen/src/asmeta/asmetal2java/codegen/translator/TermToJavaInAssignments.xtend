@@ -6,6 +6,7 @@ import asmeta.definitions.OutFunction
 import asmeta.definitions.StaticFunction
 import asmeta.definitions.domains.AbstractTd
 import asmeta.structure.Asm
+import org.asmeta.parser.util.Defs
 import asmeta.terms.basicterms.BooleanTerm
 import asmeta.terms.basicterms.FunctionTerm
 import asmeta.terms.basicterms.LocationTerm
@@ -77,12 +78,16 @@ class TermToJavaInAssignments extends TermToJava {
 		var StringBuffer functionTerm = new StringBuffer
 		var name = new Util().parseFunction(term.function.name)
 
-		// Controllo se l'operatore » del tipo: &,|,<=,>=,<,>...
-		if (ExpressionToJava.hasEvaluateVisitor(name)) {
+		// StandardLibrary operations are translated with ExpressionToJava
+		if (term.arguments !== null && Defs.getAsmName(term.function).equals("StandardLibrary") &&
+			ExpressionToJava.hasEvaluateVisitor(name)) {
 			// if the funcion is an expression
 			return "=" + new ExpressionToJava(res).evaluateFunction(name, term.arguments.terms);
 		} // In questo caso l'operatore rilevato » := 
 		else {
+			if (term.function instanceof StaticFunction && Defs.getAsmName(term.function).equals("StandardLibrary"))
+				throw new InvalidFunctionException("StandardLibrary function '" + term.function.name +
+					"' is not supported by the Java generator")
 
 			if (!leftHandSide)
 				functionTerm.append(" = ")

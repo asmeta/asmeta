@@ -45,6 +45,7 @@ import asmeta.terms.furtherterms.SetCt;
 import asmeta.terms.furtherterms.StringTerm;
 import java.util.Arrays;
 import java.util.function.Function;
+import org.asmeta.parser.util.Defs;
 import org.asmeta.parser.util.ReflectiveVisitor;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
@@ -222,25 +223,22 @@ public class TermToJava extends ReflectiveVisitor<String> {
   }
 
   public String visit(final SetTerm object) {
-    StringBuffer type = new StringBuffer("");
-    String s = "";
-    String _s = s;
-    s = (_s + "(");
+    String s = "(";
     if (((object.getTerm() != null) && (object.getTerm().size() > 0))) {
       EList<Term> _term = object.getTerm();
       for (final Term l : _term) {
-        String _s_1 = s;
+        String _s = s;
         String _visit = this.visit(l);
         String _plus = (_visit + ", ");
-        s = (_s_1 + _plus);
+        s = (_s + _plus);
       }
       int _length = s.length();
       int _minus = (_length - 2);
       s = s.substring(0, _minus);
     }
-    String _s_2 = s;
-    s = (_s_2 + ")");
-    return (type + s);
+    String _s_1 = s;
+    s = (_s_1 + ")");
+    return s;
   }
 
   public String visit(final MapTerm object) {
@@ -610,11 +608,18 @@ public class TermToJava extends ReflectiveVisitor<String> {
   public String visit(final FunctionTerm term) {
     StringBuffer functionTerm = new StringBuffer();
     String name = new Util().parseFunction(term.getFunction().getName());
-    boolean _hasEvaluateVisitor = ExpressionToJava.hasEvaluateVisitor(name);
-    if (_hasEvaluateVisitor) {
+    if ((((term.getArguments() != null) && Defs.getAsmName(term.getFunction()).equals("StandardLibrary")) && 
+      ExpressionToJava.hasEvaluateVisitor(name))) {
       String expression = new ExpressionToJava(this.res).evaluateFunction(name, term.getArguments().getTerms());
       return expression.replaceAll(".value.value", ".value");
     } else {
+      if (((term.getFunction() instanceof StaticFunction) && Defs.getAsmName(term.getFunction()).equals("StandardLibrary"))) {
+        String _name = term.getFunction().getName();
+        String _plus = ("StandardLibrary function \'" + _name);
+        String _plus_1 = (_plus + 
+          "\' is not supported by the Java generator");
+        throw new InvalidFunctionException(_plus_1);
+      }
       if ((Util.isControlledOrOut(term.getFunction()) && (term.getDomain() instanceof ConcreteDomain))) {
         asmeta.definitions.Function _function = term.getFunction();
         functionTerm.append(this.caseFunctionTermSuppCont(((DynamicFunction) _function), term));

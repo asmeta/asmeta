@@ -14,8 +14,10 @@ import asmeta.definitions.domains.ConcreteDomain;
 import asmeta.definitions.domains.Domain;
 import asmeta.definitions.domains.EnumTd;
 import asmeta.definitions.domains.NaturalDomain;
+import asmeta.definitions.domains.PowersetDomain;
 import asmeta.definitions.domains.ProductDomain;
 import asmeta.definitions.domains.SequenceDomain;
+import asmeta.definitions.domains.TypeDomain;
 import asmeta.structure.Asm;
 import java.util.List;
 import java.util.function.IntFunction;
@@ -62,7 +64,25 @@ public class AsmMethods {
         if (_tripleEquals) {
           Domain _codomain = fd.getCodomain();
           if ((_codomain instanceof ConcreteDomain)) {
-            String type = AsmMethodsUtil.getConcreteDomainType(asm, fd, fd.getCodomain().getName());
+            Domain _codomain_1 = fd.getCodomain();
+            final ConcreteDomain concreteDomain = ((ConcreteDomain) _codomain_1);
+            String _xifexpression = null;
+            TypeDomain _typeDomain = concreteDomain.getTypeDomain();
+            if ((_typeDomain instanceof SequenceDomain)) {
+              String _trim = new DomainToJavaString(asm).visit(concreteDomain.getTypeDomain()).trim();
+              _xifexpression = ("java.util.List" + _trim);
+            } else {
+              String _xifexpression_1 = null;
+              TypeDomain _typeDomain_1 = concreteDomain.getTypeDomain();
+              if ((_typeDomain_1 instanceof PowersetDomain)) {
+                String _trim_1 = new DomainToJavaString(asm).visit(concreteDomain.getTypeDomain()).trim();
+                _xifexpression_1 = ("java.util.Set" + _trim_1);
+              } else {
+                _xifexpression_1 = AsmMethodsUtil.getConcreteDomainType(asm, fd, fd.getCodomain().getName());
+              }
+              _xifexpression = _xifexpression_1;
+            }
+            final String type = _xifexpression;
             StringConcatenation _builder = new StringConcatenation();
             _builder.append("public ");
             _builder.append(type);
@@ -93,8 +113,8 @@ public class AsmMethods {
             _builder.newLine();
             sb.append(_builder);
           } else {
-            Domain _codomain_1 = fd.getCodomain();
-            if ((_codomain_1 instanceof EnumTd)) {
+            Domain _codomain_2 = fd.getCodomain();
+            if ((_codomain_2 instanceof EnumTd)) {
               StringConcatenation _builder_1 = new StringConcatenation();
               _builder_1.append("public ");
               _builder_1.append(asmName);
@@ -116,8 +136,8 @@ public class AsmMethods {
               _builder_1.newLine();
               sb.append(_builder_1);
             } else {
-              Domain _codomain_2 = fd.getCodomain();
-              if ((_codomain_2 instanceof AbstractTd)) {
+              Domain _codomain_3 = fd.getCodomain();
+              if ((_codomain_3 instanceof AbstractTd)) {
                 StringConcatenation _builder_2 = new StringConcatenation();
                 _builder_2.append("public String get_");
                 String _name_6 = fd.getName();
@@ -137,8 +157,8 @@ public class AsmMethods {
                 _builder_2.newLine();
                 sb.append(_builder_2);
               } else {
-                Domain _codomain_3 = fd.getCodomain();
-                if ((_codomain_3 instanceof ProductDomain)) {
+                Domain _codomain_4 = fd.getCodomain();
+                if ((_codomain_4 instanceof ProductDomain)) {
                   StringConcatenation _builder_3 = new StringConcatenation();
                   _builder_3.append("public String get_");
                   String _name_8 = fd.getName();
@@ -158,8 +178,8 @@ public class AsmMethods {
                   _builder_3.newLine();
                   sb.append(_builder_3);
                 } else {
-                  Domain _codomain_4 = fd.getCodomain();
-                  if ((_codomain_4 instanceof SequenceDomain)) {
+                  Domain _codomain_5 = fd.getCodomain();
+                  if ((_codomain_5 instanceof SequenceDomain)) {
                     String type_1 = new DomainToJavaString(asm).visit(fd.getCodomain()).replaceAll("<", "").replaceAll(">", "").trim();
                     boolean _contains = AsmMethodsUtil.basicTdList.contains(type_1);
                     if (_contains) {
@@ -183,133 +203,138 @@ public class AsmMethods {
                       }
                     }
                   } else {
-                    Domain _codomain_5 = fd.getCodomain();
-                    if ((_codomain_5 instanceof AnyDomain)) {
-                      StringConcatenation _builder_4 = new StringConcatenation();
-                      _builder_4.append("public Object get_");
-                      String _name_10 = fd.getName();
-                      _builder_4.append(_name_10);
-                      _builder_4.append("(){");
-                      _builder_4.newLineIfNotEmpty();
-                      _builder_4.append("\t");
-                      _builder_4.append("return this.execution.");
-                      String _name_11 = fd.getName();
-                      _builder_4.append(_name_11, "\t");
-                      _builder_4.append(".get();");
-                      _builder_4.newLineIfNotEmpty();
-                      _builder_4.append("}");
-                      _builder_4.newLine();
-                      sb.append(_builder_4);
+                    Domain _codomain_6 = fd.getCodomain();
+                    if ((_codomain_6 instanceof PowersetDomain)) {
+                      sb.append(AsmMethodsUtil.genPowersetGetter(fd.getName()));
                     } else {
-                      boolean _equals_1 = fd.getCodomain().getName().equals(AsmMethods.BOOLEAN);
-                      if (_equals_1) {
-                        StringConcatenation _builder_5 = new StringConcatenation();
-                        _builder_5.append("public Boolean get_");
-                        String _name_12 = fd.getName();
-                        _builder_5.append(_name_12);
-                        _builder_5.append("(){");
-                        _builder_5.newLineIfNotEmpty();
-                        _builder_5.append("\t");
-                        _builder_5.append("return this.execution.");
-                        String _name_13 = fd.getName();
-                        _builder_5.append(_name_13, "\t");
-                        _builder_5.append(".get();");
-                        _builder_5.newLineIfNotEmpty();
-                        _builder_5.append("}");
-                        _builder_5.newLine();
-                        sb.append(_builder_5);
+                      Domain _codomain_7 = fd.getCodomain();
+                      if ((_codomain_7 instanceof AnyDomain)) {
+                        StringConcatenation _builder_4 = new StringConcatenation();
+                        _builder_4.append("public Object get_");
+                        String _name_10 = fd.getName();
+                        _builder_4.append(_name_10);
+                        _builder_4.append("(){");
+                        _builder_4.newLineIfNotEmpty();
+                        _builder_4.append("\t");
+                        _builder_4.append("return this.execution.");
+                        String _name_11 = fd.getName();
+                        _builder_4.append(_name_11, "\t");
+                        _builder_4.append(".get();");
+                        _builder_4.newLineIfNotEmpty();
+                        _builder_4.append("}");
+                        _builder_4.newLine();
+                        sb.append(_builder_4);
                       } else {
-                        boolean _equals_2 = fd.getCodomain().getName().equals(AsmMethods.INTEGER);
-                        if (_equals_2) {
-                          StringConcatenation _builder_6 = new StringConcatenation();
-                          _builder_6.append("public Integer get_");
-                          String _name_14 = fd.getName();
-                          _builder_6.append(_name_14);
-                          _builder_6.append("(){");
-                          _builder_6.newLineIfNotEmpty();
-                          _builder_6.append("\t");
-                          _builder_6.append("return this.execution.");
-                          String _name_15 = fd.getName();
-                          _builder_6.append(_name_15, "\t");
-                          _builder_6.append(".get();");
-                          _builder_6.newLineIfNotEmpty();
-                          _builder_6.append("}");
-                          _builder_6.newLine();
-                          sb.append(_builder_6);
+                        boolean _equals_1 = fd.getCodomain().getName().equals(AsmMethods.BOOLEAN);
+                        if (_equals_1) {
+                          StringConcatenation _builder_5 = new StringConcatenation();
+                          _builder_5.append("public Boolean get_");
+                          String _name_12 = fd.getName();
+                          _builder_5.append(_name_12);
+                          _builder_5.append("(){");
+                          _builder_5.newLineIfNotEmpty();
+                          _builder_5.append("\t");
+                          _builder_5.append("return this.execution.");
+                          String _name_13 = fd.getName();
+                          _builder_5.append(_name_13, "\t");
+                          _builder_5.append(".get();");
+                          _builder_5.newLineIfNotEmpty();
+                          _builder_5.append("}");
+                          _builder_5.newLine();
+                          sb.append(_builder_5);
                         } else {
-                          boolean _equals_3 = fd.getCodomain().getName().equals(AsmMethods.REAL);
-                          if (_equals_3) {
-                            StringConcatenation _builder_7 = new StringConcatenation();
-                            _builder_7.append("public Double get_");
-                            String _name_16 = fd.getName();
-                            _builder_7.append(_name_16);
-                            _builder_7.append("(){");
-                            _builder_7.newLineIfNotEmpty();
-                            _builder_7.append("\t");
-                            _builder_7.append("return this.execution.");
-                            String _name_17 = fd.getName();
-                            _builder_7.append(_name_17, "\t");
-                            _builder_7.append(".get();");
-                            _builder_7.newLineIfNotEmpty();
-                            _builder_7.append("}");
-                            _builder_7.newLine();
-                            sb.append(_builder_7);
+                          boolean _equals_2 = fd.getCodomain().getName().equals(AsmMethods.INTEGER);
+                          if (_equals_2) {
+                            StringConcatenation _builder_6 = new StringConcatenation();
+                            _builder_6.append("public Integer get_");
+                            String _name_14 = fd.getName();
+                            _builder_6.append(_name_14);
+                            _builder_6.append("(){");
+                            _builder_6.newLineIfNotEmpty();
+                            _builder_6.append("\t");
+                            _builder_6.append("return this.execution.");
+                            String _name_15 = fd.getName();
+                            _builder_6.append(_name_15, "\t");
+                            _builder_6.append(".get();");
+                            _builder_6.newLineIfNotEmpty();
+                            _builder_6.append("}");
+                            _builder_6.newLine();
+                            sb.append(_builder_6);
                           } else {
-                            boolean _equals_4 = fd.getCodomain().getName().equals(AsmMethods.STRING);
-                            if (_equals_4) {
-                              StringConcatenation _builder_8 = new StringConcatenation();
-                              _builder_8.append("public String get_");
-                              String _name_18 = fd.getName();
-                              _builder_8.append(_name_18);
-                              _builder_8.append("(){");
-                              _builder_8.newLineIfNotEmpty();
-                              _builder_8.append("\t");
-                              _builder_8.append("return this.execution.");
-                              String _name_19 = fd.getName();
-                              _builder_8.append(_name_19, "\t");
-                              _builder_8.append(".get();");
-                              _builder_8.newLineIfNotEmpty();
-                              _builder_8.append("}");
-                              _builder_8.newLine();
-                              sb.append(_builder_8);
+                            boolean _equals_3 = fd.getCodomain().getName().equals(AsmMethods.REAL);
+                            if (_equals_3) {
+                              StringConcatenation _builder_7 = new StringConcatenation();
+                              _builder_7.append("public Double get_");
+                              String _name_16 = fd.getName();
+                              _builder_7.append(_name_16);
+                              _builder_7.append("(){");
+                              _builder_7.newLineIfNotEmpty();
+                              _builder_7.append("\t");
+                              _builder_7.append("return this.execution.");
+                              String _name_17 = fd.getName();
+                              _builder_7.append(_name_17, "\t");
+                              _builder_7.append(".get();");
+                              _builder_7.newLineIfNotEmpty();
+                              _builder_7.append("}");
+                              _builder_7.newLine();
+                              sb.append(_builder_7);
                             } else {
-                              boolean _equals_5 = fd.getCodomain().getName().equals(AsmMethods.CHAR);
-                              if (_equals_5) {
-                                StringConcatenation _builder_9 = new StringConcatenation();
-                                _builder_9.append("public Character get_");
-                                String _name_20 = fd.getName();
-                                _builder_9.append(_name_20);
-                                _builder_9.append("(){");
-                                _builder_9.newLineIfNotEmpty();
-                                _builder_9.append("\t");
-                                _builder_9.append("return this.execution.");
-                                String _name_21 = fd.getName();
-                                _builder_9.append(_name_21, "\t");
-                                _builder_9.append(".get();");
-                                _builder_9.newLineIfNotEmpty();
-                                _builder_9.append("}");
-                                _builder_9.newLine();
-                                sb.append(_builder_9);
+                              boolean _equals_4 = fd.getCodomain().getName().equals(AsmMethods.STRING);
+                              if (_equals_4) {
+                                StringConcatenation _builder_8 = new StringConcatenation();
+                                _builder_8.append("public String get_");
+                                String _name_18 = fd.getName();
+                                _builder_8.append(_name_18);
+                                _builder_8.append("(){");
+                                _builder_8.newLineIfNotEmpty();
+                                _builder_8.append("\t");
+                                _builder_8.append("return this.execution.");
+                                String _name_19 = fd.getName();
+                                _builder_8.append(_name_19, "\t");
+                                _builder_8.append(".get();");
+                                _builder_8.newLineIfNotEmpty();
+                                _builder_8.append("}");
+                                _builder_8.newLine();
+                                sb.append(_builder_8);
                               } else {
-                                boolean _equals_6 = fd.getCodomain().getName().equals(AsmMethods.NATURAL);
-                                if (_equals_6) {
-                                  StringConcatenation _builder_10 = new StringConcatenation();
-                                  _builder_10.append("public Integer get_natural_");
-                                  String _name_22 = fd.getName();
-                                  _builder_10.append(_name_22);
-                                  _builder_10.append("(){");
-                                  _builder_10.newLineIfNotEmpty();
-                                  _builder_10.append("\t");
-                                  _builder_10.append("return this.execution.");
-                                  String _name_23 = fd.getName();
-                                  _builder_10.append(_name_23, "\t");
-                                  _builder_10.append(".get();");
-                                  _builder_10.newLineIfNotEmpty();
-                                  _builder_10.append("}");
-                                  _builder_10.newLine();
-                                  sb.append(_builder_10);
+                                boolean _equals_5 = fd.getCodomain().getName().equals(AsmMethods.CHAR);
+                                if (_equals_5) {
+                                  StringConcatenation _builder_9 = new StringConcatenation();
+                                  _builder_9.append("public Character get_");
+                                  String _name_20 = fd.getName();
+                                  _builder_9.append(_name_20);
+                                  _builder_9.append("(){");
+                                  _builder_9.newLineIfNotEmpty();
+                                  _builder_9.append("\t");
+                                  _builder_9.append("return this.execution.");
+                                  String _name_21 = fd.getName();
+                                  _builder_9.append(_name_21, "\t");
+                                  _builder_9.append(".get();");
+                                  _builder_9.newLineIfNotEmpty();
+                                  _builder_9.append("}");
+                                  _builder_9.newLine();
+                                  sb.append(_builder_9);
                                 } else {
-                                  AsmMethods.manageNotSupportedDomain(translatorOptions, fd.getCodomain().getName());
+                                  boolean _equals_6 = fd.getCodomain().getName().equals(AsmMethods.NATURAL);
+                                  if (_equals_6) {
+                                    StringConcatenation _builder_10 = new StringConcatenation();
+                                    _builder_10.append("public Integer get_natural_");
+                                    String _name_22 = fd.getName();
+                                    _builder_10.append(_name_22);
+                                    _builder_10.append("(){");
+                                    _builder_10.newLineIfNotEmpty();
+                                    _builder_10.append("\t");
+                                    _builder_10.append("return this.execution.");
+                                    String _name_23 = fd.getName();
+                                    _builder_10.append(_name_23, "\t");
+                                    _builder_10.append(".get();");
+                                    _builder_10.newLineIfNotEmpty();
+                                    _builder_10.append("}");
+                                    _builder_10.newLine();
+                                    sb.append(_builder_10);
+                                  } else {
+                                    AsmMethods.manageNotSupportedDomain(translatorOptions, fd.getCodomain().getName());
+                                  }
                                 }
                               }
                             }
@@ -331,8 +356,8 @@ public class AsmMethods {
                 for (int i = 0; (i < ((EnumTd)dd).getElement().size()); i++) {
                   {
                     String symbol = new DomainToJavaStringEvosuite(asm).visit(((EnumTd)dd).getElement().get(i));
-                    Domain _codomain_6 = fd.getCodomain();
-                    if ((_codomain_6 instanceof ConcreteDomain)) {
+                    Domain _codomain_8 = fd.getCodomain();
+                    if ((_codomain_8 instanceof ConcreteDomain)) {
                       String type_2 = AsmMethodsUtil.getConcreteDomainType(asm, fd, fd.getCodomain().getName());
                       StringBuffer _append = sb.append("\t");
                       StringConcatenation _builder_11 = new StringConcatenation();
@@ -368,8 +393,8 @@ public class AsmMethods {
                       _builder_14.append("}");
                       _append_3.append(_builder_14);
                     } else {
-                      Domain _codomain_7 = fd.getCodomain();
-                      if ((_codomain_7 instanceof AbstractTd)) {
+                      Domain _codomain_9 = fd.getCodomain();
+                      if ((_codomain_9 instanceof AbstractTd)) {
                         StringBuffer _append_4 = sb.append("\t");
                         StringConcatenation _builder_15 = new StringConcatenation();
                         _builder_15.append("public String get_");
@@ -458,8 +483,8 @@ public class AsmMethods {
                     if ((sf instanceof StaticFunction)) {
                       if ((((StaticFunction)sf).getCodomain().equals(dd) && (((StaticFunction)sf).getDomain() == null))) {
                         String symbol = ((StaticFunction)sf).getName();
-                        Domain _codomain_6 = fd.getCodomain();
-                        if ((_codomain_6 instanceof ConcreteDomain)) {
+                        Domain _codomain_8 = fd.getCodomain();
+                        if ((_codomain_8 instanceof ConcreteDomain)) {
                           String type_2 = AsmMethodsUtil.getConcreteDomainType(asm, fd, 
                             fd.getCodomain().getName());
                           StringBuffer _append = sb.append("\t");
@@ -495,8 +520,8 @@ public class AsmMethods {
                           _builder_14.append("}");
                           _append_3.append(_builder_14);
                         } else {
-                          Domain _codomain_7 = fd.getCodomain();
-                          if ((_codomain_7 instanceof AbstractTd)) {
+                          Domain _codomain_9 = fd.getCodomain();
+                          if ((_codomain_9 instanceof AbstractTd)) {
                             StringBuffer _append_4 = sb.append("\t");
                             StringConcatenation _builder_15 = new StringConcatenation();
                             _builder_15.append("public String get_");
@@ -604,8 +629,8 @@ public class AsmMethods {
                               if (_not) {
                                 symbol_1 = asmName.concat(".").concat(originalDomain).concat(".").concat(elem);
                               }
-                              Domain _codomain_8 = fd.getCodomain();
-                              if ((_codomain_8 instanceof ConcreteDomain)) {
+                              Domain _codomain_10 = fd.getCodomain();
+                              if ((_codomain_10 instanceof ConcreteDomain)) {
                                 StringBuffer _append_12 = sb.append("\t\t");
                                 StringConcatenation _builder_23 = new StringConcatenation();
                                 _builder_23.append("public ");
@@ -640,8 +665,8 @@ public class AsmMethods {
                                 _builder_26.append("}");
                                 _append_15.append(_builder_26);
                               } else {
-                                Domain _codomain_9 = fd.getCodomain();
-                                if ((_codomain_9 instanceof AbstractTd)) {
+                                Domain _codomain_11 = fd.getCodomain();
+                                if ((_codomain_11 instanceof AbstractTd)) {
                                   StringBuffer _append_16 = sb.append("\t\t");
                                   StringConcatenation _builder_27 = new StringConcatenation();
                                   _builder_27.append("public String get_");
@@ -876,50 +901,73 @@ public class AsmMethods {
           } else {
             Domain _codomain_1 = ((MonitoredFunction)fd).getCodomain();
             if ((_codomain_1 instanceof ConcreteDomain)) {
-              String type = AsmMethodsUtil.getConcreteDomainType(asm, fd, ((MonitoredFunction)fd).getCodomain().getName());
-              StringConcatenation _builder_1 = new StringConcatenation();
-              _builder_1.append("public void set_");
-              String _name_8 = ((MonitoredFunction)fd).getName();
-              _builder_1.append(_name_8);
-              _builder_1.append("(");
-              _builder_1.append(type);
-              _builder_1.append(" ");
-              String _name_9 = ((MonitoredFunction)fd).getName();
-              _builder_1.append(_name_9);
-              _builder_1.append(") {");
-              _builder_1.newLineIfNotEmpty();
-              _builder_1.append("\t");
-              _builder_1.append("this.execution.");
-              String _name_10 = ((MonitoredFunction)fd).getName();
-              _builder_1.append(_name_10, "\t");
-              _builder_1.append(".set(");
-              _builder_1.newLineIfNotEmpty();
-              _builder_1.append("\t\t");
-              String _name_11 = asm.getName();
-              _builder_1.append(_name_11, "\t\t");
-              _builder_1.append(".");
-              String _name_12 = ((MonitoredFunction)fd).getCodomain().getName();
-              _builder_1.append(_name_12, "\t\t");
-              _builder_1.append(".valueOf(");
-              String _name_13 = ((MonitoredFunction)fd).getName();
-              _builder_1.append(_name_13, "\t\t");
-              _builder_1.append("));");
-              _builder_1.newLineIfNotEmpty();
-              _builder_1.append("\t");
-              _builder_1.append("System.out.println(\"Set ");
-              String _name_14 = ((MonitoredFunction)fd).getName();
-              _builder_1.append(_name_14, "\t");
-              _builder_1.append(" = \" + ");
-              String _name_15 = ((MonitoredFunction)fd).getName();
-              _builder_1.append(_name_15, "\t");
-              _builder_1.append(");");
-              _builder_1.newLineIfNotEmpty();
-              _builder_1.append("}");
-              sb.append(_builder_1);
+              Domain _codomain_2 = ((MonitoredFunction)fd).getCodomain();
+              final ConcreteDomain concreteDomain = ((ConcreteDomain) _codomain_2);
+              final boolean nestedCollection = (((concreteDomain.getTypeDomain() instanceof SequenceDomain) && ((((SequenceDomain) concreteDomain.getTypeDomain()).getDomain() instanceof SequenceDomain) || 
+                (((SequenceDomain) concreteDomain.getTypeDomain()).getDomain() instanceof PowersetDomain))) || ((concreteDomain.getTypeDomain() instanceof PowersetDomain) && ((((PowersetDomain) concreteDomain.getTypeDomain()).getBaseDomain() instanceof SequenceDomain) || 
+                (((PowersetDomain) concreteDomain.getTypeDomain()).getBaseDomain() instanceof PowersetDomain))));
+              String _xifexpression = null;
+              TypeDomain _typeDomain = concreteDomain.getTypeDomain();
+              if ((_typeDomain instanceof SequenceDomain)) {
+                String _trim = new DomainToJavaString(asm).visit(concreteDomain.getTypeDomain()).trim();
+                _xifexpression = ("java.util.List" + _trim);
+              } else {
+                String _xifexpression_1 = null;
+                TypeDomain _typeDomain_1 = concreteDomain.getTypeDomain();
+                if ((_typeDomain_1 instanceof PowersetDomain)) {
+                  String _trim_1 = new DomainToJavaString(asm).visit(concreteDomain.getTypeDomain()).trim();
+                  _xifexpression_1 = ("java.util.Set" + _trim_1);
+                } else {
+                  _xifexpression_1 = AsmMethodsUtil.getConcreteDomainType(asm, fd, ((MonitoredFunction)fd).getCodomain().getName());
+                }
+                _xifexpression = _xifexpression_1;
+              }
+              final String type = _xifexpression;
+              if ((!nestedCollection)) {
+                StringConcatenation _builder_1 = new StringConcatenation();
+                _builder_1.append("public void set_");
+                String _name_8 = ((MonitoredFunction)fd).getName();
+                _builder_1.append(_name_8);
+                _builder_1.append("(");
+                _builder_1.append(type);
+                _builder_1.append(" ");
+                String _name_9 = ((MonitoredFunction)fd).getName();
+                _builder_1.append(_name_9);
+                _builder_1.append(") {");
+                _builder_1.newLineIfNotEmpty();
+                _builder_1.append("\t");
+                _builder_1.append("this.execution.");
+                String _name_10 = ((MonitoredFunction)fd).getName();
+                _builder_1.append(_name_10, "\t");
+                _builder_1.append(".set(");
+                _builder_1.newLineIfNotEmpty();
+                _builder_1.append("\t\t");
+                String _name_11 = asm.getName();
+                _builder_1.append(_name_11, "\t\t");
+                _builder_1.append(".");
+                String _name_12 = ((MonitoredFunction)fd).getCodomain().getName();
+                _builder_1.append(_name_12, "\t\t");
+                _builder_1.append(".valueOf(");
+                String _name_13 = ((MonitoredFunction)fd).getName();
+                _builder_1.append(_name_13, "\t\t");
+                _builder_1.append("));");
+                _builder_1.newLineIfNotEmpty();
+                _builder_1.append("\t");
+                _builder_1.append("System.out.println(\"Set ");
+                String _name_14 = ((MonitoredFunction)fd).getName();
+                _builder_1.append(_name_14, "\t");
+                _builder_1.append(" = \" + ");
+                String _name_15 = ((MonitoredFunction)fd).getName();
+                _builder_1.append(_name_15, "\t");
+                _builder_1.append(");");
+                _builder_1.newLineIfNotEmpty();
+                _builder_1.append("}");
+                sb.append(_builder_1);
+              }
               sb.append(System.lineSeparator());
             } else {
-              Domain _codomain_2 = ((MonitoredFunction)fd).getCodomain();
-              if ((_codomain_2 instanceof AbstractTd)) {
+              Domain _codomain_3 = ((MonitoredFunction)fd).getCodomain();
+              if ((_codomain_3 instanceof AbstractTd)) {
                 StringConcatenation _builder_2 = new StringConcatenation();
                 _builder_2.append("public void set_abstract_");
                 String _name_16 = ((MonitoredFunction)fd).getName();
@@ -959,8 +1007,9 @@ public class AsmMethods {
                 sb.append(_builder_2);
                 sb.append(System.lineSeparator());
               } else {
-                Domain _codomain_3 = ((MonitoredFunction)fd).getCodomain();
-                if ((_codomain_3 instanceof SequenceDomain)) {
+                if ((((((MonitoredFunction)fd).getCodomain() instanceof SequenceDomain) && 
+                  (!(((SequenceDomain) ((MonitoredFunction)fd).getCodomain()).getDomain() instanceof SequenceDomain))) && 
+                  (!(((SequenceDomain) ((MonitoredFunction)fd).getCodomain()).getDomain() instanceof PowersetDomain)))) {
                   String type_1 = new DomainToJavaString(asm).visit(((MonitoredFunction)fd).getCodomain()).replaceAll("<", "").replaceAll(">", "").trim();
                   boolean _contains = AsmMethodsUtil.basicTdList.contains(type_1);
                   if (_contains) {
@@ -997,78 +1046,103 @@ public class AsmMethods {
                     }
                   }
                 } else {
-                  boolean _equals_1 = ((MonitoredFunction)fd).getCodomain().getName().equals(AsmMethods.NATURAL);
-                  if (_equals_1) {
-                    StringConcatenation _builder_4 = new StringConcatenation();
-                    _builder_4.append("public void set_natural_");
-                    String _name_25 = ((MonitoredFunction)fd).getName();
-                    _builder_4.append(_name_25);
-                    _builder_4.append("(int ");
-                    String _name_26 = ((MonitoredFunction)fd).getName();
-                    _builder_4.append(_name_26);
-                    _builder_4.append(") {");
-                    _builder_4.newLineIfNotEmpty();
-                    _builder_4.append("\t");
-                    _builder_4.append("this.execution.");
-                    String _name_27 = ((MonitoredFunction)fd).getName();
-                    _builder_4.append(_name_27, "\t");
-                    _builder_4.append(".set(checkNatural(");
-                    String _name_28 = ((MonitoredFunction)fd).getName();
-                    _builder_4.append(_name_28, "\t");
-                    _builder_4.append(", \"");
-                    String _name_29 = ((MonitoredFunction)fd).getName();
-                    _builder_4.append(_name_29, "\t");
-                    _builder_4.append("\"));");
-                    _builder_4.newLineIfNotEmpty();
-                    _builder_4.append("\t");
-                    _builder_4.append("System.out.println(\"Set ");
-                    String _name_30 = ((MonitoredFunction)fd).getName();
-                    _builder_4.append(_name_30, "\t");
-                    _builder_4.append(" = \" + ");
-                    String _name_31 = ((MonitoredFunction)fd).getName();
-                    _builder_4.append(_name_31, "\t");
-                    _builder_4.append(" +\"n\");");
-                    _builder_4.newLineIfNotEmpty();
-                    _builder_4.append("}");
-                    sb.append(_builder_4);
-                  } else {
-                    if (((((((MonitoredFunction)fd).getCodomain().getName().equals(AsmMethods.INTEGER) || ((MonitoredFunction)fd).getCodomain().getName().equals(AsmMethods.BOOLEAN)) || 
-                      ((MonitoredFunction)fd).getCodomain().getName().equals(AsmMethods.STRING)) || ((MonitoredFunction)fd).getCodomain().getName().equals(AsmMethods.REAL)) || 
-                      ((MonitoredFunction)fd).getCodomain().getName().equals(AsmMethods.CHAR))) {
-                      String type_2 = AsmMethodsUtil.getBasicTdType(((MonitoredFunction)fd).getCodomain().getName());
-                      StringConcatenation _builder_5 = new StringConcatenation();
-                      _builder_5.append("public void set_");
-                      String _name_32 = ((MonitoredFunction)fd).getName();
-                      _builder_5.append(_name_32);
-                      _builder_5.append("(");
-                      _builder_5.append(type_2);
-                      _builder_5.append(" ");
-                      String _name_33 = ((MonitoredFunction)fd).getName();
-                      _builder_5.append(_name_33);
-                      _builder_5.append(") {");
-                      _builder_5.newLineIfNotEmpty();
-                      _builder_5.append("\t");
-                      _builder_5.append("this.execution.");
-                      String _name_34 = ((MonitoredFunction)fd).getName();
-                      _builder_5.append(_name_34, "\t");
-                      _builder_5.append(".set(");
-                      String _name_35 = ((MonitoredFunction)fd).getName();
-                      _builder_5.append(_name_35, "\t");
-                      _builder_5.append(");");
-                      _builder_5.newLineIfNotEmpty();
-                      _builder_5.append("\t");
-                      _builder_5.append("System.out.println(\"Set ");
-                      String _name_36 = ((MonitoredFunction)fd).getName();
-                      _builder_5.append(_name_36, "\t");
-                      _builder_5.append(" = \" + ");
-                      String _name_37 = ((MonitoredFunction)fd).getName();
-                      _builder_5.append(_name_37, "\t");
-                      _builder_5.append(");");
-                      _builder_5.newLineIfNotEmpty();
-                      _builder_5.append("}");
-                      sb.append(_builder_5);
+                  if ((((((MonitoredFunction)fd).getCodomain() instanceof PowersetDomain) && 
+                    (!(((PowersetDomain) ((MonitoredFunction)fd).getCodomain()).getBaseDomain() instanceof SequenceDomain))) && 
+                    (!(((PowersetDomain) ((MonitoredFunction)fd).getCodomain()).getBaseDomain() instanceof PowersetDomain)))) {
+                    String type_2 = new DomainToJavaString(asm).visit(((MonitoredFunction)fd).getCodomain()).replaceAll("<", "").replaceAll(">", "").trim();
+                    boolean _contains_1 = AsmMethodsUtil.basicTdList.contains(type_2);
+                    if (_contains_1) {
+                      type_2 = AsmMethodsUtil.getWrapperBasicTdType(type_2);
+                      sb.append(AsmMethodsUtil.genPowersetSetter(((MonitoredFunction)fd).getName(), type_2, 
+                        AsmMethodsUtil.getParsingMethod(type_2)));
                     } else {
-                      AsmMethods.manageNotSupportedDomain(translatorOptions, ((MonitoredFunction)fd).getCodomain().getName());
+                      EList<Domain> _domain_3 = asm.getHeaderSection().getSignature().getDomain();
+                      for (final Domain cd_1 : _domain_3) {
+                        if ((cd_1.getName().equals(type_2) && (cd_1 instanceof EnumTd))) {
+                          type_2 = asm.getName().concat(".").concat(type_2);
+                          sb.append(AsmMethodsUtil.genPowersetSetter(((MonitoredFunction)fd).getName(), type_2, (type_2 + "::valueOf")));
+                        } else {
+                          if ((cd_1.getName().equals(type_2) && (cd_1 instanceof AbstractTd))) {
+                            type_2 = asm.getName().concat(".").concat(type_2);
+                            sb.append(AsmMethodsUtil.genPowersetSetter(((MonitoredFunction)fd).getName(), type_2, (type_2 + "::get")));
+                          }
+                        }
+                      }
+                    }
+                  } else {
+                    boolean _equals_1 = ((MonitoredFunction)fd).getCodomain().getName().equals(AsmMethods.NATURAL);
+                    if (_equals_1) {
+                      StringConcatenation _builder_4 = new StringConcatenation();
+                      _builder_4.append("public void set_natural_");
+                      String _name_25 = ((MonitoredFunction)fd).getName();
+                      _builder_4.append(_name_25);
+                      _builder_4.append("(int ");
+                      String _name_26 = ((MonitoredFunction)fd).getName();
+                      _builder_4.append(_name_26);
+                      _builder_4.append(") {");
+                      _builder_4.newLineIfNotEmpty();
+                      _builder_4.append("\t");
+                      _builder_4.append("this.execution.");
+                      String _name_27 = ((MonitoredFunction)fd).getName();
+                      _builder_4.append(_name_27, "\t");
+                      _builder_4.append(".set(checkNatural(");
+                      String _name_28 = ((MonitoredFunction)fd).getName();
+                      _builder_4.append(_name_28, "\t");
+                      _builder_4.append(", \"");
+                      String _name_29 = ((MonitoredFunction)fd).getName();
+                      _builder_4.append(_name_29, "\t");
+                      _builder_4.append("\"));");
+                      _builder_4.newLineIfNotEmpty();
+                      _builder_4.append("\t");
+                      _builder_4.append("System.out.println(\"Set ");
+                      String _name_30 = ((MonitoredFunction)fd).getName();
+                      _builder_4.append(_name_30, "\t");
+                      _builder_4.append(" = \" + ");
+                      String _name_31 = ((MonitoredFunction)fd).getName();
+                      _builder_4.append(_name_31, "\t");
+                      _builder_4.append(" +\"n\");");
+                      _builder_4.newLineIfNotEmpty();
+                      _builder_4.append("}");
+                      sb.append(_builder_4);
+                    } else {
+                      if (((((((MonitoredFunction)fd).getCodomain().getName().equals(AsmMethods.INTEGER) || ((MonitoredFunction)fd).getCodomain().getName().equals(AsmMethods.BOOLEAN)) || 
+                        ((MonitoredFunction)fd).getCodomain().getName().equals(AsmMethods.STRING)) || ((MonitoredFunction)fd).getCodomain().getName().equals(AsmMethods.REAL)) || 
+                        ((MonitoredFunction)fd).getCodomain().getName().equals(AsmMethods.CHAR))) {
+                        String type_3 = AsmMethodsUtil.getBasicTdType(((MonitoredFunction)fd).getCodomain().getName());
+                        StringConcatenation _builder_5 = new StringConcatenation();
+                        _builder_5.append("public void set_");
+                        String _name_32 = ((MonitoredFunction)fd).getName();
+                        _builder_5.append(_name_32);
+                        _builder_5.append("(");
+                        _builder_5.append(type_3);
+                        _builder_5.append(" ");
+                        String _name_33 = ((MonitoredFunction)fd).getName();
+                        _builder_5.append(_name_33);
+                        _builder_5.append(") {");
+                        _builder_5.newLineIfNotEmpty();
+                        _builder_5.append("\t");
+                        _builder_5.append("this.execution.");
+                        String _name_34 = ((MonitoredFunction)fd).getName();
+                        _builder_5.append(_name_34, "\t");
+                        _builder_5.append(".set(");
+                        String _name_35 = ((MonitoredFunction)fd).getName();
+                        _builder_5.append(_name_35, "\t");
+                        _builder_5.append(");");
+                        _builder_5.newLineIfNotEmpty();
+                        _builder_5.append("\t");
+                        _builder_5.append("System.out.println(\"Set ");
+                        String _name_36 = ((MonitoredFunction)fd).getName();
+                        _builder_5.append(_name_36, "\t");
+                        _builder_5.append(" = \" + ");
+                        String _name_37 = ((MonitoredFunction)fd).getName();
+                        _builder_5.append(_name_37, "\t");
+                        _builder_5.append(");");
+                        _builder_5.newLineIfNotEmpty();
+                        _builder_5.append("}");
+                        sb.append(_builder_5);
+                      } else {
+                        AsmMethods.manageNotSupportedDomain(translatorOptions, ((MonitoredFunction)fd).getCodomain().getName());
+                      }
                     }
                   }
                 }
@@ -1086,7 +1160,7 @@ public class AsmMethods {
                   String symbol = new DomainToJavaStringEvosuite(asm).visit(((EnumTd)dd).getElement().get(i));
                   Domain _codomain_5 = ((MonitoredFunction)fd).getCodomain();
                   if ((_codomain_5 instanceof ConcreteDomain)) {
-                    String type_3 = AsmMethodsUtil.getConcreteDomainType(asm, fd, ((MonitoredFunction)fd).getCodomain().getName());
+                    String type_4 = AsmMethodsUtil.getConcreteDomainType(asm, fd, ((MonitoredFunction)fd).getCodomain().getName());
                     StringConcatenation _builder_6 = new StringConcatenation();
                     _builder_6.append("public void set_");
                     String _name_38 = ((MonitoredFunction)fd).getName();
@@ -1094,7 +1168,7 @@ public class AsmMethods {
                     _builder_6.append("_fromDomain_");
                     _builder_6.append(symbol);
                     _builder_6.append("(");
-                    _builder_6.append(type_3);
+                    _builder_6.append(type_4);
                     _builder_6.append(" ");
                     String _name_39 = ((MonitoredFunction)fd).getName();
                     _builder_6.append(_name_39);
@@ -1325,7 +1399,7 @@ public class AsmMethods {
                           if (((((((MonitoredFunction)fd).getCodomain().getName().equals(AsmMethods.INTEGER) || ((MonitoredFunction)fd).getCodomain().getName().equals(AsmMethods.BOOLEAN)) || 
                             ((MonitoredFunction)fd).getCodomain().getName().equals(AsmMethods.STRING)) || ((MonitoredFunction)fd).getCodomain().getName().equals(AsmMethods.REAL)) || 
                             ((MonitoredFunction)fd).getCodomain().getName().equals(AsmMethods.CHAR))) {
-                            String type_4 = AsmMethodsUtil.getBasicTdType(((MonitoredFunction)fd).getCodomain().getName());
+                            String type_5 = AsmMethodsUtil.getBasicTdType(((MonitoredFunction)fd).getCodomain().getName());
                             StringConcatenation _builder_10 = new StringConcatenation();
                             _builder_10.append("public void set_");
                             String _name_78 = ((MonitoredFunction)fd).getName();
@@ -1333,7 +1407,7 @@ public class AsmMethods {
                             _builder_10.append("_fromDomain_");
                             _builder_10.append(symbol);
                             _builder_10.append("(");
-                            _builder_10.append(type_4);
+                            _builder_10.append(type_5);
                             _builder_10.append(" ");
                             String _name_79 = ((MonitoredFunction)fd).getName();
                             _builder_10.append(_name_79);
@@ -1385,8 +1459,8 @@ public class AsmMethods {
                 }
               }
             } else {
-              Domain _domain_3 = ((MonitoredFunction)fd).getDomain();
-              if ((_domain_3 instanceof AbstractTd)) {
+              Domain _domain_4 = ((MonitoredFunction)fd).getDomain();
+              if ((_domain_4 instanceof AbstractTd)) {
                 EList<Function> _function_1 = asm.getHeaderSection().getSignature().getFunction();
                 for (final Function sf : _function_1) {
                   if ((sf instanceof StaticFunction)) {
@@ -1394,7 +1468,7 @@ public class AsmMethods {
                       String symbol = ((StaticFunction)sf).getName();
                       Domain _codomain_5 = ((MonitoredFunction)fd).getCodomain();
                       if ((_codomain_5 instanceof ConcreteDomain)) {
-                        String type_3 = AsmMethodsUtil.getConcreteDomainType(asm, fd, ((MonitoredFunction)fd).getCodomain().getName());
+                        String type_4 = AsmMethodsUtil.getConcreteDomainType(asm, fd, ((MonitoredFunction)fd).getCodomain().getName());
                         StringConcatenation _builder_6 = new StringConcatenation();
                         _builder_6.append("public void set_");
                         String _name_38 = ((MonitoredFunction)fd).getName();
@@ -1402,7 +1476,7 @@ public class AsmMethods {
                         _builder_6.append("_fromDomain_");
                         _builder_6.append(symbol);
                         _builder_6.append("(");
-                        _builder_6.append(type_3);
+                        _builder_6.append(type_4);
                         _builder_6.append(" ");
                         String _name_39 = ((MonitoredFunction)fd).getName();
                         _builder_6.append(_name_39);
@@ -1639,7 +1713,7 @@ public class AsmMethods {
                               if (((((((MonitoredFunction)fd).getCodomain().getName().equals(AsmMethods.INTEGER) || ((MonitoredFunction)fd).getCodomain().getName().equals(AsmMethods.BOOLEAN)) || 
                                 ((MonitoredFunction)fd).getCodomain().getName().equals(AsmMethods.STRING)) || ((MonitoredFunction)fd).getCodomain().getName().equals(AsmMethods.REAL)) || 
                                 ((MonitoredFunction)fd).getCodomain().getName().equals(AsmMethods.CHAR))) {
-                                String type_4 = AsmMethodsUtil.getBasicTdType(((MonitoredFunction)fd).getCodomain().getName());
+                                String type_5 = AsmMethodsUtil.getBasicTdType(((MonitoredFunction)fd).getCodomain().getName());
                                 StringConcatenation _builder_10 = new StringConcatenation();
                                 _builder_10.append("public void set_");
                                 String _name_78 = ((MonitoredFunction)fd).getName();
@@ -1647,7 +1721,7 @@ public class AsmMethods {
                                 _builder_10.append("_fromDomain_");
                                 _builder_10.append(symbol);
                                 _builder_10.append("(");
-                                _builder_10.append(type_4);
+                                _builder_10.append(type_5);
                                 _builder_10.append(" ");
                                 String _name_79 = ((MonitoredFunction)fd).getName();
                                 _builder_10.append(_name_79);
@@ -1702,14 +1776,14 @@ public class AsmMethods {
                   }
                 }
               } else {
-                Domain _domain_4 = ((MonitoredFunction)fd).getDomain();
-                if ((_domain_4 instanceof ConcreteDomain)) {
-                  EList<Domain> _domain_5 = asm.getHeaderSection().getSignature().getDomain();
-                  for (final Domain cd_1 : _domain_5) {
-                    if ((cd_1 instanceof ConcreteDomain)) {
-                      boolean _equals_3 = ((ConcreteDomain)cd_1).getName().equals(((MonitoredFunction)fd).getDomain().getName());
+                Domain _domain_5 = ((MonitoredFunction)fd).getDomain();
+                if ((_domain_5 instanceof ConcreteDomain)) {
+                  EList<Domain> _domain_6 = asm.getHeaderSection().getSignature().getDomain();
+                  for (final Domain cd_2 : _domain_6) {
+                    if ((cd_2 instanceof ConcreteDomain)) {
+                      boolean _equals_3 = ((ConcreteDomain)cd_2).getName().equals(((MonitoredFunction)fd).getDomain().getName());
                       if (_equals_3) {
-                        final String elemsString = new TermToJava(asm).visit(((ConcreteDomain)cd_1).getDefinition().getBody());
+                        final String elemsString = new TermToJava(asm).visit(((ConcreteDomain)cd_2).getDefinition().getBody());
                         final Function1<String, String> _function_2 = (String it) -> {
                           int _lastIndexOf = it.lastIndexOf(".");
                           int _plus = (_lastIndexOf + 1);
@@ -1720,15 +1794,15 @@ public class AsmMethods {
                           {
                             String symbol_1 = elem;
                             String originalDomain = new DomainToJavaString(asm).visit(
-                              ((ConcreteDomain)cd_1).getDefinition().getDefinedDomain().getTypeDomain());
-                            boolean _contains_1 = AsmMethodsUtil.basicTdList.contains(originalDomain);
-                            boolean _not = (!_contains_1);
+                              ((ConcreteDomain)cd_2).getDefinition().getDefinedDomain().getTypeDomain());
+                            boolean _contains_2 = AsmMethodsUtil.basicTdList.contains(originalDomain);
+                            boolean _not = (!_contains_2);
                             if (_not) {
                               symbol_1 = asm.getName().concat(".").concat(originalDomain).concat(".").concat(elem);
                             }
                             Domain _codomain_8 = ((MonitoredFunction)fd).getCodomain();
                             if ((_codomain_8 instanceof ConcreteDomain)) {
-                              String type_5 = AsmMethodsUtil.getConcreteDomainType(asm, fd, ((MonitoredFunction)fd).getCodomain().getName());
+                              String type_6 = AsmMethodsUtil.getConcreteDomainType(asm, fd, ((MonitoredFunction)fd).getCodomain().getName());
                               StringConcatenation _builder_11 = new StringConcatenation();
                               _builder_11.append("public void set_");
                               String _name_86 = ((MonitoredFunction)fd).getName();
@@ -1736,7 +1810,7 @@ public class AsmMethods {
                               _builder_11.append("_fromDomain_");
                               _builder_11.append(elem);
                               _builder_11.append("(");
-                              _builder_11.append(type_5);
+                              _builder_11.append(type_6);
                               _builder_11.append(" ");
                               String _name_87 = ((MonitoredFunction)fd).getName();
                               _builder_11.append(_name_87);
@@ -1970,7 +2044,7 @@ public class AsmMethods {
                                     if (((((((MonitoredFunction)fd).getCodomain().getName().equals(AsmMethods.INTEGER) || 
                                       ((MonitoredFunction)fd).getCodomain().getName().equals(AsmMethods.BOOLEAN)) || ((MonitoredFunction)fd).getCodomain().getName().equals(AsmMethods.STRING)) || 
                                       ((MonitoredFunction)fd).getCodomain().getName().equals(AsmMethods.REAL)) || ((MonitoredFunction)fd).getCodomain().getName().equals(AsmMethods.CHAR))) {
-                                      String type_6 = AsmMethodsUtil.getBasicTdType(((MonitoredFunction)fd).getCodomain().getName());
+                                      String type_7 = AsmMethodsUtil.getBasicTdType(((MonitoredFunction)fd).getCodomain().getName());
                                       StringConcatenation _builder_15 = new StringConcatenation();
                                       _builder_15.append("public void set_");
                                       String _name_125 = ((MonitoredFunction)fd).getName();
@@ -1978,7 +2052,7 @@ public class AsmMethods {
                                       _builder_15.append("_fromDomain_");
                                       _builder_15.append(elem);
                                       _builder_15.append("(");
-                                      _builder_15.append(type_6);
+                                      _builder_15.append(type_7);
                                       _builder_15.append(" ");
                                       String _name_126 = ((MonitoredFunction)fd).getName();
                                       _builder_15.append(_name_126);

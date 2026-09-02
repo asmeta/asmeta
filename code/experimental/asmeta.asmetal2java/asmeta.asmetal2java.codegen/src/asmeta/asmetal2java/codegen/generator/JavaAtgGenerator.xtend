@@ -76,8 +76,7 @@ class JavaAtgGenerator extends AsmToJavaGenerator {
 
 			private static String[][] __asmetaStopChoiceRecording(){
 				return «asmName».__asmetaStopChoiceRecording();
-			}
-			//---------------------------------------------------------------------------------------------------------
+			}//---------------------------------------------------------------------------------------------------------
 			«ENDIF»
 		
 		   /**
@@ -189,6 +188,7 @@ class JavaAtgGenerator extends AsmToJavaGenerator {
 		sb.append(AsmMethods.monitoredSetters(asm, options));
 		
 		sb.append('''
+		// Helper method, check value is non negative
 		private static int checkNatural(int value, String parameterName) {
 			if (value < 0)
 				throw new IllegalArgumentException(parameterName + " must be a Natural, but was " + value);

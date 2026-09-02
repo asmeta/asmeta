@@ -217,10 +217,7 @@ public class JavaTestGenerator extends JavaGenerator {
         _builder.append("});");
         _builder.newLine();
         _builder.append("\t");
-        _builder.append("}");
-        _builder.newLine();
-        _builder.append("\t");
-        _builder.append("//---------------------------------------------------------------------------------------------------------");
+        _builder.append("}//---------------------------------------------------------------------------------------------------------");
         _builder.newLine();
       }
     }

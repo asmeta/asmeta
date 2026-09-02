@@ -3,8 +3,6 @@ package asmeta.asmetal2java.codegen.generator;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.lang.reflect.InvocationTargetException;
-import java.net.URLClassLoader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
@@ -20,6 +18,7 @@ import asmeta.asmetal2java.codegen.config.ModeConstantsConfig;
 import asmeta.asmetal2java.codegen.config.TranslatorOptions;
 import asmeta.asmetal2java.codegen.config.TranslatorOptionsImpl;
 import asmeta.asmetal2java.codegen.evosuite.RulesMap;
+import asmeta.asmetal2java.codegen.translator.InvalidFunctionException;
 
 /**
  * Focused cases for the Java generators used by EvoAvalla.
@@ -68,15 +67,22 @@ public class EvoAvallaTranslationCases {
 		translateAndCompile("SequenceInitialization.asm");
 	}
 
-//	@Test
-//	@Tag("TestToMavenSkip")
-//	void powersetInitializationMustGenerateCompilableTestAndAtgClasses() throws Exception {
-//		translateAndCompile("PowersetInitialization.asm");
-//	}
+	@Test
+	@Tag("TestToMavenSkip")
+	void powersetInitializationMustGenerateCompilableTestAndAtgClasses() throws Exception {
+		translateAndCompile("PowersetInitialization.asm");
+	}
 
 	@Test
+	@Tag("TestToMavenSkip")
 	void naturalMustGenerateCompilableTestAndAtgClasses() throws Exception {
 		translateAndCompile("Natural.asm");
+	}
+
+	@Test
+	@Tag("TestToMavenSkip")
+	void stdlFunctionsMustGenerateCompilableTestAndAtgClasses() throws Exception {
+		translateAndCompile("STDLFunctions.asm");
 	}
 
 //	@Test

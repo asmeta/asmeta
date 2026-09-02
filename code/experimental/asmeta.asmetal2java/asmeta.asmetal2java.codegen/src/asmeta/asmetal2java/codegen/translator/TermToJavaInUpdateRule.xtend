@@ -7,6 +7,7 @@ import asmeta.definitions.domains.MapDomain
 import asmeta.definitions.domains.ProductDomain
 import asmeta.definitions.domains.SequenceDomain
 import asmeta.structure.Asm
+import org.asmeta.parser.util.Defs
 import asmeta.terms.basicterms.FunctionTerm
 
 /**
@@ -31,8 +32,9 @@ class TermToJavaInUpdateRule extends TermToJava {
 		var StringBuffer functionTerm = new StringBuffer
 		var name = new Util().parseFunction(term.function.name)
 
-		// Controllo se l'operatore » del tipo: &,|,<=,>=,<,>...
-		if (!ExpressionToJava.hasEvaluateVisitor(name)) {
+		// Treat the term as an ASM location, unless it is an expression with arguments from the Standard Library that is supported by ExpressionToJava
+		if (term.arguments === null || !Defs.getAsmName(term.function).equals("StandardLibrary") ||
+			!ExpressionToJava.hasEvaluateVisitor(name)) {
 			if (Util.isControlledOrOut(term.function) && term.domain instanceof ConcreteDomain &&
 				!(term.function.domain instanceof ProductDomain))
 				functionTerm.append(caseFunctionTermSupp(term.function, term))

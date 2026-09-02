@@ -125,10 +125,7 @@ public class JavaAtgGenerator extends AsmToJavaGenerator {
         _builder.append(".__asmetaStopChoiceRecording();");
         _builder.newLineIfNotEmpty();
         _builder.append("\t");
-        _builder.append("}");
-        _builder.newLine();
-        _builder.append("\t");
-        _builder.append("//---------------------------------------------------------------------------------------------------------");
+        _builder.append("}//---------------------------------------------------------------------------------------------------------");
         _builder.newLine();
       }
     }
@@ -290,6 +287,8 @@ public class JavaAtgGenerator extends AsmToJavaGenerator {
     sb.append(System.lineSeparator());
     sb.append(AsmMethods.monitoredSetters(asm, this.options));
     StringConcatenation _builder_11 = new StringConcatenation();
+    _builder_11.append("// Helper method, check value is non negative");
+    _builder_11.newLine();
     _builder_11.append("private static int checkNatural(int value, String parameterName) {");
     _builder_11.newLine();
     _builder_11.append("\t");

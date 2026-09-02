@@ -9,6 +9,7 @@ import asmeta.definitions.domains.SequenceDomain;
 import asmeta.structure.Asm;
 import asmeta.terms.basicterms.FunctionTerm;
 import asmeta.terms.basicterms.TupleTerm;
+import org.asmeta.parser.util.Defs;
 
 /**
  * This class is used in Update Rules
@@ -31,9 +32,8 @@ public class TermToJavaInUpdateRule extends TermToJava {
   public String visit(final FunctionTerm term) {
     StringBuffer functionTerm = new StringBuffer();
     String name = new Util().parseFunction(term.getFunction().getName());
-    boolean _hasEvaluateVisitor = ExpressionToJava.hasEvaluateVisitor(name);
-    boolean _not = (!_hasEvaluateVisitor);
-    if (_not) {
+    if ((((term.getArguments() == null) || (!Defs.getAsmName(term.getFunction()).equals("StandardLibrary"))) || 
+      (!ExpressionToJava.hasEvaluateVisitor(name)))) {
       if (((Util.isControlledOrOut(term.getFunction()) && (term.getDomain() instanceof ConcreteDomain)) && 
         (!(term.getFunction().getDomain() instanceof ProductDomain)))) {
         functionTerm.append(this.caseFunctionTermSupp(term.getFunction(), term));
@@ -114,7 +114,7 @@ public class TermToJavaInUpdateRule extends TermToJava {
             String _name_8 = ft.getDomain().getName();
             String _plus_14 = (_plus_13 + _name_8);
             String _plus_15 = (_plus_14 + this.varName);
-            String _plus_16 = (_plus_15 +
+            String _plus_16 = (_plus_15 + 
               "_s);");
             functionTerm.append(_plus_16);
           } else {

@@ -302,38 +302,71 @@ public class RuleToJava extends RuleVisitor<String> {
       _builder.newLineIfNotEmpty();
       result.append(_builder);
     } else {
-      Domain _domain = object.getUpdatingTerm().getDomain();
-      if ((_domain instanceof ConcreteDomain)) {
+      if (((object.getLocation().getDomain() instanceof ConcreteDomain) && 
+        (((ConcreteDomain) object.getLocation().getDomain()).getTypeDomain() instanceof PowersetDomain))) {
+        final String varName = Integer.valueOf(object.hashCode()).toString();
+        Domain _domain = object.getLocation().getDomain();
+        final ConcreteDomain concreteDomain = ((ConcreteDomain) _domain);
         StringConcatenation _builder_1 = new StringConcatenation();
-        String _visit_4 = termToJavaL.visit(object.getLocation());
-        _builder_1.append(_visit_4);
+        String _name = concreteDomain.getName();
+        _builder_1.append(_name);
         _builder_1.append(" ");
-        String _visit_5 = termToJavaR.visit(object.getUpdatingTerm());
-        _builder_1.append(_visit_5);
+        String _name_1 = concreteDomain.getName();
+        _builder_1.append(_name_1);
+        _builder_1.append(varName);
+        _builder_1.append("_s = new ");
+        String _name_2 = concreteDomain.getName();
+        _builder_1.append(_name_2);
+        _builder_1.append("();");
+        _builder_1.newLineIfNotEmpty();
+        _builder_1.append("\t\t\t\t");
+        String _name_3 = concreteDomain.getName();
+        _builder_1.append(_name_3, "\t\t\t\t");
+        _builder_1.append(varName, "\t\t\t\t");
+        _builder_1.append("_s.value = new HashSet<>(Arrays.asList");
+        String _visit_4 = termToJavaR.visit(object.getUpdatingTerm());
+        _builder_1.append(_visit_4, "\t\t\t\t");
+        _builder_1.append(");");
+        _builder_1.newLineIfNotEmpty();
+        _builder_1.append("\t\t\t\t");
+        String _visit_5 = new TermToJavaInUpdateRule(this.res, false, varName).visit(object.getLocation());
+        _builder_1.append(_visit_5, "\t\t\t\t");
+        _builder_1.newLineIfNotEmpty();
         result.append(_builder_1);
-        Term _updatingTerm = object.getUpdatingTerm();
-        if ((_updatingTerm instanceof VariableTerm)) {
-          result.append(".value");
-        }
-        result.append(");");
-        StringConcatenation _builder_2 = new StringConcatenation();
-        String _visit_6 = new TermToJavaInUpdateRule(this.res, false).visit(object.getLocation());
-        _builder_2.append(_visit_6);
-        result.append(_builder_2);
       } else {
-        String varName = Integer.valueOf(object.hashCode()).toString();
-        StringConcatenation _builder_3 = new StringConcatenation();
-        String _visit_7 = new TermToJava(this.res, true, varName).visit(object.getLocation());
-        _builder_3.append(_visit_7);
-        String _visit_8 = new TermToJava(this.res, false).visit(object.getUpdatingTerm());
-        _builder_3.append(_visit_8);
-        _builder_3.append(");");
-        _builder_3.newLineIfNotEmpty();
-        _builder_3.append("\t\t\t\t   ");
-        String _visit_9 = new TermToJavaInUpdateRule(this.res, false, varName).visit(object.getLocation());
-        _builder_3.append(_visit_9, "\t\t\t\t   ");
-        _builder_3.newLineIfNotEmpty();
-        result.append(_builder_3);
+        Domain _domain_1 = object.getUpdatingTerm().getDomain();
+        if ((_domain_1 instanceof ConcreteDomain)) {
+          StringConcatenation _builder_2 = new StringConcatenation();
+          String _visit_6 = termToJavaL.visit(object.getLocation());
+          _builder_2.append(_visit_6);
+          _builder_2.append(" ");
+          String _visit_7 = termToJavaR.visit(object.getUpdatingTerm());
+          _builder_2.append(_visit_7);
+          result.append(_builder_2);
+          Term _updatingTerm = object.getUpdatingTerm();
+          if ((_updatingTerm instanceof VariableTerm)) {
+            result.append(".value");
+          }
+          result.append(");");
+          StringConcatenation _builder_3 = new StringConcatenation();
+          String _visit_8 = new TermToJavaInUpdateRule(this.res, false).visit(object.getLocation());
+          _builder_3.append(_visit_8);
+          result.append(_builder_3);
+        } else {
+          String varName_1 = Integer.valueOf(object.hashCode()).toString();
+          StringConcatenation _builder_4 = new StringConcatenation();
+          String _visit_9 = new TermToJava(this.res, true, varName_1).visit(object.getLocation());
+          _builder_4.append(_visit_9);
+          String _visit_10 = new TermToJava(this.res, false).visit(object.getUpdatingTerm());
+          _builder_4.append(_visit_10);
+          _builder_4.append(");");
+          _builder_4.newLineIfNotEmpty();
+          _builder_4.append("\t\t\t\t   ");
+          String _visit_11 = new TermToJavaInUpdateRule(this.res, false, varName_1).visit(object.getLocation());
+          _builder_4.append(_visit_11, "\t\t\t\t   ");
+          _builder_4.newLineIfNotEmpty();
+          result.append(_builder_4);
+        }
       }
     }
     if (this.seqBlock) {
@@ -353,19 +386,19 @@ public class RuleToJava extends RuleVisitor<String> {
         }
       }
       if (isZeroC) {
-        StringConcatenation _builder_4 = new StringConcatenation();
-        String _visit_10 = new TermToJavaInAssignments(this.res, true).visit(object.getLocation());
-        _builder_4.append(_visit_10);
-        _builder_4.append(".update();");
-        _builder_4.newLineIfNotEmpty();
-        result.append(_builder_4);
-      } else {
         StringConcatenation _builder_5 = new StringConcatenation();
-        String _visit_11 = new TermToJavaInAssignments(this.res, true).visit(object.getLocation());
-        _builder_5.append(_visit_11);
+        String _visit_12 = new TermToJavaInAssignments(this.res, true).visit(object.getLocation());
+        _builder_5.append(_visit_12);
         _builder_5.append(".update();");
         _builder_5.newLineIfNotEmpty();
         result.append(_builder_5);
+      } else {
+        StringConcatenation _builder_6 = new StringConcatenation();
+        String _visit_13 = new TermToJavaInAssignments(this.res, true).visit(object.getLocation());
+        _builder_6.append(_visit_13);
+        _builder_6.append(".update();");
+        _builder_6.newLineIfNotEmpty();
+        result.append(_builder_6);
       }
     }
     return result.toString();

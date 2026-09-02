@@ -6,6 +6,7 @@ import asmeta.definitions.domains.ConcreteDomain
 import asmeta.definitions.domains.EnumTd
 import asmeta.definitions.domains.MapDomain
 import asmeta.definitions.domains.PowersetDomain
+import asmeta.terms.basicterms.SetTerm
 import asmeta.definitions.domains.ProductDomain
 import asmeta.definitions.domains.RuleDomain
 import asmeta.definitions.domains.SequenceDomain
@@ -48,6 +49,13 @@ class DomainToJavaSigDef extends ReflectiveVisitor<String> {
 
 
 	def String visit(DomainDefinition object) {
+		if (object.definedDomain instanceof ConcreteDomain &&
+			(object.definedDomain as ConcreteDomain).typeDomain instanceof PowersetDomain) {
+			val values = object.body as SetTerm
+			return "(" + values.term.map[
+				"new HashSet<>(Arrays.asList" + new TermToJava(res).visit(it) + ")"
+			].join(", ") + ")"
+		}
 		return new TermToJava(res).visit(object.body)
 	}
 
@@ -64,6 +72,8 @@ class DomainToJavaSigDef extends ReflectiveVisitor<String> {
 		var StringBuffer sb = new StringBuffer
 		val elementType = if (object.domain instanceof SequenceDomain)
 			"List" + visit(object.domain as SequenceDomain).trim
+		else if (object.domain instanceof PowersetDomain)
+			"Set" + visit(object.domain as PowersetDomain).trim
 		else
 			createDomainToJavaString(res).visit(object.domain)
 		sb.append('''<«elementType»> ''')
@@ -73,7 +83,13 @@ class DomainToJavaSigDef extends ReflectiveVisitor<String> {
 	// Translate Powerset
 	def String visit(PowersetDomain object) {
 		var StringBuffer sb = new StringBuffer
-		sb.append('''<«createDomainToJavaString(res).visit(object.baseDomain)»> ''')
+		val elementType = if (object.baseDomain instanceof PowersetDomain)
+			"Set" + visit(object.baseDomain as PowersetDomain).trim
+		else if (object.baseDomain instanceof SequenceDomain)
+			"List" + visit(object.baseDomain as SequenceDomain).trim
+		else
+			createDomainToJavaString(res).visit(object.baseDomain)
+		sb.append('''<«elementType»> ''')
 		return sb.toString
 	}
 
@@ -159,28 +175,34 @@ class DomainToJavaSigDef extends ReflectiveVisitor<String> {
 	// Translate concrete domains
 	def String visit(ConcreteDomain object) {
 		var StringBuffer sb = new StringBuffer
+		val type = if (object.typeDomain instanceof SequenceDomain)
+			"List" + createDomainToJavaString(res).visit(object.typeDomain).trim
+		else if (object.typeDomain instanceof PowersetDomain)
+			"Set" + createDomainToJavaString(res).visit(object.typeDomain).trim
+		else
+			createDomainToJavaString(res).visit(object.typeDomain)
 		// Dynamic domains
 		if (object.isDynamic) {
 			sb.append('''
 				class  «object.name»{
 				
-				List<«createDomainToJavaString(res).visit(object.typeDomain)»> elems = new ArrayList<>();			      
-				«createDomainToJavaString(res).visit(object.typeDomain)» value;			      
-				«object.name»(«createDomainToJavaString(res).visit(object.typeDomain)» i) { 
+				List<«type»> elems = new ArrayList<>();
+				«type» value;
+				«object.name»(«type» i) {
 				   value = i;
 				   }
 				   }
 				   
-				   List<«createDomainToJavaString(res).visit(object.typeDomain)»> «object.name»_elems = new ArrayList<>();
+				   List<«type»> «object.name»_elems = new ArrayList<>();
 			''')
 
 		} // Static classes -> The list of elements is set after this definition 
 		else {
 			sb.append('''static class  «object.name» {
-				«isPrivate»static List<«createDomainToJavaString(res).visit(object.typeDomain)»> elems = new ArrayList<>();
-                «createDomainToJavaString(res).visit(object.typeDomain)» value;
+				«isPrivate»static List<«type»> elems = new ArrayList<>();
+                «type» value;
                 
-                static «object.name» valueOf(«createDomainToJavaString(res).visit(object.typeDomain)» val) {
+                static «object.name» valueOf(«type» val) {
                 	if(elems.contains(val)){
                 		«object.name» n = new «object.name»();
                 		n.value = elems.get(elems.indexOf(val));
@@ -209,7 +231,7 @@ class DomainToJavaSigDef extends ReflectiveVisitor<String> {
 				
 				// TODO do not use this object to init - remove this line in the translation
 				«object.name» «object.name»_elem = new «object.name»();
-				List<«createDomainToJavaString(res).visit(object.typeDomain)»> «object.name»_elems = new ArrayList<>();
+				List<«type»> «object.name»_elems = new ArrayList<>();
 			''')
 		}
 		return sb.toString

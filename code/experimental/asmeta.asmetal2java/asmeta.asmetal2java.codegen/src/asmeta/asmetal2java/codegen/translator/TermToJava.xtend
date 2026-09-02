@@ -38,6 +38,7 @@ import asmeta.definitions.domains.StructuredTd
 import asmeta.definitions.domains.ProductDomain
 import asmeta.definitions.domains.BagDomain
 import org.asmeta.parser.util.ReflectiveVisitor
+import org.asmeta.parser.util.Defs
 import asmeta.terms.furtherterms.RealTerm
 import asmeta.terms.furtherterms.CharTerm
 import asmeta.terms.basicterms.DomainTerm
@@ -163,17 +164,14 @@ class TermToJava extends ReflectiveVisitor<String> {
 
 	// Metodo per settare i domini statici e dinamici atttraverso i vettori 
 	def String visit(SetTerm object) {
-		var StringBuffer type = new StringBuffer("")
-
-		var String s = ""
-		s += "("
+		var String s = "("
 		if (object.term !== null && object.term.size > 0) {
 			for (l : object.term)
 				s += visit(l) + ", "
 			s = s.substring(0, s.length - 2)
 		}
 		s += ")"
-		return type + s
+		return s
 	}
 
 	def String visit(MapTerm object) {
@@ -366,13 +364,17 @@ class TermToJava extends ReflectiveVisitor<String> {
 		var StringBuffer functionTerm = new StringBuffer
 		var name = new Util().parseFunction(term.function.name)
 
-		// Controllo se l'operatore » del tipo: &,|,<=,>=,<,>...
-		if (ExpressionToJava.hasEvaluateVisitor(name)) { // utilizzo questo if per correggere il problema di avere due .value.value
+		// StandardLibrary operations are translated with ExpressionToJava
+		if (term.arguments !== null && Defs.getAsmName(term.function).equals("StandardLibrary") &&
+			ExpressionToJava.hasEvaluateVisitor(name)) { // utilizzo questo if per correggere il problema di avere due .value.value
 			// if the funcion is an expression
 			var expression = new ExpressionToJava(res).evaluateFunction(name, term.arguments.terms);
 			return expression.replaceAll(".value.value",".value")
 		} // In questo caso l'operatore rilevato » := 
 		else {
+			if (term.function instanceof StaticFunction && Defs.getAsmName(term.function).equals("StandardLibrary"))
+				throw new InvalidFunctionException("StandardLibrary function '" + term.function.name +
+					"' is not supported by the Java generator")
 
 			if (Util.isControlledOrOut(term.function) && term.domain instanceof ConcreteDomain)
 				functionTerm.append(caseFunctionTermSuppCont(term.function as DynamicFunction, term))

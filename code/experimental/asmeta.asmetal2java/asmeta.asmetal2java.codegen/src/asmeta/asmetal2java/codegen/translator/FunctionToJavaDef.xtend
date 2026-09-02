@@ -10,6 +10,7 @@ import asmeta.definitions.domains.AbstractTd
 import asmeta.definitions.domains.ConcreteDomain
 import asmeta.definitions.domains.EnumTd
 import asmeta.definitions.domains.ProductDomain
+import asmeta.definitions.domains.PowersetDomain
 import asmeta.definitions.domains.SequenceDomain
 import asmeta.structure.Asm
 import asmeta.terms.basicterms.Term
@@ -80,6 +81,11 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 			//sb.append('''
 			//	«object.name».oldValue = «object.name».newValue = new ArrayList<>(Arrays.asList(«visit(object.initialization.get(0).body)»));
 			//''')
+		} else if ((object.codomain instanceof PowersetDomain && !(object.codomain instanceof ConcreteDomain)) ||
+			(object.domain instanceof PowersetDomain && !(object.domain instanceof ConcreteDomain))) {
+			sb.append('''
+				«object.name».init(new HashSet<>(Arrays.asList«new TermToJava(asm).visit(object.initialization.get(0).body)»));
+			''')
 		} else {
 			if (object.domain !== null) {
 				for (var i = 0; i < object.initialization.get(0).variable.size; i++) {
@@ -242,7 +248,11 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 						sb.append('''«object.codomain.name»_elem = new  «object.codomain.name»();''')
 					}
 					// set the right value
-					sb.append('''«object.codomain.name»_elem.value = «new TermToJava(asm).visit(object.initialization.get(0).body)»;''')
+					if (object.codomain instanceof ConcreteDomain &&
+						(object.codomain as ConcreteDomain).typeDomain instanceof PowersetDomain)
+						sb.append('''«object.codomain.name»_elem.value = new HashSet<>(Arrays.asList«new TermToJava(asm).visit(object.initialization.get(0).body)»);''')
+					else
+						sb.append('''«object.codomain.name»_elem.value = «new TermToJava(asm).visit(object.initialization.get(0).body)»;''')
 					// init old a new values with this object
 					sb.append('''«object.name».init(«object.codomain.name»_elem);''')
 					//sb.append('''«object.name».oldValue = «object.name».newValue = «object.codomain.name»_elem;''')
