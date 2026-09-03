@@ -10,6 +10,7 @@ import asmeta.asmetal2java.codegen.evosuite.CoverRules
 import asmeta.asmetal2java.codegen.evosuite.CoverOutputs
 import asmeta.asmetal2java.codegen.evosuite.AsmMethods
 import asmeta.asmetal2java.codegen.evosuite.RulesGetter
+import asmeta.asmetal2java.codegen.translator.Util
 
 /**
  * This generator creates a Java wrapper class that queries the translated java class 
@@ -42,7 +43,7 @@ class JavaAtgGenerator extends AsmToJavaGenerator {
 				seqCalledRules.addAll(new SeqRuleCollector(false).visit(r))
 		}
 
-		val asmName = asm.name
+		val asmName = Util.javaIdentifier(asm.name)
 
 		var sb = new StringBuffer;
 

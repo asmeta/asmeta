@@ -87,7 +87,7 @@ public class TermToJavaStandardLibrary extends TermToJava {
         } else {
           if (this.leftHandSide) {
             this.leftHandSide = false;
-            String _visit_1 = this.visit(ft.getArguments().getTerms().get(0));
+            String _visit_1 = new TermToJava(this.res).visit(ft.getArguments().getTerms().get(0));
             String _plus_2 = (".set(" + _visit_1);
             String _plus_3 = (_plus_2 + ", ");
             functionTerm.append(_plus_3);
@@ -121,7 +121,7 @@ public class TermToJavaStandardLibrary extends TermToJava {
         }
       } else {
         final java.util.function.Function<Term, String> _function = (Term term) -> {
-          return this.visit(term);
+          return new TermToJava(this.res).visit(term);
         };
         final String tuple = ProductToJava.value(ft.getArguments(), _function);
         if (this.leftHandSide) {
@@ -160,7 +160,7 @@ public class TermToJavaStandardLibrary extends TermToJava {
       if (_equals) {
         if (this.leftHandSide) {
           this.leftHandSide = false;
-          String _visit = this.visit(ft.getArguments().getTerms().get(0));
+          String _visit = new TermToJava(this.res).visit(ft.getArguments().getTerms().get(0));
           String _plus = (".set(" + _visit);
           String _plus_1 = (_plus + ", ");
           functionTerm.append(_plus_1);
@@ -172,7 +172,7 @@ public class TermToJavaStandardLibrary extends TermToJava {
         }
       } else {
         final java.util.function.Function<Term, String> _function = (Term term) -> {
-          return this.visit(term);
+          return new TermToJava(this.res).visit(term);
         };
         final String tuple = ProductToJava.value(ft.getArguments(), _function);
         if (this.leftHandSide) {

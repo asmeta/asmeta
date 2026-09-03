@@ -258,12 +258,21 @@ public class TermToJava extends ReflectiveVisitor<String> {
         if (_notEquals) {
           throw new IllegalArgumentException("A map entry must contain exactly a key and a value");
         }
-        map.append(" put(").append(this.visit(pair.getTerms().get(0))).append(", ");
-        map.append(this.visit(pair.getTerms().get(1))).append(");");
+        map.append(" put(").append(this.javaValue(pair.getTerms().get(0))).append(", ");
+        map.append(this.javaValue(pair.getTerms().get(1))).append(");");
       }
     }
     map.append(" }}");
     return map.toString();
+  }
+
+  private String javaValue(final Term term) {
+    if ((term instanceof SetTerm)) {
+      String _visit = this.visit(((SetTerm)term));
+      String _plus = ("new HashSet<>(Arrays.asList" + _visit);
+      return (_plus + ")");
+    }
+    return this.visit(term);
   }
 
   private String javaType(final Domain domain) {
@@ -317,80 +326,29 @@ public class TermToJava extends ReflectiveVisitor<String> {
   }
 
   public String visit(final ForallTerm object) {
-    StringBuffer sb = new StringBuffer();
-    StringBuffer supp = new StringBuffer();
-    StringConcatenation _builder = new StringConcatenation();
-    String _visit = this.visit(object.getGuard());
-    _builder.append(_visit);
-    supp.append(_builder);
-    StringConcatenation _builder_1 = new StringConcatenation();
-    _builder_1.newLine();
-    _builder_1.append("  /*<--- forAllTerm*/");
-    _builder_1.newLineIfNotEmpty();
-    sb.append(_builder_1);
-    for (int i = 0; (i < object.getVariable().size()); i++) {
-      Domain _domain = object.getRanges().get(i).getDomain();
-      Domain _baseDomain = ((PowersetDomain) _domain).getBaseDomain();
-      if ((_baseDomain instanceof AbstractTd)) {
-        StringConcatenation _builder_2 = new StringConcatenation();
-        _builder_2.append("\tfor(Object ");
-        String _visit_1 = this.visit(object.getVariable().get(i));
-        _builder_2.append(_visit_1);
-        _builder_2.append(" : ");
-        Domain _domain_1 = object.getRanges().get(i).getDomain();
-        String _visit_2 = new DomainToJavaString(this.res).visit(((PowersetDomain) _domain_1).getBaseDomain());
-        _builder_2.append(_visit_2);
-        _builder_2.append(".elems)");
-        _builder_2.newLineIfNotEmpty();
-        sb.append(_builder_2);
-      } else {
-        Domain _domain_2 = object.getRanges().get(i).getDomain();
-        Domain _baseDomain_1 = ((PowersetDomain) _domain_2).getBaseDomain();
-        if ((_baseDomain_1 instanceof ConcreteDomain)) {
-          StringConcatenation _builder_3 = new StringConcatenation();
-          _builder_3.append("\t");
-          Domain _domain_3 = object.getRanges().get(i).getDomain();
-          String _visit_3 = new DomainToJavaString(this.res).visit(((PowersetDomain) _domain_3).getBaseDomain());
-          _builder_3.append(_visit_3);
-          _builder_3.append(".elems.stream().allMatch(c -> ");
-          String _replaceAll = supp.toString().replaceAll("\\(\\$[^)]*\\)", "(c)");
-          _builder_3.append(_replaceAll);
-          _builder_3.append(");");
-          _builder_3.newLineIfNotEmpty();
-          sb.append(_builder_3);
-        } else {
-          Domain _domain_4 = object.getRanges().get(i).getDomain();
-          Domain _baseDomain_2 = ((PowersetDomain) _domain_4).getBaseDomain();
-          if ((_baseDomain_2 instanceof EnumTd)) {
-            StringConcatenation _builder_4 = new StringConcatenation();
-            _builder_4.append("Arrays.stream(");
-            _builder_4.append("\t");
-            Domain _domain_5 = object.getRanges().get(i).getDomain();
-            String _visit_4 = new DomainToJavaString(this.res).visit(((PowersetDomain) _domain_5).getBaseDomain());
-            _builder_4.append(_visit_4);
-            _builder_4.append(".values()).allMatch(c -> ");
-            String _replaceAll_1 = supp.toString().replaceAll("\\(\\$[^)]*\\)", "(c)");
-            _builder_4.append(_replaceAll_1);
-            _builder_4.append(");");
-            _builder_4.newLineIfNotEmpty();
-            sb.append(_builder_4);
-          } else {
-            StringConcatenation _builder_5 = new StringConcatenation();
-            _builder_5.append("\t");
-            Domain _domain_6 = object.getRanges().get(i).getDomain();
-            String _visit_5 = new DomainToJavaString(this.res).visit(((PowersetDomain) _domain_6).getBaseDomain());
-            _builder_5.append(_visit_5);
-            _builder_5.append("_elemsList.stream().allMatch(c -> ");
-            String _replaceAll_2 = supp.toString().replaceAll("\\(\\$[^)]*\\)", "(c)");
-            _builder_5.append(_replaceAll_2);
-            _builder_5.append(");");
-            _builder_5.newLineIfNotEmpty();
-            sb.append(_builder_5);
-          }
+    if ((object.getVariable().isEmpty() || (object.getVariable().size() != object.getRanges().size()))) {
+      throw new IllegalArgumentException("A universal quantifier must bind one range to each variable");
+    }
+    String expression = this.visit(object.getGuard());
+    for (int i = (object.getVariable().size() - 1); (i >= 0); i--) {
+      {
+        final String variableName = this.visit(object.getVariable().get(i));
+        final String lambdaName = ("__asmetaForall" + Integer.valueOf(i));
+        Domain _domain = object.getVariable().get(i).getDomain();
+        if ((_domain instanceof ConcreteDomain)) {
+          expression = expression.replace((variableName + ".value"), lambdaName);
         }
+        expression = expression.replace(variableName, lambdaName);
+        String _rangeStream = this.rangeStream(object.getRanges().get(i));
+        String _plus = (_rangeStream + ".allMatch(");
+        String _plus_1 = (_plus + lambdaName);
+        String _plus_2 = (_plus_1 + " -> ");
+        String _plus_3 = (_plus_2 + expression);
+        String _plus_4 = (_plus_3 + ")");
+        expression = _plus_4;
       }
     }
-    return sb.toString();
+    return expression;
   }
 
   public String visit(final LetTerm object) {
@@ -497,7 +455,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
         expression = expression.replace(_plus, this.visit(variable));
       }
     }
-    return (expression + ".collect(java.util.stream.Collectors.toSet())");
+    return (("new java.util.HashSet<>(" + expression) + ".collect(java.util.stream.Collectors.toSet()))");
   }
 
   /**
@@ -581,33 +539,24 @@ public class TermToJava extends ReflectiveVisitor<String> {
         Domain _domain_4 = ((SequenceDomain) _domain_3).getDomain();
         if ((_domain_4 instanceof ConcreteDomain)) {
           StringConcatenation _builder_3 = new StringConcatenation();
-          _builder_3.append("\t(ArrayList<");
-          Domain _domain_5 = object.getRanges().get(i).getDomain();
-          Domain _domain_6 = ((SequenceDomain) _domain_5).getDomain();
-          String _visit_3 = new DomainToJavaString(this.res).visit(((ConcreteDomain) _domain_6).getTypeDomain());
+          _builder_3.append("\tnew ArrayList<>(");
+          String _visit_3 = this.visit(object.getRanges().get(i));
           _builder_3.append(_visit_3);
-          _builder_3.append(">)");
-          String _visit_4 = this.visit(object.getRanges().get(i));
-          _builder_3.append(_visit_4);
           _builder_3.append(".stream().filter(c -> ");
           String _replace = supp.toString().replace(object.getVariable().get(i).getName(), "c");
           _builder_3.append(_replace);
-          _builder_3.append(").collect(Collectors.toList())");
+          _builder_3.append(").collect(Collectors.toList()))");
           _builder_3.newLineIfNotEmpty();
           sb.append(_builder_3);
         } else {
           StringConcatenation _builder_4 = new StringConcatenation();
-          _builder_4.append("\t(ArrayList<");
-          Domain _domain_7 = object.getRanges().get(i).getDomain();
-          String _visit_5 = new DomainToJavaString(this.res).visit(((SequenceDomain) _domain_7).getDomain());
-          _builder_4.append(_visit_5);
-          _builder_4.append(">)");
-          String _visit_6 = this.visit(object.getRanges().get(i));
-          _builder_4.append(_visit_6);
+          _builder_4.append("\tnew ArrayList<>(");
+          String _visit_4 = this.visit(object.getRanges().get(i));
+          _builder_4.append(_visit_4);
           _builder_4.append(".stream().filter(c -> ");
           String _replace_1 = supp.toString().replace(object.getVariable().get(i).getName(), "c");
           _builder_4.append(_replace_1);
-          _builder_4.append(").collect(Collectors.toList())");
+          _builder_4.append(").collect(Collectors.toList()))");
           _builder_4.newLineIfNotEmpty();
           sb.append(_builder_4);
         }
@@ -658,6 +607,9 @@ public class TermToJava extends ReflectiveVisitor<String> {
 
   public String caseFunctionTermSuppCont(final DynamicFunction fd, final FunctionTerm ft) {
     StringBuffer functionTerm = new StringBuffer();
+    if ((!this.leftHandSide)) {
+      return functionTerm.toString();
+    }
     TupleTerm _arguments = ft.getArguments();
     boolean _tripleEquals = (_arguments == null);
     if (_tripleEquals) {
@@ -955,7 +907,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
         } else {
           if (this.leftHandSide) {
             this.leftHandSide = false;
-            String _visit_1 = this.visit(ft.getArguments().getTerms().get(0));
+            String _visit_1 = new TermToJava(this.res).visit(ft.getArguments().getTerms().get(0));
             String _plus_2 = (".set(" + _visit_1);
             String _plus_3 = (_plus_2 + ", ");
             functionTerm.append(_plus_3);
@@ -972,7 +924,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
         }
       } else {
         final Function<Term, String> _function = (Term term) -> {
-          return this.visit(term);
+          return new TermToJava(this.res).visit(term);
         };
         final String tuple = ProductToJava.value(ft.getArguments(), _function);
         if (this.leftHandSide) {
@@ -1009,7 +961,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
       if (_equals) {
         if (this.leftHandSide) {
           this.leftHandSide = false;
-          String _visit = this.visit(ft.getArguments().getTerms().get(0));
+          String _visit = new TermToJava(this.res).visit(ft.getArguments().getTerms().get(0));
           String _plus = (".set(" + _visit);
           String _plus_1 = (_plus + ", ");
           functionTerm.append(_plus_1);
@@ -1021,7 +973,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
         }
       } else {
         final Function<Term, String> _function = (Term term) -> {
-          return this.visit(term);
+          return new TermToJava(this.res).visit(term);
         };
         final String tuple = ProductToJava.value(ft.getArguments(), _function);
         if (this.leftHandSide) {

@@ -56,7 +56,7 @@ class JavaTestGenerator extends JavaGenerator {
 				seqCalledRules.addAll(new SeqRuleCollector(false).visit(r))
 		}
 		//
-		val asmName = asm.name
+		val asmName = Util.javaIdentifier(asm.name)
 		var updateASMText = updateSet(asm)
 		functionSignature(asm)
 		// TODO fix include list

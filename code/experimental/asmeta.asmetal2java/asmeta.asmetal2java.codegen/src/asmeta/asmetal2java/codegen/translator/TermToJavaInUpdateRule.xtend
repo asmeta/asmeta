@@ -89,7 +89,7 @@ class TermToJavaInUpdateRule extends TermToJava {
 					if (!leftHandSide) {
 
 						functionTerm.append(
-							fd.name + ".set(" + visit(ft.arguments.terms.get(0)) + ", " + ft.domain.name + varName +
+							fd.name + ".set(" + new TermToJava(res).visit(ft.arguments.terms.get(0)) + ", " + ft.domain.name + varName +
 								"_s);")
 
 					} // Caso di studio con variabili multiple in ingresso

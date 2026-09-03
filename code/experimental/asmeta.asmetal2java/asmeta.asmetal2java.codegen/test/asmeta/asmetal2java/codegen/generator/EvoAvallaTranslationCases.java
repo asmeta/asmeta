@@ -31,7 +31,7 @@ public class EvoAvallaTranslationCases {
 	private static final Path ASM_EXAMPLES = Path.of("..", "..", "..", "..", "asm_examples");
 	private static final Path GENERATED = CASES.resolve("generated");
 	private static final Path CLASSES = GENERATED.resolve("classes");
-	private static final Path TRANSLATION_LOG = GENERATED.resolve("translation.log");
+	private static final Path TRANSLATION_LOG = CASES.resolve("translation.log");
 	private static final String COMPILER_VERSION = "9";
 
 	@BeforeAll
@@ -108,42 +108,42 @@ public class EvoAvallaTranslationCases {
 		translateAndCompile("CollectionTypes.asm");
 	}
 
-//	@Test
-//	@Tag("TestToMavenSkip")
-//	void translateAndCompileAllValidAsms() throws Exception {
-//		int passed = 0;
-//		int failed = 0;
-//		StringBuilder log = new StringBuilder();
-//
-//		boolean startCompiling = false;
-//		for (String line : Files.readAllLines(CASES.resolve("model_list.txt"))) {
-//			if (!startCompiling && !line.trim().startsWith("// valid asm:")) {
-//				continue;
-//			}
-//			if (line.trim().startsWith("// valid asm:")) {
-//				startCompiling = true;
-//				continue;
-//			}
-//			String spec = line.replaceFirst("^\\s*//", "").split("//", 2)[0].trim();
-//			if (!spec.endsWith(".asm")) {
-//				continue;
-//			}
-//			try {
-//				translateAndCompile(ASM_EXAMPLES.resolve(spec));
-//				passed++;
-//				log.append("PASSED: ").append(spec).append(System.lineSeparator());
-//			} catch (Exception | AssertionError e) {
-//				failed++;
-//				log.append("FAILED: ").append(spec).append(" - ").append(e)
-//						.append(System.lineSeparator());
-//			}
-//		}
-//
-//		String summary = String.format("EvoAvalla translation: %d passed, %d failed%n", passed, failed);
-//		log.append(summary);
-//		Files.writeString(TRANSLATION_LOG, log);
-//		System.out.print(summary);
-//	}
+	@Test
+	@Tag("TestToMavenSkip")
+	void translateAndCompileAllValidAsms() throws Exception {
+		int passed = 0;
+		int failed = 0;
+		StringBuilder log = new StringBuilder();
+
+		boolean startCompiling = false;
+		for (String line : Files.readAllLines(CASES.resolve("model_list.txt"))) {
+			if (!startCompiling && !line.trim().startsWith("// valid asm:")) {
+				continue;
+			}
+			if (line.trim().startsWith("// valid asm:")) {
+				startCompiling = true;
+				continue;
+			}
+			String spec = line.replaceFirst("^\\s*//", "").split("//", 2)[0].trim();
+			if (!spec.endsWith(".asm")) {
+				continue;
+			}
+			try {
+				translateAndCompile(ASM_EXAMPLES.resolve(spec));
+				passed++;
+				log.append("PASSED: ").append(spec).append(System.lineSeparator());
+			} catch (Exception | AssertionError e) {
+				failed++;
+				log.append("FAILED: ").append(spec).append(" - ").append(e)
+						.append(System.lineSeparator());
+			}
+		}
+
+		String summary = String.format("EvoAvalla translation: %d passed, %d failed%n", passed, failed);
+		log.append(summary);
+		Files.writeString(TRANSLATION_LOG, log);
+		System.out.print(summary);
+	}
 
 	private void translateAndCompile(String specPath) throws Exception {
 		translateAndCompile(CASES.resolve(specPath));

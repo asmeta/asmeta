@@ -69,7 +69,7 @@ public class JavaTestGenerator extends JavaGenerator {
         this.seqCalledRules.addAll(new SeqRuleCollector(false).visit(r));
       }
     }
-    final String asmName = asm.getName();
+    final String asmName = Util.javaIdentifier(asm.getName());
     String updateASMText = this.updateSet(asm);
     this.functionSignature(asm);
     StringConcatenation _builder = new StringConcatenation();

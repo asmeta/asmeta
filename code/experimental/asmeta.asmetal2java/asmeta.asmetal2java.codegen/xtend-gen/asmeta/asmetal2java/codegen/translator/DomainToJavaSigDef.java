@@ -60,15 +60,18 @@ public class DomainToJavaSigDef extends ReflectiveVisitor<String> {
     if (((object.getDefinedDomain() instanceof ConcreteDomain) && 
       (((ConcreteDomain) object.getDefinedDomain()).getTypeDomain() instanceof PowersetDomain))) {
       Term _body = object.getBody();
-      final SetTerm values = ((SetTerm) _body);
-      final Function1<Term, String> _function = (Term it) -> {
-        String _visit = new TermToJava(this.res).visit(it);
-        String _plus = ("new HashSet<>(Arrays.asList" + _visit);
+      if ((_body instanceof SetTerm)) {
+        Term _body_1 = object.getBody();
+        final Function1<Term, String> _function = (Term it) -> {
+          String _visit = new TermToJava(this.res).visit(it);
+          String _plus = ("new HashSet<>(Arrays.asList" + _visit);
+          return (_plus + ")");
+        };
+        String _join = IterableExtensions.join(ListExtensions.<Term, String>map(((SetTerm) _body_1).getTerm(), _function), ", ");
+        String _plus = ("(" + _join);
         return (_plus + ")");
-      };
-      String _join = IterableExtensions.join(ListExtensions.<Term, String>map(values.getTerm(), _function), ", ");
-      String _plus = ("(" + _join);
-      return (_plus + ")");
+      }
+      return new TermToJava(this.res).visit(object.getBody());
     }
     return new TermToJava(this.res).visit(object.getBody());
   }

@@ -19,6 +19,8 @@ import asmeta.terms.basicterms.Term
 import asmeta.terms.furtherterms.CaseTerm
 import asmeta.terms.furtherterms.ForallTerm
 import asmeta.terms.furtherterms.SequenceTerm
+import asmeta.terms.furtherterms.ConditionalTerm
+import asmeta.terms.basicterms.FunctionTerm
 import org.asmeta.parser.util.ReflectiveVisitor
 import java.util.List
 import java.util.ArrayList
@@ -78,7 +80,7 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 		if (object.codomain instanceof SequenceDomain || object.domain instanceof SequenceDomain) {
 			// example qsort: Seq(Integer) -> Seq(Integer)			
 			sb.append('''
-				«object.name».init(new ArrayList<>(Arrays.asList(«visit(object.initialization.get(0).body)»)));
+				«object.name».init(new ArrayList<>(«new TermToJava(asm).visit(object.initialization.get(0).body)»));
 			''')
 			//sb.append('''
 			//	«object.name».oldValue = «object.name».newValue = new ArrayList<>(Arrays.asList(«visit(object.initialization.get(0).body)»));
@@ -86,7 +88,7 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 		} else if ((object.codomain instanceof PowersetDomain && !(object.codomain instanceof ConcreteDomain)) ||
 			(object.domain instanceof PowersetDomain && !(object.domain instanceof ConcreteDomain))) {
 			sb.append('''
-				«object.name».init(new HashSet<>(Arrays.asList«new TermToJava(asm).visit(object.initialization.get(0).body)»));
+				«object.name».init(«setValue(object.initialization.get(0).body)»);
 			''')
 		} else {
 			if (object.domain !== null) {
@@ -131,35 +133,22 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 				}
 
 				if (object.codomain instanceof AbstractTd) {
-					var a = new TermToJava(asm).visit(object.initialization.get(0).body)
-					var b = new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))
-
-					if (a.equals(b))
+					val body = object.initialization.get(0).body
+					val translatedBody = new TermToJava(asm).visit(body)
+					val translatedVariable = new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))
+					if (translatedBody.equals(translatedVariable) || isComputedAbstractValue(body))
 						sb.append('''
-							«object.name».init(«controlledInitializationKey(object, i)»,«new TermToJava(asm).visit(object.initialization.get(0).body)»);
+							«object.name».init(«controlledInitializationKey(object, i)»,«translatedBody»);
 						''')
-//						sb.append('''
-//							«object.name».oldValues.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,«new TermToJava(asm).visit(object.initialization.get(0).body)»);
-//							«object.name».newValues.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,«new TermToJava(asm).visit(object.initialization.get(0).body)»);
-//						''')
-					else if (object.initialization.get(0).body instanceof CaseTerm) {
+					else
 						sb.append('''
-							«object.name».init(«controlledInitializationKey(object, i)»,new Function<Void,«new DomainToJavaString(asm).visit(object.codomain)»>(){@Override public «new DomainToJavaString(asm).visit(object.codomain)» apply(Void input) {return «new TermToJava(asm).visit(object.initialization.get(0).body)»;}}.apply(null));
+							«object.codomain.name» «translatedBody» = new «object.codomain.name»("«translatedBody»");
+							«object.name».init(«controlledInitializationKey(object, i)»,«translatedBody»);
 						''')
-//						sb.append('''
-//							«object.name».oldValues.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,new Function<Void,«new DomainToJavaString(asm).visit(object.codomain)»>(){@Override public «new DomainToJavaString(asm).visit(object.codomain)» apply(Void input) {«new TermToJava(asm).visit(object.initialization.get(0).body)»}}.apply(null));
-//							«object.name».newValues.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,new Function<Void,«new DomainToJavaString(asm).visit(object.codomain)»>(){@Override public «new DomainToJavaString(asm).visit(object.codomain)» apply(Void input) {«new TermToJava(asm).visit(object.initialization.get(0).body)»}}.apply(null));
-//						''')
-					} else {
-						sb.append('''«new DomainToJavaString(asm).visit(object.codomain)» «new TermToJava(asm).visit(object.initialization.get(0).body)» = new «new DomainToJavaString(asm).visit(object.codomain)»("«new TermToJava(asm).visit(object.initialization.get(0).body)»");''')
-						sb.append('''
+				} else if (object.codomain instanceof ProductDomain) {
+					sb.append('''
 						«object.name».init(«controlledInitializationKey(object, i)»,«new TermToJava(asm).visit(object.initialization.get(0).body)»);
-						''')
-//						sb.append('''
-//						«object.name».oldValues.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,«new TermToJava(asm).visit(object.initialization.get(0).body)»);
-//						«object.name».newValues.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,«new TermToJava(asm).visit(object.initialization.get(0).body)»);
-//						''')
-						}
+					''')
 				} else if (controllo(object.codomain.name) || object.codomain instanceof EnumTd) {
 					if (object.domain instanceof ConcreteDomain && controllo(object.codomain.name)) {
 						sb.append('''«new DomainToJavaString(asm).visit(object.codomain)» a «new TermToJavaInAssignments(asm).visit(object.initialization.get(0).body)»;''')
@@ -264,6 +253,16 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 		}
 
 		return sb.toString
+	}
+
+	private def String setValue(Term term) {
+		if (term instanceof asmeta.terms.basicterms.SetTerm)
+			return "new HashSet<>(Arrays.asList" + new TermToJava(asm).visit(term) + ")"
+		return "new HashSet<>(" + new TermToJava(asm).visit(term) + ")"
+	}
+
+	private def boolean isComputedAbstractValue(Term term) {
+		return term instanceof FunctionTerm || term instanceof CaseTerm || term instanceof ConditionalTerm
 	}
 
 	def String visit(MonitoredFunction object) {
@@ -374,7 +373,7 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 
 			if (object.definition.body instanceof ForallTerm) {
 				sb.
-					append('''«new DomainToJavaString(asm).visit(object.codomain)» «object.name»( return «new Util().adaptRuleParam(object.definition.variable,asm)»){ «new TermToJava(asm).visit(object.definition.body)»}''')
+					append('''«Util.javaType(object.codomain, asm)» «object.name»(«new Util().adaptRuleParam(object.definition.variable,asm)»){ return «new TermToJava(asm).visit(object.definition.body)»;}''')
 			} else {
 
 				if (object.codomain instanceof ConcreteDomain) {
@@ -389,13 +388,13 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 
 				} else
 					sb.
-						append('''«new DomainToJavaString(asm).visit(object.codomain)» «object.name»(«new Util().adaptRuleParam(object.definition.variable,asm)»){ return «new TermToJava(asm).visit(object.definition.body)»;}''')
+						append('''«Util.javaType(object.codomain, asm)» «object.name»(«new Util().adaptRuleParam(object.definition.variable,asm)»){ return «new TermToJava(asm).visit(object.definition.body)»;}''')
 			}
 		} else {
 
 			if (object.definition.body instanceof ForallTerm) {
 				sb.
-					append('''«new DomainToJavaString(asm).visit(object.codomain)» «object.name»(){ return «new TermToJava(asm).visit(object.definition.body)»}''')
+					append('''«Util.javaType(object.codomain, asm)» «object.name»(){ return «new TermToJava(asm).visit(object.definition.body)»;}''')
 			} else {
 
 				if (object.codomain instanceof ConcreteDomain) {
@@ -408,7 +407,7 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 
 				} else
 					sb.
-						append('''«new DomainToJavaString(asm).visit(object.codomain)» «object.name»(){ return «new TermToJava(asm).visit(object.definition.body)»;}''')
+						append('''«Util.javaType(object.codomain, asm)» «object.name»(){ return «new TermToJava(asm).visit(object.definition.body)»;}''')
 			}
 		}
 		return sb.toString
@@ -422,7 +421,7 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
             
 			if (object.definition.body instanceof ForallTerm) {
 				sb.
-					append('''«new DomainToJavaString(asm).visit(object.codomain)» «object.name»( return «new Util().adaptRuleParam(object.definition.variable,asm)»){ «new TermToJava(asm).visit(object.definition.body)»}''')
+					append('''«Util.javaType(object.codomain, asm)» «object.name»(«new Util().adaptRuleParam(object.definition.variable,asm)»){ return «new TermToJava(asm).visit(object.definition.body)»;}''')
 			} else {
                 
 				if (object.codomain instanceof ConcreteDomain) {
@@ -439,7 +438,7 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 					object.codomain instanceof BagDomain || object.codomain instanceof MapDomain) {
 					sb.append('''«Util.javaType(object.codomain, asm)» «object.name»(«new Util().adaptRuleParam(object.definition.variable,asm)»){return «new TermToJava(asm).visit(object.definition.body)»;}''')
 				} else{
-					sb.append('''«new DomainToJavaString(asm).visit(object.codomain)» «object.name»(«new Util().adaptRuleParam(object.definition.variable,asm)»){ return «new TermToJava(asm).visit(object.definition.body)»;}''')
+					sb.append('''«Util.javaType(object.codomain, asm)» «object.name»(«new Util().adaptRuleParam(object.definition.variable,asm)»){ return «new TermToJava(asm).visit(object.definition.body)»;}''')
 			
                 }
 			}
@@ -447,7 +446,7 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
                
 			if (object.definition.body instanceof ForallTerm) {
 				sb.
-					append('''«new DomainToJavaString(asm).visit(object.codomain)» «object.name»(){ return «new TermToJava(asm).visit(object.definition.body)»}''')
+					append('''«Util.javaType(object.codomain, asm)» «object.name»(){ return «new TermToJava(asm).visit(object.definition.body)»;}''')
 			} else {
 
 				if (object.codomain instanceof ConcreteDomain) {
@@ -466,7 +465,7 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 					sb.append('''«Util.javaType(object.codomain, asm)» «object.name»(){ return «new TermToJava(asm).visit(object.definition.body)»;}''')
 				else
 					sb.
-						append('''«new DomainToJavaString(asm).visit(object.codomain)» «object.name»(){ return «new TermToJava(asm).visit(object.definition.body)»;}''')
+						append('''«Util.javaType(object.codomain, asm)» «object.name»(){ return «new TermToJava(asm).visit(object.definition.body)»;}''')
 			
 			}
 		}

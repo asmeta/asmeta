@@ -6,6 +6,7 @@ import asmeta.asmetal2java.codegen.evosuite.CoverOutputs;
 import asmeta.asmetal2java.codegen.evosuite.CoverRules;
 import asmeta.asmetal2java.codegen.evosuite.RulesGetter;
 import asmeta.asmetal2java.codegen.translator.SeqRuleCollector;
+import asmeta.asmetal2java.codegen.translator.Util;
 import asmeta.definitions.RuleDeclaration;
 import asmeta.structure.Asm;
 import asmeta.transitionrules.basictransitionrules.Rule;
@@ -49,7 +50,7 @@ public class JavaAtgGenerator extends AsmToJavaGenerator {
         this.seqCalledRules.addAll(new SeqRuleCollector(false).visit(r));
       }
     }
-    final String asmName = asm.getName();
+    final String asmName = Util.javaIdentifier(asm.getName());
     StringBuffer sb = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
     _builder.newLine();

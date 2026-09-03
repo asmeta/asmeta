@@ -51,10 +51,11 @@ class DomainToJavaSigDef extends ReflectiveVisitor<String> {
 	def String visit(DomainDefinition object) {
 		if (object.definedDomain instanceof ConcreteDomain &&
 			(object.definedDomain as ConcreteDomain).typeDomain instanceof PowersetDomain) {
-			val values = object.body as SetTerm
-			return "(" + values.term.map[
-				"new HashSet<>(Arrays.asList" + new TermToJava(res).visit(it) + ")"
-			].join(", ") + ")"
+			if (object.body instanceof SetTerm)
+				return "(" + (object.body as SetTerm).term.map[
+					"new HashSet<>(Arrays.asList" + new TermToJava(res).visit(it) + ")"
+				].join(", ") + ")"
+			return new TermToJava(res).visit(object.body)
 		}
 		return new TermToJava(res).visit(object.body)
 	}

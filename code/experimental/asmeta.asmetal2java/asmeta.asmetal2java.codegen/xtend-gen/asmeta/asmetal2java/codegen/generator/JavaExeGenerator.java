@@ -49,7 +49,7 @@ public class JavaExeGenerator extends AsmToJavaGenerator {
         this.seqCalledRules.addAll(new SeqRuleCollector(false).visit(r));
       }
     }
-    final String asmName = asm.getName();
+    final String asmName = Util.javaIdentifier(asm.getName());
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("// ");
     _builder.append(asmName);

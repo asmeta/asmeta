@@ -53,7 +53,7 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
         this.seqCalledRules.addAll(new SeqRuleCollector(false).visit(r));
       }
     }
-    final String asmName = asm.getName();
+    final String asmName = Util.javaIdentifier(asm.getName());
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("import java.awt.EventQueue;");
     _builder.newLine();
@@ -87,14 +87,12 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
     _builder.newLine();
     _builder.newLine();
     _builder.append("public class ");
-    String _name = asm.getName();
-    _builder.append(_name);
+    _builder.append(asmName);
     _builder.append("_Win {");
     _builder.newLineIfNotEmpty();
     _builder.newLine();
     _builder.append("    ");
-    String _name_1 = asm.getName();
-    _builder.append(_name_1, "    ");
+    _builder.append(asmName, "    ");
     _builder.append(" esecuzione;");
     _builder.newLineIfNotEmpty();
     _builder.append("    ");
@@ -173,11 +171,9 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
     _builder.append("try {");
     _builder.newLine();
     _builder.append("\t\t\t\t\t");
-    String _name_2 = asm.getName();
-    _builder.append(_name_2, "\t\t\t\t\t");
+    _builder.append(asmName, "\t\t\t\t\t");
     _builder.append("_Win window = new ");
-    String _name_3 = asm.getName();
-    _builder.append(_name_3, "\t\t\t\t\t");
+    _builder.append(asmName, "\t\t\t\t\t");
     _builder.append("_Win();");
     _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t\t\t");
@@ -213,16 +209,14 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
     _builder.newLine();
     _builder.append("\t");
     _builder.append("public ");
-    String _name_4 = asm.getName();
-    _builder.append(_name_4, "\t");
+    _builder.append(asmName, "\t");
     _builder.append("_Win() {");
     _builder.newLineIfNotEmpty();
     _builder.append("\t\t");
     _builder.newLine();
     _builder.append("\t\t");
     _builder.append("esecuzione = new ");
-    String _name_5 = asm.getName();
-    _builder.append(_name_5, "\t\t");
+    _builder.append(asmName, "\t\t");
     _builder.append("();");
     _builder.newLineIfNotEmpty();
     _builder.append("\t\t");
@@ -257,8 +251,8 @@ public class JavaWindowGenerator extends AsmToJavaGenerator {
     _builder.newLine();
     _builder.append("\t\t\t");
     _builder.append("frame.setTitle(\"");
-    String _name_6 = asm.getName();
-    _builder.append(_name_6, "\t\t\t");
+    String _name = asm.getName();
+    _builder.append(_name, "\t\t\t");
     _builder.append(" ASM -> Java\");");
     _builder.newLineIfNotEmpty();
     _builder.append("\t\t\t");

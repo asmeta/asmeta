@@ -31,7 +31,8 @@ public class ExpressionToJava {
 		return function.equals("<") || function.equals("<=") || function.equals(">") || function.equals(">=")
 				|| function.equals("=") || function.equals("!=") || function.equals("-") || function.equals("!")
 				|| function.equals("&") || function.equals("|") || function.equals("xor") || function.equals("mod")
-				|| function.equals("isDef") || function.equals("+") || function.equals("*") || function.equals("/")
+				|| function.equals("implies") || function.equals("isDef") || function.equals("isUndef")
+				|| function.equals("+") || function.equals("*") || function.equals("/")
 				|| function.equals("^") || function.equals("iton") || function.equals("rton")
 				|| function.equals("toNatural") || function.equals("at")
 				|| function.equals("indexOf") || function.equals("chooseone") || function.equals("first")
@@ -70,6 +71,7 @@ public class ExpressionToJava {
 		case (">="):
 			return addOperator(argsTerm, ">=");
 		case ("->"):
+		case ("implies"):
 			return implies(argsTerm);
 		case ("chooseone"):
 			return chooseone(argsTerm);
@@ -99,6 +101,8 @@ public class ExpressionToJava {
 			return mod(argsTerm);
 		case ("isDef"):
 			return isDef(argsTerm);
+		case ("isUndef"):
+			return isUndef(argsTerm);
 		case ("first"):
 			return projection(argsTerm, 0);
 		case ("second"):
@@ -196,8 +200,8 @@ public class ExpressionToJava {
 	private String append(List<Term> argsTerm) {
 		String sequence = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
 		String elementStream = streamOf(argsTerm.get(1));
-		return "java.util.stream.Stream.concat(" + sequence
-				+ ".stream(), " + elementStream + ").collect(java.util.stream.Collectors.toList())";
+		return "new java.util.ArrayList<>(java.util.stream.Stream.concat(" + sequence
+				+ ".stream(), " + elementStream + ").collect(java.util.stream.Collectors.toList()))";
 	}
 
 	private String streamOf(Term elementTerm) {
@@ -213,8 +217,8 @@ public class ExpressionToJava {
 	private String prepend(List<Term> argsTerm) {
 		String elementStream = streamOf(argsTerm.get(0));
 		String sequence = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
-		return "java.util.stream.Stream.concat(" + elementStream + ", " + sequence
-				+ ".stream()).collect(java.util.stream.Collectors.toList())";
+		return "new java.util.ArrayList<>(java.util.stream.Stream.concat(" + elementStream + ", " + sequence
+				+ ".stream()).collect(java.util.stream.Collectors.toList()))";
 	}
 
 	private String tail(List<Term> argsTerm) {
@@ -231,8 +235,9 @@ public class ExpressionToJava {
 	private String including(List<Term> argsTerm) {
 		String set = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
 		String element = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
-		return "java.util.stream.Stream.concat(" + set + ".stream(), java.util.stream.Stream.of(" + element
-				+ ")).collect(java.util.stream.Collectors.toSet())";
+		return "new java.util.HashSet<>(java.util.stream.Stream.concat(" + set
+				+ ".stream(), java.util.stream.Stream.of(" + element
+				+ ")).collect(java.util.stream.Collectors.toSet()))";
 	}
 
 	private String excluding(List<Term> argsTerm) {
@@ -243,8 +248,9 @@ public class ExpressionToJava {
 			domain = ((ConcreteDomain) domain).getTypeDomain();
 		if (domain instanceof SequenceDomain)
 			return "new java.util.ArrayList<>(" + collection + ") {{ remove(" + element + "); }}";
-		return collection + ".stream().filter(e -> !java.util.Objects.equals(e, " + element
-				+ ")).collect(java.util.stream.Collectors.toSet())";
+		return "new java.util.HashSet<>(" + collection
+				+ ".stream().filter(e -> !java.util.Objects.equals(e, " + element
+				+ ")).collect(java.util.stream.Collectors.toSet()))";
 	}
 
 	private String union(List<Term> argsTerm) {
@@ -253,34 +259,36 @@ public class ExpressionToJava {
 		Domain domain = argsTerm.get(0).getDomain();
 		if (domain instanceof ConcreteDomain)
 			domain = ((ConcreteDomain) domain).getTypeDomain();
-		String collector = domain instanceof PowersetDomain ? "toSet()" : "toList()";
-		return "java.util.stream.Stream.concat(" + first + ".stream(), " + second
-				+ ".stream()).collect(java.util.stream.Collectors." + collector + ")";
+		boolean powerset = domain instanceof PowersetDomain;
+		String collector = powerset ? "toSet()" : "toList()";
+		String implementation = powerset ? "java.util.HashSet" : "java.util.ArrayList";
+		return "new " + implementation + "<>(java.util.stream.Stream.concat(" + first + ".stream(), " + second
+				+ ".stream()).collect(java.util.stream.Collectors." + collector + "))";
 	}
 
 	private String intersection(List<Term> argsTerm) {
 		requirePowerset("intersection", argsTerm.get(0));
 		String first = collectionOperand(argsTerm.get(0));
 		String second = collectionOperand(argsTerm.get(1));
-		return first + ".stream().filter(" + second
-				+ "::contains).collect(java.util.stream.Collectors.toSet())";
+		return "new java.util.HashSet<>(" + first + ".stream().filter(" + second
+				+ "::contains).collect(java.util.stream.Collectors.toSet()))";
 	}
 
 	private String difference(List<Term> argsTerm) {
 		requirePowerset("difference", argsTerm.get(0));
 		String first = collectionOperand(argsTerm.get(0));
 		String second = collectionOperand(argsTerm.get(1));
-		return first + ".stream().filter(e -> !" + second
-				+ ".contains(e)).collect(java.util.stream.Collectors.toSet())";
+		return "new java.util.HashSet<>(" + first + ".stream().filter(e -> !" + second
+				+ ".contains(e)).collect(java.util.stream.Collectors.toSet()))";
 	}
 
 	private String symmetricDifference(List<Term> argsTerm) {
 		requirePowerset("symmetricDifference", argsTerm.get(0));
 		String first = collectionOperand(argsTerm.get(0));
 		String second = collectionOperand(argsTerm.get(1));
-		return "java.util.stream.Stream.concat(" + first + ".stream().filter(e -> !" + second
+		return "new java.util.HashSet<>(java.util.stream.Stream.concat(" + first + ".stream().filter(e -> !" + second
 				+ ".contains(e)), " + second + ".stream().filter(e -> !" + first
-				+ ".contains(e))).collect(java.util.stream.Collectors.toSet())";
+				+ ".contains(e))).collect(java.util.stream.Collectors.toSet()))";
 	}
 
 	private void requirePowerset(String function, Term term) {
@@ -328,9 +336,9 @@ public class ExpressionToJava {
 		String sequence = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
 		String index = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
 		String element = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(2));
-		return "java.util.stream.IntStream.range(0, " + sequence + ".size())"
+		return "new java.util.ArrayList<>(java.util.stream.IntStream.range(0, " + sequence + ".size())"
 				+ ".mapToObj(i -> i == " + index + " ? " + element + " : " + sequence + ".get(i))"
-				+ ".collect(java.util.stream.Collectors.toList())";
+				+ ".collect(java.util.stream.Collectors.toList()))";
 	}
 
 	private String asSequence(List<Term> argsTerm) {
@@ -357,9 +365,9 @@ public class ExpressionToJava {
 		String sequence = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
 		String index = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
 		String element = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(2));
-		return "java.util.stream.Stream.concat(java.util.stream.Stream.concat(" + sequence + ".subList(0, "
+		return "new java.util.ArrayList<>(java.util.stream.Stream.concat(java.util.stream.Stream.concat(" + sequence + ".subList(0, "
 				+ index + ").stream(), java.util.stream.Stream.of(" + element + ")), " + sequence + ".subList("
-				+ index + ", " + sequence + ".size()).stream()).collect(java.util.stream.Collectors.toList())";
+				+ index + ", " + sequence + ".size()).stream()).collect(java.util.stream.Collectors.toList()))";
 	}
 
 	private String subSequence(List<Term> argsTerm) {
@@ -435,10 +443,9 @@ public class ExpressionToJava {
 	}
 
 	private String chooseone(List<Term> argsTerm) {
-		SetTerm term = (SetTerm) argsTerm.get(0);
-		return "Collections.unmodifiableList(Arrays.asList" + new TermToJava(asm).visit(term)
-				+ ").get(ThreadLocalRandom.current().nextInt(0, Collections.unmodifiableList(Arrays.asList"
-				+ new TermToJava(asm).visit(term) + ").size()))";
+		String collection = collectionOperand(argsTerm.get(0));
+		return "new java.util.ArrayList<>(" + collection
+				+ ").get(ThreadLocalRandom.current().nextInt(0, " + collection + ".size()))";
 	}
 
 	private String or(List<Term> argsTerm) {
@@ -525,8 +532,19 @@ public class ExpressionToJava {
 	 * @return the string
 	 */
 	private String isDef(List<Term> argsTerm) {
-		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		return new Util().setPars(left + " != null");
+		return new Util().setPars(undefinedOperand(argsTerm.get(0)) + " != null");
+	}
+
+	private String isUndef(List<Term> argsTerm) {
+		return new Util().setPars(undefinedOperand(argsTerm.get(0)) + " == null");
+	}
+
+	private String undefinedOperand(Term term) {
+		String value = new TermToJavaStandardLibrary(asm).visit(term);
+		if (term.getDomain() instanceof ConcreteDomain && value.endsWith(VALUE_FIELD_NAME)) {
+			return value.substring(0, value.length() - VALUE_FIELD_NAME.length());
+		}
+		return value;
 	}
 
 	/**

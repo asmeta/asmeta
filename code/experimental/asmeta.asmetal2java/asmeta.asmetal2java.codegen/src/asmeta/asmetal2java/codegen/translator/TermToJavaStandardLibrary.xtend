@@ -81,7 +81,7 @@ class TermToJavaStandardLibrary extends TermToJava {
 
 					if (leftHandSide) {
 						leftHandSide = false
-						functionTerm.append(".set(" + visit(ft.arguments.terms.get(0)) + ", ")
+						functionTerm.append(".set(" + new TermToJava(res).visit(ft.arguments.terms.get(0)) + ", ")
 
 					} else {
 						if (ft.arguments.terms.get(0) instanceof ConstantTerm && !((ft.arguments.eContainer as LocationTerm).function.domain instanceof EnumTd))
@@ -101,7 +101,7 @@ class TermToJavaStandardLibrary extends TermToJava {
 			} // Caso di studio con variabili multiple in ingresso
 			// da controllare se corretto come metodo
 			else {
-				val tuple = ProductToJava.value(ft.arguments, [ term | visit(term) ])
+				val tuple = ProductToJava.value(ft.arguments, [ term | new TermToJava(res).visit(term) ])
 				if (leftHandSide) {
 					leftHandSide = false
 					functionTerm.append(".set(" + tuple + ", ")
@@ -128,14 +128,14 @@ class TermToJavaStandardLibrary extends TermToJava {
 				// functionTerm.append("[" + visit(ft.arguments.terms.get(0)) + "]")
 				if (leftHandSide) {
 					leftHandSide = false
-					functionTerm.append(".set(" + visit(ft.arguments.terms.get(0)) + ", ")
+					functionTerm.append(".set(" + new TermToJava(res).visit(ft.arguments.terms.get(0)) + ", ")
 
 				} else {
 					functionTerm.append(".get(" + visit(ft.arguments.terms.get(0)) + ")")
 				}
 
 			} else {
-				val tuple = ProductToJava.value(ft.arguments, [ term | visit(term) ])
+				val tuple = ProductToJava.value(ft.arguments, [ term | new TermToJava(res).visit(term) ])
 				if (leftHandSide) {
 					leftHandSide = false
 					functionTerm.append(".set(" + tuple + ", ")

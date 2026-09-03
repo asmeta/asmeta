@@ -181,11 +181,17 @@ class TermToJava extends ReflectiveVisitor<String> {
 		for (pair : object.pair) {
 			if (pair.terms.size != 2)
 				throw new IllegalArgumentException("A map entry must contain exactly a key and a value")
-			map.append(" put(").append(visit(pair.terms.get(0))).append(", ")
-			map.append(visit(pair.terms.get(1))).append(");")
+			map.append(" put(").append(javaValue(pair.terms.get(0))).append(", ")
+			map.append(javaValue(pair.terms.get(1))).append(");")
 		}
 		map.append(" }}")
 		return map.toString
+	}
+
+	private def String javaValue(asmeta.terms.basicterms.Term term) {
+		if (term instanceof SetTerm)
+			return "new HashSet<>(Arrays.asList" + visit(term) + ")"
+		return visit(term)
 	}
 
 	private def String javaType(Domain domain) {
@@ -227,41 +233,19 @@ class TermToJava extends ReflectiveVisitor<String> {
 	}
 
 	def String visit(ForallTerm object) {
-		var StringBuffer sb = new StringBuffer
+		if (object.variable.empty || object.variable.size != object.ranges.size)
+			throw new IllegalArgumentException("A universal quantifier must bind one range to each variable")
 
-		var StringBuffer supp = new StringBuffer
-
-		supp.append('''«visit(object.guard)»''')
-
-		sb.append('''
-			
-			«""»  /*<--- forAllTerm*/
-		''')
-		for (var i = 0; i < object.variable.size; i++) {
-			if ((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof AbstractTd)
-				sb.append(
-				'''
-					«""»	for(Object «visit(object.variable.get(i))» : «new DomainToJavaString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems)
-				''')
-			else if ((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof ConcreteDomain)
-				sb.append(
-			'''
-					«""»	«new DomainToJavaString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems.stream().allMatch(c -> «supp.toString.replaceAll("\\(\\$[^)]*\\)", "(c)")»);
-				''')
-			else if ((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof EnumTd)
-				sb.append(
-			'''
-					«"Arrays.stream("»	«new DomainToJavaString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».values()).allMatch(c -> «supp.toString.replaceAll("\\(\\$[^)]*\\)", "(c)")»);
-				''')
-			else
-				sb.append(
-			'''
-					«""»	«new DomainToJavaString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)»_elemsList.stream().allMatch(c -> «supp.toString.replaceAll("\\(\\$[^)]*\\)", "(c)")»);
-				''')
-
+		var expression = visit(object.guard)
+		for (var i = object.variable.size - 1; i >= 0; i--) {
+			val variableName = visit(object.variable.get(i))
+			val lambdaName = "__asmetaForall" + i
+			if (object.variable.get(i).domain instanceof ConcreteDomain)
+				expression = expression.replace(variableName + ".value", lambdaName)
+			expression = expression.replace(variableName, lambdaName)
+			expression = rangeStream(object.ranges.get(i)) + ".allMatch(" + lambdaName + " -> " + expression + ")"
 		}
-
-		return sb.toString
+		return expression
 	}
 
 	def String visit(LetTerm object) {
@@ -312,7 +296,7 @@ class TermToJava extends ReflectiveVisitor<String> {
 			if (variable.domain instanceof ConcreteDomain)
 				expression = expression.replace(visit(variable) + ".value", visit(variable))
 
-		return expression + ".collect(java.util.stream.Collectors.toSet())"
+		return "new java.util.HashSet<>(" + expression + ".collect(java.util.stream.Collectors.toSet()))"
 	}
 
 	/** Return a stream for every finite kind of ASM comprehension range. */
@@ -365,12 +349,12 @@ class TermToJava extends ReflectiveVisitor<String> {
 			else if ((object.getRanges.get(i).domain as SequenceDomain).domain instanceof ConcreteDomain)
 				sb.append(
 			'''
-					«""»	(ArrayList<«new DomainToJavaString(res).visit(((object.getRanges.get(i).domain as SequenceDomain).domain as ConcreteDomain).typeDomain)»>)«visit(object.getRanges.get(i))».stream().filter(c -> «supp.toString.replace(object.variable.get(i).name, "c")»).collect(Collectors.toList())
+					«""»	new ArrayList<>(«visit(object.getRanges.get(i))».stream().filter(c -> «supp.toString.replace(object.variable.get(i).name, "c")»).collect(Collectors.toList()))
 				''')
 			else
 				sb.append(
 			'''
-					«""»	(ArrayList<«new DomainToJavaString(res).visit((object.getRanges.get(i).domain as SequenceDomain).domain)»>)«visit(object.getRanges.get(i))».stream().filter(c -> «supp.toString.replace(object.variable.get(i).name, "c")»).collect(Collectors.toList())
+					«""»	new ArrayList<>(«visit(object.getRanges.get(i))».stream().filter(c -> «supp.toString.replace(object.variable.get(i).name, "c")»).collect(Collectors.toList()))
 				''')
 
 		}
@@ -425,6 +409,10 @@ class TermToJava extends ReflectiveVisitor<String> {
 	def String caseFunctionTermSuppCont(DynamicFunction fd, FunctionTerm ft) {
 
 		var StringBuffer functionTerm = new StringBuffer
+		// Reading a location is always a pure expression. The legacy support code
+		// below is needed only while constructing the left-hand side of an update.
+		if (!leftHandSide)
+			return functionTerm.toString
 
 		if (ft.arguments === null) {
 			// Identifico Dx o Sx
@@ -666,7 +654,7 @@ class TermToJava extends ReflectiveVisitor<String> {
 
 					if (leftHandSide) {
 						leftHandSide = false
-						functionTerm.append(".set(" + visit(ft.arguments.terms.get(0)) + ", ")
+						functionTerm.append(".set(" + new TermToJava(res).visit(ft.arguments.terms.get(0)) + ", ")
 
 					} else {
 						functionTerm.append(".get(" + visit(ft.arguments.terms.get(0)) + ")")
@@ -679,7 +667,7 @@ class TermToJava extends ReflectiveVisitor<String> {
 			} // Caso di studio con variabili multiple in ingresso
 			// da controllare se corretto come metodo
 			else {
-				val tuple = ProductToJava.value(ft.arguments, [ term | visit(term) ])
+				val tuple = ProductToJava.value(ft.arguments, [ term | new TermToJava(res).visit(term) ])
 				if (leftHandSide) {
 					leftHandSide = false
 					functionTerm.append(".set(" + tuple + ", ")
@@ -710,7 +698,7 @@ class TermToJava extends ReflectiveVisitor<String> {
 
 				if (leftHandSide) {
 					leftHandSide = false
-					functionTerm.append(".set(" + visit(ft.arguments.terms.get(0)) + ", ")
+					functionTerm.append(".set(" + new TermToJava(res).visit(ft.arguments.terms.get(0)) + ", ")
 
 				} else {
 					functionTerm.append(".get(" + visit(ft.arguments.terms.get(0)) + ")")
@@ -718,7 +706,7 @@ class TermToJava extends ReflectiveVisitor<String> {
 				}
 
 			} else {
-				val tuple = ProductToJava.value(ft.arguments, [ term | visit(term) ])
+				val tuple = ProductToJava.value(ft.arguments, [ term | new TermToJava(res).visit(term) ])
 				if (leftHandSide) {
 					leftHandSide = false
 					functionTerm.append(".set(" + tuple + ", ")

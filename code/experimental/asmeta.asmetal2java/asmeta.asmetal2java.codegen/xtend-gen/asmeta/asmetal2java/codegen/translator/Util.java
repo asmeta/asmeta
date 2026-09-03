@@ -17,6 +17,7 @@ import asmeta.definitions.domains.StringDomain;
 import asmeta.structure.Asm;
 import asmeta.terms.basicterms.VariableTerm;
 import java.util.Objects;
+import javax.lang.model.SourceVersion;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.xbase.lib.Exceptions;
@@ -38,6 +39,21 @@ public class Util {
 
   public static String getExtendSetName(final String domainName) {
     return (domainName + "_extend");
+  }
+
+  /**
+   * Returns a legal Java identifier while preserving ordinary ASM names.
+   */
+  public static String javaIdentifier(final String name) {
+    String identifier = name.replaceAll("[^A-Za-z0-9_$]", "_");
+    if ((identifier.isEmpty() || (!Character.isJavaIdentifierStart(identifier.charAt(0))))) {
+      identifier = ("_" + identifier);
+    }
+    boolean _isKeyword = SourceVersion.isKeyword(identifier);
+    if (_isKeyword) {
+      identifier = ("_" + identifier);
+    }
+    return identifier;
   }
 
   public String adaptRuleParam(final EList<VariableTerm> variables, final Asm res) {

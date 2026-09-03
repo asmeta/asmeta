@@ -124,12 +124,7 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 	}
 
 	def String returnDomain(Domain domain, boolean pointer) {
-		var sb = new StringBuffer;
-		if (domain instanceof StructuredTd || domain instanceof StructuredTdImpl)
-			sb.append('''«createDomainToJavaSigDef(res).visit(domain)»''')
-		else
-			sb.append('''«createDomainToJavaString(res).visit(domain)»''')
-		return sb.toString
+		return Util.javaType(domain, res)
 	}
 
 	// Metodo per identificare le funzioni controllate

@@ -14,8 +14,6 @@ import asmeta.definitions.domains.MapDomain;
 import asmeta.definitions.domains.PowersetDomain;
 import asmeta.definitions.domains.ProductDomain;
 import asmeta.definitions.domains.SequenceDomain;
-import asmeta.definitions.domains.StructuredTd;
-import asmeta.definitions.domains.impl.StructuredTdImpl;
 import asmeta.structure.Asm;
 import org.asmeta.parser.util.ReflectiveVisitor;
 import org.eclipse.xtend2.lib.StringConcatenation;
@@ -253,19 +251,7 @@ public class FunctionToJavaSig extends ReflectiveVisitor<String> {
   }
 
   public String returnDomain(final Domain domain, final boolean pointer) {
-    StringBuffer sb = new StringBuffer();
-    if (((domain instanceof StructuredTd) || (domain instanceof StructuredTdImpl))) {
-      StringConcatenation _builder = new StringConcatenation();
-      String _visit = this.createDomainToJavaSigDef(this.res).visit(domain);
-      _builder.append(_visit);
-      sb.append(_builder);
-    } else {
-      StringConcatenation _builder_1 = new StringConcatenation();
-      String _visit_1 = this.createDomainToJavaString(this.res).visit(domain);
-      _builder_1.append(_visit_1);
-      sb.append(_builder_1);
-    }
-    return sb.toString();
+    return Util.javaType(domain, this.res);
   }
 
   public String visit(final ControlledFunction object) {

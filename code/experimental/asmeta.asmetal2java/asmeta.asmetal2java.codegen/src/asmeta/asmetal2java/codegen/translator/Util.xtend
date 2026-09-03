@@ -37,6 +37,16 @@ class Util {
 		return domainName + "_extend"
 	}
 
+	/** Returns a legal Java identifier while preserving ordinary ASM names. */
+	def static String javaIdentifier(String name) {
+		var identifier = name.replaceAll("[^A-Za-z0-9_$]", "_")
+		if (identifier.empty || !Character.isJavaIdentifierStart(identifier.charAt(0)))
+			identifier = "_" + identifier
+		if (javax.lang.model.SourceVersion.isKeyword(identifier))
+			identifier = "_" + identifier
+		return identifier
+	}
+
 	def String adaptRuleParam(EList<VariableTerm> variables, Asm res) {
 		var StringBuffer paramDef = new StringBuffer
 		paramDef.append("");
