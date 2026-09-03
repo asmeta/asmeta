@@ -198,44 +198,29 @@ class TermToJava extends ReflectiveVisitor<String> {
 	}
 
 	def String visit(ExistsTerm object) {
-		var StringBuffer sb = new StringBuffer
-		var StringBuffer app = new StringBuffer
+		var expression = visit(object.guard)
 
-		app.append('''«visit(object.guard)»''')
+		// Build nested streams
+		for (var i = object.variable.size - 1; i >= 0; i--) {
+			val baseDomain = (object.getRanges.get(i).domain as PowersetDomain).baseDomain
+			val variableName = object.variable.get(i).name
+			val lambdaName = "__asmetaExists" + i
 
-		var limiteS = app.toString.indexOf(")")
-		var partenza = app.toString.indexOf("(")
-		if (partenza == 0)
-			partenza = 1
-		else
-			partenza = 0
-		// else
-		var valore = app.substring(partenza, limiteS - 2)
+			// Elements of a concrete domain are stored as values of its base domain,
+			// whereas occurrences of the bound ASM variable may have been rendered as
+			// wrapper.value by the ordinary term translator.
+			if (baseDomain instanceof ConcreteDomain)
+				expression = expression.replace(variableName + ".value", lambdaName)
+			expression = expression.replace(variableName, lambdaName)
 
-		for (var i = 0; i < object.variable.size; i++) {
-			if ((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof AbstractTd)
-				sb.append(
-			'''
-					«""»	«new DomainToJavaString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems.stream().anyMatch(c -> c.toString().equals(«app.substring(7,app.length-1)».toString()))
-				''')
-			else if ((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof EnumTd)
-				sb.append(
-			'''
-					«"Arrays.stream("»	«new DomainToJavaString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».values()).anyMatch(c -> «valore»c))
-				''')
-			else if ((object.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof ConcreteDomain)  
-				sb.append(
-			'''
-					«""»	«new DomainToJavaString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems.stream().anyMatch(c -> c.equals(«app.substring(7,app.length-7)»))
-				''')
+			val domainName = new DomainToJavaString(res).visit(baseDomain)
+			if (baseDomain instanceof EnumTd)
+				expression = "Arrays.stream(" + domainName + ".values()).anyMatch(" + lambdaName + " -> " + expression + ")"
 			else
-				sb.append(
-			'''
-					«""»	«new DomainToJavaString(res).visit((object.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems.stream().anyMatch(c -> c.equals(«app.substring(7,app.length-1)»))
-				''')
+				expression = domainName + ".elems.stream().anyMatch(" + lambdaName + " -> " + expression + ")"
 		}
 
-		return sb.toString
+		return expression
 	}
 
 	def String visit(ForallTerm object) {

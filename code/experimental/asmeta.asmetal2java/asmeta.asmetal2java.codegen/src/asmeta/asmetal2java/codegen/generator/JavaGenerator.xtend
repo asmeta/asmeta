@@ -14,9 +14,7 @@ import asmeta.definitions.DerivedFunction
 import asmeta.definitions.RuleDeclaration
 import asmeta.definitions.StaticFunction
 import asmeta.definitions.domains.AbstractTd
-import asmeta.definitions.domains.ConcreteDomain
 import asmeta.definitions.domains.EnumTd
-import asmeta.definitions.domains.ProductDomain
 import asmeta.structure.Asm
 import asmeta.transitionrules.basictransitionrules.Rule
 import java.util.ArrayList
@@ -446,28 +444,6 @@ class JavaGenerator extends AsmToJavaGenerator {
 				sb.append(
 		  					'''«(createFunctionToJavaDef(asm)).visit(fd.definedFunction)»
 				''')
-				// This is needed to fix the missing .value issue for the Product domain consisting of concrete domains
-			     var pd = fd.definedFunction.domain
-			     if (pd instanceof ProductDomain){
-			         if (pd.domains.get(0) instanceof ConcreteDomain){
-                        var firstIndex = sb.toString.indexOf("$u");
-                        if (firstIndex != -1) {
-                            var before = sb.substring(0, firstIndex + 2);
-                            var after = sb.substring(firstIndex + 2);
-                            after = after.replaceAll("\\$u", "\\$u.value");
-                            sb = new StringBuffer(before + after);
-                        }
-			         }
-			         if (pd.domains.get(1) instanceof ConcreteDomain){
-                        var firstIndex = sb.toString.indexOf("$p");
-                        if (firstIndex != -1) {
-                            var before = sb.substring(0, firstIndex + 2);
-                            var after = sb.substring(firstIndex + 2);
-                            after = after.replaceAll("\\$p", "\\$p.value");
-                            sb = new StringBuffer(before + after);
-                        }
-                     }
-			     }
 			}
 			return sb.toString.replaceAll("\\$", "_")
 		}

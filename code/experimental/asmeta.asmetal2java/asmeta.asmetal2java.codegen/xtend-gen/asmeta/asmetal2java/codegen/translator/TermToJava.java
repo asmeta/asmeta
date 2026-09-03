@@ -303,88 +303,26 @@ public class TermToJava extends ReflectiveVisitor<String> {
   }
 
   public String visit(final ExistsTerm object) {
-    StringBuffer sb = new StringBuffer();
-    StringBuffer app = new StringBuffer();
-    StringConcatenation _builder = new StringConcatenation();
-    String _visit = this.visit(object.getGuard());
-    _builder.append(_visit);
-    app.append(_builder);
-    int limiteS = app.toString().indexOf(")");
-    int partenza = app.toString().indexOf("(");
-    if ((partenza == 0)) {
-      partenza = 1;
-    } else {
-      partenza = 0;
-    }
-    String valore = app.substring(partenza, (limiteS - 2));
-    for (int i = 0; (i < object.getVariable().size()); i++) {
-      Domain _domain = object.getRanges().get(i).getDomain();
-      Domain _baseDomain = ((PowersetDomain) _domain).getBaseDomain();
-      if ((_baseDomain instanceof AbstractTd)) {
-        StringConcatenation _builder_1 = new StringConcatenation();
-        _builder_1.append("\t");
-        Domain _domain_1 = object.getRanges().get(i).getDomain();
-        String _visit_1 = new DomainToJavaString(this.res).visit(((PowersetDomain) _domain_1).getBaseDomain());
-        _builder_1.append(_visit_1);
-        _builder_1.append(".elems.stream().anyMatch(c -> c.toString().equals(");
-        int _length = app.length();
-        int _minus = (_length - 1);
-        String _substring = app.substring(7, _minus);
-        _builder_1.append(_substring);
-        _builder_1.append(".toString()))");
-        _builder_1.newLineIfNotEmpty();
-        sb.append(_builder_1);
-      } else {
-        Domain _domain_2 = object.getRanges().get(i).getDomain();
-        Domain _baseDomain_1 = ((PowersetDomain) _domain_2).getBaseDomain();
-        if ((_baseDomain_1 instanceof EnumTd)) {
-          StringConcatenation _builder_2 = new StringConcatenation();
-          _builder_2.append("Arrays.stream(");
-          _builder_2.append("\t");
-          Domain _domain_3 = object.getRanges().get(i).getDomain();
-          String _visit_2 = new DomainToJavaString(this.res).visit(((PowersetDomain) _domain_3).getBaseDomain());
-          _builder_2.append(_visit_2);
-          _builder_2.append(".values()).anyMatch(c -> ");
-          _builder_2.append(valore);
-          _builder_2.append("c))");
-          _builder_2.newLineIfNotEmpty();
-          sb.append(_builder_2);
+    String expression = this.visit(object.getGuard());
+    for (int i = (object.getVariable().size() - 1); (i >= 0); i--) {
+      {
+        Domain _domain = object.getRanges().get(i).getDomain();
+        final Domain baseDomain = ((PowersetDomain) _domain).getBaseDomain();
+        final String variableName = object.getVariable().get(i).getName();
+        final String lambdaName = ("__asmetaExists" + Integer.valueOf(i));
+        if ((baseDomain instanceof ConcreteDomain)) {
+          expression = expression.replace((variableName + ".value"), lambdaName);
+        }
+        expression = expression.replace(variableName, lambdaName);
+        final String domainName = new DomainToJavaString(this.res).visit(baseDomain);
+        if ((baseDomain instanceof EnumTd)) {
+          expression = (((((("Arrays.stream(" + domainName) + ".values()).anyMatch(") + lambdaName) + " -> ") + expression) + ")");
         } else {
-          Domain _domain_4 = object.getRanges().get(i).getDomain();
-          Domain _baseDomain_2 = ((PowersetDomain) _domain_4).getBaseDomain();
-          if ((_baseDomain_2 instanceof ConcreteDomain)) {
-            StringConcatenation _builder_3 = new StringConcatenation();
-            _builder_3.append("\t");
-            Domain _domain_5 = object.getRanges().get(i).getDomain();
-            String _visit_3 = new DomainToJavaString(this.res).visit(((PowersetDomain) _domain_5).getBaseDomain());
-            _builder_3.append(_visit_3);
-            _builder_3.append(".elems.stream().anyMatch(c -> c.equals(");
-            int _length_1 = app.length();
-            int _minus_1 = (_length_1 - 7);
-            String _substring_1 = app.substring(7, _minus_1);
-            _builder_3.append(_substring_1);
-            _builder_3.append("))");
-            _builder_3.newLineIfNotEmpty();
-            sb.append(_builder_3);
-          } else {
-            StringConcatenation _builder_4 = new StringConcatenation();
-            _builder_4.append("\t");
-            Domain _domain_6 = object.getRanges().get(i).getDomain();
-            String _visit_4 = new DomainToJavaString(this.res).visit(((PowersetDomain) _domain_6).getBaseDomain());
-            _builder_4.append(_visit_4);
-            _builder_4.append(".elems.stream().anyMatch(c -> c.equals(");
-            int _length_2 = app.length();
-            int _minus_2 = (_length_2 - 1);
-            String _substring_2 = app.substring(7, _minus_2);
-            _builder_4.append(_substring_2);
-            _builder_4.append("))");
-            _builder_4.newLineIfNotEmpty();
-            sb.append(_builder_4);
-          }
+          expression = (((((domainName + ".elems.stream().anyMatch(") + lambdaName) + " -> ") + expression) + ")");
         }
       }
     }
-    return sb.toString();
+    return expression;
   }
 
   public String visit(final ForallTerm object) {

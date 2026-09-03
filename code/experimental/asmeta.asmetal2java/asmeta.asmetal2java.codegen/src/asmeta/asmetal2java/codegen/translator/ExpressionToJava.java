@@ -473,27 +473,25 @@ public class ExpressionToJava {
 
 
 	private String addOperator(List<Term> argsTerm, String operator) {
-		String left = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
-		String right = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
-		try {
-			Integer.parseInt(left);
-			Integer.parseInt(right);
-		} catch (NumberFormatException e) {
-			// Ignore
-		}
-
-		// The two domains are different. In order to make them comparable, we need to
-		// get the value of at least of them
-		if (!argsTerm.get(0).getDomain().equals(argsTerm.get(1).getDomain())) {
-			if (argsTerm.get(0).getDomain() instanceof ConcreteDomain) {
-				left = left + VALUE_FIELD_NAME;
-			}
-
-			if (argsTerm.get(1).getDomain() instanceof ConcreteDomain) {
-				right = right + VALUE_FIELD_NAME;
-			}
-		}
+		String left = operatorOperand(argsTerm.get(0));
+		String right = operatorOperand(argsTerm.get(1));
 		return new Util().setPars(left + " " +operator + " " + right);
+	}
+
+	/**
+	 * Returns the Java value on which a binary operator must operate.
+	 *
+	 * <p>Concrete domains are represented by generated wrapper classes. Java
+	 * operators, however, must receive the wrapped value regardless of whether the
+	 * other operand belongs to the same concrete domain, to a different concrete
+	 * domain, or to its base domain.</p>
+	 */
+	private String operatorOperand(Term term) {
+		String operand = new TermToJavaStandardLibrary(asm).visit(term);
+		if (term.getDomain() instanceof ConcreteDomain && !operand.endsWith(VALUE_FIELD_NAME)) {
+			operand += VALUE_FIELD_NAME;
+		}
+		return operand;
 	}
 
 

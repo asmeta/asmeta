@@ -96,13 +96,13 @@ public class EvoAvallaTranslationCases {
 //	void mapTermMustGenerateCompilableTestAndAtgClasses() throws Exception {
 //		translateAndCompile("MapTerm.asm");
 //	}
-//
-//	@Test
-//	@Tag("TestToMavenSkip")
-//	void concreteDomainOperatorsMustGenerateCompilableTestAndAtgClasses() throws Exception {
-//		translateAndCompile("ConcreteDomainOperators.asm");
-//	}
-//
+
+	@Test
+	@Tag("TestToMavenSkip")
+	void concreteDomainOperatorsMustGenerateCompilableTestAndAtgClasses() throws Exception {
+		translateAndCompile("ConcreteDomainOperators.asm");
+	}
+
 //	@Test
 //	@Tag("TestToMavenSkip")
 //	void setComprehensionMustGenerateCompilableTestAndAtgClasses() throws Exception {
