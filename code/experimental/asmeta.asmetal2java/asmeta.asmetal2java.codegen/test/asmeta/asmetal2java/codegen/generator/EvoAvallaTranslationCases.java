@@ -103,11 +103,10 @@ public class EvoAvallaTranslationCases {
 		translateAndCompile("ConcreteDomainOperators.asm");
 	}
 
-//	@Test
-//	@Tag("TestToMavenSkip")
-//	void setComprehensionMustGenerateCompilableTestAndAtgClasses() throws Exception {
-//		translateAndCompile("SetComprehension.asm");
-//	}
+	@Test
+	void setComprehensionMustGenerateCompilableTestAndAtgClasses() throws Exception {
+		translateAndCompile("SetComprehension.asm");
+	}
 
 	@Test
 	@Tag("TestToMavenSkip")

@@ -49,7 +49,6 @@ import org.asmeta.parser.util.Defs;
 import org.asmeta.parser.util.ReflectiveVisitor;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
-import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.eclipse.xtext.xbase.lib.XbaseGenerated;
 
 @SuppressWarnings("all")
@@ -457,11 +456,97 @@ public class TermToJava extends ReflectiveVisitor<String> {
   }
 
   public String visit(final SetCt term) {
-    try {
-      throw new Exception("SetCt not implemented");
-    } catch (Throwable _e) {
-      throw Exceptions.sneakyThrow(_e);
+    if ((term.getVariable().isEmpty() || (term.getVariable().size() != term.getRanges().size()))) {
+      throw new IllegalArgumentException("A set comprehension must bind one range to each variable");
     }
+    StringConcatenation _builder = new StringConcatenation();
+    String _rangeStream = this.rangeStream(term.getRanges().getLast());
+    _builder.append(_rangeStream);
+    _builder.append(".filter(");
+    String _visit = this.visit(term.getVariable().getLast());
+    _builder.append(_visit);
+    _builder.append(" -> ");
+    String _visit_1 = this.visit(term.getGuard());
+    _builder.append(_visit_1);
+    _builder.append(").map(");
+    String _visit_2 = this.visit(term.getVariable().getLast());
+    _builder.append(_visit_2);
+    _builder.append(" -> ");
+    String _setComprehensionResult = this.setComprehensionResult(term.getTerm());
+    _builder.append(_setComprehensionResult);
+    _builder.append(")");
+    String expression = _builder.toString();
+    for (int i = (term.getVariable().size() - 2); (i >= 0); i--) {
+      StringConcatenation _builder_1 = new StringConcatenation();
+      String _rangeStream_1 = this.rangeStream(term.getRanges().get(i));
+      _builder_1.append(_rangeStream_1);
+      _builder_1.append(".flatMap(");
+      String _visit_3 = this.visit(term.getVariable().get(i));
+      _builder_1.append(_visit_3);
+      _builder_1.append(" -> ");
+      _builder_1.append(expression);
+      _builder_1.append(")");
+      expression = _builder_1.toString();
+    }
+    EList<VariableTerm> _variable = term.getVariable();
+    for (final VariableTerm variable : _variable) {
+      Domain _domain = variable.getDomain();
+      if ((_domain instanceof ConcreteDomain)) {
+        String _visit_3 = this.visit(variable);
+        String _plus = (_visit_3 + ".value");
+        expression = expression.replace(_plus, this.visit(variable));
+      }
+    }
+    return (expression + ".collect(java.util.stream.Collectors.toSet())");
+  }
+
+  /**
+   * Return a stream for every finite kind of ASM comprehension range.
+   */
+  private String rangeStream(final Term range) {
+    if ((range instanceof SetTerm)) {
+      String _visit = this.visit(((SetTerm)range));
+      String _plus = ("java.util.Arrays.asList" + _visit);
+      return (_plus + ".stream()");
+    }
+    if ((range instanceof DomainTerm)) {
+      Domain _domain = ((DomainTerm)range).getDomain();
+      final Domain baseDomain = ((PowersetDomain) _domain).getBaseDomain();
+      if ((baseDomain instanceof BooleanDomain)) {
+        return "java.util.stream.Stream.of(Boolean.FALSE, Boolean.TRUE)";
+      }
+      if ((baseDomain instanceof EnumTd)) {
+        String _javaType = this.javaType(baseDomain);
+        String _plus_1 = ("java.util.Arrays.stream(" + _javaType);
+        return (_plus_1 + ".values())");
+      }
+      if (((baseDomain instanceof ConcreteDomain) || (baseDomain instanceof AbstractTd))) {
+        String _javaType_1 = this.javaType(baseDomain);
+        return (_javaType_1 + ".elems.stream()");
+      }
+      String _name = baseDomain.getName();
+      String _plus_2 = ("The domain " + _name);
+      String _plus_3 = (_plus_2 + " is not a finite set-comprehension range");
+      throw new IllegalArgumentException(_plus_3);
+    }
+    String _visit_1 = this.visit(range);
+    final String translatedRange = (_visit_1 + ".stream()");
+    if (((range.getDomain() instanceof PowersetDomain) && (((PowersetDomain) range.getDomain()).getBaseDomain() instanceof ConcreteDomain))) {
+      return (translatedRange + ".map(__asmetaElement -> __asmetaElement.value)");
+    }
+    return translatedRange;
+  }
+
+  private String setComprehensionResult(final Term result) {
+    final String translatedResult = this.visit(result);
+    Domain _domain = result.getDomain();
+    if ((_domain instanceof ConcreteDomain)) {
+      String _javaType = this.javaType(result.getDomain());
+      String _plus = (_javaType + ".valueOf(");
+      String _plus_1 = (_plus + translatedResult);
+      return (_plus_1 + ")");
+    }
+    return translatedResult;
   }
 
   public String visit(final SequenceCt object) {

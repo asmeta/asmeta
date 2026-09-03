@@ -298,7 +298,50 @@ class TermToJava extends ReflectiveVisitor<String> {
 	}
 
 	def String visit(SetCt term) {
-		throw new Exception("SetCt not implemented");
+		if (term.variable.empty || term.variable.size != term.ranges.size)
+			throw new IllegalArgumentException("A set comprehension must bind one range to each variable")
+
+		// A comprehension with more than one variable denotes the Cartesian
+		// product of its ranges.  Nested flatMap calls preserve that semantics
+		// and, unlike textual variable replacement, also allow a later range to
+		// depend on a variable bound by an earlier one.
+		var expression = '''«rangeStream(term.ranges.last)».filter(«visit(term.variable.last)» -> «visit(term.guard)»).map(«visit(term.variable.last)» -> «setComprehensionResult(term.term)»)'''
+		for (var i = term.variable.size - 2; i >= 0; i--)
+			expression = '''«rangeStream(term.ranges.get(i))».flatMap(«visit(term.variable.get(i))» -> «expression»)'''
+		for (variable : term.variable)
+			if (variable.domain instanceof ConcreteDomain)
+				expression = expression.replace(visit(variable) + ".value", visit(variable))
+
+		return expression + ".collect(java.util.stream.Collectors.toSet())"
+	}
+
+	/** Return a stream for every finite kind of ASM comprehension range. */
+	private def String rangeStream(asmeta.terms.basicterms.Term range) {
+		if (range instanceof SetTerm)
+			return "java.util.Arrays.asList" + visit(range) + ".stream()"
+
+		if (range instanceof DomainTerm) {
+			val baseDomain = (range.domain as PowersetDomain).baseDomain
+			if (baseDomain instanceof BooleanDomain)
+				return "java.util.stream.Stream.of(Boolean.FALSE, Boolean.TRUE)"
+			if (baseDomain instanceof EnumTd)
+				return "java.util.Arrays.stream(" + javaType(baseDomain) + ".values())"
+			if (baseDomain instanceof ConcreteDomain || baseDomain instanceof AbstractTd)
+				return javaType(baseDomain) + ".elems.stream()"
+			throw new IllegalArgumentException("The domain " + baseDomain.name + " is not a finite set-comprehension range")
+		}
+
+		val translatedRange = visit(range) + ".stream()"
+		if (range.domain instanceof PowersetDomain && (range.domain as PowersetDomain).baseDomain instanceof ConcreteDomain)
+			return translatedRange + ".map(__asmetaElement -> __asmetaElement.value)"
+		return translatedRange
+	}
+
+	private def String setComprehensionResult(asmeta.terms.basicterms.Term result) {
+		val translatedResult = visit(result)
+		if (result.domain instanceof ConcreteDomain)
+			return javaType(result.domain) + ".valueOf(" + translatedResult + ")"
+		return translatedResult
 	}
 
 	def String visit(SequenceCt object) {
