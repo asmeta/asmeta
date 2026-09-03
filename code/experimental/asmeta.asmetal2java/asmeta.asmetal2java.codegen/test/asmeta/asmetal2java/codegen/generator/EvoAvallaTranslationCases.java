@@ -41,20 +41,17 @@ public class EvoAvallaTranslationCases {
 	}
 
 	@Test
-	@Tag("TestToMavenSkip")
 	void productAndTupleTermMustGenerateCompilableTestAndAtgClasses() throws Exception {
 		translateAndCompile("ProductTupleInitialization.asm");
 	}
 
 	@Test
-	@Tag("TestToMavenSkip")
 	void nestedTermsInInitializationMustNotRepeatAssignmentOperator() throws Exception {
 		translateAndCompile("ConditionalTermInitialization.asm");
 		translateAndCompile("ConditionalTermInitialization_static.asm");
 	}
 
 	@Test
-	@Tag("TestToMavenSkip")
 	void enumCaseTermInitializationMustGenerateCompilableTestAndAtgClasses() throws Exception {
 		translateAndCompile("CaseTermEnumInitialization.asm");
 		translateAndCompile("CaseTermEnumInitialization_static.asm");
@@ -62,43 +59,36 @@ public class EvoAvallaTranslationCases {
 	}
 
 	@Test
-	@Tag("TestToMavenSkip")
 	void sequenceInitializationMustGenerateCompilableTestAndAtgClasses() throws Exception {
 		translateAndCompile("SequenceInitialization.asm");
 	}
 
 	@Test
-	@Tag("TestToMavenSkip")
 	void powersetInitializationMustGenerateCompilableTestAndAtgClasses() throws Exception {
 		translateAndCompile("PowersetInitialization.asm");
 	}
 
 	@Test
-	@Tag("TestToMavenSkip")
 	void naturalMustGenerateCompilableTestAndAtgClasses() throws Exception {
 		translateAndCompile("Natural.asm");
 	}
 
 	@Test
-	@Tag("TestToMavenSkip")
 	void stdlFunctionsMustGenerateCompilableTestAndAtgClasses() throws Exception {
 		translateAndCompile("STDLFunctions.asm");
 	}
 
 	@Test
-	@Tag("TestToMavenSkip")
 	void extendRuleMustGenerateCompilableTestAndAtgClasses() throws Exception {
 		translateAndCompile("ExtendRule.asm");
 	}
 
 	@Test
-	@Tag("TestToMavenSkip")
 	void mapTermMustGenerateCompilableTestAndAtgClasses() throws Exception {
 		translateAndCompile("MapTerm.asm");
 	}
 
 	@Test
-	@Tag("TestToMavenSkip")
 	void concreteDomainOperatorsMustGenerateCompilableTestAndAtgClasses() throws Exception {
 		translateAndCompile("ConcreteDomainOperators.asm");
 	}
@@ -109,16 +99,14 @@ public class EvoAvallaTranslationCases {
 	}
 
 	@Test
-	@Tag("TestToMavenSkip")
 	void conditionalTermWithoutElseMustGenerateCompilableTestAndAtgClasses() throws Exception {
 		translateAndCompile("ConditionalTermWithoutElse.asm");
 	}
 
-//	@Test
-//	@Tag("TestToMavenSkip")
-//	void collectionTypesMustGenerateCompilableTestAndAtgClasses() throws Exception {
-//		translateAndCompile("CollectionTypes.asm");
-//	}
+	@Test
+	void collectionTypesMustGenerateCompilableTestAndAtgClasses() throws Exception {
+		translateAndCompile("CollectionTypes.asm");
+	}
 
 //	@Test
 //	@Tag("TestToMavenSkip")

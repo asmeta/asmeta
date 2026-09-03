@@ -7,8 +7,10 @@ import asmeta.definitions.MonitoredFunction
 import asmeta.definitions.OutFunction
 import asmeta.definitions.StaticFunction
 import asmeta.definitions.domains.AbstractTd
+import asmeta.definitions.domains.BagDomain
 import asmeta.definitions.domains.ConcreteDomain
 import asmeta.definitions.domains.EnumTd
+import asmeta.definitions.domains.MapDomain
 import asmeta.definitions.domains.ProductDomain
 import asmeta.definitions.domains.PowersetDomain
 import asmeta.definitions.domains.SequenceDomain
@@ -433,9 +435,9 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 					return supp;
 				}''')
 
-				} else if (object.codomain instanceof SequenceDomain) {
-					sb.
-						append('''ArrayList«new DomainToJavaString(asm).visit(object.codomain)» «object.name»(ArrayList«new Util().adaptRuleParam(object.definition.variable,asm)»){return «new TermToJava(asm).visit(object.definition.body)»;}''')
+				} else if (object.codomain instanceof SequenceDomain || object.codomain instanceof PowersetDomain ||
+					object.codomain instanceof BagDomain || object.codomain instanceof MapDomain) {
+					sb.append('''«Util.javaType(object.codomain, asm)» «object.name»(«new Util().adaptRuleParam(object.definition.variable,asm)»){return «new TermToJava(asm).visit(object.definition.body)»;}''')
 				} else{
 					sb.append('''«new DomainToJavaString(asm).visit(object.codomain)» «object.name»(«new Util().adaptRuleParam(object.definition.variable,asm)»){ return «new TermToJava(asm).visit(object.definition.body)»;}''')
 			
@@ -459,7 +461,10 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 					return supp;
 				}''')
 
-				} else
+				} else if (object.codomain instanceof SequenceDomain || object.codomain instanceof PowersetDomain ||
+					object.codomain instanceof BagDomain || object.codomain instanceof MapDomain)
+					sb.append('''«Util.javaType(object.codomain, asm)» «object.name»(){ return «new TermToJava(asm).visit(object.definition.body)»;}''')
+				else
 					sb.
 						append('''«new DomainToJavaString(asm).visit(object.codomain)» «object.name»(){ return «new TermToJava(asm).visit(object.definition.body)»;}''')
 			

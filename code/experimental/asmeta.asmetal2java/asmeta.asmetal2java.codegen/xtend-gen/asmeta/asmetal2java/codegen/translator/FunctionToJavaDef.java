@@ -7,9 +7,11 @@ import asmeta.definitions.MonitoredFunction;
 import asmeta.definitions.OutFunction;
 import asmeta.definitions.StaticFunction;
 import asmeta.definitions.domains.AbstractTd;
+import asmeta.definitions.domains.BagDomain;
 import asmeta.definitions.domains.ConcreteDomain;
 import asmeta.definitions.domains.Domain;
 import asmeta.definitions.domains.EnumTd;
+import asmeta.definitions.domains.MapDomain;
 import asmeta.definitions.domains.PowersetDomain;
 import asmeta.definitions.domains.ProductDomain;
 import asmeta.definitions.domains.SequenceDomain;
@@ -941,27 +943,26 @@ public class FunctionToJavaDef extends ReflectiveVisitor<String> {
           _builder_1.append("}");
           sb.append(_builder_1);
         } else {
-          Domain _codomain_1 = object.getCodomain();
-          if ((_codomain_1 instanceof SequenceDomain)) {
+          if (((((object.getCodomain() instanceof SequenceDomain) || (object.getCodomain() instanceof PowersetDomain)) || 
+            (object.getCodomain() instanceof BagDomain)) || (object.getCodomain() instanceof MapDomain))) {
             StringConcatenation _builder_2 = new StringConcatenation();
-            _builder_2.append("ArrayList");
-            String _visit_4 = new DomainToJavaString(this.asm).visit(object.getCodomain());
-            _builder_2.append(_visit_4);
+            String _javaType = Util.javaType(object.getCodomain(), this.asm);
+            _builder_2.append(_javaType);
             _builder_2.append(" ");
             String _name_4 = object.getName();
             _builder_2.append(_name_4);
-            _builder_2.append("(ArrayList");
+            _builder_2.append("(");
             String _adaptRuleParam_2 = new Util().adaptRuleParam(object.getDefinition().getVariable(), this.asm);
             _builder_2.append(_adaptRuleParam_2);
             _builder_2.append("){return ");
-            String _visit_5 = new TermToJava(this.asm).visit(object.getDefinition().getBody());
-            _builder_2.append(_visit_5);
+            String _visit_4 = new TermToJava(this.asm).visit(object.getDefinition().getBody());
+            _builder_2.append(_visit_4);
             _builder_2.append(";}");
             sb.append(_builder_2);
           } else {
             StringConcatenation _builder_3 = new StringConcatenation();
-            String _visit_6 = new DomainToJavaString(this.asm).visit(object.getCodomain());
-            _builder_3.append(_visit_6);
+            String _visit_5 = new DomainToJavaString(this.asm).visit(object.getCodomain());
+            _builder_3.append(_visit_5);
             _builder_3.append(" ");
             String _name_5 = object.getName();
             _builder_3.append(_name_5);
@@ -969,8 +970,8 @@ public class FunctionToJavaDef extends ReflectiveVisitor<String> {
             String _adaptRuleParam_3 = new Util().adaptRuleParam(object.getDefinition().getVariable(), this.asm);
             _builder_3.append(_adaptRuleParam_3);
             _builder_3.append("){ return ");
-            String _visit_7 = new TermToJava(this.asm).visit(object.getDefinition().getBody());
-            _builder_3.append(_visit_7);
+            String _visit_6 = new TermToJava(this.asm).visit(object.getDefinition().getBody());
+            _builder_3.append(_visit_6);
             _builder_3.append(";}");
             sb.append(_builder_3);
           }
@@ -980,22 +981,22 @@ public class FunctionToJavaDef extends ReflectiveVisitor<String> {
       Term _body_1 = object.getDefinition().getBody();
       if ((_body_1 instanceof ForallTerm)) {
         StringConcatenation _builder_4 = new StringConcatenation();
-        String _visit_8 = new DomainToJavaString(this.asm).visit(object.getCodomain());
-        _builder_4.append(_visit_8);
+        String _visit_7 = new DomainToJavaString(this.asm).visit(object.getCodomain());
+        _builder_4.append(_visit_7);
         _builder_4.append(" ");
         String _name_6 = object.getName();
         _builder_4.append(_name_6);
         _builder_4.append("(){ return ");
-        String _visit_9 = new TermToJava(this.asm).visit(object.getDefinition().getBody());
-        _builder_4.append(_visit_9);
+        String _visit_8 = new TermToJava(this.asm).visit(object.getDefinition().getBody());
+        _builder_4.append(_visit_8);
         _builder_4.append("}");
         sb.append(_builder_4);
       } else {
-        Domain _codomain_2 = object.getCodomain();
-        if ((_codomain_2 instanceof ConcreteDomain)) {
+        Domain _codomain_1 = object.getCodomain();
+        if ((_codomain_1 instanceof ConcreteDomain)) {
           StringConcatenation _builder_5 = new StringConcatenation();
-          String _visit_10 = new DomainToJavaString(this.asm).visit(object.getCodomain());
-          _builder_5.append(_visit_10);
+          String _visit_9 = new DomainToJavaString(this.asm).visit(object.getCodomain());
+          _builder_5.append(_visit_9);
           _builder_5.append(" ");
           String _name_7 = object.getName();
           _builder_5.append(_name_7);
@@ -1015,8 +1016,8 @@ public class FunctionToJavaDef extends ReflectiveVisitor<String> {
           _builder_5.newLine();
           _builder_5.append("\t\t\t\t\t");
           _builder_5.append("supp.value = ");
-          String _visit_11 = new TermToJava(this.asm).visit(object.getDefinition().getBody());
-          _builder_5.append(_visit_11, "\t\t\t\t\t");
+          String _visit_10 = new TermToJava(this.asm).visit(object.getDefinition().getBody());
+          _builder_5.append(_visit_10, "\t\t\t\t\t");
           _builder_5.append(";");
           _builder_5.newLineIfNotEmpty();
           _builder_5.append("\t\t\t\t\t");
@@ -1028,17 +1029,32 @@ public class FunctionToJavaDef extends ReflectiveVisitor<String> {
           _builder_5.append("}");
           sb.append(_builder_5);
         } else {
-          StringConcatenation _builder_6 = new StringConcatenation();
-          String _visit_12 = new DomainToJavaString(this.asm).visit(object.getCodomain());
-          _builder_6.append(_visit_12);
-          _builder_6.append(" ");
-          String _name_10 = object.getName();
-          _builder_6.append(_name_10);
-          _builder_6.append("(){ return ");
-          String _visit_13 = new TermToJava(this.asm).visit(object.getDefinition().getBody());
-          _builder_6.append(_visit_13);
-          _builder_6.append(";}");
-          sb.append(_builder_6);
+          if (((((object.getCodomain() instanceof SequenceDomain) || (object.getCodomain() instanceof PowersetDomain)) || 
+            (object.getCodomain() instanceof BagDomain)) || (object.getCodomain() instanceof MapDomain))) {
+            StringConcatenation _builder_6 = new StringConcatenation();
+            String _javaType_1 = Util.javaType(object.getCodomain(), this.asm);
+            _builder_6.append(_javaType_1);
+            _builder_6.append(" ");
+            String _name_10 = object.getName();
+            _builder_6.append(_name_10);
+            _builder_6.append("(){ return ");
+            String _visit_11 = new TermToJava(this.asm).visit(object.getDefinition().getBody());
+            _builder_6.append(_visit_11);
+            _builder_6.append(";}");
+            sb.append(_builder_6);
+          } else {
+            StringConcatenation _builder_7 = new StringConcatenation();
+            String _visit_12 = new DomainToJavaString(this.asm).visit(object.getCodomain());
+            _builder_7.append(_visit_12);
+            _builder_7.append(" ");
+            String _name_11 = object.getName();
+            _builder_7.append(_name_11);
+            _builder_7.append("(){ return ");
+            String _visit_13 = new TermToJava(this.asm).visit(object.getDefinition().getBody());
+            _builder_7.append(_visit_13);
+            _builder_7.append(";}");
+            sb.append(_builder_7);
+          }
         }
       }
     }

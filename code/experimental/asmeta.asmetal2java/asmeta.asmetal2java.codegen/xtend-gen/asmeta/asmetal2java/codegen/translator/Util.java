@@ -3,12 +3,16 @@ package asmeta.asmetal2java.codegen.translator;
 import asmeta.definitions.ControlledFunction;
 import asmeta.definitions.Function;
 import asmeta.definitions.OutFunction;
+import asmeta.definitions.domains.BagDomain;
 import asmeta.definitions.domains.BooleanDomain;
 import asmeta.definitions.domains.CharDomain;
 import asmeta.definitions.domains.Domain;
 import asmeta.definitions.domains.IntegerDomain;
+import asmeta.definitions.domains.MapDomain;
 import asmeta.definitions.domains.NaturalDomain;
+import asmeta.definitions.domains.PowersetDomain;
 import asmeta.definitions.domains.RealDomain;
+import asmeta.definitions.domains.SequenceDomain;
 import asmeta.definitions.domains.StringDomain;
 import asmeta.structure.Asm;
 import asmeta.terms.basicterms.VariableTerm;
@@ -41,8 +45,8 @@ public class Util {
     paramDef.append("");
     for (int i = 0; (i < variables.size()); i++) {
       StringConcatenation _builder = new StringConcatenation();
-      String _visit = new DomainToJavaString(res).visit(variables.get(i).getDomain());
-      _builder.append(_visit);
+      String _javaType = Util.javaType(variables.get(i).getDomain(), res);
+      _builder.append(_javaType);
       _builder.append(" ");
       String _name = variables.get(i).getName();
       _builder.append(_name);
@@ -52,6 +56,36 @@ public class Util {
     int _length = paramDef.length();
     int _minus = (_length - 2);
     return paramDef.substring(0, _minus);
+  }
+
+  /**
+   * Returns the Java declaration type for a Domain.
+   */
+  public static String javaType(final Domain domain, final Asm res) {
+    if ((domain instanceof SequenceDomain)) {
+      String _javaType = Util.javaType(((SequenceDomain)domain).getDomain(), res);
+      String _plus = ("List<" + _javaType);
+      return (_plus + ">");
+    }
+    if ((domain instanceof PowersetDomain)) {
+      String _javaType_1 = Util.javaType(((PowersetDomain)domain).getBaseDomain(), res);
+      String _plus_1 = ("Set<" + _javaType_1);
+      return (_plus_1 + ">");
+    }
+    if ((domain instanceof BagDomain)) {
+      String _javaType_2 = Util.javaType(((BagDomain)domain).getDomain(), res);
+      String _plus_2 = ("Bag<" + _javaType_2);
+      return (_plus_2 + ">");
+    }
+    if ((domain instanceof MapDomain)) {
+      String _javaType_3 = Util.javaType(((MapDomain)domain).getSourceDomain(), res);
+      String _plus_3 = ("Map<" + _javaType_3);
+      String _plus_4 = (_plus_3 + ", ");
+      String _javaType_4 = Util.javaType(((MapDomain)domain).getTargetDomain(), res);
+      String _plus_5 = (_plus_4 + _javaType_4);
+      return (_plus_5 + ">");
+    }
+    return new DomainToJavaString(res).visit(domain).trim();
   }
 
   public String parseFunction(final String s) {
