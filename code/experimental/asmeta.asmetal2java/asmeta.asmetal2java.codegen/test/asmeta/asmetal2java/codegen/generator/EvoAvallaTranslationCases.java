@@ -1,6 +1,5 @@
 package asmeta.asmetal2java.codegen.generator;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.file.Files;
@@ -18,7 +17,6 @@ import asmeta.asmetal2java.codegen.config.ModeConstantsConfig;
 import asmeta.asmetal2java.codegen.config.TranslatorOptions;
 import asmeta.asmetal2java.codegen.config.TranslatorOptionsImpl;
 import asmeta.asmetal2java.codegen.evosuite.RulesMap;
-import asmeta.asmetal2java.codegen.translator.InvalidFunctionException;
 
 /**
  * Focused cases for the Java generators used by EvoAvalla.
@@ -85,11 +83,11 @@ public class EvoAvallaTranslationCases {
 		translateAndCompile("STDLFunctions.asm");
 	}
 
-//	@Test
-//	@Tag("TestToMavenSkip")
-//	void extendRuleMustGenerateCompilableTestAndAtgClasses() throws Exception {
-//		translateAndCompile("ExtendRule.asm");
-//	}
+	@Test
+	@Tag("TestToMavenSkip")
+	void extendRuleMustGenerateCompilableTestAndAtgClasses() throws Exception {
+		translateAndCompile("ExtendRule.asm");
+	}
 
 	private void translateAndCompile(String specPath) throws Exception {
 		Path specification = CASES.resolve(specPath);

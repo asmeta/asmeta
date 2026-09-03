@@ -461,13 +461,20 @@ class RuleToJava extends RuleVisitor<String> {
 	}
 
 	override visit(ExtendRule rule) {
-		var string = new StringBuffer
-		for (var i = 0; i < rule.boundVar.size; i++)
-			string.append(
-				createDomainToJavaSigDef(res).visit(rule.extendedDomain) + " " +
-					new TermToJava(res).visit(rule.boundVar.get(i)) + " = new " +
-					createDomainToJavaSigDef(res).visit(rule.extendedDomain) + "();\n");
-		return string.toString + createRuleToJava(res, seqBlock, options).visit(rule.doRule)
+		val domainName = new DomainToJavaString(res).visit(rule.extendedDomain)
+		var string = new StringBuffer("{\n")
+		for (var i = 0; i < rule.boundVar.size; i++) {
+			val variableName = new TermToJava(res).visit(rule.boundVar.get(i))
+			val freshName = "__extendVarFreshName_" + variableName.replaceAll("[^A-Za-z0-9_]", "_")
+			string.append('''String «freshName» = "«domainName.toFirstLower»!" + («domainName»_Class.size() + 1);
+				«domainName» «variableName» = new «domainName»(«freshName»);
+				«domainName»_elemsList.add(«freshName»);
+				«domainName»_Class.add(«variableName»);
+			''')
+		}
+		string.append(createRuleToJava(res, seqBlock, options).visit(rule.doRule))
+		string.append("\n}\n")
+		return string.toString
 
 	}
 

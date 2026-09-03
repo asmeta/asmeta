@@ -33,6 +33,7 @@ import org.asmeta.parser.util.AsmetaTermPrinter;
 import org.asmeta.simulator.RuleVisitor;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
+import org.eclipse.xtext.xbase.lib.StringExtensions;
 
 @SuppressWarnings("all")
 public class RuleToJava extends RuleVisitor<String> {
@@ -838,20 +839,50 @@ public class RuleToJava extends RuleVisitor<String> {
 
   @Override
   public String visit(final ExtendRule rule) {
-    StringBuffer string = new StringBuffer();
+    final String domainName = new DomainToJavaString(this.res).visit(rule.getExtendedDomain());
+    StringBuffer string = new StringBuffer("{\n");
     for (int i = 0; (i < rule.getBoundVar().size()); i++) {
-      String _visit = this.createDomainToJavaSigDef(this.res).visit(rule.getExtendedDomain());
-      String _plus = (_visit + " ");
-      String _visit_1 = new TermToJava(this.res).visit(rule.getBoundVar().get(i));
-      String _plus_1 = (_plus + _visit_1);
-      String _plus_2 = (_plus_1 + " = new ");
-      String _visit_2 = this.createDomainToJavaSigDef(this.res).visit(rule.getExtendedDomain());
-      String _plus_3 = (_plus_2 + _visit_2);
-      String _plus_4 = (_plus_3 + "();\n");
-      string.append(_plus_4);
+      {
+        final String variableName = new TermToJava(this.res).visit(rule.getBoundVar().get(i));
+        String _replaceAll = variableName.replaceAll("[^A-Za-z0-9_]", "_");
+        final String freshName = ("__extendVarFreshName_" + _replaceAll);
+        StringConcatenation _builder = new StringConcatenation();
+        _builder.append("String ");
+        _builder.append(freshName);
+        _builder.append(" = \"");
+        String _firstLower = StringExtensions.toFirstLower(domainName);
+        _builder.append(_firstLower);
+        _builder.append("!\" + (");
+        _builder.append(domainName);
+        _builder.append("_Class.size() + 1);");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t\t\t\t");
+        _builder.append(domainName, "\t\t\t\t");
+        _builder.append(" ");
+        _builder.append(variableName, "\t\t\t\t");
+        _builder.append(" = new ");
+        _builder.append(domainName, "\t\t\t\t");
+        _builder.append("(");
+        _builder.append(freshName, "\t\t\t\t");
+        _builder.append(");");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t\t\t\t");
+        _builder.append(domainName, "\t\t\t\t");
+        _builder.append("_elemsList.add(");
+        _builder.append(freshName, "\t\t\t\t");
+        _builder.append(");");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t\t\t\t");
+        _builder.append(domainName, "\t\t\t\t");
+        _builder.append("_Class.add(");
+        _builder.append(variableName, "\t\t\t\t");
+        _builder.append(");");
+        _builder.newLineIfNotEmpty();
+        string.append(_builder);
+      }
     }
-    String _string = string.toString();
-    String _visit = this.createRuleToJava(this.res, this.seqBlock, this.options).visit(rule.getDoRule());
-    return (_string + _visit);
+    string.append(this.createRuleToJava(this.res, this.seqBlock, this.options).visit(rule.getDoRule()));
+    string.append("\n}\n");
+    return string.toString();
   }
 }
