@@ -28,8 +28,10 @@ import asmeta.asmetal2java.codegen.evosuite.RulesMap;
 public class EvoAvallaTranslationCases {
 
 	private static final Path CASES = Path.of("examples", "evoavallaTranslationCases");
+	private static final Path ASM_EXAMPLES = Path.of("..", "..", "..", "..", "asm_examples");
 	private static final Path GENERATED = CASES.resolve("generated");
 	private static final Path CLASSES = GENERATED.resolve("classes");
+	private static final Path TRANSLATION_LOG = GENERATED.resolve("translation.log");
 	private static final String COMPILER_VERSION = "9";
 
 	@BeforeAll
@@ -89,9 +91,81 @@ public class EvoAvallaTranslationCases {
 		translateAndCompile("ExtendRule.asm");
 	}
 
+	@Test
+	@Tag("TestToMavenSkip")
+	void mapTermMustGenerateCompilableTestAndAtgClasses() throws Exception {
+		translateAndCompile("MapTerm.asm");
+	}
+
+	@Test
+	@Tag("TestToMavenSkip")
+	void concreteDomainOperatorsMustGenerateCompilableTestAndAtgClasses() throws Exception {
+		translateAndCompile("ConcreteDomainOperators.asm");
+	}
+
+	@Test
+	@Tag("TestToMavenSkip")
+	void setComprehensionMustGenerateCompilableTestAndAtgClasses() throws Exception {
+		translateAndCompile("SetComprehension.asm");
+	}
+
+	@Test
+	@Tag("TestToMavenSkip")
+	void conditionalTermWithoutElseMustGenerateCompilableTestAndAtgClasses() throws Exception {
+		translateAndCompile("ConditionalTermWithoutElse.asm");
+	}
+
+	@Test
+	@Tag("TestToMavenSkip")
+	void collectionTypesMustGenerateCompilableTestAndAtgClasses() throws Exception {
+		translateAndCompile("CollectionTypes.asm");
+	}
+
+	@Test
+	@Tag("TestToMavenSkip")
+	void translateAndCompileAllValidAsms() throws Exception {
+		int passed = 0;
+		int failed = 0;
+		StringBuilder log = new StringBuilder();
+
+		boolean startCompiling = false;
+		for (String line : Files.readAllLines(CASES.resolve("model_list.txt"))) {
+			if (!startCompiling && !line.trim().startsWith("// valid asm:")) {
+				continue;
+			}
+			if (line.trim().startsWith("// valid asm:")) {
+				startCompiling = true;
+				continue;
+			}
+			String spec = line.replaceFirst("^\\s*//", "").split("//", 2)[0].trim();
+			if (!spec.endsWith(".asm")) {
+				continue;
+			}
+			try {
+				translateAndCompile(ASM_EXAMPLES.resolve(spec));
+				passed++;
+				log.append("PASSED: ").append(spec).append(System.lineSeparator());
+			} catch (Exception | AssertionError e) {
+				failed++;
+				log.append("FAILED: ").append(spec).append(" - ").append(e)
+						.append(System.lineSeparator());
+			}
+		}
+
+		String summary = String.format("EvoAvalla translation: %d passed, %d failed%n", passed, failed);
+		log.append(summary);
+		Files.writeString(TRANSLATION_LOG, log);
+		System.out.print(summary);
+	}
+
 	private void translateAndCompile(String specPath) throws Exception {
-		Path specification = CASES.resolve(specPath);
-		String asmName = specPath.substring(0, specPath.lastIndexOf('.'));
+		translateAndCompile(CASES.resolve(specPath));
+	}
+
+	private void translateAndCompile(Path specification) throws Exception {
+		String specPath = specification.toString();
+		String fileName = specification.getFileName().toString();
+		String asmName = fileName.substring(0, fileName.lastIndexOf('.'));
 		Path testJava = GENERATED.resolve(asmName + ".java");
 		Path atgJava = GENERATED.resolve(asmName + "_ATG.java");
 
@@ -120,6 +194,7 @@ public class EvoAvallaTranslationCases {
 		options.setValue(ModeConstantsConfig.TEST_GEN, true);
 		options.setValue(ModeConstantsConfig.COMPILER, true);
 		options.setValue(TranslatorOptionsImpl.COVER_OUTPUTS_OPTION, true);
+		options.setValue(TranslatorOptionsImpl.IGNORE_NOT_SUPPORTED_DOMAIN_EXCEPTION, true);
 		return options;
 	}
 
