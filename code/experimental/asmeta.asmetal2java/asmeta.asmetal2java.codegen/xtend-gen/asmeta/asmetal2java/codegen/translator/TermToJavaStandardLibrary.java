@@ -60,7 +60,7 @@ public class TermToJavaStandardLibrary extends TermToJava {
       } else {
         Domain _domain_1 = ft.getDomain();
         if ((_domain_1 instanceof MapDomain)) {
-          functionTerm.append("");
+          functionTerm.append(".get()");
         } else {
           if (this.leftHandSide) {
             functionTerm.append(".set(");

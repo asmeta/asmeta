@@ -64,7 +64,7 @@ class TermToJavaInUpdateRule extends TermToJava {
 
 		}
 		if (ft.domain instanceof MapDomain) {
-			functionTerm.append(fd.name + ".set(supporto);\n")
+			// Map updates are emitted directly as function.set(translatedMapTerm).
 
 		}
 		// Sequence updates are emitted directly by TermToJava as

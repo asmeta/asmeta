@@ -76,9 +76,6 @@ public class TermToJavaInUpdateRule extends TermToJava {
     }
     Domain _domain_2 = ft.getDomain();
     if ((_domain_2 instanceof MapDomain)) {
-      String _name_4 = fd.getName();
-      String _plus_6 = (_name_4 + ".set(supporto);\n");
-      functionTerm.append(_plus_6);
     }
     TupleTerm _arguments = ft.getArguments();
     boolean _tripleEquals = (_arguments == null);
@@ -86,13 +83,13 @@ public class TermToJavaInUpdateRule extends TermToJava {
       Domain _domain_3 = ft.getDomain();
       if ((_domain_3 instanceof ConcreteDomain)) {
         if ((!this.leftHandSide)) {
-          String _name_5 = fd.getName();
-          String _plus_7 = (_name_5 + ".set(");
-          String _name_6 = ft.getDomain().getName();
-          String _plus_8 = (_plus_7 + _name_6);
-          String _plus_9 = (_plus_8 + this.varName);
-          String _plus_10 = (_plus_9 + "_s);");
-          functionTerm.append(_plus_10);
+          String _name_4 = fd.getName();
+          String _plus_6 = (_name_4 + ".set(");
+          String _name_5 = ft.getDomain().getName();
+          String _plus_7 = (_plus_6 + _name_5);
+          String _plus_8 = (_plus_7 + this.varName);
+          String _plus_9 = (_plus_8 + "_s);");
+          functionTerm.append(_plus_9);
         }
       }
       return functionTerm.toString();
@@ -106,17 +103,17 @@ public class TermToJavaInUpdateRule extends TermToJava {
         Domain _domain_4 = ft.getDomain();
         if ((_domain_4 instanceof ConcreteDomain)) {
           if ((!this.leftHandSide)) {
-            String _name_7 = fd.getName();
-            String _plus_11 = (_name_7 + ".set(");
+            String _name_6 = fd.getName();
+            String _plus_10 = (_name_6 + ".set(");
             String _visit = this.visit(ft.getArguments().getTerms().get(0));
-            String _plus_12 = (_plus_11 + _visit);
-            String _plus_13 = (_plus_12 + ", ");
-            String _name_8 = ft.getDomain().getName();
-            String _plus_14 = (_plus_13 + _name_8);
-            String _plus_15 = (_plus_14 + this.varName);
-            String _plus_16 = (_plus_15 + 
+            String _plus_11 = (_plus_10 + _visit);
+            String _plus_12 = (_plus_11 + ", ");
+            String _name_7 = ft.getDomain().getName();
+            String _plus_13 = (_plus_12 + _name_7);
+            String _plus_14 = (_plus_13 + this.varName);
+            String _plus_15 = (_plus_14 + 
               "_s);");
-            functionTerm.append(_plus_16);
+            functionTerm.append(_plus_15);
           } else {
           }
         }

@@ -174,27 +174,30 @@ class TermToJava extends ReflectiveVisitor<String> {
 	}
 
 	def String visit(MapTerm object) {
-		var StringBuffer map = new StringBuffer("{{\n")
-		for (var i = 0; i < object.pair.size; i++)
-			map.append(
-				"put(" + visit(object.pair.get(i).terms.get(0)) + "," + visit(object.pair.get(i).terms.get(1)) +
-					");\n     ")
-		var s = map.substring(0, map.length - 2) + "}}";
-		var StringBuffer domain = new StringBuffer()
-		for (var i = 0; i < object.pair.get(0).terms.size; i++)
-			domain.append(new DomainToJavaString(res).visit(object.pair.get(0).terms.get(i).domain) + ", ")
-		if (object.pair.size == 0)
-			throw new RuntimeException("Empty map is not yet implemented")
-		else
-			return '''
-			«""»
-			
-			  
-			    Map<«domain.substring(0,domain.length-2)»> supporto = new HashMap<«domain.substring(0,domain.length-2)»>()
-			    «s»;
-			   
-			  //'''
+		val mapDomain = object.domain as MapDomain
+		val map = new StringBuilder("new HashMap<")
+		map.append(javaType(mapDomain.sourceDomain)).append(", ")
+		map.append(javaType(mapDomain.targetDomain)).append(">() {{")
+		for (pair : object.pair) {
+			if (pair.terms.size != 2)
+				throw new IllegalArgumentException("A map entry must contain exactly a key and a value")
+			map.append(" put(").append(visit(pair.terms.get(0))).append(", ")
+			map.append(visit(pair.terms.get(1))).append(");")
+		}
+		map.append(" }}")
+		return map.toString
+	}
 
+	private def String javaType(Domain domain) {
+		if (domain instanceof MapDomain)
+			return "Map<" + javaType(domain.sourceDomain) + ", " + javaType(domain.targetDomain) + ">"
+		if (domain instanceof SequenceDomain)
+			return "List<" + javaType(domain.domain) + ">"
+		if (domain instanceof PowersetDomain)
+			return "Set<" + javaType(domain.baseDomain) + ">"
+		if (domain instanceof BagDomain)
+			return "Bag<" + javaType(domain.domain) + ">"
+		return new DomainToJavaString(res).visit(domain)
 	}
 
 	def String visit(ExistsTerm object) {
@@ -393,7 +396,7 @@ class TermToJava extends ReflectiveVisitor<String> {
 
 			}
 			if (ft.domain instanceof MapDomain) {
-				functionTerm.append('''@SuppressWarnings("serial") //''')
+				functionTerm.append("")
 
 			}
 		} else{
@@ -585,7 +588,10 @@ class TermToJava extends ReflectiveVisitor<String> {
 				else
 					functionTerm.append(".get()")
 			} else if (ft.domain instanceof MapDomain) {
-				functionTerm.append("")
+				if (leftHandSide)
+					functionTerm.append(".set(")
+				else
+					functionTerm.append(".get()")
 			} else {
 				if (leftHandSide)
 					functionTerm.append(".set(")

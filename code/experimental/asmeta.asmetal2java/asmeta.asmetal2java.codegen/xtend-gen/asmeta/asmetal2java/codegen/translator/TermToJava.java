@@ -246,60 +246,52 @@ public class TermToJava extends ReflectiveVisitor<String> {
   }
 
   public String visit(final MapTerm object) {
-    StringBuffer map = new StringBuffer("{{\n");
-    for (int i = 0; (i < object.getPair().size()); i++) {
-      String _visit = this.visit(object.getPair().get(i).getTerms().get(0));
-      String _plus = ("put(" + _visit);
-      String _plus_1 = (_plus + ",");
-      String _visit_1 = this.visit(object.getPair().get(i).getTerms().get(1));
-      String _plus_2 = (_plus_1 + _visit_1);
-      String _plus_3 = (_plus_2 + 
-        ");\n     ");
-      map.append(_plus_3);
+    Domain _domain = object.getDomain();
+    final MapDomain mapDomain = ((MapDomain) _domain);
+    final StringBuilder map = new StringBuilder("new HashMap<");
+    map.append(this.javaType(mapDomain.getSourceDomain())).append(", ");
+    map.append(this.javaType(mapDomain.getTargetDomain())).append(">() {{");
+    EList<TupleTerm> _pair = object.getPair();
+    for (final TupleTerm pair : _pair) {
+      {
+        int _size = pair.getTerms().size();
+        boolean _notEquals = (_size != 2);
+        if (_notEquals) {
+          throw new IllegalArgumentException("A map entry must contain exactly a key and a value");
+        }
+        map.append(" put(").append(this.visit(pair.getTerms().get(0))).append(", ");
+        map.append(this.visit(pair.getTerms().get(1))).append(");");
+      }
     }
-    int _length = map.length();
-    int _minus = (_length - 2);
-    String _substring = map.substring(0, _minus);
-    String s = (_substring + "}}");
-    StringBuffer domain = new StringBuffer();
-    for (int i = 0; (i < object.getPair().get(0).getTerms().size()); i++) {
-      String _visit = new DomainToJavaString(this.res).visit(object.getPair().get(0).getTerms().get(i).getDomain());
-      String _plus = (_visit + ", ");
-      domain.append(_plus);
+    map.append(" }}");
+    return map.toString();
+  }
+
+  private String javaType(final Domain domain) {
+    if ((domain instanceof MapDomain)) {
+      String _javaType = this.javaType(((MapDomain)domain).getSourceDomain());
+      String _plus = ("Map<" + _javaType);
+      String _plus_1 = (_plus + ", ");
+      String _javaType_1 = this.javaType(((MapDomain)domain).getTargetDomain());
+      String _plus_2 = (_plus_1 + _javaType_1);
+      return (_plus_2 + ">");
     }
-    int _size = object.getPair().size();
-    boolean _equals = (_size == 0);
-    if (_equals) {
-      throw new RuntimeException("Empty map is not yet implemented");
-    } else {
-      StringConcatenation _builder = new StringConcatenation();
-      _builder.newLineIfNotEmpty();
-      _builder.newLine();
-      _builder.append("  ");
-      _builder.newLine();
-      _builder.append("    ");
-      _builder.append("Map<");
-      int _length_1 = domain.length();
-      int _minus_1 = (_length_1 - 2);
-      String _substring_1 = domain.substring(0, _minus_1);
-      _builder.append(_substring_1, "    ");
-      _builder.append("> supporto = new HashMap<");
-      int _length_2 = domain.length();
-      int _minus_2 = (_length_2 - 2);
-      String _substring_2 = domain.substring(0, _minus_2);
-      _builder.append(_substring_2, "    ");
-      _builder.append(">()");
-      _builder.newLineIfNotEmpty();
-      _builder.append("    ");
-      _builder.append(s, "    ");
-      _builder.append(";");
-      _builder.newLineIfNotEmpty();
-      _builder.append("   ");
-      _builder.newLine();
-      _builder.append("  ");
-      _builder.append("//");
-      return _builder.toString();
+    if ((domain instanceof SequenceDomain)) {
+      String _javaType_2 = this.javaType(((SequenceDomain)domain).getDomain());
+      String _plus_3 = ("List<" + _javaType_2);
+      return (_plus_3 + ">");
     }
+    if ((domain instanceof PowersetDomain)) {
+      String _javaType_3 = this.javaType(((PowersetDomain)domain).getBaseDomain());
+      String _plus_4 = ("Set<" + _javaType_3);
+      return (_plus_4 + ">");
+    }
+    if ((domain instanceof BagDomain)) {
+      String _javaType_4 = this.javaType(((BagDomain)domain).getDomain());
+      String _plus_5 = ("Bag<" + _javaType_4);
+      return (_plus_5 + ">");
+    }
+    return new DomainToJavaString(this.res).visit(domain);
   }
 
   public String visit(final ExistsTerm object) {
@@ -607,9 +599,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
       }
       Domain _domain_1 = ft.getDomain();
       if ((_domain_1 instanceof MapDomain)) {
-        StringConcatenation _builder = new StringConcatenation();
-        _builder.append("@SuppressWarnings(\"serial\") //");
-        functionTerm.append(_builder);
+        functionTerm.append("");
       }
     } else {
       int _size = ft.getArguments().getTerms().size();
@@ -840,7 +830,11 @@ public class TermToJava extends ReflectiveVisitor<String> {
         } else {
           Domain _domain_2 = ft.getDomain();
           if ((_domain_2 instanceof MapDomain)) {
-            functionTerm.append("");
+            if (this.leftHandSide) {
+              functionTerm.append(".set(");
+            } else {
+              functionTerm.append(".get()");
+            }
           } else {
             if (this.leftHandSide) {
               functionTerm.append(".set(");

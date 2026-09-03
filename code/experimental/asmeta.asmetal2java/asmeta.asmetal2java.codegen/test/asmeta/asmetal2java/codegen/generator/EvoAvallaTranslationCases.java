@@ -91,11 +91,11 @@ public class EvoAvallaTranslationCases {
 		translateAndCompile("ExtendRule.asm");
 	}
 
-//	@Test
-//	@Tag("TestToMavenSkip")
-//	void mapTermMustGenerateCompilableTestAndAtgClasses() throws Exception {
-//		translateAndCompile("MapTerm.asm");
-//	}
+	@Test
+	@Tag("TestToMavenSkip")
+	void mapTermMustGenerateCompilableTestAndAtgClasses() throws Exception {
+		translateAndCompile("MapTerm.asm");
+	}
 
 	@Test
 	@Tag("TestToMavenSkip")

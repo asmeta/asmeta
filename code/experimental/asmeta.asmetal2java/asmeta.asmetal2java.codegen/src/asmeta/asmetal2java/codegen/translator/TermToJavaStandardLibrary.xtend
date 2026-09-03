@@ -53,7 +53,7 @@ class TermToJavaStandardLibrary extends TermToJava {
 
 			} else if (ft.domain instanceof MapDomain) {
 
-				functionTerm.append("")
+				functionTerm.append(".get()")
 
 			} else {
 				if (leftHandSide)

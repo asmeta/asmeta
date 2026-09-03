@@ -19,6 +19,7 @@ import asmeta.terms.furtherterms.SequenceTerm
 import asmeta.terms.basicterms.TupleTerm
 import asmeta.terms.furtherterms.RealTerm
 import asmeta.terms.furtherterms.CharTerm
+import asmeta.terms.furtherterms.MapTerm
 
 /* Check if the init function term contains monitored functions */
 class FindMonitoredInControlledFunct extends ReflectiveVisitor<Boolean> {
@@ -114,6 +115,13 @@ class FindMonitoredInControlledFunct extends ReflectiveVisitor<Boolean> {
 		var boolean found = false
 		for (comparing : term.terms)
 			found = (found || visit(comparing));
+		return found
+	}
+
+	def boolean visit(MapTerm term) {
+		var boolean found = false
+		for (pair : term.pair)
+			found = found || visit(pair)
 		return found
 	}
 

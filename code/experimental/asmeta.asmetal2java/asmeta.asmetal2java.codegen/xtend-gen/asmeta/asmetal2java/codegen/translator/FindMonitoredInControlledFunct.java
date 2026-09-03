@@ -15,6 +15,7 @@ import asmeta.terms.furtherterms.CharTerm;
 import asmeta.terms.furtherterms.ConditionalTerm;
 import asmeta.terms.furtherterms.EnumTerm;
 import asmeta.terms.furtherterms.IntegerTerm;
+import asmeta.terms.furtherterms.MapTerm;
 import asmeta.terms.furtherterms.NaturalTerm;
 import asmeta.terms.furtherterms.RealTerm;
 import asmeta.terms.furtherterms.SequenceTerm;
@@ -140,6 +141,15 @@ public class FindMonitoredInControlledFunct extends ReflectiveVisitor<Boolean> {
     EList<Term> _terms = term.getTerms();
     for (final Term comparing : _terms) {
       found = (found || (this.visit(comparing)).booleanValue());
+    }
+    return found;
+  }
+
+  public boolean visit(final MapTerm term) {
+    boolean found = false;
+    EList<TupleTerm> _pair = term.getPair();
+    for (final TupleTerm pair : _pair) {
+      found = (found || this.visit(pair));
     }
     return found;
   }
