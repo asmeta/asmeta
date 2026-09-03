@@ -11,6 +11,7 @@
 package org.asmeta.simulator.main;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -110,9 +111,12 @@ class ChooseTest extends BaseTest {
 		checkRandomValues(integers);
 	}
 
+	
 	private <T> void checkRandomValues(List<T> values) {
-		//there are not two pairs of equals number (itis vwery unlikely) 
-		assertTrue(values.getFirst() != values.get(1) || values.get(2) != values.get(3));
+		// it not possible to have the first three numbers equal (it is very unlikely - it could happen though) 
+		assertFalse(values.get(0) == values.get(1) && 
+					values.get(1) == values.get(2) &&
+					values.get(2) == values.get(3));
 	}
 
 	@Test void intWithCond() throws Exception{
