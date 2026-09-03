@@ -135,14 +135,18 @@ public class TermToJava extends ReflectiveVisitor<String> {
 
   public String visit(final ConditionalTerm object) {
     String thenTerm = this.visit(object.getThenTerm());
-    String elseTerm = this.visit(object.getElseTerm());
+    String _xifexpression = null;
+    Term _elseTerm = object.getElseTerm();
+    boolean _tripleNotEquals = (_elseTerm != null);
+    if (_tripleNotEquals) {
+      _xifexpression = this.visit(object.getElseTerm());
+    } else {
+      _xifexpression = "null";
+    }
+    String elseTerm = _xifexpression;
     boolean _equals = thenTerm.equals(")");
     if (_equals) {
       thenTerm = "null";
-    }
-    boolean _equals_1 = elseTerm.equals(")");
-    if (_equals_1) {
-      elseTerm = "null";
     }
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("/*conditionalTerm*/");

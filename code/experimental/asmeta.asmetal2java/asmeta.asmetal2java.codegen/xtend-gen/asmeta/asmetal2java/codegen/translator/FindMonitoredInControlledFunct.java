@@ -109,7 +109,11 @@ public class FindMonitoredInControlledFunct extends ReflectiveVisitor<Boolean> {
   public boolean visit(final ConditionalTerm term) {
     boolean found = false;
     found = (found || (this.visit(term.getThenTerm())).booleanValue());
-    found = (found || (this.visit(term.getElseTerm())).booleanValue());
+    Term _elseTerm = term.getElseTerm();
+    boolean _tripleNotEquals = (_elseTerm != null);
+    if (_tripleNotEquals) {
+      found = (found || (this.visit(term.getElseTerm())).booleanValue());
+    }
     return found;
   }
 

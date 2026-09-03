@@ -91,7 +91,8 @@ class FindMonitoredInControlledFunct extends ReflectiveVisitor<Boolean> {
 	def boolean visit(ConditionalTerm term) {
 		var boolean found = false
 		found = (found || visit(term.thenTerm));
-		found = (found || visit(term.elseTerm));
+		if (term.elseTerm !== null)
+			found = (found || visit(term.elseTerm));
 		return found
 	}
 

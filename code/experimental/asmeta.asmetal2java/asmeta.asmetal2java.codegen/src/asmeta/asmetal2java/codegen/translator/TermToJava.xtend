@@ -121,10 +121,9 @@ class TermToJava extends ReflectiveVisitor<String> {
 	def String visit(ConditionalTerm object) {
 	      
 		var String thenTerm = visit(object.thenTerm)
-		var String elseTerm = visit(object.elseTerm)
+		var String elseTerm = if (object.elseTerm !== null) visit(object.elseTerm) else "null"
 		
 		if (thenTerm.equals(")")) thenTerm = "null"
-		if (elseTerm.equals(")")) elseTerm = "null"
 	
 		return '''
 			/*conditionalTerm*/
