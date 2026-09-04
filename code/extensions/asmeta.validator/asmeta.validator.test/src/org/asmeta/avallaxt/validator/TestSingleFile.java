@@ -25,6 +25,7 @@ import org.asmeta.simulator.main.Simulator.InvariantTreament;
 import org.asmeta.xt.validator.AsmetaFromAvallaBuilder;
 import org.asmeta.xt.validator.AsmetaPrinterForAvalla;
 import org.asmeta.xt.validator.RuleEvalWCov;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
@@ -34,12 +35,21 @@ class TestSingleFile extends TestValidator {
 
 	@BeforeAll
 	static void setuplogger() throws Exception {
-		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.ALL);
-		Logger.getLogger(AsmetaPrinterForAvalla.class).setLevel(Level.ALL);		
-		Logger.getLogger("org.asmeta.parser").setLevel(Level.OFF);
-		Logger.getLogger(RuleEvalWCov.class).setLevel(Level.ALL);		
+//		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.ALL);
+//		Logger.getLogger(AsmetaPrinterForAvalla.class).setLevel(Level.ALL);		
+//		Logger.getLogger("org.asmeta.parser").setLevel(Level.OFF);
+//		Logger.getLogger(RuleEvalWCov.class).setLevel(Level.ALL);		
 	}
 
+	@AfterEach
+	void resetlogger() throws Exception {
+		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.OFF);
+		Logger.getLogger(AsmetaPrinterForAvalla.class).setLevel(Level.OFF);		
+		Logger.getLogger("org.asmeta.parser").setLevel(Level.OFF);
+		Logger.getLogger(RuleEvalWCov.class).setLevel(Level.OFF);		
+	}
+
+	
 	@Test void asmWithTime() throws Exception {
 		// translation
 		test("scenariosfortest/usingtime/scenario.avalla", false, false, true);
@@ -296,6 +306,11 @@ class TestSingleFile extends TestValidator {
 	}
 
 	@Test void chooseWithoutGuard() throws Exception {
+		Logger.getLogger(AsmetaFromAvallaBuilder.class).setLevel(Level.ALL);
+		Logger.getLogger(AsmetaPrinterForAvalla.class).setLevel(Level.ALL);		
+		Logger.getLogger("org.asmeta.parser").setLevel(Level.OFF);
+		Logger.getLogger(RuleEvalWCov.class).setLevel(Level.ALL);		
+
 		test("scenariosfortest/flaky/scenario_multiplechoose.avalla", true, true, true);
 	}
 

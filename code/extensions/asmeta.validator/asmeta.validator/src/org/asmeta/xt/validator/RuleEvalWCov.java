@@ -21,6 +21,7 @@ import org.asmeta.simulator.value.BooleanValue;
 import org.asmeta.simulator.value.Value;
 import org.asmeta.simulator.wrapper.RuleFactory;
 
+import asmeta.definitions.RuleDeclaration;
 import asmeta.terms.basicterms.Term;
 import asmeta.terms.basicterms.VariableTerm;
 import asmeta.terms.basicterms.impl.LocationTermImpl;
@@ -72,13 +73,13 @@ public class RuleEvalWCov extends RuleEvaluator {
 	static Map<Rule, Set<Rule>> ruleSubstitutions = new HashMap<>();
 
 	// this must be called only once for run
-	public RuleEvalWCov(State state, Environment environment, RuleFactory factory) {
-		super(state, environment, factory);
+	public RuleEvalWCov(State state, Environment environment, RuleFactory factory, RuleDeclaration currentRuleDeclaration) {
+		super(state, environment, factory, currentRuleDeclaration);
 	}
 
 	// this is called when a new state requires a new evaluator
-	private RuleEvalWCov(State state, Environment environment, ValueAssignment assignment) {
-		super(state, environment, assignment);
+	private RuleEvalWCov(State state, Environment environment, ValueAssignment assignment, RuleDeclaration currentRuleDeclaration) {
+		super(state, environment, assignment, currentRuleDeclaration);
 	}
 
 	// this can be called to start collecting coverage data from scratch without
@@ -260,7 +261,7 @@ public class RuleEvalWCov extends RuleEvaluator {
 
 	@Override
 	protected RuleEvalWCov createRuleEvaluator(State nextState, Environment environment, ValueAssignment assignment) {
-		RuleEvalWCov newREC = new RuleEvalWCov(nextState, environment, assignment);
+		RuleEvalWCov newREC = new RuleEvalWCov(nextState, environment, assignment, currentRuleDeclaration);
 		return newREC;
 	}
 
