@@ -5,8 +5,6 @@ import java.util.stream.Collectors;
 
 import tgtlib.definitions.expression.IdExpression;
 
-import org.junit.jupiter.api.Assertions;
-
 /**
  * location represented by a function application like functionTerm of
  * expression
@@ -18,8 +16,10 @@ public class FunctionApplication extends Function {
 	public FunctionApplication(Function var, List<IdExpression> args) {
 		super(var.getIdExpression(), var.getDomain(), var.getCodomain(), var.getValue());
 		assert args != null;
-		// every element is not null
-		args.stream().forEach(Assertions::assertNotNull);
+		// check that every element in args is not null
+		for (IdExpression arg : args) {
+			assert arg != null : "Argument in function application " + this.toString() + " is null";
+		}
 		this.args = args;
 	}
 
