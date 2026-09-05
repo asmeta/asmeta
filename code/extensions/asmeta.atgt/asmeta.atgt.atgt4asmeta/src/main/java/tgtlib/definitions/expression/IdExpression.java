@@ -31,7 +31,7 @@ public class IdExpression implements Comparable<IdExpression>,
 	/** The id. */
 	protected String id;
 	
-	private Type type;
+	protected Type type;
 
 	/**
 	 * Instantiates a new id expression. TODO make private and use IDExpressore

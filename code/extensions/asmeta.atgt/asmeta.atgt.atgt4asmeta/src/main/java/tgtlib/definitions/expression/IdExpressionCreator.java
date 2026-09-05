@@ -86,21 +86,30 @@ public class IdExpressionCreator {
 			// set the is creator for the id
 			// idS.icc = this;
 			createdExprs.put(_id, idS);
-		} else if (_type != null && idS.getType() != _type) {
-			// check if the expression is already created with a different type
-			// and a new type is requested
-			// note that in case of null is ok
-			if (idS.getType() == null) {
-				LOGGER.debug("setting the type of " + _id + " to " + _type);
-				idS.setType(_type);
-			} else {
-				throw new RuntimeException(_id + " already created with (not null) type " + idS.getType());
-			}
+		} else {
+			checkAndSetType(_id, _type, idS);
 		}
 		LOGGER.debug("getting the same ID " + _id + " with " + toString());
 		return idS;
 	}
 
+	// check if the type of the existing expression is consistent with the requested type
+	protected void checkAndSetType(String _id, Type _type, IdExpression idS) {
+		// check the type of the existing expression
+		if (idS.getType() != null && _type != null && !idS.getType().equals(_type)) {
+			// check if the expression is already created with a different type
+			// and a new type is requested
+			// note that in case of null is ok
+			throw new RuntimeException(_id + " already created with (not null) type " + idS.getType());
+		}
+		// if the old type is null, it can be set now
+		if (idS.getType() == null && _type != null) {
+			LOGGER.debug("setting the type of " + _id + " to " + _type);
+			idS.setType(_type);
+		}
+	}
+
+	
 	// given a string return the number
 	// starts with the simplest
 	// return null if not a number

@@ -35,21 +35,13 @@ public class EnumConstCreator extends IdExpressionCreator {
 		// check if another expression already exists
 		IdExpression idS = createdExprs.get(_id);
 		if (idS == null) {
+			// create a new expression
 			idS = new EnumConst(_id);
 			createdExprs.put(_id, idS);
+			idS.setType(_type);
 			return (EnumConst) idS;
 		} else {
-			if (_type != null && idS.getType() != _type) {
-				// check if the expression is already created with a different type
-				// and a new type is requested
-				// note that in case of null is ok
-				if (idS.getType() == null) {
-					LOGGER.debug("setting the type of " + _id + " to " + _type);
-					idS.setType(_type);
-				} else {
-					throw new RuntimeException(_id + " already created with (not null) type " + idS.getType());
-				}
-			}
+			checkAndSetType(_id, _type, idS);
 			LOGGER.debug("getting the same ID " + _id + " with " + toString());
 			if (idS instanceof EnumConst) {
 				return (EnumConst) idS;

@@ -169,7 +169,7 @@ public class AsmetaLLoader extends AsmSpecReader {
 					Type tipo = getDomain(codom);
 					assert tipo != null : "variable " + fnct.getName() + " has no type";
 					IdExpression fcId = ecc.createIdExpression(element.getName(), tipo);
-					assert fcId.getType() != null;
+					assert fcId.getType() != null : fcId.getIdString() + " has no type";
 					Variable var = new Variable(fcId, tipo, initExpr);
 					if (fnct instanceof MonitoredFunction)
 						var.setMonitored();
