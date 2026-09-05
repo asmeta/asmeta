@@ -241,7 +241,8 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 	 * @return the string
 	 */
 	public Expression visit(EnumTerm term) {
-		return icc.createEnumConst(term.getSymbol());
+		Type t = getType(term.getDomain());
+		return icc.createEnumConst(term.getSymbol(),t);
 	}
 
 	/**

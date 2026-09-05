@@ -90,7 +90,7 @@ class TermConverter {
 			if (ct.getSymbol().endsWith("n"))
 				return ecc.createIdExpression(ct.getSymbol().substring(0, ct.getSymbol().length()), t);
 		} else if (d instanceof EnumTd) {
-			return ecc.createEnumConst(ct.getSymbol());
+			return ecc.createEnumConst(ct.getSymbol(), t);
 		}
 		return ecc.createIdExpression(ct.getSymbol(), t);
 	}
@@ -213,7 +213,7 @@ class TermConverter {
 			assert type != null : vt.toString() + " has no type with domain " + typeName;
 			return ecc.createIdExpression(((VariableTerm) term).getName(), type);
 		} else if (term instanceof EnumTerm) {
-			EnumConst result = ecc.createEnumConst(((EnumTerm) term).getSymbol());
+			EnumConst result = ecc.createEnumConst(((EnumTerm) term).getSymbol(), SP.getTypeFor(((EnumTerm) term).getDomain().getName()));
 			assert result.getType() != null;
 			return result;
 		} else if (term instanceof CaseTerm) {

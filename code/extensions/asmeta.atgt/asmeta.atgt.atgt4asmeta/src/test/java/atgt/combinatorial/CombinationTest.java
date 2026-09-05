@@ -36,7 +36,7 @@ class CombinationTest {
 		ElementsType A = new EnumType("A", ecc.createEnumConst("a1"),ecc.createEnumConst("a2"));
 		ElementsType B = new EnumType("B", ecc.createEnumConst("b1"),ecc.createEnumConst("b2"));
 		ElementsType C = new EnumType("C", ecc.createEnumConst("c1"),ecc.createEnumConst("c2"));
-		IdExpression idExpression_a = ecc.createIdExpression("a", A);
+		IdExpression idExpression_a = ecc.createIdExpression("a",A);
 		assertEquals(idExpression_a.getType(), A);
 		Variable a = new Variable(idExpression_a, A, null);
 		Variable b = new Variable(ecc.createIdExpression("b", B), B, null);

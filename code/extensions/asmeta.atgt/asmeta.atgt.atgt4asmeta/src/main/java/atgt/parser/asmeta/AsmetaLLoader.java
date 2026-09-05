@@ -167,7 +167,9 @@ public class AsmetaLLoader extends AsmSpecReader {
 				if (arity == 0) {
 					// variable
 					Type tipo = getDomain(codom);
+					assert tipo != null : "variable " + fnct.getName() + " has no type";
 					IdExpression fcId = ecc.createIdExpression(element.getName(), tipo);
+					assert fcId.getType() != null;
 					Variable var = new Variable(fcId, tipo, initExpr);
 					if (fnct instanceof MonitoredFunction)
 						var.setMonitored();
@@ -363,7 +365,7 @@ public class AsmetaLLoader extends AsmSpecReader {
 			elemnts.addAll(enumTD.getElement());
 			Collections.reverse(elemnts);
 			for (EnumElement element : elemnts) {
-				EnumConst enumConst = ecc.createEnumConst(element.getSymbol());
+				EnumConst enumConst = ecc.createEnumConst(element.getSymbol(),enumT);
 				enumT.addElement(enumConst);
 			}
 			return enumT;
