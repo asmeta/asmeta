@@ -1,22 +1,23 @@
 package atgt.generator.testsuite;
 
-import static org.junit.Assert.assertTrue;
-
-import org.junit.Test;
 
 import atgt.preferences.ATGToolPreferences;
+
+
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import atgt.project.AsmProject;
 import tgtlib.generator.ordering.ChooseRnd;
 import tgtlib.generator.ordering.TPProcessor;
 
-public class TestGeneratorCollectTPTest {
+class TestGeneratorCollectTPTest {
 
-	@Test
-	public void testGetTPProcessor() {
+	@Test void getTPProcessor() {
 		ATGToolPreferences.TP_ORDERING.setValue(ATGToolPreferences.OrderKind.RANDOM);
 		TestGeneratorCollectTP tgcoll = new TestGeneratorCollectTP(new AsmProject(), null,null);
 		TPProcessor tpp = tgcoll.getTPProcessor(null, null);
-		assertTrue(tpp instanceof ChooseRnd);
+		assertInstanceOf(ChooseRnd.class, tpp);
 	}
 
 }

@@ -1,10 +1,11 @@
 package extgt.coverage.combinatorial;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
 
 import tgtlib.coverage.CoverageTree;
+
+import org.junit.jupiter.api.Test;
 import tgtlib.coverage.CoverageTreeFactory;
 import tgtlib.definitions.TypedInitExpression;
 import tgtlib.definitions.expression.type.BoolType;
@@ -12,7 +13,7 @@ import tgtlib.definitions.expression.type.EnumConst;
 import tgtlib.generator.TestPredicate4Test;
 import tgtlib.specification.Specification;
 
-public class StdPairwiseCovBuildTest {
+class StdPairwiseCovBuildTest {
 	MonitorDataExtractor<Specification> mymde = new MonitorDataExtractor<Specification>() {
 
 		@Override
@@ -39,20 +40,17 @@ public class StdPairwiseCovBuildTest {
 	StdPairwiseCovBuild<Specification, TestPredicate4Test, CoverageTree<TestPredicate4Test>> std = new StdPairwiseCovBuild<Specification, TestPredicate4Test, CoverageTree<TestPredicate4Test>>(
 			mymde, pf, cf);
 
-	@Test
-	public void testgetTPTree() {
+	@Test void testgetTPTree() {
 		// std.computeTPs(v);
 	}
 
-	@Test
-	public void testComputeTPEmptyMD() {
+	@Test void computeTPEmptyMD() {
 		MonitoredData md = new MonitoredData();
 		CoverageTree<TestPredicate4Test> ct = std.computeTPs(md);
 		assertEquals(0, ct.getChildCount());
 	}
 
-	@Test
-	public void testComputeTP2for2Enum() {
+	@Test void computeTP2for2Enum() {
 		MonitoredData md = new MonitoredData();
 		md.add(new TypedInitExpression(NWiseCovBuilderTest.ecc.createIdExpression("a", null),NWiseCovBuilderTest.A ,null ));
 		md.add(new TypedInitExpression(NWiseCovBuilderTest.ecc.createIdExpression("b", null),NWiseCovBuilderTest.B ,null ));
@@ -61,8 +59,7 @@ public class StdPairwiseCovBuildTest {
 		assertEquals(4, ct.getChildCount());
 	}
 
-	@Test
-	public void testComputeTP2for2Bool() {
+	@Test void computeTP2for2Bool() {
 		MonitoredData md = new MonitoredData();
 		md.add(new TypedInitExpression(NWiseCovBuilderTest.ecc.createIdExpression("a", null),BoolType.BOOLTYPE ,null ));
 		md.add(new TypedInitExpression(NWiseCovBuilderTest.ecc.createIdExpression("b", null),BoolType.BOOLTYPE ,null ));

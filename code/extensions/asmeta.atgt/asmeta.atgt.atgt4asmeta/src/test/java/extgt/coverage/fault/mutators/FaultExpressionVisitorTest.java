@@ -1,13 +1,12 @@
 package extgt.coverage.fault.mutators;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class FaultExpressionVisitorTest {
+class FaultExpressionVisitorTest {
 
-	@Test
-	public void testMSB() {
+	@Test void msb() {
 		check("1000", "1000");
 		check("1", "1");
 		check("1010", "1000");	
@@ -24,8 +23,7 @@ public class FaultExpressionVisitorTest {
 		assertEquals(b, Integer.toBinaryString(res));
 	}
 
-	@Test
-	public void testNextPos() {
+	@Test void nextPos() {
 		// 1 -> 2, 3
 		assertEquals(2,FaultExpressionVisitor.getNextNodePos(1, false));
 		assertEquals(3,FaultExpressionVisitor.getNextNodePos(1, true));

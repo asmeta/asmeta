@@ -1,9 +1,10 @@
 package tgtlib.definitions.normalform.dnf;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import tgtlib.definitions.expression.Expression;
 import tgtlib.definitions.expression.ExpressionsToTest;
@@ -13,18 +14,17 @@ import tgtlib.definitions.normalform.BoolNFExpression;
 
 /**
  */
-public class ToDNFConverterTest extends ExpressionsToTest{
+class ToDNFConverterTest extends ExpressionsToTest{
 
 	/**
 	 * Method setUpBeforeClass.
 	 * @throws Exception
 	 */
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
+	@BeforeAll
+	static void setUpBeforeClass() throws Exception {
 	}
 
-	@Test
-	public void testForAndDNFExpression() {
+	@Test void forAndDNFExpression() {
 		BoolNFExpression aandb = new DNFExpression("ab");
 		BoolNFExpression res = DNFExprConverter.getDNF(aandb.getEqExpression());
 		assertEquals(res, aandb);
@@ -33,8 +33,7 @@ public class ToDNFConverterTest extends ExpressionsToTest{
 		assertEquals(res, aandb);
 	}
 
-	@Test
-	public void testForOrDNFExpression() {
+	@Test void forOrDNFExpression() {
 		BoolNFExpression aorb = new DNFExpression("a + b");
 		BoolNFExpression res = DNFExprConverter.getDNF(aorb.getEqExpression());
 		assertEquals(res, aorb);
@@ -44,8 +43,7 @@ public class ToDNFConverterTest extends ExpressionsToTest{
 		assertEquals(res, aorb);
 	}
 
-	@Test
-	public void testForNotExpression() {
+	@Test void forNotExpression() {
 		BoolNFExpression res = DNFExprConverter.getDNF(not_AandB);
 		assertEquals("!A + !B", res.toString());
 		BoolNFExpression a = new DNFExpression("ab + cd");
@@ -54,16 +52,14 @@ public class ToDNFConverterTest extends ExpressionsToTest{
 		assertEquals("!a!c + !a!d + !b!c + !b!d",res.toString());
 	}
 
-	@Test
-	public void testForExpressions() {
+	@Test void forExpressions() {
 		BoolNFExpression res = DNFExprConverter.getDNF(aANDb);
 		assertEquals("AB", res.toString());
 		res = DNFExprConverter.getDNF(aORb);
 		assertEquals("A + B", res.toString());
 	}
 
-	@Test
-	public void testForIdExpression() {
+	@Test void forIdExpression() {
 		BoolNFExpression res = DNFExprConverter.getDNF(A);
 		assertEquals("A", res.toString());
 	}

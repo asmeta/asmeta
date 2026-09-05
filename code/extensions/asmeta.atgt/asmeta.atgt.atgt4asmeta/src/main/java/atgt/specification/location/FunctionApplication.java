@@ -3,9 +3,9 @@ package atgt.specification.location;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.junit.Assert;
-
 import tgtlib.definitions.expression.IdExpression;
+
+import org.junit.jupiter.api.Assertions;
 
 /**
  * location represented by a function application like functionTerm of
@@ -19,7 +19,7 @@ public class FunctionApplication extends Function {
 		super(var.getIdExpression(), var.getDomain(), var.getCodomain(), var.getValue());
 		assert args != null;
 		// every element is not null
-		args.stream().forEach(Assert::assertNotNull);
+		args.stream().forEach(Assertions::assertNotNull);
 		this.args = args;
 	}
 

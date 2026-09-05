@@ -73,13 +73,13 @@ public class RuleEvalWCov extends RuleEvaluator {
 	static Map<Rule, Set<Rule>> ruleSubstitutions = new HashMap<>();
 
 	// this must be called only once for run
-	public RuleEvalWCov(State state, Environment environment, RuleFactory factory, RuleDeclaration currentRuleDeclaration) {
-		super(state, environment, factory, currentRuleDeclaration);
+	public RuleEvalWCov(State state, Environment environment, RuleFactory factory) {
+		super(state, environment, factory);
 	}
 
 	// this is called when a new state requires a new evaluator
-	private RuleEvalWCov(State state, Environment environment, ValueAssignment assignment, RuleDeclaration currentRuleDeclaration) {
-		super(state, environment, assignment, currentRuleDeclaration);
+	private RuleEvalWCov(State state, Environment environment, ValueAssignment assignment) {
+		super(state, environment, assignment);
 	}
 
 	// this can be called to start collecting coverage data from scratch without
@@ -260,9 +260,8 @@ public class RuleEvalWCov extends RuleEvaluator {
 	}
 
 	@Override
-	protected RuleEvalWCov createRuleEvaluator(State nextState, Environment environment, ValueAssignment assignment) {
-		RuleEvalWCov newREC = new RuleEvalWCov(nextState, environment, assignment, currentRuleDeclaration);
-		return newREC;
+	protected RuleEvalWCov cloneRuleEvaluator(State nextState, Environment environment, ValueAssignment assignment) {
+		return new RuleEvalWCov(nextState, environment, assignment);
 	}
 
 	@Override

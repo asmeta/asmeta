@@ -1,28 +1,27 @@
 package atgt.coverage;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 
-import org.junit.Test;
-
 import atgt.specification.statement.ConditionalRule;
+
+import org.junit.jupiter.api.Test;
 import atgt.specification.statement.Skip;
 import tgtlib.definitions.NamedTerm;
 
-public class MCDCCoverageTest extends RuleTest{
+class MCDCCoverageTest extends RuleTest{
 
-/*	
- Problems with this one (AGO 2010)
-par
-	if mode = OFF  			then mode := INACTIVE endif
-   	if mode = OVERRIDE and not fast and  not brake and (lever = ACTIVATE or lever = RESUME) then
-  			mode := CRUISE
-   		endif
-endpar
-*/
-	@Test
-	public void testForDoStatement() {		
+	/*	
+		oblems with this one (AGO 2010)
+	par
+		if mode = OFF  			then mode := INACTIVE endif
+			if mode = OVERRIDE and not fast and  not brake and (lever = ACTIVATE or lever = RESUME) then
+				mode := CRUISE
+				endif
+	endpar
+	*/
+	@Test void forDoStatement() {		
 		MCDCCoverage mcdc = MCDCCoverage.getCoverage();
 		List<NamedTerm> cov = mcdc.forDoStatement(par);
 		System.out.println(cov.toString());
@@ -32,8 +31,8 @@ endpar
 		}
 		assertEquals("[TT1, FT1, TT1, TF1, TF2, FF2, FT2, FF2]",NamedTerm.getNames(cov));
 	}
-	@Test
-	public void testForIfThenElseConditionalRule(){
+
+	@Test void forIfThenElseConditionalRule(){
 		MCDCCoverage mcdc = MCDCCoverage.getCoverage();
 		List<NamedTerm> cov = mcdc.forIfThenElse(if_woelse);
 		assertEquals(4,cov.size());
@@ -43,8 +42,8 @@ endpar
 		assertEquals(4,cov.size());
 		assertEquals("[TT, FT, TT, TF]",NamedTerm.getNames(cov));
 	}
-	@Test
-	public void testForNestedConditionalRule(){
+
+	@Test void forNestedConditionalRule(){
 		// both simple
 		MCDCCoverage mcdc = MCDCCoverage.getCoverage();
 		ConditionalRule c_in = new ConditionalRule(A, Skip.SKIP);

@@ -1,24 +1,22 @@
 package tgtlib.definitions.expression.visitors;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import tgtlib.definitions.expression.Expression;
+
+import org.junit.jupiter.api.Test;
 import tgtlib.definitions.expression.parser.ExpressionParser;
 import tgtlib.definitions.expression.parser.ParseException;
 
-public class ImpliesRemoverTest {
+class ImpliesRemoverTest {
 
-	@Test
-	public void test1() {
+	@Test void test1() {
 		String e = "a implies b";
 		check(e,"not a or b");
 	}
 
-	@Test
-	public void test2() {
+	@Test void test2() {
 		String e = "not(a implies b)";
 		check(e,"not(not a or b)");
 	}

@@ -1,12 +1,12 @@
 package extgt.coverage.fault.mutators.reapplier;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 
-import org.junit.Test;
-
 import tgtlib.definitions.expression.Expression;
+
+import org.junit.jupiter.api.Test;
 import tgtlib.definitions.expression.parser.ExpressionParser;
 import tgtlib.definitions.expression.parser.ParseException;
 import tgtlib.util.Pair;
@@ -15,12 +15,11 @@ import extgt.coverage.fault.mutators.foms.AssociativeShiftFault;
 import extgt.coverage.fault.mutators.foms.VariableNegationFault;
 import extgt.coverage.fault.mutators.foms.VariableReferenceFault;
 
-public class VNFReapplierTest {
+class VNFReapplierTest {
 
 	static MutationReapplier vnfReappl = new MutationReapplier();
-	
-	@Test
-	public void testReapply() throws ParseException {		
+
+	@Test void reapply() throws Exception {		
 		testGenAndReapply("not a");
 		testGenAndReapply("a and b");
 		testGenAndReapply("not a");

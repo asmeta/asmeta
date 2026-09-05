@@ -1,15 +1,14 @@
 package tgtlib.generator;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.IOException;
 import java.util.List;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import tgtlib.definitions.TestPredicate;
 import tgtlib.definitions.expression.Expression;
@@ -37,7 +36,7 @@ public abstract class IncrementalModelGeneratorTest<T extends MCExecutionResult>
 	// init the variables to be considered
 	protected static List<BooleanVar> vars;
 
-	@BeforeClass
+	@BeforeAll
 	static public void setupVars() throws ParseException {
 		vars = IDExprCollector.getBoolVarsFromId(ExpressionParser.parseAsBooleanExpression("a and b and c", ecc));
 	}
@@ -45,8 +44,7 @@ public abstract class IncrementalModelGeneratorTest<T extends MCExecutionResult>
 	protected IncrementalModelGenerator<TestPredicate4Test, TestSequence4Test, T> solver;
 
 	@Test
-	public void testAndAlso1() throws ParseException,
-			ModelCheckerExecutionException, IOException {
+	public void andAlso1() throws Exception {
 		// a && (b || c)
 		TestPredicate4Test tp0 = fromString("a && (b || c)");
 		T res0 = solver.runModelChecker(tp0.getCondition());
@@ -89,8 +87,7 @@ public abstract class IncrementalModelGeneratorTest<T extends MCExecutionResult>
 	// this is far more complex
 	// add a test condition with a different model
 	@Test
-	public void testAndAlso2() throws ParseException,
-			ModelCheckerExecutionException, IOException {
+	public void andAlso2() throws Exception {
 		// a && (b || c)
 		TestPredicate4Test tp0 = fromString("a && (b || c)");
 		T res0 = solver.runModelChecker(tp0.getCondition());
@@ -108,7 +105,7 @@ public abstract class IncrementalModelGeneratorTest<T extends MCExecutionResult>
 		assertNotNull(IDS.get(0));
 		assertNotNull(IDS.get(1));
 		assertNotNull(IDS.get(2));
-		assertTrue(IDS.size() == 3);
+		assertEquals(3, IDS.size());
 		RandomLogicExpressionBuilder rndb = new RandomLogicExpressionBuilder(
 				IDS, 3, false);
 		ExpressionEvaluator ev = new ExpressionEvaluator(ts.getState(0));

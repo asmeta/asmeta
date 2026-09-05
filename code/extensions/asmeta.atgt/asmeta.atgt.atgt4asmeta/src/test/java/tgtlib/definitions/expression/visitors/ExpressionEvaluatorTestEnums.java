@@ -1,7 +1,7 @@
 package tgtlib.definitions.expression.visitors;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -9,11 +9,11 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-
 import tgtlib.definitions.expression.Expression;
+
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+
 import tgtlib.definitions.expression.IdExpression;
 import tgtlib.definitions.expression.parser.ExpressionParser;
 import tgtlib.definitions.expression.parser.ParseException;
@@ -26,7 +26,6 @@ import tgtlib.definitions.expression.type.Variable;
 
 // test with enums
 // switch1 and switch2 ON;OFF
-@RunWith(Parameterized.class)
 public class ExpressionEvaluatorTestEnums {
 
 	Expression expr;
@@ -41,17 +40,17 @@ public class ExpressionEvaluatorTestEnums {
 	
 	static{
 		EnumConst e = ecc.createEnumConst("ON");
-		assertTrue(e instanceof EnumConst);
+		assertInstanceOf(EnumConst.class, e);
 		EnumType onOf = new EnumType("sw");
 		onOf.addElement(ecc.createEnumConst("OFF"));
 		onOf.addElement(e);
 		IdExpression v1 = ecc.createIdExpression("switch1", null);
-		assertTrue(v1 instanceof IdExpression);
+		assertInstanceOf(IdExpression.class, v1);
 		vars.add(newOnOfvariable(v1,onOf));
 		vars.add(newOnOfvariable(ecc.createIdExpression("switch2", null),onOf));
 	}
-	
-	public ExpressionEvaluatorTestEnums(String expression, String map, String result) throws ParseException{		
+
+	public void initExpressionEvaluatorTestEnums(String expression, String map, String result) throws ParseException{		
 		expr = ExpressionParser.parse(expression,ecc);
 		Collection<BooleanVar> vars = IDExprCollector.getBoolVarsFromId(expr);
 		String[] maps = map.split(",");
@@ -105,7 +104,6 @@ public class ExpressionEvaluatorTestEnums {
 		};
 	}
 
-	@Parameterized.Parameters
 	public static Collection<Object[]> data() {
 		Object[][] data = new Object[][] {
 				// IDS
@@ -130,8 +128,9 @@ public class ExpressionEvaluatorTestEnums {
 		return Arrays.asList(data);
 	}
 
-	@Test
-	public void test() {
+	@MethodSource("data") @ParameterizedTest
+	public void test(String expression, String map, String result) throws ParseException {
+		initExpressionEvaluatorTestEnums(expression, map, result);
 		try{
 			Boolean res = expr.accept(ev);
 			assertEquals(result,res.toString());

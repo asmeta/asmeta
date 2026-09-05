@@ -1,6 +1,6 @@
 package atgt.coverage;
 
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
 
 import atgt.specification.statement.ConditionalRule;
 import atgt.specification.statement.DoStatement;
@@ -35,9 +35,9 @@ public class RuleTest {
 	// this ha some rules inside else that may generate tps
 	static ConditionalRule c_wnestedelse;
 
-	
-	@BeforeClass
-	public static void setUp() {
+
+	@BeforeAll
+	static void setUp() {
 		IdExpressionCreator icc = new IdExpressionCreator();
 		A = icc.createIdExpression("A", null);
 		B = icc.createIdExpression("B", null);

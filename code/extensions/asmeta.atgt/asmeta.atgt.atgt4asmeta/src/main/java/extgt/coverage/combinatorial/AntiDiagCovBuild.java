@@ -26,7 +26,7 @@ import tgtlib.specification.Specification;
 /**
  * The Class AntiDiagCovBuild.
  */
-public class AntiDiagCovBuild<S extends Specification, P extends TestPredicate,C extends CoverageTree<P>>  extends PairwiseCovBuilder<S, P, C> {
+public class AntiDiagCovBuild<S extends Specification, P extends TestPredicate<?,?>,C extends CoverageTree<P>>  extends PairwiseCovBuilder<S, P, C> {
 
 
 

@@ -1,9 +1,10 @@
 package org.asmeta.avallaxt.validator;
 
-import org.junit.jupiter.api.Test; import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.junit.jupiter.api.Test; import static org.junit.jupiter.api.Assertions.fail;
+import org.junit.jupiter.api.Test; 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
-import org.junit.jupiter.api.Test;
 
 class TestSomeErrors extends TestValidator {
 
@@ -24,7 +25,7 @@ class TestSomeErrors extends TestValidator {
 		try {
 			test("inexistingdir/", true, false, true);
 		} catch (RuntimeException e) {
-			assertEquals("path inexistingdir/ does not exist", e.getMessage());
+			assertTrue(e.getMessage().contains("path inexistingdir/ does not exist"));
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail();			

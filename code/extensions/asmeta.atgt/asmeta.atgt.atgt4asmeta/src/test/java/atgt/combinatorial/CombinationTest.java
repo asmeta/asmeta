@@ -10,34 +10,37 @@
  ******************************************************************************/
 package atgt.combinatorial;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Test;
-
 import atgt.specification.location.Variable;
+
+import org.junit.jupiter.api.Test;
+
+import tgtlib.definitions.expression.IdExpression;
 import tgtlib.definitions.expression.type.ElementsType;
 import tgtlib.definitions.expression.type.EnumConstCreator;
 import tgtlib.definitions.expression.type.EnumType;
 import tgtlib.util.combinatorial.CombinationGeneratorList;
 
-public class CombinationTest {
+class CombinationTest {
 	
 	EnumConstCreator ecc = new EnumConstCreator();
 
-	@Test
-	public void testFindCombinationsVariable() {
+	@Test void findCombinationsVariable() {
 		List<Variable> data = new ArrayList<Variable>();
 		ElementsType A = new EnumType("A", ecc.createEnumConst("a1"),ecc.createEnumConst("a2"));
 		ElementsType B = new EnumType("B", ecc.createEnumConst("b1"),ecc.createEnumConst("b2"));
 		ElementsType C = new EnumType("C", ecc.createEnumConst("c1"),ecc.createEnumConst("c2"));
-		Variable a = new Variable(ecc.createIdExpression("a", null), A, null);
-		Variable b = new Variable(ecc.createIdExpression("b", null), B, null);
-		Variable c = new Variable(ecc.createIdExpression("c", null), C, null);
+		IdExpression idExpression_a = ecc.createIdExpression("a", A);
+		assertEquals(idExpression_a.getType(), A);
+		Variable a = new Variable(idExpression_a, A, null);
+		Variable b = new Variable(ecc.createIdExpression("b", B), B, null);
+		Variable c = new Variable(ecc.createIdExpression("c", C), C, null);
 		data.add(a);
 		data.add(b);
 		data.add(c);

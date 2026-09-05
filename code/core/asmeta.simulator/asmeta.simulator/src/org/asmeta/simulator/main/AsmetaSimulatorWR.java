@@ -57,7 +57,7 @@ public class AsmetaSimulatorWR extends Simulator {
 	public void rollBack() {
 		currentState = states.pop();
 		clearMon();
-		ruleEvaluator = new RuleEvaluator(currentState, environment, new RuleFactory(), ruleEvaluator.getCurrentRuleDeclaration());
+		ruleEvaluator = new RuleEvaluator(currentState, environment, new RuleFactory());
 	}
 	
 	/**
@@ -66,14 +66,14 @@ public class AsmetaSimulatorWR extends Simulator {
 	public void rollBackToState() {
 		currentState = cloneState;
 		clearMon();
-		ruleEvaluator = new RuleEvaluator(currentState, environment, new RuleFactory(), ruleEvaluator.getCurrentRuleDeclaration());
+		ruleEvaluator = new RuleEvaluator(currentState, environment, new RuleFactory());
 	}
 	
 	public void rollbackfirstState() {
 		while(states.size()!=1) {
 			currentState = states.pop();}
 			clearMon();
-			ruleEvaluator = new RuleEvaluator(currentState, environment, new RuleFactory(), ruleEvaluator.getCurrentRuleDeclaration());	
+			ruleEvaluator = new RuleEvaluator(currentState, environment, new RuleFactory());	
 			System.out.println("Numero stati dentro: "+states.size());
 	}
 	

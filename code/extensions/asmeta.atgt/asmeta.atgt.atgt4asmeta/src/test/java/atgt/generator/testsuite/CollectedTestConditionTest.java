@@ -1,19 +1,18 @@
 package atgt.generator.testsuite;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import atgt.combinatorial.CollectedNWiseTC;
+
+import org.junit.jupiter.api.Test;
 import atgt.coverage.AsmTestSequence;
 import atgt.coverage.tpstatus.TestConditionState;
 import atgt.generator.collection.CollectedTestCondition;
 
-public class CollectedTestConditionTest {
+class CollectedTestConditionTest {
 
-	@Test
-	public void testSetAssertViolated() {
+	@Test void setAssertViolated() {
 		CollectedTestCondition ctc = new CollectedNWiseTC();
 		// se è running e poi assertviolated
 		ctc.setRunning();

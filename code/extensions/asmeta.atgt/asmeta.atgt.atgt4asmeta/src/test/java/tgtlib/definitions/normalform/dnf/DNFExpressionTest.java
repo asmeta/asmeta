@@ -1,55 +1,51 @@
 package tgtlib.definitions.normalform.dnf;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
 
 import tgtlib.definitions.expression.ExpressionsToTest;
 
+import org.junit.jupiter.api.Test;
+
 /**
  */
-public class DNFExpressionTest extends ExpressionsToTest {
+class DNFExpressionTest extends ExpressionsToTest {
 
-	@Test
-	public void testParse() {
+	@Test void parse() {
 		assertEquals("[a]", DNFExpression.parse("a").toString());
 		assertEquals("[a, b]", DNFExpression.parse("a + b").toString());
 		assertEquals("[~a~b, ~cd]", DNFExpression.parse("!a!b + !cd").toString());
 		assertEquals("[a, bc]", DNFExpression.parse("a + bc").toString());
 	}
 
-	@Test
-	public void testConstructor() {
+	@Test void constructor() {
 		DNFExpression dnfExpression = new DNFExpression(A);
 		assertEquals(1, dnfExpression.getTerms().size());
 		assertEquals(1, dnfExpression.getTerms().get(0).size());		
 		assertEquals("A", dnfExpression.toString());
 	}
 
-	@Test
-	public void testMakeExpression1() {
+	@Test void makeExpression1() {
 		assertEquals("a", new DNFExpression("a").toString());
 	}
-	@Test
-	public void testMakeExpression() {
+
+	@Test void makeExpression() {
 		assertEquals("(a and b) and c", new DNFExpression("abc")
 				.getEqExpression().toString());
 	}
 
-	@Test
-	public void testSize() {
+	@Test void size() {
 		assertEquals(2, new DNFExpression("a + b").getTerms().size());
 	}
 
-	@Test
-	public void testGetTerms() {
+	@Test void getTerms() {
 		assertEquals("[a]", new DNFExpression("a").getTerms().toString());
 		assertEquals("[~a~b, ~cd]",
 				new DNFExpression(DNFExpression.parse("!a!b + !cd")).getTerms()
 						.toString());
 	}
-	@Test
-	public void testtoString() {
+
+	@Test void testtoString() {
 		DNFExpression exp1 = new DNFExpression("a");
 		assertEquals("a", exp1.toString());
 		assertEquals("a", exp1.toString(true));

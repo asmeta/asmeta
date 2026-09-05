@@ -11,22 +11,22 @@
 
 package extgt.coverage.combinatorial;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-import org.junit.Test;
-
 import extgt.coverage.combinatorial.NWiseCovBuilder;
+
+import org.junit.jupiter.api.Test;
 
 import tgtlib.definitions.expression.type.EnumConstCreator;
 import tgtlib.definitions.expression.type.EnumType;
 
 
-public class NWiseCovBuilderTest {
+class NWiseCovBuilderTest {
 
 	static EnumType A = new EnumType("A");
 	static EnumType B = new EnumType("B");
@@ -38,15 +38,14 @@ public class NWiseCovBuilderTest {
 		B.addElement(ecc.createEnumConst("b1"));
 		B.addElement(ecc.createEnumConst("b2"));		
 	}
-	
-	@Test
-	public void testAll() {
+
+	@Test void all() {
 		EnumConstCreator ecc = new EnumConstCreator();		
 		List<EnumType> l = new ArrayList<EnumType>();
 		l.add(A);
 		l.add(B);
-		assertEquals(NWiseCovBuilder.all(l).toString(),
-				"[[a1, b1], [a1, b2], [a2, b1], [a2, b2]]");
+		assertEquals(
+				"[[a1, b1], [a1, b2], [a2, b1], [a2, b2]]", NWiseCovBuilder.all(l).toString());
 
 		EnumType C = new EnumType("C");
 		C.addElement(ecc.createEnumConst("c1"));
@@ -59,8 +58,8 @@ public class NWiseCovBuilderTest {
 				NWiseCovBuilder.all(l).toString());
 
 	}
-	
-	@Test public void testAllComb(){
+
+	@Test void allComb(){
 		String[] ss1 = {"a","b","c"};
 		String[] ss2 = {"h","j","k"};
 		List<List<String>> ssL = new ArrayList<List<String>>();

@@ -1,33 +1,29 @@
 package tgtlib.definitions.expression;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Test;
-
 import tgtlib.definitions.expression.parser.ExpressionParser;
-import tgtlib.definitions.expression.parser.ParseException;
 
-public class GetIDsTest extends ExpressionsToTest {
+import org.junit.jupiter.api.Test;
 
-	@Test
-	public void testForAndExpression() {
+class GetIDsTest extends ExpressionsToTest {
+
+	@Test void forAndExpression() {
 		List<IdExpression> r1 = aANDb.accept(GetIDs.getIDs);
 		checkIds(r1,A,B);
 	}
 
-	@Test
-	public void testForOrExpression() {
+	@Test void forOrExpression() {
 		List<IdExpression> r1 = aORb.accept(GetIDs.getIDs);
 		checkIds(r1,A,B);
 	}
 
-	@Test
-	public void testForComplexExpressions() {
+	@Test void forComplexExpressions() {
 		List<IdExpression> r1 = not_AandB.accept(GetIDs.getIDs);
 		checkIds(r1,A,B);
 		AndExpression a1 = new AndExpression(aANDb, aORb);
@@ -35,16 +31,14 @@ public class GetIDsTest extends ExpressionsToTest {
 		checkIds(r1,A,B);
 	}
 
-	@Test
-	public void testForDuplicated() throws ParseException {
+	@Test void forDuplicated() throws Exception {
 		Expression e = ExpressionParser.parseAsNewBooleanExpression("a and b or (c or b)");
 		System.out.println(e.toString());
 		List<IdExpression> r1 = e.accept(GetIDs.getIDs);
 		checkIdsAsStrings(r1, "a","b","c");
 	}
-	
-	@Test
-	public void testEnum() throws ParseException {
+
+	@Test void testEnum() throws Exception {
 		Expression e = ExpressionParser.parseAsNewBooleanExpression("true and b");
 		System.out.println(e.toString());
 		List<IdExpression> r1 = e.accept(GetIDs.getIDs);

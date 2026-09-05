@@ -11,15 +11,15 @@
 
 package atgt.coverage;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.List;
 
-import org.junit.Test;
-
 import atgt.specification.ASMSpecification;
+
+import org.junit.jupiter.api.Test;
 import tgtlib.definitions.NamedTerm;
 import tgtlib.specification.ParseException;
 
@@ -68,8 +68,7 @@ public class DecisionVisitorTest extends RuleTest{
 	 * Test of forIfThenElse method, of class
 	 * atgt.coverage.DecisionVisitor.
 	 */
-	@Test
-	public void testForIfThenElse() {
+	@Test void forIfThenElse() {
 		List<NamedTerm> results = DecisionVisitor.computeDecisions.forIfThenElse(if_woelse);
 		assertEquals(1,results.size());
 		assertEquals("T", results.get(0).getName());

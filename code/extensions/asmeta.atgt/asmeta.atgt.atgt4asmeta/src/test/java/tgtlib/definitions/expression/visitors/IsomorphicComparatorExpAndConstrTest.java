@@ -1,19 +1,18 @@
 package tgtlib.definitions.expression.visitors;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.TreeSet;
 
-import org.junit.Test;
-
 import tgtlib.definitions.expression.Expression;
+
+import org.junit.jupiter.api.Test;
 import tgtlib.definitions.expression.parser.ExpressionParser;
 import tgtlib.definitions.expression.parser.ParseException;
 import tgtlib.definitions.expression.type.BoolType;
 import tgtlib.definitions.expression.type.EnumConstCreator;
 
-public class IsomorphicComparatorExpAndConstrTest {
+class IsomorphicComparatorExpAndConstrTest {
 
 	private void test(String e1, String e2, int expectedResult) throws ParseException {
 		EnumConstCreator idcreator = new EnumConstCreator();
@@ -21,7 +20,7 @@ public class IsomorphicComparatorExpAndConstrTest {
 		idcreator = new EnumConstCreator();
 		Expression exp2 = ExpressionParser.parse(e2, idcreator);
 		IsomorphicComparatorExpAndConstr comp = new IsomorphicComparatorExpAndConstr();
-		assertTrue(comp.compare(new Expression[]{exp1}, new Expression[]{exp2}) == expectedResult);
+		assertEquals(comp.compare(new Expression[]{exp1}, new Expression[]{exp2}), expectedResult);
 	}
 
 	private void test(String[] e1, String[] e2, int expectedResult) throws ParseException {
@@ -36,76 +35,64 @@ public class IsomorphicComparatorExpAndConstrTest {
 			exp2[i] = ExpressionParser.parse(e2[i], idcreator);
 		}
 		IsomorphicComparatorExpAndConstr comp = new IsomorphicComparatorExpAndConstr();
-		assertTrue(comp.compare(exp1, exp2) == expectedResult);
+		assertEquals(comp.compare(exp1, exp2), expectedResult);
 	}
 
-	@Test
-	public void testCompareAnd() throws ParseException {
+	@Test void compareAnd() throws Exception {
 		test("a and b", "b and a", 0);
 	}
 
-	@Test
-	public void testCompareXor() throws ParseException {
+	@Test void compareXor() throws Exception {
 		test("a xor b", "b xor a", 0);
 	}
 
-	@Test
-	public void testCompareXor2() throws ParseException {
+	@Test void compareXor2() throws Exception {
 		test("a2 xor a3", "a3 xor a4", 0);
 	}
 
-	@Test
-	public void testCompareXor2bis() throws ParseException {
+	@Test void compareXor2bis() throws Exception {
 		test("a3 xor a4", "a2 xor a3", 0);
 	}
 
-	@Test
-	public void testCompareXor2ter() throws ParseException {
+	@Test void compareXor2ter() throws Exception {
 		test("a2 and a3", "a3 and a4", 0);
 	}
 
-	@Test
-	public void testCompare1() throws ParseException {
+	@Test void compare1() throws Exception {
 		test("(a and b) or c", "b and a or c", 0);
 	}
 
-	@Test
-	public void testWithConstraints() throws ParseException {
+	@Test void withConstraints() throws Exception {
 		String[] e1 = {"(a and b) or c", "c"};
 		String[] e2 = {"b and a or c", "c"};
 		test(e1, e2, 0);
 	}
 
-	@Test
-	public void testWithConstraints2() throws ParseException {
+	@Test void withConstraints2() throws Exception {
 		String[] e1 = {"(a and b) or c", "c"};
 		String[] e2 = {"b and a or c", "b"};
 		test(e1, e2, 1);
 	}
 
-	@Test
-	public void testWithConstraints3() throws ParseException {
+	@Test void withConstraints3() throws Exception {
 		String[] e1 = {"(a and b) or c", "true"};
 		String[] e2 = {"b and a or c", "true"};
 		test(e1, e2, 0);
 	}
 
-	@Test
-	public void testWithConstraints4() throws ParseException {
+	@Test void withConstraints4() throws Exception {
 		String[] e1 = {"(a and b) or c", "true", "a"};
 		String[] e2 = {"b and a or c", "true", "b"};
 		test(e1, e2, 0);
 	}
 
-	@Test
-	public void testWithConstraints5() throws ParseException {
+	@Test void withConstraints5() throws Exception {
 		String[] e1 = {"(a and b) or c", "true", "a"};
 		String[] e2 = {"b and a or c", "true", "a"};
 		test(e1, e2, 1);
 	}
 
-	@Test
-	public void testWithConstraints6() throws ParseException {
+	@Test void withConstraints6() throws Exception {
 		TreeSet<Expression[]> uniqueSpecs = new TreeSet<Expression[]>(new IsomorphicComparatorExpAndConstr());
 		EnumConstCreator idcreator = new EnumConstCreator();
 		Expression exp1 = ExpressionParser.parse("a and b", idcreator);
@@ -115,8 +102,7 @@ public class IsomorphicComparatorExpAndConstrTest {
 		assertEquals(1, uniqueSpecs.size());
 	}
 
-	@Test
-	public void testWithConstraints7() throws ParseException {
+	@Test void withConstraints7() throws Exception {
 		TreeSet<Expression[]> uniqueSpecs = new TreeSet<Expression[]>(new IsomorphicComparatorExpAndConstr());
 		EnumConstCreator idcreator = new EnumConstCreator();
 		Expression exp1 = ExpressionParser.parse("a and b", idcreator);
@@ -126,36 +112,31 @@ public class IsomorphicComparatorExpAndConstrTest {
 		assertEquals(2, uniqueSpecs.size());
 	}
 
-	@Test
-	public void testWithConstraints8() throws ParseException {
+	@Test void withConstraints8() throws Exception {
 		String[] e1 = {"a11 and a23", "true"};
 		String[] e2 = {"a8 and a15", "true"};
 		test(e1, e2, 0);
 	}
 
-	@Test
-	public void testWithConstraints9() throws ParseException {
+	@Test void withConstraints9() throws Exception {
 		String[] e1 = {"a4", "not a0"};
 		String[] e2 = {"a4", "not a1"};
 		test(e1, e2, 0);
 	}
 
-	@Test
-	public void testWithConstraints10() throws ParseException {
+	@Test void withConstraints10() throws Exception {
 		String[] e1 = {"a0", "not a0"};
 		String[] e2 = {"a0", "not a1"};
 		test(e1, e2, 1);
 	}
 
-	@Test
-	public void testWithConstraints10bis() throws ParseException {
+	@Test void withConstraints10bis() throws Exception {
 		String[] e1 = {"a0", "not a1"};
 		String[] e2 = {"a0", "not a0"};
 		test(e1, e2, 1);
 	}
 
-	@Test
-	public void testWithConstraints11() throws ParseException {
+	@Test void withConstraints11() throws Exception {
 		String[] e1 = {"G19", "true"};
 		String[] e2 = {"G37", "true"};
 		String[] e3 = {"a47", "true"};
@@ -171,8 +152,7 @@ public class IsomorphicComparatorExpAndConstrTest {
 		assertEquals("G19", uniqueSpecs.iterator().next().getExpression().toString());
 	}
 
-	@Test
-	public void testWithConstraints12() throws ParseException {
+	@Test void withConstraints12() throws Exception {
 		String[] e1 = {"G19", "true"};
 		String[] e2 = {"G37", "true"};
 		String[] e3 = {"(a47)", "true"};
@@ -192,8 +172,7 @@ public class IsomorphicComparatorExpAndConstrTest {
 		assertEquals("G19", uniqueSpecs.iterator().next().getExpression().toString());
 	}
 
-	@Test
-	public void testWithConstraints13() throws ParseException {
+	@Test void withConstraints13() throws Exception {
 		String[] e1 = {"a0 and a2", "a1 implies a0"};
 		String[] e2 = {"a0 and a2", "a1 implies a2"};
 		test(e1, e2, 0);

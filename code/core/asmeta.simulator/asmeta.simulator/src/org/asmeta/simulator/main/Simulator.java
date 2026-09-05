@@ -623,7 +623,7 @@ public class Simulator {
 	 */
 	protected void initEvaluator(State state) {
 		RuleFactory factory = new RuleFactory();
-		ruleEvaluator = new RuleEvaluator(state, environment, factory,asmCollection.getMain().getMainrule());
+		ruleEvaluator = new RuleEvaluator(state, environment, factory);
 		return;
 	}
 

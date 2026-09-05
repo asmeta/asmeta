@@ -10,21 +10,20 @@
  ******************************************************************************/
 package tgtlib.definitions.expression.type;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * The Class BoolTypeTest.
  */
-public class BoolTypeTest {
+class BoolTypeTest {
 
 	/**
 	 * Test bool type.
 	 */
-	@Test
-	public void testBoolType() {
+	@Test void boolType() {
 		BoolType b = BoolType.BOOLTYPE;
 		assertEquals(2, b.allElements().size());
 		assertEquals(BoolType.FALSE_CONST,b.allElements().get(0));
@@ -34,8 +33,7 @@ public class BoolTypeTest {
 	/**
 	 * Test i ds.
 	 */
-	@Test
-	public void testIDs() {
+	@Test void iDs() {
 		assertEquals("true", BoolType.TRUE_CONST.getIdString());
 		assertEquals("false", BoolType.FALSE_CONST.getIdString());
 	}
@@ -43,8 +41,7 @@ public class BoolTypeTest {
 	/**
 	 * Test enum const andi ds.
 	 */
-	@Test
-	public void testEnumConstANDIDs() {
+	@Test void enumConstANDIDs() {
 		assertSame(BoolType.TRUE_CONST, BoolType.TRUE_CONST);
 		assertSame(BoolType.FALSE_CONST, BoolType.FALSE_CONST);
 	}

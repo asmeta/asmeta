@@ -1,19 +1,19 @@
 package tgtlib.generator;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
 
 import tgtlib.coverage.CoverageTree;
+
+import org.junit.jupiter.api.Test;
 import tgtlib.definitions.TestSuite;
 import tgtlib.definitions.TestSuiteFactory;
 
-public class TestSequenceGeneratorTest {
+class TestSequenceGeneratorTest {
 
 	String sequence = "";
 
-	@Test
-	public void testRunAllOK() {
+	@Test void runAllOK() {
 		MyCoverage myCov = new MyCoverage();
 		MyTestSuiteGen tgc = new MyTestSuiteGen(myCov);
 		tgc.generateTestsWait();
@@ -24,8 +24,7 @@ public class TestSequenceGeneratorTest {
 		assertEquals("SFSF", sequence);
 	}
 
-	@Test
-	public void testRunTwice() {
+	@Test void runTwice() {
 		MyCoverage myCov = new MyCoverage();
 		MyTestSuiteGen tgc = new MyTestSuiteGen(myCov);
 		tgc.generateTests();
@@ -38,8 +37,7 @@ public class TestSequenceGeneratorTest {
 		}
 	}
 
-	@Test
-	public void testRunConcurrent() throws InterruptedException {
+	@Test void runConcurrent() throws Exception {
 		MyCoverage myCov = new MyCoverage();
 		MyTestSuiteGen tgc = new MyTestSuiteGen(myCov);
 		tgc.generateTests();
@@ -51,8 +49,7 @@ public class TestSequenceGeneratorTest {
 		assertEquals("SF", sequence);
 	}
 
-	@Test
-	public void testRunInterrupted() throws InterruptedException {
+	@Test void runInterrupted() throws Exception {
 		MyCoverage myCov = new MyCoverage();
 		MyTestSuiteGen tgc = new MyTestSuiteGen(myCov);
 		tgc.generateTests();

@@ -10,11 +10,12 @@
  ******************************************************************************/
 package atgt.parser.asmgofer;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -23,9 +24,8 @@ import java.io.IOException;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import atgt.parser.ExampleLoader;
 import atgt.specification.ASMSpecification;
@@ -45,23 +45,22 @@ public class ASMParserTest {
 	/** The Constant ccName. */
 	static final String ccName = "CruiseControl";
 
-	@BeforeClass
-	public static void setUpLogger(){
+	@BeforeAll
+	static void setUpLogger(){
 		Logger.getLogger(AsmGoferParser.class).setLevel(Level.ALL);
 	}
-	
+
 	/**
 	 * Test get specification.
 	 */
-	@Test
-	public void testCCNASpecification() {
+	@Test void ccnaSpecification() {
 		ASMSpecification cc = getCruiseControlNoAxiom();
 		assertNotNull(cc);
 		assertEquals(ccName, cc.name);
 		for(Variable var:cc.getVariables()){
 			String name = var.getName();
 			assertSame(cc.getVariable(name), var);
-			assertFalse(var.getName(), var.getType() instanceof DummyType);
+			assertFalse(var.getType() instanceof DummyType, var.getName());
 		}
 	}
 
@@ -95,29 +94,28 @@ public class ASMParserTest {
 			return null;
 		}
 	}
-	
-	
+
+
 	/**
 	 * Test SIS
 	 * @throws IOException 
 	 * @throws ParseException 
 	 */
-	@Test
-	public void testSIS() throws ParseException, IOException {
+	@Test void sis() throws Exception {
 		ASMSpecification res = ExampleLoader.getSpec("sis.gs");
-		Assert.assertNotNull(res);
+		assertNotNull(res);
 		assertEquals("waterPressure", res.allVariables().nextElement().toString());
 		Variable WP = res.getVariable("waterPressure");
 		assertTrue(WP.isMonitored());
 		Type WPT = WP.getType();
 		assertEquals("Int", WPT.getName());
-		assertTrue(WPT instanceof BoundType);
+		assertInstanceOf(BoundType.class, WPT);
 		// gofer parser fails to set the name !!!
 		//assertEquals("SIS",res.name);
 		for(Variable var:res.getVariables()){
 			String name = var.getName();
 			assertSame(res.getVariable(name), var);
-			assertFalse(var.getName(), var.getType() instanceof DummyType);
+			assertFalse(var.getType() instanceof DummyType, var.getName());
 		}
 		
 	}

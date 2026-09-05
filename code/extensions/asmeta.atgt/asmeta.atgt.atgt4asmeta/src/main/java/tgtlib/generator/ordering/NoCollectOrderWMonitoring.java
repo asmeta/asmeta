@@ -18,7 +18,7 @@ import tgtlib.definitions.TestPredicate;
 /**
  * take the tp without collecting In this case, an iterator is enough;
  * */
-public abstract class NoCollectOrderWMonitoring<T extends TestPredicate>
+public abstract class NoCollectOrderWMonitoring<T extends TestPredicate<?,?>>
 		extends TPProcessor<T> {
 
 		

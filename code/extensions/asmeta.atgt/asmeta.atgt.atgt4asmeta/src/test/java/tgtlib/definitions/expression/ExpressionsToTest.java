@@ -1,6 +1,6 @@
 package tgtlib.definitions.expression;
 
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
 
 /** some expressions useful for testing
  * 
@@ -28,7 +28,7 @@ public abstract class ExpressionsToTest {
 	
 	protected static IdExpressionCreator icc;
 	
-	@BeforeClass
+	@BeforeAll
 	public static void faultTestSetup() {
 		icc = new IdExpressionCreator();
 		A = icc.createIdExpression("A", null);

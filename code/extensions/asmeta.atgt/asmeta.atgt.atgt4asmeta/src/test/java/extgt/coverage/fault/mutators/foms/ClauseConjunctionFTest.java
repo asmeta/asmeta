@@ -1,28 +1,26 @@
 package extgt.coverage.fault.mutators.foms;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Test;
-
 import tgtlib.definitions.expression.AndExpression;
+
+import org.junit.jupiter.api.Test;
 import tgtlib.definitions.expression.Expression;
 import tgtlib.definitions.expression.IdUNotIdExpression;
 import tgtlib.definitions.expression.parser.ExpressionParser;
-import tgtlib.definitions.expression.parser.ParseException;
 import tgtlib.util.Pair;
 import extgt.coverage.fault.mutators.ExpressionMutator;
 import extgt.coverage.fault.mutators.FaultTest;
 
-public class ClauseConjunctionFTest extends FaultTest {
+class ClauseConjunctionFTest extends FaultTest {
 	
 	static ClauseConjunctionF ccf = ClauseConjunctionF.CCF;
-	
-	@Test
-	public void testForMutations() {
+
+	@Test void forMutations() {
 		//
 		List<Pair<Integer, Expression>> ris = ccf.buildMutatorGetMutations(aANDb);
 		assertTrue(ris.isEmpty());
@@ -34,10 +32,9 @@ public class ClauseConjunctionFTest extends FaultTest {
 		assertEquals("<5, (A and B) and ((A and B) or B)>", ris.get(0).toString());
 		assertEquals("<7, (A and B) and (A or (B and A))>", ris.get(1).toString());		
 	}
-		
+
 	// A, B and C as IDS, and also D
-	@Test
-	public void testForAndExpression() {
+	@Test void forAndExpression() {
 		ExpressionMutator mut = ccf.getExpressionMutator(Arrays.asList((IdUNotIdExpression)A,B,C));
 		List<Pair<Integer, Expression>> ris = mut.getMutations(aANDb);
 		System.out.println(ris.toString());
@@ -49,8 +46,7 @@ public class ClauseConjunctionFTest extends FaultTest {
 		assertEquals("[<1, (A and B) and C>, <1, (A and B) and D>]", ris.toString());
 	}
 
-	@Test
-	public void testForOrExpression() {
+	@Test void forOrExpression() {
 		ExpressionMutator mut = ccf.getExpressionMutator(Arrays.asList((IdUNotIdExpression)A,B,C));
 		List<Pair<Integer, Expression>> ris = mut.getMutations(aORb);
 		System.out.println(ris.toString());
@@ -67,8 +63,7 @@ public class ClauseConjunctionFTest extends FaultTest {
 		assertEquals("[<2, (A and B) or B>, <2, (A and C) or B>, <2, (A and D) or B>, <3, A or (B and A)>, <3, A or (B and C)>, <3, A or (B and D)>]", ris.toString());
 	}
 
-	@Test
-	public void testIdExpression() {
+	@Test void idExpression() {
 		ExpressionMutator mut = ccf.getExpressionMutator(Arrays.asList((IdUNotIdExpression)A,B));
 		List<Pair<Integer, Expression>> ris = mut.getMutations(A);
 		System.out.println(ris.toString());
@@ -80,8 +75,7 @@ public class ClauseConjunctionFTest extends FaultTest {
 		assertEquals("[<1, A and B>, <1, A and D>]", ris.toString());
 	}
 
-	@Test
-	public void testComplexExpression() {
+	@Test void complexExpression() {
 		ExpressionMutator mut = ccf.getExpressionMutator(Arrays.asList((IdUNotIdExpression)A,B,C));
 		List<Pair<Integer, Expression>> ris = mut.getMutations(not_AandB);
 		System.out.println(ris.toString());
@@ -100,8 +94,7 @@ public class ClauseConjunctionFTest extends FaultTest {
 		assertEquals("<7, (A and B) and (A or (B and C))>", ris.get(4).toString());
 	}
 
-	@Test
-	public void testNotExpression() throws ParseException {
+	@Test void notExpression() throws Exception {
 		ExpressionMutator mut = ccf.getExpressionMutator(Arrays.asList(notA,B));
 		List<Pair<Integer, Expression>> ris = mut.getMutations(notA);
 		System.out.println(ris.toString());
@@ -134,8 +127,7 @@ public class ClauseConjunctionFTest extends FaultTest {
 		assertEquals(0,ris.size());
 	}
 
-	@Test
-	public void testNotIdExpression() throws ParseException {
+	@Test void notIdExpression() throws Exception {
 		// 
 		Expression e = ExpressionParser.parseAsNewBooleanExpression("not a or b");
 		List<Pair<Integer, Expression>> ris = ccf.buildMutatorGetMutations(e);

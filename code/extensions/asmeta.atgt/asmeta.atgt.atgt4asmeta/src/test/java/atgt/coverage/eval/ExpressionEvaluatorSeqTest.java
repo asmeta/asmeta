@@ -10,11 +10,12 @@
  ******************************************************************************/
 package atgt.coverage.eval;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
 
 import atgt.coverage.AsmTestCondition;
+
+import org.junit.jupiter.api.Test;
 import atgt.coverage.AsmTestSequence;
 import atgt.parser.asmgofer.AsmExpressionParser;
 import atgt.parser.asmgofer.ParseException;
@@ -34,8 +35,7 @@ public class ExpressionEvaluatorSeqTest {
 	 * @throws ParseException
 	 *             the parse exception
 	 */
-	@Test
-	public void testForAndExpression() throws ParseException {
+	@Test void forAndExpression() throws Exception {
 		// A = a AND B = b
 		String[][] t1 = { { "A", "c" }, { "B", "b" } };
 		assertFalse(testExpreSeq("A == a && B == b", t1));
@@ -50,7 +50,7 @@ public class ExpressionEvaluatorSeqTest {
 	 *            the test expre seq
 	 */
 	private void assertNotKwown(FinalResult testExpreSeq) {
-		assertEquals(testExpreSeq, FinalResult.DONOTKNOW);
+		assertEquals(FinalResult.DONOTKNOW, testExpreSeq);
 	}
 
 	/**
@@ -60,7 +60,7 @@ public class ExpressionEvaluatorSeqTest {
 	 *            the test expre seq
 	 */
 	private void assertTrue(FinalResult testExpreSeq) {
-		assertEquals(testExpreSeq, FinalResult.TRUE);
+		assertEquals(FinalResult.TRUE, testExpreSeq);
 
 	}
 
@@ -71,7 +71,7 @@ public class ExpressionEvaluatorSeqTest {
 	 *            the test expre seq
 	 */
 	private void assertFalse(FinalResult testExpreSeq) {
-		assertEquals(testExpreSeq, FinalResult.FALSE);
+		assertEquals(FinalResult.FALSE, testExpreSeq);
 	}
 
 	/**
@@ -80,8 +80,7 @@ public class ExpressionEvaluatorSeqTest {
 	 * @throws ParseException
 	 *             the parse exception
 	 */
-	@Test
-	public void testWithSequenceCC() throws ParseException {
+	@Test void withSequenceCC() throws Exception {
 		String prop = "cruiseControl == Cruise && ignited && engRun && not tooFast";
 		String[][] a = { { "cruiseControl", "1" }, null, { "ignited", "false" } };
 		assertFalse(testExpreSeq(prop, a));
@@ -97,8 +96,7 @@ public class ExpressionEvaluatorSeqTest {
 	 * @throws ParseException
 	 *             the parse exception
 	 */
-	@Test
-	public void testWithSequenceAND() throws ParseException {
+	@Test void withSequenceAND() throws Exception {
 		// the expression evaluator is not able to discore if it is covered or
 		// not
 		String[][] a = { { "A", "1" }, null, { "A", "3" } };
@@ -115,11 +113,11 @@ public class ExpressionEvaluatorSeqTest {
 	 * @throws RuntimeException
 	 *             the runtime exception
 	 */
-	@Test
-	public void testGTExpression() throws ParseException, RuntimeException {
+	@Test void gTExpression() throws Exception {
 		String[][] a = { { "C", "c" }, { "B", "b" } };
 		assertNotKwown(testExpreSeq("A > 10", a));
 	}
+
 	/**
 	 * Test gt expression.
 	 * 
@@ -128,8 +126,7 @@ public class ExpressionEvaluatorSeqTest {
 	 * @throws RuntimeException
 	 *             the runtime exception
 	 */
-	@Test
-	public void testGTExpression2() throws ParseException, RuntimeException {
+	@Test void gTExpression2() throws Exception {
 		String[][] a = { { "A", "10" }, { "B", "5" } };
 		assertFalse(testExpreSeq("A > 10", a));
 	}

@@ -1,19 +1,17 @@
 package tgtlib.definitions.expression.visitors;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collections;
 
-import org.junit.Test;
-
 import tgtlib.definitions.expression.Expression;
+
+import org.junit.jupiter.api.Test;
 import tgtlib.definitions.expression.parser.ExpressionParser;
-import tgtlib.definitions.expression.parser.ParseException;
 
-public class ExprEvaluatorIncompleteModel {
+class ExprEvaluatorIncompleteModel {
 
-	@Test
-	public void test1() throws ParseException {
+	@Test void test1() throws Exception {
 		// an expression which should be always true
 		Expression e = ExpressionParser.parseAsNewBooleanExpression("a or not a");
 		ExpressionEvaluator ev = new ExpressionEvaluator(Collections.EMPTY_MAP,false);

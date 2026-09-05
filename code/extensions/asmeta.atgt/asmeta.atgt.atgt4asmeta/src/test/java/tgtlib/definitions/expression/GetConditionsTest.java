@@ -1,34 +1,30 @@
 package tgtlib.definitions.expression;
 
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Test;
-
 import tgtlib.definitions.expression.parser.ExpressionParser;
-import tgtlib.definitions.expression.parser.ParseException;
 
-public class GetConditionsTest extends ExpressionsToTest{
+import org.junit.jupiter.api.Test;
 
-	@Test
-	public void testForAndExpression() {
+class GetConditionsTest extends ExpressionsToTest{
+
+	@Test void forAndExpression() {
 		List<IdUNotIdExpression> r1 = aANDb.accept(GetConditions.getConds);
 		checkIds(r1,A,B);
 	}
 
-	@Test
-	public void testForOrExpression() {
+	@Test void forOrExpression() {
 		List<IdUNotIdExpression> r1 = aORb.accept(GetConditions.getConds);
 		checkIds(r1,A,B);
 	}
 
-	@Test
-	public void testForComplexExpressions() {
+	@Test void forComplexExpressions() {
 		List<IdUNotIdExpression> r1 = not_AandB.accept(GetConditions.getConds);
 		checkIds(r1,A,B);
 		AndExpression a1 = new AndExpression(aANDb, aORb);
@@ -36,16 +32,14 @@ public class GetConditionsTest extends ExpressionsToTest{
 		checkIds(r1,A,B);
 	}
 
-	@Test
-	public void testForDuplicated() throws ParseException {
+	@Test void forDuplicated() throws Exception {
 		Expression e = ExpressionParser.parseAsNewBooleanExpression("a and b or (c or b)");
 		System.out.println(e.toString());
 		List<IdUNotIdExpression> r1 = e.accept(GetConditions.getConds);
 		checkIdsAsStrings(r1, "a","b","c");
 	}
-	
-	@Test
-	public void testEnum() throws ParseException {
+
+	@Test void testEnum() throws Exception {
 		Expression e = ExpressionParser.parseAsNewBooleanExpression("true and b");
 		System.out.println(e.toString());
 		List<IdUNotIdExpression> r1 = e.accept(GetConditions.getConds);
@@ -53,29 +47,25 @@ public class GetConditionsTest extends ExpressionsToTest{
 	}
 
 	// with some nots
-	@Test
-	public void testForNot1() throws ParseException {
+	@Test void forNot1() throws Exception {
 		Expression e = ExpressionParser.parseAsNewBooleanExpression("not a and not b");
 		List<IdUNotIdExpression> r1 = e.accept(GetConditions.getConds);
 		checkIdsAsStrings(r1, "not a","not b");
 	}
 
-	@Test
-	public void testForNot2() throws ParseException {
+	@Test void forNot2() throws Exception {
 		Expression e = ExpressionParser.parseAsNewBooleanExpression("not a and b");
 		List<IdUNotIdExpression> r1 = e.accept(GetConditions.getConds);
 		checkIdsAsStrings(r1, "not a","b");
 	}
 
-	@Test
-	public void testForNot3() throws ParseException {
+	@Test void forNot3() throws Exception {
 		Expression e = ExpressionParser.parseAsNewBooleanExpression("not a and (b or not a)");
 		List<IdUNotIdExpression> r1 = e.accept(GetConditions.getConds);
 		checkIdsAsStrings(r1, "not a","b");
 	}
 
-	@Test
-	public void testForNot4() throws ParseException {
+	@Test void forNot4() throws Exception {
 		Expression e = ExpressionParser.parseAsNewBooleanExpression("not a and (b or a)");
 		System.out.println(e.toString());
 		List<IdUNotIdExpression> r1 = e.accept(GetConditions.getConds);

@@ -10,8 +10,8 @@
  ******************************************************************************/
 package atgt.combinatorial;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -20,9 +20,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import org.junit.Test;
-
 import atgt.coverage.TestCondition;
+
+import org.junit.jupiter.api.Test;
 import atgt.generator.MonitoredDataToSAL;
 import atgt.parser.asmeta.AsmMLoaderTest;
 import atgt.parser.asmgofer.ASMParserTest;
@@ -46,8 +46,7 @@ public class ToSALCombinatorialTest {
 	 * @throws Exception
 	 *             the exception
 	 */
-	@Test
-	public void testCCToSAL() throws Exception {
+	@Test void cCToSAL() throws Exception {
 		ASMSpecification SP = ASMParserTest.getCruiseControlNoAxiom();
 		TypedInitExpression cruiseEvent = SP.getVariable("cruiseEvent");
 		assertNotNull(cruiseEvent);
@@ -64,8 +63,7 @@ public class ToSALCombinatorialTest {
 	 * @throws Exception
 	 *             the exception
 	 */
-	@Test
-	public void testCCWAToSAL() throws Exception {
+	@Test void ccwaToSAL() throws Exception {
 		ASMSpecification SP = AsmMLoaderTest.cc_asmWithAxioms();
 		TypedInitExpression lever = SP.getVariable("lever");
 		assertNotNull(lever);
@@ -82,8 +80,7 @@ public class ToSALCombinatorialTest {
 	 * @throws Exception
 	 *             the exception
 	 */
-	@Test
-	public void testBBSToSAL() throws Exception {
+	@Test void bbsToSAL() throws Exception {
 		ASMSpecification SP = AsmMLoaderTest.BasicBillingSystem();
 		TypedInitExpression billing = SP.getVariable("billing");
 		assertNotNull(billing);
@@ -100,8 +97,7 @@ public class ToSALCombinatorialTest {
 	 * @throws Exception
 	 *             the exception
 	 */
-	@Test
-	public void testSIS_AB() throws Exception {
+	@Test void sisAb() throws Exception {
 		ASMSpecification SP = AsmMLoaderTest.sis_asmAbstract();		
 		Expression exp = makeEqualsExpression(SP,"waterpressure","GT_PERMIT");
 		TestCondition tc = new TestCondition("cincative", exp);

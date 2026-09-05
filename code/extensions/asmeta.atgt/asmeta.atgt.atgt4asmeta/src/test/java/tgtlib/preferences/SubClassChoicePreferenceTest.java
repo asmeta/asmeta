@@ -10,16 +10,15 @@
  *******************************************************************************/
 package tgtlib.preferences;
 
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  */
-public class SubClassChoicePreferenceTest {
+class SubClassChoicePreferenceTest {
 
-	@Test
-	public void testSetGetSubClass() {
+	@Test void setGetSubClass() {
 		PreferenceBundle pb = new PreferenceBundle("PROVA");
 		SubClassChoicePreference<A> sbc = new SubClassChoicePreference<A>("id","prova subclass");
 		sbc.setPrefBundle(pb);

@@ -12,13 +12,13 @@
 package extgt.coverage.fault.mutators.foms;
 
 import static extgt.coverage.fault.mutators.foms.VariableNegationFault.VNF;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 
-import org.junit.Test;
-
 import tgtlib.definitions.expression.AndExpression;
+
+import org.junit.jupiter.api.Test;
 import tgtlib.definitions.expression.Expression;
 import tgtlib.definitions.expression.ExpressionsToTest;
 import tgtlib.definitions.expression.NotExpression;
@@ -27,21 +27,19 @@ import tgtlib.util.Pair;
 import extgt.coverage.fault.mutators.FaultTest;
 
 
-
 /**
  * The Class LiteralNegationFaultTest.
  * 
  * @author garganti
  */
-public class LiteralNegationFaultTest extends FaultTest{
+class LiteralNegationFaultTest extends FaultTest{
 
-	
+
 	/**
 	 * Test of forAndExpression method, of class
 	 * atgt.specification.faultcoverage.LiteralNegationFault.
 	 */
-	@Test
-	public void testForAndExpression() {
+	@Test void forAndExpression() {
 		Expression e = ExpressionsToTest.aANDb;
 		List<Pair<Integer, Expression>> mut = VNF.getExpressionMutator().getMutations(e);
 		assertEquals(2, mut.size());
@@ -57,8 +55,7 @@ public class LiteralNegationFaultTest extends FaultTest{
 		assertEquals("<7, (A and B) and (A or not B)>", mut.get(3).toString());
 	}
 
-	@Test
-	public void testForOrExpression() {
+	@Test void forOrExpression() {
 		Expression e = ExpressionsToTest.aORb;
 		List<Pair<Integer, Expression>> mut = VNF.getExpressionMutator().getMutations(e);
 		assertEquals(2, mut.size());
@@ -74,13 +71,12 @@ public class LiteralNegationFaultTest extends FaultTest{
 		assertEquals("<7, (A and B) or (A or not B)>", mut.get(3).toString());
 	}
 
-	
+
 	/**
 	 * Test of forNotExpression method, of class
 	 * atgt.specification.faultcoverage.LiteralNegationFault.
 	 */
-	@Test
-	public void testForNotExpression() {
+	@Test void forNotExpression() {
 		List<Pair<Integer, Expression>> mut = VNF.getExpressionMutator().getMutations(notA);
 		assertEquals(1, mut.size());
 		assertEquals("<1, A>", mut.get(0).toString());

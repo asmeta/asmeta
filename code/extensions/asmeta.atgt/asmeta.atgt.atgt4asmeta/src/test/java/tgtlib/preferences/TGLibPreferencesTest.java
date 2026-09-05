@@ -10,11 +10,11 @@
  ******************************************************************************/
 package tgtlib.preferences;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class TGLibPreferencesTest {
+class TGLibPreferencesTest {
 
 	class MyPref extends TGLibPreferences{
 		public MyPref() {
@@ -26,8 +26,7 @@ public class TGLibPreferencesTest {
 			super("Mypref2");
 		}}
 
-	@Test
-	public void testTGLib2Preferences() {
+	@Test void tGLib2Preferences() {
 		MyPref my = new MyPref();		
 		MyPref2 my2 = new MyPref2();
 		TGLibPreferences.TEMP_DIR.setValue("tmp1");

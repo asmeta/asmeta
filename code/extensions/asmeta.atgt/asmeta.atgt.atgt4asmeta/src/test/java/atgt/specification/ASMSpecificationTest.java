@@ -1,16 +1,16 @@
 package atgt.specification;
 
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
-import org.junit.Test;
 
 import tgtlib.definitions.expression.type.BoundType;
 
+import org.junit.jupiter.api.Test;
 
-public class ASMSpecificationTest {
 
-	@Test
-	public void testAddType1() {
+class ASMSpecificationTest {
+
+	@Test void addType1() {
 		ASMSpecification spec = new ASMSpecification();
 		String tname = "int12";
 		BoundType bt1 = new BoundType(tname,1,2);

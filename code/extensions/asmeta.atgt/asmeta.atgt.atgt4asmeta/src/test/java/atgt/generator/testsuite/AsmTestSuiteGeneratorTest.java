@@ -1,13 +1,12 @@
 package atgt.generator.testsuite;
 
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class AsmTestSuiteGeneratorTest {
+class AsmTestSuiteGeneratorTest {
 
-	@Test
-	public void testAsmTestSuiteGenerator() {
+	@Test void asmTestSuiteGenerator() {
 		fail("Not yet implemented");
 	}
 

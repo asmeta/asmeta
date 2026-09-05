@@ -12,12 +12,11 @@ package tgtlib.util.combinatorial;
 
 import java.util.Arrays;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class PermutationGeneratorTest {
+class PermutationGeneratorTest {
 
-	@Test
-	public void testPermutationGenerator() {
+	@Test void permutationGenerator() {
 		PermutationGenerator cg = new PermutationGenerator(4);
 		while(cg.hasNext())
 			System.out.println(Arrays.toString(cg.next()));

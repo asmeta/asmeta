@@ -1,49 +1,44 @@
 package extgt.coverage.fault.mutators.foms;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 
-import org.junit.Test;
-
 import tgtlib.definitions.expression.Expression;
+
+import org.junit.jupiter.api.Test;
 import tgtlib.definitions.expression.NotExpression;
 import tgtlib.definitions.expression.parser.ExpressionParser;
-import tgtlib.definitions.expression.parser.ParseException;
 import tgtlib.util.Pair;
 import extgt.coverage.fault.mutators.ExpressionMutator;
 import extgt.coverage.fault.mutators.FaultTest;
 
-public class VariableNegationFaultTest extends FaultTest {
+class VariableNegationFaultTest extends FaultTest {
 	static VariableNegationFault vnf = VariableNegationFault.VNF;
 	static ExpressionMutator mut = vnf.getExpressionMutator();
 
-	@Test
-	public void testForIdExpression() {
+	@Test void forIdExpression() {
 		List<Pair<Integer, Expression>> ris = mut.getMutations(A);
 		assertEquals(1, ris.size());
 		assertEquals("not A", ris.get(0).getSecond().toString());
 		assertEquals(1, ris.get(0).getFirst().intValue());
 	}
 
-	@Test
-	public void testForAndExpression() {
+	@Test void forAndExpression() {
 		List<Pair<Integer, Expression>> ris = mut.getMutations(aANDb);
 		assertEquals(2, ris.size());
 		assertEquals("<2, not A and B>", ris.get(0).toString());
 		assertEquals("<3, A and not B>", ris.get(1).toString());
 	}
 
-	@Test
-	public void testForOrExpression() {
+	@Test void forOrExpression() {
 		List<Pair<Integer, Expression>> ris = mut.getMutations(aORb);
 		assertEquals(2, ris.size());
 		assertEquals("<2, not A or B>", ris.get(0).toString());
 		assertEquals("<3, A or not B>", ris.get(1).toString());
 	}
 
-	@Test
-	public void testForExample() throws ParseException {
+	@Test void forExample() throws Exception {
 		Expression e = ExpressionParser.parseAsNewBooleanExpression("a or ( a and b)");
 		List<Pair<Integer, Expression>> ris = mut.getMutations(e);
 		assertEquals(3, ris.size());
@@ -52,8 +47,7 @@ public class VariableNegationFaultTest extends FaultTest {
 		assertEquals("<7, a or (a and not b)>", ris.get(2).toString());
 	}
 
-	@Test
-	public void testForNotExpression() {
+	@Test void forNotExpression() {
 		List<Pair<Integer, Expression>> ris = mut.getMutations(notA);
 		assertEquals(1, ris.size());
 		assertEquals("<1, A>", ris.get(0).toString());
@@ -77,8 +71,7 @@ public class VariableNegationFaultTest extends FaultTest {
 		assertEquals("<3, not A and not B>", ris.get(1).toString());
 	}
 
-	@Test
-	public void testForComplexExpression() {
+	@Test void forComplexExpression() {
 		//  (x1 \/ not x2) /\ (x3 /\ x4)
 		List<Pair<Integer, Expression>> ris = mut.getMutations(chenExpr);
 		assertEquals(4, ris.size());

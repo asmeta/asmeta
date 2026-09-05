@@ -10,16 +10,16 @@
  *******************************************************************************/
 package tgtlib.util;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  */
-public class SimpleCmdExecutorTest {
+class SimpleCmdExecutorTest {
 
 	private static final String SUFFIX = "yyy";
 	private static final String PREFIX = "xxx";
@@ -28,8 +28,7 @@ public class SimpleCmdExecutorTest {
 	 * Method testGetExecNameFileinTemp.
 	 * @throws IOException
 	 */
-	@Test
-	public void testGetExecNameFileinTemp() throws IOException {
+	@Test void getExecNameFileinTemp() throws Exception {
 		File tempDir = tgtlib.preferences.Utility.getTempDirPref();
 		File specFile = java.io.File.createTempFile(PREFIX, SUFFIX, tempDir);
 		// Delete temp file when program exits.

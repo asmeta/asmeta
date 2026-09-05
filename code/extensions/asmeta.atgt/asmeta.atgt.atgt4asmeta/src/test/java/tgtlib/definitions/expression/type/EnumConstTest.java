@@ -1,18 +1,19 @@
 package tgtlib.definitions.expression.type;
 
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.junit.Test;
 
 import tgtlib.definitions.expression.IdExpression;
+
+import org.junit.jupiter.api.Test;
 
 
 /**
  */
-public class EnumConstTest {
-	
-	@Test
-	public void testGetBoolExpr() {
+class EnumConstTest {
+
+	@Test void getBoolExpr() {
 		EnumConstCreator ecc = new EnumConstCreator();
 		assertSame(BoolType.FALSE_CONST,ecc.createIdExpression("false", null));
 		assertSame(BoolType.FALSE_CONST,ecc.createIdExpression("FALSE", null));
@@ -20,25 +21,25 @@ public class EnumConstTest {
 		assertSame(BoolType.TRUE_CONST,ecc.createIdExpression("TRUE", null));
 	}
 
-	@Test
-	public void testCreateEnumConst1() {
+	@Test void createEnumConst1() {
 		EnumConstCreator ecc = new EnumConstCreator();
 		EnumConst A = ecc.createEnumConst("A");
 		EnumConst A2 = ecc.createEnumConst("A");
 		assertSame(A, A2);		
 	}
-	@Test
-	public void testCreateEnumConst2() {
+
+	@Test void createEnumConst2() {
 		EnumConstCreator ecc = new EnumConstCreator();
 		EnumConst A = ecc.createEnumConst("B");
 		IdExpression A2 = ecc.createIdExpression("B", null);
 		assertSame(A, A2);		
 	}
-	@Test(expected=RuntimeException.class)
-	public void testCreateEnumConst3() {
+
+	@Test void createEnumConst3() {
 		EnumConstCreator ecc = new EnumConstCreator();
 		ecc.createIdExpression("C", null);
-		ecc.createEnumConst("C");		
+		assertThrows(RuntimeException.class, () ->
+			ecc.createEnumConst("C"));
 	}
 
 }

@@ -1,31 +1,29 @@
 package tgtlib.definitions.expression.visitors;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
 import java.util.Collection;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-
 import tgtlib.definitions.expression.Expression;
+
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+
 import tgtlib.definitions.expression.parser.ExpressionParser;
 import tgtlib.definitions.expression.parser.ParseException;
-@RunWith(Parameterized.class)
 
 public class IsAtomicBoolTestBoolVars {
 	
 	Expression expr;
 	
 	private boolean result;
-	
-	public IsAtomicBoolTestBoolVars(String expression, boolean result) throws ParseException {
+
+	public void initIsAtomicBoolTestBoolVars(String expression, boolean result) throws ParseException {
 		expr = ExpressionParser.parseAsNewBooleanExpression(expression);
 		this.result = result;
 	}
 
-	@Parameterized.Parameters
 	public static Collection<Object[]> data() {
 		Object[][] data = new Object[][] {
 				// constants
@@ -56,8 +54,9 @@ public class IsAtomicBoolTestBoolVars {
 	}
 
 
-	@Test
-	public void testBooleanExpressions() {
+	@MethodSource("data") @ParameterizedTest
+	public void testBooleanExpressions(String expression, boolean result) throws ParseException {
+		initIsAtomicBoolTestBoolVars(expression, result);
 		Boolean actualResult = expr.accept(IsAtomicBool.isAtomicBool);
 		assertEquals(result, actualResult);
 	}

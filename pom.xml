@@ -40,6 +40,8 @@
 	</modules>
 	<build>
 		<plugins>
+<!--		
+			exluded from the build for now, not ready yet to use the coverga einformation	
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
@@ -53,11 +55,11 @@
 						<configuration>
 							<append>true</append>
 							<destFile>${jacoco.destFile}</destFile>
-							<!-- <propertyName>surefireArgLine</propertyName> -->
+							<propertyName>surefireArgLine</propertyName> 
 						</configuration>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin>-->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>versions-maven-plugin</artifactId>
@@ -82,7 +84,7 @@
 	</build>
 	<dependencyManagement>
 		<dependencies>
-			<!-- JUnit 5 Aggregator (API + Engine + Params) -->
+			<!-- JUnit 6 Aggregator (API + Engine + Params) -->
 			<dependency>
 				<groupId>org.junit.jupiter</groupId>
 				<artifactId>junit-jupiter</artifactId>

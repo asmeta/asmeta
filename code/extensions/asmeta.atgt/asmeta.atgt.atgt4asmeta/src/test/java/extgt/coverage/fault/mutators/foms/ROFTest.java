@@ -12,13 +12,13 @@
 package extgt.coverage.fault.mutators.foms;
 
 import static extgt.coverage.fault.mutators.foms.RelationalOperatorFault.ROF;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
-import org.junit.Test;
-
 import tgtlib.definitions.expression.AndExpression;
+
+import org.junit.jupiter.api.Test;
 import tgtlib.definitions.expression.Expression;
 import tgtlib.definitions.expression.ExpressionsToTest;
 import tgtlib.definitions.expression.NotExpression;
@@ -31,14 +31,13 @@ import extgt.coverage.fault.mutators.FaultTest;
  * 
  * @author garganti
  */
-public class ROFTest extends FaultTest {
+class ROFTest extends FaultTest {
 
 	/**
 	 * Test of forAndExpression method, of class
 	 * atgt.specification.faultcoverage.ExpressionNegationFault.
 	 */
-	@Test
-	public void testForAndExpression() {
+	@Test void forAndExpression() {
 		Expression e = ExpressionsToTest.aANDb;
 		List<Pair<Integer, Expression>> rof1 = ROF.getExpressionMutator(e).getMutations(e);
 		System.out.println(ExpressionsToTest.aANDb + "->" + rof1);
@@ -53,8 +52,7 @@ public class ROFTest extends FaultTest {
 	 * Test of forOrExpression method, of class
 	 * atgt.specification.faultcoverage.ExpressionNegationFault.
 	 */
-	@Test
-	public void testForOrExpression() {
+	@Test void forOrExpression() {
 		Expression e = ExpressionsToTest.aORb;
 		System.out.println(ExpressionsToTest.aORb + "->" + ROF.getExpressionMutator(e).getMutations(e));
 		OrExpression a1 = new OrExpression(ExpressionsToTest.aANDb, ExpressionsToTest.aORb);
@@ -66,8 +64,7 @@ public class ROFTest extends FaultTest {
 	 * Test of forNotExpression method, of class
 	 * atgt.specification.faultcoverage.ExpressionNegationFault.
 	 */
-	@Test
-	public void testForNotExpression() {
+	@Test void forNotExpression() {
 		NotExpression ne = NotExpression.createNotExpression(ExpressionsToTest.aORb);
 		System.out.println(ne + "->" + ROF.getExpressionMutator(ne).getMutations(ne));
 	}

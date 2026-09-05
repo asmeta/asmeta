@@ -78,7 +78,7 @@ public class SimulatorWCov extends Simulator {
 	protected void initEvaluator(State state) {
 		logger.info("init the simulator with coverage evaluator");
 		RuleFactory factory = new RuleFactory();
-		ruleEvaluator = new RuleEvalWCov(state, environment, factory, ruleEvaluator.getCurrentRuleDeclaration());		
+		ruleEvaluator = new RuleEvalWCov(state, environment, factory);		
 		return;
 	}
 

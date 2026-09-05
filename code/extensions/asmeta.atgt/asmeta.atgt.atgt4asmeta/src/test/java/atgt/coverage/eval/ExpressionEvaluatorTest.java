@@ -1,17 +1,16 @@
 package atgt.coverage.eval;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import atgt.coverage.AsmTestSequence;
 import atgt.parser.asmgofer.AsmExpressionParser;
 import atgt.parser.asmgofer.ParseException;
 import tgtlib.definitions.expression.Expression;
 
-public class ExpressionEvaluatorTest {
+class ExpressionEvaluatorTest {
 
 
-	@Test
-	public void testProblemwithSAT4j() throws ParseException {
+	@Test void problemwithSAT4j() throws Exception {
 		testExpreSeq("((((a and not b) and d) or ((a and not c) and d)) or e) xor ((false or ((a and not c) and d)) or e)", 
 				"d=false, b=false, e=false, false=true, a=false, c=false");
 	}

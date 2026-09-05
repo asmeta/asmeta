@@ -15,14 +15,13 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  */
-public class JBoxPreferenceTest {
+class JBoxPreferenceTest {
 
-	@Test
-	public void testGetJBox() {
+	@Test void getJBox() {
 		PreferenceBundle bp = new PreferenceBundle("PROVA");
 		FlagPreference fg = new FlagPreference("III", true, "prova");
 		fg.setPrefBundle(bp);
