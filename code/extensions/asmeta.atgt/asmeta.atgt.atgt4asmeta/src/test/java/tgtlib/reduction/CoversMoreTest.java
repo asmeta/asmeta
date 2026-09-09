@@ -10,23 +10,22 @@
  *******************************************************************************/
 package tgtlib.reduction;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 
-import org.junit.Test;
-
 import tgtlib.generator.TestPredicate4Test;
+
+import org.junit.jupiter.api.Test;
 import tgtlib.generator.TestSequence4Test;
 
 /**
  */
-public class CoversMoreTest extends ReductionTest{
+class CoversMoreTest extends ReductionTest{
 
-	@Test
-	public void testCompare1() {
+	@Test void compare1() {
 		// already covered is empty
 		Collection<TestPredicate4Test> alredayCovered = Collections.emptySet();
 		CoversMore<TestPredicate4Test, TestSequence4Test> cv = new CoversMore<TestPredicate4Test, TestSequence4Test>(alredayCovered);
@@ -48,8 +47,7 @@ public class CoversMoreTest extends ReductionTest{
 	/** same test but with all the test predicates
 	 * 
 	 */
-	@Test
-	public void testCompare2() {
+	@Test void compare2() {
 		// already covered is empty
 		// to be covered = all the sets
 		Collection<TestPredicate4Test> alredayCovered = Collections.emptySet();
@@ -73,8 +71,7 @@ public class CoversMoreTest extends ReductionTest{
 	/** same test but with only some test predicates to be covered
 	 * 
 	 */
-	@Test
-	public void testCompare3() {
+	@Test void compare3() {
 		// already covered is empty
 		// to be covered = all the sets
 		Collection<TestPredicate4Test> alredayCovered = Collections.emptySet();

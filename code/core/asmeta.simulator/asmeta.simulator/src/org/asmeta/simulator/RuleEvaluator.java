@@ -130,7 +130,8 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 
 	public final TermEvaluator termEval;
 
-	private RuleDeclaration currentRuleDeclaration = null;
+	// keep track of the current rule declaration being evaluated, for coverage purposes
+	protected RuleDeclaration currentRuleDeclaration = null;
 
 	/**
 	 * Constructs an evaluator: reuses the covered macros to be used in the same run
@@ -556,7 +557,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 			EList<VariableTerm> variable = chooseRule.getVariable();
 			for (int i = 0; i < variable.size(); i++) {
 				var var = variable.get(i);
-				valueforVar.put(var.getName() + " in " + currentRuleDeclaration.getName(), boundValues[i]);
+				valueforVar.put(var.getName() + " in " + getCurrentRuleDeclaration().getName(), boundValues[i]);
 			}
 			notify(valueforVar);
 		} else {
@@ -811,7 +812,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		return updateSet;
 	}
 
-	public UpdateSet visit(RuleDeclaration dcl) {
+	final public UpdateSet visit(RuleDeclaration dcl) {
 		assert dcl.getArity() == 0;
 		return visit(dcl, Collections.EMPTY_LIST);
 	}
@@ -823,7 +824,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 	 * @param arguments arguments
 	 * @return the rule's update set
 	 */
-	public UpdateSet visit(RuleDeclaration dcl, List<Term> arguments) {
+	final public UpdateSet visit(RuleDeclaration dcl, List<Term> arguments) {
 		currentRuleDeclaration = dcl;
 		List<VariableTerm> variables = dcl.getVariable();
 		UpdateSet updateSet = null;
@@ -1028,11 +1029,21 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 	 * @param assignment
 	 * @return
 	 */
-	protected RuleEvaluator createRuleEvaluator(State state, Environment environment, ValueAssignment assignment) {
-		RuleEvaluator newRE = new RuleEvaluator(state, environment, assignment);
-		newRE.currentRuleDeclaration = currentRuleDeclaration;
+	protected final RuleEvaluator createRuleEvaluator(State state, Environment environment, ValueAssignment assignment) {
+		RuleEvaluator newRE = cloneRuleEvaluator(state, environment, assignment);
+		// copy the observers to the new rule evaluator 
+		newRE.observers = new ArrayList<>(this.observers);
+		// copy the current rule declaration to the new rule evaluator
+		newRE.currentRuleDeclaration = this.currentRuleDeclaration;
 		return newRE;
 	}
+
+	protected RuleEvaluator cloneRuleEvaluator(State state, Environment environment, ValueAssignment assignment) {
+		RuleEvaluator newRE = new RuleEvaluator(state, environment, assignment);
+		return newRE;
+	}
+	
+
 
 	// adding the Observer/Obervable pattern
 	private List<RuleEvaluatorObserver> observers = new ArrayList<>();
@@ -1049,6 +1060,13 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		for (RuleEvaluatorObserver observer : this.observers) {
 			observer.update(change);
 		}
+	}
+
+	/**
+	 * @return the currentRuleDeclaration
+	 */
+	public RuleDeclaration getCurrentRuleDeclaration() {
+		return currentRuleDeclaration;
 	}
 
 }

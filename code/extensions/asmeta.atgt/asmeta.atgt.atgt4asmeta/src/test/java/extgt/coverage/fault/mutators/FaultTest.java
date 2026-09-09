@@ -15,9 +15,9 @@ import static tgtlib.definitions.expression.BinaryExpression.mkBinExpr;
 import static tgtlib.definitions.expression.Operator.AND;
 import static tgtlib.definitions.expression.Operator.OR;
 
-import org.junit.BeforeClass;
-
 import tgtlib.definitions.expression.Expression;
+
+import org.junit.jupiter.api.BeforeAll;
 import tgtlib.definitions.expression.ExpressionsToTest;
 import tgtlib.definitions.expression.IdExpression;
 import tgtlib.definitions.expression.NotExpression;
@@ -37,7 +37,7 @@ public class FaultTest extends ExpressionsToTest{
 	/**
 	 * Instantiates a new fault test.
 	 */
-	@BeforeClass
+	@BeforeAll
 	public static void faultTestSetup() {
 		ExpressionsToTest.faultTestSetup();
 		// for chen expressions

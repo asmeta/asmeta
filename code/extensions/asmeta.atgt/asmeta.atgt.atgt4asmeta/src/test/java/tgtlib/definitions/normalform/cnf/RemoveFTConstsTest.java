@@ -1,28 +1,27 @@
 package tgtlib.definitions.normalform.cnf;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static tgtlib.definitions.expression.BinaryExpression.mkBinExpr;
 import static tgtlib.definitions.expression.Operator.AND;
 import static tgtlib.definitions.expression.Operator.OR;
 import static tgtlib.definitions.expression.type.BoolType.FALSE_CONST;
 import static tgtlib.definitions.expression.type.BoolType.TRUE_CONST;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import tgtlib.definitions.expression.BinaryExpression;
 import tgtlib.definitions.expression.Expression;
 import tgtlib.definitions.expression.ExpressionsToTest;
 import tgtlib.definitions.expression.Operator;
 import tgtlib.definitions.expression.parser.ExpressionParser;
-import tgtlib.definitions.expression.parser.ParseException;
 import tgtlib.definitions.expression.type.BoolType;
 import tgtlib.definitions.expression.visitors.RandomLogicExpressionBuilder;
 
-public class RemoveFTConstsTest extends ExpressionsToTest {
+class RemoveFTConstsTest extends ExpressionsToTest {
 
 	private static final String FALSE_STR = BoolType.FALSE_STR;
 	private static final String TRUE_STR = BoolType.TRUE_STR;
@@ -30,15 +29,14 @@ public class RemoveFTConstsTest extends ExpressionsToTest {
 	private static BinaryExpression xorAF;
 	private static BinaryExpression xorAT;
 
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
+	@BeforeAll
+	static void setUpBeforeClass() throws Exception {
 		xorAB = BinaryExpression.mkBinExpr(A, Operator.XOR, B);
 		xorAF = BinaryExpression.mkBinExpr(A, Operator.XOR, FALSE_CONST);
 		xorAT = BinaryExpression.mkBinExpr(A, Operator.XOR, TRUE_CONST);
 	}
 
-	@Test
-	public void testNochange() {
+	@Test void nochange() {
 		assertSame(aORb, aORb.accept(RemoveFTConsts.instance));
 		assertSame(aANDb, aANDb.accept(RemoveFTConsts.instance));
 		assertSame(A, A.accept(RemoveFTConsts.instance));
@@ -50,8 +48,7 @@ public class RemoveFTConstsTest extends ExpressionsToTest {
 		assertSame(xorAB, xorAB.accept(RemoveFTConsts.instance));
 	}
 
-	@Test
-	public void testChange() {
+	@Test void change() {
 		// a and true -> a
 		assertSame(A,
 				mkBinExpr(A, AND, TRUE_CONST).accept(RemoveFTConsts.instance));
@@ -75,8 +72,7 @@ public class RemoveFTConstsTest extends ExpressionsToTest {
 		assertEquals(notA, xorAT.accept(RemoveFTConsts.instance));
 	}
 
-	@Test
-	public void testSomeSpecs() throws ParseException {
+	@Test void someSpecs() throws Exception {
 		Expression e = ExpressionParser.parseAsNewBooleanExpression("(a xor b) && not false");
 		assertEquals("a xor b", e.accept(RemoveFTConsts.instance).toString());
 		e = ExpressionParser.parseAsNewBooleanExpression("(a xor b) || not false");
@@ -87,32 +83,29 @@ public class RemoveFTConstsTest extends ExpressionsToTest {
 		//e = ExpressionParser.parse(s2);
 		//assertEquals(expresionFaulty, e.toString());
 	}
-	@Test
-	public void testSomeSpecs2() throws ParseException {
+
+	@Test void someSpecs2() throws Exception {
 		Expression e = ExpressionParser.parseAsNewBooleanExpression("true xor false");
 		assertEquals(TRUE_STR, e.accept(RemoveFTConsts.instance).toString());
 	}
-	@Test
-	public void testSomeSpecsXor2() throws ParseException {
+
+	@Test void someSpecsXor2() throws Exception {
 		Expression e = ExpressionParser.parseAsNewBooleanExpression("true xor e1");
 		assertEquals("not e1", e.accept(RemoveFTConsts.instance).toString());
 	}
 
-	@Test
-	public void testSomeSpecsT() throws ParseException {
+	@Test void someSpecsT() throws Exception {
 		Expression e = ExpressionParser.parseAsNewBooleanExpression("not true");
 		assertEquals(FALSE_STR, e.accept(RemoveFTConsts.instance).toString());
 	}
-	
-	@Test
-	public void testSomeSpecs3() throws ParseException {
+
+	@Test void someSpecs3() throws Exception {
 		Expression e = ExpressionParser.parseAsNewBooleanExpression("not(true || e_9) || e_9");
 		assertEquals("not(true or e_9) or e_9", e.toString());		
 		assertEquals("e_9", e.accept(RemoveFTConsts.instance).toString());
 	}
 
-	@Test
-	public void testSomeSpecs4() throws ParseException {
+	@Test void someSpecs4() throws Exception {
 		String tcS = "((e_1 xor (e_9 || ((not(not e_2) xor ((true xor e_7) || e_1)) || e_7))) xor true) && e_9";
 		Expression e = ExpressionParser.parseAsNewBooleanExpression(tcS);
 		System.out.println(e.toString());		
@@ -120,8 +113,7 @@ public class RemoveFTConstsTest extends ExpressionsToTest {
 		assertEquals("not(e_1 xor (e_9 or ((not(not e_2) xor (not e_7 or e_1)) or e_7))) and e_9", e.accept(RemoveFTConsts.instance).toString());
 	}
 
-	@Test
-	public void testSomeSpecs5() throws ParseException {
+	@Test void someSpecs5() throws Exception {
 		Expression e = ExpressionParser.parseAsNewBooleanExpression("true => a");
 		assertEquals("a", e.accept(RemoveFTConsts.instance).toString());
 		e = ExpressionParser.parseAsNewBooleanExpression("false => a");
@@ -132,10 +124,8 @@ public class RemoveFTConstsTest extends ExpressionsToTest {
 		assertEquals("not a", e.accept(RemoveFTConsts.instance).toString());
 	}
 
-	
 
-	@Test
-	public void testRandomExprs() throws ParseException {
+	@Test void randomExprs() throws Exception {
 		RandomLogicExpressionBuilder rnd = new RandomLogicExpressionBuilder(20, 20, true);
 		boolean trueChek = false;
 		boolean falseChek = false;
@@ -145,8 +135,8 @@ public class RemoveFTConstsTest extends ExpressionsToTest {
 			if (e.toString().contains(FALSE_STR)) falseChek = true;
 			Expression ep = e.accept(RemoveFTConsts.instance);
 			if (ep == BoolType.FALSE_CONST || ep == BoolType.TRUE_CONST) continue;
-			assertFalse(e.toString() + "->" + ep.toString(), ep.toString().contains(TRUE_STR));
-			assertFalse(e.toString() + "->" + ep.toString(),ep.toString().contains(FALSE_STR));
+			assertFalse(ep.toString().contains(TRUE_STR), e.toString() + "->" + ep.toString());
+			assertFalse(ep.toString().contains(FALSE_STR),e.toString() + "->" + ep.toString());
 		}
 		assertTrue(trueChek && falseChek);
 	}

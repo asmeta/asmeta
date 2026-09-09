@@ -12,13 +12,13 @@
 package extgt.coverage.fault.mutators.foms;
 
 import static extgt.coverage.fault.mutators.foms.ExpressionNegationFault.ENF;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 
-import org.junit.Test;
-
 import tgtlib.definitions.expression.AndExpression;
+
+import org.junit.jupiter.api.Test;
 import tgtlib.definitions.expression.Expression;
 import tgtlib.definitions.expression.ExpressionsToTest;
 import tgtlib.definitions.expression.NotExpression;
@@ -33,14 +33,13 @@ import extgt.coverage.fault.mutators.FaultTest;
  * 
  * @author garganti
  */
-public class ExpressionNegationFaultTest extends FaultTest {
+class ExpressionNegationFaultTest extends FaultTest {
 
 	/**
 	 * Test of forAndExpression method, of class
 	 * atgt.specification.faultcoverage.ExpressionNegationFault.
 	 */
-	@Test
-	public void testForAndExpression() {
+	@Test void forAndExpression() {
 		Expression e = ExpressionsToTest.aANDb;
 		List<Pair<Integer, Expression>> mut = ENF.getExpressionMutator().getMutations(e);
 		assertEquals(1, mut.size());
@@ -58,8 +57,7 @@ public class ExpressionNegationFaultTest extends FaultTest {
 	 * Test of forOrExpression method, of class
 	 * atgt.specification.faultcoverage.ExpressionNegationFault.
 	 */
-	@Test
-	public void testForOrExpression() {
+	@Test void forOrExpression() {
 		Expression e = ExpressionsToTest.aORb;
 		List<Pair<Integer, Expression>> mut = ENF.getExpressionMutator().getMutations(e);
 		assertEquals(1, mut.size());
@@ -87,8 +85,7 @@ public class ExpressionNegationFaultTest extends FaultTest {
 	 * atgt.specification.faultcoverage.ExpressionNegationFault.
 	 * @throws ParseException 
 	 */
-	@Test
-	public void testForNotExpression() throws ParseException {
+	@Test void forNotExpression() throws Exception {
 		NotExpression ne = NotExpression.createNotExpression(aORb);
 		// not (a or b)
 		List<Pair<Integer, Expression>> mut = ENF.getExpressionMutator().getMutations(ne);		
@@ -111,12 +108,11 @@ public class ExpressionNegationFaultTest extends FaultTest {
 		assertEquals(2, mut.size());
 		//assertEquals("<1, not(A or B)>", mut.get(0).toString());
 	}
-	
+
 	/**
 	 * For example, not (x1 \/not x2) /\ (x3 /\ x4) is an ENF of (x1 \/ not x2) /\ (x3 /\ x4). 
 	 */
-	@Test
-	public void testChenExpression() {
+	@Test void chenExpression() {
 		List<Pair<Integer, Expression>> enf_e1 = ENF.getExpressionMutator(chenExpr).getMutations(chenExpr);
 		System.out.println(chenExpr + "->" + enf_e1);
 		assertEquals(3, enf_e1.size());

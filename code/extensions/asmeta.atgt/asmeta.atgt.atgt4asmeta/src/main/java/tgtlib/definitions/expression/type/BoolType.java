@@ -38,6 +38,7 @@ public final class BoolType extends ElementsType{
 		BOOLTYPE.addElement(FALSE_CONST);
 		// add as second so true has 1
 		BOOLTYPE.addElement(TRUE_CONST);
+		
 	}
 
 	public static BoolConst not(BoolConst b) {

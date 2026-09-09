@@ -2,13 +2,13 @@ package atgt.generator.testsuite.ordering;
 
 import static atgt.preferences.ATGToolPreferences.CollectTPS;
 import static atgt.preferences.ATGToolPreferences.TP_ORDERING;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import atgt.preferences.ATGToolPreferences.OrderKind;
 import atgt.specification.ASMSpecification;
@@ -17,15 +17,14 @@ import tgtlib.definitions.expression.IdExpressionCreator;
 import tgtlib.definitions.expression.type.EnumConst;
 import tgtlib.definitions.expression.type.EnumType;
 
-public class PreferNoveltyCollectTest {
+class PreferNoveltyCollectTest {
 
-	@BeforeClass
-	static public void activatelog() {
+	@BeforeAll
+	static void activatelog() {
 		Logger.getLogger(PreferNoveltyCollectTest.class).setLevel(Level.DEBUG);
 	}
 
-	@Test
-	public void testAsTAPExample() {
+	@Test void asTAPExample() {
 		// build a spec
 		ASMSpecification spec = new ASMSpecification();
 		//

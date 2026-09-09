@@ -10,40 +10,38 @@
  *******************************************************************************/
 package tgtlib.reduction;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.junit.Test;
-
 import tgtlib.generator.TestPredicate4Test;
+
+import org.junit.jupiter.api.Test;
 import tgtlib.generator.TestSequence4Test;
 
 /**
  */
-public class TestSuiteRedTest extends ReductionTest{
-	
+class TestSuiteRedTest extends ReductionTest{
+
 ///////////////////////////////// WITHOUT coverage tree	
 	/**
 	 * overlapping with one useless.
 	 */
-	@Test
-	public void testOverLap() {
+	@Test void overLap() {
 		Collection<TestSequence4Test> start = new ArrayList<TestSequence4Test>();
 		start.add(tr1);
 		start.add(tr2);
 		start.add(tr3);
-		assertTrue(new TestSuiteRed<TestPredicate4Test, TestSequence4Test>().getSufficient(start).size() == 2);
+		assertEquals(2, new TestSuiteRed<TestPredicate4Test, TestSequence4Test>().getSufficient(start).size());
 	}
 
 	/**
 	 * overlapping all useful.
 	 */
-	@Test
-	public void testOverLapUseful() {
+	@Test void overLapUseful() {
 		Collection<TestSequence4Test> start = new ArrayList<TestSequence4Test>();
 		start.add(tr1);
 		start.add(tr2);
@@ -57,8 +55,7 @@ public class TestSuiteRedTest extends ReductionTest{
 	/**
 	 * overlapping all useful.
 	 */
-	@Test
-	public void testSubSume() {
+	@Test void subSume() {
 		Collection<TestSequence4Test> start = new ArrayList<TestSequence4Test>();
 		start.add(tr1);
 		start.add(tr4);
@@ -70,8 +67,7 @@ public class TestSuiteRedTest extends ReductionTest{
 	/**
 	 * alla independents.
 	 */
-	@Test
-	public void testIndep() {
+	@Test void indep() {
 		Collection<TestSequence4Test> start = new ArrayList<TestSequence4Test>();
 		start.add(tr2);
 		start.add(tr4);
@@ -84,8 +80,7 @@ public class TestSuiteRedTest extends ReductionTest{
 	/**
 	 * one test condition has not a test result.
 	 */
-	@Test
-	public void testOneNotInTR() {
+	@Test void oneNotInTR() {
 		// test condition withou test result
 		TestPredicate4Test tcx = new TestPredicate4Test("tcx",null);
 		// trx1 -> tc1 e tc2
@@ -97,7 +92,7 @@ public class TestSuiteRedTest extends ReductionTest{
 		start.add(trx2);
 		Collection<TestSequence4Test> res = new TestSuiteRed<TestPredicate4Test, TestSequence4Test>()
 				.getSufficient(start);
-		assertEquals(res.size(), 2);
+		assertEquals(2, res.size());
 
 	}
 
@@ -105,8 +100,7 @@ public class TestSuiteRedTest extends ReductionTest{
 	/**
 	 * with only one that covers the only one wanted.
 	 */
-	@Test
-	public void testOnlyOne() {
+	@Test void onlyOne() {
 		Collection<TestSequence4Test> start = new ArrayList<TestSequence4Test>();
 		start.add(tr1);
 		start.add(tr2);
@@ -121,8 +115,7 @@ public class TestSuiteRedTest extends ReductionTest{
 	/**
 	 * with only one that covers the only one wanted.
 	 */
-	@Test
-	public void testAgainOne() {
+	@Test void againOne() {
 		Collection<TestSequence4Test> start = new ArrayList<TestSequence4Test>();
 		start.add(tr1);
 		start.add(tr2);
@@ -136,11 +129,11 @@ public class TestSuiteRedTest extends ReductionTest{
 		assertFalse(necs.contains(tr2));
 		assertFalse(necs.contains(tr3));
 	}
+
 	/**
 	 * with only one that covers the only one wanted.
 	 */
-	@Test
-	public void testTwo() {
+	@Test void two() {
 		Collection<TestSequence4Test> start = new ArrayList<TestSequence4Test>();
 		start.add(tr4);
 		start.add(tr2);

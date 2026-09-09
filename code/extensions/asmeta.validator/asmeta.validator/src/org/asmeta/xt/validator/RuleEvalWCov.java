@@ -21,6 +21,7 @@ import org.asmeta.simulator.value.BooleanValue;
 import org.asmeta.simulator.value.Value;
 import org.asmeta.simulator.wrapper.RuleFactory;
 
+import asmeta.definitions.RuleDeclaration;
 import asmeta.terms.basicterms.Term;
 import asmeta.terms.basicterms.VariableTerm;
 import asmeta.terms.basicterms.impl.LocationTermImpl;
@@ -259,9 +260,8 @@ public class RuleEvalWCov extends RuleEvaluator {
 	}
 
 	@Override
-	protected RuleEvalWCov createRuleEvaluator(State nextState, Environment environment, ValueAssignment assignment) {
-		RuleEvalWCov newREC = new RuleEvalWCov(nextState, environment, assignment);
-		return newREC;
+	protected RuleEvalWCov cloneRuleEvaluator(State nextState, Environment environment, ValueAssignment assignment) {
+		return new RuleEvalWCov(nextState, environment, assignment);
 	}
 
 	@Override

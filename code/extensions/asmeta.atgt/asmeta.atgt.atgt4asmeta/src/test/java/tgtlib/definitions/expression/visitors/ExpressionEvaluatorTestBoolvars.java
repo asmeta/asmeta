@@ -1,6 +1,6 @@
 package tgtlib.definitions.expression.visitors;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -9,10 +9,9 @@ import java.util.Map;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import tgtlib.definitions.expression.Expression;
 import tgtlib.definitions.expression.parser.ExpressionParser;
@@ -21,12 +20,11 @@ import tgtlib.definitions.expression.type.BooleanVar;
 import tgtlib.definitions.expression.type.EnumConstCreator;
 import tgtlib.definitions.expression.type.Variable;
 
-@RunWith(Parameterized.class)
 public class ExpressionEvaluatorTestBoolvars {
 	private static final String INCOMPL_M = "INCOMPLETE_MODEL";
 
-	@BeforeClass
-	public static void initLogger() {
+	@BeforeAll
+	static void initLogger() {
 		Logger.getLogger(ExpressionEvaluator.class).setLevel(Level.DEBUG);
 	}
 
@@ -34,7 +32,7 @@ public class ExpressionEvaluatorTestBoolvars {
 	ExpressionEvaluator ev;
 	String result;
 
-	public ExpressionEvaluatorTestBoolvars(String expression, String map,
+	public void initExpressionEvaluatorTestBoolvars(String expression, String map,
 			String result) throws ParseException {
 		EnumConstCreator ecc = new EnumConstCreator();
 		expr = ExpressionParser.parse(expression, ecc);
@@ -54,7 +52,6 @@ public class ExpressionEvaluatorTestBoolvars {
 		this.result = result;
 	}
 
-	@Parameterized.Parameters
 	public static Collection<Object[]> data() {
 		Object[][] data = new Object[][] {
 				// constants
@@ -101,8 +98,9 @@ public class ExpressionEvaluatorTestBoolvars {
 		return Arrays.asList(data);
 	}
 
-	@Test
-	public void test() {
+	@MethodSource("data") @ParameterizedTest
+	public void test(String expression, String map, String result) throws ParseException {
+		initExpressionEvaluatorTestBoolvars(expression, map, result);
 		try {
 			Boolean res = ev.evaluate(expr);
 			assertEquals(result, res.toString());

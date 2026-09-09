@@ -10,7 +10,7 @@
  *******************************************************************************/
 package tgtlib.reduction;
 
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 
 import tgtlib.generator.TestPredicate4Test;
 import tgtlib.generator.TestSequence4Test;
@@ -35,8 +35,7 @@ public class ReductionTest {
 	/**
 	 * Creates the t cs.
 	 */
-	@Before
-	public void createTCs() {
+	@BeforeEach void createTCs() {
 		tc1 = new TestPredicate4Test("tc1",null);
 		tc2 = new TestPredicate4Test("tc2",null);
 		tc3 = new TestPredicate4Test("tc3",null);

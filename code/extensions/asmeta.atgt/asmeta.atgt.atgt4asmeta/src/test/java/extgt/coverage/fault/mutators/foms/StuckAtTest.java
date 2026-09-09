@@ -11,13 +11,13 @@
 
 package extgt.coverage.fault.mutators.foms;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 
-import org.junit.Test;
-
 import tgtlib.definitions.expression.Expression;
+
+import org.junit.jupiter.api.Test;
 import tgtlib.definitions.expression.ExpressionsToTest;
 import tgtlib.util.Pair;
 import extgt.coverage.fault.mutators.FaultTest;
@@ -27,13 +27,12 @@ import extgt.coverage.fault.mutators.FaultTest;
  * 
  * @author garganti
  */
-public class StuckAtTest extends FaultTest {
+class StuckAtTest extends FaultTest {
 
 	/**
 	 * Test for and expression.
 	 */
-	@Test
-	public void testForAndExpression() {
+	@Test void forAndExpression() {
 		System.out.println("testForAndExpression");
 		Expression e = ExpressionsToTest.aANDb;
 		List<Pair<Integer, Expression>> mutations = StuckAt.STUCK_AT0.getExpressionMutator().getMutations(e);
@@ -45,8 +44,7 @@ public class StuckAtTest extends FaultTest {
 	/**
 	 * Test for not expression.
 	 */
-	@Test
-	public void testForNotExpression() {
+	@Test void forNotExpression() {
 		System.out.println("testForNotExpression");
 		Expression e = ExpressionsToTest.notA;
 		System.out.println(ExpressionsToTest.notA + "->" + StuckAt.STUCK_AT0.getExpressionMutator().getMutations(e));

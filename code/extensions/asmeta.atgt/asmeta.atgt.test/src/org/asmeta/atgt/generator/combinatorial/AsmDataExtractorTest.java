@@ -8,6 +8,8 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
@@ -15,6 +17,7 @@ import atgt.coverage.AsmCoverage;
 import atgt.coverage.AsmCoverageBuilder;
 import atgt.parser.asmeta.AsmetaLLoader;
 import atgt.specification.ASMSpecification;
+import tgtlib.definitions.expression.IdExpressionCreator;
 import tgtlib.specification.ParseException;
 
 public class AsmDataExtractorTest {
@@ -66,6 +69,8 @@ public class AsmDataExtractorTest {
 		 * Non Funziona. Non vede una variabile importata dal modulo precedente, ma se
 		 * la dichiaro in questo modulo dice che � stata dichiarata due volte.
 		 */
+		//Logger.getLogger(IdExpressionCreator.class).setLevel(Level.DEBUG);
+		//Logger.getLogger(IdExpressionCreator.class).setLevel(Level.DEBUG);
 		String asmPath = CAR_SYSTEM_MODULE + "CarSystem001/CarSystem001Blink.asm";
 		AsmCoverageBuilder covBuilder = AsmAllDataExtractor.getAsmCombCovBuilder();
 		ASMSpecification spec = new AsmetaLLoader().read(new File(asmPath));

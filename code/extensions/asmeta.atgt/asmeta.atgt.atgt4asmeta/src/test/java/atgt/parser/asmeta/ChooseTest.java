@@ -1,25 +1,24 @@
 package atgt.parser.asmeta;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.File;
 
-import org.junit.Test;
-
 import atgt.parser.ParseSpecsAsmm;
+
+import org.junit.jupiter.api.Test;
 import atgt.specification.ASMSpecification;
 import atgt.specification.statement.RuleDeclaration;
 import atgt.specification.statement.StatementToStringVisitor;
 import atgt.translator.StatementToSPINVisitor;
 
-public class ChooseTest{
-	
-	
+class ChooseTest{
+
+
 	/**
 	 * Test read asm mcc.
 	 */
-	@Test
-	public void testChooseRule() {
+	@Test void chooseRule() {
 		File derivedF = ParseSpecsAsmm.getFileSpec("fuzzyCounterChoose.asm");
 		ASMSpecification derS = AsmMLoaderTest.loadSpec(derivedF);
 		assertNotNull(derS);

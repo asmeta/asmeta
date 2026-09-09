@@ -1,22 +1,20 @@
 package tgtlib.definitions.normalform;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
 import java.util.Collection;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
-
 import tgtlib.definitions.expression.Expression;
+
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+
 import tgtlib.definitions.expression.parser.ExpressionParser;
 import tgtlib.definitions.expression.parser.ParseException;
 
 /**
  */
-@RunWith(Parameterized.class)
 public class GetNegatePushNotTest {
 	String start;
 	String eqStart;
@@ -28,7 +26,7 @@ public class GetNegatePushNotTest {
 	 * @param eqStart String
 	 * @param notStart String
 	 */
-	public GetNegatePushNotTest(String start, String eqStart, String notStart) {
+	public void initGetNegatePushNotTest(String start, String eqStart, String notStart) {
 		this.start = start;
 		this.eqStart = eqStart;
 		this.notStart = notStart;
@@ -38,7 +36,6 @@ public class GetNegatePushNotTest {
 	 * Method regExValues.
 	 * @return Collection<String[]>
 	 */
-	@Parameters
 	public static Collection<String[]> regExValues() {
 		return Arrays
 				.asList(new String[][] {
@@ -66,8 +63,9 @@ public class GetNegatePushNotTest {
 	 * @throws ParseException
 	 * @throws tgtlib.definitions.expression.parser.ParseException 
 	 */
-	@Test
-	public void testForExpression() throws ParseException {
+	@MethodSource("regExValues") @ParameterizedTest
+	public void testForExpression(String start, String eqStart, String notStart) throws Exception {
+		initGetNegatePushNotTest(start, eqStart, notStart);
 		Expression expr = ExpressionParser.parseAsNewBooleanExpression(start);
 		assertEquals(eqStart, expr.toString());
 		Expression result = expr.accept(GetNegatePushNot.pushAndNegate);

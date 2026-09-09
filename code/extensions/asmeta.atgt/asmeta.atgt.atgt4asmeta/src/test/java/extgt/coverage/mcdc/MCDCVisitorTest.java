@@ -10,10 +10,12 @@
  ******************************************************************************/
 package extgt.coverage.mcdc;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 import java.util.Iterator;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import extgt.coverage.mcdc.MaskMCDCTPBuilder;
 
@@ -24,14 +26,13 @@ import tgtlib.definitions.expression.IdExpression;
 import tgtlib.definitions.expression.IdExpressionCreator;
 import tgtlib.definitions.expression.OrExpression;
 import tgtlib.definitions.expression.parser.ExpressionParser;
-import tgtlib.definitions.expression.parser.ParseException;
 
 /**
  * The Class MCDCVisitorTest.
  * 
  * @author garganti
  */
-public class MCDCVisitorTest{
+class MCDCVisitorTest{
 
 	/** The D. */
 	static IdExpression A;
@@ -52,8 +53,8 @@ public class MCDCVisitorTest{
 	MaskMCDCTPBuilder toTest = MaskMCDCTPBuilder.getMCDCVisitor();
 
 
-	@BeforeClass
-	public static void setUp() {
+	@BeforeAll
+	static void setUp() {
 		IdExpressionCreator icc = new IdExpressionCreator();
 		A = icc.createIdExpression("A", null);
 		B = icc.createIdExpression("B", null);
@@ -68,8 +69,7 @@ public class MCDCVisitorTest{
 	 * Test of forAndExpression method, of class
 	 * atgt.coverage.MCDCVisitor.
 	 */
-	@Test
-	public void testForAndExpression() {
+	@Test void forAndExpression() {
 		Iterable<NamedTerm> result = toTest.analyze(aANDb);
 		for (NamedTerm ne : result)
 			System.out.println(ne.getName() + " -> " +ne.getCondition());
@@ -86,8 +86,7 @@ public class MCDCVisitorTest{
 	 * Test of forAndExpression method, of class
 	 * atgt.coverage.MCDCVisitor.
 	 */
-	@Test
-	public void testForOrExpression() {
+	@Test void forOrExpression() {
 		Iterable<NamedTerm> result = toTest.analyze(aORb);
 		assertEquals("A or B",aORb.toString());		
 		for (NamedTerm ne : result)
@@ -100,8 +99,7 @@ public class MCDCVisitorTest{
 		assertFalse(resultI.hasNext());		
 	}
 
-	@Test
-	public void testFornotExpression() throws ParseException {
+	@Test void fornotExpression() throws Exception {
 		Expression nota = ExpressionParser.parseAsNewBooleanExpression("not a");
 		Iterable<NamedTerm> result = toTest.analyze(nota);
 		for (NamedTerm ne : result)
@@ -109,16 +107,14 @@ public class MCDCVisitorTest{
 		assertEquals("[<T: a, F: not a>]",result.toString());
 	}
 
-	@Test
-	public void testForEqExpression() throws ParseException {
+	@Test void forEqExpression() throws Exception {
 		Expression nota = ExpressionParser.parseAsNewBooleanExpression("a <=> (b or c)");
 		Iterable<NamedTerm> result = toTest.analyze(nota);
 		// NOT IMPLEMENTED YET
 		// how to implement this ???
 	}
 
-	@Test
-	public void testForXorExpression() throws ParseException {
+	@Test void forXorExpression() throws Exception {
 		Expression nota = ExpressionParser.parseAsNewBooleanExpression("a xor b");
 		Iterable<NamedTerm> result = toTest.analyze(nota);
 	}

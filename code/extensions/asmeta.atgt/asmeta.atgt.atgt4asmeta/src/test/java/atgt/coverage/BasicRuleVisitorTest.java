@@ -11,16 +11,16 @@
 
 package atgt.coverage;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Test;
-
 import atgt.parser.asmeta.AsmMLoaderTest;
+
+import org.junit.jupiter.api.Test;
 import atgt.specification.ASMSpecification;
 import atgt.specification.statement.ChooseRule;
 import atgt.specification.statement.ConditionalRule;
@@ -44,13 +44,12 @@ public class BasicRuleVisitorTest extends RuleTest{
 	/** The filename counter1. */
 	static String filenameCounter1 = "SIS.asm";
 
-	
+
 	/**
 	 * Test of forSkip method, of class
 	 * atgt.coverage.BasicRuleVisitor.
 	 */
-	@Test
-	public void testForSkip() {
+	@Test void forSkip() {
 		List<NamedTerm> res = Skip.SKIP.accept(new BasicRuleVisitor());
 		assertTrue(res.isEmpty());
 	}
@@ -59,8 +58,7 @@ public class BasicRuleVisitorTest extends RuleTest{
 	 * Test of forAssignment method, of class
 	 * atgt.coverage.BasicRuleVisitor.
 	 */
-	@Test
-	public void testForAssignment() {
+	@Test void forAssignment() {
 		//UpdateRule ur = new UpdateRule(null, null);
 		//List<NamedTerm> res = ur.accept(new BasicRuleVisitor());		
 	}
@@ -69,8 +67,7 @@ public class BasicRuleVisitorTest extends RuleTest{
 	 * Test of forDoStatement method, of class
 	 * atgt.coverage.BasicRuleVisitor.
 	 */
-	@Test
-	public void testForDoStatement() {
+	@Test void forDoStatement() {
 		List<NamedTerm> results = par.accept(new BasicRuleVisitor());
 		assertEquals(3,results.size());
 		assertEquals("T1: A or B", results.get(0).toString());
@@ -82,8 +79,7 @@ public class BasicRuleVisitorTest extends RuleTest{
 	 * Test of forIfThenElse method, of class
 	 * atgt.coverage.BasicRuleVisitor.
 	 */
-	@Test
-	public void testForIfThenElse() {
+	@Test void forIfThenElse() {
 		List<NamedTerm> results = new BasicRuleVisitor().forIfThenElse(if_woelse);
 		assertEquals(2,results.size());
 		assertEquals("T", results.get(0).getName());
@@ -120,8 +116,7 @@ public class BasicRuleVisitorTest extends RuleTest{
 	 * Test of forSpecification method, of class
 	 * atgt.coverage.BasicRuleVisitor.
 	 */
-	@Test
-	public void testForSpecification() {
+	@Test void forSpecification() {
 		
 		ASMSpecification SP = AsmMLoaderTest.SISSpecification();
 
@@ -138,21 +133,19 @@ public class BasicRuleVisitorTest extends RuleTest{
 	 * Test of forMacroCallRule method, of class
 	 * atgt.coverage.BasicRuleVisitor.
 	 */
-	@Test
-	public void testForMacroCallRule() {
+	@Test void forMacroCallRule() {
 		System.out.println("testForMacroCallRule");
 
 		// TODO add your test code below by replacing the default call to fail.
 		// fail("The test case is empty.");
 	}
 
-	
+
 	/**
 	 * Test of forMacroCallRule method, of class
 	 * atgt.coverage.BasicRuleVisitor.
 	 */
-	@Test
-	public void testChooseRule() {
+	@Test void chooseRule() {
 		EnumConstCreator ecc = new  EnumConstCreator();
 		IdExpression x = ecc.createIdExpression("x", null);
 		Expression a = ecc.createEnumConst("a");

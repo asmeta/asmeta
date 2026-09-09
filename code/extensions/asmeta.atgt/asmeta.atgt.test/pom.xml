@@ -2,8 +2,13 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>asmeta.atgt.test</groupId>
 	<artifactId>asmeta.atgt.test</artifactId>
+	<parent>
+		<groupId>asmeta</groupId>
+		<artifactId>asmeta.atgt.parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
 	<build>
 		<testSourceDirectory>src</testSourceDirectory>
 		<plugins>
@@ -77,10 +82,4 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-	<parent>
-		<groupId>asmeta</groupId>
-		<artifactId>asmeta.atgt.parent</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-		<relativePath>../pom.xml</relativePath>
-	</parent>
 </project>

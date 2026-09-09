@@ -10,49 +10,46 @@
  ******************************************************************************/
 package tgtlib.preferences;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  */
-public class ToolPreferencesTest {
+class ToolPreferencesTest {
 
 	PreferenceBundle pb; 
 	FlagPreference fp;
 	CheckedPreference cp;
-	@Before
-	public void createBundle(){
+
+	@BeforeEach void createBundle(){
 		pb = new PreferenceBundle("prova");
 		fp = new FlagPreference("fp",true,"flag preference");
 		cp = CheckedPreference.createCheckedIntPreference("cp",1000,"checked preference");
 		pb.add(fp);
 		pb.add(cp);		
 	}
-		
-	@Test
-	public void testFlagChecked() {
+
+	@Test void flagChecked() {
 		fp.setChecked(true);
 		assertTrue(pb.isChecked(fp));		
 		assertTrue(fp.getValue());		
 	}
 
-	@Test
-	public void testFlagUnChecked() {
+	@Test void flagUnChecked() {
 		fp.setChecked(false);
 		assertFalse(pb.isChecked(fp));
 		assertFalse(fp.getValue());				
 	}
-	@Test
-	public void testCPChecked() {
+
+	@Test void cPChecked() {
 		cp.setChecked(true);
 		assertTrue(pb.isChecked(cp));		
 	}
 
-	@Test
-	public void testCPUnChecked() {
+	@Test void cPUnChecked() {
 		fp.setChecked(false);
 		assertFalse(pb.isChecked(fp));
 	}

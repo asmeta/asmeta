@@ -1,21 +1,19 @@
 package tgtlib.definitions.expression;
 
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
-public class IdExpressionTest {
+class IdExpressionTest {
 
-	@Test
-	public void testCreateIdExpression() {
+	@Test void createIdExpression() {
 		//FIXME 
 		assertSame(new IdExpression("a", null),new IdExpression("a", null));
 	}
 
-	
-	@Test
-	public void testCreateIdExpressionCC() {
+
+	@Test void createIdExpressionCC() {
 		IdExpressionCreator icc = new IdExpressionCreator();
 		//FIXME 
 		assertSame(icc.createIdExpression("a", null),icc.createIdExpression("a", null));

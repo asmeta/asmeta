@@ -10,19 +10,18 @@
  ******************************************************************************/
 package extgt.coverage.mcdc;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
-
 import extgt.coverage.mcdc.MaskMCDCTPBuilder;
+
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import tgtlib.definitions.NamedTerm;
 import tgtlib.definitions.expression.Expression;
@@ -34,7 +33,6 @@ import tgtlib.definitions.expression.parser.ParseException;
  * 
  * @author garganti
  */
-@RunWith(Parameterized.class)
 public class MCDCVisitorTestParametric{
 
 	/** The to test. */
@@ -42,12 +40,11 @@ public class MCDCVisitorTestParametric{
 	private String expr;
 	private String[] results;
 
-	public MCDCVisitorTestParametric(String expression, String[] results){
+	public void initMCDCVisitorTestParametric(String expression, String[] results){
 		this.expr = expression;
 		this.results = results;
 	}
 
-	@Parameters
 	public static Collection regExValues() {
 	 return Arrays.asList(new Object[][] {
 	  {"a", new String[]{"a", "not a"}},
@@ -68,8 +65,9 @@ public class MCDCVisitorTestParametric{
 	 * atgt.coverage.MCDCVisitor.
 	 * @throws ParseException 
 	 */
-	@Test
-	public void testForExpression() throws ParseException {
+	@MethodSource("regExValues") @ParameterizedTest
+	public void testForExpression(String expression, String[] results) throws Exception {
+		initMCDCVisitorTestParametric(expression, results);
 		// read the expression
 		Expression eTest = ExpressionParser.parseAsNewBooleanExpression(expr);
 		Iterable<NamedTerm> result = toTest.analyze(eTest);

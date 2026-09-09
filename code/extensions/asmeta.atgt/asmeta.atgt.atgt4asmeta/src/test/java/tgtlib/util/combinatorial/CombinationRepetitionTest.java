@@ -13,14 +13,13 @@ package tgtlib.util.combinatorial;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  */
-public class CombinationRepetitionTest {
+class CombinationRepetitionTest {
 
-	@Test
-	public void testCombinationRepetition() {
+	@Test void combinationRepetition() {
 	        // n  =  5  and we want combinations of 3  
 	        String[] str = {"A", "B", "C", "D", "E"};
 	 

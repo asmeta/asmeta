@@ -1,47 +1,46 @@
 package tgtlib.definitions.normalform.cnf;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.junit.Test;
-
 import tgtlib.definitions.expression.AndExpression;
+
+import org.junit.jupiter.api.Test;
 import tgtlib.definitions.expression.Expression;
 import tgtlib.definitions.expression.OrExpression;
 import tgtlib.definitions.expression.parser.ExpressionParser;
-import tgtlib.definitions.expression.parser.ParseException;
 import tgtlib.definitions.normalform.Term;
 
 // test of the convrter no iscas
-public class CNFExprConverterTseitinNoIscasTest {
+class CNFExprConverterTseitinNoIscasTest {
 
 	private static final String PHI = CNFExprConverterTseitinNoIscas.ID_PREFIX;
-	
-		
-	@Test
-	public void testID() throws ParseException {
+
+
+	@Test void id() throws Exception {
 		Expression id = ExpressionParser.parseAsNewBooleanExpression("a");
 		CNFExpression res = CNFExprConverterTseitinNoIscas.instance.getCNFExprConverter().getCNF(id);
 		assertEquals("[a]", res.toString());
 	}
 
-	@Test(expected=CNFException.class)
-	public void testTRUE() throws ParseException {
+	@Test void testTRUE() throws Exception {
 		Expression id = ExpressionParser.parseAsNewBooleanExpression("true");
-		CNFExprConverterTseitinNoIscas.instance.getCNFExprConverter().getCNF(id);
-	}
-	@Test(expected=CNFException.class)
-	public void testFALSE() throws ParseException {
-		Expression id = ExpressionParser.parseAsNewBooleanExpression("false");
-		CNFExprConverterTseitinNoIscas.instance.getCNFExprConverter().getCNF(id);
+		assertThrows(CNFException.class, () ->
+			CNFExprConverterTseitinNoIscas.instance.getCNFExprConverter().getCNF(id));
 	}
 
-	@Test
-	public void testRemoveTF() throws ParseException {
+	@Test void testFALSE() throws Exception {
+		Expression id = ExpressionParser.parseAsNewBooleanExpression("false");
+		assertThrows(CNFException.class, () ->
+			CNFExprConverterTseitinNoIscas.instance.getCNFExprConverter().getCNF(id));
+	}
+
+	@Test void removeTF() throws Exception {
 		Expression id = ExpressionParser.parseAsNewBooleanExpression("a or false");
 		CNFExpression res = CNFExprConverterTseitinNoIscas.instance.getCNFExprConverter().getCNF(id);
 		assertEquals("[a]", res.toString());
@@ -50,20 +49,20 @@ public class CNFExprConverterTseitinNoIscasTest {
 		assertEquals("[a]", res.toString());
 	}
 
-	@Test(expected=CNFException.class)
-	public void testRemoveIDandF() throws ParseException {
+	@Test void removeIDandF() throws Exception {
 		Expression id = ExpressionParser.parseAsNewBooleanExpression("a and false");
-		CNFExprConverterTseitinNoIscas.instance.getCNFExprConverter().getCNF(id);
+		assertThrows(CNFException.class, () ->
+			CNFExprConverterTseitinNoIscas.instance.getCNFExprConverter().getCNF(id));
 	}
 
-	@Test(expected=CNFException.class)
-	public void testRemoveIDorT() throws ParseException {
+	@Test void removeIDorT() throws Exception {
 		Expression id = ExpressionParser.parseAsNewBooleanExpression("a or true");
-		CNFExpression res = CNFExprConverterTseitinNoIscas.instance.getCNFExprConverter().getCNF(id);
+		assertThrows(CNFException.class, () -> {
+			CNFExpression res = CNFExprConverterTseitinNoIscas.instance.getCNFExprConverter().getCNF(id);
+		});
 	}
 
-	@Test
-	public void testDoubleID() throws ParseException {
+	@Test void doubleID() throws Exception {
 		Expression id = ExpressionParser.parseAsNewBooleanExpression("a");
 		CNFExpression res = CNFExprConverterTseitinNoIscas.instance.getCNFExprConverter().getCNF(id);
 		assertEquals("[a]", res.toString());
@@ -72,69 +71,62 @@ public class CNFExprConverterTseitinNoIscasTest {
 		assertSame(res.getTerms().get(0).get(0),res2.getTerms().get(0).get(0));
 	}
 
-	
-	@Test
-	public void testOR1() throws ParseException {
+
+	@Test void or1() throws Exception {
 		Expression id = ExpressionParser.parseAsNewBooleanExpression("a || b");
 		CNFExpression res = CNFExprConverterTseitinNoIscas.instance.getCNFExprConverter().getCNF(id);
 		assertTrue(res.toString().equals("[ab]")||res.toString().equals("[ba]"));
 	}
 
-	@Test
-	public void testNOT() throws ParseException {
+	@Test void not() throws Exception {
 		Expression id = ExpressionParser.parseAsNewBooleanExpression("not a");
 		CNFExpression res = CNFExprConverterTseitinNoIscas.instance.getCNFExprConverter().getCNF(id);
 		assertEquals("[~a]", res.toString());
 	}
 
-	@Test
-	public void testAND1() throws ParseException {
+	@Test void and1() throws Exception {
 		Expression id = ExpressionParser.parseAsNewBooleanExpression("a && b");
 		CNFExpression res = CNFExprConverterTseitinNoIscas.instance.getCNFExprConverter().getCNF(id);
 		assertEquals("[b, a]", res.toString());						
 	}
-	
-	@Test
-	public void testAND2() throws ParseException {
+
+	@Test void and2() throws Exception {
 		Expression id = ExpressionParser.parseAsNewBooleanExpression("(a and b) and (a or not b)");
 		CNFExpression res = CNFExprConverterTseitinNoIscas.instance.getCNFExprConverter().getCNF(id);
-		assertTrue(res.getTerms().toString(),containsTerm(res,"a"));
-		assertTrue(res.getTerms().toString(),containsTerm(res,"b"));
-		assertTrue(res.getTerms().toString(),containsTerm(res,"a~b"));
+		assertTrue(containsTerm(res,"a"),res.getTerms().toString());
+		assertTrue(containsTerm(res,"b"),res.getTerms().toString());
+		assertTrue(containsTerm(res,"a~b"),res.getTerms().toString());
 	}
-	@Test
-	public void testNotOR() throws ParseException {
+
+	@Test void notOR() throws Exception {
 		Expression id = ExpressionParser.parseAsNewBooleanExpression("not a || b");
 		CNFExpression res = CNFExprConverterTseitinNoIscas.instance.getCNFExprConverter().getCNF(id);
 		assertTrue(res.toString().equals("[~ab]")||res.toString().equals("[b~a]"));
 	}
 
-	@Test
-	public void testNOTAND() throws ParseException {
+	@Test void notand() throws Exception {
 		Expression id = ExpressionParser.parseAsNewBooleanExpression("not(a && b)");
 		CNFExpression res = CNFExprConverterTseitinNoIscas.instance.getCNFExprConverter().getCNF(id);
 		// 
-		assertTrue(res.getTerms().toString(),containsTerm(res,"~b~a"));
+		assertTrue(containsTerm(res,"~b~a"),res.getTerms().toString());
 	}
 
-	@Test
-	public void testNOR() throws ParseException {
+	@Test void nor() throws Exception {
 		Expression id = ExpressionParser.parseAsNewBooleanExpression("not(a || b)");
 		// 
 		CNFExpression res = CNFExprConverterTseitinNoIscas.instance.getCNFExprConverter().getCNF(id);
-		assertTrue(res.getTerms().toString(),containsTerm(res,"~a"));
-		assertTrue(res.getTerms().toString(),containsTerm(res,"~b" ));
+		assertTrue(containsTerm(res,"~a"),res.getTerms().toString());
+		assertTrue(containsTerm(res,"~b" ),res.getTerms().toString());
 	}
 
-	
-	@Test
-	public void testNOR2() throws ParseException {
+
+	@Test void nor2() throws Exception {
 		Expression id = ExpressionParser.parseAsNewBooleanExpression("not(a || b)");
 		// TODOOO
 		CNFExpression res = CNFExprConverterTseitinNoIscas.instance.getCNFExprConverter().getCNF(id);
 		// not a and not b
-		assertTrue(res.getTerms().toString(),containsTerm(res,"~a"));
-		assertTrue(res.getTerms().toString(),containsTerm(res,"~b"));
+		assertTrue(containsTerm(res,"~a"),res.getTerms().toString());
+		assertTrue(containsTerm(res,"~b"),res.getTerms().toString());
 		assertEquals(2, res.getTerms().size());	
 	}
 
@@ -148,32 +140,28 @@ public class CNFExprConverterTseitinNoIscasTest {
 		return false;
 	}
 
-	@Test
-	public void testANDNOT() throws ParseException {
+	@Test void andnot() throws Exception {
 		Expression id = ExpressionParser.parseAsNewBooleanExpression("(not a) && b");
 		CNFExpression res = CNFExprConverterTseitinNoIscas.instance.getCNFExprConverter().getCNF(id);
-		assertTrue(res.getTerms().toString(),containsTerm(res,"~a"));
-		assertTrue(res.getTerms().toString(),containsTerm(res,"b"));
+		assertTrue(containsTerm(res,"~a"),res.getTerms().toString());
+		assertTrue(containsTerm(res,"b"),res.getTerms().toString());
 	}
 
-	
-	@Test
-	public void testNotNot() throws ParseException {
+
+	@Test void notNot() throws Exception {
 		Expression id = ExpressionParser.parseAsNewBooleanExpression("not(not a)");
 		CNFExpression res = CNFExprConverterTseitinNoIscas.instance.getCNFExprConverter().getCNF(id);
 		assertEquals("[a]", res.toString());
 	}
 
-	@Test
-	public void testOrOr() throws ParseException {
+	@Test void orOr() throws Exception {
 		Expression id = ExpressionParser.parseAsNewBooleanExpression("a or b or c");
 		// No extra var is necessary 
 		CNFExpression res = CNFExprConverterTseitinNoIscas.instance.getCNFExprConverter().getCNF(id);
 		assertEquals("[bca]", res.toString());
 	}
 
-	@Test
-	public void testOrOrInside() throws ParseException {
+	@Test void orOrInside() throws Exception {
 		// already as CNF
 		Expression id = ExpressionParser.parseAsNewBooleanExpression("a and (b or c or d)");		
 		CNFExpression res = CNFExprConverterTseitinNoIscas.instance.getCNFExprConverter().getCNF(id);
@@ -182,24 +170,22 @@ public class CNFExprConverterTseitinNoIscasTest {
 	}
 
 	// example taken from wikipedia
-	@Test
-	public void testExample() throws ParseException {
+	@Test void example() throws Exception {
 		Expression id = ExpressionParser.parseAsNewBooleanExpression("(a && b) || (c && d)");
 		CNFExpression res = CNFExprConverterTseitinNoIscas.instance.getCNFExprConverter().getCNF(id);
 		// 
-		assertTrue(res.getTerms().toString(),containsTerm(res,"a~phi1"));
-		assertTrue(res.getTerms().toString(),containsTerm(res,"b~phi1"));
-		assertTrue(res.getTerms().toString(),containsTerm(res,"c~phi0"));
-		assertTrue(res.getTerms().toString(),containsTerm(res,"d~phi0"));
+		assertTrue(containsTerm(res,"a~phi1"),res.getTerms().toString());
+		assertTrue(containsTerm(res,"b~phi1"),res.getTerms().toString());
+		assertTrue(containsTerm(res,"c~phi0"),res.getTerms().toString());
+		assertTrue(containsTerm(res,"d~phi0"),res.getTerms().toString());
 		//
-		assertTrue(res.getTerms().toString(),containsTerm(res,"phi0phi1"));
+		assertTrue(containsTerm(res,"phi0phi1"),res.getTerms().toString());
 		// these are included but I'm not sure they should be  
-		assertTrue(res.getTerms().toString(),containsTerm(res,"~c~dphi0"));
-		assertTrue(res.getTerms().toString(),containsTerm(res,"~a~bphi1"));
+		assertTrue(containsTerm(res,"~c~dphi0"),res.getTerms().toString());
+		assertTrue(containsTerm(res,"~a~bphi1"),res.getTerms().toString());
 	}
-	
-	@Test
-	public void testNoRipetitions() throws ParseException {
+
+	@Test void noRipetitions() throws Exception {
 		// ripedted itself
 		Expression id = ExpressionParser.parseAsNewBooleanExpression("a or a");
 		CNFExpression res = CNFExprConverterTseitinNoIscas.instance.getCNFExprConverter().getCNF(id);
@@ -209,9 +195,8 @@ public class CNFExprConverterTseitinNoIscasTest {
 		res = CNFExprConverterTseitinNoIscas.instance.getCNFExprConverter().getCNF(id);
 		assertEquals("[]", res.toString());
 	}
-	
-	@Test
-	public void testgetDisjoints() throws ParseException {
+
+	@Test void testgetDisjoints() throws Exception {
 		//
 		OrExpression id = (OrExpression) ExpressionParser.parseAsNewBooleanExpression("a or b or c");
 		CNFExprConverterTseitinNoIscas cnfExprConverterTseitinNoIscas = new CNFExprConverterTseitinNoIscas();
@@ -239,8 +224,7 @@ public class CNFExprConverterTseitinNoIscasTest {
 		assertContains(res,"a","not a");
 	}
 
-	@Test
-	public void testgetConjoints() throws ParseException {
+	@Test void testgetConjoints() throws Exception {
 		//
 		AndExpression id = (AndExpression) ExpressionParser.parseAsNewBooleanExpression("a and b and c");
 		CNFExprConverterTseitinNoIscas cnfExprConverterTseitinNoIscas = new CNFExprConverterTseitinNoIscas();

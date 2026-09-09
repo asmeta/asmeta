@@ -1,13 +1,12 @@
 package tgtlib.definitions.expression;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class NumericLiteralTest {
+class NumericLiteralTest {
 
-	@Test
-	public void testNumericLiteral() {
+	@Test void numericLiteral() {
 		NumericLiteral nl = new NumericLiteral(Integer.valueOf(3));
 		assertEquals("3", nl.getIdString());
 	}

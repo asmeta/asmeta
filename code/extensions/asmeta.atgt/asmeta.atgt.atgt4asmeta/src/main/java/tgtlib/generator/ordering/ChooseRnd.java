@@ -17,7 +17,7 @@ import tgtlib.definitions.TestPredicate;
 
 /**
  */
-public class ChooseRnd<T extends TestPredicate> extends NoCollectOrderWMonitoring<T> {
+public class ChooseRnd<T extends TestPredicate<?,?>> extends NoCollectOrderWMonitoring<T> {
 
 	/**
 	 * Constructor for ChooseRnd.

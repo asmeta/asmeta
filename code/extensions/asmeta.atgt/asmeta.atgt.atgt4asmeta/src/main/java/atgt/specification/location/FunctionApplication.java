@@ -3,8 +3,6 @@ package atgt.specification.location;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.junit.Assert;
-
 import tgtlib.definitions.expression.IdExpression;
 
 /**
@@ -18,8 +16,10 @@ public class FunctionApplication extends Function {
 	public FunctionApplication(Function var, List<IdExpression> args) {
 		super(var.getIdExpression(), var.getDomain(), var.getCodomain(), var.getValue());
 		assert args != null;
-		// every element is not null
-		args.stream().forEach(Assert::assertNotNull);
+		// check that every element in args is not null
+		for (IdExpression arg : args) {
+			assert arg != null : "Argument in function application " + this.toString() + " is null";
+		}
 		this.args = args;
 	}
 

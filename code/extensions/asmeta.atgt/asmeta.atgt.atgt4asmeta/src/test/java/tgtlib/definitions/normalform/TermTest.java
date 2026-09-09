@@ -1,14 +1,15 @@
 package tgtlib.definitions.normalform;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Arrays;
 
-import org.junit.Test;
-
 import tgtlib.definitions.expression.IdExpression;
+
+import org.junit.jupiter.api.Test;
 import tgtlib.definitions.expression.IdExpressionCreator;
 import tgtlib.definitions.expression.IdUNotIdExpression;
 import tgtlib.definitions.expression.NotExpression;
@@ -19,38 +20,37 @@ import tgtlib.definitions.normalform.dnf.DNFExpression;
 
 /**
  */
-public class TermTest {
+class TermTest {
 
 	static IdExpressionCreator icc = new IdExpressionCreator();
 
-	@Test
-	public void testParseRight() {
+	@Test void parseRight() {
 		assertEquals("abc", DNFExpression.parse("abc", icc).toString());
 		assertEquals("a~bc", DNFExpression.parse("a!bc", icc).toString());
 		assertEquals("~a~b~cd", DNFExpression.parse("!a!b!cd", icc).toString());
 	}
 
-	@Test(expected = RuntimeException.class)
-	public void testParseWrong1() {
-		DNFExpression.parse("a + b", icc);
+	@Test void parseWrong1() {
+		assertThrows(RuntimeException.class, () ->
+			DNFExpression.parse("a + b", icc));
 	}
 
-	@Test(expected = RuntimeException.class)
-	public void testParseWrong2() {
-		DNFExpression.parse("a2", icc);
+	@Test void parseWrong2() {
+		assertThrows(RuntimeException.class, () ->
+			DNFExpression.parse("a2", icc));
 	}
 
-	@Test(expected = java.lang.AssertionError.class)
-	public void testDuplicated() {
+	@Test void duplicated() {
 		IdUNotIdExpression a = icc.createIdExpression("a", null);
 		NotExpression nota = (NotExpression) UnaryExpression.mkUnExpr(Operator.NOT, a);
-		assertSame(a,nota.getOperand());
-		// adding in term t3 both a and not a
-		new Term(Arrays.asList(a,(IdUNotIdExpression)nota));
+		assertSame(a, nota.getOperand());
+		assertThrows(java.lang.AssertionError.class, () -> {
+			// adding in term t3 both a and not a
+			new Term(Arrays.asList(a, (IdUNotIdExpression) nota));
+		});
 	}
 
-	@Test
-	public void testMerge() {
+	@Test void merge() {
 		IdExpression a = icc.createIdExpression("a", null);
 		IdExpression b = icc.createIdExpression("b", null);
 		NotIDExpression nota = new NotIDExpression(a);

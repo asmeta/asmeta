@@ -1,22 +1,20 @@
 package extgt.coverage.fault.mutators.foms;
 
 import static extgt.coverage.fault.mutators.foms.MissingSubExpressionFault.MSF;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 
-import org.junit.Test;
-
 import extgt.coverage.fault.mutators.FaultTest;
+
+import org.junit.jupiter.api.Test;
 import tgtlib.definitions.expression.Expression;
 import tgtlib.definitions.expression.parser.ExpressionParser;
-import tgtlib.definitions.expression.parser.ParseException;
 import tgtlib.util.Pair;
 
-public class MissingSubExpressionFaultTest extends FaultTest {
+class MissingSubExpressionFaultTest extends FaultTest {
 
-	@Test
-	public void test1() throws ParseException {
+	@Test void test1() throws Exception {
 		Expression e = ExpressionParser.parseAsNewBooleanExpression("(a or b) and b");
 		List<Pair<Integer, Expression>> faults = MSF.getExpressionMutator().getMutations(e);
 		System.out.println(e + "->" + faults);

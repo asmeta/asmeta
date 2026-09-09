@@ -1,22 +1,21 @@
 package tgtlib.definitions.normalform.cnf;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static tgtlib.definitions.expression.BinaryExpression.mkBinExpr;
 import static tgtlib.definitions.expression.Operator.AND;
 import static tgtlib.definitions.expression.Operator.NOT;
 import static tgtlib.definitions.expression.Operator.OR;
 import static tgtlib.definitions.expression.UnaryExpression.mkUnExpr;
 
-import org.junit.Test;
-
 import tgtlib.definitions.expression.Expression;
+
+import org.junit.jupiter.api.Test;
 import tgtlib.definitions.expression.IdExpression;
 import tgtlib.definitions.expression.IdExpressionCreator;
 
-public class CNFExpressionToDimacsTest {
+class CNFExpressionToDimacsTest {
 
-	@Test
-	public void testToDimacs() {
+	@Test void toDimacs() {
 		IdExpressionCreator iecc = new IdExpressionCreator();
 		IdExpression x1 = iecc.createIdExpression("x1", null);
 		IdExpression x2 = iecc.createIdExpression("x2", null);

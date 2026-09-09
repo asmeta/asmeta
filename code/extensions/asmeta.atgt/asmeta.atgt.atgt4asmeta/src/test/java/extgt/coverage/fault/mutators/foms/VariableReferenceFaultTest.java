@@ -1,34 +1,31 @@
 package extgt.coverage.fault.mutators.foms;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Test;
-
 import tgtlib.definitions.expression.AndExpression;
+
+import org.junit.jupiter.api.Test;
 import tgtlib.definitions.expression.Expression;
 import tgtlib.definitions.expression.IdUNotIdExpression;
 import tgtlib.definitions.expression.parser.ExpressionParser;
-import tgtlib.definitions.expression.parser.ParseException;
 import tgtlib.util.Pair;
 import extgt.coverage.fault.mutators.ExpressionMutator;
 import extgt.coverage.fault.mutators.FaultTest;
 
-public class VariableReferenceFaultTest extends FaultTest {
+class VariableReferenceFaultTest extends FaultTest {
 	static VariableReferenceFault vrf = VariableReferenceFault.VRF;
-	
-	@Test
-	public void testForEmptyId() {
+
+	@Test void forEmptyId() {
 		// 
 		List<Pair<Integer, Expression>> mut = VariableReferenceFault.VRF.getExpressionMutator(A).getMutations(A);
 		assertTrue(mut.isEmpty());
 	}
 
-	@Test
-	public void testForIdExpression() {
+	@Test void forIdExpression() {
 		ExpressionMutator em = vrf.getExpressionMutator(Arrays.asList((IdUNotIdExpression)A,B));
 		List<Pair<Integer, Expression>> ris = em.getMutations(A);
 		assertEquals(1, ris.size());
@@ -36,16 +33,14 @@ public class VariableReferenceFaultTest extends FaultTest {
 		assertEquals("<1, B>", ris.get(0).toString());
 	}
 
-	@Test
-	public void testForId1Expression() {
+	@Test void forId1Expression() {
 		ExpressionMutator em = vrf.getExpressionMutator(Arrays.asList((IdUNotIdExpression)A));
 		List<Pair<Integer, Expression>> ris = em.getMutations(A);
 		//no mutation is possible
 		assertEquals(0, ris.size());
 	}
 
-	@Test
-	public void testForAndExpression() {
+	@Test void forAndExpression() {
 		ExpressionMutator em = vrf.getExpressionMutator(Arrays.asList((IdUNotIdExpression)A,B));
 		List<Pair<Integer, Expression>> ris = em.getMutations(aANDb);
 		assertEquals(2, ris.size());
@@ -61,8 +56,7 @@ public class VariableReferenceFaultTest extends FaultTest {
 		assertEquals("<3, A and C>", ris.get(3).toString());
 	}
 
-	@Test
-	public void testComplexExpression() {
+	@Test void complexExpression() {
 		ExpressionMutator em = vrf.getExpressionMutator(Arrays.asList((IdUNotIdExpression)A,B));
 		List<Pair<Integer, Expression>> ris = em.getMutations(not_AandB);
 		System.out.println(ris.toString());
@@ -82,8 +76,7 @@ public class VariableReferenceFaultTest extends FaultTest {
 		assertEquals("<7, (A and B) and (A or A)>", ris.get(3).toString());
 	}
 
-	@Test
-	public void testNotExpression() {
+	@Test void notExpression() {
 		vrf.getExpressionMutator(notA);
 		List<Pair<Integer, Expression>> ris = VariableReferenceFault.VRF.buildMutatorGetMutations(notA);
 		System.out.println(ris.toString());
@@ -96,8 +89,7 @@ public class VariableReferenceFaultTest extends FaultTest {
 		assertEquals("<3, not A and not A>", ris.get(1).toString());
 	}
 
-	@Test
-	public void testNotIdExpression() throws ParseException {
+	@Test void notIdExpression() throws Exception {
 		// 
 		Expression e = ExpressionParser.parseAsNewBooleanExpression("not a and b");
 		List<Pair<Integer, Expression>> ris = VariableReferenceFault.VRF.buildMutatorGetMutations(e);

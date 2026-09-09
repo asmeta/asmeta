@@ -12,14 +12,14 @@
 package extgt.coverage.fault.mutators.foms;
 
 import static extgt.coverage.fault.mutators.foms.OperatorReferenceFault.ORF;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
-import org.junit.Test;
-
 import tgtlib.definitions.expression.AndExpression;
+
+import org.junit.jupiter.api.Test;
 import tgtlib.definitions.expression.Expression;
 import tgtlib.definitions.expression.ExpressionsToTest;
 import tgtlib.definitions.expression.OrExpression;
@@ -31,14 +31,13 @@ import extgt.coverage.fault.mutators.FaultTest;
  * 
  * @author garganti
  */
-public class OperatorReferenceFaultTest extends FaultTest{
+class OperatorReferenceFaultTest extends FaultTest{
 
 	/**
 	 * Test of forIdExpression method, of class
 	 * atgt.specification.faultcoverage.OperatorReferenceFault.
 	 */
-	@org.junit.Test
-	public void testForIdExpression() {
+	@Test void forIdExpression() {
 		List<Pair<Integer, Expression>> ris = ORF.getExpressionMutator(A).getMutations(A);
 		assertTrue(ris.isEmpty());
 	}
@@ -47,8 +46,7 @@ public class OperatorReferenceFaultTest extends FaultTest{
 	 * Test of forAndExpression method, of class
 	 * atgt.specification.faultcoverage.OperatorReferenceFault.
 	 */
-	@org.junit.Test
-	public void testForAndExpression() {
+	@Test void forAndExpression() {
 		Expression e = ExpressionsToTest.aANDb;
 		List<Pair<Integer, Expression>> l1 = ORF.getExpressionMutator().getMutations(e);
 		assertEquals("[<1, A or B>]", l1.toString());
@@ -64,8 +62,7 @@ public class OperatorReferenceFaultTest extends FaultTest{
 	 * Test of forOrExpression method, of class
 	 * atgt.specification.faultcoverage.OperatorReferenceFault.
 	 */
-	@Test
-	public void testForOrExpression() {
+	@Test void forOrExpression() {
 		Expression e = ExpressionsToTest.aORb;
 		List<Pair<Integer, Expression>> l1 = ORF.getExpressionMutator().getMutations(e);
 		assertEquals("[<1, A and B>]", l1.toString());
@@ -81,8 +78,7 @@ public class OperatorReferenceFaultTest extends FaultTest{
 	 * Test of forNotExpression method, of class
 	 * atgt.specification.faultcoverage.OperatorReferenceFault.
 	 */
-	@Test
-	public void testForNotExpression() {
+	@Test void forNotExpression() {
 		Expression e = ExpressionsToTest.notA;
 		List<Pair<Integer, Expression>> l1 = ORF.getExpressionMutator().getMutations(e);
 		assertEquals("[]", l1.toString());

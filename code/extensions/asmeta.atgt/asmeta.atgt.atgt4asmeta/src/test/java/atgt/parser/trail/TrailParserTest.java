@@ -2,33 +2,32 @@ package atgt.parser.trail;
 
 import java.io.InputStream;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import atgt.coverage.AsmCoverageTree;
 import atgt.coverage.AsmTestSequence;
 import atgt.coverage.TestCondition;
 import atgt.specification.ASMSpecification;
 
-public class TrailParserTest {
+class TrailParserTest {
 
 	static ASMSpecification spec;
-	
-	@BeforeClass
-	public static void fillSpec(){
+
+	@BeforeAll
+	static void fillSpec(){
 		spec = new ASMSpecification();
 	}
-	
-	@Test
-	public void testTrailParserInputStream() throws ParseException {
+
+	@Test void trailParserInputStream() throws Exception {
 		readCex("frompan.txt");
 	}
-	@Test
-	public void testTrailParserInputStream1() throws ParseException {
+
+	@Test void trailParserInputStream1() throws Exception {
 		readCex("frompan1.txt");
 	}
-	@Test
-	public void testTrailParserInputStream2() throws ParseException {
+
+	@Test void trailParserInputStream2() throws Exception {
 		readCex("frompan2.txt");
 	}
 

@@ -10,10 +10,11 @@
  ******************************************************************************/
 package atgt.parser.asmeta;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,8 +23,7 @@ import java.util.Enumeration;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import atgt.parser.ExampleLoader;
 import atgt.parser.ParseSpecsAsmm;
@@ -220,8 +220,7 @@ public class AsmMLoaderTest {
 	/**
 	 * Test read asm mcc.
 	 */
-	@Test
-	public void testReadAsmMCC() {
+	@Test void readAsmMCC() {
 		ASMSpecification cc = cc_asmWithAxioms();
 		test(cc);
 		System.out.println(cc.getAxiom().iterator().next().toString());
@@ -233,22 +232,19 @@ public class AsmMLoaderTest {
 	/**
 	 * Test read asm msis.
 	 */
-	@Test
-	public void testReadAsmMSIS() {
+	@Test void readAsmMSIS() {
 		test(SISSpecification());
 	}
 
 	/**
 	 * Test read t334444.
 	 */
-	@Test
-	public void testReadT334444() {
+	@Test void readT334444() {
 		test(TP2_3_4_4());
 	}
 
-	
-	@Test
-	public void testCruiseControl() throws ParseException, IOException {
+
+	@Test void cruiseControl() throws Exception {
 		Logger.getLogger(AsmetaLLoader.class).setLevel(Level.ALL);
 		test(ExampleLoader.getSpec("cruiseControl.asm"));
 	}
@@ -256,8 +252,7 @@ public class AsmMLoaderTest {
 	/**
 	 * Test read asm mbbs.
 	 */
-	@Test
-	public void testReadAsmMBBS() {
+	@Test void readAsmMBBS() {
 		ASMSpecification bbs = BasicBillingSystem();
 		test(bbs);
 		assertTrue(bbs.getAxiom().size() > 0);
@@ -266,18 +261,16 @@ public class AsmMLoaderTest {
 	/**
 	 * Test read asm mbb s_ noax.
 	 */
-	@Test
-	public void testReadAsmMBBS_NOAX() {
+	@Test void readAsmMBBSNOAX() {
 		ASMSpecification bbs = BBSNoAxioms();
 		test(bbs);
-		assertTrue(bbs.getAxiom().size() == 0);
+		assertEquals(0, bbs.getAxiom().size());
 	}
 
 	/**
 	 * Test read si s_ wa.
 	 */
-	@Test
-	public void testReadSIS_WA() {
+	@Test void readSISWA() {
 		ASMSpecification sis2 = sis_asmAbstract();
 		assertNotNull(sis2);
 		test(sis2);
@@ -292,8 +285,7 @@ public class AsmMLoaderTest {
 	 * @throws ParseException
 	 * 
 	 */
-	@Test
-	public void testEnumConstReader() throws ParseException, IOException {
+	@Test void enumConstReader() throws Exception {
 		Logger.getLogger(AsmetaLLoader.class).setLevel(Level.ALL);
 		ASMSpecification s = ExampleLoader.getSpec("combinatorial/CCA1.asm");
 		// check that the type is correct
@@ -304,25 +296,23 @@ public class AsmMLoaderTest {
 		assertNotNull(axioms);
 		assertTrue(axioms.size() > 0);
 		Expression ax = axioms.iterator().next().getBody();
-		assertTrue(ax instanceof NotExpression);
+		assertInstanceOf(NotExpression.class, ax);
 		Expression andE = ((NotExpression) ax).getOperand();
-		assertTrue(andE instanceof AndExpression);
+		assertInstanceOf(AndExpression.class, andE);
 		Expression eqE = ((AndExpression) andE).getFirstOperand();
 		Expression enumExpr = ((EqualsExpression) eqE).getSecondOperand();
-		assertTrue("" + enumExpr.getClass() + " " + enumExpr, enumExpr instanceof EnumConst);
+		assertTrue(enumExpr instanceof EnumConst, "" + enumExpr.getClass() + " " + enumExpr);
 		EnumConst ec = (EnumConst) enumExpr;
 		assertNotNull(ec.getType());
 
 	}
 
-	@Test
-	public void testPlus() throws ParseException, IOException {
+	@Test void plus() throws Exception {
 		Logger.getLogger(AsmetaLLoader.class).setLevel(Level.ALL);
 		ASMSpecification s = ExampleLoader.getSpec("plus.asm");	
 	}
 
-	@Test
-	public void testPunto() throws ParseException, IOException {
+	@Test void punto() throws Exception {
 		Logger.getLogger(AsmetaLLoader.class).setLevel(Level.ALL);
 		ASMSpecification s = ExampleLoader.getSpec("punto2DintParamsForSpin.asm");
 		assertNotNull(s);		
@@ -337,10 +327,9 @@ public class AsmMLoaderTest {
 	 *             the parse exception
 	 * @throws IOException
 	 */
-	@Test
-	public void getTCAS() throws ParseException, IOException {
+	@Test void getTCAS() throws Exception {
 		ASMSpecification res = ExampleLoader.getSpec("combinatorial/TCAS.asm");
-		Assert.assertNotNull(res);
+		assertNotNull(res);
 	}
 
 	/**
@@ -379,10 +368,9 @@ public class AsmMLoaderTest {
 			return null;
 		}
 	}
-	
-	
-	@Test
-	public void testStereoacuity() {
+
+
+	@Test void stereoacuity() {
 		File stereoacuity = ParseSpecsAsmm.getFileSpec("stereoacuity/certifier3CHECK_6.asm");
 		ASMSpecification derS = AsmMLoaderTest.loadSpec(stereoacuity);
 		assertNotNull(derS);
@@ -395,10 +383,9 @@ public class AsmMLoaderTest {
 		//assertTrue(cc.getVariable("mode").isControlled());
 		//assertTrue(cc.getVariable("lever").isMonitored());
 	}
-	
-	
-	@Test
-	public void testMVM() {
+
+
+	@Test void mvm() {
 		 Logger.getLogger(AsmetaLLoader.class).setLevel(Level.ALL);
 		File stereoacuity = new File("D:\\AgHome\\progettidaSVNGIT\\asmeta\\mvm-asmeta\\asm_models\\VentilatoreASM_NewTime\\Ventilatore4SimpleTimeLtdYFun.asm");
 		ASMSpecification derS = AsmMLoaderTest.loadSpec(stereoacuity);

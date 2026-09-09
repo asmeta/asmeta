@@ -1,15 +1,15 @@
 package atgt.generator.testsuite;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import atgt.coverage.AsmCoverage;
 import atgt.coverage.AsmTestSequence;
@@ -21,34 +21,31 @@ import atgt.coverage.tpstatus.TestConditionState;
 import atgt.generator.SpinTSeqGenerator;
 import atgt.generator.SpinTSuiteGenForTC;
 import atgt.parser.ExampleLoader;
-import atgt.parser.asmgofer.ParseException;
 import atgt.preferences.ATGToolPreferences;
 import atgt.project.AsmProject;
 import atgt.specification.ASMSpecification;
-import tgtlib.generator.ModelCheckerExecutionException;
 import tgtlib.preferences.TGLibPreferences;
 import tgtlib.util.CmdExecutor;
 import tgtlib.util.SimpleCmdExecutor;
 
-public class TestSuiteGeneratorChooseTest {
-	
-	@BeforeClass
-	static public void setuplogger(){
+class TestSuiteGeneratorChooseTest {
+
+	@BeforeAll
+	static void setuplogger(){
 		Logger.getLogger(SpinTSuiteGenForTC.class).setLevel(Level.ALL);
 		Logger.getLogger(SpinTSeqGenerator.class).setLevel(Level.ALL);
 		Logger.getLogger(SimpleCmdExecutor.class).setLevel(Level.ALL);
 		Logger.getLogger(CmdExecutor.class).setLevel(Level.ALL);
 	}
 
-	@BeforeClass
-	static public void setPrefs(){
+	@BeforeAll
+	static void setPrefs(){
 		ATGToolPreferences.BITSTATE.setChecked(false);
 		TGLibPreferences.DELETE_TMP.setChecked(false);
 		ATGToolPreferences.USE_D_STEP.setChecked(false);
 	}
 
-	@Test
-	public void chooseTest() throws ParseException, IOException {
+	@Test void chooseTest() throws Exception {
 		ASMSpecification spec = ExampleLoader.getSpec("fuzzyCounter.asm");
 		// costruisci i tp
 		AsmCoverage ct = RootCoverage.ROOT.getTPTree(spec);
@@ -69,8 +66,7 @@ public class TestSuiteGeneratorChooseTest {
 		testcases.addAll(testsuite.getTests());
 	}
 
-	@Test
-	public void choose2Test() throws ModelCheckerExecutionException, ParseException, IOException {
+	@Test void choose2Test() throws Exception {
 		ASMSpecification spec = ExampleLoader.getSpec("fuzzyCounterChoose.asm");
 		AsmCoverage ct = RootCoverage.ROOT.getTPTree(spec);
 		// costruisco il progetto
@@ -82,14 +78,13 @@ public class TestSuiteGeneratorChooseTest {
 		for(TestCondition tc: ct.allTPs()) {
 			tc.setToVerify(true);
 			if (i++ > 10) break;
-			assertTrue(tc.getStatus() == TestConditionState.Queued);
+			assertSame(tc.getStatus(), TestConditionState.Queued);
 			AsmTestSuite testsuite = ct.accept(spt);
 			assertTrue(tc.getStatus() == TestConditionState.AssertViolated || tc.getStatus() == TestConditionState.UNFEASIBLE); 
 		}
 	}
 
-	@Test
-	public void choose3Test() throws ModelCheckerExecutionException, ParseException, IOException {
+	@Test void choose3Test() throws Exception {
 		ASMSpecification spec = ExampleLoader.getSpec("fuzzyCounter3ForSpin.asm");
 		AsmCoverage ct = RootCoverage.ROOT.getTPTree(spec);
 		// costruisco il progetto
@@ -100,7 +95,7 @@ public class TestSuiteGeneratorChooseTest {
 		for(TestCondition tc: ct.allTPs()) {
 			tc.setToVerify(true);
 			System.out.println(tc.getName() + " " + tc.getCondition());
-			assertTrue(tc.getStatus() == TestConditionState.Queued);
+			assertSame(tc.getStatus(), TestConditionState.Queued);
 			AsmTestSuite testsuite = ct.accept(spt);
 			assertTrue(tc.getStatus() == TestConditionState.AssertViolated || tc.getStatus() == TestConditionState.UNFEASIBLE); 
 			if (tc.getName().equals("BR_r_Main_TF1") && tc.getStatus() == TestConditionState.UNFEASIBLE) break;

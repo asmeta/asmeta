@@ -1,17 +1,17 @@
 package tgtlib.util;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Iterator;
 import java.util.Vector;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class IterableEnumerationTest {
+class IterableEnumerationTest {
 
-	@Test
-	public void testIterator() {
+	@Test void iterator() {
 		Vector<String> v = new Vector<String>();
 		v.add("a");
 		v.add("b");
@@ -22,18 +22,19 @@ public class IterableEnumerationTest {
 		assertFalse(it1.hasNext());
 	}
 
-	@Test(expected=RuntimeException.class)
-	public void testDoubleIteratorSameEnum() {
+	@Test void doubleIteratorSameEnum() {
 		Vector<String> v = new Vector<String>();
 		v.add("a");
 		v.add("b");
 		IterableEnumeration<String> en = new IterableEnumeration<String>(v.elements());
 		Iterator<String> it1 = en.iterator();
-		// get a second iterator
-		Iterator<String> it2 = en.iterator();		
+		assertThrows(RuntimeException.class, () -> {
+			// get a second iterator
+			Iterator<String> it2 = en.iterator();
+		});
 	}
-	@Test
-	public void testDoubleIterator2Enums() {
+
+	@Test void doubleIterator2Enums() {
 		Vector<String> v = new Vector<String>();
 		v.add("a");
 		v.add("b");

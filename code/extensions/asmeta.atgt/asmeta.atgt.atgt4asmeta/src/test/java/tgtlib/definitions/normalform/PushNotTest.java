@@ -1,23 +1,21 @@
 package tgtlib.definitions.normalform;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertSame;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 import java.util.Arrays;
 import java.util.Collection;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
-
 import tgtlib.definitions.expression.Expression;
+
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+
 import tgtlib.definitions.expression.parser.ExpressionParser;
 import tgtlib.definitions.expression.parser.ParseException;
 
 /**
  */
-@RunWith(Parameterized.class)
 public class PushNotTest {
 
 	String start;
@@ -30,7 +28,7 @@ public class PushNotTest {
 	 * @param theSame boolean
 	 * @param notStart String
 	 */
-	public PushNotTest(String start, boolean theSame, String notStart) {
+	public void initPushNotTest(String start, boolean theSame, String notStart) {
 		this.start = start;
 		this.same = theSame;
 		this.notStart = notStart;
@@ -40,8 +38,7 @@ public class PushNotTest {
 	 * Method regExValues.
 	 * @return Collection
 	 */
-	@Parameters
-	 public static Collection regExValues() {
+	public static Collection regExValues() {
 	  return Arrays.asList(new Object[][] {
 	   {"not (a && b)",false, "not a or not b"},
 	   {"not (a || b)",false, "not a and not b"},
@@ -62,8 +59,9 @@ public class PushNotTest {
 	 * Method testForExpression.
 	 * @throws ParseException
 	 */
-	@Test
-	public void testForExpression() throws ParseException {
+	@MethodSource("regExValues") @ParameterizedTest
+	public void testForExpression(String start, boolean theSame, String notStart) throws Exception {
+		initPushNotTest(start, theSame, notStart);
 		Expression expr = ExpressionParser.parseAsNewBooleanExpression(start);
 		Expression result = expr.accept(PushNot.pushNot);
 		System.out.println(expr + "->" + result);

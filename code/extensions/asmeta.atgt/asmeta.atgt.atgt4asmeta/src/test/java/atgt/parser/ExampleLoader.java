@@ -10,6 +10,10 @@
  ******************************************************************************/
 package atgt.parser;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -20,8 +24,7 @@ import java.util.Map;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.junit.Assert;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.BeforeAll;
 
 import atgt.parser.asmeta.AsmetaLLoader;
 import atgt.parser.asmgofer.AsmGoferParser;
@@ -37,10 +40,10 @@ public class ExampleLoader {
 	 * Logger for this class
 	 */
 	private static final Logger logger = Logger.getLogger(ExampleLoader.class);
-	
-	
-	@BeforeClass
-	public static void activateLogger(){
+
+
+	@BeforeAll
+	static void activateLogger(){
 		logger.setLevel(Level.DEBUG);
 	}
 
@@ -91,12 +94,12 @@ public class ExampleLoader {
 			// if it is not contained in the example dir try the direct name
 			if (specFile ==null)
 				specFile = new File(spec);
-			Assert.assertTrue(spec + " not found nor in examples dir, nor in the current dir",specFile.exists());
+			assertTrue(specFile.exists(),spec + " not found nor in examples dir, nor in the current dir");
 			if (spec.endsWith(".gs"))
 				return loadAsmGoferSpec(specFile);
 			if (spec.endsWith(".asm"))
 				return loadAsmetalSpec(specFile);
-			Assert.fail("not gs and not asm");
+			fail("not gs and not asm");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -165,13 +168,13 @@ public class ExampleLoader {
 		URL thisClassDir = ExampleLoader.class.getResource(".");
 		// thisClassDir can be null (for example if a Jar)
 		if (thisClassDir!=null){
-			Assert.assertNotNull(thisClassDir);
+			assertNotNull(thisClassDir);
 			// FROM IDE (from another project too
 			logger.debug("project dir = " + thisClassDir.getPath());
 			String projectDirS = thisClassDir.getPath() + ".."+File.separator + ".."+File.separator + "..";
 			File projectDir = new File(projectDirS);
 			logger.debug("project dir = " + projectDir.getCanonicalPath());
-			Assert.assertTrue(projectDir.exists());
+			assertTrue(projectDir.exists());
 			baseDir = projectDir.getAbsolutePath();
 		} else { 
 			// take the current dir

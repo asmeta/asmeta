@@ -10,13 +10,13 @@
  ******************************************************************************/
 package atgt.translator;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.StringReader;
 
-import org.junit.Test;
-
 import atgt.parser.asmgofer.AsmGoferParser;
+
+import org.junit.jupiter.api.Test;
 import atgt.parser.asmgofer.ParseException;
 import tgtlib.definitions.expression.Expression;
 import tgtlib.definitions.expression.ExpressionTranslator;
@@ -25,7 +25,7 @@ import tgtlib.definitions.expression.ExpressionTranslator;
 /**
  * The Class ExpressionToSALVisitorTest.
  */
-public class ExpressionToSALVisitorTest {
+class ExpressionToSALVisitorTest {
 
 	/**
 	 * Test for and expression.
@@ -33,8 +33,7 @@ public class ExpressionToSALVisitorTest {
 	 * @throws ParseException
 	 *             the parse exception
 	 */
-	@Test
-	public void testForAndExpression() throws ParseException {
+	@Test void forAndExpression() throws Exception {
 
 		StringReader sr = new StringReader(
 				"((cruiseControl == Off) && (engRun == Override))");
@@ -46,8 +45,7 @@ public class ExpressionToSALVisitorTest {
 
 	}
 
-	@Test
-	public void testForNotExpression() throws ParseException {
+	@Test void forNotExpression() throws Exception {
 
 		StringReader sr = new StringReader(
 				"not (a && b)");

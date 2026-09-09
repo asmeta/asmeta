@@ -7,6 +7,9 @@ import java.util.zip.ZipException;
 
 import tgtlib.coverage.CoverageBuilder;
 import tgtlib.coverage.CoverageTree;
+import tgtlib.definitions.NamedTerm;
+import tgtlib.definitions.TestPredicate;
+import tgtlib.definitions.TestSequence;
 import tgtlib.specification.ParseException;
 import tgtlib.specification.Specification;
 
@@ -18,10 +21,12 @@ import tgtlib.specification.Specification;
  * @param <COV>
  */
 
-//public abstract class TGTool<S extends Specification, PR extends TestPredicate<?,?>,
-                             //COV extends CoverageTree<PR>,P extends Project<S, PR, ?, COV>> {
+public abstract class TGTool<S extends Specification, 
+							 PR extends TestPredicate<? extends TS,?>, 
+							 TS extends TestSequence<? extends PR>,
+                             COV extends CoverageTree<PR>,P extends Project<S, PR, TS, COV>> {
 
-public abstract class TGTool<S extends Specification, COV extends CoverageTree<?>, P extends Project<S,?,?,COV>> {
+//public abstract class TGTool<S extends Specification, COV extends CoverageTree<? extends NamedTerm>, P extends Project<S,?,?,COV>> {
 
 	ProjectFactory<P> projectFactory;
 

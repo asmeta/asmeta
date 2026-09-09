@@ -1,50 +1,50 @@
 package tgtlib.definitions.expression;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  */
-public class IdExpressionCreatorTest {
+class IdExpressionCreatorTest {
 
-	@Test
-	public void testCreateNewIdExpression() {
+	@Test void createNewIdExpression() {
 		IdExpression A1 = IdExpressionCreator.createNewIdExpression("a");
 		IdExpression A2 = IdExpressionCreator.createNewIdExpression("a");
 		assertNotSame(A1,A2);
 	}
 
-	@Test
-	public void testCreateIdExpression() {
+	@Test void createIdExpression() {
 		IdExpressionCreator icc = new IdExpressionCreator();
 		IdExpression A1 = icc.createIdExpression("a", null);
 		IdExpression A2 = icc.createIdExpression("a", null);
 		assertSame(A1,A2);
 	}
-	@Test(expected=AssertionError.class)
-	public void testCreateBoolExpression(){
+
+	@Test void createBoolExpression() {
 		IdExpressionCreator icc = new IdExpressionCreator();
-		IdExpression A1 = icc.createIdExpression("true", null);
+		assertThrows(AssertionError.class, () -> {
+			IdExpression A1 = icc.createIdExpression("true", null);
+		});
 	}
 
 
-	@Test
-	public void testCreateNumIntExpression() {
+	@Test void createNumIntExpression() {
 		IdExpressionCreator icc = new IdExpressionCreator();
 		IdExpression A1 = icc.createIdExpression("3", null);
-		assertTrue(A1 instanceof NumericLiteral);		
+		assertInstanceOf(NumericLiteral.class, A1);		
 		assertEquals("3",A1.getIdString());
 	}
 
-	@Test
-	public void testCreateNumFloatExpression() {
+	@Test void createNumFloatExpression() {
 		IdExpressionCreator icc = new IdExpressionCreator();
 		IdExpression A1 = icc.createIdExpression("3.0", null);
-		assertTrue(A1.getClass().getName(), A1 instanceof NumericLiteral);		
+		assertTrue(A1 instanceof NumericLiteral, A1.getClass().getName());		
 		assertEquals("3.0",A1.getIdString());
 	}
 

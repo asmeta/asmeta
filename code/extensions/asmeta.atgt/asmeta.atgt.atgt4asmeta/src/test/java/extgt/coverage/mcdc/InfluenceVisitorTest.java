@@ -1,23 +1,21 @@
 package extgt.coverage.mcdc;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.List;
 
-import org.junit.Test;
-
 import tgtlib.definitions.NamedTerm;
+
+import org.junit.jupiter.api.Test;
 import tgtlib.definitions.expression.Expression;
 import tgtlib.definitions.expression.IdExpression;
 import tgtlib.definitions.expression.IdExpressionCreator;
 import tgtlib.definitions.expression.parser.ExpressionParser;
-import tgtlib.definitions.expression.parser.ParseException;
 import tgtlib.util.Pair;
 
-public class InfluenceVisitorTest {
+class InfluenceVisitorTest {
 
-	@Test
-	public void testForIdExpression() {
+	@Test void forIdExpression() {
 		IdExpressionCreator idcc = new IdExpressionCreator();
 		IdExpression id = idcc.createIdExpression("a", null);
 		List<Pair<IdExpression, Pair<NamedTerm, NamedTerm>>> result = id.accept(BoolDerivativeVisitor.instance);
@@ -25,16 +23,14 @@ public class InfluenceVisitorTest {
 		assertEquals(1,result.size());
 	}
 
-	@Test
-	public void testForNotExpression1() throws ParseException {
+	@Test void forNotExpression1() throws Exception {
 		Expression e = ExpressionParser.parseAsNewBooleanExpression("not a");
 		List<Pair<IdExpression, Pair<NamedTerm, NamedTerm>>> result = e.accept(BoolDerivativeVisitor.instance);
 		assertEquals("<a,<T,not true>,<F,not false>>",toString(result.get(0)));
 		assertEquals(1,result.size());
 	}
 
-	@Test
-	public void testForNotExpression2() throws ParseException {
+	@Test void forNotExpression2() throws Exception {
 		Expression e = ExpressionParser.parseAsNewBooleanExpression("not (a and b)");
 		List<Pair<IdExpression, Pair<NamedTerm, NamedTerm>>> result = e.accept(BoolDerivativeVisitor.instance);
 		assertEquals("<a,<T,not(true and b)>,<F,not(false and b)>>",toString(result.get(0)));
@@ -52,8 +48,7 @@ public class InfluenceVisitorTest {
 	}
 
 
-	@Test
-	public void testForAndExpression() throws ParseException {
+	@Test void forAndExpression() throws Exception {
 		Expression e = ExpressionParser.parseAsNewBooleanExpression("a and b");
 		List<Pair<IdExpression, Pair<NamedTerm, NamedTerm>>> result = e.accept(BoolDerivativeVisitor.instance);
 		//assertEquals("[<1T, 1F>, <2T, 2F>]",result.toString());
@@ -71,8 +66,7 @@ public class InfluenceVisitorTest {
 		//assertEquals("a and false", resultI.next().getCondition().toString());		
 	}
 
-	@Test
-	public void testForXorExpression() throws ParseException {
+	@Test void forXorExpression() throws Exception {
 		Expression e = ExpressionParser.parseAsNewBooleanExpression("a xor b");
 		List<Pair<IdExpression, Pair<NamedTerm, NamedTerm>>> result = e.accept(BoolDerivativeVisitor.instance);
 		//assertEquals("[<1T, 1F>, <2T, 2F>]",result.toString());
@@ -81,18 +75,16 @@ public class InfluenceVisitorTest {
 		assertEquals(2,result.size());
 	}
 
-	
-	
-	@Test
-	public void testForOrExpression() throws ParseException {
+
+	@Test void forOrExpression() throws Exception {
 		Expression e = ExpressionParser.parseAsNewBooleanExpression("a or b");
 		List<Pair<IdExpression, Pair<NamedTerm, NamedTerm>>> result = e.accept(BoolDerivativeVisitor.instance);
 		assertEquals("<a,<T,true or b>,<F,false or b>>",toString(result.get(0)));
 		assertEquals("<b,<T,a or true>,<F,a or false>>",toString(result.get(1)));
 		assertEquals(2,result.size());
 	}
-	@Test
-	public void testForOrExpression2() throws ParseException {
+
+	@Test void forOrExpression2() throws Exception {
 		Expression e = ExpressionParser.parseAsNewBooleanExpression("a or b or c");
 		List<Pair<IdExpression, Pair<NamedTerm, NamedTerm>>> result = e.accept(BoolDerivativeVisitor.instance);
 		assertEquals("<a,<T,(true or b) or c>,<F,(false or b) or c>>",toString(result.get(0)));

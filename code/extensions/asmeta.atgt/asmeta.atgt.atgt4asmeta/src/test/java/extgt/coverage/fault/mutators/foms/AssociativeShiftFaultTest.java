@@ -12,14 +12,14 @@
 package extgt.coverage.fault.mutators.foms;
 
 import static extgt.coverage.fault.mutators.foms.AssociativeShiftFault.ASF;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 
-import org.junit.Test;
-
 import tgtlib.definitions.expression.AndExpression;
+
+import org.junit.jupiter.api.Test;
 import tgtlib.definitions.expression.Expression;
 import tgtlib.definitions.expression.ExpressionsToTest;
 import tgtlib.definitions.expression.NotExpression;
@@ -34,14 +34,13 @@ import extgt.coverage.fault.mutators.FaultTest;
  * 
  * @author garganti
  */
-public class AssociativeShiftFaultTest extends FaultTest {
+class AssociativeShiftFaultTest extends FaultTest {
 
 	/**
 	 * Test of forAndExpression method, of class
 	 * atgt.specification.faultcoverage.AssociativeShiftFault.
 	 */
-	@Test
-	public void testForAndorExpression() {
+	@Test void forAndorExpression() {
 		AndExpression a1 = new AndExpression(aANDb, aORb);
 		List<Pair<Integer, Expression>> asf1 =  ASF.getExpressionMutator(a1).getMutations(a1);
 		System.out.println(a1 + "->" + asf1);
@@ -49,8 +48,7 @@ public class AssociativeShiftFaultTest extends FaultTest {
 		assertEquals("<1, ((A and B) and A) or B>",asf1.get(0).toString());
 	}
 
-	@Test
-	public void testForNotAndorExpression() {
+	@Test void forNotAndorExpression() {
 		Expression a1 = NotExpression.createNotExpression(new AndExpression(aANDb, aORb));
 		List<Pair<Integer, Expression>> asf1 =  ASF.getExpressionMutator(a1).getMutations(a1);
 		System.out.println(a1 + "->" + asf1);
@@ -58,9 +56,8 @@ public class AssociativeShiftFaultTest extends FaultTest {
 		assertEquals("<2, not(((A and B) and A) or B)>",asf1.get(0).toString());
 	}
 
-	
-	@Test
-	public void testFororAndExpression() {
+
+	@Test void fororAndExpression() {
 		Expression a1 = new OrExpression(ExpressionsToTest.aANDb, ExpressionsToTest.C);
 		List<Pair<Integer, Expression>> asf1 =  ASF.getExpressionMutator(a1).getMutations(a1);
 		System.out.println(a1 + "->" + asf1);
@@ -68,18 +65,17 @@ public class AssociativeShiftFaultTest extends FaultTest {
 		assertEquals("<1, A and (B or C)>",asf1.get(0).toString());
 	}
 
-	@Test
-	public void testForAndExpression() {
+	@Test void forAndExpression() {
 		Expression e = ExpressionsToTest.aANDb;
 		List<Pair<Integer, Expression>> asf1 = ASF.getExpressionMutator(e).getMutations(e);		
 		System.out.println(ExpressionsToTest.aANDb + "->" + asf1);
 		assertTrue(asf1.isEmpty());
 	}
+
 	/** For
-	example, x1 \/ not x2 /\ (x3 /\ x4) is an ASF of (x1 \/ not x2) /\ (x3 /\ x4).
-	*/
-	@Test
-	public void testChen() {
+	 	example, x1 \/ not x2 /\ (x3 /\ x4) is an ASF of (x1 \/ not x2) /\ (x3 /\ x4).
+	 */
+	@Test void chen() {
 		List<Pair<Integer, Expression>> asf1 =  ASF.getExpressionMutator(chenExpr).getMutations(chenExpr);		
 		System.out.println(asf1);
 		assertEquals(1,asf1.size());
@@ -89,9 +85,8 @@ public class AssociativeShiftFaultTest extends FaultTest {
 	/** For an expression inside another one
 	 * @throws ParseException 
 	 * @throws  
-	*/
-	@Test
-	public void testChen2() throws ParseException {
+	 */
+	@Test void chen2() throws Exception {
 		Expression e = ExpressionParser.parseAsNewBooleanExpression("not (a or (b and c))");
 		List<Pair<Integer, Expression>> asf1 =  ASF.getExpressionMutator().getMutations(e);		
 		System.out.println(asf1);
@@ -100,8 +95,7 @@ public class AssociativeShiftFaultTest extends FaultTest {
 	}
 
 	// two expressions
-	@Test
-	public void testDeep2() throws ParseException {
+	@Test void deep2() throws Exception {
 		Expression e = ExpressionParser.parseAsNewBooleanExpression("(a or (b and (c or d)))");
 		List<Pair<Integer, Expression>> asf1 =  ASF.getExpressionMutator().getMutations(e);		
 		System.out.println(asf1);
@@ -111,8 +105,7 @@ public class AssociativeShiftFaultTest extends FaultTest {
 	}
 
 	//a specification that is not changed 
-	@Test
-	public void testNoFault() {
+	@Test void noFault() {
 		List<Pair<Integer, Expression>> asf1 =  ASF.getExpressionMutator().getMutations(aANDb);		
 		System.out.println(asf1);
 		assertEquals(0,asf1.size());

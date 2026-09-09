@@ -1,15 +1,16 @@
 package tgtlib.definitions.expression.visitors;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
 
 import tgtlib.definitions.expression.Expression;
+
+import org.junit.jupiter.api.Test;
 import tgtlib.definitions.expression.parser.ExpressionParser;
 import tgtlib.definitions.expression.parser.ParseException;
 import tgtlib.definitions.expression.type.EnumConstCreator;
 
-public class ExpressionRenamerTest {
+class ExpressionRenamerTest {
 
 	private void test(String original, String prefix, String expOutput) throws ParseException {
 		ExpressionRenamer renamer = new ExpressionRenamer(prefix);
@@ -18,18 +19,15 @@ public class ExpressionRenamerTest {
 		assertEquals(expOutput, output);
 	}
 
-	@Test
-	public void test1() throws ParseException {
+	@Test void test1() throws Exception {
 		test("a and b", "PRE", "PREa and PREb");
 	}
 
-	@Test
-	public void test2() throws ParseException {
+	@Test void test2() throws Exception {
 		test("a and b or c", "PRE", "(PREa and PREb) or PREc");
 	}
 
-	@Test
-	public void test3() throws ParseException {
+	@Test void test3() throws Exception {
 		test("a implies c", "PRE", "PREa implies PREc");
 	}
 }

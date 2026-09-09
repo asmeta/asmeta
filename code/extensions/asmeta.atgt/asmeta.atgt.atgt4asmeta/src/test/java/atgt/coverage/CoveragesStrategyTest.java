@@ -10,14 +10,14 @@
  ******************************************************************************/
 package atgt.coverage;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.FileNotFoundException;
 import java.util.Iterator;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import atgt.parser.asmgofer.ParseException;
 import atgt.specification.ASMSpecification;
@@ -27,7 +27,7 @@ import atgt.specification.ASMSpecification;
  * 
  * @author garganti
  */
-public class CoveragesStrategyTest {
+class CoveragesStrategyTest {
 
 	/**
 	 * Sets the up.
@@ -36,8 +36,7 @@ public class CoveragesStrategyTest {
 	 * @throws Exception
 	 *             the exception
 	 */
-	@Before
-	public void setUp() throws Exception {
+	@BeforeEach void setUp() throws Exception {
 	}
 
 	/**
@@ -49,9 +48,7 @@ public class CoveragesStrategyTest {
 	 * @throws ParseException
 	 *             the parse exception
 	 */
-	@Test
-	public void testGenerateCoverages() throws FileNotFoundException,
-			ParseException {
+	@Test void generateCoverages() throws Exception {
 		ASMSpecification SP = atgt.parser.asmgofer.ASMParserTest.getCruiseControlNoAxiom();
 		assertEquals("CruiseControl", SP.getName());
 		// check tp tree
