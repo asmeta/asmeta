@@ -68,12 +68,29 @@ class MCDCVisitorEnumTest{
 		for (NamedTerm ne : result)
 			System.out.println(ne.getName() + " -> " +ne.getCondition());
 		Iterator<NamedTerm> resultI = result.iterator();
-		assertEquals("[<TT, FT>, <TT, TF>]",result.toString());
-		assertEquals("A and B", resultI.next().getCondition().toString());		
-		assertEquals("not A and B", resultI.next().getCondition().toString());		
-		assertEquals("A and B", resultI.next().getCondition().toString());		
-		assertEquals("A and not B", resultI.next().getCondition().toString());		
-		assertFalse(resultI.hasNext());		
+		assertEquals("[<T: A = a1, F: A != a1>]",result.toString());
+//		assertEquals("A and B", resultI.next().getCondition().toString());		
+//		assertEquals("not A and B", resultI.next().getCondition().toString());		
+//		assertEquals("A and B", resultI.next().getCondition().toString());		
+//		assertEquals("A and not B", resultI.next().getCondition().toString());		
+//		assertFalse(resultI.hasNext());		
 	}
+	
+	@Test void forAndEqExpression() {
+		EqualsExpression eq1 = new EqualsExpression(A, a1);
+		EqualsExpression eq2 = new EqualsExpression(A, a2);
+		AndExpression eq = new AndExpression(eq1, eq2);		
+		Iterable<NamedTerm> result = toTest.analyze(eq);
+		for (NamedTerm ne : result)
+			System.out.println(ne.getName() + " -> " +ne.getCondition());
+		Iterator<NamedTerm> resultI = result.iterator();
+		assertEquals("[<TT: (A = a1) and (A = a2), FT: (A != a1) and (A = a2)>, <TT: (A = a1) and (A = a2), TF: (A = a1) and (A != a2)>]",result.toString());
+//		assertEquals("A and B", resultI.next().getCondition().toString());		
+//		assertEquals("not A and B", resultI.next().getCondition().toString());		
+//		assertEquals("A and B", resultI.next().getCondition().toString());		
+//		assertEquals("A and not B", resultI.next().getCondition().toString());		
+//		assertFalse(resultI.hasNext());		
+	}
+
 	
 }

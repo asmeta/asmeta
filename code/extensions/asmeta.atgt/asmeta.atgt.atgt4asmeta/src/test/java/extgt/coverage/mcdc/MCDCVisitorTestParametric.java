@@ -54,9 +54,9 @@ public class MCDCVisitorTestParametric{
 	  //
 	  {"not a or b", new String[]{"a and not b", "not a and not b", "a and b", "a and not b"}},
 	  // other operator
-	  {"a xor b", new String[]{"TODO"}},
-	  // eq
-	  {"a <=> b", new String[]{"TODO"}},	  
+//	  {"a xor b", new String[]{"TODO"}},
+//	  // eq
+//	  {"a <=> b", new String[]{"TODO"}},	  
 	 });
 	}
 

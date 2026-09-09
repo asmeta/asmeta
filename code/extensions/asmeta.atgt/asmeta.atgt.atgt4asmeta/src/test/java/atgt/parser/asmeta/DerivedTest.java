@@ -7,6 +7,7 @@ import java.util.Enumeration;
 
 import atgt.parser.ParseSpecsAsmm;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import atgt.specification.ASMSpecification;
 import atgt.specification.location.Variable;
@@ -17,6 +18,7 @@ class DerivedTest{
 	/**
 	 * Test read asm mcc.
 	 */
+	@Disabled // the file "derived.asm" does not exists
 	@Test void derived() {
 		File derivedF = ParseSpecsAsmm.getFileSpec("derived.asm");
 		ASMSpecification derS = AsmMLoaderTest.loadSpec(derivedF);

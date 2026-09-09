@@ -15,12 +15,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.File;
 import java.io.IOException;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
  * The Class ParseSpecsAsmm.
  */
-@Ignore // these files do not exists in this repo
+@Disabled // these files do not exists in this repo
 public class ParseSpecsAsmm {
 
 	// rendi il path di ricerca delle ASM in modo che si possa testare anche da

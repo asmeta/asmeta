@@ -52,8 +52,8 @@ class StdPairwiseCovBuildTest {
 
 	@Test void computeTP2for2Enum() {
 		MonitoredData md = new MonitoredData();
-		md.add(new TypedInitExpression(NWiseCovBuilderTest.ecc.createIdExpression("a", null),NWiseCovBuilderTest.A ,null ));
-		md.add(new TypedInitExpression(NWiseCovBuilderTest.ecc.createIdExpression("b", null),NWiseCovBuilderTest.B ,null ));
+		md.add(new TypedInitExpression(NWiseCovBuilderTest.ecc.createIdExpression("a1", NWiseCovBuilderTest.A),NWiseCovBuilderTest.A ,null ));
+		md.add(new TypedInitExpression(NWiseCovBuilderTest.ecc.createIdExpression("b1", NWiseCovBuilderTest.B),NWiseCovBuilderTest.B ,null ));
 		//md.add(o)
 		CoverageTree<TestPredicate4Test> ct = std.computeTPs(md);
 		assertEquals(4, ct.getChildCount());
@@ -61,8 +61,8 @@ class StdPairwiseCovBuildTest {
 
 	@Test void computeTP2for2Bool() {
 		MonitoredData md = new MonitoredData();
-		md.add(new TypedInitExpression(NWiseCovBuilderTest.ecc.createIdExpression("a", null),BoolType.BOOLTYPE ,null ));
-		md.add(new TypedInitExpression(NWiseCovBuilderTest.ecc.createIdExpression("b", null),BoolType.BOOLTYPE ,null ));
+		md.add(new TypedInitExpression(NWiseCovBuilderTest.ecc.createIdExpression("a", BoolType.BOOLTYPE),BoolType.BOOLTYPE ,null ));
+		md.add(new TypedInitExpression(NWiseCovBuilderTest.ecc.createIdExpression("b", BoolType.BOOLTYPE),BoolType.BOOLTYPE ,null ));
 		//md.add(o)
 		CoverageTree<TestPredicate4Test> ct = std.computeTPs(md);
 		assertEquals(4, ct.getChildCount());

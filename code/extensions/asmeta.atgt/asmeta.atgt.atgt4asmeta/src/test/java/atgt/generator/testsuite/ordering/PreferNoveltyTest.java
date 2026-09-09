@@ -8,6 +8,7 @@ import java.util.List;
 
 import atgt.combinatorial.CombinatorialTestCondition;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import atgt.combinatorial.PairEqTestCondition;
 import atgt.coverage.AsmTestCondition;
@@ -20,6 +21,7 @@ import atgt.specification.location.Variable;
 import tgtlib.definitions.expression.type.BoolType;
 import tgtlib.util.IterableEnumeration;
 
+@Disabled //atgt.parser.ParseSpecsAsmm.CC_ASM does not exists
 public class PreferNoveltyTest {
 
 	@Test void maxUsage() {

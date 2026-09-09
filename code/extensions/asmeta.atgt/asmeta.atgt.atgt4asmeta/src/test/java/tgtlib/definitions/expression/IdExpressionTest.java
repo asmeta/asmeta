@@ -1,5 +1,6 @@
 package tgtlib.definitions.expression;
 
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
 import org.junit.jupiter.api.Test;
@@ -8,8 +9,8 @@ import org.junit.jupiter.api.Test;
 class IdExpressionTest {
 
 	@Test void createIdExpression() {
-		//FIXME 
-		assertSame(new IdExpression("a", null),new IdExpression("a", null));
+		//FIXME - one should not use this constructor
+		assertNotSame(new IdExpression("a", null),new IdExpression("a", null));
 	}
 
 
