@@ -23,7 +23,7 @@ public class CollectedTestConditionTest {
 		assertTrue(ctc.isAssertViolated());
 		// se a questo punto faccio il covered
 		// lo stato non cambia
-		AsmTestSequence testCase = new AsmTestSequence(null);
+		AsmTestSequence testCase = new AsmTestSequence(ctc);
 		ctc.bindTestSeqTestPred(testCase);
 		assertEquals(TestConditionState.AssertViolated, ctc.getStatus());
 		// e el'informazione non viene registrata !!!

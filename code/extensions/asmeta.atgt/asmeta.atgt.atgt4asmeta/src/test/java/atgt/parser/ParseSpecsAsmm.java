@@ -15,11 +15,13 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.IOException;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
  * The Class ParseSpecsAsmm.
  */
+@Ignore // these files do not exists in this repo
 public class ParseSpecsAsmm {
 
 	// rendi il path di ricerca delle ASM in modo che si possa testare anche da
