@@ -97,6 +97,11 @@ import java.io.IOException;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.jface.window.Window;
 import org.asmeta.visualdesigner.persistence.DiagramModelJson;
+import org.asmeta.visualdesigner.model.StartNode;
+import org.asmeta.visualdesigner.export.AsmExportException;
+import org.asmeta.visualdesigner.export.AsmModelExporter;
+import org.asmeta.visualdesigner.validation.AsmParserValidator;
+import org.asmeta.visualdesigner.validation.AsmValidationException;
 
 
 
@@ -133,6 +138,14 @@ public class GefDesignEditor extends EditorPart {
     private Text nameText;
     private Label typeValueLabel;
 
+    private Label initializationLabel;
+    private Text initializationText;
+
+    private Label openInitializationLabel;
+    private Button openInitializationButton;
+
+    private StartNode selectedStartNode;
+    
     private Label conditionLabel;
     private Text conditionText;
 
@@ -153,6 +166,9 @@ public class GefDesignEditor extends EditorPart {
     
     private Label forallLabel;
     private Text forallText;
+    
+    private Label letExpressionLabel;
+    private Text letExpressionText;
 
     private StyledText asmetaCodeText;
 
@@ -165,6 +181,8 @@ public class GefDesignEditor extends EditorPart {
     private CTabFolder diagramTabs;
     
     private boolean modelDirty;
+    
+    
   
     
 
@@ -247,6 +265,17 @@ public class GefDesignEditor extends EditorPart {
             }
         });
         
+        Button checkParserButton = new Button(palettePanel, SWT.PUSH);
+        checkParserButton.setText("Check parser");
+        checkParserButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+        checkParserButton.addSelectionListener(new SelectionAdapter() {
+                    @Override
+                    public void widgetSelected(SelectionEvent event) {
+                        checkParser();
+                    }
+                }
+        );
+        
         
         rightSash = new SashForm(sash, SWT.VERTICAL);
 
@@ -283,7 +312,55 @@ public class GefDesignEditor extends EditorPart {
     }
     
     
-    
+    private void checkParser() {
+        AsmModelExporter exporter = new AsmModelExporter();
+        try {
+            String asmName = "ParserCheck";
+            String asmCode = exporter.export(asmName, diagramsByName);
+            if (exporter.hasIncompleteModel()) {
+                MessageDialog.openWarning(getSite().getShell(),"Incomplete ASM model",
+                        "The model contains incomplete elements.\n\n"
+                                + "The parser check cannot be performed "
+                                + "until those elements are completed."
+                );
+                return;
+            }
+
+            new AsmParserValidator().validate(asmName,asmCode);
+            MessageDialog.openInformation(getSite().getShell(),"ASM parser check",
+                    "The current model was accepted "
+                            + "by the ASMETA parser."
+            );
+
+        } catch (AsmExportException exception) {
+            MessageDialog.openError(
+                    getSite().getShell(),
+                    "ASM parser check",
+                    "Could not generate the ASM specification.\n\n"
+                            + getValidationErrorMessage(exception)
+            );
+
+        } catch (AsmValidationException exception) {
+            MessageDialog.openError(
+                    getSite().getShell(),
+                    "ASM parser check",
+                    "The current model was not accepted "
+                            + "by the ASMETA parser.\n\n"
+                            + getValidationErrorMessage(exception)
+            );
+        }
+    }
+
+    private String getValidationErrorMessage(Throwable throwable) {
+        String message = "Unknown error.";
+
+        if (throwable != null && throwable.getMessage() != null && !throwable.getMessage().isBlank()) {
+
+            message = throwable.getMessage();
+        }
+
+        return message;
+    }
     
     @Override
     public void doSave(IProgressMonitor monitor) {
@@ -673,6 +750,15 @@ public class GefDesignEditor extends EditorPart {
                 null,
                 null
         ));
+        
+        rulesDrawer.add(new CombinedTemplateCreationEntry(
+                "LET Rule",
+                "Create a let rule",
+                RuleType.LET,
+                new RuleCreationFactory(RuleType.LET, "LET Rule"),
+                null,
+                null
+        ));
 
         rulesDrawer.add(new CombinedTemplateCreationEntry(
                 "SKIP Rule",
@@ -812,6 +898,40 @@ public class GefDesignEditor extends EditorPart {
         typeValueLabel.setText("-");
         typeValueLabel.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
+        initializationLabel = createLabel(
+                panel,
+                "Initialization:"
+        );
+
+        initializationText = new Text(
+                panel,
+                SWT.BORDER | SWT.MULTI | SWT.WRAP | SWT.V_SCROLL
+        );
+
+        GridData initializationData =
+                new GridData(SWT.FILL, SWT.CENTER, true, false);
+
+        initializationData.heightHint = 45;
+        initializationText.setLayoutData(initializationData);
+
+
+        openInitializationLabel = createLabel(panel, "");
+
+        openInitializationButton = new Button(panel, SWT.PUSH);
+        openInitializationButton.setText("Open initialization editor");
+        openInitializationButton.setLayoutData(
+                new GridData(SWT.FILL, SWT.CENTER, true, false)
+        );
+
+        openInitializationButton.addSelectionListener(
+                new SelectionAdapter() {
+                    @Override
+                    public void widgetSelected(SelectionEvent event) {
+                        openInitializationEditor();
+                    }
+                }
+        );
+        
         conditionLabel = createLabel(panel, "Condition:");
         conditionText = createText(panel);
 
@@ -827,6 +947,9 @@ public class GefDesignEditor extends EditorPart {
         calledRuleLabel = createLabel(panel, "Called rule:");
         calledRuleText = createText(panel);
 
+        letExpressionLabel = createLabel(panel, "Bindings:");
+        letExpressionText = createText(panel);
+        
         openCalledRuleLabel = createLabel(panel, "");
         openCalledRuleButton = new Button(panel, SWT.PUSH);
         openCalledRuleButton.setText("Open rule model");
@@ -854,6 +977,23 @@ public class GefDesignEditor extends EditorPart {
         refreshPropertiesPanelLayout();
 
         return propertiesScroll;
+    }
+    
+    private void setInitializationFieldsVisible(boolean visible) {
+        setFieldVisible(
+                initializationLabel,
+                initializationText,
+                visible
+        );
+
+        setFieldVisible(
+                openInitializationLabel,
+                openInitializationButton,
+                visible
+        );
+
+        initializationText.setEnabled(visible);
+        openInitializationButton.setEnabled(visible);
     }
 
     private void refreshPropertiesPanelLayout() {
@@ -977,8 +1117,151 @@ public class GefDesignEditor extends EditorPart {
                 }
             }
         });
+        
+        letExpressionText.addModifyListener(new ModifyListener() {
+            @Override
+            public void modifyText(ModifyEvent event) {
+                if (!updatingPropertiesPanel && selectedRule != null) {
+                    selectedRule.setLetExpression(letExpressionText.getText());
+                    markModelDirty();
+                }
+            }
+        });
+        
+        initializationText.addModifyListener(
+                new ModifyListener() {
+                    @Override
+                    public void modifyText(ModifyEvent event) {
+                        if (!updatingPropertiesPanel
+                                && selectedStartNode != null) {
+
+                            selectedStartNode.setInitialization(
+                                    initializationText.getText()
+                            );
+
+                            markModelDirty();
+                        }
+                    }
+                }
+        );
+        
     }
 
+    private void openInitializationEditor() {
+        if (selectedStartNode != null) {
+            String currentValue =
+                    safeText(selectedStartNode.getInitialization());
+
+            Shell parentShell = getSite().getShell();
+
+            Shell dialog = new Shell(
+                    parentShell,
+                    SWT.APPLICATION_MODAL
+                            | SWT.DIALOG_TRIM
+                            | SWT.RESIZE
+            );
+
+            dialog.setText("Default initialization");
+            dialog.setLayout(new GridLayout(1, false));
+
+            Label label = new Label(dialog, SWT.NONE);
+            label.setText(
+                    "Edit the default initialization:"
+            );
+            label.setLayoutData(
+                    new GridData(
+                            SWT.FILL,
+                            SWT.CENTER,
+                            true,
+                            false
+                    )
+            );
+
+            StyledText text = new StyledText(
+                    dialog,
+                    SWT.BORDER
+                            | SWT.MULTI
+                            | SWT.WRAP
+                            | SWT.V_SCROLL
+            );
+
+            text.setText(currentValue);
+            text.setLayoutData(
+                    new GridData(
+                            SWT.FILL,
+                            SWT.FILL,
+                            true,
+                            true
+                    )
+            );
+
+            Composite buttons =
+                    new Composite(dialog, SWT.NONE);
+
+            buttons.setLayoutData(
+                    new GridData(
+                            SWT.RIGHT,
+                            SWT.CENTER,
+                            true,
+                            false
+                    )
+            );
+
+            buttons.setLayout(new GridLayout(2, false));
+
+            Button okButton =
+                    new Button(buttons, SWT.PUSH);
+
+            okButton.setText("OK");
+
+            okButton.addSelectionListener(
+                    new SelectionAdapter() {
+                        @Override
+                        public void widgetSelected(
+                                SelectionEvent event
+                        ) {
+                            initializationText.setText(
+                                    text.getText()
+                            );
+
+                            dialog.close();
+                        }
+                    }
+            );
+
+            Button cancelButton =
+                    new Button(buttons, SWT.PUSH);
+
+            cancelButton.setText("Cancel");
+
+            cancelButton.addSelectionListener(
+                    new SelectionAdapter() {
+                        @Override
+                        public void widgetSelected(
+                                SelectionEvent event
+                        ) {
+                            dialog.close();
+                        }
+                    }
+            );
+
+            dialog.setDefaultButton(okButton);
+            dialog.setSize(760, 420);
+            dialog.open();
+
+            while (!dialog.isDisposed()) {
+                if (!parentShell
+                        .getDisplay()
+                        .readAndDispatch()) {
+
+                    parentShell
+                            .getDisplay()
+                            .sleep();
+                }
+            }
+        }
+    }
+    
     private void handleSelectionChanged(SelectionChangedEvent event) {
         ISelection selection = event.getSelection();
 
@@ -992,7 +1275,13 @@ public class GefDesignEditor extends EditorPart {
                     RuleNodeEditPart rulePart = (RuleNodeEditPart) selected;
                     showRuleProperties(rulePart.getRuleNode());
                 } else if (selected instanceof StartNodeEditPart) {
-                    showStartNodeProperties();
+                    StartNodeEditPart startPart =
+                            (StartNodeEditPart) selected;
+
+                    StartNode startNode =
+                            (StartNode) startPart.getModel();
+
+                    showStartNodeProperties(startNode);
                 } else if (selected instanceof TransitionEditPart) {
                     showTransitionProperties();
                 } else {
@@ -1008,6 +1297,7 @@ public class GefDesignEditor extends EditorPart {
 
     private void showRuleProperties(RuleNode rule) {
         selectedRule = rule;
+        selectedStartNode = null;
         updatingPropertiesPanel = true;
 
         selectedTitle.setText("Rule: " + safeText(rule.getName()));
@@ -1023,7 +1313,10 @@ public class GefDesignEditor extends EditorPart {
         assignmentText.setText(safeText(rule.getAssignment()));
         calledRuleText.setText(safeText(rule.getCalledRuleName()));
         parametersText.setText(safeText(rule.getParameters()));
-
+        letExpressionText.setText(safeText(rule.getLetExpression()));
+        initializationText.setText("");
+        setInitializationFieldsVisible(false);
+        
         setRuleFieldsEnabled(true);
         updateSemanticFieldsForType(type);
 
@@ -1031,23 +1324,36 @@ public class GefDesignEditor extends EditorPart {
         refreshPropertiesPanelLayout();
     }
 
-    private void showStartNodeProperties() {
+    private void showStartNodeProperties(StartNode startNode) {
         selectedRule = null;
+        selectedStartNode = startNode;
         updatingPropertiesPanel = true;
 
         selectedTitle.setText("Starting point");
 
         nameText.setText("Starting point");
         typeValueLabel.setText("INITIAL");
+
         conditionText.setText("");
         chooseText.setText("");
+        forallText.setText("");
         assignmentText.setText("");
         calledRuleText.setText("");
         parametersText.setText("");
-        forallText.setText("");
+        letExpressionText.setText("");
+
+        initializationText.setText(
+                safeText(startNode.getInitialization())
+        );
 
         setRuleFieldsEnabled(false);
         updateSemanticFieldsForType(null);
+
+        boolean mainDiagram =
+                activePage != null
+                && MAIN_DIAGRAM_NAME.equals(activePage.name);
+
+        setInitializationFieldsVisible(mainDiagram);
 
         updatingPropertiesPanel = false;
         refreshPropertiesPanelLayout();
@@ -1056,6 +1362,7 @@ public class GefDesignEditor extends EditorPart {
     private void showTransitionProperties() {
         selectedRule = null;
         updatingPropertiesPanel = true;
+        selectedStartNode = null;
 
         selectedTitle.setText("Transition");
 
@@ -1067,6 +1374,9 @@ public class GefDesignEditor extends EditorPart {
         calledRuleText.setText("");
         parametersText.setText("");
         forallText.setText("");
+        letExpressionText.setText("");
+        initializationText.setText("");
+        setInitializationFieldsVisible(false);
 
         setRuleFieldsEnabled(false);
         updateSemanticFieldsForType(null);
@@ -1078,6 +1388,7 @@ public class GefDesignEditor extends EditorPart {
     private void showNoSelection() {
         selectedRule = null;
         updatingPropertiesPanel = true;
+        selectedStartNode = null;
 
         selectedTitle.setText("No selection");
 
@@ -1089,6 +1400,9 @@ public class GefDesignEditor extends EditorPart {
         calledRuleText.setText("");
         parametersText.setText("");
         forallText.setText("");
+        letExpressionText.setText("");
+        initializationText.setText("");
+        setInitializationFieldsVisible(false);
 
         setRuleFieldsEnabled(false);
         updateSemanticFieldsForType(null);
@@ -1105,6 +1419,7 @@ public class GefDesignEditor extends EditorPart {
         assignmentText.setEnabled(enabled);
         calledRuleText.setEnabled(enabled);
         parametersText.setEnabled(enabled);
+        letExpressionText.setEnabled(enabled);
 
         updateOpenCalledRuleButton();
     }
@@ -1113,12 +1428,14 @@ public class GefDesignEditor extends EditorPart {
         boolean isConditional = type == RuleType.CONDITIONAL;
         boolean isChoose = type == RuleType.CHOOSE;
         boolean isForall = type == RuleType.FORALL;
+        boolean isLet = type == RuleType.LET;
         boolean isUpdate = type == RuleType.UPDATE;
         boolean isCall = type == RuleType.CALL;
 
         setFieldVisible(conditionLabel, conditionText, isConditional);
         setFieldVisible(chooseLabel, chooseText, isChoose);
         setFieldVisible(forallLabel, forallText, isForall);
+        setFieldVisible(letExpressionLabel, letExpressionText, isLet);
         setFieldVisible(assignmentLabel, assignmentText, isUpdate);
         setFieldVisible(calledRuleLabel, calledRuleText, isCall);
         setFieldVisible(openCalledRuleLabel, openCalledRuleButton, isCall);
@@ -1127,6 +1444,7 @@ public class GefDesignEditor extends EditorPart {
         conditionText.setEnabled(isConditional);
         chooseText.setEnabled(isChoose);
         forallText.setEnabled(isForall);
+        letExpressionText.setEnabled(isLet);
         assignmentText.setEnabled(isUpdate);
         calledRuleText.setEnabled(isCall);
         parametersText.setEnabled(isCall);

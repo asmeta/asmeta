@@ -15,6 +15,7 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
 import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
+import org.eclipse.gef.editpolicies.ResizableEditPolicy;
 
 public class DiagramXYLayoutEditPolicy extends XYLayoutEditPolicy {
 
@@ -32,7 +33,15 @@ public class DiagramXYLayoutEditPolicy extends XYLayoutEditPolicy {
 
     @Override
     protected EditPolicy createChildEditPolicy(EditPart child) {
-        return new NonResizableEditPolicy();
+        EditPolicy policy;
+
+        if (child instanceof RuleNodeEditPart) {
+            policy = new ResizableEditPolicy();
+        } else {
+            policy = new NonResizableEditPolicy();
+        }
+
+        return policy;
     }
 
     @Override

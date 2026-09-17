@@ -145,6 +145,9 @@ public class RuleFigureFactory {
 
 	        case SKIP:
 	            return new SkipRuleFigure();
+	            
+	        case LET:
+	            return new LetRuleFigure(text);
 
 	        case UNKNOWN:
 	        default:

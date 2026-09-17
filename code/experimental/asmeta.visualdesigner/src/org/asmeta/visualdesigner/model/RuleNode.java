@@ -40,7 +40,21 @@ public class RuleNode implements DiagramNode {
     private String assignment = "";
     private String choose = "";
     private String forall = "";
+    private String letExpression = "";
 
+    
+    public String getLetExpression() {
+        return letExpression;
+    }
+
+    public void setLetExpression(String letExpression) {
+        String newValue = letExpression != null ? letExpression : "";
+
+        if (!this.letExpression.equals(newValue)) {
+            this.letExpression = newValue;
+            listeners.firePropertyChange(PROPERTY_RULE_DATA, null, null);
+        }
+    }
     
     public String getForall() {
         return forall;
@@ -274,6 +288,9 @@ public class RuleNode implements DiagramNode {
 
             case CHOOSE:
                 return "choose";
+                
+            case LET:
+                return isNonEmpty(letExpression) ? letExpression : "[bindings]";
 
             case UNKNOWN:
             default:

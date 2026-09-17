@@ -17,6 +17,10 @@ public class StartNode implements DiagramNode {
     private int y;
     private int width;
     private int height;
+    
+    public static final String PROPERTY_START_DATA = "StartNode.Data";
+
+    private String initialization = "";
 
     public StartNode(String name, int x, int y) {
         this.name = name;
@@ -117,4 +121,23 @@ public class StartNode implements DiagramNode {
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         listeners.removePropertyChangeListener(listener);
     }
+    
+    public String getInitialization() {
+        return initialization;
+    }
+
+    public void setInitialization(String initialization) {
+        String newValue = initialization != null ? initialization : "";
+
+        if (!this.initialization.equals(newValue)) {
+            String oldValue = this.initialization;
+            this.initialization = newValue;
+            listeners.firePropertyChange(
+                    PROPERTY_START_DATA,
+                    oldValue,
+                    newValue
+            );
+        }
+    }
+    
 }

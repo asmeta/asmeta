@@ -13,6 +13,7 @@ import org.asmeta.visualdesigner.model.DiagramModel;
 import org.asmeta.visualdesigner.model.DiagramNode;
 import org.asmeta.visualdesigner.model.RuleNode;
 import org.asmeta.visualdesigner.model.RuleType;
+import org.asmeta.visualdesigner.model.StartNode;
 import org.asmeta.visualdesigner.model.Transition;
 
 import com.google.gson.Gson;
@@ -102,13 +103,14 @@ public class DiagramModelJson {
     private DiagramData createDiagramData(DiagramModel model) {
         DiagramData diagramData = new DiagramData();
 
-        DiagramNode startNode = model.getStartNode();
+        StartNode startNode = model.getStartNode();
 
         diagramData.startNode = new StartNodeData();
         diagramData.startNode.x = startNode.getX();
         diagramData.startNode.y = startNode.getY();
         diagramData.startNode.width = startNode.getWidth();
         diagramData.startNode.height = startNode.getHeight();
+        diagramData.startNode.initialization = safeText(startNode.getInitialization());
 
         Map<DiagramNode, String> nodeIds = new IdentityHashMap<>();
         nodeIds.put(startNode, START_NODE_ID);
@@ -175,6 +177,7 @@ public class DiagramModelJson {
         ruleData.assignment = rule.getAssignment();
         ruleData.choose = rule.getChoose();
         ruleData.forall = rule.getForall();
+        ruleData.letExpression = rule.getLetExpression();
 
         return ruleData;
     }
@@ -202,7 +205,8 @@ public class DiagramModelJson {
         }
 
         model.getStartNode().setLayout(diagramData.startNode.x, diagramData.startNode.y, diagramData.startNode.width,diagramData.startNode.height);
-
+        model.getStartNode().setInitialization(safeText(diagramData.startNode.initialization));
+        
         Map<String, DiagramNode> nodesById = new LinkedHashMap<>();
         nodesById.put(START_NODE_ID, model.getStartNode());
 
@@ -222,6 +226,7 @@ public class DiagramModelJson {
             rule.setAssignment(safeText(ruleData.assignment));
             rule.setChoose(safeText(ruleData.choose));
             rule.setForall(safeText(ruleData.forall));
+            rule.setLetExpression(safeText(ruleData.letExpression));
 
             model.addRule(rule);
             nodesById.put(ruleData.id, rule);
@@ -257,8 +262,7 @@ public class DiagramModelJson {
         return type;
     }
 
-    private void validateProject(ProjectData projectData)
-            throws IOException {
+    private void validateProject(ProjectData projectData) throws IOException {
 
         if (projectData == null) {
             throw new IOException("The selected file is empty.");
@@ -269,7 +273,6 @@ public class DiagramModelJson {
         }
 
         if (projectData.diagrams == null || !projectData.diagrams.containsKey(MAIN_DIAGRAM_NAME)) {
-
             throw new IOException("The file does not contain the main diagram.");
         }
     }
@@ -342,6 +345,7 @@ public class DiagramModelJson {
         private int y;
         private int width;
         private int height;
+        private String initialization;
     }
 
     private static class RuleData {
@@ -358,6 +362,7 @@ public class DiagramModelJson {
         private String assignment;
         private String choose;
         private String forall;
+        private String letExpression;
     }
 
     private static class TransitionData {

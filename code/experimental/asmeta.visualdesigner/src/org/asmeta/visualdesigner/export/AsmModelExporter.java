@@ -17,11 +17,13 @@ public class AsmModelExporter {
 
     private static final String MAIN_DIAGRAM_NAME = "main";
     private static final String INDENT = "    ";
+    private boolean incompleteModel;
+    
 
     private Map<String, DiagramModel> diagramsByName;
 
     public String export(String asmName, Map<String, DiagramModel> diagramsByName) throws AsmExportException {
-
+    	incompleteModel = false;
         validateAsmName(asmName);
         validateDiagrams(diagramsByName);
 
@@ -39,8 +41,13 @@ public class AsmModelExporter {
         appendDefinitions(asm, mainModel);
         appendCalledRules(asm);
         appendMainRule(asm, mainModel);
+        appendInitialization(asm, mainModel);
 
         return asm.toString();
+    }
+    
+    public boolean hasIncompleteModel() {
+        return incompleteModel;
     }
 
     private void validateAsmName(String asmName) throws AsmExportException {
@@ -56,6 +63,24 @@ public class AsmModelExporter {
     private void validateDiagrams(Map<String, DiagramModel> diagrams) throws AsmExportException {
         if (diagrams == null || !diagrams.containsKey(MAIN_DIAGRAM_NAME)) {
             throw new AsmExportException("The main diagram could not be found.");
+        }
+    }
+    
+    private void appendInitialization(StringBuilder asm, DiagramModel mainModel) {
+        String initialization = mainModel.getStartNode().getInitialization();
+
+        if (!isBlank(initialization)) {
+            asm.append(System.lineSeparator());
+
+            asm.append("default init s0:").append(System.lineSeparator());
+
+            String normalized = initialization.trim().replace("\r\n", "\n").replace("\r", "\n");
+
+            String[] lines = normalized.split("\n");
+
+            for (String line : lines) {
+                asm.append(INDENT).append(line).append(System.lineSeparator());
+            }
         }
     }
 
@@ -189,8 +214,7 @@ public class AsmModelExporter {
         }
 
         if (transitions.size() > 1) {
-            throw new AsmExportException(
-                    "Diagram '" + diagramName + "' has more than one transition " + "from its starting point");
+            throw new AsmExportException("Diagram '" + diagramName + "' has more than one transition " + "from its starting point");
         }
 
         DiagramNode target = transitions.get(0).getTarget();
@@ -234,6 +258,14 @@ public class AsmModelExporter {
                 appendUpdate(asm, model, rule, indentation, currentPath);
                 break;
 
+            case SKIP:
+                appendSkip(asm, model, rule, indentation, currentPath);
+                break;
+                
+            case LET:
+                appendLet(asm, model, rule, indentation, currentPath);
+                break;
+                
             default:
                 throw new AsmExportException("Rule type '" + rule.getType() + "' is not supported yet. Rule: " + rule.getName());
         }
@@ -241,75 +273,105 @@ public class AsmModelExporter {
         currentPath.remove(rule);
     }
     
+    private void appendLet(StringBuilder asm, DiagramModel model, RuleNode rule, int indentation, Set<RuleNode> currentPath) throws AsmExportException {
+
+        Transition inTransition = findTransition(model, rule, "in");
+
+        if (isBlank(rule.getLetExpression())) {
+            appendMissingRule(asm, indentation, "LET", "missing bindings");
+
+            if (inTransition != null) {
+                appendTransitionTarget(asm, model, inTransition, indentation, new HashSet<>(currentPath));
+            }
+        } else {
+            appendIndentation(asm, indentation);
+
+            asm.append("let (").append(rule.getLetExpression().trim()).append(") in").append(System.lineSeparator());
+
+            if (inTransition == null) {
+                appendMissingRule(asm, indentation + 1, "LET", "missing in branch");
+            } else {
+                appendTransitionTarget(asm, model, inTransition, indentation + 1, new HashSet<>(currentPath));
+            }
+
+            appendIndentation(asm, indentation);
+            asm.append("endlet").append(System.lineSeparator());
+        }
+    }
+    
+    private void appendSkip(StringBuilder asm, DiagramModel model, RuleNode rule, int indentation, Set<RuleNode> currentPath) throws AsmExportException {
+
+        appendIndentation(asm, indentation);
+        asm.append("skip").append(System.lineSeparator());
+        appendNextRule(asm, model, rule, indentation, currentPath);
+    }
+    
     private void appendForall(StringBuilder asm, DiagramModel model, RuleNode rule, int indentation, Set<RuleNode> currentPath) throws AsmExportException {
 
         if (isBlank(rule.getForall())) {
-            throw new AsmExportException("Forall rule '" + rule.getName() + "' has no forall expression.");
+            appendMissingRule(asm, indentation, "FORALL", "missing expression");
+        } else {
+            Transition doTransition = findTransition(model, rule, "do");
+
+            appendIndentation(asm, indentation);
+            asm.append("forall ").append(rule.getForall().trim()).append(" do").append(System.lineSeparator());
+
+            if (doTransition == null) {
+                appendMissingRule(asm, indentation + 1, "FORALL", "missing do branch");
+            } else {
+                appendTransitionTarget(asm, model, doTransition, indentation + 1, new HashSet<>(currentPath));
+            }
         }
-
-        Transition doTransition = findTransition(model, rule, "do");
-
-        if (doTransition == null) {
-            throw new AsmExportException("Forall rule '" + rule.getName() + "' has no do branch.");
-        }
-
-        appendIndentation(asm, indentation);
-
-        asm.append("forall ").append(rule.getForall().trim()).append(" do").append(System.lineSeparator());
-
-        appendTransitionTarget(asm, model, doTransition, indentation + 1, new HashSet<>(currentPath));
     }
 
     private void appendConditional(StringBuilder asm, DiagramModel model, RuleNode rule, int indentation, Set<RuleNode> currentPath) throws AsmExportException {
 
         if (isBlank(rule.getCondition())) {
-            throw new AsmExportException("Conditional rule '" + rule.getName() + "' has no condition.");
-        }
+            appendMissingRule(asm, indentation, "CONDITIONAL", "missing condition");
+        } else {
+            Transition trueTransition = findTransition(model, rule, "true");
+            Transition falseTransition = findTransition(model, rule, "false");
 
-        Transition trueTransition = findTransition(model, rule, "true");
-
-        Transition falseTransition = findTransition(model, rule, "false");
-
-        if (trueTransition == null) {
-            throw new AsmExportException("Conditional rule '" + rule.getName() + "' has no true branch.");
-        }
-
-        appendIndentation(asm, indentation);
-        asm.append("if ").append(rule.getCondition().trim()).append(" then")
-                .append(System.lineSeparator());
-
-        appendTransitionTarget(asm, model, trueTransition, indentation + 1,new HashSet<>(currentPath));
-
-        if (falseTransition != null) {
             appendIndentation(asm, indentation);
-            asm.append("else").append(System.lineSeparator());
+            asm.append("if ").append(rule.getCondition().trim()).append(" then").append(System.lineSeparator());
 
-            appendTransitionTarget(asm, model, falseTransition, indentation + 1, new HashSet<>(currentPath));
+            if (trueTransition == null) {
+                appendMissingRule(asm, indentation + 1, "CONDITIONAL", "missing true branch");
+            } else {
+                appendTransitionTarget(asm, model, trueTransition,indentation + 1, new HashSet<>(currentPath));
+            }
+
+            if (falseTransition != null) {
+                appendIndentation(asm, indentation);
+                asm.append("else").append(System.lineSeparator());
+
+                appendTransitionTarget(asm, model, falseTransition, indentation + 1, new HashSet<>(currentPath));
+            }
+
+            appendIndentation(asm, indentation);
+            asm.append("endif").append(System.lineSeparator());
         }
-
-        appendIndentation(asm, indentation);
-        asm.append("endif").append(System.lineSeparator());
     }
 
     private void appendCall(StringBuilder asm, DiagramModel model, RuleNode rule, int indentation, Set<RuleNode> currentPath) throws AsmExportException {
+
         String calledRuleName = safeText(rule.getCalledRuleName());
 
         if (calledRuleName.isEmpty()) {
-            throw new AsmExportException("Call rule '" + rule.getName() + "' has no called rule name.");
+            appendMissingRule(asm, indentation, "CALL", "missing rule name");
+        } else if (!diagramsByName.containsKey(calledRuleName)) {
+            appendMissingRule(asm, indentation, "CALL", "diagram for '" + calledRuleName + "' not found");
+        } else {
+            appendIndentation(asm, indentation);
+
+            asm.append(normalizeRuleName(calledRuleName)).append("[");
+
+            if (!isBlank(rule.getParameters())) {
+                asm.append(rule.getParameters().trim());
+            }
+
+            asm.append("]").append(System.lineSeparator());
         }
-
-        if (!diagramsByName.containsKey(calledRuleName)) {
-            throw new AsmExportException("The diagram for called rule '" + calledRuleName + "' could not be found");
-        }
-
-        appendIndentation(asm, indentation);
-
-        asm.append(normalizeRuleName(calledRuleName)).append("[");
-
-        if (!isBlank(rule.getParameters())) {
-            asm.append(rule.getParameters().trim());
-        }
-        asm.append("]").append(System.lineSeparator());
 
         appendNextRule(asm, model, rule, indentation, currentPath);
     }
@@ -317,28 +379,26 @@ public class AsmModelExporter {
     private void appendChoose(StringBuilder asm, DiagramModel model, RuleNode rule, int indentation, Set<RuleNode> currentPath) throws AsmExportException {
 
         if (isBlank(rule.getChoose())) {
-            throw new AsmExportException("Choose rule '" + rule.getName() + "' has no choose expression.");
-        }
+            appendMissingRule(asm, indentation, "CHOOSE", "missing expression");
+        } else {
+            Transition doTransition = findTransition(model, rule, "do");
+            Transition ifnoneTransition = findTransition(model, rule, "ifnone");
 
-        Transition doTransition = findTransition(model, rule, "do");
-
-        Transition ifnoneTransition = findTransition(model, rule, "ifnone");
-
-        if (doTransition == null) {
-            throw new AsmExportException("Choose rule '" + rule.getName() + "' has no do branch.");
-        }
-
-        appendIndentation(asm, indentation);
-
-        asm.append("choose ").append(rule.getChoose().trim()).append(" do").append(System.lineSeparator());
-
-        appendTransitionTarget(asm, model, doTransition, indentation + 1, new HashSet<>(currentPath));
-
-        if (ifnoneTransition != null) {
             appendIndentation(asm, indentation);
-            asm.append("ifnone").append(System.lineSeparator());
+            asm.append("choose ").append(rule.getChoose().trim()).append(" do").append(System.lineSeparator());
 
-            appendTransitionTarget(asm, model, ifnoneTransition, indentation + 1, new HashSet<>(currentPath));
+            if (doTransition == null) {
+                appendMissingRule(asm, indentation + 1, "CHOOSE", "missing do branch");
+            } else {
+                appendTransitionTarget(asm, model, doTransition, indentation + 1, new HashSet<>(currentPath));
+            }
+
+            if (ifnoneTransition != null) {
+                appendIndentation(asm, indentation);
+                asm.append("ifnone").append(System.lineSeparator());
+
+                appendTransitionTarget(asm, model, ifnoneTransition, indentation + 1, new HashSet<>(currentPath));
+            }
         }
     }
 
@@ -347,31 +407,36 @@ public class AsmModelExporter {
         List<Transition> transitions = model.getOutgoingTransitions(rule);
 
         if (transitions.isEmpty()) {
-            throw new AsmExportException("Par rule '" + rule.getName() + "' has no branches.");
+            appendMissingRule(asm, indentation, "PAR", "missing branches");
+        } else {
+            appendIndentation(asm, indentation);
+            asm.append("par").append(System.lineSeparator());
+
+            for (Transition transition : transitions) {
+                appendTransitionTarget(asm, model, transition, indentation + 1, new HashSet<>(currentPath));
+            }
+
+            appendIndentation(asm, indentation);
+            asm.append("endpar").append(System.lineSeparator());
         }
-
-        appendIndentation(asm, indentation);
-        asm.append("par").append(System.lineSeparator());
-
-        for (Transition transition : transitions) {
-            appendTransitionTarget(asm, model, transition, indentation + 1, new HashSet<>(currentPath));
-        }
-
-        appendIndentation(asm, indentation);
-        asm.append("endpar").append(System.lineSeparator());
     }
 
+    
+    
     private void appendUpdate(StringBuilder asm, DiagramModel model, RuleNode rule, int indentation, Set<RuleNode> currentPath) throws AsmExportException {
 
         if (isBlank(rule.getAssignment())) {
-            throw new AsmExportException("Update rule '" + rule.getName()+ "' has no assignment.");
+            appendMissingRule(asm, indentation, "UPDATE", "missing statement");
+        } else {
+            appendIndentation(asm, indentation);
+            asm.append(rule.getAssignment().trim()).append(System.lineSeparator());
         }
 
-        appendIndentation(asm, indentation);
-        asm.append(rule.getAssignment().trim()).append(System.lineSeparator());
         appendNextRule(asm, model, rule, indentation, currentPath);
     }
 
+    
+    
     private void appendNextRule(StringBuilder asm, DiagramModel model, RuleNode rule, int indentation, Set<RuleNode> currentPath) throws AsmExportException {
 
         List<Transition> transitions = model.getOutgoingTransitions(rule);
@@ -418,11 +483,24 @@ public class AsmModelExporter {
     }
 
     private void appendIndentation(StringBuilder asm, int indentation) {
-
         for (int i = 0; i < indentation; i++) {
             asm.append(INDENT);
         }
     }
+    
+    private void appendMissingRule(StringBuilder asm, int indentation, String ruleType, String message) {
+        incompleteModel = true;
+
+        appendIndentation(asm, indentation);
+
+        asm.append("// ")
+                .append(ruleType)
+                .append(": ")
+                .append(message)
+                .append(System.lineSeparator());
+    }
+    
+    
 
     private String safeText(String value) {
         String result = "";

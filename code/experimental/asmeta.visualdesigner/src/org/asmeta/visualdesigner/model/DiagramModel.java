@@ -131,24 +131,29 @@ public class DiagramModel {
         String label = null;
 
         if (source instanceof RuleNode) {
-        	RuleNode rule = (RuleNode) source;
-        	if (rule.getType() == RuleType.CONDITIONAL) {
-        		if (!hasOutgoingTransitionWithLabel(source, "true")) {
-        			label = "true";
-        		} else if (!hasOutgoingTransitionWithLabel(source, "false")) {
-        			label = "false";
-        		}
-        	} else if (rule.getType() == RuleType.CHOOSE) {
-        		if (!hasOutgoingTransitionWithLabel(source, "do")) {
-        			label = "do";
-        		} else if (!hasOutgoingTransitionWithLabel(source, "ifnone")) {
-        			label = "ifnone";
-        		}
-        	} else if (rule.getType() == RuleType.FORALL) {
-        		if (!hasOutgoingTransitionWithLabel(source, "do")) {
-        			label = "do";
-        		}
-        	}
+            RuleNode rule = (RuleNode) source;
+
+            if (rule.getType() == RuleType.CONDITIONAL) {
+                if (!hasOutgoingTransitionWithLabel(source, "true")) {
+                    label = "true";
+                } else if (!hasOutgoingTransitionWithLabel(source, "false")) {
+                    label = "false";
+                }
+            } else if (rule.getType() == RuleType.CHOOSE) {
+                if (!hasOutgoingTransitionWithLabel(source, "do")) {
+                    label = "do";
+                } else if (!hasOutgoingTransitionWithLabel(source, "ifnone")) {
+                    label = "ifnone";
+                }
+            } else if (rule.getType() == RuleType.FORALL) {
+                if (!hasOutgoingTransitionWithLabel(source, "do")) {
+                    label = "do";
+                }
+            } else if (rule.getType() == RuleType.LET) {
+                if (!hasOutgoingTransitionWithLabel(source, "in")) {
+                    label = "in";
+                }
+            }
         }
 
         return label;

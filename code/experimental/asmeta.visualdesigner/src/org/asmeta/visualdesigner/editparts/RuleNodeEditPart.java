@@ -61,23 +61,7 @@ implements PropertyChangeListener, DiagramNodeEditPart {
     }
 
     private Rectangle createFigureBounds(RuleNode node) {
-        int width = node.getWidth();
-        int height = node.getHeight();
-
-        if (node.getType() == RuleType.PAR) {
-            width = ParRuleFigure.PREFERRED_WIDTH;
-            height = ParRuleFigure.PREFERRED_HEIGHT;
-        } else if (node.getType() == RuleType.SKIP) {
-            width = SkipRuleFigure.PREFERRED_WIDTH;
-            height = SkipRuleFigure.PREFERRED_HEIGHT;
-        }
-
-        return new Rectangle(
-                node.getX(),
-                node.getY(),
-                width,
-                height
-        );
+        return new Rectangle(node.getX(), node.getY(), node.getWidth(), node.getHeight());
     }
 
     @Override

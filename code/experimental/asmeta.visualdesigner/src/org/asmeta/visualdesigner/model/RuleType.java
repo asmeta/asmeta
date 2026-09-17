@@ -9,5 +9,6 @@ public enum RuleType {
 	UPDATE,
 	FORALL,
 	SKIP,
+	LET,
 	UNKNOWN
 }
