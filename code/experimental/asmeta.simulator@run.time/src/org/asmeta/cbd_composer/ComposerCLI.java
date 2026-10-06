@@ -12,21 +12,19 @@ public class ComposerCLI {
 //-Interpreta `run(<alias>, {param})` e chiama `eval(true,param)` sulla `Composition`.
 
 	static int runNum=0;
+	static String filePath ="";
+	boolean cbdOn = false;
+	public ComposerCLI(String path,boolean cbdOn) {
+		filePath=path;
+		this.cbdOn=cbdOn;
+	}
 	
-	public static void main(String[] args) {
-		if (args.length == 0) {
-			System.err.println("Usage: java ConfigParserApp <config_file.asmsh>");
-			return;
-		}
+	void runcomposition() {
 
-		String filePath = args[0];
 		Map<String, String> aliases = new HashMap<>(); // Associa alias all'espressione stringa corrispondente
 		// Crea una leaf ogni volta che trova la specifica e la richiama quando viene
 		// utilizzata
 		Map<String, Composition> compositions = new HashMap<>(); // Associa alias a oggetto Composition
-
-		
-
 		try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
 			String line;
 			Pattern setupPattern = Pattern.compile("setup\\s+(\\w+)\\s+as\\s+(.+)");
@@ -89,9 +87,9 @@ public class ComposerCLI {
 					}
 
 					try {
-						System.out.println(comp.toString());
-						comp.eval(true, mon); // true abilita il CdB checker;
-						System.out.println(comp.toString());
+						System.out.println("BEFORE EVAL" + comp.toString());
+						comp.eval(cbdOn, mon); // true abilita il CdB checker;
+						System.out.println("AFTER EVAL" + comp.toString());
 					} catch (CompositionException e) {
 						System.err.println("Error in composition " + alias + ": " + e.getMessage());
 						System.out.println(comp.toString());

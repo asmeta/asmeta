@@ -1,0 +1,30 @@
+setup SS1 as examples/SmartMultiHome/SmokeSensor.asm
+setup SS2 as examples/SmartMultiHome/SmokeSensor2.asm
+setup TS1 as examples/SmartMultiHome/TemperatureSensor.asm
+setup TS2 as examples/SmartMultiHome/TemperatureSensor2.asm
+setup LC1 as examples/SmartMultiHome/LocalController.asm
+setup LC2 as examples/SmartMultiHome/LocalController2.asm
+setup FA1 as examples/SmartMultiHome/FireAlarm.asm
+setup FA2 as examples/SmartMultiHome/FireAlarm2.asm
+setup W1 as examples/SmartMultiHome/Window.asm
+setup W2 as examples/SmartMultiHome/Window2.asm
+setup CC as examples/SmartMultiHome/CentralController.asm
+// Stato iniziale: nessun appartamento rileva fumo o temperatura alta.
+run(SS1, {smokeInput=false})
+run(SS2, {smokeInput2=false})
+run(TS1, {highTemperatureInput=false})
+run(TS2, {highTemperatureInput2=false})
+run(LC1, {smokeDetected=false})
+run(LC2, {smokeDetected2=false})
+run(FA1, {alarmCommand=false})
+run(FA2, {alarmCommand2=false})
+run(W1, {openCommand=false})
+run(W2, {openCommand2=false})
+run(CC, {smokeNotification1=false;smokeNotification2=false})
+setup comp as ( ( ( ( ( SS1 || TS1 ) | LC1 ) | ( FA1 || W1 ) ) || ( ( ( SS2 || TS2 ) | LC2 ) | ( FA2 || W2 ) ) ) ) <|> CC 
+// Scenario: viene rilevato fumo.
+run(comp, {smokeInput=true;highTemperatureInput=false})
+// Scenario: oltre al fumo viene rilevata temperatura alta.
+run(comp, {smokeInput=true;highTemperatureInput=true})
+// Scenario: il fumo e la temperatura alta cessano.
+//run(comp, {smokeInput=false;highTemperatureInput=false})
