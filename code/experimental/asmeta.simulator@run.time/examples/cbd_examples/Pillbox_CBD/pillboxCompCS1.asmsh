@@ -1,5 +1,5 @@
 //Fosamax is missed and not rescheduled since it interferes with the next pill.
-setup CM as examples/cbd_examples/Pillbox_CBD/configuration.asm
+setup CM as examples/cbd_examples/Pillbox_CBD/configurationMgr.asm
 setup RES as examples/cbd_examples/Pillbox_CBD/rescheduler.asm
 setup setup_comp as ( CM || RES )
 setup C1 as examples/cbd_examples/Pillbox_CBD/compartment.asm

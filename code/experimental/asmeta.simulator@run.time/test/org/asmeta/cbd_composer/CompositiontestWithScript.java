@@ -23,13 +23,13 @@ public class CompositiontestWithScript {
 	
 	@Test
 	public void testSmartHome() {
-		ComposerCLI2 comp = new ComposerCLI2("examples/SmartMultiHome/FireSystem.asmsh",false);
+		ComposerCLI comp = new ComposerCLI("examples/SmartMultiHome/FireSystem.asmsh",true);
 		comp.runcomposition();
 	}
 	
 	@Test
 	public void testPillbox() {
-		ComposerCLI2 comp = new ComposerCLI2("examples/Pillbox_composition/pillboxComp2.asmsh",false);
+		ComposerCLI comp = new ComposerCLI("examples/Pillbox_composition/pillboxComp2.asmsh",false);
 		comp.runcomposition();
 	}
 }	

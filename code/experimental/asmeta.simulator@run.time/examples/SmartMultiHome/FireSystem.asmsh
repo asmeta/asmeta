@@ -21,13 +21,10 @@ run(FA2, {smokeNotification2=false})
 run(W1, {openCommand=false})
 run(W2, {openCommand2=false})
 run(CC, {smokeNotification1=false;smokeNotification2=false})
-setup comp as ( SS1 || TS1 )
-run(comp, {smokeInput=true;highTemperatureInput=false})
-//setup comp as ( ( ( ( SS1 || TS1 ) | LC1 ) | ( FA1 || W1 ) )
-//setup comp as ( ( ( ( ( SS1 || TS1 ) | LC1 ) | ( FA1 || W1 ) ) || ( ( ( SS2 || TS2 ) | LC2 ) | ( FA2 || W2 ) ) ) ) <|> CC 
+setup comp as ( ( ( ( ( SS1 || TS1 ) | LC1 ) | ( FA1 || W1 ) ) || ( ( ( SS2 || TS2 ) | LC2 ) | ( FA2 || W2 ) ) ) ) <|> CC 
 // Scenario: viene rilevato fumo.
-//run(comp, {smokeInput=true;highTemperatureInput=false;smokeInput2=true;highTemperatureInput2=false})
+run(comp, {smokeInput=true;highTemperatureInput=false;smokeInput2=false;highTemperatureInput2=false})
 // Scenario: oltre al fumo viene rilevata temperatura alta.
-run(comp, {smokeInput=true;highTemperatureInput=true})
+run(comp, {smokeInput=false;highTemperatureInput=true;smokeInput2=false;highTemperatureInput2=false})
 // Scenario: il fumo e la temperatura alta cessano.
-//run(comp, {smokeInput=false;highTemperatureInput=false})
+run(comp, {smokeInput=false;highTemperatureInput=false;smokeInput2=false;highTemperatureInput2=false})

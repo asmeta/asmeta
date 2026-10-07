@@ -4,7 +4,7 @@ import org.asmeta.cbd_composer.ComposerCLI;
 
 public class ComposerCLIMain {
 	
-	static ComposerCLI2 comp;
+	static ComposerCLI comp;
 
 	public static void main(String[] args) {
 		if (args.length == 0) {
@@ -12,7 +12,7 @@ public class ComposerCLIMain {
 			return;
 		}
 		try {
-			comp = new ComposerCLI2(args[0], true);
+			comp = new ComposerCLI(args[0], true);
 			comp.runcomposition();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
