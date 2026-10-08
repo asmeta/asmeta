@@ -38,4 +38,22 @@ public class CompositiontestWithScript {
 		ComposerCLI comp = new ComposerCLI("examples/trafficLightCoSimCross/nopedestriannotram.asmsh",true);
 		comp.runcomposition();
 	}
+	
+	@Test
+	public void cross2() {
+		ComposerCLI comp = new ComposerCLI("examples/trafficLightCoSimCross/pedestriannotram.asmsh",true);
+		comp.runcomposition();
+	}
+	
+	@Test
+	public void cross3() {
+		ComposerCLI comp = new ComposerCLI("examples/trafficLightCoSimCross/nopedestriantram.asmsh",true);
+		comp.runcomposition();
+	}
+	
+	@Test
+	public void cross4() {
+		ComposerCLI comp = new ComposerCLI("examples/trafficLightCoSimCross/pedestriantram.asmsh",true);
+		comp.runcomposition();
+	}
 }	
