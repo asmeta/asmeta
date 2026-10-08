@@ -34,5 +34,4 @@ main rule r_Main =
 default init s0:	
  function pedestrianLight = RED	
  function pedestrianComing = false
- function crossManagerController = NORMAL
 

@@ -24,7 +24,7 @@ definitions:
 	main rule r_Main = 
 	if (statusC = OPERATE) then
 		if crossManagerController = NORMAL then
-			if pedestrianCall then
+			if pedestrianComing then
 				par
 					crossManagerController := PEDESTRIAN
 					r_reset_timer[timePEDESTRIAN]

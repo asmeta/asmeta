@@ -32,4 +32,10 @@ public class CompositiontestWithScript {
 		ComposerCLI comp = new ComposerCLI("examples/Pillbox_composition/pillboxComp2.asmsh",false);
 		comp.runcomposition();
 	}
+	
+	@Test
+	public void cross1() {
+		ComposerCLI comp = new ComposerCLI("examples/trafficLightCoSimCross/nopedestriannotram.asmsh",true);
+		comp.runcomposition();
+	}
 }	
