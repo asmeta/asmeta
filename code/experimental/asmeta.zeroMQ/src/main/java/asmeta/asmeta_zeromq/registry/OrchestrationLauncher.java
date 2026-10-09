@@ -161,8 +161,11 @@ public class OrchestrationLauncher extends SimulationLauncher {
                     }
                     continue;
                 } finally {
-                    System.out.println("[ORCHESTRATED] Step " + stepCorrente + ": "
-                            + ((System.nanoTime() - compositionStepStartNanos) / 1_000_000.0) + " ms");
+                    double stepWallMs = (System.nanoTime() - compositionStepStartNanos) / 1_000_000.0;
+                    System.out.printf(java.util.Locale.ROOT,
+                            "[ORCHESTRATED] Step %d: %.4f ms | pollingSum=%.4f ms | responseSum=%.4f ms | responses=%d%n",
+                            stepCorrente, stepWallMs, visitor.getPollingMs(),
+                            visitor.getResponseMs(), visitor.getResponseCount());
                 }
                 
 

@@ -25,7 +25,25 @@ public class OrchestrationVisitor implements ISimulationVisitor {
     private final java.util.List<String> committedThisStep =
             java.util.Collections.synchronizedList(new java.util.ArrayList<>());
 
-    public void resetStepTracking() { committedThisStep.clear(); }
+    // Timing counters are reset once per global orchestration step.
+    // They aggregate time across potentially parallel model visits.
+    private final java.util.concurrent.atomic.LongAdder pollingNanos =
+            new java.util.concurrent.atomic.LongAdder();
+    private final java.util.concurrent.atomic.LongAdder responseNanos =
+            new java.util.concurrent.atomic.LongAdder();
+    private final java.util.concurrent.atomic.LongAdder responseCount =
+            new java.util.concurrent.atomic.LongAdder();
+
+    public void resetStepTracking() {
+        committedThisStep.clear();
+        pollingNanos.reset();
+        responseNanos.reset();
+        responseCount.reset();
+    }
+
+    public double getPollingMs() { return pollingNanos.sum() / 1_000_000.0; }
+    public double getResponseMs() { return responseNanos.sum() / 1_000_000.0; }
+    public long getResponseCount() { return responseCount.sum(); }
 
     public java.util.List<String> getCommittedThisStep() {
         synchronized (committedThisStep) { return new java.util.ArrayList<>(committedThisStep); }
@@ -57,6 +75,7 @@ public class OrchestrationVisitor implements ISimulationVisitor {
         command.put("cmd", "STEP");
         command.put("data", enrichedInput);
 
+        long responseStartNanos = System.nanoTime();
         synchronized (orchPub) {
             orchPub.sendMore("CMD_" + modelName);
             orchPub.send(gson.toJson(command));
@@ -84,11 +103,21 @@ public class OrchestrationVisitor implements ISimulationVisitor {
                         orchPub.sendMore("CMD_" + modelName);
                         orchPub.send(gson.toJson(command));
                     }
-                    try { Thread.sleep(20); } catch (InterruptedException e) { Thread.currentThread().interrupt(); }
+                    long retrySleepStart = System.nanoTime();
+                    try { Thread.sleep(20); }
+                    catch (InterruptedException e) { Thread.currentThread().interrupt(); }
+                    finally { pollingNanos.add(System.nanoTime() - retrySleepStart); }
                     continue;
                 }
 
               
+                long elapsedResponseNanos = System.nanoTime() - responseStartNanos;
+                responseNanos.add(elapsedResponseNanos);
+                responseCount.increment();
+                System.out.printf(java.util.Locale.ROOT,
+                        "[ORCHESTRATED] [%s] Response time: %.4f ms%n",
+                        modelName, elapsedResponseNanos / 1_000_000.0);
+
                 if ("UNSAFE".equals(response.get("asm_status"))) {
                     throw new UnsafeExecutionException(modelName);
                 }
@@ -103,7 +132,10 @@ public class OrchestrationVisitor implements ISimulationVisitor {
                 outputData.add(gson.toJson(response.get("out_data")));
                 return outputData;
             }
-            try { Thread.sleep(10); } catch (InterruptedException e) { Thread.currentThread().interrupt(); }
+            long pollSleepStart = System.nanoTime();
+            try { Thread.sleep(1); }
+            catch (InterruptedException e) { Thread.currentThread().interrupt(); }
+            finally { pollingNanos.add(System.nanoTime() - pollSleepStart); }
         }
         return new ArrayList<>();
     }
