@@ -7,11 +7,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.asmeta.simulator.Environment;
 import org.zeromq.SocketType;
 import org.zeromq.ZContext;
 import org.zeromq.ZMQ;
 
 import com.google.gson.Gson;
+
+import asmeta.asmeta_zeromq.registry.SimulationLauncher;
 
 public class environment {
     private final static Gson gson = new Gson();
@@ -20,7 +23,30 @@ public class environment {
 
     private static List<String> environmentFunctions;
     private static final Map<String, List<String>> environmentFunctionsValues = new java.util.HashMap<>();
-
+    static String configpath ="";
+    
+    public environment(String configpath) {
+    	this.configpath=configpath;
+	}
+    
+    public static void main(String[] args) {
+    	 if (args.length < 1) {
+             System.err.println(
+                 "Usage: java " + SimulationLauncher.class.getName()
+                 + " <configPath> ");
+             System.err.println(
+                 "Example: java " + SimulationLauncher.class.getName()
+                 + " filename.properties");
+             System.exit(1);
+         }
+         try {
+			configpath = args[0];
+			runEnvironment();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+    
     private static Properties extractSection(Properties all, String sectionPrefix) {
         Properties out = new Properties();
         String sec = sectionPrefix + ".";
@@ -36,10 +62,10 @@ public class environment {
         return out;
     }
 
-    public static void main(String[] args) {
+    public static void runEnvironment() {
         Properties env;
-        try (InputStream in = environment.class.getClassLoader()
-                .getResourceAsStream("configs/MVM/zmq_config_MVM.properties")) {
+		try (InputStream in = environment.class.getClassLoader()
+                .getResourceAsStream(configpath)) {
 
             if (in == null) {
                 throw new RuntimeException("zmq_config.properties not found in classpath.");

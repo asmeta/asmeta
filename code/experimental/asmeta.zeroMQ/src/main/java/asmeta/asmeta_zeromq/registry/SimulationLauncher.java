@@ -82,9 +82,12 @@ public abstract class SimulationLauncher {
     }
 
     protected void startEnvironment() {
+        //environment env = new environment(configPath);
         Thread envThread = new Thread(() -> {
             try {
-                environment.main(new String[]{});
+            	//env.runEnvironment();
+            	String args[]= {configPath};
+            	environment.main(args);
             } catch (Exception e) {
                 e.printStackTrace();
             }
