@@ -23,6 +23,8 @@ public class ComposerCLI {
 	
 	
 	void runcomposition() {
+		long totalStartNanos = System.nanoTime();
+		long cumulativeStepNanos = 0L;
 
 		Map<String, String> aliases = new HashMap<>(); // Associa alias all'espressione stringa corrispondente
 		// Crea una leaf ogni volta che trova la specifica e la richiama quando viene
@@ -91,7 +93,14 @@ public class ComposerCLI {
 
 					try {
 						System.out.println("BEFORE EVAL" + comp.toString());
-						comp.eval(cbdOn, mon); // true abilita il CdB checker;
+						long stepStartNanos = System.nanoTime();
+						try {
+							comp.eval(cbdOn, mon); // true abilita il CdB checker;
+						} finally {
+							long stepElapsedNanos = System.nanoTime() - stepStartNanos;
+							cumulativeStepNanos += stepElapsedNanos;
+							System.out.printf(Locale.US, "[ASMETACOMP] Step %d: %.4f ms%n", runNum, stepElapsedNanos / 1_000_000.0);
+						}
 						System.out.println("AFTER EVAL" + comp.toString());
 					} catch (CompositionException e) {
 						System.err.println("Error in composition " + alias + ": " + e.getMessage());
@@ -105,6 +114,9 @@ public class ComposerCLI {
 
 		} catch (IOException e) {
 			System.err.println("Error reading file: " + e.getMessage());
+		} finally {
+			System.out.printf(Locale.US, "[ASMETACOMP] Total steps execution time: %.4f ms%n", cumulativeStepNanos / 1_000_000.0);
+			System.out.printf(Locale.US, "[ASMETACOMP] Total CLI execution time (including setup): %.4f ms%n", (System.nanoTime() - totalStartNanos) / 1_000_000.0);
 		}
 	}
 

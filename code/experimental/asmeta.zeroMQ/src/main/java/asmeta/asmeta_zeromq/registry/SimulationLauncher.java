@@ -45,7 +45,7 @@ public abstract class SimulationLauncher {
                 + " <configPath> <CHOREOGRAPHED|ORCHESTRATED>");
             System.err.println(
                 "Example: java " + SimulationLauncher.class.getName()
-                + " configs/MRM/zmq_config_MRM.properties ORCHESTRATED");
+                + " configs/FILENAME.properties ORCHESTRATED");
             System.exit(1);
         }
 
