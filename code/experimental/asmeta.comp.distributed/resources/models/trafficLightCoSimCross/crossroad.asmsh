@@ -1,0 +1,33 @@
+init -n 4
+
+setup comp as controller.asm | (trafficlightA.asm || trafficlightA.asm || trafficlightB.asm || trafficlightB.asm) | emptyModel.asm
+ 
+run(comp, {mCurrTimeSecs=1;transitionC=TURN_ON})
+run(comp, {mCurrTimeSecs=2;transitionC=OPERATE_T})
+run(comp, {mCurrTimeSecs=3;transitionC=OPERATE_T})
+run(comp, {mCurrTimeSecs=4;transitionC=OPERATE_T})
+run(comp, {mCurrTimeSecs=5;transitionC=OPERATE_T})
+run(comp, {mCurrTimeSecs=6;transitionC=OPERATE_T})
+run(comp, {mCurrTimeSecs=7;transitionC=OPERATE_T})
+run(comp, {mCurrTimeSecs=8;transitionC=OPERATE_T})
+run(comp, {mCurrTimeSecs=9;transitionC=OPERATE_T})
+run(comp, {mCurrTimeSecs=10;transitionC=OPERATE_T})
+run(comp, {mCurrTimeSecs=11;transitionC=OPERATE_T})
+run(comp, {mCurrTimeSecs=12;transitionC=OPERATE_T})
+run(comp, {mCurrTimeSecs=13;transitionC=OPERATE_T})
+run(comp, {mCurrTimeSecs=14;transitionC=OPERATE_T})
+run(comp, {mCurrTimeSecs=15;transitionC=OPERATE_T})
+run(comp, {mCurrTimeSecs=16;transitionC=OPERATE_T})
+run(comp, {mCurrTimeSecs=17;transitionC=OPERATE_T})
+run(comp, {mCurrTimeSecs=18;transitionC=OPERATE_T})
+run(comp, {mCurrTimeSecs=19;transitionC=OPERATE_T})
+run(comp, {mCurrTimeSecs=20;transitionC=OPERATE_T})
+run(comp, {mCurrTimeSecs=21;transitionC=OPERATE_T})
+run(comp, {mCurrTimeSecs=22;transitionC=OPERATE_T})
+run(comp, {mCurrTimeSecs=23;transitionC=OPERATE_T})
+run(comp, {mCurrTimeSecs=24;transitionC=OPERATE_T})
+run(comp, {mCurrTimeSecs=25;transitionC=OPERATE_T})
+run(comp, {mCurrTimeSecs=26;transitionC=OPERATE_T})
+run(comp, {mCurrTimeSecs=27;transitionC=STANDBY_T})
+run(comp, {mCurrTimeSecs=28;transitionC=TURN_OFF})
+

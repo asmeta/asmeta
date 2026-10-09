@@ -1,0 +1,177 @@
+package asmeta.asmeta_zeromq.common;
+
+import java.io.InputStream;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+
+import org.asmeta.simulator.Environment;
+import org.zeromq.SocketType;
+import org.zeromq.ZContext;
+import org.zeromq.ZMQ;
+
+import com.google.gson.Gson;
+
+import asmeta.asmeta_zeromq.registry.SimulationLauncher;
+
+public class environment {
+    private final static Gson gson = new Gson();
+    private static final String ENV_END_TOPIC = "ENV_END";
+
+    private static final String ENVIRONMENT_FUNCTIONS = "env_functions";
+
+    private static List<String> environmentFunctions;
+    private static final Map<String, List<String>> environmentFunctionsValues = new java.util.HashMap<>();
+    static String configpath ="";
+    
+    public environment(String configpath) {
+    	this.configpath=configpath;
+	}
+    
+    public static void main(String[] args) {
+    	 if (args.length < 1) {
+             System.err.println(
+                 "Usage: java " + SimulationLauncher.class.getName()
+                 + " <configPath> ");
+             System.err.println(
+                 "Example: java " + SimulationLauncher.class.getName()
+                 + " filename.properties");
+             System.exit(1);
+         }
+         try {
+			configpath = args[0];
+			runEnvironment();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+    
+    private static Properties extractSection(Properties all, String sectionPrefix) {
+        Properties out = new Properties();
+        String sec = sectionPrefix + ".";
+        String common = "common.";
+        for (String k : all.stringPropertyNames()) {
+            String v = all.getProperty(k);
+            if (k.startsWith(sec)) {
+                out.put(k.substring(sec.length()), v);
+            } else if (k.startsWith(common)) {
+                out.put(k.substring(common.length()), v);
+            }
+        }
+        return out;
+    }
+
+    public static void runEnvironment() {
+        Properties env;
+		try (InputStream in = environment.class.getClassLoader()
+                .getResourceAsStream(configpath)) {
+
+            if (in == null) {
+                throw new RuntimeException("zmq_config.properties not found in classpath.");
+            }
+            Properties all = new Properties();
+            all.load(in);
+            env = extractSection(all, "environment");
+
+        } catch (Exception e) {
+            throw new RuntimeException("Cannot load zmq_config.properties", e);
+        }
+
+        String address = env.getProperty("address");
+
+        environmentFunctions = Arrays.asList(env.getProperty(ENVIRONMENT_FUNCTIONS).split(","));
+        System.out.println("Environment functions: " + environmentFunctions);
+
+        // For each function declared in env_functions, we populate
+        // environmentFunctionsValues and publishOrder, handling both forms:
+        //  - Scalar form: key properties = ‘<name>’ (e.g. ‘systemTime’) publishes to the topic ‘<name>’
+        //  - Parameterised form: keys properties = ‘<name>(arg)’ (e.g. ‘openSwitch(compartment1)’, ‘openSwitch(compartment2)’)
+        //  publishes a separate topic for each argument
+        // The two forms are mutually exclusive for the same function, but the configuration can mix functions of both types (e.g. scalar systemTime
+        // + parameterised openSwitch).
+
+
+        int maxLength = 0;
+        List<String> publishOrder = new java.util.ArrayList<>();
+
+        for (String function : environmentFunctions) {
+            String funcTrim = function.trim();
+            String scalarValues = env.getProperty(funcTrim);
+
+            if (scalarValues != null) {
+            	   // Scalar form (backward-compatible with existing cases)
+                List<String> values = Arrays.asList(scalarValues.split(","));
+                environmentFunctionsValues.put(funcTrim, values);
+                publishOrder.add(funcTrim);
+                if (values.size() > maxLength) maxLength = values.size();
+            } else {
+            	// Parameterised form: searches for all keys ‘<funcTrim>(...)’ 
+                String prefix = funcTrim + "(";
+                boolean foundAny = false;
+                for (String key : env.stringPropertyNames()) {
+                    if (key.startsWith(prefix) && key.endsWith(")")) {
+                        List<String> values = Arrays.asList(env.getProperty(key).split(","));
+                        environmentFunctionsValues.put(key, values);
+                        publishOrder.add(key);
+                        if (values.size() > maxLength) maxLength = values.size();
+                        foundAny = true;
+                    }
+                }
+                if (!foundAny) {
+                    System.err.println("[environment] WARN: function '" + funcTrim
+                            + "' dichiarata in env_functions ma nessun valore trovato "
+                            + "(ne' scalare ne' parametrizzato)");
+                }
+            }
+        }
+
+        for (String topic : publishOrder) {
+            System.out.println("Function: " + topic + " values: " + environmentFunctionsValues.get(topic));
+        }
+    
+        int pause = Integer.parseInt(env.getProperty("pause", "1000"));
+
+        try (ZContext context = new ZContext()) {
+            ZMQ.Socket pub = context.createSocket(SocketType.PUB);
+            pub.bind(address);
+            System.out.println("Environment PUB socket bound to " + address);
+
+            int i = 0;
+            while (i < maxLength) {
+                System.err.println("Step: " + i);
+
+
+                for (String topic : publishOrder) {
+                    if (i < environmentFunctionsValues.get(topic).size()) {
+                        Map<String, String> payload = new HashMap<>();
+                        payload.put(topic, environmentFunctionsValues.get(topic).get(i));
+                        pub.sendMore(topic);
+                        pub.send(gson.toJson(payload));
+                        System.out.println("Sent " + topic + " value "
+                                + environmentFunctionsValues.get(topic).get(i)
+                                + " to " + address + " at topic " + topic);
+                    }
+                }
+
+                Thread.sleep(pause);
+                i++;
+            }
+
+            // Explicit end-of-simulation signal. Socket linger gives the PUB
+            // socket time to flush the final multipart message without an
+            // explicit Thread.sleep in the simulation logic.
+            long endSignalLingerMs = Long.parseLong(
+                    env.getProperty("end_signal_linger_ms", "1000"));
+            pub.setLinger((int) endSignalLingerMs);
+            pub.sendMore(ENV_END_TOPIC);
+            pub.send(gson.toJson(Map.of("event", ENV_END_TOPIC)));
+
+        } catch (Exception e) {
+            System.err.println("An error occurred in the environment: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+}
+
