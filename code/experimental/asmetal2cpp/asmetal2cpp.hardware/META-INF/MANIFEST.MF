@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: uasm2code_hw
 Bundle-SymbolicName: asmeta.asmetal2cpp.hw
 Bundle-Version: 22.04
-Bundle-RequiredExecutionEnvironment: JavaSE-17
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Require-Bundle: org.eclipse.emf.mwe2.language;bundle-version="2.9.0",
  org.eclipse.emf.mwe2.runtime;bundle-version="2.9.0",
  org.eclipse.emf.mwe2.launch;bundle-version="2.9.0",

@@ -96,11 +96,10 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 	}
 
 	// The map of all ChooseRules in the asm being validated with at least a
-	// variable
-	// picked at least one along with the name of the macro rule in which they are
-	// contained
+	// variable picked at least once along with the name of the macro rule in which
+	// they are contained
 	Map<ChooseRule, String> pickedChooseRules;
-	// the set that must be set in the init state (initial set of the scencario)
+	// the set that must be set in the init state (initial set of the scenario)
 	ArrayList<Command> monitoredInitState;
 	// List of lists: One list for each step, each list contains the set statements
 	// for that step
@@ -109,6 +108,7 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 	// for that step
 	List<ArrayList<Pick>> pickStatements;
 	List<Pick> allPickStatements;
+
 	int state;
 
 	/**
@@ -305,27 +305,31 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 	}
 
 	/**
-	 * Append update rules and conditional rules that sets controlled functions
-	 * introuduced for handling non-determinism in choose rule
+	 * Append update rules, conditional rules and choose rules that sets controlled
+	 * functions introduced for handling non-determinism in choose rule. For all
+	 * vars in all picked choose rules, add an update rule if it is picked. Add a
+	 * single choose rule for not picked vars. Use conditional rules to manage
+	 * errors (values picked outside of the domain or for which the guard is always
+	 * false).
 	 */
 	private void printRulesFromPicks() {
 		AsmetaTermPrinter printer = AsmetaTermPrinter.getAsmetaTermPrinter(false);
+
 		List<Pick> picks = new ArrayList<>();
 		if (pickStatements.size() > state - 1)
 			picks = pickStatements.get(state - 1);
-		// For all vars in all picked choose rules, add an update rule if it is picked.
-		// Add
-		// a single choose rules for not picked vars
+
 		for (Entry<ChooseRule, String> mapEntry : pickedChooseRules.entrySet()) {
+			// --- Collect data needed for printing ---
 			ChooseRule chooseRule = mapEntry.getKey();
 			String macroRuleSignature = mapEntry.getValue();
-			// First element is the picked variable name (String), second is the value
-			// (String), third is the domain (Term)
+			// pickedVars: [0]=varName (String), [1]=pickedValue (String), [2]=domain (Term)
 			List<Object[]> pickedVars = new ArrayList<>();
 			List<String> pickedVarsNames = new ArrayList<>();
-			// First element is the picked variable name, second is the domain
+			// notPickedVars: [0]=varName (String), [1]=domainAsString (String)
 			List<String[]> notPickedVars = new ArrayList<>();
 			List<String> notPickedVarsNames = new ArrayList<>();
+			// Split variables into picked vs. not picked, retaining domain info
 			for (int i = 0; i < chooseRule.getVariable().size(); i++) {
 				VariableTerm var = chooseRule.getVariable().get(i);
 				String pickedValue = getPickFromVariable(var, macroRuleSignature, picks);
@@ -338,121 +342,201 @@ public class StatementToStringBuffer extends org.asmeta.avallaxt.avalla.util.Ava
 					pickedVarsNames.add(var.getName());
 				}
 			}
-			// Start with picked variables, a term substitution from variables to controlled
-			// functions is needed for guards
-			TermAssignment assignment = new TermAssignment();
-			List<VariableTerm> variables = new ArrayList<>();
-			List<Term> controlledFunctions = new ArrayList<>();
-			for (Object[] pickedVar : pickedVars) {
-				String variable = (String) pickedVar[0];
-				String value = (String) pickedVar[1];
-				Term domain = (Term) pickedVar[2];
-				String controlledFunction = variable.substring(1) + "_" + macroRuleSignature
-						+ AsmetaPrinterForAvalla.ACTUAL_VALUE;
-				VariableTerm term = BasictermsFactory.eINSTANCE.createVariableTerm();
-				term.setName(variable);
-				variables.add(term);
-				term = BasictermsFactory.eINSTANCE.createVariableTerm();
-				term.setName(controlledFunction);
-				controlledFunctions.add(term);
-				// when the range is not a DomainTern, check with a conditional rule whether the
-				// picked value is in the term (e.g. {10:20}) used as range or not
-				if (!(domain instanceof DomainTerm)) {
-					append("if contains(" + printer.visit(domain) + ", " + value + ") then");
-					indent();
-					append(controlledFunction + " := " + value);
-					unIndent();
-					append("else");
-					indent();
-					append("seq");
-					indent();
-					append(controlledFunction + " := undef");
-					append("result := print(\"Error value out of domain: cannot assign " + value + " to " + variable
-							+ " in " + macroRuleSignature + "\")");
-					append("step__ := -2"); // -2 so plus 1 is still < 0
-					unIndent();
-					append("endseq");
-					unIndent();
-					append("endif");
-				} else {
-					append(controlledFunction + " := " + value);
-				}
-			}
-			assignment.put(variables, controlledFunctions);
-			// Do the term substitution to obtain the new guard
+			List<String> allVarsNames = new ArrayList<>();
+			allVarsNames.addAll(pickedVarsNames);
+			allVarsNames.addAll(notPickedVarsNames);
+			// -- Print rules --
+			String statusVarName = AsmetaPrinterForAvalla.getStatusControlledFunction(allVarsNames, macroRuleSignature);
+			// Assign picked variables (with domain checking)
+			TermAssignment assignment = printPickedVariables(printer, macroRuleSignature, statusVarName, pickedVars);
+			// Replace picked variables in the guard with their controlled functions
 			RuleSubstitution substitution = new RuleSubstitution(assignment, new RuleFactory());
 			Term newGuardTerm = substitution.visit(chooseRule.getGuard());
 			String newGuardString = printer.visit(newGuardTerm);
-			// First case: all variables are picked, no choose is needed, just a check on
-			// the guard (if false set all controlled functions to undef)
-			if (notPickedVars.isEmpty()) {
-				append("if not(" + newGuardString + ") then");
+			// Handle remaining variables or check infeasibility
+			if (notPickedVars.isEmpty())
+				printCheckAllPickedVariables(macroRuleSignature, pickedVarsNames, statusVarName, newGuardString);
+			else
+				printChooseForNonPickedVariables(macroRuleSignature, pickedVars, pickedVarsNames, notPickedVars,
+						notPickedVarsNames, statusVarName, newGuardString);
+			// Set final status if no error occurred
+			printFinalIf(statusVarName);
+		}
+	}
+
+	/**
+	 * Creates assignments for picked variables and prints statements. The
+	 * {@link TermAssignment} maps picked variables to the corresponding controlled
+	 * functions, used later for guard substitution. The printed statements assign
+	 * all picked variables and check domain validity.
+	 *
+	 * @param printer            term printer used to serialize terms
+	 * @param macroRuleSignature signature of the macro rule
+	 * @param statusVarName      name of the status controlled function
+	 * @param pickedVars         list of picked variables (name, value, domain)
+	 * @return the populated {@link TermAssignment} for substitution
+	 */
+	private TermAssignment printPickedVariables(AsmetaTermPrinter printer, String macroRuleSignature,
+			String statusVarName, List<Object[]> pickedVars) {
+		// Initialize data structures
+		TermAssignment assignment = new TermAssignment();
+		List<VariableTerm> variables = new ArrayList<>();
+		List<Term> controlledFunctions = new ArrayList<>();
+		for (Object[] pickedVar : pickedVars) {
+			String variable = (String) pickedVar[0];
+			String value = (String) pickedVar[1];
+			Term domain = (Term) pickedVar[2];
+			String controlledFunction = AsmetaPrinterForAvalla.getActualValueControlledFunction(variable,
+					macroRuleSignature);
+			// Maps variable to controlledFunction
+			VariableTerm var = BasictermsFactory.eINSTANCE.createVariableTerm();
+			var.setName(variable);
+			variables.add(var);
+			VariableTerm func = BasictermsFactory.eINSTANCE.createVariableTerm();
+			func.setName(controlledFunction);
+			controlledFunctions.add(func);
+			assignment.put(variables, controlledFunctions);
+			// -- Start the print --
+			// Assign value, checking membership if domain is not a DomainTerm (e.g.
+			// {10:20})
+			if (!(domain instanceof DomainTerm)) {
+				append("if contains(" + printer.visit(domain) + ", " + value + ") then");
+				indent();
+				append(controlledFunction + " := " + value);
+				unIndent();
+				append("else");
 				indent();
 				append("seq");
 				indent();
-				for (String variable : pickedVarsNames) {
-					String controlledFunction = variable.substring(1) + "_" + macroRuleSignature
-							+ AsmetaPrinterForAvalla.ACTUAL_VALUE;
-					append(controlledFunction + " := undef");
-				}
-				append("result := print(\"Error unfeasible condition: the values picked for "
-						+ String.join(", ", pickedVarsNames) + " in " + macroRuleSignature
-						+ " make the guard always evaluate to false \")");
+				append(controlledFunction + " := undef");
+				append(statusVarName + " := " + AsmetaPrinterForAvalla.ERROR);
+				append("result := print(\"Error value out of domain: cannot assign " + value + " to " + variable
+						+ " in " + macroRuleSignature + "\")");
 				append("step__ := -2"); // -2 so plus 1 is still < 0
 				unIndent();
 				append("endseq");
 				unIndent();
 				append("endif");
-			} else { // Second case: at least one variables is not picked, a choose rule is needed
-				List<String> varsWithDomains = new ArrayList<>();
-				for (String[] notPickedVar : notPickedVars) {
-					String var = notPickedVar[0];
-					// Add _r_RuleName_stepX to avoid variables with same names in the main rule
-					// r_main__
-					String newVar = var + "_" + macroRuleSignature + "_step" + (state - 1);
-					String domain = notPickedVar[1];
-					newGuardString = newGuardString.replace(var, newVar);
-					varsWithDomains.add(newVar + " in " + domain);
-				}
-				append("choose " + String.join(", ", varsWithDomains) + " with " + newGuardString + " do");
-				indent();
-				if (notPickedVars.size() > 1) {
-					append("par");
-					indent();
-				}
-				for (String notPickedVar : notPickedVarsNames) {
-					String controlledFunction = notPickedVar.substring(1) + "_" + macroRuleSignature
-							+ AsmetaPrinterForAvalla.ACTUAL_VALUE;
-					append(controlledFunction + " := " + notPickedVar + "_" + macroRuleSignature + "_step"
-							+ (state - 1));
-				}
-				if (notPickedVars.size() > 1) {
-					unIndent();
-					append("endpar");
-				}
-				unIndent();
-				append("ifnone");
-				indent();
-				append("seq");
-				indent();
-				for (String notPickedVar : notPickedVarsNames) {
-					String controlledFunction = notPickedVar.substring(1) + "_" + macroRuleSignature
-							+ AsmetaPrinterForAvalla.ACTUAL_VALUE;
-					append(controlledFunction + " := undef");
-				}
-				if (pickedVars.size() != 0)
-					append("result := print(\"Error unfeasible condition: the values picked for "
-							+ String.join(", ", pickedVarsNames) + " in " + macroRuleSignature
-							+ " make the guard always evaluate to false \")");
-				else
-					append("result := print(\"Error unfeasuble condition: the guard of a choose rule in "
-							+ macroRuleSignature + " always evaluates to false \")");
-				append("step__ := -2"); // -2 so plus 1 is still < 0
-				unIndent();
-				append("endseq");
-				unIndent();
+			} else {
+				append(controlledFunction + " := " + value);
 			}
 		}
+		return assignment;
+	}
+
+	/**
+	 * Prints a conditional block to check whether all picked variables make the
+	 * guard evaluate to true. If not, resets their values and reports an error.
+	 *
+	 * @param macroRuleSignature the signature of the macro rule containing the
+	 *                           original choose rule
+	 * @param pickedVarsNames    names of picked variables
+	 * @param statusVarName      name of the status controlled function
+	 * @param newGuardString     the new guard expression obtained via term
+	 *                           substitution
+	 */
+	private void printCheckAllPickedVariables(String macroRuleSignature, List<String> pickedVarsNames,
+			String statusVarName, String newGuardString) {
+		append("if not(" + newGuardString + ") then");
+		indent();
+		append("seq");
+		indent();
+		for (String variable : pickedVarsNames) {
+			String controlledFunction = AsmetaPrinterForAvalla.getActualValueControlledFunction(variable,
+					macroRuleSignature);
+			append(controlledFunction + " := undef");
+		}
+		append(statusVarName + " := " + AsmetaPrinterForAvalla.ERROR);
+		append("result := print(\"Error unfeasible condition: the values picked for "
+				+ String.join(", ", pickedVarsNames) + " in " + macroRuleSignature
+				+ " make the guard always evaluate to false\")");
+		append("step__ := -2"); // -2 so plus 1 is still < 0
+		unIndent();
+		append("endseq");
+		unIndent();
+		append("endif");
+	}
+
+	/**
+	 * Prints a choose rule for non-picked variables and manages infeasible
+	 * conditions. If no feasible choice exists, sets appropriate status and prints
+	 * error if some variable was picked.
+	 *
+	 * @param macroRuleSignature the signature of the macro rule containing the
+	 *                           original choose rule
+	 * @param pickedVars         list of picked variables
+	 * @param pickedVarsNames    names of picked variables
+	 * @param notPickedVars      list of non-picked variables
+	 * @param notPickedVarsNames names of non-picked variables
+	 * @param statusVarName      name of the status controlled function
+	 * @param newGuardString     the new guard expression obtained via term
+	 *                           substitution
+	 */
+	private void printChooseForNonPickedVariables(String macroRuleSignature, List<Object[]> pickedVars,
+			List<String> pickedVarsNames, List<String[]> notPickedVars, List<String> notPickedVarsNames,
+			String statusVarName, String newGuardString) {
+		List<String> varsWithDomains = new ArrayList<>();
+		for (String[] notPickedVar : notPickedVars) {
+			String var = notPickedVar[0];
+			// Add "_r_RuleName_stepX" suffix to avoid variables with same names in the main
+			// rule
+			String newVar = var + "_" + macroRuleSignature + "_step" + (state - 1);
+			String domain = notPickedVar[1];
+			newGuardString = newGuardString.replace(var, newVar);
+			varsWithDomains.add(newVar + " in " + domain);
+		}
+		append("choose " + String.join(", ", varsWithDomains) + " with " + newGuardString + " do");
+		indent();
+		if (notPickedVars.size() > 1) {
+			append("par");
+			indent();
+		}
+		for (String notPickedVar : notPickedVarsNames) {
+			String controlledFunction = AsmetaPrinterForAvalla.getActualValueControlledFunction(notPickedVar,
+					macroRuleSignature);
+			append(controlledFunction + " := " + notPickedVar + "_" + macroRuleSignature + "_step" + (state - 1));
+		}
+		if (notPickedVars.size() > 1) {
+			unIndent();
+			append("endpar");
+		}
+		unIndent();
+		append("ifnone");
+		indent();
+		append("seq");
+		indent();
+		for (String notPickedVar : notPickedVarsNames) {
+			String controlledFunction = AsmetaPrinterForAvalla.getActualValueControlledFunction(notPickedVar,
+					macroRuleSignature);
+			append(controlledFunction + " := undef");
+		}
+		if (pickedVars.size() != 0) {
+			append(statusVarName + " := " + AsmetaPrinterForAvalla.ERROR);
+			append("result := print(\"Error unfeasible condition: the values picked for "
+					+ String.join(", ", pickedVarsNames) + " in " + macroRuleSignature
+					+ " make the guard always evaluate to false\")");
+			append("step__ := -2"); // -2 so plus 1 is still < 0
+		} else {
+			append(statusVarName + " := " + AsmetaPrinterForAvalla.NONE);
+		}
+		unIndent();
+		append("endseq");
+		unIndent();
+	}
+
+	/**
+	 * Prints the final status assignment block, setting the status to ASSIGNED if
+	 * no error or unassigned state occurred during rule execution.
+	 *
+	 * @param statusVarName name of the status controlled function
+	 */
+	private void printFinalIf(String statusVarName) {
+		append("if (" + statusVarName + " != " + AsmetaPrinterForAvalla.ERROR + " and " + statusVarName + " != "
+				+ AsmetaPrinterForAvalla.NONE + ") then");
+		indent();
+		append(statusVarName + " := " + AsmetaPrinterForAvalla.ASSIGNED);
+		unIndent();
+		append("endif");
 	}
 
 	/**

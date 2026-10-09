@@ -17,6 +17,6 @@ Import-Package:
  org.eclipse.swt.widgets
 Bundle-ClassPath: .
 Automatic-Module-Name: asmeta.simulator@runtime
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-Vendor: foselab.unibg.it
 Bundle-ActivationPolicy: lazy

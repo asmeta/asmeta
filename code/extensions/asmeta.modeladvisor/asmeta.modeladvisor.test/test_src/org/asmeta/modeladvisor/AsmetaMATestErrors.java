@@ -1,5 +1,10 @@
 package org.asmeta.modeladvisor;
 
+import org.apache.log4j.ConsoleAppender;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.apache.log4j.SimpleLayout;
+import org.asmeta.nusmv.MapVisitor;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
 
@@ -19,4 +24,20 @@ public class AsmetaMATestErrors {
 		asmetaMA.setMetapropertiesExecution(true, false, false, false, false, false, false);
 		asmetaMA.runCheck();
 	}
+	
+	// this example passes the test for model checking but not the model advisor
+	// the meta properties are too long????
+	// to skip since it takes very long time !!!
+	@Test
+	@Category(org.asmeta.annotations.TestToMavenSkip.class)
+	public void testBenInf() throws Exception {
+//		Logger.getLogger(MapVisitor.class).setLevel(Level.ALL);
+//		Logger.getLogger(AsmetaMA.class).setLevel(Level.ALL);
+//		Logger.getRootLogger().addAppender(new ConsoleAppender(new SimpleLayout()));
+		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/unibgStudents/trackerID2.asm");
+		asmetaMA.setMetapropertiesExecution(true, false, false, false, false, false, false);
+		asmetaMA.runCheck();
+	}
+
+	
 }

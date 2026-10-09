@@ -331,7 +331,7 @@ BlockRule 		: 'par' rules+=Rule ( rules+=Rule )+ 'endpar';
 ConditionalRule :  'if' guard=Term 'then' thenRule=Rule ( 'else' elseRule=Rule )? 'endif';
 
 ChooseRule 		: 'choose' variable+=VariableTerm 'in' ranges+=Term ( "," variable+=VariableTerm 'in' ranges+=Term )* 
-									'with' guard=Term 'do' doRule=Rule ( 'ifnone' ifnone=Rule )?;
+									( 'with' guard=Term )? 'do' doRule=Rule ( 'ifnone' ifnone=Rule )?;
 
 ForallRule		: 'forall' variable+=VariableTerm 'in' ranges+=Term ( "," variable+=VariableTerm 'in' ranges+=Term )* ( 'with' guard=Term )? 'do' doRule=Rule;
 

@@ -72,6 +72,7 @@ import asmeta.definitions.domains.ConcreteDomain;
 import asmeta.definitions.domains.Domain;
 import asmeta.definitions.domains.EnumElement;
 import asmeta.definitions.domains.EnumTd;
+import asmeta.definitions.domains.IntegerDomain;
 import asmeta.definitions.domains.PowersetDomain;
 import asmeta.structure.FunctionDefinition;
 import asmeta.terms.basicterms.BooleanTerm;
@@ -484,7 +485,7 @@ public class TermEvaluator extends ReflectiveVisitor<Value> implements ITermVisi
 		return values;
 
 	}
-
+	
 	/**
 	 * computes the values of a domain
 	 * 
@@ -520,7 +521,7 @@ public class TermEvaluator extends ReflectiveVisitor<Value> implements ITermVisi
 			set.add(BooleanValue.TRUE);
 			values = new SetValue(set);
 		} else {
-			throw new UnsupportedOperationException();
+			throw new UnsupportedOperationException("domain " + baseDomain + " cannot be reduced to a set");
 		}
 		logger.debug("<Value>" + values + "</Value>");
 		return values;

@@ -187,7 +187,12 @@ public class AvallaValidator extends AbstractAvallaValidator {
 
   @Check
   public void checkPick(final Pick pick) {
-    String errorMessage = ScenarioUtility.checkPickRule(pick, this.asmCollection.getMain());
+    String errorMessage = ScenarioUtility.checkPickValue(pick);
+    if ((errorMessage != null)) {
+      this.error(errorMessage, AvallaPackage.Literals.PICK__VALUE);
+    } else {
+      ScenarioUtility.checkPickRule(pick, this.asmCollection.getMain());
+    }
     if ((errorMessage != null)) {
       this.error(errorMessage, AvallaPackage.Literals.PICK__RULE);
     } else {

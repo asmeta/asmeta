@@ -1,0 +1,7 @@
+scenario pickNat
+load ChooseRandomNat.asm
+
+check myNat = 0n;
+
+pick $i := 5n; // guard "with false" -> error
+step

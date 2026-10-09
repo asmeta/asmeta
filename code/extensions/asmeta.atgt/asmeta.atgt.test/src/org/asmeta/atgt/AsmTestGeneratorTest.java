@@ -96,7 +96,7 @@ public class AsmTestGeneratorTest {
 		String asmPath = FILE_BASE + "PHD/phd_master_flat2_v6.asm";
 		List<AsmCoverageBuilder> coverageCriteria = CriteriaEnum.getCoverageCriteria(CriteriaEnum.THREEWISE_ALL);
 		NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(asmPath, true);
-		TestGenerationWithNuSMV.modelCheckerMode = ModelCheckerMode.LTLandBMC ;
+		TestGenerationWithNuSMV.modelCheckerMode = ModelCheckerMode.LTLandBMC;
 		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(coverageCriteria,Integer.MAX_VALUE, "gg.*");
 		for (AsmTestSequence t : result.getTests()) {
 			System.out.println("test sequence generated for " + t.getGeneratedFor().getName());

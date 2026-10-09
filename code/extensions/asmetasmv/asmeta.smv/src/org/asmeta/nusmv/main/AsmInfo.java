@@ -16,7 +16,7 @@ class AsmInfo {
 		// -is Does not check SPEC properties. Sets to “1” the ignore spec environment variable
 		// -r Prints the number of reachable states before exiting. If the -f option is not used, 
 		//     the set of reachable states is computed.
-		String[] cmdarray = { "NuSMV", "-is", "-r", as.smvFileName};
+		String[] cmdarray = { AsmetaSMV.getSolverName(), "-is", "-r", as.smvFileName};
 		as.runNuSMV(Arrays.asList(cmdarray));
 		outputRunNuSMV = as.getOutput(Arrays.asList(cmdarray));
 	}
@@ -48,7 +48,7 @@ class AsmInfo {
 	}
 	
 	static String foo() throws IOException {
-		String[] cmdarray = {"NuSMV","-int","examples/abstract.smv"};
+		String[] cmdarray = {AsmetaSMV.getSolverName(),"-int","examples/abstract.smv"};
 		Runtime rt = Runtime.getRuntime();
 		Process proc = rt.exec(cmdarray);
 		StringBuilder sb = new StringBuilder();

@@ -1,6 +1,6 @@
 asm chooseMultipleVars
 
-import StandardLibrary
+import ../StandardLibrary
 
 signature:
 	domain CoinDomain subsetof Integer 

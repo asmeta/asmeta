@@ -1,6 +1,6 @@
 asm caseRule2
 
-import ../../../../asm_examples/STDL/StandardLibrary
+import ../../../../../asm_examples/STDL/StandardLibrary
 
 signature:
 	enum domain EnumDom = {AA | BB | CC | DD}

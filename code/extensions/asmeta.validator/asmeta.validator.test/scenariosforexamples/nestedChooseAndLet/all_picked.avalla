@@ -1,0 +1,12 @@
+scenario all_picked
+
+load nested_choose_and_let.asm
+
+check tab(RR1, CC1) = 0;
+
+pick $x := 10;
+pick $row := RR1;
+pick $col := CC1;
+step
+
+check tab(RR1, CC1) = 10;

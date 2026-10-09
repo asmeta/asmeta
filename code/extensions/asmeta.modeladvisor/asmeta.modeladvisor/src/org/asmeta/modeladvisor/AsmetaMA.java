@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 import org.asmeta.modeladvisor.metaproperties.CaseRuleIsComplete;
@@ -69,7 +70,10 @@ public class AsmetaMA {
 	ChooseRuleIsEmpty chooseRuleIsEmpty;
 	ForallRuleIsEmpty forallRuleIsEmpty;
 	TrivialUpdate trivialUpdate;
-	public Map<Checker, Set<Expression>> nuSmvProperties;
+	// the properties obtained by activating meta properties that are then translated to nusmv
+	// these are not yet in the NuSMV format
+	// these are expression in asmeta here
+	private Map<Checker, Set<Expression>> nuSmvProperties;
 	public static boolean LOG_COUNTEREXAMPLES = false;
 
 	// indicate the metaproperty to be checked
@@ -178,7 +182,10 @@ public class AsmetaMA {
 		asmetaSMV.mv.invariantList.clear();
 		// add now the properties for asmetaMA
 		Set<String> translatedAllProperties = new HashSet<>();
-		log.debug(nuSmvProperties.entrySet());
+		log.debug("LT Properties\n" + 
+				nuSmvProperties.entrySet().stream()
+				.map(entry -> String.format("%s : %s", entry.getKey(), entry.getValue()))
+				.collect(Collectors.joining("\n")));
 		for (Entry<Checker, Set<Expression>> entry : nuSmvProperties.entrySet()) {
 			Set<Expression> properties = entry.getValue();
 			if (!properties.isEmpty()) {
@@ -193,6 +200,9 @@ public class AsmetaMA {
 		}
 		
 		if (!translatedAllProperties.isEmpty()) {
+			log.debug("As nuSmv Properties\n" + 
+					translatedAllProperties.stream()
+					.collect(Collectors.joining("\n")));
 			asmetaSMV.addCtlProperties(translatedAllProperties);
 			asmetaSMV.createTempNuSMVfile();
 			log.debug("executing " + asmetaSMV.getSmvFileName());
@@ -369,7 +379,7 @@ public class AsmetaMA {
 	private void check(AsmetaSMV asmetaSMV, Checker checker, Map<String, Boolean> partialResult) {
 		Set<Expression> properties = nuSmvProperties.get(checker);
 		Set<String> translatedProperties = translate(properties);
-		//System.out.println(translatedProperties);
+		log.debug("Translated Properties" + translatedProperties);
 		Map<String, Boolean> results = asmetaSMV.mv.getResults(translatedProperties);
 		checker.evaluation(results);
 		checker.printResults();

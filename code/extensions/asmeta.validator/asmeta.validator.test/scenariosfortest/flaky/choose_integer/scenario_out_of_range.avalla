@@ -1,0 +1,6 @@
+scenario scenario_out_of_range
+load chooseinteger.asm
+
+pick $x1 := 5;  // only 10 would be correct => out of range (no DomainTerm)
+pick $x2 := 10; // ok
+step

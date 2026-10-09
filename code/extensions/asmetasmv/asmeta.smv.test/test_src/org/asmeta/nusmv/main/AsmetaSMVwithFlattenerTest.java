@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.asmeta.annotations.TestToMavenSkip;
 import org.asmeta.nusmv.main.AsmetaSMV;
+import org.asmeta.nusmv.main.AsmetaSMV.ModelCheckerMode;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -28,6 +29,7 @@ public class AsmetaSMVwithFlattenerTest extends AsmetaSMVtest {
 	public static void setFlattener() {
 		old = AsmetaSMVOptions.FLATTEN;
 		AsmetaSMVOptions.FLATTEN = true;
+		AsmetaSMV.modelCheckerMode = ModelCheckerMode.CTL;
 	}
 		
 	@AfterClass

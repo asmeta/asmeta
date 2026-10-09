@@ -1,6 +1,6 @@
 asm macroArgs
 
-import ../../../../asm_examples/STDL/StandardLibrary
+import ../../../../../asm_examples/STDL/StandardLibrary
 
 signature:
 	enum domain Actors = {WOLF | GOAT | CABBAGE | FERRYMAN }

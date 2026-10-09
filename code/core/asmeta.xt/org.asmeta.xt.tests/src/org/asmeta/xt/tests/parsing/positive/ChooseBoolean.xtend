@@ -10,12 +10,13 @@ import org.eclipse.xtext.testing.validation.ValidationTestHelper
 import org.asmeta.xt.asmetal.Asm
 import org.junit.Test
 import org.junit.Assert
+import org.asmeta.xt.tests.AsmParseHelper
 
 @RunWith(XtextRunner)
 @InjectWith(AsmetaLInjectorProvider)
 class ChooseBoolean {
 	
-	@Inject	ParseHelper<Asm> parseHelper
+	@Inject	AsmParseHelper parseHelper
 	@Inject extension ValidationTestHelper
 
 	@Test
@@ -26,6 +27,20 @@ class ChooseBoolean {
 			signature: 
 			definitions:
 			main rule r_main = choose $sendMsg in Boolean with true do //skip
+							if $sendMsg then skip endif 
+		''')
+		result.assertNoErrors		
+		// main rule test
+		Assert.assertNotNull(result.mainrule)
+	}
+	@Test
+	def void testChooseBooleanNoGuard() {
+		var result = parseHelper.parse('''
+			asm blankpage
+			import STDL/StandardLibrary
+			signature: 
+			definitions:
+			main rule r_main = choose $sendMsg in Boolean do //skip
 							if $sendMsg then skip endif 
 		''')
 		result.assertNoErrors		

@@ -7,6 +7,7 @@ import java.util.Collection;
 
 import asmeta.definitions.Function;
 import asmeta.definitions.RuleDeclaration;
+import asmeta.definitions.domains.Domain;
 import asmeta.structure.FunctionInitialization;
 import asmeta.structure.Initialization;
 import asmeta.transitionrules.basictransitionrules.ChooseRule;
@@ -64,5 +65,11 @@ public class AsmetaImportedPrinterForAvalla extends AsmetaPrinterForAvalla {
 	public void visit(ChooseRule chooseRule) {
 		// Do NOT translate the choose in a let if the asm is imported
 		super.basicChooseVisit(chooseRule);
+	}
+	
+	@Override
+	public void visitDomains(Collection<Domain> doms) {
+		// Do NOT add the __status controlled variable if the asm is imported
+		super.basicDomainVisit(doms);
 	}
 }

@@ -1,0 +1,8 @@
+scenario noPickReal
+load ChooseRandomReal.asm
+
+check myR = 0.0;
+
+step
+
+check myR != undef;

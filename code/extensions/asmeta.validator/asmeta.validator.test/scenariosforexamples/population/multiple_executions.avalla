@@ -1,0 +1,22 @@
+scenario multiple_executions
+load ../../../../../../asm_examples/examples/simple_example/population.asm
+
+// This scenario covers only more than one executions (both steps)
+
+check alive(female1) and alive(male1);
+
+pick $x in r_reproduce(Person) := 1; // Force reproduction
+pick $x in r_dead(Person) := 1; // Force no death
+
+step
+
+check alive(female1) and age(female1) = 17n;
+check alive(male1) and age(male1) = 20n;
+
+pick $x in r_reproduce(Person) := 100; // Force no reproduction
+pick $x in r_dead(Person) := 1; // Force no death
+
+step
+
+check alive(female1) and age(female1) = 18n;
+check alive(male1) and age(male1) = 21n;

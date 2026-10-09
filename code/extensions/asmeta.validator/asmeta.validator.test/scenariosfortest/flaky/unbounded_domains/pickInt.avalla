@@ -1,0 +1,9 @@
+scenario pickInt
+load ChooseRandomInt.asm
+
+check myInt = 0;
+
+pick $i := 5;
+step
+
+check myInt = 5;

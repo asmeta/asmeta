@@ -17,7 +17,7 @@ public class UndefTest {
 
 	@Test
 	public void testUndef() throws Exception {
-		test("examples/undef/undef.asm");
+		test("examples/undef/undef_use.asm");
 	}
 
 //	@Test

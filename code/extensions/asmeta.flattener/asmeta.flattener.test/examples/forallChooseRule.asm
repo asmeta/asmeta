@@ -1,6 +1,6 @@
 asm forallChooseRule
 
-import ../../../../asm_examples/STDL/StandardLibrary
+import ../../../../../asm_examples/STDL/StandardLibrary
 
 signature:
 	domain ConcrDom subsetof Integer

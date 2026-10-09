@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.asmeta.nusmv.main.AsmetaSMV;
+import org.asmeta.nusmv.main.AsmetaSMV.ModelCheckerMode;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
 import org.eclipse.emf.common.util.EList;
 import org.junit.BeforeClass;
@@ -21,10 +22,13 @@ import asmeta.definitions.CtlSpec;
 import asmeta.definitions.Property;
 import asmeta.definitions.TemporalProperty;
 
+// standard SMV test with CTL properties!
 public class AsmetaSMVtest {
 
 	@BeforeClass
 	public static void testNuSMVInstallation(){
+		//
+		AsmetaSMV.modelCheckerMode = ModelCheckerMode.CTL;
 		// try to execute NUSMV
 		String solverName = AsmetaSMV.getSolverName();
 		Process proc = null;

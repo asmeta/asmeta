@@ -10,10 +10,12 @@ public abstract class CovData {
 	public CovData() {
 		tot = 0;
 	}
-
+	
+	@Override
+	public abstract String toString();
 }
 
-// the coverage information about the branches inside a rule
+// the coverage information about the branches inside a macro rule
 class BranchCovData extends CovData {
 	Set<Integer> coveredT;
 	Set<Integer> coveredF;
@@ -25,17 +27,32 @@ class BranchCovData extends CovData {
 
 	@Override
 	public String toString() {
-		String result = "(" + tot + " cond rules): ";
+		String result = "(" + tot + " branches): ";
 		result += "Covered true: " + coveredT.toString() + " - ";
 		result += "Covered false: " + coveredF.toString();
 		return result;
 	}
 }
 
-// the coverage information about the branches inside a rule
+//the coverage information about the rules inside a macro rule
+class RuleCovData extends CovData {
+	Set<Integer> covered;
+	public RuleCovData() {
+		super();
+		covered = new HashSet<>();
+	}
+
+	@Override
+	public String toString() {
+		String result = "(" + tot + " rules): ";
+		result += "Covered: " + covered.toString();
+		return result;
+	}
+}
+
+// the coverage information about the update rules inside a macro rule
 class UpdateCovData extends CovData {
 	Set<Integer> covered;
-	int tot;
 
 	public UpdateCovData() {
 		super();
@@ -46,6 +63,29 @@ class UpdateCovData extends CovData {
 	public String toString() {
 		String result = "(" + tot + " update rules): ";
 		result += "Covered: " + covered.toString();
+		return result;
+	}
+}
+
+//the coverage information about the forall rules inside a macro rule
+class ForallCovData extends CovData {
+	Set<Integer> zeroIterations;
+	Set<Integer> oneIteration;
+	Set<Integer> multipleIterations;
+
+	public ForallCovData() {
+		super();
+		zeroIterations = new HashSet<>();
+		oneIteration = new HashSet<>();
+		multipleIterations = new HashSet<>();
+	}
+
+	@Override
+	public String toString() {
+		String result = "(" + tot + " forall rules): ";
+		result += "Executed zero times: " + zeroIterations.toString() + " - ";
+		result += "Executed exactly once: " + oneIteration.toString() + " - ";
+		result += "Executed more than once: " + multipleIterations.toString();
 		return result;
 	}
 }

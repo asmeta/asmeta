@@ -74,7 +74,8 @@ import asmeta.transitionrules.turbotransitionrules.SeqRule;
 import asmeta.transitionrules.turbotransitionrules.TurboCallRule;
 import asmeta.transitionrules.turbotransitionrules.TurboDeclaration;
 import asmeta.transitionrules.turbotransitionrules.TurboReturnRule;
-/** class used to print an ASM*/
+
+/** class used to print an ASM */
 public class AsmPrinter extends ReflectiveVisitor<Void> {
 	protected AsmetaTermPrinter tp = AsmetaTermPrinter.getAsmetaTermPrinter(false);
 	static final private String tabWidth = "    ";
@@ -115,7 +116,7 @@ public class AsmPrinter extends ReflectiveVisitor<Void> {
 		Header header = asm.getHeaderSection();
 		Body body = asm.getBodySection();
 		Initialization init = asm.getDefaultInitialState();
-		if (model.getMainrule() == null) 
+		if (model.getMainrule() == null)
 			println("module " + name);
 		else
 			println("asm " + name);
@@ -289,7 +290,8 @@ public class AsmPrinter extends ReflectiveVisitor<Void> {
 				if (asm == model) {
 					visitDef(def);
 				} else {
-					println("// domain " + def.getDefinedDomain().getName() + " not printed because it does not belong to this asm");
+					println("// domain " + def.getDefinedDomain().getName()
+							+ " not printed because it does not belong to this asm");
 				}
 			}
 		}
@@ -346,23 +348,22 @@ public class AsmPrinter extends ReflectiveVisitor<Void> {
 	}
 
 	public void visit(RuleDeclaration rd) {
-		//if it is the main rule (it can be called even without the model)
-		if (model!= null && rd == model.getMainrule()) {
+		// if it is the main rule (it can be called even without the model)
+		if (model != null && rd == model.getMainrule()) {
 			visitMain((MacroDeclaration) rd);
 		} else {
 			visitDef(rd);
 		}
 	}
-	
+
 	protected void visitMain(MacroDeclaration main) {
 		print("main ");
 		visitRuleDeclaration(main);
 	}
 
-	
 	/** print a rule declaration (not main rule) **/
 	protected void visitDef(RuleDeclaration dcl) {
-		// if model is not null, then check that is not the main rule 
+		// if model is not null, then check that is not the main rule
 		// main rule is translated by the visit Main
 		assert model == null || model.getMainrule() != dcl;
 		if (dcl instanceof MacroDeclaration) {
@@ -372,10 +373,11 @@ public class AsmPrinter extends ReflectiveVisitor<Void> {
 		}
 		visitRuleDeclaration(dcl);
 	}
+
 	// common part between main and other rules
 	private void visitRuleDeclaration(RuleDeclaration dcl) {
 		currentRuleDeclaration = dcl;
-		String name = dcl.getName();		
+		String name = dcl.getName();
 		List<VariableTerm> vars = dcl.getVariable();
 		Rule rule = dcl.getRuleBody();
 		assert rule != null;
@@ -479,10 +481,12 @@ public class AsmPrinter extends ReflectiveVisitor<Void> {
 	}
 
 	public void visit(ChooseRule rule) {
+		// Extracted so subclasses (e.g. AsmetaImportedPrinterForAvalla) can reuse the
+		// default "choose" behavior.
 		basicChooseVisit(rule);
 	}
 
-	protected void basicChooseVisit(ChooseRule rule) {
+	protected final void basicChooseVisit(ChooseRule rule) {
 		List<VariableTerm> vars = rule.getVariable();
 		List<Term> domains = rule.getRanges();
 		Term cond = rule.getGuard();
@@ -865,6 +869,12 @@ public class AsmPrinter extends ReflectiveVisitor<Void> {
 	}
 
 	public void visitDomains(Collection<Domain> doms) {
+		// Extracted so subclasses (e.g. AsmetaImportedPrinterForAvalla) can reuse the
+		// default domains visit.
+		basicDomainVisit(doms);
+	}
+
+	protected final void basicDomainVisit(Collection<Domain> doms) {
 		if (doms != null) {
 			Domain[] domains = sortDomains(doms);
 			for (Domain domain : domains) {

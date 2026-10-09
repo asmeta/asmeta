@@ -1,0 +1,25 @@
+// In this scenario we pick at each step which job will be schedules. We also set $p to 100 for avoiding flakiness in coverage.
+scenario check_ifnone_w_pick
+load ../TinyScheduler.asm
+
+check idle = false;
+
+pick $j1 := JOB3;
+pick $p := 100;
+step
+
+pick $j1 := JOB2;
+pick $p := 100;
+step
+
+pick $j1 := JOB1;
+pick $p := 100;
+step
+
+check idle = false;
+
+// No jobs pickable, the guard is always false
+pick $p := 100;
+step
+
+check idle = true;

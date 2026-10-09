@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.asmeta.nusmv.main.AsmetaSMV;
+import org.asmeta.nusmv.main.AsmetaSMV.ModelCheckerMode;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -27,6 +28,7 @@ public class AsmetaSMVnoFlattenerTest extends AsmetaSMVtest {
 	public static void setFlattener() {
 		old = AsmetaSMVOptions.FLATTEN;
 		AsmetaSMVOptions.FLATTEN = false;
+		AsmetaSMV.modelCheckerMode = ModelCheckerMode.CTL;
 	}
 	
 	@AfterClass

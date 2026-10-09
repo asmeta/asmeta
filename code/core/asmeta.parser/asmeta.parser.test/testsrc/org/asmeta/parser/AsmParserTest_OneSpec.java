@@ -18,9 +18,12 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import asmeta.AsmCollection;
+import asmeta.structure.Asm;
 import asmeta.structure.DomainDefinition;
+import asmeta.terms.basicterms.BooleanTerm;
 import asmeta.terms.basicterms.SetTerm;
 import asmeta.terms.basicterms.Term;
+import asmeta.transitionrules.basictransitionrules.ChooseRule;
 /**
  * classe di appoggio per testare singole specifiche
  * 
@@ -55,7 +58,18 @@ public class AsmParserTest_OneSpec extends AsmParserTest {
 		String file = "test/parser/Dragonfly_verification.asm";
 		testOneSpec(file);
 	}
-	
+	@Test
+	public void testChooseNoGuard() {
+		String file = "test/parser/ChooseNoCond.asm";
+		Asm asm = testOneSpec(file).getMain();
+		ChooseRule cr = (ChooseRule) asm.getMainrule().getRuleBody();
+		if (cr.getGuard() instanceof BooleanTerm bt) {
+			assertEquals("true", bt.getSymbol());
+		} else {
+			fail("");
+		}
+	}
+		
 	
 	@Test
 	public void testOneSpec2() {

@@ -1,6 +1,6 @@
 asm nestedIf3
 
-import ../../../../asm_examples/STDL/StandardLibrary
+import ../../../../../asm_examples/STDL/StandardLibrary
 
 signature:
 	domain MyDomain subsetof Integer

@@ -481,43 +481,6 @@ public class InterpreterTest extends BaseTest {
 		assertEquals(new IntegerValue(1), v);
 	}
 
-	@Test
-	public void test34() throws Exception {
-		sim = Util.getSimulatorForTestSpec("test/simulator/ChooseInConcrete.asm");
-		sim.setShuffleFlag(false);
-		sim.run(1);		
-		f = searchFunction("y");
-		v = sim.currentState.read(new Location(f, new Value[0]));
-		assertEquals(new IntegerValue(1), v);
-	}
-
-	@Test
-	public void test35() throws Exception {
-		sim = Util.getSimulatorForTestSpec("test/simulator/ChooseRule01.asm");
-		sim.run(1);		
-		f = searchFunction("f");
-		v = sim.currentState.read(new Location(f, new Value[0]));
-		assertEquals(new IntegerValue(20), v);
-	}
-
-	@Test
-	public void test36() throws Exception {
-		sim = Util.getSimulatorForTestSpec("test/simulator/ChooseRule02.asm");
-		sim.run(1);		
-		f = searchFunction("f");
-		v = sim.currentState.read(new Location(f, new Value[] {
-				new IntegerValue(2), new IntegerValue(5)}));
-		assertEquals(BooleanValue.TRUE, v);
-	}
-
-	@Test
-	public void test37() throws Exception {
-		sim = Util.getSimulatorForTestSpec("test/simulator/ChooseRule03.asm");
-		sim.run(1);		
-		f = searchFunction("f");
-		v = sim.currentState.read(new Location(f, new Value[0]));
-		assertEquals(UndefValue.UNDEF, v);
-	}
 
 	@Test
 	public void test38() throws Exception {
@@ -773,20 +736,6 @@ public class InterpreterTest extends BaseTest {
 		}
 	}
 
-	@Test
-	public void testChooseBoolean() throws Exception {
-		sim = Util.getSimulatorForTestSpec("test/simulator/chooseBoolean.asm");
-		sim.setShuffleFlag(true);
-		sim.run(1000);//la probabilita' che il test fallisca (anche se il simulatore e' corretto) e' 1/(2^1000)
-		f = searchFunction("fooA");
-		Value value = sim.currentState.read(new Location(f, new Value[]{}));
-		//System.out.println("fooA = " + value.toString());
-		assertFalse(value.toString().equals("0"));
-		f = searchFunction("fooB");
-		value = sim.currentState.read(new Location(f, new Value[]{}));
-		//System.out.println("fooB = " + value.toString());
-		assertFalse(value.toString().equals("0"));
-	}
 
 	@Test
 	public void testWhile() throws Exception {

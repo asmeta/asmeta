@@ -1,0 +1,20 @@
+scenario exactly_one_execution
+load ../../../../../../asm_examples/examples/simple_example/population.asm
+
+// This scenario covers more than one execution (first step) and exactly one execution (second step)
+
+check alive(female1) and alive(male1);
+
+pick $x in r_reproduce(Person) := 1; // Force reproduction (before death)
+pick $x in r_dead(Person) := 100; // Force death
+
+step
+
+check not alive(female1) and not alive(male1);
+
+pick $x in r_reproduce(Person) := 100; // Force reproduction (avoid flakiness in branch coverage)
+pick $x in r_dead(Person) := 1; // Force no death
+
+step
+
+check not alive(female1) and not alive(male1);
