@@ -332,7 +332,7 @@ public class ZeroMQWA {
         }
     }
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-    public void run() throws InterruptedException {
+    public void run() {
         if ("CHOREOGRAPHED".equals(this.executionMode)) {
             runAsChoreographed();
         } else if ("ORCHESTRATED".equals(this.executionMode)) {
@@ -342,7 +342,7 @@ public class ZeroMQWA {
         }
     }
 ////////////////////////////////////////////////////////
-    public void runAsChoreographed() throws InterruptedException {
+    public void runAsChoreographed() {
         if (this.asmId <= 0) {
             logger.fatal("ASM ID was not initialized correctly. Aborting run loop.");
             return;

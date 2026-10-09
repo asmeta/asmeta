@@ -68,14 +68,7 @@ public abstract class SimulationLauncher {
 
         List<Thread> threads = new ArrayList<>();
         for (ZeroMQWA zeroMqWrapper : modelsToRun) {
-            Thread modelThread = new Thread(() -> {
-				try {
-					zeroMqWrapper.run();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			});
+            Thread modelThread = new Thread(() -> zeroMqWrapper.run());
             threads.add(modelThread);
             modelThread.start();
         }
