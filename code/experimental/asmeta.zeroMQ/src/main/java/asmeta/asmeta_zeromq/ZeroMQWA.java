@@ -345,7 +345,8 @@ public class ZeroMQWA {
             initializeZmqSockets(context);
             initializeStartingValues();
             publishBootstrap();
-      
+
+            long choreographedStepNumber = 0;
             while (!Thread.currentThread().isInterrupted()) {
                 boolean receivedData = false;
 
@@ -362,6 +363,7 @@ public class ZeroMQWA {
                 }
 
                 if (receivedData && hasAllRequiredInputs()) {
+                    long choreographedStepStartNanos = System.nanoTime();
                 	logger.debug("[{}] Conditions satisfied. Execute step.", sectionPrefix);
                     
                     Map<String, String> monitoredForStep = new HashMap<>();
@@ -380,7 +382,25 @@ public class ZeroMQWA {
                     }));
 
 
-                    RunOutput output = sim.runStep(this.asmId, monitoredForStep);
+                    long asmStepStartNanos = System.nanoTime();
+
+
+                    RunOutput output;
+
+
+                    try {
+
+
+                        output = sim.runStep(this.asmId, monitoredForStep);
+
+
+                    } finally {
+
+
+                        logger.info("[{}] ASM step execution time: {} ms", this.sectionPrefix, (System.nanoTime() - asmStepStartNanos) / 1_000_000.0);
+
+
+                    }
 
                     System.setOut(originalOut);
 
@@ -413,7 +433,10 @@ public class ZeroMQWA {
                         currentMonitoredValues.keySet().removeIf(
                             k -> k.equals(envFunc) || k.startsWith(envFunc + "("));
                     }
-                   // currentMonitoredValues.clear(); 
+                   // currentMonitoredValues.clear();
+                    choreographedStepNumber++;
+                    logger.info("[CHOREOGRAPHED] [{}] Step {}: {} ms", this.sectionPrefix,
+                            choreographedStepNumber, (System.nanoTime() - choreographedStepStartNanos) / 1_000_000.0);
                 } else if (!receivedData) {
                     Thread.sleep(10); 
                 }
@@ -624,7 +647,19 @@ public class ZeroMQWA {
                                 }
                             }
 
-                            RunOutput output = sim.runStep(this.asmId, monitoredForStep);
+                            long asmStepStartNanos = System.nanoTime();
+
+                            RunOutput output;
+
+                            try {
+
+                                output = sim.runStep(this.asmId, monitoredForStep);
+
+                            } finally {
+
+                                logger.info("[{}] ASM step execution time: {} ms", this.sectionPrefix, (System.nanoTime() - asmStepStartNanos) / 1_000_000.0);
+
+                            }
 
                             Map<String, Object> response = new HashMap<>();
                             if (output.getEsit() == Esit.SAFE) {
@@ -710,7 +745,13 @@ public class ZeroMQWA {
                     	        }
                     	    }
                     	}
-                        RunOutput output = sim.runStep(this.asmId, monitoredForStep);
+                        long asmStepStartNanos = System.nanoTime();
+                        RunOutput output;
+                        try {
+                            output = sim.runStep(this.asmId, monitoredForStep);
+                        } finally {
+                            logger.info("[{}] ASM step execution time: {} ms", this.sectionPrefix, (System.nanoTime() - asmStepStartNanos) / 1_000_000.0);
+                        }
 
                         if (this.isForkJoinMode) {
                             Map<String, Object> response = new HashMap<>(output.getOutvalues());
@@ -772,7 +813,12 @@ public class ZeroMQWA {
         }
         
         RunOutput output;
-            output = sim.runStep(this.asmId, monitoredForStep);
+            long asmStepStartNanos = System.nanoTime();
+            try {
+                output = sim.runStep(this.asmId, monitoredForStep);
+            } finally {
+                logger.info("[{}] ASM step execution time: {} ms", this.sectionPrefix, (System.nanoTime() - asmStepStartNanos) / 1_000_000.0);
+            }
                                                 
             if (output.getEsit() == Esit.SAFE) {
                 logger.info("ASM step SAFE. Output: {}", output.getOutvalues());

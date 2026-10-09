@@ -143,6 +143,7 @@ public class OrchestrationLauncher extends SimulationLauncher {
                 List<String> envData = new ArrayList<>(envPayloads);
 
                 visitor.resetStepTracking();
+                long compositionStepStartNanos = System.nanoTime();
                 try {
                     astRoot.accept(visitor, envData);
                 } catch (OrchestrationVisitor.UnsafeExecutionException
@@ -159,6 +160,9 @@ public class OrchestrationLauncher extends SimulationLauncher {
                         }
                     }
                     continue;
+                } finally {
+                    System.out.println("[ORCHESTRATED] Step " + stepCorrente + ": "
+                            + ((System.nanoTime() - compositionStepStartNanos) / 1_000_000.0) + " ms");
                 }
                 
 
