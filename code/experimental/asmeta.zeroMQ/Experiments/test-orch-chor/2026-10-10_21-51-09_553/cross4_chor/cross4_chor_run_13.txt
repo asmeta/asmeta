@@ -1,0 +1,435 @@
+[SimulationLauncher] config = configs/trafficLight/pedestrian2notram.properties
+[SimulationLauncher] mode   = CHOREOGRAPHED
+[ChoreographyLauncher] : Parsing the formula(((pedestrian || tram) <|> crossManager) <||> controller) | (trafficlightA || trafficlightB)
+[Wiring] pedestrian SUB: [newPedestrianComing, newTramComing, transitionC, mCurrTimeSecs, OUT_controller, OUT_crossManager] | PUB: [OUT_pedestrian]
+[Wiring] tram SUB: [newPedestrianComing, newTramComing, transitionC, mCurrTimeSecs, OUT_controller, OUT_crossManager] | PUB: [OUT_tram]
+[Wiring] crossManager SUB: [newPedestrianComing, newTramComing, transitionC, mCurrTimeSecs, OUT_controller, OUT_pedestrian, OUT_tram] | PUB: [OUT_crossManager]
+[Wiring] controller SUB: [newPedestrianComing, newTramComing, transitionC, mCurrTimeSecs, OUT_pedestrian, OUT_tram, OUT_crossManager] | PUB: [OUT_controller]
+[Wiring] trafficlightA SUB: [OUT_pedestrian, OUT_tram, OUT_crossManager, OUT_controller] | PUB: [OUT_trafficlightA]
+[Wiring] trafficlightB SUB: [OUT_pedestrian, OUT_tram, OUT_crossManager, OUT_controller] | PUB: [OUT_trafficlightB]
+[ModelProcess] Starting model: controller from config: configs/trafficLight/pedestrian2notram.properties
+[ModelProcess] Starting model: crossManager from config: configs/trafficLight/pedestrian2notram.properties
+[ModelProcess] Starting model: trafficlightB from config: configs/trafficLight/pedestrian2notram.properties
+[ModelProcess] Starting model: trafficlightA from config: configs/trafficLight/pedestrian2notram.properties
+[ModelProcess] Starting model: pedestrian from config: configs/trafficLight/pedestrian2notram.properties
+[ModelProcess] Starting model: tram from config: configs/trafficLight/pedestrian2notram.properties
+01:01:13.284 INFO  ZeroMQWA - Started ASM Model successfully! Model path: resources/models/trafficLightCoSimCross/trafficlightA.asm with ID: 1
+01:01:13.316 INFO  ZeroMQWA - Required monitored vars for model ID 1: [operateMode, statusC]
+01:01:13.356 INFO  ZeroMQWA - Started ASM Model successfully! Model path: resources/models/trafficLightCoSimCross/pedestrian.asm with ID: 1
+01:01:13.418 INFO  ZeroMQWA - Required monitored vars for model ID 1: [newPedestrianComing, mCurrTimeSecs, crossManagerController]
+01:01:13.435 INFO  ZeroMQWA - Started ASM Model successfully! Model path: resources/models/trafficLightCoSimCross/tram.asm with ID: 1
+01:01:13.492 INFO  ZeroMQWA - Started ASM Model successfully! Model path: resources/models/trafficLightCoSimCross/trafficlightB.asm with ID: 1
+01:01:13.523 INFO  ZeroMQWA - Required monitored vars for model ID 1: [newTramComing, mCurrTimeSecs, crossManagerController]
+01:01:13.526 INFO  ZeroMQWA - Required monitored vars for model ID 1: [operateMode, statusC]
+01:01:13.634 INFO  ZeroMQWA - Started ASM Model successfully! Model path: resources/models/trafficLightCoSimCross/crossManager.asm with ID: 1
+01:01:13.648 INFO  ZeroMQWA - SUB socket connected to tcp://127.0.0.1:5559 and subscribed to topics: [OUT_pedestrian,OUT_tram,OUT_crossManager,OUT_controller]
+01:01:13.648 INFO  ZeroMQWA - ZeroMQ Socket initialization completed with 1 SUB connections.
+01:01:13.711 INFO  ZeroMQWA - Required monitored vars for model ID 1: [pedestrianComing, tramComing, statusC, mCurrTimeSecs]
+01:01:13.717 INFO  ZeroMQWA - SUB socket connected to tcp://127.0.0.1:5558 and subscribed to topics: [newPedestrianComing,newTramComing,transitionC,mCurrTimeSecs,OUT_controller,OUT_crossManager]
+01:01:13.724 INFO  ZeroMQWA - Environment socket connected to address tcp://127.0.0.1:5570
+01:01:13.725 INFO  ZeroMQWA - ZeroMQ Socket initialization completed with 2 SUB connections.
+01:01:13.744 INFO  ZeroMQWA - Started ASM Model successfully! Model path: resources/models/trafficLightCoSimCross/controller.asm with ID: 1
+01:01:13.769 INFO  ZeroMQWA - SUB socket connected to tcp://127.0.0.1:5558 and subscribed to topics: [newPedestrianComing,newTramComing,transitionC,mCurrTimeSecs,OUT_controller,OUT_crossManager]
+01:01:13.775 INFO  ZeroMQWA - Environment socket connected to address tcp://127.0.0.1:5570
+01:01:13.776 INFO  ZeroMQWA - ZeroMQ Socket initialization completed with 2 SUB connections.
+01:01:13.796 INFO  ZeroMQWA - SUB socket connected to tcp://127.0.0.1:5559 and subscribed to topics: [OUT_pedestrian,OUT_tram,OUT_crossManager,OUT_controller]
+01:01:13.797 INFO  ZeroMQWA - ZeroMQ Socket initialization completed with 1 SUB connections.
+01:01:13.798 INFO  ZeroMQWA - Required monitored vars for model ID 1: [transitionC, mCurrTimeSecs, crossManagerController]
+01:01:13.855 INFO  ZeroMQWA - SUB socket connected to tcp://127.0.0.1:5556 and subscribed to topics: [newPedestrianComing,newTramComing,transitionC,mCurrTimeSecs,OUT_controller,OUT_pedestrian,OUT_tram]
+01:01:13.858 INFO  ZeroMQWA - SUB socket connected to tcp://127.0.0.1:5557 and subscribed to topics: [newPedestrianComing,newTramComing,transitionC,mCurrTimeSecs,OUT_controller,OUT_pedestrian,OUT_tram]
+01:01:13.862 INFO  ZeroMQWA - SUB socket connected to tcp://127.0.0.1:5559 and subscribed to topics: [newPedestrianComing,newTramComing,transitionC,mCurrTimeSecs,OUT_controller,OUT_pedestrian,OUT_tram]
+01:01:13.866 INFO  ZeroMQWA - Environment socket connected to address tcp://127.0.0.1:5570
+01:01:13.866 INFO  ZeroMQWA - ZeroMQ Socket initialization completed with 4 SUB connections.
+01:01:13.903 INFO  ZeroMQWA - SUB socket connected to tcp://127.0.0.1:5558 and subscribed to topics: [newPedestrianComing,newTramComing,transitionC,mCurrTimeSecs,OUT_pedestrian,OUT_tram,OUT_crossManager]
+01:01:13.907 INFO  ZeroMQWA - Environment socket connected to address tcp://127.0.0.1:5570
+01:01:13.907 INFO  ZeroMQWA - ZeroMQ Socket initialization completed with 2 SUB connections.
+01:01:15.390 INFO  ZeroMQWA - [crossManager] MISSING: statusC
+01:01:15.395 INFO  ZeroMQWA - [pedestrian] MISSING: newPedestrianComing
+01:01:15.396 INFO  ZeroMQWA - [tram] MISSING: newTramComing
+01:01:15.432 INFO  ZeroMQWA - [controller] MISSING: transitionC
+01:01:15.437 INFO  ZeroMQWA - [crossManager] MISSING: mCurrTimeSecs
+01:01:15.472 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 28.1994 ms
+01:01:15.473 INFO  ZeroMQWA - [trafficlightB] lightsB=ALL_OFF
+01:01:15.474 INFO  ZeroMQWA - [CHOREOGRAPHED] [trafficlightB] Step 1: 30.3272 ms
+01:01:15.473 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 30.8918 ms
+01:01:15.475 INFO  ZeroMQWA - [trafficlightA] lightsA=ALL_OFF
+01:01:15.475 INFO  ZeroMQWA - [CHOREOGRAPHED] [trafficlightA] Step 1: 33.5692 ms
+[ChoreographyLauncher] Environment started
+Environment functions: [newPedestrianComing, newTramComing, transitionC, mCurrTimeSecs]
+Function: newPedestrianComing values: [false, false, false, false, false, false, true, true, false, false, false, false, true, true, false, false]
+Function: newTramComing values: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]
+Function: transitionC values: [TURN_ON, OPERATE_T, OPERATE_T, OPERATE_T, OPERATE_T, OPERATE_T, OPERATE_T, OPERATE_T, OPERATE_T, OPERATE_T, OPERATE_T, OPERATE_T, OPERATE_T, OPERATE_T, OPERATE_T, OPERATE_T]
+Function: mCurrTimeSecs values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+Environment PUB socket bound to tcp://*:5570
+Step: 0
+Sent newPedestrianComing value false to tcp://*:5570 at topic newPedestrianComing
+Sent newTramComing value false to tcp://*:5570 at topic newTramComing
+Sent transitionC value TURN_ON to tcp://*:5570 at topic transitionC
+Sent mCurrTimeSecs value 1 to tcp://*:5570 at topic mCurrTimeSecs
+01:01:17.982 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 53.4862 ms
+01:01:17.983 INFO  ZeroMQWA - [pedestrian] pedestrianComing=false, pedestrianLight=RED
+01:01:17.984 INFO  ZeroMQWA - [CHOREOGRAPHED] [pedestrian] Step 1: 56.2542 ms
+01:01:17.988 INFO  ZeroMQWA - [tram] ASM step execution time: 60.207 ms
+01:01:17.990 INFO  ZeroMQWA - [tram] tramComing=false, tramLight=RED
+01:01:17.993 INFO  ZeroMQWA - [CHOREOGRAPHED] [tram] Step 1: 65.8482 ms
+01:01:18.009 INFO  ZeroMQWA - [controller] ASM step execution time: 80.7778 ms
+01:01:18.009 INFO  ZeroMQWA - [crossManager] ASM step execution time: 80.9727 ms
+01:01:18.009 INFO  ZeroMQWA - [crossManager] crossManagerController=NORMAL
+01:01:18.009 INFO  ZeroMQWA - [controller] statusC=STANDBY
+01:01:18.012 INFO  ZeroMQWA - [CHOREOGRAPHED] [crossManager] Step 1: 84.659 ms
+01:01:18.012 INFO  ZeroMQWA - [CHOREOGRAPHED] [controller] Step 1: 84.8723 ms
+01:01:18.012 INFO  ZeroMQWA - [crossManager] MISSING: mCurrTimeSecs
+01:01:18.013 INFO  ZeroMQWA - [controller] MISSING: transitionC
+01:01:18.022 INFO  ZeroMQWA - [tram] MISSING: newTramComing
+01:01:18.022 INFO  ZeroMQWA - [pedestrian] MISSING: newPedestrianComing
+01:01:18.035 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 12.1843 ms
+01:01:18.037 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 14.5985 ms
+01:01:18.040 INFO  ZeroMQWA - [trafficlightB] lightsB: ALL_OFF → BLINK_YELLOW
+01:01:18.041 INFO  ZeroMQWA - [CHOREOGRAPHED] [trafficlightB] Step 2: 17.7713 ms
+01:01:18.043 INFO  ZeroMQWA - [trafficlightA] lightsA: ALL_OFF → BLINK_YELLOW
+01:01:18.043 INFO  ZeroMQWA - [CHOREOGRAPHED] [trafficlightA] Step 2: 20.6929 ms
+Step: 1
+Sent newPedestrianComing value false to tcp://*:5570 at topic newPedestrianComing
+Sent newTramComing value false to tcp://*:5570 at topic newTramComing
+Sent transitionC value OPERATE_T to tcp://*:5570 at topic transitionC
+Sent mCurrTimeSecs value 2 to tcp://*:5570 at topic mCurrTimeSecs
+01:01:24.973 INFO  ZeroMQWA - [tram] ASM step execution time: 25.7001 ms
+01:01:24.975 INFO  ZeroMQWA - [CHOREOGRAPHED] [tram] Step 2: 26.9827 ms
+01:01:24.979 INFO  ZeroMQWA - [crossManager] ASM step execution time: 31.2225 ms
+01:01:24.981 INFO  ZeroMQWA - [CHOREOGRAPHED] [crossManager] Step 2: 33.4303 ms
+01:01:24.982 INFO  ZeroMQWA - [crossManager] MISSING: mCurrTimeSecs
+01:01:24.992 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 44.4496 ms
+01:01:24.993 INFO  ZeroMQWA - [CHOREOGRAPHED] [pedestrian] Step 2: 45.1783 ms
+01:01:24.993 INFO  ZeroMQWA - [pedestrian] MISSING: newPedestrianComing
+01:01:24.996 INFO  ZeroMQWA - [crossManager] MISSING: mCurrTimeSecs
+01:01:24.996 INFO  ZeroMQWA - [tram] MISSING: newTramComing
+01:01:25.009 INFO  ZeroMQWA - [controller] ASM step execution time: 61.0929 ms
+01:01:25.009 INFO  ZeroMQWA - [controller] operateMode=RED_AB, statusC: STANDBY → OPERATE
+01:01:25.010 INFO  ZeroMQWA - [CHOREOGRAPHED] [controller] Step 2: 62.6051 ms
+01:01:25.011 INFO  ZeroMQWA - [controller] MISSING: transitionC
+01:01:25.026 INFO  ZeroMQWA - [crossManager] MISSING: mCurrTimeSecs
+01:01:25.040 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 13.3177 ms
+01:01:25.041 INFO  ZeroMQWA - [trafficlightB] lightsB: BLINK_YELLOW → RED
+01:01:25.041 INFO  ZeroMQWA - [CHOREOGRAPHED] [trafficlightB] Step 3: 15.1068 ms
+01:01:25.043 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 16.563 ms
+01:01:25.043 INFO  ZeroMQWA - [trafficlightA] lightsA: BLINK_YELLOW → RED
+01:01:25.043 INFO  ZeroMQWA - [CHOREOGRAPHED] [trafficlightA] Step 3: 17.1605 ms
+Step: 2
+Sent newPedestrianComing value false to tcp://*:5570 at topic newPedestrianComing
+Sent newTramComing value false to tcp://*:5570 at topic newTramComing
+Sent transitionC value OPERATE_T to tcp://*:5570 at topic transitionC
+Sent mCurrTimeSecs value 3 to tcp://*:5570 at topic mCurrTimeSecs
+01:01:31.984 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 25.4822 ms
+01:01:31.985 INFO  ZeroMQWA - [CHOREOGRAPHED] [pedestrian] Step 3: 28.2296 ms
+01:01:31.994 INFO  ZeroMQWA - [tram] ASM step execution time: 36.4097 ms
+01:01:31.995 INFO  ZeroMQWA - [CHOREOGRAPHED] [tram] Step 3: 37.2806 ms
+01:01:32.000 INFO  ZeroMQWA - [crossManager] ASM step execution time: 42.4969 ms
+01:01:32.001 INFO  ZeroMQWA - [controller] ASM step execution time: 44.1593 ms
+01:01:32.004 INFO  ZeroMQWA - [CHOREOGRAPHED] [controller] Step 3: 46.0742 ms
+01:01:32.009 INFO  ZeroMQWA - [CHOREOGRAPHED] [crossManager] Step 3: 52.1652 ms
+01:01:32.010 INFO  ZeroMQWA - [crossManager] MISSING: mCurrTimeSecs
+01:01:32.010 INFO  ZeroMQWA - [pedestrian] MISSING: newPedestrianComing
+01:01:32.020 INFO  ZeroMQWA - [controller] MISSING: transitionC
+01:01:32.020 INFO  ZeroMQWA - [tram] MISSING: newTramComing
+01:01:32.036 INFO  ZeroMQWA - [crossManager] MISSING: mCurrTimeSecs
+01:01:32.056 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 19.9277 ms
+01:01:32.059 INFO  ZeroMQWA - [CHOREOGRAPHED] [trafficlightB] Step 4: 23.8987 ms
+01:01:32.072 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 33.2557 ms
+01:01:32.075 INFO  ZeroMQWA - [CHOREOGRAPHED] [trafficlightA] Step 4: 38.708 ms
+Step: 3
+Sent newPedestrianComing value false to tcp://*:5570 at topic newPedestrianComing
+Sent newTramComing value false to tcp://*:5570 at topic newTramComing
+Sent transitionC value OPERATE_T to tcp://*:5570 at topic transitionC
+Sent mCurrTimeSecs value 4 to tcp://*:5570 at topic mCurrTimeSecs
+01:01:38.997 INFO  ZeroMQWA - [tram] ASM step execution time: 27.9972 ms
+01:01:39.002 INFO  ZeroMQWA - [CHOREOGRAPHED] [tram] Step 4: 34.4935 ms
+01:01:39.004 INFO  ZeroMQWA - [crossManager] ASM step execution time: 36.3801 ms
+01:01:39.005 INFO  ZeroMQWA - [CHOREOGRAPHED] [crossManager] Step 4: 37.5149 ms
+01:01:39.014 INFO  ZeroMQWA - [tram] MISSING: newTramComing
+01:01:39.018 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 50.7532 ms
+01:01:39.019 INFO  ZeroMQWA - [CHOREOGRAPHED] [pedestrian] Step 4: 51.6135 ms
+01:01:39.020 INFO  ZeroMQWA - [pedestrian] MISSING: newPedestrianComing
+01:01:39.030 INFO  ZeroMQWA - [crossManager] MISSING: mCurrTimeSecs
+01:01:39.050 INFO  ZeroMQWA - [controller] ASM step execution time: 81.8825 ms
+01:01:39.051 INFO  ZeroMQWA - [CHOREOGRAPHED] [controller] Step 4: 83.4144 ms
+01:01:39.054 INFO  ZeroMQWA - [controller] MISSING: transitionC
+01:01:39.058 INFO  ZeroMQWA - [crossManager] MISSING: mCurrTimeSecs
+01:01:39.094 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 33.9826 ms
+01:01:39.095 INFO  ZeroMQWA - [CHOREOGRAPHED] [trafficlightB] Step 5: 34.6972 ms
+01:01:39.101 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 46.065 ms
+01:01:39.104 INFO  ZeroMQWA - [CHOREOGRAPHED] [trafficlightA] Step 5: 49.1415 ms
+Step: 4
+Sent newPedestrianComing value false to tcp://*:5570 at topic newPedestrianComing
+Sent newTramComing value false to tcp://*:5570 at topic newTramComing
+Sent transitionC value OPERATE_T to tcp://*:5570 at topic transitionC
+Sent mCurrTimeSecs value 5 to tcp://*:5570 at topic mCurrTimeSecs
+01:01:46.005 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 26.9884 ms
+01:01:46.008 INFO  ZeroMQWA - [CHOREOGRAPHED] [pedestrian] Step 5: 29.3336 ms
+01:01:46.009 INFO  ZeroMQWA - [tram] ASM step execution time: 30.7625 ms
+01:01:46.010 INFO  ZeroMQWA - [CHOREOGRAPHED] [tram] Step 5: 31.6678 ms
+01:01:46.013 INFO  ZeroMQWA - [controller] ASM step execution time: 34.5843 ms
+01:01:46.013 INFO  ZeroMQWA - [controller] operateMode: RED_AB → GREEN_A_RED_B
+01:01:46.014 INFO  ZeroMQWA - [CHOREOGRAPHED] [controller] Step 5: 35.5962 ms
+01:01:46.026 INFO  ZeroMQWA - [crossManager] ASM step execution time: 47.7118 ms
+01:01:46.027 INFO  ZeroMQWA - [CHOREOGRAPHED] [crossManager] Step 5: 48.5032 ms
+01:01:46.027 INFO  ZeroMQWA - [crossManager] MISSING: mCurrTimeSecs
+01:01:46.042 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 15.4502 ms
+01:01:46.042 INFO  ZeroMQWA - [CHOREOGRAPHED] [trafficlightB] Step 6: 15.9032 ms
+01:01:46.043 INFO  ZeroMQWA - [pedestrian] MISSING: newPedestrianComing
+01:01:46.044 INFO  ZeroMQWA - [controller] MISSING: transitionC
+01:01:46.044 INFO  ZeroMQWA - [tram] MISSING: newTramComing
+01:01:46.045 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 16.9877 ms
+01:01:46.046 INFO  ZeroMQWA - [trafficlightA] lightsA: RED → GREEN
+01:01:46.047 INFO  ZeroMQWA - [CHOREOGRAPHED] [trafficlightA] Step 6: 20.136 ms
+Step: 5
+Sent newPedestrianComing value false to tcp://*:5570 at topic newPedestrianComing
+Sent newTramComing value false to tcp://*:5570 at topic newTramComing
+Sent transitionC value OPERATE_T to tcp://*:5570 at topic transitionC
+Sent mCurrTimeSecs value 6 to tcp://*:5570 at topic mCurrTimeSecs
+01:01:53.005 INFO  ZeroMQWA - [tram] ASM step execution time: 23.476 ms
+01:01:53.006 INFO  ZeroMQWA - [CHOREOGRAPHED] [tram] Step 6: 24.1702 ms
+01:01:53.010 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 27.1186 ms
+01:01:53.011 INFO  ZeroMQWA - [crossManager] ASM step execution time: 27.9383 ms
+01:01:53.011 INFO  ZeroMQWA - [CHOREOGRAPHED] [pedestrian] Step 6: 28.4101 ms
+01:01:53.011 INFO  ZeroMQWA - [CHOREOGRAPHED] [crossManager] Step 6: 28.6919 ms
+01:01:53.011 INFO  ZeroMQWA - [crossManager] MISSING: mCurrTimeSecs
+01:01:53.016 INFO  ZeroMQWA - [controller] ASM step execution time: 34.2624 ms
+01:01:53.017 INFO  ZeroMQWA - [CHOREOGRAPHED] [controller] Step 6: 34.7852 ms
+01:01:53.017 INFO  ZeroMQWA - [controller] MISSING: transitionC
+01:01:53.029 INFO  ZeroMQWA - [crossManager] MISSING: mCurrTimeSecs
+01:01:53.029 INFO  ZeroMQWA - [pedestrian] MISSING: newPedestrianComing
+01:01:53.029 INFO  ZeroMQWA - [tram] MISSING: newTramComing
+01:01:53.039 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 9.8058 ms
+01:01:53.040 INFO  ZeroMQWA - [CHOREOGRAPHED] [trafficlightA] Step 7: 10.3954 ms
+01:01:53.041 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 10.9294 ms
+01:01:53.041 INFO  ZeroMQWA - [CHOREOGRAPHED] [trafficlightB] Step 7: 11.544 ms
+Step: 6
+Sent newPedestrianComing value true to tcp://*:5570 at topic newPedestrianComing
+Sent newTramComing value false to tcp://*:5570 at topic newTramComing
+Sent transitionC value OPERATE_T to tcp://*:5570 at topic transitionC
+Sent mCurrTimeSecs value 7 to tcp://*:5570 at topic mCurrTimeSecs
+01:02:00.015 INFO  ZeroMQWA - [tram] ASM step execution time: 21.6779 ms
+01:02:00.015 INFO  ZeroMQWA - [crossManager] ASM step execution time: 21.772 ms
+01:02:00.015 INFO  ZeroMQWA - [CHOREOGRAPHED] [tram] Step 7: 22.2439 ms
+01:02:00.016 INFO  ZeroMQWA - [CHOREOGRAPHED] [crossManager] Step 7: 22.9378 ms
+01:02:00.018 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 25.1816 ms
+01:02:00.021 INFO  ZeroMQWA - [pedestrian] pedestrianComing: false → true
+01:02:00.023 INFO  ZeroMQWA - [CHOREOGRAPHED] [pedestrian] Step 7: 28.8904 ms
+01:02:00.025 INFO  ZeroMQWA - [controller] ASM step execution time: 31.2524 ms
+01:02:00.027 INFO  ZeroMQWA - [CHOREOGRAPHED] [controller] Step 7: 34.1926 ms
+01:02:00.028 INFO  ZeroMQWA - [controller] MISSING: transitionC
+01:02:00.030 INFO  ZeroMQWA - [pedestrian] MISSING: newPedestrianComing
+01:02:00.041 INFO  ZeroMQWA - [crossManager] MISSING: mCurrTimeSecs
+01:02:00.042 INFO  ZeroMQWA - [tram] MISSING: newTramComing
+01:02:00.051 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 10.0498 ms
+01:02:00.052 INFO  ZeroMQWA - [CHOREOGRAPHED] [trafficlightA] Step 8: 10.5355 ms
+01:02:00.059 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 17.5884 ms
+01:02:00.062 INFO  ZeroMQWA - [CHOREOGRAPHED] [trafficlightB] Step 8: 20.6958 ms
+Step: 7
+Sent newPedestrianComing value true to tcp://*:5570 at topic newPedestrianComing
+Sent newTramComing value false to tcp://*:5570 at topic newTramComing
+Sent transitionC value OPERATE_T to tcp://*:5570 at topic transitionC
+Sent mCurrTimeSecs value 8 to tcp://*:5570 at topic mCurrTimeSecs
+01:02:07.032 INFO  ZeroMQWA - [tram] ASM step execution time: 22.4807 ms
+01:02:07.033 INFO  ZeroMQWA - [CHOREOGRAPHED] [tram] Step 8: 23.2571 ms
+01:02:07.036 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 25.9007 ms
+01:02:07.036 INFO  ZeroMQWA - [CHOREOGRAPHED] [pedestrian] Step 8: 26.6685 ms
+01:02:07.037 INFO  ZeroMQWA - [controller] ASM step execution time: 27.461 ms
+01:02:07.037 INFO  ZeroMQWA - [controller] operateMode: GREEN_A_RED_B → YELLOW_A_RED_B
+01:02:07.038 INFO  ZeroMQWA - [CHOREOGRAPHED] [controller] Step 8: 28.5244 ms
+01:02:07.042 INFO  ZeroMQWA - [crossManager] ASM step execution time: 33.2601 ms
+01:02:07.044 INFO  ZeroMQWA - [crossManager] crossManagerController: NORMAL → PEDESTRIAN
+01:02:07.045 INFO  ZeroMQWA - [CHOREOGRAPHED] [crossManager] Step 8: 36.493 ms
+01:02:07.047 INFO  ZeroMQWA - [crossManager] MISSING: mCurrTimeSecs
+01:02:07.053 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 12.6998 ms
+01:02:07.053 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 13.208 ms
+01:02:07.053 INFO  ZeroMQWA - [CHOREOGRAPHED] [trafficlightB] Step 9: 13.3517 ms
+01:02:07.053 INFO  ZeroMQWA - [trafficlightA] lightsA: GREEN → YELLOW
+01:02:07.054 INFO  ZeroMQWA - [CHOREOGRAPHED] [trafficlightA] Step 9: 13.7015 ms
+01:02:07.056 INFO  ZeroMQWA - [pedestrian] MISSING: newPedestrianComing
+01:02:07.056 INFO  ZeroMQWA - [controller] MISSING: transitionC
+01:02:07.056 INFO  ZeroMQWA - [tram] MISSING: newTramComing
+Step: 8
+Sent newPedestrianComing value false to tcp://*:5570 at topic newPedestrianComing
+Sent newTramComing value false to tcp://*:5570 at topic newTramComing
+Sent transitionC value OPERATE_T to tcp://*:5570 at topic transitionC
+Sent mCurrTimeSecs value 9 to tcp://*:5570 at topic mCurrTimeSecs
+01:02:14.039 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 19.4659 ms
+01:02:14.039 INFO  ZeroMQWA - [pedestrian] pedestrianLight: RED → GREEN
+01:02:14.040 INFO  ZeroMQWA - [CHOREOGRAPHED] [pedestrian] Step 9: 20.9501 ms
+01:02:14.045 INFO  ZeroMQWA - [tram] ASM step execution time: 25.4608 ms
+01:02:14.046 INFO  ZeroMQWA - [CHOREOGRAPHED] [tram] Step 9: 26.5812 ms
+01:02:14.047 INFO  ZeroMQWA - [controller] ASM step execution time: 27.8798 ms
+01:02:14.047 INFO  ZeroMQWA - [controller] operateMode: YELLOW_A_RED_B → RED_BA
+01:02:14.049 INFO  ZeroMQWA - [CHOREOGRAPHED] [controller] Step 9: 30.1035 ms
+01:02:14.050 INFO  ZeroMQWA - [crossManager] ASM step execution time: 30.4869 ms
+01:02:14.050 INFO  ZeroMQWA - [CHOREOGRAPHED] [crossManager] Step 9: 31.1239 ms
+01:02:14.051 INFO  ZeroMQWA - [crossManager] MISSING: mCurrTimeSecs
+01:02:14.051 INFO  ZeroMQWA - [pedestrian] MISSING: newPedestrianComing
+01:02:14.065 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 13.4483 ms
+01:02:14.065 INFO  ZeroMQWA - [trafficlightA] lightsA: YELLOW → RED
+01:02:14.065 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 13.9557 ms
+01:02:14.065 INFO  ZeroMQWA - [CHOREOGRAPHED] [trafficlightA] Step 10: 13.8853 ms
+01:02:14.066 INFO  ZeroMQWA - [CHOREOGRAPHED] [trafficlightB] Step 10: 14.3712 ms
+01:02:14.067 INFO  ZeroMQWA - [controller] MISSING: transitionC
+01:02:14.067 INFO  ZeroMQWA - [tram] MISSING: newTramComing
+Step: 9
+Sent newPedestrianComing value false to tcp://*:5570 at topic newPedestrianComing
+Sent newTramComing value false to tcp://*:5570 at topic newTramComing
+Sent transitionC value OPERATE_T to tcp://*:5570 at topic transitionC
+Sent mCurrTimeSecs value 10 to tcp://*:5570 at topic mCurrTimeSecs
+01:02:21.049 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 19.496 ms
+01:02:21.052 INFO  ZeroMQWA - [tram] ASM step execution time: 21.7961 ms
+01:02:21.053 INFO  ZeroMQWA - [CHOREOGRAPHED] [tram] Step 10: 22.584 ms
+01:02:21.054 INFO  ZeroMQWA - [CHOREOGRAPHED] [pedestrian] Step 10: 23.836 ms
+01:02:21.057 INFO  ZeroMQWA - [crossManager] ASM step execution time: 27.3705 ms
+01:02:21.058 INFO  ZeroMQWA - [CHOREOGRAPHED] [crossManager] Step 10: 28.5124 ms
+01:02:21.059 INFO  ZeroMQWA - [crossManager] MISSING: mCurrTimeSecs
+01:02:21.061 INFO  ZeroMQWA - [controller] ASM step execution time: 31.519 ms
+01:02:21.062 INFO  ZeroMQWA - [CHOREOGRAPHED] [controller] Step 10: 32.3083 ms
+01:02:21.063 INFO  ZeroMQWA - [controller] MISSING: transitionC
+01:02:21.077 INFO  ZeroMQWA - [tram] MISSING: newTramComing
+01:02:21.077 INFO  ZeroMQWA - [pedestrian] MISSING: newPedestrianComing
+01:02:21.077 INFO  ZeroMQWA - [crossManager] MISSING: mCurrTimeSecs
+01:02:21.085 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 7.8475 ms
+01:02:21.085 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 7.3186 ms
+01:02:21.086 INFO  ZeroMQWA - [CHOREOGRAPHED] [trafficlightA] Step 11: 7.8334 ms
+01:02:21.086 INFO  ZeroMQWA - [CHOREOGRAPHED] [trafficlightB] Step 11: 8.2635 ms
+Step: 10
+Sent newPedestrianComing value false to tcp://*:5570 at topic newPedestrianComing
+Sent newTramComing value false to tcp://*:5570 at topic newTramComing
+Sent transitionC value OPERATE_T to tcp://*:5570 at topic transitionC
+Sent mCurrTimeSecs value 11 to tcp://*:5570 at topic mCurrTimeSecs
+01:02:28.058 INFO  ZeroMQWA - [crossManager] ASM step execution time: 19.9728 ms
+01:02:28.059 INFO  ZeroMQWA - [CHOREOGRAPHED] [crossManager] Step 11: 20.6883 ms
+01:02:28.063 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 25.1181 ms
+01:02:28.064 INFO  ZeroMQWA - [CHOREOGRAPHED] [pedestrian] Step 11: 25.7053 ms
+01:02:28.065 INFO  ZeroMQWA - [pedestrian] MISSING: newPedestrianComing
+01:02:28.070 INFO  ZeroMQWA - [controller] ASM step execution time: 31.8611 ms
+01:02:28.071 INFO  ZeroMQWA - [crossManager] MISSING: mCurrTimeSecs
+01:02:28.071 INFO  ZeroMQWA - [CHOREOGRAPHED] [controller] Step 11: 32.8975 ms
+01:02:28.072 INFO  ZeroMQWA - [controller] MISSING: transitionC
+01:02:28.071 INFO  ZeroMQWA - [tram] ASM step execution time: 32.4778 ms
+01:02:28.075 INFO  ZeroMQWA - [CHOREOGRAPHED] [tram] Step 11: 36.7466 ms
+01:02:28.075 INFO  ZeroMQWA - [tram] MISSING: newTramComing
+01:02:28.085 INFO  ZeroMQWA - [crossManager] MISSING: mCurrTimeSecs
+01:02:28.098 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 12.9755 ms
+01:02:28.099 INFO  ZeroMQWA - [CHOREOGRAPHED] [trafficlightB] Step 12: 14.0307 ms
+01:02:28.101 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 16.0732 ms
+01:02:28.102 INFO  ZeroMQWA - [CHOREOGRAPHED] [trafficlightA] Step 12: 16.7367 ms
+Step: 11
+Sent newPedestrianComing value false to tcp://*:5570 at topic newPedestrianComing
+Sent newTramComing value false to tcp://*:5570 at topic newTramComing
+Sent transitionC value OPERATE_T to tcp://*:5570 at topic transitionC
+Sent mCurrTimeSecs value 12 to tcp://*:5570 at topic mCurrTimeSecs
+01:02:35.065 INFO  ZeroMQWA - [crossManager] ASM step execution time: 23.6135 ms
+01:02:35.066 INFO  ZeroMQWA - [controller] ASM step execution time: 23.9448 ms
+01:02:35.067 INFO  ZeroMQWA - [CHOREOGRAPHED] [controller] Step 12: 24.71 ms
+01:02:35.069 INFO  ZeroMQWA - [tram] ASM step execution time: 23.3902 ms
+01:02:35.069 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 26.9184 ms
+01:02:35.069 INFO  ZeroMQWA - [crossManager] crossManagerController: PEDESTRIAN → NORMAL
+01:02:35.071 INFO  ZeroMQWA - [CHOREOGRAPHED] [tram] Step 12: 28.5371 ms
+01:02:35.071 INFO  ZeroMQWA - [CHOREOGRAPHED] [pedestrian] Step 12: 28.7653 ms
+01:02:35.071 INFO  ZeroMQWA - [CHOREOGRAPHED] [crossManager] Step 12: 29.4596 ms
+01:02:35.071 INFO  ZeroMQWA - [pedestrian] MISSING: newPedestrianComing
+01:02:35.072 INFO  ZeroMQWA - [crossManager] MISSING: mCurrTimeSecs
+01:02:35.080 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 7.3106 ms
+01:02:35.081 INFO  ZeroMQWA - [CHOREOGRAPHED] [trafficlightA] Step 13: 7.621 ms
+01:02:35.089 INFO  ZeroMQWA - [tram] MISSING: newTramComing
+01:02:35.089 INFO  ZeroMQWA - [controller] MISSING: transitionC
+01:02:35.095 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 6.8099 ms
+01:02:35.095 INFO  ZeroMQWA - [CHOREOGRAPHED] [trafficlightB] Step 13: 7.1278 ms
+Step: 12
+Sent newPedestrianComing value true to tcp://*:5570 at topic newPedestrianComing
+Sent newTramComing value false to tcp://*:5570 at topic newTramComing
+Sent transitionC value OPERATE_T to tcp://*:5570 at topic transitionC
+Sent mCurrTimeSecs value 13 to tcp://*:5570 at topic mCurrTimeSecs
+01:02:42.069 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 19.7086 ms
+01:02:42.070 INFO  ZeroMQWA - [pedestrian] pedestrianLight: GREEN → RED
+01:02:42.071 INFO  ZeroMQWA - [CHOREOGRAPHED] [pedestrian] Step 13: 21.6472 ms
+01:02:42.072 INFO  ZeroMQWA - [tram] ASM step execution time: 23.0482 ms
+01:02:42.073 INFO  ZeroMQWA - [CHOREOGRAPHED] [tram] Step 13: 24.0034 ms
+01:02:42.078 INFO  ZeroMQWA - [crossManager] ASM step execution time: 28.9613 ms
+01:02:42.079 INFO  ZeroMQWA - [crossManager] crossManagerController: NORMAL → PEDESTRIAN
+01:02:42.084 INFO  ZeroMQWA - [CHOREOGRAPHED] [crossManager] Step 13: 34.4017 ms
+01:02:42.085 INFO  ZeroMQWA - [controller] ASM step execution time: 35.5041 ms
+01:02:42.085 INFO  ZeroMQWA - [controller] operateMode: RED_BA → GREEN_B_RED_A
+01:02:42.086 INFO  ZeroMQWA - [crossManager] MISSING: mCurrTimeSecs
+01:02:42.086 INFO  ZeroMQWA - [CHOREOGRAPHED] [controller] Step 13: 37.1814 ms
+01:02:42.091 INFO  ZeroMQWA - [controller] MISSING: transitionC
+01:02:42.097 INFO  ZeroMQWA - [tram] MISSING: newTramComing
+01:02:42.098 INFO  ZeroMQWA - [pedestrian] MISSING: newPedestrianComing
+01:02:42.099 INFO  ZeroMQWA - [crossManager] MISSING: mCurrTimeSecs
+01:02:42.118 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 18.4737 ms
+01:02:42.118 INFO  ZeroMQWA - [trafficlightB] lightsB: RED → GREEN
+01:02:42.118 INFO  ZeroMQWA - [CHOREOGRAPHED] [trafficlightB] Step 14: 19.3053 ms
+01:02:42.127 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 26.7829 ms
+01:02:42.127 INFO  ZeroMQWA - [CHOREOGRAPHED] [trafficlightA] Step 14: 30.636 ms
+Step: 13
+Sent newPedestrianComing value true to tcp://*:5570 at topic newPedestrianComing
+Sent newTramComing value false to tcp://*:5570 at topic newTramComing
+Sent transitionC value OPERATE_T to tcp://*:5570 at topic transitionC
+Sent mCurrTimeSecs value 14 to tcp://*:5570 at topic mCurrTimeSecs
+01:02:49.087 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 21.6916 ms
+01:02:49.087 INFO  ZeroMQWA - [tram] ASM step execution time: 21.7695 ms
+01:02:49.088 INFO  ZeroMQWA - [pedestrian] pedestrianLight: RED → GREEN
+01:02:49.089 INFO  ZeroMQWA - [controller] ASM step execution time: 23.7716 ms
+01:02:49.090 INFO  ZeroMQWA - [controller] operateMode: GREEN_B_RED_A → RED_AB
+01:02:49.090 INFO  ZeroMQWA - [CHOREOGRAPHED] [pedestrian] Step 14: 24.3871 ms
+01:02:49.090 INFO  ZeroMQWA - [CHOREOGRAPHED] [tram] Step 14: 24.2958 ms
+01:02:49.091 INFO  ZeroMQWA - [CHOREOGRAPHED] [controller] Step 14: 25.1232 ms
+01:02:49.095 INFO  ZeroMQWA - [crossManager] ASM step execution time: 29.2338 ms
+01:02:49.095 INFO  ZeroMQWA - [CHOREOGRAPHED] [crossManager] Step 14: 29.9055 ms
+01:02:49.097 INFO  ZeroMQWA - [crossManager] MISSING: mCurrTimeSecs
+01:02:49.111 INFO  ZeroMQWA - [pedestrian] MISSING: newPedestrianComing
+01:02:49.111 INFO  ZeroMQWA - [controller] MISSING: transitionC
+01:02:49.111 INFO  ZeroMQWA - [tram] MISSING: newTramComing
+01:02:49.121 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 8.3885 ms
+01:02:49.121 INFO  ZeroMQWA - [CHOREOGRAPHED] [trafficlightA] Step 15: 8.8692 ms
+01:02:49.122 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 10.0497 ms
+01:02:49.123 INFO  ZeroMQWA - [trafficlightB] lightsB: GREEN → RED
+01:02:49.123 INFO  ZeroMQWA - [CHOREOGRAPHED] [trafficlightB] Step 15: 11.1072 ms
+Step: 14
+Sent newPedestrianComing value false to tcp://*:5570 at topic newPedestrianComing
+Sent newTramComing value false to tcp://*:5570 at topic newTramComing
+Sent transitionC value OPERATE_T to tcp://*:5570 at topic transitionC
+Sent mCurrTimeSecs value 15 to tcp://*:5570 at topic mCurrTimeSecs
+01:02:56.101 INFO  ZeroMQWA - [tram] ASM step execution time: 17.1161 ms
+01:02:56.102 INFO  ZeroMQWA - [CHOREOGRAPHED] [tram] Step 15: 18.2029 ms
+01:02:56.104 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 20.1763 ms
+01:02:56.106 INFO  ZeroMQWA - [crossManager] ASM step execution time: 22.0111 ms
+01:02:56.107 INFO  ZeroMQWA - [CHOREOGRAPHED] [crossManager] Step 15: 22.8462 ms
+01:02:56.107 INFO  ZeroMQWA - [CHOREOGRAPHED] [pedestrian] Step 15: 23.1311 ms
+01:02:56.107 INFO  ZeroMQWA - [crossManager] MISSING: mCurrTimeSecs
+01:02:56.108 INFO  ZeroMQWA - [pedestrian] MISSING: newPedestrianComing
+01:02:56.109 INFO  ZeroMQWA - [controller] ASM step execution time: 25.2406 ms
+01:02:56.110 INFO  ZeroMQWA - [CHOREOGRAPHED] [controller] Step 15: 25.8064 ms
+01:02:56.110 INFO  ZeroMQWA - [controller] MISSING: transitionC
+01:02:56.116 INFO  ZeroMQWA - [tram] MISSING: newTramComing
+01:02:56.126 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 9.6493 ms
+01:02:56.126 INFO  ZeroMQWA - [CHOREOGRAPHED] [trafficlightA] Step 16: 10.0195 ms
+01:02:56.126 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 10.2263 ms
+01:02:56.127 INFO  ZeroMQWA - [CHOREOGRAPHED] [trafficlightB] Step 16: 10.6774 ms
+01:02:56.132 INFO  ZeroMQWA - [crossManager] MISSING: mCurrTimeSecs
+Step: 15
+Sent newPedestrianComing value false to tcp://*:5570 at topic newPedestrianComing
+Sent newTramComing value false to tcp://*:5570 at topic newTramComing
+Sent transitionC value OPERATE_T to tcp://*:5570 at topic transitionC
+Sent mCurrTimeSecs value 16 to tcp://*:5570 at topic mCurrTimeSecs
+01:03:03.111 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 19.0582 ms
+01:03:03.111 INFO  ZeroMQWA - [crossManager] ASM step execution time: 19.5507 ms
+01:03:03.112 INFO  ZeroMQWA - [CHOREOGRAPHED] [pedestrian] Step 16: 19.7412 ms
+01:03:03.113 INFO  ZeroMQWA - [pedestrian] MISSING: newPedestrianComing
+01:03:03.113 INFO  ZeroMQWA - [CHOREOGRAPHED] [crossManager] Step 16: 21.4414 ms
+01:03:03.114 INFO  ZeroMQWA - [crossManager] MISSING: mCurrTimeSecs
+01:03:03.118 INFO  ZeroMQWA - [tram] ASM step execution time: 26.4762 ms
+01:03:03.120 INFO  ZeroMQWA - [controller] ASM step execution time: 28.4868 ms
+01:03:03.121 INFO  ZeroMQWA - [CHOREOGRAPHED] [controller] Step 16: 29.3686 ms
+01:03:03.121 INFO  ZeroMQWA - [controller] MISSING: transitionC
+01:03:03.120 INFO  ZeroMQWA - [CHOREOGRAPHED] [tram] Step 16: 28.6936 ms
+01:03:03.123 INFO  ZeroMQWA - [tram] MISSING: newTramComing
+01:03:03.138 INFO  ZeroMQWA - [crossManager] MISSING: mCurrTimeSecs
+01:03:03.149 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 10.3845 ms
+01:03:03.149 INFO  ZeroMQWA - [CHOREOGRAPHED] [trafficlightB] Step 17: 11.2293 ms
+01:03:03.150 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 11.9439 ms
+01:03:03.151 INFO  ZeroMQWA - [CHOREOGRAPHED] [trafficlightA] Step 17: 12.4874 ms

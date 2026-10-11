@@ -14,6 +14,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -25,13 +27,30 @@ import java.util.stream.Collectors;
 
 /**
  * Tests each scenario in its own JVM so persistent ZeroMQ workers cannot block
- * the following JUnit test. Output is streamed to test-logs/<test>.txt.
+ * the following JUnit test. Output is streamed to timestamped per-test run logs.
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class TestOrchandCor {
     // Fixed ZeroMQ ports: only one test may run at a time within this JVM.
     private static final Object PORT_LOCK = new Object();
-    private static final Path LOG_DIRECTORY = Paths.get("asmetaorchchor_outputsim");
+    // Change DEFAULT_RUNS or pass -Dtest.runs=20 (or another positive integer).
+    private static final int DEFAULT_RUNS = 20;
+    private static final int RUNS = positiveRuns(System.getProperty("test.runs"), DEFAULT_RUNS);
+    // One timestamped directory per JUnit suite execution (class loading).
+    private static final String EXECUTION_TIMESTAMP = LocalDateTime.now()
+            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss_SSS"));
+    private static final Path LOG_DIRECTORY = Paths.get("test-orch-chor", EXECUTION_TIMESTAMP);
+
+    private static int positiveRuns(String configured, int fallback) {
+        if (configured == null || configured.trim().isEmpty()) return fallback;
+        try {
+            int value = Integer.parseInt(configured.trim());
+            if (value <= 0) throw new IllegalArgumentException("test.runs must be > 0");
+            return value;
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Invalid test.runs: " + configured, e);
+        }
+    }
     private static final long MAX_TEST_SECONDS = 240;
     private static final long CHOREOGRAPHED_QUIET_MILLIS = 5000;
     private static final long CHOREOGRAPHED_MIN_AFTER_LAST_INPUT_MILLIS = 8000;
@@ -40,18 +59,28 @@ public class TestOrchandCor {
     private static final Pattern ENV_STEP = Pattern.compile("^Step: (\\d+)\\s*$");
 
     private static void runAndSave(String testName, String config, String mode) {
+        runAndSave(testName, config, mode, RUNS);
+    }
+
+    // Number of repetitions can also be specified independently for each test.
+    private static void runAndSave(String testName, String config, String mode, int runs) {
+        if (runs <= 0) throw new IllegalArgumentException("runs must be > 0");
         synchronized (PORT_LOCK) {
-            runAndSaveExclusive(testName, config, mode);
+            for (int run = 1; run <= runs; run++) {
+                System.out.printf("[TEST] %s - run %d/%d%n", testName, run, runs);
+                runAndSaveExclusive(testName, config, mode, run);
+            }
         }
     }
 
-    private static void runAndSaveExclusive(String testName, String config, String mode) {
+    private static void runAndSaveExclusive(String testName, String config, String mode, int run) {
         Process process = null;
         Thread logReader = null;
         List<ProcessHandle> seenWorkers = new ArrayList<>();
         try {
-            Files.createDirectories(LOG_DIRECTORY);
-            Path logfile = LOG_DIRECTORY.resolve(testName + ".txt");
+            Path testDirectory = LOG_DIRECTORY.resolve(testName);
+            Files.createDirectories(testDirectory);
+            Path logfile = testDirectory.resolve(testName + "_run_" + run + ".txt");
             String java = Paths.get(System.getProperty("java.home"), "bin", "java").toString();
             String classpath = System.getProperty("java.class.path");
             ProcessBuilder builder = new ProcessBuilder(java, "-cp", classpath,
@@ -100,7 +129,7 @@ public class TestOrchandCor {
                 } finally {
                     readerFinished.set(true);
                 }
-            }, "log-reader-" + testName);
+            }, "log-reader-" + testName + "-" + run);
             logReader.setDaemon(true);
             logReader.start();
 
@@ -185,22 +214,21 @@ public class TestOrchandCor {
 
     @Test public void cross1_orch() { runAndSave("cross1_orch", "configs/trafficLight/nopedestriannotram.properties", "ORCHESTRATED"); }
     @Test public void cross2_orch() { runAndSave("cross2_orch", "configs/trafficLight/pedestriannotram.properties", "ORCHESTRATED"); }
-/*    @Test public void cross3_orch() { runAndSave("cross3_orch", "configs/trafficLight/nopedestriantram.properties", "ORCHESTRATED"); }
+    @Test public void cross3_orch() { runAndSave("cross3_orch", "configs/trafficLight/nopedestriantram.properties", "ORCHESTRATED"); }
     @Test public void cross4_orch() { runAndSave("cross4_orch", "configs/trafficLight/pedestrian2notram.properties", "ORCHESTRATED"); }
     @Test public void cross5_orch() { runAndSave("cross5_orch", "configs/trafficLight/pedestriantram.properties", "ORCHESTRATED"); }
     @Test public void cross6_orch() { runAndSave("cross6_orch", "configs/trafficLight/pedestriantramtogether.properties", "ORCHESTRATED"); }
     @Test public void cross7_orch() { runAndSave("cross7_orch", "configs/trafficLight/pedestrianbeforetram.properties", "ORCHESTRATED"); }
     @Test public void cross8_orch() { runAndSave("cross8_orch", "configs/trafficLight/pedestrianaftertram.properties", "ORCHESTRATED"); }
     @Test public void cross9_orch() { runAndSave("cross9_orch", "configs/trafficLight/nopedestriantram2.properties", "ORCHESTRATED"); }
- */
     @Test public void cross1_chor() { runAndSave("cross1_chor", "configs/trafficLight/nopedestriannotram.properties", "CHOREOGRAPHED"); }
     @Test public void cross2_chor() { runAndSave("cross2_chor", "configs/trafficLight/pedestriannotram.properties", "CHOREOGRAPHED"); }
- /*   @Test public void cross3_chor() { runAndSave("cross3_chor", "configs/trafficLight/nopedestriantram.properties", "CHOREOGRAPHED"); }
+    @Test public void cross3_chor() { runAndSave("cross3_chor", "configs/trafficLight/nopedestriantram.properties", "CHOREOGRAPHED"); }
     @Test public void cross4_chor() { runAndSave("cross4_chor", "configs/trafficLight/pedestrian2notram.properties", "CHOREOGRAPHED"); }
     @Test public void cross5_chor() { runAndSave("cross5_chor", "configs/trafficLight/pedestriantram.properties", "CHOREOGRAPHED"); }
     @Test public void cross6_chor() { runAndSave("cross6_chor", "configs/trafficLight/pedestriantramtogether.properties", "CHOREOGRAPHED"); }
     @Test public void cross7_chor() { runAndSave("cross7_chor", "configs/trafficLight/pedestrianbeforetram.properties", "CHOREOGRAPHED"); }
     @Test public void cross8_chor() { runAndSave("cross8_chor", "configs/trafficLight/pedestrianaftertram.properties", "CHOREOGRAPHED"); }
     @Test public void cross9_chor() { runAndSave("cross9_chor", "configs/trafficLight/nopedestriantram2.properties", "CHOREOGRAPHED"); }
-*/
+
 }

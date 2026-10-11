@@ -1,39 +1,88 @@
 package org.asmeta.cbd_composer;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
-import org.junit.Test;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
+import org.junit.FixMethodOrder;
+import org.junit.Test;
+import org.junit.runners.MethodSorters;
+
+/**
+ * Runs AsmetaComp scenarios sequentially and saves each run's console output.
+ *
+ * Output directory example:
+ * test-logs/2026-10-10_21-30-00_123/cross2/cross2_run_1.txt
+ *
+ * Run count: default 20, overridable with -Dtest.runs=N, or per test using
+ * runAndLog(testName, script, option, N).
+ */
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CompositiontestWithScript {
 
-    private static final File LOG_DIRECTORY = new File("asmetacomp_outputsim");
+    private static final int DEFAULT_RUNS = 20;
+    private static final int RUNS = positiveRuns(System.getProperty("test.runs"), DEFAULT_RUNS);
+    private static final String EXECUTION_TIMESTAMP = LocalDateTime.now()
+            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss_SSS"));
+    private static final Path LOG_DIRECTORY = Paths.get("test-asmetacomp", EXECUTION_TIMESTAMP);
+    private static final Object LOG_LOCK = new Object();
 
-    /**
-     * Saves System.out and System.err for this test to test-logs/<testName>.txt,
-     * while continuing to print everything to the original console.
-     * The original streams are restored even if the simulation fails.
-     */
-    private static synchronized void runAndLog(String testName, String script, boolean option) {
-        if (!LOG_DIRECTORY.exists() && !LOG_DIRECTORY.mkdirs()) {
-            throw new IllegalStateException("Cannot create log directory: " + LOG_DIRECTORY);
+    private static int positiveRuns(String configured, int fallback) {
+        if (configured == null || configured.trim().isEmpty()) return fallback;
+        try {
+            int count = Integer.parseInt(configured.trim());
+            if (count <= 0) throw new IllegalArgumentException("test.runs must be > 0");
+            return count;
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Invalid test.runs: " + configured, e);
+        }
+    }
+
+    private static void runAndLog(String testName, String script, boolean option) {
+        runAndLog(testName, script, option, RUNS);
+    }
+
+    private static void runAndLog(String testName, String script, boolean option, int runs) {
+        if (runs <= 0) throw new IllegalArgumentException("runs must be > 0");
+        // System.out and System.err are global to this JVM: never capture two runs at once.
+        synchronized (LOG_LOCK) {
+            for (int run = 1; run <= runs; run++) {
+                runOnce(testName, script, option, run, runs);
+            }
+        }
+    }
+
+    private static void runOnce(String testName, String script, boolean option,
+                                int run, int totalRuns) {
+        final Path logFile = LOG_DIRECTORY.resolve(testName)
+                .resolve(testName + "_run_" + run + ".txt");
+        try {
+            Files.createDirectories(logFile.getParent());
+        } catch (IOException e) {
+            throw new IllegalStateException("Cannot create log directory: " + logFile.getParent(), e);
         }
 
-        PrintStream originalOut = System.out;
-        PrintStream originalErr = System.err;
-        File logFile = new File(LOG_DIRECTORY, testName + ".txt");
-
-        try (FileOutputStream file = new FileOutputStream(logFile);
+        final PrintStream originalOut = System.out;
+        final PrintStream originalErr = System.err;
+        // A single file stream is shared by stdout and stderr to preserve their output
+        // as closely as possible. Writes are synchronized by PrintStream/file locking.
+        try (FileOutputStream file = new FileOutputStream(logFile.toFile());
              PrintStream teeOut = new PrintStream(new TeeOutputStream(originalOut, file), true, "UTF-8");
              PrintStream teeErr = new PrintStream(new TeeOutputStream(originalErr, file), true, "UTF-8")) {
 
             System.setOut(teeOut);
             System.setErr(teeErr);
             try {
+                System.out.printf("[TEST] %s - run %d/%d%n", testName, run, totalRuns);
                 ComposerCLI comp = new ComposerCLI(script, option);
                 comp.runcomposition();
+                System.out.printf("[TEST] %s - run %d/%d completed%n", testName, run, totalRuns);
             } finally {
                 System.out.flush();
                 System.err.flush();
@@ -43,9 +92,10 @@ public class CompositiontestWithScript {
         } catch (IOException e) {
             throw new IllegalStateException("Cannot write test log: " + logFile, e);
         }
+        originalOut.println("[TEST LOG] " + logFile.toAbsolutePath());
     }
 
-    /** Writes each byte to both the console and the log file. Never closes the console. */
+    /** Forward writes to the original console and a file without closing either. */
     private static final class TeeOutputStream extends OutputStream {
         private final OutputStream console;
         private final OutputStream file;
@@ -56,31 +106,30 @@ public class CompositiontestWithScript {
         }
 
         @Override
-        public void write(int b) throws IOException {
+        public synchronized void write(int b) throws IOException {
             console.write(b);
-            file.write(b);
+            synchronized (file) { file.write(b); }
         }
 
         @Override
-        public void write(byte[] b, int off, int len) throws IOException {
-            console.write(b, off, len);
-            file.write(b, off, len);
+        public synchronized void write(byte[] bytes, int offset, int length) throws IOException {
+            console.write(bytes, offset, length);
+            synchronized (file) { file.write(bytes, offset, length); }
         }
 
         @Override
-        public void flush() throws IOException {
+        public synchronized void flush() throws IOException {
             console.flush();
-            file.flush();
+            synchronized (file) { file.flush(); }
         }
 
         @Override
         public void close() throws IOException {
-            flush();
-            // The console and the file are managed by their respective owners.
+            flush(); // Do not close System.out, System.err, or the shared file here.
         }
     }
-/*
-    @Test
+
+ /*   @Test
     public void testSmartHome() {
         runAndLog("testSmartHome", "examples/SmartMultiHome/FireSystem.asmsh", true);
     }
@@ -90,6 +139,7 @@ public class CompositiontestWithScript {
         runAndLog("testPillbox", "examples/Pillbox_composition/pillboxComp2.asmsh", false);
     }
 */
+
     @Test
     public void cross1() {
         runAndLog("cross1", "examples/trafficLightCoSimCross/nopedestriannotram.asmsh", true);
@@ -99,7 +149,7 @@ public class CompositiontestWithScript {
     public void cross2() {
         runAndLog("cross2", "examples/trafficLightCoSimCross/pedestriannotram.asmsh", true);
     }
-/*
+
     @Test
     public void cross3() {
         runAndLog("cross3", "examples/trafficLightCoSimCross/nopedestriantram.asmsh", true);
@@ -134,5 +184,5 @@ public class CompositiontestWithScript {
     public void cross9() {
         runAndLog("cross9", "examples/trafficLightCoSimCross/nopedestriantram2.asmsh", true);
     }
-    */
+      
 }
