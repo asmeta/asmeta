@@ -1,11 +1,11 @@
-setup PED as examples/trafficLightCoSimCross/pedestrian.asm
-setup TRAM as examples/trafficLightCoSimCross/tram.asm
-setup CM as examples/trafficLightCoSimCross/crossManager.asm
-setup CONTR as examples/trafficLightCoSimCross/controller.asm
-setup TLA1 as examples/trafficLightCoSimCross/trafficlightA.asm
-setup TLA2 as examples/trafficLightCoSimCross/trafficlightA.asm
-setup TLB1 as examples/trafficLightCoSimCross/trafficlightB.asm
-setup TLB2 as examples/trafficLightCoSimCross/trafficlightB.asm
+setup PED as examples/trafficLightCoSimCrossAABB/pedestrian.asm
+setup TRAM as examples/trafficLightCoSimCrossAABB/tram.asm
+setup CM as examples/trafficLightCoSimCrossAABB/crossManager.asm
+setup CONTR as examples/trafficLightCoSimCrossAABB/controller.asm
+setup TLA1 as examples/trafficLightCoSimCrossAABB/trafficlightA.asm
+setup TLA2 as examples/trafficLightCoSimCrossAABB/trafficlightA.asm
+setup TLB1 as examples/trafficLightCoSimCrossAABB/trafficlightB.asm
+setup TLB2 as examples/trafficLightCoSimCrossAABB/trafficlightB.asm
 setup comp as ( ( ( ( PED || TRAM ) <|> CM ) <||> CONTR ) | ( TLA1 || TLA2 || TLB1 || TLB2 ) )
  
 run(comp, {mCurrTimeSecs=1;transitionC=TURN_ON;newPedestrianComing=false;newTramComing=false;crossManagerController=NORMAL;statusC=CONTR_OFF})

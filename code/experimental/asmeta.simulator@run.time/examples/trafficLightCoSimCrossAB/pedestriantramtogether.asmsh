@@ -1,12 +1,10 @@
-setup PED as examples/trafficLightCoSimCross/pedestrian.asm
-setup TRAM as examples/trafficLightCoSimCross/tram.asm
-setup CM as examples/trafficLightCoSimCross/crossManager.asm
-setup CONTR as examples/trafficLightCoSimCross/controller.asm
-setup TLA1 as examples/trafficLightCoSimCross/trafficlightA.asm
-setup TLA2 as examples/trafficLightCoSimCross/trafficlightA.asm
-setup TLB1 as examples/trafficLightCoSimCross/trafficlightB.asm
-setup TLB2 as examples/trafficLightCoSimCross/trafficlightB.asm
-setup comp as ( ( ( ( PED || TRAM ) <|> CM ) <||> CONTR ) | ( TLA1 || TLA2 || TLB1 || TLB2 ) )
+setup PED as examples/trafficLightCoSimCrossAB/pedestrian.asm
+setup TRAM as examples/trafficLightCoSimCrossAB/tram.asm
+setup CM as examples/trafficLightCoSimCrossAB/crossManager.asm
+setup CONTR as examples/trafficLightCoSimCrossAB/controller.asm
+setup TLA as examples/trafficLightCoSimCrossAB/trafficlightA.asm
+setup TLB as examples/trafficLightCoSimCrossAB/trafficlightB.asm
+setup comp as ( ( ( ( PED || TRAM ) <|> CM ) <||> CONTR ) | ( TLA || TLB ) )
  
 run(comp, {mCurrTimeSecs=1;transitionC=TURN_ON;newPedestrianComing=false;newTramComing=false;crossManagerController=NORMAL;statusC=CONTR_OFF})
 run(comp, {mCurrTimeSecs=2;transitionC=OPERATE_T;newPedestrianComing=false;newTramComing=false})

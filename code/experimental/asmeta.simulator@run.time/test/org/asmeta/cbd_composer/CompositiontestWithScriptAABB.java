@@ -24,7 +24,7 @@ import org.junit.runners.MethodSorters;
  * runAndLog(testName, script, option, N).
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class CompositiontestWithScript {
+public class CompositiontestWithScriptAABB {
 
     private static final int DEFAULT_RUNS = 20;
     private static final int RUNS = positiveRuns(System.getProperty("test.runs"), DEFAULT_RUNS);
@@ -142,47 +142,47 @@ public class CompositiontestWithScript {
 
     @Test
     public void cross1() {
-        runAndLog("cross1", "examples/trafficLightCoSimCross/nopedestriannotram.asmsh", true);
+        runAndLog("cross1", "examples/trafficLightCoSimCrossAABB/nopedestriannotram.asmsh", true);
     }
 
     @Test
     public void cross2() {
-        runAndLog("cross2", "examples/trafficLightCoSimCross/pedestriannotram.asmsh", true);
+        runAndLog("cross2", "examples/trafficLightCoSimCrossAABB/pedestriannotram.asmsh", true);
     }
 
     @Test
     public void cross3() {
-        runAndLog("cross3", "examples/trafficLightCoSimCross/nopedestriantram.asmsh", true);
+        runAndLog("cross3", "examples/trafficLightCoSimCrossAABB/nopedestriantram.asmsh", true);
     }
 
     @Test
     public void cross4() {
-        runAndLog("cross4", "examples/trafficLightCoSimCross/pedestrian2notram.asmsh", true);
+        runAndLog("cross4", "examples/trafficLightCoSimCrossAABB/pedestrian2notram.asmsh", true);
     }
 
     @Test
     public void cross5() {
-        runAndLog("cross5", "examples/trafficLightCoSimCross/pedestriantram.asmsh", true);
+        runAndLog("cross5", "examples/trafficLightCoSimCrossAABB/pedestriantram.asmsh", true);
     }
 
     @Test
     public void cross6() {
-        runAndLog("cross6", "examples/trafficLightCoSimCross/pedestriantramtogether.asmsh", true);
+        runAndLog("cross6", "examples/trafficLightCoSimCrossAABB/pedestriantramtogether.asmsh", true);
     }
 
     @Test
     public void cross7() {
-        runAndLog("cross7", "examples/trafficLightCoSimCross/pedestrianbeforetram.asmsh", true);
+        runAndLog("cross7", "examples/trafficLightCoSimCrossAABB/pedestrianbeforetram.asmsh", true);
     }
 
     @Test
     public void cross8() {
-        runAndLog("cross8", "examples/trafficLightCoSimCross/pedestrianaftertram.asmsh", true);
+        runAndLog("cross8", "examples/trafficLightCoSimCrossAABB/pedestrianaftertram.asmsh", true);
     }
 
     @Test
     public void cross9() {
-        runAndLog("cross9", "examples/trafficLightCoSimCross/nopedestriantram2.asmsh", true);
+        runAndLog("cross9", "examples/trafficLightCoSimCrossAABB/nopedestriantram2.asmsh", true);
     }
       
 }
