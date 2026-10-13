@@ -1,44 +1,36 @@
 [TEST] cross9 - run 17/20
-Parsing setup for alias: PED -> examples/trafficLightCoSimCross/pedestrian.asm
-Parsing setup for alias: PED -> examples/trafficLightCoSimCross/pedestrian.asm
+Parsing setup for alias: PED -> examples/trafficLightCoSimCrossAB/pedestrian.asm
+Parsing setup for alias: PED -> examples/trafficLightCoSimCrossAB/pedestrian.asm
 Composition setup for alias: PED -> ASM pedestrian: {}
 {PED=ASM pedestrian: {}}
-Parsing setup for alias: TRAM -> examples/trafficLightCoSimCross/tram.asm
-Parsing setup for alias: TRAM -> examples/trafficLightCoSimCross/tram.asm
+Parsing setup for alias: TRAM -> examples/trafficLightCoSimCrossAB/tram.asm
+Parsing setup for alias: TRAM -> examples/trafficLightCoSimCrossAB/tram.asm
 Composition setup for alias: TRAM -> ASM tram: {}
 {TRAM=ASM tram: {}, PED=ASM pedestrian: {}}
-Parsing setup for alias: CM -> examples/trafficLightCoSimCross/crossManager.asm
-Parsing setup for alias: CM -> examples/trafficLightCoSimCross/crossManager.asm
+Parsing setup for alias: CM -> examples/trafficLightCoSimCrossAB/crossManager.asm
+Parsing setup for alias: CM -> examples/trafficLightCoSimCrossAB/crossManager.asm
 Composition setup for alias: CM -> ASM crossManager: {}
 {CM=ASM crossManager: {}, TRAM=ASM tram: {}, PED=ASM pedestrian: {}}
-Parsing setup for alias: CONTR -> examples/trafficLightCoSimCross/controller.asm
-Parsing setup for alias: CONTR -> examples/trafficLightCoSimCross/controller.asm
+Parsing setup for alias: CONTR -> examples/trafficLightCoSimCrossAB/controller.asm
+Parsing setup for alias: CONTR -> examples/trafficLightCoSimCrossAB/controller.asm
 Composition setup for alias: CONTR -> ASM controller: {}
 {CONTR=ASM controller: {}, CM=ASM crossManager: {}, TRAM=ASM tram: {}, PED=ASM pedestrian: {}}
-Parsing setup for alias: TLA1 -> examples/trafficLightCoSimCross/trafficlightA.asm
-Parsing setup for alias: TLA1 -> examples/trafficLightCoSimCross/trafficlightA.asm
-Composition setup for alias: TLA1 -> ASM trafficlightA: {}
-{CONTR=ASM controller: {}, CM=ASM crossManager: {}, TRAM=ASM tram: {}, PED=ASM pedestrian: {}, TLA1=ASM trafficlightA: {}}
-Parsing setup for alias: TLA2 -> examples/trafficLightCoSimCross/trafficlightA.asm
-Parsing setup for alias: TLA2 -> examples/trafficLightCoSimCross/trafficlightA.asm
-Composition setup for alias: TLA2 -> ASM trafficlightA: {}
-{CONTR=ASM controller: {}, CM=ASM crossManager: {}, TRAM=ASM tram: {}, PED=ASM pedestrian: {}, TLA2=ASM trafficlightA: {}, TLA1=ASM trafficlightA: {}}
-Parsing setup for alias: TLB1 -> examples/trafficLightCoSimCross/trafficlightB.asm
-Parsing setup for alias: TLB1 -> examples/trafficLightCoSimCross/trafficlightB.asm
-Composition setup for alias: TLB1 -> ASM trafficlightB: {}
-{TLB1=ASM trafficlightB: {}, CONTR=ASM controller: {}, CM=ASM crossManager: {}, TRAM=ASM tram: {}, PED=ASM pedestrian: {}, TLA2=ASM trafficlightA: {}, TLA1=ASM trafficlightA: {}}
-Parsing setup for alias: TLB2 -> examples/trafficLightCoSimCross/trafficlightB.asm
-Parsing setup for alias: TLB2 -> examples/trafficLightCoSimCross/trafficlightB.asm
-Composition setup for alias: TLB2 -> ASM trafficlightB: {}
-{TLB1=ASM trafficlightB: {}, CONTR=ASM controller: {}, CM=ASM crossManager: {}, TRAM=ASM tram: {}, PED=ASM pedestrian: {}, TLA2=ASM trafficlightA: {}, TLA1=ASM trafficlightA: {}, TLB2=ASM trafficlightB: {}}
-Parsing setup for alias: comp -> ( ( ( ( PED || TRAM ) <|> CM ) <||> CONTR ) | ( TLA1 || TLA2 || TLB1 || TLB2 ) )
-Parsing setup for alias: comp -> ( ( ( ( examples/trafficLightCoSimCross/pedestrian.asm || examples/trafficLightCoSimCross/tram.asm ) <|> examples/trafficLightCoSimCross/crossManager.asm ) <||> examples/trafficLightCoSimCross/controller.asm ) | ( examples/trafficLightCoSimCross/trafficlightA.asm || examples/trafficLightCoSimCross/trafficlightA.asm || examples/trafficLightCoSimCross/trafficlightB.asm || examples/trafficLightCoSimCross/trafficlightB.asm ) )
-Composition setup for alias: comp ->  (  (  (  ( ASM pedestrian: {} || ASM tram: {} )  <|> ASM crossManager: {} ) <||>ASM controller: {} )  |  (  (  ( ASM trafficlightA: {} || ASM trafficlightA: {} )  || ASM trafficlightB: {} )  || ASM trafficlightB: {} )  ) 
-{TLB1=ASM trafficlightB: {}, comp= (  (  (  ( ASM pedestrian: {} || ASM tram: {} )  <|> ASM crossManager: {} ) <||>ASM controller: {} )  |  (  (  ( ASM trafficlightA: {} || ASM trafficlightA: {} )  || ASM trafficlightB: {} )  || ASM trafficlightB: {} )  ) , CONTR=ASM controller: {}, CM=ASM crossManager: {}, TRAM=ASM tram: {}, PED=ASM pedestrian: {}, TLA2=ASM trafficlightA: {}, TLA1=ASM trafficlightA: {}, TLB2=ASM trafficlightB: {}}
+Parsing setup for alias: TLA -> examples/trafficLightCoSimCrossAB/trafficlightA.asm
+Parsing setup for alias: TLA -> examples/trafficLightCoSimCrossAB/trafficlightA.asm
+Composition setup for alias: TLA -> ASM trafficlightA: {}
+{CONTR=ASM controller: {}, TLA=ASM trafficlightA: {}, CM=ASM crossManager: {}, TRAM=ASM tram: {}, PED=ASM pedestrian: {}}
+Parsing setup for alias: TLB -> examples/trafficLightCoSimCrossAB/trafficlightB.asm
+Parsing setup for alias: TLB -> examples/trafficLightCoSimCrossAB/trafficlightB.asm
+Composition setup for alias: TLB -> ASM trafficlightB: {}
+{CONTR=ASM controller: {}, TLA=ASM trafficlightA: {}, CM=ASM crossManager: {}, TLB=ASM trafficlightB: {}, TRAM=ASM tram: {}, PED=ASM pedestrian: {}}
+Parsing setup for alias: comp -> ( ( ( ( PED || TRAM ) <|> CM ) <||> CONTR ) | ( TLA || TLB ) )
+Parsing setup for alias: comp -> ( ( ( ( examples/trafficLightCoSimCrossAB/pedestrian.asm || examples/trafficLightCoSimCrossAB/tram.asm ) <|> examples/trafficLightCoSimCrossAB/crossManager.asm ) <||> examples/trafficLightCoSimCrossAB/controller.asm ) | ( examples/trafficLightCoSimCrossAB/trafficlightA.asm || examples/trafficLightCoSimCrossAB/trafficlightB.asm ) )
+Composition setup for alias: comp ->  (  (  (  ( ASM pedestrian: {} || ASM tram: {} )  <|> ASM crossManager: {} ) <||>ASM controller: {} )  |  ( ASM trafficlightA: {} || ASM trafficlightB: {} )  ) 
+{comp= (  (  (  ( ASM pedestrian: {} || ASM tram: {} )  <|> ASM crossManager: {} ) <||>ASM controller: {} )  |  ( ASM trafficlightA: {} || ASM trafficlightB: {} )  ) , CONTR=ASM controller: {}, TLA=ASM trafficlightA: {}, CM=ASM crossManager: {}, TLB=ASM trafficlightB: {}, TRAM=ASM tram: {}, PED=ASM pedestrian: {}}
 
 RUN STEP 2457
 Running composition: comp with input: {newPedestrianComing=false, newTramComing=false, transitionC=TURN_ON, mCurrTimeSecs=1, statusC=CONTR_OFF, crossManagerController=NORMAL}
-BEFORE EVAL (  (  (  ( ASM pedestrian: {} || ASM tram: {} )  <|> ASM crossManager: {} ) <||>ASM controller: {} )  |  (  (  ( ASM trafficlightA: {} || ASM trafficlightA: {} )  || ASM trafficlightB: {} )  || ASM trafficlightB: {} )  ) 
+BEFORE EVAL (  (  (  ( ASM pedestrian: {} || ASM tram: {} )  <|> ASM crossManager: {} ) <||>ASM controller: {} )  |  ( ASM trafficlightA: {} || ASM trafficlightB: {} )  ) 
 Monitored locations pedestrian: {newPedestrianComing=false, newTramComing=false, transitionC=TURN_ON, mCurrTimeSecs=1, statusC=CONTR_OFF, crossManagerController=NORMAL}
 Out locations pedestrian: {pedestrianComing=false, pedestrianLight=RED}
 Monitored locations tram: {newPedestrianComing=false, newTramComing=false, transitionC=TURN_ON, mCurrTimeSecs=1, statusC=CONTR_OFF, crossManagerController=NORMAL}
@@ -49,18 +41,14 @@ Monitored locations controller: {newPedestrianComing=false, pedestrianComing=fal
 Out locations controller: {statusC=STANDBY}
 Monitored locations trafficlightA: {newPedestrianComing=false, pedestrianComing=false, pedestrianLight=RED, tramComing=false, tramLight=RED, newTramComing=false, transitionC=TURN_ON, mCurrTimeSecs=1, statusC=STANDBY, crossManagerController=NORMAL}
 Out locations trafficlightA: {lightsA=BLINK_YELLOW}
-Monitored locations trafficlightA: {newPedestrianComing=false, pedestrianComing=false, pedestrianLight=RED, tramComing=false, tramLight=RED, newTramComing=false, transitionC=TURN_ON, mCurrTimeSecs=1, statusC=STANDBY, crossManagerController=NORMAL}
-Out locations trafficlightA: {lightsA=BLINK_YELLOW}
 Monitored locations trafficlightB: {newPedestrianComing=false, pedestrianComing=false, pedestrianLight=RED, tramComing=false, tramLight=RED, newTramComing=false, transitionC=TURN_ON, mCurrTimeSecs=1, statusC=STANDBY, crossManagerController=NORMAL}
 Out locations trafficlightB: {lightsB=BLINK_YELLOW}
-Monitored locations trafficlightB: {newPedestrianComing=false, pedestrianComing=false, pedestrianLight=RED, tramComing=false, tramLight=RED, newTramComing=false, transitionC=TURN_ON, mCurrTimeSecs=1, statusC=STANDBY, crossManagerController=NORMAL}
-Out locations trafficlightB: {lightsB=BLINK_YELLOW}
-[ASMETACOMP] Step 2457: 0.4451 ms
-AFTER EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=RED, tramComing=false} )  <|> ASM crossManager: {crossManagerController=NORMAL} ) <||>ASM controller: {statusC=STANDBY} )  |  (  (  ( ASM trafficlightA: {lightsA=BLINK_YELLOW} || ASM trafficlightA: {lightsA=BLINK_YELLOW} )  || ASM trafficlightB: {lightsB=BLINK_YELLOW} )  || ASM trafficlightB: {lightsB=BLINK_YELLOW} )  ) 
+[ASMETACOMP] Step 2457: 0.5659 ms
+AFTER EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=RED, tramComing=false} )  <|> ASM crossManager: {crossManagerController=NORMAL} ) <||>ASM controller: {statusC=STANDBY} )  |  ( ASM trafficlightA: {lightsA=BLINK_YELLOW} || ASM trafficlightB: {lightsB=BLINK_YELLOW} )  ) 
 
 RUN STEP 2458
 Running composition: comp with input: {newPedestrianComing=false, newTramComing=false, transitionC=OPERATE_T, mCurrTimeSecs=2}
-BEFORE EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=RED, tramComing=false} )  <|> ASM crossManager: {crossManagerController=NORMAL} ) <||>ASM controller: {statusC=STANDBY} )  |  (  (  ( ASM trafficlightA: {lightsA=BLINK_YELLOW} || ASM trafficlightA: {lightsA=BLINK_YELLOW} )  || ASM trafficlightB: {lightsB=BLINK_YELLOW} )  || ASM trafficlightB: {lightsB=BLINK_YELLOW} )  ) 
+BEFORE EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=RED, tramComing=false} )  <|> ASM crossManager: {crossManagerController=NORMAL} ) <||>ASM controller: {statusC=STANDBY} )  |  ( ASM trafficlightA: {lightsA=BLINK_YELLOW} || ASM trafficlightB: {lightsB=BLINK_YELLOW} )  ) 
 Monitored locations pedestrian: {newPedestrianComing=false, newTramComing=false, transitionC=OPERATE_T, mCurrTimeSecs=2, statusC=STANDBY, crossManagerController=NORMAL}
 Out locations pedestrian: {pedestrianComing=false, pedestrianLight=RED}
 Monitored locations tram: {newPedestrianComing=false, pedestrianComing=false, pedestrianLight=RED, tramComing=false, tramLight=RED, newTramComing=false, transitionC=OPERATE_T, mCurrTimeSecs=2, statusC=STANDBY, crossManagerController=NORMAL}
@@ -71,18 +59,14 @@ Monitored locations controller: {newPedestrianComing=false, pedestrianComing=fal
 Out locations controller: {operateMode=RED_AB, statusC=OPERATE}
 Monitored locations trafficlightA: {tramLight=RED, newTramComing=false, mCurrTimeSecs=2, lightsA=BLINK_YELLOW, lightsB=BLINK_YELLOW, newPedestrianComing=false, pedestrianComing=false, operateMode=RED_AB, pedestrianLight=RED, tramComing=false, transitionC=OPERATE_T, statusC=OPERATE, crossManagerController=NORMAL}
 Out locations trafficlightA: {lightsA=RED}
-Monitored locations trafficlightA: {tramLight=RED, newTramComing=false, mCurrTimeSecs=2, lightsA=BLINK_YELLOW, lightsB=BLINK_YELLOW, newPedestrianComing=false, pedestrianComing=false, operateMode=RED_AB, pedestrianLight=RED, tramComing=false, transitionC=OPERATE_T, statusC=OPERATE, crossManagerController=NORMAL}
-Out locations trafficlightA: {lightsA=RED}
 Monitored locations trafficlightB: {tramLight=RED, newTramComing=false, mCurrTimeSecs=2, lightsA=BLINK_YELLOW, lightsB=BLINK_YELLOW, newPedestrianComing=false, pedestrianComing=false, operateMode=RED_AB, pedestrianLight=RED, tramComing=false, transitionC=OPERATE_T, statusC=OPERATE, crossManagerController=NORMAL}
 Out locations trafficlightB: {lightsB=RED}
-Monitored locations trafficlightB: {tramLight=RED, newTramComing=false, mCurrTimeSecs=2, lightsA=BLINK_YELLOW, lightsB=BLINK_YELLOW, newPedestrianComing=false, pedestrianComing=false, operateMode=RED_AB, pedestrianLight=RED, tramComing=false, transitionC=OPERATE_T, statusC=OPERATE, crossManagerController=NORMAL}
-Out locations trafficlightB: {lightsB=RED}
-[ASMETACOMP] Step 2458: 0.6553 ms
-AFTER EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=RED, tramComing=false} )  <|> ASM crossManager: {crossManagerController=NORMAL} ) <||>ASM controller: {operateMode=RED_AB, statusC=OPERATE} )  |  (  (  ( ASM trafficlightA: {lightsA=RED} || ASM trafficlightA: {lightsA=RED} )  || ASM trafficlightB: {lightsB=RED} )  || ASM trafficlightB: {lightsB=RED} )  ) 
+[ASMETACOMP] Step 2458: 0.6524 ms
+AFTER EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=RED, tramComing=false} )  <|> ASM crossManager: {crossManagerController=NORMAL} ) <||>ASM controller: {operateMode=RED_AB, statusC=OPERATE} )  |  ( ASM trafficlightA: {lightsA=RED} || ASM trafficlightB: {lightsB=RED} )  ) 
 
 RUN STEP 2459
 Running composition: comp with input: {newPedestrianComing=false, newTramComing=false, transitionC=OPERATE_T, mCurrTimeSecs=3}
-BEFORE EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=RED, tramComing=false} )  <|> ASM crossManager: {crossManagerController=NORMAL} ) <||>ASM controller: {operateMode=RED_AB, statusC=OPERATE} )  |  (  (  ( ASM trafficlightA: {lightsA=RED} || ASM trafficlightA: {lightsA=RED} )  || ASM trafficlightB: {lightsB=RED} )  || ASM trafficlightB: {lightsB=RED} )  ) 
+BEFORE EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=RED, tramComing=false} )  <|> ASM crossManager: {crossManagerController=NORMAL} ) <||>ASM controller: {operateMode=RED_AB, statusC=OPERATE} )  |  ( ASM trafficlightA: {lightsA=RED} || ASM trafficlightB: {lightsB=RED} )  ) 
 Monitored locations pedestrian: {newPedestrianComing=false, operateMode=RED_AB, start(timeRED)=2, newTramComing=false, transitionC=OPERATE_T, mCurrTimeSecs=3, statusC=OPERATE, crossManagerController=NORMAL}
 Out locations pedestrian: {pedestrianComing=false, pedestrianLight=RED}
 Monitored locations tram: {newPedestrianComing=false, pedestrianComing=false, operateMode=RED_AB, pedestrianLight=RED, tramComing=false, start(timeRED)=2, tramLight=RED, newTramComing=false, transitionC=OPERATE_T, mCurrTimeSecs=3, statusC=OPERATE, crossManagerController=NORMAL}
@@ -93,18 +77,14 @@ Monitored locations controller: {newPedestrianComing=false, pedestrianComing=fal
 Out locations controller: {operateMode=RED_AB, statusC=OPERATE}
 Monitored locations trafficlightA: {start(timeRED)=2, tramLight=RED, newTramComing=false, mCurrTimeSecs=3, lightsA=RED, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, operateMode=RED_AB, pedestrianLight=RED, tramComing=false, transitionC=OPERATE_T, statusC=OPERATE, crossManagerController=NORMAL}
 Out locations trafficlightA: {lightsA=RED}
-Monitored locations trafficlightA: {start(timeRED)=2, tramLight=RED, newTramComing=false, mCurrTimeSecs=3, lightsA=RED, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, operateMode=RED_AB, pedestrianLight=RED, tramComing=false, transitionC=OPERATE_T, statusC=OPERATE, crossManagerController=NORMAL}
-Out locations trafficlightA: {lightsA=RED}
 Monitored locations trafficlightB: {start(timeRED)=2, tramLight=RED, newTramComing=false, mCurrTimeSecs=3, lightsA=RED, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, operateMode=RED_AB, pedestrianLight=RED, tramComing=false, transitionC=OPERATE_T, statusC=OPERATE, crossManagerController=NORMAL}
 Out locations trafficlightB: {lightsB=RED}
-Monitored locations trafficlightB: {start(timeRED)=2, tramLight=RED, newTramComing=false, mCurrTimeSecs=3, lightsA=RED, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, operateMode=RED_AB, pedestrianLight=RED, tramComing=false, transitionC=OPERATE_T, statusC=OPERATE, crossManagerController=NORMAL}
-Out locations trafficlightB: {lightsB=RED}
-[ASMETACOMP] Step 2459: 0.7168 ms
-AFTER EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=RED, tramComing=false} )  <|> ASM crossManager: {crossManagerController=NORMAL} ) <||>ASM controller: {operateMode=RED_AB, statusC=OPERATE} )  |  (  (  ( ASM trafficlightA: {lightsA=RED} || ASM trafficlightA: {lightsA=RED} )  || ASM trafficlightB: {lightsB=RED} )  || ASM trafficlightB: {lightsB=RED} )  ) 
+[ASMETACOMP] Step 2459: 0.4879 ms
+AFTER EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=RED, tramComing=false} )  <|> ASM crossManager: {crossManagerController=NORMAL} ) <||>ASM controller: {operateMode=RED_AB, statusC=OPERATE} )  |  ( ASM trafficlightA: {lightsA=RED} || ASM trafficlightB: {lightsB=RED} )  ) 
 
 RUN STEP 2460
 Running composition: comp with input: {newPedestrianComing=false, newTramComing=false, transitionC=OPERATE_T, mCurrTimeSecs=4}
-BEFORE EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=RED, tramComing=false} )  <|> ASM crossManager: {crossManagerController=NORMAL} ) <||>ASM controller: {operateMode=RED_AB, statusC=OPERATE} )  |  (  (  ( ASM trafficlightA: {lightsA=RED} || ASM trafficlightA: {lightsA=RED} )  || ASM trafficlightB: {lightsB=RED} )  || ASM trafficlightB: {lightsB=RED} )  ) 
+BEFORE EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=RED, tramComing=false} )  <|> ASM crossManager: {crossManagerController=NORMAL} ) <||>ASM controller: {operateMode=RED_AB, statusC=OPERATE} )  |  ( ASM trafficlightA: {lightsA=RED} || ASM trafficlightB: {lightsB=RED} )  ) 
 Monitored locations pedestrian: {newPedestrianComing=false, operateMode=RED_AB, start(timeRED)=2, newTramComing=false, crossManagerController_previous=NORMAL, transitionC=OPERATE_T, duration(timeRED)=3, mCurrTimeSecs=4, statusC=OPERATE, crossManagerController=NORMAL}
 Out locations pedestrian: {pedestrianComing=false, pedestrianLight=RED}
 Monitored locations tram: {start(timeRED)=2, tramLight=RED, newTramComing=false, crossManagerController_previous=NORMAL, duration(timeRED)=3, mCurrTimeSecs=4, newPedestrianComing=false, pedestrianComing=false, operateMode=RED_AB, pedestrianLight=RED, tramComing=false, transitionC=OPERATE_T, statusC=OPERATE, crossManagerController=NORMAL}
@@ -115,18 +95,14 @@ Monitored locations controller: {start(timeRED)=2, tramLight=RED, newTramComing=
 Out locations controller: {operateMode=RED_AB, statusC=OPERATE}
 Monitored locations trafficlightA: {start(timeRED)=2, tramLight=RED, newTramComing=false, crossManagerController_previous=NORMAL, duration(timeRED)=3, mCurrTimeSecs=4, lightsA=RED, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, operateMode=RED_AB, pedestrianLight=RED, tramComing=false, transitionC=OPERATE_T, statusC=OPERATE, crossManagerController=NORMAL}
 Out locations trafficlightA: {lightsA=RED}
-Monitored locations trafficlightA: {start(timeRED)=2, tramLight=RED, newTramComing=false, crossManagerController_previous=NORMAL, duration(timeRED)=3, mCurrTimeSecs=4, lightsA=RED, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, operateMode=RED_AB, pedestrianLight=RED, tramComing=false, transitionC=OPERATE_T, statusC=OPERATE, crossManagerController=NORMAL}
-Out locations trafficlightA: {lightsA=RED}
 Monitored locations trafficlightB: {start(timeRED)=2, tramLight=RED, newTramComing=false, crossManagerController_previous=NORMAL, duration(timeRED)=3, mCurrTimeSecs=4, lightsA=RED, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, operateMode=RED_AB, pedestrianLight=RED, tramComing=false, transitionC=OPERATE_T, statusC=OPERATE, crossManagerController=NORMAL}
 Out locations trafficlightB: {lightsB=RED}
-Monitored locations trafficlightB: {start(timeRED)=2, tramLight=RED, newTramComing=false, crossManagerController_previous=NORMAL, duration(timeRED)=3, mCurrTimeSecs=4, lightsA=RED, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, operateMode=RED_AB, pedestrianLight=RED, tramComing=false, transitionC=OPERATE_T, statusC=OPERATE, crossManagerController=NORMAL}
-Out locations trafficlightB: {lightsB=RED}
-[ASMETACOMP] Step 2460: 0.6589 ms
-AFTER EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=RED, tramComing=false} )  <|> ASM crossManager: {crossManagerController=NORMAL} ) <||>ASM controller: {operateMode=RED_AB, statusC=OPERATE} )  |  (  (  ( ASM trafficlightA: {lightsA=RED} || ASM trafficlightA: {lightsA=RED} )  || ASM trafficlightB: {lightsB=RED} )  || ASM trafficlightB: {lightsB=RED} )  ) 
+[ASMETACOMP] Step 2460: 0.3771 ms
+AFTER EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=RED, tramComing=false} )  <|> ASM crossManager: {crossManagerController=NORMAL} ) <||>ASM controller: {operateMode=RED_AB, statusC=OPERATE} )  |  ( ASM trafficlightA: {lightsA=RED} || ASM trafficlightB: {lightsB=RED} )  ) 
 
 RUN STEP 2461
 Running composition: comp with input: {newPedestrianComing=false, newTramComing=false, transitionC=OPERATE_T, mCurrTimeSecs=5}
-BEFORE EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=RED, tramComing=false} )  <|> ASM crossManager: {crossManagerController=NORMAL} ) <||>ASM controller: {operateMode=RED_AB, statusC=OPERATE} )  |  (  (  ( ASM trafficlightA: {lightsA=RED} || ASM trafficlightA: {lightsA=RED} )  || ASM trafficlightB: {lightsB=RED} )  || ASM trafficlightB: {lightsB=RED} )  ) 
+BEFORE EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=RED, tramComing=false} )  <|> ASM crossManager: {crossManagerController=NORMAL} ) <||>ASM controller: {operateMode=RED_AB, statusC=OPERATE} )  |  ( ASM trafficlightA: {lightsA=RED} || ASM trafficlightB: {lightsB=RED} )  ) 
 Monitored locations pedestrian: {newPedestrianComing=false, operateMode=RED_AB, start(timeRED)=2, newTramComing=false, crossManagerController_previous=NORMAL, transitionC=OPERATE_T, duration(timeRED)=3, mCurrTimeSecs=5, statusC=OPERATE, crossManagerController=NORMAL}
 Out locations pedestrian: {pedestrianComing=false, pedestrianLight=RED}
 Monitored locations tram: {start(timeRED)=2, tramLight=RED, newTramComing=false, crossManagerController_previous=NORMAL, duration(timeRED)=3, mCurrTimeSecs=5, newPedestrianComing=false, pedestrianComing=false, operateMode=RED_AB, pedestrianLight=RED, tramComing=false, transitionC=OPERATE_T, statusC=OPERATE, crossManagerController=NORMAL}
@@ -137,18 +113,14 @@ Monitored locations controller: {start(timeRED)=2, tramLight=RED, newTramComing=
 Out locations controller: {operateMode=GREEN_A_RED_B, statusC=OPERATE}
 Monitored locations trafficlightA: {start(timeRED)=2, tramLight=RED, newTramComing=false, crossManagerController_previous=NORMAL, duration(timeRED)=3, mCurrTimeSecs=5, lightsA=RED, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, operateMode=GREEN_A_RED_B, pedestrianLight=RED, tramComing=false, transitionC=OPERATE_T, statusC=OPERATE, crossManagerController=NORMAL}
 Out locations trafficlightA: {lightsA=GREEN}
-Monitored locations trafficlightA: {start(timeRED)=2, tramLight=RED, newTramComing=false, crossManagerController_previous=NORMAL, duration(timeRED)=3, mCurrTimeSecs=5, lightsA=RED, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, operateMode=GREEN_A_RED_B, pedestrianLight=RED, tramComing=false, transitionC=OPERATE_T, statusC=OPERATE, crossManagerController=NORMAL}
-Out locations trafficlightA: {lightsA=GREEN}
 Monitored locations trafficlightB: {start(timeRED)=2, tramLight=RED, newTramComing=false, crossManagerController_previous=NORMAL, duration(timeRED)=3, mCurrTimeSecs=5, lightsA=RED, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, operateMode=GREEN_A_RED_B, pedestrianLight=RED, tramComing=false, transitionC=OPERATE_T, statusC=OPERATE, crossManagerController=NORMAL}
 Out locations trafficlightB: {lightsB=RED}
-Monitored locations trafficlightB: {start(timeRED)=2, tramLight=RED, newTramComing=false, crossManagerController_previous=NORMAL, duration(timeRED)=3, mCurrTimeSecs=5, lightsA=RED, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, operateMode=GREEN_A_RED_B, pedestrianLight=RED, tramComing=false, transitionC=OPERATE_T, statusC=OPERATE, crossManagerController=NORMAL}
-Out locations trafficlightB: {lightsB=RED}
-[ASMETACOMP] Step 2461: 0.5867 ms
-AFTER EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=RED, tramComing=false} )  <|> ASM crossManager: {crossManagerController=NORMAL} ) <||>ASM controller: {operateMode=GREEN_A_RED_B, statusC=OPERATE} )  |  (  (  ( ASM trafficlightA: {lightsA=GREEN} || ASM trafficlightA: {lightsA=GREEN} )  || ASM trafficlightB: {lightsB=RED} )  || ASM trafficlightB: {lightsB=RED} )  ) 
+[ASMETACOMP] Step 2461: 0.4693 ms
+AFTER EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=RED, tramComing=false} )  <|> ASM crossManager: {crossManagerController=NORMAL} ) <||>ASM controller: {operateMode=GREEN_A_RED_B, statusC=OPERATE} )  |  ( ASM trafficlightA: {lightsA=GREEN} || ASM trafficlightB: {lightsB=RED} )  ) 
 
 RUN STEP 2462
 Running composition: comp with input: {newPedestrianComing=false, newTramComing=false, transitionC=OPERATE_T, mCurrTimeSecs=6}
-BEFORE EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=RED, tramComing=false} )  <|> ASM crossManager: {crossManagerController=NORMAL} ) <||>ASM controller: {operateMode=GREEN_A_RED_B, statusC=OPERATE} )  |  (  (  ( ASM trafficlightA: {lightsA=GREEN} || ASM trafficlightA: {lightsA=GREEN} )  || ASM trafficlightB: {lightsB=RED} )  || ASM trafficlightB: {lightsB=RED} )  ) 
+BEFORE EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=RED, tramComing=false} )  <|> ASM crossManager: {crossManagerController=NORMAL} ) <||>ASM controller: {operateMode=GREEN_A_RED_B, statusC=OPERATE} )  |  ( ASM trafficlightA: {lightsA=GREEN} || ASM trafficlightB: {lightsB=RED} )  ) 
 Monitored locations pedestrian: {newPedestrianComing=false, start(timeGREEN)=5, operateMode=GREEN_A_RED_B, start(timeRED)=2, newTramComing=false, crossManagerController_previous=NORMAL, transitionC=OPERATE_T, duration(timeRED)=3, mCurrTimeSecs=6, statusC=OPERATE, crossManagerController=NORMAL}
 Out locations pedestrian: {pedestrianComing=false, pedestrianLight=RED}
 Monitored locations tram: {start(timeRED)=2, tramLight=RED, newTramComing=false, crossManagerController_previous=NORMAL, duration(timeRED)=3, mCurrTimeSecs=6, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=5, operateMode=GREEN_A_RED_B, pedestrianLight=RED, tramComing=false, transitionC=OPERATE_T, statusC=OPERATE, crossManagerController=NORMAL}
@@ -159,18 +131,14 @@ Monitored locations controller: {start(timeRED)=2, tramLight=RED, newTramComing=
 Out locations controller: {operateMode=GREEN_A_RED_B, statusC=OPERATE}
 Monitored locations trafficlightA: {start(timeRED)=2, tramLight=RED, newTramComing=false, crossManagerController_previous=NORMAL, duration(timeRED)=3, mCurrTimeSecs=6, lightsA=GREEN, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=5, operateMode=GREEN_A_RED_B, pedestrianLight=RED, tramComing=false, transitionC=OPERATE_T, statusC=OPERATE, crossManagerController=NORMAL}
 Out locations trafficlightA: {lightsA=GREEN}
-Monitored locations trafficlightA: {start(timeRED)=2, tramLight=RED, newTramComing=false, crossManagerController_previous=NORMAL, duration(timeRED)=3, mCurrTimeSecs=6, lightsA=GREEN, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=5, operateMode=GREEN_A_RED_B, pedestrianLight=RED, tramComing=false, transitionC=OPERATE_T, statusC=OPERATE, crossManagerController=NORMAL}
-Out locations trafficlightA: {lightsA=GREEN}
 Monitored locations trafficlightB: {start(timeRED)=2, tramLight=RED, newTramComing=false, crossManagerController_previous=NORMAL, duration(timeRED)=3, mCurrTimeSecs=6, lightsA=GREEN, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=5, operateMode=GREEN_A_RED_B, pedestrianLight=RED, tramComing=false, transitionC=OPERATE_T, statusC=OPERATE, crossManagerController=NORMAL}
 Out locations trafficlightB: {lightsB=RED}
-Monitored locations trafficlightB: {start(timeRED)=2, tramLight=RED, newTramComing=false, crossManagerController_previous=NORMAL, duration(timeRED)=3, mCurrTimeSecs=6, lightsA=GREEN, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=5, operateMode=GREEN_A_RED_B, pedestrianLight=RED, tramComing=false, transitionC=OPERATE_T, statusC=OPERATE, crossManagerController=NORMAL}
-Out locations trafficlightB: {lightsB=RED}
-[ASMETACOMP] Step 2462: 0.6464 ms
-AFTER EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=RED, tramComing=false} )  <|> ASM crossManager: {crossManagerController=NORMAL} ) <||>ASM controller: {operateMode=GREEN_A_RED_B, statusC=OPERATE} )  |  (  (  ( ASM trafficlightA: {lightsA=GREEN} || ASM trafficlightA: {lightsA=GREEN} )  || ASM trafficlightB: {lightsB=RED} )  || ASM trafficlightB: {lightsB=RED} )  ) 
+[ASMETACOMP] Step 2462: 0.3833 ms
+AFTER EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=RED, tramComing=false} )  <|> ASM crossManager: {crossManagerController=NORMAL} ) <||>ASM controller: {operateMode=GREEN_A_RED_B, statusC=OPERATE} )  |  ( ASM trafficlightA: {lightsA=GREEN} || ASM trafficlightB: {lightsB=RED} )  ) 
 
 RUN STEP 2463
 Running composition: comp with input: {newPedestrianComing=false, newTramComing=true, transitionC=OPERATE_T, mCurrTimeSecs=7}
-BEFORE EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=RED, tramComing=false} )  <|> ASM crossManager: {crossManagerController=NORMAL} ) <||>ASM controller: {operateMode=GREEN_A_RED_B, statusC=OPERATE} )  |  (  (  ( ASM trafficlightA: {lightsA=GREEN} || ASM trafficlightA: {lightsA=GREEN} )  || ASM trafficlightB: {lightsB=RED} )  || ASM trafficlightB: {lightsB=RED} )  ) 
+BEFORE EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=RED, tramComing=false} )  <|> ASM crossManager: {crossManagerController=NORMAL} ) <||>ASM controller: {operateMode=GREEN_A_RED_B, statusC=OPERATE} )  |  ( ASM trafficlightA: {lightsA=GREEN} || ASM trafficlightB: {lightsB=RED} )  ) 
 Monitored locations pedestrian: {newPedestrianComing=false, start(timeGREEN)=5, operateMode=GREEN_A_RED_B, duration(timeGREEN)=3, start(timeRED)=2, newTramComing=true, crossManagerController_previous=NORMAL, transitionC=OPERATE_T, duration(timeRED)=3, mCurrTimeSecs=7, statusC=OPERATE, crossManagerController=NORMAL}
 Out locations pedestrian: {pedestrianComing=false, pedestrianLight=RED}
 Monitored locations tram: {duration(timeGREEN)=3, start(timeRED)=2, tramLight=RED, newTramComing=true, crossManagerController_previous=NORMAL, duration(timeRED)=3, mCurrTimeSecs=7, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=5, operateMode=GREEN_A_RED_B, pedestrianLight=RED, tramComing=false, transitionC=OPERATE_T, statusC=OPERATE, crossManagerController=NORMAL}
@@ -181,18 +149,14 @@ Monitored locations controller: {duration(timeGREEN)=3, start(timeRED)=2, tramLi
 Out locations controller: {operateMode=GREEN_A_RED_B, statusC=OPERATE}
 Monitored locations trafficlightA: {duration(timeGREEN)=3, start(timeRED)=2, tramLight=RED, newTramComing=true, crossManagerController_previous=NORMAL, duration(timeRED)=3, mCurrTimeSecs=7, lightsA=GREEN, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=5, operateMode=GREEN_A_RED_B, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=7, statusC=OPERATE, crossManagerController=TRAM}
 Out locations trafficlightA: {lightsA=GREEN}
-Monitored locations trafficlightA: {duration(timeGREEN)=3, start(timeRED)=2, tramLight=RED, newTramComing=true, crossManagerController_previous=NORMAL, duration(timeRED)=3, mCurrTimeSecs=7, lightsA=GREEN, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=5, operateMode=GREEN_A_RED_B, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=7, statusC=OPERATE, crossManagerController=TRAM}
-Out locations trafficlightA: {lightsA=GREEN}
 Monitored locations trafficlightB: {duration(timeGREEN)=3, start(timeRED)=2, tramLight=RED, newTramComing=true, crossManagerController_previous=NORMAL, duration(timeRED)=3, mCurrTimeSecs=7, lightsA=GREEN, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=5, operateMode=GREEN_A_RED_B, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=7, statusC=OPERATE, crossManagerController=TRAM}
 Out locations trafficlightB: {lightsB=RED}
-Monitored locations trafficlightB: {duration(timeGREEN)=3, start(timeRED)=2, tramLight=RED, newTramComing=true, crossManagerController_previous=NORMAL, duration(timeRED)=3, mCurrTimeSecs=7, lightsA=GREEN, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=5, operateMode=GREEN_A_RED_B, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=7, statusC=OPERATE, crossManagerController=TRAM}
-Out locations trafficlightB: {lightsB=RED}
-[ASMETACOMP] Step 2463: 0.5836 ms
-AFTER EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=RED, tramComing=true} )  <|> ASM crossManager: {crossManagerController=TRAM} ) <||>ASM controller: {operateMode=GREEN_A_RED_B, statusC=OPERATE} )  |  (  (  ( ASM trafficlightA: {lightsA=GREEN} || ASM trafficlightA: {lightsA=GREEN} )  || ASM trafficlightB: {lightsB=RED} )  || ASM trafficlightB: {lightsB=RED} )  ) 
+[ASMETACOMP] Step 2463: 0.3949 ms
+AFTER EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=RED, tramComing=true} )  <|> ASM crossManager: {crossManagerController=TRAM} ) <||>ASM controller: {operateMode=GREEN_A_RED_B, statusC=OPERATE} )  |  ( ASM trafficlightA: {lightsA=GREEN} || ASM trafficlightB: {lightsB=RED} )  ) 
 
 RUN STEP 2464
 Running composition: comp with input: {newPedestrianComing=false, newTramComing=true, transitionC=OPERATE_T, mCurrTimeSecs=8}
-BEFORE EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=RED, tramComing=true} )  <|> ASM crossManager: {crossManagerController=TRAM} ) <||>ASM controller: {operateMode=GREEN_A_RED_B, statusC=OPERATE} )  |  (  (  ( ASM trafficlightA: {lightsA=GREEN} || ASM trafficlightA: {lightsA=GREEN} )  || ASM trafficlightB: {lightsB=RED} )  || ASM trafficlightB: {lightsB=RED} )  ) 
+BEFORE EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=RED, tramComing=true} )  <|> ASM crossManager: {crossManagerController=TRAM} ) <||>ASM controller: {operateMode=GREEN_A_RED_B, statusC=OPERATE} )  |  ( ASM trafficlightA: {lightsA=GREEN} || ASM trafficlightB: {lightsB=RED} )  ) 
 Monitored locations pedestrian: {duration(timeGREEN)=3, start(timeRED)=2, newTramComing=true, crossManagerController_previous=NORMAL, duration(timeRED)=3, mCurrTimeSecs=8, newPedestrianComing=false, start(timeGREEN)=5, operateMode=GREEN_A_RED_B, transitionC=OPERATE_T, start(timeTRAM)=7, statusC=OPERATE, crossManagerController=TRAM}
 Out locations pedestrian: {pedestrianComing=false, pedestrianLight=RED}
 Monitored locations tram: {duration(timeGREEN)=3, start(timeRED)=2, tramLight=RED, newTramComing=true, crossManagerController_previous=NORMAL, duration(timeRED)=3, mCurrTimeSecs=8, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=5, operateMode=GREEN_A_RED_B, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=7, statusC=OPERATE, crossManagerController=TRAM}
@@ -203,18 +167,14 @@ Monitored locations controller: {duration(timeGREEN)=3, start(timeRED)=2, tramLi
 Out locations controller: {operateMode=RED_BA, statusC=OPERATE}
 Monitored locations trafficlightA: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, tramLight=GREEN, newTramComing=true, crossManagerController_previous=NORMAL, duration(timeRED)=3, mCurrTimeSecs=8, lightsA=GREEN, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=5, operateMode=RED_BA, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=7, statusC=OPERATE, crossManagerController=TRAM}
 Out locations trafficlightA: {lightsA=RED}
-Monitored locations trafficlightA: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, tramLight=GREEN, newTramComing=true, crossManagerController_previous=NORMAL, duration(timeRED)=3, mCurrTimeSecs=8, lightsA=GREEN, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=5, operateMode=RED_BA, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=7, statusC=OPERATE, crossManagerController=TRAM}
-Out locations trafficlightA: {lightsA=RED}
 Monitored locations trafficlightB: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, tramLight=GREEN, newTramComing=true, crossManagerController_previous=NORMAL, duration(timeRED)=3, mCurrTimeSecs=8, lightsA=GREEN, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=5, operateMode=RED_BA, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=7, statusC=OPERATE, crossManagerController=TRAM}
 Out locations trafficlightB: {lightsB=RED}
-Monitored locations trafficlightB: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, tramLight=GREEN, newTramComing=true, crossManagerController_previous=NORMAL, duration(timeRED)=3, mCurrTimeSecs=8, lightsA=GREEN, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=5, operateMode=RED_BA, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=7, statusC=OPERATE, crossManagerController=TRAM}
-Out locations trafficlightB: {lightsB=RED}
-[ASMETACOMP] Step 2464: 0.6192 ms
-AFTER EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=GREEN, tramComing=true} )  <|> ASM crossManager: {crossManagerController=TRAM} ) <||>ASM controller: {operateMode=RED_BA, statusC=OPERATE} )  |  (  (  ( ASM trafficlightA: {lightsA=RED} || ASM trafficlightA: {lightsA=RED} )  || ASM trafficlightB: {lightsB=RED} )  || ASM trafficlightB: {lightsB=RED} )  ) 
+[ASMETACOMP] Step 2464: 0.4112 ms
+AFTER EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=GREEN, tramComing=true} )  <|> ASM crossManager: {crossManagerController=TRAM} ) <||>ASM controller: {operateMode=RED_BA, statusC=OPERATE} )  |  ( ASM trafficlightA: {lightsA=RED} || ASM trafficlightB: {lightsB=RED} )  ) 
 
 RUN STEP 2465
 Running composition: comp with input: {newPedestrianComing=false, newTramComing=false, transitionC=OPERATE_T, mCurrTimeSecs=9}
-BEFORE EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=GREEN, tramComing=true} )  <|> ASM crossManager: {crossManagerController=TRAM} ) <||>ASM controller: {operateMode=RED_BA, statusC=OPERATE} )  |  (  (  ( ASM trafficlightA: {lightsA=RED} || ASM trafficlightA: {lightsA=RED} )  || ASM trafficlightB: {lightsB=RED} )  || ASM trafficlightB: {lightsB=RED} )  ) 
+BEFORE EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=GREEN, tramComing=true} )  <|> ASM crossManager: {crossManagerController=TRAM} ) <||>ASM controller: {operateMode=RED_BA, statusC=OPERATE} )  |  ( ASM trafficlightA: {lightsA=RED} || ASM trafficlightB: {lightsB=RED} )  ) 
 Monitored locations pedestrian: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, newTramComing=false, crossManagerController_previous=TRAM, duration(timeRED)=3, mCurrTimeSecs=9, newPedestrianComing=false, start(timeGREEN)=5, operateMode=RED_BA, transitionC=OPERATE_T, start(timeTRAM)=7, statusC=OPERATE, crossManagerController=TRAM}
 Out locations pedestrian: {pedestrianComing=false, pedestrianLight=RED}
 Monitored locations tram: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, tramLight=GREEN, newTramComing=false, crossManagerController_previous=TRAM, duration(timeRED)=3, mCurrTimeSecs=9, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=5, operateMode=RED_BA, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=7, statusC=OPERATE, crossManagerController=TRAM}
@@ -225,18 +185,14 @@ Monitored locations controller: {duration(timeTRAM)=5, duration(timeGREEN)=3, st
 Out locations controller: {operateMode=RED_BA, statusC=OPERATE}
 Monitored locations trafficlightA: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, tramLight=GREEN, newTramComing=false, crossManagerController_previous=TRAM, duration(timeRED)=3, mCurrTimeSecs=9, lightsA=RED, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=5, operateMode=RED_BA, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=7, statusC=OPERATE, crossManagerController=TRAM}
 Out locations trafficlightA: {lightsA=RED}
-Monitored locations trafficlightA: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, tramLight=GREEN, newTramComing=false, crossManagerController_previous=TRAM, duration(timeRED)=3, mCurrTimeSecs=9, lightsA=RED, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=5, operateMode=RED_BA, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=7, statusC=OPERATE, crossManagerController=TRAM}
-Out locations trafficlightA: {lightsA=RED}
 Monitored locations trafficlightB: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, tramLight=GREEN, newTramComing=false, crossManagerController_previous=TRAM, duration(timeRED)=3, mCurrTimeSecs=9, lightsA=RED, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=5, operateMode=RED_BA, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=7, statusC=OPERATE, crossManagerController=TRAM}
 Out locations trafficlightB: {lightsB=RED}
-Monitored locations trafficlightB: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, tramLight=GREEN, newTramComing=false, crossManagerController_previous=TRAM, duration(timeRED)=3, mCurrTimeSecs=9, lightsA=RED, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=5, operateMode=RED_BA, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=7, statusC=OPERATE, crossManagerController=TRAM}
-Out locations trafficlightB: {lightsB=RED}
-[ASMETACOMP] Step 2465: 0.4578 ms
-AFTER EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=GREEN, tramComing=true} )  <|> ASM crossManager: {crossManagerController=TRAM} ) <||>ASM controller: {operateMode=RED_BA, statusC=OPERATE} )  |  (  (  ( ASM trafficlightA: {lightsA=RED} || ASM trafficlightA: {lightsA=RED} )  || ASM trafficlightB: {lightsB=RED} )  || ASM trafficlightB: {lightsB=RED} )  ) 
+[ASMETACOMP] Step 2465: 0.4011 ms
+AFTER EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=GREEN, tramComing=true} )  <|> ASM crossManager: {crossManagerController=TRAM} ) <||>ASM controller: {operateMode=RED_BA, statusC=OPERATE} )  |  ( ASM trafficlightA: {lightsA=RED} || ASM trafficlightB: {lightsB=RED} )  ) 
 
 RUN STEP 2466
 Running composition: comp with input: {newPedestrianComing=false, newTramComing=false, transitionC=OPERATE_T, mCurrTimeSecs=10}
-BEFORE EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=GREEN, tramComing=true} )  <|> ASM crossManager: {crossManagerController=TRAM} ) <||>ASM controller: {operateMode=RED_BA, statusC=OPERATE} )  |  (  (  ( ASM trafficlightA: {lightsA=RED} || ASM trafficlightA: {lightsA=RED} )  || ASM trafficlightB: {lightsB=RED} )  || ASM trafficlightB: {lightsB=RED} )  ) 
+BEFORE EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=GREEN, tramComing=true} )  <|> ASM crossManager: {crossManagerController=TRAM} ) <||>ASM controller: {operateMode=RED_BA, statusC=OPERATE} )  |  ( ASM trafficlightA: {lightsA=RED} || ASM trafficlightB: {lightsB=RED} )  ) 
 Monitored locations pedestrian: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, newTramComing=false, crossManagerController_previous=TRAM, duration(timeRED)=3, mCurrTimeSecs=10, newPedestrianComing=false, start(timeGREEN)=5, operateMode=RED_BA, transitionC=OPERATE_T, start(timeTRAM)=7, statusC=OPERATE, crossManagerController=TRAM}
 Out locations pedestrian: {pedestrianComing=false, pedestrianLight=RED}
 Monitored locations tram: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, tramLight=GREEN, newTramComing=false, crossManagerController_previous=TRAM, duration(timeRED)=3, mCurrTimeSecs=10, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=5, operateMode=RED_BA, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=7, statusC=OPERATE, crossManagerController=TRAM}
@@ -247,18 +203,14 @@ Monitored locations controller: {duration(timeTRAM)=5, duration(timeGREEN)=3, st
 Out locations controller: {operateMode=RED_BA, statusC=OPERATE}
 Monitored locations trafficlightA: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, tramLight=GREEN, newTramComing=false, crossManagerController_previous=TRAM, duration(timeRED)=3, mCurrTimeSecs=10, lightsA=RED, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=5, operateMode=RED_BA, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=7, statusC=OPERATE, crossManagerController=TRAM}
 Out locations trafficlightA: {lightsA=RED}
-Monitored locations trafficlightA: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, tramLight=GREEN, newTramComing=false, crossManagerController_previous=TRAM, duration(timeRED)=3, mCurrTimeSecs=10, lightsA=RED, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=5, operateMode=RED_BA, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=7, statusC=OPERATE, crossManagerController=TRAM}
-Out locations trafficlightA: {lightsA=RED}
 Monitored locations trafficlightB: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, tramLight=GREEN, newTramComing=false, crossManagerController_previous=TRAM, duration(timeRED)=3, mCurrTimeSecs=10, lightsA=RED, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=5, operateMode=RED_BA, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=7, statusC=OPERATE, crossManagerController=TRAM}
 Out locations trafficlightB: {lightsB=RED}
-Monitored locations trafficlightB: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, tramLight=GREEN, newTramComing=false, crossManagerController_previous=TRAM, duration(timeRED)=3, mCurrTimeSecs=10, lightsA=RED, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=5, operateMode=RED_BA, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=7, statusC=OPERATE, crossManagerController=TRAM}
-Out locations trafficlightB: {lightsB=RED}
-[ASMETACOMP] Step 2466: 0.4475 ms
-AFTER EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=GREEN, tramComing=true} )  <|> ASM crossManager: {crossManagerController=TRAM} ) <||>ASM controller: {operateMode=RED_BA, statusC=OPERATE} )  |  (  (  ( ASM trafficlightA: {lightsA=RED} || ASM trafficlightA: {lightsA=RED} )  || ASM trafficlightB: {lightsB=RED} )  || ASM trafficlightB: {lightsB=RED} )  ) 
+[ASMETACOMP] Step 2466: 0.4942 ms
+AFTER EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=GREEN, tramComing=true} )  <|> ASM crossManager: {crossManagerController=TRAM} ) <||>ASM controller: {operateMode=RED_BA, statusC=OPERATE} )  |  ( ASM trafficlightA: {lightsA=RED} || ASM trafficlightB: {lightsB=RED} )  ) 
 
 RUN STEP 2467
 Running composition: comp with input: {newPedestrianComing=false, newTramComing=false, transitionC=OPERATE_T, mCurrTimeSecs=11}
-BEFORE EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=GREEN, tramComing=true} )  <|> ASM crossManager: {crossManagerController=TRAM} ) <||>ASM controller: {operateMode=RED_BA, statusC=OPERATE} )  |  (  (  ( ASM trafficlightA: {lightsA=RED} || ASM trafficlightA: {lightsA=RED} )  || ASM trafficlightB: {lightsB=RED} )  || ASM trafficlightB: {lightsB=RED} )  ) 
+BEFORE EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=GREEN, tramComing=true} )  <|> ASM crossManager: {crossManagerController=TRAM} ) <||>ASM controller: {operateMode=RED_BA, statusC=OPERATE} )  |  ( ASM trafficlightA: {lightsA=RED} || ASM trafficlightB: {lightsB=RED} )  ) 
 Monitored locations pedestrian: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, newTramComing=false, crossManagerController_previous=TRAM, duration(timeRED)=3, mCurrTimeSecs=11, newPedestrianComing=false, start(timeGREEN)=5, operateMode=RED_BA, transitionC=OPERATE_T, start(timeTRAM)=7, statusC=OPERATE, crossManagerController=TRAM}
 Out locations pedestrian: {pedestrianComing=false, pedestrianLight=RED}
 Monitored locations tram: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, tramLight=GREEN, newTramComing=false, crossManagerController_previous=TRAM, duration(timeRED)=3, mCurrTimeSecs=11, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=5, operateMode=RED_BA, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=7, statusC=OPERATE, crossManagerController=TRAM}
@@ -269,18 +221,14 @@ Monitored locations controller: {duration(timeTRAM)=5, duration(timeGREEN)=3, st
 Out locations controller: {operateMode=RED_BA, statusC=OPERATE}
 Monitored locations trafficlightA: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, tramLight=GREEN, newTramComing=false, crossManagerController_previous=TRAM, duration(timeRED)=3, mCurrTimeSecs=11, lightsA=RED, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=5, operateMode=RED_BA, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=7, statusC=OPERATE, crossManagerController=TRAM}
 Out locations trafficlightA: {lightsA=RED}
-Monitored locations trafficlightA: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, tramLight=GREEN, newTramComing=false, crossManagerController_previous=TRAM, duration(timeRED)=3, mCurrTimeSecs=11, lightsA=RED, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=5, operateMode=RED_BA, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=7, statusC=OPERATE, crossManagerController=TRAM}
-Out locations trafficlightA: {lightsA=RED}
 Monitored locations trafficlightB: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, tramLight=GREEN, newTramComing=false, crossManagerController_previous=TRAM, duration(timeRED)=3, mCurrTimeSecs=11, lightsA=RED, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=5, operateMode=RED_BA, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=7, statusC=OPERATE, crossManagerController=TRAM}
 Out locations trafficlightB: {lightsB=RED}
-Monitored locations trafficlightB: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, tramLight=GREEN, newTramComing=false, crossManagerController_previous=TRAM, duration(timeRED)=3, mCurrTimeSecs=11, lightsA=RED, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=5, operateMode=RED_BA, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=7, statusC=OPERATE, crossManagerController=TRAM}
-Out locations trafficlightB: {lightsB=RED}
-[ASMETACOMP] Step 2467: 0.4404 ms
-AFTER EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=GREEN, tramComing=true} )  <|> ASM crossManager: {crossManagerController=TRAM} ) <||>ASM controller: {operateMode=RED_BA, statusC=OPERATE} )  |  (  (  ( ASM trafficlightA: {lightsA=RED} || ASM trafficlightA: {lightsA=RED} )  || ASM trafficlightB: {lightsB=RED} )  || ASM trafficlightB: {lightsB=RED} )  ) 
+[ASMETACOMP] Step 2467: 0.4820 ms
+AFTER EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=GREEN, tramComing=true} )  <|> ASM crossManager: {crossManagerController=TRAM} ) <||>ASM controller: {operateMode=RED_BA, statusC=OPERATE} )  |  ( ASM trafficlightA: {lightsA=RED} || ASM trafficlightB: {lightsB=RED} )  ) 
 
 RUN STEP 2468
 Running composition: comp with input: {newPedestrianComing=false, newTramComing=true, transitionC=OPERATE_T, mCurrTimeSecs=12}
-BEFORE EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=GREEN, tramComing=true} )  <|> ASM crossManager: {crossManagerController=TRAM} ) <||>ASM controller: {operateMode=RED_BA, statusC=OPERATE} )  |  (  (  ( ASM trafficlightA: {lightsA=RED} || ASM trafficlightA: {lightsA=RED} )  || ASM trafficlightB: {lightsB=RED} )  || ASM trafficlightB: {lightsB=RED} )  ) 
+BEFORE EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=GREEN, tramComing=true} )  <|> ASM crossManager: {crossManagerController=TRAM} ) <||>ASM controller: {operateMode=RED_BA, statusC=OPERATE} )  |  ( ASM trafficlightA: {lightsA=RED} || ASM trafficlightB: {lightsB=RED} )  ) 
 Monitored locations pedestrian: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, newTramComing=true, crossManagerController_previous=TRAM, duration(timeRED)=3, mCurrTimeSecs=12, newPedestrianComing=false, start(timeGREEN)=5, operateMode=RED_BA, transitionC=OPERATE_T, start(timeTRAM)=7, statusC=OPERATE, crossManagerController=TRAM}
 Out locations pedestrian: {pedestrianComing=false, pedestrianLight=RED}
 Monitored locations tram: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, tramLight=GREEN, newTramComing=true, crossManagerController_previous=TRAM, duration(timeRED)=3, mCurrTimeSecs=12, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=5, operateMode=RED_BA, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=7, statusC=OPERATE, crossManagerController=TRAM}
@@ -291,18 +239,14 @@ Monitored locations controller: {duration(timeTRAM)=5, duration(timeGREEN)=3, st
 Out locations controller: {operateMode=RED_BA, statusC=OPERATE}
 Monitored locations trafficlightA: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, tramLight=GREEN, newTramComing=true, crossManagerController_previous=TRAM, duration(timeRED)=3, mCurrTimeSecs=12, lightsA=RED, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=5, operateMode=RED_BA, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=7, statusC=OPERATE, crossManagerController=NORMAL}
 Out locations trafficlightA: {lightsA=RED}
-Monitored locations trafficlightA: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, tramLight=GREEN, newTramComing=true, crossManagerController_previous=TRAM, duration(timeRED)=3, mCurrTimeSecs=12, lightsA=RED, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=5, operateMode=RED_BA, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=7, statusC=OPERATE, crossManagerController=NORMAL}
-Out locations trafficlightA: {lightsA=RED}
 Monitored locations trafficlightB: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, tramLight=GREEN, newTramComing=true, crossManagerController_previous=TRAM, duration(timeRED)=3, mCurrTimeSecs=12, lightsA=RED, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=5, operateMode=RED_BA, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=7, statusC=OPERATE, crossManagerController=NORMAL}
 Out locations trafficlightB: {lightsB=RED}
-Monitored locations trafficlightB: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, tramLight=GREEN, newTramComing=true, crossManagerController_previous=TRAM, duration(timeRED)=3, mCurrTimeSecs=12, lightsA=RED, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=5, operateMode=RED_BA, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=7, statusC=OPERATE, crossManagerController=NORMAL}
-Out locations trafficlightB: {lightsB=RED}
-[ASMETACOMP] Step 2468: 0.4395 ms
-AFTER EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=GREEN, tramComing=true} )  <|> ASM crossManager: {crossManagerController=NORMAL} ) <||>ASM controller: {operateMode=RED_BA, statusC=OPERATE} )  |  (  (  ( ASM trafficlightA: {lightsA=RED} || ASM trafficlightA: {lightsA=RED} )  || ASM trafficlightB: {lightsB=RED} )  || ASM trafficlightB: {lightsB=RED} )  ) 
+[ASMETACOMP] Step 2468: 0.4296 ms
+AFTER EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=GREEN, tramComing=true} )  <|> ASM crossManager: {crossManagerController=NORMAL} ) <||>ASM controller: {operateMode=RED_BA, statusC=OPERATE} )  |  ( ASM trafficlightA: {lightsA=RED} || ASM trafficlightB: {lightsB=RED} )  ) 
 
 RUN STEP 2469
 Running composition: comp with input: {newPedestrianComing=false, newTramComing=true, transitionC=OPERATE_T, mCurrTimeSecs=13}
-BEFORE EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=GREEN, tramComing=true} )  <|> ASM crossManager: {crossManagerController=NORMAL} ) <||>ASM controller: {operateMode=RED_BA, statusC=OPERATE} )  |  (  (  ( ASM trafficlightA: {lightsA=RED} || ASM trafficlightA: {lightsA=RED} )  || ASM trafficlightB: {lightsB=RED} )  || ASM trafficlightB: {lightsB=RED} )  ) 
+BEFORE EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=GREEN, tramComing=true} )  <|> ASM crossManager: {crossManagerController=NORMAL} ) <||>ASM controller: {operateMode=RED_BA, statusC=OPERATE} )  |  ( ASM trafficlightA: {lightsA=RED} || ASM trafficlightB: {lightsB=RED} )  ) 
 Monitored locations pedestrian: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, newTramComing=true, crossManagerController_previous=TRAM, duration(timeRED)=3, mCurrTimeSecs=13, newPedestrianComing=false, start(timeGREEN)=5, operateMode=RED_BA, transitionC=OPERATE_T, start(timeTRAM)=7, statusC=OPERATE, crossManagerController=NORMAL}
 Out locations pedestrian: {pedestrianComing=false, pedestrianLight=RED}
 Monitored locations tram: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, tramLight=GREEN, newTramComing=true, crossManagerController_previous=TRAM, duration(timeRED)=3, mCurrTimeSecs=13, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=5, operateMode=RED_BA, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=7, statusC=OPERATE, crossManagerController=NORMAL}
@@ -313,18 +257,14 @@ Monitored locations controller: {duration(timeTRAM)=5, duration(timeGREEN)=3, st
 Out locations controller: {operateMode=GREEN_B_RED_A, statusC=OPERATE}
 Monitored locations trafficlightA: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, tramLight=RED, newTramComing=true, crossManagerController_previous=TRAM, duration(timeRED)=3, mCurrTimeSecs=13, lightsA=RED, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=5, operateMode=GREEN_B_RED_A, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=13, statusC=OPERATE, crossManagerController=TRAM}
 Out locations trafficlightA: {lightsA=RED}
-Monitored locations trafficlightA: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, tramLight=RED, newTramComing=true, crossManagerController_previous=TRAM, duration(timeRED)=3, mCurrTimeSecs=13, lightsA=RED, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=5, operateMode=GREEN_B_RED_A, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=13, statusC=OPERATE, crossManagerController=TRAM}
-Out locations trafficlightA: {lightsA=RED}
 Monitored locations trafficlightB: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, tramLight=RED, newTramComing=true, crossManagerController_previous=TRAM, duration(timeRED)=3, mCurrTimeSecs=13, lightsA=RED, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=5, operateMode=GREEN_B_RED_A, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=13, statusC=OPERATE, crossManagerController=TRAM}
 Out locations trafficlightB: {lightsB=GREEN}
-Monitored locations trafficlightB: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, tramLight=RED, newTramComing=true, crossManagerController_previous=TRAM, duration(timeRED)=3, mCurrTimeSecs=13, lightsA=RED, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=5, operateMode=GREEN_B_RED_A, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=13, statusC=OPERATE, crossManagerController=TRAM}
-Out locations trafficlightB: {lightsB=GREEN}
-[ASMETACOMP] Step 2469: 0.5494 ms
-AFTER EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=RED, tramComing=true} )  <|> ASM crossManager: {crossManagerController=TRAM} ) <||>ASM controller: {operateMode=GREEN_B_RED_A, statusC=OPERATE} )  |  (  (  ( ASM trafficlightA: {lightsA=RED} || ASM trafficlightA: {lightsA=RED} )  || ASM trafficlightB: {lightsB=GREEN} )  || ASM trafficlightB: {lightsB=GREEN} )  ) 
+[ASMETACOMP] Step 2469: 0.6305 ms
+AFTER EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=RED, tramComing=true} )  <|> ASM crossManager: {crossManagerController=TRAM} ) <||>ASM controller: {operateMode=GREEN_B_RED_A, statusC=OPERATE} )  |  ( ASM trafficlightA: {lightsA=RED} || ASM trafficlightB: {lightsB=GREEN} )  ) 
 
 RUN STEP 2470
 Running composition: comp with input: {newPedestrianComing=false, newTramComing=false, transitionC=OPERATE_T, mCurrTimeSecs=14}
-BEFORE EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=RED, tramComing=true} )  <|> ASM crossManager: {crossManagerController=TRAM} ) <||>ASM controller: {operateMode=GREEN_B_RED_A, statusC=OPERATE} )  |  (  (  ( ASM trafficlightA: {lightsA=RED} || ASM trafficlightA: {lightsA=RED} )  || ASM trafficlightB: {lightsB=GREEN} )  || ASM trafficlightB: {lightsB=GREEN} )  ) 
+BEFORE EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=RED, tramComing=true} )  <|> ASM crossManager: {crossManagerController=TRAM} ) <||>ASM controller: {operateMode=GREEN_B_RED_A, statusC=OPERATE} )  |  ( ASM trafficlightA: {lightsA=RED} || ASM trafficlightB: {lightsB=GREEN} )  ) 
 Monitored locations pedestrian: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, newTramComing=false, crossManagerController_previous=NORMAL, duration(timeRED)=3, mCurrTimeSecs=14, newPedestrianComing=false, start(timeGREEN)=13, operateMode=GREEN_B_RED_A, transitionC=OPERATE_T, start(timeTRAM)=13, statusC=OPERATE, crossManagerController=TRAM}
 Out locations pedestrian: {pedestrianComing=false, pedestrianLight=RED}
 Monitored locations tram: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, tramLight=RED, newTramComing=false, crossManagerController_previous=NORMAL, duration(timeRED)=3, mCurrTimeSecs=14, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=13, operateMode=GREEN_B_RED_A, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=13, statusC=OPERATE, crossManagerController=TRAM}
@@ -335,18 +275,14 @@ Monitored locations controller: {duration(timeTRAM)=5, duration(timeGREEN)=3, st
 Out locations controller: {operateMode=RED_AB, statusC=OPERATE}
 Monitored locations trafficlightA: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, tramLight=GREEN, newTramComing=false, crossManagerController_previous=NORMAL, duration(timeRED)=3, mCurrTimeSecs=14, lightsA=RED, lightsB=GREEN, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=13, operateMode=RED_AB, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=13, statusC=OPERATE, crossManagerController=TRAM}
 Out locations trafficlightA: {lightsA=RED}
-Monitored locations trafficlightA: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, tramLight=GREEN, newTramComing=false, crossManagerController_previous=NORMAL, duration(timeRED)=3, mCurrTimeSecs=14, lightsA=RED, lightsB=GREEN, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=13, operateMode=RED_AB, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=13, statusC=OPERATE, crossManagerController=TRAM}
-Out locations trafficlightA: {lightsA=RED}
 Monitored locations trafficlightB: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, tramLight=GREEN, newTramComing=false, crossManagerController_previous=NORMAL, duration(timeRED)=3, mCurrTimeSecs=14, lightsA=RED, lightsB=GREEN, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=13, operateMode=RED_AB, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=13, statusC=OPERATE, crossManagerController=TRAM}
 Out locations trafficlightB: {lightsB=RED}
-Monitored locations trafficlightB: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, tramLight=GREEN, newTramComing=false, crossManagerController_previous=NORMAL, duration(timeRED)=3, mCurrTimeSecs=14, lightsA=RED, lightsB=GREEN, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=13, operateMode=RED_AB, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=13, statusC=OPERATE, crossManagerController=TRAM}
-Out locations trafficlightB: {lightsB=RED}
-[ASMETACOMP] Step 2470: 1.2050 ms
-AFTER EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=GREEN, tramComing=true} )  <|> ASM crossManager: {crossManagerController=TRAM} ) <||>ASM controller: {operateMode=RED_AB, statusC=OPERATE} )  |  (  (  ( ASM trafficlightA: {lightsA=RED} || ASM trafficlightA: {lightsA=RED} )  || ASM trafficlightB: {lightsB=RED} )  || ASM trafficlightB: {lightsB=RED} )  ) 
+[ASMETACOMP] Step 2470: 0.4386 ms
+AFTER EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=GREEN, tramComing=true} )  <|> ASM crossManager: {crossManagerController=TRAM} ) <||>ASM controller: {operateMode=RED_AB, statusC=OPERATE} )  |  ( ASM trafficlightA: {lightsA=RED} || ASM trafficlightB: {lightsB=RED} )  ) 
 
 RUN STEP 2471
 Running composition: comp with input: {newPedestrianComing=false, newTramComing=false, transitionC=OPERATE_T, mCurrTimeSecs=15}
-BEFORE EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=GREEN, tramComing=true} )  <|> ASM crossManager: {crossManagerController=TRAM} ) <||>ASM controller: {operateMode=RED_AB, statusC=OPERATE} )  |  (  (  ( ASM trafficlightA: {lightsA=RED} || ASM trafficlightA: {lightsA=RED} )  || ASM trafficlightB: {lightsB=RED} )  || ASM trafficlightB: {lightsB=RED} )  ) 
+BEFORE EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=GREEN, tramComing=true} )  <|> ASM crossManager: {crossManagerController=TRAM} ) <||>ASM controller: {operateMode=RED_AB, statusC=OPERATE} )  |  ( ASM trafficlightA: {lightsA=RED} || ASM trafficlightB: {lightsB=RED} )  ) 
 Monitored locations pedestrian: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, newTramComing=false, crossManagerController_previous=TRAM, duration(timeRED)=3, mCurrTimeSecs=15, newPedestrianComing=false, start(timeGREEN)=13, operateMode=RED_AB, transitionC=OPERATE_T, start(timeTRAM)=13, statusC=OPERATE, crossManagerController=TRAM}
 Out locations pedestrian: {pedestrianComing=false, pedestrianLight=RED}
 Monitored locations tram: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, tramLight=GREEN, newTramComing=false, crossManagerController_previous=TRAM, duration(timeRED)=3, mCurrTimeSecs=15, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=13, operateMode=RED_AB, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=13, statusC=OPERATE, crossManagerController=TRAM}
@@ -357,18 +293,14 @@ Monitored locations controller: {duration(timeTRAM)=5, duration(timeGREEN)=3, st
 Out locations controller: {operateMode=RED_AB, statusC=OPERATE}
 Monitored locations trafficlightA: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, tramLight=GREEN, newTramComing=false, crossManagerController_previous=TRAM, duration(timeRED)=3, mCurrTimeSecs=15, lightsA=RED, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=13, operateMode=RED_AB, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=13, statusC=OPERATE, crossManagerController=TRAM}
 Out locations trafficlightA: {lightsA=RED}
-Monitored locations trafficlightA: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, tramLight=GREEN, newTramComing=false, crossManagerController_previous=TRAM, duration(timeRED)=3, mCurrTimeSecs=15, lightsA=RED, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=13, operateMode=RED_AB, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=13, statusC=OPERATE, crossManagerController=TRAM}
-Out locations trafficlightA: {lightsA=RED}
 Monitored locations trafficlightB: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, tramLight=GREEN, newTramComing=false, crossManagerController_previous=TRAM, duration(timeRED)=3, mCurrTimeSecs=15, lightsA=RED, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=13, operateMode=RED_AB, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=13, statusC=OPERATE, crossManagerController=TRAM}
 Out locations trafficlightB: {lightsB=RED}
-Monitored locations trafficlightB: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, tramLight=GREEN, newTramComing=false, crossManagerController_previous=TRAM, duration(timeRED)=3, mCurrTimeSecs=15, lightsA=RED, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=13, operateMode=RED_AB, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=13, statusC=OPERATE, crossManagerController=TRAM}
-Out locations trafficlightB: {lightsB=RED}
-[ASMETACOMP] Step 2471: 0.6104 ms
-AFTER EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=GREEN, tramComing=true} )  <|> ASM crossManager: {crossManagerController=TRAM} ) <||>ASM controller: {operateMode=RED_AB, statusC=OPERATE} )  |  (  (  ( ASM trafficlightA: {lightsA=RED} || ASM trafficlightA: {lightsA=RED} )  || ASM trafficlightB: {lightsB=RED} )  || ASM trafficlightB: {lightsB=RED} )  ) 
+[ASMETACOMP] Step 2471: 0.6231 ms
+AFTER EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=GREEN, tramComing=true} )  <|> ASM crossManager: {crossManagerController=TRAM} ) <||>ASM controller: {operateMode=RED_AB, statusC=OPERATE} )  |  ( ASM trafficlightA: {lightsA=RED} || ASM trafficlightB: {lightsB=RED} )  ) 
 
 RUN STEP 2472
 Running composition: comp with input: {newPedestrianComing=false, newTramComing=false, transitionC=OPERATE_T, mCurrTimeSecs=16}
-BEFORE EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=GREEN, tramComing=true} )  <|> ASM crossManager: {crossManagerController=TRAM} ) <||>ASM controller: {operateMode=RED_AB, statusC=OPERATE} )  |  (  (  ( ASM trafficlightA: {lightsA=RED} || ASM trafficlightA: {lightsA=RED} )  || ASM trafficlightB: {lightsB=RED} )  || ASM trafficlightB: {lightsB=RED} )  ) 
+BEFORE EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=GREEN, tramComing=true} )  <|> ASM crossManager: {crossManagerController=TRAM} ) <||>ASM controller: {operateMode=RED_AB, statusC=OPERATE} )  |  ( ASM trafficlightA: {lightsA=RED} || ASM trafficlightB: {lightsB=RED} )  ) 
 Monitored locations pedestrian: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, newTramComing=false, crossManagerController_previous=TRAM, duration(timeRED)=3, mCurrTimeSecs=16, newPedestrianComing=false, start(timeGREEN)=13, operateMode=RED_AB, transitionC=OPERATE_T, start(timeTRAM)=13, statusC=OPERATE, crossManagerController=TRAM}
 Out locations pedestrian: {pedestrianComing=false, pedestrianLight=RED}
 Monitored locations tram: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, tramLight=GREEN, newTramComing=false, crossManagerController_previous=TRAM, duration(timeRED)=3, mCurrTimeSecs=16, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=13, operateMode=RED_AB, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=13, statusC=OPERATE, crossManagerController=TRAM}
@@ -379,14 +311,10 @@ Monitored locations controller: {duration(timeTRAM)=5, duration(timeGREEN)=3, st
 Out locations controller: {operateMode=RED_AB, statusC=OPERATE}
 Monitored locations trafficlightA: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, tramLight=GREEN, newTramComing=false, crossManagerController_previous=TRAM, duration(timeRED)=3, mCurrTimeSecs=16, lightsA=RED, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=13, operateMode=RED_AB, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=13, statusC=OPERATE, crossManagerController=TRAM}
 Out locations trafficlightA: {lightsA=RED}
-Monitored locations trafficlightA: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, tramLight=GREEN, newTramComing=false, crossManagerController_previous=TRAM, duration(timeRED)=3, mCurrTimeSecs=16, lightsA=RED, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=13, operateMode=RED_AB, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=13, statusC=OPERATE, crossManagerController=TRAM}
-Out locations trafficlightA: {lightsA=RED}
 Monitored locations trafficlightB: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, tramLight=GREEN, newTramComing=false, crossManagerController_previous=TRAM, duration(timeRED)=3, mCurrTimeSecs=16, lightsA=RED, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=13, operateMode=RED_AB, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=13, statusC=OPERATE, crossManagerController=TRAM}
 Out locations trafficlightB: {lightsB=RED}
-Monitored locations trafficlightB: {duration(timeTRAM)=5, duration(timeGREEN)=3, start(timeRED)=2, tramLight=GREEN, newTramComing=false, crossManagerController_previous=TRAM, duration(timeRED)=3, mCurrTimeSecs=16, lightsA=RED, lightsB=RED, newPedestrianComing=false, pedestrianComing=false, start(timeGREEN)=13, operateMode=RED_AB, pedestrianLight=RED, tramComing=true, transitionC=OPERATE_T, start(timeTRAM)=13, statusC=OPERATE, crossManagerController=TRAM}
-Out locations trafficlightB: {lightsB=RED}
-[ASMETACOMP] Step 2472: 0.4551 ms
-AFTER EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=GREEN, tramComing=true} )  <|> ASM crossManager: {crossManagerController=TRAM} ) <||>ASM controller: {operateMode=RED_AB, statusC=OPERATE} )  |  (  (  ( ASM trafficlightA: {lightsA=RED} || ASM trafficlightA: {lightsA=RED} )  || ASM trafficlightB: {lightsB=RED} )  || ASM trafficlightB: {lightsB=RED} )  ) 
-[ASMETACOMP] Total steps execution time: 9.5171 ms
-[ASMETACOMP] Total CLI execution time (including setup): 54.8297 ms
+[ASMETACOMP] Step 2472: 0.8623 ms
+AFTER EVAL (  (  (  ( ASM pedestrian: {pedestrianComing=false, pedestrianLight=RED} || ASM tram: {tramLight=GREEN, tramComing=true} )  <|> ASM crossManager: {crossManagerController=TRAM} ) <||>ASM controller: {operateMode=RED_AB, statusC=OPERATE} )  |  ( ASM trafficlightA: {lightsA=RED} || ASM trafficlightB: {lightsB=RED} )  ) 
+[ASMETACOMP] Total steps execution time: 8.1034 ms
+[ASMETACOMP] Total CLI execution time (including setup): 41.9327 ms
 [TEST] cross9 - run 17/20 completed
