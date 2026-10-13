@@ -13,6 +13,26 @@
       </editor>
    </extension>
 
+   <extension point="org.eclipse.ui.newWizards">
+      <category
+            id="org.asmeta.visualdesigner.newCategory"
+            name="ASMETA">
+      </category>
+
+      <wizard
+            id="org.asmeta.visualdesigner.wizards.NewAsmDesignWizard"
+            name="ASMETA Visual Design"
+            category="org.asmeta.visualdesigner.newCategory"
+            class="org.asmeta.visualdesigner.wizards.NewAsmDesignWizard">
+         <description>
+            Create a new ASMETA visual design model.
+         </description>
+         <selection
+               class="org.eclipse.core.resources.IResource">
+         </selection>
+      </wizard>
+   </extension>
+
    <extension point="org.eclipse.ui.exportWizards">
       <category
             id="org.asmeta.visualdesigner.exportCategory"
