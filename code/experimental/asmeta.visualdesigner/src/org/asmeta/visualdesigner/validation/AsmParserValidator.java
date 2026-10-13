@@ -7,13 +7,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.stream.Stream;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.asmeta.parser.ASMParser;
 
 public class AsmParserValidator {
 
     private final StandardLibraryManager standardLibraryManager = new StandardLibraryManager();
-
+    private static final Pattern ERROR_LOCATION_PATTERN = Pattern.compile("Line:\\s*(\\d+)\\s+column:\\s*(\\d+)", Pattern.CASE_INSENSITIVE);
+    
     public void validate(String asmName, String asmCode) throws AsmValidationException {
 
         Path temporaryDirectory = null;
@@ -37,27 +40,23 @@ public class AsmParserValidator {
     }
 
     public void validate(File asmFile) throws AsmValidationException {
-
         if (asmFile == null) {
-            throw new AsmValidationException(
-                    "The generated ASM file could not be located."
-            );
+            throw new AsmValidationException("The generated ASM file could not be located.");
         }
 
         if (!asmFile.exists() || !asmFile.isFile()) {
-            throw new AsmValidationException(
-                    "The generated ASM file does not exist: "
+            throw new AsmValidationException("The generated ASM file does not exist: "
                             + asmFile.getAbsolutePath()
             );
         }
 
         try {
             ASMParser.setUpReadAsm(asmFile);
+
         } catch (Exception exception) {
-            throw new AsmValidationException(
-                    getParserErrorMessage(exception),
-                    exception
-            );
+            String message = getParserErrorMessage(exception);
+            ParserErrorLocation location = getParserErrorLocation(message);
+            throw new AsmValidationException(message, location.line, location.column, exception);
         }
     }
 
@@ -88,4 +87,31 @@ public class AsmParserValidator {
 
         return message;
     }
+    
+    private ParserErrorLocation getParserErrorLocation(String message) {
+        int line = -1;
+        int column = -1;
+
+        Matcher matcher = ERROR_LOCATION_PATTERN.matcher(message);
+
+        if (matcher.find()) {
+            line = Integer.parseInt(matcher.group(1));
+
+            column = Integer.parseInt(matcher.group(2));
+        }
+
+        return new ParserErrorLocation(line, column);
+    }
+
+    private static class ParserErrorLocation {
+
+        private final int line;
+        private final int column;
+
+        private ParserErrorLocation(int line, int column) {
+            this.line = line;
+            this.column = column;
+        }
+    }
+    
 }

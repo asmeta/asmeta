@@ -1,6 +1,7 @@
 package org.asmeta.visualdesigner.persistence;
 
 import java.io.IOException;
+
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ import com.google.gson.JsonParseException;
 
 import org.asmeta.visualdesigner.model.DomainSignature;
 import org.asmeta.visualdesigner.model.FunctionSignature;
+import org.asmeta.visualdesigner.model.RuleParameter;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -155,6 +157,16 @@ public class DiagramModelJson {
 
             diagramData.functions.add(functionData);
         }
+        
+        for (RuleParameter parameter : model.getRuleParameters()) {
+            RuleParameterData parameterData = new RuleParameterData();
+
+            parameterData.name = parameter.getName();
+
+            parameterData.domain = parameter.getDomain();
+
+            diagramData.ruleParameters.add(parameterData);
+        }
 
         diagramData.customDomainTypes.addAll(model.getCustomDomainTypes());
         
@@ -195,6 +207,12 @@ public class DiagramModelJson {
         for (FunctionData functionData : diagramData.functions) {
             model.getFunctions().add(
                     new FunctionSignature( safeText(functionData.name), safeText(functionData.type), safeText(functionData.domain), safeText(functionData.codomain), safeText(functionData.definition))
+            );
+        }
+        
+        for (RuleParameterData parameterData : diagramData.ruleParameters) {
+            model.getRuleParameters().add(
+                    new RuleParameter(safeText(parameterData.name), safeText(parameterData.domain))
             );
         }
 
@@ -302,6 +320,10 @@ public class DiagramModelJson {
             diagramData.functions = new ArrayList<>();
         }
 
+        if (diagramData.ruleParameters == null) {
+            diagramData.ruleParameters = new ArrayList<>();
+        }
+        
         if (diagramData.customDomainTypes == null) {
             diagramData.customDomainTypes = new ArrayList<>();
         }
@@ -322,6 +344,7 @@ public class DiagramModelJson {
         private List<TransitionData> transitions = new ArrayList<>();
         private List<DomainData> domains = new ArrayList<>();
         private List<FunctionData> functions = new ArrayList<>();
+        private List<RuleParameterData> ruleParameters = new ArrayList<>();
         private List<String> customDomainTypes = new ArrayList<>();
     }
     
@@ -338,6 +361,11 @@ public class DiagramModelJson {
         private String domain;
         private String codomain;
         private String definition;
+    }
+    
+    private static class RuleParameterData {
+        private String name;
+        private String domain;
     }
 
     private static class StartNodeData {

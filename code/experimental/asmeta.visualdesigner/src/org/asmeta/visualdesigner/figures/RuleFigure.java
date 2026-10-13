@@ -63,6 +63,7 @@ import org.eclipse.draw2d.geometry.Point;
 public class RuleFigure extends Figure {
 
     protected Label label;
+    private boolean parserError;
 
     public RuleFigure(String text) {
         setLayoutManager(new BorderLayout());
@@ -126,6 +127,25 @@ public class RuleFigure extends Figure {
             int y = bounds.y + bounds.height / 2;
 
             return new Point(x, y);
+        }
+    }
+    
+    public void setParserError(boolean parserError) {
+        this.parserError = parserError;
+        repaint();
+    }
+    
+    @Override
+    public void paint(Graphics graphics) {
+        super.paint(graphics);
+
+        if (parserError) {
+            graphics.pushState();
+            graphics.setForegroundColor(ColorConstants.red);
+            graphics.setLineWidth(3);
+            Rectangle bounds = getBounds().getCopy().shrink(2, 2);
+            graphics.drawRectangle(bounds);
+            graphics.popState();
         }
     }
     

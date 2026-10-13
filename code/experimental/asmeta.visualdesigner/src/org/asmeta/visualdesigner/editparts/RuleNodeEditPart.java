@@ -237,5 +237,9 @@ implements PropertyChangeListener, DiagramNodeEditPart {
             }
         };
     }
+    
+    public void setParserError(boolean parserError) {
+        getRuleFigure().setParserError(parserError);
+    }
    
 }

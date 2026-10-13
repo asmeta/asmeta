@@ -19,6 +19,7 @@ import org.asmeta.visualdesigner.model.DomainSignature;
 import org.asmeta.visualdesigner.model.FunctionSignature;
 import org.asmeta.visualdesigner.model.RuleNode;
 import org.asmeta.visualdesigner.model.RuleType;
+import org.asmeta.visualdesigner.model.RuleParameter;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.RequestConstants;
@@ -102,7 +103,7 @@ import org.asmeta.visualdesigner.export.AsmExportException;
 import org.asmeta.visualdesigner.export.AsmModelExporter;
 import org.asmeta.visualdesigner.validation.AsmParserValidator;
 import org.asmeta.visualdesigner.validation.AsmValidationException;
-
+import org.asmeta.visualdesigner.export.RuleSourceRange;
 
 
 
@@ -174,13 +175,18 @@ public class GefDesignEditor extends EditorPart {
 
     private RuleNode selectedRule;
     private boolean updatingPropertiesPanel = false;
-
+    private RuleNodeEditPart parserErrorEditPart;
+    
     private TableViewer domainViewer;
     private TableViewer functionViewer;
-
+    private Composite ruleParametersPanel;
+    private TableViewer ruleParametersViewer;
+    
     private CTabFolder diagramTabs;
     
     private boolean modelDirty;
+    
+    
     
     
   
@@ -241,7 +247,10 @@ public class GefDesignEditor extends EditorPart {
         editDomain.getCommandStack().addCommandStackListener(
                 new CommandStackListener() {
                     @Override
-                    public void commandStackChanged(java.util.EventObject event) {
+                    public void commandStackChanged(
+                            java.util.EventObject event
+                    ) {
+                        clearParserErrorHighlight();
                         firePropertyChange(PROP_DIRTY);
                     }
                 }
@@ -313,36 +322,44 @@ public class GefDesignEditor extends EditorPart {
     
     
     private void checkParser() {
+        clearParserErrorHighlight();
+
         AsmModelExporter exporter = new AsmModelExporter();
         try {
             String asmName = "ParserCheck";
+
             String asmCode = exporter.export(asmName, diagramsByName);
+
             if (exporter.hasIncompleteModel()) {
-                MessageDialog.openWarning(getSite().getShell(),"Incomplete ASM model",
+                MessageDialog.openWarning(getSite().getShell(),
+                        "Incomplete ASM model",
                         "The model contains incomplete elements.\n\n"
                                 + "The parser check cannot be performed "
                                 + "until those elements are completed."
                 );
+
                 return;
             }
 
-            new AsmParserValidator().validate(asmName,asmCode);
-            MessageDialog.openInformation(getSite().getShell(),"ASM parser check",
+            new AsmParserValidator().validate(asmName, asmCode);
+
+            MessageDialog.openInformation(getSite().getShell(),
+                    "ASM parser check",
                     "The current model was accepted "
                             + "by the ASMETA parser."
             );
 
         } catch (AsmExportException exception) {
-            MessageDialog.openError(
-                    getSite().getShell(),
+            MessageDialog.openError(getSite().getShell(),
                     "ASM parser check",
                     "Could not generate the ASM specification.\n\n"
                             + getValidationErrorMessage(exception)
             );
 
         } catch (AsmValidationException exception) {
-            MessageDialog.openError(
-                    getSite().getShell(),
+            highlightParserError(exporter, exception);
+
+            MessageDialog.openError(getSite().getShell(),
                     "ASM parser check",
                     "The current model was not accepted "
                             + "by the ASMETA parser.\n\n"
@@ -351,6 +368,45 @@ public class GefDesignEditor extends EditorPart {
         }
     }
 
+    private void highlightParserError(AsmModelExporter exporter, AsmValidationException exception) {
+        if (!exception.hasLocation()) {
+            return;
+        }
+
+        RuleSourceRange sourceRange = exporter.findRuleAtLine(exception.getLine());
+
+        if (sourceRange == null) {
+            return;
+        }
+
+        openDiagramTab(sourceRange.getDiagramName());
+
+        DiagramPage page = openPagesByName.get(sourceRange.getDiagramName());
+
+        if (page == null) {
+            return;
+        }
+
+        Object editPart = page.viewer.getEditPartRegistry().get(sourceRange.getRule());
+
+        if (editPart instanceof RuleNodeEditPart) {
+            parserErrorEditPart = (RuleNodeEditPart) editPart;
+
+            parserErrorEditPart.setParserError(true);
+
+            page.viewer.select(parserErrorEditPart);
+
+            page.viewer.reveal(parserErrorEditPart);
+        }
+    }
+
+    private void clearParserErrorHighlight() {
+        if (parserErrorEditPart != null) {
+            parserErrorEditPart.setParserError(false);
+            parserErrorEditPart = null;
+        }
+    }
+    
     private String getValidationErrorMessage(Throwable throwable) {
         String message = "Unknown error.";
 
@@ -430,6 +486,8 @@ public class GefDesignEditor extends EditorPart {
     
     
     private void markModelDirty() {
+        clearParserErrorHighlight();
+
         if (!modelDirty) {
             modelDirty = true;
             firePropertyChange(PROP_DIRTY);
@@ -932,6 +990,8 @@ public class GefDesignEditor extends EditorPart {
                 }
         );
         
+        ruleParametersPanel = createRuleParametersPanel(panel);
+        
         conditionLabel = createLabel(panel, "Condition:");
         conditionText = createText(panel);
 
@@ -968,13 +1028,14 @@ public class GefDesignEditor extends EditorPart {
                 }
         );
 
-        parametersLabel = createLabel(panel, "Parameters:");
+        parametersLabel = createLabel(panel, "Arguments:");
         parametersText = createText(panel);
 
         installPropertyModifyListeners();
 
         setRuleFieldsEnabled(false);
         refreshPropertiesPanelLayout();
+        setRuleParametersVisible(false);
 
         return propertiesScroll;
     }
@@ -1008,6 +1069,154 @@ public class GefDesignEditor extends EditorPart {
             propertiesScroll.setMinSize(propertiesPanel.computeSize(SWT.DEFAULT, SWT.DEFAULT));
             propertiesScroll.layout(true, true);
         }
+    }
+    
+    private Composite createRuleParametersPanel(Composite parent) {
+        Composite container = new Composite(parent, SWT.NONE);
+
+        container.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
+        container.setLayout(new GridLayout(1, false));
+
+        Label title = new Label(container, SWT.NONE);
+        title.setText("Rule parameters");
+
+        Composite buttons = new Composite(container, SWT.NONE);
+        buttons.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
+        buttons.setLayout(new GridLayout(2, false));
+        Button addButton = new Button(buttons, SWT.PUSH);
+        addButton.setText("+ Parameter");
+        Button deleteButton = new Button(buttons, SWT.PUSH);
+        deleteButton.setText("Delete");
+
+        ruleParametersViewer = createTableViewer(container);
+
+        GridData tableData = (GridData) ruleParametersViewer.getTable().getLayoutData();
+
+        tableData.heightHint = 110;
+
+        this.<RuleParameter>addColumn(ruleParametersViewer, "Parameter", 180,
+                this::getRuleParameterDisplayName,
+                new TextEditingSupport<>(
+                        ruleParametersViewer,
+                        RuleParameter::getName,
+                        (parameter, value) -> {
+                            parameter.setName(value);
+                            markModelDirty();
+                        }
+                )
+        );
+
+        this.<RuleParameter>addColumn(
+                ruleParametersViewer,
+                "Domain",
+                220,
+                RuleParameter::getDomain,
+                new TextEditingSupport<>(
+                        ruleParametersViewer,
+                        RuleParameter::getDomain,
+                        (parameter, value) -> {
+                            parameter.setDomain(value);
+                            markModelDirty();
+                        }
+                )
+        );
+
+        ruleParametersViewer.setInput(List.of());
+
+        addButton.addListener(SWT.Selection, event -> addRuleParameter());
+
+        deleteButton.addListener(SWT.Selection, event -> deleteSelectedRuleParameters());
+
+        return container;
+    }
+    
+    
+    private void addRuleParameter() {
+        DiagramModel model = getSelectedAuxiliaryModel();
+        if (model != null) {
+            RuleParameter parameter = new RuleParameter(nextRuleParameterName(model), "Boolean");
+            model.getRuleParameters().add(parameter);
+            ruleParametersViewer.refresh();
+            markModelDirty();
+        }
+    }
+
+    private void deleteSelectedRuleParameters() {
+        DiagramModel model = getSelectedAuxiliaryModel();
+
+        boolean parameterRemoved = false;
+
+        if (model != null) {
+            IStructuredSelection selection = (IStructuredSelection) ruleParametersViewer.getSelection();
+
+            for (Object selected : selection.toArray()) {
+                if (model.getRuleParameters().remove(selected)) {
+                    parameterRemoved = true;
+                }
+            }
+        }
+
+        if (parameterRemoved) {
+            ruleParametersViewer.refresh();
+            markModelDirty();
+        }
+    }
+
+    private DiagramModel getSelectedAuxiliaryModel() {
+        DiagramModel model = null;
+
+        if (activePage != null && !MAIN_DIAGRAM_NAME.equals(activePage.name)) {
+            model = activePage.model;
+        }
+
+        return model;
+    }
+
+    private String nextRuleParameterName(DiagramModel model) {
+        int index = model.getRuleParameters().size() + 1;
+        String candidate = "parameter" + index;
+        while (containsRuleParameterName(model, candidate)) {
+            index++;
+            candidate = "parameter" + index;
+        }
+
+        return candidate;
+    }
+
+    private boolean containsRuleParameterName(DiagramModel model, String name) {
+        boolean found = false;
+
+        for (RuleParameter parameter : model.getRuleParameters()) {
+            if (parameter.getName().equalsIgnoreCase(name)) {
+                found = true;
+            }
+        }
+
+        return found;
+    }
+
+    private String getRuleParameterDisplayName(RuleParameter parameter) {
+        String name = safeText(parameter.getName());
+
+        String displayName = "";
+
+        if (!name.isEmpty()) {
+            displayName = "$" + name;
+        }
+
+        return displayName;
+    }
+    
+    private void setRuleParametersVisible(boolean visible) {
+        setControlVisible(ruleParametersPanel, visible);
+        if (visible && activePage != null) {
+            ruleParametersViewer.setInput(activePage.model.getRuleParameters());
+            ruleParametersViewer.refresh();
+        } else {
+            ruleParametersViewer.setInput(List.of());
+        }
+
+        refreshPropertiesPanelLayout();
     }
 
     private Label createLabel(Composite parent, String text) {
@@ -1316,6 +1525,7 @@ public class GefDesignEditor extends EditorPart {
         letExpressionText.setText(safeText(rule.getLetExpression()));
         initializationText.setText("");
         setInitializationFieldsVisible(false);
+        setRuleParametersVisible(false);
         
         setRuleFieldsEnabled(true);
         updateSemanticFieldsForType(type);
@@ -1355,6 +1565,8 @@ public class GefDesignEditor extends EditorPart {
 
         setInitializationFieldsVisible(mainDiagram);
 
+        setRuleParametersVisible(!mainDiagram);
+        
         updatingPropertiesPanel = false;
         refreshPropertiesPanelLayout();
     }
@@ -1377,6 +1589,7 @@ public class GefDesignEditor extends EditorPart {
         letExpressionText.setText("");
         initializationText.setText("");
         setInitializationFieldsVisible(false);
+        setRuleParametersVisible(false);
 
         setRuleFieldsEnabled(false);
         updateSemanticFieldsForType(null);
@@ -1403,6 +1616,7 @@ public class GefDesignEditor extends EditorPart {
         letExpressionText.setText("");
         initializationText.setText("");
         setInitializationFieldsVisible(false);
+        setRuleParametersVisible(false);
 
         setRuleFieldsEnabled(false);
         updateSemanticFieldsForType(null);

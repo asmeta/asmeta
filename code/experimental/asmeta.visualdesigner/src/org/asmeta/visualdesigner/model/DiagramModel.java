@@ -21,6 +21,7 @@ public class DiagramModel {
     private List<DomainSignature> domains = new ArrayList<>();
     private List<String> customDomainTypes = new ArrayList<>();
     private List<FunctionSignature> functions = new ArrayList<>();
+    private List<RuleParameter> ruleParameters = new ArrayList<>();
 
     public List<DomainSignature> getDomains() {
         return domains;
@@ -32,6 +33,10 @@ public class DiagramModel {
 
     public List<FunctionSignature> getFunctions() {
         return functions;
+    }
+    
+    public List<RuleParameter> getRuleParameters() {
+        return ruleParameters;
     }
     
     public List<RuleNode> getRules() {
@@ -266,6 +271,7 @@ public class DiagramModel {
 
         listeners.firePropertyChange(PROPERTY_CONNECTIONS, null, transition);
     }*/
+    
     public void addTransition(Transition transition) {
         if (transition != null && !transitions.contains(transition)) {
 

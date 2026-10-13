@@ -12,18 +12,22 @@ import org.asmeta.visualdesigner.model.FunctionSignature;
 import org.asmeta.visualdesigner.model.RuleNode;
 import org.asmeta.visualdesigner.model.RuleType;
 import org.asmeta.visualdesigner.model.Transition;
+import org.asmeta.visualdesigner.model.RuleParameter;
+import java.util.ArrayList;
 
 public class AsmModelExporter {
 
     private static final String MAIN_DIAGRAM_NAME = "main";
     private static final String INDENT = "    ";
     private boolean incompleteModel;
+    private final List<RuleSourceRange> ruleSourceRanges = new ArrayList<>();
     
 
     private Map<String, DiagramModel> diagramsByName;
 
     public String export(String asmName, Map<String, DiagramModel> diagramsByName) throws AsmExportException {
     	incompleteModel = false;
+        ruleSourceRanges.clear();
         validateAsmName(asmName);
         validateDiagrams(diagramsByName);
 
@@ -44,6 +48,21 @@ public class AsmModelExporter {
         appendInitialization(asm, mainModel);
 
         return asm.toString();
+    }
+    
+    public RuleSourceRange findRuleAtLine(int line) {
+        RuleSourceRange result = null;
+
+        for (RuleSourceRange range : ruleSourceRanges) {
+            if (range.contains(line) && isMoreSpecific(range, result)) {
+                result = range;
+            }
+        }
+        return result;
+    }
+
+    private boolean isMoreSpecific(RuleSourceRange candidate, RuleSourceRange current) {
+        return current == null || candidate.getLength() < current.getLength();
     }
     
     public boolean hasIncompleteModel() {
@@ -190,12 +209,70 @@ public class AsmModelExporter {
 
     private void appendRuleDeclaration(StringBuilder asm, String ruleName, DiagramModel model) throws AsmExportException {
         RuleNode firstRule = getFirstRule(ruleName, model);
-        asm.append(INDENT).append("rule ")
-                .append(normalizeRuleName(ruleName))
-                .append(" =")
-                .append(System.lineSeparator());
+        appendIncompleteParameterComments(asm, ruleName, model.getRuleParameters());
+        asm.append(INDENT).append("rule ").append(normalizeRuleName(ruleName));
+        appendRuleParameters(asm, model.getRuleParameters());
+        asm.append(" =").append(System.lineSeparator());
         appendRuleNode(asm, model, firstRule, 2, new HashSet<>());
         asm.append(System.lineSeparator());
+    }
+    
+    private void appendRuleParameters(StringBuilder asm, List<RuleParameter> parameters) {
+        boolean hasCompleteParameters = hasCompleteParameters(parameters);
+
+        if (hasCompleteParameters) {
+            asm.append("(");
+            boolean firstParameter = true;
+            for (RuleParameter parameter : parameters) {
+                if (isCompleteParameter(parameter)) {
+                    if (!firstParameter) {
+                        asm.append(", ");
+                    }
+                    asm.append(normalizeParameterName(parameter.getName()));
+                    asm.append(" in ");
+                    asm.append(parameter.getDomain().trim());
+                    firstParameter = false;
+                }
+            }
+
+            asm.append(")");
+        }
+    }
+
+    private boolean hasCompleteParameters(List<RuleParameter> parameters) {
+        boolean result = false;
+        for (RuleParameter parameter : parameters) {
+            if (isCompleteParameter(parameter)) {
+                result = true;
+            }
+        }
+
+        return result;
+    }
+
+    private boolean isCompleteParameter(RuleParameter parameter) {
+        return parameter != null && !isBlank(parameter.getName()) && !isBlank(parameter.getDomain());
+    }
+
+    private String normalizeParameterName(String name) {
+        String normalizedName = safeText(name);
+
+        if (normalizedName.startsWith("$")) {
+            normalizedName = normalizedName.substring(1);
+        }
+
+        return "$" + normalizedName;
+    }
+    
+    private void appendIncompleteParameterComments(StringBuilder asm, String ruleName, List<RuleParameter> parameters) {
+        for (RuleParameter parameter : parameters) {
+            if (!isCompleteParameter(parameter)) {
+                incompleteModel = true;
+                asm.append(INDENT).append("// RULE PARAMETER in ").append(normalizeRuleName(ruleName))
+                        .append(": missing name or domain")
+                        .append(System.lineSeparator());
+            }
+        }
     }
 
     private void appendMainRule(StringBuilder asm, DiagramModel mainModel) throws AsmExportException {
@@ -226,10 +303,11 @@ public class AsmModelExporter {
     }
 
     private void appendRuleNode(StringBuilder asm, DiagramModel model, RuleNode rule, int indentation, Set<RuleNode> currentPath) throws AsmExportException {
-
         if (currentPath.contains(rule)) {
             throw new AsmExportException("A cycle was detected at rule '" + rule.getName() + "'. Cycles are not supported yet.");
         }
+
+        int startLine = getCurrentLine(asm);
 
         currentPath.add(rule);
 
@@ -245,7 +323,7 @@ public class AsmModelExporter {
             case CHOOSE:
                 appendChoose(asm, model, rule, indentation, currentPath);
                 break;
-                
+
             case FORALL:
                 appendForall(asm, model, rule, indentation, currentPath);
                 break;
@@ -261,16 +339,64 @@ public class AsmModelExporter {
             case SKIP:
                 appendSkip(asm, model, rule, indentation, currentPath);
                 break;
-                
+
             case LET:
                 appendLet(asm, model, rule, indentation, currentPath);
                 break;
-                
+
             default:
-                throw new AsmExportException("Rule type '" + rule.getType() + "' is not supported yet. Rule: " + rule.getName());
+                throw new AsmExportException("Rule type '"
+                                + rule.getType()
+                                + "' is not supported yet. Rule: "
+                                + rule.getName()
+                );
         }
 
+        int endLine = getLastWrittenLine(asm);
+
+        ruleSourceRanges.add(new RuleSourceRange(
+                        getDiagramName(model),
+                        rule,
+                        startLine,
+                        endLine
+                )
+        );
+
         currentPath.remove(rule);
+    }
+    
+    private String getDiagramName(DiagramModel model) {
+        String diagramName = MAIN_DIAGRAM_NAME;
+
+        for (Map.Entry<String, DiagramModel> entry : diagramsByName.entrySet()) {
+            if (entry.getValue() == model) {
+                diagramName = entry.getKey();
+            }
+        }
+
+        return diagramName;
+    }
+
+    private int getCurrentLine(StringBuilder asm) {
+        int line = 1;
+
+        for (int i = 0; i < asm.length(); i++) {
+            if (asm.charAt(i) == '\n') {
+                line++;
+            }
+        }
+
+        return line;
+    }
+
+    private int getLastWrittenLine(StringBuilder asm) {
+        int line = getCurrentLine(asm);
+
+        if (asm.length() > 0 && asm.charAt(asm.length() - 1) == '\n') {
+            line--;
+        }
+
+        return line;
     }
     
     private void appendLet(StringBuilder asm, DiagramModel model, RuleNode rule, int indentation, Set<RuleNode> currentPath) throws AsmExportException {
@@ -300,14 +426,12 @@ public class AsmModelExporter {
     }
     
     private void appendSkip(StringBuilder asm, DiagramModel model, RuleNode rule, int indentation, Set<RuleNode> currentPath) throws AsmExportException {
-
         appendIndentation(asm, indentation);
         asm.append("skip").append(System.lineSeparator());
         appendNextRule(asm, model, rule, indentation, currentPath);
     }
     
     private void appendForall(StringBuilder asm, DiagramModel model, RuleNode rule, int indentation, Set<RuleNode> currentPath) throws AsmExportException {
-
         if (isBlank(rule.getForall())) {
             appendMissingRule(asm, indentation, "FORALL", "missing expression");
         } else {
@@ -325,7 +449,6 @@ public class AsmModelExporter {
     }
 
     private void appendConditional(StringBuilder asm, DiagramModel model, RuleNode rule, int indentation, Set<RuleNode> currentPath) throws AsmExportException {
-
         if (isBlank(rule.getCondition())) {
             appendMissingRule(asm, indentation, "CONDITIONAL", "missing condition");
         } else {
@@ -354,7 +477,6 @@ public class AsmModelExporter {
     }
 
     private void appendCall(StringBuilder asm, DiagramModel model, RuleNode rule, int indentation, Set<RuleNode> currentPath) throws AsmExportException {
-
         String calledRuleName = safeText(rule.getCalledRuleName());
 
         if (calledRuleName.isEmpty()) {
@@ -377,7 +499,6 @@ public class AsmModelExporter {
     }
 
     private void appendChoose(StringBuilder asm, DiagramModel model, RuleNode rule, int indentation, Set<RuleNode> currentPath) throws AsmExportException {
-
         if (isBlank(rule.getChoose())) {
             appendMissingRule(asm, indentation, "CHOOSE", "missing expression");
         } else {
@@ -403,7 +524,6 @@ public class AsmModelExporter {
     }
 
     private void appendPar(StringBuilder asm, DiagramModel model, RuleNode rule, int indentation, Set<RuleNode> currentPath) throws AsmExportException {
-
         List<Transition> transitions = model.getOutgoingTransitions(rule);
 
         if (transitions.isEmpty()) {
@@ -438,7 +558,6 @@ public class AsmModelExporter {
     
     
     private void appendNextRule(StringBuilder asm, DiagramModel model, RuleNode rule, int indentation, Set<RuleNode> currentPath) throws AsmExportException {
-
         List<Transition> transitions = model.getOutgoingTransitions(rule);
 
         if (transitions.size() > 1) {
@@ -451,7 +570,6 @@ public class AsmModelExporter {
     }
 
     private void appendTransitionTarget(StringBuilder asm, DiagramModel model, Transition transition, int indentation, Set<RuleNode> currentPath) throws AsmExportException {
-
         DiagramNode target = transition.getTarget();
         if (!(target instanceof RuleNode)) {
             throw new AsmExportException("A transition does not point to a rule.");
@@ -461,7 +579,6 @@ public class AsmModelExporter {
     }
 
     private Transition findTransition(DiagramModel model, RuleNode source, String label) {
-
         Transition result = null;
         for (Transition transition : model.getOutgoingTransitions(source)) {
             if (label.equalsIgnoreCase(safeText(transition.getLabel()))) {
