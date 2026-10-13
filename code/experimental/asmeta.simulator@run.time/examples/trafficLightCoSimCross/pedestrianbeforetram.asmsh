@@ -6,7 +6,7 @@ setup TLA1 as examples/trafficLightCoSimCross/trafficlightA.asm
 setup TLA2 as examples/trafficLightCoSimCross/trafficlightA.asm
 setup TLB1 as examples/trafficLightCoSimCross/trafficlightB.asm
 setup TLB2 as examples/trafficLightCoSimCross/trafficlightB.asm
-setup comp as ( ( ( PED || TRAM ) <|> CM ) <||> CONTR ) | ( TLA1 || TLA2 || TLB1 || TLB2 )
+setup comp as ( ( ( ( PED || TRAM ) <|> CM ) <||> CONTR ) | ( TLA1 || TLA2 || TLB1 || TLB2 ) )
  
 run(comp, {mCurrTimeSecs=1;transitionC=TURN_ON;newPedestrianComing=false;newTramComing=false;crossManagerController=NORMAL;statusC=CONTR_OFF})
 run(comp, {mCurrTimeSecs=2;transitionC=OPERATE_T;newPedestrianComing=false;newTramComing=false})
