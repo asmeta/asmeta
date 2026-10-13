@@ -7,31 +7,31 @@ wait 4 seconds for the workers to start up.
 [ModelProcess] Starting model: controller from config: configs/trafficLight/nopedestriantram2.properties
 [ModelProcess] Starting model: trafficlightA from config: configs/trafficLight/nopedestriantram2.properties
 [ModelProcess] Starting model: trafficlightB from config: configs/trafficLight/nopedestriantram2.properties
-02:36:13.029 INFO  ZeroMQWA - Started ASM Model successfully! Model path: resources/models/trafficLightCoSimCross/trafficlightB.asm with ID: 1
-02:36:13.061 INFO  ZeroMQWA - Required monitored vars for model ID 1: [operateMode, statusC]
-02:36:13.193 INFO  ZeroMQWA - Started ASM Model successfully! Model path: resources/models/trafficLightCoSimCross/pedestrian.asm with ID: 1
-02:36:13.259 INFO  ZeroMQWA - Started ASM Model successfully! Model path: resources/models/trafficLightCoSimCross/crossManager.asm with ID: 1
-02:36:13.264 INFO  ZeroMQWA - Started ASM Model successfully! Model path: resources/models/trafficLightCoSimCross/trafficlightA.asm with ID: 1
-02:36:13.309 INFO  ZeroMQWA - Required monitored vars for model ID 1: [operateMode, statusC]
-02:36:13.321 INFO  ZeroMQWA - Required monitored vars for model ID 1: [newPedestrianComing, mCurrTimeSecs, crossManagerController]
-02:36:13.326 INFO  ZeroMQWA - Required monitored vars for model ID 1: [pedestrianComing, tramComing, statusC, mCurrTimeSecs]
-02:36:13.339 INFO  ZeroMQWA - [trafficlightB] ORCHESTRATED Worker Started. Connected to the Master.
-02:36:13.339 INFO  ZeroMQWA - [trafficlightB] Seed INITIAL_OUTPUTS in currentMonitoredValues: 3 key
-02:36:13.493 INFO  ZeroMQWA - [trafficlightA] ORCHESTRATED Worker Started. Connected to the Master.
-02:36:13.493 INFO  ZeroMQWA - [trafficlightA] Seed INITIAL_OUTPUTS in currentMonitoredValues: 3 key
-02:36:13.512 INFO  ZeroMQWA - [pedestrian] ORCHESTRATED Worker Started. Connected to the Master.
-02:36:13.513 INFO  ZeroMQWA - [pedestrian] Seed INITIAL_OUTPUTS in currentMonitoredValues: 3 key
-02:36:13.533 INFO  ZeroMQWA - [crossManager] ORCHESTRATED Worker Started. Connected to the Master.
-02:36:13.534 INFO  ZeroMQWA - [crossManager] Seed INITIAL_OUTPUTS in currentMonitoredValues: 2 key
-02:36:13.528 INFO  ZeroMQWA - Started ASM Model successfully! Model path: resources/models/trafficLightCoSimCross/controller.asm with ID: 1
-02:36:13.562 INFO  ZeroMQWA - Started ASM Model successfully! Model path: resources/models/trafficLightCoSimCross/tram.asm with ID: 1
-02:36:13.578 INFO  ZeroMQWA - Required monitored vars for model ID 1: [transitionC, mCurrTimeSecs, crossManagerController]
-02:36:13.599 INFO  ZeroMQWA - Required monitored vars for model ID 1: [newTramComing, mCurrTimeSecs, crossManagerController]
-02:36:13.680 INFO  ZeroMQWA - [controller] ORCHESTRATED Worker Started. Connected to the Master.
-02:36:13.680 INFO  ZeroMQWA - [controller] Seed INITIAL_OUTPUTS in currentMonitoredValues: 3 key
-02:36:13.694 INFO  ZeroMQWA - [tram] ORCHESTRATED Worker Started. Connected to the Master.
-02:36:13.694 INFO  ZeroMQWA - [tram] Seed INITIAL_OUTPUTS in currentMonitoredValues: 3 key
-[Orchestrator] Handshake completed: 3/6
+10:47:22.211 INFO  ZeroMQWA - Started ASM Model successfully! Model path: resources/models/trafficLightCoSimCross/crossManager.asm with ID: 1
+10:47:22.284 INFO  ZeroMQWA - Required monitored vars for model ID 1: [pedestrianComing, tramComing, statusC, mCurrTimeSecs]
+10:47:22.348 INFO  ZeroMQWA - Started ASM Model successfully! Model path: resources/models/trafficLightCoSimCross/controller.asm with ID: 1
+10:47:22.497 INFO  ZeroMQWA - Started ASM Model successfully! Model path: resources/models/trafficLightCoSimCross/pedestrian.asm with ID: 1
+10:47:22.506 INFO  ZeroMQWA - [crossManager] ORCHESTRATED Worker Started. Connected to the Master.
+10:47:22.506 INFO  ZeroMQWA - [crossManager] Seed INITIAL_OUTPUTS in currentMonitoredValues: 2 key
+10:47:22.537 INFO  ZeroMQWA - Required monitored vars for model ID 1: [transitionC, mCurrTimeSecs, crossManagerController]
+10:47:22.578 INFO  ZeroMQWA - Required monitored vars for model ID 1: [newPedestrianComing, mCurrTimeSecs, crossManagerController]
+10:47:22.641 INFO  ZeroMQWA - Started ASM Model successfully! Model path: resources/models/trafficLightCoSimCross/trafficlightA.asm with ID: 1
+10:47:22.673 INFO  ZeroMQWA - Required monitored vars for model ID 1: [operateMode, statusC]
+10:47:22.727 INFO  ZeroMQWA - Started ASM Model successfully! Model path: resources/models/trafficLightCoSimCross/tram.asm with ID: 1
+10:47:22.739 INFO  ZeroMQWA - [controller] ORCHESTRATED Worker Started. Connected to the Master.
+10:47:22.739 INFO  ZeroMQWA - [controller] Seed INITIAL_OUTPUTS in currentMonitoredValues: 3 key
+10:47:22.780 INFO  ZeroMQWA - Required monitored vars for model ID 1: [newTramComing, mCurrTimeSecs, crossManagerController]
+10:47:22.782 INFO  ZeroMQWA - [pedestrian] ORCHESTRATED Worker Started. Connected to the Master.
+10:47:22.783 INFO  ZeroMQWA - [pedestrian] Seed INITIAL_OUTPUTS in currentMonitoredValues: 3 key
+10:47:22.835 INFO  ZeroMQWA - [trafficlightA] ORCHESTRATED Worker Started. Connected to the Master.
+10:47:22.835 INFO  ZeroMQWA - [trafficlightA] Seed INITIAL_OUTPUTS in currentMonitoredValues: 3 key
+10:47:22.857 INFO  ZeroMQWA - Started ASM Model successfully! Model path: resources/models/trafficLightCoSimCross/trafficlightB.asm with ID: 1
+10:47:22.877 INFO  ZeroMQWA - Required monitored vars for model ID 1: [operateMode, statusC]
+10:47:22.894 INFO  ZeroMQWA - [tram] ORCHESTRATED Worker Started. Connected to the Master.
+10:47:22.894 INFO  ZeroMQWA - [tram] Seed INITIAL_OUTPUTS in currentMonitoredValues: 3 key
+10:47:22.968 INFO  ZeroMQWA - [trafficlightB] ORCHESTRATED Worker Started. Connected to the Master.
+10:47:22.969 INFO  ZeroMQWA - [trafficlightB] Seed INITIAL_OUTPUTS in currentMonitoredValues: 3 key
+[Orchestrator] Handshake completed: 4/6
 [Orchestrator] RESPONSIVENESS ACTIVATED. Awaiting input from the Environment...
 Environment functions: [newPedestrianComing, newTramComing, transitionC, mCurrTimeSecs]
 Function: newPedestrianComing values: [false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false]
@@ -40,10 +40,12 @@ Function: transitionC values: [TURN_ON, OPERATE_T, OPERATE_T, OPERATE_T, OPERATE
 Function: mCurrTimeSecs values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
 Environment PUB socket bound to tcp://*:5570
 Step: 0
+[EQ2_ENV_START] step=1 epochNs=1791881260102065000
 Sent newPedestrianComing value false to tcp://*:5570 at topic newPedestrianComing
 Sent newTramComing value false to tcp://*:5570 at topic newTramComing
 Sent transitionC value TURN_ON to tcp://*:5570 at topic transitionC
 Sent mCurrTimeSecs value 1 to tcp://*:5570 at topic mCurrTimeSecs
+[EQ2_ENV_END] step=1 epochNs=1791881260122052000 publishDurationNs=19795700
 [Orchestrator] Start Fork-Join
 [Orchestrator] Request for instructions on: controller
 [Orchestrator] Request for instructions on: pedestrian
@@ -51,33 +53,33 @@ Sent mCurrTimeSecs value 1 to tcp://*:5570 at topic mCurrTimeSecs
 [step:1 of pedestrian]
 [step:1 of tram]
 Model execution outcome: SAFE
-Updated locations: {pedestrianComing=false;pedestrianLight=RED}
-Out locations: {pedestrianComing=false;pedestrianLight=RED}
-Model execution outcome: SAFE
 Updated locations: {tramLight=RED;tramComing=false}
 Out locations: {tramLight=RED;tramComing=false}
 [step:1 of controller]
 Model execution outcome: SAFE
+Updated locations: {pedestrianComing=false;pedestrianLight=RED}
+Out locations: {pedestrianComing=false;pedestrianLight=RED}
+Model execution outcome: SAFE
 Updated locations: {statusC=STANDBY}
 Out locations: {statusC=STANDBY}
-Execution time (in milliseconds): 15 ms
+Execution time (in milliseconds): 17 ms
                                  
-Execution time (in milliseconds): 16 ms
+Execution time (in milliseconds): 17 ms
                                  
-02:36:30.934 INFO  ZeroMQWA - [tram] ASM step execution time: 53.3583 ms
-02:36:30.934 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 52.5596 ms
-02:36:30.934 INFO  ZeroMQWA - [pedestrian] Step COMPLETED (SAFE).
-02:36:30.934 INFO  ZeroMQWA - [tram] Step COMPLETED (SAFE).
-Execution time (in milliseconds): 18 ms
+10:47:40.246 INFO  ZeroMQWA - [controller] ASM step execution time: 59.8187 ms
+10:47:40.247 INFO  ZeroMQWA - [controller] Step COMPLETED (SAFE).
+10:47:40.247 INFO  ZeroMQWA - [tram] ASM step execution time: 60.3488 ms
+Execution time (in milliseconds): 17 ms
                                  
-02:36:30.939 INFO  ZeroMQWA - [controller] ASM step execution time: 56.3272 ms
-02:36:30.939 INFO  ZeroMQWA - [controller] Step COMPLETED (SAFE).
-[ORCHESTRATED] [pedestrian] Response time: 75.2019 ms
-[ORCHESTRATED] [tram] Response time: 74.8517 ms
-[ORCHESTRATED] [controller] Response time: 75.6071 ms
-[Orchestrator]  Model controller has finished (SAFE).
+10:47:40.249 INFO  ZeroMQWA - [tram] Step COMPLETED (SAFE).
+10:47:40.249 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 62.33 ms
+10:47:40.250 INFO  ZeroMQWA - [pedestrian] Step COMPLETED (SAFE).
+[ORCHESTRATED] [tram] Response time: 89.4564 ms
+[ORCHESTRATED] [controller] Response time: 90.0086 ms
+[ORCHESTRATED] [pedestrian] Response time: 89.8010 ms
 [Orchestrator]  Model tram has finished (SAFE).
 [Orchestrator]  Model pedestrian has finished (SAFE).
+[Orchestrator]  Model controller has finished (SAFE).
 [Orchestrator] Request for instructions on: crossManager
 [step:1 of crossManager]
 Model execution outcome: SAFE
@@ -85,75 +87,78 @@ Updated locations: {crossManagerController=NORMAL}
 Out locations: {crossManagerController=NORMAL}
 Execution time (in milliseconds): 8 ms
                                  
-02:36:31.000 INFO  ZeroMQWA - [crossManager] ASM step execution time: 25.5943 ms
-02:36:31.001 INFO  ZeroMQWA - [crossManager] Step COMPLETED (SAFE).
-[ORCHESTRATED] [crossManager] Response time: 38.9548 ms
+10:47:40.323 INFO  ZeroMQWA - [crossManager] ASM step execution time: 26.5522 ms
+10:47:40.323 INFO  ZeroMQWA - [crossManager] Step COMPLETED (SAFE).
+[ORCHESTRATED] [crossManager] Response time: 37.8630 ms
 [Orchestrator]  Model crossManager has finished (SAFE).
 [Orchestrator] Start Fork-Join
 [Orchestrator] Request for instructions on: trafficlightA
 [Orchestrator] Request for instructions on: trafficlightB
 [step:1 of trafficlightA]
+[step:1 of trafficlightB]
 Model execution outcome: SAFE
 Updated locations: {lightsA=BLINK_YELLOW}
 Out locations: {lightsA=BLINK_YELLOW}
-[step:1 of trafficlightB]
 Model execution outcome: SAFE
 Updated locations: {lightsB=BLINK_YELLOW}
 Out locations: {lightsB=BLINK_YELLOW}
-Execution time (in milliseconds): 10 ms
+Execution time (in milliseconds): 13 ms
                                  
-Execution time (in milliseconds): 10 ms
+Execution time (in milliseconds): 14 ms
                                  
-02:36:31.040 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 24.7398 ms
-02:36:31.040 INFO  ZeroMQWA - [trafficlightA] Step COMPLETED (SAFE).
-02:36:31.040 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 24.9379 ms
-02:36:31.041 INFO  ZeroMQWA - [trafficlightB] Step COMPLETED (SAFE).
-[ORCHESTRATED] [trafficlightA] Response time: 36.4404 ms
+10:47:40.362 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 28.3043 ms
+10:47:40.362 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 28.407 ms
+10:47:40.362 INFO  ZeroMQWA - [trafficlightA] Step COMPLETED (SAFE).
+10:47:40.362 INFO  ZeroMQWA - [trafficlightB] Step COMPLETED (SAFE).
+[ORCHESTRATED] [trafficlightA] Response time: 38.3420 ms
 [Orchestrator]  Model trafficlightA has finished (SAFE).
-[ORCHESTRATED] [trafficlightB] Response time: 36.4543 ms
+[ORCHESTRATED] [trafficlightB] Response time: 38.3033 ms
 [Orchestrator]  Model trafficlightB has finished (SAFE).
-[ORCHESTRATED] Step 1: 177.0514 ms | pollingSum=297.1625 ms | responseSum=337.5102 ms | responses=6
+[ORCHESTRATED] Step 1: 196.0772 ms | pollingSum=332.7032 ms | responseSum=383.7743 ms | responses=6
+[EQ2_ORCH_STEP_END] step=1 epochNs=1791881260365953700
 Step: 1
+[EQ2_ENV_START] step=2 epochNs=1791881267126366300
 Sent newPedestrianComing value false to tcp://*:5570 at topic newPedestrianComing
 Sent newTramComing value false to tcp://*:5570 at topic newTramComing
 Sent transitionC value OPERATE_T to tcp://*:5570 at topic transitionC
 Sent mCurrTimeSecs value 2 to tcp://*:5570 at topic mCurrTimeSecs
+[EQ2_ENV_END] step=2 epochNs=1791881267126366300 publishDurationNs=513500
 [FullBiPipe] inject feedback from the previous step in both channels
 [Orchestrator] Request for instructions on: controller
 [BiPipe] inject 1out of the right channel from the previous step in the left channel input
 [Orchestrator] Start Fork-Join
-[Orchestrator] Request for instructions on: pedestrian
 [Orchestrator] Request for instructions on: tram
+[Orchestrator] Request for instructions on: pedestrian
+[step:2 of pedestrian]
+Model execution outcome: SAFE
+Updated locations: {pedestrianComing=false;pedestrianLight=RED}
+Out locations: {pedestrianComing=false;pedestrianLight=RED}
+Execution time (in milliseconds): 0 ms
+                                 
+10:47:47.203 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 23.0787 ms
+10:47:47.203 INFO  ZeroMQWA - [pedestrian] Step COMPLETED (SAFE).
 [step:2 of tram]
 Model execution outcome: SAFE
 Updated locations: {tramLight=RED;tramComing=false}
 Out locations: {tramLight=RED;tramComing=false}
 Execution time (in milliseconds): 0 ms
                                  
-02:36:37.895 INFO  ZeroMQWA - [tram] ASM step execution time: 21.8322 ms
-02:36:37.895 INFO  ZeroMQWA - [tram] Step COMPLETED (SAFE).
-[step:2 of pedestrian]
-Model execution outcome: SAFE
-Updated locations: {pedestrianComing=false;pedestrianLight=RED}
-Out locations: {pedestrianComing=false;pedestrianLight=RED}
-Execution time (in milliseconds): 1 ms
-                                 
-02:36:37.902 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 28.0768 ms
-02:36:37.902 INFO  ZeroMQWA - [pedestrian] Step COMPLETED (SAFE).
-[ORCHESTRATED] [tram] Response time: 32.2941 ms
-[Orchestrator]  Model tram has finished (SAFE).
-[ORCHESTRATED] [pedestrian] Response time: 32.5299 ms
+10:47:47.205 INFO  ZeroMQWA - [tram] ASM step execution time: 23.7495 ms
+10:47:47.205 INFO  ZeroMQWA - [tram] Step COMPLETED (SAFE).
+[ORCHESTRATED] [pedestrian] Response time: 32.4769 ms
+[ORCHESTRATED] [tram] Response time: 32.6438 ms
 [Orchestrator]  Model pedestrian has finished (SAFE).
+[Orchestrator]  Model tram has finished (SAFE).
 [Orchestrator] Request for instructions on: crossManager
 [step:2 of controller]
 Model execution outcome: SAFE
 Updated locations: {operateMode=RED_AB;start(timeRED)=2;statusC=OPERATE}
 Out locations: {operateMode=RED_AB;statusC=OPERATE}
-Execution time (in milliseconds): 18 ms
+Execution time (in milliseconds): 10 ms
                                  
-02:36:37.926 INFO  ZeroMQWA - [controller] ASM step execution time: 51.4546 ms
-02:36:37.926 INFO  ZeroMQWA - [controller] Step COMPLETED (SAFE).
-[ORCHESTRATED] [controller] Response time: 63.5884 ms
+10:47:47.217 INFO  ZeroMQWA - [controller] ASM step execution time: 37.2292 ms
+10:47:47.218 INFO  ZeroMQWA - [controller] Step COMPLETED (SAFE).
+[ORCHESTRATED] [controller] Response time: 44.2367 ms
 [Orchestrator]  Model controller has finished (SAFE).
 [step:2 of crossManager]
 Model execution outcome: SAFE
@@ -161,85 +166,88 @@ Updated locations: {crossManagerController=NORMAL}
 Out locations: {crossManagerController=NORMAL}
 Execution time (in milliseconds): 0 ms
                                  
-02:36:37.941 INFO  ZeroMQWA - [crossManager] ASM step execution time: 30.0592 ms
-02:36:37.941 INFO  ZeroMQWA - [crossManager] Step COMPLETED (SAFE).
-[ORCHESTRATED] [crossManager] Response time: 41.3847 ms
+10:47:47.240 INFO  ZeroMQWA - [crossManager] ASM step execution time: 25.3336 ms
+10:47:47.240 INFO  ZeroMQWA - [crossManager] Step COMPLETED (SAFE).
+[ORCHESTRATED] [crossManager] Response time: 33.7929 ms
 [Orchestrator]  Model crossManager has finished (SAFE).
 [Orchestrator] Start Fork-Join
 [Orchestrator] Request for instructions on: trafficlightA
 [Orchestrator] Request for instructions on: trafficlightB
-[step:2 of trafficlightA]
-Model execution outcome: SAFE
-Updated locations: {lightsA=RED}
-Out locations: {lightsA=RED}
-Execution time (in milliseconds): 2 ms
-                                 
-02:36:37.970 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 16.0682 ms
-02:36:37.970 INFO  ZeroMQWA - [trafficlightA] Step COMPLETED (SAFE).
 [step:2 of trafficlightB]
 Model execution outcome: SAFE
 Updated locations: {lightsB=RED}
 Out locations: {lightsB=RED}
 Execution time (in milliseconds): 2 ms
                                  
-02:36:37.977 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 21.2491 ms
-02:36:37.977 INFO  ZeroMQWA - [trafficlightB] Step COMPLETED (SAFE).
-[ORCHESTRATED] [trafficlightB] Response time: 28.2696 ms
+10:47:47.264 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 14.2709 ms
+10:47:47.264 INFO  ZeroMQWA - [trafficlightB] Step COMPLETED (SAFE).
+[step:2 of trafficlightA]
+Model execution outcome: SAFE
+Updated locations: {lightsA=RED}
+Out locations: {lightsA=RED}
+Execution time (in milliseconds): 2 ms
+                                 
+10:47:47.269 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 19.0713 ms
+10:47:47.269 INFO  ZeroMQWA - [trafficlightA] Step COMPLETED (SAFE).
+[ORCHESTRATED] [trafficlightB] Response time: 26.1968 ms
 [Orchestrator]  Model trafficlightB has finished (SAFE).
-[ORCHESTRATED] [trafficlightA] Response time: 31.5226 ms
+[ORCHESTRATED] [trafficlightA] Response time: 26.6655 ms
 [Orchestrator]  Model trafficlightA has finished (SAFE).
-[ORCHESTRATED] Step 2: 112.4736 ms | pollingSum=207.2177 ms | responseSum=229.5893 ms | responses=6
+[ORCHESTRATED] Step 2: 97.9488 ms | pollingSum=181.5890 ms | responseSum=196.0126 ms | responses=6
+[EQ2_ORCH_STEP_END] step=2 epochNs=1791881267276046000
 Step: 2
+[EQ2_ENV_START] step=3 epochNs=1791881274128507300
 Sent newPedestrianComing value false to tcp://*:5570 at topic newPedestrianComing
 Sent newTramComing value false to tcp://*:5570 at topic newTramComing
 Sent transitionC value OPERATE_T to tcp://*:5570 at topic transitionC
 Sent mCurrTimeSecs value 3 to tcp://*:5570 at topic mCurrTimeSecs
+[EQ2_ENV_END] step=3 epochNs=1791881274129420100 publishDurationNs=870400
 [FullBiPipe] inject feedback from the previous step in both channels
 [BiPipe] inject 1out of the right channel from the previous step in the left channel input
-[Orchestrator] Start Fork-Join
 [Orchestrator] Request for instructions on: controller
+[Orchestrator] Start Fork-Join
 [Orchestrator] Request for instructions on: pedestrian
 [Orchestrator] Request for instructions on: tram
 [step:3 of tram]
 Model execution outcome: SAFE
 Updated locations: {tramLight=RED;tramComing=false}
 Out locations: {tramLight=RED;tramComing=false}
-Execution time (in milliseconds): 1 ms
+Execution time (in milliseconds): 0 ms
                                  
-02:36:44.905 INFO  ZeroMQWA - [tram] ASM step execution time: 27.6268 ms
-02:36:44.906 INFO  ZeroMQWA - [tram] Step COMPLETED (SAFE).
+10:47:54.205 INFO  ZeroMQWA - [tram] ASM step execution time: 23.5136 ms
+10:47:54.205 INFO  ZeroMQWA - [tram] Step COMPLETED (SAFE).
 [step:3 of pedestrian]
 Model execution outcome: SAFE
 Updated locations: {pedestrianComing=false;pedestrianLight=RED}
 Out locations: {pedestrianComing=false;pedestrianLight=RED}
 Execution time (in milliseconds): 0 ms
                                  
-02:36:44.906 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 28.6904 ms
-02:36:44.906 INFO  ZeroMQWA - [pedestrian] Step COMPLETED (SAFE).
-[ORCHESTRATED] [tram] Response time: 33.3113 ms
-[Orchestrator]  Model tram has finished (SAFE).
-[ORCHESTRATED] [pedestrian] Response time: 34.5694 ms
+10:47:54.206 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 24.4372 ms
+10:47:54.206 INFO  ZeroMQWA - [pedestrian] Step COMPLETED (SAFE).
+[ORCHESTRATED] [pedestrian] Response time: 31.2105 ms
 [Orchestrator]  Model pedestrian has finished (SAFE).
+[ORCHESTRATED] [tram] Response time: 31.1508 ms
+[Orchestrator]  Model tram has finished (SAFE).
 [Orchestrator] Request for instructions on: crossManager
 [step:3 of controller]
 Model execution outcome: SAFE
 Updated locations: {duration(timeRED)=3;operateMode=RED_AB;crossManagerController_previous=NORMAL;start(timeRED)=2;statusC=OPERATE}
 Out locations: {operateMode=RED_AB;statusC=OPERATE}
-Execution time (in milliseconds): 4 ms
+Execution time (in milliseconds): 5 ms
                                  
-02:36:44.913 INFO  ZeroMQWA - [controller] ASM step execution time: 35.611 ms
-02:36:44.913 INFO  ZeroMQWA - [controller] Step COMPLETED (SAFE).
-[ORCHESTRATED] [controller] Response time: 47.1450 ms
+10:47:54.218 INFO  ZeroMQWA - [controller] ASM step execution time: 36.1609 ms
+10:47:54.218 INFO  ZeroMQWA - [controller] Step COMPLETED (SAFE).
+[ORCHESTRATED] [controller] Response time: 39.3621 ms
 [Orchestrator]  Model controller has finished (SAFE).
 [step:3 of crossManager]
 Model execution outcome: SAFE
 Updated locations: {crossManagerController=NORMAL}
 Out locations: {crossManagerController=NORMAL}
-Execution time (in milliseconds): 0 ms
+Execution time (in milliseconds): 1 ms
                                  
-02:36:44.935 INFO  ZeroMQWA - [crossManager] ASM step execution time: 22.1824 ms
-02:36:44.935 INFO  ZeroMQWA - [crossManager] Step COMPLETED (SAFE).
-[ORCHESTRATED] [crossManager] Response time: 28.5405 ms
+10:47:54.240 INFO  ZeroMQWA - [crossManager] ASM step execution time: 24.2705 ms
+10:47:54.241 INFO  ZeroMQWA - [crossManager] Step COMPLETED (SAFE).
+[ORCHESTRATED] [crossManager] Response time: 30.6707 ms
 [Orchestrator]  Model crossManager has finished (SAFE).
 [Orchestrator] Start Fork-Join
 [Orchestrator] Request for instructions on: trafficlightA
@@ -250,72 +258,75 @@ Updated locations: {lightsA=RED}
 Out locations: {lightsA=RED}
 Execution time (in milliseconds): 1 ms
                                  
-02:36:44.954 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 12.1908 ms
-02:36:44.954 INFO  ZeroMQWA - [trafficlightA] Step COMPLETED (SAFE).
+10:47:54.261 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 12.2473 ms
+10:47:54.261 INFO  ZeroMQWA - [trafficlightA] Step COMPLETED (SAFE).
 [step:3 of trafficlightB]
 Model execution outcome: SAFE
 Updated locations: {lightsB=RED}
 Out locations: {lightsB=RED}
-Execution time (in milliseconds): 1 ms
+Execution time (in milliseconds): 2 ms
                                  
-02:36:44.956 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 14.3952 ms
-02:36:44.956 INFO  ZeroMQWA - [trafficlightB] Step COMPLETED (SAFE).
-[ORCHESTRATED] [trafficlightA] Response time: 22.4368 ms
-[Orchestrator]  Model trafficlightA has finished (SAFE).
-[ORCHESTRATED] [trafficlightB] Response time: 25.0751 ms
+10:47:54.266 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 14.8071 ms
+10:47:54.267 INFO  ZeroMQWA - [trafficlightB] Step COMPLETED (SAFE).
+[ORCHESTRATED] [trafficlightB] Response time: 35.8037 ms
 [Orchestrator]  Model trafficlightB has finished (SAFE).
-[ORCHESTRATED] Step 3: 91.5241 ms | pollingSum=171.3601 ms | responseSum=191.0781 ms | responses=6
+[ORCHESTRATED] [trafficlightA] Response time: 36.6115 ms
+[Orchestrator]  Model trafficlightA has finished (SAFE).
+[ORCHESTRATED] Step 3: 104.4016 ms | pollingSum=167.8214 ms | responseSum=204.8093 ms | responses=6
+[EQ2_ORCH_STEP_END] step=3 epochNs=1791881274284373700
 Step: 3
+[EQ2_ENV_START] step=4 epochNs=1791881281129460800
 Sent newPedestrianComing value false to tcp://*:5570 at topic newPedestrianComing
 Sent newTramComing value false to tcp://*:5570 at topic newTramComing
 Sent transitionC value OPERATE_T to tcp://*:5570 at topic transitionC
 Sent mCurrTimeSecs value 4 to tcp://*:5570 at topic mCurrTimeSecs
+[EQ2_ENV_END] step=4 epochNs=1791881281130382100 publishDurationNs=1179500
 [FullBiPipe] inject feedback from the previous step in both channels
 [BiPipe] inject 1out of the right channel from the previous step in the left channel input
 [Orchestrator] Start Fork-Join
 [Orchestrator] Request for instructions on: controller
 [Orchestrator] Request for instructions on: pedestrian
 [Orchestrator] Request for instructions on: tram
-[step:4 of pedestrian]
-Model execution outcome: SAFE
-Updated locations: {pedestrianComing=false;pedestrianLight=RED}
-Out locations: {pedestrianComing=false;pedestrianLight=RED}
-Execution time (in milliseconds): 0 ms
-                                 
-02:36:51.906 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 25.3004 ms
-02:36:51.907 INFO  ZeroMQWA - [pedestrian] Step COMPLETED (SAFE).
 [step:4 of tram]
 Model execution outcome: SAFE
 Updated locations: {tramLight=RED;tramComing=false}
 Out locations: {tramLight=RED;tramComing=false}
 Execution time (in milliseconds): 1 ms
                                  
-02:36:51.908 INFO  ZeroMQWA - [tram] ASM step execution time: 27.4521 ms
-02:36:51.908 INFO  ZeroMQWA - [tram] Step COMPLETED (SAFE).
-[ORCHESTRATED] [pedestrian] Response time: 32.2450 ms
-[Orchestrator]  Model pedestrian has finished (SAFE).
+10:48:01.219 INFO  ZeroMQWA - [tram] ASM step execution time: 33.8632 ms
+10:48:01.219 INFO  ZeroMQWA - [tram] Step COMPLETED (SAFE).
+[step:4 of pedestrian]
+Model execution outcome: SAFE
+Updated locations: {pedestrianComing=false;pedestrianLight=RED}
+Out locations: {pedestrianComing=false;pedestrianLight=RED}
+Execution time (in milliseconds): 0 ms
+                                 
+10:48:01.220 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 33.9292 ms
+10:48:01.220 INFO  ZeroMQWA - [pedestrian] Step COMPLETED (SAFE).
 [step:4 of controller]
 Model execution outcome: SAFE
 Updated locations: {duration(timeRED)=3;operateMode=RED_AB;crossManagerController_previous=NORMAL;start(timeRED)=2;statusC=OPERATE}
 Out locations: {operateMode=RED_AB;statusC=OPERATE}
-Execution time (in milliseconds): 1 ms
+Execution time (in milliseconds): 7 ms
                                  
-02:36:51.915 INFO  ZeroMQWA - [controller] ASM step execution time: 34.4644 ms
-02:36:51.915 INFO  ZeroMQWA - [controller] Step COMPLETED (SAFE).
-[ORCHESTRATED] [tram] Response time: 38.8845 ms
+10:48:01.231 INFO  ZeroMQWA - [controller] ASM step execution time: 45.4256 ms
+10:48:01.231 INFO  ZeroMQWA - [controller] Step COMPLETED (SAFE).
+[ORCHESTRATED] [pedestrian] Response time: 49.7407 ms
+[ORCHESTRATED] [tram] Response time: 49.6060 ms
 [Orchestrator]  Model tram has finished (SAFE).
-[Orchestrator] Request for instructions on: crossManager
-[ORCHESTRATED] [controller] Response time: 43.4421 ms
+[ORCHESTRATED] [controller] Response time: 49.9737 ms
+[Orchestrator]  Model pedestrian has finished (SAFE).
 [Orchestrator]  Model controller has finished (SAFE).
+[Orchestrator] Request for instructions on: crossManager
 [step:4 of crossManager]
 Model execution outcome: SAFE
 Updated locations: {crossManagerController=NORMAL}
 Out locations: {crossManagerController=NORMAL}
 Execution time (in milliseconds): 0 ms
                                  
-02:36:51.942 INFO  ZeroMQWA - [crossManager] ASM step execution time: 23.8596 ms
-02:36:51.942 INFO  ZeroMQWA - [crossManager] Step COMPLETED (SAFE).
-[ORCHESTRATED] [crossManager] Response time: 37.0825 ms
+10:48:01.263 INFO  ZeroMQWA - [crossManager] ASM step execution time: 26.6688 ms
+10:48:01.264 INFO  ZeroMQWA - [crossManager] Step COMPLETED (SAFE).
+[ORCHESTRATED] [crossManager] Response time: 38.2881 ms
 [Orchestrator]  Model crossManager has finished (SAFE).
 [Orchestrator] Start Fork-Join
 [Orchestrator] Request for instructions on: trafficlightA
@@ -326,138 +337,144 @@ Updated locations: {lightsA=RED}
 Out locations: {lightsA=RED}
 Execution time (in milliseconds): 1 ms
                                  
-02:36:51.980 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 20.517 ms
-02:36:51.982 INFO  ZeroMQWA - [trafficlightA] Step COMPLETED (SAFE).
+10:48:01.294 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 18.0794 ms
+10:48:01.294 INFO  ZeroMQWA - [trafficlightA] Step COMPLETED (SAFE).
 [step:4 of trafficlightB]
 Model execution outcome: SAFE
 Updated locations: {lightsB=RED}
 Out locations: {lightsB=RED}
-Execution time (in milliseconds): 3 ms
+Execution time (in milliseconds): 1 ms
                                  
-02:36:51.985 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 23.9205 ms
-02:36:51.985 INFO  ZeroMQWA - [trafficlightB] Step COMPLETED (SAFE).
-[ORCHESTRATED] [trafficlightA] Response time: 42.1441 ms
+10:48:01.306 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 15.5563 ms
+10:48:01.307 INFO  ZeroMQWA - [trafficlightB] Step COMPLETED (SAFE).
+[ORCHESTRATED] [trafficlightA] Response time: 50.6762 ms
 [Orchestrator]  Model trafficlightA has finished (SAFE).
-[ORCHESTRATED] [trafficlightB] Response time: 47.1392 ms
+[ORCHESTRATED] [trafficlightB] Response time: 62.8791 ms
 [Orchestrator]  Model trafficlightB has finished (SAFE).
-[ORCHESTRATED] Step 4: 130.9557 ms | pollingSum=228.8608 ms | responseSum=240.9374 ms | responses=6
+[ORCHESTRATED] Step 4: 157.0473 ms | pollingSum=257.9670 ms | responseSum=301.1638 ms | responses=6
+[EQ2_ORCH_STEP_END] step=4 epochNs=1791881281339663400
 Step: 4
+[EQ2_ENV_START] step=5 epochNs=1791881288131751000
 Sent newPedestrianComing value false to tcp://*:5570 at topic newPedestrianComing
 Sent newTramComing value false to tcp://*:5570 at topic newTramComing
 Sent transitionC value OPERATE_T to tcp://*:5570 at topic transitionC
 Sent mCurrTimeSecs value 5 to tcp://*:5570 at topic mCurrTimeSecs
+[EQ2_ENV_END] step=5 epochNs=1791881288132666700 publishDurationNs=1306800
 [FullBiPipe] inject feedback from the previous step in both channels
-[BiPipe] inject 1out of the right channel from the previous step in the left channel input
 [Orchestrator] Request for instructions on: controller
+[BiPipe] inject 1out of the right channel from the previous step in the left channel input
 [Orchestrator] Start Fork-Join
 [Orchestrator] Request for instructions on: pedestrian
 [Orchestrator] Request for instructions on: tram
-[step:5 of tram]
-Model execution outcome: SAFE
-Updated locations: {tramLight=RED;tramComing=false}
-Out locations: {tramLight=RED;tramComing=false}
-Execution time (in milliseconds): 0 ms
-                                 
-02:36:58.906 INFO  ZeroMQWA - [tram] ASM step execution time: 23.072 ms
-02:36:58.906 INFO  ZeroMQWA - [tram] Step COMPLETED (SAFE).
 [step:5 of pedestrian]
 Model execution outcome: SAFE
 Updated locations: {pedestrianComing=false;pedestrianLight=RED}
 Out locations: {pedestrianComing=false;pedestrianLight=RED}
 Execution time (in milliseconds): 0 ms
                                  
-02:36:58.908 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 24.7224 ms
-02:36:58.908 INFO  ZeroMQWA - [pedestrian] Step COMPLETED (SAFE).
+10:48:08.211 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 25.7639 ms
+10:48:08.211 INFO  ZeroMQWA - [pedestrian] Step COMPLETED (SAFE).
+[step:5 of tram]
+Model execution outcome: SAFE
+Updated locations: {tramLight=RED;tramComing=false}
+Out locations: {tramLight=RED;tramComing=false}
+Execution time (in milliseconds): 6 ms
+                                 
 [step:5 of controller]
 Model execution outcome: SAFE
 Updated locations: {duration(timeRED)=3;operateMode=GREEN_A_RED_B;crossManagerController_previous=NORMAL;start(timeRED)=2;start(timeGREEN)=5;statusC=OPERATE}
 Out locations: {operateMode=GREEN_A_RED_B;statusC=OPERATE}
-Execution time (in milliseconds): 1 ms
+10:48:08.214 INFO  ZeroMQWA - [tram] ASM step execution time: 27.9718 ms
+Execution time (in milliseconds): 4 ms
                                  
-02:36:58.911 INFO  ZeroMQWA - [controller] ASM step execution time: 27.4796 ms
-02:36:58.911 INFO  ZeroMQWA - [controller] Step COMPLETED (SAFE).
-[ORCHESTRATED] [tram] Response time: 32.9454 ms
-[Orchestrator]  Model tram has finished (SAFE).
-[ORCHESTRATED] [pedestrian] Response time: 33.0085 ms
+10:48:08.214 INFO  ZeroMQWA - [tram] Step COMPLETED (SAFE).
+10:48:08.214 INFO  ZeroMQWA - [controller] ASM step execution time: 28.7216 ms
+10:48:08.214 INFO  ZeroMQWA - [controller] Step COMPLETED (SAFE).
+[ORCHESTRATED] [controller] Response time: 37.0318 ms
+[ORCHESTRATED] [pedestrian] Response time: 36.8793 ms
 [Orchestrator]  Model pedestrian has finished (SAFE).
-[Orchestrator] Request for instructions on: crossManager
-[ORCHESTRATED] [controller] Response time: 40.4206 ms
+[ORCHESTRATED] [tram] Response time: 36.8404 ms
+[Orchestrator]  Model tram has finished (SAFE).
 [Orchestrator]  Model controller has finished (SAFE).
+[Orchestrator] Request for instructions on: crossManager
 [step:5 of crossManager]
 Model execution outcome: SAFE
 Updated locations: {crossManagerController=NORMAL}
 Out locations: {crossManagerController=NORMAL}
 Execution time (in milliseconds): 0 ms
                                  
-02:36:58.934 INFO  ZeroMQWA - [crossManager] ASM step execution time: 17.1611 ms
-02:36:58.934 INFO  ZeroMQWA - [crossManager] Step COMPLETED (SAFE).
-[ORCHESTRATED] [crossManager] Response time: 23.4030 ms
+10:48:08.246 INFO  ZeroMQWA - [crossManager] ASM step execution time: 22.105 ms
+10:48:08.246 INFO  ZeroMQWA - [crossManager] Step COMPLETED (SAFE).
+[ORCHESTRATED] [crossManager] Response time: 29.3595 ms
 [Orchestrator]  Model crossManager has finished (SAFE).
 [Orchestrator] Start Fork-Join
-[Orchestrator] Request for instructions on: trafficlightB
 [Orchestrator] Request for instructions on: trafficlightA
+[Orchestrator] Request for instructions on: trafficlightB
 [step:5 of trafficlightA]
 Model execution outcome: SAFE
 Updated locations: {lightsA=GREEN}
 Out locations: {lightsA=GREEN}
 Execution time (in milliseconds): 1 ms
                                  
-02:36:58.950 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 10.6553 ms
-02:36:58.950 INFO  ZeroMQWA - [trafficlightA] Step COMPLETED (SAFE).
+10:48:08.269 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 13.6614 ms
+10:48:08.269 INFO  ZeroMQWA - [trafficlightA] Step COMPLETED (SAFE).
 [step:5 of trafficlightB]
 Model execution outcome: SAFE
 Updated locations: {lightsB=RED}
 Out locations: {lightsB=RED}
-Execution time (in milliseconds): 1 ms
+Execution time (in milliseconds): 3 ms
                                  
-02:36:58.952 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 12.1166 ms
-02:36:58.952 INFO  ZeroMQWA - [trafficlightB] Step COMPLETED (SAFE).
-[ORCHESTRATED] [trafficlightA] Response time: 15.4260 ms
+10:48:08.270 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 16.6251 ms
+10:48:08.270 INFO  ZeroMQWA - [trafficlightB] Step COMPLETED (SAFE).
+[ORCHESTRATED] [trafficlightA] Response time: 27.8110 ms
 [Orchestrator]  Model trafficlightA has finished (SAFE).
-[ORCHESTRATED] [trafficlightB] Response time: 19.6250 ms
+[ORCHESTRATED] [trafficlightB] Response time: 27.8232 ms
 [Orchestrator]  Model trafficlightB has finished (SAFE).
-[ORCHESTRATED] Step 5: 78.8376 ms | pollingSum=160.3944 ms | responseSum=164.8285 ms | responses=6
+[ORCHESTRATED] Step 5: 97.4229 ms | pollingSum=188.0898 ms | responseSum=195.7452 ms | responses=6
+[EQ2_ORCH_STEP_END] step=5 epochNs=1791881288280976600
 Step: 5
+[EQ2_ENV_START] step=6 epochNs=1791881295133984800
 Sent newPedestrianComing value false to tcp://*:5570 at topic newPedestrianComing
 Sent newTramComing value false to tcp://*:5570 at topic newTramComing
 Sent transitionC value OPERATE_T to tcp://*:5570 at topic transitionC
 Sent mCurrTimeSecs value 6 to tcp://*:5570 at topic mCurrTimeSecs
+[EQ2_ENV_END] step=6 epochNs=1791881295134851000 publishDurationNs=1617700
 [FullBiPipe] inject feedback from the previous step in both channels
 [BiPipe] inject 1out of the right channel from the previous step in the left channel input
+[Orchestrator] Request for instructions on: controller
 [Orchestrator] Start Fork-Join
 [Orchestrator] Request for instructions on: pedestrian
-[Orchestrator] Request for instructions on: controller
 [Orchestrator] Request for instructions on: tram
-[step:6 of tram]
-Model execution outcome: SAFE
-Updated locations: {tramLight=RED;tramComing=false}
-Out locations: {tramLight=RED;tramComing=false}
-Execution time (in milliseconds): 0 ms
-                                 
 [step:6 of pedestrian]
 Model execution outcome: SAFE
 Updated locations: {pedestrianComing=false;pedestrianLight=RED}
 Out locations: {pedestrianComing=false;pedestrianLight=RED}
 Execution time (in milliseconds): 0 ms
                                  
-02:37:05.903 INFO  ZeroMQWA - [tram] ASM step execution time: 18.426 ms
-02:37:05.904 INFO  ZeroMQWA - [tram] Step COMPLETED (SAFE).
-02:37:05.904 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 18.5379 ms
-02:37:05.904 INFO  ZeroMQWA - [pedestrian] Step COMPLETED (SAFE).
-[ORCHESTRATED] [pedestrian] Response time: 25.1853 ms
-[Orchestrator]  Model pedestrian has finished (SAFE).
-[ORCHESTRATED] [tram] Response time: 25.0835 ms
-[Orchestrator]  Model tram has finished (SAFE).
-[Orchestrator] Request for instructions on: crossManager
+10:48:15.209 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 21.4019 ms
+10:48:15.209 INFO  ZeroMQWA - [pedestrian] Step COMPLETED (SAFE).
+[step:6 of tram]
+Model execution outcome: SAFE
+Updated locations: {tramLight=RED;tramComing=false}
+Out locations: {tramLight=RED;tramComing=false}
+Execution time (in milliseconds): 2 ms
+                                 
+10:48:15.210 INFO  ZeroMQWA - [tram] ASM step execution time: 22.8071 ms
+10:48:15.211 INFO  ZeroMQWA - [tram] Step COMPLETED (SAFE).
 [step:6 of controller]
 Model execution outcome: SAFE
 Updated locations: {duration(timeRED)=3;operateMode=GREEN_A_RED_B;crossManagerController_previous=NORMAL;duration(timeGREEN)=3;start(timeRED)=2;start(timeGREEN)=5;statusC=OPERATE}
 Out locations: {operateMode=GREEN_A_RED_B;statusC=OPERATE}
-Execution time (in milliseconds): 2 ms
+Execution time (in milliseconds): 1 ms
                                  
-02:37:05.912 INFO  ZeroMQWA - [controller] ASM step execution time: 27.1342 ms
-02:37:05.913 INFO  ZeroMQWA - [controller] Step COMPLETED (SAFE).
-[ORCHESTRATED] [controller] Response time: 32.3890 ms
+10:48:15.215 INFO  ZeroMQWA - [controller] ASM step execution time: 27.8318 ms
+10:48:15.215 INFO  ZeroMQWA - [controller] Step COMPLETED (SAFE).
+[ORCHESTRATED] [pedestrian] Response time: 33.1381 ms
+[Orchestrator]  Model pedestrian has finished (SAFE).
+[ORCHESTRATED] [tram] Response time: 33.1364 ms
+[Orchestrator]  Model tram has finished (SAFE).
+[Orchestrator] Request for instructions on: crossManager
+[ORCHESTRATED] [controller] Response time: 38.2635 ms
 [Orchestrator]  Model controller has finished (SAFE).
 [step:6 of crossManager]
 Model execution outcome: SAFE
@@ -465,150 +482,156 @@ Updated locations: {crossManagerController=NORMAL}
 Out locations: {crossManagerController=NORMAL}
 Execution time (in milliseconds): 0 ms
                                  
-02:37:05.929 INFO  ZeroMQWA - [crossManager] ASM step execution time: 11.9314 ms
-02:37:05.929 INFO  ZeroMQWA - [crossManager] Step COMPLETED (SAFE).
-[ORCHESTRATED] [crossManager] Response time: 23.9542 ms
+10:48:15.233 INFO  ZeroMQWA - [crossManager] ASM step execution time: 12.008 ms
+10:48:15.233 INFO  ZeroMQWA - [crossManager] Step COMPLETED (SAFE).
+[ORCHESTRATED] [crossManager] Response time: 18.7151 ms
 [Orchestrator]  Model crossManager has finished (SAFE).
 [Orchestrator] Start Fork-Join
 [Orchestrator] Request for instructions on: trafficlightA
 [Orchestrator] Request for instructions on: trafficlightB
-[step:6 of trafficlightB]
-Model execution outcome: SAFE
-Updated locations: {lightsB=RED}
-Out locations: {lightsB=RED}
-Execution time (in milliseconds): 1 ms
-                                 
-02:37:05.944 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 8.1482 ms
-02:37:05.944 INFO  ZeroMQWA - [trafficlightB] Step COMPLETED (SAFE).
 [step:6 of trafficlightA]
 Model execution outcome: SAFE
 Updated locations: {lightsA=GREEN}
 Out locations: {lightsA=GREEN}
 Execution time (in milliseconds): 1 ms
                                  
-02:37:05.946 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 10.3384 ms
-02:37:05.946 INFO  ZeroMQWA - [trafficlightA] Step COMPLETED (SAFE).
-[ORCHESTRATED] [trafficlightB] Response time: 16.3660 ms
-[ORCHESTRATED] [trafficlightA] Response time: 16.3935 ms
+10:48:15.249 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 8.9209 ms
+10:48:15.250 INFO  ZeroMQWA - [trafficlightA] Step COMPLETED (SAFE).
+[step:6 of trafficlightB]
+Model execution outcome: SAFE
+Updated locations: {lightsB=RED}
+Out locations: {lightsB=RED}
+Execution time (in milliseconds): 1 ms
+                                 
+10:48:15.251 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 10.1789 ms
+10:48:15.251 INFO  ZeroMQWA - [trafficlightB] Step COMPLETED (SAFE).
+[ORCHESTRATED] [trafficlightA] Response time: 14.5952 ms
 [Orchestrator]  Model trafficlightA has finished (SAFE).
+[ORCHESTRATED] [trafficlightB] Response time: 18.5044 ms
 [Orchestrator]  Model trafficlightB has finished (SAFE).
-[ORCHESTRATED] Step 6: 68.2776 ms | pollingSum=135.8772 ms | responseSum=139.3715 ms | responses=6
+[ORCHESTRATED] Step 6: 72.6856 ms | pollingSum=152.8837 ms | responseSum=156.3527 ms | responses=6
+[EQ2_ORCH_STEP_END] step=6 epochNs=1791881295258315600
 Step: 6
+[EQ2_ENV_START] step=7 epochNs=1791881302136323900
 Sent newPedestrianComing value false to tcp://*:5570 at topic newPedestrianComing
 Sent newTramComing value true to tcp://*:5570 at topic newTramComing
 Sent transitionC value OPERATE_T to tcp://*:5570 at topic transitionC
 Sent mCurrTimeSecs value 7 to tcp://*:5570 at topic mCurrTimeSecs
+[EQ2_ENV_END] step=7 epochNs=1791881302138176600 publishDurationNs=1522500
 [FullBiPipe] inject feedback from the previous step in both channels
 [BiPipe] inject 1out of the right channel from the previous step in the left channel input
 [Orchestrator] Start Fork-Join
 [Orchestrator] Request for instructions on: controller
-[Orchestrator] Request for instructions on: tram
 [Orchestrator] Request for instructions on: pedestrian
-[step:7 of pedestrian]
-Model execution outcome: SAFE
-Updated locations: {pedestrianComing=false;pedestrianLight=RED}
-Out locations: {pedestrianComing=false;pedestrianLight=RED}
-Execution time (in milliseconds): 0 ms
-                                 
-02:37:12.910 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 21.1732 ms
-02:37:12.910 INFO  ZeroMQWA - [pedestrian] Step COMPLETED (SAFE).
+[Orchestrator] Request for instructions on: tram
 [step:7 of tram]
 Model execution outcome: SAFE
 Updated locations: {tramLight=RED;tramComing=true}
 Out locations: {tramLight=RED;tramComing=true}
 Execution time (in milliseconds): 0 ms
                                  
-02:37:12.912 INFO  ZeroMQWA - [tram] ASM step execution time: 23.4004 ms
-02:37:12.912 INFO  ZeroMQWA - [tram] Step COMPLETED (SAFE).
-[ORCHESTRATED] [pedestrian] Response time: 29.2088 ms
-[Orchestrator]  Model pedestrian has finished (SAFE).
+10:48:22.212 INFO  ZeroMQWA - [tram] ASM step execution time: 19.9752 ms
+[step:7 of pedestrian]
+Model execution outcome: SAFE
+Updated locations: {pedestrianComing=false;pedestrianLight=RED}
+Out locations: {pedestrianComing=false;pedestrianLight=RED}
+10:48:22.212 INFO  ZeroMQWA - [tram] Step COMPLETED (SAFE).
+Execution time (in milliseconds): 0 ms
+                                 
+10:48:22.212 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 19.6892 ms
+10:48:22.212 INFO  ZeroMQWA - [pedestrian] Step COMPLETED (SAFE).
 [step:7 of controller]
-[ORCHESTRATED] [Model execution outcome: SAFE
+Model execution outcome: SAFE
 Updated locations: {duration(timeRED)=3;operateMode=GREEN_A_RED_B;crossManagerController_previous=NORMAL;duration(timeGREEN)=3;start(timeRED)=2;start(timeGREEN)=5;statusC=OPERATE}
 Out locations: {operateMode=GREEN_A_RED_B;statusC=OPERATE}
-tram] Response time: Execution time (in milliseconds): 1 ms
+Execution time (in milliseconds): 2 ms
                                  
-31.1995 ms
+10:48:22.217 INFO  ZeroMQWA - [controller] ASM step execution time: 25.3533 ms
+10:48:22.217 INFO  ZeroMQWA - [controller] Step COMPLETED (SAFE).
+[ORCHESTRATED] [pedestrian] Response time: 28.9506 ms
+[ORCHESTRATED] [tram] Response time: 28.9666 ms
 [Orchestrator]  Model tram has finished (SAFE).
+[Orchestrator]  Model pedestrian has finished (SAFE).
 [Orchestrator] Request for instructions on: crossManager
-02:37:12.917 INFO  ZeroMQWA - [controller] ASM step execution time: 28.8981 ms
-02:37:12.917 INFO  ZeroMQWA - [controller] Step COMPLETED (SAFE).
-[ORCHESTRATED] [controller] Response time: 37.2349 ms
+[ORCHESTRATED] [controller] Response time: 34.9364 ms
 [Orchestrator]  Model controller has finished (SAFE).
 [step:7 of crossManager]
 Model execution outcome: SAFE
 Updated locations: {start(timeTRAM)=7;crossManagerController=TRAM}
 Out locations: {crossManagerController=TRAM}
-Execution time (in milliseconds): 7 ms
+Execution time (in milliseconds): 9 ms
                                  
-02:37:12.942 INFO  ZeroMQWA - [crossManager] ASM step execution time: 23.3708 ms
-02:37:12.942 INFO  ZeroMQWA - [crossManager] Step COMPLETED (SAFE).
-[ORCHESTRATED] [crossManager] Response time: 28.7335 ms
+10:48:22.249 INFO  ZeroMQWA - [crossManager] ASM step execution time: 29.2995 ms
+10:48:22.249 INFO  ZeroMQWA - [crossManager] Step COMPLETED (SAFE).
+[ORCHESTRATED] [crossManager] Response time: 35.5070 ms
 [Orchestrator]  Model crossManager has finished (SAFE).
 [Orchestrator] Start Fork-Join
 [Orchestrator] Request for instructions on: trafficlightA
 [Orchestrator] Request for instructions on: trafficlightB
-[step:7 of trafficlightB]
-Model execution outcome: SAFE
-Updated locations: {lightsB=RED}
-Out locations: {lightsB=RED}
-Execution time (in milliseconds): 1 ms
-                                 
-02:37:12.958 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 9.6623 ms
-02:37:12.958 INFO  ZeroMQWA - [trafficlightB] Step COMPLETED (SAFE).
 [step:7 of trafficlightA]
 Model execution outcome: SAFE
 Updated locations: {lightsA=GREEN}
 Out locations: {lightsA=GREEN}
 Execution time (in milliseconds): 1 ms
                                  
-02:37:12.959 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 11.3091 ms
-02:37:12.959 INFO  ZeroMQWA - [trafficlightA] Step COMPLETED (SAFE).
-[ORCHESTRATED] [trafficlightB] Response time: 16.5222 ms
-[Orchestrator]  Model trafficlightB has finished (SAFE).
-[ORCHESTRATED] [trafficlightA] Response time: 16.5439 ms
+[step:7 of trafficlightB]
+Model execution outcome: SAFE
+Updated locations: {lightsB=RED}
+Out locations: {lightsB=RED}
+Execution time (in milliseconds): 1 ms
+                                 
+10:48:22.270 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 14.1264 ms
+10:48:22.270 INFO  ZeroMQWA - [trafficlightB] Step COMPLETED (SAFE).
+10:48:22.270 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 13.87 ms
+10:48:22.270 INFO  ZeroMQWA - [trafficlightA] Step COMPLETED (SAFE).
+[ORCHESTRATED] [trafficlightA] Response time: 18.4387 ms
 [Orchestrator]  Model trafficlightA has finished (SAFE).
-[ORCHESTRATED] Step 7: 79.3078 ms | pollingSum=154.2371 ms | responseSum=159.4428 ms | responses=6
+[ORCHESTRATED] [trafficlightB] Response time: 19.3665 ms
+[Orchestrator]  Model trafficlightB has finished (SAFE).
+[ORCHESTRATED] Step 7: 86.2582 ms | pollingSum=161.3783 ms | responseSum=166.1658 ms | responses=6
+[EQ2_ORCH_STEP_END] step=7 epochNs=1791881302274513400
 Step: 7
+[EQ2_ENV_START] step=8 epochNs=1791881309138668600
 Sent newPedestrianComing value false to tcp://*:5570 at topic newPedestrianComing
 Sent newTramComing value true to tcp://*:5570 at topic newTramComing
 Sent transitionC value OPERATE_T to tcp://*:5570 at topic transitionC
 Sent mCurrTimeSecs value 8 to tcp://*:5570 at topic mCurrTimeSecs
+[EQ2_ENV_END] step=8 epochNs=1791881309139689400 publishDurationNs=1143500
 [FullBiPipe] inject feedback from the previous step in both channels
 [BiPipe] inject 1out of the right channel from the previous step in the left channel input
 [Orchestrator] Start Fork-Join
+[Orchestrator] Request for instructions on: pedestrian
 [Orchestrator] Request for instructions on: controller
 [Orchestrator] Request for instructions on: tram
-[Orchestrator] Request for instructions on: pedestrian
-[step:8 of controller]
-Model execution outcome: SAFE
-Updated locations: {duration(timeRED)=3;operateMode=RED_BA;crossManagerController_previous=TRAM;duration(timeGREEN)=3;start(timeRED)=2;start(timeGREEN)=5;statusC=OPERATE}
-Out locations: {operateMode=RED_BA;statusC=OPERATE}
-Execution time (in milliseconds): 1 ms
-                                 
 [step:8 of tram]
 Model execution outcome: SAFE
 Updated locations: {tramLight=GREEN;tramComing=true}
 Out locations: {tramLight=GREEN;tramComing=true}
 Execution time (in milliseconds): 0 ms
                                  
-02:37:19.907 INFO  ZeroMQWA - [tram] ASM step execution time: 17.6256 ms
-02:37:19.907 INFO  ZeroMQWA - [tram] Step COMPLETED (SAFE).
-02:37:19.907 INFO  ZeroMQWA - [controller] ASM step execution time: 18.1284 ms
-02:37:19.907 INFO  ZeroMQWA - [controller] Step COMPLETED (SAFE).
+10:48:29.209 INFO  ZeroMQWA - [tram] ASM step execution time: 16.8824 ms
 [step:8 of pedestrian]
 Model execution outcome: SAFE
 Updated locations: {pedestrianComing=false;pedestrianLight=RED}
 Out locations: {pedestrianComing=false;pedestrianLight=RED}
+10:48:29.209 INFO  ZeroMQWA - [tram] Step COMPLETED (SAFE).
+Execution time (in milliseconds): 0 ms
+                                 
+10:48:29.209 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 17.5642 ms
+10:48:29.209 INFO  ZeroMQWA - [pedestrian] Step COMPLETED (SAFE).
+[step:8 of controller]
+Model execution outcome: SAFE
+Updated locations: {duration(timeRED)=3;operateMode=RED_BA;crossManagerController_previous=TRAM;duration(timeGREEN)=3;start(timeRED)=2;start(timeGREEN)=5;statusC=OPERATE}
+Out locations: {operateMode=RED_BA;statusC=OPERATE}
 Execution time (in milliseconds): 1 ms
                                  
-02:37:19.908 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 19.5888 ms
-02:37:19.908 INFO  ZeroMQWA - [pedestrian] Step COMPLETED (SAFE).
-[ORCHESTRATED] [controller] Response time: 29.2810 ms
+10:48:29.211 INFO  ZeroMQWA - [controller] ASM step execution time: 19.2076 ms
+10:48:29.213 INFO  ZeroMQWA - [controller] Step COMPLETED (SAFE).
+[ORCHESTRATED] [controller] Response time: 23.8961 ms
+[ORCHESTRATED] [pedestrian] Response time: 23.9105 ms
 [Orchestrator]  Model controller has finished (SAFE).
-[ORCHESTRATED] [pedestrian] Response time: 29.0783 ms
 [Orchestrator]  Model pedestrian has finished (SAFE).
-[ORCHESTRATED] [tram] Response time: 29.2149 ms
+[ORCHESTRATED] [tram] Response time: 25.8374 ms
 [Orchestrator]  Model tram has finished (SAFE).
 [Orchestrator] Request for instructions on: crossManager
 [step:8 of crossManager]
@@ -617,75 +640,78 @@ Updated locations: {duration(timeTRAM)=5;start(timeTRAM)=7;crossManagerControlle
 Out locations: {crossManagerController=TRAM}
 Execution time (in milliseconds): 1 ms
                                  
-02:37:19.930 INFO  ZeroMQWA - [crossManager] ASM step execution time: 12.7232 ms
-02:37:19.930 INFO  ZeroMQWA - [crossManager] Step COMPLETED (SAFE).
-[ORCHESTRATED] [crossManager] Response time: 18.4525 ms
+10:48:29.231 INFO  ZeroMQWA - [crossManager] ASM step execution time: 12.4806 ms
+10:48:29.231 INFO  ZeroMQWA - [crossManager] Step COMPLETED (SAFE).
+[ORCHESTRATED] [crossManager] Response time: 19.7662 ms
 [Orchestrator]  Model crossManager has finished (SAFE).
 [Orchestrator] Start Fork-Join
-[Orchestrator] Request for instructions on: trafficlightB
 [Orchestrator] Request for instructions on: trafficlightA
-[step:8 of trafficlightA]
+[Orchestrator] Request for instructions on: trafficlightB
 [step:8 of trafficlightB]
-Model execution outcome: SAFE
-Updated locations: {lightsA=RED}
-Out locations: {lightsA=RED}
 Model execution outcome: SAFE
 Updated locations: {lightsB=RED}
 Out locations: {lightsB=RED}
-Execution time (in milliseconds): 1 ms
+Execution time (in milliseconds): 0 ms
+                                 
+10:48:29.245 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 6.5525 ms
+10:48:29.245 INFO  ZeroMQWA - [trafficlightB] Step COMPLETED (SAFE).
+[step:8 of trafficlightA]
+Model execution outcome: SAFE
+Updated locations: {lightsA=RED}
+Out locations: {lightsA=RED}
 Execution time (in milliseconds): 1 ms
                                  
-                                 
-02:37:19.946 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 9.4654 ms
-02:37:19.946 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 9.5858 ms
-02:37:19.946 INFO  ZeroMQWA - [trafficlightA] Step COMPLETED (SAFE).
-02:37:19.946 INFO  ZeroMQWA - [trafficlightB] Step COMPLETED (SAFE).
-[ORCHESTRATED] [trafficlightA] Response time: 19.4905 ms
-[ORCHESTRATED] [trafficlightB] Response time: 19.5131 ms
+10:48:29.247 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 8.8131 ms
+10:48:29.247 INFO  ZeroMQWA - [trafficlightA] Step COMPLETED (SAFE).
+[ORCHESTRATED] [trafficlightB] Response time: 11.0399 ms
 [Orchestrator]  Model trafficlightB has finished (SAFE).
+[ORCHESTRATED] [trafficlightA] Response time: 16.9852 ms
 [Orchestrator]  Model trafficlightA has finished (SAFE).
-[ORCHESTRATED] Step 8: 69.5186 ms | pollingSum=141.3479 ms | responseSum=145.0303 ms | responses=6
+[ORCHESTRATED] Step 8: 64.0001 ms | pollingSum=118.3313 ms | responseSum=121.4353 ms | responses=6
+[EQ2_ORCH_STEP_END] step=8 epochNs=1791881309254626100
 Step: 8
+[EQ2_ENV_START] step=9 epochNs=1791881316141003800
 Sent newPedestrianComing value false to tcp://*:5570 at topic newPedestrianComing
 Sent newTramComing value false to tcp://*:5570 at topic newTramComing
 Sent transitionC value OPERATE_T to tcp://*:5570 at topic transitionC
 Sent mCurrTimeSecs value 9 to tcp://*:5570 at topic mCurrTimeSecs
+[EQ2_ENV_END] step=9 epochNs=1791881316141003800 publishDurationNs=313200
 [FullBiPipe] inject feedback from the previous step in both channels
 [BiPipe] inject 1out of the right channel from the previous step in the left channel input
 [Orchestrator] Start Fork-Join
+[Orchestrator] Request for instructions on: controller
 [Orchestrator] Request for instructions on: pedestrian
 [Orchestrator] Request for instructions on: tram
-[Orchestrator] Request for instructions on: controller
-[step:9 of tram]
-Model execution outcome: SAFE
-Updated locations: {tramLight=GREEN;tramComing=true}
-Out locations: {tramLight=GREEN;tramComing=true}
-Execution time (in milliseconds): 0 ms
-                                 
-02:37:26.910 INFO  ZeroMQWA - [tram] ASM step execution time: 16.921 ms
-02:37:26.910 INFO  ZeroMQWA - [tram] Step COMPLETED (SAFE).
 [step:9 of pedestrian]
 Model execution outcome: SAFE
 Updated locations: {pedestrianComing=false;pedestrianLight=RED}
 Out locations: {pedestrianComing=false;pedestrianLight=RED}
 Execution time (in milliseconds): 0 ms
                                  
-02:37:26.911 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 18.0907 ms
-02:37:26.911 INFO  ZeroMQWA - [pedestrian] Step COMPLETED (SAFE).
+10:48:36.212 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 17.2629 ms
+10:48:36.212 INFO  ZeroMQWA - [pedestrian] Step COMPLETED (SAFE).
+[step:9 of tram]
+Model execution outcome: SAFE
+Updated locations: {tramLight=GREEN;tramComing=true}
+Out locations: {tramLight=GREEN;tramComing=true}
+Execution time (in milliseconds): 0 ms
+                                 
+10:48:36.216 INFO  ZeroMQWA - [tram] ASM step execution time: 21.2557 ms
+10:48:36.216 INFO  ZeroMQWA - [tram] Step COMPLETED (SAFE).
+[ORCHESTRATED] [tram] Response time: 25.3239 ms
+[ORCHESTRATED] [pedestrian] Response time: 25.7124 ms
+[Orchestrator]  Model pedestrian has finished (SAFE).
+[Orchestrator]  Model tram has finished (SAFE).
 [step:9 of controller]
 Model execution outcome: SAFE
 Updated locations: {duration(timeRED)=3;operateMode=RED_BA;crossManagerController_previous=TRAM;duration(timeGREEN)=3;start(timeRED)=2;start(timeGREEN)=5;statusC=OPERATE}
 Out locations: {operateMode=RED_BA;statusC=OPERATE}
 Execution time (in milliseconds): 1 ms
                                  
-02:37:26.916 INFO  ZeroMQWA - [controller] ASM step execution time: 23.3208 ms
-02:37:26.916 INFO  ZeroMQWA - [controller] Step COMPLETED (SAFE).
-[ORCHESTRATED] [pedestrian] Response time: 27.6105 ms
-[ORCHESTRATED] [tram] Response time: 27.5150 ms
-[Orchestrator]  Model pedestrian has finished (SAFE).
-[Orchestrator]  Model tram has finished (SAFE).
 [Orchestrator] Request for instructions on: crossManager
-[ORCHESTRATED] [controller] Response time: 34.4023 ms
+10:48:36.219 INFO  ZeroMQWA - [controller] ASM step execution time: 25.1918 ms
+10:48:36.220 INFO  ZeroMQWA - [controller] Step COMPLETED (SAFE).
+[ORCHESTRATED] [controller] Response time: 33.5035 ms
 [Orchestrator]  Model controller has finished (SAFE).
 [step:9 of crossManager]
 Model execution outcome: SAFE
@@ -693,85 +719,88 @@ Updated locations: {duration(timeTRAM)=5;start(timeTRAM)=7;crossManagerControlle
 Out locations: {crossManagerController=TRAM}
 Execution time (in milliseconds): 0 ms
                                  
-02:37:26.935 INFO  ZeroMQWA - [crossManager] ASM step execution time: 14.6671 ms
-02:37:26.935 INFO  ZeroMQWA - [crossManager] Step COMPLETED (SAFE).
-[ORCHESTRATED] [crossManager] Response time: 22.8679 ms
+10:48:36.236 INFO  ZeroMQWA - [crossManager] ASM step execution time: 16.0002 ms
+10:48:36.236 INFO  ZeroMQWA - [crossManager] Step COMPLETED (SAFE).
+[ORCHESTRATED] [crossManager] Response time: 23.8508 ms
 [Orchestrator]  Model crossManager has finished (SAFE).
 [Orchestrator] Start Fork-Join
-[Orchestrator] Request for instructions on: trafficlightB
 [Orchestrator] Request for instructions on: trafficlightA
-[step:9 of trafficlightB]
-Model execution outcome: SAFE
-Updated locations: {lightsB=RED}
-Out locations: {lightsB=RED}
-Execution time (in milliseconds): 0 ms
-                                 
-02:37:26.953 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 10.3669 ms
-02:37:26.954 INFO  ZeroMQWA - [trafficlightB] Step COMPLETED (SAFE).
+[Orchestrator] Request for instructions on: trafficlightB
 [step:9 of trafficlightA]
 Model execution outcome: SAFE
 Updated locations: {lightsA=RED}
 Out locations: {lightsA=RED}
+Execution time (in milliseconds): 0 ms
+                                 
+10:48:36.254 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 9.5548 ms
+10:48:36.254 INFO  ZeroMQWA - [trafficlightA] Step COMPLETED (SAFE).
+[step:9 of trafficlightB]
+Model execution outcome: SAFE
+Updated locations: {lightsB=RED}
+Out locations: {lightsB=RED}
 Execution time (in milliseconds): 1 ms
                                  
-02:37:26.954 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 11.2497 ms
-02:37:26.955 INFO  ZeroMQWA - [trafficlightA] Step COMPLETED (SAFE).
-[ORCHESTRATED] [trafficlightA] Response time: 17.6537 ms
+10:48:36.255 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 10.612 ms
+10:48:36.255 INFO  ZeroMQWA - [trafficlightB] Step COMPLETED (SAFE).
+[ORCHESTRATED] [trafficlightB] Response time: 15.5658 ms
+[ORCHESTRATED] [trafficlightA] Response time: 15.5848 ms
 [Orchestrator]  Model trafficlightA has finished (SAFE).
-[ORCHESTRATED] [trafficlightB] Response time: 17.6706 ms
 [Orchestrator]  Model trafficlightB has finished (SAFE).
-[ORCHESTRATED] Step 9: 69.6862 ms | pollingSum=144.7783 ms | responseSum=147.7200 ms | responses=6
+[ORCHESTRATED] Step 9: 68.0711 ms | pollingSum=135.8414 ms | responseSum=139.5412 ms | responses=6
+[EQ2_ORCH_STEP_END] step=9 epochNs=1791881316259692300
 Step: 9
+[EQ2_ENV_START] step=10 epochNs=1791881323142171200
 Sent newPedestrianComing value false to tcp://*:5570 at topic newPedestrianComing
 Sent newTramComing value false to tcp://*:5570 at topic newTramComing
 Sent transitionC value OPERATE_T to tcp://*:5570 at topic transitionC
 Sent mCurrTimeSecs value 10 to tcp://*:5570 at topic mCurrTimeSecs
+[EQ2_ENV_END] step=10 epochNs=1791881323143013200 publishDurationNs=1250700
 [FullBiPipe] inject feedback from the previous step in both channels
 [BiPipe] inject 1out of the right channel from the previous step in the left channel input
 [Orchestrator] Start Fork-Join
 [Orchestrator] Request for instructions on: controller
-[Orchestrator] Request for instructions on: pedestrian
 [Orchestrator] Request for instructions on: tram
+[Orchestrator] Request for instructions on: pedestrian
 [step:10 of pedestrian]
 Model execution outcome: SAFE
 Updated locations: {pedestrianComing=false;pedestrianLight=RED}
 Out locations: {pedestrianComing=false;pedestrianLight=RED}
 Execution time (in milliseconds): 0 ms
                                  
-02:37:33.911 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 15.8324 ms
-02:37:33.911 INFO  ZeroMQWA - [pedestrian] Step COMPLETED (SAFE).
+10:48:43.212 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 15.9125 ms
+10:48:43.212 INFO  ZeroMQWA - [pedestrian] Step COMPLETED (SAFE).
 [step:10 of tram]
 Model execution outcome: SAFE
 Updated locations: {tramLight=GREEN;tramComing=true}
 Out locations: {tramLight=GREEN;tramComing=true}
 Execution time (in milliseconds): 0 ms
                                  
-02:37:33.913 INFO  ZeroMQWA - [tram] ASM step execution time: 17.6369 ms
-02:37:33.913 INFO  ZeroMQWA - [tram] Step COMPLETED (SAFE).
+10:48:43.217 INFO  ZeroMQWA - [tram] ASM step execution time: 19.6114 ms
+[ORCHESTRATED] [pedestrian] Response time: 10:48:43.217 INFO  ZeroMQWA - [tram] Step COMPLETED (SAFE).
+22.4453 ms
+[Orchestrator]  Model pedestrian has finished (SAFE).
 [step:10 of controller]
 Model execution outcome: SAFE
 Updated locations: {duration(timeRED)=3;operateMode=RED_BA;crossManagerController_previous=TRAM;duration(timeGREEN)=3;start(timeRED)=2;start(timeGREEN)=5;statusC=OPERATE}
 Out locations: {operateMode=RED_BA;statusC=OPERATE}
-Execution time (in milliseconds): 2 ms
+Execution time (in milliseconds): 1 ms
                                  
-[ORCHESTRATED] [pedestrian] Response time: 22.9252 ms
-[Orchestrator]  Model pedestrian has finished (SAFE).
-02:37:33.915 INFO  ZeroMQWA - [controller] ASM step execution time: 21.2395 ms
-02:37:33.916 INFO  ZeroMQWA - [controller] Step COMPLETED (SAFE).
-[ORCHESTRATED] [tram] Response time: 24.6161 ms
+10:48:43.219 INFO  ZeroMQWA - [controller] ASM step execution time: 22.1656 ms
+10:48:43.220 INFO  ZeroMQWA - [controller] Step COMPLETED (SAFE).
+[ORCHESTRATED] [controller] Response time: 29.4554 ms
+[ORCHESTRATED] [tram] Response time: 29.4207 ms
 [Orchestrator]  Model tram has finished (SAFE).
-[Orchestrator] Request for instructions on: crossManager
-[ORCHESTRATED] [controller] Response time: 28.7148 ms
 [Orchestrator]  Model controller has finished (SAFE).
+[Orchestrator] Request for instructions on: crossManager
 [step:10 of crossManager]
 Model execution outcome: SAFE
 Updated locations: {duration(timeTRAM)=5;start(timeTRAM)=7;crossManagerController=TRAM}
 Out locations: {crossManagerController=TRAM}
 Execution time (in milliseconds): 0 ms
                                  
-02:37:33.930 INFO  ZeroMQWA - [crossManager] ASM step execution time: 11.2268 ms
-02:37:33.930 INFO  ZeroMQWA - [crossManager] Step COMPLETED (SAFE).
-[ORCHESTRATED] [crossManager] Response time: 15.7675 ms
+10:48:43.237 INFO  ZeroMQWA - [crossManager] ASM step execution time: 11.5766 ms
+10:48:43.237 INFO  ZeroMQWA - [crossManager] Step COMPLETED (SAFE).
+[ORCHESTRATED] [crossManager] Response time: 16.5886 ms
 [Orchestrator]  Model crossManager has finished (SAFE).
 [Orchestrator] Start Fork-Join
 [Orchestrator] Request for instructions on: trafficlightA
@@ -782,62 +811,65 @@ Updated locations: {lightsA=RED}
 Out locations: {lightsA=RED}
 Execution time (in milliseconds): 0 ms
                                  
-02:37:33.944 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 9.8678 ms
-02:37:33.944 INFO  ZeroMQWA - [trafficlightA] Step COMPLETED (SAFE).
+10:48:43.250 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 7.6823 ms
+10:48:43.250 INFO  ZeroMQWA - [trafficlightA] Step COMPLETED (SAFE).
 [step:10 of trafficlightB]
 Model execution outcome: SAFE
 Updated locations: {lightsB=RED}
 Out locations: {lightsB=RED}
-Execution time (in milliseconds): 1 ms
+Execution time (in milliseconds): 0 ms
                                  
-02:37:33.947 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 13.3423 ms
-02:37:33.948 INFO  ZeroMQWA - [trafficlightB] Step COMPLETED (SAFE).
-[ORCHESTRATED] [trafficlightB] Response time: 17.8868 ms
-[ORCHESTRATED] [trafficlightA] Response time: 17.9148 ms
+10:48:43.252 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 9.9516 ms
+10:48:43.252 INFO  ZeroMQWA - [trafficlightB] Step COMPLETED (SAFE).
+[ORCHESTRATED] [trafficlightA] Response time: 11.7707 ms
 [Orchestrator]  Model trafficlightA has finished (SAFE).
+[ORCHESTRATED] [trafficlightB] Response time: 17.6905 ms
 [Orchestrator]  Model trafficlightB has finished (SAFE).
-[ORCHESTRATED] Step 10: 60.5157 ms | pollingSum=123.5614 ms | responseSum=127.8252 ms | responses=6
+[ORCHESTRATED] Step 10: 65.2037 ms | pollingSum=123.8504 ms | responseSum=127.3712 ms | responses=6
+[EQ2_ORCH_STEP_END] step=10 epochNs=1791881323259308300
 Step: 10
+[EQ2_ENV_START] step=11 epochNs=1791881330144282800
 Sent newPedestrianComing value false to tcp://*:5570 at topic newPedestrianComing
 Sent newTramComing value false to tcp://*:5570 at topic newTramComing
 Sent transitionC value OPERATE_T to tcp://*:5570 at topic transitionC
 Sent mCurrTimeSecs value 11 to tcp://*:5570 at topic mCurrTimeSecs
+[EQ2_ENV_END] step=11 epochNs=1791881330145305600 publishDurationNs=1243000
 [FullBiPipe] inject feedback from the previous step in both channels
 [BiPipe] inject 1out of the right channel from the previous step in the left channel input
 [Orchestrator] Start Fork-Join
 [Orchestrator] Request for instructions on: controller
-[Orchestrator] Request for instructions on: tram
 [Orchestrator] Request for instructions on: pedestrian
+[Orchestrator] Request for instructions on: tram
 [step:11 of pedestrian]
 Model execution outcome: SAFE
 Updated locations: {pedestrianComing=false;pedestrianLight=RED}
 Out locations: {pedestrianComing=false;pedestrianLight=RED}
 Execution time (in milliseconds): 0 ms
                                  
-02:37:40.919 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 21.3163 ms
-02:37:40.919 INFO  ZeroMQWA - [pedestrian] Step COMPLETED (SAFE).
+10:48:50.218 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 18.3986 ms
+10:48:50.218 INFO  ZeroMQWA - [pedestrian] Step COMPLETED (SAFE).
 [step:11 of tram]
 Model execution outcome: SAFE
 Updated locations: {tramLight=GREEN;tramComing=true}
 Out locations: {tramLight=GREEN;tramComing=true}
 Execution time (in milliseconds): 0 ms
                                  
-02:37:40.923 INFO  ZeroMQWA - [tram] ASM step execution time: 26.3079 ms
-02:37:40.924 INFO  ZeroMQWA - [tram] Step COMPLETED (SAFE).
+10:48:50.220 INFO  ZeroMQWA - [tram] ASM step execution time: 21.3385 ms
+10:48:50.221 INFO  ZeroMQWA - [tram] Step COMPLETED (SAFE).
+[ORCHESTRATED] [pedestrian] Response time: 26.1905 ms
+[Orchestrator]  Model pedestrian has finished (SAFE).
 [step:11 of controller]
 Model execution outcome: SAFE
 Updated locations: {duration(timeRED)=3;operateMode=RED_BA;crossManagerController_previous=TRAM;duration(timeGREEN)=3;start(timeRED)=2;start(timeGREEN)=5;statusC=OPERATE}
 Out locations: {operateMode=RED_BA;statusC=OPERATE}
 Execution time (in milliseconds): 1 ms
                                  
-02:37:40.928 INFO  ZeroMQWA - [controller] ASM step execution time: 31.0835 ms
-02:37:40.928 INFO  ZeroMQWA - [controller] Step COMPLETED (SAFE).
-[ORCHESTRATED] [controller] Response time: 35.3410 ms
-[Orchestrator]  Model controller has finished (SAFE).
-[ORCHESTRATED] [tram] Response time: 36.3302 ms
+10:48:50.224 INFO  ZeroMQWA - [controller] ASM step execution time: 25.1954 ms
+10:48:50.224 INFO  ZeroMQWA - [controller] Step COMPLETED (SAFE).
+[ORCHESTRATED] [controller] Response time: 32.1758 ms
+[ORCHESTRATED] [tram] Response time: 32.1403 ms
 [Orchestrator]  Model tram has finished (SAFE).
-[ORCHESTRATED] [pedestrian] Response time: 37.0198 ms
-[Orchestrator]  Model pedestrian has finished (SAFE).
+[Orchestrator]  Model controller has finished (SAFE).
 [Orchestrator] Request for instructions on: crossManager
 [step:11 of crossManager]
 Model execution outcome: SAFE
@@ -845,75 +877,78 @@ Updated locations: {duration(timeTRAM)=5;start(timeTRAM)=7;crossManagerControlle
 Out locations: {crossManagerController=TRAM}
 Execution time (in milliseconds): 0 ms
                                  
-02:37:40.955 INFO  ZeroMQWA - [crossManager] ASM step execution time: 20.5568 ms
-02:37:40.955 INFO  ZeroMQWA - [crossManager] Step COMPLETED (SAFE).
-[ORCHESTRATED] [crossManager] Response time: 31.4071 ms
+10:48:50.250 INFO  ZeroMQWA - [crossManager] ASM step execution time: 19.3123 ms
+10:48:50.251 INFO  ZeroMQWA - [crossManager] Step COMPLETED (SAFE).
+[ORCHESTRATED] [crossManager] Response time: 28.2755 ms
 [Orchestrator]  Model crossManager has finished (SAFE).
 [Orchestrator] Start Fork-Join
 [Orchestrator] Request for instructions on: trafficlightA
 [Orchestrator] Request for instructions on: trafficlightB
-[step:11 of trafficlightA]
-Model execution outcome: SAFE
-Updated locations: {lightsA=RED}
-Out locations: {lightsA=RED}
-Execution time (in milliseconds): 1 ms
-                                 
-02:37:40.985 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 17.3008 ms
-02:37:40.986 INFO  ZeroMQWA - [trafficlightA] Step COMPLETED (SAFE).
 [step:11 of trafficlightB]
 Model execution outcome: SAFE
 Updated locations: {lightsB=RED}
 Out locations: {lightsB=RED}
 Execution time (in milliseconds): 1 ms
                                  
-02:37:40.988 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 19.5963 ms
-02:37:40.988 INFO  ZeroMQWA - [trafficlightB] Step COMPLETED (SAFE).
-[ORCHESTRATED] [trafficlightA] Response time: 29.6952 ms
+10:48:50.272 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 12.0227 ms
+10:48:50.272 INFO  ZeroMQWA - [trafficlightB] Step COMPLETED (SAFE).
+[step:11 of trafficlightA]
+Model execution outcome: SAFE
+Updated locations: {lightsA=RED}
+Out locations: {lightsA=RED}
+Execution time (in milliseconds): 6 ms
+                                 
+10:48:50.282 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 23.1968 ms
+10:48:50.282 INFO  ZeroMQWA - [trafficlightA] Step COMPLETED (SAFE).
+[ORCHESTRATED] [trafficlightA] Response time: 27.0223 ms
 [Orchestrator]  Model trafficlightA has finished (SAFE).
-[ORCHESTRATED] [trafficlightB] Response time: 34.4235 ms
+[ORCHESTRATED] [trafficlightB] Response time: 34.9696 ms
 [Orchestrator]  Model trafficlightB has finished (SAFE).
-[ORCHESTRATED] Step 11: 107.4288 ms | pollingSum=188.2723 ms | responseSum=204.2168 ms | responses=6
+[ORCHESTRATED] Step 11: 99.1521 ms | pollingSum=173.3113 ms | responseSum=180.7740 ms | responses=6
+[EQ2_ORCH_STEP_END] step=11 epochNs=1791881330294560600
 Step: 11
+[EQ2_ENV_START] step=12 epochNs=1791881337146491500
 Sent newPedestrianComing value false to tcp://*:5570 at topic newPedestrianComing
 Sent newTramComing value true to tcp://*:5570 at topic newTramComing
 Sent transitionC value OPERATE_T to tcp://*:5570 at topic transitionC
 Sent mCurrTimeSecs value 12 to tcp://*:5570 at topic mCurrTimeSecs
+[EQ2_ENV_END] step=12 epochNs=1791881337147386400 publishDurationNs=1483400
 [FullBiPipe] inject feedback from the previous step in both channels
 [BiPipe] inject 1out of the right channel from the previous step in the left channel input
 [Orchestrator] Start Fork-Join
-[Orchestrator] Request for instructions on: pedestrian
 [Orchestrator] Request for instructions on: controller
+[Orchestrator] Request for instructions on: pedestrian
 [Orchestrator] Request for instructions on: tram
+[step:12 of pedestrian]
+Model execution outcome: SAFE
+Updated locations: {pedestrianComing=false;pedestrianLight=RED}
+Out locations: {pedestrianComing=false;pedestrianLight=RED}
+Execution time (in milliseconds): 0 ms
+                                 
+10:48:57.222 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 20.3283 ms
+10:48:57.223 INFO  ZeroMQWA - [pedestrian] Step COMPLETED (SAFE).
 [step:12 of tram]
 Model execution outcome: SAFE
 Updated locations: {tramLight=GREEN;tramComing=true}
 Out locations: {tramLight=GREEN;tramComing=true}
 Execution time (in milliseconds): 0 ms
                                  
-02:37:47.912 INFO  ZeroMQWA - [tram] ASM step execution time: 15.8695 ms
-02:37:47.912 INFO  ZeroMQWA - [tram] Step COMPLETED (SAFE).
-[ORCHESTRATED] [tram] Response time: 21.1949 ms
+10:48:57.224 INFO  ZeroMQWA - [tram] ASM step execution time: 22.7133 ms
+10:48:57.224 INFO  ZeroMQWA - [tram] Step COMPLETED (SAFE).
+[ORCHESTRATED] [tram] Response time: 27.8330 ms
+[ORCHESTRATED] [pedestrian] Response time: 27.9084 ms
+[Orchestrator]  Model pedestrian has finished (SAFE).
 [Orchestrator]  Model tram has finished (SAFE).
-[step:12 of pedestrian]
-Model execution outcome: SAFE
-Updated locations: {pedestrianComing=false;pedestrianLight=RED}
-Out locations: {pedestrianComing=false;pedestrianLight=RED}
-Execution time (in milliseconds): 1 ms
-                                 
-02:37:47.918 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 21.3967 ms
-02:37:47.918 INFO  ZeroMQWA - [pedestrian] Step COMPLETED (SAFE).
+[Orchestrator] Request for instructions on: crossManager
 [step:12 of controller]
 Model execution outcome: SAFE
 Updated locations: {duration(timeRED)=3;operateMode=RED_BA;crossManagerController_previous=TRAM;duration(timeGREEN)=3;start(timeRED)=2;start(timeGREEN)=5;statusC=OPERATE}
 Out locations: {operateMode=RED_BA;statusC=OPERATE}
 Execution time (in milliseconds): 1 ms
                                  
-02:37:47.921 INFO  ZeroMQWA - [controller] ASM step execution time: 23.6561 ms
-02:37:47.921 INFO  ZeroMQWA - [controller] Step COMPLETED (SAFE).
-[ORCHESTRATED] [pedestrian] Response time: 27.9791 ms
-[Orchestrator]  Model pedestrian has finished (SAFE).
-[Orchestrator] Request for instructions on: crossManager
-[ORCHESTRATED] [controller] Response time: 32.0853 ms
+10:48:57.229 INFO  ZeroMQWA - [controller] ASM step execution time: 28.0234 ms
+10:48:57.229 INFO  ZeroMQWA - [controller] Step COMPLETED (SAFE).
+[ORCHESTRATED] [controller] Response time: 36.0060 ms
 [Orchestrator]  Model controller has finished (SAFE).
 [step:12 of crossManager]
 Model execution outcome: SAFE
@@ -921,75 +956,78 @@ Updated locations: {duration(timeTRAM)=5;start(timeTRAM)=7;crossManagerControlle
 Out locations: {crossManagerController=NORMAL}
 Execution time (in milliseconds): 0 ms
                                  
-02:37:47.939 INFO  ZeroMQWA - [crossManager] ASM step execution time: 14.1731 ms
-02:37:47.939 INFO  ZeroMQWA - [crossManager] Step COMPLETED (SAFE).
-[ORCHESTRATED] [crossManager] Response time: 21.7923 ms
+10:48:57.244 INFO  ZeroMQWA - [crossManager] ASM step execution time: 16.162 ms
+10:48:57.245 INFO  ZeroMQWA - [crossManager] Step COMPLETED (SAFE).
+[ORCHESTRATED] [crossManager] Response time: 22.7069 ms
 [Orchestrator]  Model crossManager has finished (SAFE).
 [Orchestrator] Start Fork-Join
 [Orchestrator] Request for instructions on: trafficlightA
 [Orchestrator] Request for instructions on: trafficlightB
+[step:12 of trafficlightA]
+Model execution outcome: SAFE
+Updated locations: {lightsA=RED}
+Out locations: {lightsA=RED}
+Execution time (in milliseconds): 2 ms
+                                 
+10:48:57.266 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 14.09 ms
 [step:12 of trafficlightB]
 Model execution outcome: SAFE
 Updated locations: {lightsB=RED}
 Out locations: {lightsB=RED}
 Execution time (in milliseconds): 1 ms
                                  
-02:37:47.955 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 8.0739 ms
-02:37:47.956 INFO  ZeroMQWA - [trafficlightB] Step COMPLETED (SAFE).
-[step:12 of trafficlightA]
-Model execution outcome: SAFE
-Updated locations: {lightsA=RED}
-Out locations: {lightsA=RED}
-Execution time (in milliseconds): 1 ms
-                                 
-02:37:47.956 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 8.6929 ms
-02:37:47.956 INFO  ZeroMQWA - [trafficlightA] Step COMPLETED (SAFE).
-[ORCHESTRATED] [trafficlightB] Response time: 15.6120 ms
-[Orchestrator]  Model trafficlightB has finished (SAFE).
-[ORCHESTRATED] [trafficlightA] Response time: 15.6413 ms
+10:48:57.267 INFO  ZeroMQWA - [trafficlightA] Step COMPLETED (SAFE).
+10:48:57.267 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 15.6183 ms
+10:48:57.267 INFO  ZeroMQWA - [trafficlightB] Step COMPLETED (SAFE).
+[ORCHESTRATED] [trafficlightA] Response time: 21.5666 ms
+[ORCHESTRATED] [trafficlightB] Response time: 21.5671 ms
 [Orchestrator]  Model trafficlightA has finished (SAFE).
-[ORCHESTRATED] Step 12: 66.7613 ms | pollingSum=131.7749 ms | responseSum=134.3049 ms | responses=6
+[Orchestrator]  Model trafficlightB has finished (SAFE).
+[ORCHESTRATED] Step 12: 73.8687 ms | pollingSum=153.7445 ms | responseSum=157.5880 ms | responses=6
+[EQ2_ORCH_STEP_END] step=12 epochNs=1791881337272285100
 Step: 12
+[EQ2_ENV_START] step=13 epochNs=1791881344150138200
 Sent newPedestrianComing value false to tcp://*:5570 at topic newPedestrianComing
 Sent newTramComing value true to tcp://*:5570 at topic newTramComing
 Sent transitionC value OPERATE_T to tcp://*:5570 at topic transitionC
 Sent mCurrTimeSecs value 13 to tcp://*:5570 at topic mCurrTimeSecs
+[EQ2_ENV_END] step=13 epochNs=1791881344150138200 publishDurationNs=284800
 [FullBiPipe] inject feedback from the previous step in both channels
 [BiPipe] inject 1out of the right channel from the previous step in the left channel input
 [Orchestrator] Start Fork-Join
+[Orchestrator] Request for instructions on: pedestrian
 [Orchestrator] Request for instructions on: controller
 [Orchestrator] Request for instructions on: tram
-[Orchestrator] Request for instructions on: pedestrian
 [step:13 of pedestrian]
 Model execution outcome: SAFE
 Updated locations: {pedestrianComing=false;pedestrianLight=RED}
 Out locations: {pedestrianComing=false;pedestrianLight=RED}
 Execution time (in milliseconds): 0 ms
                                  
-02:37:54.917 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 15.8574 ms
-02:37:54.917 INFO  ZeroMQWA - [pedestrian] Step COMPLETED (SAFE).
+10:49:04.221 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 17.6689 ms
+10:49:04.221 INFO  ZeroMQWA - [pedestrian] Step COMPLETED (SAFE).
 [step:13 of tram]
 Model execution outcome: SAFE
 Updated locations: {tramLight=RED;tramComing=true}
 Out locations: {tramLight=RED;tramComing=true}
 Execution time (in milliseconds): 0 ms
                                  
-02:37:54.920 INFO  ZeroMQWA - [tram] ASM step execution time: 17.4634 ms
-02:37:54.920 INFO  ZeroMQWA - [tram] Step COMPLETED (SAFE).
-[ORCHESTRATED] [pedestrian] Response time: 21.3987 ms
-[Orchestrator]  Model pedestrian has finished (SAFE).
+10:49:04.221 INFO  ZeroMQWA - [tram] ASM step execution time: 18.1305 ms
+10:49:04.221 INFO  ZeroMQWA - [tram] Step COMPLETED (SAFE).
+[ORCHESTRATED] [tram] Response time: 22.4687 ms
+[Orchestrator]  Model tram has finished (SAFE).
 [step:13 of controller]
 Model execution outcome: SAFE
 Updated locations: {duration(timeRED)=3;operateMode=GREEN_B_RED_A;crossManagerController_previous=NORMAL;duration(timeGREEN)=3;start(timeRED)=2;start(timeGREEN)=13;statusC=OPERATE}
 Out locations: {operateMode=GREEN_B_RED_A;statusC=OPERATE}
-Execution time (in milliseconds): 1 ms
+Execution time (in milliseconds): 2 ms
                                  
-02:37:54.923 INFO  ZeroMQWA - [controller] ASM step execution time: 21.9107 ms
-02:37:54.923 INFO  ZeroMQWA - [controller] Step COMPLETED (SAFE).
-[ORCHESTRATED] [controller] Response time: 27.2525 ms
+10:49:04.226 INFO  ZeroMQWA - [controller] ASM step execution time: 22.4297 ms
+10:49:04.226 INFO  ZeroMQWA - [controller] Step COMPLETED (SAFE).
+[ORCHESTRATED] [pedestrian] Response time: 28.5596 ms
+[ORCHESTRATED] [controller] Response time: 28.5068 ms
 [Orchestrator]  Model controller has finished (SAFE).
-[ORCHESTRATED] [tram] Response time: 27.1860 ms
-[Orchestrator]  Model tram has finished (SAFE).
+[Orchestrator]  Model pedestrian has finished (SAFE).
 [Orchestrator] Request for instructions on: crossManager
 [step:13 of crossManager]
 Model execution outcome: SAFE
@@ -997,9 +1035,9 @@ Updated locations: {duration(timeTRAM)=5;start(timeTRAM)=13;crossManagerControll
 Out locations: {crossManagerController=TRAM}
 Execution time (in milliseconds): 0 ms
                                  
-02:37:54.940 INFO  ZeroMQWA - [crossManager] ASM step execution time: 12.4587 ms
-02:37:54.940 INFO  ZeroMQWA - [crossManager] Step COMPLETED (SAFE).
-[ORCHESTRATED] [crossManager] Response time: 15.4642 ms
+10:49:04.252 INFO  ZeroMQWA - [crossManager] ASM step execution time: 20.1233 ms
+10:49:04.252 INFO  ZeroMQWA - [crossManager] Step COMPLETED (SAFE).
+[ORCHESTRATED] [crossManager] Response time: 29.4413 ms
 [Orchestrator]  Model crossManager has finished (SAFE).
 [Orchestrator] Start Fork-Join
 [Orchestrator] Request for instructions on: trafficlightA
@@ -1010,72 +1048,75 @@ Updated locations: {lightsA=RED}
 Out locations: {lightsA=RED}
 Execution time (in milliseconds): 1 ms
                                  
-02:37:54.951 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 8.3459 ms
+10:49:04.272 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 9.085 ms
+10:49:04.272 INFO  ZeroMQWA - [trafficlightA] Step COMPLETED (SAFE).
 [step:13 of trafficlightB]
 Model execution outcome: SAFE
 Updated locations: {lightsB=GREEN}
 Out locations: {lightsB=GREEN}
 Execution time (in milliseconds): 1 ms
                                  
-02:37:54.951 INFO  ZeroMQWA - [trafficlightA] Step COMPLETED (SAFE).
-02:37:54.952 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 8.6008 ms
-02:37:54.952 INFO  ZeroMQWA - [trafficlightB] Step COMPLETED (SAFE).
-[ORCHESTRATED] [trafficlightB] Response time: 16.8059 ms
+10:49:04.273 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 9.6105 ms
+10:49:04.273 INFO  ZeroMQWA - [trafficlightB] Step COMPLETED (SAFE).
+[ORCHESTRATED] [trafficlightB] Response time: 16.7120 ms
 [Orchestrator]  Model trafficlightB has finished (SAFE).
-[ORCHESTRATED] [trafficlightA] Response time: 17.6498 ms
+[ORCHESTRATED] [trafficlightA] Response time: 18.8232 ms
 [Orchestrator]  Model trafficlightA has finished (SAFE).
-[ORCHESTRATED] Step 13: 61.8514 ms | pollingSum=121.6247 ms | responseSum=125.7571 ms | responses=6
+[ORCHESTRATED] Step 13: 78.9942 ms | pollingSum=140.3251 ms | responseSum=144.5116 ms | responses=6
+[EQ2_ORCH_STEP_END] step=13 epochNs=1791881344280081900
 Step: 13
+[EQ2_ENV_START] step=14 epochNs=1791881351151000600
 Sent newPedestrianComing value false to tcp://*:5570 at topic newPedestrianComing
 Sent newTramComing value false to tcp://*:5570 at topic newTramComing
 Sent transitionC value OPERATE_T to tcp://*:5570 at topic transitionC
 Sent mCurrTimeSecs value 14 to tcp://*:5570 at topic mCurrTimeSecs
+[EQ2_ENV_END] step=14 epochNs=1791881351151000600 publishDurationNs=252200
 [FullBiPipe] inject feedback from the previous step in both channels
 [BiPipe] inject 1out of the right channel from the previous step in the left channel input
 [Orchestrator] Start Fork-Join
 [Orchestrator] Request for instructions on: controller
-[Orchestrator] Request for instructions on: pedestrian
 [Orchestrator] Request for instructions on: tram
-[step:14 of pedestrian]
-Model execution outcome: SAFE
-Updated locations: {pedestrianComing=false;pedestrianLight=RED}
-Out locations: {pedestrianComing=false;pedestrianLight=RED}
-Execution time (in milliseconds): 0 ms
-                                 
-02:38:01.922 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 18.6165 ms
-02:38:01.922 INFO  ZeroMQWA - [pedestrian] Step COMPLETED (SAFE).
-[step:14 of tram]
-Model execution outcome: SAFE
-Updated locations: {tramLight=GREEN;tramComing=true}
-Out locations: {tramLight=GREEN;tramComing=true}
-Execution time (in milliseconds): 3 ms
-                                 
-02:38:01.924 INFO  ZeroMQWA - [tram] ASM step execution time: 20.9 ms
+[Orchestrator] Request for instructions on: pedestrian
 [step:14 of controller]
 Model execution outcome: SAFE
 Updated locations: {duration(timeRED)=3;operateMode=RED_AB;crossManagerController_previous=TRAM;duration(timeGREEN)=3;start(timeRED)=2;start(timeGREEN)=13;statusC=OPERATE}
 Out locations: {operateMode=RED_AB;statusC=OPERATE}
 Execution time (in milliseconds): 1 ms
                                  
-02:38:01.924 INFO  ZeroMQWA - [tram] Step COMPLETED (SAFE).
-02:38:01.924 INFO  ZeroMQWA - [controller] ASM step execution time: 22.0845 ms
-02:38:01.925 INFO  ZeroMQWA - [controller] Step COMPLETED (SAFE).
-[ORCHESTRATED] [pedestrian] Response time: 25.5179 ms
-[Orchestrator]  Model pedestrian has finished (SAFE).
-[ORCHESTRATED] [tram] Response time: 30.8367 ms
-[Orchestrator]  Model tram has finished (SAFE).
-[ORCHESTRATED] [controller] Response time: 30.9760 ms
-[Orchestrator] Request for instructions on: crossManager
+10:49:11.223 INFO  ZeroMQWA - [controller] ASM step execution time: 17.8959 ms
+10:49:11.223 INFO  ZeroMQWA - [controller] Step COMPLETED (SAFE).
+[step:14 of tram]
+Model execution outcome: SAFE
+Updated locations: {tramLight=GREEN;tramComing=true}
+Out locations: {tramLight=GREEN;tramComing=true}
+Execution time (in milliseconds): 0 ms
+                                 
+10:49:11.224 INFO  ZeroMQWA - [tram] ASM step execution time: 18.2173 ms
+10:49:11.224 INFO  ZeroMQWA - [tram] Step COMPLETED (SAFE).
+[step:14 of pedestrian]
+Model execution outcome: SAFE
+Updated locations: {pedestrianComing=false;pedestrianLight=RED}
+Out locations: {pedestrianComing=false;pedestrianLight=RED}
+Execution time (in milliseconds): 0 ms
+                                 
+10:49:11.225 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 20.0255 ms
+10:49:11.225 INFO  ZeroMQWA - [pedestrian] Step COMPLETED (SAFE).
+[ORCHESTRATED] [pedestrian] Response time: 28.5293 ms
+[ORCHESTRATED] [controller] Response time: 28.5679 ms
 [Orchestrator]  Model controller has finished (SAFE).
+[ORCHESTRATED] [tram] Response time: 28.5459 ms
+[Orchestrator]  Model tram has finished (SAFE).
+[Orchestrator]  Model pedestrian has finished (SAFE).
+[Orchestrator] Request for instructions on: crossManager
 [step:14 of crossManager]
 Model execution outcome: SAFE
 Updated locations: {duration(timeTRAM)=5;start(timeTRAM)=13;crossManagerController=TRAM}
 Out locations: {crossManagerController=TRAM}
 Execution time (in milliseconds): 0 ms
                                  
-02:38:01.944 INFO  ZeroMQWA - [crossManager] ASM step execution time: 10.6848 ms
-02:38:01.944 INFO  ZeroMQWA - [crossManager] Step COMPLETED (SAFE).
-[ORCHESTRATED] [crossManager] Response time: 18.6257 ms
+10:49:11.243 INFO  ZeroMQWA - [crossManager] ASM step execution time: 10.9407 ms
+10:49:11.244 INFO  ZeroMQWA - [crossManager] Step COMPLETED (SAFE).
+[ORCHESTRATED] [crossManager] Response time: 19.2220 ms
 [Orchestrator]  Model crossManager has finished (SAFE).
 [Orchestrator] Start Fork-Join
 [Orchestrator] Request for instructions on: trafficlightB
@@ -1086,26 +1127,29 @@ Updated locations: {lightsA=RED}
 Out locations: {lightsA=RED}
 Execution time (in milliseconds): 1 ms
                                  
-02:38:01.962 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 9.7786 ms
-02:38:01.963 INFO  ZeroMQWA - [trafficlightA] Step COMPLETED (SAFE).
 [step:14 of trafficlightB]
+10:49:11.261 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 8.705 ms
 Model execution outcome: SAFE
 Updated locations: {lightsB=RED}
 Out locations: {lightsB=RED}
 Execution time (in milliseconds): 1 ms
                                  
-02:38:01.967 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 14.7004 ms
-02:38:01.967 INFO  ZeroMQWA - [trafficlightB] Step COMPLETED (SAFE).
-[ORCHESTRATED] [trafficlightA] Response time: 18.4315 ms
+10:49:11.261 INFO  ZeroMQWA - [trafficlightA] Step COMPLETED (SAFE).
+10:49:11.261 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 9.0145 ms
+10:49:11.261 INFO  ZeroMQWA - [trafficlightB] Step COMPLETED (SAFE).
+[ORCHESTRATED] [trafficlightA] Response time: 15.5925 ms
 [Orchestrator]  Model trafficlightA has finished (SAFE).
-[ORCHESTRATED] [trafficlightB] Response time: 24.4463 ms
+[ORCHESTRATED] [trafficlightB] Response time: 17.6266 ms
 [Orchestrator]  Model trafficlightB has finished (SAFE).
-[ORCHESTRATED] Step 14: 75.6232 ms | pollingSum=144.9362 ms | responseSum=148.8341 ms | responses=6
+[ORCHESTRATED] Step 14: 67.5192 ms | pollingSum=133.7281 ms | responseSum=138.0842 ms | responses=6
+[EQ2_ORCH_STEP_END] step=14 epochNs=1791881351269838000
 Step: 14
+[EQ2_ENV_START] step=15 epochNs=1791881358151689100
 Sent newPedestrianComing value false to tcp://*:5570 at topic newPedestrianComing
 Sent newTramComing value false to tcp://*:5570 at topic newTramComing
 Sent transitionC value OPERATE_T to tcp://*:5570 at topic transitionC
 Sent mCurrTimeSecs value 15 to tcp://*:5570 at topic mCurrTimeSecs
+[EQ2_ENV_END] step=15 epochNs=1791881358152582300 publishDurationNs=804300
 [FullBiPipe] inject feedback from the previous step in both channels
 [BiPipe] inject 1out of the right channel from the previous step in the left channel input
 [Orchestrator] Start Fork-Join
@@ -1118,29 +1162,29 @@ Updated locations: {pedestrianComing=false;pedestrianLight=RED}
 Out locations: {pedestrianComing=false;pedestrianLight=RED}
 Execution time (in milliseconds): 0 ms
                                  
-02:38:08.915 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 13.3174 ms
-02:38:08.915 INFO  ZeroMQWA - [pedestrian] Step COMPLETED (SAFE).
-[step:15 of tram]
-Model execution outcome: SAFE
-Updated locations: {tramLight=GREEN;tramComing=true}
-Out locations: {tramLight=GREEN;tramComing=true}
-Execution time (in milliseconds): 0 ms
-                                 
-02:38:08.918 INFO  ZeroMQWA - [tram] ASM step execution time: 15.5714 ms
-02:38:08.918 INFO  ZeroMQWA - [tram] Step COMPLETED (SAFE).
+10:49:18.223 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 16.6524 ms
+10:49:18.223 INFO  ZeroMQWA - [pedestrian] Step COMPLETED (SAFE).
 [step:15 of controller]
 Model execution outcome: SAFE
 Updated locations: {duration(timeRED)=3;operateMode=RED_AB;crossManagerController_previous=TRAM;duration(timeGREEN)=3;start(timeRED)=2;start(timeGREEN)=13;statusC=OPERATE}
 Out locations: {operateMode=RED_AB;statusC=OPERATE}
 Execution time (in milliseconds): 1 ms
                                  
-02:38:08.918 INFO  ZeroMQWA - [controller] ASM step execution time: 16.3778 ms
-02:38:08.918 INFO  ZeroMQWA - [controller] Step COMPLETED (SAFE).
-[ORCHESTRATED] [tram] Response time: 21.1137 ms
-[Orchestrator]  Model tram has finished (SAFE).
-[ORCHESTRATED] [controller] Response time: 21.1339 ms
+10:49:18.225 INFO  ZeroMQWA - [controller] ASM step execution time: 18.5668 ms
+[step:15 of tram]
+Model execution outcome: SAFE
+Updated locations: {tramLight=GREEN;tramComing=true}
+Out locations: {tramLight=GREEN;tramComing=true}
+Execution time (in milliseconds): 0 ms
+10:49:18.225 INFO  ZeroMQWA - [controller] Step COMPLETED (SAFE).
+                                 
+10:49:18.226 INFO  ZeroMQWA - [tram] ASM step execution time: 18.4124 ms
+10:49:18.226 INFO  ZeroMQWA - [tram] Step COMPLETED (SAFE).
+[ORCHESTRATED] [controller] Response time: 23.7594 ms
 [Orchestrator]  Model controller has finished (SAFE).
-[ORCHESTRATED] [pedestrian] Response time: 21.2044 ms
+[ORCHESTRATED] [tram] Response time: 23.7229 ms
+[Orchestrator]  Model tram has finished (SAFE).
+[ORCHESTRATED] [pedestrian] Response time: 23.8118 ms
 [Orchestrator]  Model pedestrian has finished (SAFE).
 [Orchestrator] Request for instructions on: crossManager
 [step:15 of crossManager]
@@ -1149,9 +1193,9 @@ Updated locations: {duration(timeTRAM)=5;start(timeTRAM)=13;crossManagerControll
 Out locations: {crossManagerController=TRAM}
 Execution time (in milliseconds): 0 ms
                                  
-02:38:08.934 INFO  ZeroMQWA - [crossManager] ASM step execution time: 10.3485 ms
-02:38:08.934 INFO  ZeroMQWA - [crossManager] Step COMPLETED (SAFE).
-[ORCHESTRATED] [crossManager] Response time: 14.4654 ms
+10:49:18.239 INFO  ZeroMQWA - [crossManager] ASM step execution time: 10.0559 ms
+10:49:18.240 INFO  ZeroMQWA - [crossManager] Step COMPLETED (SAFE).
+[ORCHESTRATED] [crossManager] Response time: 16.7411 ms
 [Orchestrator]  Model crossManager has finished (SAFE).
 [Orchestrator] Start Fork-Join
 [Orchestrator] Request for instructions on: trafficlightA
@@ -1160,32 +1204,35 @@ Execution time (in milliseconds): 0 ms
 Model execution outcome: SAFE
 Updated locations: {lightsB=RED}
 Out locations: {lightsB=RED}
-Execution time (in milliseconds): 0 ms
+Execution time (in milliseconds): 1 ms
                                  
-02:38:08.944 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 6.737 ms
-02:38:08.945 INFO  ZeroMQWA - [trafficlightB] Step COMPLETED (SAFE).
+10:49:18.255 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 8.0498 ms
 [step:15 of trafficlightA]
+10:49:18.255 INFO  ZeroMQWA - [trafficlightB] Step COMPLETED (SAFE).
 Model execution outcome: SAFE
 Updated locations: {lightsA=RED}
 Out locations: {lightsA=RED}
 Execution time (in milliseconds): 1 ms
                                  
-02:38:08.948 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 9.8448 ms
-02:38:08.948 INFO  ZeroMQWA - [trafficlightA] Step COMPLETED (SAFE).
-[ORCHESTRATED] [trafficlightA] Response time: 13.2571 ms
-[ORCHESTRATED] [trafficlightB] Response time: 13.2258 ms
-[Orchestrator]  Model trafficlightA has finished (SAFE).
+10:49:18.255 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 8.4236 ms
+10:49:18.255 INFO  ZeroMQWA - [trafficlightA] Step COMPLETED (SAFE).
+[ORCHESTRATED] [trafficlightB] Response time: 12.3533 ms
+[ORCHESTRATED] [trafficlightA] Response time: 12.3664 ms
 [Orchestrator]  Model trafficlightB has finished (SAFE).
-[ORCHESTRATED] Step 15: 50.4831 ms | pollingSum=101.9314 ms | responseSum=104.4003 ms | responses=6
+[Orchestrator]  Model trafficlightA has finished (SAFE).
+[ORCHESTRATED] Step 15: 54.5802 ms | pollingSum=108.3026 ms | responseSum=112.7549 ms | responses=6
+[EQ2_ORCH_STEP_END] step=15 epochNs=1791881358258088500
 Step: 15
+[EQ2_ENV_START] step=16 epochNs=1791881365153666600
 Sent newPedestrianComing value false to tcp://*:5570 at topic newPedestrianComing
 Sent newTramComing value false to tcp://*:5570 at topic newTramComing
 Sent transitionC value OPERATE_T to tcp://*:5570 at topic transitionC
 Sent mCurrTimeSecs value 16 to tcp://*:5570 at topic mCurrTimeSecs
+[EQ2_ENV_END] step=16 epochNs=1791881365154689300 publishDurationNs=1270400
 [FullBiPipe] inject feedback from the previous step in both channels
-[Orchestrator] Request for instructions on: controller
 [BiPipe] inject 1out of the right channel from the previous step in the left channel input
 [Orchestrator] Start Fork-Join
+[Orchestrator] Request for instructions on: controller
 [Orchestrator] Request for instructions on: pedestrian
 [Orchestrator] Request for instructions on: tram
 [step:16 of tram]
@@ -1194,30 +1241,30 @@ Updated locations: {tramLight=GREEN;tramComing=true}
 Out locations: {tramLight=GREEN;tramComing=true}
 Execution time (in milliseconds): 0 ms
                                  
-02:38:15.922 INFO  ZeroMQWA - [tram] ASM step execution time: 18.0379 ms
-02:38:15.922 INFO  ZeroMQWA - [tram] Step COMPLETED (SAFE).
+10:49:25.222 INFO  ZeroMQWA - [tram] ASM step execution time: 14.2538 ms
+10:49:25.222 INFO  ZeroMQWA - [tram] Step COMPLETED (SAFE).
 [step:16 of pedestrian]
 Model execution outcome: SAFE
 Updated locations: {pedestrianComing=false;pedestrianLight=RED}
 Out locations: {pedestrianComing=false;pedestrianLight=RED}
 Execution time (in milliseconds): 0 ms
                                  
-02:38:15.925 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 19.6034 ms
-02:38:15.926 INFO  ZeroMQWA - [pedestrian] Step COMPLETED (SAFE).
+10:49:25.225 INFO  ZeroMQWA - [pedestrian] ASM step execution time: 17.616 ms
+10:49:25.226 INFO  ZeroMQWA - [pedestrian] Step COMPLETED (SAFE).
 [step:16 of controller]
 Model execution outcome: SAFE
 Updated locations: {duration(timeRED)=3;operateMode=RED_AB;crossManagerController_previous=TRAM;duration(timeGREEN)=3;start(timeRED)=2;start(timeGREEN)=13;statusC=OPERATE}
 Out locations: {operateMode=RED_AB;statusC=OPERATE}
-Execution time (in milliseconds): 1 ms
+Execution time (in milliseconds): 0 ms
                                  
-02:38:15.926 INFO  ZeroMQWA - [controller] ASM step execution time: 22.0712 ms
-02:38:15.927 INFO  ZeroMQWA - [controller] Step COMPLETED (SAFE).
-[ORCHESTRATED] [pedestrian] Response time: 27.7844 ms
-[ORCHESTRATED] [tram] Response time: 27.7379 ms
+10:49:25.226 INFO  ZeroMQWA - [controller] ASM step execution time: 19.209 ms
+10:49:25.227 INFO  ZeroMQWA - [controller] Step COMPLETED (SAFE).
+[ORCHESTRATED] [pedestrian] Response time: 23.6961 ms
+[ORCHESTRATED] [tram] Response time: 23.6175 ms
 [Orchestrator]  Model tram has finished (SAFE).
 [Orchestrator]  Model pedestrian has finished (SAFE).
 [Orchestrator] Request for instructions on: crossManager
-[ORCHESTRATED] [controller] Response time: 32.8960 ms
+[ORCHESTRATED] [controller] Response time: 30.6727 ms
 [Orchestrator]  Model controller has finished (SAFE).
 [step:16 of crossManager]
 Model execution outcome: SAFE
@@ -1225,9 +1272,9 @@ Updated locations: {duration(timeTRAM)=5;start(timeTRAM)=13;crossManagerControll
 Out locations: {crossManagerController=TRAM}
 Execution time (in milliseconds): 0 ms
                                  
-02:38:15.945 INFO  ZeroMQWA - [crossManager] ASM step execution time: 10.9243 ms
-02:38:15.945 INFO  ZeroMQWA - [crossManager] Step COMPLETED (SAFE).
-[ORCHESTRATED] [crossManager] Response time: 19.6339 ms
+10:49:25.241 INFO  ZeroMQWA - [crossManager] ASM step execution time: 10.3737 ms
+10:49:25.241 INFO  ZeroMQWA - [crossManager] Step COMPLETED (SAFE).
+[ORCHESTRATED] [crossManager] Response time: 18.1986 ms
 [Orchestrator]  Model crossManager has finished (SAFE).
 [Orchestrator] Start Fork-Join
 [Orchestrator] Request for instructions on: trafficlightA
@@ -1238,18 +1285,19 @@ Updated locations: {lightsB=RED}
 Out locations: {lightsB=RED}
 Execution time (in milliseconds): 0 ms
                                  
-02:38:15.957 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 6.1989 ms
-02:38:15.958 INFO  ZeroMQWA - [trafficlightB] Step COMPLETED (SAFE).
+10:49:25.257 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 6.8719 ms
+10:49:25.257 INFO  ZeroMQWA - [trafficlightB] Step COMPLETED (SAFE).
 [step:16 of trafficlightA]
 Model execution outcome: SAFE
 Updated locations: {lightsA=RED}
 Out locations: {lightsA=RED}
 Execution time (in milliseconds): 1 ms
                                  
-02:38:15.960 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 7.9649 ms
-02:38:15.960 INFO  ZeroMQWA - [trafficlightA] Step COMPLETED (SAFE).
-[ORCHESTRATED] [trafficlightB] Response time: 11.5934 ms
+10:49:25.258 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 8.8005 ms
+10:49:25.259 INFO  ZeroMQWA - [trafficlightA] Step COMPLETED (SAFE).
+[ORCHESTRATED] [trafficlightB] Response time: 11.3420 ms
 [Orchestrator]  Model trafficlightB has finished (SAFE).
-[ORCHESTRATED] [trafficlightA] Response time: 12.4904 ms
+[ORCHESTRATED] [trafficlightA] Response time: 16.4460 ms
 [Orchestrator]  Model trafficlightA has finished (SAFE).
-[ORCHESTRATED] Step 16: 62.0928 ms | pollingSum=128.6512 ms | responseSum=132.1360 ms | responses=6
+[ORCHESTRATED] Step 16: 60.1338 ms | pollingSum=120.3308 ms | responseSum=123.9729 ms | responses=6
+[EQ2_ORCH_STEP_END] step=16 epochNs=1791881365265118100

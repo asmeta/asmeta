@@ -5,7 +5,7 @@ run,status,logfile
 4,COMPLETED,cross2_orch_run_4.txt
 5,COMPLETED,cross2_orch_run_5.txt
 6,COMPLETED,cross2_orch_run_6.txt
-7,COMPLETED,cross2_orch_run_7.txt
+7,TIMEOUT,cross2_orch_run_7.txt
 8,COMPLETED,cross2_orch_run_8.txt
 9,COMPLETED,cross2_orch_run_9.txt
 10,COMPLETED,cross2_orch_run_10.txt

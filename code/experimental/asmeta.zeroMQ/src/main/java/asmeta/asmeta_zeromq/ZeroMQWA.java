@@ -3,6 +3,7 @@ package asmeta.asmeta_zeromq;
 //import java.io.IOException;
 //import java.io.InputStream;
 import java.lang.reflect.Type;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -29,6 +30,13 @@ import com.google.gson.reflect.TypeToken;
 public class ZeroMQWA {
 
     private static final Logger logger = LogManager.getLogger(ZeroMQWA.class);
+
+    // Wall-clock timestamps allow matching local completions with environment
+    // input windows on a single host; monotonic time measures local durations.
+    private static long eq2EpochNanos() {
+        Instant now = Instant.now();
+        return now.getEpochSecond() * 1_000_000_000L + now.getNano();
+    }
 
  //Section prefix in the unified file
     private String sectionPrefix;    
@@ -363,6 +371,7 @@ public class ZeroMQWA {
                 }
 
                 if (receivedData && hasAllRequiredInputs()) {
+                    long eq2StartEpochNs = eq2EpochNanos();
                     long choreographedStepStartNanos = System.nanoTime();
                 	logger.debug("[{}] Conditions satisfied. Execute step.", sectionPrefix);
                     
@@ -435,8 +444,15 @@ public class ZeroMQWA {
                     }
                    // currentMonitoredValues.clear();
                     choreographedStepNumber++;
+                    // EQ2: record after output publication / local rollback and input cleanup.
+                    long eq2DurationNs = System.nanoTime() - choreographedStepStartNanos;
+                    long eq2EndEpochNs = eq2EpochNanos();
+                    logger.info("[EQ2_CHOR_STEP] model={} localStep={} startEpochNs={} endEpochNs={} durationNs={}",
+                            this.sectionPrefix, choreographedStepNumber, eq2StartEpochNs,
+                            eq2EndEpochNs, eq2DurationNs);
+                    // Keep existing timing log unchanged for previous analysis scripts.
                     logger.info("[CHOREOGRAPHED] [{}] Step {}: {} ms", this.sectionPrefix,
-                            choreographedStepNumber, (System.nanoTime() - choreographedStepStartNanos) / 1_000_000.0);
+                            choreographedStepNumber, eq2DurationNs / 1_000_000.0);
                 } else if (!receivedData) {
                     Thread.sleep(10); 
                 }

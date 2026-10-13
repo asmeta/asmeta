@@ -5,7 +5,7 @@ run,status,logfile
 4,COMPLETED,cross7_orch_run_4.txt
 5,COMPLETED,cross7_orch_run_5.txt
 6,COMPLETED,cross7_orch_run_6.txt
-7,TIMEOUT,cross7_orch_run_7.txt
+7,COMPLETED,cross7_orch_run_7.txt
 8,COMPLETED,cross7_orch_run_8.txt
 9,COMPLETED,cross7_orch_run_9.txt
 10,COMPLETED,cross7_orch_run_10.txt
@@ -17,5 +17,5 @@ run,status,logfile
 16,COMPLETED,cross7_orch_run_16.txt
 17,COMPLETED,cross7_orch_run_17.txt
 18,COMPLETED,cross7_orch_run_18.txt
-19,TIMEOUT,cross7_orch_run_19.txt
+19,COMPLETED,cross7_orch_run_19.txt
 20,COMPLETED,cross7_orch_run_20.txt

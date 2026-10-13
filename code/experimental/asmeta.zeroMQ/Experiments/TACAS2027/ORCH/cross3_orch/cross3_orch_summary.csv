@@ -1,6 +1,6 @@
 run,status,logfile
 1,COMPLETED,cross3_orch_run_1.txt
-2,COMPLETED,cross3_orch_run_2.txt
+2,TIMEOUT,cross3_orch_run_2.txt
 3,COMPLETED,cross3_orch_run_3.txt
 4,COMPLETED,cross3_orch_run_4.txt
 5,COMPLETED,cross3_orch_run_5.txt

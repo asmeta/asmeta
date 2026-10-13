@@ -1,6 +1,7 @@
 package asmeta.asmeta_zeromq.common;
 
 import java.io.InputStream;
+import java.time.Instant;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -18,6 +19,12 @@ import asmeta.asmeta_zeromq.registry.SimulationLauncher;
 
 public class environment {
     private final static Gson gson = new Gson();
+
+    // Wall-clock timestamps for cross-process EQ2 log correlation (same host).
+    private static long eq2EpochNanos() {
+        Instant now = Instant.now();
+        return now.getEpochSecond() * 1_000_000_000L + now.getNano();
+    }
 
     private static final String ENVIRONMENT_FUNCTIONS = "env_functions";
 
@@ -143,6 +150,12 @@ public class environment {
             while (i < maxLength) {
                 System.err.println("Step: " + i);
 
+                // EQ2: a window starts before publishing its first environment value.
+                // The timestamp is taken once from the wall clock (do not mix two Instants).
+                long eq2EnvStartEpochNs = eq2EpochNanos();
+                long eq2EnvStartMonoNs = System.nanoTime();
+                System.out.println("[EQ2_ENV_START] step=" + (i + 1)
+                        + " epochNs=" + eq2EnvStartEpochNs);
 
                 for (String topic : publishOrder) {
                     if (i < environmentFunctionsValues.get(topic).size()) {
@@ -155,6 +168,13 @@ public class environment {
                                 + " to " + address + " at topic " + topic);
                     }
                 }
+
+                // EQ2: timestamp after all messages belonging to this input window.
+                long eq2EnvEndMonoNs = System.nanoTime();
+                long eq2EnvEndEpochNs = eq2EpochNanos();
+                System.out.println("[EQ2_ENV_END] step=" + (i + 1)
+                        + " epochNs=" + eq2EnvEndEpochNs
+                        + " publishDurationNs=" + (eq2EnvEndMonoNs - eq2EnvStartMonoNs));
 
                 Thread.sleep(pause);
                 i++;

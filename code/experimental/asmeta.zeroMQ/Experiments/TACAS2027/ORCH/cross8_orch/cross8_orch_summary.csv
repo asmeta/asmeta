@@ -6,13 +6,13 @@ run,status,logfile
 5,COMPLETED,cross8_orch_run_5.txt
 6,COMPLETED,cross8_orch_run_6.txt
 7,COMPLETED,cross8_orch_run_7.txt
-8,TIMEOUT,cross8_orch_run_8.txt
+8,COMPLETED,cross8_orch_run_8.txt
 9,COMPLETED,cross8_orch_run_9.txt
-10,COMPLETED,cross8_orch_run_10.txt
+10,TIMEOUT,cross8_orch_run_10.txt
 11,COMPLETED,cross8_orch_run_11.txt
 12,COMPLETED,cross8_orch_run_12.txt
 13,COMPLETED,cross8_orch_run_13.txt
-14,TIMEOUT,cross8_orch_run_14.txt
+14,COMPLETED,cross8_orch_run_14.txt
 15,COMPLETED,cross8_orch_run_15.txt
 16,COMPLETED,cross8_orch_run_16.txt
 17,COMPLETED,cross8_orch_run_17.txt

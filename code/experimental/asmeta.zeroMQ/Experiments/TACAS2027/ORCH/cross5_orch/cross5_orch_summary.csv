@@ -13,7 +13,7 @@ run,status,logfile
 12,COMPLETED,cross5_orch_run_12.txt
 13,COMPLETED,cross5_orch_run_13.txt
 14,COMPLETED,cross5_orch_run_14.txt
-15,TIMEOUT,cross5_orch_run_15.txt
+15,COMPLETED,cross5_orch_run_15.txt
 16,COMPLETED,cross5_orch_run_16.txt
 17,COMPLETED,cross5_orch_run_17.txt
 18,COMPLETED,cross5_orch_run_18.txt
