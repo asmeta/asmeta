@@ -37,12 +37,13 @@ public abstract class RuleBasedMutator extends AsmetaMutationOperator {
 				if (mr != rd) {
 					// only if it differs
 					// clone the original ASM
-					AsmCollection asmc = cloneAsmeta(asmeta);
-					// set as i-th rule that mutated
-					asmc.getMain().getBodySection().getRuleDeclaration().get(i).setRuleBody(mr);
-					result.add(asmc);
+					//AsmCollection asmc = cloneAsmeta(asmeta);
+					// set as i-the rule that mutated
+					//asmc.getMain().getBodySection().getRuleDeclaration().get(i).setRuleBody(mr);
+					//result.add(asmc);
+					
+					result.add(buildMutant(asmeta, i, mr));
 				} else {
-					//TODO metter eil log
 					System.err.println("rule is not mutated - skip");
 				}
 			}
@@ -50,6 +51,18 @@ public abstract class RuleBasedMutator extends AsmetaMutationOperator {
 		return result;
 	}
 
+	/**
+	 * Builds a model mutant by replacing one rule declaration's body.
+	 */
+	protected AsmCollection buildMutant(AsmCollection original, int ruleIndex,Rule mutatedRule) {
+
+	    AsmCollection mutant = cloneAsmeta(original);
+
+	    mutant.getMain().getBodySection().getRuleDeclaration().get(ruleIndex).setRuleBody(mutatedRule);
+
+	    return mutant;
+	}
+	
 	// clone the asmeta (it clones only the main ASM)
 	private AsmCollection cloneAsmeta(AsmCollection asmeta) {
 		List<Asm> newAsms = new ArrayList<>();
