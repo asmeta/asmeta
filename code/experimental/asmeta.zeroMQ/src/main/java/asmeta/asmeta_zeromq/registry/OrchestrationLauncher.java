@@ -36,6 +36,29 @@ public class OrchestrationLauncher extends SimulationLauncher {
 
         String javaBin = System.getProperty("java.home") + File.separator + "bin" + File.separator + "java";
         String classpath = System.getProperty("java.class.path");
+
+        try {
+            File location = new File(
+                SimulationLauncher.class
+                    .getProtectionDomain()
+                    .getCodeSource()
+                    .getLocation()
+                    .toURI()
+            );
+
+            if (location.isFile()) {
+                String jarDirectory = location.getParentFile().getAbsolutePath();
+
+                classpath += File.pathSeparator
+                        + jarDirectory
+                        + File.separator
+                        + "*";
+            }
+        } catch (Exception e) {
+            throw new IllegalStateException(
+                "Unable to configure Java classpath", e
+            );
+        }
         String mainClassName = "asmeta.asmeta_zeromq.registry.ModelProcess";
 
 

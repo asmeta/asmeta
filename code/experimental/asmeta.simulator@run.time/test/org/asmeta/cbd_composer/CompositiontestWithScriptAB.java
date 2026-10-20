@@ -129,16 +129,6 @@ public class CompositiontestWithScriptAB {
         }
     }
 
- /*   @Test
-    public void testSmartHome() {
-        runAndLog("testSmartHome", "examples/SmartMultiHome/FireSystem.asmsh", true);
-    }
-
-    @Test
-    public void testPillbox() {
-        runAndLog("testPillbox", "examples/Pillbox_composition/pillboxComp2.asmsh", false);
-    }
-*/
 
     @Test
     public void cross1() {

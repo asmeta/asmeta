@@ -6,8 +6,10 @@ import org.junit.runners.MethodSorters;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -58,12 +60,12 @@ public class TestOrchandCor {
     private static final Pattern ORCH_STEP = Pattern.compile("^\\[ORCHESTRATED\\] Step (\\d+):.*$");
     private static final Pattern ENV_STEP = Pattern.compile("^Step: (\\d+)\\s*$");
 
-    private static void runAndSave(String testName, String config, String mode) {
+    private static void runAndSave(String testName, String config, String mode) throws URISyntaxException {
         runAndSave(testName, config, mode, RUNS);
     }
 
     // Number of repetitions can also be specified independently for each test.
-    private static void runAndSave(String testName, String config, String mode, int runs) {
+    private static void runAndSave(String testName, String config, String mode, int runs) throws URISyntaxException {
         if (runs <= 0) throw new IllegalArgumentException("runs must be > 0");
         synchronized (PORT_LOCK) {
             int timeouts = 0;
@@ -99,7 +101,7 @@ public class TestOrchandCor {
     }
 
     // Returns false on timeout; cleanup always runs before the next repetition.
-    private static boolean runAndSaveExclusive(String testName, String config, String mode, int run) {
+    private static boolean runAndSaveExclusive(String testName, String config, String mode, int run) throws URISyntaxException {
         Process process = null;
         Thread logReader = null;
         List<ProcessHandle> seenWorkers = new ArrayList<>();
@@ -112,6 +114,23 @@ public class TestOrchandCor {
             final Path logFileForReader = logfile;
             String java = Paths.get(System.getProperty("java.home"), "bin", "java").toString();
             String classpath = System.getProperty("java.class.path");
+
+            File location = new File(
+                TestOrchandCor.class
+                    .getProtectionDomain()
+                    .getCodeSource()
+                    .getLocation()
+                    .toURI()
+            );
+
+            if (location.isFile()) {
+                String jarDirectory = location.getParentFile().getAbsolutePath();
+
+                classpath += File.pathSeparator
+                        + jarDirectory
+                        + File.separator
+                        + "*";
+            }
             ProcessBuilder builder = new ProcessBuilder(java, "-cp", classpath,
                     "asmeta.asmeta_zeromq.registry.SimulationLauncher", config, mode);
             builder.redirectErrorStream(true);
@@ -257,23 +276,23 @@ public class TestOrchandCor {
         }
     }
 
-   /* @Test public void cross1_orch() { runAndSave("cross1_orch", "configs/trafficLight/nopedestriannotram.properties", "ORCHESTRATED"); }
-    @Test public void cross2_orch() { runAndSave("cross2_orch", "configs/trafficLight/pedestriannotram.properties", "ORCHESTRATED"); }
-    @Test public void cross3_orch() { runAndSave("cross3_orch", "configs/trafficLight/nopedestriantram.properties", "ORCHESTRATED"); }
-    @Test public void cross4_orch() { runAndSave("cross4_orch", "configs/trafficLight/pedestrian2notram.properties", "ORCHESTRATED"); }
-    @Test public void cross5_orch() { runAndSave("cross5_orch", "configs/trafficLight/pedestriantram.properties", "ORCHESTRATED"); }
-    @Test public void cross6_orch() { runAndSave("cross6_orch", "configs/trafficLight/pedestriantramtogether.properties", "ORCHESTRATED"); }
-    */@Test public void cross7_orch() { runAndSave("cross7_orch", "configs/trafficLight/pedestrianbeforetram.properties", "ORCHESTRATED"); }
-    @Test public void cross8_orch() { runAndSave("cross8_orch", "configs/trafficLight/pedestrianaftertram.properties", "ORCHESTRATED"); }
-    @Test public void cross9_orch() { runAndSave("cross9_orch", "configs/trafficLight/nopedestriantram2.properties", "ORCHESTRATED"); }
+    @Test public void cross1_orch() throws URISyntaxException { runAndSave("cross1_orch", "configs/trafficLight/nopedestriannotram.properties", "ORCHESTRATED"); }
+    @Test public void cross2_orch() throws URISyntaxException { runAndSave("cross2_orch", "configs/trafficLight/pedestriannotram.properties", "ORCHESTRATED"); }
+    @Test public void cross3_orch() throws URISyntaxException { runAndSave("cross3_orch", "configs/trafficLight/nopedestriantram.properties", "ORCHESTRATED"); }
+    @Test public void cross4_orch() throws URISyntaxException { runAndSave("cross4_orch", "configs/trafficLight/pedestrian2notram.properties", "ORCHESTRATED"); }
+    @Test public void cross5_orch() throws URISyntaxException { runAndSave("cross5_orch", "configs/trafficLight/pedestriantram.properties", "ORCHESTRATED"); }
+    @Test public void cross6_orch() throws URISyntaxException { runAndSave("cross6_orch", "configs/trafficLight/pedestriantramtogether.properties", "ORCHESTRATED"); }
+    @Test public void cross7_orch() throws URISyntaxException { runAndSave("cross7_orch", "configs/trafficLight/pedestrianbeforetram.properties", "ORCHESTRATED"); }
+    @Test public void cross8_orch() throws URISyntaxException { runAndSave("cross8_orch", "configs/trafficLight/pedestrianaftertram.properties", "ORCHESTRATED"); }
+    @Test public void cross9_orch() throws URISyntaxException { runAndSave("cross9_orch", "configs/trafficLight/nopedestriantram2.properties", "ORCHESTRATED"); }
   
-   /* @Test public void cross1_chor() { runAndSave("cross1_chor", "configs/trafficLight/nopedestriannotram.properties", "CHOREOGRAPHED"); }
-    @Test public void cross2_chor() { runAndSave("cross2_chor", "configs/trafficLight/pedestriannotram.properties", "CHOREOGRAPHED"); }
-    @Test public void cross3_chor() { runAndSave("cross3_chor", "configs/trafficLight/nopedestriantram.properties", "CHOREOGRAPHED"); }
-    @Test public void cross4_chor() { runAndSave("cross4_chor", "configs/trafficLight/pedestrian2notram.properties", "CHOREOGRAPHED"); }
-    @Test public void cross5_chor() { runAndSave("cross5_chor", "configs/trafficLight/pedestriantram.properties", "CHOREOGRAPHED"); }
-    @Test public void cross6_chor() { runAndSave("cross6_chor", "configs/trafficLight/pedestriantramtogether.properties", "CHOREOGRAPHED"); }
-    @Test public void cross7_chor() { runAndSave("cross7_chor", "configs/trafficLight/pedestrianbeforetram.properties", "CHOREOGRAPHED"); }
-    */@Test public void cross8_chor() { runAndSave("cross8_chor", "configs/trafficLight/pedestrianaftertram.properties", "CHOREOGRAPHED"); }
-    @Test public void cross9_chor() { runAndSave("cross9_chor", "configs/trafficLight/nopedestriantram2.properties", "CHOREOGRAPHED"); }
+    @Test public void cross1_chor() throws URISyntaxException { runAndSave("cross1_chor", "configs/trafficLight/nopedestriannotram.properties", "CHOREOGRAPHED"); }
+    @Test public void cross2_chor() throws URISyntaxException { runAndSave("cross2_chor", "configs/trafficLight/pedestriannotram.properties", "CHOREOGRAPHED"); }
+    @Test public void cross3_chor() throws URISyntaxException { runAndSave("cross3_chor", "configs/trafficLight/nopedestriantram.properties", "CHOREOGRAPHED"); }
+    @Test public void cross4_chor() throws URISyntaxException { runAndSave("cross4_chor", "configs/trafficLight/pedestrian2notram.properties", "CHOREOGRAPHED"); }
+    @Test public void cross5_chor() throws URISyntaxException { runAndSave("cross5_chor", "configs/trafficLight/pedestriantram.properties", "CHOREOGRAPHED"); }
+    @Test public void cross6_chor() throws URISyntaxException { runAndSave("cross6_chor", "configs/trafficLight/pedestriantramtogether.properties", "CHOREOGRAPHED"); }
+    @Test public void cross7_chor() throws URISyntaxException { runAndSave("cross7_chor", "configs/trafficLight/pedestrianbeforetram.properties", "CHOREOGRAPHED"); }
+    @Test public void cross8_chor() throws URISyntaxException { runAndSave("cross8_chor", "configs/trafficLight/pedestrianaftertram.properties", "CHOREOGRAPHED"); }
+    @Test public void cross9_chor() throws URISyntaxException { runAndSave("cross9_chor", "configs/trafficLight/nopedestriantram2.properties", "CHOREOGRAPHED"); }
 }
