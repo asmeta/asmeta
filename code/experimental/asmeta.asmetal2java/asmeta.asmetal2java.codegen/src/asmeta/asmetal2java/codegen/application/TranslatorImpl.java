@@ -2,15 +2,18 @@ package asmeta.asmetal2java.codegen.application;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.AsmetaParserUtility;
+import org.asmeta.parser.util.ImportFlattener;
 import org.eclipse.xtext.util.Files;
 
 import asmeta.AsmCollection;
+import asmeta.structure.Asm;
 import asmeta.asmetal2java.codegen.config.Mode;
 import asmeta.asmetal2java.codegen.config.TranslatorOptions;
 import asmeta.asmetal2java.codegen.config.TranslatorOptionsImpl;
@@ -154,6 +157,9 @@ public class TranslatorImpl implements Translator {
 			throw new AsmParsingException("Error while parsing the asmeta specification: " + asmFile.getName(), e);
 		}
 
+		// If the model has imports, flatten them
+		model = flattenModules(model, asmFile.getAbsoluteFile().getParent());
+
 		if (translatorOptions.getCompiler() && !translatorOptions.getTestGen()) {
 			this.translateAndCompile(asmName, model);
 		}
@@ -174,6 +180,30 @@ public class TranslatorImpl implements Translator {
 			this.testGen(asmName, model);
 		}
 
+	}
+
+	/** Keeps the standard libraries separate and flattens application modules. */
+	private AsmCollection flattenModules(AsmCollection model, String folder) {
+		boolean hasModules = false;
+		List<Asm> libraries = new ArrayList<Asm>();
+		for (Asm module : model) {
+			if (module == model.getMain()) {
+				continue;
+			}
+			if (ImportFlattener.isLibrary(module.getName())) {
+				libraries.add(module);
+			} else {
+				hasModules = true;
+			}
+		}
+		if (!hasModules) {
+			return model;
+		}
+		logger.info("Flattening imported modules for Java generation.");
+		Asm flattened = ImportFlattener.flatten(model, folder);
+		AsmCollection result = new AsmCollection(libraries);
+		result.addMain(flattened);
+		return result;
 	}
 
 	@Override

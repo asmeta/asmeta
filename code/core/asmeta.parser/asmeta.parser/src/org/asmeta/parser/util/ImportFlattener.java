@@ -137,4 +137,24 @@ public class ImportFlattener {
 		return domainInits;
 	}
 
+
+	/**
+	 * Builds a single flattened ASM from an already parsed collection.
+	 */
+	public static Asm flatten(AsmCollection parsedAsms, String folder) {
+		return new AsmFlattener(parsedAsms, folder).flatten();
+	}
+
+	public static boolean isLibrary(String moduleName) {
+		String name = moduleName.replace('\\', '/');
+		name = name.substring(name.lastIndexOf('/') + 1);
+		if (name.endsWith(AsmetaParserUtility.ASM_EXTENSION)) {
+			name = name.substring(0, name.length() - AsmetaParserUtility.ASM_EXTENSION.length());
+		}
+		return name.equals(AsmetaParserUtility.STANDARD_LIBRARY_NAME)
+				|| name.equals(AsmetaParserUtility.CTL_LIBRARY_NAME)
+				|| name.equals(AsmetaParserUtility.LTL_LIBRARY_NAME);
+	}
+
+
 }
