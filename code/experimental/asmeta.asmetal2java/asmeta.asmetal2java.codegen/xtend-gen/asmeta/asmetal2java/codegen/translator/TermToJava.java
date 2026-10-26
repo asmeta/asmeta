@@ -49,6 +49,7 @@ import org.asmeta.parser.util.Defs;
 import org.asmeta.parser.util.ReflectiveVisitor;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
+import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.XbaseGenerated;
 
 @SuppressWarnings("all")
@@ -418,16 +419,16 @@ public class TermToJava extends ReflectiveVisitor<String> {
       throw new IllegalArgumentException("A set comprehension must bind one range to each variable");
     }
     StringConcatenation _builder = new StringConcatenation();
-    String _rangeStream = this.rangeStream(term.getRanges().getLast());
+    String _rangeStream = this.rangeStream(IterableExtensions.<Term>last(term.getRanges()));
     _builder.append(_rangeStream);
     _builder.append(".filter(");
-    String _visit = this.visit(term.getVariable().getLast());
+    String _visit = this.visit(IterableExtensions.<VariableTerm>last(term.getVariable()));
     _builder.append(_visit);
     _builder.append(" -> ");
     String _visit_1 = this.visit(term.getGuard());
     _builder.append(_visit_1);
     _builder.append(").map(");
-    String _visit_2 = this.visit(term.getVariable().getLast());
+    String _visit_2 = this.visit(IterableExtensions.<VariableTerm>last(term.getVariable()));
     _builder.append(_visit_2);
     _builder.append(" -> ");
     String _setComprehensionResult = this.setComprehensionResult(term.getTerm());

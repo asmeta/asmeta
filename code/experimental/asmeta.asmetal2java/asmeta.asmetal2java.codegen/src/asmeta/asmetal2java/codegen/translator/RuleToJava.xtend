@@ -100,13 +100,13 @@ class RuleToJava extends RuleVisitor<String> {
 	override String visit(ConditionalRule object) {
 		if (object.getElseRule() === null)
 			return '''
-				if (Boolean.TRUE.equals(«new TermToJava(res).visit(object.guard)»)){ 
+				if («new TermToJava(res).visit(object.guard)»){
 					«createRuleToJava(res,seqBlock,options).visit(object.thenRule)»
 				}
 			'''
 		else
 			return '''
-				if (Boolean.TRUE.equals(«new TermToJava(res).visit(object.getGuard)»)){ 
+				if («new TermToJava(res).visit(object.getGuard)»){
 					«createRuleToJava(res,seqBlock,options).visit(object.thenRule)»
 				} else {
 						«createRuleToJava(res,seqBlock,options).visit(object.elseRule)»

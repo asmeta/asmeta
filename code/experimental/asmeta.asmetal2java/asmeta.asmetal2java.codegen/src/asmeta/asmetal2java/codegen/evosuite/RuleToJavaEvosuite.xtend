@@ -70,14 +70,14 @@ class RuleToJavaEvosuite extends RuleToJava {
 	override String visit(ConditionalRule object) {
 		if (object.getElseRule() === null){
 			return '''
-				if (Boolean.TRUE.equals(«new TermToJava(res).visit(object.guard)»)){ 
+				if («new TermToJava(res).visit(object.guard)»){
 					«currRule.addNewBranch()» = true;
 					«createRuleToJava(res,seqBlock,options).visit(object.thenRule)»
 				}
 			'''
 		} else
 			return '''
-				if (Boolean.TRUE.equals(«new TermToJava(res).visit(object.getGuard)»)){ 
+				if («new TermToJava(res).visit(object.getGuard)»){
 					«currRule.addNewBranch()» = true;
 					«createRuleToJava(res,seqBlock,options).visit(object.thenRule)»
 				} else {

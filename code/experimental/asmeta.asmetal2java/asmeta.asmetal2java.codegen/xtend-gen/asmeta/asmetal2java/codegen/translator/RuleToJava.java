@@ -119,10 +119,10 @@ public class RuleToJava extends RuleVisitor<String> {
     boolean _tripleEquals = (_elseRule == null);
     if (_tripleEquals) {
       StringConcatenation _builder = new StringConcatenation();
-      _builder.append("if (Boolean.TRUE.equals(");
+      _builder.append("if (");
       String _visit = new TermToJava(this.res).visit(object.getGuard());
       _builder.append(_visit);
-      _builder.append(")){ ");
+      _builder.append("){");
       _builder.newLineIfNotEmpty();
       _builder.append("\t");
       String _visit_1 = this.createRuleToJava(this.res, this.seqBlock, this.options).visit(object.getThenRule());
@@ -133,10 +133,10 @@ public class RuleToJava extends RuleVisitor<String> {
       return _builder.toString();
     } else {
       StringConcatenation _builder_1 = new StringConcatenation();
-      _builder_1.append("if (Boolean.TRUE.equals(");
+      _builder_1.append("if (");
       String _visit_2 = new TermToJava(this.res).visit(object.getGuard());
       _builder_1.append(_visit_2);
-      _builder_1.append(")){ ");
+      _builder_1.append("){");
       _builder_1.newLineIfNotEmpty();
       _builder_1.append("\t");
       String _visit_3 = this.createRuleToJava(this.res, this.seqBlock, this.options).visit(object.getThenRule());

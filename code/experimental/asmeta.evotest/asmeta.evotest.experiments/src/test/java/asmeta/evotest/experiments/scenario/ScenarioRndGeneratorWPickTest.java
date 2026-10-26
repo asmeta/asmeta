@@ -28,7 +28,7 @@ import atgt.testseqexport.toAvalla;
 
 class ScenarioRndGeneratorWPickTest {
 
-	private static final String MODEL_LIST = "data\\icst_27_exp\\model_list.txt";
+	private static final String MODEL_LIST = "data\\icst-27-exp\\model_list.txt";
 	private static final String source = "../../../../asm_examples/";
 	private static final String PROCESSED_MODELS_CSV = "random_generation.csv";
 
