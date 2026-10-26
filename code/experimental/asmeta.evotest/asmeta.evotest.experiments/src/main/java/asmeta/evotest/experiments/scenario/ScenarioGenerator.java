@@ -153,12 +153,11 @@ public class ScenarioGenerator {
 	 *                  results)
 	 * @param jdkPath   path to jdk 1.8
 	 * @param budget    EvoSuite budget
-	 * @param shuffle   if false, run choose rules deterministically (always choose
-	 *                  first element)
+	 * @param chooseMode   EvoAvalla choose mode ("flaky" or "noShuffle" or "pick")
 	 * @return evoavalla execution time in ms
 	 * @throws Exception if any Exception occurs
 	 */
-	public static float runEvoAvalla(String asmPath, String targetDir, String jdkPath, int budget, boolean shuffle)
+	public static float runEvoAvalla(String asmPath, String targetDir, String jdkPath, int budget, String chooseMode)
 			throws Exception {
 		// If running from jar, check the presence of evosuite-1.0.6.jar in the same
 		// directory
@@ -181,10 +180,10 @@ public class ScenarioGenerator {
 		// Run evoavalla
 		List<String> evoAsmetaTgArguments = List.of(DASH + EvoAsmetaTgCLI.WORKING_DIR, EVOAVALLA_WORKING_DIR,
 				DASH + EvoAsmetaTgCLI.INPUT, asmPath, DASH + EvoAsmetaTgCLI.OUTPUT, targetDir,
-				DASH + EvoAsmetaTgCLI.JAVA_PATH, jdkPath, DASH + EvoAsmetaTgCLI.EVOSUITE_VERSION, "1.0.6",
+				DASH + EvoAsmetaTgCLI.JAVA_PATH, jdkPath, DASH + EvoAsmetaTgCLI.EVOSUITE_VERSION, "1.2.0",
 				DASH + EvoAsmetaTgCLI.EVOSUITE_PATH, evosuiteJarFolder, DASH + EvoAsmetaTgCLI.TIME_BUDGET,
 				String.valueOf(budget), DASH + EvoAsmetaTgCLI.CLEAN, "-DignoreDomainException=true",
-				"-DchooseMode=" + (shuffle ? "flaky" : "noShuffle"));
+				"-DchooseMode=" + chooseMode);
 		Instant start = Instant.now();
 		EvoAsmetaTgCLI.main(evoAsmetaTgArguments.toArray(new String[0]));
 		Instant end = Instant.now();

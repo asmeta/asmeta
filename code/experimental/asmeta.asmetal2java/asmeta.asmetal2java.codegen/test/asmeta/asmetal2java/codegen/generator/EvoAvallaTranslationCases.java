@@ -180,7 +180,7 @@ public class EvoAvallaTranslationCases {
 		options.setValue(ModeConstantsConfig.GENERATE_WIN, false);
 		options.setValue(ModeConstantsConfig.TEST_GEN, true);
 		options.setValue(ModeConstantsConfig.COMPILER, true);
-		options.setValue(TranslatorOptionsImpl.COVER_OUTPUTS_OPTION, true);
+		options.setValue(TranslatorOptionsImpl.COVER_OUTPUTS_OPTION, false);
 		options.setValue(TranslatorOptionsImpl.IGNORE_NOT_SUPPORTED_DOMAIN_EXCEPTION, true);
 		return options;
 	}
