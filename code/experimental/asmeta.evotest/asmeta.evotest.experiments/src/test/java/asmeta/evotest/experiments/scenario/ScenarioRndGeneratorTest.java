@@ -97,8 +97,7 @@ class ScenarioRndGeneratorTest {
 							if (ts.getNActualTest() == 1) {
 								// save avalla
 								AsmTestSequence test = ts.getTests().getFirst();
-								String scenarioName = "scenarios/scenario_" + String.format("%03d", specCounter)
-										+ ".avalla";
+								String scenarioName = "scenarios/scenario_" + String.format("%03d", specCounter) + (shuffle ? "shuffle" : "deterministic")+ ".avalla";
 								toAvalla exporter = new toAvalla(new File(scenarioName), test,
 										new File(asmPath).toString());
 								exporter.saveToStream();

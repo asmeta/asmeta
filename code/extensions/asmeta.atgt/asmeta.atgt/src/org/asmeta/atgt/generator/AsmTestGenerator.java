@@ -17,11 +17,12 @@ import atgt.parser.asmeta.AsmetaLLoader;
 import atgt.specification.ASMSpecification;
 import tgtlib.coverage.CovBuilderBySubCov;
 import tgtlib.specification.ParseException;
+import tgtlib.specification.Specification;
 
 /**
- * test generator based on "atgt.specification.ASMSpecification" , the old asmeta specification
+ * test generator based on "atgt.specification.ASMSpecification" , the old asm specification
  */
-public abstract class AsmTestGenerator extends AsmTestGeneratorBase<ASMSpecification>{
+public abstract class AsmTestGenerator<S extends Specification> extends AsmTestGeneratorBase<S>{
 
 	static private Logger logger = Logger.getLogger(AsmTestGenerator.class);
 
@@ -31,15 +32,15 @@ public abstract class AsmTestGenerator extends AsmTestGeneratorBase<ASMSpecifica
 
 
 	public static final List<String> DEFAULT_FORMATS = FormatsEnum
-			.toListOfString(new FormatsEnum[] { FormatsEnum.AVALLA, });
+			.toListOfString(new FormatsEnum[] { FormatsEnum.AVALLA});
 
 	public static final boolean DEFAULT_COMPUTE_COVERAGE = true;
 
-	AsmTestGenerator(String asmfile, boolean coverageTp) throws ParseException {
+	AsmTestGenerator(String asmfile, boolean coverageTp, SpecificationReader<S> specReader) throws ParseException {
 		super(coverageTp);
 		assert new File(asmfile).exists() : asmfile + "not existing";
 		// read the spec
-		spec = new AsmetaLLoader().read(new File(asmfile));
+		spec = specReader.read(asmfile);
 		// should never happen because read will throw its own exception
 		if (spec == null) {
 			throw new RuntimeException("errors in converting the asmeta for ATGT");
@@ -72,51 +73,6 @@ public abstract class AsmTestGenerator extends AsmTestGeneratorBase<ASMSpecifica
 	}
 
 
-	/**
-	 *
-	 * @param maxTests
-	 * @param regex
-	 * @return
-	 * @throws Exception
-	 */
-	public AsmTestSuite generateAbstractTests(int maxTests, String regex) throws Exception {
-		// collect the coverage criteria
-		buildTPTree(new MBTCoverage(DEFAULT_COV_BUILDER), maxTests, regex);
-		return generateTests();
-	}
 
-
-	public AsmTestSuite generateAbstractTests(Collection<AsmCoverageBuilder> coverageCriteria, int maxTests, String regex) throws Exception {
-		buildTPTree(new MBTCoverage(coverageCriteria), maxTests, regex);
-		return generateTests();
-	}
-
-	/**
-	 * Structural except MCDC which is difficult to use because there is an equal
-	 * and Booleans
-	 */
-	public static class MBTCoverage extends CovBuilderBySubCov<ASMSpecification, AsmTestCondition, AsmCoverage> {
-
-		public MBTCoverage(Collection<AsmCoverageBuilder> criteria) {
-			super("MBT Coverage", AsmCoverageTree.factory);
-
-			for (AsmCoverageBuilder c : criteria) {
-				register(c);
-			}
-
-			// Aggiunge i visitor di default
-			// Basic Rule Coverage Visitor
-//			register(new BasicRuleVisitor());
-			// Complete Rule Coverage Visitor
-//			register(new CompleteRuleVisitor());
-			// Rule Update Visitor
-//			register(new RuleUpdateVisitor());
-			// Full Predicate / MCDC Visitor
-			// register(MCDCCoverage.getCoverage());
-			// Rule Guard Visitor
-			// NOT SURE IT WORKS
-			// visitorCollection.add(new RuleGuardVisitor());
-		}
-	}
 
 }

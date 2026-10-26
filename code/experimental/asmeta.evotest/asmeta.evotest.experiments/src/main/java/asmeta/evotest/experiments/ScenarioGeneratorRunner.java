@@ -15,7 +15,7 @@ import java.util.Map;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.asmeta.atgt.generator.NuSMVtestGenerator;
+import org.asmeta.atgt.generator.NuSMVASMSpecTestGenerator;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.AsmetaParserUtility;
 import org.asmeta.simulator.Environment;
@@ -85,7 +85,7 @@ public class ScenarioGeneratorRunner {
 		LOG.setLevel(Level.INFO);
 		Logger.getLogger(RuleEvaluator.class).setLevel(Level.ERROR);
 		Logger.getLogger(Simulator.class).setLevel(Level.ERROR);
-		Logger.getLogger(NuSMVtestGenerator.class).setLevel(Level.ERROR);
+		Logger.getLogger(NuSMVASMSpecTestGenerator.class).setLevel(Level.ERROR);
 		Logger.getLogger(EvoAsmetaTgCLI.class).setLevel(Level.INFO);
 		ASMParser.getResultLogger().setLevel(Level.ERROR);
 		System.setOut(new PrintStream(OutputStream.nullOutputStream()));

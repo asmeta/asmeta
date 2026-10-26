@@ -8,6 +8,7 @@ import java.util.Map;
 import org.asmeta.atgt.rndgenerator.AsmTestGeneratorBySimulation;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.xt.validator.AsmetaV;
+import org.asmeta.xt.validator.RuleEvalWCov;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -35,13 +36,13 @@ public class ATGTRandomExperiments {
 			for (AsmTestSequence test: tests) {
 				// save to avalla
 				// save avalla
-				String scenarioName = "scenarios/scenario_simplechoose.avalla";
+				String scenarioName = "scenarios/scenario_simplechoose"+ (shuffle ? "shuffle" : "deterministic") +".avalla";
 				toAvalla exporter = new toAvalla(new File(scenarioName), test, new File(asmPath).toString());
 				exporter.saveToStream();
 				// call the validator
 				List<String> results = AsmetaV.execValidation(scenarioName,	AsmetaV.computeCoverage, shuffle);
 				System.out.println("results: " + results);
-
+				RuleEvalWCov.reset();
 				
 			}
 			

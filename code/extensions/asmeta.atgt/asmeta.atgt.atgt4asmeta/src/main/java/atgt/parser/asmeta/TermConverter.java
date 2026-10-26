@@ -322,6 +322,11 @@ class TermConverter {
 			LocationTerm lt = (LocationTerm) term;
 			return translateTerm(lt);
 		}
+		if (term instanceof asmeta.terms.basicterms.VariableTerm variableTerm) {
+			LocationTerm lt = (LocationTerm) term;
+			return translateTerm(lt);
+		}
+
 		// TODO: Fix Case term
 		//if (term instanceof asmeta.terms.furtherterms.CaseTerm) {
 		//	// Convert the case term into a conditional term

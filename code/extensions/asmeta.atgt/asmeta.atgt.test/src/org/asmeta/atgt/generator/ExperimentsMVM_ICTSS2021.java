@@ -24,7 +24,6 @@ import java.util.stream.StreamSupport;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.asmeta.atgt.generator.AsmTestGenerator.MBTCoverage;
 import org.asmeta.atgt.generator.nusmv.ConverterCounterExample;
 import org.asmeta.atgt.generator.nusmv.TestGenerationWithNuSMV;
 import org.asmeta.atgt.rndgenerator.AsmTestGeneratorBySimulation;
@@ -76,14 +75,14 @@ public class ExperimentsMVM_ICTSS2021 {
 		fw = new FileWriter(fileName);
 		Logger.getLogger(AsmTestGenerator.class).setLevel(Level.OFF);
 		Logger.getLogger(TestGenerationWithNuSMV.class).setLevel(Level.OFF);
-		Logger.getLogger(NuSMVtestGenerator.class).setLevel(Level.WARN);
+		Logger.getLogger(NuSMVASMSpecTestGenerator.class).setLevel(Level.WARN);
 		Logger.getLogger(ConverterCounterExample.class).setLevel(Level.OFF);
 		Logger.getLogger("org.asmeta.parser").setLevel(Level.OFF);
 		Logger.getLogger(AsmMonitoredDataExtractor.class).setLevel(Level.OFF);
 		Logger.getLogger("org.asmeta.simulator").setLevel(Level.OFF);
 		AsmetaSMV.modelCheckerMode = ModelCheckerMode.LTLandBMC;
-		NuSMVtestGenerator.removeUnaskedChanges = false;
-		NuSMVtestGenerator.removeUnChangedControlles = false;
+		NuSMVASMSpecTestGenerator.removeUnaskedChanges = false;
+		NuSMVASMSpecTestGenerator.removeUnChangedControlled = false;
 		ConverterCounterExample.IncludeUnchangedVariables = false;
 		AsmetaSMV.BMCLength = 100;
 		AsmetaSMVOptions.useCoi = false;
@@ -108,7 +107,7 @@ public class ExperimentsMVM_ICTSS2021 {
 		}
 		criteria.add(allcriteria);
 
-		NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(ex, true);
+		NuSMVASMSpecTestGenerator nuSMVtestGenerator = new NuSMVASMSpecTestGenerator(ex, true);
 
 		for (Collection<AsmCoverageBuilder> asmcb : criteria) {
 			String name = asmcb.stream().map(x -> x.getCoveragePrefix()).collect(Collectors.joining());
@@ -176,11 +175,11 @@ public class ExperimentsMVM_ICTSS2021 {
 			coverageCriteria.add(c.criteria);
 		}
 		// build the generator
-		NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(asmSpec, true);
+		NuSMVASMSpecTestGenerator nuSMVtestGenerator = new NuSMVASMSpecTestGenerator(asmSpec, true);
 		// build the tree depending on the criteria
 		asmeta.AsmCollection asms = ASMParser.setUpReadAsm(new File(asmSpec));
 		ASMSpecification spec = new AsmetaLLoader().read(new File(asmSpec));
-		AsmCoverage ct = new MBTCoverage(coverageCriteria).getTPTree(spec);
+		AsmCoverage ct = new NuSMVASMSpecTestGenerator.MBTCoverage(coverageCriteria).getTPTree(spec);
 		for (;;) {
 			// queque just one termTran
 			AsmTestCondition gentc = null;
@@ -363,7 +362,7 @@ public class ExperimentsMVM_ICTSS2021 {
 		ASMSpecification spec = new AsmetaLLoader().read(new File(ex));
 		// build the generator
 		// build the tree depending on the criteria
-		AsmCoverage ct = new MBTCoverage(coverageCriteria).getTPTree(spec);
+		AsmCoverage ct = new NuSMVASMSpecTestGenerator.MBTCoverage(coverageCriteria).getTPTree(spec);
 		return ct;
 	}
 
@@ -435,7 +434,7 @@ public class ExperimentsMVM_ICTSS2021 {
 				addInitialState(asmTest, ASMSpecification, "expired" + s, "false");
 			}
 			// now compute coverage
-			NuSMVtestGenerator.computeCoverage(ct, asmTest, ASMSpecification);
+			NuSMVASMSpecTestGenerator.computeCoverage(ct, asmTest, ASMSpecification);
 			System.out.println(asmTest.allInstructions());
 			// after
 			// optimize the test
@@ -509,7 +508,7 @@ public class ExperimentsMVM_ICTSS2021 {
 	public void test() throws Exception {
 		// questo falliva perch� creo due volte il test generator
 		Logger.getLogger(AsmTestGenerator.class).setLevel(Level.DEBUG);
-		Logger.getLogger(NuSMVtestGenerator.class).setLevel(Level.DEBUG);
+		Logger.getLogger(NuSMVASMSpecTestGenerator.class).setLevel(Level.DEBUG);
 		List<CriteriaEnum> criteria = Arrays.asList(CriteriaEnum.COMPLETE_RULE,CriteriaEnum.MCDC);
 		GenerateTestsFromFSM gen = new GenerateTestsFromFSM("mvm0", "examples/mvm0.asm",true,false, false, criteria);
 		//

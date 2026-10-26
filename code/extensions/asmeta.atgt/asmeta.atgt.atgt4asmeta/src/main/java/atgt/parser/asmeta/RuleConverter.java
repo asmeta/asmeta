@@ -349,6 +349,7 @@ class RuleConverter {
 		EList<VariableTerm> vars = br.getVariable();
 		assert vars.size() == 1;
 		IdExpression var = (IdExpression) termConv.computeTerm(vars.get(0));
+		
 		assert var.getType() != null;
 		// condition
 		Expression guard = termConv.translateTerm(br.getGuard());

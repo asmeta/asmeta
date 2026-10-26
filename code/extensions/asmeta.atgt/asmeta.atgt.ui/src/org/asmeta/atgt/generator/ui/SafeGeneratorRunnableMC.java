@@ -3,7 +3,7 @@ package org.asmeta.atgt.generator.ui;
 import java.util.List;
 
 import org.asmeta.atgt.generator.CriteriaEnum;
-import org.asmeta.atgt.generator.NuSMVtestGenerator;
+import org.asmeta.atgt.generator.NuSMVASMSpecTestGenerator;
 import org.asmeta.atgt.generator.SaveResults;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PartInitException;
@@ -24,7 +24,7 @@ public class SafeGeneratorRunnableMC extends  SafeGeneratorRunnable{
 		ATGTActivator.log.debug(config.asmetaSpecPath.toString() + "  -  " + config.computeCoverage + "  -  "
 				+ coverageCriteria);
 
-		NuSMVtestGenerator generator = new NuSMVtestGenerator(config.asmetaSpecPath.toString(),
+		NuSMVASMSpecTestGenerator generator = new NuSMVASMSpecTestGenerator(config.asmetaSpecPath.toString(),
 				config.computeCoverage);
 		// get the names of the criteria
 		String message = "";

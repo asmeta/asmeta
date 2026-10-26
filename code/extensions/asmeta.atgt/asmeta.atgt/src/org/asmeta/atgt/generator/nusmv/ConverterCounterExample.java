@@ -19,6 +19,7 @@ import tgtlib.definitions.expression.type.EnumConstCreator;
 import tgtlib.definitions.expression.type.EnumType;
 import tgtlib.definitions.expression.type.EnumerableType;
 import tgtlib.definitions.expression.type.IntegerType;
+import tgtlib.specification.Specification;
 
 /** convert a counter example of the model checker to a test sequence
  */
@@ -34,12 +35,12 @@ public class ConverterCounterExample {
 	private final static Logger LOG = Logger.getLogger(ConverterCounterExample.class);
 
 
-	public static AsmTestSequence convert(Counterexample test, ASMSpecification spec, AsmTestCondition tc) {
+	public static AsmTestSequence convert(Counterexample test, Specification spec, AsmTestCondition tc) {
 		return convert(test, spec, tc, IncludeUnchangedVariables);
 	}
 //	static List<IdExpression> functions = new ArrayList<>();
 
-	public static AsmTestSequence convert(Counterexample test, ASMSpecification spec, AsmTestCondition tc, boolean includeUnchangedVariables) {
+	public static AsmTestSequence convert(Counterexample test, Specification spec, AsmTestCondition tc, boolean includeUnchangedVariables) {
 		//
 		LOG.debug("converting cex with " + test.length() + " states to ASM test");
 		//
@@ -116,7 +117,7 @@ public class ConverterCounterExample {
 	 * @param location
 	 * @return
 	 */
-	private static FunctionTerm extractFunctionTerm(String location, ASMSpecification spec) {
+	private static FunctionTerm extractFunctionTerm(String location, Specification spec) {
 		String functionName = location.substring(0, location.indexOf("("));
 		Function f = spec.getFunction(functionName);
 		assert f != null;
