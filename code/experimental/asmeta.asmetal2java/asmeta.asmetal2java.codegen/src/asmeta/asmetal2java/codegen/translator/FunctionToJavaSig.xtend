@@ -156,7 +156,7 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 			    ''')
 
 					function.append('''				
-						Fun0Ctrl<List«returnDomain(object.codomain,false)»> «object.name» = new Fun0Ctrl<>();
+						Fun0Ctrl<«returnDomain(object.codomain,false)»> «object.name» = new Fun0Ctrl<>();
 						
 					''')
 
@@ -167,7 +167,7 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 			    ''')
 
 					function.append('''				
-						Fun0Ctrl<Set«returnDomain(object.codomain,false)»> «object.name» = new Fun0Ctrl<>();
+						Fun0Ctrl<«returnDomain(object.codomain,false)»> «object.name» = new Fun0Ctrl<>();
 						
 					''')
 
@@ -178,7 +178,7 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 			    ''')
 
 					function.append('''				
-						Fun0Ctrl<Bag«returnDomain(object.codomain,false)»> «object.name» = new Fun0Ctrl<>();
+						Fun0Ctrl<«returnDomain(object.codomain,false)»> «object.name» = new Fun0Ctrl<>();
 						
 					''')
 
@@ -189,7 +189,7 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 			    ''')
 
 					function.append('''				
-						Fun0Ctrl<Map«returnDomain(object.codomain,false)»> «object.name» = new Fun0Ctrl<>();
+						Fun0Ctrl<«returnDomain(object.codomain,false)»> «object.name» = new Fun0Ctrl<>();
 						
 					''')
 
@@ -244,7 +244,7 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 			    ''')
 
 					function.append('''				
-						Fun0<List«returnDomain(object.codomain,false)»> «object.name» = new Fun0<>();
+						Fun0<«returnDomain(object.codomain,false)»> «object.name» = new Fun0<>();
 						
 					''')
 
@@ -255,7 +255,7 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 			    ''')
 
 					function.append('''				
-						Fun0<Set«returnDomain(object.codomain,false)»> «object.name» = new Fun0<>();
+						Fun0<«returnDomain(object.codomain,false)»> «object.name» = new Fun0<>();
 						
 					''')
 
@@ -266,7 +266,7 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 			    ''')
 
 					function.append('''				
-						Fun0<Bag«returnDomain(object.codomain,false)»> «object.name» = new Fun0<>();
+						Fun0<«returnDomain(object.codomain,false)»> «object.name» = new Fun0<>();
 						
 					''')
 
@@ -277,7 +277,7 @@ class FunctionToJavaSig extends ReflectiveVisitor<String>  {
 			    ''')
 
 					function.append('''				
-						Fun0<Map«returnDomain(object.codomain,false)»> «object.name» = new Fun0<>();
+						Fun0<«returnDomain(object.codomain,false)»> «object.name» = new Fun0<>();
 						
 					''')
 
