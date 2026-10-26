@@ -30,7 +30,8 @@ import atgt.testseqexport.toAvalla;
 
 class ScenarioRndGeneratorTest {
 
-	private static final String MODEL_LIST = "data\\icst_27_exp\\model_list.txt";
+	//private static final String MODEL_LIST = "data\\icst_27_exp\\model_list.txt";
+	private static final String MODEL_LIST = "data\\test\\model_list.txt";
 	private static final String source = "../../../../asm_examples/";
 	private static final String PROCESSED_MODELS_CSV = "random_generation_pick$PICK.csv";
 
@@ -50,7 +51,6 @@ class ScenarioRndGeneratorTest {
 	void tearDown() throws Exception {
 	}
 
-	@Test
 	@ParameterizedTest
 	@ValueSource(booleans = {true,false})
 	void testRunRandom(boolean shuffle) throws IOException {
