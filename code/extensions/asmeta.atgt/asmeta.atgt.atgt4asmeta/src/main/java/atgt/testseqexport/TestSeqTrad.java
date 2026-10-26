@@ -14,8 +14,8 @@ public abstract class TestSeqTrad {
 	private File file;
 	protected AsmTestSequence testSequence;
 
-	public TestSeqTrad(File f, AsmTestSequence ts) {
-		this((OutputStream) null, ts);
+	public TestSeqTrad(File f, AsmTestSequence ts) throws FileNotFoundException {
+		this(new FileOutputStream(f, false), ts);
 		file = f;
 	}
 

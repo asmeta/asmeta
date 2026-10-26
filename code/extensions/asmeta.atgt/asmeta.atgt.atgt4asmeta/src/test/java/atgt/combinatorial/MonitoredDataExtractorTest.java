@@ -10,17 +10,14 @@
  ******************************************************************************/
 package atgt.combinatorial;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.io.IOException;
-
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import atgt.generator.AsmMonitoredDataExtractor;
+
+import org.junit.jupiter.api.Test;
 import atgt.parser.ExampleLoader;
 import atgt.parser.asmgofer.ASMParserTest;
-import atgt.parser.asmgofer.ParseException;
 import atgt.specification.ASMSpecification;
 import extgt.coverage.combinatorial.MonitoredData;
 
@@ -28,28 +25,26 @@ import extgt.coverage.combinatorial.MonitoredData;
 /**
  * test the extration of moniotred data.
  */
-public class MonitoredDataExtractorTest {
+class MonitoredDataExtractorTest {
 
 	/**
 	 * Test analyze cc.
 	 */
-	@Test
-	public void testAnalyzeCC() {
+	@Test void analyzeCC() {
 		ASMSpecification SP = ASMParserTest.getCruiseControlNoAxiom();
 		AsmMonitoredDataExtractor mde = AsmMonitoredDataExtractor.getMonitoredDataExtractor();
 		MonitoredData data = mde.analyze(SP);
 		System.out.println(data);
-		assertTrue(data.toString(),data.toString().contains("ignited=[true, false]"));
+		assertTrue(data.toString().contains("ignited=[true, false]"),data.toString());
 		assertTrue(data.toString().contains(
 				"cruiseEvent=[Activate, Deactivate, Resume, NONE]"));
 		assertTrue(data.toString().contains("engRun=[true, false]"));
 		assertTrue(data.toString().contains("brake=[true, false]"));
 		assertTrue(data.toString().contains("tooFast=[true, false]"));
 	}
-	
-	
-	@Test
-	public void testSISgs() throws ParseException, IOException{
+
+
+	@Test void sISgs() throws Exception{
 		ASMSpecification SIS = ExampleLoader.getSpec("sis.gs");
 		AsmMonitoredDataExtractor mde = AsmMonitoredDataExtractor.getMonitoredDataExtractor();
 		MonitoredData data = mde.analyze(SIS);

@@ -16,7 +16,7 @@ public class CoverageTest {
 
 	@Test
 	public void testGetTPTreeMVM() throws Exception {
-		generateCoverageFor("examples\\mvm0.asm");
+		generateCoverageFor("examples/mvm0.asm");
 	}
 
 	/**

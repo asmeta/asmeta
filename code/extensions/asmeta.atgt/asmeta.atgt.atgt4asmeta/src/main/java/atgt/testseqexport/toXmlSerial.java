@@ -1,6 +1,7 @@
 package atgt.testseqexport;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -17,7 +18,7 @@ public class toXmlSerial extends TestSeqTrad {
 	/*Variabile che conterrà l'indirizzo del dtd*/
 	static String scenarioDTD;
 	
-	public toXmlSerial(File f, AsmTestSequence ts){
+	public toXmlSerial(File f, AsmTestSequence ts) throws FileNotFoundException{
 		super(f, ts);
 		scenarioDTD = new File("src/atgt/gui/tree/DTD_atgt.dtd").getAbsoluteFile().toString();
 	}

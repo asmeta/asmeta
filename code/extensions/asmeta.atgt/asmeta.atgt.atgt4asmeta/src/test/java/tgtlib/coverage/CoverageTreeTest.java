@@ -1,20 +1,20 @@
 package tgtlib.coverage;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Iterator;
 
-import org.junit.Test;
-
 import tgtlib.definitions.NamedTerm;
+
+import org.junit.jupiter.api.Test;
 import tgtlib.definitions.expression.IdExpressionCreator;
 
 
 /**
  */
-public class CoverageTreeTest {
+class CoverageTreeTest {
 
 	
 	/**
@@ -35,23 +35,21 @@ public class CoverageTreeTest {
 	TPInCoverage<NamedTerm> a = new TPInCoverage<NamedTerm>(aT);
 	TPInCoverage<NamedTerm> b = new TPInCoverage<NamedTerm>(bT);
 	TPInCoverage<NamedTerm> c = new TPInCoverage<NamedTerm>(cT);
-	
 
-	@Test
-	public void testPreOrderEnumerationEmpty() {
+
+	@Test void preOrderEnumerationEmpty() {
 		MyCoverageTree empty = new MyCoverageTree();
 		checkNodes(empty,empty);
 	}
-	
-	@Test
-	public void testPreOrderEnumeration1() {
+
+	@Test void preOrderEnumeration1() {
 		MyCoverageTree cov = new MyCoverageTree();
 		cov.addNode(a);
 		checkNodes(cov,cov,a);
 		checkTPs(cov, a);
 	}
-	@Test
-	public void testPreOrderEnumeration2() {
+
+	@Test void preOrderEnumeration2() {
 		MyCoverageTree cov1 = new MyCoverageTree();
 		MyCoverageTree cov2 = new MyCoverageTree();
 		cov1.addNode(cov2);
@@ -79,7 +77,7 @@ public class CoverageTreeTest {
 	private void checkNodes(MyCoverageTree c, TestPredicateTreeNode<NamedTerm>  ... e) {
 		Iterator<TestPredicateTreeNode<NamedTerm>> i = c.preOrderEnumeration();
 		for(int j = 0; j < e.length; j++){
-			assertTrue(" element "+ j + " not found",i.hasNext());			
+			assertTrue(i.hasNext()," element "+ j + " not found");			
 			TestPredicateTreeNode<NamedTerm> n= i.next();
 			assertSame(e[j],n);
 		}
@@ -95,7 +93,7 @@ public class CoverageTreeTest {
 	private void checkTPs(MyCoverageTree c, TestPredicateTreeNode<NamedTerm>  ... e) {
 		Iterator<NamedTerm> i = c.allTPs().iterator();
 		for(int j = 0; j < e.length; j++){			
-			assertTrue(" element "+ j + " not found",i.hasNext());			
+			assertTrue(i.hasNext()," element "+ j + " not found");			
 			NamedTerm n = i.next();
 			assertSame(((TPInCoverage)e[j]).testPredicate,n);
 		}

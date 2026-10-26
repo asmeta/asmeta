@@ -33,11 +33,15 @@
 		<module>code/extensions/asmetasmv/asmeta.smv.test</module>
 		<module>code/extensions/asmeta.visualizer/asmeta.visualizer</module>
 		<module>code/extensions/asmeta.visualizer/asmeta.visualizer.test</module>
+		<!-- atgt is a pom project itself-->
+		<module>code/extensions/asmeta.atgt</module>
 		<!--asmetal2cpp ia a pom project itself -->
 		<module>code/experimental/asmetal2cpp</module>
 	</modules>
 	<build>
 		<plugins>
+<!--		
+			exluded from the build for now, not ready yet to use the coverga einformation	
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
@@ -51,11 +55,11 @@
 						<configuration>
 							<append>true</append>
 							<destFile>${jacoco.destFile}</destFile>
-							<!-- <propertyName>surefireArgLine</propertyName> -->
+							<propertyName>surefireArgLine</propertyName> 
 						</configuration>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin>-->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>versions-maven-plugin</artifactId>
@@ -77,11 +81,10 @@
 				</configuration>
 			</plugin>
 		</plugins>
-
 	</build>
 	<dependencyManagement>
 		<dependencies>
-			<!-- JUnit 5 Aggregator (API + Engine + Params) -->
+			<!-- JUnit 6 Aggregator (API + Engine + Params) -->
 			<dependency>
 				<groupId>org.junit.jupiter</groupId>
 				<artifactId>junit-jupiter</artifactId>

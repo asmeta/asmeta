@@ -12,7 +12,7 @@ import static org.asmeta.nusmv.util.Util.notEquals;
 import static org.asmeta.nusmv.util.Util.or;
 import static org.asmeta.nusmv.util.Util.printFormatted;
 import static org.asmeta.nusmv.util.Util.setPars;
-import static org.asmeta.nusmv.util.Util.trueString;
+import static org.asmeta.nusmv.util.Util.TRUE_STRING;
 import static org.asmeta.nusmv.util.Util.xor;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -42,10 +42,10 @@ public class UtilTest {
 	public void orTest1() {
 		AsmetaSMVOptions.simplify = true;
 		List<String> conds = new ArrayList<String>();
-		conds.add(trueString);
+		conds.add(TRUE_STRING);
 		conds.add("b");
 		conds.add(falseString);
-		assertEquals(trueString, or(conds));
+		assertEquals(TRUE_STRING, or(conds));
 	}
 
 	@Test
@@ -83,29 +83,29 @@ public class UtilTest {
 	public void orTest5() {
 		AsmetaSMVOptions.simplify = true;
 		assertEquals(falseString, or(falseString, falseString));
-		assertEquals(trueString, or(trueString, falseString));
-		assertEquals(trueString, or(falseString, trueString));
-		assertEquals(trueString, or(trueString, trueString));
+		assertEquals(TRUE_STRING, or(TRUE_STRING, falseString));
+		assertEquals(TRUE_STRING, or(falseString, TRUE_STRING));
+		assertEquals(TRUE_STRING, or(TRUE_STRING, TRUE_STRING));
 		assertEquals("foo", or(falseString, "foo"));
 		assertEquals("foo", or("foo", falseString));
-		assertEquals(trueString, or(trueString, "foo"));
-		assertEquals(trueString, or("foo", trueString));
+		assertEquals(TRUE_STRING, or(TRUE_STRING, "foo"));
+		assertEquals(TRUE_STRING, or("foo", TRUE_STRING));
 		assertEquals("(foo | fooA)", or("foo", "fooA"));
-		assertEquals(trueString, or("!(foo)", "foo"));
+		assertEquals(TRUE_STRING, or("!(foo)", "foo"));
 	}
 
 	@Test
 	public void xorTest() throws Exception {
 		AsmetaSMVOptions.simplify = true;
 		assertEquals(falseString, xor(falseString, falseString));
-		assertEquals(trueString, xor(trueString, falseString));
-		assertEquals(trueString, xor(falseString, trueString));
-		assertEquals(falseString, xor(trueString, trueString));
+		assertEquals(TRUE_STRING, xor(TRUE_STRING, falseString));
+		assertEquals(TRUE_STRING, xor(falseString, TRUE_STRING));
+		assertEquals(falseString, xor(TRUE_STRING, TRUE_STRING));
 
 		assertEquals("condB", xor(falseString, "condB"));
-		assertEquals("!(condB)", xor(trueString, "condB"));
+		assertEquals("!(condB)", xor(TRUE_STRING, "condB"));
 		assertEquals("condB", xor("condB", falseString));
-		assertEquals("!(condB)", xor("condB", trueString));
+		assertEquals("!(condB)", xor("condB", TRUE_STRING));
 
 		List<String> conds = new ArrayList<String>();
 		conds.add(falseString);
@@ -115,19 +115,19 @@ public class UtilTest {
 		conds.clear();
 		conds.add(falseString);
 		conds.add(falseString);
-		conds.add(trueString);
-		assertEquals(trueString, xor(conds));
+		conds.add(TRUE_STRING);
+		assertEquals(TRUE_STRING, xor(conds));
 		conds.clear();
 		conds.add(falseString);
-		conds.add(trueString);
-		conds.add(trueString);
+		conds.add(TRUE_STRING);
+		conds.add(TRUE_STRING);
 		assertEquals(falseString, xor(conds));
 
 		conds.clear();
-		conds.add(trueString);
-		conds.add(trueString);
-		conds.add(trueString);
-		assertEquals(trueString, xor(conds));
+		conds.add(TRUE_STRING);
+		conds.add(TRUE_STRING);
+		conds.add(TRUE_STRING);
+		assertEquals(TRUE_STRING, xor(conds));
 
 		conds.clear();
 		conds.add(falseString);
@@ -135,19 +135,19 @@ public class UtilTest {
 		assertEquals("condB", xor(conds));
 
 		conds.clear();
-		conds.add(trueString);
+		conds.add(TRUE_STRING);
 		conds.add("condB");
 		assertEquals("!(condB)", xor(conds));
 
 		conds.clear();
-		conds.add(trueString);
+		conds.add(TRUE_STRING);
 		conds.add(falseString);
 		conds.add("condB");
 		assertEquals("!(condB)", xor(conds));
 
 		conds.clear();
 		conds.add(falseString);
-		conds.add(trueString);
+		conds.add(TRUE_STRING);
 		conds.add("condB");
 		assertEquals("!(condB)", xor(conds));
 
@@ -158,20 +158,20 @@ public class UtilTest {
 		assertEquals("condB", xor(conds));
 
 		conds.clear();
-		conds.add(trueString);
-		conds.add(trueString);
+		conds.add(TRUE_STRING);
+		conds.add(TRUE_STRING);
 		conds.add("condB");
 		assertEquals("condB", xor(conds));
 
 		conds.clear();
-		conds.add(trueString);
-		conds.add(trueString);
+		conds.add(TRUE_STRING);
+		conds.add(TRUE_STRING);
 		conds.add(falseString);
 		conds.add("condB");
 		assertEquals("condB", xor(conds));
 
 		conds.clear();
-		conds.add(trueString);
+		conds.add(TRUE_STRING);
 		conds.add(falseString);
 		conds.add(falseString);
 		conds.add("condB");
@@ -185,73 +185,73 @@ public class UtilTest {
 		assertEquals("condB", xor(conds));
 
 		conds.clear();
-		conds.add(trueString);
-		conds.add(trueString);
-		conds.add(trueString);
+		conds.add(TRUE_STRING);
+		conds.add(TRUE_STRING);
+		conds.add(TRUE_STRING);
 		conds.add("condB");
 		assertEquals("!(condB)", xor(conds));
 
 		conds.clear();
-		conds.add(trueString);
-		conds.add(trueString);
-		conds.add(trueString);
-		conds.add(trueString);
+		conds.add(TRUE_STRING);
+		conds.add(TRUE_STRING);
+		conds.add(TRUE_STRING);
+		conds.add(TRUE_STRING);
 		assertEquals(falseString, xor(conds));
 
 		conds.clear();
-		conds.add(trueString);
-		conds.add(trueString);
-		conds.add(trueString);
+		conds.add(TRUE_STRING);
+		conds.add(TRUE_STRING);
+		conds.add(TRUE_STRING);
 		conds.add(falseString);
-		assertEquals(trueString, xor(conds));
+		assertEquals(TRUE_STRING, xor(conds));
 
 		conds.clear();
-		conds.add(trueString);
-		conds.add(trueString);
-		conds.add(falseString);
-		conds.add(falseString);
-		assertEquals(falseString, xor(conds));
-
-		conds.clear();
-		conds.add(trueString);
-		conds.add(falseString);
-		conds.add(falseString);
-		conds.add(falseString);
-		assertEquals(trueString, xor(conds));
-
-		conds.clear();
-		conds.add(falseString);
-		conds.add(falseString);
+		conds.add(TRUE_STRING);
+		conds.add(TRUE_STRING);
 		conds.add(falseString);
 		conds.add(falseString);
 		assertEquals(falseString, xor(conds));
 
 		conds.clear();
-		conds.add(trueString);
-		conds.add(trueString);
-		conds.add(trueString);
-		conds.add(trueString);
+		conds.add(TRUE_STRING);
+		conds.add(falseString);
+		conds.add(falseString);
+		conds.add(falseString);
+		assertEquals(TRUE_STRING, xor(conds));
+
+		conds.clear();
+		conds.add(falseString);
+		conds.add(falseString);
+		conds.add(falseString);
+		conds.add(falseString);
+		assertEquals(falseString, xor(conds));
+
+		conds.clear();
+		conds.add(TRUE_STRING);
+		conds.add(TRUE_STRING);
+		conds.add(TRUE_STRING);
+		conds.add(TRUE_STRING);
 		conds.add("condB");
 		assertEquals("condB", xor(conds));
 
 		conds.clear();
-		conds.add(trueString);
-		conds.add(trueString);
-		conds.add(trueString);
+		conds.add(TRUE_STRING);
+		conds.add(TRUE_STRING);
+		conds.add(TRUE_STRING);
 		conds.add(falseString);
 		conds.add("condB");
 		assertEquals("!(condB)", xor(conds));
 
 		conds.clear();
-		conds.add(trueString);
-		conds.add(trueString);
+		conds.add(TRUE_STRING);
+		conds.add(TRUE_STRING);
 		conds.add(falseString);
 		conds.add(falseString);
 		conds.add("condB");
 		assertEquals("condB", xor(conds));
 
 		conds.clear();
-		conds.add(trueString);
+		conds.add(TRUE_STRING);
 		conds.add(falseString);
 		conds.add(falseString);
 		conds.add(falseString);
@@ -267,7 +267,7 @@ public class UtilTest {
 		assertEquals("condB", xor(conds));
 
 		conds.clear();
-		conds.add(trueString);
+		conds.add(TRUE_STRING);
 		conds.add(falseString);
 		conds.add(falseString);
 		conds.add(falseString);
@@ -289,7 +289,7 @@ public class UtilTest {
 	public void andTest1() {
 		AsmetaSMVOptions.simplify = true;
 		List<String> conds = new ArrayList<String>();
-		conds.add(trueString);
+		conds.add(TRUE_STRING);
 		conds.add(falseString);
 		assertEquals(falseString, and(conds));
 	}
@@ -298,10 +298,10 @@ public class UtilTest {
 	public void andTest2() {
 		AsmetaSMVOptions.simplify = true;
 		List<String> conds = new ArrayList<String>();
-		conds.add(trueString);
-		conds.add(trueString);
-		conds.add(trueString);
-		assertEquals(trueString, and(conds));
+		conds.add(TRUE_STRING);
+		conds.add(TRUE_STRING);
+		conds.add(TRUE_STRING);
+		assertEquals(TRUE_STRING, and(conds));
 	}
 
 	@Test
@@ -318,13 +318,13 @@ public class UtilTest {
 	public void andTest4() {
 		AsmetaSMVOptions.simplify = true;
 		assertEquals(falseString, and(falseString, falseString));
-		assertEquals(falseString, and(trueString, falseString));
-		assertEquals(falseString, and(falseString, trueString));
-		assertEquals(trueString, and(trueString, trueString));
+		assertEquals(falseString, and(TRUE_STRING, falseString));
+		assertEquals(falseString, and(falseString, TRUE_STRING));
+		assertEquals(TRUE_STRING, and(TRUE_STRING, TRUE_STRING));
 		assertEquals(falseString, and(falseString, "foo"));
 		assertEquals(falseString, and("foo", falseString));
-		assertEquals("foo", and(trueString, "foo"));
-		assertEquals("foo", and("foo", trueString));
+		assertEquals("foo", and(TRUE_STRING, "foo"));
+		assertEquals("foo", and("foo", TRUE_STRING));
 		assertEquals("(foo & fooA)", and("foo", "fooA"));
 		assertEquals(falseString, and("foo", "!(foo)"));
 	}
@@ -332,12 +332,12 @@ public class UtilTest {
 	@Test
 	public void notTest() {
 		AsmetaSMVOptions.simplify = true;
-		assertEquals(falseString, not(trueString));
-		assertEquals(trueString, not(falseString));
-		assertEquals(trueString, not(not(trueString)));
+		assertEquals(falseString, not(TRUE_STRING));
+		assertEquals(TRUE_STRING, not(falseString));
+		assertEquals(TRUE_STRING, not(not(TRUE_STRING)));
 		assertEquals(falseString, not(not(falseString)));
-		assertEquals(falseString, not(not(not(trueString))));
-		assertEquals(trueString, not(not(not(falseString))));
+		assertEquals(falseString, not(not(not(TRUE_STRING))));
+		assertEquals(TRUE_STRING, not(not(not(falseString))));
 		assertEquals("!(foo_AA)", not("foo_AA"));
 		assertEquals("foo_AA", not("!(foo_AA)"));
 		assertEquals("foo_AA", not(not("foo_AA")));
@@ -379,11 +379,11 @@ public class UtilTest {
 	public void equalsTest() {
 		AsmetaSMVOptions.simplify = true;
 		assertEquals("(a = b)", Util.equals("a", "b"));
-		assertEquals(trueString, Util.equals("a", "a"));
-		assertEquals(trueString, Util.equals("AA", "AA"));
+		assertEquals(TRUE_STRING, Util.equals("a", "a"));
+		assertEquals(TRUE_STRING, Util.equals("AA", "AA"));
 		assertEquals(falseString, Util.equals("AA", "BB"));
 		assertEquals("(AA = bb)", Util.equals("AA", "bb"));
-		assertEquals(trueString, Util.equals("1", "1"));
+		assertEquals(TRUE_STRING, Util.equals("1", "1"));
 		assertEquals(falseString, Util.equals("1", "2"));
 		assertEquals("(1 = foo_AA)", Util.equals("1", "foo_AA"));
 	}
@@ -394,10 +394,10 @@ public class UtilTest {
 		assertEquals("(a != b)", notEquals("a", "b"));
 		assertEquals(falseString, notEquals("a", "a"));
 		assertEquals(falseString, notEquals("AA", "AA"));
-		assertEquals(trueString, notEquals("AA", "BB"));
+		assertEquals(TRUE_STRING, notEquals("AA", "BB"));
 		assertEquals("(AA != bb)", notEquals("AA", "bb"));
 		assertEquals(falseString, notEquals("1", "1"));
-		assertEquals(trueString, notEquals("1", "2"));
+		assertEquals(TRUE_STRING, notEquals("1", "2"));
 		assertEquals("(1 != foo_AA)", notEquals("1", "foo_AA"));
 	}
 
@@ -424,30 +424,30 @@ public class UtilTest {
 	@Test
 	public void impliesTest() {
 		AsmetaSMVOptions.simplify = true;
-		assertEquals(trueString, implies(falseString, falseString));
-		assertEquals(trueString, implies(falseString, trueString));
-		assertEquals(falseString, implies(trueString, falseString));
-		assertEquals(trueString, implies(trueString, trueString));
-		assertEquals(trueString, implies(falseString, "foo"));
+		assertEquals(TRUE_STRING, implies(falseString, falseString));
+		assertEquals(TRUE_STRING, implies(falseString, TRUE_STRING));
+		assertEquals(falseString, implies(TRUE_STRING, falseString));
+		assertEquals(TRUE_STRING, implies(TRUE_STRING, TRUE_STRING));
+		assertEquals(TRUE_STRING, implies(falseString, "foo"));
 		assertEquals("!(foo)", implies("foo", falseString));
-		assertEquals("foo", implies(trueString, "foo"));
-		assertEquals(trueString, implies("foo", trueString));
-		assertEquals(trueString, implies("foo", "foo"));
+		assertEquals("foo", implies(TRUE_STRING, "foo"));
+		assertEquals(TRUE_STRING, implies("foo", TRUE_STRING));
+		assertEquals(TRUE_STRING, implies("foo", "foo"));
 		assertEquals("(fooA -> fooB)", implies("fooA", "fooB"));
 	}
 
 	@Test
 	public void iffTest() {
 		AsmetaSMVOptions.simplify = true;
-		assertEquals(trueString, iff(falseString, falseString));
-		assertEquals(falseString, iff(falseString, trueString));
-		assertEquals(falseString, iff(trueString, falseString));
-		assertEquals(trueString, iff(trueString, trueString));
+		assertEquals(TRUE_STRING, iff(falseString, falseString));
+		assertEquals(falseString, iff(falseString, TRUE_STRING));
+		assertEquals(falseString, iff(TRUE_STRING, falseString));
+		assertEquals(TRUE_STRING, iff(TRUE_STRING, TRUE_STRING));
 		assertEquals("!(foo)", iff(falseString, "foo"));
 		assertEquals("!(foo)", iff("foo", falseString));
-		assertEquals("foo", iff(trueString, "foo"));
-		assertEquals("foo", iff("foo", trueString));
-		assertEquals(trueString, iff("foo", "foo"));
+		assertEquals("foo", iff(TRUE_STRING, "foo"));
+		assertEquals("foo", iff("foo", TRUE_STRING));
+		assertEquals(TRUE_STRING, iff("foo", "foo"));
 		assertEquals("(fooA <-> fooB)", iff("fooA", "fooB"));
 	}
 

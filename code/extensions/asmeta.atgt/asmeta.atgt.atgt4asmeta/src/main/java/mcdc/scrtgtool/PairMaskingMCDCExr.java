@@ -44,7 +44,7 @@ import tgtlib.util.Pair;
  * @author garganti
  * 
  */
-public class PairMaskingMCDCExr<Q extends TestPredicate> implements
+public class PairMaskingMCDCExr<Q extends TestPredicate<?,?>> implements
 		tgtlib.definitions.expression.ExpressionVisitor<MCDCTPList<Q>> {
 
 	protected TestPredicateFactory<Q> factory;
@@ -333,7 +333,7 @@ public class PairMaskingMCDCExr<Q extends TestPredicate> implements
 	 * @param factory2
 	 * @return the list
 	 */
-	public static <Q extends TestPredicate> List<Q> computeVectorTP(
+	public static <Q extends TestPredicate<?,?>> List<Q> computeVectorTP(
 			PairMaskingMCDCExr<Q> pairMCDC, Expression exp) {
 		MCDCTPList<Q> liP = exp.accept(pairMCDC);
 		List<Q> res = new ArrayList<Q>();

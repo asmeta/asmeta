@@ -10,15 +10,15 @@
  ******************************************************************************/
 package atgt.project.parser;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.URL;
 
-import org.junit.Test;
-
 import atgt.coverage.TestCondition;
+
+import org.junit.jupiter.api.Test;
 import atgt.project.AsmProject;
 import tgtlib.definitions.TestSequence;
 
@@ -36,8 +36,7 @@ public class ReadTestsAndTpsTest {
 	 * @throws FileNotFoundException
 	 *             the file not found exception
 	 */
-	@Test
-	public void testEx1() throws ParseException, FileNotFoundException {
+	@Test void ex1() throws Exception {
 
 		AsmProject pro = new AsmProject();
 		pro.addExtraTps(getEx1());

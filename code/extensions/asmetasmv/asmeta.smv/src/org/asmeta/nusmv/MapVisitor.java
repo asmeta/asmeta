@@ -9,7 +9,7 @@ import static org.asmeta.nusmv.util.Util.getFunctionName;
 import static org.asmeta.nusmv.util.Util.isAgentDomain;
 import static org.asmeta.nusmv.util.Util.notUsedMess;
 import static org.asmeta.nusmv.util.Util.setPars;
-import static org.asmeta.nusmv.util.Util.trueString;
+import static org.asmeta.nusmv.util.Util.TRUE_STRING;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -424,14 +424,14 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 				}
 				updatesConditions = variableUpdates.keySet();
 				smv.print("\t\t" + var + " :=");
-				if (updatesConditions.size() == 1 && updatesConditions.contains(trueString)) {
+				if (updatesConditions.size() == 1 && updatesConditions.contains(TRUE_STRING)) {
 					smv.println(" " + variableUpdates.get(updatesConditions.iterator().next()) + ";");
 				} else {
 					smv.println();
 					smv.println("\t\t\tcase");
 					for (String cond : updatesConditions) {
 						smv.print("\t\t\t\t");
-						if (!cond.equals(trueString)) {
+						if (!cond.equals(TRUE_STRING)) {
 							smv.print(cond);
 							if (needCheckOnDomain(domName)) {
 								smv.print(" & " + variableUpdates.get(cond) + " in " + variableDomain);
@@ -442,18 +442,18 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 							if (needCheckOnDomain(domName)) {
 								smv.print(variableUpdates.get(cond) + " in " + variableDomain);
 							} else {
-								smv.println(trueString);
+								smv.println(TRUE_STRING);
 							}
 						}
 						smv.println(": " + variableUpdates.get(cond) + ";");
 					}
 					if (domName.equals("Boolean")) {
-						smv.println("\t\t\t\t" + trueString + ": " + falseString + ";");
+						smv.println("\t\t\t\t" + TRUE_STRING + ": " + falseString + ";");
 					} else {
 						String undefValue = this.getUndefValue(domName);
 						// assert undefValue != null : domName + " does not provide a representation for
 						// the undef value.";
-						smv.println("\t\t\t\t" + trueString + ": " + undefValue + ";");
+						smv.println("\t\t\t\t" + TRUE_STRING + ": " + undefValue + ";");
 					}
 					smv.println("\t\t\tesac;");
 				}
@@ -552,7 +552,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 				// and the variable is not integer (and, therefore, it does not require a
 				// check on the updating term), we can directly update the variable
 				else if (!needCheckOnDomain(domName) && updatesConditions.size() == 1
-						&& updatesConditions.contains(trueString)) {
+						&& updatesConditions.contains(TRUE_STRING)) {
 					smv.println(" " + variableUpdates.get(updatesConditions.iterator().next()) + ";");
 				}
 				// otherwise there is a list of conditions in the update map
@@ -563,7 +563,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 					smv.println("\t\t\tcase");
 					for (String cond : updatesConditions) {
 						smv.print("\t\t\t\t");
-						if (!cond.equals(trueString)) {
+						if (!cond.equals(TRUE_STRING)) {
 							smv.print(setPars(cond));
 							if (needCheckOnDomain(domName)) {
 								smv.print(" & " + variableUpdates.get(cond) + " in " + variableDomain);
@@ -572,12 +572,12 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 							if (needCheckOnDomain(domName)) {
 								smv.print(variableUpdates.get(cond) + " in " + variableDomain);
 							} else {
-								smv.print(trueString);
+								smv.print(TRUE_STRING);
 							}
 						}
 						smv.println(": " + variableUpdates.get(cond) + ";");
 					}
-					smv.print("\t\t\t\t" + trueString + ": ");
+					smv.print("\t\t\t\t" + TRUE_STRING + ": ");
 					if (sharedLocations.contains(var)) {
 						smv.print(varsDecl.get(var).equals("boolean") ? "{TRUE, FALSE}" : varsDecl.get(var));
 						smv.println(";");
@@ -592,7 +592,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 		// INVAR section: it contains the definitions of the variables used
 		// to model the choose rules
 		for (String choose : invars.keySet()) {
-			if (!invars.get(choose).equals(trueString)) {
+			if (!invars.get(choose).equals(TRUE_STRING)) {
 				smv.println("\tINVAR\t" + invars.get(choose) + ";");
 			}
 		}
@@ -718,7 +718,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 			env.inMainRule = true;
 			// at the beginning, there are no conditions on updates
 			// each update contains at least the guard "TRUE"
-			getConditions().push(trueString);
+			getConditions().push(TRUE_STRING);
 			Rule mainRuleBody = asm.getMainrule().getRuleBody();
 			rv.visit(mainRuleBody);// visit starting from the main rule
 			getConditions().pop();// we remove the condition "TRUE" added before visiting the main rule
@@ -787,7 +787,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 						map = dv.visit(location);
 						if (map.size() == 1) {
 							Entry<String, String> entrySet = map.entrySet().iterator().next();
-							assert entrySet.getKey().equals(Util.trueString)
+							assert entrySet.getKey().equals(Util.TRUE_STRING)
 									: entrySet.getKey() + "\t" + entrySet.getValue();
 							env.inLineFunctions.put(locName, entrySet.getValue());
 						}
@@ -1748,7 +1748,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 	 * private Map<String, String> monConds(String monitored) { Map<String, String>
 	 * values = new HashMap<String, String>(); String domName =
 	 * locationDomain.get(monitored); if(domName.equals("boolean")) {
-	 * values.put(monitored, trueString); values.put("!"+monitored, falseString); }
+	 * values.put(monitored, TRUE_STRING); values.put("!"+monitored, falseString); }
 	 * else { for(String value: domainSet.get(domName)) { values.put(monitored + "="
 	 * + value,value); } } return values; }
 	 */

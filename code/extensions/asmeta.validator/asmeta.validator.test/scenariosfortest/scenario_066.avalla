@@ -1,0 +1,19 @@
+scenario scenario_066
+
+load ../../../../../asm_examples/examples/fsmsemantics/meta_hooking/FSM_spec.asm
+
+//// test name test@test0
+//// generated for (test goal): test0: NULL
+check currentState(myFsm) = s0;
+check inputEvent(t01) = epsylon;
+check outgoingTransition(s0) = {t01,t02};
+check inputEvent(t02) = epsylon;
+check initialState(myFsm) = s0;
+set input(myFsm) := e1;
+step
+set input(myFsm) := e0;
+step
+set input(myFsm) := e1;
+step
+step
+step

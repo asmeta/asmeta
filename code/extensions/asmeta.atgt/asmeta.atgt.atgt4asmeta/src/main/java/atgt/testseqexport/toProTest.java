@@ -1,6 +1,7 @@
 package atgt.testseqexport;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.Map;
@@ -19,11 +20,11 @@ public class toProTest extends TestSeqTrad {
 	public final boolean printOnlyTransitions;
 	
 	@Deprecated
-	public toProTest(File f, AsmTestSequence ts) {
+	public toProTest(File f, AsmTestSequence ts) throws FileNotFoundException {
 		this(f, ts, true);
 	}
 	
-	public toProTest(File f, AsmTestSequence ts, boolean printOnlyTransitions) {
+	public toProTest(File f, AsmTestSequence ts, boolean printOnlyTransitions) throws FileNotFoundException {
 		super(f, ts);
 		this.printOnlyTransitions = printOnlyTransitions;
 	}

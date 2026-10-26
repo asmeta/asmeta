@@ -1,19 +1,19 @@
 package atgt.translator;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
 
 import tgtlib.definitions.expression.CaseExpression;
+
+import org.junit.jupiter.api.Test;
 import tgtlib.definitions.expression.IdExpression;
 import tgtlib.definitions.expression.type.EnumConst;
 import tgtlib.definitions.expression.type.EnumConstCreator;
 import tgtlib.definitions.expression.type.EnumType;
 
-public class ExpressionToSPINVisitorTest {
+class ExpressionToSPINVisitorTest {
 
-	@Test
-	public void testForCaseExpression() {
+	@Test void forCaseExpression() {
 		EnumConstCreator icc = new EnumConstCreator();
 		EnumConst A = icc.createEnumConst("A");
 		EnumConst B = icc.createEnumConst("B");

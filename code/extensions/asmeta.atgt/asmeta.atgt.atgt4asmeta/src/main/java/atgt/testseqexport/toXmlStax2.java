@@ -19,7 +19,7 @@ public class toXmlStax2 extends TestSeqTrad {
 	
 	static String scenarioDTD;
 
-	public toXmlStax2(File f, AsmTestSequence ts) {
+	public toXmlStax2(File f, AsmTestSequence ts) throws FileNotFoundException {
 		super(f, ts);
 		scenarioDTD = "<!DOCTYPE test SYSTEM \"" + 
 			new File("src/atgt/gui/tree/DTD_atgt.dtd").getAbsoluteFile().toString() +

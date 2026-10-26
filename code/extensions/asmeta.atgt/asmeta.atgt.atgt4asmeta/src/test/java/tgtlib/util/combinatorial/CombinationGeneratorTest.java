@@ -10,28 +10,25 @@
  *******************************************************************************/
 package tgtlib.util.combinatorial;
 
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Arrays;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class CombinationGeneratorTest {
+class CombinationGeneratorTest {
 
-	@Test
-	public void testCombinationGenerator() {
+	@Test void combinationGenerator() {
 		CombinationGenerator cg = new CombinationGenerator(4, 2);
 		while(cg.hasNext())
 			System.out.println(Arrays.toString(cg.next()));
 	}
 
-	@Test
-	public void testGetNumLeft() {
+	@Test void getNumLeft() {
 		fail("Not yet implemented");
 	}
 
-	@Test
-	public void testGetNext() {
+	@Test void getNext() {
 		fail("Not yet implemented");
 	}
 

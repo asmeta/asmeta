@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -104,7 +105,7 @@ public class AsmetaV {
 		AsmetaV asmetaV = new AsmetaV();
 		File scenarioPathFile = new File(scenarioPath);
 		if (!scenarioPathFile.exists())
-			throw new RuntimeException("path " + scenarioPath + " does not exist");
+			throw new RuntimeException("path " + scenarioPath + " does not exist (absolute " + scenarioPathFile.getAbsolutePath() + ")");
 		// disable lazy evaluation (it is not interactive)
 		TermEvaluator.setAllowLazyEval(false);
 		List<String> result = asmetaV.execValidation(scenarioPathFile, coverage, csvPath != null, csvPath, shuffle);

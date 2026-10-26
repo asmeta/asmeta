@@ -34,8 +34,8 @@ public class TypedInitExpression extends TypedExpression implements tgtlib.defin
 	public TypedInitExpression(IdExpression id, Type _type, Expression _value) {
 		super(id,_type);
 		setValue(_value);
-		// the type must me consistent (it may be null?) 
-		assert id.getType() == _type : "id:" + id.getIdString() + " with stored type " + id.getType() + " and created with type " + _type;
+		// the type must me consistent (it cannot be null) 
+		assert id.getType() == _type : "id:" + id.getIdString() + " with stored type " + id.getType() + " and now created with type " + _type;
 	}
 
 	/**

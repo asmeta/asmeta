@@ -62,7 +62,7 @@ public abstract class TestSuiteGeneratorForTC<T extends TestSequenceGenerator<As
 		generator = gen;
 	}
 
-	public TestSuiteGeneratorForTC(Project<?, ?, ?, AsmCoverage> pro, T gen) {
+	public TestSuiteGeneratorForTC(Project<?, AsmTestCondition, AsmTestSequence, AsmCoverage> pro, T gen) {
 		this(pro.specification, pro.getTestTree(), gen);
 	}
 

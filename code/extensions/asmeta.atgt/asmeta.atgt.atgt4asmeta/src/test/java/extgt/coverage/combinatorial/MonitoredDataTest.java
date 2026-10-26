@@ -1,18 +1,18 @@
 package extgt.coverage.combinatorial;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Test;
 
 import tgtlib.definitions.TypedInitExpression;
+
+import org.junit.jupiter.api.Test;
 import tgtlib.definitions.expression.IdExpression;
 import tgtlib.definitions.expression.IdExpressionCreator;
 import tgtlib.definitions.expression.type.IntegerType;
 
-public class MonitoredDataTest {
+class MonitoredDataTest {
 
-	@Test
-	public void testAddNotEnum() {
+	@Test void addNotEnum() {
 		IdExpressionCreator ecc = new IdExpressionCreator();
 		IdExpression a = ecc.createIdExpression("a", null);
 		TypedInitExpression var = new TypedInitExpression(a,IntegerType.INTEGER_TYPE, null);

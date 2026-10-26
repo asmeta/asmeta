@@ -34,7 +34,7 @@ class CombinedFlattenerTest extends FlattenerTest {
 		flattenerTest("./examples/forallRuleChoose.asm", false, RemoveNestingFlattener.class, ForallRuleFlattener.class, ChooseRuleFlattener.class);
 	}
 
-	// I'm not use it is expected to fail this one or it should pass
+	// I'm not sure it is expected to fail this one or it should pass
 	@Test
 	void forallRuleChoose4() throws Exception {
 		assertThrows(AssertionError.class, () ->

@@ -11,3 +11,6 @@
 
 # Keep jar used for run experiments
 !/data/**/*.jar
+
+
+scenarios/*.avalla

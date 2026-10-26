@@ -11,7 +11,7 @@
 
 package atgt.translator;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -21,12 +21,12 @@ import java.util.Collection;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
 
 import atgt.coverage.AsmCoverageTree;
+
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+
 import atgt.parser.ExampleLoader;
 import atgt.parser.ParseSpecsAsmm;
 import atgt.parser.asmeta.AsmMLoaderTest;
@@ -39,25 +39,25 @@ import atgt.specification.ASMSpecification;
  * 
  * @author garganti
  */
-@RunWith(Parameterized.class)
 public class toSPINFlatVisitorTest {
 
-	@Parameters
 	public static Collection<Object[]> data() {
 		return Arrays.asList(new Object[][] { { Boolean.TRUE },
 				{ Boolean.FALSE } });
 	}
 
-	public toSPINFlatVisitorTest(boolean computeCoverage){
+	public void inittoSPINFlatVisitorTest(boolean computeCoverage){
 		
 	}
-	
+
 	/**
 	 * Test of forSpecification method, of class
 	 * atgt.translator.toSPINFlatVisitor.
 	 */
-	@Test
-	public void testSIS_asmSpecification() {
+	@MethodSource("data") @ParameterizedTest
+	public void testSIS_asmSpecification(boolean computeCoverage) {
+
+		inittoSPINFlatVisitorTest(computeCoverage);
 
 		ASMSpecification SP = atgt.parser.asmeta.AsmMLoaderTest
 				.SISSpecification();
@@ -81,8 +81,9 @@ public class toSPINFlatVisitorTest {
 	 *             the parse exception
 	 * @throws IOException
 	 */
-	@Test
-	public void testSIS_gsSpecification() throws ParseException, IOException {
+	@MethodSource("data") @ParameterizedTest
+	public void testSIS_gsSpecification(boolean computeCoverage) throws Exception {
+		inittoSPINFlatVisitorTest(computeCoverage);
 		ASMSpecification spec = ExampleLoader.getSpec("sis.gs");
 		assertNotNull(spec);
 		toSPINFlatVisitor tr = new toSPINFlatVisitor();
@@ -96,8 +97,9 @@ public class toSPINFlatVisitorTest {
 	 *             the parse exception
 	 * @throws IOException
 	 */
-	@Test
-	public void testCC_gsSpecification() throws ParseException, IOException {
+	@MethodSource("data") @ParameterizedTest
+	public void testCC_gsSpecification(boolean computeCoverage) throws Exception {
+		inittoSPINFlatVisitorTest(computeCoverage);
 		ASMSpecification spec = ExampleLoader.getSpec("cruiseControl.gs");
 		assertNotNull(spec);
 		toSPINFlatVisitor tr = new toSPINFlatVisitor();
@@ -112,25 +114,28 @@ public class toSPINFlatVisitorTest {
 	 * @throws ParseException
 	 *             the parse exception
 	 */
-	@Test
-	public void testCC_asmSpecification() throws FileNotFoundException,
-			ParseException {
+	@MethodSource("data") @ParameterizedTest
+	public void testCC_asmSpecification(boolean computeCoverage) throws Exception {
+		inittoSPINFlatVisitorTest(computeCoverage);
 		ASMSpecification spec = AsmMLoaderTest.cc_asmWithAxioms();
 		assertNotNull(spec);
 		toSPINFlatVisitor tr = new toSPINFlatVisitor();
 		System.out.println(tr.analyze(spec));
 	}
-	
-	@Test
-	public void testPunto() throws ParseException, IOException {
+
+	@MethodSource("data") @ParameterizedTest
+	public void testPunto(boolean computeCoverage) throws Exception {
+		inittoSPINFlatVisitorTest(computeCoverage);
 		Logger.getLogger(AsmetaLLoader.class).setLevel(Level.ALL);
 		ASMSpecification s = ExampleLoader.getSpec("punto2DintParamsForSpin.asm");
 		toSPINFlatVisitor tr = new toSPINFlatVisitor();
 		System.out.println(tr.analyze(s));
 	}
 
-	@Test
-	public void testChooseSpecification() {
+	@MethodSource("data") @ParameterizedTest
+	public void testChooseSpecification(boolean computeCoverage) {
+
+		inittoSPINFlatVisitorTest(computeCoverage);
 
 		File derivedF = ParseSpecsAsmm.getFileSpec("fuzzyCounterChoose.asm");
 		ASMSpecification SP = AsmMLoaderTest.loadSpec(derivedF);
@@ -141,6 +146,5 @@ public class toSPINFlatVisitorTest {
 
 	}
 
-	
 
 }

@@ -1,6 +1,6 @@
 package extgt.coverage.mcdc;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -8,12 +8,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
-
 import tgtlib.definitions.NamedTerm;
+
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+
 import tgtlib.definitions.expression.Expression;
 import tgtlib.definitions.expression.IdExpression;
 import tgtlib.definitions.expression.parser.ExpressionParser;
@@ -21,7 +20,6 @@ import tgtlib.definitions.expression.parser.ParseException;
 import tgtlib.definitions.expression.type.EnumConstCreator;
 import tgtlib.util.Pair;
 
-@RunWith(Parameterized.class)
 public class BoolDerivativeVisitorTest {
 
 	private String expression;
@@ -29,8 +27,8 @@ public class BoolDerivativeVisitorTest {
 	Map<String, Pair<Expression,Expression>> results;
 	
 	EnumConstCreator ecc = new EnumConstCreator();
-	
-	public BoolDerivativeVisitorTest(String expression, String r) throws ParseException{
+
+	public void initBoolDerivativeVisitorTest(String expression, String r) throws ParseException{
 		this.expression = expression;
 		results = new HashMap<>();
 		String[] maps = r.split(";");
@@ -46,7 +44,6 @@ public class BoolDerivativeVisitorTest {
 		}
 	}
 	
-	@Parameters
 	public static Collection regExValues() {
 	 return Arrays.asList(new Object[][] {
 	  {"a", "a->true,false"},
@@ -54,9 +51,10 @@ public class BoolDerivativeVisitorTest {
 	 });
 	}
 
-	
-	@Test
-	public void test() throws ParseException {
+
+	@MethodSource("regExValues") @ParameterizedTest
+	public void test(String expression, String r) throws Exception {
+		initBoolDerivativeVisitorTest(expression, r);
 		// read the expression
 		Expression e = ExpressionParser.parse(expression,ecc);
 		List<Pair<IdExpression, Pair<NamedTerm, NamedTerm>>> result = e.accept(BoolDerivativeVisitor.instance);

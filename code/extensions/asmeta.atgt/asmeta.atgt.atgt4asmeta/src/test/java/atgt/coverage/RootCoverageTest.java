@@ -1,17 +1,13 @@
 package atgt.coverage;
 
-import java.io.IOException;
-
-import org.junit.Test;
-
 import atgt.parser.ExampleLoader;
-import atgt.parser.asmgofer.ParseException;
+
+import org.junit.jupiter.api.Test;
 import atgt.specification.ASMSpecification;
 
-public class RootCoverageTest {
+class RootCoverageTest {
 
-	@Test
-	public void testWithFuzzyCounter() throws IOException, ParseException {
+	@Test void withFuzzyCounter() throws Exception {
 		ASMSpecification fuzzyCounter = ExampleLoader.getSpec("fuzzyCounter.asm");
 		
 		AsmCoverage tptree = RootCoverage.ROOT.getTPTree(fuzzyCounter);

@@ -7,6 +7,8 @@ import org.asmeta.simulator.Location;
 import org.asmeta.simulator.RuleEvaluatorObserver;
 import org.asmeta.simulator.value.Value;
 
+import asmeta.definitions.DefinitionsFactory;
+import asmeta.definitions.DefinitionsPackage;
 import asmeta.definitions.Function;
 
 class ChosenVarsObserver implements RuleEvaluatorObserver {
@@ -18,7 +20,7 @@ class ChosenVarsObserver implements RuleEvaluatorObserver {
 	public void update(Object change) {
 		java.util.HashMap<String,Value> assignemnts = (HashMap<String, Value>) change;
 		assignemnts.entrySet().forEach(x  -> {
-			String[] var = x.getKey().split("in");
+			String[] var = x.getKey().split(" in ");
 			LogicalVarChoosen loc = new LogicalVarChoosen(var[0], var[1]);
 			pickedValues.put(loc, x.getValue());
 		});
@@ -29,15 +31,18 @@ class ChosenVarsObserver implements RuleEvaluatorObserver {
 		pickedValues.clear();
 		return returnVal;		
 	}
-}
+} 
 
 class LogicalVarChoosen extends Location{
 
 	private String logicalVar;
 	private String ruleDecl;
+	
+	private static Function f = DefinitionsFactory.eINSTANCE.createLocalFunction();
+	
 
 	public LogicalVarChoosen(String logicalVar, String ruleDecl) {
-		super(null, null);
+		super(f, null);
 		this.logicalVar = logicalVar;
 		this.ruleDecl =ruleDecl;
 	}
@@ -61,6 +66,14 @@ class LogicalVarChoosen extends Location{
 		return getName();
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof LogicalVarChoosen lvar) {
+			return this.logicalVar.equals(lvar.logicalVar) && this.ruleDecl.equals(lvar.ruleDecl);
+		}
+		return false;
+	}
+	
 	
 	
 }

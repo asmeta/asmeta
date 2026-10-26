@@ -10,16 +10,16 @@
  ******************************************************************************/
 package atgt.combinatorial;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Iterator;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import atgt.coverage.AsmCoverage;
 import atgt.coverage.AsmTestCondition;
@@ -40,10 +40,10 @@ import tgtlib.definitions.expression.type.EnumType;
 /**
  * test the generation for pairwise coverage tree.
  */
-public class PairwiseCoverageTest {
-	
-	@BeforeClass
-	public static void setupLogger(){
+class PairwiseCoverageTest {
+
+	@BeforeAll
+	static void setupLogger(){
 		Logger.getLogger(AsmCombCovBuilder.class).setLevel(Level.ALL);
 		Logger.getLogger(AsmMonitoredDataExtractor.class).setLevel(Level.ALL);
 		Logger.getLogger(StdPairwiseCovBuild.class).setLevel(Level.ALL);
@@ -52,8 +52,7 @@ public class PairwiseCoverageTest {
 	/**
 	 * Test for specification cc.
 	 */
-	@Test
-	public void testForSpecificationCC() {
+	@Test void forSpecificationCC() {
 		ASMSpecification SP = ASMParserTest.getCruiseControlNoAxiom();
 		System.out.println(SP.getVariables());
 		CoverageTree<AsmTestCondition> result = AsmCombCovBuilder.makePairwiseCovBuilder().getTPTree(SP);
@@ -69,8 +68,7 @@ public class PairwiseCoverageTest {
 	/**
 	 * Test compute std tp.
 	 */
-	@Test
-	public void testComputeStdTP() {
+	@Test void computeStdTP() {
 		ATGToolPreferences.TP_ORDERING.setValue(ATGToolPreferences.OrderKind.AS_GENERATED);
 		MonitoredData data = new MonitoredData();
 		PairwiseCovBuilder<ASMSpecification, AsmTestCondition, AsmCoverage> std = AsmCombCovBuilder.makePairwiseCovBuilder();

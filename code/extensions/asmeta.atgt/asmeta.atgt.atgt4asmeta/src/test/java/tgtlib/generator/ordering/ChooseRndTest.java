@@ -1,15 +1,15 @@
 package tgtlib.generator.ordering;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
-
 import tgtlib.definitions.TestPredicate;
+
+import org.junit.jupiter.api.Test;
 import tgtlib.generator.TestPredicate4Test;
 
 /**
@@ -17,26 +17,24 @@ import tgtlib.generator.TestPredicate4Test;
  *
  * @author garganti
  */
-public class ChooseRndTest {
+class ChooseRndTest {
 	/**
 	 * Run the ChooseRnd(List<T>) constructor test.
 	 */
-	@Test
-	public void testChooseRndEmpty(){
+	@Test void chooseRndEmpty(){
 		List<TestPredicate> candidates = new ArrayList<TestPredicate>();
 
 		ChooseRnd result = new ChooseRnd(candidates);
 
 		// add additional test code here
 		assertNotNull(result);
-		assertEquals(null, result.next());
+		assertNull(result.next());
 	}
 
 	/**
 	 * Run the ChooseRnd(List<T>) constructor test.
 	 */
-	@Test
-	public void testChooseSomeElements(){
+	@Test void chooseSomeElements(){
 		List<TestPredicate4Test> candidates = new ArrayList<TestPredicate4Test>();
 		candidates.add(new TestPredicate4Test("a1", null));
 		candidates.add(new TestPredicate4Test("a2", null));
@@ -48,11 +46,11 @@ public class ChooseRndTest {
 		assertNotNull(result.next());
 		assertNull(result.next());
 	}
+
 	/**
 	 * Run the ChooseRnd(List<T>) constructor test.
 	 */
-	@Test
-	public void testChooseRemove(){
+	@Test void chooseRemove(){
 		List<TestPredicate4Test> candidates = new ArrayList<TestPredicate4Test>();
 		candidates.add(new TestPredicate4Test("a1", null));
 		candidates.add(new TestPredicate4Test("a2", null));
@@ -66,20 +64,19 @@ public class ChooseRndTest {
 		assertNotNull(result.next());
 		assertNull(result.next());
 	}
+
 	/**
 	 * Run the ChooseRnd(List<T>) constructor test.
 	 */
-	@Test(expected=java.lang.IllegalStateException.class)
-	public void testChooseRemoveTwice(){
+	@Test void chooseRemoveTwice() {
 		List<TestPredicate4Test> candidates = new ArrayList<TestPredicate4Test>();
 		candidates.add(new TestPredicate4Test("a1", null));
 		candidates.add(new TestPredicate4Test("a2", null));
-		
 		ChooseRnd<TestPredicate4Test> result = new ChooseRnd<TestPredicate4Test>(candidates);
 		assertNotNull(result);
-		//
 		assertNotNull(result.next());
 		result.remove();
-		result.remove();
+		assertThrows(java.lang.IllegalStateException.class, () ->
+			result.remove());
 	}
 }

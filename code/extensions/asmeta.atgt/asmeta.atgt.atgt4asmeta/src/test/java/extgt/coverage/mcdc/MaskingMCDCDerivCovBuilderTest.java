@@ -1,13 +1,10 @@
 package extgt.coverage.mcdc;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import tgtlib.definitions.expression.parser.ParseException;
+class MaskingMCDCDerivCovBuilderTest {
 
-public class MaskingMCDCDerivCovBuilderTest {
-
-	@Test
-	public void testForOrExpression() throws ParseException {
+	@Test void forOrExpression() throws Exception {
 /*		Expression e = ExpressionParser.parse("a or b");
 		MaskingMCDCDerivCovBuilder builder = MaskingMCDCDerivCovBuilder<?, ?, ?>();
 		//

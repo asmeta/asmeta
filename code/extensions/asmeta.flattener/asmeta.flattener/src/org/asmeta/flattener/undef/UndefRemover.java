@@ -141,7 +141,7 @@ public class UndefRemover {
 					f.setCodomain(newDom);
 					fixedDomain.add(codomain);
 					EnumTerm enumTerm = TermsFactory.eINSTANCE.getFurtherTerms().createEnumTerm();
-					enumTerm.setDomain(codomain);
+					enumTerm.setDomain(newDom);
 					enumTerm.setSymbol("BOOL_UNDEF");
 					mapDomainsUndefTerm.put(codomain, enumTerm);
 					mapDomainsUndefTerm.put(newDom, enumTerm);

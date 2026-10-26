@@ -1,14 +1,15 @@
 package atgt.generator.testsuite.ordering;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
-
 import atgt.combinatorial.CombinatorialTestCondition;
+
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import atgt.combinatorial.PairEqTestCondition;
 import atgt.coverage.AsmTestCondition;
 import atgt.coverage.AsmTestSequence;
@@ -20,15 +21,14 @@ import atgt.specification.location.Variable;
 import tgtlib.definitions.expression.type.BoolType;
 import tgtlib.util.IterableEnumeration;
 
+@Disabled //atgt.parser.ParseSpecsAsmm.CC_ASM does not exists
 public class PreferNoveltyTest {
 
-	@Test
-	public void testMaxUsage() {
+	@Test void maxUsage() {
 		test(new MAXComparator(), 1, 1, "tc1");
 	}
 
-	@Test
-	public void testToch() {
+	@Test void toch() {
 		test(new TOUCHComparator(), 2, 1, "tc2");
 	}
 

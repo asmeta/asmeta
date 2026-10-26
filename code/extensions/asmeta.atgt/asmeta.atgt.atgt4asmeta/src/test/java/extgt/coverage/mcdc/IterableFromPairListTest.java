@@ -1,25 +1,25 @@
 package extgt.coverage.mcdc;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.junit.Test;
 
 import tgtlib.util.Pair;
 
-public class IterableFromPairListTest {
+import org.junit.jupiter.api.Test;
 
-	@Test
-	public void testIteratorEmpty() {
+class IterableFromPairListTest {
+
+	@Test void iteratorEmpty() {
 		List<Pair<String, String>> ll = new ArrayList<Pair<String,String>>();
 		IterableFromPairList<String> it = new IterableFromPairList<String>(ll);
 		Iterator<String> ite = it.iterator();
 		assertFalse(ite.hasNext());
 	}
-	@Test
-	public void testIterator1Pair() {
+
+	@Test void iterator1Pair() {
 		List<Pair<String, String>> ll = new ArrayList<Pair<String,String>>();
 		ll.add(new Pair<String, String>("a", "b"));
 		IterableFromPairList<String> it = new IterableFromPairList<String>(ll);
@@ -30,8 +30,8 @@ public class IterableFromPairListTest {
 		assertEquals("b", ite.next());
 		assertFalse(ite.hasNext());
 	}
-	@Test
-	public void testIterator2Pair() {
+
+	@Test void iterator2Pair() {
 		List<Pair<String, String>> ll = new ArrayList<Pair<String,String>>();
 		ll.add(new Pair<String, String>("a", "b"));
 		ll.add(new Pair<String, String>("c", "d"));

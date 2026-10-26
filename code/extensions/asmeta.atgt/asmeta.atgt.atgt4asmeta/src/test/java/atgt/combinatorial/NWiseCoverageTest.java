@@ -10,14 +10,14 @@
  ******************************************************************************/
 package atgt.combinatorial;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Iterator;
 
-import org.junit.Test;
-
 import atgt.coverage.AsmTestCondition;
+
+import org.junit.jupiter.api.Test;
 import atgt.parser.asmgofer.ASMParserTest;
 import atgt.specification.ASMSpecification;
 import tgtlib.coverage.CoverageTree;
@@ -26,13 +26,12 @@ import tgtlib.coverage.CoverageTree;
 /**
  * test the generation for pairwise coverage tree.
  */
-public class NWiseCoverageTest {
+class NWiseCoverageTest {
 
 	/**
 	 * Test for specification cc.
 	 */
-	@Test
-	public void testForSpecificationCC() {
+	@Test void forSpecificationCC() {
 		ASMSpecification SP = ASMParserTest.getCruiseControlNoAxiom();
 		CoverageTree<AsmTestCondition> result = AsmCombCovBuilder.createNWiseCovBuilder(3).getTPTree(SP);
 		Iterator<AsmTestCondition> i = result.allTPs().iterator();

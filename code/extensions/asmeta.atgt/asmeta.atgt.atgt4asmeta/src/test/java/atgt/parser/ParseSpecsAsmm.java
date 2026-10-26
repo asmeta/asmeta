@@ -10,16 +10,18 @@
  ******************************************************************************/
 package atgt.parser;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.IOException;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 /**
  * The Class ParseSpecsAsmm.
  */
+@Disabled // these files do not exists in this repo
 public class ParseSpecsAsmm {
 
 	// rendi il path di ricerca delle ASM in modo che si possa testare anche da
@@ -55,10 +57,9 @@ public class ParseSpecsAsmm {
 	/**
 	 * Test existence.
 	 */
-	@Test
-	public void testExistence() {
+	@Test void existence() {
 		for (File f : asmfiles)
-			assertTrue(f.getName() + " exists ", f.exists());
+			assertTrue(f.exists(), f.getName() + " exists ");
 	}
 
 	public static File getFileSpec(String s) {
@@ -76,8 +77,7 @@ public class ParseSpecsAsmm {
 	/**
 	 * Test syntax.
 	 */
-	@Test
-	public void testSyntax() {
+	@Test void syntax() {
 		/*
 		 * assertTrue(checkAsmSyntax(BasicBillingSystem));
 		 * assertTrue(checkAsmSyntax(SIS)); assertTrue(checkAsmSyntax(TP4));

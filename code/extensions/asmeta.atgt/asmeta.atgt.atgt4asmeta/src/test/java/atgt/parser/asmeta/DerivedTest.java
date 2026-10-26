@@ -1,24 +1,25 @@
 package atgt.parser.asmeta;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.File;
 import java.util.Enumeration;
 
-import org.junit.Test;
-
 import atgt.parser.ParseSpecsAsmm;
+
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import atgt.specification.ASMSpecification;
 import atgt.specification.location.Variable;
 
-public class DerivedTest{
-	
-	
+class DerivedTest{
+
+
 	/**
 	 * Test read asm mcc.
 	 */
-	@Test
-	public void testDerived() {
+	@Disabled // the file "derived.asm" does not exists
+	@Test void derived() {
 		File derivedF = ParseSpecsAsmm.getFileSpec("derived.asm");
 		ASMSpecification derS = AsmMLoaderTest.loadSpec(derivedF);
 		assertNotNull(derS);

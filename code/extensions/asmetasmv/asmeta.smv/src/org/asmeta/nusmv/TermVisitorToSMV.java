@@ -5,7 +5,7 @@ import static org.asmeta.nusmv.util.Util.falseString;
 import static org.asmeta.nusmv.util.Util.getDomainName;
 import static org.asmeta.nusmv.util.Util.getFunctionName;
 import static org.asmeta.nusmv.util.Util.or;
-import static org.asmeta.nusmv.util.Util.trueString;
+import static org.asmeta.nusmv.util.Util.TRUE_STRING;
 import static org.asmeta.nusmv.util.Util.xor;
 
 import java.util.ArrayList;
@@ -156,10 +156,10 @@ public class TermVisitorToSMV extends org.asmeta.parser.util.ReflectiveVisitor<S
 		
 						//System.out.println(name);
 						Map<String, String> map = mv.derivedMap.get(name);
-						if(map != null && map.size()==1 && map.keySet().contains(trueString)) {
-							String value = map.get(trueString);
+						if(map != null && map.size()==1 && map.keySet().contains(TRUE_STRING)) {
+							String value = map.get(TRUE_STRING);
 							if(mv.domainSet.get(getDomainName(func.getCodomain())).contains(value)) {
-								//System.out.println(name + " " + map.get(trueString));
+								//System.out.println(name + " " + map.get(TRUE_STRING));
 								name = value;
 							}
 						}
@@ -595,9 +595,9 @@ public class TermVisitorToSMV extends org.asmeta.parser.util.ReflectiveVisitor<S
 				rules.add(undefInDomains);
 			}
 		}
-		if(conds.contains(Util.trueString)) {
-			assert conds.indexOf(Util.trueString) == conds.lastIndexOf(Util.trueString);
-			return rules.get(conds.indexOf(Util.trueString));
+		if(conds.contains(Util.TRUE_STRING)) {
+			assert conds.indexOf(Util.TRUE_STRING) == conds.lastIndexOf(Util.TRUE_STRING);
+			return rules.get(conds.indexOf(Util.TRUE_STRING));
 		}
 		else {
 			StringBuilder sb = new StringBuilder();
@@ -615,7 +615,7 @@ public class TermVisitorToSMV extends org.asmeta.parser.util.ReflectiveVisitor<S
 	public String visit(ConditionalTerm condTerm) {
 		String guard = visit(condTerm.getGuard());
 		String thenTermStr = visit(condTerm.getThenTerm());
-		if(guard.endsWith(Util.trueString)) {
+		if(guard.endsWith(Util.TRUE_STRING)) {
 			return thenTermStr;
 		}
 		Term elseTerm = condTerm.getElseTerm();

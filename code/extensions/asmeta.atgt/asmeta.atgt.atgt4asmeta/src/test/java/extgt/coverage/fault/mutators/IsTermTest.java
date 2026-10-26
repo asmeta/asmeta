@@ -1,22 +1,21 @@
 package extgt.coverage.fault.mutators;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
 
 import tgtlib.definitions.expression.AndExpression;
+
+import org.junit.jupiter.api.Test;
 import tgtlib.definitions.expression.ExpressionsToTest;
 
-public class IsTermTest extends FaultTest {
+class IsTermTest extends FaultTest {
 
-	@Test
-	public void testForSimpleExpressions() {		
+	@Test void forSimpleExpressions() {		
 		assertEquals(IsTerm.TermType.AND_TERM,aANDb.accept(IsTerm.instance));
 		assertEquals(IsTerm.TermType.OR_TERM,aORb.accept(IsTerm.instance));
 	}
 
-	@Test 
-	public void testForCompundExpressions() {
+	@Test void forCompundExpressions() {
 		// (a and b) and (a or b) is not a term
 		AndExpression a1 = new AndExpression(aANDb, aORb);
 		assertEquals(IsTerm.TermType.NO_TERM,a1.accept(IsTerm.instance));
@@ -28,8 +27,7 @@ public class IsTermTest extends FaultTest {
 		assertEquals(IsTerm.TermType.AND_TERM,a3.accept(IsTerm.instance));			
 	}
 
-	@Test
-	public void testForNegatedExpressions() {	
+	@Test void forNegatedExpressions() {	
 		// not A --> literal term
 		assertEquals(IsTerm.TermType.LIT_TERM,ExpressionsToTest.notA.accept(IsTerm.instance));
 		// not (a and b) -> is not a term
@@ -39,8 +37,7 @@ public class IsTermTest extends FaultTest {
 		assertEquals(IsTerm.TermType.NO_TERM,a1.accept(IsTerm.instance));
 	}
 
-	@Test
-	public void testForIDExpressions() {	
+	@Test void forIDExpressions() {	
 		// A --> literal term
 		assertEquals(IsTerm.TermType.LIT_TERM,ExpressionsToTest.A.accept(IsTerm.instance));
 	}

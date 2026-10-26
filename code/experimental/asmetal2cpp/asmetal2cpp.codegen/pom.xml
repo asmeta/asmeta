@@ -3,6 +3,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>asmeta.asmetal2cpp.codegen</artifactId>
+	<parent>
+		<groupId>asmeta</groupId>
+		<artifactId>asmeta.asmetal2cpp</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>..</relativePath>
+	</parent>
 	<properties>
 		<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
 		<!--
@@ -121,10 +127,4 @@
 			<version>[${xtext.version},)</version>
 		</dependency>
 	</dependencies>
-	<parent>
-		<groupId>asmeta</groupId>
-		<artifactId>asmeta.asmetal2cpp</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-		<relativePath>..</relativePath>
-	</parent>
 </project>

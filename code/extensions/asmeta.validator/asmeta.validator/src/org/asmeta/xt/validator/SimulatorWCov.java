@@ -54,12 +54,19 @@ public class SimulatorWCov extends Simulator {
 		if (!modelFile.exists()) {
 			throw new FileNotFoundException(modelPath);
 		}
-		AsmCollection asmetaPackage = ASMParser.setUpReadAsm(modelFile);
-		String fileName = modelFile.getName().split("\\.")[0];
-
-		return new SimulatorWCov(fileName, asmetaPackage,
+		try{
+			AsmCollection asmetaPackage = ASMParser.setUpReadAsm(modelFile);
+			String fileName = modelFile.getName().split("\\.")[0];
+			return new SimulatorWCov(fileName, asmetaPackage,
 				new Environment(new InteractiveMFReader(System.in, System.out)));
+		} catch (org.asmeta.parser.ParseException pe) {
+			if (pe.getMessage().contains("Encountered \" \"=\" \"=\"\"")) {
+				System.err.println("Error: The model file " + modelPath + " contains an operator =. Probably eq should be used instead");
+			}
+			throw pe;
+		}
 	}
+
 
 	/**
 	 * Initialize the rule evaluator with the one that also computes the coverage.
@@ -71,7 +78,7 @@ public class SimulatorWCov extends Simulator {
 	protected void initEvaluator(State state) {
 		logger.info("init the simulator with coverage evaluator");
 		RuleFactory factory = new RuleFactory();
-		ruleEvaluator = new RuleEvalWCov(state, environment, factory);
+		ruleEvaluator = new RuleEvalWCov(state, environment, factory);		
 		return;
 	}
 

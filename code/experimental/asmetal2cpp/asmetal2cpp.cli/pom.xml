@@ -3,12 +3,23 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>asmeta.asmetal2cpp.cli</artifactId>
+	<parent>
+		<groupId>asmeta</groupId>
+		<artifactId>asmeta.asmetal2cpp</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>..</relativePath>
+	</parent>
+	<properties>
+		<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
+		<!--
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>-->
+	</properties>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.13.0</version>
+				<version>3.15.0</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -126,10 +137,4 @@
 			<url>https://p2repository.com/mvn4/eclipse-2024-09/</url>
 		</repository>
 	</repositories>
-	<parent>
-		<groupId>asmeta</groupId>
-		<artifactId>asmeta.asmetal2cpp</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-		<relativePath>..</relativePath>
-	</parent>
 </project>

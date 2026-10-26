@@ -18,7 +18,7 @@ import tgtlib.definitions.TestPredicate;
 /** take the tp in the same order as they are generate * @author garganti
  * @version $Revision: 1.0 $
 d*/
-public class GenerationOrder<T extends TestPredicate> extends NoCollectOrderWMonitoring<T> {
+public class GenerationOrder<T extends TestPredicate<?,?>> extends NoCollectOrderWMonitoring<T> {
 
 
 	/**

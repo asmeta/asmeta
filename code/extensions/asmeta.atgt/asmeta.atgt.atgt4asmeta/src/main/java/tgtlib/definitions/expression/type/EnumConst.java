@@ -19,12 +19,7 @@ import tgtlib.definitions.expression.IdExpression;
  */
 public class EnumConst extends IdExpression {
 
-	/**
-	 * the type to which this constant belongs to. it can be null, assuming that
-	 * EnumConsts exist before EnumTypes
-	 * */
-	ElementsType type;
-
+	
 	/**
 	 * builds an enum constant.
 	 * 
@@ -41,10 +36,11 @@ public class EnumConst extends IdExpression {
 	 * 
 	 * @param et EnumType
 	 */
-	public void setType(ElementsType et) {
+	@Override
+	public void setType(Type et) {		
 		// ///assert type == null : this.id + " has already type " + this.type;
 		assert type == null || et == type : "type of " + this.id + " already set to "	+ type.getName();
-		type = et;
+		type = (ElementsType)et;
 	}
 
 	/**
@@ -53,7 +49,7 @@ public class EnumConst extends IdExpression {
 	 */
 	@Override
 	public ElementsType getType() {
-		return type;
+		return (ElementsType) type;
 	}
 
 	/**

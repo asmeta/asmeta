@@ -1,0 +1,21 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>asmeta.atgt.parent</artifactId>
+	<packaging>pom</packaging>
+	<properties>
+		<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
+	</properties>
+	<modules>
+		<module>asmeta.atgt.atgt4asmeta</module>
+		<module>asmeta.atgt</module>
+		<module>asmeta.atgt.test</module>
+	</modules>
+	<parent>
+		<groupId>asmeta</groupId>
+		<artifactId>asmeta.all</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../../../pom.xml</relativePath>
+	</parent>
+</project>

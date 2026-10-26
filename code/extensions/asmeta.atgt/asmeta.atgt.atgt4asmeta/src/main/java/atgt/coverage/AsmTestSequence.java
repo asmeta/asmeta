@@ -95,14 +95,25 @@ public class AsmTestSequence extends TestResult implements Comparable<AsmTestSeq
 		}
 	};
 
+	// these can be specific for a single ASMETA spec
 	/** store all the variables */
-	private static Map<String, Variable> variables = new HashMap<String, Variable>();
+	private static Map<String, Variable> variables;
 	/** store their ids to avoid unnecessary duplications of ids */
-	private static IdExpressionCreator iecc = new IdExpressionCreator();
+	private static IdExpressionCreator iecc;
 	// the functions already build in this test
 	// TODO avoid function altogether
-	static private Map<IdExpression,Function> functions = new HashMap<>();
+	static private Map<IdExpression,Function> functions;
 
+	
+	public static void resetForAnewSPEC() {
+		variables = new HashMap<String, Variable>();
+		iecc = new IdExpressionCreator();
+		functions = new HashMap<>();		
+	}
+	
+	static {
+		resetForAnewSPEC();
+	}
 	
 	
 	/**

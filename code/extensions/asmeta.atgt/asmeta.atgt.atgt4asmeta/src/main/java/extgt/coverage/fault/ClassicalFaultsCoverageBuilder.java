@@ -26,7 +26,7 @@ import extgt.coverage.fault.mutators.foms.VariableNegationFault;
  * @param <Q> the generic type
  * @author garganti
  */
-public final class ClassicalFaultsCoverageBuilder<T extends Specification, P extends TestPredicate, Q extends CoverageTree<P>>
+public final class ClassicalFaultsCoverageBuilder<T extends Specification, P extends TestPredicate<?,?>, Q extends CoverageTree<P>>
 		extends CovBuilderBySubCov<T, P, Q> {
 
 	/**
@@ -50,7 +50,7 @@ public final class ClassicalFaultsCoverageBuilder<T extends Specification, P ext
 	 * @param tpFact the tp factory
 	 * @return the fault based coverage tree (with the classical faults)
 	 */
-	public static <T extends Specification, P extends TestPredicate, Q extends CoverageTree<P>> ClassicalFaultsCoverageBuilder<T, P, Q> makeAllCoverages(
+	public static <T extends Specification, P extends TestPredicate<?,?>, Q extends CoverageTree<P>> ClassicalFaultsCoverageBuilder<T, P, Q> makeAllCoverages(
 			CoverageTreeFactory<Q> ctfact,
 			SpecificationAnalyzer<List<NamedTerm>, T> specAn,
 			TestPredicateFactory<P> tpFact) {

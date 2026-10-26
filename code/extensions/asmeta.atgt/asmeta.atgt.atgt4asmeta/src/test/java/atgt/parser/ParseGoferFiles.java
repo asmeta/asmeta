@@ -10,14 +10,14 @@
  ******************************************************************************/
 package atgt.parser;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import atgt.parser.asmgofer.AsmGoferLoader;
 
@@ -41,27 +41,25 @@ public class ParseGoferFiles {
 			e.printStackTrace();
 		}
 	}
-	
-	@BeforeClass
-	public static void loadfiles() throws IOException {
+
+	@BeforeAll
+	static void loadfiles() throws IOException {
 		CruiseControl = ExampleLoader.getFileSpec("cruiseControl.gs");
 		SIS = ExampleLoader.getFileSpec("sis.gs");
 	}
-	
+
 	/**
 	 * Test existence.
 	 */
-	@Test
-	public void testExistence() {
-		assertTrue("cruise control "+ CruiseControl.getAbsolutePath() + "not found", CruiseControl.exists());
-		assertTrue("SIS not found ", SIS.exists());
+	@Test void existence() {
+		assertTrue(CruiseControl.exists(), "cruise control "+ CruiseControl.getAbsolutePath() + "not found");
+		assertTrue(SIS.exists(), "SIS not found ");
 	}
 
 	/**
 	 * Test syntax.
 	 */
-	@Test
-	public void testSyntax() {
+	@Test void syntax() {
 		assertTrue(checkGoferSyntax(CruiseControl));
 		assertTrue(checkGoferSyntax(SIS));
 	}
