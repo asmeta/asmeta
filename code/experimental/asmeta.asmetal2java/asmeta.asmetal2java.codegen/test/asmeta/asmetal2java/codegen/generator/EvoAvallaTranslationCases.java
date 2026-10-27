@@ -17,6 +17,7 @@ import asmeta.asmetal2java.codegen.config.ModeConstantsConfig;
 import asmeta.asmetal2java.codegen.config.TranslatorOptions;
 import asmeta.asmetal2java.codegen.config.TranslatorOptionsImpl;
 import asmeta.asmetal2java.codegen.evosuite.RulesMap;
+import asmeta.asmetal2java.codegen.application.TranslatorImpl;
 
 /**
  * Focused cases for the Java generators used by EvoAvalla.
@@ -107,6 +108,36 @@ public class EvoAvallaTranslationCases {
 	void collectionTypesMustGenerateCompilableTestAndAtgClasses() throws Exception {
 		translateAndCompile("CollectionTypes.asm");
 	}
+	
+	@Test
+	void importingmodulesMustGenerateCompilableTestAndAtgClasses() throws Exception {
+		translateAndCompile("Main.asm");
+	}
+	
+	@Test
+	void agentsMustGenerateCompilableTestAndAtgClasses() throws Exception {
+		translateAndCompile("RobotsWithAgents.asm");
+	}
+
+	@Test
+	void concreteDomainRuleArgumentMustGenerateCompilableTestAndAtgClasses() throws Exception {
+		translateAndCompile("ConcreteDomainRuleArgument.asm");
+	}
+
+	@Test
+	void concreteDomainProductInitializationMustGenerateCompilableTestAndAtgClasses() throws Exception {
+		translateAndCompile("ConcreteDomainProductInitialization.asm");
+	}
+
+	@Test
+	void concreteDomainExistsPairMustGenerateCompilableTestAndAtgClasses() throws Exception {
+		translateAndCompile("ConcreteDomainExistsPair.asm");
+	}
+
+	@Test
+	void nestedChooseRulesMustGenerateCompilableTestAndAtgClasses() throws Exception {
+		translateAndCompile("NestedChooseRules.asm");
+	}
 
 	@Test
 	@Tag("TestToMavenSkip")
@@ -157,6 +188,8 @@ public class EvoAvallaTranslationCases {
 		Path atgJava = GENERATED.resolve(asmName + "_ATG.java");
 
 		AsmCollection model = GeneratorCompilerUtil.parseSpec(specification.toFile());
+		model = TranslatorImpl.flattenModules(model,
+				specification.toFile().getAbsoluteFile().getParent());
 		RulesMap rules = new RulesMap();
 		JavaTestGenerator testGenerator = new JavaTestGenerator(rules);
 		JavaAtgGenerator atgGenerator = new JavaAtgGenerator(rules);

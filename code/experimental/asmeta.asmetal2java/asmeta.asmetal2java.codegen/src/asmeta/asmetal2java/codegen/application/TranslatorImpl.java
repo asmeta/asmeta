@@ -25,7 +25,7 @@ import asmeta.asmetal2java.codegen.evosuite.DomainNotSupportedException;
 public class TranslatorImpl implements Translator {
 
 	/** Logger */
-	private final Logger logger = LogManager.getLogger(TranslatorImpl.class);
+	private static final Logger logger = LogManager.getLogger(TranslatorImpl.class);
 
 	/* Constants */
 	private static final String ASM_EXTENSION = AsmetaParserUtility.ASM_EXTENSION;
@@ -183,7 +183,7 @@ public class TranslatorImpl implements Translator {
 	}
 
 	/** Keeps the standard libraries separate and flattens application modules. */
-	private AsmCollection flattenModules(AsmCollection model, String folder) {
+	public static AsmCollection flattenModules(AsmCollection model, String folder) {
 		boolean hasModules = false;
 		List<Asm> libraries = new ArrayList<Asm>();
 		for (Asm module : model) {
