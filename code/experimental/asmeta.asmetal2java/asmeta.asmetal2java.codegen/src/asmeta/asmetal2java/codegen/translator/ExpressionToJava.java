@@ -7,6 +7,7 @@ import asmeta.definitions.domains.Domain;
 import asmeta.definitions.domains.PowersetDomain;
 import asmeta.definitions.domains.ProductDomain;
 import asmeta.definitions.domains.SequenceDomain;
+import asmeta.definitions.domains.StringDomain;
 import asmeta.structure.Asm;
 import asmeta.terms.basicterms.SetTerm;
 import asmeta.terms.basicterms.Term;
@@ -47,7 +48,8 @@ public class ExpressionToJava {
 				|| function.equals("abs") || function.equals("floor") || function.equals("round")
 				|| function.equals("sqrt") || function.equals("min") || function.equals("max")
 				|| function.equals("idiv") || function.equals("concat") || function.equals("intersection")
-				|| function.equals("difference") || function.equals("symmetricDifference");
+				|| function.equals("difference") || function.equals("symmetricDifference") || function.equals("toString")
+				|| function.equals("rtoi") || function.equals("size") || function.equals("range");
 	}
 
 	/**
@@ -62,6 +64,14 @@ public class ExpressionToJava {
 	 */
 	String evaluateFunction(String function, List<Term> argsTerm) throws InvalidFunctionException {
 		switch (function) {
+		case "toString":
+			return "java.util.Objects.toString(" + new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0)) + ", \"undef\")";
+		case "rtoi":
+			return "(int) (long) (double) (" + operatorOperand(argsTerm.get(0)) + ")";
+		case "size":
+			return size(argsTerm);
+		case "range":
+			return range(argsTerm);
 		case "<":
 			return addOperator(argsTerm, "<");
 		case ("<="):
@@ -227,7 +237,8 @@ public class ExpressionToJava {
 	}
 
 	private String contains(List<Term> argsTerm) {
-		String sequence = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
+		String sequence = argsTerm.get(0) instanceof SetTerm ? collectionOperand(argsTerm.get(0))
+				: new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
 		String element = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(1));
 		return sequence + ".contains(" + element + ")";
 	}
@@ -387,6 +398,30 @@ public class ExpressionToJava {
 	private String length(List<Term> argsTerm) {
 		String first = new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0));
 		return first + ".size()";
+	}
+
+	private String size(List<Term> argsTerm) {
+		Term source = argsTerm.get(0);
+		Domain domain = source.getDomain();
+		while (domain instanceof ConcreteDomain concrete) {
+			domain = concrete.getTypeDomain();
+		}
+		if (domain instanceof StringDomain) {
+			String value = operatorOperand(source);
+			return "((java.util.function.ToIntFunction<String>) (__asmetaString -> "
+					+ "(__asmetaString.startsWith(\"\\\"\") && __asmetaString.endsWith(\"\\\"\")"
+					+ " ? __asmetaString.substring(1, __asmetaString.length() - 1) : __asmetaString).length()))"
+					+ ".applyAsInt(" + value + ")";
+		}
+		requirePowerset("size", source);
+		return "(" + collectionOperand(source) + ").size()";
+	}
+
+	private String range(List<Term> argsTerm) {
+		String from = operatorOperand(argsTerm.get(0));
+		String to = operatorOperand(argsTerm.get(1));
+		return "java.util.stream.IntStream.range(" + from + ", " + to + ").boxed()"
+				+ ".collect(java.util.stream.Collectors.toCollection(java.util.HashSet::new))";
 	}
 
 	/**
