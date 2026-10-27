@@ -5,7 +5,7 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.SimpleLayout;
 import org.apache.log4j.WriterAppender;
-import org.asmeta.atgt.generator.NuSMVtestGenerator;
+import org.asmeta.atgt.generator.NuSMVASMSpecTestGenerator;
 import org.asmeta.eclipse.AsmeeConsole;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -50,8 +50,8 @@ public abstract class SafeGeneratorRunnable extends Job {
 			// set the outstream
 			IOConsoleOutputStream out = mc.newOutputStream();
 			Appender consoleApp = new WriterAppender(new SimpleLayout(),out);
-			Logger.getLogger(NuSMVtestGenerator.class).addAppender(consoleApp);
-			Logger.getLogger(NuSMVtestGenerator.class).setLevel(Level.INFO);
+			Logger.getLogger(NuSMVASMSpecTestGenerator.class).addAppender(consoleApp);
+			Logger.getLogger(NuSMVASMSpecTestGenerator.class).setLevel(Level.INFO);
 			Logger.getLogger(AsmetaLLoader.class).setLevel(Level.ALL);
 		}
 	}
@@ -84,7 +84,7 @@ public abstract class SafeGeneratorRunnable extends Job {
 					// compute where to save the results
 					savetoavalla(result);
 				} catch (Exception e) {
-					Logger.getLogger(NuSMVtestGenerator.class).error("ATGT error: "+ e.getMessage());
+					Logger.getLogger(NuSMVASMSpecTestGenerator.class).error("ATGT error: "+ e.getMessage());
 					e.printStackTrace();
 				}
 				// referesh the project to show the generated files

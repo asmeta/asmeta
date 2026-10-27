@@ -128,6 +128,13 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 		}
 	}
 
+	/**  generate the test suite
+	 * 
+	 * @param shuffle : shuffle the choose domain
+	 * @return
+	 * @throws AsmModelNotFoundException
+	 * @throws MainRuleNotFoundException
+	 */
 	public AsmTestSuite getTestSuiteException(boolean shuffle) throws AsmModelNotFoundException, MainRuleNotFoundException {
 		AsmTestSuite testSuite = new AsmTestSuite();
 		for (int test = 0; test < numberofTests; test++) {
@@ -138,8 +145,12 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 			// build the simulator
 			SimulatorForRndGeneration simulator = new SimulatorForRndGeneration(modelName, asm, env);
 			simulator.setShuffleFlag(shuffle);
-			ChosenVarsObserver observer = new ChosenVarsObserver();
-			simulator.addObserver(observer);
+			ChosenVarsObserver observer = null;
+			// add the observer only if the shuffle is true, otherwise the values are not picked
+			if (shuffle) {
+				observer = new ChosenVarsObserver();
+				simulator.addObserver(observer);
+			}
 			String testName = "test" + Math.addExact(test, testNumberOffset);
 			AsmTestSequence testsequence = new AsmTestSequence(new AsmTestCondition(testName, null));
 			State state;
@@ -159,7 +170,8 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 				// get the monitored value of the previous step
 				state.applyLocationUpdates(randomMFReader.getValues());
 				// add the picked values if any
-				state.applyLocationUpdates(observer.getPickedValues());
+				if (shuffle)
+					state.applyLocationUpdates(observer.getPickedValues());
 				// add this (previous) state to the sequence
 				addState(testsequence, state);
 				// if no step was required

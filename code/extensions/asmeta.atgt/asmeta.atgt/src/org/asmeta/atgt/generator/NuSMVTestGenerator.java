@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
+import org.asmeta.atgt.generator.base.AsmTestGeneratorBase;
 import org.asmeta.atgt.generator.nusmv.ConverterCounterExample;
 import org.asmeta.atgt.generator.nusmv.Counterexample;
 import org.asmeta.atgt.generator.nusmv.TestGenerationWithNuSMV;
@@ -22,45 +23,41 @@ import atgt.coverage.eval.AsmCoverageEvaluator;
 import atgt.coverage.evalc.NavigableAsmInputs;
 import atgt.coverage.tpstatus.TestConditionState;
 import atgt.specification.ASMSpecification;
+import tgtlib.specification.ParseException;
+import tgtlib.specification.Specification;
 
-/**
+/** generate test generator based on NuSMV for a given ASM specification. It uses the class TestGenerationWithNuSMV to generate tests for each test purpose.
+ * 
+ * @author Angelo Gargantini
  *
- * generate a JUnit test case for a given Java SUT
- * using NuSMV
- *
+ * @param <S>
  */
-public class NuSMVtestGenerator extends AsmTestGenerator {
+public abstract class NuSMVTestGenerator<S extends Specification> extends AsmTestGenerator<S>{
+	
+	private static Logger logger = Logger.getLogger(NuSMVTestGenerator.class);
 
-	static boolean removeUnChangedControlles = true;
-
+	
+	static boolean removeUnChangedControlled = true;
 	static boolean removeUnaskedChanges = true;
-
-	private AsmCollection asmCollection;
-	private static Logger logger = Logger.getLogger(NuSMVtestGenerator.class);
-
 	private String tp="";
 	private String genTests="";
 
-	NuSMVtestGenerator(String asmFilePath) throws Exception {
-		this(asmFilePath, true);
-	}
-
+	
 	private TestGenerationWithNuSMV generator;
+	private AsmCollection asmCollection;
 
-	public NuSMVtestGenerator(String asmFilePath, boolean coverageTp) throws Exception {
-		super(asmFilePath, coverageTp);
-		//Logger.getLogger(AsmetaLLoader.class).setLevel(Level.OFF);
-		//Logger.getLogger(CoverageEvaluatorC.class).setLevel(Level.OFF);
+
+	NuSMVTestGenerator(String asmFilePath, boolean coverageTp, SpecificationReader<S> specReader) throws Exception {
+		super(asmFilePath, coverageTp, specReader);
 		assert new File(asmFilePath).exists();
 		asmCollection = ASMParser.setUpReadAsm(new File(asmFilePath));
 		generator = new TestGenerationWithNuSMV(asmFilePath);
 	}
-
+	
 	@Override
 	protected AsmTestSuite generateTestforASM() throws Exception{
 		return generateTestforASM(null);
 	}
-
 
 	protected AsmTestSuite generateTestforASM(FileWriter fw) throws Exception {
 		// specific to NUSMV
@@ -104,11 +101,15 @@ public class NuSMVtestGenerator extends AsmTestGenerator {
 				// TODO to fix ATGT and build a new JAR, or reference ATGT projects.
 				// attenzione che questo modifica il test che � passato, meglio fare una copia
 				if(coverageTp) {
-					computeCoverage(ct, asmTest, spec);
+					if (spec instanceof ASMSpecification asmspec) {
+						computeCoverage(ct, asmTest, asmspec);
+					} else {
+						System.err.println("Warning in NuSMVTestGenerator: the specification is not an ASMSpecification, coverage cannot be computed");
+					}
 				}
 				// clean up the test
 				// removing controlled repetitions
-				if (removeUnChangedControlles) {
+				if (removeUnChangedControlled) {
 					UnchangedRemover.conRemover.optimize(asmTest);
 				}
 				// removing useless monitored
@@ -168,4 +169,7 @@ public class NuSMVtestGenerator extends AsmTestGenerator {
 			tp.reset();
 		}
 	}
+
+	
+	
 }

@@ -4,8 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.asmeta.atgt.generator.AsmTestGenerator.MBTCoverage;
 import org.asmeta.atgt.generator.CriteriaEnum;
+import org.asmeta.atgt.generator.NuSMVASMSpecTestGenerator;
 import org.junit.jupiter.api.Test;
 
 import atgt.parser.asmeta.AsmetaLLoader;
@@ -34,7 +34,7 @@ public class CoverageTest {
 		}
 		// build the tree depending on the criteria
 		ASMSpecification spec = new AsmetaLLoader().read(new File(asmSpec));
-		AsmCoverage ct = new MBTCoverage(coverageCriteria).getTPTree(spec);
+		AsmCoverage ct = new NuSMVASMSpecTestGenerator.MBTCoverage(coverageCriteria).getTPTree(spec);
 		//ct.allTPs().forEach(x -> System.out.println(x.getName() + " " + x.getCondition()));
 	}
 

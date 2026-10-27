@@ -20,17 +20,20 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import asmeta.AsmCollection;
 import atgt.coverage.AsmTestSequence;
 import atgt.coverage.AsmTestSuite;
 import atgt.testseqexport.toAvalla;
 
-class ScenarioRndGeneratorWPickTest {
+class ScenarioRndGeneratorTest {
 
-	private static final String MODEL_LIST = "data\\icst_27_exp\\model_list.txt";
+	//private static final String MODEL_LIST = "data\\icst_27_exp\\model_list.txt";
+	private static final String MODEL_LIST = "data\\test\\model_list.txt";
 	private static final String source = "../../../../asm_examples/";
-	private static final String PROCESSED_MODELS_CSV = "random_generation.csv";
+	private static final String PROCESSED_MODELS_CSV = "random_generation_pick$PICK.csv";
 
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -48,8 +51,9 @@ class ScenarioRndGeneratorWPickTest {
 	void tearDown() throws Exception {
 	}
 
-	@Test
-	void testRunRandomWithPick() throws IOException {
+	@ParameterizedTest
+	@ValueSource(booleans = {true,false})
+	void testRunRandom(boolean shuffle) throws IOException {
 		// Logger.getLogger(org.asmeta.simulator.main.Simulator.class).setLevel(Level.OFF);
 		Logger.getLogger("org.asmeta.parser").setLevel(Level.OFF);
 		// enable assertions
@@ -62,7 +66,7 @@ class ScenarioRndGeneratorWPickTest {
 			System.err.println("Falied to load " + MODEL_LIST + "." + e);
 			return;
 		}
-		Path outputFile = Path.of(PROCESSED_MODELS_CSV);
+		Path outputFile = Path.of(PROCESSED_MODELS_CSV.replace("$PICK", shuffle ? "shuffle" : "deterministic"));
 		if (Files.notExists(outputFile)) {
 			try (BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile.toFile(), true))) {
 				writer.write("model_path\tnum_tps\ttime_taken_ms\tNUSMV?");
@@ -87,21 +91,18 @@ class ScenarioRndGeneratorWPickTest {
 						// generate
 						AsmTestGeneratorBySimulation rndgen = new AsmTestGeneratorBySimulation(asms, 4, 1);
 						try {
-							AsmTestSuite ts = rndgen.getTestSuiteException(true);
+							AsmTestSuite ts = rndgen.getTestSuiteException(shuffle);
 							writer.write("\t" + ts.getNActualTest());
 							// execute the scenario
 							if (ts.getNActualTest() == 1) {
 								// save avalla
 								AsmTestSequence test = ts.getTests().getFirst();
-								String scenarioName = "scenarios/scenario_" + String.format("%03d", specCounter)
-										+ ".avalla";
+								String scenarioName = "scenarios/scenario_" + String.format("%03d", specCounter) + (shuffle ? "shuffle" : "deterministic")+ ".avalla";
 								toAvalla exporter = new toAvalla(new File(scenarioName), test,
 										new File(asmPath).toString());
 								exporter.saveToStream();
 								// call the validator
-								boolean shuffle = true;
-								List<String> results = AsmetaV.execValidation(scenarioName,
-										AsmetaV.doNotcomputeCoverage, shuffle);
+								List<String> results = AsmetaV.execValidation(scenarioName,	AsmetaV.doNotcomputeCoverage, shuffle);
 								assert results != null;
 								writer.write("\t" + results.toString());
 								if (results.isEmpty()) {
