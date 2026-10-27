@@ -41,6 +41,8 @@ public class ScenarioGenerator {
 
 	private static final String EVOAVALLA_WORKING_DIR = "evoAvalla/";
 	private static final String DASH = "-";
+	private static final String EVOSUITE_VERSION = "1.2.0";
+	private static final String EVOSUITE_JAR = "evosuite-" + EVOSUITE_VERSION + ".jar";
 
 	/**
 	 * Run random test generation.
@@ -159,28 +161,28 @@ public class ScenarioGenerator {
 	 */
 	public static float runEvoAvalla(String asmPath, String targetDir, String jdkPath, int budget, String chooseMode)
 			throws Exception {
-		// If running from jar, check the presence of evosuite-1.0.6.jar in the same
-		// directory
+		// If running from a jar, EvoSuite and its support jars are expected in the
+		// same directory as the application jar.
 		Class<ScenarioGenerator> runningClass = ScenarioGenerator.class;
 		String className = runningClass.getName().replace('.', '/');
 		String classJar = runningClass.getResource("/" + className + ".class").toString();
 		String evosuiteJarFolder;
 		boolean runningFromJar = classJar.startsWith("jar:");
 		if (runningFromJar) {
-			File evosuiteJar = new File("./evosuite-1.0.6.jar");
-			if (!evosuiteJar.exists())
-				throw new RuntimeException("Missing dependency: 'evosuite-1.0.6.jar'"
-						+ " was not found in the application directory. Please make sure 'evosuite-1.0.6.jar'"
-						+ " is located in the same folder as the application's JAR file.");
 			evosuiteJarFolder = new File(runningClass.getProtectionDomain().getCodeSource().getLocation().toURI())
 					.getParentFile().toString();
+			File evosuiteJar = new File(evosuiteJarFolder, EVOSUITE_JAR);
+			if (!evosuiteJar.exists())
+				throw new RuntimeException("Missing dependency: '" + EVOSUITE_JAR + "'"
+						+ " was not found next to the application JAR. Please make sure '" + EVOSUITE_JAR + "'"
+						+ " is located in the same folder as the application's JAR file.");
 		} else {
 			evosuiteJarFolder = "..\\asmeta.evotest.evoasmetatg\\dependencies";
 		}
 		// Run evoavalla
 		List<String> evoAsmetaTgArguments = List.of(DASH + EvoAsmetaTgCLI.WORKING_DIR, EVOAVALLA_WORKING_DIR,
 				DASH + EvoAsmetaTgCLI.INPUT, asmPath, DASH + EvoAsmetaTgCLI.OUTPUT, targetDir,
-				DASH + EvoAsmetaTgCLI.JAVA_PATH, jdkPath, DASH + EvoAsmetaTgCLI.EVOSUITE_VERSION, "1.2.0",
+				DASH + EvoAsmetaTgCLI.JAVA_PATH, jdkPath, DASH + EvoAsmetaTgCLI.EVOSUITE_VERSION, EVOSUITE_VERSION,
 				DASH + EvoAsmetaTgCLI.EVOSUITE_PATH, evosuiteJarFolder, DASH + EvoAsmetaTgCLI.TIME_BUDGET,
 				String.valueOf(budget), DASH + EvoAsmetaTgCLI.CLEAN, "-DignoreDomainException=true",
 				"-DchooseMode=" + chooseMode);

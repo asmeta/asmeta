@@ -187,9 +187,9 @@ public class ScenarioGeneratorRunner {
 	}
 
 	/**
-	 * Runs the EvoAvalla generator if enabled in the configuration. The generated
-	 * test suite is stored in a dedicated subdirectory and execution metadata
-	 * is recorded.
+	 * Runs the EvoAvalla generator once for each configured budget if enabled.
+	 * Multiple budgets use separate approach directories so that analysis can
+	 * distinguish their results.
 	 *
 	 * @param asmFilePath  path to the ASM file
 	 * @param asmName      name of the ASM (file name without extension)
@@ -201,26 +201,31 @@ public class ScenarioGeneratorRunner {
 			Map<String, Object> algorithms) {
 		Map<String, Object> evoavallaCfg = (Map<String, Object>) algorithms.get("evoavalla");
 		if ((Boolean) evoavallaCfg.get("run")) {
-			LOG.info("Running EvoAvalla...");
+			Object budgetCfg = evoavallaCfg.get("budget");
+			List<Integer> budgets = budgetCfg instanceof List<?> ? (List<Integer>) budgetCfg
+					: List.of((Integer) budgetCfg);
 			String jdkPath = (String) evoavallaCfg.get("jdk_path");
-			String target = targetFolder + File.separator + EVOAVALLA_DIR + File.separator
-					+ Utils.formatCounter(evoavallaCount) + "_" + asmName;
-			new File(target).mkdirs();
-			try {
-				int budget = (int) evoavallaCfg.get("budget");
-				String chooseMode = (String) evoavallaCfg.get("choose_mode");
-				float exeTime = ScenarioGenerator.runEvoAvalla(asmFilePath, target, jdkPath, budget, chooseMode);
-				YamlManager.write(target, asmName, asmFilePath, exeTime, LocalDateTime.now().toString());
-			} catch (Throwable t) {
-				LOG.error("EvoAvalla failed to generate a test suite.\n" + t.getClass().getSimpleName() + ": " + t.getMessage());
+			for (int budget : budgets) {
+				LOG.info("Running EvoAvalla with budget " + budget + " seconds...");
+				String approachDir = budgets.size() > 1 ? EVOAVALLA_DIR + "_budget_" + budget : EVOAVALLA_DIR;
+				String target = targetFolder + File.separator + approachDir + File.separator
+						+ Utils.formatCounter(evoavallaCount) + "_" + asmName;
+				new File(target).mkdirs();
 				try {
-					YamlManager.write(target, asmName, asmFilePath, Float.NaN, LocalDateTime.now().toString());
-				} catch (IOException e) {
-					e.printStackTrace();
+					String chooseMode = (String) evoavallaCfg.get("choose_mode");
+					float exeTime = ScenarioGenerator.runEvoAvalla(asmFilePath, target, jdkPath, budget, chooseMode);
+					YamlManager.write(target, asmName, asmFilePath, exeTime, LocalDateTime.now().toString());
+				} catch (Throwable t) {
+					LOG.error("EvoAvalla failed with budget " + budget + ".\n"
+							+ t.getClass().getSimpleName() + ": " + t.getMessage());
+					try {
+						YamlManager.write(target, asmName, asmFilePath, Float.NaN, LocalDateTime.now().toString());
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
-			} finally {
-				evoavallaCount++;
 			}
+			evoavallaCount++;
 		}
 	}
 

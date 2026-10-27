@@ -16,13 +16,13 @@ output:
 # --- Algorithms to run ---
 algorithms:
   random:
-    run: false
+    run: true
     shuffle: false
-    step_list: [10,10,10]
+    step_list: [10,10,10,10,10,10,10,10,10,10]
   atgt:
-    run: false
+    run: true
   evoavalla:
     run: true
     choose_mode: "pick" # one of: flaky | noShuffle | pick
     jdk_path: "C:/Program Files/Java/jdk-9.0.4"
-    budget: 1
+    budget: [1, 5, 10]

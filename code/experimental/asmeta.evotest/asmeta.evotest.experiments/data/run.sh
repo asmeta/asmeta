@@ -3,6 +3,32 @@
 JAR="experiments-runner.jar"
 
 case "$1" in
+  generation-and-analysis)
+    java -cp "$JAR" asmeta.evotest.experiments.ScenarioGeneratorRunner > generation.log 2>&1
+    generation_status=$?
+
+    if [ "$generation_status" -ne 0 ]; then
+      exit "$generation_status"
+    fi
+
+    # Read the analysis directory from the same configuration used by generation.
+    results_dir=$(sed -n 's/^[[:space:]]*target_folder:[[:space:]]*"\([^"]*\)".*/\1/p' generation_config.yaml | head -n 1)
+    if [ -z "$results_dir" ]; then
+      echo "Unable to determine target_folder from generation_config.yaml" >&2
+      exit 1
+    fi
+
+    if [ "$2" == "--shuffle" ]; then
+      java -cp "$JAR" asmeta.evotest.experiments.AnalysisRunner "$results_dir" --shuffle > analysis.log 2>&1
+    elif [ -n "$2" ]; then
+      echo "Error: the optional argument must be --shuffle" >&2
+      exit 1
+    else
+      java -cp "$JAR" asmeta.evotest.experiments.AnalysisRunner "$results_dir" > analysis.log 2>&1
+    fi
+    exit $?
+    ;;
+
   generation)
     java -cp "$JAR" asmeta.evotest.experiments.ScenarioGeneratorRunner > generation.log 2>&1
     ;;
@@ -33,6 +59,7 @@ case "$1" in
 
   *)
     echo "Usage:"
+    echo -e "*for generating and analyzing the suites configured in 'generation_config.yaml':\n\t./run.sh generation-and-analysis [--shuffle]"
     echo -e "*for generating using the config file 'generation_config.yaml':\n\t./run.sh generation"
     echo -e "*for generating using random with number of tests and steps retrived from suites generated with 'generation' option:\n\t./run.sh rnd-generation <path/to/results> <path/to/asm_examples> <path/to/model_list.txt> [--shuffle]"
     echo -e "*for generating using iterative random generation:\n\t./run.sh iterative-rnd-generation <path/to/results> <path/to/asm_examples> <path/to/model_list.txt> <timeBudget> [--shuffle]"
