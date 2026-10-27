@@ -29,6 +29,7 @@ import asmeta.transitionrules.derivedtransitionrules.IterativeWhileRule;
 import asmeta.transitionrules.turbotransitionrules.IterateRule;
 import asmeta.transitionrules.turbotransitionrules.SeqRule;
 import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.asmeta.parser.util.AsmetaTermPrinter;
 import org.asmeta.simulator.RuleVisitor;
 import org.eclipse.emf.common.util.EList;
@@ -42,6 +43,8 @@ public class RuleToJava extends RuleVisitor<String> {
   protected boolean seqBlock;
 
   protected TranslatorOptions options;
+
+  protected AtomicInteger choiceCounter = new AtomicInteger();
 
   protected AsmetaTermPrinter termPrinter = AsmetaTermPrinter.getAsmetaTermPrinter(false);
 
@@ -58,7 +61,9 @@ public class RuleToJava extends RuleVisitor<String> {
    * Create an instance of the {@code RuleToJava} object.
    */
   protected RuleToJava createRuleToJava(final Asm resource, final boolean seqBlock, final TranslatorOptions translatorOptions) {
-    return new RuleToJava(resource, seqBlock, translatorOptions);
+    final RuleToJava child = new RuleToJava(resource, seqBlock, translatorOptions);
+    child.choiceCounter = this.choiceCounter;
+    return child;
   }
 
   /**
@@ -222,8 +227,9 @@ public class RuleToJava extends RuleVisitor<String> {
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append(methodName);
       _builder_1.append("(");
-      String _printListTerm = this.printListTerm(object.getParameters());
-      _builder_1.append(_printListTerm);
+      TermToJava _termToJava = new TermToJava(this.res);
+      String _macroArguments = ArgumentToJava.macroArguments(object, _termToJava);
+      _builder_1.append(_macroArguments);
       _builder_1.append(");");
       _builder_1.newLineIfNotEmpty();
       return _builder_1.toString();
@@ -255,28 +261,6 @@ public class RuleToJava extends RuleVisitor<String> {
         return _builder_1.toString();
       }
     }
-  }
-
-  protected String printListTerm(final EList<Term> term) {
-    StringBuffer sb = new StringBuffer();
-    for (int i = 0; (i < term.size()); i++) {
-      if (((i == 0) && (term.get(0).getDomain() instanceof ConcreteDomain))) {
-        StringConcatenation _builder = new StringConcatenation();
-        String _visit = new TermToJava(this.res).visit(term.get(i));
-        _builder.append(_visit);
-        _builder.append(".value, ");
-        sb.append(_builder);
-      } else {
-        StringConcatenation _builder_1 = new StringConcatenation();
-        String _visit_1 = new TermToJava(this.res).visit(term.get(i));
-        _builder_1.append(_visit_1);
-        _builder_1.append(", ");
-        sb.append(_builder_1);
-      }
-    }
-    int _length = sb.length();
-    int _minus = (_length - 2);
-    return sb.substring(0, _minus);
   }
 
   @Override
@@ -416,8 +400,14 @@ public class RuleToJava extends RuleVisitor<String> {
   /**
    * Hook used by specialised generators to record a selected choose value.
    */
-  protected String recordChoice(final ChooseRule chooseRule, final int variableIndex, final Domain baseDomain, final String javaVariable, final int occurrence) {
+  protected String recordChoice(final ChooseRule chooseRule, final int variableIndex, final Domain baseDomain, final String javaVariable, final int occurrence, final String choiceIndex) {
     return "";
+  }
+
+  protected String nextChoosePrefix() {
+    int _andIncrement = this.choiceCounter.getAndIncrement();
+    String _plus = ("__asmetaChoose" + Integer.valueOf(_andIncrement));
+    return (_plus + "_");
   }
 
   @Override
@@ -426,6 +416,7 @@ public class RuleToJava extends RuleVisitor<String> {
     StringBuffer sb = new StringBuffer();
     sb.append("{\n");
     final int occurrence = this.nextChoiceOccurrence();
+    final String prefix = this.nextChoosePrefix();
     final DomainToJavaString domainToJavaString = new DomainToJavaString(this.res);
     for (int i = 0; (i < chooseRule.getRanges().size()); i++) {
       String _name = chooseRule.getVariable().get(i).getName();
@@ -444,7 +435,9 @@ public class RuleToJava extends RuleVisitor<String> {
           _builder.append("List<");
           String _visit = domainToJavaString.visit(((PowersetDomain) domain_i).getBaseDomain());
           _builder.append(_visit);
-          _builder.append("> point");
+          _builder.append("> ");
+          _builder.append(prefix);
+          _builder.append("point");
           _builder.append(i);
           _builder.append(" = new ArrayList<>();");
           _builder.newLineIfNotEmpty();
@@ -471,7 +464,9 @@ public class RuleToJava extends RuleVisitor<String> {
             StringConcatenation _builder = new StringConcatenation();
             _builder.append("List<");
             _builder.append(bDomStr);
-            _builder.append("> pointAll");
+            _builder.append("> ");
+            _builder.append(prefix);
+            _builder.append("pointAll");
             _builder.append(i);
             _builder.append(" = Collections.unmodifiableList(Arrays.asList ");
             String _visit = new TermToJava(this.res).visit(range);
@@ -486,7 +481,9 @@ public class RuleToJava extends RuleVisitor<String> {
             _builder_1.append(" ");
             String _visit_1 = new TermToJava(this.res).visit(chooseRule.getVariable().get(i));
             _builder_1.append(_visit_1);
-            _builder_1.append(" : pointAll");
+            _builder_1.append(" : ");
+            _builder_1.append(prefix);
+            _builder_1.append("pointAll");
             _builder_1.append(i);
             _builder_1.append("){");
             _builder_1.newLineIfNotEmpty();
@@ -595,6 +592,7 @@ public class RuleToJava extends RuleVisitor<String> {
       if ((_baseDomain instanceof AbstractTd)) {
         String termName = new TermToJava(this.res).visit(chooseRule.getVariable().get(i));
         StringConcatenation _builder_2 = new StringConcatenation();
+        _builder_2.append(prefix);
         _builder_2.append("point");
         _builder_2.append(i);
         _builder_2.append(".add(");
@@ -607,6 +605,7 @@ public class RuleToJava extends RuleVisitor<String> {
         Domain _baseDomain_1 = ((PowersetDomain) _domain_1).getBaseDomain();
         if ((_baseDomain_1 instanceof ConcreteDomain)) {
           StringConcatenation _builder_3 = new StringConcatenation();
+          _builder_3.append(prefix);
           _builder_3.append("point");
           _builder_3.append(i);
           _builder_3.append(".add(");
@@ -621,6 +620,7 @@ public class RuleToJava extends RuleVisitor<String> {
           sb.append(_builder_3);
         } else {
           StringConcatenation _builder_4 = new StringConcatenation();
+          _builder_4.append(prefix);
           _builder_4.append("point");
           _builder_4.append(i);
           _builder_4.append(".add(");
@@ -643,20 +643,28 @@ public class RuleToJava extends RuleVisitor<String> {
     _builder_2.newLine();
     sb.append(_builder_2);
     StringConcatenation _builder_3 = new StringConcatenation();
-    _builder_3.append("if(!point0.isEmpty()){");
-    _builder_3.newLine();
+    _builder_3.append("if(!");
+    _builder_3.append(prefix);
+    _builder_3.append("point0.isEmpty()){");
+    _builder_3.newLineIfNotEmpty();
     sb.append(_builder_3);
     ChooseMode _chooseMode = this.options.getChooseMode();
     boolean _equals = Objects.equals(_chooseMode, ChooseMode.NO_SHUFFLE);
     if (_equals) {
       StringConcatenation _builder_4 = new StringConcatenation();
-      _builder_4.append("int rndm = 0;");
-      _builder_4.newLine();
+      _builder_4.append("int ");
+      _builder_4.append(prefix);
+      _builder_4.append("rndm = 0;");
+      _builder_4.newLineIfNotEmpty();
       sb.append(_builder_4);
     } else {
       StringConcatenation _builder_5 = new StringConcatenation();
-      _builder_5.append("int rndm = ThreadLocalRandom.current().nextInt(0, point0.size());");
-      _builder_5.newLine();
+      _builder_5.append("int ");
+      _builder_5.append(prefix);
+      _builder_5.append("rndm = ThreadLocalRandom.current().nextInt(0, ");
+      _builder_5.append(prefix);
+      _builder_5.append("point0.size());");
+      _builder_5.newLineIfNotEmpty();
       sb.append(_builder_5);
     }
     for (int i = 0; (i < chooseRule.getVariable().size()); i++) {
@@ -669,11 +677,15 @@ public class RuleToJava extends RuleVisitor<String> {
         _builder_6.append(type);
         _builder_6.append(" ");
         _builder_6.append(variable);
-        _builder_6.append(" = point");
+        _builder_6.append(" = ");
+        _builder_6.append(prefix);
+        _builder_6.append("point");
         _builder_6.append(i);
-        _builder_6.append(".get(rndm);");
+        _builder_6.append(".get(");
+        _builder_6.append(prefix);
+        _builder_6.append("rndm);");
         _builder_6.newLineIfNotEmpty();
-        String _recordChoice = this.recordChoice(chooseRule, i, baseDomain, variable, occurrence);
+        String _recordChoice = this.recordChoice(chooseRule, i, baseDomain, variable, occurrence, (prefix + "rndm"));
         _builder_6.append(_recordChoice);
         _builder_6.newLineIfNotEmpty();
         sb.append(_builder_6);

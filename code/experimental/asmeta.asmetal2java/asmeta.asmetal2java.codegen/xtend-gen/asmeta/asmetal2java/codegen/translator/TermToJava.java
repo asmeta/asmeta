@@ -14,7 +14,6 @@ import asmeta.definitions.domains.Domain;
 import asmeta.definitions.domains.EnumTd;
 import asmeta.definitions.domains.MapDomain;
 import asmeta.definitions.domains.PowersetDomain;
-import asmeta.definitions.domains.ProductDomain;
 import asmeta.definitions.domains.SequenceDomain;
 import asmeta.definitions.domains.StructuredTd;
 import asmeta.structure.Asm;
@@ -309,16 +308,14 @@ public class TermToJava extends ReflectiveVisitor<String> {
         Domain _domain = object.getRanges().get(i).getDomain();
         final Domain baseDomain = ((PowersetDomain) _domain).getBaseDomain();
         final String variableName = object.getVariable().get(i).getName();
-        final String lambdaName = ("__asmetaExists" + Integer.valueOf(i));
         if ((baseDomain instanceof ConcreteDomain)) {
-          expression = expression.replace((variableName + ".value"), lambdaName);
+          expression = expression.replace((variableName + ".value"), variableName);
         }
-        expression = expression.replace(variableName, lambdaName);
         final String domainName = new DomainToJavaString(this.res).visit(baseDomain);
         if ((baseDomain instanceof EnumTd)) {
-          expression = (((((("Arrays.stream(" + domainName) + ".values()).anyMatch(") + lambdaName) + " -> ") + expression) + ")");
+          expression = (((((("Arrays.stream(" + domainName) + ".values()).anyMatch(") + variableName) + " -> ") + expression) + ")");
         } else {
-          expression = (((((domainName + ".elems.stream().anyMatch(") + lambdaName) + " -> ") + expression) + ")");
+          expression = (((((domainName + ".elems.stream().anyMatch(") + variableName) + " -> ") + expression) + ")");
         }
       }
     }
@@ -333,15 +330,13 @@ public class TermToJava extends ReflectiveVisitor<String> {
     for (int i = (object.getVariable().size() - 1); (i >= 0); i--) {
       {
         final String variableName = this.visit(object.getVariable().get(i));
-        final String lambdaName = ("__asmetaForall" + Integer.valueOf(i));
         Domain _domain = object.getVariable().get(i).getDomain();
         if ((_domain instanceof ConcreteDomain)) {
-          expression = expression.replace((variableName + ".value"), lambdaName);
+          expression = expression.replace((variableName + ".value"), variableName);
         }
-        expression = expression.replace(variableName, lambdaName);
         String _rangeStream = this.rangeStream(object.getRanges().get(i));
         String _plus = (_rangeStream + ".allMatch(");
-        String _plus_1 = (_plus + lambdaName);
+        String _plus_1 = (_plus + variableName);
         String _plus_2 = (_plus_1 + " -> ");
         String _plus_3 = (_plus_2 + expression);
         String _plus_4 = (_plus_3 + ")");
@@ -542,20 +537,24 @@ public class TermToJava extends ReflectiveVisitor<String> {
           _builder_3.append("\tnew ArrayList<>(");
           String _visit_3 = this.visit(object.getRanges().get(i));
           _builder_3.append(_visit_3);
-          _builder_3.append(".stream().filter(c -> ");
-          String _replace = supp.toString().replace(object.getVariable().get(i).getName(), "c");
-          _builder_3.append(_replace);
+          _builder_3.append(".stream().filter(");
+          String _visit_4 = this.visit(object.getVariable().get(i));
+          _builder_3.append(_visit_4);
+          _builder_3.append(" -> ");
+          _builder_3.append(supp);
           _builder_3.append(").collect(Collectors.toList()))");
           _builder_3.newLineIfNotEmpty();
           sb.append(_builder_3);
         } else {
           StringConcatenation _builder_4 = new StringConcatenation();
           _builder_4.append("\tnew ArrayList<>(");
-          String _visit_4 = this.visit(object.getRanges().get(i));
-          _builder_4.append(_visit_4);
-          _builder_4.append(".stream().filter(c -> ");
-          String _replace_1 = supp.toString().replace(object.getVariable().get(i).getName(), "c");
-          _builder_4.append(_replace_1);
+          String _visit_5 = this.visit(object.getRanges().get(i));
+          _builder_4.append(_visit_5);
+          _builder_4.append(".stream().filter(");
+          String _visit_6 = this.visit(object.getVariable().get(i));
+          _builder_4.append(_visit_6);
+          _builder_4.append(" -> ");
+          _builder_4.append(supp);
           _builder_4.append(").collect(Collectors.toList()))");
           _builder_4.newLineIfNotEmpty();
           sb.append(_builder_4);
@@ -895,8 +894,9 @@ public class TermToJava extends ReflectiveVisitor<String> {
         Domain _domain_3 = ft.getDomain();
         if ((_domain_3 instanceof ConcreteDomain)) {
           if ((!this.leftHandSide)) {
-            String _visit = this.visit(ft.getArguments().getTerms().get(0));
-            String _plus = (".get(" + _visit);
+            TermToJava _termToJava = new TermToJava(this.res);
+            String _locationArguments = ArgumentToJava.locationArguments(ft, _termToJava);
+            String _plus = (".get(" + _locationArguments);
             String _plus_1 = (_plus + ")");
             functionTerm.append(_plus_1);
             Boolean _controllo_2 = this.controllo(fd.getCodomain());
@@ -907,13 +907,15 @@ public class TermToJava extends ReflectiveVisitor<String> {
         } else {
           if (this.leftHandSide) {
             this.leftHandSide = false;
-            String _visit_1 = new TermToJava(this.res).visit(ft.getArguments().getTerms().get(0));
-            String _plus_2 = (".set(" + _visit_1);
+            TermToJava _termToJava_1 = new TermToJava(this.res);
+            String _locationArguments_1 = ArgumentToJava.locationArguments(ft, _termToJava_1);
+            String _plus_2 = (".set(" + _locationArguments_1);
             String _plus_3 = (_plus_2 + ", ");
             functionTerm.append(_plus_3);
           } else {
-            String _visit_2 = this.visit(ft.getArguments().getTerms().get(0));
-            String _plus_4 = (".get(" + _visit_2);
+            TermToJava _termToJava_2 = new TermToJava(this.res);
+            String _locationArguments_2 = ArgumentToJava.locationArguments(ft, _termToJava_2);
+            String _plus_4 = (".get(" + _locationArguments_2);
             String _plus_5 = (_plus_4 + ")");
             functionTerm.append(_plus_5);
             Boolean _controllo_3 = this.controllo(fd.getCodomain());
@@ -923,10 +925,8 @@ public class TermToJava extends ReflectiveVisitor<String> {
           }
         }
       } else {
-        final Function<Term, String> _function = (Term term) -> {
-          return new TermToJava(this.res).visit(term);
-        };
-        final String tuple = ProductToJava.value(ft.getArguments(), _function);
+        TermToJava _termToJava_3 = new TermToJava(this.res);
+        final String tuple = ArgumentToJava.locationArguments(ft, _termToJava_3);
         if (this.leftHandSide) {
           this.leftHandSide = false;
           functionTerm.append(((".set(" + tuple) + ", "));
@@ -961,21 +961,21 @@ public class TermToJava extends ReflectiveVisitor<String> {
       if (_equals) {
         if (this.leftHandSide) {
           this.leftHandSide = false;
-          String _visit = new TermToJava(this.res).visit(ft.getArguments().getTerms().get(0));
-          String _plus = (".set(" + _visit);
+          TermToJava _termToJava = new TermToJava(this.res);
+          String _locationArguments = ArgumentToJava.locationArguments(ft, _termToJava);
+          String _plus = (".set(" + _locationArguments);
           String _plus_1 = (_plus + ", ");
           functionTerm.append(_plus_1);
         } else {
-          String _visit_1 = this.visit(ft.getArguments().getTerms().get(0));
-          String _plus_2 = (".get(" + _visit_1);
+          TermToJava _termToJava_1 = new TermToJava(this.res);
+          String _locationArguments_1 = ArgumentToJava.locationArguments(ft, _termToJava_1);
+          String _plus_2 = (".get(" + _locationArguments_1);
           String _plus_3 = (_plus_2 + ")");
           functionTerm.append(_plus_3);
         }
       } else {
-        final Function<Term, String> _function = (Term term) -> {
-          return new TermToJava(this.res).visit(term);
-        };
-        final String tuple = ProductToJava.value(ft.getArguments(), _function);
+        TermToJava _termToJava_2 = new TermToJava(this.res);
+        final String tuple = ArgumentToJava.locationArguments(ft, _termToJava_2);
         if (this.leftHandSide) {
           this.leftHandSide = false;
           functionTerm.append(((".set(" + tuple) + ", "));
@@ -988,85 +988,30 @@ public class TermToJava extends ReflectiveVisitor<String> {
   }
 
   protected String _caseFunctionTermSupp(final DerivedFunction fd, final FunctionTerm ft) {
-    StringBuffer functionTerm = new StringBuffer();
-    TupleTerm _arguments = ft.getArguments();
-    boolean _tripleNotEquals = (_arguments != null);
-    if (_tripleNotEquals) {
-      functionTerm.append("(");
-      for (int i = 0; (i < ft.getArguments().getTerms().size()); i++) {
-        {
-          String visitedTerm = this.visit(ft.getArguments().getTerms().get(i));
-          Domain _domain = ft.getFunction().getDomain();
-          if ((_domain instanceof StructuredTd)) {
-            Domain _domain_1 = ft.getFunction().getDomain();
-            if ((_domain_1 instanceof ProductDomain)) {
-              Domain _domain_2 = ft.getFunction().getDomain();
-              boolean _equals = ((ProductDomain) _domain_2).getDomains().get(i).equals(ft.getArguments().getTerms().get(i).getDomain());
-              if (_equals) {
-                visitedTerm = visitedTerm.replaceAll("\\.value", "");
-              }
-            }
-          } else {
-            boolean _equals_1 = ft.getDomain().equals(ft.getArguments().getTerms().get(i).getDomain());
-            if (_equals_1) {
-              visitedTerm = visitedTerm.replaceAll("\\.value", "");
-            } else {
-              if (((fd.getDomain() instanceof ConcreteDomain) && (ft.getArguments().getTerms().get(i).getDomain() instanceof ConcreteDomain))) {
-                String _visit = new DomainToJavaString(this.res).visit(fd.getDomain());
-                String _plus = (_visit + ".valueOf(");
-                String _plus_1 = (_plus + visitedTerm);
-                String _plus_2 = (_plus_1 + ")");
-                visitedTerm = _plus_2;
-              }
-            }
-          }
-          functionTerm.append((visitedTerm + ", "));
-        }
-      }
-      int _length = functionTerm.length();
-      int _minus = (_length - 2);
-      String _substring = functionTerm.substring(0, _minus);
-      String _plus = (_substring + ")");
-      StringBuffer _stringBuffer = new StringBuffer(_plus);
-      functionTerm = _stringBuffer;
-    } else {
-      Domain _domain = ft.getDomain();
-      if ((_domain instanceof AbstractTd)) {
-        functionTerm.append("");
-      } else {
-        functionTerm.append("()");
-      }
-    }
-    return functionTerm.toString();
+    return this.declaredFunctionArguments(ft);
   }
 
   protected String _caseFunctionTermSupp(final StaticFunction fd, final FunctionTerm ft) {
-    StringBuffer functionTerm = new StringBuffer();
+    return this.declaredFunctionArguments(ft);
+  }
+
+  private String declaredFunctionArguments(final FunctionTerm ft) {
     TupleTerm _arguments = ft.getArguments();
     boolean _tripleNotEquals = (_arguments != null);
     if (_tripleNotEquals) {
-      functionTerm.append("(");
-      for (int i = 0; (i < ft.getArguments().getTerms().size()); i++) {
-        {
-          String parameter = this.visit(ft.getArguments().getTerms().get(i));
-          functionTerm.append((parameter + ", "));
-        }
-      }
-      int _length = functionTerm.length();
-      int _minus = (_length - 2);
-      String _substring = functionTerm.substring(0, _minus);
-      String _plus = (_substring + ")");
-      StringBuffer _stringBuffer = new StringBuffer(_plus);
-      functionTerm = _stringBuffer;
-    } else {
-      Domain _domain = ft.getDomain();
-      if ((_domain instanceof AbstractTd)) {
-        functionTerm.append("");
-      } else {
-        functionTerm.append("()");
-      }
+      TermToJava _termToJava = new TermToJava(this.res);
+      String _functionArguments = ArgumentToJava.functionArguments(ft, _termToJava);
+      String _plus = ("(" + _functionArguments);
+      return (_plus + ")");
     }
-    return functionTerm.toString();
+    String _xifexpression = null;
+    Domain _domain = ft.getDomain();
+    if ((_domain instanceof AbstractTd)) {
+      _xifexpression = "";
+    } else {
+      _xifexpression = "()";
+    }
+    return _xifexpression;
   }
 
   public Boolean controllo(final Domain dom) {

@@ -105,8 +105,9 @@ public class TermToJavaInUpdateRule extends TermToJava {
           if ((!this.leftHandSide)) {
             String _name_6 = fd.getName();
             String _plus_10 = (_name_6 + ".set(");
-            String _visit = new TermToJava(this.res).visit(ft.getArguments().getTerms().get(0));
-            String _plus_11 = (_plus_10 + _visit);
+            TermToJava _termToJava = new TermToJava(this.res);
+            String _locationArguments = ArgumentToJava.locationArguments(ft, _termToJava);
+            String _plus_11 = (_plus_10 + _locationArguments);
             String _plus_12 = (_plus_11 + ", ");
             String _name_7 = ft.getDomain().getName();
             String _plus_13 = (_plus_12 + _name_7);

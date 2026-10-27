@@ -33,7 +33,9 @@ public class RuleToJavaEvosuite extends RuleToJava {
    */
   @Override
   public RuleToJava createRuleToJava(final Asm resource, final boolean seqBlock, final TranslatorOptions translatorOptions) {
-    return new RuleToJavaEvosuite(resource, seqBlock, translatorOptions, this.currRule);
+    final RuleToJavaEvosuite child = new RuleToJavaEvosuite(resource, seqBlock, translatorOptions, this.currRule);
+    child.choiceCounter = this.choiceCounter;
+    return child;
   }
 
   /**
@@ -50,7 +52,7 @@ public class RuleToJavaEvosuite extends RuleToJava {
   }
 
   @Override
-  protected String recordChoice(final ChooseRule chooseRule, final int variableIndex, final Domain baseDomain, final String javaVariable, final int occurrence) {
+  protected String recordChoice(final ChooseRule chooseRule, final int variableIndex, final Domain baseDomain, final String javaVariable, final int occurrence, final String choiceIndex) {
     boolean _recordsChoices = this.options.getChooseMode().recordsChoices();
     boolean _not = (!_recordsChoices);
     if (_not) {
@@ -89,8 +91,9 @@ public class RuleToJavaEvosuite extends RuleToJava {
     _builder.append("\",");
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
-    _builder.append("rndm,");
-    _builder.newLine();
+    _builder.append(choiceIndex, "\t");
+    _builder.append(",");
+    _builder.newLineIfNotEmpty();
     _builder.append("\t");
     _builder.append("String.valueOf(");
     _builder.append(value, "\t");

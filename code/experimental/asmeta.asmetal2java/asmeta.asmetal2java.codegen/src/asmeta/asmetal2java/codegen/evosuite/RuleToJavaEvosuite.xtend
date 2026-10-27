@@ -28,7 +28,9 @@ class RuleToJavaEvosuite extends RuleToJava {
 	 * Create an instance of the {@code RuleToJava} object with the current JavaRule.
 	 */
 	override RuleToJava createRuleToJava(Asm resource, boolean seqBlock, TranslatorOptions translatorOptions) {
-		new RuleToJavaEvosuite(resource, seqBlock, translatorOptions, this.currRule)
+		val child = new RuleToJavaEvosuite(resource, seqBlock, translatorOptions, this.currRule)
+		child.choiceCounter = choiceCounter
+		return child
 	}
 	
 	/**
@@ -43,7 +45,7 @@ class RuleToJavaEvosuite extends RuleToJava {
 	}
 
 	override protected String recordChoice(ChooseRule chooseRule, int variableIndex, Domain baseDomain,
-		String javaVariable, int occurrence) {
+		String javaVariable, int occurrence, String choiceIndex) {
 		if (!options.getChooseMode().recordsChoices()) {
 			return ""
 		}
@@ -55,7 +57,7 @@ class RuleToJavaEvosuite extends RuleToJava {
 				«occurrence»,
 				Character.toString((char) 36) + "«asmVariable»",
 				"«baseDomain.name»",
-				rndm,
+				«choiceIndex»,
 				String.valueOf(«value»));
 		'''
 	}

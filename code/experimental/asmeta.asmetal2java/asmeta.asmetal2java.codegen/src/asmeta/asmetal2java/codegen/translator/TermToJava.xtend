@@ -213,20 +213,18 @@ class TermToJava extends ReflectiveVisitor<String> {
 		for (var i = object.variable.size - 1; i >= 0; i--) {
 			val baseDomain = (object.getRanges.get(i).domain as PowersetDomain).baseDomain
 			val variableName = object.variable.get(i).name
-			val lambdaName = "__asmetaExists" + i
 
 			// Elements of a concrete domain are stored as values of its base domain,
 			// whereas occurrences of the bound ASM variable may have been rendered as
 			// wrapper.value by the ordinary term translator.
 			if (baseDomain instanceof ConcreteDomain)
-				expression = expression.replace(variableName + ".value", lambdaName)
-			expression = expression.replace(variableName, lambdaName)
+				expression = expression.replace(variableName + ".value", variableName)
 
 			val domainName = new DomainToJavaString(res).visit(baseDomain)
 			if (baseDomain instanceof EnumTd)
-				expression = "Arrays.stream(" + domainName + ".values()).anyMatch(" + lambdaName + " -> " + expression + ")"
+				expression = "Arrays.stream(" + domainName + ".values()).anyMatch(" + variableName + " -> " + expression + ")"
 			else
-				expression = domainName + ".elems.stream().anyMatch(" + lambdaName + " -> " + expression + ")"
+				expression = domainName + ".elems.stream().anyMatch(" + variableName + " -> " + expression + ")"
 		}
 
 		return expression
@@ -239,11 +237,9 @@ class TermToJava extends ReflectiveVisitor<String> {
 		var expression = visit(object.guard)
 		for (var i = object.variable.size - 1; i >= 0; i--) {
 			val variableName = visit(object.variable.get(i))
-			val lambdaName = "__asmetaForall" + i
 			if (object.variable.get(i).domain instanceof ConcreteDomain)
-				expression = expression.replace(variableName + ".value", lambdaName)
-			expression = expression.replace(variableName, lambdaName)
-			expression = rangeStream(object.ranges.get(i)) + ".allMatch(" + lambdaName + " -> " + expression + ")"
+				expression = expression.replace(variableName + ".value", variableName)
+			expression = rangeStream(object.ranges.get(i)) + ".allMatch(" + variableName + " -> " + expression + ")"
 		}
 		return expression
 	}
@@ -349,12 +345,12 @@ class TermToJava extends ReflectiveVisitor<String> {
 			else if ((object.getRanges.get(i).domain as SequenceDomain).domain instanceof ConcreteDomain)
 				sb.append(
 			'''
-					«""»	new ArrayList<>(«visit(object.getRanges.get(i))».stream().filter(c -> «supp.toString.replace(object.variable.get(i).name, "c")»).collect(Collectors.toList()))
+					«""»	new ArrayList<>(«visit(object.getRanges.get(i))».stream().filter(«visit(object.variable.get(i))» -> «supp»).collect(Collectors.toList()))
 				''')
 			else
 				sb.append(
 			'''
-					«""»	new ArrayList<>(«visit(object.getRanges.get(i))».stream().filter(c -> «supp.toString.replace(object.variable.get(i).name, "c")»).collect(Collectors.toList()))
+					«""»	new ArrayList<>(«visit(object.getRanges.get(i))».stream().filter(«visit(object.variable.get(i))» -> «supp»).collect(Collectors.toList()))
 				''')
 
 		}
@@ -644,7 +640,7 @@ class TermToJava extends ReflectiveVisitor<String> {
 				if (ft.domain instanceof ConcreteDomain) {
 					if (!leftHandSide) {
 
-						functionTerm.append(".get(" + visit(ft.arguments.terms.get(0)) + ")")
+						functionTerm.append(".get(" + ArgumentToJava.locationArguments(ft, new TermToJava(res)) + ")")
 						if (controllo(fd.codomain)) {
 							functionTerm.append(".value")
 						}
@@ -654,10 +650,10 @@ class TermToJava extends ReflectiveVisitor<String> {
 
 					if (leftHandSide) {
 						leftHandSide = false
-						functionTerm.append(".set(" + new TermToJava(res).visit(ft.arguments.terms.get(0)) + ", ")
+						functionTerm.append(".set(" + ArgumentToJava.locationArguments(ft, new TermToJava(res)) + ", ")
 
 					} else {
-						functionTerm.append(".get(" + visit(ft.arguments.terms.get(0)) + ")")
+						functionTerm.append(".get(" + ArgumentToJava.locationArguments(ft, new TermToJava(res)) + ")")
 						if (controllo(fd.codomain)) {
 							functionTerm.append(".value")
 						}
@@ -667,7 +663,7 @@ class TermToJava extends ReflectiveVisitor<String> {
 			} // Caso di studio con variabili multiple in ingresso
 			// da controllare se corretto come metodo
 			else {
-				val tuple = ProductToJava.value(ft.arguments, [ term | new TermToJava(res).visit(term) ])
+				val tuple = ArgumentToJava.locationArguments(ft, new TermToJava(res))
 				if (leftHandSide) {
 					leftHandSide = false
 					functionTerm.append(".set(" + tuple + ", ")
@@ -698,15 +694,15 @@ class TermToJava extends ReflectiveVisitor<String> {
 
 				if (leftHandSide) {
 					leftHandSide = false
-					functionTerm.append(".set(" + new TermToJava(res).visit(ft.arguments.terms.get(0)) + ", ")
+					functionTerm.append(".set(" + ArgumentToJava.locationArguments(ft, new TermToJava(res)) + ", ")
 
 				} else {
-					functionTerm.append(".get(" + visit(ft.arguments.terms.get(0)) + ")")
+					functionTerm.append(".get(" + ArgumentToJava.locationArguments(ft, new TermToJava(res)) + ")")
 
 				}
 
 			} else {
-				val tuple = ProductToJava.value(ft.arguments, [ term | new TermToJava(res).visit(term) ])
+				val tuple = ArgumentToJava.locationArguments(ft, new TermToJava(res))
 				if (leftHandSide) {
 					leftHandSide = false
 					functionTerm.append(".set(" + tuple + ", ")
@@ -718,57 +714,17 @@ class TermToJava extends ReflectiveVisitor<String> {
 	}
 
 	def dispatch String caseFunctionTermSupp(DerivedFunction fd, FunctionTerm ft) {
-		var StringBuffer functionTerm = new StringBuffer
-		if (ft.arguments !== null) {
-			functionTerm.append("(")
-			for (var i = 0; i < ft.arguments.terms.size; i++) {
-				var String visitedTerm = visit(ft.arguments.terms.get(i))
-				
-				if (ft.function.domain instanceof StructuredTd) {
-					// The domain is structured. Check whether the i-th parameter has the domain as expected
-					if ((ft.function.domain instanceof ProductDomain)) {
-						if ((ft.function.domain as ProductDomain).domains.get(i).equals(ft.arguments.terms.get(i).domain))
-							visitedTerm = visitedTerm.replaceAll("\\.value","")	
-					}					
-				} else {
-					// The domain is not structured. Check whether the parameter has the domain as expected
-					if (ft.domain.equals(ft.arguments.terms.get(i).domain))
-							visitedTerm = visitedTerm.replaceAll("\\.value","")	
-					else {
-						if (fd.domain instanceof ConcreteDomain && ft.arguments.terms.get(i).domain instanceof ConcreteDomain)
-							visitedTerm = new DomainToJavaString(res).visit(fd.domain) + ".valueOf(" + visitedTerm + ")"
-					}
-				}
-				
-				
-				functionTerm.append(visitedTerm + ", ")
-			}
-			functionTerm = new StringBuffer(functionTerm.substring(0, functionTerm.length - 2) + ")")
-		} else if (ft.domain instanceof AbstractTd)
-			functionTerm.append("")
-		else {
-			functionTerm.append("()")
-
-		}
-		return functionTerm.toString
+		return declaredFunctionArguments(ft)
 	}
 
 	def dispatch String caseFunctionTermSupp(StaticFunction fd, FunctionTerm ft) {
-		var StringBuffer functionTerm = new StringBuffer
-		if (ft.arguments !== null) {
-			functionTerm.append("(")
-			for (var i = 0; i < ft.arguments.terms.size; i++) {
-				var String parameter = visit(ft.arguments.terms.get(i))
-				functionTerm.append(parameter + ", ")
-			}
-			functionTerm = new StringBuffer(functionTerm.substring(0, functionTerm.length - 2) + ")")
-		} else if (ft.domain instanceof AbstractTd)
-			functionTerm.append("")
-		else {
-			functionTerm.append("()")
+		return declaredFunctionArguments(ft)
+	}
 
-		}
-		return functionTerm.toString
+	private def String declaredFunctionArguments(FunctionTerm ft) {
+		if (ft.arguments !== null)
+			return "(" + ArgumentToJava.functionArguments(ft, new TermToJava(res)) + ")"
+		return if (ft.domain instanceof AbstractTd) "" else "()"
 	}
 
 	def Boolean controllo(Domain dom) {

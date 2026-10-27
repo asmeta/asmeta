@@ -37,6 +37,8 @@ class RuleToJava extends RuleVisitor<String> {
 	protected Asm res;
 	protected boolean seqBlock;
 	protected TranslatorOptions options
+	// Shared by child visitors; never static, so independent translations stay isolated.
+	protected java.util.concurrent.atomic.AtomicInteger choiceCounter = new java.util.concurrent.atomic.AtomicInteger()
 
 	protected AsmetaTermPrinter termPrinter = AsmetaTermPrinter.getAsmetaTermPrinter(false)
 
@@ -51,7 +53,9 @@ class RuleToJava extends RuleVisitor<String> {
 	 * Create an instance of the {@code RuleToJava} object.
 	 */
 	protected def RuleToJava createRuleToJava(Asm resource, boolean seqBlock, TranslatorOptions translatorOptions) {
-		new RuleToJava(resource, seqBlock, translatorOptions)
+		val child = new RuleToJava(resource, seqBlock, translatorOptions)
+		child.choiceCounter = choiceCounter
+		return child
 	}
 	
 	/**
@@ -147,7 +151,7 @@ class RuleToJava extends RuleVisitor<String> {
 			return '''«methodName»();
 			'''
 		else
-			return '''«methodName»(«printListTerm(object.parameters)»);
+			return '''«methodName»(«ArgumentToJava.macroArguments(object, new TermToJava(res))»);
 			'''
 	}
 
@@ -159,18 +163,6 @@ class RuleToJava extends RuleVisitor<String> {
 			return '''«new TermToJava(res).visit(leftTerm)».compareTo(«new TermToJava(res).visit(rightTerm)»)==0'''
 		else
 			return '''«new TermToJava(res).visit(leftTerm)»==«new TermToJava(res).visit(rightTerm)»'''
-	}
-
-	// Method translating the list of parameters given as input to a macro rule
-	protected def String printListTerm(EList<Term> term) {
-		var sb = new StringBuffer
-		for (var int i = 0; i < term.size(); i++) {
-			if (i == 0 && term.get(0).domain instanceof ConcreteDomain)
-				sb.append('''«new TermToJava(res).visit(term.get(i))».value, ''')
-			else
-				sb.append('''«new TermToJava(res).visit(term.get(i))», ''')
-		}
-		return sb.substring(0, sb.length - 2)
 	}
 
 	// Metodo per identificare una regola di aggiornamento in cui si rileva il comando :=
@@ -249,8 +241,12 @@ class RuleToJava extends RuleVisitor<String> {
 	 * Hook used by specialised generators to record a selected choose value.
 	 */
 	protected def String recordChoice(ChooseRule chooseRule, int variableIndex, Domain baseDomain,
-		String javaVariable, int occurrence) {
+		String javaVariable, int occurrence, String choiceIndex) {
 		return ""
+	}
+
+	protected def String nextChoosePrefix() {
+		return "__asmetaChoose" + choiceCounter.getAndIncrement() + "_"
 	}
 
 	// Metodo di supporto per tradurre gli elementi di un confronto nella classe precedente
@@ -259,6 +255,7 @@ class RuleToJava extends RuleVisitor<String> {
 		var StringBuffer sb = new StringBuffer
 		sb.append("{\n")
 		val occurrence = nextChoiceOccurrence()
+		val prefix = nextChoosePrefix()
 		// TODo move aas a field?
 		val domainToJavaString = new DomainToJavaString(res)
 		// Add as comments
@@ -270,7 +267,7 @@ class RuleToJava extends RuleVisitor<String> {
 			val domain_i = chooseRule.getRanges.get(i).domain
 			if (domain_i instanceof PowersetDomain) {
 				sb.append('''
-					List<«domainToJavaString.visit((domain_i as PowersetDomain).baseDomain)»> point«i» = new ArrayList<>();
+					List<«domainToJavaString.visit((domain_i as PowersetDomain).baseDomain)»> «prefix»point«i» = new ArrayList<>();
 				''')
 			} // println("Object ranges: " + (object.getRanges.get(i).domain as PowersetDomain).baseDomain)
 			else
@@ -289,12 +286,12 @@ class RuleToJava extends RuleVisitor<String> {
 				// per esempio: {0..5} {1,5,9} 
 				if (Util.isNotNumerable(baseDomain)) {
 					sb.append('''
-						List<«bDomStr»> pointAll«i» = Collections.unmodifiableList(Arrays.asList «new TermToJava(res).visit(range)»);
+						List<«bDomStr»> «prefix»pointAll«i» = Collections.unmodifiableList(Arrays.asList «new TermToJava(res).visit(range)»);
 					''')
 					// add a for cycle
 					counter = counter + 1
 					sb.append('''
-						for(«bDomStr» «new TermToJava(res).visit(chooseRule.getVariable.get(i))» : pointAll«i»){
+						for(«bDomStr» «new TermToJava(res).visit(chooseRule.getVariable.get(i))» : «prefix»pointAll«i»){
 					''')
 				} else if (baseDomain instanceof AbstractTd || (baseDomain instanceof ConcreteDomain &&
 						((baseDomain as ConcreteDomain).typeDomain instanceof BasicTd ))) {
@@ -335,18 +332,18 @@ class RuleToJava extends RuleVisitor<String> {
 			if ((chooseRule.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof AbstractTd) {
 				var termName = new TermToJava(res).visit(chooseRule.getVariable.get(i))
 				sb.append('''
-					point«i».add(«termName»);
+					«prefix»point«i».add(«termName»);
 				''')
 			/*println("TERM: " + termName)
 			 pointerTerms.add(termName)*/
 			} else {
 				if ((chooseRule.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof ConcreteDomain)
 					sb.append('''
-						point«i».add(«(chooseRule.getRanges.get(i).domain as PowersetDomain).baseDomain.name + ".valueOf(" + new TermToJava(res).visit(chooseRule.getVariable.get(i))»));
+						«prefix»point«i».add(«(chooseRule.getRanges.get(i).domain as PowersetDomain).baseDomain.name + ".valueOf(" + new TermToJava(res).visit(chooseRule.getVariable.get(i))»));
 					''')
 				else
 					sb.append('''
-						point«i».add(«new TermToJava(res).visit(chooseRule.getVariable.get(i))»);
+						«prefix»point«i».add(«new TermToJava(res).visit(chooseRule.getVariable.get(i))»);
 					''')
 			}
 		for (var i = 0; i < counter; i++)
@@ -357,23 +354,23 @@ class RuleToJava extends RuleVisitor<String> {
 			}
 		''')
 		sb.append('''
-			if(!point0.isEmpty()){
+			if(!«prefix»point0.isEmpty()){
 		''')
 		if (options.getChooseMode() == ChooseMode.NO_SHUFFLE)
 			sb.append('''
-				int rndm = 0;
+				int «prefix»rndm = 0;
 			''')
 		else
 			sb.append('''
-				int rndm = ThreadLocalRandom.current().nextInt(0, point0.size());
+				int «prefix»rndm = ThreadLocalRandom.current().nextInt(0, «prefix»point0.size());
 			''')
 		for (var i = 0; i < chooseRule.getVariable.size; i++){
 			val baseDomain = (chooseRule.getRanges.get(i).domain as PowersetDomain).baseDomain
 			val type = new DomainToJavaString(res).visit(baseDomain)
 			val variable = new TermToJava(res).visit(chooseRule.getVariable.get(i))
 			sb.append('''
-				«type» «variable» = point«i».get(rndm);
-				«recordChoice(chooseRule, i, baseDomain, variable, occurrence)»
+				«type» «variable» = «prefix»point«i».get(«prefix»rndm);
+				«recordChoice(chooseRule, i, baseDomain, variable, occurrence, prefix + "rndm")»
 			''')
 		}
 		sb.append(visit(chooseRule.getDoRule))
