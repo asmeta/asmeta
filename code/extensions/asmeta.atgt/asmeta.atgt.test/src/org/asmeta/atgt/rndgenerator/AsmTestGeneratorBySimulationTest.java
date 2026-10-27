@@ -1,5 +1,6 @@
 package org.asmeta.atgt.rndgenerator;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.fail;
@@ -106,24 +107,26 @@ public class AsmTestGeneratorBySimulationTest {
 
 	@Test
 	public void testWithChoose() throws Exception {
-		generateFor("examples/simplechoose.asm");
+		String test = generateFor("examples/simplechoose.asm", true);
+		System.out.println(test);
+		assertTrue(test.contains("pick $i in r_Main"));
 	}
 
 	@Test
 	public void testWithChoose2() throws Exception {
-		generateFor(AsmTestGeneratorTest.FILE_BASE + "examples\\fsmsemantics\\FSM_hooking.asm");
+		generateFor(AsmTestGeneratorTest.FILE_BASE + "examples\\fsmsemantics\\FSM_hooking.asm", true);
 	}
 
 	@Test
 	public void testproblematic() throws Exception {
-		generateFor(AsmTestGeneratorTest.FILE_BASE + "examples\\NeedhamSchroeder\\NeedhamSchroederWithSpy.asm");
+		generateFor(AsmTestGeneratorTest.FILE_BASE + "examples\\NeedhamSchroeder\\NeedhamSchroederWithSpy.asm", true);
 	}
 
-	private void generateFor(String pathname) throws Exception {
+	static String generateFor(String pathname, boolean shuffle) throws Exception {
 		AsmCollection asm = ASMParser.setUpReadAsm(new File(pathname));
 		assertNotNull(asm);
 		AsmTestGeneratorBySimulation gen = new AsmTestGeneratorBySimulation(asm, 40, 1);
-		gen.shuffle = true;
+		gen.shuffle = shuffle;
 		AsmTestSequence test = gen.getTestSuite().getTests().get(0);
 		int last = test.allInstructions().size() - 1;
 		Map<? extends Variable, String> state = test.getState(last);
@@ -133,7 +136,7 @@ public class AsmTestGeneratorBySimulationTest {
 		ByteArrayOutputStream output = new ByteArrayOutputStream();
 		toAvalla ta = new toAvalla(output, test, "filename", "scenarioname");
 		ta.saveToStream();
-		System.out.println(output.toString());
+		return output.toString();
 	}
 
 }

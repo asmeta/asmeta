@@ -17,7 +17,7 @@ import java.util.regex.Pattern;
 
 import org.asmeta.atgt.generator.CriteriaEnum;
 import org.asmeta.atgt.generator.FormatsEnum;
-import org.asmeta.atgt.generator.NuSMVtestGenerator;
+import org.asmeta.atgt.generator.NuSMVASMSpecTestGenerator;
 import org.asmeta.atgt.generator.SaveResults;
 import org.asmeta.atgt.rndgenerator.AsmTestGeneratorBySimulation;
 import org.asmeta.parser.ASMParser;
@@ -110,7 +110,7 @@ public class ScenarioGenerator {
 	 * @throws Exception if any Exception occurs
 	 */
 	public static float runATGT(String asmPath, String targetDir) throws Exception {
-		NuSMVtestGenerator nusmvTestGenerator = new NuSMVtestGenerator(asmPath, true);
+		NuSMVASMSpecTestGenerator nusmvTestGenerator = new NuSMVASMSpecTestGenerator(asmPath, true);
 		Instant start = Instant.now();
 		AsmTestSuite nusmvSuite = nusmvTestGenerator.generateAbstractTests(ATGT_CRITERIA, Integer.MAX_VALUE, ".*");
 		Instant end = Instant.now();

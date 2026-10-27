@@ -29,12 +29,12 @@ public class UnecessaryChangesRemoverTest {
 	@Test
 	@Tag("TestToMavenSkip")
 	public void testOptimize() throws Exception {
-		NuSMVtestGenerator.removeUnaskedChanges = false;
-		NuSMVtestGenerator.removeUnChangedControlles = false;
+		NuSMVASMSpecTestGenerator.removeUnaskedChanges = false;
+		NuSMVASMSpecTestGenerator.removeUnChangedControlled = false;
 
 		Logger.getLogger(AsmTestGenerator.class).setLevel(Level.OFF);
 		Logger.getLogger(TestGenerationWithNuSMV.class).setLevel(Level.OFF);
-		Logger.getLogger(NuSMVtestGenerator.class).setLevel(Level.OFF);
+		Logger.getLogger(NuSMVASMSpecTestGenerator.class).setLevel(Level.OFF);
 		Logger.getLogger(ConverterCounterExample.class).setLevel(Level.OFF);
 		Logger.getLogger("org.asmeta.parser").setLevel(Level.OFF);
 		Logger.getLogger("org.asmeta.simulator.main.Simulator").setLevel(Level.OFF);
@@ -46,7 +46,7 @@ public class UnecessaryChangesRemoverTest {
 		String ex = "../../../../../mvm-asmeta/asm_models/VentilatoreASM_NewTime/Ventilatore4SimpleTimeLtdY.asm";
 
 
-		NuSMVtestGenerator nuSMVtestGenerator = new NuSMVtestGenerator(ex, true);
+		NuSMVASMSpecTestGenerator nuSMVtestGenerator = new NuSMVASMSpecTestGenerator(ex, true);
 		//AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(Integer.MAX_VALUE, "BR_r_Main_T");//|BR_r_Main_FFFTT15");
 		AsmTestSuite result = nuSMVtestGenerator.generateAbstractTests(Integer.MAX_VALUE, "BR_r_Main_TFFFTFF102");
 		//

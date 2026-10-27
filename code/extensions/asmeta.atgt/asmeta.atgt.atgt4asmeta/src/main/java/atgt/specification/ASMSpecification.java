@@ -17,6 +17,11 @@ import tgtlib.definitions.expression.type.Type;
 import tgtlib.specification.Axiom;
 import tgtlib.specification.Specification;
 
+/** old class for the specification of an ASM. It contains all the elements of a specification: types, variables, functions, constants, rules, axioms.
+ * 
+ * @author Angelo Gargantini
+ *
+ */
 public class ASMSpecification implements Specification {
 
 	/** Set of all types in the specification. */

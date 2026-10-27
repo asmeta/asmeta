@@ -7,6 +7,10 @@ import java.util.Collection;
 import tgtlib.definitions.TestPredicate;
 
 import org.junit.jupiter.api.Test;
+
+import atgt.specification.location.Constant;
+import atgt.specification.location.DerivedFunction;
+import atgt.specification.location.Function;
 import tgtlib.definitions.expression.type.Variable;
 import tgtlib.specification.Axiom;
 import tgtlib.specification.Specification;
@@ -77,6 +81,30 @@ class CovBuilderBySubCovTest {
 
 			@Override
 			public Collection<Axiom> getAxiom() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public atgt.specification.location.Variable getVariable(String locationName) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Function getFunction(String funName) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Constant getConstantByName(String var) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public DerivedFunction getDerivedFunction(String var) {
 				// TODO Auto-generated method stub
 				return null;
 			}

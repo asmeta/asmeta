@@ -1,0 +1,3 @@
+// some tests
+// from the repo atgt.test
+../code/extensions/asmeta.atgt/asmeta.atgt.test/examples/simplechoose.asm

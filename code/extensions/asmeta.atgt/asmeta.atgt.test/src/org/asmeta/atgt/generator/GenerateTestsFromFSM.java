@@ -8,7 +8,7 @@ import java.io.PrintWriter;
 import java.util.Collections;
 import java.util.List;
 
-import org.asmeta.atgt.generator.AsmTestGenerator.MBTCoverage;
+import org.asmeta.atgt.generator.NuSMVASMSpecTestGenerator.MBTCoverage;
 import org.asmeta.atgt.generator.nusmv.ConverterCounterExample;
 import org.asmeta.nusmv.main.AsmetaSMV;
 import org.asmeta.nusmv.main.AsmetaSMV.ModelCheckerMode;
@@ -27,7 +27,7 @@ import atgt.coverage.AsmTestSuite;
  */
 public class GenerateTestsFromFSM {
 
-	private NuSMVtestGenerator generator;
+	private NuSMVASMSpecTestGenerator generator;
 	private String inputASMName;
 	private String asmPath;
 	private AsmCoverage ct;
@@ -131,8 +131,8 @@ public class GenerateTestsFromFSM {
 	public GenerateTestsFromFSM(String inputASMName, String asmPath, boolean useMonitoring,
 			boolean removeUnaskedChanges, boolean removeUnChangedControlles, List<CriteriaEnum> criteria) throws Exception {
 		AsmetaSMV.modelCheckerMode = ModelCheckerMode.LTLandBMC;
-		NuSMVtestGenerator.removeUnaskedChanges = removeUnaskedChanges;
-		NuSMVtestGenerator.removeUnChangedControlles = removeUnChangedControlles;
+		NuSMVASMSpecTestGenerator.removeUnaskedChanges = removeUnaskedChanges;
+		NuSMVASMSpecTestGenerator.removeUnChangedControlled = removeUnChangedControlles;
 		ConverterCounterExample.IncludeUnchangedVariables = true;
 		AsmetaSMV.BMCLength = 100;
 		AsmetaSMVOptions.useCoi = true;
@@ -140,10 +140,10 @@ public class GenerateTestsFromFSM {
 		this.inputASMName = inputASMName;
 		this.asmPath = new File(asmPath).getAbsolutePath();
 		// build the generator
-		generator = new NuSMVtestGenerator(asmPath, useMonitoring);
+		generator = new NuSMVASMSpecTestGenerator(asmPath, useMonitoring);
 		// build the tp tree and do not set to verify
 		List<AsmCoverageBuilder> covBuilders = CriteriaEnum.getCoverageCriteria(criteria);
-		generator.buildTPTree(new MBTCoverage(covBuilders),0,"");
+		generator.buildTPTree(new NuSMVASMSpecTestGenerator.MBTCoverage(covBuilders),0,"");
 	}
 
 	public void setAllTpToBeCovered() {
@@ -193,7 +193,7 @@ public class GenerateTestsFromFSM {
 	 */
 	protected String getFSMWithTestsFromFSMAndASM(String fsmPath, String asmPath, List<CriteriaEnum> criteria)
 			throws Exception {
-		AsmTestSuite result = new NuSMVtestGenerator(asmPath, false)
+		AsmTestSuite result = new NuSMVASMSpecTestGenerator(asmPath, false)
 				.generateAbstractTests(CriteriaEnum.getCoverageCriteria(criteria), Integer.MAX_VALUE, ".*");
 		String tests = SaveResults.getResults(result, asmPath, FormatsEnum.AVALLA);
 		BufferedReader fin = new BufferedReader(new FileReader(fsmPath));
@@ -222,7 +222,7 @@ public class GenerateTestsFromFSM {
 	protected String[] getFSMWithTestsFromFSMAndASMfromAvalla(String fsmPath, String asmPath, boolean useMonitoring,
 			List<CriteriaEnum> criteria) throws Exception {
 		AsmetaSMV.modelCheckerMode = ModelCheckerMode.LTLandBMC;
-		AsmTestSuite result = new NuSMVtestGenerator(asmPath, useMonitoring)
+		AsmTestSuite result = new NuSMVASMSpecTestGenerator(asmPath, useMonitoring)
 				.generateAbstractTests(CriteriaEnum.getCoverageCriteria(criteria), Integer.MAX_VALUE, ".*");
 		String[] tests = SaveResults.getAvallaResults(result, fsmPath, asmPath);
 		// Returns the Avalla file paths
@@ -243,7 +243,7 @@ public class GenerateTestsFromFSM {
 	protected String[] getFSMWithTestsFromFSMAndASMfromAvalla(String fsmPath, String asmPath, boolean useMonitoring,
 			List<CriteriaEnum> criteria, String destinationPath) throws Exception {
 		AsmetaSMV.modelCheckerMode = ModelCheckerMode.LTLandBMC;
-		AsmTestSuite result = new NuSMVtestGenerator(asmPath, useMonitoring)
+		AsmTestSuite result = new NuSMVASMSpecTestGenerator(asmPath, useMonitoring)
 				.generateAbstractTests(CriteriaEnum.getCoverageCriteria(criteria), Integer.MAX_VALUE, ".*");
 		String[] tests = SaveResults.getAvallaResults(result, fsmPath, asmPath, destinationPath);
 		// Returns the Avalla file paths

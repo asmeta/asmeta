@@ -5,6 +5,7 @@ import atgt.coverage.TestCondition;
 import atgt.generator.SpinTSuiteGenForTC;
 import atgt.preferences.ATGToolPreferences;
 import atgt.project.AsmProject;
+import atgt.specification.ASMSpecification;
 import tgtlib.specification.ParseException;
 
 /**
@@ -12,10 +13,10 @@ import tgtlib.specification.ParseException;
  * generate a JUnit test case for a given Java SUT. It generates the asmeta tests using SPIN
  *
  */
-public class SpinTestGenerator extends AsmTestGenerator {
+public class SpinTestGenerator extends AsmTestGenerator<ASMSpecification> {
 
 	public SpinTestGenerator(String asmfile, boolean coverageTp) throws ParseException {
-		super(asmfile, coverageTp);
+		super(asmfile, coverageTp, new ASMSpecificationReader());
 	}
 
 	protected static final boolean SEARCH_COMMON_COVERAGE = false;

@@ -12,9 +12,15 @@ package tgtlib.specification;
 
 import java.util.Collection;
 
+import atgt.specification.location.Constant;
+import atgt.specification.location.DerivedFunction;
+import atgt.specification.location.Function;
 import tgtlib.definitions.expression.type.Variable;
 
 
+/** 
+ * The Interface Specification for Asbtract State Machines specifications.
+ */
 public interface Specification {
 	
 	String getName();
@@ -27,5 +33,13 @@ public interface Specification {
 	
 	
 	public Collection<Axiom> getAxiom();
+
+	atgt.specification.location.Variable getVariable(String locationName);
+
+	Function getFunction(String funName);
+
+	Constant getConstantByName(String var);
+
+	DerivedFunction getDerivedFunction(String var);
 	
 }
