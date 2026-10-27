@@ -37,8 +37,8 @@ signature:
 	dynamic monitored receiver: Name//per scegliere la carta da eseguire
 	
 definitions:
-	domain TidDomain = {1n..10n}
-	domain MoneyDomain = {1n..90n}
+	domain TidDomain = {1n : 10n}
+	domain MoneyDomain = {1n : 90n}
 
 	function paymentDetails($t in MessageType, $na in Name, $value in MoneyDomain, $tid in TidDomain) =
 		($na, $value, $tid)
