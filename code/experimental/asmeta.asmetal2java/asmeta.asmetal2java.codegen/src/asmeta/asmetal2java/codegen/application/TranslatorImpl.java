@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.asmeta.flattener.agents.AgentFlattener;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.AsmetaParserUtility;
 import org.asmeta.parser.util.ImportFlattener;
@@ -159,6 +160,13 @@ public class TranslatorImpl implements Translator {
 
 		// If the model has imports, flatten them
 		model = flattenModules(model, asmFile.getAbsoluteFile().getParent());
+
+		// All Java generators must see the same agent-free model.
+		try {
+			new AgentFlattener(model.getMain()).flattenASM();
+		} catch (UnsupportedOperationException e) {
+			throw new TranslationException(e.getMessage(), e);
+		}
 
 		if (translatorOptions.getCompiler() && !translatorOptions.getTestGen()) {
 			this.translateAndCompile(asmName, model);

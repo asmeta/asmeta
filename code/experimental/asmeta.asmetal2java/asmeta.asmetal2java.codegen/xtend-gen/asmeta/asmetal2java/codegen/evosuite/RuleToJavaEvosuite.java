@@ -10,6 +10,7 @@ import asmeta.transitionrules.basictransitionrules.ChooseRule;
 import asmeta.transitionrules.basictransitionrules.ConditionalRule;
 import asmeta.transitionrules.basictransitionrules.Rule;
 import asmeta.transitionrules.derivedtransitionrules.CaseRule;
+import org.asmeta.flattener.agents.AgentFlattener;
 import org.eclipse.xtend2.lib.StringConcatenation;
 
 /**
@@ -86,8 +87,8 @@ public class RuleToJavaEvosuite extends RuleToJava {
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
     _builder.append("\"");
-    String _name = baseDomain.getName();
-    _builder.append(_name, "\t");
+    String _originalDomainName = AgentFlattener.originalDomainName(chooseRule.getVariable().get(variableIndex));
+    _builder.append(_originalDomainName, "\t");
     _builder.append("\",");
     _builder.newLineIfNotEmpty();
     _builder.append("\t");

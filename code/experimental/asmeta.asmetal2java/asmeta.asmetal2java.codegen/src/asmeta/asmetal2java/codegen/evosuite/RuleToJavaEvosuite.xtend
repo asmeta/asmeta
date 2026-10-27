@@ -56,7 +56,7 @@ class RuleToJavaEvosuite extends RuleToJava {
 				"«currRule.asmSignature»",
 				«occurrence»,
 				Character.toString((char) 36) + "«asmVariable»",
-				"«baseDomain.name»",
+				"«org.asmeta.flattener.agents.AgentFlattener.originalDomainName(chooseRule.variable.get(variableIndex))»",
 				«choiceIndex»,
 				String.valueOf(«value»));
 		'''

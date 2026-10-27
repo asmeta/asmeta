@@ -91,6 +91,10 @@ class TermToJava extends ReflectiveVisitor<String> {
 		val domain = (term.domain as PowersetDomain).baseDomain
 		if (domain instanceof BooleanDomain)
 			return "(Boolean.FALSE, Boolean.TRUE)"
+		else if (domain instanceof AbstractTd || domain instanceof ConcreteDomain)
+			return domain.name + ".elems"
+		else if (domain instanceof EnumTd)
+			return "java.util.Arrays.asList(" + domain.name + ".values())"
 		else
 			throw new RuntimeException("domain " + domain + " cannot be translated to Java")
 	}
@@ -221,7 +225,9 @@ class TermToJava extends ReflectiveVisitor<String> {
 				expression = expression.replace(variableName + ".value", variableName)
 
 			val domainName = new DomainToJavaString(res).visit(baseDomain)
-			if (baseDomain instanceof EnumTd)
+			if (!(object.ranges.get(i) instanceof DomainTerm))
+				expression = rangeStream(object.ranges.get(i)) + ".anyMatch(" + variableName + " -> " + expression + ")"
+			else if (baseDomain instanceof EnumTd)
 				expression = "Arrays.stream(" + domainName + ".values()).anyMatch(" + variableName + " -> " + expression + ")"
 			else
 				expression = domainName + ".elems.stream().anyMatch(" + variableName + " -> " + expression + ")"
@@ -265,7 +271,7 @@ class TermToJava extends ReflectiveVisitor<String> {
 			new Function<Void, «structure»>(){@Override public «structure» apply(Void input) {    /**<--- letTerm**/
 		''')
 		for (var int i = 0; i < object.variable.size; i++) {
-			let.append('''	«new DomainToJavaString(res).visit(object.assignmentTerm.get(i).domain)» «visit(object.variable.get(i))» = «visit(object.assignmentTerm.get(i))»;
+			let.append('''	«Util.javaType(object.assignmentTerm.get(i).domain, res)» «visit(object.variable.get(i))» = «visit(object.assignmentTerm.get(i))»;
 			''')
 		}
 		let.append(
@@ -724,7 +730,7 @@ class TermToJava extends ReflectiveVisitor<String> {
 	private def String declaredFunctionArguments(FunctionTerm ft) {
 		if (ft.arguments !== null)
 			return "(" + ArgumentToJava.functionArguments(ft, new TermToJava(res)) + ")"
-		return if (ft.domain instanceof AbstractTd) "" else "()"
+		return if (ft.domain instanceof AbstractTd && ft.function instanceof StaticFunction && ft.function.definition === null) "" else "()"
 	}
 
 	def Boolean controllo(Domain dom) {

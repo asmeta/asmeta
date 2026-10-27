@@ -15,6 +15,7 @@ import asmeta.terms.basicterms.VariableTerm;
 import asmeta.transitionrules.basictransitionrules.Rule;
 import java.util.ArrayList;
 import java.util.List;
+import org.asmeta.flattener.agents.AgentFlattener;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.xbase.lib.Functions.Function1;
@@ -450,6 +451,10 @@ public class JavaTestGenerator extends JavaGenerator {
   }
 
   private String asmRuleSignature(final RuleDeclaration rule) {
+    final String original = AgentFlattener.originalRuleSignature(rule);
+    if ((original != null)) {
+      return original;
+    }
     Integer _arity = rule.getArity();
     boolean _equals = ((_arity).intValue() == 0);
     if (_equals) {

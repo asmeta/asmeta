@@ -21,6 +21,7 @@ import asmeta.definitions.domains.TypeDomain;
 import asmeta.structure.Asm;
 import java.util.List;
 import java.util.function.IntFunction;
+import org.asmeta.flattener.agents.AgentFlattener;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.xbase.lib.Conversions;
@@ -56,8 +57,7 @@ public class AsmMethods {
     String asmName = asm.getName();
     EList<Function> _function = asm.getHeaderSection().getSignature().getFunction();
     for (final Function fd : _function) {
-      boolean _isControlledOrOut = Util.isControlledOrOut(fd);
-      if (_isControlledOrOut) {
+      if ((Util.isControlledOrOut(fd) && (!AgentFlattener.isInternal(fd)))) {
         sb.append(System.lineSeparator());
         Domain _domain = fd.getDomain();
         boolean _tripleEquals = (_domain == null);
@@ -481,7 +481,7 @@ public class AsmMethods {
                   EList<Function> _function_1 = asm.getHeaderSection().getSignature().getFunction();
                   for (final Function sf : _function_1) {
                     if ((sf instanceof StaticFunction)) {
-                      if ((((StaticFunction)sf).getCodomain().equals(dd) && (((StaticFunction)sf).getDomain() == null))) {
+                      if (((((StaticFunction)sf).getCodomain().equals(dd) && (((StaticFunction)sf).getDomain() == null)) && AgentFlattener.acceptsArgument(fd, sf))) {
                         String symbol = ((StaticFunction)sf).getName();
                         Domain _codomain_8 = fd.getCodomain();
                         if ((_codomain_8 instanceof ConcreteDomain)) {
@@ -1464,7 +1464,7 @@ public class AsmMethods {
                 EList<Function> _function_1 = asm.getHeaderSection().getSignature().getFunction();
                 for (final Function sf : _function_1) {
                   if ((sf instanceof StaticFunction)) {
-                    if ((((StaticFunction)sf).getCodomain().equals(((MonitoredFunction)fd).getDomain()) && (((StaticFunction)sf).getDomain() == null))) {
+                    if (((((StaticFunction)sf).getCodomain().equals(((MonitoredFunction)fd).getDomain()) && (((StaticFunction)sf).getDomain() == null)) && AgentFlattener.acceptsArgument(fd, sf))) {
                       String symbol = ((StaticFunction)sf).getName();
                       Domain _codomain_5 = ((MonitoredFunction)fd).getCodomain();
                       if ((_codomain_5 instanceof ConcreteDomain)) {
@@ -2128,8 +2128,8 @@ public class AsmMethods {
     sb.append(_builder).append(System.lineSeparator());
     EList<Function> _function = asm.getHeaderSection().getSignature().getFunction();
     for (final Function fd : _function) {
-      if ((fd instanceof StaticFunction)) {
-        String abstractName = ((StaticFunction)fd).getName();
+      if ((((fd instanceof StaticFunction) && (fd.getDomain() == null)) && (fd.getDefinition() == null))) {
+        String abstractName = fd.getName();
         StringConcatenation _builder_1 = new StringConcatenation();
         _builder_1.append("String static_");
         _builder_1.append(abstractName);

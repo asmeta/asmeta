@@ -191,6 +191,8 @@ class JavaTestGenerator extends JavaGenerator {
 	}
 
 	private def String asmRuleSignature(RuleDeclaration rule) {
+		val original = org.asmeta.flattener.agents.AgentFlattener.originalRuleSignature(rule)
+		if (original !== null) return original
 		if (rule.arity == 0) {
 			return rule.name
 		}

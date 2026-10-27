@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import org.asmeta.flattener.agents.AgentFlattener;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.xbase.lib.CollectionLiterals;
@@ -495,7 +496,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
     StringBuffer sb = new StringBuffer();
     EList<Domain> _domain = asm.getHeaderSection().getSignature().getDomain();
     for (final Domain dd : _domain) {
-      if (((dd instanceof AbstractTd) == false)) {
+      if ((((dd instanceof AbstractTd) == false) && (!AgentFlattener.isReserveDomain(dd)))) {
         String _visit = this.createDomainToJavaSigDef(asm).visit(dd);
         String _plus = (("//Variabile di tipo Concreto o Enumerativo" + "\n\n") + _visit);
         String _plus_1 = (_plus + 
@@ -680,7 +681,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
     StringBuffer sb = new StringBuffer();
     EList<Function> _function = asm.getHeaderSection().getSignature().getFunction();
     for (final Function fd : _function) {
-      if ((((fd instanceof StaticFunction) && (fd.getCodomain() instanceof AbstractTd)) && (fd.getDomain() == null))) {
+      if (((((fd instanceof StaticFunction) && (fd.getCodomain() instanceof AbstractTd)) && (fd.getDomain() == null)) && (fd.getDefinition() == null))) {
         String _string = new String("\"");
         this.supp = _string;
         String _name = fd.getName();

@@ -10,6 +10,7 @@ Require-Bundle: asmeta.emf,
  org.apache.log4j,
  asmeta.simulator
 Export-Package: org.asmeta.flattener,
+ org.asmeta.flattener.agents,
  org.asmeta.flattener.args,
  org.asmeta.flattener.nesting,
  org.asmeta.flattener.rule,
