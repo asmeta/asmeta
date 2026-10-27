@@ -53,8 +53,7 @@ public interface Translator {
 	 * Sets the value of the specified property.
 	 *
 	 * @param propertyName  the name of the property to set.
-	 * @param propertyValue the value to set the property to, interpreted as a
-	 *                      boolean.
+	 * @param propertyValue the value to set the property to.
 	 */
 	void setOptions(String propertyName, String propertyValue);
 
@@ -106,14 +105,6 @@ public interface Translator {
 	 */
 	void setClean(boolean clean);
 
-	/**
-	 * Set whether scenarios may be generated without recording nondeterministic
-	 * choices.
-	 *
-	 * @param flaky {@code true} to use the original, potentially flaky generation
-	 *              process.
-	 */
-	void setFlaky(boolean flaky);
 
 	/**
 	 * Cleans up resources.

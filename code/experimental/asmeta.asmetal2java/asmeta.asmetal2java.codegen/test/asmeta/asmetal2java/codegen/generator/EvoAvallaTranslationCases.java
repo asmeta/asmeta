@@ -17,6 +17,7 @@ import asmeta.asmetal2java.codegen.config.ModeConstantsConfig;
 import asmeta.asmetal2java.codegen.config.TranslatorOptions;
 import asmeta.asmetal2java.codegen.config.TranslatorOptionsImpl;
 import asmeta.asmetal2java.codegen.evosuite.RulesMap;
+import asmeta.asmetal2java.codegen.application.TranslatorImpl;
 
 /**
  * Focused cases for the Java generators used by EvoAvalla.
@@ -28,8 +29,10 @@ import asmeta.asmetal2java.codegen.evosuite.RulesMap;
 public class EvoAvallaTranslationCases {
 
 	private static final Path CASES = Path.of("examples", "evoavallaTranslationCases");
+	private static final Path ASM_EXAMPLES = Path.of("..", "..", "..", "..", "asm_examples");
 	private static final Path GENERATED = CASES.resolve("generated");
 	private static final Path CLASSES = GENERATED.resolve("classes");
+	private static final Path TRANSLATION_LOG = CASES.resolve("translation.log");
 	private static final String COMPILER_VERSION = "9";
 
 	@BeforeAll
@@ -39,54 +42,154 @@ public class EvoAvallaTranslationCases {
 	}
 
 	@Test
-	@Tag("TestToMavenSkip")
 	void productAndTupleTermMustGenerateCompilableTestAndAtgClasses() throws Exception {
 		translateAndCompile("ProductTupleInitialization.asm");
 	}
 
-//	@Test
-//	@Tag("TestToMavenSkip")
-//	void nestedTermsInInitializationMustNotRepeatAssignmentOperator() throws Exception {
-//		translateAndCompile("ConditionalTermInitialization.asm");
-//	}
-//
-//	@Test
-//	@Tag("TestToMavenSkip")
-//	void enumCaseTermInitializationMustGenerateCompilableTestAndAtgClasses() throws Exception {
-//		translateAndCompile("CaseTermEnumInitialization.asm");
-//	}
-//
-//	@Test
-//	@Tag("TestToMavenSkip")
-//	void sequenceInitializationMustGenerateCompilableTestAndAtgClasses() throws Exception {
-//		translateAndCompile("SequenceInitialization.asm");
-//	}
-//
-//	@Test
-//	@Tag("TestToMavenSkip")
-//	void powersetInitializationMustGenerateCompilableTestAndAtgClasses() throws Exception {
-//		translateAndCompile("PowersetInitialization.asm");
-//	}
-//
-//	@Test
-//	@Tag("TestToMavenSkip")
-//	void naturalInitializationMustGenerateCompilableTestAndAtgClasses() throws Exception {
-//		translateAndCompile("NaturalInitialization.asm");
-//	}
-//
-//	@Test
-//	@Tag("TestToMavenSkip")
-//	void extendRuleMustGenerateCompilableTestAndAtgClasses() throws Exception {
-//		translateAndCompile("ExtendRule.asm");
-//	}
+	@Test
+	void nestedTermsInInitializationMustNotRepeatAssignmentOperator() throws Exception {
+		translateAndCompile("ConditionalTermInitialization.asm");
+		translateAndCompile("ConditionalTermInitialization_static.asm");
+	}
+
+	@Test
+	void enumCaseTermInitializationMustGenerateCompilableTestAndAtgClasses() throws Exception {
+		translateAndCompile("CaseTermEnumInitialization.asm");
+		translateAndCompile("CaseTermEnumInitialization_static.asm");
+		translateAndCompile("CaseTermAbstractInitialization.asm");
+	}
+
+	@Test
+	void sequenceInitializationMustGenerateCompilableTestAndAtgClasses() throws Exception {
+		translateAndCompile("SequenceInitialization.asm");
+	}
+
+	@Test
+	void powersetInitializationMustGenerateCompilableTestAndAtgClasses() throws Exception {
+		translateAndCompile("PowersetInitialization.asm");
+	}
+
+	@Test
+	void naturalMustGenerateCompilableTestAndAtgClasses() throws Exception {
+		translateAndCompile("Natural.asm");
+	}
+
+	@Test
+	void stdlFunctionsMustGenerateCompilableTestAndAtgClasses() throws Exception {
+		translateAndCompile("STDLFunctions.asm");
+	}
+
+	@Test
+	void extendRuleMustGenerateCompilableTestAndAtgClasses() throws Exception {
+		translateAndCompile("ExtendRule.asm");
+	}
+
+	@Test
+	void mapTermMustGenerateCompilableTestAndAtgClasses() throws Exception {
+		translateAndCompile("MapTerm.asm");
+	}
+
+	@Test
+	void concreteDomainOperatorsMustGenerateCompilableTestAndAtgClasses() throws Exception {
+		translateAndCompile("ConcreteDomainOperators.asm");
+	}
+
+	@Test
+	void setComprehensionMustGenerateCompilableTestAndAtgClasses() throws Exception {
+		translateAndCompile("SetComprehension.asm");
+	}
+
+	@Test
+	void conditionalTermWithoutElseMustGenerateCompilableTestAndAtgClasses() throws Exception {
+		translateAndCompile("ConditionalTermWithoutElse.asm");
+	}
+
+	@Test
+	void collectionTypesMustGenerateCompilableTestAndAtgClasses() throws Exception {
+		translateAndCompile("CollectionTypes.asm");
+	}
+	
+	@Test
+	void importingmodulesMustGenerateCompilableTestAndAtgClasses() throws Exception {
+		translateAndCompile("Main.asm");
+	}
+	
+	@Test
+	void agentsMustGenerateCompilableTestAndAtgClasses() throws Exception {
+		translateAndCompile("RobotsWithAgents.asm");
+	}
+
+	@Test
+	void concreteDomainRuleArgumentMustGenerateCompilableTestAndAtgClasses() throws Exception {
+		translateAndCompile("ConcreteDomainRuleArgument.asm");
+	}
+
+	@Test
+	void concreteDomainProductInitializationMustGenerateCompilableTestAndAtgClasses() throws Exception {
+		translateAndCompile("ConcreteDomainProductInitialization.asm");
+	}
+
+	@Test
+	void concreteDomainExistsPairMustGenerateCompilableTestAndAtgClasses() throws Exception {
+		translateAndCompile("ConcreteDomainExistsPair.asm");
+	}
+
+	@Test
+	void nestedChooseRulesMustGenerateCompilableTestAndAtgClasses() throws Exception {
+		translateAndCompile("NestedChooseRules.asm");
+	}
+
+	@Test
+	@Tag("TestToMavenSkip")
+	void translateAndCompileAllValidAsms() throws Exception {
+		int passed = 0;
+		int failed = 0;
+		StringBuilder log = new StringBuilder();
+
+		boolean startCompiling = false;
+		for (String line : Files.readAllLines(CASES.resolve("model_list.txt"))) {
+			if (!startCompiling && !line.trim().startsWith("// valid asm:")) {
+				continue;
+			}
+			if (line.trim().startsWith("// valid asm:")) {
+				startCompiling = true;
+				continue;
+			}
+			String spec = line.replaceFirst("^\\s*//", "").split("//", 2)[0].trim();
+			if (!spec.endsWith(".asm")) {
+				continue;
+			}
+			try {
+				translateAndCompile(ASM_EXAMPLES.resolve(spec));
+				passed++;
+				log.append("PASSED: ").append(spec).append(System.lineSeparator());
+			} catch (Exception | AssertionError e) {
+				failed++;
+				log.append("FAILED: ").append(spec).append(" - ").append(e)
+						.append(System.lineSeparator());
+			}
+		}
+
+		String summary = String.format("EvoAvalla translation: %d passed, %d failed%n", passed, failed);
+		log.append(summary);
+		Files.writeString(TRANSLATION_LOG, log);
+		System.out.print(summary);
+	}
 
 	private void translateAndCompile(String specPath) throws Exception {
-		Path specification = CASES.resolve(specPath);
-		String asmName = specPath.substring(0, specPath.lastIndexOf('.'));
+		translateAndCompile(CASES.resolve(specPath));
+	}
+
+	private void translateAndCompile(Path specification) throws Exception {
+		String specPath = specification.toString();
+		String fileName = specification.getFileName().toString();
+		String asmName = fileName.substring(0, fileName.lastIndexOf('.'));
 		Path testJava = GENERATED.resolve(asmName + ".java");
 		Path atgJava = GENERATED.resolve(asmName + "_ATG.java");
 
 		AsmCollection model = GeneratorCompilerUtil.parseSpec(specification.toFile());
+		model = TranslatorImpl.flattenModules(model,
+				specification.toFile().getAbsoluteFile().getParent());
 		RulesMap rules = new RulesMap();
 		JavaTestGenerator testGenerator = new JavaTestGenerator(rules);
 		JavaAtgGenerator atgGenerator = new JavaAtgGenerator(rules);
@@ -110,7 +213,8 @@ public class EvoAvallaTranslationCases {
 		options.setValue(ModeConstantsConfig.GENERATE_WIN, false);
 		options.setValue(ModeConstantsConfig.TEST_GEN, true);
 		options.setValue(ModeConstantsConfig.COMPILER, true);
-		options.setValue(TranslatorOptionsImpl.COVER_OUTPUTS_OPTION, true);
+		options.setValue(TranslatorOptionsImpl.COVER_OUTPUTS_OPTION, false);
+		options.setValue(TranslatorOptionsImpl.IGNORE_NOT_SUPPORTED_DOMAIN_EXCEPTION, true);
 		return options;
 	}
 

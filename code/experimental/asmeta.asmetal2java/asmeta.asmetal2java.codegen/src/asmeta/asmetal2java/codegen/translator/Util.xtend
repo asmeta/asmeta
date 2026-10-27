@@ -10,6 +10,10 @@ import asmeta.structure.Asm
 import asmeta.terms.basicterms.VariableTerm
 import org.eclipse.emf.common.util.EList
 import asmeta.definitions.domains.BooleanDomain
+import asmeta.definitions.domains.BagDomain
+import asmeta.definitions.domains.MapDomain
+import asmeta.definitions.domains.PowersetDomain
+import asmeta.definitions.domains.SequenceDomain
 import asmeta.definitions.Function
 import asmeta.definitions.OutFunction
 import asmeta.definitions.ControlledFunction
@@ -33,13 +37,38 @@ class Util {
 		return domainName + "_extend"
 	}
 
+	/** Returns a legal Java identifier while preserving ordinary ASM names. */
+	def static String javaIdentifier(String name) {
+		var identifier = name.replaceAll("[^A-Za-z0-9_$]", "_")
+		if (identifier.empty || !Character.isJavaIdentifierStart(identifier.charAt(0)))
+			identifier = "_" + identifier
+		if (javax.lang.model.SourceVersion.isKeyword(identifier))
+			identifier = "_" + identifier
+		return identifier
+	}
+
 	def String adaptRuleParam(EList<VariableTerm> variables, Asm res) {
 		var StringBuffer paramDef = new StringBuffer
 		paramDef.append("");
 		for (var i = 0; i < variables.size; i++) {
-			paramDef.append('''«new DomainToJavaString(res).visit(variables.get(i).domain)» «variables.get(i).name», ''')
+			paramDef.append('''«javaType(variables.get(i).domain, res)» «variables.get(i).name», ''')
 		}
 		return paramDef.substring(0, paramDef.length - 2)
+	}
+
+	/**
+	 * Returns the Java declaration type for a Domain.
+	 */
+	def static String javaType(Domain domain, Asm res) {
+		if (domain instanceof SequenceDomain)
+			return "List<" + javaType(domain.domain, res) + ">"
+		if (domain instanceof PowersetDomain)
+			return "Set<" + javaType(domain.baseDomain, res) + ">"
+		if (domain instanceof BagDomain)
+			return "Bag<" + javaType(domain.domain, res) + ">"
+		if (domain instanceof MapDomain)
+			return "Map<" + javaType(domain.sourceDomain, res) + ", " + javaType(domain.targetDomain, res) + ">"
+		return new DomainToJavaString(res).visit(domain).trim
 	}
 
 	def String parseFunction(String s) {

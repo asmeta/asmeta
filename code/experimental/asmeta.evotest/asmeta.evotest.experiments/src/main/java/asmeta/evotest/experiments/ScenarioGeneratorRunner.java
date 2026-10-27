@@ -208,8 +208,8 @@ public class ScenarioGeneratorRunner {
 			new File(target).mkdirs();
 			try {
 				int budget = (int) evoavallaCfg.get("budget");
-				boolean shuffle = (boolean) evoavallaCfg.get("shuffle");
-				float exeTime = ScenarioGenerator.runEvoAvalla(asmFilePath, target, jdkPath, budget, shuffle);
+				String chooseMode = (String) evoavallaCfg.get("choose_mode");
+				float exeTime = ScenarioGenerator.runEvoAvalla(asmFilePath, target, jdkPath, budget, chooseMode);
 				YamlManager.write(target, asmName, asmFilePath, exeTime, LocalDateTime.now().toString());
 			} catch (Throwable t) {
 				LOG.error("EvoAvalla failed to generate a test suite.\n" + t.getClass().getSimpleName() + ": " + t.getMessage());

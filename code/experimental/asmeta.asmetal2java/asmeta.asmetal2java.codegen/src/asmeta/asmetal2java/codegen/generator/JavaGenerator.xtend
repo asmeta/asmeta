@@ -14,9 +14,7 @@ import asmeta.definitions.DerivedFunction
 import asmeta.definitions.RuleDeclaration
 import asmeta.definitions.StaticFunction
 import asmeta.definitions.domains.AbstractTd
-import asmeta.definitions.domains.ConcreteDomain
 import asmeta.definitions.domains.EnumTd
-import asmeta.definitions.domains.ProductDomain
 import asmeta.structure.Asm
 import asmeta.transitionrules.basictransitionrules.Rule
 import java.util.ArrayList
@@ -87,7 +85,7 @@ class JavaGenerator extends AsmToJavaGenerator {
 				seqCalledRules.addAll(new SeqRuleCollector(false).visit(r))
 		}
 		//
-		val asmName = asm.name
+		val asmName = Util.javaIdentifier(asm.name)
 		var updateASMText = updateSet(asm)
 		functionSignature(asm)
 		// TODO fix include list
@@ -98,6 +96,8 @@ class JavaGenerator extends AsmToJavaGenerator {
 			«getImports()»
 			
 			abstract class «asmName»Sig {
+
+				«getToNaturalMethod()»
 				
 				/////////////////////////////////////////////////
 				/// DOMAIN CONTAINERS
@@ -189,6 +189,17 @@ class JavaGenerator extends AsmToJavaGenerator {
 
 	}
 	
+	protected def String getToNaturalMethod() {
+		return '''
+			//Support methods for translating to Natural
+			protected static int toNatural(int value) {
+				if (value < 0)
+					throw new IllegalArgumentException("Cannot convert negative value " + value + " to Natural");
+				return value;
+			}
+		'''
+	}
+
 	protected def String getImports(){
 		return	'''
 				import java.util.ArrayList;
@@ -246,7 +257,7 @@ class JavaGenerator extends AsmToJavaGenerator {
 		var sb = new StringBuffer;
 		for (dd : asm.headerSection.signature.domain) {
 
-			if (dd instanceof AbstractTd == false)
+			if (dd instanceof AbstractTd == false && !org.asmeta.flattener.agents.AgentFlattener.isReserveDomain(dd))
 				sb.append(
 					"//Variabile di tipo Concreto o Enumerativo" + "\n\n" + createDomainToJavaSigDef(asm).visit(dd) +
 						"\n")
@@ -385,7 +396,7 @@ class JavaGenerator extends AsmToJavaGenerator {
 	def functionAbstractDom(Asm asm) {
 		var sb = new StringBuffer;
 		for (fd : asm.headerSection.signature.function) {
-			if (fd instanceof StaticFunction && fd.codomain instanceof AbstractTd && fd.domain === null) {
+			if (fd instanceof StaticFunction && fd.codomain instanceof AbstractTd && fd.domain === null && fd.definition === null) {
 				supp = new String('"');
 
 				sb.append(fd.name + " = new " + fd.codomain.name + "(" + supp + fd.name + supp + ")" + ";\n")
@@ -433,28 +444,6 @@ class JavaGenerator extends AsmToJavaGenerator {
 				sb.append(
 		  					'''«(createFunctionToJavaDef(asm)).visit(fd.definedFunction)»
 				''')
-				// This is needed to fix the missing .value issue for the Product domain consisting of concrete domains
-			     var pd = fd.definedFunction.domain
-			     if (pd instanceof ProductDomain){
-			         if (pd.domains.get(0) instanceof ConcreteDomain){
-                        var firstIndex = sb.toString.indexOf("$u");
-                        if (firstIndex != -1) {
-                            var before = sb.substring(0, firstIndex + 2);
-                            var after = sb.substring(firstIndex + 2);
-                            after = after.replaceAll("\\$u", "\\$u.value");
-                            sb = new StringBuffer(before + after);
-                        }
-			         }
-			         if (pd.domains.get(1) instanceof ConcreteDomain){
-                        var firstIndex = sb.toString.indexOf("$p");
-                        if (firstIndex != -1) {
-                            var before = sb.substring(0, firstIndex + 2);
-                            var after = sb.substring(firstIndex + 2);
-                            after = after.replaceAll("\\$p", "\\$p.value");
-                            sb = new StringBuffer(before + after);
-                        }
-                     }
-			     }
 			}
 			return sb.toString.replaceAll("\\$", "_")
 		}

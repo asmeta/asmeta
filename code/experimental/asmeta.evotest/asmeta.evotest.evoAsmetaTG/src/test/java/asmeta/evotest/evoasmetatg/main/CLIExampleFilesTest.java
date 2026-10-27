@@ -43,7 +43,8 @@ public class CLIExampleFilesTest {
 	private static String EVOSUITE_VERSION_VALUE = "1.0.6";
 	private static final String TIME_BUDGET = "-timeBudget";
 	private static final String TIME_BUDGET_VALUE = "2";
-	private static final String COVER_OUTPUTS_OPTION = "-DCoverOutputs=true";
+	private static final String COVER_OUTPUTS_OPTION = "-DcoverOutputs=true";
+	private static String CHOOSE_MODE_OPTION = "-DchooseMode=flaky";
 	private static String CLEAN = "-clean";
 	private static final String ASM_EXTENSION = AsmetaParserUtility.ASM_EXTENSION;
 
@@ -106,8 +107,7 @@ public class CLIExampleFilesTest {
 
 		List<String> args = List.of(INPUT, "\"" + file.getAbsolutePath() + "\"", OUTPUT,
 				"\"" + tempOutputDir.getAbsolutePath() + "\"", JAVA_PATH, JAVA_PATH_VALUE, EVOSUITE_VERSION,
-				EVOSUITE_VERSION_VALUE, TIME_BUDGET, TIME_BUDGET_VALUE, COVER_OUTPUTS_OPTION, CLEAN,
-				"-DshuffleRandom=true");
+				EVOSUITE_VERSION_VALUE, TIME_BUDGET, TIME_BUDGET_VALUE, COVER_OUTPUTS_OPTION, CLEAN, CHOOSE_MODE_OPTION);
 
 		logger.info("args: {} ", args);
 
@@ -132,6 +132,7 @@ public class CLIExampleFilesTest {
 	@Tag("TestToMavenSkip")
 	public void testOneSpecificfile() {
 		CLEAN = "";
+		CHOOSE_MODE_OPTION = "-DchooseMode=pick";
 		EVOSUITE_VERSION_VALUE= "1.2.0";
 		if (EVOSUITE_VERSION_VALUE.equals("1.2.0"))
 			JAVA_PATH_VALUE= "C:\\Program Files\\Java\\jdk-9.0.4";

@@ -26,6 +26,7 @@ import com.google.inject.Injector;
 
 import asmeta.AsmCollection;
 import asmeta.asmetal2java.codegen.config.TranslatorOptions;
+import asmeta.asmetal2java.codegen.config.ChooseMode;
 import asmeta.asmetal2java.codegen.config.TranslatorOptionsImpl;
 import asmeta.asmetal2java.codegen.formatter.Formatter;
 import asmeta.asmetal2java.codegen.formatter.FormatterImpl;
@@ -154,7 +155,7 @@ public class ValidationTest {
 		
 		
 		GeneratorCompilerTestInProject gen = new GeneratorCompilerTestInProject();
-		TranslatorOptions options = new TranslatorOptionsImpl(true, true, true);
+		TranslatorOptions options = new TranslatorOptionsImpl(true, ChooseMode.PICK, true);
 		
 		GeneratorCompilerUtil.genandcompile(asmSpec, options, JAVA_GEN_path, JAVA_GEN_path);
 		

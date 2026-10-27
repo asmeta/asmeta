@@ -43,7 +43,7 @@ class JavaWindowGenerator extends AsmToJavaGenerator {
 				seqCalledRules.addAll(new SeqRuleCollector(false).visit(r))
 		}
 		//
-		val asmName = asm.name
+		val asmName = Util.javaIdentifier(asm.name)
 
 		// TODO fix include list
 		return '''
@@ -63,9 +63,9 @@ class JavaWindowGenerator extends AsmToJavaGenerator {
 			import javax.swing.ScrollPaneConstants;
 			import javax.swing.SwingConstants;
 			
-			public class «asm.name»_Win {
+			public class «asmName»_Win {
 			
-			    «asm.name» esecuzione;
+			    «asmName» esecuzione;
 			    int stato = 0;
 			    JFrame frame;
 			    JPanel panel_destro = new JPanel();
@@ -94,7 +94,7 @@ class JavaWindowGenerator extends AsmToJavaGenerator {
 					EventQueue.invokeLater(new Runnable() {
 						public void run() {
 							try {
-								«asm.name»_Win window = new «asm.name»_Win();
+								«asmName»_Win window = new «asmName»_Win();
 								window.frame.setVisible(true);
 							} catch (Exception e) {
 								e.printStackTrace();
@@ -106,9 +106,9 @@ class JavaWindowGenerator extends AsmToJavaGenerator {
 				/**
 				 * Create the application.
 				 */
-				public «asm.name»_Win() {
+				public «asmName»_Win() {
 					
-					esecuzione = new «asm.name»();
+					esecuzione = new «asmName»();
 					initialize();
 				}
 			

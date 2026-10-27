@@ -9,6 +9,7 @@ import asmeta.definitions.domains.SequenceDomain;
 import asmeta.structure.Asm;
 import asmeta.terms.basicterms.FunctionTerm;
 import asmeta.terms.basicterms.TupleTerm;
+import org.asmeta.parser.util.Defs;
 
 /**
  * This class is used in Update Rules
@@ -31,9 +32,8 @@ public class TermToJavaInUpdateRule extends TermToJava {
   public String visit(final FunctionTerm term) {
     StringBuffer functionTerm = new StringBuffer();
     String name = new Util().parseFunction(term.getFunction().getName());
-    boolean _hasEvaluateVisitor = ExpressionToJava.hasEvaluateVisitor(name);
-    boolean _not = (!_hasEvaluateVisitor);
-    if (_not) {
+    if ((((term.getArguments() == null) || (!Defs.getAsmName(term.getFunction()).equals("StandardLibrary"))) || 
+      (!ExpressionToJava.hasEvaluateVisitor(name)))) {
       if (((Util.isControlledOrOut(term.getFunction()) && (term.getDomain() instanceof ConcreteDomain)) && 
         (!(term.getFunction().getDomain() instanceof ProductDomain)))) {
         functionTerm.append(this.caseFunctionTermSupp(term.getFunction(), term));
@@ -76,32 +76,20 @@ public class TermToJavaInUpdateRule extends TermToJava {
     }
     Domain _domain_2 = ft.getDomain();
     if ((_domain_2 instanceof MapDomain)) {
-      String _name_4 = fd.getName();
-      String _plus_6 = (_name_4 + ".set(supporto);\n");
-      functionTerm.append(_plus_6);
-    }
-    Domain _domain_3 = ft.getDomain();
-    if ((_domain_3 instanceof SequenceDomain)) {
-      String _name_5 = fd.getName();
-      String _plus_7 = (_name_5 + ".set(");
-      String _name_6 = fd.getName();
-      String _plus_8 = (_plus_7 + _name_6);
-      String _plus_9 = (_plus_8 + "_elem);\n");
-      functionTerm.append(_plus_9);
     }
     TupleTerm _arguments = ft.getArguments();
     boolean _tripleEquals = (_arguments == null);
     if (_tripleEquals) {
-      Domain _domain_4 = ft.getDomain();
-      if ((_domain_4 instanceof ConcreteDomain)) {
+      Domain _domain_3 = ft.getDomain();
+      if ((_domain_3 instanceof ConcreteDomain)) {
         if ((!this.leftHandSide)) {
-          String _name_7 = fd.getName();
-          String _plus_10 = (_name_7 + ".set(");
-          String _name_8 = ft.getDomain().getName();
-          String _plus_11 = (_plus_10 + _name_8);
-          String _plus_12 = (_plus_11 + this.varName);
-          String _plus_13 = (_plus_12 + "_s);");
-          functionTerm.append(_plus_13);
+          String _name_4 = fd.getName();
+          String _plus_6 = (_name_4 + ".set(");
+          String _name_5 = ft.getDomain().getName();
+          String _plus_7 = (_plus_6 + _name_5);
+          String _plus_8 = (_plus_7 + this.varName);
+          String _plus_9 = (_plus_8 + "_s);");
+          functionTerm.append(_plus_9);
         }
       }
       return functionTerm.toString();
@@ -112,20 +100,21 @@ public class TermToJavaInUpdateRule extends TermToJava {
       int _size = ft.getArguments().getTerms().size();
       boolean _equals = (_size == 1);
       if (_equals) {
-        Domain _domain_5 = ft.getDomain();
-        if ((_domain_5 instanceof ConcreteDomain)) {
+        Domain _domain_4 = ft.getDomain();
+        if ((_domain_4 instanceof ConcreteDomain)) {
           if ((!this.leftHandSide)) {
-            String _name_9 = fd.getName();
-            String _plus_14 = (_name_9 + ".set(");
-            String _visit = this.visit(ft.getArguments().getTerms().get(0));
-            String _plus_15 = (_plus_14 + _visit);
-            String _plus_16 = (_plus_15 + ", ");
-            String _name_10 = ft.getDomain().getName();
-            String _plus_17 = (_plus_16 + _name_10);
-            String _plus_18 = (_plus_17 + this.varName);
-            String _plus_19 = (_plus_18 + 
+            String _name_6 = fd.getName();
+            String _plus_10 = (_name_6 + ".set(");
+            TermToJava _termToJava = new TermToJava(this.res);
+            String _locationArguments = ArgumentToJava.locationArguments(ft, _termToJava);
+            String _plus_11 = (_plus_10 + _locationArguments);
+            String _plus_12 = (_plus_11 + ", ");
+            String _name_7 = ft.getDomain().getName();
+            String _plus_13 = (_plus_12 + _name_7);
+            String _plus_14 = (_plus_13 + this.varName);
+            String _plus_15 = (_plus_14 + 
               "_s);");
-            functionTerm.append(_plus_19);
+            functionTerm.append(_plus_15);
           } else {
           }
         }

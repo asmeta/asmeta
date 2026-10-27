@@ -1,9 +1,11 @@
 package asmeta.asmetal2java.codegen.translator
 
 import asmeta.asmetal2java.codegen.config.TranslatorOptions
+import asmeta.asmetal2java.codegen.config.ChooseMode
 import asmeta.definitions.domains.AbstractTd
 import asmeta.definitions.domains.BasicTd
 import asmeta.definitions.domains.ConcreteDomain
+import asmeta.definitions.domains.PowersetDomain
 import asmeta.definitions.domains.Domain
 import asmeta.definitions.domains.EnumTd
 import asmeta.definitions.domains.PowersetDomain
@@ -35,6 +37,8 @@ class RuleToJava extends RuleVisitor<String> {
 	protected Asm res;
 	protected boolean seqBlock;
 	protected TranslatorOptions options
+	// Shared by child visitors; never static, so independent translations stay isolated.
+	protected java.util.concurrent.atomic.AtomicInteger choiceCounter = new java.util.concurrent.atomic.AtomicInteger()
 
 	protected AsmetaTermPrinter termPrinter = AsmetaTermPrinter.getAsmetaTermPrinter(false)
 
@@ -49,7 +53,9 @@ class RuleToJava extends RuleVisitor<String> {
 	 * Create an instance of the {@code RuleToJava} object.
 	 */
 	protected def RuleToJava createRuleToJava(Asm resource, boolean seqBlock, TranslatorOptions translatorOptions) {
-		new RuleToJava(resource, seqBlock, translatorOptions)
+		val child = new RuleToJava(resource, seqBlock, translatorOptions)
+		child.choiceCounter = choiceCounter
+		return child
 	}
 	
 	/**
@@ -98,13 +104,13 @@ class RuleToJava extends RuleVisitor<String> {
 	override String visit(ConditionalRule object) {
 		if (object.getElseRule() === null)
 			return '''
-				if (Boolean.TRUE.equals(«new TermToJava(res).visit(object.guard)»)){ 
+				if («new TermToJava(res).visit(object.guard)»){
 					«createRuleToJava(res,seqBlock,options).visit(object.thenRule)»
 				}
 			'''
 		else
 			return '''
-				if (Boolean.TRUE.equals(«new TermToJava(res).visit(object.getGuard)»)){ 
+				if («new TermToJava(res).visit(object.getGuard)»){
 					«createRuleToJava(res,seqBlock,options).visit(object.thenRule)»
 				} else {
 						«createRuleToJava(res,seqBlock,options).visit(object.elseRule)»
@@ -145,7 +151,7 @@ class RuleToJava extends RuleVisitor<String> {
 			return '''«methodName»();
 			'''
 		else
-			return '''«methodName»(«printListTerm(object.parameters)»);
+			return '''«methodName»(«ArgumentToJava.macroArguments(object, new TermToJava(res))»);
 			'''
 	}
 
@@ -157,18 +163,6 @@ class RuleToJava extends RuleVisitor<String> {
 			return '''«new TermToJava(res).visit(leftTerm)».compareTo(«new TermToJava(res).visit(rightTerm)»)==0'''
 		else
 			return '''«new TermToJava(res).visit(leftTerm)»==«new TermToJava(res).visit(rightTerm)»'''
-	}
-
-	// Method translating the list of parameters given as input to a macro rule
-	protected def String printListTerm(EList<Term> term) {
-		var sb = new StringBuffer
-		for (var int i = 0; i < term.size(); i++) {
-			if (i == 0 && term.get(0).domain instanceof ConcreteDomain)
-				sb.append('''«new TermToJava(res).visit(term.get(i))».value, ''')
-			else
-				sb.append('''«new TermToJava(res).visit(term.get(i))», ''')
-		}
-		return sb.substring(0, sb.length - 2)
 	}
 
 	// Metodo per identificare una regola di aggiornamento in cui si rileva il comando :=
@@ -183,7 +177,15 @@ class RuleToJava extends RuleVisitor<String> {
 			result.
 				append('''«termToJavaL.visit(object.location)» = «termToJavaR.visit(object.updatingTerm)»;			   
 			''')
-		else if (object.updatingTerm.domain instanceof ConcreteDomain){			
+		else if (object.location.domain instanceof ConcreteDomain &&
+			(object.location.domain as ConcreteDomain).typeDomain instanceof PowersetDomain) {
+			val varName = object.hashCode.toString
+			val concreteDomain = object.location.domain as ConcreteDomain
+			result.append('''«concreteDomain.name» «concreteDomain.name»«varName»_s = new «concreteDomain.name»();
+				«concreteDomain.name»«varName»_s.value = new HashSet<>(Arrays.asList«termToJavaR.visit(object.updatingTerm)»);
+				«new TermToJavaInUpdateRule(res,false,varName).visit(object.location)»
+			''')
+		} else if (object.updatingTerm.domain instanceof ConcreteDomain) {
 			result.
 				append('''«termToJavaL.visit(object.location)» «termToJavaR.visit(object.updatingTerm)»''');
 				// when the updating term is a variable term, the visitor misses a ".value"
@@ -239,8 +241,12 @@ class RuleToJava extends RuleVisitor<String> {
 	 * Hook used by specialised generators to record a selected choose value.
 	 */
 	protected def String recordChoice(ChooseRule chooseRule, int variableIndex, Domain baseDomain,
-		String javaVariable, int occurrence) {
+		String javaVariable, int occurrence, String choiceIndex) {
 		return ""
+	}
+
+	protected def String nextChoosePrefix() {
+		return "__asmetaChoose" + choiceCounter.getAndIncrement() + "_"
 	}
 
 	// Metodo di supporto per tradurre gli elementi di un confronto nella classe precedente
@@ -249,6 +255,7 @@ class RuleToJava extends RuleVisitor<String> {
 		var StringBuffer sb = new StringBuffer
 		sb.append("{\n")
 		val occurrence = nextChoiceOccurrence()
+		val prefix = nextChoosePrefix()
 		// TODo move aas a field?
 		val domainToJavaString = new DomainToJavaString(res)
 		// Add as comments
@@ -260,7 +267,7 @@ class RuleToJava extends RuleVisitor<String> {
 			val domain_i = chooseRule.getRanges.get(i).domain
 			if (domain_i instanceof PowersetDomain) {
 				sb.append('''
-					List<«domainToJavaString.visit((domain_i as PowersetDomain).baseDomain)»> point«i» = new ArrayList<>();
+					List<«domainToJavaString.visit((domain_i as PowersetDomain).baseDomain)»> «prefix»point«i» = new ArrayList<>();
 				''')
 			} // println("Object ranges: " + (object.getRanges.get(i).domain as PowersetDomain).baseDomain)
 			else
@@ -277,14 +284,21 @@ class RuleToJava extends RuleVisitor<String> {
 				val bDomStr = domainToJavaString.visit(baseDomain)
 				// devo dichiarare il set di valori nel caso si metta un dominio diverso da un nome di un dominio definito, 
 				// per esempio: {0..5} {1,5,9} 
-				if (Util.isNotNumerable(baseDomain)) {
+				if (!(range instanceof asmeta.terms.basicterms.DomainTerm) &&
+					(!(range instanceof asmeta.terms.basicterms.SetTerm) || baseDomain instanceof AbstractTd || baseDomain instanceof EnumTd)) {
+					counter = counter + 1
+					val values = if (range instanceof asmeta.terms.basicterms.SetTerm)
+						"java.util.Arrays.<" + bDomStr + ">asList" + new TermToJava(res).visit(range)
+					else new TermToJava(res).visit(range)
+					sb.append('''for(«bDomStr» «new TermToJava(res).visit(chooseRule.variable.get(i))» : new ArrayList<>(«values»)){''')
+				} else if (Util.isNotNumerable(baseDomain)) {
 					sb.append('''
-						List<«bDomStr»> pointAll«i» = Collections.unmodifiableList(Arrays.asList «new TermToJava(res).visit(range)»);
+						List<«bDomStr»> «prefix»pointAll«i» = Collections.unmodifiableList(Arrays.asList «new TermToJava(res).visit(range)»);
 					''')
 					// add a for cycle
 					counter = counter + 1
 					sb.append('''
-						for(«bDomStr» «new TermToJava(res).visit(chooseRule.getVariable.get(i))» : pointAll«i»){
+						for(«bDomStr» «new TermToJava(res).visit(chooseRule.getVariable.get(i))» : «prefix»pointAll«i»){
 					''')
 				} else if (baseDomain instanceof AbstractTd || (baseDomain instanceof ConcreteDomain &&
 						((baseDomain as ConcreteDomain).typeDomain instanceof BasicTd ))) {
@@ -294,9 +308,11 @@ class RuleToJava extends RuleVisitor<String> {
 							for(«bDomStr» «new TermToJava(res).visit(chooseRule.getVariable.get(i))» : «new DomainToJavaString(res).visit((chooseRule.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems)
 						''')
 					} else {
+						counter = counter + 1
 						sb.append('''
 							for(«new DomainToJavaString(res).visit(((chooseRule.getRanges.get(i).domain as PowersetDomain).baseDomain as ConcreteDomain).
-							typeDomain)» «new TermToJava(res).visit(chooseRule.getVariable.get(i))» : «new DomainToJavaString(res).visit((chooseRule.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems)
+							typeDomain)» «prefix»value«i» : «bDomStr».elems){
+								«bDomStr» «new TermToJava(res).visit(chooseRule.getVariable.get(i))» = «bDomStr».valueOf(«prefix»value«i»);
 						''')
 					}
 				} else if ((chooseRule.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof EnumTd) {
@@ -325,18 +341,18 @@ class RuleToJava extends RuleVisitor<String> {
 			if ((chooseRule.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof AbstractTd) {
 				var termName = new TermToJava(res).visit(chooseRule.getVariable.get(i))
 				sb.append('''
-					point«i».add(«termName»);
+					«prefix»point«i».add(«termName»);
 				''')
 			/*println("TERM: " + termName)
 			 pointerTerms.add(termName)*/
 			} else {
 				if ((chooseRule.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof ConcreteDomain)
 					sb.append('''
-						point«i».add(«(chooseRule.getRanges.get(i).domain as PowersetDomain).baseDomain.name + ".valueOf(" + new TermToJava(res).visit(chooseRule.getVariable.get(i))»));
+						«prefix»point«i».add(«(chooseRule.getRanges.get(i).domain as PowersetDomain).baseDomain.name + ".valueOf(" + new TermToJava(res).visit(chooseRule.getVariable.get(i))»));
 					''')
 				else
 					sb.append('''
-						point«i».add(«new TermToJava(res).visit(chooseRule.getVariable.get(i))»);
+						«prefix»point«i».add(«new TermToJava(res).visit(chooseRule.getVariable.get(i))»);
 					''')
 			}
 		for (var i = 0; i < counter; i++)
@@ -347,23 +363,23 @@ class RuleToJava extends RuleVisitor<String> {
 			}
 		''')
 		sb.append('''
-			if(!point0.isEmpty()){
+			if(!«prefix»point0.isEmpty()){
 		''')
-		if (options.getShuffleRandom())
+		if (options.getChooseMode() == ChooseMode.NO_SHUFFLE)
 			sb.append('''
-				int rndm = ThreadLocalRandom.current().nextInt(0, point0.size());
+				int «prefix»rndm = 0;
 			''')
 		else
 			sb.append('''
-				int rndm = 0;
+				int «prefix»rndm = ThreadLocalRandom.current().nextInt(0, «prefix»point0.size());
 			''')
 		for (var i = 0; i < chooseRule.getVariable.size; i++){
 			val baseDomain = (chooseRule.getRanges.get(i).domain as PowersetDomain).baseDomain
 			val type = new DomainToJavaString(res).visit(baseDomain)
 			val variable = new TermToJava(res).visit(chooseRule.getVariable.get(i))
 			sb.append('''
-				«type» «variable» = point«i».get(rndm);
-				«recordChoice(chooseRule, i, baseDomain, variable, occurrence)»
+				«type» «variable» = «prefix»point«i».get(«prefix»rndm);
+				«recordChoice(chooseRule, i, baseDomain, variable, occurrence, prefix + "rndm")»
 			''')
 		}
 		sb.append(visit(chooseRule.getDoRule))
@@ -386,7 +402,15 @@ class RuleToJava extends RuleVisitor<String> {
 		var StringBuffer sb = new StringBuffer
 		for (var i = 0; i < object.getRanges.size; i++) {
 			var Domain baseDomain = (object.getRanges.get(i).domain as PowersetDomain).baseDomain
-			if (baseDomain instanceof EnumTd)
+			if (!(object.ranges.get(i) instanceof asmeta.terms.basicterms.DomainTerm)) {
+				val range = object.ranges.get(i)
+				val values = if (range instanceof asmeta.terms.basicterms.SetTerm)
+					"java.util.Arrays.<" + new DomainToJavaString(res).visit(baseDomain) + ">asList" + new TermToJava(res).visit(range)
+				else new TermToJava(res).visit(range)
+				sb.append('''for(«new DomainToJavaString(res).visit(baseDomain)» «new TermToJava(res).visit(object.variable.get(i))» : new ArrayList<>(«values»))
+				''')
+			}
+			else if (baseDomain instanceof EnumTd)
 				sb.append(
 			'''
 					for(«new DomainToJavaString(res).visit(baseDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» : «new DomainToJavaString(res).visit(baseDomain)».values())
@@ -394,7 +418,7 @@ class RuleToJava extends RuleVisitor<String> {
 			else
 				sb.append(
 			'''
-					for(«new DomainToJavaString(res).visit(baseDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» : «new DomainToJavaString(res).visit(baseDomain)».elems)
+					for(«new DomainToJavaString(res).visit(baseDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» : new ArrayList<>(«new DomainToJavaString(res).visit(baseDomain)».elems))
 				''')
 		}
 
@@ -421,7 +445,7 @@ class RuleToJava extends RuleVisitor<String> {
 		for (var int i = 0; i < object.getVariable.size; i++) {
 			object.getVariable.get(i).domain.name
 			let.
-				append('''«object.getVariable.get(i).domain.name + " " + new TermToJava(res).visit(object.getVariable.get(i))» = «new TermToJava(res).visit(object.getInitExpression.get(i))»;
+				append('''«Util.javaType(object.getVariable.get(i).domain, res) + " " + new TermToJava(res).visit(object.getVariable.get(i))» = «new TermToJava(res).visit(object.getInitExpression.get(i))»;
 				''')
 		}
 		let.append('''«createRuleToJava(res,seqBlock,options).visit(object.getInRule)»
@@ -451,13 +475,24 @@ class RuleToJava extends RuleVisitor<String> {
 	}
 
 	override visit(ExtendRule rule) {
-		var string = new StringBuffer
-		for (var i = 0; i < rule.boundVar.size; i++)
-			string.append(
-				createDomainToJavaSigDef(res).visit(rule.extendedDomain) + " " +
-					new TermToJava(res).visit(rule.boundVar.get(i)) + " = new " +
-					createDomainToJavaSigDef(res).visit(rule.extendedDomain) + "();\n");
-		return string.toString + createRuleToJava(res, seqBlock, options).visit(rule.doRule)
+		val domainName = new DomainToJavaString(res).visit(rule.extendedDomain)
+		val prefix = rule.extendedDomain.name.toFirstLower + "!"
+		val count = if (org.asmeta.flattener.agents.AgentFlattener.isReserveDomain(rule.extendedDomain))
+			domainName + ".val.stream().filter(__agentName -> __agentName.startsWith(\"" + prefix + "\")).count()"
+		else domainName + "_Class.size()"
+		var string = new StringBuffer("{\n")
+		for (var i = 0; i < rule.boundVar.size; i++) {
+			val variableName = new TermToJava(res).visit(rule.boundVar.get(i))
+			val freshName = "__extendVarFreshName_" + variableName.replaceAll("[^A-Za-z0-9_]", "_")
+			string.append('''String «freshName» = "«prefix»" + («count» + 1);
+				«domainName» «variableName» = new «domainName»(«freshName»);
+				«domainName»_elemsList.add(«freshName»);
+				«domainName»_Class.add(«variableName»);
+			''')
+		}
+		string.append(createRuleToJava(res, seqBlock, options).visit(rule.doRule))
+		string.append("\n}\n")
+		return string.toString
 
 	}
 

@@ -4,18 +4,10 @@ import asmeta.definitions.ControlledFunction
 import asmeta.definitions.Function
 import asmeta.definitions.MonitoredFunction
 import asmeta.definitions.OutFunction
-import asmeta.definitions.StaticFunction
-import asmeta.definitions.domains.AbstractTd
-import asmeta.definitions.domains.BasicTd
 import asmeta.definitions.domains.ConcreteDomain
-import asmeta.definitions.domains.EnumTd
 import asmeta.definitions.domains.MapDomain
 import asmeta.structure.Asm
-import asmeta.terms.basicterms.ConstantTerm
 import asmeta.terms.basicterms.FunctionTerm
-import asmeta.terms.basicterms.LocationTerm
-import asmeta.definitions.domains.StructuredTd
-import asmeta.definitions.domains.ProductDomain
 
 /**
  * This class is used when implementing operations of the StandardLibrary
@@ -53,7 +45,7 @@ class TermToJavaStandardLibrary extends TermToJava {
 
 			} else if (ft.domain instanceof MapDomain) {
 
-				functionTerm.append("")
+				functionTerm.append(".get()")
 
 			} else {
 				if (leftHandSide)
@@ -67,47 +59,12 @@ class TermToJavaStandardLibrary extends TermToJava {
 
 		// Identifico se la funzione dipende da delle variabili in ingresso
 		if (ft.arguments !== null) {
-
-			// Caso di studio con una sola variabile
-			if (ft.arguments.terms.size == 1) {
-
-				if (ft.domain instanceof ConcreteDomain) {
-					if (!leftHandSide) {
-
-						functionTerm.append(".get(" + visit(ft.arguments.terms.get(0)) + ")")
-					}
-
-				} else {
-
-					if (leftHandSide) {
-						leftHandSide = false
-						functionTerm.append(".set(" + visit(ft.arguments.terms.get(0)) + ", ")
-
-					} else {
-						if (ft.arguments.terms.get(0) instanceof ConstantTerm && !((ft.arguments.eContainer as LocationTerm).function.domain instanceof EnumTd))
-							functionTerm.append(".get(" + (ft.arguments.eContainer as LocationTerm).function.domain.name + ".valueOf(" + visit(ft.arguments.terms.get(0)) + "))"
-							)
-						else {
-							if (fd.domain instanceof ConcreteDomain && (fd.domain as ConcreteDomain).typeDomain instanceof BasicTd) {
-								var String visitedFunction = visit(ft.arguments.terms.get(0))
-								functionTerm.append(".get(" +fd.domain.name + ".valueOf(" + visitedFunction + "))")
-							} else {
-								functionTerm.append(".get(" + visit(ft.arguments.terms.get(0)) + ")")
-							}
-						}
-					}
-
-				}
-			} // Caso di studio con variabili multiple in ingresso
-			// da controllare se corretto come metodo
-			else {
-				val tuple = ProductToJava.value(ft.arguments, [ term | visit(term) ])
-				if (leftHandSide) {
-					leftHandSide = false
-					functionTerm.append(".set(" + tuple + ", ")
-				} else
-					functionTerm.append(".get(" + tuple + ")")
-			}
+			val arguments = ArgumentToJava.locationArguments(ft, new TermToJava(res))
+			if (leftHandSide) {
+				leftHandSide = false
+				functionTerm.append(".set(" + arguments + ", ")
+			} else
+				functionTerm.append(".get(" + arguments + ")")
 		}
 		return functionTerm.toString
 	}
@@ -124,52 +81,12 @@ class TermToJavaStandardLibrary extends TermToJava {
 			}
 
 		if (ft.arguments !== null) {
-			if (ft.arguments.terms.size == 1) {
-				// functionTerm.append("[" + visit(ft.arguments.terms.get(0)) + "]")
-				if (leftHandSide) {
-					leftHandSide = false
-					functionTerm.append(".set(" + visit(ft.arguments.terms.get(0)) + ", ")
-
-				} else {
-					functionTerm.append(".get(" + visit(ft.arguments.terms.get(0)) + ")")
-				}
-
-			} else {
-				val tuple = ProductToJava.value(ft.arguments, [ term | visit(term) ])
-				if (leftHandSide) {
-					leftHandSide = false
-					functionTerm.append(".set(" + tuple + ", ")
-				} else
-					functionTerm.append(".get(" + tuple + ")")
-			}
-		}
-		return functionTerm.toString
-	}
-
-	override dispatch String caseFunctionTermSupp(StaticFunction fd, FunctionTerm ft) {
-		var StringBuffer functionTerm = new StringBuffer
-		if (ft.arguments !== null) {
-			functionTerm.append("(")
-			for (var i = 0; i < ft.arguments.terms.size; i++) {
-				var String param = visit(ft.arguments.terms.get(i))
-				if (ft.function.domain instanceof StructuredTd) {
-					// The domain is structured. Check whether the i-th parameter has the domain as expected
-					if ((ft.function.domain instanceof ProductDomain)) {
-						if ((ft.function.domain as ProductDomain).domains.get(i).equals(ft.arguments.terms.get(i).domain))
-							param = param.replaceAll("\\.value","")	
-					}					
-				} else {
-					// The domain is not structured. Check whether the parameter has the domain as expected
-					if (ft.domain.equals(ft.arguments.terms.get(i).domain))
-							param = param.replaceAll("\\.value","")	
-				}
-				functionTerm.append(param + ", ")
-			}
-			functionTerm = new StringBuffer(functionTerm.substring(0, functionTerm.length - 2) + ")")
-		} else if (ft.domain instanceof AbstractTd) {
-			functionTerm.append("")
-		} else {
-			functionTerm.append("()")
+			val arguments = ArgumentToJava.locationArguments(ft, new TermToJava(res))
+			if (leftHandSide) {
+				leftHandSide = false
+				functionTerm.append(".set(" + arguments + ", ")
+			} else
+				functionTerm.append(".get(" + arguments + ")")
 		}
 		return functionTerm.toString
 	}

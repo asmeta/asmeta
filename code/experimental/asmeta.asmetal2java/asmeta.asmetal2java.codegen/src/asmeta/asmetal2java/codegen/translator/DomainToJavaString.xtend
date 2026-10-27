@@ -61,7 +61,7 @@ class DomainToJavaString extends ReflectiveVisitor<String> {
 	}
 	
 	def String visit(ConcreteDomain domain) {
-		return domain.name
+		return org.asmeta.flattener.agents.AgentFlattener.reserveJavaType(domain)
 	}
 
 	def String visit(EnumElement elem) {

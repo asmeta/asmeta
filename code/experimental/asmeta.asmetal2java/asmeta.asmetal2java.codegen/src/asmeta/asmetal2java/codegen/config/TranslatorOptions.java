@@ -16,6 +16,14 @@ public interface TranslatorOptions {
 	void setValue(String propertyName, boolean propertyValue);
 
 	/**
+	 * Sets the value of a non-boolean property.
+	 *
+	 * @param propertyName  name of the considered property.
+	 * @param propertyValue value of the considered property.
+	 */
+	void setValue(String propertyName, String propertyValue);
+
+	/**
 	 * Get all the name of the properties.
 	 *
 	 * @return a List of String containing all the property names.
@@ -30,12 +38,11 @@ public interface TranslatorOptions {
 	String getDescription();
 
 	/**
-	 * Returns the random shuffle property.
+	 * Returns the choose-rule generation mode.
 	 *
-	 * @return {@code true} if a random shuffle should be applied, {@code false}
-	 *         otherwise.
+	 * @return the configured choose mode.
 	 */
-	boolean getShuffleRandom();
+	ChooseMode getChooseMode();
 
 	/**
 	 * Returns the formatted property.

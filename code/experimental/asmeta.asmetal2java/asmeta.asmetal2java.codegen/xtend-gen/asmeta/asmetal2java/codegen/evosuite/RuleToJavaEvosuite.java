@@ -10,6 +10,7 @@ import asmeta.transitionrules.basictransitionrules.ChooseRule;
 import asmeta.transitionrules.basictransitionrules.ConditionalRule;
 import asmeta.transitionrules.basictransitionrules.Rule;
 import asmeta.transitionrules.derivedtransitionrules.CaseRule;
+import org.asmeta.flattener.agents.AgentFlattener;
 import org.eclipse.xtend2.lib.StringConcatenation;
 
 /**
@@ -33,7 +34,9 @@ public class RuleToJavaEvosuite extends RuleToJava {
    */
   @Override
   public RuleToJava createRuleToJava(final Asm resource, final boolean seqBlock, final TranslatorOptions translatorOptions) {
-    return new RuleToJavaEvosuite(resource, seqBlock, translatorOptions, this.currRule);
+    final RuleToJavaEvosuite child = new RuleToJavaEvosuite(resource, seqBlock, translatorOptions, this.currRule);
+    child.choiceCounter = this.choiceCounter;
+    return child;
   }
 
   /**
@@ -50,7 +53,12 @@ public class RuleToJavaEvosuite extends RuleToJava {
   }
 
   @Override
-  protected String recordChoice(final ChooseRule chooseRule, final int variableIndex, final Domain baseDomain, final String javaVariable, final int occurrence) {
+  protected String recordChoice(final ChooseRule chooseRule, final int variableIndex, final Domain baseDomain, final String javaVariable, final int occurrence, final String choiceIndex) {
+    boolean _recordsChoices = this.options.getChooseMode().recordsChoices();
+    boolean _not = (!_recordsChoices);
+    if (_not) {
+      return "";
+    }
     String _xifexpression = null;
     if ((baseDomain instanceof ConcreteDomain)) {
       _xifexpression = (javaVariable + ".value");
@@ -79,13 +87,14 @@ public class RuleToJavaEvosuite extends RuleToJava {
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
     _builder.append("\"");
-    String _name = baseDomain.getName();
-    _builder.append(_name, "\t");
+    String _originalDomainName = AgentFlattener.originalDomainName(chooseRule.getVariable().get(variableIndex));
+    _builder.append(_originalDomainName, "\t");
     _builder.append("\",");
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
-    _builder.append("rndm,");
-    _builder.newLine();
+    _builder.append(choiceIndex, "\t");
+    _builder.append(",");
+    _builder.newLineIfNotEmpty();
     _builder.append("\t");
     _builder.append("String.valueOf(");
     _builder.append(value, "\t");
@@ -107,10 +116,10 @@ public class RuleToJavaEvosuite extends RuleToJava {
     boolean _tripleEquals = (_elseRule == null);
     if (_tripleEquals) {
       StringConcatenation _builder = new StringConcatenation();
-      _builder.append("if (Boolean.TRUE.equals(");
+      _builder.append("if (");
       String _visit = new TermToJava(this.res).visit(object.getGuard());
       _builder.append(_visit);
-      _builder.append(")){ ");
+      _builder.append("){");
       _builder.newLineIfNotEmpty();
       _builder.append("\t");
       String _addNewBranch = this.currRule.addNewBranch();
@@ -126,10 +135,10 @@ public class RuleToJavaEvosuite extends RuleToJava {
       return _builder.toString();
     } else {
       StringConcatenation _builder_1 = new StringConcatenation();
-      _builder_1.append("if (Boolean.TRUE.equals(");
+      _builder_1.append("if (");
       String _visit_2 = new TermToJava(this.res).visit(object.getGuard());
       _builder_1.append(_visit_2);
-      _builder_1.append(")){ ");
+      _builder_1.append("){");
       _builder_1.newLineIfNotEmpty();
       _builder_1.append("\t");
       String _addNewBranch_1 = this.currRule.addNewBranch();

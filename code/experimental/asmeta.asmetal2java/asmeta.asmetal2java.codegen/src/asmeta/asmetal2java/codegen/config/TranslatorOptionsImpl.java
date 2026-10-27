@@ -15,14 +15,13 @@ public class TranslatorOptionsImpl implements TranslatorOptions {
 
 	/* Constants */
 	private static final String FORMATTER_OPTION = "formatter";
-	private static final String SHUFFLE_RANDOM_OPTION = "shuffleRandom";
+	public static final String CHOOSE_MODE_OPTION = "chooseMode";
 	private static final String OPTIMIZE_SEQ_MACRO_RULE_OPTION = "optimizeSeqMacroRule";
 	public static final String COVER_OUTPUTS_OPTION = "coverOutputs";
 	public static final String COVER_RULES_OPTION = "coverRules";
 	private static final String EXPORT_OPTION = "export";
 	public static final String COPY_ASM_OPTION = "copyAsm";
 	public static final String IGNORE_NOT_SUPPORTED_DOMAIN_EXCEPTION = "ignoreDomainException";
-	public static final String SHUFFLE_RANDOM = "shuffleRandom";
 
 	/** Logger */
 	private final Logger logger = LogManager.getLogger(TranslatorOptionsImpl.class);
@@ -30,8 +29,8 @@ public class TranslatorOptionsImpl implements TranslatorOptions {
 	/** Indicates whether the generated code should be formatted. */
 	private boolean formatter;
 
-	/** Indicates whether a random shuffle should be applied. */
-	private boolean shuffleRandom;
+	/** Controls how choose rules select and record values. */
+	private ChooseMode chooseMode;
 
 	/**
 	 * Indicates whether to optimize the sequence macro rule (remove unused seq
@@ -94,12 +93,13 @@ public class TranslatorOptionsImpl implements TranslatorOptions {
 	/**
 	 * Constructs a {@code TranslatorOptions} instance with the default settings:
 	 * <p>
-	 * formatter, shuffleRandom, optimizeSeqRule, translator, coverRules, export =
-	 * {@code true}. All the others = {@code false}.
+	 * formatter, optimizeSeqRule, translator, coverRules, export =
+	 * {@code true}; chooseMode = {@code pick}. All the other boolean options =
+	 * {@code false}.
 	 */
 	public TranslatorOptionsImpl() {
 		this.formatter = true;
-		this.shuffleRandom = true;
+		this.chooseMode = ChooseMode.PICK;
 		this.optimizeSeqMacroRule = true;
 		this.translator = true;
 		this.generateExe = false;
@@ -120,13 +120,13 @@ public class TranslatorOptionsImpl implements TranslatorOptions {
 	 * process).
 	 *
 	 * @param formatter       whether the generated code should be formatted.
-	 * @param shuffleRandom   whether a random shuffle should be applied.
+	 * @param chooseMode      how choose rules select and record values.
 	 * @param optimizeSeqRule whether to optimize the sequence macro rule.
 	 */
-	public TranslatorOptionsImpl(boolean formatter, boolean shuffleRandom, boolean optimizeSeqRule) {
+	public TranslatorOptionsImpl(boolean formatter, ChooseMode chooseMode, boolean optimizeSeqRule) {
 		this();
 		this.formatter = formatter;
-		this.shuffleRandom = shuffleRandom;
+		this.chooseMode = chooseMode;
 		this.optimizeSeqMacroRule = optimizeSeqRule;
 	}
 
@@ -137,7 +137,6 @@ public class TranslatorOptionsImpl implements TranslatorOptions {
 	private void mapperSetup() {
 		this.propertyMapper = new HashMap<>();
 		this.propertyMapper.put(FORMATTER_OPTION, value -> this.formatter = value);
-		this.propertyMapper.put(SHUFFLE_RANDOM_OPTION, value -> this.shuffleRandom = value);
 		this.propertyMapper.put(OPTIMIZE_SEQ_MACRO_RULE_OPTION, value -> this.optimizeSeqMacroRule = value);
 		this.propertyMapper.put(ModeConstantsConfig.TRANSLATOR, value -> this.translator = value);
 		this.propertyMapper.put(ModeConstantsConfig.COMPILER, value -> this.compiler = value);
@@ -167,8 +166,19 @@ public class TranslatorOptionsImpl implements TranslatorOptions {
 	}
 
 	@Override
+	public void setValue(String propertyName, String propertyValue) {
+		if (CHOOSE_MODE_OPTION.equals(propertyName)) {
+			this.chooseMode = ChooseMode.fromValue(propertyValue);
+			logger.info("Setting the translator option: {} to: {}.", propertyName, chooseMode.getValue());
+			return;
+		}
+		setValue(propertyName, Boolean.parseBoolean(propertyValue));
+	}
+
+
+	@Override
 	public List<String> getPropertyNames() {
-		return List.of(FORMATTER_OPTION, SHUFFLE_RANDOM_OPTION, OPTIMIZE_SEQ_MACRO_RULE_OPTION,
+		return List.of(FORMATTER_OPTION, CHOOSE_MODE_OPTION, OPTIMIZE_SEQ_MACRO_RULE_OPTION,
 				ModeConstantsConfig.TRANSLATOR, ModeConstantsConfig.COMPILER, ModeConstantsConfig.GENERATE_EXE,
 				ModeConstantsConfig.GENERATE_WIN, ModeConstantsConfig.TEST_GEN, COVER_OUTPUTS_OPTION,
 				COVER_RULES_OPTION, EXPORT_OPTION, COPY_ASM_OPTION, IGNORE_NOT_SUPPORTED_DOMAIN_EXCEPTION);
@@ -177,8 +187,8 @@ public class TranslatorOptionsImpl implements TranslatorOptions {
 	@Override
 	public String getDescription() {
 		return "use value for given translator property (the default value is in brackets):\n" + " -D"
-				+ FORMATTER_OPTION + " (true)/false : to format the generated code.\n" + " -D" + SHUFFLE_RANDOM_OPTION
-				+ " = (true)/false : use random shuffle.\n" + " -D" + OPTIMIZE_SEQ_MACRO_RULE_OPTION
+				+ FORMATTER_OPTION + " (true)/false : to format the generated code.\n" + " -D" + CHOOSE_MODE_OPTION
+				+ " = flaky/noShuffle/(pick) : control choose rule selection and recording.\n" + " -D" + OPTIMIZE_SEQ_MACRO_RULE_OPTION
 				+ " = (true)/false : remove unused seq rules.\n" + " -D" + ModeConstantsConfig.TRANSLATOR
 				+ " = (true)/false : translate the asm file to a java class.\n" + " -D" + ModeConstantsConfig.COMPILER
 				+ " = true/(false) : translate and compile the generated java class.\n" + " -D"
@@ -198,8 +208,8 @@ public class TranslatorOptionsImpl implements TranslatorOptions {
 	}
 
 	@Override
-	public boolean getShuffleRandom() {
-		return shuffleRandom;
+	public ChooseMode getChooseMode() {
+		return chooseMode;
 	}
 
 	@Override

@@ -28,7 +28,9 @@ class RuleToJavaEvosuite extends RuleToJava {
 	 * Create an instance of the {@code RuleToJava} object with the current JavaRule.
 	 */
 	override RuleToJava createRuleToJava(Asm resource, boolean seqBlock, TranslatorOptions translatorOptions) {
-		new RuleToJavaEvosuite(resource, seqBlock, translatorOptions, this.currRule)
+		val child = new RuleToJavaEvosuite(resource, seqBlock, translatorOptions, this.currRule)
+		child.choiceCounter = choiceCounter
+		return child
 	}
 	
 	/**
@@ -43,7 +45,10 @@ class RuleToJavaEvosuite extends RuleToJava {
 	}
 
 	override protected String recordChoice(ChooseRule chooseRule, int variableIndex, Domain baseDomain,
-		String javaVariable, int occurrence) {
+		String javaVariable, int occurrence, String choiceIndex) {
+		if (!options.getChooseMode().recordsChoices()) {
+			return ""
+		}
 		val value = if (baseDomain instanceof ConcreteDomain) javaVariable + ".value" else javaVariable
 		val asmVariable = chooseRule.variable.get(variableIndex).name.replace("$", "")
 		return '''
@@ -51,8 +56,8 @@ class RuleToJavaEvosuite extends RuleToJava {
 				"«currRule.asmSignature»",
 				«occurrence»,
 				Character.toString((char) 36) + "«asmVariable»",
-				"«baseDomain.name»",
-				rndm,
+				"«org.asmeta.flattener.agents.AgentFlattener.originalDomainName(chooseRule.variable.get(variableIndex))»",
+				«choiceIndex»,
 				String.valueOf(«value»));
 		'''
 	}
@@ -67,14 +72,14 @@ class RuleToJavaEvosuite extends RuleToJava {
 	override String visit(ConditionalRule object) {
 		if (object.getElseRule() === null){
 			return '''
-				if (Boolean.TRUE.equals(«new TermToJava(res).visit(object.guard)»)){ 
+				if («new TermToJava(res).visit(object.guard)»){
 					«currRule.addNewBranch()» = true;
 					«createRuleToJava(res,seqBlock,options).visit(object.thenRule)»
 				}
 			'''
 		} else
 			return '''
-				if (Boolean.TRUE.equals(«new TermToJava(res).visit(object.getGuard)»)){ 
+				if («new TermToJava(res).visit(object.getGuard)»){
 					«currRule.addNewBranch()» = true;
 					«createRuleToJava(res,seqBlock,options).visit(object.thenRule)»
 				} else {

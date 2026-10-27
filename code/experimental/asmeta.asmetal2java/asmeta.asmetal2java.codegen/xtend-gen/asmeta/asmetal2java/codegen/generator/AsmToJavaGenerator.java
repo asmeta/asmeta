@@ -7,6 +7,7 @@ import asmeta.structure.Asm;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import org.asmeta.flattener.agents.AgentFlattener;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.generator.IFileSystemAccess;
 import org.eclipse.xtext.generator.IGenerator;
@@ -63,6 +64,7 @@ public abstract class AsmToJavaGenerator implements IGenerator {
     String _xblockexpression = null;
     {
       this.options = options;
+      new AgentFlattener(asm).flattenASM();
       _xblockexpression = this.compileAsm(asm);
     }
     return _xblockexpression;

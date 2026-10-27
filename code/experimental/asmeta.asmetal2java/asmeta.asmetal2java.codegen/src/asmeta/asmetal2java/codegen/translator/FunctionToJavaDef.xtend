@@ -7,26 +7,29 @@ import asmeta.definitions.MonitoredFunction
 import asmeta.definitions.OutFunction
 import asmeta.definitions.StaticFunction
 import asmeta.definitions.domains.AbstractTd
+import asmeta.definitions.domains.BagDomain
 import asmeta.definitions.domains.ConcreteDomain
+import asmeta.definitions.domains.Domain
+import asmeta.definitions.domains.BooleanDomain
 import asmeta.definitions.domains.EnumTd
 import asmeta.definitions.domains.ProductDomain
+import asmeta.definitions.domains.MapDomain
+import asmeta.definitions.domains.PowersetDomain
 import asmeta.definitions.domains.SequenceDomain
 import asmeta.structure.Asm
 import asmeta.terms.basicterms.Term
-import asmeta.terms.furtherterms.CaseTerm
+import asmeta.terms.basicterms.VariableTerm
 import asmeta.terms.furtherterms.ForallTerm
 import asmeta.terms.furtherterms.SequenceTerm
 import org.asmeta.parser.util.ReflectiveVisitor
-import java.util.List
 import java.util.ArrayList
+import java.util.HashSet
+import java.util.List
+import java.util.Set
 
 class FunctionToJavaDef extends ReflectiveVisitor<String> {
 
 	Asm asm
-
-	int i
-	// useful to know if a type as already been declared or not - see in function initialization
-	val List<String> declaredDomainIninit = new ArrayList
 
 	new(Asm asm) {
 		this.asm = asm
@@ -34,10 +37,16 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 
 	def String visit(SequenceTerm object) {
 		var StringBuffer sb = new StringBuffer
-		for (Term t : object.terms) {
-			sb.append(new TermToJava(asm).visit(t) + ",")
+		for (var index = 0; index < object.terms.size; index++) {
+			if (index > 0)
+				sb.append(",")
+			val Term term = object.terms.get(index)
+			if (term instanceof SequenceTerm)
+				sb.append("new ArrayList<>(Arrays.asList(" + visit(term) + "))")
+			else
+				sb.append(new TermToJava(asm).visit(term))
 		}
-		return sb.toString().substring(0, sb.toString().length() - 1)
+		return sb.toString()
 	}
 
 	def String visit(ControlledFunction object) {
@@ -49,289 +58,93 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 	}
 
 	private def String visitControlledOrOutputFunction(DynamicFunction object) {
-		var StringBuffer sb = new StringBuffer
-
-		if (object.codomain instanceof SequenceDomain || object.domain instanceof SequenceDomain) {
-			// example qsort: Seq(Integer) -> Seq(Integer)			
-			sb.append('''
-				«object.name».init(new ArrayList<>(Arrays.asList(«visit(object.initialization.get(0).body)»)));
-			''')
-			//sb.append('''
-			//	«object.name».oldValue = «object.name».newValue = new ArrayList<>(Arrays.asList(«visit(object.initialization.get(0).body)»));
-			//''')
-		} else {
-			if (object.domain !== null) {
-				for (var i = 0; i < object.initialization.get(0).variable.size; i++) {
-
-					// Controllo quali domini sono implementabili, quindi traducibili nel linguaggio di riferimento
-					/* */
-					if (Util.isNotNumerable((object.initialization.get(0).variable.get(i).domain))) {
-						// In questo caso sono comandi non accettati
-						sb.append('''
-							//NOT IMPLEMENTED IN Java (FunctionToCpp line 50)
-						''')
-
-						return sb.toString
-					}
-
-					// Per tutti gli altri tipi di comando avviene l'inizializazzione
-					if (object.initialization.get(0).variable.get(i).domain instanceof ConcreteDomain)
-						sb.append('''
-							
-							for(int «new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»=0; «new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))» < «new DomainToJavaString(asm).visit(object.initialization.get(0).variable.get(i).domain)».elems.size(); «new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»++ ){
-								
-								
-								«new DomainToJavaString(asm).visit(object.initialization.get(0).variable.get(i).domain)»_elem.value = «new DomainToJavaString(asm).visit(object.initialization.get(0).variable.get(i).domain)».elems.get(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»);
-							
-						''')
-					// Controllo se il dominio e' di tipo Astratto
-					else if (object.initialization.get(0).variable.get(i).domain instanceof AbstractTd)
-						sb.append('''
-							for(«new DomainToJavaString(asm).visit(object.initialization.get(0).variable.get(i).domain)» «new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»: «new DomainToJavaString(asm).visit(object.initialization.get(0).variable.get(i).domain)».elems){
-						''')
-					else if (object.initialization.get(0).variable.get(i).domain instanceof EnumTd)
-						sb.append('''
-							for(«new DomainToJavaString(asm).visit(object.initialization.get(0).variable.get(i).domain)» «new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»: «new DomainToJavaString(asm).visit(object.initialization.get(0).variable.get(i).domain)».values()){
-						''')
-					// Se il dominio e' astratto
-					else
-						sb.append('''
-							for(«new DomainToJavaString(asm).visit(object.initialization.get(0).variable.get(i).domain)» «new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»: «new DomainToJavaString(asm).visit(object.initialization.get(0).variable.get(i).domain)».elems){
-						''')
-
-				}
-
-				if (object.codomain instanceof AbstractTd) {
-					var a = new TermToJava(asm).visit(object.initialization.get(0).body)
-					var b = new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))
-
-					if (a.equals(b))
-						sb.append('''
-							«object.name».init(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,«new TermToJava(asm).visit(object.initialization.get(0).body)»);
-						''')
-//						sb.append('''
-//							«object.name».oldValues.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,«new TermToJava(asm).visit(object.initialization.get(0).body)»);
-//							«object.name».newValues.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,«new TermToJava(asm).visit(object.initialization.get(0).body)»);
-//						''')
-					else if (object.initialization.get(0).body instanceof CaseTerm) {
-						sb.append('''
-							«object.name».init(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,new Function<Void,«new DomainToJavaString(asm).visit(object.codomain)»>(){@Override public «new DomainToJavaString(asm).visit(object.codomain)» apply(Void input) {«new TermToJava(asm).visit(object.initialization.get(0).body)»}}.apply(null));
-						''')
-//						sb.append('''
-//							«object.name».oldValues.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,new Function<Void,«new DomainToJavaString(asm).visit(object.codomain)»>(){@Override public «new DomainToJavaString(asm).visit(object.codomain)» apply(Void input) {«new TermToJava(asm).visit(object.initialization.get(0).body)»}}.apply(null));
-//							«object.name».newValues.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,new Function<Void,«new DomainToJavaString(asm).visit(object.codomain)»>(){@Override public «new DomainToJavaString(asm).visit(object.codomain)» apply(Void input) {«new TermToJava(asm).visit(object.initialization.get(0).body)»}}.apply(null));
-//						''')
-					} else {
-						sb.append('''«new DomainToJavaString(asm).visit(object.codomain)» «new TermToJava(asm).visit(object.initialization.get(0).body)» = new «new DomainToJavaString(asm).visit(object.codomain)»("«new TermToJava(asm).visit(object.initialization.get(0).body)»");''')
-						sb.append('''
-						«object.name».init(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,«new TermToJava(asm).visit(object.initialization.get(0).body)»);
-						''')
-//						sb.append('''
-//						«object.name».oldValues.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,«new TermToJava(asm).visit(object.initialization.get(0).body)»);
-//						«object.name».newValues.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,«new TermToJava(asm).visit(object.initialization.get(0).body)»);
-//						''')
-						}
-				} else if (controllo(object.codomain.name) || object.codomain instanceof EnumTd) {
-					if (object.domain instanceof ConcreteDomain && controllo(object.codomain.name)) {
-						sb.append('''«new DomainToJavaString(asm).visit(object.codomain)» a «new TermToJavaInAssignments(asm).visit(object.initialization.get(0).body)»;''')
-						sb.append('''
-					      «object.name».init(«object.domain.name»_elem,a);
-						''')
-//						sb.append('''
-//					      «object.name».oldValues.put(«object.domain.name»_elem,a);
-//					      «object.name».newValues.put(«object.domain.name»_elem,a);
-//						''')
-					} else{
-						sb.append('''«new DomainToJavaString(asm).visit(object.codomain)» a «new TermToJavaInAssignments(asm).visit(object.initialization.get(0).body)»;''')
-						sb.append('''
-						«object.name».init(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,a);
-						''')
-//						sb.append('''
-//						«object.name».oldValues.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,a);
-//				      	«object.name».newValues.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,a);
-//						''')
-					}
-				} else {
-					// In ogni caso si studia lo sviluppo delle definizioni delle funzioni
-					sb.
-						append('''«new DomainToJavaString(asm).visit(object.codomain)» a = new «new DomainToJavaString(asm).visit(object.codomain)»();
-			    
-			           a.value «new TermToJavaInAssignments(asm).visit(object.initialization.get(0).body)»;
-			           ''')
-
-					if (object.domain instanceof ProductDomain) {
-						val productKey = ProductToJava.value(object.domain as ProductDomain, [ index |
-							new DomainToJavaString(asm).visit(object.initialization.get(0).variable.get(index).domain) + "_elem"
-						])
-						sb.append(" " + object.name + "_elem = " + productKey + ";\n")
-						sb.append('''    
-								«object.name».init(«object.name»_elem,a);
-							''')
-//						sb.append('''    
-//								«object.name».oldValues.put(«object.name»_elem,a);
-//								«object.name».newValues.put(«object.name»_elem,a);
-//							''')
-					} else {
-						sb.append('''    
-							«object.name».init(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,a);
-						''')
-//						sb.append('''    
-//							«object.name».oldValues.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,a);
-//							«object.name».newValues.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,a);
-//						''')
-					}
-
-				}
-
-				for (var i = 0; i < object.initialization.get(0).variable.size; i++)
-					sb.append('''}''')
-			} // Caso nel quale il dominio » nullo, quindi presente solo il codominio
-			else {
-
-				if (controllo(object.codomain.name) || object.codomain instanceof EnumTd) {
-					sb.append('''
-						«object.name».init(«new TermToJava(asm).visit(object.initialization.get(0).body)»);
-					''')
-//					sb.append('''
-//						«object.name».oldValue = «object.name».newValue = «new TermToJava(asm).visit(object.initialization.get(0).body)»;
-//					''')
-				} else if (object.codomain instanceof ProductDomain) { // [] -> Product
-					sb.append('''
-						«object.name».init(«new TermToJava(asm).visit(object.initialization.get(0).body)»);
-					''')
-				} else if (object.codomain instanceof AbstractTd){ // [] -> Abstract
-					// get the abstract domain from the static list of the Abstract domain class
-					// do not use «new TermToJava(asm).visit(object.initialization.get(0).body).toString()
-					sb.append('''
-						«object.name».init(«object.codomain.name».get("«new TermToJava(asm).visit(object.initialization.get(0).body)»"));
-					''')
-//					sb.append('''
-//						«object.name».oldValue = «object.name».newValue = «object.codomain.name».get("«new TermToJava(asm).visit(object.initialization.get(0).body)»");
-//					''')
-				} else {
-					// check if it has been already declared
-					var dec = declaredDomainIninit.contains(object.codomain.name)
-					if (! dec){
-						// declare and create a new object for the initialization
-						sb.append('''«object.codomain.name»  «object.codomain.name»_elem = new  «object.codomain.name»();''')
-						declaredDomainIninit.add(object.codomain.name)
-					}
-					else {
-						// only create
-						sb.append('''«object.codomain.name»_elem = new  «object.codomain.name»();''')
-					}
-					// set the right value
-					sb.append('''«object.codomain.name»_elem.value = «new TermToJava(asm).visit(object.initialization.get(0).body)»;''')
-					// init old a new values with this object
-					sb.append('''«object.name».init(«object.codomain.name»_elem);''')
-					//sb.append('''«object.name».oldValue = «object.name».newValue = «object.codomain.name»_elem;''')
-				}
-			}
-
-		}
-
-		return sb.toString
+		return dynamicInitialization(object)
 	}
 
 	def String visit(MonitoredFunction object) {
-		var StringBuffer sb = new StringBuffer
-		if (object.domain !== null) {
-			for (var i = 0; i < object.initialization.get(0).variable.size; i++) {
+		return dynamicInitialization(object)
+	}
 
-				if (object.initialization.get(0).variable.get(i).domain instanceof ConcreteDomain)
-					sb.append('''
-						
-						for(int «new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»=0; «new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))» < «new DomainToJavaString(asm).visit(object.initialization.get(0).variable.get(i).domain)».elems.size()-1; «new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»++ ){
-							
-							«new DomainToJavaString(asm).visit(object.initialization.get(0).variable.get(i).domain)» «new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»Val = new «new DomainToJavaString(asm).visit(object.initialization.get(0).variable.get(i).domain)»();
-							«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»Val.value = «new DomainToJavaString(asm).visit(object.initialization.get(0).variable.get(i).domain)».elems.get(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»);
-						
-					''')
-				else if (object.initialization.get(0).variable.get(i).domain instanceof AbstractTd) {
-					sb.append('''
-						for(«new DomainToJavaString(asm).visit(object.initialization.get(0).variable.get(i).domain)» «new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»: «new DomainToJavaString(asm).visit(object.initialization.get(0).variable.get(i).domain)».elems){
-					''')
+	/** Initialize dynamic functions using their declared key and value types. */
+	private def String dynamicInitialization(DynamicFunction function) {
+		val initialization = function.initialization.get(0)
+		val translator = new TermToJava(asm)
+		val result = new StringBuilder
+		val List<VariableTerm> variables = initialization.variable
+		val Set<String> names = new HashSet
+		for (variable : variables)
+			names.add(translator.visit(variable))
+		var loopCount = 0
+		for (variable : variables) {
+			if (!isEnumerableInitializationDomain(variable.domain))
+				// Infinite domains cannot be enumerated to initialize a finite Java map.
+				return "// Function initialization over " + variable.domain.name + " is not enumerable.\n"
+			loopCount += bindInitializationVariable(variable.domain, translator.visit(variable), names, result)
+		}
 
-				} else if (object.initialization.get(0).variable.get(i).domain instanceof EnumTd)
-					sb.append('''
-						for(«new DomainToJavaString(asm).visit(object.initialization.get(0).variable.get(i).domain)» «new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»: «new DomainToJavaString(asm).visit(object.initialization.get(0).variable.get(i).domain)».values()){
-					''')
-				else
-					sb.append('''
-						for(«new DomainToJavaString(asm).visit(object.initialization.get(0).variable.get(i).domain)» «new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»: «new DomainToJavaString(asm).visit(object.initialization.get(0).variable.get(i).domain)».elems){
-					''')
-			}
-
-			if (object.codomain instanceof AbstractTd) {
-				var a = new TermToJava(asm).visit(object.initialization.get(0).body)
-				var b = new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))
-
-				if (a.equals(b))
-					sb.
-						append('''«object.name».values.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,«new TermToJava(asm).visit(object.initialization.get(0).body)»);
-						''')
-				else
-					sb.
-						append('''«new DomainToJavaString(asm).visit(object.codomain)» «new TermToJava(asm).visit(object.initialization.get(0).body)» = new «new DomainToJavaString(asm).visit(object.codomain)»("«new TermToJava(asm).visit(object.initialization.get(0).body)»");
-				
-				      
-
-				      
-				      «object.name».values.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,«new TermToJava(asm).visit(object.initialization.get(0).body)»);
-				''')
-			} else if (controllo(object.codomain.name) || object.codomain instanceof EnumTd) {
-				sb.
-					append('''«new DomainToJavaString(asm).visit(object.codomain)» a «new TermToJavaInAssignments(asm).visit(object.initialization.get(0).body)»;
-				
-				      
-
-				      
-				      «object.name».values.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,a);
-				''')
-			} else {
-				// In ogni caso si studia lo sviluppo delle definizioni delle funzioni
-				sb.
-					append('''«new DomainToJavaString(asm).visit(object.codomain)» a = new «new DomainToJavaString(asm).visit(object.codomain)»();
-			    
-			           a.value «new TermToJavaInAssignments(asm).visit(object.initialization.get(0).body)»;
-			           ''')
-
-				if (object.domain instanceof ProductDomain) {
-					val productKey = ProductToJava.value(object.domain as ProductDomain, [ index |
-						new TermToJava(asm).visit(object.initialization.get(0).variable.get(index)) + "Val"
-					])
-					sb.append(" " + object.name + "_elem = " + productKey + ";\n")
-					sb.append('''    
-						«object.name».values.put(«object.name»_elem,a);
-					''')
-
-				}
-
-				sb.append('''    
-					«object.name».values.put(«new TermToJava(asm).visit(object.initialization.get(0).variable.get(i))»,a);
-				''')
-			}
-
-			for (var i = 0; i < object.initialization.get(0).variable.size; i++)
-				sb.append('''}''')
-		} else {
-
-			if (controllo(object.codomain.name) || object.codomain instanceof EnumTd) {
-				sb.append('''
-					«object.name».value = «new TermToJava(asm).visit(object.initialization.get(0).body)»;
-				''')
-			} else {
-				sb.append('''		
-					
-					«object.codomain.name»_elem.value = «new TermToJava(asm).visit(object.initialization.get(0).body)»;
-					
-					«object.name».value = «object.name».value = «object.codomain.name»_elem;
-					
-				''')
-
+		val value = ArgumentToJava.value(initialization.body, function.codomain, translator)
+		var key = ""
+		if (!variables.empty) {
+			if (variables.size == 1)
+				key = ArgumentToJava.value(variables.get(0), function.domain, translator)
+			else {
+				val product = function.domain as ProductDomain
+				key = ProductToJava.value(product, [ index |
+					ArgumentToJava.value(variables.get(index), product.domains.get(index), translator)
+				])
 			}
 		}
-		return sb.toString
+		result.append(function.name)
+		if (function instanceof MonitoredFunction)
+			result.append(if (variables.empty) ".value = " + value else ".values.put(" + key + ", " + value + ")")
+		else
+			result.append(".init(").append(if (variables.empty) value else key + ", " + value).append(")")
+		result.append(";\n")
+		result.append("}\n".repeat(loopCount))
+		return result.toString()
+	}
+
+	private def boolean isEnumerableInitializationDomain(Domain domain) {
+		if (domain instanceof ProductDomain)
+			return domain.domains.forall[isEnumerableInitializationDomain(it)]
+		return domain instanceof ConcreteDomain || domain instanceof AbstractTd ||
+			domain instanceof EnumTd || domain instanceof BooleanDomain
+	}
+
+	/** Open nested loops and bind a variable to each value of a finite domain. */
+	private def int bindInitializationVariable(Domain domain, String name, Set<String> names, StringBuilder result) {
+		if (domain instanceof ProductDomain) {
+			val List<String> components = new ArrayList
+			var loops = 0
+			for (component : domain.domains) {
+				val componentName = freshInitializationName(name + "_component" + components.size, names)
+				components.add(componentName)
+				loops += bindInitializationVariable(component, componentName, names, result)
+			}
+			result.append(Util.javaType(domain, asm)).append(" ").append(name).append(" = ")
+				.append(ProductToJava.value(domain, [ index | components.get(index) ])).append(";\n")
+			return loops
+		}
+		val elementType = if (domain instanceof ConcreteDomain) domain.typeDomain else domain
+		val elements = if (domain instanceof EnumTd) domain.name + ".values()"
+			else if (domain instanceof BooleanDomain) "java.util.Arrays.asList(false, true)"
+			else domain.name + ".elems"
+		val loopVariable = if (domain instanceof ConcreteDomain) freshInitializationName(name + "_initValue", names) else name
+		result.append("for (").append(Util.javaType(elementType, asm)).append(" ")
+			.append(loopVariable).append(" : ").append(elements).append(") {\n")
+		if (domain instanceof ConcreteDomain) {
+			// Bind a separate wrapper for each iteration, never mutate an existing map key.
+			result.append(domain.name).append(" ").append(name).append(" = ")
+				.append(domain.name).append(".valueOf(").append(loopVariable).append(");\n")
+		}
+		return 1
+	}
+
+	private def String freshInitializationName(String baseName, Set<String> names) {
+		var name = baseName
+		while (!names.add(name))
+			name += "_"
+		return name
 	}
 
 	def String visit(DerivedFunction object) {
@@ -339,12 +152,9 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 
 		if (object.domain !== null) {
 
-			if (object.definition.body instanceof CaseTerm) {
+			if (object.definition.body instanceof ForallTerm) {
 				sb.
-					append('''«new DomainToJavaString(asm).visit(object.codomain)» «object.name»(«new Util().adaptRuleParam(object.definition.variable,asm)»){ «new TermToJava(asm).visit(object.definition.body)»}''')
-			} else if (object.definition.body instanceof ForallTerm) {
-				sb.
-					append('''«new DomainToJavaString(asm).visit(object.codomain)» «object.name»( return «new Util().adaptRuleParam(object.definition.variable,asm)»){ «new TermToJava(asm).visit(object.definition.body)»}''')
+					append('''«Util.javaType(object.codomain, asm)» «object.name»(«new Util().adaptRuleParam(object.definition.variable,asm)»){ return «new TermToJava(asm).visit(object.definition.body)»;}''')
 			} else {
 
 				if (object.codomain instanceof ConcreteDomain) {
@@ -359,17 +169,13 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 
 				} else
 					sb.
-						append('''«new DomainToJavaString(asm).visit(object.codomain)» «object.name»(«new Util().adaptRuleParam(object.definition.variable,asm)»){return «new TermToJava(asm).visit(object.definition.body)»;}''')
-
+						append('''«Util.javaType(object.codomain, asm)» «object.name»(«new Util().adaptRuleParam(object.definition.variable,asm)»){ return «new TermToJava(asm).visit(object.definition.body)»;}''')
 			}
 		} else {
 
-			if (object.definition.body instanceof CaseTerm) {
+			if (object.definition.body instanceof ForallTerm) {
 				sb.
-					append('''«new DomainToJavaString(asm).visit(object.codomain)» «object.name»(){ «new TermToJava(asm).visit(object.definition.body)»}''')
-			} else if (object.definition.body instanceof ForallTerm) {
-				sb.
-					append('''«new DomainToJavaString(asm).visit(object.codomain)» «object.name»(){ return «new TermToJava(asm).visit(object.definition.body)»}''')
+					append('''«Util.javaType(object.codomain, asm)» «object.name»(){ return «new TermToJava(asm).visit(object.definition.body)»;}''')
 			} else {
 
 				if (object.codomain instanceof ConcreteDomain) {
@@ -382,8 +188,7 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 
 				} else
 					sb.
-						append('''«new DomainToJavaString(asm).visit(object.codomain)» «object.name»(){return «new TermToJava(asm).visit(object.definition.body)»;}''')
-
+						append('''«Util.javaType(object.codomain, asm)» «object.name»(){ return «new TermToJava(asm).visit(object.definition.body)»;}''')
 			}
 		}
 		return sb.toString
@@ -395,12 +200,9 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 
 		if (object.domain !== null) {
             
-			if (object.definition.body instanceof CaseTerm) {
+			if (object.definition.body instanceof ForallTerm) {
 				sb.
-					append('''«new DomainToJavaString(asm).visit(object.codomain)» «object.name»(«new Util().adaptRuleParam(object.definition.variable,asm)»){ «new TermToJava(asm).visit(object.definition.body)»}''')
-			} else if (object.definition.body instanceof ForallTerm) {
-				sb.
-					append('''«new DomainToJavaString(asm).visit(object.codomain)» «object.name»( return «new Util().adaptRuleParam(object.definition.variable,asm)»){ «new TermToJava(asm).visit(object.definition.body)»}''')
+					append('''«Util.javaType(object.codomain, asm)» «object.name»(«new Util().adaptRuleParam(object.definition.variable,asm)»){ return «new TermToJava(asm).visit(object.definition.body)»;}''')
 			} else {
                 
 				if (object.codomain instanceof ConcreteDomain) {
@@ -413,21 +215,19 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 					return supp;
 				}''')
 
-				} else if (object.codomain instanceof SequenceDomain) {
-					sb.
-						append('''ArrayList«new DomainToJavaString(asm).visit(object.codomain)» «object.name»(ArrayList«new Util().adaptRuleParam(object.definition.variable,asm)»){return «new TermToJava(asm).visit(object.definition.body)»;}''')
+				} else if (object.codomain instanceof SequenceDomain || object.codomain instanceof PowersetDomain ||
+					object.codomain instanceof BagDomain || object.codomain instanceof MapDomain) {
+					sb.append('''«Util.javaType(object.codomain, asm)» «object.name»(«new Util().adaptRuleParam(object.definition.variable,asm)»){return «new TermToJava(asm).visit(object.definition.body)»;}''')
 				} else{
-					sb.append('''«new DomainToJavaString(asm).visit(object.codomain)» «object.name»(«new Util().adaptRuleParam(object.definition.variable,asm)»){return «new TermToJava(asm).visit(object.definition.body)»;}''')
+					sb.append('''«Util.javaType(object.codomain, asm)» «object.name»(«new Util().adaptRuleParam(object.definition.variable,asm)»){ return «new TermToJava(asm).visit(object.definition.body)»;}''')
+			
                 }
 			}
 		} else {
                
-			if (object.definition.body instanceof CaseTerm) {
+			if (object.definition.body instanceof ForallTerm) {
 				sb.
-					append('''«new DomainToJavaString(asm).visit(object.codomain)» «object.name»(){ «new TermToJava(asm).visit(object.definition.body)»}''')
-			} else if (object.definition.body instanceof ForallTerm) {
-				sb.
-					append('''«new DomainToJavaString(asm).visit(object.codomain)» «object.name»(){ return «new TermToJava(asm).visit(object.definition.body)»}''')
+					append('''«Util.javaType(object.codomain, asm)» «object.name»(){ return «new TermToJava(asm).visit(object.definition.body)»;}''')
 			} else {
 
 				if (object.codomain instanceof ConcreteDomain) {
@@ -441,17 +241,21 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 					return supp;
 				}''')
 
-				} else
+				} else if (object.codomain instanceof SequenceDomain || object.codomain instanceof PowersetDomain ||
+					object.codomain instanceof BagDomain || object.codomain instanceof MapDomain)
+					sb.append('''«Util.javaType(object.codomain, asm)» «object.name»(){ return «new TermToJava(asm).visit(object.definition.body)»;}''')
+				else
 					sb.
-						append('''«new DomainToJavaString(asm).visit(object.codomain)» «object.name»(){return «new TermToJava(asm).visit(object.definition.body)»;}''')
-
+						append('''«Util.javaType(object.codomain, asm)» «object.name»(){ return «new TermToJava(asm).visit(object.definition.body)»;}''')
+			
 			}
 		}
 		return sb.toString
 	}
 
 	def Boolean controllo(String domain) {
-		if (domain.equals("Integer") || domain.equals("String") || domain.equals("Boolean") || domain.equals("Real"))
+		if (domain.equals("Integer") || domain.equals("Natural") || domain.equals("String") ||
+			domain.equals("Boolean") || domain.equals("Real"))
 			return true
 		else
 			return false

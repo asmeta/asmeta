@@ -14,8 +14,6 @@ import asmeta.definitions.domains.MapDomain;
 import asmeta.definitions.domains.PowersetDomain;
 import asmeta.definitions.domains.ProductDomain;
 import asmeta.definitions.domains.SequenceDomain;
-import asmeta.definitions.domains.StructuredTd;
-import asmeta.definitions.domains.impl.StructuredTdImpl;
 import asmeta.structure.Asm;
 import org.asmeta.parser.util.ReflectiveVisitor;
 import org.eclipse.xtend2.lib.StringConcatenation;
@@ -253,19 +251,7 @@ public class FunctionToJavaSig extends ReflectiveVisitor<String> {
   }
 
   public String returnDomain(final Domain domain, final boolean pointer) {
-    StringBuffer sb = new StringBuffer();
-    if (((domain instanceof StructuredTd) || (domain instanceof StructuredTdImpl))) {
-      StringConcatenation _builder = new StringConcatenation();
-      String _visit = this.createDomainToJavaSigDef(this.res).visit(domain);
-      _builder.append(_visit);
-      sb.append(_builder);
-    } else {
-      StringConcatenation _builder_1 = new StringConcatenation();
-      String _visit_1 = this.createDomainToJavaString(this.res).visit(domain);
-      _builder_1.append(_visit_1);
-      sb.append(_builder_1);
-    }
-    return sb.toString();
+    return Util.javaType(domain, this.res);
   }
 
   public String visit(final ControlledFunction object) {
@@ -322,7 +308,7 @@ public class FunctionToJavaSig extends ReflectiveVisitor<String> {
           _builder_3.newLine();
           function.append(_builder_3);
           StringConcatenation _builder_4 = new StringConcatenation();
-          _builder_4.append("Fun0Ctrl<List");
+          _builder_4.append("Fun0Ctrl<");
           String _returnDomain_1 = this.returnDomain(object.getCodomain(), false);
           _builder_4.append(_returnDomain_1);
           _builder_4.append("> ");
@@ -348,7 +334,7 @@ public class FunctionToJavaSig extends ReflectiveVisitor<String> {
             _builder_5.newLine();
             function.append(_builder_5);
             StringConcatenation _builder_6 = new StringConcatenation();
-            _builder_6.append("Fun0Ctrl<Set");
+            _builder_6.append("Fun0Ctrl<");
             String _returnDomain_2 = this.returnDomain(object.getCodomain(), false);
             _builder_6.append(_returnDomain_2);
             _builder_6.append("> ");
@@ -374,7 +360,7 @@ public class FunctionToJavaSig extends ReflectiveVisitor<String> {
               _builder_7.newLine();
               function.append(_builder_7);
               StringConcatenation _builder_8 = new StringConcatenation();
-              _builder_8.append("Fun0Ctrl<Bag");
+              _builder_8.append("Fun0Ctrl<");
               String _returnDomain_3 = this.returnDomain(object.getCodomain(), false);
               _builder_8.append(_returnDomain_3);
               _builder_8.append("> ");
@@ -400,7 +386,7 @@ public class FunctionToJavaSig extends ReflectiveVisitor<String> {
                 _builder_9.newLine();
                 function.append(_builder_9);
                 StringConcatenation _builder_10 = new StringConcatenation();
-                _builder_10.append("Fun0Ctrl<Map");
+                _builder_10.append("Fun0Ctrl<");
                 String _returnDomain_4 = this.returnDomain(object.getCodomain(), false);
                 _builder_10.append(_returnDomain_4);
                 _builder_10.append("> ");
@@ -504,7 +490,7 @@ public class FunctionToJavaSig extends ReflectiveVisitor<String> {
           _builder_3.newLine();
           function.append(_builder_3);
           StringConcatenation _builder_4 = new StringConcatenation();
-          _builder_4.append("Fun0<List");
+          _builder_4.append("Fun0<");
           String _returnDomain_1 = this.returnDomain(object.getCodomain(), false);
           _builder_4.append(_returnDomain_1);
           _builder_4.append("> ");
@@ -530,7 +516,7 @@ public class FunctionToJavaSig extends ReflectiveVisitor<String> {
             _builder_5.newLine();
             function.append(_builder_5);
             StringConcatenation _builder_6 = new StringConcatenation();
-            _builder_6.append("Fun0<Set");
+            _builder_6.append("Fun0<");
             String _returnDomain_2 = this.returnDomain(object.getCodomain(), false);
             _builder_6.append(_returnDomain_2);
             _builder_6.append("> ");
@@ -556,7 +542,7 @@ public class FunctionToJavaSig extends ReflectiveVisitor<String> {
               _builder_7.newLine();
               function.append(_builder_7);
               StringConcatenation _builder_8 = new StringConcatenation();
-              _builder_8.append("Fun0<Bag");
+              _builder_8.append("Fun0<");
               String _returnDomain_3 = this.returnDomain(object.getCodomain(), false);
               _builder_8.append(_returnDomain_3);
               _builder_8.append("> ");
@@ -582,7 +568,7 @@ public class FunctionToJavaSig extends ReflectiveVisitor<String> {
                 _builder_9.newLine();
                 function.append(_builder_9);
                 StringConcatenation _builder_10 = new StringConcatenation();
-                _builder_10.append("Fun0<Map");
+                _builder_10.append("Fun0<");
                 String _returnDomain_4 = this.returnDomain(object.getCodomain(), false);
                 _builder_10.append(_returnDomain_4);
                 _builder_10.append("> ");

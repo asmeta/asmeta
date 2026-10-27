@@ -174,6 +174,34 @@ class AsmMethodsUtil {
 			}''');
 		return sb.toString()
 	}
+
+	protected def static String genPowersetGetter(String functionName){
+		return '''
+			public String get_«functionName»(){
+				java.util.Set<?> set = this.execution.«functionName».get();
+				if(set == null || set.isEmpty()){
+					return "{}";
+				}
+				return "{" + set.stream().map(Object::toString).sorted()
+					.collect(java.util.stream.Collectors.joining(", ")) + "}";
+			}
+		'''
+	}
+
+	protected def static String genPowersetSetter(String functionName, String type, String parsingMethod){
+		return '''
+			public void set_powerset_«functionName»(String «functionName») {
+				String content = «functionName».replaceAll("[\\{\\}]", "").trim();
+				java.util.Set<«type»> set = content.isEmpty()
+					? new java.util.HashSet<>()
+					: java.util.Arrays.stream(content.split(","))
+						.map(String::trim).map(«parsingMethod»)
+						.collect(java.util.stream.Collectors.toSet());
+				this.execution.«functionName».set(set);
+				System.out.println("Set «functionName» = " + «functionName»);
+			}
+		'''
+	}
 	
 	/**
 	 * Generates the private method that covers the outputs

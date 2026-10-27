@@ -56,7 +56,7 @@ class JavaTestGenerator extends JavaGenerator {
 				seqCalledRules.addAll(new SeqRuleCollector(false).visit(r))
 		}
 		//
-		val asmName = asm.name
+		val asmName = Util.javaIdentifier(asm.name)
 		var updateASMText = updateSet(asm)
 		functionSignature(asm)
 		// TODO fix include list
@@ -68,6 +68,8 @@ class JavaTestGenerator extends JavaGenerator {
 			
 			class «asmName» {
 				
+				«IF options.getChooseMode().recordsChoices()»
+				//--- CHOOSE RULE TRACE RECORDING UTILTIES ----------------------------------------------------------------
 				/** Choice trace used only by the modified EvoSuite assertion run. */
 				private static final java.util.List<String[]> __asmetaChoiceTrace = new java.util.ArrayList<>();
 				private static boolean __asmetaChoiceRecording;
@@ -104,7 +106,10 @@ class JavaTestGenerator extends JavaGenerator {
 						Integer.toString(rndm),
 						value
 					});
-				}
+				}//---------------------------------------------------------------------------------------------------------
+				«ENDIF»
+				
+				«getToNaturalMethod()»
 
 				/////////////////////////////////////////////////
 				/// DOMAIN CONTAINERS
@@ -186,6 +191,8 @@ class JavaTestGenerator extends JavaGenerator {
 	}
 
 	private def String asmRuleSignature(RuleDeclaration rule) {
+		val original = org.asmeta.flattener.agents.AgentFlattener.originalRuleSignature(rule)
+		if (original !== null) return original
 		if (rule.arity == 0) {
 			return rule.name
 		}

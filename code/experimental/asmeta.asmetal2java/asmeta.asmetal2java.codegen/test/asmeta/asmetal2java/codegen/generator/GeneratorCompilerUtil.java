@@ -55,7 +55,7 @@ public class GeneratorCompilerUtil {
 	 * List of asm files with known issues: these files have compilation errors
 	 * related to the translation.
 	 */
-	static List<String> errors = List.of("battleship.asm", "fibonacci.asm", "QuickSort.asm", "testSignature.asm", "SIS.asm"
+	static List<String> errors = List.of("battleship.asm", /*FIXED "fibonacci.asm", */"QuickSort.asm", "testSignature.asm", "SIS.asm"
 //			===================================================================================================================================================
 //			"dado.asm" // FIXED
 //			*FAIL:Failed to compile:

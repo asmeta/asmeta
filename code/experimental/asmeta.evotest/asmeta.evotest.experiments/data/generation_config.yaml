@@ -1,17 +1,17 @@
 # --- Input specification ---
 input:
-  mode: "directory"   # one of: single | directory | list
+  mode: "list"   # one of: single | directory | list
   # --- single file mode ---
   source_file: "../../../../asm_examples/examples/sensorVotingSimpleVersion.asm"
   # --- directory mode ---
   source_dir: "data/ase-exp/models/"
   # --- list mode ---
-  model_list_file: "data/icst-26-exp/model_list.txt"
+  model_list_file: "data/icst-27-exp/model_list.txt"
   base_dir: "../../../../asm_examples/"
 
 # --- Output configuration ---
 output:
-  target_folder: "data/icst-26-exp/results/"
+  target_folder: "data/icst-27-exp/results/"
 
 # --- Algorithms to run ---
 algorithms:
@@ -20,9 +20,9 @@ algorithms:
     shuffle: false
     step_list: [10,10,10]
   atgt:
-    run: true
-  evoavalla:
     run: false
-    shuffle: false
-    jdk_path: "C:/Program Files/Java/jdk1.8.0_202"
-    budget: 2
+  evoavalla:
+    run: true
+    choose_mode: "pick" # one of: flaky | noShuffle | pick
+    jdk_path: "C:/Program Files/Java/jdk-9.0.4"
+    budget: 1

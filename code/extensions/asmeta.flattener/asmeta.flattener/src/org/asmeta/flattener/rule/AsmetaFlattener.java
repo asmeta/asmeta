@@ -1,6 +1,7 @@
 package org.asmeta.flattener.rule;
 
 import org.asmeta.flattener.RemoveArgumentsFlattener;
+import org.asmeta.flattener.agents.AgentFlattener;
 import org.asmeta.flattener.nesting.RemoveNestingFlattener;
 
 import asmeta.structure.Asm;
@@ -29,7 +30,9 @@ public interface AsmetaFlattener {
 	// TODO altro costruttore flatten che prende una lista di flattener
 	// istanziati(oggetti) e non class
 	public static String getFlattenerCode(Class<? extends AsmetaFlattener> flattener) {		
-		if (flattener == MacroCallRuleFlattener.class) {
+		if (flattener == AgentFlattener.class) {
+			return "AG";
+		} else if (flattener == MacroCallRuleFlattener.class) {
 			return "MCR";
 		} else if (flattener == ForallRuleFlattener.class) {
 			return "FR";

@@ -6,10 +6,12 @@ import asmeta.definitions.OutFunction
 import asmeta.definitions.StaticFunction
 import asmeta.definitions.domains.AbstractTd
 import asmeta.structure.Asm
+import org.asmeta.parser.util.Defs
 import asmeta.terms.basicterms.BooleanTerm
 import asmeta.terms.basicterms.FunctionTerm
 import asmeta.terms.basicterms.LocationTerm
 import asmeta.terms.furtherterms.CaseTerm
+import asmeta.terms.furtherterms.ConditionalTerm
 import asmeta.terms.furtherterms.EnumTerm
 import asmeta.terms.furtherterms.IntegerTerm
 import asmeta.terms.furtherterms.NaturalTerm
@@ -54,56 +56,17 @@ class TermToJavaInAssignments extends TermToJava {
 		return " = " + super.visit(term)
 	}
 
+	override String visit(ConditionalTerm term) {
+		// If we use super.visit(term), TermToJavaInAssignments will execute recursive calls to visit, introducing not required "="
+		return " = " + new TermToJava(res).visit(term)
+	}
+
 	override String visit(EnumTerm term) {
 		return " = " + super.visit(term)
 	}
 
-	override String visit(CaseTerm object) {
-		var StringBuffer sb = new StringBuffer
-		sb.append('''= null;''')
-
-		if (object.comparedTerm.domain instanceof AbstractTd) {
-			for (var i = 0; i < object.comparingTerm.size; i++) {
-				if (i == 0){
-					sb.append(
-							'''
-							
-						«""»	if(«visit(object.comparedTerm)».toString().equals("«visit(object.comparingTerm.get(i))»"))
-								a  «visit(object.resultTerms.get(i))»;
-					''')
-				} else {
-					sb.append(
-								'''
-						«""»	else if(«visit(object.comparedTerm)».toString().equals("«visit(object.comparingTerm.get(i))»"))
-								a  «visit(object.resultTerms.get(i))»;
-					''')
-				}
-			}
-		} else {
-			for (var i = 0; i < object.comparingTerm.size; i++) {
-				if (i == 0)
-					sb.append(
-						'''
-							
-						«""»	if(«object.comparedTerm.domain.name»_elem.value.equals(«visit(object.comparingTerm.get(i)).substring(3,visit(object.comparingTerm.get(i)).length)»))
-								a  «visit(object.resultTerms.get(i))»;
-					''')
-				else
-					sb.append(
-							'''
-						«""»	else if(«object.comparedTerm.domain.name»_elem.value.equals(«visit(object.comparingTerm.get(i)).substring(3,visit(object.comparingTerm.get(i)).length)»))
-								a  «visit(object.resultTerms.get(i))»;
-					''')
-			}
-
-		}
-		if ((object.otherwiseTerm !== null))
-			sb.append(
-			'''
-				«""»	else return «visit(object.otherwiseTerm)»; 
-			''')
-
-		return sb.toString
+	override String visit(CaseTerm term) {
+		return " = " + new TermToJava(res).visit(term)
 	}
 
 	override String visit(LocationTerm term) {
@@ -115,12 +78,16 @@ class TermToJavaInAssignments extends TermToJava {
 		var StringBuffer functionTerm = new StringBuffer
 		var name = new Util().parseFunction(term.function.name)
 
-		// Controllo se l'operatore » del tipo: &,|,<=,>=,<,>...
-		if (ExpressionToJava.hasEvaluateVisitor(name)) {
+		// StandardLibrary operations are translated with ExpressionToJava
+		if (term.arguments !== null && Defs.getAsmName(term.function).equals("StandardLibrary") &&
+			ExpressionToJava.hasEvaluateVisitor(name)) {
 			// if the funcion is an expression
 			return "=" + new ExpressionToJava(res).evaluateFunction(name, term.arguments.terms);
 		} // In questo caso l'operatore rilevato » := 
 		else {
+			if (term.function instanceof StaticFunction && Defs.getAsmName(term.function).equals("StandardLibrary"))
+				throw new InvalidFunctionException("StandardLibrary function '" + term.function.name +
+					"' is not supported by the Java generator")
 
 			if (!leftHandSide)
 				functionTerm.append(" = ")

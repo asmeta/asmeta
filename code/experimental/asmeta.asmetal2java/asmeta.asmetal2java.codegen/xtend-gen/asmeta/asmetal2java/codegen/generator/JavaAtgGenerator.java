@@ -6,6 +6,7 @@ import asmeta.asmetal2java.codegen.evosuite.CoverOutputs;
 import asmeta.asmetal2java.codegen.evosuite.CoverRules;
 import asmeta.asmetal2java.codegen.evosuite.RulesGetter;
 import asmeta.asmetal2java.codegen.translator.SeqRuleCollector;
+import asmeta.asmetal2java.codegen.translator.Util;
 import asmeta.definitions.RuleDeclaration;
 import asmeta.structure.Asm;
 import asmeta.transitionrules.basictransitionrules.Rule;
@@ -49,7 +50,7 @@ public class JavaAtgGenerator extends AsmToJavaGenerator {
         this.seqCalledRules.addAll(new SeqRuleCollector(false).visit(r));
       }
     }
-    final String asmName = asm.getName();
+    final String asmName = Util.javaIdentifier(asm.getName());
     StringBuffer sb = new StringBuffer();
     StringConcatenation _builder = new StringConcatenation();
     _builder.newLine();
@@ -97,28 +98,38 @@ public class JavaAtgGenerator extends AsmToJavaGenerator {
     _builder.append("private int state;");
     _builder.newLine();
     _builder.newLine();
-    _builder.append("\t");
-    _builder.append("private static void __asmetaStartChoiceRecording(){");
-    _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append(asmName, "\t\t");
-    _builder.append(".__asmetaStartChoiceRecording();");
-    _builder.newLineIfNotEmpty();
-    _builder.append("\t");
-    _builder.append("}");
-    _builder.newLine();
-    _builder.newLine();
-    _builder.append("\t");
-    _builder.append("private static String[][] __asmetaStopChoiceRecording(){");
-    _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append("return ");
-    _builder.append(asmName, "\t\t");
-    _builder.append(".__asmetaStopChoiceRecording();");
-    _builder.newLineIfNotEmpty();
-    _builder.append("\t");
-    _builder.append("}");
-    _builder.newLine();
+    {
+      boolean _recordsChoices = this.options.getChooseMode().recordsChoices();
+      if (_recordsChoices) {
+        _builder.append("\t");
+        _builder.append("//--- CHOOSE RULE TRACE RECORDING UTILTIES ----------------------------------------------------------------");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("private static void __asmetaStartChoiceRecording(){");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("\t");
+        _builder.append(asmName, "\t\t");
+        _builder.append(".__asmetaStartChoiceRecording();");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t");
+        _builder.append("}");
+        _builder.newLine();
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("private static String[][] __asmetaStopChoiceRecording(){");
+        _builder.newLine();
+        _builder.append("\t");
+        _builder.append("\t");
+        _builder.append("return ");
+        _builder.append(asmName, "\t\t");
+        _builder.append(".__asmetaStopChoiceRecording();");
+        _builder.newLineIfNotEmpty();
+        _builder.append("\t");
+        _builder.append("}//---------------------------------------------------------------------------------------------------------");
+        _builder.newLine();
+      }
+    }
     _builder.newLine();
     _builder.append("   ");
     _builder.append("/**");
@@ -164,10 +175,15 @@ public class JavaAtgGenerator extends AsmToJavaGenerator {
     _builder.newLine();
     _builder.append("\t\t");
     _builder.newLine();
-    _builder.append("\t\t");
-    _builder.append(asmName, "\t\t");
-    _builder.append(".__asmetaBeginStep();");
-    _builder.newLineIfNotEmpty();
+    {
+      boolean _recordsChoices_1 = this.options.getChooseMode().recordsChoices();
+      if (_recordsChoices_1) {
+        _builder.append("\t\t");
+        _builder.append(asmName, "\t\t");
+        _builder.append(".__asmetaBeginStep();");
+        _builder.newLineIfNotEmpty();
+      }
+    }
     _builder.newLine();
     _builder.append("\t\t");
     _builder.append("this.execution.updateASM();");
@@ -271,10 +287,27 @@ public class JavaAtgGenerator extends AsmToJavaGenerator {
     _append_6.append(_builder_10);
     sb.append(System.lineSeparator());
     sb.append(AsmMethods.monitoredSetters(asm, this.options));
-    sb.append(System.lineSeparator());
     StringConcatenation _builder_11 = new StringConcatenation();
+    _builder_11.append("// Helper method, check value is non negative");
+    _builder_11.newLine();
+    _builder_11.append("private static int checkNatural(int value, String parameterName) {");
+    _builder_11.newLine();
+    _builder_11.append("\t");
+    _builder_11.append("if (value < 0)");
+    _builder_11.newLine();
+    _builder_11.append("\t\t");
+    _builder_11.append("throw new IllegalArgumentException(parameterName + \" must be a Natural, but was \" + value);");
+    _builder_11.newLine();
+    _builder_11.append("\t");
+    _builder_11.append("return value;");
+    _builder_11.newLine();
     _builder_11.append("}");
+    _builder_11.newLine();
     sb.append(_builder_11);
+    sb.append(System.lineSeparator());
+    StringConcatenation _builder_12 = new StringConcatenation();
+    _builder_12.append("}");
+    sb.append(_builder_12);
     return sb.toString();
   }
 }

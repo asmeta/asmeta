@@ -10,9 +10,13 @@ import asmeta.asmetal2java.codegen.translator.TermToJava
 import asmeta.asmetal2java.codegen.translator.DomainToJavaString
 import asmeta.definitions.domains.SequenceDomain
 import asmeta.definitions.domains.ProductDomain
+import asmeta.definitions.domains.PowersetDomain
+import asmeta.definitions.domains.NaturalDomain
+import asmeta.definitions.domains.AnyDomain
 import asmeta.asmetal2java.codegen.translator.ProductToJava
 import asmeta.asmetal2java.codegen.config.TranslatorOptions
 import asmeta.asmetal2java.codegen.translator.Util
+import org.asmeta.flattener.agents.AgentFlattener
 
 /**
  * Contains all the methods to control the translated java class as 
@@ -38,12 +42,18 @@ class AsmMethods {
 
 		var asmName = asm.name;
 		for (fd : asm.headerSection.signature.function) {
-			if (Util.isControlledOrOut(fd)) {
+			if (Util.isControlledOrOut(fd) && !AgentFlattener.isInternal(fd)) {
 				sb.append(System.lineSeparator)
 				if (fd.domain === null) { // [] -> ...
 				// use the wrapper objects to prevent NullPointerException
 					if (fd.codomain instanceof ConcreteDomain) { // [] -> ConcreteDomain
-						var type = AsmMethodsUtil.getConcreteDomainType(asm, fd, fd.codomain.name)
+						val concreteDomain = fd.codomain as ConcreteDomain
+						val type = if (concreteDomain.typeDomain instanceof SequenceDomain)
+							"java.util.List" + new DomainToJavaString(asm).visit(concreteDomain.typeDomain).trim
+						else if (concreteDomain.typeDomain instanceof PowersetDomain)
+							"java.util.Set" + new DomainToJavaString(asm).visit(concreteDomain.typeDomain).trim
+						else
+							AsmMethodsUtil.getConcreteDomainType(asm, fd, fd.codomain.name)
 						sb.append('''
 							public «type» get_«fd.name»(){
 								if(this.execution.«fd.name».get() != null){
@@ -94,6 +104,14 @@ class AsmMethods {
 								}
 							}
 						}
+					} else if (fd.codomain instanceof PowersetDomain) { // [] -> Powerset
+						sb.append(AsmMethodsUtil.genPowersetGetter(fd.name))
+					} else if (fd.codomain instanceof AnyDomain) { // [] -> Any
+						sb.append('''
+							public Object get_«fd.name»(){
+								return this.execution.«fd.name».get();
+							}
+						''');
 					} else if (fd.codomain.name.equals(BOOLEAN)) { // [] -> Boolean
 						sb.append('''
 							public Boolean get_«fd.name»(){
@@ -197,7 +215,7 @@ class AsmMethods {
 							} else if (dd instanceof AbstractTd) { // Abstract -> ...
 								for (sf : asm.headerSection.signature.function) {
 									if (sf instanceof StaticFunction) {
-										if (sf.codomain.equals(dd) && sf.domain === null) {
+										if (sf.codomain.equals(dd) && sf.domain === null && AgentFlattener.acceptsArgument(fd, sf)) {
 											var symbol = sf.name
 											if (fd.codomain instanceof ConcreteDomain) { // Abstract -> ConcreteDomain
 												var type = AsmMethodsUtil.getConcreteDomainType(asm, fd,
@@ -357,8 +375,9 @@ class AsmMethods {
 				manageNotSupportedDomain(translatorOptions, component.name)
 				return ""
 			}
-			if (i > 0)
+			if (i > 0){
 				parameters.append(", ")
+			}
 			parameters.append(AsmMethodsUtil.getBasicTdType(component.name)).append(" ").
 				append(fd.name).append("_key").append(i)
 		}
@@ -369,12 +388,22 @@ class AsmMethods {
 		}
 
 		val valueType = AsmMethodsUtil.getBasicTdType(fd.codomain.name)
-		val tuple = ProductToJava.qualifiedValue(domain, [ index | fd.name + "_key" + index ])
+		val tuple = ProductToJava.qualifiedValue(domain, [ index |
+			val parameter = fd.name + "_key" + index
+			if (domain.domains.get(index) instanceof NaturalDomain)
+				'''checkNatural(«parameter», "«parameter»")'''
+			else
+				parameter
+		])
+		val value = if (fd.codomain instanceof NaturalDomain)
+			'''checkNatural(«fd.name», "«fd.name»")'''
+		else
+			fd.name
 		val sb = new StringBuffer
 		sb.append("\tpublic void set_").append(fd.name).append("(").append(parameters).
 			append(", ").append(valueType).append(" ").append(fd.name).append(") {\n")
 		sb.append("\t\tthis.execution.").append(fd.name).append(".set(").append(tuple).
-			append(", ").append(fd.name).append(");\n")
+			append(", ").append(value).append(");\n")
 		sb.append("\t\tSystem.out.println(\"Set ").append(fd.name).append("(\" + ")
 		for (var int i = 0; i < domain.domains.size; i++) {
 			if (i > 0)
@@ -395,6 +424,7 @@ class AsmMethods {
 		val sb = new StringBuffer;
 		for (fd : asm.headerSection.signature.function) {
 			if (fd instanceof MonitoredFunction) {
+				// Any is primarily used as the codomain of controlled functions; monitored Any is not currently exposed by the ATG wrapper.
 				sb.append(System.lineSeparator)
 				if (fd.domain === null) { // [] -> (Integer|String|Boolean|ConcreteDomain|Enum|Abstract)
 				// var cd = fd.codomain
@@ -405,8 +435,22 @@ class AsmMethods {
 							System.out.println("Set «fd.name» = " + «fd.name»);
 						}''')
 					} else if (fd.codomain instanceof ConcreteDomain) { // [] -> ConcreteDomain
-						var type = AsmMethodsUtil.getConcreteDomainType(asm, fd, fd.codomain.name)
-						sb.append('''
+						val concreteDomain = fd.codomain as ConcreteDomain
+						val nestedCollection =
+							(concreteDomain.typeDomain instanceof SequenceDomain &&
+								((concreteDomain.typeDomain as SequenceDomain).domain instanceof SequenceDomain ||
+								 (concreteDomain.typeDomain as SequenceDomain).domain instanceof PowersetDomain)) ||
+							(concreteDomain.typeDomain instanceof PowersetDomain &&
+								((concreteDomain.typeDomain as PowersetDomain).baseDomain instanceof SequenceDomain ||
+								 (concreteDomain.typeDomain as PowersetDomain).baseDomain instanceof PowersetDomain))
+						val type = if (concreteDomain.typeDomain instanceof SequenceDomain)
+							"java.util.List" + new DomainToJavaString(asm).visit(concreteDomain.typeDomain).trim
+						else if (concreteDomain.typeDomain instanceof PowersetDomain)
+							"java.util.Set" + new DomainToJavaString(asm).visit(concreteDomain.typeDomain).trim
+						else
+							AsmMethodsUtil.getConcreteDomainType(asm, fd, fd.codomain.name)
+						if (!nestedCollection)
+							sb.append('''
 						public void set_«fd.name»(«type» «fd.name») {
 							this.execution.«fd.name».set(
 								«asm.name».«fd.codomain.name».valueOf(«fd.name»));
@@ -422,13 +466,18 @@ class AsmMethods {
 							System.out.println("Set «fd.name» = " + «fd.name»);
 						}''')
 						sb.append(System.lineSeparator)
-					} else if (fd.codomain instanceof SequenceDomain) { // [] -> Sequence
+					} else if (fd.codomain instanceof SequenceDomain &&
+						!((fd.codomain as SequenceDomain).domain instanceof SequenceDomain) &&
+						!((fd.codomain as SequenceDomain).domain instanceof PowersetDomain)) { // [] -> flat Sequence
 						var type = new DomainToJavaString(asm).visit(fd.codomain).replaceAll("<", "").
 							replaceAll(">", "").trim()
 						if (AsmMethodsUtil.basicTdList.contains(type)) {
 							// Seq(BasicTD) example: seq(Integer)
 							type = AsmMethodsUtil.getWrapperBasicTdType(type)
 							var parsingMethod = AsmMethodsUtil.getParsingMethod(type)
+							if ((fd.codomain as SequenceDomain).domain instanceof NaturalDomain) {
+								parsingMethod = '''e -> checkNatural(Integer.parseInt(e), "«fd.name» element")'''
+							}
 
 							sb.append(AsmMethodsUtil.genSequenceSetter(fd.name, type, parsingMethod))
 						} else {
@@ -447,10 +496,30 @@ class AsmMethods {
 								}
 							}
 						}
+					} else if (fd.codomain instanceof PowersetDomain &&
+						!((fd.codomain as PowersetDomain).baseDomain instanceof SequenceDomain) &&
+						!((fd.codomain as PowersetDomain).baseDomain instanceof PowersetDomain)) { // [] -> flat Powerset
+						var type = new DomainToJavaString(asm).visit(fd.codomain).replaceAll("<", "").
+							replaceAll(">", "").trim()
+						if (AsmMethodsUtil.basicTdList.contains(type)) {
+							type = AsmMethodsUtil.getWrapperBasicTdType(type)
+							sb.append(AsmMethodsUtil.genPowersetSetter(fd.name, type,
+								AsmMethodsUtil.getParsingMethod(type)))
+						} else {
+							for (cd : asm.headerSection.signature.domain) {
+								if (cd.name.equals(type) && cd instanceof EnumTd) {
+									type = asm.name.concat(".").concat(type)
+									sb.append(AsmMethodsUtil.genPowersetSetter(fd.name, type, type + "::valueOf"))
+								} else if (cd.name.equals(type) && cd instanceof AbstractTd) {
+									type = asm.name.concat(".").concat(type)
+									sb.append(AsmMethodsUtil.genPowersetSetter(fd.name, type, type + "::get"))
+								}
+							}
+						}
 					} else if (fd.codomain.name.equals(NATURAL)) { // [] -> Natural
 						sb.append('''
 						public void set_natural_«fd.name»(int «fd.name») {
-							this.execution.«fd.name».set(«fd.name»);
+							this.execution.«fd.name».set(checkNatural(«fd.name», "«fd.name»"));
 							System.out.println("Set «fd.name» = " + «fd.name» +"n");
 						}''')
 					} else if (fd.codomain.name.equals(INTEGER) || fd.codomain.name.equals(BOOLEAN) ||
@@ -501,7 +570,8 @@ class AsmMethods {
 							// use the set_natural flag
 								sb.append('''
 								public void set_natural_«fd.name»_fromDomain_«symbol»(int «fd.name»_«symbol») {
-									this.execution.«fd.name».set(«asm.name».«dd.name».«symbol», «fd.name»_«symbol»);
+									this.execution.«fd.name».set(«asm.name».«dd.name».«symbol»,
+										checkNatural(«fd.name»_«symbol», "«fd.name»_«symbol»"));
 									System.out.println("Set «fd.name»_«symbol» = " + «fd.name»_«symbol» + "n");
 								}''')
 							} else if (fd.codomain.name.equals(INTEGER) || fd.codomain.name.equals(BOOLEAN) ||
@@ -521,7 +591,7 @@ class AsmMethods {
 					} else if (fd.domain instanceof AbstractTd) { // Abstract -> ...
 						for (sf : asm.headerSection.signature.function) {
 							if (sf instanceof StaticFunction) {
-								if (sf.codomain.equals(fd.domain) && sf.domain === null) {
+								if (sf.codomain.equals(fd.domain) && sf.domain === null && AgentFlattener.acceptsArgument(fd, sf)) {
 									var symbol = sf.name
 									if (fd.codomain instanceof ConcreteDomain) { // Abstract -> ConcreteDomain
 										var type = AsmMethodsUtil.getConcreteDomainType(asm, fd, fd.codomain.name)
@@ -553,7 +623,8 @@ class AsmMethods {
 										sb.append('''
 										public void set_natural_«fd.name»_fromDomain_«symbol»(int «fd.name»_«symbol») {
 											this.execution.«fd.name».set(
-											«asm.name».«fd.domain.name».get("«symbol»"),«fd.name»_«symbol»);
+											«asm.name».«fd.domain.name».get("«symbol»"),
+											checkNatural(«fd.name»_«symbol», "«fd.name»_«symbol»"));
 											System.out.println("Set «fd.name»_«symbol» = " + «fd.name»_«symbol» + "n");
 										}''')
 									} else if (fd.codomain.name.equals(INTEGER) || fd.codomain.name.equals(BOOLEAN) ||
@@ -623,7 +694,8 @@ class AsmMethods {
 											sb.append('''
 											public void set_natural_«fd.name»_fromDomain_«elem»(int «fd.name»_«elem») {
 												this.execution.«fd.name».set(
-												«asm.name».«fd.domain.name».valueOf(«symbol»),«fd.name»_«elem»);
+												«asm.name».«fd.domain.name».valueOf(«symbol»),
+												checkNatural(«fd.name»_«elem», "«fd.name»_«elem»"));
 												System.out.println("Set «fd.name»_«elem» = " + «fd.name»_«elem» + "n");
 											}''')
 										} else if (fd.codomain.name.equals(INTEGER) ||
@@ -660,7 +732,7 @@ class AsmMethods {
         val sb = new StringBuffer;
         sb.append('''// Abstract Values Collection''').append(System.lineSeparator)
         for (fd : asm.headerSection.signature.function) {
-            if (fd instanceof StaticFunction) {
+            if (fd instanceof StaticFunction && fd.domain === null && fd.definition === null) {
                 var abstractName = fd.name
                  sb.append('''String static_«abstractName» = "«abstractName»";''').append(System.lineSeparator)
                 }

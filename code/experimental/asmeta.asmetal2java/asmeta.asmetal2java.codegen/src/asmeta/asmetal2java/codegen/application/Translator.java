@@ -13,8 +13,7 @@ public interface Translator {
 	 * Sets the value of the specified property.
 	 *
 	 * @param propertyName  the name of the property to set.
-	 * @param propertyValue the value to set the property to, interpreted as a
-	 *                      boolean.
+	 * @param propertyValue the value to set the property to.
 	 */
 	void setOptions(String propertyName, String propertyValue);
 

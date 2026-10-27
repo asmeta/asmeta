@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
 
 import asmeta.asmetal2java.codegen.compiler.CompileResult;
 import asmeta.asmetal2java.codegen.config.TranslatorOptions;
+import asmeta.asmetal2java.codegen.config.ChooseMode;
 import asmeta.asmetal2java.codegen.config.TranslatorOptionsImpl;
 
 /**
@@ -36,9 +37,9 @@ public class GeneratorCompilerTestInProject {
 	private static final Path SRC_GEN_path = Path.of("..", "asmeta.asmetal2java.examples", "src");
 
 	/**
-	 * formatter = true, shuffleRandom = true, optimizeSeqRule = true
+	 * formatter = true, chooseMode = pick, optimizeSeqRule = true
 	 */
-	private TranslatorOptions options = new TranslatorOptionsImpl(true, true, true);
+	private TranslatorOptions options = new TranslatorOptionsImpl(true, ChooseMode.PICK, true);
 
 	@BeforeAll
 	public static void checkExistsPath() {

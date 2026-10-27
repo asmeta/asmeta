@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.asmeta.flattener.nesting.RemoveNestingFlattener;
+import org.asmeta.flattener.agents.AgentFlattener;
 import org.asmeta.flattener.rule.AsmetaFlattener;
 import org.asmeta.flattener.rule.CaseRuleFlattener;
 import org.asmeta.flattener.rule.ChooseRuleFlattener;
@@ -80,7 +81,7 @@ public class AsmetaMultipleFlattener {
 
 
 	private static AsmetaFlattener[] standardFlattenerInOrder(Asm asm) {
-		return new AsmetaFlattener[] { new MacroCallRuleFlattener(asm), new ForallRuleFlattener(asm),
+		return new AsmetaFlattener[] { new AgentFlattener(asm), new MacroCallRuleFlattener(asm), new ForallRuleFlattener(asm),
 				new ChooseRuleFlattener(asm), new RemoveArgumentsFlattener(asm), new LetRuleFlattener(asm),
 				new CaseRuleFlattener(asm), new RemoveNestingFlattener(asm) };
 	}

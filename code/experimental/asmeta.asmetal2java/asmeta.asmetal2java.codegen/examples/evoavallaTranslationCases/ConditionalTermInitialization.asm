@@ -5,9 +5,12 @@ import ../STDL/StandardLibrary
 signature:
 	enum domain Switch = {ON | OFF | STANDBY}
 	controlled selector: Switch
+
+	// should be static, but we want to test conditional term in initialization
 	controlled value: Switch -> Integer
 	controlled label: Switch -> String
 	controlled enabled: Switch -> Boolean
+
 	controlled selectedValue: Integer
 	controlled selectedLabel: String
 
@@ -42,28 +45,28 @@ default init s0:
 	function selector = STANDBY
 	function selectedValue = 0
 	function selectedLabel = "none"
-	function value($switch in Switch) =
-		if $switch = ON then
+	function value($sw in Switch) =
+		if $sw = ON then
 			1
 		else
-			if $switch = OFF then
+			if $sw = OFF then
 				0
 			else
 				-1
 			endif
 		endif
-	function label($switch in Switch) =
-		if $switch = ON then
+	function label($sw in Switch) =
+		if $sw = ON then
 			"on"
 		else
-			if $switch = OFF then
+			if $sw = OFF then
 				"off"
 			else
 				"standby"
 			endif
 		endif
-	function enabled($switch in Switch) =
-		if $switch = STANDBY then
+	function enabled($sw in Switch) =
+		if $sw = STANDBY then
 			false
 		else
 			true

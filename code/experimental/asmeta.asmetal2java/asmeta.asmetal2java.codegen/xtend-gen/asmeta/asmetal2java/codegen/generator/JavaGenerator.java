@@ -15,10 +15,8 @@ import asmeta.definitions.Function;
 import asmeta.definitions.RuleDeclaration;
 import asmeta.definitions.StaticFunction;
 import asmeta.definitions.domains.AbstractTd;
-import asmeta.definitions.domains.ConcreteDomain;
 import asmeta.definitions.domains.Domain;
 import asmeta.definitions.domains.EnumTd;
-import asmeta.definitions.domains.ProductDomain;
 import asmeta.structure.Asm;
 import asmeta.structure.DomainDefinition;
 import asmeta.structure.DomainInitialization;
@@ -29,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import org.asmeta.flattener.agents.AgentFlattener;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.xbase.lib.CollectionLiterals;
@@ -101,7 +100,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
         this.seqCalledRules.addAll(new SeqRuleCollector(false).visit(r));
       }
     }
-    final String asmName = asm.getName();
+    final String asmName = Util.javaIdentifier(asm.getName());
     String updateASMText = this.updateSet(asm);
     this.functionSignature(asm);
     StringConcatenation _builder = new StringConcatenation();
@@ -118,6 +117,11 @@ public class JavaGenerator extends AsmToJavaGenerator {
     _builder.append("abstract class ");
     _builder.append(asmName);
     _builder.append("Sig {");
+    _builder.newLineIfNotEmpty();
+    _builder.newLine();
+    _builder.append("\t");
+    String _toNaturalMethod = this.getToNaturalMethod();
+    _builder.append(_toNaturalMethod, "\t");
     _builder.newLineIfNotEmpty();
     _builder.append("\t");
     _builder.newLine();
@@ -379,6 +383,26 @@ public class JavaGenerator extends AsmToJavaGenerator {
     return _builder.toString();
   }
 
+  protected String getToNaturalMethod() {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("//Support methods for translating to Natural");
+    _builder.newLine();
+    _builder.append("protected static int toNatural(int value) {");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("if (value < 0)");
+    _builder.newLine();
+    _builder.append("\t\t");
+    _builder.append("throw new IllegalArgumentException(\"Cannot convert negative value \" + value + \" to Natural\");");
+    _builder.newLine();
+    _builder.append("\t");
+    _builder.append("return value;");
+    _builder.newLine();
+    _builder.append("}");
+    _builder.newLine();
+    return _builder.toString();
+  }
+
   protected String getImports() {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("import java.util.ArrayList;");
@@ -472,7 +496,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
     StringBuffer sb = new StringBuffer();
     EList<Domain> _domain = asm.getHeaderSection().getSignature().getDomain();
     for (final Domain dd : _domain) {
-      if (((dd instanceof AbstractTd) == false)) {
+      if ((((dd instanceof AbstractTd) == false) && (!AgentFlattener.isReserveDomain(dd)))) {
         String _visit = this.createDomainToJavaSigDef(asm).visit(dd);
         String _plus = (("//Variabile di tipo Concreto o Enumerativo" + "\n\n") + _visit);
         String _plus_1 = (_plus + 
@@ -657,7 +681,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
     StringBuffer sb = new StringBuffer();
     EList<Function> _function = asm.getHeaderSection().getSignature().getFunction();
     for (final Function fd : _function) {
-      if ((((fd instanceof StaticFunction) && (fd.getCodomain() instanceof AbstractTd)) && (fd.getDomain() == null))) {
+      if (((((fd instanceof StaticFunction) && (fd.getCodomain() instanceof AbstractTd)) && (fd.getDomain() == null)) && (fd.getDefinition() == null))) {
         String _string = new String("\"");
         this.supp = _string;
         String _name = fd.getName();
@@ -718,38 +742,11 @@ public class JavaGenerator extends AsmToJavaGenerator {
     if (((asm.getBodySection() != null) && (asm.getBodySection().getFunctionDefinition() != null))) {
       EList<FunctionDefinition> _functionDefinition = asm.getBodySection().getFunctionDefinition();
       for (final FunctionDefinition fd : _functionDefinition) {
-        {
-          StringConcatenation _builder = new StringConcatenation();
-          String _visit = this.createFunctionToJavaDef(asm).visit(fd.getDefinedFunction());
-          _builder.append(_visit);
-          _builder.newLineIfNotEmpty();
-          sb.append(_builder);
-          Domain pd = fd.getDefinedFunction().getDomain();
-          if ((pd instanceof ProductDomain)) {
-            Domain _get = ((ProductDomain)pd).getDomains().get(0);
-            if ((_get instanceof ConcreteDomain)) {
-              int firstIndex = sb.toString().indexOf("$u");
-              if ((firstIndex != (-1))) {
-                String before = sb.substring(0, (firstIndex + 2));
-                String after = sb.substring((firstIndex + 2));
-                after = after.replaceAll("\\$u", "\\$u.value");
-                StringBuffer _stringBuffer = new StringBuffer((before + after));
-                sb = _stringBuffer;
-              }
-            }
-            Domain _get_1 = ((ProductDomain)pd).getDomains().get(1);
-            if ((_get_1 instanceof ConcreteDomain)) {
-              int firstIndex_1 = sb.toString().indexOf("$p");
-              if ((firstIndex_1 != (-1))) {
-                String before_1 = sb.substring(0, (firstIndex_1 + 2));
-                String after_1 = sb.substring((firstIndex_1 + 2));
-                after_1 = after_1.replaceAll("\\$p", "\\$p.value");
-                StringBuffer _stringBuffer_1 = new StringBuffer((before_1 + after_1));
-                sb = _stringBuffer_1;
-              }
-            }
-          }
-        }
+        StringConcatenation _builder = new StringConcatenation();
+        String _visit = this.createFunctionToJavaDef(asm).visit(fd.getDefinedFunction());
+        _builder.append(_visit);
+        _builder.newLineIfNotEmpty();
+        sb.append(_builder);
       }
       return sb.toString().replaceAll("\\$", "_");
     }

@@ -40,7 +40,7 @@ class JavaExeGenerator extends AsmToJavaGenerator {
 				seqCalledRules.addAll(new SeqRuleCollector(false).visit(r))
 		}
 		//
-		val asmName = asm.name
+		val asmName = Util.javaIdentifier(asm.name)
 
 		// TODO fix include list
 		return '''

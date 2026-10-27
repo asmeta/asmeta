@@ -10,6 +10,7 @@ import asmeta.asmetal2java.codegen.evosuite.CoverRules
 import asmeta.asmetal2java.codegen.evosuite.CoverOutputs
 import asmeta.asmetal2java.codegen.evosuite.AsmMethods
 import asmeta.asmetal2java.codegen.evosuite.RulesGetter
+import asmeta.asmetal2java.codegen.translator.Util
 
 /**
  * This generator creates a Java wrapper class that queries the translated java class 
@@ -42,7 +43,7 @@ class JavaAtgGenerator extends AsmToJavaGenerator {
 				seqCalledRules.addAll(new SeqRuleCollector(false).visit(r))
 		}
 
-		val asmName = asm.name
+		val asmName = Util.javaIdentifier(asm.name)
 
 		var sb = new StringBuffer;
 
@@ -68,13 +69,16 @@ class JavaAtgGenerator extends AsmToJavaGenerator {
 			/** current state. */
 			private int state;
 
+			«IF options.getChooseMode().recordsChoices()»
+			//--- CHOOSE RULE TRACE RECORDING UTILTIES ----------------------------------------------------------------
 			private static void __asmetaStartChoiceRecording(){
 				«asmName».__asmetaStartChoiceRecording();
 			}
 
 			private static String[][] __asmetaStopChoiceRecording(){
 				return «asmName».__asmetaStopChoiceRecording();
-			}
+			}//---------------------------------------------------------------------------------------------------------
+			«ENDIF»
 		
 		   /**
 		    * Constructor of the {@code «asmName»_ATG} class. Creates a private instance of the asm
@@ -89,7 +93,9 @@ class JavaAtgGenerator extends AsmToJavaGenerator {
 			*/
 			public void step(){
 				
+				«IF options.getChooseMode().recordsChoices()»
 				«asmName».__asmetaBeginStep();
+				«ENDIF»
 
 				this.execution.updateASM();
 				
@@ -181,6 +187,15 @@ class JavaAtgGenerator extends AsmToJavaGenerator {
 		sb.append("\t\t").append('''// Monitored setters''');
 		sb.append(System.lineSeparator)
 		sb.append(AsmMethods.monitoredSetters(asm, options));
+		
+		sb.append('''
+		// Helper method, check value is non negative
+		private static int checkNatural(int value, String parameterName) {
+			if (value < 0)
+				throw new IllegalArgumentException(parameterName + " must be a Natural, but was " + value);
+			return value;
+		}
+		''')
 		
 		sb.append(System.lineSeparator)
 		sb.append('''}''')

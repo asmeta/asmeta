@@ -5,9 +5,12 @@ import ../STDL/StandardLibrary
 signature:
 	enum domain Switch = {ON | OFF | STANDBY}
 	controlled selector: Switch
+
+	// should be static, but we want to test case term in initialization
 	controlled value: Switch -> Integer
 	controlled label: Switch -> String
 	controlled enabled: Switch -> Boolean
+
 	controlled selectedValue: Integer
 	controlled selectedLabel: String
 
@@ -38,20 +41,20 @@ default init s0:
 	function selector = STANDBY
 	function selectedValue = 0
 	function selectedLabel = "none"
-	function value($switch in Switch) =
-		switch($switch)
+	function value($sw in Switch) =
+		switch($sw)
 			case ON: 1
 			case OFF: 0
 			otherwise -1
 		endswitch
-	function label($switch in Switch) =
-		switch($switch)
+	function label($sw in Switch) =
+		switch($sw)
 			case ON: "on"
 			case OFF: "off"
 			otherwise "standby"
 		endswitch
-	function enabled($switch in Switch) =
-		switch($switch)
+	function enabled($sw in Switch) =
+		switch($sw)
 			case ON: true
 			case OFF: true
 			otherwise false

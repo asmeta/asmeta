@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import asmeta.AsmCollection;
 import asmeta.asmetal2java.codegen.compiler.CompileResult;
 import asmeta.asmetal2java.codegen.compiler.CompilerImpl;
+import asmeta.asmetal2java.codegen.config.ChooseMode;
 import asmeta.asmetal2java.codegen.config.TranslatorOptions;
 import asmeta.asmetal2java.codegen.config.TranslatorOptionsImpl;
 import asmeta.asmetal2java.codegen.evosuite.RulesMap;
@@ -27,7 +28,7 @@ import asmeta.asmetal2java.codegen.evosuite.RulesMap;
  */
 public class JavaTestGeneratorTest {
 
-	private TranslatorOptions options = new TranslatorOptionsImpl(true, true, true);
+	private TranslatorOptions options = new TranslatorOptionsImpl(true, ChooseMode.PICK, true);
 
 	/**
 	 * Instance of the RulesImpl, a Map {name:Rule} collection containing the rules

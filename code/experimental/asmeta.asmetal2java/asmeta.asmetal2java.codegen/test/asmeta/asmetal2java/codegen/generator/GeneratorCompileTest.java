@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import org.junit.jupiter.api.BeforeAll;
 
 import asmeta.asmetal2java.codegen.config.TranslatorOptions;
+import asmeta.asmetal2java.codegen.config.ChooseMode;
 import asmeta.asmetal2java.codegen.config.TranslatorOptionsImpl;
 
 /**
@@ -18,9 +19,9 @@ abstract public class GeneratorCompileTest {
 	protected static final Path path = GeneratorCompilerUtil.dirExamples;
 
 	/**
-	 * formatter = true, shuffleRandom = true, optimizeSeqRule = true
+	 * formatter = true, chooseMode = pick, optimizeSeqRule = true
 	 */
-	protected TranslatorOptions options = new TranslatorOptionsImpl(true, true, true);
+	protected TranslatorOptions options = new TranslatorOptionsImpl(true, ChooseMode.PICK, true);
 
 	/**
 	 * {@code True} to stop the generation at the first error, {@code False}

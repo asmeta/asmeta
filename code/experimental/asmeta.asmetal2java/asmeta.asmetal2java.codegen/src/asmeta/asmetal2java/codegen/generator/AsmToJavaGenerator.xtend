@@ -10,6 +10,7 @@ import org.eclipse.xtext.generator.IGenerator
 import asmeta.asmetal2java.codegen.config.TranslatorOptions
 import asmeta.asmetal2java.codegen.formatter.Formatter
 import asmeta.asmetal2java.codegen.formatter.FormatterImpl
+import org.asmeta.flattener.agents.AgentFlattener
 
 /** 
  * Generators superclass.
@@ -54,6 +55,9 @@ abstract class AsmToJavaGenerator implements IGenerator {
 	// compile with the standard options
 	final def String compileAsm(Asm asm, TranslatorOptions options){
 		this.options = options;
+		// Direct generator callers also need agent normalisation. Already flattened
+		// models pass through unchanged (e.g. calls following TranslatorImpl.generate).
+		new AgentFlattener(asm).flattenASM()
 		compileAsm(asm)
 	}
 
