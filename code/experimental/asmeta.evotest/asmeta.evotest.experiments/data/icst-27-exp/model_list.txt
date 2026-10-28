@@ -1,4 +1,4 @@
-// total: 875
+// total: 864
 
 
 // skip directory: 6
@@ -125,7 +125,9 @@
 
 // parsing error: 0
 
-// valid asm: 308
+// no par rule: 0
+
+// valid asm: 296
 examples\simple_example\population.asm
 examples\landingGearSystem\LGS_EV.asm
 PillBox\Level1\pillbox_1.asm
@@ -143,7 +145,6 @@ examples\sleepingBarber\sleepingBarber.asm
 examples\sluicegate\sluiceGateMotorCtl.asm
 examples\ABZ2020\CarSystemModule\CarSystem007\CarSystem007main.asm
 DAS\TrafficMonitoringSystem\validation\mainForModelCheckingR4.asm
-examples\coffeeVendingMachine\coffeeVendingMachine_flat.asm
 examples\traffic_light\oneWayTrafficLightUsingEnum.asm
 examples\flashProtocol\flashProtocol_N2_L1_Q1_C.asm
 examples\petriNets\petriNetEdgeWeightNoPlaceCapacity_NoSeq_Matrix_v2.asm
@@ -154,7 +155,6 @@ examples\GilbreathCardTrick\GilbreathCardTrick.asm
 DAS\TrafficMonitoringSystem\mainUnique.asm
 examples\railRoadGate\railroadGate.asm
 examples\fsmsemantics\FSM_hooking2.asm
-examples\petriNets\forAsmetaSMV\petriNet_forNuSMV_flat.asm
 examples\hemodialysisDevice\SCP2017\HemodialysisRef3.asm
 examples\hemodialysisDevice\ABZ2016\Hemodialysis_ref3_forMC.asm
 systemc\counter2\counter2_main.asm
@@ -166,7 +166,6 @@ examples\traffic_light\Timer\oneWayTrafficLight_refinedMillisecSec_Timer.asm
 examples\ermts_etcs\scenarios\ertms_hl3_scenario6.asm
 examples\fsmsemantics\FSM_map0_2.asm
 stereoacuity\certifierRaff2.asm
-examples\GilbreathCardTrick\GilbreathCardTrick_flat.asm
 examples\conwayGameOfLife\gameOfLifeAgents.asm
 examples\hemodialysisDevice\ABZ2016\Hemodialysis_ref1_par.asm
 systemc\counter\counter_main.asm
@@ -221,7 +220,6 @@ examples\models\SwapSortMon.asm
 examples\trafficLightCoSim\controller.asm
 examples\fsmsemantics\meta_hooking\myFSM.asm
 examples\ermts_etcs\scenarios\ertms_hl3_scenario4.asm
-examples\conwayGameOfLife\gameOfLife_flat.asm
 examples\cards.asm
 examples\petriNets\forAsmetaSMV\petriNet_forNuSMV.asm
 examples\simple_example\SwapSort.asm
@@ -231,12 +229,10 @@ examples\landingGearSystem\LGS_GM.asm
 examples\TrafficLightYakindu\TrafficLight2\TrafficLight_2.asm
 examples\parking.asm
 PillBox\Level1\pillbox_1_for_RefProv.asm
-examples\landingGearSystem\LGS_3L_flat.asm
 systemc\orgate\orgate_main.asm
 examples\hemodialysisDevice\ABZ2016\Hemodialysis_ref4.asm
 stereoacuity\certifierGround.asm
 systemc\counterAG\main_user.asm
-examples\GilbreathCardTrick\GilbreathCardTrickForAsmetaSMV_flat.asm
 examples\production_cell\ert.asm
 examples\landingGearSystem\LGS_SE_v2.asm
 examples\simple_example\MorraCinese\MorraCinese_raff1.asm
@@ -262,7 +258,6 @@ examples\smartHome\smartHome.asm
 examples\ermts_etcs\scenarios\ertms_hl3_scenario3.asm
 DAS\TrafficMonitoringSystem\validation\mainForModelCheckingTwoCameras.asm
 examples\petriNets\forModelAdvisor\petriNet_forModelAdvisor_InconsUpdateViolation.asm
-examples\philosophers\philosophers3_flat.asm
 stereoacuity\modelReview\certifierGroundWrongGuard.asm
 examples\RushHour\emptyCellAs0\RushHourMonSimplForAsmetaSMV_EmptyAs0.asm
 PillBox\Level3\pillbox_FULL_elia.asm
@@ -286,7 +281,6 @@ examples\filosofiEciliegie\filosofiEciliegie.asm
 examples\models\FlipFlop.asm
 examples\agents\populationAgent_raff1_fourPersons.asm
 examples\fsmsemantics\meta_hooking\FSM.asm
-examples\ticTacToe\ticTacToe_simulator_flat.asm
 examples\battleship.asm
 examples\traffic_light\oneWayTrafficLight_refined_with_agents_seq.asm
 examples\ermts_etcs\scenarios\ertms_hl3_scenario9.asm
@@ -296,7 +290,6 @@ examples\hemodialysisDevice\SCP2017\HemodialysisGround.asm
 examples\hemodialysisDevice\ABZ2016\Hemodialysis_ref4_forMC.asm
 stereoacuity\certifierRaff4_noundef.asm
 DAS\TrafficMonitoringSystem\validation\mainForModelCheckingNoSelfHealer.asm
-examples\conwayGameOfLife\gameOfLifeAgents_flat.asm
 examples\simple_example\AdvancedClock2.asm
 examples\ermts_etcs\scenarios\ertms_hl3_scenario2.asm
 examples\GilbreathCardTrick\workingButNotElegant\GilbreathCardTrickWithAuxFunctionSimple.asm
@@ -352,7 +345,6 @@ examples\petriNets\forAsmetaSMV\petriNet_forNuSMV_withDeadlock.asm
 examples\traffic_light\forAsmetaSMV\oneWayTrafficLight_refined_4SMV.asm
 examples\whatTimeIsIt.asm
 examples\philosophers\philosophers1.asm
-examples\roulette\roulette_flat.asm
 examples\traffic_light\oneWayTrafficLight_inline.asm
 examples\GilbreathCardTrick\workingButNotElegant\GilbreathCardTrickWithAuxFunctionSimpleForAsmetaSMV.asm
 examples\ABZ2020\CarSystemModule\CarSystem009\CarSystem009main.asm
@@ -367,7 +359,6 @@ examples\TrafficLightYakindu\TrafficLight3\TrafficLight_3.asm
 examples\NeedhamSchroeder\NeedhamSchroederLowe.asm
 examples\philosophers\philosophers3.asm
 examples\models\ordersystem_april2010.asm
-examples\hemodialysisDevice\SCP2017\HemodialysisRef3_flat.asm
 examples\petriNets\forModelAdvisor\petriNet_forModelAdvisor_InconsUpdateViolation2.asm
 examples\ermts_etcs\scenarios\ertms_hl3_scenario7.asm
 examples\TrafficLightYakindu\TrafficLight4\TrafficLight_4.asm
@@ -380,7 +371,6 @@ examples\filosofiEciliegie\filosofiEciliegieAgentsJustLeft.asm
 erinda\fms_io_for_atgt.asm
 examples\fsmsemantics\meta_hooking\FSM_spec0.asm
 examples\landingGearSystem\LGS_EV_v2.asm
-examples\RushHour\RushHour_flat.asm
 examples\ABZ2020\CarSystemModule\CarSystem001\CarSystem001main.asm
 erinda\FMS_IO.asm
 systemc\clock\clock_main.asm
