@@ -294,9 +294,10 @@ public class TranslatorImpl implements Translator {
 
 	/**
 	 * Builds the classpath of the project analyzed by EvoSuite. The EvoSuite
-	 * launcher jars are excluded because they are tools, not dependencies of the
-	 * generated Java class. Every other jar in the dependencies directory is made
-	 * available to both instrumentation and test generation.
+	 * launcher jars and the experiments runner are excluded because they are tools,
+	 * not dependencies of the generated Java class. In particular, the runner may
+	 * contain Java 21 bytecode that EvoSuite cannot analyze. Support jars in the
+	 * dependencies directory remain available to instrumentation and test generation.
 	 */
 	private String buildEvosuiteProjectClasspath(String evosuiteTargetDir) {
 		List<String> classpathEntries = new LinkedList<>();
@@ -305,6 +306,7 @@ public class TranslatorImpl implements Translator {
 		File dependenciesDir = new File(fileManager.getEvosuiteJarDirPathToString());
 		File[] dependencyJars = dependenciesDir.listFiles(file -> file.isFile()
 				&& file.getName().toLowerCase(Locale.ROOT).endsWith(".jar")
+				&& !"experiments-runner.jar".equals(file.getName())
 				&& !TranslatorConstants.EVOSUITE_1_0_6_JAR.equals(file.getName())
 				&& !TranslatorConstants.EVOSUITE_1_2_0_JAR.equals(file.getName()));
 

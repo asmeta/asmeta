@@ -26,6 +26,8 @@ import asmeta.terms.furtherterms.ComplexTerm;
 import asmeta.terms.furtherterms.ConditionalTerm;
 import asmeta.terms.furtherterms.EnumTerm;
 import asmeta.terms.furtherterms.ExistTerm;
+import asmeta.terms.furtherterms.ExistsTerm;
+import asmeta.terms.furtherterms.FiniteQuantificationTerm;
 import asmeta.terms.furtherterms.ForallTerm;
 import asmeta.terms.furtherterms.IntegerTerm;
 import asmeta.terms.furtherterms.NaturalTerm;
@@ -239,8 +241,8 @@ class TermConverter {
 			Term guard = forallTerm.getGuard();
 			Expression result = combine(vars, ranges, guard, Operator.AND);
 			return result;
-		} else if (term instanceof ExistTerm) {
-			ExistTerm existTerm = (ExistTerm) term;
+		} else if (term instanceof ExistTerm || term instanceof ExistsTerm) {
+			FiniteQuantificationTerm existTerm = (FiniteQuantificationTerm) term;
 			List<VariableTerm> vars = existTerm.getVariable();
 			List<Term> ranges = existTerm.getRanges();
 			Term guard = existTerm.getGuard();
