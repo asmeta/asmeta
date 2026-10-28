@@ -37,6 +37,7 @@ public class AsmetaFeatureCheckerTest {
 
 	// Marker to exclude not valid ASM files from the model_list.txt file
 	private static final String MARKER = "// valid asm: 308";
+	private static final String MODEL_LIST_FILE = "../../../../code/experimental/asmeta.evotest/asmeta.evotest.experiments/data/icst-27-exp/model_list.txt";
 
 	Map<String, Predicate<EObject>> featurePredicates = Map.of(
 //			"IntegerDomain", x -> ((x instanceof Function) && ((Function) x).getCodomain() instanceof IntegerDomain),
@@ -115,7 +116,7 @@ public class AsmetaFeatureCheckerTest {
 
 		// Read the "model_list.txt" file containing the list of ASM files to be tested,
 		// but delete all lines before "// valid asm: 308"
-		List<String> modelList = readFilteredModelList(Path.of("model_list.txt"));
+		List<String> modelList = readFilteredModelList(Path.of(MODEL_LIST_FILE));
 
 		// Fetch all files in the directory and all features
 		for (String featureName : featurePredicates.keySet()) {
