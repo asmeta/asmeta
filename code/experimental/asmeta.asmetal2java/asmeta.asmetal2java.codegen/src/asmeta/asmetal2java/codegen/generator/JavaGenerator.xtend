@@ -257,7 +257,7 @@ class JavaGenerator extends AsmToJavaGenerator {
 		var sb = new StringBuffer;
 		for (dd : asm.headerSection.signature.domain) {
 
-			if (dd instanceof AbstractTd == false && !org.asmeta.flattener.agents.AgentFlattener.isReserveDomain(dd))
+			if (dd instanceof AbstractTd == false)
 				sb.append(
 					"//Variabile di tipo Concreto o Enumerativo" + "\n\n" + createDomainToJavaSigDef(asm).visit(dd) +
 						"\n")

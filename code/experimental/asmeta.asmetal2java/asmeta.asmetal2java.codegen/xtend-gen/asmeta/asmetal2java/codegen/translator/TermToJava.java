@@ -98,18 +98,7 @@ public class TermToJava extends ReflectiveVisitor<String> {
     if ((domain instanceof BooleanDomain)) {
       return "(Boolean.FALSE, Boolean.TRUE)";
     } else {
-      if (((domain instanceof AbstractTd) || (domain instanceof ConcreteDomain))) {
-        String _name = domain.getName();
-        return (_name + ".elems");
-      } else {
-        if ((domain instanceof EnumTd)) {
-          String _name_1 = ((EnumTd)domain).getName();
-          String _plus = ("java.util.Arrays.asList(" + _name_1);
-          return (_plus + ".values())");
-        } else {
-          throw new RuntimeException((("domain " + domain) + " cannot be translated to Java"));
-        }
-      }
+      throw new RuntimeException((("domain " + domain) + " cannot be translated to Java"));
     }
   }
 
@@ -323,22 +312,10 @@ public class TermToJava extends ReflectiveVisitor<String> {
           expression = expression.replace((variableName + ".value"), variableName);
         }
         final String domainName = new DomainToJavaString(this.res).visit(baseDomain);
-        Term _get = object.getRanges().get(i);
-        boolean _not = (!(_get instanceof DomainTerm));
-        if (_not) {
-          String _rangeStream = this.rangeStream(object.getRanges().get(i));
-          String _plus = (_rangeStream + ".anyMatch(");
-          String _plus_1 = (_plus + variableName);
-          String _plus_2 = (_plus_1 + " -> ");
-          String _plus_3 = (_plus_2 + expression);
-          String _plus_4 = (_plus_3 + ")");
-          expression = _plus_4;
+        if ((baseDomain instanceof EnumTd)) {
+          expression = (((((("Arrays.stream(" + domainName) + ".values()).anyMatch(") + variableName) + " -> ") + expression) + ")");
         } else {
-          if ((baseDomain instanceof EnumTd)) {
-            expression = (((((("Arrays.stream(" + domainName) + ".values()).anyMatch(") + variableName) + " -> ") + expression) + ")");
-          } else {
-            expression = (((((domainName + ".elems.stream().anyMatch(") + variableName) + " -> ") + expression) + ")");
-          }
+          expression = (((((domainName + ".elems.stream().anyMatch(") + variableName) + " -> ") + expression) + ")");
         }
       }
     }
@@ -407,14 +384,14 @@ public class TermToJava extends ReflectiveVisitor<String> {
     for (int i = 0; (i < object.getVariable().size()); i++) {
       StringConcatenation _builder_1 = new StringConcatenation();
       _builder_1.append("\t");
-      String _javaType = Util.javaType(object.getAssignmentTerm().get(i).getDomain(), this.res);
-      _builder_1.append(_javaType, "\t");
-      _builder_1.append(" ");
-      String _visit = this.visit(object.getVariable().get(i));
+      String _visit = new DomainToJavaString(this.res).visit(object.getAssignmentTerm().get(i).getDomain());
       _builder_1.append(_visit, "\t");
-      _builder_1.append(" = ");
-      String _visit_1 = this.visit(object.getAssignmentTerm().get(i));
+      _builder_1.append(" ");
+      String _visit_1 = this.visit(object.getVariable().get(i));
       _builder_1.append(_visit_1, "\t");
+      _builder_1.append(" = ");
+      String _visit_2 = this.visit(object.getAssignmentTerm().get(i));
+      _builder_1.append(_visit_2, "\t");
       _builder_1.append(";");
       _builder_1.newLineIfNotEmpty();
       let.append(_builder_1);

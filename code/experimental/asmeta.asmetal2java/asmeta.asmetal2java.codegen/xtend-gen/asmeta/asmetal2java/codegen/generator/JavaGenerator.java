@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import org.asmeta.flattener.agents.AgentFlattener;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.xbase.lib.CollectionLiterals;
@@ -496,7 +495,7 @@ public class JavaGenerator extends AsmToJavaGenerator {
     StringBuffer sb = new StringBuffer();
     EList<Domain> _domain = asm.getHeaderSection().getSignature().getDomain();
     for (final Domain dd : _domain) {
-      if ((((dd instanceof AbstractTd) == false) && (!AgentFlattener.isReserveDomain(dd)))) {
+      if (((dd instanceof AbstractTd) == false)) {
         String _visit = this.createDomainToJavaSigDef(asm).visit(dd);
         String _plus = (("//Variabile di tipo Concreto o Enumerativo" + "\n\n") + _visit);
         String _plus_1 = (_plus + 

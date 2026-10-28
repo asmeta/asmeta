@@ -22,7 +22,6 @@ import asmeta.definitions.domains.StringDomain;
 import asmeta.definitions.domains.UndefDomain;
 import asmeta.structure.Asm;
 import asmeta.terms.basicterms.FunctionTerm;
-import org.asmeta.flattener.agents.AgentFlattener;
 import org.asmeta.parser.util.ReflectiveVisitor;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.xbase.lib.Exceptions;
@@ -65,7 +64,7 @@ public class DomainToJavaString extends ReflectiveVisitor<String> {
   }
 
   public String visit(final ConcreteDomain domain) {
-    return AgentFlattener.reserveJavaType(domain);
+    return domain.getName();
   }
 
   public String visit(final EnumElement elem) {

@@ -16,7 +16,6 @@ import asmeta.definitions.domains.AnyDomain
 import asmeta.asmetal2java.codegen.translator.ProductToJava
 import asmeta.asmetal2java.codegen.config.TranslatorOptions
 import asmeta.asmetal2java.codegen.translator.Util
-import org.asmeta.flattener.agents.AgentFlattener
 
 /**
  * Contains all the methods to control the translated java class as 
@@ -42,7 +41,7 @@ class AsmMethods {
 
 		var asmName = asm.name;
 		for (fd : asm.headerSection.signature.function) {
-			if (Util.isControlledOrOut(fd) && !AgentFlattener.isInternal(fd)) {
+			if (Util.isControlledOrOut(fd)) {
 				sb.append(System.lineSeparator)
 				if (fd.domain === null) { // [] -> ...
 				// use the wrapper objects to prevent NullPointerException
@@ -215,7 +214,7 @@ class AsmMethods {
 							} else if (dd instanceof AbstractTd) { // Abstract -> ...
 								for (sf : asm.headerSection.signature.function) {
 									if (sf instanceof StaticFunction) {
-										if (sf.codomain.equals(dd) && sf.domain === null && AgentFlattener.acceptsArgument(fd, sf)) {
+										if (sf.codomain.equals(dd) && sf.domain === null && sf.definition === null) {
 											var symbol = sf.name
 											if (fd.codomain instanceof ConcreteDomain) { // Abstract -> ConcreteDomain
 												var type = AsmMethodsUtil.getConcreteDomainType(asm, fd,
@@ -591,7 +590,7 @@ class AsmMethods {
 					} else if (fd.domain instanceof AbstractTd) { // Abstract -> ...
 						for (sf : asm.headerSection.signature.function) {
 							if (sf instanceof StaticFunction) {
-								if (sf.codomain.equals(fd.domain) && sf.domain === null && AgentFlattener.acceptsArgument(fd, sf)) {
+								if (sf.codomain.equals(fd.domain) && sf.domain === null && sf.definition === null) {
 									var symbol = sf.name
 									if (fd.codomain instanceof ConcreteDomain) { // Abstract -> ConcreteDomain
 										var type = AsmMethodsUtil.getConcreteDomainType(asm, fd, fd.codomain.name)
