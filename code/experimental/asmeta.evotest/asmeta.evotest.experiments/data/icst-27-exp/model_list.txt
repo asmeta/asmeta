@@ -23,8 +23,9 @@
 //examples\hemodialysisDevice\ABZ2016\old_completedModels                                                  // old directory
 //examples\simple_example\oldATM                                                                           // old directory
 
-// skip asm: 1
+// skip asm: 2
 //examples\simple_example\iterativeWhile.asm                                                               // skip asm
+//examples\simple_example\AdvancedClockDeciSecond.asm                                                      // skip asm
 
 // old asm: 6
 //DAS\TrafficMonitoringSystem\OrganizationMiddleware_old_old.asm                                           // old asm
@@ -125,9 +126,7 @@
 
 // parsing error: 0
 
-// no par rule: 0
-
-// valid asm: 296
+// valid asm: 295
 examples\simple_example\population.asm
 examples\landingGearSystem\LGS_EV.asm
 PillBox\Level1\pillbox_1.asm
@@ -242,7 +241,6 @@ examples\petriNets\forAsmetaSMV\petriNet_forNuSMV_notLive_bound1_deadlockFree.as
 examples\Yahalom\FlawedYahalom.asm
 examples\models\lift3.asm
 examples\ABZ2020\CarSystemModule\CarSystem006\CarSystem006main.asm
-examples\simple_example\AdvancedClockDeciSecond.asm
 examples\traffic_light\oneWayTrafficLightOnlyPassed.asm
 examples\ferryman\ferrymanSimulator_raff1.asm
 examples\sluicegate\Timer\sluiceGateMotorCtl2_Timer.asm
