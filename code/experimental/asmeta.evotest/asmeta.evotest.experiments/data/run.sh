@@ -8,11 +8,7 @@ case "$1" in
     ;;
 
   rnd-generation)
-    if [ "$5" == "--shuffle" ]; then
-      java -cp "$JAR" asmeta.evotest.experiments.RandomGeneratorRunner "$2" "$3" "$4" --shuffle > rnd_generation.log 2>&1
-    else
-      java -cp "$JAR" asmeta.evotest.experiments.RandomGeneratorRunner "$2" "$3" "$4" > rnd_generation.log 2>&1
-    fi
+    java -cp "$JAR" asmeta.evotest.experiments.RandomGeneratorRunner "$2" "$3" "$4" "${@:5}" > rnd_generation.log 2>&1
     ;;
     
   iterative-rnd-generation)
@@ -35,7 +31,7 @@ case "$1" in
     echo "Usage:"
     echo -e "*for generating and analyzing the suites configured in 'generation_config.yaml':\n\t./run.sh generation-and-analysis [--shuffle]"
     echo -e "*for generating using the config file 'generation_config.yaml':\n\t./run.sh generation"
-    echo -e "*for generating using random with number of tests and steps retrived from suites generated with 'generation' option:\n\t./run.sh rnd-generation <path/to/results> <path/to/asm_examples> <path/to/model_list.txt> [--shuffle]"
+    echo -e "*for generating using random with number of tests and steps retrieved from suites generated with 'generation' option:\n\t./run.sh rnd-generation <path/to/results> <path/to/asm_examples> <path/to/model_list.txt> [--shuffle] [--folders folder1,folder2,...], if --folders is not specified, default to atgttests,evoavallatests"
     echo -e "*for generating using iterative random generation:\n\t./run.sh iterative-rnd-generation <path/to/results> <path/to/asm_examples> <path/to/model_list.txt> <timeBudget> [--shuffle]"
     echo -e "*for running the analysis\n\t./run.sh analysis <path/to/results> [--shuffle]"
     ;;

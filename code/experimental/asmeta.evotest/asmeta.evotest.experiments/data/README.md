@@ -27,6 +27,9 @@ Contains all outputs, configuration files, and the required JARs/scripts to full
 Experiments for the paper **"Generating Abstract Tests for Asmeta Models by Using Code Transformations and EvoSuite"**,  
 rejected at ICST 2026 and submitted to ICST 2027.  
 Contain only results and the Python notebooks used to analyze the data in `data.csv`. To replicate these experiments, use the JARs and scripts located in the base folder `data/`.
+For `icst-27-exp`, the experiments were rerun with a newer version of EvoSuite (1.2.0)
+and running the experiments requires two additional dependencies in the root directory of the run:
+`commons-collections4-4.4.jar` and `javatuples-3.0.jar`.
 
 ### `nfm-26-exp/`
 Experiments for **"Evaluating coverage and fault detection capability of scenarios for the validation of Asmeta specifications"**,  

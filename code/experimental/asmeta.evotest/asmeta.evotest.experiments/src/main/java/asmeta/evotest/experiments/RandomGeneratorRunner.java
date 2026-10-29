@@ -5,8 +5,11 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
@@ -29,9 +32,9 @@ public class RandomGeneratorRunner {
 
 	private static final Logger LOG = Logger.getLogger(RandomGeneratorRunner.class);
 
-	public enum CopiedAlgorithm {
-		ATGT, EVO_AVALLA
-	}
+	private static final List<String> DEFAULT_SOURCE_DIRS = List.of(
+			ScenarioGeneratorRunner.ATGT_DIR,
+			ScenarioGeneratorRunner.EVOAVALLA_DIR);
 
 	/**
 	 * Entry point for generating scenario with random test generator with number of
@@ -45,9 +48,10 @@ public class RandomGeneratorRunner {
 	 *             <li>{@code args[1]} – the base directory with the asm files</li>
 	 *             <li>{@code args[2]} – the path to the .txt file with the list of
 	 *             asm files for which to generate random test cases</li>
-	 *             <li>{@code args[3]} – {@code --shuffle}: optional flag that
-	 *             enables shuffled, non-deterministic execution of choose rules
-	 *             when present; if omitted, execution is deterministic</li>
+	 *             <li>optional {@code --shuffle} flag, enabling shuffled,
+	 *             non-deterministic execution of choose rules</li>
+	 *             <li>{@code --folders folder1,folder2,...} – optional comma-separated
+	 *             list of source folders instead of the default folders</li>
 	 *             </ul>
 	 */
 	public static void main(String[] args) {
@@ -59,19 +63,35 @@ public class RandomGeneratorRunner {
 		System.setOut(new PrintStream(OutputStream.nullOutputStream()));
 		
 		// Validate arguments
-		if (args.length < 3)
+		if (args.length < 3) {
 			LOG.error("Missing argument.");
+			return;
+		}
 		String resultsDir = args[0];
 		String asmExamples = args[1];
 		String modelList = args[2];
-		boolean shuffle;
-		if (args.length == 3) {
-			shuffle = false;
-		} else {
-			if (args[3].equals("--shuffle")) {
+		boolean shuffle = false;
+		List<String> sourceDirs = new ArrayList<>(DEFAULT_SOURCE_DIRS);
+		for (int i = 3; i < args.length; i++) {
+			switch (args[i]) {
+			case "--shuffle":
 				shuffle = true;
-			} else {
-				LOG.error("Error in second argument: it must be --shuffle or not be present.");
+				break;
+			case "--folders":
+				if (++i >= args.length || args[i].isBlank()) {
+					LOG.error("Missing value for --folders.");
+					return;
+				}
+				sourceDirs = Arrays.stream(args[i].split(","))
+						.map(String::trim).filter(folder -> !folder.isEmpty()).toList();
+				if (sourceDirs.isEmpty()) {
+					LOG.error("The --folders list cannot be empty.");
+					return;
+				}
+				break;
+			default:
+				LOG.error("Unknown argument: " + args[i]
+						+ ". Use --shuffle and/or --folders folder1,folder2.");
 				return;
 			}
 		}
@@ -95,32 +115,33 @@ public class RandomGeneratorRunner {
 			String asmPath = Paths.get(asmExamples).resolve(line).toString().replace('\\', '/');
 			String asmName = asmPath.substring(asmPath.lastIndexOf('/') + 1).replace(".asm", "");
 			LOG.info("\nGenerating test for: " + asmName + ".");
-			runRandom(resultsDir, asmPath, asmName, CopiedAlgorithm.ATGT, shuffle);
-			runRandom(resultsDir, asmPath, asmName, CopiedAlgorithm.EVO_AVALLA, shuffle);
+			for (String sourceDir : sourceDirs)
+				runRandom(resultsDir, asmPath, asmName, sourceDir, shuffle);
 		}
 	}
 
-	private static void runRandom(String resultsDir, String asmPath, String asmName, CopiedAlgorithm alg, boolean shuffle) {
+	private static void runRandom(String resultsDir, String asmPath, String asmName, String sourceFolder,
+			boolean shuffle) {
 		// Initialize input and output dirs
-		String targetDir = resultsDir + File.separator;
-		String sourceDir = resultsDir + File.separator;
-		if (alg == CopiedAlgorithm.ATGT) {
-			LOG.info("Copying number of tests and steps from ATGT");
-			targetDir += RANDOM_ATGT_DIR;
-			sourceDir += ScenarioGeneratorRunner.ATGT_DIR;
-		} else {
-			LOG.info("Copying number of tests and steps from EvoAvalla");
-			targetDir += RANDOM_EVOAVALLA_DIR;
-			sourceDir += ScenarioGeneratorRunner.EVOAVALLA_DIR;
+		Path sourcePath = Paths.get(resultsDir).resolve(sourceFolder);
+		Path targetPath = Paths.get(resultsDir).resolve(targetFolderFor(sourceFolder));
+		LOG.info("Copying number of tests and steps from " + sourceFolder);
+		File[] testSuites = sourcePath.toFile().listFiles();
+		if (testSuites == null) {
+			LOG.error("Source folder not found or not readable: " + sourcePath);
+			return;
 		}
-		File[] testSuites = new File(sourceDir).listFiles();
 		boolean found = false;
 		// Search the test suite corresponding to the given asm
 		for (File tsFile : testSuites) {
 			String tsDir = tsFile.getPath();
-			String tsAsmName = tsDir.substring(tsDir.indexOf("_") + 1);
-			String prefix = tsDir.substring(tsDir.lastIndexOf(File.separator) + 1, tsDir.indexOf("_") + 1);
-			String fullTargetDir = targetDir + File.separator + prefix + asmName;
+			String suiteName = tsFile.getName();
+			int separator = suiteName.indexOf("_");
+			if (separator < 0)
+				continue;
+			String tsAsmName = suiteName.substring(separator + 1);
+			String prefix = suiteName.substring(0, separator + 1);
+			String fullTargetDir = targetPath.resolve(prefix + asmName).toString();
 			if (tsAsmName.equals(asmName)) {
 				try {
 					File targetDirFile = new File(fullTargetDir);
@@ -146,13 +167,21 @@ public class RandomGeneratorRunner {
 			LOG.error("For the given specification, the algorithm to be `copied` did not generate any scenario"
 					+ ", or random generation resulted in an error.");
 			try {
-				String fullTargetDir = targetDir + File.separator + "ERR_" + asmName;
+				String fullTargetDir = targetPath.resolve("ERR_" + asmName).toString();
 				new File(fullTargetDir).mkdirs();
 				YamlManager.write(fullTargetDir, asmName, asmPath, Float.NaN, LocalDateTime.now().toString());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	private static String targetFolderFor(String sourceFolder) {
+		if (ScenarioGeneratorRunner.ATGT_DIR.equals(sourceFolder))
+			return RANDOM_ATGT_DIR;
+		if (ScenarioGeneratorRunner.EVOAVALLA_DIR.equals(sourceFolder))
+			return RANDOM_EVOAVALLA_DIR;
+		return "random4" + Paths.get(sourceFolder).getFileName();
 	}
 }
 	
