@@ -28,6 +28,8 @@ import org.junit.jupiter.api.Test;
 import asmeta.definitions.Invariant;
 import asmeta.definitions.MonitoredFunction;
 import asmeta.definitions.OutFunction;
+import asmeta.definitions.domains.AgentDomain;
+import asmeta.definitions.domains.ConcreteDomain;
 import asmeta.structure.ImportClause;
 import asmeta.transitionrules.basictransitionrules.ExtendRule;
 import asmeta.transitionrules.basictransitionrules.ForallRule;
@@ -47,7 +49,9 @@ public class AsmetaFeatureCheckerTest {
 //			"String-Controlled", x -> ((x instanceof ControlledFunction) && ((Function) x).getCodomain() instanceof StringDomain),
 //			"AnyDomain", x -> ((x instanceof Function) && ((Function) x).getCodomain() instanceof AnyDomain),
 //			"RealDomain", x -> ((x instanceof Function) && ((Function) x).getCodomain() instanceof RealDomain),
-//			"AgentDomain", x -> ((x instanceof Function) && ((Function) x).getCodomain() instanceof AgentDomain),
+			"AgentDomain", x -> x instanceof AgentDomain
+					|| (x instanceof ConcreteDomain cd
+							&& cd.getTypeDomain() instanceof AgentDomain),
 //			"StructuredDomain", x -> ((x instanceof Function) && ((Function) x).getCodomain() instanceof StructuredTd),
 //			"LetRule", x -> (x instanceof LetRule),
 //			"ExtendRule", x -> (x instanceof ExtendRule),
