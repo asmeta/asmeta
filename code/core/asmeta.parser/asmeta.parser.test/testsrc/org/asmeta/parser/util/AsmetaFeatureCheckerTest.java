@@ -25,44 +25,56 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import asmeta.definitions.Function;
 import asmeta.definitions.Invariant;
+import asmeta.definitions.ControlledFunction;
+import asmeta.definitions.InvarConstraint;
 import asmeta.definitions.MonitoredFunction;
 import asmeta.definitions.OutFunction;
 import asmeta.definitions.domains.AgentDomain;
+import asmeta.definitions.domains.AnyDomain;
+import asmeta.definitions.domains.BooleanDomain;
 import asmeta.definitions.domains.ConcreteDomain;
+import asmeta.definitions.domains.EnumTd;
+import asmeta.definitions.domains.IntegerDomain;
+import asmeta.definitions.domains.RealDomain;
+import asmeta.definitions.domains.StringDomain;
+import asmeta.definitions.domains.StructuredTd;
 import asmeta.structure.ImportClause;
+import asmeta.transitionrules.basictransitionrules.ChooseRule;
 import asmeta.transitionrules.basictransitionrules.ExtendRule;
 import asmeta.transitionrules.basictransitionrules.ForallRule;
+import asmeta.transitionrules.basictransitionrules.LetRule;
+import asmeta.transitionrules.basictransitionrules.MacroCallRule;
 import asmeta.transitionrules.basictransitionrules.impl.LetRuleImpl;
 
 public class AsmetaFeatureCheckerTest {
 
-	// Marker to exclude not valid ASM files from the model_list.txt file
-	private static final String MARKER = "// valid asm: 295";
-	private static final String MODEL_LIST_FILE = "../../../../code/experimental/asmeta.evotest/asmeta.evotest.experiments/data/icst-27-exp/model_list.txt";
+//	private static final String MODEL_LIST_FILE = "../../../../code/experimental/asmeta.evotest/asmeta.evotest.experiments/data/icst-27-exp/"
+//			+ "model_list.txt";
+	private static final String MODEL_LIST_FILE = "../../../../code/experimental/asmeta.evotest/asmeta.evotest.experiments/data/icst-27-exp/model_lists/"
+			+ "model_list_evoavalla_budget_10_valid.txt";
 
-	Map<String, Predicate<EObject>> featurePredicates = Map.of(
-//			"IntegerDomain", x -> ((x instanceof Function) && ((Function) x).getCodomain() instanceof IntegerDomain),
-//			"BooleanDomain", x -> ((x instanceof Function) && ((Function) x).getCodomain() instanceof BooleanDomain),
-//			"EnumerativeDomain", x -> ((x instanceof Function) && ((Function) x).getCodomain() instanceof EnumTd),
-//			"String-Monitored", x -> ((x instanceof MonitoredFunction) && ((Function) x).getCodomain() instanceof StringDomain),
-//			"String-Controlled", x -> ((x instanceof ControlledFunction) && ((Function) x).getCodomain() instanceof StringDomain),
-//			"AnyDomain", x -> ((x instanceof Function) && ((Function) x).getCodomain() instanceof AnyDomain),
-//			"RealDomain", x -> ((x instanceof Function) && ((Function) x).getCodomain() instanceof RealDomain),
-			"AgentDomain", x -> x instanceof AgentDomain
-					|| (x instanceof ConcreteDomain cd
-							&& cd.getTypeDomain() instanceof AgentDomain),
-//			"StructuredDomain", x -> ((x instanceof Function) && ((Function) x).getCodomain() instanceof StructuredTd),
-//			"LetRule", x -> (x instanceof LetRule),
-//			"ExtendRule", x -> (x instanceof ExtendRule),
-			"ForallRule", x -> (x instanceof ForallRule),
-//			"MacroRuleWithParams", x -> (x instanceof MacroCallRule && !((MacroCallRule) x).getParameters().isEmpty()),
-//			"Invariant", x -> (x instanceof Invariant),
-//			"ChooseRule", x -> (x instanceof ChooseRule),
-//			"SubsetOfInt", x -> ((x instanceof Function) && ((Function) x).getCodomain() instanceof ConcreteDomain) && 
-//                    (((ConcreteDomain) ((Function) x).getCodomain()).getTypeDomain() instanceof IntegerDomain),
-//            "INVAR", x -> (x instanceof InvarConstraint),
-			"Modules", x -> (x instanceof ImportClause ic && !AsmetaParserUtility.isAsmetaLibrary(ic.getModuleName())));
+	Map<String, Predicate<EObject>> featurePredicates = Map.ofEntries(
+			Map.entry("IntegerDomain", x -> ((x instanceof Function) && ((Function) x).getCodomain() instanceof IntegerDomain)),
+			Map.entry("BooleanDomain", x -> ((x instanceof Function) && ((Function) x).getCodomain() instanceof BooleanDomain)),
+			Map.entry("EnumerativeDomain", x -> ((x instanceof Function) && ((Function) x).getCodomain() instanceof EnumTd)),
+			Map.entry("String-Monitored", x -> ((x instanceof MonitoredFunction) && ((Function) x).getCodomain() instanceof StringDomain)),
+			Map.entry("String-Controlled", x -> ((x instanceof ControlledFunction) && ((Function) x).getCodomain() instanceof StringDomain)),
+			Map.entry("AnyDomain", x -> ((x instanceof Function) && ((Function) x).getCodomain() instanceof AnyDomain)),
+			Map.entry("RealDomain", x -> ((x instanceof Function) && ((Function) x).getCodomain() instanceof RealDomain)),
+			Map.entry("AgentDomain", x -> (x instanceof AgentDomain || (x instanceof ConcreteDomain cd && cd.getTypeDomain() instanceof AgentDomain))),
+			Map.entry("StructuredDomain", x -> ((x instanceof Function) && ((Function) x).getCodomain() instanceof StructuredTd)),
+			Map.entry("LetRule", x -> (x instanceof LetRule)),
+			Map.entry("ExtendRule", x -> (x instanceof ExtendRule)),
+			Map.entry("ForallRule", x -> (x instanceof ForallRule)),
+			Map.entry("MacroRuleWithParams", x -> (x instanceof MacroCallRule && !((MacroCallRule) x).getParameters().isEmpty())),
+			Map.entry("Invariant", x -> (x instanceof Invariant)),
+			Map.entry("ChooseRule", x -> (x instanceof ChooseRule)),
+			Map.entry("SubsetOfInt", x -> ((x instanceof Function) && ((Function) x).getCodomain() instanceof ConcreteDomain)
+					&& (((ConcreteDomain) ((Function) x).getCodomain()).getTypeDomain() instanceof IntegerDomain)),
+			Map.entry("INVAR", x -> (x instanceof InvarConstraint)),
+			Map.entry("Modules", x -> (x instanceof ImportClause ic && !AsmetaParserUtility.isAsmetaLibrary(ic.getModuleName()))));
 
 	@BeforeAll
 	static void setUpLogger(){
@@ -118,8 +130,7 @@ public class AsmetaFeatureCheckerTest {
 	@Test void visitAsmExamples() throws Exception {
 		AsmetaFeatureChecker spr;
 
-		// Read the "model_list.txt" file containing the list of ASM files to be tested,
-		// but delete all lines before "// valid asm: 295"
+		// Read all non-comment ASM paths from the selected model list.
 		List<String> modelList = readFilteredModelList(Path.of(MODEL_LIST_FILE));
 
 		// Fetch all files in the directory and all features
@@ -142,6 +153,8 @@ public class AsmetaFeatureCheckerTest {
 		}
 	}
 
+	// Old method used for ICST 2026 to fill the green/red dots in the table in the paper,
+	// now replaced by visitAsmExamples() with the different model list .txt files
 	@Test void visitAsmResults() throws Exception {
 		AsmetaFeatureChecker spr;
 
@@ -182,22 +195,13 @@ public class AsmetaFeatureCheckerTest {
 	 */
 	public static List<String> readFilteredModelList(Path filePath) throws IOException {
 		List<String> result = new ArrayList<>();
-		boolean startCollecting = false;
 
 		try (BufferedReader br = Files.newBufferedReader(filePath)) {
 			String line;
 			while ((line = br.readLine()) != null) {
-				// Check when to start collecting lines
-				if (!startCollecting) {
-					if (line.trim().equals(MARKER)) {
-						startCollecting = true;
-					}
-					continue; // skip everything until we hit the marker
-				}
-
-				// Only collect lines after the marker
-				if (!line.trim().isEmpty()) {
-					result.add(line.trim());
+				String trimmed = line.trim();
+				if (!trimmed.isEmpty() && !trimmed.startsWith("//")) {
+					result.add(trimmed);
 				}
 			}
 		}
