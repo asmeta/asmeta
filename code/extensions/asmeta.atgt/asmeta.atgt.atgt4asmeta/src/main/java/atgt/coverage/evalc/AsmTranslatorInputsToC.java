@@ -22,11 +22,6 @@ import atgt.coverage.TPIndex;
 import atgt.coverage.ToTpIndex;
 import atgt.coverage.VisitableTPTreeNode;
 import atgt.specification.ASMSpecification;
-import atgt.specification.location.Constant;
-import atgt.specification.location.DerivedFunction;
-import atgt.specification.location.Function;
-import atgt.specification.location.Location;
-import atgt.specification.location.Variable;
 import atgt.specification.statement.RuleDeclaration;
 import atgt.translator.ExpressionToC;
 import tgtlib.definitions.expression.Expression;
@@ -35,6 +30,11 @@ import tgtlib.definitions.expression.type.ElementsType;
 import tgtlib.definitions.expression.type.EnumConst;
 import tgtlib.definitions.expression.type.Type;
 import tgtlib.evalcoverage.TranslatorInputsToC;
+import tgtlib.specification.location.Constant;
+import tgtlib.specification.location.DerivedFunction;
+import tgtlib.specification.location.Function;
+import tgtlib.specification.location.Location;
+import tgtlib.specification.location.Variable;
 import tgtlib.util.IterableEnumeration;
 
 /**

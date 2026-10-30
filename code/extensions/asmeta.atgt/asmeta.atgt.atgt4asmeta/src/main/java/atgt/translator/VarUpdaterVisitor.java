@@ -10,15 +10,15 @@
  ******************************************************************************/
 package atgt.translator;
 
-import atgt.specification.location.Constant;
-import atgt.specification.location.Function;
-import atgt.specification.location.LocationVisitorI;
-import atgt.specification.location.LogicalVariable;
-import atgt.specification.location.Variable;
 import tgtlib.definitions.expression.type.BoundType;
 import tgtlib.definitions.expression.type.ElementsType;
 import tgtlib.definitions.expression.type.EnumConst;
 import tgtlib.definitions.expression.type.EnumType;
+import tgtlib.specification.location.Constant;
+import tgtlib.specification.location.Function;
+import tgtlib.specification.location.LocationVisitorI;
+import tgtlib.specification.location.LogicalVariable;
+import tgtlib.specification.location.Variable;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -46,7 +46,7 @@ public class VarUpdaterVisitor implements LocationVisitorI<StringBuffer> {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see atgt.specification.location.LocationVisitorI#forConstant(atgt.specification.location.Constant)
+	 * @see tgtlib.specification.location.LocationVisitorI#forConstant(tgtlib.specification.location.Constant)
 	 */
 	@Override
 	public StringBuffer forConstant(Constant c) {
@@ -59,7 +59,7 @@ public class VarUpdaterVisitor implements LocationVisitorI<StringBuffer> {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see atgt.specification.location.LocationVisitorI#forVariable(atgt.specification.location.Variable)
+	 * @see tgtlib.specification.location.LocationVisitorI#forVariable(tgtlib.specification.location.Variable)
 	 */
 	@Override
 	public StringBuffer forVariable(Variable v) {
@@ -76,7 +76,7 @@ public class VarUpdaterVisitor implements LocationVisitorI<StringBuffer> {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see atgt.specification.location.LocationVisitorI#forFunction(atgt.specification.location.Function)
+	 * @see tgtlib.specification.location.LocationVisitorI#forFunction(tgtlib.specification.location.Function)
 	 */
 	@Override
 	public StringBuffer forFunction(Function f) {

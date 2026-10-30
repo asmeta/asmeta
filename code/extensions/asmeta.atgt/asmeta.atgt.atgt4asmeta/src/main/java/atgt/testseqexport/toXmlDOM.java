@@ -24,8 +24,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 import atgt.coverage.AsmTestSequence;
-import atgt.specification.location.Location;
-import atgt.specification.location.Variable;
+import tgtlib.specification.location.Location;
+import tgtlib.specification.location.Variable;
 
 public class toXmlDOM extends TestSeqTrad {
 

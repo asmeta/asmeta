@@ -10,8 +10,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import atgt.coverage.AsmTestSequence;
-import atgt.specification.location.Location;
-import atgt.specification.location.Variable;
+import tgtlib.specification.location.Location;
+import tgtlib.specification.location.Variable;
 
 public class toXmlSerialTime extends TestSeqTrad {
 

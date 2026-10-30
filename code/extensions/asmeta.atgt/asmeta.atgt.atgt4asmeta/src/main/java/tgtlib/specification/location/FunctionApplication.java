@@ -1,4 +1,4 @@
-package atgt.specification.location;
+package tgtlib.specification.location;
 
 import java.util.List;
 import java.util.stream.Collectors;

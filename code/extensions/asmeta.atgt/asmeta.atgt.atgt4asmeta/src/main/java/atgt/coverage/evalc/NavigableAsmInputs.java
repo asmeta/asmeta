@@ -18,9 +18,9 @@ import java.util.Vector;
 
 import atgt.coverage.AsmTestSequence;
 import atgt.specification.ASMSpecification;
-import atgt.specification.location.Location;
-import atgt.specification.location.Variable;
 import tgtlib.definitions.NavigableInputSequence;
+import tgtlib.specification.location.Location;
+import tgtlib.specification.location.Variable;
 import tgtlib.util.IterableEnumeration;
 import tgtlib.util.Pair;
 

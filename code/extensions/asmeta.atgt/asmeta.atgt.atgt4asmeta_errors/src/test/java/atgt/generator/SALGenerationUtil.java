@@ -20,8 +20,8 @@ import static atgt.preferences.ATGToolPreferences.TP_ORDERING;
 import java.util.Map;
 
 import atgt.preferences.ATGToolPreferences.OrderKind;
-import atgt.specification.location.Location;
-import atgt.specification.location.Variable;
+import tgtlib.specification.location.Location;
+import tgtlib.specification.location.Variable;
 
 /**
  * The Class SALGenerationUtil.

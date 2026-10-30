@@ -17,8 +17,8 @@ import atgt.coverage.AsmTestSuite;
 import atgt.coverage.TestCondition;
 import atgt.parser.asmeta.AsmMLoaderTest;
 import atgt.specification.ASMSpecification;
-import atgt.specification.location.Variable;
 import tgtlib.definitions.expression.type.BoolType;
+import tgtlib.specification.location.Variable;
 import tgtlib.util.IterableEnumeration;
 
 @Disabled //atgt.parser.ParseSpecsAsmm.CC_ASM does not exists

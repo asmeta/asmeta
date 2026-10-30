@@ -19,9 +19,10 @@ import asmeta.definitions.Function;
 import asmeta.definitions.StaticFunction;
 import asmeta.definitions.domains.AbstractTd;
 import atgt.coverage.AsmTestSuite;
-import atgt.specification.location.FunctionApplication;
-import atgt.specification.location.Location;
 import tgtlib.definitions.expression.IdExpression;
+import tgtlib.specification.location.FunctionApplication;
+import tgtlib.specification.location.Location;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;

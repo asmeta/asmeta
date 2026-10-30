@@ -15,11 +15,11 @@ import java.util.Enumeration;
 import org.apache.log4j.Logger;
 
 import atgt.specification.ASMSpecification;
-import atgt.specification.location.Variable;
 import extgt.coverage.combinatorial.MonitorDataExtractor;
 import extgt.coverage.combinatorial.MonitoredData;
 import tgtlib.definitions.expression.type.ElementsType;
 import tgtlib.definitions.expression.type.Type;
+import tgtlib.specification.location.Variable;
 
 /**
  * given a specification extracts the monitored data. is a Specification Visitor

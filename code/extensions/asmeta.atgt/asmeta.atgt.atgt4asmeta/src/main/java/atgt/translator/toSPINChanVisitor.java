@@ -13,13 +13,13 @@ package atgt.translator;
 import java.util.Enumeration;
 
 import atgt.specification.ASMSpecification;
-import atgt.specification.location.Constant;
-import atgt.specification.location.Function;
-import atgt.specification.location.Location;
-import atgt.specification.location.Variable;
 import atgt.specification.statement.RuleDeclaration;
 import tgtlib.definitions.expression.NotExpression;
 import tgtlib.definitions.expression.type.Type;
+import tgtlib.specification.location.Constant;
+import tgtlib.specification.location.Function;
+import tgtlib.specification.location.Location;
+import tgtlib.specification.location.Variable;
 
 // TODO: Auto-generated Javadoc
 /**

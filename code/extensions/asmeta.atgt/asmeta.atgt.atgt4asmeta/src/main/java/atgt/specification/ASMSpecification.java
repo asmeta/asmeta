@@ -7,15 +7,16 @@ import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Set;
-import atgt.specification.location.Constant;
-import atgt.specification.location.DerivedFunction;
-import atgt.specification.location.Function;
-import atgt.specification.location.Variable;
+
 import atgt.specification.statement.RuleDeclaration;
 import tgtlib.definitions.expression.type.BoolType;
 import tgtlib.definitions.expression.type.Type;
 import tgtlib.specification.Axiom;
 import tgtlib.specification.Specification;
+import tgtlib.specification.location.Constant;
+import tgtlib.specification.location.DerivedFunction;
+import tgtlib.specification.location.Function;
+import tgtlib.specification.location.Variable;
 
 /** old class for the specification of an ASM. It contains all the elements of a specification: types, variables, functions, constants, rules, axioms.
  * 

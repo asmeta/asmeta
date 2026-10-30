@@ -27,7 +27,7 @@
 //import atgt.parser.asmeta.AsmMLoaderTest;
 //import atgt.project.AsmProject;
 //import atgt.specification.ASMSpecification;
-//import atgt.specification.location.Variable;
+//import tgtlib.specification.location.Variable;
 //import tgtlib.definitions.TestSequenceState;
 //import tgtlib.definitions.TypedInitExpression;
 //import tgtlib.definitions.expression.Expression;

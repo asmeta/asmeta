@@ -17,8 +17,6 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import atgt.specification.expression.AsmExpressionVisitor;
-import atgt.specification.location.Location;
-import atgt.specification.location.Variable;
 import tgtlib.definitions.expression.AndExpression;
 import tgtlib.definitions.expression.CaseExpression;
 import tgtlib.definitions.expression.CondExpression;
@@ -45,6 +43,8 @@ import tgtlib.definitions.expression.XOrExpression;
 import tgtlib.definitions.expression.visitors.EvaluationNotSupported;
 import tgtlib.definitions.expression.visitors.ExpressionEvaluator;
 import tgtlib.definitions.expression.visitors.MathExpressionEvaluator;
+import tgtlib.specification.location.Location;
+import tgtlib.specification.location.Variable;
 
 /**
  * evaluates an expression against a list of assignments and returns true if it

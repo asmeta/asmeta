@@ -14,9 +14,6 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Vector;
 
-import atgt.specification.location.Constant;
-import atgt.specification.location.Function;
-import atgt.specification.location.Variable;
 import atgt.specification.statement.BasicRule;
 import atgt.specification.statement.CaseStatement;
 import atgt.specification.statement.ChooseRule;
@@ -33,6 +30,9 @@ import tgtlib.definitions.expression.Expression;
 import tgtlib.definitions.expression.NotExpression;
 import tgtlib.definitions.expression.type.Type;
 import tgtlib.specification.SpecificationAnalyzer;
+import tgtlib.specification.location.Constant;
+import tgtlib.specification.location.Function;
+import tgtlib.specification.location.Variable;
 
 // TODO: Auto-generated Javadoc
 /**

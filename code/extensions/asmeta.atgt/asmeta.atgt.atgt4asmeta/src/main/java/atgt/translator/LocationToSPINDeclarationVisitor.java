@@ -10,11 +10,6 @@
  ******************************************************************************/
 package atgt.translator;
 
-import atgt.specification.location.Constant;
-import atgt.specification.location.Function;
-import atgt.specification.location.LocationVisitorI;
-import atgt.specification.location.LogicalVariable;
-import atgt.specification.location.Variable;
 import atgt.specification.type.DummyType;
 import atgt.spin.translator.TypeSPINTranslatorVisitor;
 import tgtlib.definitions.expression.Expression;
@@ -23,6 +18,11 @@ import tgtlib.definitions.expression.type.BoundType;
 import tgtlib.definitions.expression.type.ElementsType;
 import tgtlib.definitions.expression.type.EnumType;
 import tgtlib.definitions.expression.type.Type;
+import tgtlib.specification.location.Constant;
+import tgtlib.specification.location.Function;
+import tgtlib.specification.location.LocationVisitorI;
+import tgtlib.specification.location.LogicalVariable;
+import tgtlib.specification.location.Variable;
 
 /**
  * Formisce i metodi per la dichiarazione delle variabili e delle costanti.
@@ -33,7 +33,7 @@ public class LocationToSPINDeclarationVisitor implements LocationVisitorI<String
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * atgt.specification.location.LocationVisitorI#forConstant(atgt.specification
+	 * tgtlib.specification.location.LocationVisitorI#forConstant(atgt.specification
 	 * .location.Constant)
 	 */
 	@Override
@@ -46,7 +46,7 @@ public class LocationToSPINDeclarationVisitor implements LocationVisitorI<String
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * atgt.specification.location.LocationVisitorI#forVariable(atgt.specification
+	 * tgtlib.specification.location.LocationVisitorI#forVariable(atgt.specification
 	 * .location.Variable)
 	 */
 	@Override
@@ -86,7 +86,7 @@ public class LocationToSPINDeclarationVisitor implements LocationVisitorI<String
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * atgt.specification.location.LocationVisitorI#forFunction(atgt.specification
+	 * tgtlib.specification.location.LocationVisitorI#forFunction(atgt.specification
 	 * .location.Function)
 	 */
 	@Override

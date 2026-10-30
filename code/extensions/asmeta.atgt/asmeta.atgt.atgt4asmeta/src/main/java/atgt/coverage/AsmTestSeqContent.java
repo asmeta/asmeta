@@ -18,11 +18,11 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
-import atgt.specification.location.Function;
-import atgt.specification.location.FunctionApplication;
-import atgt.specification.location.Location;
-import atgt.specification.location.Variable;
 import tgtlib.definitions.expression.IdExpression;
+import tgtlib.specification.location.Function;
+import tgtlib.specification.location.FunctionApplication;
+import tgtlib.specification.location.Location;
+import tgtlib.specification.location.Variable;
 
 /**
  * represents the content of a ASM TEST Sequence*.

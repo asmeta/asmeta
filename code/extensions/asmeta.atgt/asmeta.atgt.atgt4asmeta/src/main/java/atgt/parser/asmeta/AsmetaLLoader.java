@@ -46,9 +46,6 @@ import asmeta.terms.furtherterms.IntegerTerm;
 import asmeta.terms.furtherterms.NaturalTerm;
 import atgt.parser.AsmSpecReader;
 import atgt.specification.ASMSpecification;
-import atgt.specification.location.Constant;
-import atgt.specification.location.Location;
-import atgt.specification.location.Variable;
 import atgt.specification.type.AbstractType;
 import atgt.specification.type.DummyType;
 import tgtlib.definitions.expression.Expression;
@@ -62,6 +59,9 @@ import tgtlib.definitions.expression.type.EnumType;
 import tgtlib.definitions.expression.type.IntegerType;
 import tgtlib.definitions.expression.type.Type;
 import tgtlib.specification.Axiom;
+import tgtlib.specification.location.Constant;
+import tgtlib.specification.location.Location;
+import tgtlib.specification.location.Variable;
 
 /**
  * reads spec written in AsmetaL.
@@ -184,7 +184,7 @@ public class AsmetaLLoader extends AsmSpecReader {
 					Type coType = getDomain(codom);
 					// it's domain (not its values)
 					IdExpression fcId = ecc.createIdExpression(element.getName(), domType);
-					atgt.specification.location.Function var = new atgt.specification.location.Function(fcId, domType,
+					tgtlib.specification.location.Function var = new tgtlib.specification.location.Function(fcId, domType,
 							coType, null/* initValue */);
 					// var.setLaw(fundef.getBodyFunctionExpr());
 					var.setValue(initExpr);
@@ -239,7 +239,7 @@ public class AsmetaLLoader extends AsmSpecReader {
 				Type type = getDomain(dom);
 				// add the derived function
 				IdExpression fcId = ecc.createIdExpression(element.getName(), type);
-				atgt.specification.location.DerivedFunction dv = new atgt.specification.location.DerivedFunction(fcId);
+				tgtlib.specification.location.DerivedFunction dv = new tgtlib.specification.location.DerivedFunction(fcId);
 				SP.addDerivedFunction(dv);
 			} else {
 				throw new RuntimeException("element " + element + "not supported ");
@@ -257,7 +257,7 @@ public class AsmetaLLoader extends AsmSpecReader {
 				assert def != null;
 				assert def.getBody() != null;
 				Expression expr = termConv.translateTerm(def.getBody());
-				atgt.specification.location.DerivedFunction asmder = SP.getDerivedFunction(name);
+				tgtlib.specification.location.DerivedFunction asmder = SP.getDerivedFunction(name);
 				asmder.setValue(expr);
 			}
 		}

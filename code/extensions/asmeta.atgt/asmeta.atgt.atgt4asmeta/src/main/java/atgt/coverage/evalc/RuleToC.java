@@ -16,8 +16,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
-import atgt.specification.location.Location;
-import atgt.specification.location.LogicalVariable;
 import atgt.specification.statement.BasicRule;
 import atgt.specification.statement.CaseStatement;
 import atgt.specification.statement.ChooseRule;
@@ -33,6 +31,8 @@ import tgtlib.definitions.expression.BinaryExpression;
 import tgtlib.definitions.expression.IdExpression;
 import tgtlib.definitions.expression.Operator;
 import tgtlib.evalcoverage.TranslatorInputsToC;
+import tgtlib.specification.location.Location;
+import tgtlib.specification.location.LogicalVariable;
 import tgtlib.util.IterableEnumeration;
 
 /**

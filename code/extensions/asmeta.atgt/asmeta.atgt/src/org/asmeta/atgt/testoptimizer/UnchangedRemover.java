@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import atgt.coverage.AsmTestSequence;
-import atgt.specification.location.Location;
+import tgtlib.specification.location.Location;
 
 // removes values that are unchanged wrt the previous state
 // both monitored and controlled

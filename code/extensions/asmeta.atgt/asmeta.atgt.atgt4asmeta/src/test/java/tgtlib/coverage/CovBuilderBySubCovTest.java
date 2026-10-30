@@ -8,12 +8,12 @@ import tgtlib.definitions.TestPredicate;
 
 import org.junit.jupiter.api.Test;
 
-import atgt.specification.location.Constant;
-import atgt.specification.location.DerivedFunction;
-import atgt.specification.location.Function;
 import tgtlib.definitions.expression.type.Variable;
 import tgtlib.specification.Axiom;
 import tgtlib.specification.Specification;
+import tgtlib.specification.location.Constant;
+import tgtlib.specification.location.DerivedFunction;
+import tgtlib.specification.location.Function;
 
 /**
  */
@@ -86,7 +86,7 @@ class CovBuilderBySubCovTest {
 			}
 
 			@Override
-			public atgt.specification.location.Variable getVariable(String locationName) {
+			public tgtlib.specification.location.Variable getVariable(String locationName) {
 				// TODO Auto-generated method stub
 				return null;
 			}

@@ -30,9 +30,9 @@ import atgt.coverage.TestCondition;
 import atgt.parser.asmeta.AsmetaLLoader;
 import atgt.project.AsmProject;
 import atgt.specification.ASMSpecification;
-import atgt.specification.location.Variable;
 import tgtlib.definitions.expression.Undef;
 import tgtlib.specification.ParseException;
+import tgtlib.specification.location.Variable;
 
 /*
 Test predicates of atgt_examples/SC3.asm

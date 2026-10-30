@@ -10,7 +10,7 @@ import asmeta.AsmCollection;
 import asmetal2cpp_boostunit.ExampleTaker;
 import atgt.coverage.AsmTestSequence;
 import atgt.coverage.AsmTestSuite;
-import atgt.specification.location.Location;
+import tgtlib.specification.location.Location;
 
 public class AsmTestGeneratorBySimulationTest {
 

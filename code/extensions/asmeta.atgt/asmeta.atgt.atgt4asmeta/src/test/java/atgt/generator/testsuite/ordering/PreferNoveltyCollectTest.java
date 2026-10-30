@@ -12,11 +12,11 @@ import org.junit.jupiter.api.Test;
 
 import atgt.preferences.ATGToolPreferences.OrderKind;
 import atgt.specification.ASMSpecification;
-import atgt.specification.location.Variable;
 import tgtlib.definitions.expression.IdExpressionCreator;
 import tgtlib.definitions.expression.type.EnumConst;
 import tgtlib.definitions.expression.type.EnumConstCreator;
 import tgtlib.definitions.expression.type.EnumType;
+import tgtlib.specification.location.Variable;
 
 class PreferNoveltyCollectTest {
 

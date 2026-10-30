@@ -93,9 +93,9 @@ import tgtlib.definitions.expression.type.Variable;
 	public void update(AsmTestSequence tseq) {
 		// potrebbe contenere anche pi� di una istruzione (nel caso di
 		// temporal constraints
-		for (Map<atgt.specification.location.Location, String> instruction : tseq.allInstructions()) {
+		for (Map<tgtlib.specification.location.Location, String> instruction : tseq.allInstructions()) {
 			PreferNovelty.log.debug("HITS: updating for test sequence: "+ instruction.toString());
-			for (Entry<atgt.specification.location.Location, String> p : instruction.entrySet()) {
+			for (Entry<tgtlib.specification.location.Location, String> p : instruction.entrySet()) {
 				int n = hits.get(p.getKey().getName()).get(p.getValue()).intValue();
 				hits.get(p.getKey().getName()).put(p.getValue(), new Integer(n + 1));
 			}

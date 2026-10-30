@@ -11,11 +11,11 @@ import atgt.coverage.AsmCoverageBuilder;
 import atgt.coverage.AsmTestCondition;
 import atgt.generator.AsmMonitoredDataExtractor;
 import atgt.specification.ASMSpecification;
-import atgt.specification.location.Variable;
 import extgt.coverage.combinatorial.MonitoredData;
 import extgt.coverage.combinatorial.StdPairwiseCovBuild;
 import tgtlib.definitions.expression.type.ElementsType;
 import tgtlib.definitions.expression.type.Type;
+import tgtlib.specification.location.Variable;
 
 /**
  * given a specification extracts the data. is a Specification Visitor which
@@ -69,7 +69,7 @@ public class AsmAllDataExtractor extends AsmMonitoredDataExtractor {
 		//
 		MonitoredData result = new MonitoredData();
 		// take the monitored variables
-		for (Enumeration<atgt.specification.location.Variable> e = SP.allVariables(); e.hasMoreElements();) {
+		for (Enumeration<tgtlib.specification.location.Variable> e = SP.allVariables(); e.hasMoreElements();) {
 			Variable var = e.nextElement();
 			if (!(var.isControlled() || var.isMonitored())) {
 				logger.info("ignoring variable " + var.getName()

@@ -19,9 +19,9 @@ import org.junit.jupiter.api.Test;
 import atgt.coverage.AsmTestSequence;
 import atgt.parser.asmgofer.AsmExpressionParser;
 import atgt.parser.asmgofer.ParseException;
-import atgt.specification.location.Location.VarKind;
 import tgtlib.definitions.expression.Expression;
 import tgtlib.definitions.expression.type.BoolType;
+import tgtlib.specification.location.Location.VarKind;
 
 // TODO: Auto-generated Javadoc
 /**

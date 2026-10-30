@@ -13,7 +13,6 @@ import atgt.combinatorial.NWiseEqTestCondition;
 import atgt.coverage.AsmTestCondition;
 import atgt.coverage.AsmTestSequence;
 import atgt.specification.ASMSpecification;
-import atgt.specification.location.Variable;
 import extgt.coverage.combinatorial.MonitoredData;
 import tgtlib.definitions.expression.IdExpressionCreator;
 import tgtlib.definitions.expression.type.BoolType;
@@ -21,6 +20,7 @@ import tgtlib.definitions.expression.type.EnumConst;
 import tgtlib.generator.MCAnalysisResult;
 import tgtlib.generator.MCExecutionResultReader;
 import tgtlib.generator.ParsingModel;
+import tgtlib.specification.location.Variable;
 
 /**Classe di test per la verifica del funzionamento dell'eccezione di errore del modello.*/
 

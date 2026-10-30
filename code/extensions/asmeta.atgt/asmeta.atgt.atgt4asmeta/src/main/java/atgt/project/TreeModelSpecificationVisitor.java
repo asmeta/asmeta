@@ -15,11 +15,6 @@ import java.util.Enumeration;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import atgt.specification.ASMSpecification;
-import atgt.specification.location.Constant;
-import atgt.specification.location.Function;
-import atgt.specification.location.LocationVisitorI;
-import atgt.specification.location.LogicalVariable;
-import atgt.specification.location.Variable;
 import atgt.specification.statement.BasicRule;
 import atgt.specification.statement.CaseStatement;
 import atgt.specification.statement.ChooseRule;
@@ -40,6 +35,11 @@ import tgtlib.definitions.expression.type.Type;
 import tgtlib.definitions.expression.type.TypeVisitorI;
 import tgtlib.specification.Axiom;
 import tgtlib.specification.SpecificationAnalyzer;
+import tgtlib.specification.location.Constant;
+import tgtlib.specification.location.Function;
+import tgtlib.specification.location.LocationVisitorI;
+import tgtlib.specification.location.LogicalVariable;
+import tgtlib.specification.location.Variable;
 
 /**
  * Crea la rappresentazione ad albero della specifica. It uses the data
@@ -132,7 +132,7 @@ public class TreeModelSpecificationVisitor implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see atgt.specification.location.LocationVisitorI#forConstant(atgt.specification.location.Constant)
+	 * @see tgtlib.specification.location.LocationVisitorI#forConstant(tgtlib.specification.location.Constant)
 	 */
 	@Override
 	public DefaultMutableTreeNode forConstant(Constant c) {
@@ -142,7 +142,7 @@ public class TreeModelSpecificationVisitor implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see atgt.specification.location.LocationVisitorI#forVariable(atgt.specification.location.Variable)
+	 * @see tgtlib.specification.location.LocationVisitorI#forVariable(tgtlib.specification.location.Variable)
 	 */
 	@Override
 	public DefaultMutableTreeNode forVariable(Variable v) {
@@ -152,7 +152,7 @@ public class TreeModelSpecificationVisitor implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see atgt.specification.location.LocationVisitorI#forFunction(atgt.specification.location.Function)
+	 * @see tgtlib.specification.location.LocationVisitorI#forFunction(tgtlib.specification.location.Function)
 	 */
 	@Override
 	public DefaultMutableTreeNode forFunction(Function f) {

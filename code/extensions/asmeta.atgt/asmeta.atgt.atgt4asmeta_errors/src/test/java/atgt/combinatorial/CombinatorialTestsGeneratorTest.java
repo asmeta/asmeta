@@ -30,12 +30,12 @@ import atgt.parser.asmgofer.ASMParserTest;
 import atgt.preferences.ATGToolPreferences;
 import atgt.project.AsmProject;
 import atgt.specification.ASMSpecification;
-import atgt.specification.location.Location;
-import atgt.specification.location.Variable;
 import tgtlib.definitions.TypedInitExpression;
 import tgtlib.definitions.expression.type.ElementsType;
 import tgtlib.definitions.expression.type.EnumConst;
 import tgtlib.definitions.expression.type.EnumType;
+import tgtlib.specification.location.Location;
+import tgtlib.specification.location.Variable;
 import tgtlib.util.IterableEnumeration;
 
 /**

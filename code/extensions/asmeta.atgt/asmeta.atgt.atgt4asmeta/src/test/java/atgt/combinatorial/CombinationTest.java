@@ -17,14 +17,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import atgt.specification.location.Variable;
-
 import org.junit.jupiter.api.Test;
 
 import tgtlib.definitions.expression.IdExpression;
 import tgtlib.definitions.expression.type.ElementsType;
 import tgtlib.definitions.expression.type.EnumConstCreator;
 import tgtlib.definitions.expression.type.EnumType;
+import tgtlib.specification.location.Variable;
 import tgtlib.util.combinatorial.CombinationGeneratorList;
 
 class CombinationTest {

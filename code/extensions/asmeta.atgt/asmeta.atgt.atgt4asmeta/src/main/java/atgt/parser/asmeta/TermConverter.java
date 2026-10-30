@@ -37,8 +37,6 @@ import asmeta.terms.furtherterms.impl.ConditionalTermImpl;
 import asmeta.terms.furtherterms.impl.FurthertermsFactoryImpl;
 import atgt.specification.ASMSpecification;
 import atgt.specification.expression.AsmetaOperator;
-import atgt.specification.location.Constant;
-import atgt.specification.location.DerivedFunction;
 import tgtlib.definitions.expression.BinaryExpression;
 import tgtlib.definitions.expression.CaseExpression;
 import tgtlib.definitions.expression.CondExpression;
@@ -53,6 +51,8 @@ import tgtlib.definitions.expression.type.EnumConstCreator;
 import tgtlib.definitions.expression.type.EnumerableType;
 import tgtlib.definitions.expression.type.IntegerType;
 import tgtlib.definitions.expression.type.Type;
+import tgtlib.specification.location.Constant;
+import tgtlib.specification.location.DerivedFunction;
 
 /**
  * converts term from ASMETA TO ATGT
@@ -148,7 +148,7 @@ class TermConverter {
 				Type domain;
 				Type codomain;
 				// normal function (monitored)
-				atgt.specification.location.Function f = SP.getFunction(funName);
+				tgtlib.specification.location.Function f = SP.getFunction(funName);
 				if (f!=null) {
 					domain = f.getDomain();
 					codomain = f.getCodomain();
@@ -175,7 +175,7 @@ class TermConverter {
 				}
 			} else {
 				// a variable
-				atgt.specification.location.Variable f = SP.getVariable(funName);
+				tgtlib.specification.location.Variable f = SP.getVariable(funName);
 				if (f != null) {
 					return f.getIdExpression();
 				}
@@ -370,7 +370,7 @@ class TermConverter {
 		List<T> result = new ArrayList<T>(terms.size());
 		for (Term t : terms) {
 			// t could be a variable
-			atgt.specification.location.Variable f = null;
+			tgtlib.specification.location.Variable f = null;
 			if (t instanceof EnumTerm)
 				f = SP.getVariable(((EnumTerm) t).getSymbol());
 			// if it is not a variable, then translate the term, otherwise create the

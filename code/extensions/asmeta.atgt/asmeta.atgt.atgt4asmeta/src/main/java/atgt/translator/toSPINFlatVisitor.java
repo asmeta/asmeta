@@ -19,16 +19,16 @@ import org.apache.log4j.Logger;
 
 import atgt.preferences.ATGToolPreferences;
 import atgt.specification.ASMSpecification;
-import atgt.specification.location.Constant;
-import atgt.specification.location.DerivedFunction;
-import atgt.specification.location.Function;
-import atgt.specification.location.Location;
-import atgt.specification.location.Variable;
 import atgt.specification.statement.RuleDeclaration;
 import tgtlib.definitions.expression.Expression;
 import tgtlib.definitions.expression.IdExpression;
 import tgtlib.definitions.expression.NotExpression;
 import tgtlib.definitions.expression.type.Type;
+import tgtlib.specification.location.Constant;
+import tgtlib.specification.location.DerivedFunction;
+import tgtlib.specification.location.Function;
+import tgtlib.specification.location.Location;
+import tgtlib.specification.location.Variable;
 
 /**
  * The Class toSPINFlatVisitor translates ASM spec to Spin

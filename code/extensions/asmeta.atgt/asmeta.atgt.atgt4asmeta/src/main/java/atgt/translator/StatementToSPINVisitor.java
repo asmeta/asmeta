@@ -19,8 +19,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import atgt.specification.expression.IdReplacerVisitor;
-import atgt.specification.location.Location;
-import atgt.specification.location.Variable;
 import atgt.specification.statement.BasicRule;
 import atgt.specification.statement.CaseStatement;
 import atgt.specification.statement.ChooseRule;
@@ -41,6 +39,8 @@ import tgtlib.definitions.expression.type.BoolType;
 import tgtlib.definitions.expression.type.EnumConst;
 import tgtlib.definitions.expression.type.EnumType;
 import tgtlib.definitions.expression.type.Type;
+import tgtlib.specification.location.Location;
+import tgtlib.specification.location.Variable;
 
 /**
  * The Class StatementToSPINVisitor.

@@ -8,11 +8,6 @@ import atgt.coverage.AsmTestCondition;
 import atgt.coverage.AsmTestSeqContent;
 import atgt.coverage.AsmTestSequence;
 import atgt.specification.ASMSpecification;
-import atgt.specification.location.Constant;
-import atgt.specification.location.DerivedFunction;
-import atgt.specification.location.Function;
-import atgt.specification.location.Location;
-import atgt.specification.location.Variable;
 import tgtlib.definitions.expression.FunctionTerm;
 import tgtlib.definitions.expression.IdExpression;
 import tgtlib.definitions.expression.type.EnumConstCreator;
@@ -20,6 +15,11 @@ import tgtlib.definitions.expression.type.EnumType;
 import tgtlib.definitions.expression.type.EnumerableType;
 import tgtlib.definitions.expression.type.IntegerType;
 import tgtlib.specification.Specification;
+import tgtlib.specification.location.Constant;
+import tgtlib.specification.location.DerivedFunction;
+import tgtlib.specification.location.Function;
+import tgtlib.specification.location.Location;
+import tgtlib.specification.location.Variable;
 
 /** convert a counter example of the model checker to a test sequence
  */

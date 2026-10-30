@@ -33,9 +33,6 @@ import asmeta.terms.furtherterms.StringTerm;
 import asmeta.transitionrules.basictransitionrules.Rule;
 import asmeta.transitionrules.derivedtransitionrules.CaseRule;
 import atgt.specification.ASMSpecification;
-import atgt.specification.location.Function;
-import atgt.specification.location.LogicalVariable;
-import atgt.specification.location.Variable;
 import atgt.specification.statement.BasicRule;
 import atgt.specification.statement.CaseStatement;
 import atgt.specification.statement.ChooseRule;
@@ -51,6 +48,9 @@ import tgtlib.definitions.expression.type.BoundType;
 import tgtlib.definitions.expression.type.EnumConstCreator;
 import tgtlib.definitions.expression.type.EnumType;
 import tgtlib.definitions.expression.type.Type;
+import tgtlib.specification.location.Function;
+import tgtlib.specification.location.LogicalVariable;
+import tgtlib.specification.location.Variable;
 
 class RuleConverter {
 	/** The logger : use the same as the AsmetLoader */

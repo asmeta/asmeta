@@ -5,12 +5,12 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import tgtlib.generator.MCAnalysisResult;
+import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.Location.VarKind;
 import atgt.coverage.AsmCoverageTree;
 import atgt.coverage.AsmTestSequence;
 import atgt.coverage.TestCondition;
 import atgt.parser.trail.CexParser;
-import atgt.specification.location.Location.VarKind;
-import atgt.specification.location.Variable;
 
 /** Token Manager. */
 @SuppressWarnings ("unused")

@@ -15,10 +15,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import atgt.specification.location.Function;
-import atgt.specification.location.Location;
-import atgt.specification.location.Variable;
 import tgtlib.definitions.expression.IdExpression;
+import tgtlib.specification.location.Function;
+import tgtlib.specification.location.Location;
+import tgtlib.specification.location.Variable;
 
 // TODO: Auto-generated Javadoc
 /**

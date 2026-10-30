@@ -10,13 +10,13 @@
  ******************************************************************************/
 package atgt.specification.constraints;
 
-import atgt.specification.location.Variable;
 import tgtlib.definitions.expression.EqualsExpression;
 import tgtlib.definitions.expression.Expression;
 import tgtlib.definitions.expression.IdExpression;
 import tgtlib.definitions.expression.ImpliesExpression;
 import tgtlib.definitions.expression.NextExpression;
 import tgtlib.definitions.expression.OrExpression;
+import tgtlib.specification.location.Variable;
 
 // TODO: Auto-generated Javadoc
 /**

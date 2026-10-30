@@ -7,12 +7,12 @@ import org.asmeta.nusmv.MapVisitor;
 
 import asmeta.AsmCollection;
 import asmeta.structure.Asm;
-import atgt.specification.location.Constant;
-import atgt.specification.location.DerivedFunction;
-import atgt.specification.location.Function;
 import tgtlib.definitions.expression.type.Variable;
 import tgtlib.specification.Axiom;
 import tgtlib.specification.Specification;
+import tgtlib.specification.location.Constant;
+import tgtlib.specification.location.DerivedFunction;
+import tgtlib.specification.location.Function;
 
 /** new class for the specification of an ASM.  It sis based on ASM of asmeta.
  * 
@@ -44,7 +44,7 @@ public class AsmetaAsSpec implements Specification {
 	}
 
 	@Override
-	public atgt.specification.location.Variable getVariable(String locationName) {
+	public tgtlib.specification.location.Variable getVariable(String locationName) {
 		// TODO Auto-generated method stub
 		return null;
 	}

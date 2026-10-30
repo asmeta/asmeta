@@ -12,11 +12,11 @@ package atgt.specification.statement;
 
 import java.util.List;
 
-import atgt.specification.location.Function;
-import atgt.specification.location.Location;
-import atgt.specification.location.LogicalVariable;
-import atgt.specification.location.Variable;
 import tgtlib.definitions.expression.Expression;
+import tgtlib.specification.location.Function;
+import tgtlib.specification.location.Location;
+import tgtlib.specification.location.LogicalVariable;
+import tgtlib.specification.location.Variable;
 
 /**
  * UpdateRule statement: var:=val or

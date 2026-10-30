@@ -10,12 +10,12 @@
  ******************************************************************************/
 package atgt.specification;
 
-import atgt.specification.location.Function;
-import atgt.specification.location.Location;
 import atgt.specification.type.DummyType;
 import tgtlib.definitions.expression.type.BoundType;
 import tgtlib.definitions.expression.type.EnumType;
 import tgtlib.definitions.expression.type.Type;
+import tgtlib.specification.location.Function;
+import tgtlib.specification.location.Location;
 
 // TODO: Auto-generated Javadoc
 /**

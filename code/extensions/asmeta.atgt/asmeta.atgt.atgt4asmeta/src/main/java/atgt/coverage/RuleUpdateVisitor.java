@@ -12,8 +12,6 @@ package atgt.coverage;
 
 import java.util.Vector;
 
-import atgt.specification.location.Function;
-import atgt.specification.location.Variable;
 import atgt.specification.statement.BasicRule;
 import atgt.specification.statement.ConditionalRule;
 import atgt.specification.statement.UpdateRule;
@@ -23,6 +21,8 @@ import tgtlib.definitions.expression.Expression;
 import tgtlib.definitions.expression.FunctionTerm;
 import tgtlib.definitions.expression.NotEqualsExpression;
 import tgtlib.definitions.expression.NotExpression;
+import tgtlib.specification.location.Function;
+import tgtlib.specification.location.Variable;
 
 // TODO: Auto-generated Javadoc
 /**

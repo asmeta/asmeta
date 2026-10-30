@@ -8,11 +8,11 @@ import org.apache.log4j.Logger;
 
 import atgt.coverage.TestCondition;
 import atgt.generator.testsuite.ordering.TPCollectedChangeListener;
-import atgt.specification.location.Variable;
 import tgtlib.definitions.TestSequence;
 import tgtlib.definitions.expression.AndExpression;
 import tgtlib.definitions.expression.Expression;
 import tgtlib.definitions.expression.visitors.ExpressionEvaluator;
+import tgtlib.specification.location.Variable;
 
 /**
  * collected feasible test conditions in an unique test

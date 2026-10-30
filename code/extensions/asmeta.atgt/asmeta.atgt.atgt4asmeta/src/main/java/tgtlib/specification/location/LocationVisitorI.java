@@ -8,7 +8,7 @@
  * Contributors:
  *     Angelo Gargantini - initial API and implementation
  ******************************************************************************/
-package atgt.specification.location;
+package tgtlib.specification.location;
 
 /**
  * The Interface LocationVisitorI.

@@ -1,4 +1,4 @@
-package atgt.specification.location;
+package tgtlib.specification.location;
 
 
 
@@ -9,7 +9,7 @@ import tgtlib.definitions.expression.IdExpressionCreator;
 import tgtlib.definitions.expression.type.Type;
 
 // to be used in pick
-public class PickedVariable extends atgt.specification.location.Variable{
+public class PickedVariable extends tgtlib.specification.location.Variable{
 	
 	static DummyType typeForChosenVar = new DummyType("for chosen var");
 	

@@ -32,7 +32,6 @@ import atgt.parser.asmgofer.ParseException;
 import atgt.specification.ASMSpecification;
 import atgt.specification.constraints.NextStateConstraint;
 import atgt.specification.constraints.OneInputAssumption;
-import atgt.specification.location.Variable;
 import atgt.translator.ToAsmmVisitor;
 import tgtlib.definitions.expression.AndExpression;
 import tgtlib.definitions.expression.EqualsExpression;
@@ -43,6 +42,7 @@ import tgtlib.definitions.expression.type.ElementsType;
 import tgtlib.definitions.expression.type.EnumConst;
 import tgtlib.definitions.expression.type.EnumType;
 import tgtlib.specification.Axiom;
+import tgtlib.specification.location.Variable;
 import tgtlib.util.IterableEnumeration;
 
 /**

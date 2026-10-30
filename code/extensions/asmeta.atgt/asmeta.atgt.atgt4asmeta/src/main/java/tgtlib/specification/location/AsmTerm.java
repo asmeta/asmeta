@@ -1,4 +1,4 @@
-package atgt.specification.location;
+package tgtlib.specification.location;
 
 import tgtlib.definitions.TypedInitExpression;
 import tgtlib.definitions.expression.Expression;

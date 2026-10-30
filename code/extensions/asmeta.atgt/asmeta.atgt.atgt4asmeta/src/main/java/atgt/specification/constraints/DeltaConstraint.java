@@ -10,10 +10,10 @@
  ******************************************************************************/
 package atgt.specification.constraints;
 
-import atgt.specification.location.Variable;
 import tgtlib.definitions.expression.Expression;
 import tgtlib.definitions.expression.IdExpression;
 import tgtlib.specification.Axiom;
+import tgtlib.specification.location.Variable;
 
 // TODO: Auto-generated Javadoc
 /**

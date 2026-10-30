@@ -15,14 +15,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import atgt.specification.location.Function;
-import atgt.specification.location.Location;
-import atgt.specification.location.Location.VarKind;
-import atgt.specification.location.Variable;
 import tgtlib.definitions.TestSequenceFactory;
 import tgtlib.definitions.expression.IdExpression;
 import tgtlib.definitions.expression.IdExpressionCreator;
 import tgtlib.definitions.expression.type.BoolType;
+import tgtlib.specification.location.Function;
+import tgtlib.specification.location.Location;
+import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.Location.VarKind;
 import tgtlib.util.TestSeqContentInterface;
 
 /**

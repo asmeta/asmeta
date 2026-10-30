@@ -14,10 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import atgt.specification.location.Location;
-import atgt.specification.location.Variable;
 import tgtlib.definitions.TestSuite;
 import tgtlib.definitions.TestSuiteFactory;
+import tgtlib.specification.location.Location;
+import tgtlib.specification.location.Variable;
 
 /**
  * a collection of test sequences (AsmTestSequence), related to a TestCondition 

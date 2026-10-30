@@ -20,7 +20,6 @@ import atgt.coverage.SkipCoveredTCFilter;
 import atgt.coverage.TestCondition;
 import atgt.project.AsmProject;
 import atgt.specification.ASMSpecification;
-import atgt.specification.location.Variable;
 import tgtlib.definitions.expression.EqualsExpression;
 import tgtlib.definitions.expression.Expression;
 import tgtlib.definitions.expression.IdExpressionCreator;
@@ -28,6 +27,7 @@ import tgtlib.definitions.expression.ImpliesExpression;
 import tgtlib.definitions.expression.type.ElementsType;
 import tgtlib.definitions.expression.type.EnumType;
 import tgtlib.specification.Axiom;
+import tgtlib.specification.location.Variable;
 
 /**Classe utilizzata per testare la correttezza della generazione della
  * test suite con Yices.*/

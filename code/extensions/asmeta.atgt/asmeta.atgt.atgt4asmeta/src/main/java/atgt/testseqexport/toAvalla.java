@@ -12,8 +12,8 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import atgt.coverage.AsmTestSequence;
-import atgt.specification.location.Location;
-import atgt.specification.location.PickedVariable;
+import tgtlib.specification.location.Location;
+import tgtlib.specification.location.PickedVariable;
 
 /** export to avalla */
 public class toAvalla extends TestSeqTrad {

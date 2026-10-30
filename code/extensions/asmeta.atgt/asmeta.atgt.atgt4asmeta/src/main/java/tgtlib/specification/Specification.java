@@ -12,10 +12,10 @@ package tgtlib.specification;
 
 import java.util.Collection;
 
-import atgt.specification.location.Constant;
-import atgt.specification.location.DerivedFunction;
-import atgt.specification.location.Function;
 import tgtlib.definitions.expression.type.Variable;
+import tgtlib.specification.location.Constant;
+import tgtlib.specification.location.DerivedFunction;
+import tgtlib.specification.location.Function;
 
 
 /** 
@@ -34,7 +34,7 @@ public interface Specification {
 	
 	public Collection<Axiom> getAxiom();
 
-	atgt.specification.location.Variable getVariable(String locationName);
+	tgtlib.specification.location.Variable getVariable(String locationName);
 
 	Function getFunction(String funName);
 

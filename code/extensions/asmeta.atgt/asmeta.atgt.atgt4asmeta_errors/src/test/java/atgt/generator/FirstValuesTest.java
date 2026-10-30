@@ -16,8 +16,8 @@ import static org.junit.Assert.fail;
 import org.junit.Test;
 
 import atgt.coverage.AsmTestCondition;
-import atgt.specification.location.Variable;
 import tgtlib.definitions.expression.IdExpressionCreator;
+import tgtlib.specification.location.Variable;
 
 /**
  * The Class LastValuesTest.

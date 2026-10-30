@@ -27,7 +27,6 @@ import atgt.generator.AsmMonitoredDataExtractor;
 import atgt.parser.asmgofer.ASMParserTest;
 import atgt.preferences.ATGToolPreferences;
 import atgt.specification.ASMSpecification;
-import atgt.specification.location.Variable;
 import extgt.coverage.combinatorial.MonitoredData;
 import extgt.coverage.combinatorial.PairwiseCovBuilder;
 import extgt.coverage.combinatorial.StdPairwiseCovBuild;
@@ -36,6 +35,7 @@ import tgtlib.definitions.expression.IdExpressionCreator;
 import tgtlib.definitions.expression.type.BoolType;
 import tgtlib.definitions.expression.type.ElementsType;
 import tgtlib.definitions.expression.type.EnumType;
+import tgtlib.specification.location.Variable;
 
 /**
  * test the generation for pairwise coverage tree.

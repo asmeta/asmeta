@@ -13,8 +13,8 @@ import org.xml.sax.helpers.AttributesImpl;
 //import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 
 import atgt.coverage.AsmTestSequence;
-import atgt.specification.location.Location;
-import atgt.specification.location.Variable;
+import tgtlib.specification.location.Location;
+import tgtlib.specification.location.Variable;
 
 public class toXmlSAX extends TestSeqTrad {
 

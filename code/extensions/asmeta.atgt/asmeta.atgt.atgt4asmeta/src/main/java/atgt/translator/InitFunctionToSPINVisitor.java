@@ -16,11 +16,6 @@ import java.util.Hashtable;
 
 import org.apache.log4j.Logger;
 
-import atgt.specification.location.Constant;
-import atgt.specification.location.Function;
-import atgt.specification.location.LocationVisitorI;
-import atgt.specification.location.LogicalVariable;
-import atgt.specification.location.Variable;
 import tgtlib.definitions.expression.Expression;
 import tgtlib.definitions.expression.Undef;
 import tgtlib.definitions.expression.type.BoolType;
@@ -28,6 +23,11 @@ import tgtlib.definitions.expression.type.BoundType;
 import tgtlib.definitions.expression.type.EnumConst;
 import tgtlib.definitions.expression.type.EnumType;
 import tgtlib.definitions.expression.type.Type;
+import tgtlib.specification.location.Constant;
+import tgtlib.specification.location.Function;
+import tgtlib.specification.location.LocationVisitorI;
+import tgtlib.specification.location.LogicalVariable;
+import tgtlib.specification.location.Variable;
 
 /**
  * Fornisce i metodi per la dichiarazione delle variabili e delle costanti.
@@ -48,7 +48,7 @@ public class InitFunctionToSPINVisitor implements LocationVisitorI<String> {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * atgt.specification.location.LocationVisitorI#forConstant(atgt.specification
+	 * tgtlib.specification.location.LocationVisitorI#forConstant(atgt.specification
 	 * .location.Constant)
 	 */
 	@Override
@@ -60,7 +60,7 @@ public class InitFunctionToSPINVisitor implements LocationVisitorI<String> {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * atgt.specification.location.LocationVisitorI#forVariable(atgt.specification
+	 * tgtlib.specification.location.LocationVisitorI#forVariable(atgt.specification
 	 * .location.Variable)
 	 */
 	@Override
@@ -139,7 +139,7 @@ public class InitFunctionToSPINVisitor implements LocationVisitorI<String> {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * atgt.specification.location.LocationVisitorI#forFunction(atgt.specification
+	 * tgtlib.specification.location.LocationVisitorI#forFunction(atgt.specification
 	 * .location.Function)
 	 */
 	@Override

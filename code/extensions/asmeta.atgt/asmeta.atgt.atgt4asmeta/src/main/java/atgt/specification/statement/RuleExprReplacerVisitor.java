@@ -15,12 +15,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import atgt.specification.expression.IdReplacerVisitor;
-import atgt.specification.location.Function;
-import atgt.specification.location.Location;
-import atgt.specification.location.LogicalVariable;
-import atgt.specification.location.Variable;
 import tgtlib.definitions.expression.Expression;
 import tgtlib.definitions.expression.IdExpression;
+import tgtlib.specification.location.Function;
+import tgtlib.specification.location.Location;
+import tgtlib.specification.location.LogicalVariable;
+import tgtlib.specification.location.Variable;
 
 /**
  * replace an id with another. if it does not change, return the same (==)

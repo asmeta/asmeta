@@ -3,10 +3,10 @@ package org.asmeta.tocpp.tocunit;
 import asmeta.AsmCollection;
 import atgt.coverage.AsmTestSequence;
 import atgt.coverage.AsmTestSuite;
-import atgt.specification.location.Location;
 import java.util.List;
 import java.util.Map;
 import org.eclipse.xtend2.lib.StringConcatenation;
+import tgtlib.specification.location.Location;
 
 @SuppressWarnings("all")
 public class AsmTsToCatch2Test extends TestSuiteTranslator {

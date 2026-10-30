@@ -20,7 +20,6 @@ import atgt.parser.asmeta.AsmMLoaderTest;
 import atgt.parser.asmgofer.ParseException;
 import atgt.project.AsmProject;
 import atgt.specification.ASMSpecification;
-import atgt.specification.location.Variable;
 import tgtlib.definitions.expression.IdExpressionCreator;
 import tgtlib.definitions.expression.type.BoolType;
 import tgtlib.definitions.expression.type.EnumConst;
@@ -29,6 +28,7 @@ import tgtlib.generator.MCAnalysisResult;
 import tgtlib.generator.ModelCheckerExecutionException;
 import tgtlib.generator.TestSequenceGenerator;
 import tgtlib.preferences.TGLibPreferences;
+import tgtlib.specification.location.Variable;
 import tgtlib.util.Pair;
 
 public abstract class TPCompatibleCollectorTest {

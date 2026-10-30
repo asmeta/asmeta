@@ -26,11 +26,11 @@ import atgt.coverage.tpstatus.TestConditionState;
 import atgt.generator.testsuite.TestSuiteGeneratorCov;
 import atgt.project.AsmProject;
 import atgt.specification.ASMSpecification;
-import atgt.specification.location.Variable;
 import tgtlib.definitions.expression.IdExpression;
 import tgtlib.definitions.expression.IdExpressionCreator;
 import tgtlib.definitions.expression.type.BoolType;
 import tgtlib.reduction.TestSuiteRed;
+import tgtlib.specification.location.Variable;
 
 
 /**

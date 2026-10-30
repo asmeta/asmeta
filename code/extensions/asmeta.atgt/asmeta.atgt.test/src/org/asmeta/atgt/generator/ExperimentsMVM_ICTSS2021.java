@@ -46,15 +46,15 @@ import atgt.coverage.tpstatus.TestConditionState;
 import atgt.generator.AsmMonitoredDataExtractor;
 import atgt.parser.asmeta.AsmetaLLoader;
 import atgt.specification.ASMSpecification;
-import atgt.specification.location.DerivedFunction;
-import atgt.specification.location.Function;
-import atgt.specification.location.FunctionApplication;
-import atgt.specification.location.Location;
-import atgt.specification.location.Variable;
 import atgt.testseqexport.toAvalla;
 import tgtlib.definitions.expression.IdExpression;
 import tgtlib.definitions.expression.IdExpressionCreator;
 import tgtlib.specification.ParseException;
+import tgtlib.specification.location.DerivedFunction;
+import tgtlib.specification.location.Function;
+import tgtlib.specification.location.FunctionApplication;
+import tgtlib.specification.location.Location;
+import tgtlib.specification.location.Variable;
 
 /**
  * tests for the asmeta generator

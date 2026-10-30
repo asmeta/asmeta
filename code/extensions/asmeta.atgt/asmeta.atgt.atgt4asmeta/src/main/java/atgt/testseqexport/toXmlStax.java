@@ -20,8 +20,8 @@ import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 
 import atgt.coverage.AsmTestSequence;
-import atgt.specification.location.Location;
-import atgt.specification.location.Variable;
+import tgtlib.specification.location.Location;
+import tgtlib.specification.location.Variable;
 
 public class toXmlStax extends TestSeqTrad {
 	

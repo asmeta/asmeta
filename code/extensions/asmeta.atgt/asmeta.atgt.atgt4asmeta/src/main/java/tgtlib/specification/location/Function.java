@@ -8,7 +8,7 @@
  * Contributors:
  *     Angelo Gargantini - initial API and implementation
  ******************************************************************************/
-package atgt.specification.location;
+package tgtlib.specification.location;
 
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -88,7 +88,7 @@ public class Function extends Location {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * atgt.specification.location.Location#accept(atgt.specification.location.
+	 * tgtlib.specification.location.Location#accept(tgtlib.specification.location.
 	 * LocationVisitorI)
 	 */
 	@Override

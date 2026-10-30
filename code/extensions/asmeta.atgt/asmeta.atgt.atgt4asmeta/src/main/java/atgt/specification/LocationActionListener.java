@@ -8,7 +8,7 @@
  * Contributors:
  *     Angelo Gargantini - initial API and implementation
  ******************************************************************************/
-package atgt.specification.location;
+package atgt.specification;
 
 /**
  * 
@@ -17,7 +17,6 @@ package atgt.specification.location;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import atgt.specification.ASMSpecification;
 import tgtlib.definitions.TypedInitExpression;
 
 /**

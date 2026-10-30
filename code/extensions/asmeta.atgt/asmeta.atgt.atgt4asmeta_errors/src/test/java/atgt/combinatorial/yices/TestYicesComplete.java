@@ -18,7 +18,6 @@ import atgt.combinatorial.NWiseEqTestCondition;
 import atgt.coverage.AsmTestCondition;
 import atgt.coverage.AsmTestSequence;
 import atgt.coverage.TestCondition;
-import atgt.specification.location.Variable;
 import extgt.coverage.combinatorial.MonitoredData;
 import tgtlib.definitions.expression.EqualsExpression;
 import tgtlib.definitions.expression.IdExpressionCreator;
@@ -30,6 +29,7 @@ import tgtlib.definitions.expression.type.EnumType;
 import tgtlib.generator.MCAnalysisResult;
 import tgtlib.generator.MCExecutionResultReader;
 import tgtlib.specification.Axiom;
+import tgtlib.specification.location.Variable;
 
 /**Classe che testa Yices con una specifica data.
  * 

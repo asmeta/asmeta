@@ -30,8 +30,6 @@ import asmeta.definitions.domains.Domain;
 import atgt.coverage.AsmTestCondition;
 import atgt.coverage.AsmTestSequence;
 import atgt.coverage.AsmTestSuite;
-import atgt.specification.location.PickedVariable;
-import atgt.specification.location.Location.VarKind;
 import atgt.specification.type.DummyType;
 import tgtlib.definitions.expression.FunctionTerm;
 import tgtlib.definitions.expression.IdExpression;
@@ -41,6 +39,8 @@ import tgtlib.definitions.expression.type.IntegerType;
 import tgtlib.definitions.expression.type.Type;
 import tgtlib.definitions.expression.type.TypeVisitorI;
 import tgtlib.definitions.expression.type.Variable;
+import tgtlib.specification.location.PickedVariable;
+import tgtlib.specification.location.Location.VarKind;
 
 /**
  * random generation by random simulation
@@ -289,7 +289,7 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 				}
 				// create ID (with dummy type which is wrong)
 				IdExpression varId = icc.createIdExpression(location.toString(), type);
-				atgt.specification.location.Variable var = new atgt.specification.location.Variable(varId, null);
+				tgtlib.specification.location.Variable var = new tgtlib.specification.location.Variable(varId, null);
 				if (monitored) {
 					var.setMonitored();
 				} else {

@@ -13,8 +13,6 @@ package atgt.coverage;
 import java.util.List;
 import java.util.Vector;
 
-import atgt.specification.location.Function;
-import atgt.specification.location.Variable;
 import atgt.specification.statement.ConditionalRule;
 import atgt.specification.statement.UpdateRule;
 import tgtlib.definitions.NamedTerm;
@@ -25,6 +23,8 @@ import tgtlib.definitions.expression.IdExpression;
 import tgtlib.definitions.expression.IdExpressionCreator;
 import tgtlib.definitions.expression.NotEqualsExpression;
 import tgtlib.definitions.expression.NotExpression;
+import tgtlib.specification.location.Function;
+import tgtlib.specification.location.Variable;
 
 /**
  * RuleDeclaration Guard Coverage. Esegue una scansione della specifica e genera

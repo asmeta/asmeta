@@ -8,7 +8,7 @@
  * Contributors:
  *     Angelo Gargantini - initial API and implementation
  ******************************************************************************/
-package atgt.specification.location;
+package tgtlib.specification.location;
 
 import tgtlib.definitions.expression.Expression;
 import tgtlib.definitions.expression.IdExpression;

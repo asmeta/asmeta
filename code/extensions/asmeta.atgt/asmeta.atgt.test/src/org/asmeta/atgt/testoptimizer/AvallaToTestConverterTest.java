@@ -16,7 +16,7 @@ import org.junit.jupiter.api.Test;
 import com.google.inject.Injector;
 
 import atgt.coverage.AsmTestSequence;
-import atgt.specification.location.Location;
+import tgtlib.specification.location.Location;
 
 public class AvallaToTestConverterTest {
 

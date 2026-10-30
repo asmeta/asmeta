@@ -10,7 +10,7 @@ import atgt.parser.ParseSpecsAsmm;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import atgt.specification.ASMSpecification;
-import atgt.specification.location.Variable;
+import tgtlib.specification.location.Variable;
 
 class DerivedTest{
 

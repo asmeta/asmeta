@@ -22,10 +22,10 @@ import org.junit.Test;
 import atgt.coverage.AsmTestCondition;
 import atgt.coverage.AsmTestSequence;
 import atgt.parser.trail.ParseException;
-import atgt.specification.location.Location;
-import atgt.specification.location.Variable;
 import tgtlib.generator.MCAnalysisResult;
 import tgtlib.generator.MCExecutionResultReader;
+import tgtlib.specification.location.Location;
+import tgtlib.specification.location.Variable;
 
 // TODO: Auto-generated Javadoc
 /**
