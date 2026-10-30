@@ -23,6 +23,7 @@ import asmeta.definitions.ControlledFunction;
 import asmeta.definitions.Function;
 import asmeta.definitions.MonitoredFunction;
 import asmeta.definitions.OutFunction;
+import asmeta.definitions.SharedFunction;
 import asmeta.definitions.domains.AbstractTd;
 import asmeta.definitions.domains.ConcreteDomain;
 import asmeta.definitions.domains.Domain;
@@ -273,7 +274,9 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 			// check if monitored or controlled
 			Function function = location.getSignature();
 			boolean monitored = function instanceof MonitoredFunction;
-			assert monitored || function instanceof ControlledFunction || function instanceof OutFunction : "fucntion has type " + function.getClass();
+			assert monitored || function instanceof ControlledFunction || 
+								function instanceof OutFunction || 
+								function instanceof SharedFunction : "fucntion has type " + function.getClass();
 			Value[] elements = location.getElements();
 			boolean isvar = elements.length == 0;
 			if (isvar) {

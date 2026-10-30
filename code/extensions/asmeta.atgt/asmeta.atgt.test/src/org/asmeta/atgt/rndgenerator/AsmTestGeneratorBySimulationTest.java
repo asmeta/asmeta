@@ -166,6 +166,12 @@ public class AsmTestGeneratorBySimulationTest {
 		System.err.println(test);
 		assertTrue(test.contains("Incosistent update"));
 	}
+	@Test
+	public void testproblematic4() throws Exception {
+		// fucntion has type class asmeta.definitions.impl.SharedFunctionImpl
+		AsmTestGeneratorBySimulation.THROW_EXCEPTION_WHEN_ERROR_FOUND = true;
+		String spec = "examples\\models\\lift2.asm";
+	}
 
 	
 	
