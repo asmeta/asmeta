@@ -9,7 +9,10 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.function.Predicate;
 
@@ -40,6 +43,7 @@ import asmeta.definitions.domains.IntegerDomain;
 import asmeta.definitions.domains.RealDomain;
 import asmeta.definitions.domains.StringDomain;
 import asmeta.definitions.domains.StructuredTd;
+import asmeta.structure.Asm;
 import asmeta.structure.ImportClause;
 import asmeta.transitionrules.basictransitionrules.ChooseRule;
 import asmeta.transitionrules.basictransitionrules.ExtendRule;
@@ -50,10 +54,9 @@ import asmeta.transitionrules.basictransitionrules.impl.LetRuleImpl;
 
 public class AsmetaFeatureCheckerTest {
 
-//	private static final String MODEL_LIST_FILE = "../../../../code/experimental/asmeta.evotest/asmeta.evotest.experiments/data/icst-27-exp/"
-//			+ "model_list.txt";
-	private static final String MODEL_LIST_FILE = "../../../../code/experimental/asmeta.evotest/asmeta.evotest.experiments/data/icst-27-exp/model_lists/"
-			+ "model_list_evoavalla_budget_10_valid.txt";
+	private static final Path EXPERIMENT_DIR = Path.of(
+			"../../../../code/experimental/asmeta.evotest/asmeta.evotest.experiments/data/icst-27-exp");
+	private static final Path MODEL_LIST_FILE = EXPERIMENT_DIR.resolve("model_list.txt");
 
 	Map<String, Predicate<EObject>> featurePredicates = Map.ofEntries(
 			Map.entry("IntegerDomain", x -> ((x instanceof Function) && ((Function) x).getCodomain() instanceof IntegerDomain)),
@@ -78,7 +81,7 @@ public class AsmetaFeatureCheckerTest {
 
 	@BeforeAll
 	static void setUpLogger(){
-		Logger.getLogger(AsmetaFeatureChecker.class).setLevel(Level.ERROR);
+		Logger.getLogger(AsmetaFeatureChecker.class).setLevel(Level.INFO);
 		Logger.getLogger(AsmetaFeatureChecker.class).addAppender(new ConsoleAppender(new SimpleLayout()));
 	}
 
@@ -128,28 +131,84 @@ public class AsmetaFeatureCheckerTest {
 	}
 
 	@Test void visitAsmExamples() throws Exception {
-		AsmetaFeatureChecker spr;
+		List<String> modelList = readFilteredModelList(MODEL_LIST_FILE);
+		List<String> evoavallaModels = readFilteredModelList(EXPERIMENT_DIR.resolve(
+				"model_lists/model_list_evoavalla_budget_60_valid.txt"));
+		List<String> atgtModels = readFilteredModelList(EXPERIMENT_DIR.resolve(
+				"model_lists/model_list_atgt_valid.txt"));
+		List<String> randomModels = readFilteredModelList(EXPERIMENT_DIR.resolve(
+				"model_lists/model_list_random_valid.txt"));
 
-		// Read all non-comment ASM paths from the selected model list.
-		List<String> modelList = readFilteredModelList(Path.of(MODEL_LIST_FILE));
+		// Parse each model once and reuse it for all features.
+		Map<String, Asm> parsedModels = new LinkedHashMap<>();
+		for (String model : modelList) {
+			if (parsedModels.containsKey(model)) {
+				continue;
+			}
+			File file = Path.of("../../../../asm_examples").resolve(model).toFile();
+			try {
+				parsedModels.put(model, ASMParser.setUpReadAsm(file).getMain());
+			} catch (ParseException | IndexOutOfBoundsException e) {
+				System.out.println("-> ERROR processing file " + file + ": " + e.getMessage());
+			}
+		}
+		System.out.println("General model list: " + modelList.size() + " ASMs; parsed: " + parsedModels.size());
 
-		// Fetch all files in the directory and all features
-		for (String featureName : featurePredicates.keySet()) {
-			int count = 0;
-			spr = new AsmetaFeatureChecker(featurePredicates.get(featureName));
-			for (String model : modelList) {
-				File f = new File("../../../../asm_examples/" + model.replace("\\", File.separator));
-				try {
-					if (spr.checkFeature(ASMParser.setUpReadAsm(f).getMain())) {
-						count++;
-					}
-				} catch (ParseException e) {
-					System.out.println("-> ERROR processing file: " + e.getMessage());
-				} catch (IndexOutOfBoundsException e) {
-					System.out.println("-> ERROR processing file: " + e.getMessage());
+		List<String> featureNames = new ArrayList<>(featurePredicates.keySet());
+		Collections.sort(featureNames);
+		for (String feature : featureNames) {
+			AsmetaFeatureChecker checker = new AsmetaFeatureChecker(featurePredicates.get(feature));
+			int total = 0;
+			int evoavalla = 0;
+			int atgt = 0;
+			int random = 0;
+			for (String model : parsedModels.keySet()) {
+				if (checker.checkFeature(parsedModels.get(model))) {
+					total++;
+					if (evoavallaModels.contains(model)) evoavalla++;
+					if (atgtModels.contains(model)) atgt++;
+					if (randomModels.contains(model)) random++;
 				}
 			}
-			Logger.getLogger(AsmetaFeatureChecker.class).info("Total ASMs with " + featureName + ": " + count + " out of " + modelList.size());
+
+			System.out.println("\n" + feature);
+			System.out.println("  +-- General models with this feature: " + total + "/" + modelList.size());
+			System.out.println("  `-- Valid models among those with this feature");
+			String evoavallaPercent = "N/A";
+			String atgtPercent = "N/A";
+			String randomPercent = "N/A";
+			if (total > 0) {
+				evoavallaPercent = String.format(Locale.ROOT, "%.0f%%", 100.0 * evoavalla / total);
+				atgtPercent = String.format(Locale.ROOT, "%.0f%%", 100.0 * atgt / total);
+				randomPercent = String.format(Locale.ROOT, "%.0f%%", 100.0 * random / total);
+			}
+			System.out.println("      +-- atgt: " + atgt + "/" + total + " (" + atgtPercent + ")");
+			System.out.println("      +-- random: " + random + "/" + total + " (" + randomPercent + ")");
+			System.out.println("      `-- evoavalla: " + evoavalla + "/" + total + " (" + evoavallaPercent + ")");
+		}
+	}
+
+	/**
+	 * Prints the number of models containing each feature in the selected model list.
+	 */
+	@Test void visitAsmFeatureCounts() throws Exception {
+		List<String> modelList = readFilteredModelList(MODEL_LIST_FILE);
+
+		for (String featureName : featurePredicates.keySet()) {
+			AsmetaFeatureChecker checker = new AsmetaFeatureChecker(featurePredicates.get(featureName));
+			int count = 0;
+			for (String model : modelList) {
+				File file = Path.of("../../../../asm_examples").resolve(model).toFile();
+				try {
+					if (checker.checkFeature(ASMParser.setUpReadAsm(file).getMain())) {
+						count++;
+					}
+				} catch (ParseException | IndexOutOfBoundsException e) {
+					System.out.println("-> ERROR processing file " + file + ": " + e.getMessage());
+				}
+			}
+			Logger.getLogger(AsmetaFeatureChecker.class).info(
+					"Total ASMs with " + featureName + ": " + count + " out of " + modelList.size());
 		}
 	}
 
@@ -201,7 +260,10 @@ public class AsmetaFeatureCheckerTest {
 			while ((line = br.readLine()) != null) {
 				String trimmed = line.trim();
 				if (!trimmed.isEmpty() && !trimmed.startsWith("//")) {
-					result.add(trimmed);
+					String model = Path.of(trimmed.replace('\\', '/')).normalize().toString();
+					if (!result.contains(model)) {
+						result.add(model);
+					}
 				}
 			}
 		}

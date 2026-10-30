@@ -4,7 +4,8 @@ JAR="experiments-runner.jar"
 
 case "$1" in
   generation)
-    java -cp "$JAR" asmeta.evotest.experiments.ScenarioGeneratorRunner > generation.log 2>&1
+    EVOSUITE_VERSION="${2:-1.2.0}"
+    java -cp "$JAR" asmeta.evotest.experiments.ScenarioGeneratorRunner "$EVOSUITE_VERSION" "${3:-}" > generation.log 2>&1
     ;;
 
   rnd-generation)
@@ -29,8 +30,7 @@ case "$1" in
 
   *)
     echo "Usage:"
-    echo -e "*for generating and analyzing the suites configured in 'generation_config.yaml':\n\t./run.sh generation-and-analysis [--shuffle]"
-    echo -e "*for generating using the config file 'generation_config.yaml':\n\t./run.sh generation"
+    echo -e "*for generating using the config file 'generation_config.yaml':\n\t./run.sh generation [1.0.6|1.2.0] [algorithm]\n\tExample: ./run.sh generation 1.2.0 MONOTONIC_GA"
     echo -e "*for generating using random with number of tests and steps retrieved from suites generated with 'generation' option:\n\t./run.sh rnd-generation <path/to/results> <path/to/asm_examples> <path/to/model_list.txt> [--shuffle] [--folders folder1,folder2,...], if --folders is not specified, default to atgttests,evoavallatests"
     echo -e "*for generating using iterative random generation:\n\t./run.sh iterative-rnd-generation <path/to/results> <path/to/asm_examples> <path/to/model_list.txt> <timeBudget> [--shuffle]"
     echo -e "*for running the analysis\n\t./run.sh analysis <path/to/results> [--shuffle]"

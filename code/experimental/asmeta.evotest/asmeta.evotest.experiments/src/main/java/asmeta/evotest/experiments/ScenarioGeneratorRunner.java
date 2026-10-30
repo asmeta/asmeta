@@ -35,6 +35,9 @@ public class ScenarioGeneratorRunner {
 	public static final String EVOAVALLA_DIR = "evoavallatests";
 	
 	private static final String CONFIG_PATH = "data/generation_config.yaml";
+	private static final String DEFAULT_EVOSUITE_VERSION = "1.2.0";
+	private static String evosuiteVersion = DEFAULT_EVOSUITE_VERSION;
+	private static String evosuiteAlgorithm = "";
 
 	private static int randomCount = 0;
 	private static int atgtCount = 0;
@@ -76,11 +79,19 @@ public class ScenarioGeneratorRunner {
 	 * and runs the scenario generators on one or multiple ASM files depending on
 	 * the configured mode ("single", "directory", or "list").
 	 *
-	 * @param args unused
+	 * @param args optional EvoSuite version (1.0.6 or 1.2.0), then search algorithm
 	 * @throws Exception if file operations fail
 	 */
 	@SuppressWarnings("unchecked")
 	public static void main(String[] args) {
+		evosuiteAlgorithm = args.length > 1 ? args[1].trim() : "";
+		if (args.length > 0 && !args[0].isBlank()) {
+			evosuiteVersion = args[0];
+		}
+		if (!"1.0.6".equals(evosuiteVersion) && !"1.2.0".equals(evosuiteVersion)) {
+			System.err.println("Unsupported EvoSuite version: " + evosuiteVersion + ". Use 1.0.6 or 1.2.0.");
+			return;
+		}
 		// Set logging and silence stdout
 		LOG.setLevel(Level.INFO);
 		Logger.getLogger(RuleEvaluator.class).setLevel(Level.ERROR);
@@ -91,6 +102,11 @@ public class ScenarioGeneratorRunner {
 		System.setOut(new PrintStream(OutputStream.nullOutputStream()));
 		
 		LOG.info("Starting test generation...");
+		LOG.info("EvoSuite " + evosuiteVersion + ", algorithm: "
+				+ (evosuiteAlgorithm.isBlank() ? "version default" : evosuiteAlgorithm));
+		LOG.info("Algorithm examples: MONOTONIC_GA (whole-suite generation), DYNAMOSA (many-objective/MOSUITE). "
+				+ "Other algorithms are accepted; "
+				+ "compatibility depends on EvoSuite version and generation strategy.");
 		
 		// Load configuration
 		Map<String, Object> cfg;
@@ -213,7 +229,8 @@ public class ScenarioGeneratorRunner {
 				new File(target).mkdirs();
 				try {
 					String chooseMode = (String) evoavallaCfg.get("choose_mode");
-					float exeTime = ScenarioGenerator.runEvoAvalla(asmFilePath, target, jdkPath, budget, chooseMode);
+					float exeTime = ScenarioGenerator.runEvoAvalla(asmFilePath, target, jdkPath, budget,
+							evosuiteVersion, chooseMode, evosuiteAlgorithm);
 					YamlManager.write(target, asmName, asmFilePath, exeTime, LocalDateTime.now().toString());
 				} catch (Throwable t) {
 					LOG.error("EvoAvalla failed with budget " + budget + ".\n"

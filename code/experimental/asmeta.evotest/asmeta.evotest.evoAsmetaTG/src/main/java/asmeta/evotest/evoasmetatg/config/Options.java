@@ -9,6 +9,9 @@ import asmeta.asmetal2java.codegen.config.ChooseMode;
  */
 public interface Options {
 
+	/** Optional EvoSuite algorithm; empty means the version default. */
+	String getAlgorithm();
+
 	/**
 	 * Sets the value of the specified option.
 	 * 
