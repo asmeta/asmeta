@@ -7,8 +7,10 @@ import java.util.Map.Entry;
 
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.InvalidInvariantException;
+import org.asmeta.simulator.InvalidValueException;
 import org.asmeta.simulator.Location;
 import org.asmeta.simulator.State;
+import org.asmeta.simulator.UpdateClashException;
 import org.asmeta.simulator.main.AsmModelNotFoundException;
 import org.asmeta.simulator.main.MainRuleNotFoundException;
 import org.asmeta.simulator.main.Simulator;
@@ -50,6 +52,10 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 	private AsmCollection asm;
 	private IdExpressionCreator icc;
 	private int numberofTests;
+	// when an error is found, throw an exception immediately
+	// otherwise return the test as it has built built till now
+	static public boolean THROW_EXCEPTION_WHEN_ERROR_FOUND = false;
+	
 	/**
 	 * progressive number among succesive test generation runs
 	 */
@@ -155,18 +161,29 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 			AsmTestSequence testsequence = new AsmTestSequence(new AsmTestCondition(testName, null));
 			State state;
 			int currentStep = 0;
+			boolean errorFound = false;
+			String msg = "";
 			while (true) {
 				// get the current state - duplicate
 				state = new State(simulator.getCurrentState());
 				// execute the step
 				try {
 					simulator.runNoCatchInv(1);
-				} catch (InvalidInvariantException e) {
-					System.out.println("Invariant violation");
-					break;
+				} catch(Throwable t) {
+					if (THROW_EXCEPTION_WHEN_ERROR_FOUND) throw t;
+					if (t instanceof InvalidInvariantException)
+						msg = "Invariant violation";
+					else if (t instanceof InvalidValueException)
+						msg = "Invalid Value Assigned";
+					else if (t instanceof UpdateClashException uce)
+						msg = "Incosistent update " + uce.getMessage();
+					else
+						msg = t.getMessage();
+					errorFound = true;
 				}
-				// get previous controlled part
-				state.applyLocationUpdates(simulator.previousState.getLocationMap());
+				// get previous controlled part (if not the first state)
+				if (simulator.previousState != null) 
+					state.applyLocationUpdates(simulator.previousState.getLocationMap());
 				// get the monitored value of the previous step
 				state.applyLocationUpdates(randomMFReader.getValues());
 				// add the picked values if any
@@ -174,6 +191,11 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 					state.applyLocationUpdates(observer.getPickedValues());
 				// add this (previous) state to the sequence
 				addState(testsequence, state);
+				// if there is an error, stop
+				if (errorFound) {
+					testsequence.addComment("--" + msg);
+					break;
+				}
 				// if no step was required
 				if (stepNumber <= 0) {
 					break;

@@ -43,12 +43,12 @@ public class AsmTestSequence extends TestResult implements Comparable<AsmTestSeq
 
 	/** time taken to produce this test, in millesec. */
 	public long time = 0;
-	
+
 	/**
 	 * the name of this test: normally the name of the test condition it is
 	 * generated for.
 	 */
-	String name = null;
+	private String name = null;
 
 	/**
 	 * the name of this test: normally the name of the test condition it is
@@ -60,27 +60,30 @@ public class AsmTestSequence extends TestResult implements Comparable<AsmTestSeq
 		return name;
 	}
 
-	/**
-	 * build a test sequence generated for the test condition tc.
-	 * 
-	 * @param tc
-	 *            the tc
-	 */
-	public AsmTestSequence(AsmTestCondition tc) {
-		this((TestCondition<AsmTestSequence>)tc);
+	// add a comment to the name (like invariant violation)
+	public void addComment(String comment) {
+		name = name + " " + comment;
 	}
 
 	/**
 	 * build a test sequence generated for the test condition tc.
 	 * 
-	 * @param tc
-	 *            the tc
+	 * @param tc the tc
+	 */
+	public AsmTestSequence(AsmTestCondition tc) {
+		this((TestCondition<AsmTestSequence>) tc);
+	}
+
+	/**
+	 * build a test sequence generated for the test condition tc.
+	 * 
+	 * @param tc the tc
 	 */
 	public AsmTestSequence(TestCondition<AsmTestSequence> tc) {
 		super(tc);
 		this.name = "test@" + tc.getName();
 		content = new AsmTestSeqContent();
-		
+
 	}
 
 	/**
@@ -102,27 +105,23 @@ public class AsmTestSequence extends TestResult implements Comparable<AsmTestSeq
 	private static IdExpressionCreator iecc;
 	// the functions already build in this test
 	// TODO avoid function altogether
-	static private Map<IdExpression,Function> functions;
+	static private Map<IdExpression, Function> functions;
 
-	
 	public static void resetForAnewSPEC() {
 		variables = new HashMap<String, Variable>();
 		iecc = new IdExpressionCreator();
-		functions = new HashMap<>();		
+		functions = new HashMap<>();
 	}
-	
+
 	static {
 		resetForAnewSPEC();
 	}
-	
-	
+
 	/**
 	 * Adds the assignment. Use variables instead
 	 * 
-	 * @param var
-	 *            the var
-	 * @param val
-	 *            the val
+	 * @param var the var
+	 * @param val the val
 	 */
 	@Deprecated
 	public void addAssignment(String varS, String val, VarKind vt) {
@@ -131,11 +130,9 @@ public class AsmTestSequence extends TestResult implements Comparable<AsmTestSeq
 
 	/**
 	 * 
-	 * @param location
-	 *            the function that is updated
-	 * @param domain
-	 *            the domain of this function (since function term has no
-	 *            function information, only the codomain (value)
+	 * @param location the function that is updated
+	 * @param domain   the domain of this function (since function term has no
+	 *                 function information, only the codomain (value)
 	 * @param val
 	 */
 	public void addAssignment(tgtlib.definitions.expression.FunctionTerm location, String val, VarKind kind) {
@@ -149,7 +146,8 @@ public class AsmTestSequence extends TestResult implements Comparable<AsmTestSeq
 		// check that is the same funnction
 		assert f.getIdExpression() == funId;
 		assert f.getCodomain() == location.getCoDomain();
-		if (kind == VarKind.CONTROLLED) f.setControlled();
+		if (kind == VarKind.CONTROLLED)
+			f.setControlled();
 		else {
 			assert kind == VarKind.MONITORED;
 			f.setMonitored();
@@ -235,8 +233,8 @@ public class AsmTestSequence extends TestResult implements Comparable<AsmTestSeq
 	}
 
 	/**
-	 * return the complete description of this test sequence the content +
-	 * coverage info
+	 * return the complete description of this test sequence the content + coverage
+	 * info
 	 * 
 	 * @return TODO return the string
 	 */

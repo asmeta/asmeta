@@ -11,12 +11,15 @@ import java.util.Map;
 
 import org.asmeta.atgt.generator.AsmTestGeneratorTest;
 import org.asmeta.parser.ASMParser;
+import org.asmeta.simulator.InvalidValueException;
 import org.asmeta.simulator.RuleEvaluatorObserver;
+import org.asmeta.simulator.UpdateClashException;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import asmeta.AsmCollection;
 import atgt.coverage.AsmTestSequence;
+import atgt.coverage.AsmTestSuite;
 import atgt.testseqexport.toAvalla;
 import tgtlib.definitions.expression.type.Variable;
 
@@ -74,19 +77,6 @@ public class AsmTestGeneratorBySimulationTest {
 	}
 
 	@Test
-	@Tag("TestToMavenSkip")
-	public void testRandomChoosOne() throws Exception {
-		AsmCollection asm = ASMParser.setUpReadAsm(new File("examples/forallChooseRule_flat.asm"));
-		assertNotNull(asm);
-		AsmTestGeneratorBySimulation gen = new AsmTestGeneratorBySimulation(asm, 4, 4);
-		AsmTestSequence test = gen.getTestSuite().getTests().get(0);
-		// bug outMess=Scegli il tipo di pizza desiderata:
-		Map<? extends Variable, String> state = test.getState(1);
-		// TODO
-		System.err.println(state);
-	}
-
-	@Test
 	public void testRandomExtend() throws Exception {
 		AsmCollection asm = ASMParser.setUpReadAsm(
 				new File(AsmTestGeneratorTest.FILE_BASE + "test\\simulator\\domains\\concreteDomain2.asm"));
@@ -122,12 +112,70 @@ public class AsmTestGeneratorBySimulationTest {
 		generateFor(AsmTestGeneratorTest.FILE_BASE + "examples\\NeedhamSchroeder\\NeedhamSchroederWithSpy.asm", true);
 	}
 
+	@Test
+	public void testproblematic2() throws Exception {
+		// value out of domain: cannot assign 740 to timer --> the spec has an error in
+		// it
+		AsmTestGeneratorBySimulation.THROW_EXCEPTION_WHEN_ERROR_FOUND = true;
+		try {
+			generateFor(AsmTestGeneratorTest.FILE_BASE + "erinda\\FMS_IO_2.asm", true);
+		} catch (InvalidValueException ie) {
+			assertTrue(ie.getMessage().equals("value out of domain: cannot assign 740 to timer"));
+		}
+		// if it continuew wven with the error
+		AsmTestGeneratorBySimulation.THROW_EXCEPTION_WHEN_ERROR_FOUND = false;
+		String test = generateFor(AsmTestGeneratorTest.FILE_BASE + "erinda\\FMS_IO_2.asm", true);
+		assertTrue(test.contains("check timer ="));
+	};
+
+	@Test
+	public void testproblematicInvViolation() throws Exception {
+		AsmTestGeneratorBySimulation.THROW_EXCEPTION_WHEN_ERROR_FOUND = false;
+		// Invariant violation
+		// careful they can be flacky !!!
+		String test = generateFor(AsmTestGeneratorTest.FILE_BASE + "examples\\railRoadGate\\railroadGate.asm", true);
+		assertTrue(test.contains("Invariant violation"));
+		test = generateFor(AsmTestGeneratorTest.FILE_BASE + "examples\\ferryman\\ferrymanSimulator.asm", true);
+		assertTrue(test.contains("Invariant violation"));
+	}
+
+	@Test
+	public void testproblematicIncosistentUpdate() throws Exception {
+		AsmTestGeneratorBySimulation.THROW_EXCEPTION_WHEN_ERROR_FOUND = true;
+		// careful they can be flacky !!!
+		String spec = "examples\\smartHome\\smartHomeNoMultiChannel.asm";
+		try {
+			generateFor(AsmTestGeneratorTest.FILE_BASE + spec, true);
+		} catch (UpdateClashException e) {
+		}
+		AsmTestGeneratorBySimulation.THROW_EXCEPTION_WHEN_ERROR_FOUND = false;
+		// careful they can be flacky !!!
+		String test = generateFor(
+				AsmTestGeneratorTest.FILE_BASE + spec, true);
+		System.err.println(test);
+		assertTrue(test.contains("Incosistent update"));
+	}
+	@Test
+	public void testproblematic3() throws Exception {
+		AsmTestGeneratorBySimulation.THROW_EXCEPTION_WHEN_ERROR_FOUND = false;
+		String spec = "examples\\sluicegate\\sluiceGate_with_agents.asm";
+		generateFor(AsmTestGeneratorTest.FILE_BASE + spec, true);
+		AsmTestGeneratorBySimulation.THROW_EXCEPTION_WHEN_ERROR_FOUND = false;
+		String test = generateFor(AsmTestGeneratorTest.FILE_BASE + spec, true);
+		// empty test
+		System.err.println(test);
+		assertTrue(test.contains("Incosistent update"));
+	}
+
+	
+	
 	static String generateFor(String pathname, boolean shuffle) throws Exception {
 		AsmCollection asm = ASMParser.setUpReadAsm(new File(pathname));
 		assertNotNull(asm);
 		AsmTestGeneratorBySimulation gen = new AsmTestGeneratorBySimulation(asm, 40, 1);
 		gen.shuffle = shuffle;
-		AsmTestSequence test = gen.getTestSuite().getTests().get(0);
+		AsmTestSuite testSuiteException = gen.getTestSuiteException(shuffle);
+		AsmTestSequence test = testSuiteException.getTests().get(0);
 		int last = test.allInstructions().size() - 1;
 		Map<? extends Variable, String> state = test.getState(last);
 		// TODO add the assert
