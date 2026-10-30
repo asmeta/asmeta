@@ -44,6 +44,12 @@ public class OptionsImpl implements Options {
 	
 	/** Controls how choose rules select and record values. */
 	private ChooseMode chooseMode;
+	private String algorithm = "";
+
+	@Override
+	public String getAlgorithm() {
+		return algorithm;
+	}
 
 	/** A map that associates property names with actions that modify the corresponding boolean fields. */
 	private Map<String, Consumer<Boolean>> optionMapper;
@@ -77,6 +83,10 @@ public class OptionsImpl implements Options {
 
 	@Override
 	public void setValue(String optionName, String optionValue) {
+		if ("algorithm".equals(optionName)) {
+			algorithm = optionValue.trim();
+			return;
+		}
 		if (TranslatorOptionsImpl.CHOOSE_MODE_OPTION.equals(optionName)) {
 			chooseMode = ChooseMode.fromValue(optionValue);
 			logger.info("Setting the translator option: {} to: {}.", optionName, chooseMode.getValue());
@@ -97,6 +107,7 @@ public class OptionsImpl implements Options {
 	@Override
 	public List<String> getOptionNames() {
 		return List.of(
+				"algorithm",
 				TranslatorOptionsImpl.COVER_RULES_OPTION, 
 				TranslatorOptionsImpl.COVER_OUTPUTS_OPTION,
 				ModeConstantsConfig.COMPILER,
@@ -108,6 +119,9 @@ public class OptionsImpl implements Options {
 	@Override
 	public String getDescription() {
 		return "use value for given translator property (the default value is in brackets):\n" 
+				+ "-Dalgorithm=<name> : EvoSuite search algorithm (omitted: version default).\n"
+				+ "  Examples: MONOTONIC_GA (whole-suite), DYNAMOSA (many-objective/MOSUITE).\n"
+				+ "  Other names are accepted; compatibility is not guaranteed.\n"
 				+ OPTIONS_ID + ModeConstantsConfig.COMPILER + " = (true)/false : translate and compile the generated java class.\n"
 				+ OPTIONS_ID + TranslatorOptionsImpl.COVER_RULES_OPTION + " = (true)/false : cover the rules in the testGen class.\n" 
 				+ OPTIONS_ID + TranslatorOptionsImpl.COVER_OUTPUTS_OPTION + " = true/(false) : cover the outputs in the testGen class.\n"

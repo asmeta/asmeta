@@ -41,8 +41,6 @@ public class ScenarioGenerator {
 
 	private static final String EVOAVALLA_WORKING_DIR = "evoAvalla/";
 	private static final String DASH = "-";
-	private static final String EVOSUITE_VERSION = "1.2.0";
-	private static final String EVOSUITE_JAR = "evosuite-" + EVOSUITE_VERSION + ".jar";
 
 	/**
 	 * Run random test generation.
@@ -155,11 +153,20 @@ public class ScenarioGenerator {
 	 *                  results)
 	 * @param jdkPath   path to jdk 1.8
 	 * @param budget    EvoSuite budget
+	 * @param evosuiteVersion EvoSuite version ("1.0.6" or "1.2.0")
 	 * @param chooseMode   EvoAvalla choose mode ("flaky" or "noShuffle" or "pick")
 	 * @return evoavalla execution time in ms
 	 * @throws Exception if any Exception occurs
 	 */
-	public static float runEvoAvalla(String asmPath, String targetDir, String jdkPath, int budget, String chooseMode)
+	public static float runEvoAvalla(String asmPath, String targetDir, String jdkPath, int budget,
+			String evosuiteVersion, String chooseMode)
+			throws Exception {
+		return runEvoAvalla(asmPath, targetDir, jdkPath, budget, evosuiteVersion, chooseMode, "");
+	}
+
+	/** Run EvoAvalla with an optional explicit EvoSuite search algorithm. */
+	public static float runEvoAvalla(String asmPath, String targetDir, String jdkPath, int budget,
+			String evosuiteVersion, String chooseMode, String algorithm)
 			throws Exception {
 		// If running from a jar, EvoSuite and its support jars are expected in the
 		// same directory as the application jar.
@@ -171,21 +178,25 @@ public class ScenarioGenerator {
 		if (runningFromJar) {
 			evosuiteJarFolder = new File(runningClass.getProtectionDomain().getCodeSource().getLocation().toURI())
 					.getParentFile().toString();
-			File evosuiteJar = new File(evosuiteJarFolder, EVOSUITE_JAR);
+			String evosuiteJarName = "evosuite-" + evosuiteVersion + ".jar";
+			File evosuiteJar = new File(evosuiteJarFolder, evosuiteJarName);
 			if (!evosuiteJar.exists())
-				throw new RuntimeException("Missing dependency: '" + EVOSUITE_JAR + "'"
-						+ " was not found next to the application JAR. Please make sure '" + EVOSUITE_JAR + "'"
+				throw new RuntimeException("Missing dependency: '" + evosuiteJarName + "'"
+						+ " was not found next to the application JAR. Please make sure '" + evosuiteJarName + "'"
 						+ " is located in the same folder as the application's JAR file.");
 		} else {
 			evosuiteJarFolder = "..\\asmeta.evotest.evoasmetatg\\dependencies";
 		}
 		// Run evoavalla
-		List<String> evoAsmetaTgArguments = List.of(DASH + EvoAsmetaTgCLI.WORKING_DIR, EVOAVALLA_WORKING_DIR,
+		List<String> evoAsmetaTgArguments = new ArrayList<>(List.of(DASH + EvoAsmetaTgCLI.WORKING_DIR, EVOAVALLA_WORKING_DIR,
 				DASH + EvoAsmetaTgCLI.INPUT, asmPath, DASH + EvoAsmetaTgCLI.OUTPUT, targetDir,
-				DASH + EvoAsmetaTgCLI.JAVA_PATH, jdkPath, DASH + EvoAsmetaTgCLI.EVOSUITE_VERSION, EVOSUITE_VERSION,
+				DASH + EvoAsmetaTgCLI.JAVA_PATH, jdkPath, DASH + EvoAsmetaTgCLI.EVOSUITE_VERSION, evosuiteVersion,
 				DASH + EvoAsmetaTgCLI.EVOSUITE_PATH, evosuiteJarFolder, DASH + EvoAsmetaTgCLI.TIME_BUDGET,
 				String.valueOf(budget), DASH + EvoAsmetaTgCLI.CLEAN, "-DignoreDomainException=true",
-				"-DchooseMode=" + chooseMode);
+				"-DchooseMode=" + chooseMode));
+		if (algorithm != null && !algorithm.isBlank()) {
+			evoAsmetaTgArguments.add("-Dalgorithm=" + algorithm);
+		}
 		Instant start = Instant.now();
 		EvoAsmetaTgCLI.main(evoAsmetaTgArguments.toArray(new String[0]));
 		Instant end = Instant.now();

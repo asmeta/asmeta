@@ -361,7 +361,14 @@ public class TranslatorImpl implements Translator {
 			listOfOptions.addAll(List.of(fileManager.getJavaExePathToString(), TranslatorConstants.JAR, evosuiteJar,
 					TranslatorConstants.PROJECT_CP, evosuiteProjectClasspath, TranslatorConstants.TARGET, evosuiteTargetDir, TranslatorConstants.CLASS, evosuiteJavaInputFile,
 					evosuiteTestsOption, TranslatorConstants.CRITERION, TranslatorConstants.COVERAGE_CRITERION,
-					TranslatorConstants.DMINIMIZE_TRUE));
+					TranslatorConstants.DMINIMIZE_TRUE, TranslatorConstants.DASSERTION_STRATEGY_ALL,
+					TranslatorConstants.DFILTER_ASSERTIONS_FALSE));
+			if (!options.getAlgorithm().isBlank()) {
+				listOfOptions.add("-Dalgorithm=" + options.getAlgorithm());
+				if ("MONOTONIC_GA".equals(options.getAlgorithm())) {
+					listOfOptions.add("-generateSuite");
+				}
+			}
 			if (options.getChooseMode().recordsChoices()) {
 				String choiceTraceFile = Paths.get(fileManager.getEvosuiteTestsPathToString(),
 						asmName + TranslatorConstants.CHOICE_TRACE_EXTENSION).toString();
@@ -379,9 +386,7 @@ public class TranslatorImpl implements Translator {
 		}
 
 		static List<String> buildChoiceTraceOptions(String choiceTraceFile) {
-			return List.of(TranslatorConstants.DASSERTION_STRATEGY_ALL,
-					TranslatorConstants.DFILTER_ASSERTIONS_FALSE,
-					TranslatorConstants.DJUNIT_CHECK_COMPILE_ONLY,
+			return List.of(TranslatorConstants.DJUNIT_CHECK_COMPILE_ONLY,
 					TranslatorConstants.ASMETA_CHOICE_TRACE_FILE_OPTION + TranslatorConstants.EQ + choiceTraceFile);
 		}
 
