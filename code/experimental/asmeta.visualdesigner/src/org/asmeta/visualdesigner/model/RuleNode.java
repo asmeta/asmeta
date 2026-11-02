@@ -41,7 +41,20 @@ public class RuleNode implements DiagramNode {
     private String choose = "";
     private String forall = "";
     private String letExpression = "";
+    private String switchExpression = "";
 
+    public String getSwitchExpression() {
+        return switchExpression;
+    }
+
+    public void setSwitchExpression(String expression) {
+        String newValue = expression != null ? expression : "";
+
+        if (!switchExpression.equals(newValue)) {
+            switchExpression = newValue;
+            listeners.firePropertyChange(PROPERTY_RULE_DATA, null, null);
+        }
+    }
     
     public String getLetExpression() {
         return letExpression;
@@ -145,12 +158,7 @@ public class RuleNode implements DiagramNode {
         this.width = width;
         this.height = height;
 
-        boolean changed =
-            oldX != x ||
-            oldY != y ||
-            oldWidth != width ||
-            oldHeight != height;
-
+        boolean changed = oldX != x || oldY != y || oldWidth != width || oldHeight != height;
         if (changed) {
             listeners.firePropertyChange(PROPERTY_LAYOUT, null, null);
         }
@@ -259,7 +267,10 @@ public class RuleNode implements DiagramNode {
         switch (type) {
             case CONDITIONAL:
                 return isNonEmpty(condition) ? condition : "[condition]";
-
+                
+            case SWITCH:
+                return isNonEmpty(switchExpression) ? switchExpression : "[expression]";
+                
             case CALL:
                 if (isNonEmpty(calledRuleName)) {
                     if (isNonEmpty(parameters)) {

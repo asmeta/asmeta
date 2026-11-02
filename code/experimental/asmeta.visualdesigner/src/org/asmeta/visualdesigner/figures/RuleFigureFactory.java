@@ -125,6 +125,9 @@ public class RuleFigureFactory {
 	        case CONDITIONAL:
 	            return new ConditionalRuleFigure(text);
 
+	        case SWITCH:
+	            return new SwitchRuleFigure(text);
+	            
 	        case SEQ:
 	            return new SeqRuleFigure(text);
 

@@ -1,6 +1,7 @@
 package org.asmeta.visualdesigner.views;
 
 import java.util.ArrayList;
+import java.util.EventObject;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -104,6 +105,8 @@ import org.asmeta.visualdesigner.export.AsmModelExporter;
 import org.asmeta.visualdesigner.validation.AsmParserValidator;
 import org.asmeta.visualdesigner.validation.AsmValidationException;
 import org.asmeta.visualdesigner.export.RuleSourceRange;
+import org.asmeta.visualdesigner.commands.SetTransitionLabelCommand;
+import org.asmeta.visualdesigner.model.Transition;
 
 
 
@@ -170,6 +173,11 @@ public class GefDesignEditor extends EditorPart {
     
     private Label letExpressionLabel;
     private Text letExpressionText;
+    
+    private Label caseValueLabel;
+    private Text caseValueText;
+
+    private Transition selectedTransition;
 
     private StyledText asmetaCodeText;
 
@@ -246,13 +254,12 @@ public class GefDesignEditor extends EditorPart {
 
         editDomain.getCommandStack().addCommandStackListener(
                 new CommandStackListener() {
-                    @Override
-                    public void commandStackChanged(
-                            java.util.EventObject event
-                    ) {
-                        clearParserErrorHighlight();
-                        firePropertyChange(PROP_DIRTY);
-                    }
+                	@Override
+                	public void commandStackChanged(EventObject event) {
+                	    clearParserErrorHighlight();
+                	    refreshSelectedTransitionProperties();
+                	    firePropertyChange(PROP_DIRTY);
+                	}
                 }
         );
 
@@ -747,6 +754,15 @@ public class GefDesignEditor extends EditorPart {
         PaletteDrawer rulesDrawer = new PaletteDrawer("Rules");
 
         rulesDrawer.add(new CombinedTemplateCreationEntry(
+                "SWITCH Rule",
+                "Select a case by expression value",
+                RuleType.SWITCH,
+                new RuleCreationFactory(RuleType.SWITCH, "SWITCH Rule"),
+                null,
+                null
+        ));
+        
+        rulesDrawer.add(new CombinedTemplateCreationEntry(
                 "Conditional Rule",
                 "Create a conditional rule",
                 RuleType.CONDITIONAL,
@@ -994,6 +1010,11 @@ public class GefDesignEditor extends EditorPart {
         
         conditionLabel = createLabel(panel, "Condition:");
         conditionText = createText(panel);
+        
+        caseValueLabel = createLabel(panel, "Case value:");
+        caseValueText = createText(panel);
+        caseValueText.setMessage("otherwise");
+        caseValueText.setToolTipText("Leave empty to use the otherwise branch.");
 
         chooseLabel = createLabel(panel, "Choose:");
         chooseText = createText(panel);
@@ -1267,11 +1288,33 @@ public class GefDesignEditor extends EditorPart {
         });
 
         conditionText.addModifyListener(new ModifyListener() {
+
             @Override
             public void modifyText(ModifyEvent event) {
                 if (!updatingPropertiesPanel && selectedRule != null) {
-                    selectedRule.setCondition(conditionText.getText());
+                    if (selectedRule.getType() == RuleType.SWITCH) {
+                        selectedRule.setSwitchExpression(conditionText.getText());
+                    } else {
+                        selectedRule.setCondition(conditionText.getText());
+                    }
+
                     markModelDirty();
+                }
+            }
+        });
+        
+        caseValueText.addModifyListener(new ModifyListener() {
+
+            @Override
+            public void modifyText(ModifyEvent event) {
+                if (!updatingPropertiesPanel && selectedTransition != null && selectedTransition.isSwitchBranch()) {
+
+                    String newValue = caseValueText.getText();
+                    String currentValue = safeText(selectedTransition.getLabel());
+
+                    if (!currentValue.equals(newValue)) {
+                        editDomain.getCommandStack().execute(new SetTransitionLabelCommand(selectedTransition, newValue));
+                    }
                 }
             }
         });
@@ -1492,7 +1535,9 @@ public class GefDesignEditor extends EditorPart {
 
                     showStartNodeProperties(startNode);
                 } else if (selected instanceof TransitionEditPart) {
-                    showTransitionProperties();
+                    TransitionEditPart transitionPart = (TransitionEditPart) selected;
+
+                    showTransitionProperties((Transition) transitionPart.getModel());
                 } else {
                     showNoSelection();
                 }
@@ -1508,7 +1553,7 @@ public class GefDesignEditor extends EditorPart {
         selectedRule = rule;
         selectedStartNode = null;
         updatingPropertiesPanel = true;
-
+        selectedTransition = null;
         selectedTitle.setText("Rule: " + safeText(rule.getName()));
 
         nameText.setText(safeText(rule.getName()));
@@ -1516,7 +1561,7 @@ public class GefDesignEditor extends EditorPart {
         RuleType type = rule.getType();
         typeValueLabel.setText(type != null ? type.name() : "-");
 
-        conditionText.setText(safeText(rule.getCondition()));
+        conditionText.setText(safeText(type == RuleType.SWITCH ? rule.getSwitchExpression() : rule.getCondition()));
         chooseText.setText(safeText(rule.getChoose()));
         forallText.setText(safeText(rule.getForall()));
         assignmentText.setText(safeText(rule.getAssignment()));
@@ -1538,6 +1583,7 @@ public class GefDesignEditor extends EditorPart {
         selectedRule = null;
         selectedStartNode = startNode;
         updatingPropertiesPanel = true;
+        selectedTransition = null;
 
         selectedTitle.setText("Starting point");
 
@@ -1571,15 +1617,20 @@ public class GefDesignEditor extends EditorPart {
         refreshPropertiesPanelLayout();
     }
 
-    private void showTransitionProperties() {
-        selectedRule = null;
+    private void showTransitionProperties(Transition transition) {
         updatingPropertiesPanel = true;
-        selectedStartNode = null;
 
-        selectedTitle.setText("Transition");
+        selectedRule = null;
+        selectedStartNode = null;
+        selectedTransition = transition;
+
+        boolean switchBranch = transition.isSwitchBranch();
+
+        selectedTitle.setText(switchBranch ? "Switch case" : "Transition");
 
         nameText.setText("");
         typeValueLabel.setText("TRANSITION");
+
         conditionText.setText("");
         chooseText.setText("");
         assignmentText.setText("");
@@ -1588,12 +1639,16 @@ public class GefDesignEditor extends EditorPart {
         forallText.setText("");
         letExpressionText.setText("");
         initializationText.setText("");
+
         setInitializationFieldsVisible(false);
         setRuleParametersVisible(false);
 
         setRuleFieldsEnabled(false);
         updateSemanticFieldsForType(null);
 
+        caseValueText.setText(switchBranch ? safeText(transition.getLabel()) : "");
+        setFieldVisible(caseValueLabel, caseValueText, switchBranch);
+        caseValueText.setEnabled(switchBranch);
         updatingPropertiesPanel = false;
         refreshPropertiesPanelLayout();
     }
@@ -1602,6 +1657,7 @@ public class GefDesignEditor extends EditorPart {
         selectedRule = null;
         updatingPropertiesPanel = true;
         selectedStartNode = null;
+        selectedTransition = null;
 
         selectedTitle.setText("No selection");
 
@@ -1639,13 +1695,16 @@ public class GefDesignEditor extends EditorPart {
     }
 
     private void updateSemanticFieldsForType(RuleType type) {
-        boolean isConditional = type == RuleType.CONDITIONAL;
+    	boolean isConditional = type == RuleType.CONDITIONAL || type == RuleType.SWITCH;
+    	conditionLabel.setText(type == RuleType.SWITCH ? "Expression:" : "Condition:");
         boolean isChoose = type == RuleType.CHOOSE;
         boolean isForall = type == RuleType.FORALL;
         boolean isLet = type == RuleType.LET;
         boolean isUpdate = type == RuleType.UPDATE;
         boolean isCall = type == RuleType.CALL;
 
+        setFieldVisible(caseValueLabel, caseValueText, false);
+        caseValueText.setEnabled(false);
         setFieldVisible(conditionLabel, conditionText, isConditional);
         setFieldVisible(chooseLabel, chooseText, isChoose);
         setFieldVisible(forallLabel, forallText, isForall);
@@ -1705,6 +1764,24 @@ public class GefDesignEditor extends EditorPart {
             "shared"
     };
 
+    private void refreshSelectedTransitionProperties() {
+        if (selectedTransition != null && selectedTransition.isSwitchBranch() && caseValueText != null && !caseValueText.isDisposed()) {
+
+            String value = safeText(selectedTransition.getLabel());
+
+            if (!caseValueText.getText().equals(value)) {
+                boolean previousUpdating = updatingPropertiesPanel;
+                updatingPropertiesPanel = true;
+
+                try {
+                    caseValueText.setText(value);
+                } finally {
+                    updatingPropertiesPanel = previousUpdating;
+                }
+            }
+        }
+    }
+    
     private Composite createSignaturesPanel(Composite parent) {
         Composite panel = new Composite(parent, SWT.BORDER);
         panel.setLayout(new FillLayout());

@@ -81,7 +81,7 @@ public class DiagramModel {
 
                 if (rule.getType() == RuleType.CONDITIONAL || rule.getType() == RuleType.CHOOSE) {
                     canAdd = outgoingCount < 2;
-                } else if (rule.getType() == RuleType.PAR) {
+                } else if (rule.getType() == RuleType.PAR || rule.getType() == RuleType.SWITCH) {
                     canAdd = true;
                 } else {
                     canAdd = outgoingCount < 1;

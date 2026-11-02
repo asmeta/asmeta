@@ -184,6 +184,7 @@ public class DiagramModelJson {
         ruleData.width = rule.getWidth();
         ruleData.height = rule.getHeight();
         ruleData.condition = rule.getCondition();
+        ruleData.switchExpression = rule.getSwitchExpression();
         ruleData.calledRuleName = rule.getCalledRuleName();
         ruleData.parameters = rule.getParameters();
         ruleData.assignment = rule.getAssignment();
@@ -239,6 +240,7 @@ public class DiagramModelJson {
             );
 
             rule.setCondition(ruleData.condition);
+            rule.setSwitchExpression(ruleData.switchExpression);
             rule.setCalledRuleName(ruleData.calledRuleName);
             rule.setParameters(ruleData.parameters);
             rule.setAssignment(safeText(ruleData.assignment));
@@ -385,6 +387,7 @@ public class DiagramModelJson {
         private int width;
         private int height;
         private String condition;
+        private String switchExpression;
         private String calledRuleName;
         private String parameters;
         private String assignment;

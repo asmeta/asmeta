@@ -1,6 +1,13 @@
 package org.asmeta.visualdesigner.model;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+
 public class Transition {
+
+    public static final String PROPERTY_LABEL = "Transition.Label";
+
+    private final PropertyChangeSupport listeners = new PropertyChangeSupport(this);
 
     private DiagramNode source;
     private DiagramNode target;
@@ -32,7 +39,30 @@ public class Transition {
         return label;
     }
 
+    public void setLabel(String label) {
+        String oldValue = this.label;
+        this.label = label;
+
+        listeners.firePropertyChange(PROPERTY_LABEL, oldValue, label);
+    }
+
     public boolean hasLabel() {
         return label != null && !label.isBlank();
+    }
+
+    public boolean isSwitchBranch() {
+        return source instanceof RuleNode && ((RuleNode) source).getType() == RuleType.SWITCH;
+    }
+
+    public String getDisplayLabel() {
+        return isSwitchBranch() && !hasLabel() ? "otherwise" : label;
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        listeners.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        listeners.removePropertyChangeListener(listener);
     }
 }

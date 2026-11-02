@@ -316,6 +316,10 @@ public class AsmModelExporter {
                 appendConditional(asm, model, rule, indentation, currentPath);
                 break;
 
+            case SWITCH:
+                appendSwitch(asm, model, rule, indentation, currentPath);
+                break;
+                
             case CALL:
                 appendCall(asm, model, rule, indentation, currentPath);
                 break;
@@ -345,23 +349,12 @@ public class AsmModelExporter {
                 break;
 
             default:
-                throw new AsmExportException("Rule type '"
-                                + rule.getType()
-                                + "' is not supported yet. Rule: "
-                                + rule.getName()
-                );
+                throw new AsmExportException("Rule type '" + rule.getType() + "' is not supported yet. Rule: " + rule.getName());
         }
 
         int endLine = getLastWrittenLine(asm);
 
-        ruleSourceRanges.add(new RuleSourceRange(
-                        getDiagramName(model),
-                        rule,
-                        startLine,
-                        endLine
-                )
-        );
-
+        ruleSourceRanges.add(new RuleSourceRange(getDiagramName(model), rule, startLine, endLine));
         currentPath.remove(rule);
     }
     
@@ -473,6 +466,57 @@ public class AsmModelExporter {
 
             appendIndentation(asm, indentation);
             asm.append("endif").append(System.lineSeparator());
+        }
+    }
+    
+    private void appendSwitch(StringBuilder asm, DiagramModel model, RuleNode rule, int indentation,Set<RuleNode> currentPath) throws AsmExportException {
+
+        List<Transition> branches = model.getOutgoingTransitions(rule);
+        Transition otherwise = null;
+        Set<String> cases = new HashSet<>();
+
+        for (Transition branch : branches) {
+            if (!branch.hasLabel()) {
+                if (otherwise != null) {
+                    throw new AsmExportException("SWITCH '" + rule.getName() + "' has more than one otherwise branch. " + "Give each remaining arrow a case value.");
+                }
+
+                otherwise = branch;
+            } else {
+                String caseValue = branch.getLabel().trim();
+
+                if (!cases.add(caseValue)) {
+                    throw new AsmExportException("SWITCH '" + rule.getName() + "' has a duplicate case: " + caseValue);
+                }
+            }
+        }
+
+        if (isBlank(rule.getSwitchExpression()) || cases.isEmpty()) {
+            appendMissingRule(asm, indentation, "SWITCH", "missing expression or case value");
+        } else {
+            appendIndentation(asm, indentation);
+
+            asm.append("switch ").append(rule.getSwitchExpression().trim()).append(System.lineSeparator());
+
+            for (Transition branch : branches) {
+                if (branch.hasLabel()) {
+                    appendIndentation(asm, indentation + 1);
+                    asm.append("case ").append(branch.getLabel().trim()).append(":").append(System.lineSeparator());
+                    appendTransitionTarget(asm, model, branch, indentation + 2, new HashSet<>(currentPath));
+                }
+            }
+
+            if (otherwise != null) {
+                appendIndentation(asm, indentation + 1);
+
+                asm.append("otherwise").append(System.lineSeparator());
+
+                appendTransitionTarget(asm, model, otherwise, indentation + 2, new HashSet<>(currentPath));
+            }
+
+            appendIndentation(asm, indentation);
+
+            asm.append("endswitch").append(System.lineSeparator());
         }
     }
 
@@ -610,11 +654,7 @@ public class AsmModelExporter {
 
         appendIndentation(asm, indentation);
 
-        asm.append("// ")
-                .append(ruleType)
-                .append(": ")
-                .append(message)
-                .append(System.lineSeparator());
+        asm.append("// ").append(ruleType).append(": ").append(message).append(System.lineSeparator());
     }
     
     

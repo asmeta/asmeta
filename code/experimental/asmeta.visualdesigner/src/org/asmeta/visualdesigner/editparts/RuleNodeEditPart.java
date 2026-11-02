@@ -35,6 +35,7 @@ import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.Request;
 
+
 import org.asmeta.visualdesigner.figures.SkipRuleFigure;
 
 public class RuleNodeEditPart extends AbstractGraphicalEditPart
@@ -149,6 +150,23 @@ implements PropertyChangeListener, DiagramNodeEditPart {
         RuleNode rule = getRuleNode();
         AnchorPosition position = AnchorPosition.BOTTOM;
         int xOffset = 0;
+        
+        if (rule.getType() == RuleType.SWITCH && connection.getModel() instanceof Transition) {
+
+            Transition branch = (Transition) connection.getModel();
+
+            return new AbstractConnectionAnchor(getFigure()) {
+
+                @Override
+                public Point getLocation(Point reference) {
+                    Rectangle bounds = getOwner().getBounds().getCopy();
+                    getOwner().translateToAbsolute(bounds);
+                    int index = Math.max(0, rule.getSourceTransitions().indexOf(branch));
+                    int count = rule.getSourceTransitions().size();
+                    return new Point(bounds.x + bounds.width * (index + 1) / (count + 1), bounds.bottom());
+                }
+            };
+        }
 
         if (rule.getType() == RuleType.PAR) {
             position = AnchorPosition.RIGHT;
@@ -179,17 +197,61 @@ implements PropertyChangeListener, DiagramNodeEditPart {
 
     @Override
     public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart connection) {
-        return createFixedAnchor(getFigure(), AnchorPosition.TOP, 0, 0);
+        return createTargetAnchor();
     }
 
     @Override
     public ConnectionAnchor getTargetConnectionAnchor(Request request) {
-        return createFixedAnchor(getFigure(), AnchorPosition.TOP, 0, 0);
+        return createTargetAnchor();
     }
     
     @Override
     public DiagramNode getDiagramNode() {
         return getRuleNode();
+    }
+    
+    private ConnectionAnchor createTargetAnchor() {
+        ConnectionAnchor anchor;
+
+        if (getRuleNode().getType() == RuleType.SKIP) {
+            anchor = createSkipTargetAnchor();
+        } else {
+            anchor = createFixedAnchor(getFigure(), AnchorPosition.TOP, 0, 0);
+        }
+
+        return anchor;
+    }
+
+    private ConnectionAnchor createSkipTargetAnchor() {
+        return new AbstractConnectionAnchor(getFigure()) {
+            @Override
+            public Point getLocation(Point reference) {
+                Rectangle circle = new Rectangle(
+                        getOwner().getBounds().x,
+                        getOwner().getBounds().y,
+                        SkipRuleFigure.CIRCLE_SIZE - 1,
+                        SkipRuleFigure.CIRCLE_SIZE - 1
+                );
+
+                getOwner().translateToAbsolute(circle);
+
+                double radiusX = circle.width / 2.0;
+                double radiusY = circle.height / 2.0;
+
+                double centerX = circle.x + radiusX;
+                double centerY = circle.y + radiusY;
+
+                double dx = reference != null ? reference.x - centerX : 0;
+                double dy = reference != null ? reference.y - centerY : -radiusY;
+                if (dx == 0 && dy == 0) {
+                    dy = -radiusY;
+                }
+
+                double scale = Math.sqrt((dx * dx) / (radiusX * radiusX) + (dy * dy) / (radiusY * radiusY));
+
+                return new Point((int) Math.round(centerX + dx / scale), (int) Math.round(centerY + dy / scale));
+            }
+        };
     }
     
     private void refreshRuleText() {
@@ -209,26 +271,13 @@ implements PropertyChangeListener, DiagramNodeEditPart {
                 Rectangle bounds = getOwner().getBounds().getCopy();
                 getOwner().translateToAbsolute(bounds);
 
-                Point location = new Point(
-                        bounds.x + bounds.width / 2,
-                        bounds.y + bounds.height / 2
-                );
-
+                Point location = new Point(bounds.x + bounds.width / 2, bounds.y + bounds.height / 2);
                 if (position == AnchorPosition.TOP) {
-                    location = new Point(
-                            bounds.x + bounds.width / 2,
-                            bounds.y
-                    );
+                    location = new Point(bounds.x + bounds.width / 2, bounds.y);
                 } else if (position == AnchorPosition.BOTTOM) {
-                    location = new Point(
-                            bounds.x + bounds.width / 2,
-                            bounds.y + bounds.height
-                    );
+                    location = new Point(bounds.x + bounds.width / 2, bounds.y + bounds.height);
                 } else if (position == AnchorPosition.RIGHT) {
-                    location = new Point(
-                            bounds.x + bounds.width,
-                            bounds.y + bounds.height / 2
-                    );
+                    location = new Point(bounds.x + bounds.width, bounds.y + bounds.height / 2);
                 }
 
                 location.translate(xOffset, yOffset);
