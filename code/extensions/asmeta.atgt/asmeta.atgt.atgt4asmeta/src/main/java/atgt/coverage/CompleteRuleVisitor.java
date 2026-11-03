@@ -81,7 +81,7 @@ public class CompleteRuleVisitor extends BasicRuleVisitor {
 		} else {					
 			Function func = (Function)a.getVar();
 			assert func.getDomain() == func.getIdExpression().getType();
-			id = new FunctionTerm(func.getIdExpression(),func.getCodomain(),a.getArg());
+			id = FunctionTerm.createFunctionTerm(func.getIdExpression(), func.getCodomain(), a.getArg());
 		}
 		list.add(new NamedTerm("", new NotEqualsExpression(id, a.getValue())));
 		return list;

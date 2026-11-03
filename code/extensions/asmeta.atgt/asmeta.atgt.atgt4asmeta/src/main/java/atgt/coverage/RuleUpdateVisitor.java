@@ -80,7 +80,7 @@ public class RuleUpdateVisitor extends BasicRuleVisitor {
 			var = ((Variable) a.getVar()).getIdExpression();
 		} else {
 			Function f = (Function)a.getVar();
-			var = new FunctionTerm(f.getIdExpression(),f.getDomain(),a.getArg());
+			var = FunctionTerm.createFunctionTerm(f.getIdExpression(), f.getDomain(), a.getArg());
 		}
 		Expression notEq = new NotEqualsExpression(var, a.getValue());
 		list.add(new NamedTerm("", notEq));

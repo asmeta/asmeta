@@ -30,11 +30,12 @@ import asmeta.definitions.domains.Domain;
 import atgt.coverage.AsmTestCondition;
 import atgt.coverage.AsmTestSequence;
 import atgt.coverage.AsmTestSuite;
-import atgt.specification.type.DummyType;
+import tgtlib.definitions.expression.Expression;
 import tgtlib.definitions.expression.FunctionTerm;
 import tgtlib.definitions.expression.IdExpression;
 import tgtlib.definitions.expression.IdExpressionCreator;
 import tgtlib.definitions.expression.type.BoolType;
+import tgtlib.definitions.expression.type.DummyType;
 import tgtlib.definitions.expression.type.IntegerType;
 import tgtlib.definitions.expression.type.Type;
 import tgtlib.definitions.expression.type.TypeVisitorI;
@@ -309,7 +310,6 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 				}
 				IdExpression name = icc.createIdExpression(location.getSignature().getName(), dummyType);
 				// type
-
 				FunctionTerm ft = new FunctionTerm(name, dummyType, args);
 				try {
 					testsequence.addAssignment(ft, value, monitored ? VarKind.MONITORED : VarKind.CONTROLLED);

@@ -8,6 +8,7 @@ import java.util.List;
 import org.asmeta.atgt.generator.AsmTestGenerator;
 import org.asmeta.atgt.generator.CriteriaEnum;
 import org.asmeta.atgt.generator.FormatsEnum;
+import org.asmeta.atgt.generator.NuSMVASMSpecTestGenerator;
 import org.asmeta.eclipse.AsmetaUtility;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
@@ -122,7 +123,7 @@ public class ATGTLaunchConfigurationDelegate
 			assert generationMode != null;
 			if (generationMode == GenerationMode.MODEL_CHECKER) {
 				List<String> covCriteriaAttr = configuration.getAttribute(
-						ATGTLaunchConfigurationTabMC.CONFIG_CRITERIA, CriteriaEnum.toListOfString(AsmTestGenerator.DEFAULT_CRITERIA));
+						ATGTLaunchConfigurationTabMC.CONFIG_CRITERIA, CriteriaEnum.toListOfString(NuSMVASMSpecTestGenerator.DEFAULT_CRITERIA));
 				coverageCriteria = CriteriaEnum.toListOfCriteriaEnum(covCriteriaAttr);
 				ATGTActivator.log.debug("criteria " + CriteriaEnum.toListOfString(coverageCriteria));
 			}

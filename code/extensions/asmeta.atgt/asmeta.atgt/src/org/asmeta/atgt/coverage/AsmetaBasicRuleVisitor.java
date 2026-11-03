@@ -11,7 +11,7 @@ import atgt.coverage.AsmTestCondition;
 import atgt.coverage.Coverage;
 import tgtlib.definitions.NamedTerm;
 
-// sobstitute the atgt.coverage.BasicRuleVisitor
+// substitute the atgt.coverage.BasicRuleVisitor - as asmeta coverage builder i.e. it build a tp tree from asmeta specs directly
 public class AsmetaBasicRuleVisitor implements AsmetaCoverageBuilder {
 
 	static Logger logger = Logger.getRootLogger().getLogger(AsmetaBasicRuleVisitor.class);

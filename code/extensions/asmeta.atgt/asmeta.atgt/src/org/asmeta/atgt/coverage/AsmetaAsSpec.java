@@ -14,7 +14,9 @@ import tgtlib.specification.location.Constant;
 import tgtlib.specification.location.DerivedFunction;
 import tgtlib.specification.location.Function;
 
-/** new class for the specification of an ASM.  It sis based on ASM of asmeta.
+/** 
+ * new class for the specification of an ASM.  It is based on ASM of asmeta.
+ * TO be completed
  * 
  * @author Angelo Gargantini
  *

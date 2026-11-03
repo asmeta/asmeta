@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.Vector;
 
 import org.apache.log4j.Logger;
-import org.asmeta.atgt.generator.base.AsmTestGeneratorBase;
 import org.asmeta.atgt.generator.nusmv.ConverterCounterExample;
 import org.asmeta.atgt.generator.nusmv.Counterexample;
 import org.asmeta.atgt.generator.nusmv.TestGenerationWithNuSMV;

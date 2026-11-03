@@ -10,11 +10,11 @@
  ******************************************************************************/
 package atgt.translator;
 
-import atgt.specification.type.DummyType;
 import atgt.spin.translator.TypeSPINTranslatorVisitor;
 import tgtlib.definitions.expression.Expression;
 import tgtlib.definitions.expression.Undef;
 import tgtlib.definitions.expression.type.BoundType;
+import tgtlib.definitions.expression.type.DummyType;
 import tgtlib.definitions.expression.type.ElementsType;
 import tgtlib.definitions.expression.type.EnumType;
 import tgtlib.definitions.expression.type.Type;

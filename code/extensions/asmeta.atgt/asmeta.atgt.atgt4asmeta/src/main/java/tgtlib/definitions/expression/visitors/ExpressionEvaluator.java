@@ -167,28 +167,29 @@ public class ExpressionEvaluator implements tgtlib.definitions.expression.Expres
 		//System.err.println(firstOperand.getClass() + " " + secondOperand.getClass());
 		if (firstOperand instanceof IdExpression && secondOperand instanceof IdExpression) {
 			// BOTH IDs
-			// e1 == e2 identical
 			IdExpression e1 = (IdExpression) firstOperand;
 			IdExpression e2 = (IdExpression) secondOperand;
+			// e1 == e2 identical
 			if (e1 == e2) {
 				return true;
 			}
 			assert (!e1.toString().equals(e2.toString()));
 			// val_i is not null iff e_i is a var
 			String val1 = state.get(e1);
+			// for constant we allow null values
 			// e1 is not a constant and val1 is null
 			if (!(e1 instanceof EnumConst) && val1 == null) {
 				throw new ModelIncomplete(e1.getIdString(), e);
 			}
-			// val1 ==null <=> e1 is a constant
-			assert (e1 instanceof EnumConst) == (val1 == null);
+			// val1 == null ==> e1 is a constant
+			assert (val1 != null) || (e1 instanceof EnumConst) : "e1 = " + val1 + " and e1 instance of " + e1.getClass();
 			String val2 = state.get(e2);
 			// e2 is not a constant and val2 is null
 			if (!(e2 instanceof EnumConst) && val2 == null) {
 				throw new ModelIncomplete(e2, e, state);
 			}
-			// val2 ==null <=> e2 is a constant
-			assert (e2 instanceof EnumConst) == (val2 == null);
+			// val2 ==null ==> e2 is a constant
+			assert (val2 != null) || (e2 instanceof EnumConst);
 			// if both are constants
 			if (val1 == null && val2 == null) {
 				// cannot be equals as string otherwise they'd be equals ==

@@ -1,6 +1,8 @@
 package org.asmeta.atgt.generator;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 
@@ -15,8 +17,15 @@ import tgtlib.coverage.CovBuilderBySubCov;
 // generate test generator based on NuSMV for a given ASM specification (old way). It uses the class TestGenerationWithNuSMV to generate tests for each test purpose.
 public class NuSMVASMSpecTestGenerator extends NuSMVTestGenerator<ASMSpecification> {
 
-
 	private static Logger logger = Logger.getLogger(NuSMVASMSpecTestGenerator.class);
+	
+	public static final List<CriteriaEnum> DEFAULT_CRITERIA = Arrays.asList(CriteriaEnum.BASIC_RULE,
+			CriteriaEnum.COMPLETE_RULE, CriteriaEnum.RULE_UPDATE);
+
+	public static final List<AsmCoverageBuilder> DEFAULT_COV_BUILDER = CriteriaEnum
+			.getCoverageCriteria(DEFAULT_CRITERIA);
+
+
 
 	NuSMVASMSpecTestGenerator(String asmFilePath) throws Exception {
 		this(asmFilePath, true);
@@ -30,7 +39,7 @@ public class NuSMVASMSpecTestGenerator extends NuSMVTestGenerator<ASMSpecificati
 
 	
 	/**
-	 *
+	 * generate the test using the default MBT coverage - it builds also the coverage tree
 	 * @param maxTests
 	 * @param regex
 	 * @return

@@ -2,10 +2,10 @@ package tgtlib.specification.location;
 
 
 
-import atgt.specification.type.DummyType;
 import tgtlib.definitions.expression.Expression;
 import tgtlib.definitions.expression.IdExpression;
 import tgtlib.definitions.expression.IdExpressionCreator;
+import tgtlib.definitions.expression.type.DummyType;
 import tgtlib.definitions.expression.type.Type;
 
 // to be used in pick

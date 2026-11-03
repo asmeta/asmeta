@@ -131,7 +131,7 @@ public class ExpressionToSMV extends MathExpressionTranslator {
 	@Override
 	public StringBuffer forFunctionTerm(FunctionTerm ft) {
 		// only one argument for now
-		assert ft.getArguments().size() == 1;
+		assert ft.getArguments().size() == 1 : "args " + ft.getArguments().size() + " "+ ft.toString();
 		String fName = ft.getFunction().getIdString();
 		String arg0 =ft.getArguments().get(0).toString();
 		return new StringBuffer(fName + "_" + arg0);

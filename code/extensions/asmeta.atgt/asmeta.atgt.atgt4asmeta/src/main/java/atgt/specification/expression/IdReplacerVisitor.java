@@ -83,7 +83,7 @@ public class IdReplacerVisitor extends AsmExpressionVisitor<Expression> {
 				changed = true;
 		}
 		if (changed) {
-			FunctionTerm result = new FunctionTerm(newFN, ft.getCoDomain(), newExps);
+			FunctionTerm result = FunctionTerm.createFunctionTerm(newFN, ft.getCoDomain(), newExps);
 			logger.debug(ft + "-> " + result);
 			return result;
 		}

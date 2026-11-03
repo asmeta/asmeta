@@ -169,7 +169,7 @@ class TermConverter {
 					String funname = fun.getName();
 					IdExpression name = ecc.createIdExpression(funname, domain);
 					List<Expression> argsExpr = translateTerms(args.getTerms());
-					return new tgtlib.definitions.expression.FunctionTerm(name, codomain, argsExpr);
+					return tgtlib.definitions.expression.FunctionTerm.createFunctionTerm(name, codomain, argsExpr);
 				} else {
 					throw new RuntimeException("what kind of term???" + args.getClass());
 				}

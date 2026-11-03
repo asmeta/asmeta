@@ -10,9 +10,9 @@
  ******************************************************************************/
 package atgt.translator;
 
-import atgt.specification.type.DummyType;
 import tgtlib.definitions.expression.type.BoolType;
 import tgtlib.definitions.expression.type.BoundType;
+import tgtlib.definitions.expression.type.DummyType;
 import tgtlib.definitions.expression.type.ElementsType;
 import tgtlib.definitions.expression.type.EnumConst;
 import tgtlib.definitions.expression.type.EnumType;

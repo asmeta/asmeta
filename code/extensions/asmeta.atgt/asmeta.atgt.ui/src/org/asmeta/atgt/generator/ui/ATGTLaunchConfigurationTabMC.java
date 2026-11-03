@@ -6,6 +6,7 @@ import java.util.List;
 import org.asmeta.atgt.generator.AsmTestGenerator;
 import org.asmeta.atgt.generator.CriteriaEnum;
 import org.asmeta.atgt.generator.FormatsEnum;
+import org.asmeta.atgt.generator.NuSMVASMSpecTestGenerator;
 import org.asmeta.atgt.generator.ui.ATGTLaunchConfigurationDelegate.GenerationMode;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunchConfiguration;
@@ -107,7 +108,7 @@ public class ATGTLaunchConfigurationTabMC extends ATGTLaunchConfigurationTab {
 	public void setDefaults(ILaunchConfigurationWorkingCopy configuration) {
 		ATGTActivator.log.debug("Setting defaults in " + this.getClass());
 		configuration.setAttribute(CONFIG_COMPUTE_COVERAGE, true);
-		configuration.setAttribute(CONFIG_CRITERIA, CriteriaEnum.toListOfString(AsmTestGenerator.DEFAULT_CRITERIA));
+		configuration.setAttribute(CONFIG_CRITERIA, CriteriaEnum.toListOfString(NuSMVASMSpecTestGenerator.DEFAULT_CRITERIA));
 		configuration.setAttribute(CONFIG_FORMATS, AsmTestGenerator.DEFAULT_FORMATS);
 		setAsmetaFile(configuration);
 		configuration.setAttribute(GENERATION_MODE, GenerationMode.MODEL_CHECKER.toString());
@@ -138,7 +139,7 @@ public class ATGTLaunchConfigurationTabMC extends ATGTLaunchConfigurationTab {
 		ATGTActivator.log.debug("Initializing from configuration... " + this.getClass().getSimpleName());
 		try {
 			btnCoverageTp.setSelection(configuration.getAttribute(CONFIG_COMPUTE_COVERAGE, btnCoverageTp.getSelection()));
-			List<String> crit = configuration.getAttribute(CONFIG_CRITERIA, CriteriaEnum.toListOfString(AsmTestGenerator.DEFAULT_CRITERIA));
+			List<String> crit = configuration.getAttribute(CONFIG_CRITERIA, CriteriaEnum.toListOfString(NuSMVASMSpecTestGenerator.DEFAULT_CRITERIA));
 			for (int i=0; i<CriteriaEnum.values().length; i++) {
 				cbs[i].setSelection(crit!=null && crit.size()>0 && crit.contains(CriteriaEnum.values()[i].name()));
 			}

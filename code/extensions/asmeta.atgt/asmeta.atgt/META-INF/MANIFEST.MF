@@ -22,7 +22,6 @@ Require-Bundle: asmeta.smv,
 Bundle-ClassPath: .
 Export-Package: org.asmeta.atgt.coverage,
  org.asmeta.atgt.generator,
- org.asmeta.atgt.generator.base,
  org.asmeta.atgt.generator.combinatorial,
  org.asmeta.atgt.generator.nusmv,
  org.asmeta.atgt.rndgenerator,

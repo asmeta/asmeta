@@ -29,8 +29,8 @@ import org.junit.jupiter.api.Test;
 
 import atgt.parser.ExampleLoader;
 import atgt.specification.ASMSpecification;
-import atgt.specification.type.DummyType;
 import tgtlib.definitions.expression.type.BoundType;
+import tgtlib.definitions.expression.type.DummyType;
 import tgtlib.definitions.expression.type.Type;
 import tgtlib.specification.location.Variable;
 

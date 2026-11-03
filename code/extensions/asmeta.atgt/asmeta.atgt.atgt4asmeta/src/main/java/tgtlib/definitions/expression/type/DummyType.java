@@ -8,10 +8,7 @@
  * Contributors:
  *     Angelo Gargantini - initial API and implementation
  ******************************************************************************/
-package atgt.specification.type;
-
-import tgtlib.definitions.expression.type.Type;
-import tgtlib.definitions.expression.type.TypeVisitorI;
+package tgtlib.definitions.expression.type;
 
 /**
  * Handles dummy types.<BR>

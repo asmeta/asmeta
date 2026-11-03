@@ -34,13 +34,14 @@ import tgtlib.definitions.expression.type.Type;
 
 /**
  *
- * transform an asmeta term to an expression (in the library tgtlib.definitions.expression)
+ * transform an asmeta term to an expression (in the library
+ * tgtlib.definitions.expression)
  *
  */
 public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<Expression> {
 
 	static Logger logger = Logger.getLogger(AsmetaToExprTrans.class);
-	
+
 	// to create the ids (including the enum constants)
 	EnumConstCreator icc = new EnumConstCreator();
 	Map<Domain, Type> types = new HashMap<>();
@@ -53,7 +54,7 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 	 * @return the string
 	 */
 	public Expression visit(Term term) {
-		logger.debug("visit term "+AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(term));
+		logger.debug("visit term " + AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(term));
 		return visit((Object) term);
 	}
 
@@ -74,7 +75,7 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 		Type t = types.get(domain);
 		if (t == null) {
 			t = AsmetaLLoader.convertDomainToType(domain, icc);
-			types.put(domain,t);
+			types.put(domain, t);
 		}
 		return t;
 	}
@@ -86,8 +87,9 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 	 *
 	 * @return the string
 	 *
-	 * @throws Exception the exception
-		List<Expression> args = funcTerm.getArguments().getTerms().stream().map( x -> this.visit(x)).collect(Collectors.toList());
+	 * @throws Exception the exception List<Expression> args =
+	 *                   funcTerm.getArguments().getTerms().stream().map( x ->
+	 *                   this.visit(x)).collect(Collectors.toList());
 	 */
 	public Expression visit(FunctionTerm funcTerm) throws Exception {
 		Function func = funcTerm.getFunction();
@@ -105,7 +107,7 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 			// dominio o codominio??
 			Type t = getType(funcTerm.getDomain());
 			IdExpression fid = icc.createIdExpression(funcTerm.getFunction().getName(), t);
-			return new tgtlib.definitions.expression.FunctionTerm(fid, t, args);
+			return tgtlib.definitions.expression.FunctionTerm.createFunctionTerm(fid, t, args);
 		}
 	}
 
@@ -160,15 +162,16 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 			// convert to type AsmetaLLoader.
 			return icc.createIdExpression(location.getFunction().getName(), getType(location.getDomain()));
 		}
-		//throw new RuntimeException("not implemented yet location: " + AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(location));
+		// throw new RuntimeException("not implemented yet location: " +
+		// AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(location));
 		IdExpression funName = icc.createIdExpression(location.getFunction().getName(), getType(location.getDomain()));
 		Type type = getType(location.getFunction().getCodomain());
 		List<Expression> args = new ArrayList<>();
-		for(Term t: location.getArguments().getTerms()) {
+		for (Term t : location.getArguments().getTerms()) {
 			System.out.println("t" + t);
 			args.add(visit(t));
 		}
-		return new tgtlib.definitions.expression.FunctionTerm(funName, type, args);
+		return tgtlib.definitions.expression.FunctionTerm.createFunctionTerm(funName, type, args);
 //		if(func.getName().equals("self")) {
 //			return env.self;
 //		}
@@ -242,7 +245,7 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 	 */
 	public Expression visit(EnumTerm term) {
 		Type t = getType(term.getDomain());
-		return icc.createEnumConst(term.getSymbol(),t);
+		return icc.createEnumConst(term.getSymbol(), t);
 	}
 
 	/**
