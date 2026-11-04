@@ -23,18 +23,18 @@ Experiments for the short paper **"Evaluating the Practical Impact of Parallelis
 rejected at FM 2026, later accepted to ABZ 2026.  
 Contains all outputs, configuration files, and the required JARs/scripts to fully rerun the experiments.
 
-### `icst-26-exp/` and `icst-27-exp/`
+### `icst-26-exp-OLD/` and `icst-27-exp/`
 Experiments for the paper **"Generating Abstract Tests for Asmeta Models by Using Code Transformations and EvoSuite"**,  
-rejected at ICST 2026 and submitted to ICST 2027.  
-Contain only results and the Python notebooks used to analyze the data in `data.csv`. To replicate these experiments, use the JARs and scripts located in the base folder `data/`.
-For `icst-27-exp`, the experiments were rerun with a newer version of EvoSuite (1.2.0)
-and running the experiments requires two additional dependencies in the root directory of the run:
+rejected at ICST 2026 and submitted to ICST 2027.
+Contain the `experiments-runner.jar` to be used to replicate the experiments, the results and the Python notebooks used to analyze the data in `data.csv`.
+For `icst-27-exp`, the experiments were also rerun with a newer version of EvoSuite (1.2.0), which requires two additional dependencies in the root directory of the run:
 `commons-collections4-4.4.jar` and `javatuples-3.0.jar`.
 
-### `nfm-26-exp/`
+### `nfm-26-exp/` and `nfm-26-SI-exp/`
 Experiments for **"Evaluating coverage and fault detection capability of scenarios for the validation of Asmeta specifications"**,  
-accepted at NFM 2026.  
-Contains only results. To replicate these experiments, use the JARs and scripts located in the base folder `data/`.
+accepted at NFM 2026 and extended for a Special Issue.  
+`nfm-26-exp/` also contains the `experiments-runner.jar` to be used to replicate the experiments.
+`nfm-26-SI-exp/` contains only results. To replicate these experiments, use the JARs and scripts located in the base folder `data/`.
 
 ---
 
