@@ -48,7 +48,6 @@ import org.asmeta.parser.util.Defs;
 import org.asmeta.parser.util.ReflectiveVisitor;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.xtend2.lib.StringConcatenation;
-import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.eclipse.xtext.xbase.lib.XbaseGenerated;
 
 @SuppressWarnings("all")
@@ -258,8 +257,8 @@ public class TermToJava extends ReflectiveVisitor<String> {
         if (_notEquals) {
           throw new IllegalArgumentException("A map entry must contain exactly a key and a value");
         }
-        map.append(" put(").append(this.javaValue(pair.getTerms().get(0))).append(", ");
-        map.append(this.javaValue(pair.getTerms().get(1))).append(");");
+        map.append(" put(").append(ArgumentToJava.value(pair.getTerms().get(0), mapDomain.getSourceDomain(), this)).append(", ");
+        map.append(ArgumentToJava.value(pair.getTerms().get(1), mapDomain.getTargetDomain(), this)).append(");");
       }
     }
     map.append(" }}");
@@ -414,16 +413,16 @@ public class TermToJava extends ReflectiveVisitor<String> {
       throw new IllegalArgumentException("A set comprehension must bind one range to each variable");
     }
     StringConcatenation _builder = new StringConcatenation();
-    String _rangeStream = this.rangeStream(IterableExtensions.<Term>last(term.getRanges()));
+    String _rangeStream = this.rangeStream(term.getRanges().getLast());
     _builder.append(_rangeStream);
     _builder.append(".filter(");
-    String _visit = this.visit(IterableExtensions.<VariableTerm>last(term.getVariable()));
+    String _visit = this.visit(term.getVariable().getLast());
     _builder.append(_visit);
     _builder.append(" -> ");
     String _visit_1 = this.visit(term.getGuard());
     _builder.append(_visit_1);
     _builder.append(").map(");
-    String _visit_2 = this.visit(IterableExtensions.<VariableTerm>last(term.getVariable()));
+    String _visit_2 = this.visit(term.getVariable().getLast());
     _builder.append(_visit_2);
     _builder.append(" -> ");
     String _setComprehensionResult = this.setComprehensionResult(term.getTerm());

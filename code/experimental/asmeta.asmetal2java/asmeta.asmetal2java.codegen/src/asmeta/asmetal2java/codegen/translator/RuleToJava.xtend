@@ -12,6 +12,7 @@ import asmeta.definitions.domains.PowersetDomain
 import asmeta.definitions.domains.StringDomain
 import asmeta.structure.Asm
 import asmeta.terms.basicterms.Term
+import asmeta.terms.basicterms.FunctionTerm
 import asmeta.terms.basicterms.VariableTerm
 import asmeta.transitionrules.basictransitionrules.BlockRule
 import asmeta.transitionrules.basictransitionrules.ChooseRule
@@ -177,7 +178,14 @@ class RuleToJava extends RuleVisitor<String> {
 			result.
 				append('''«termToJavaL.visit(object.location)» = «termToJavaR.visit(object.updatingTerm)»;			   
 			''')
-		else if (object.location.domain instanceof ConcreteDomain &&
+		else if (object.location instanceof FunctionTerm && object.location.domain instanceof ConcreteDomain &&
+			!((object.location.domain as ConcreteDomain).typeDomain instanceof PowersetDomain)) {
+			val location = object.location as FunctionTerm
+			result.append(location.function.name).append(".set(")
+			if (location.arguments !== null)
+				result.append(ArgumentToJava.locationArguments(location, termToJavaR)).append(", ")
+			result.append(ArgumentToJava.value(object.updatingTerm, location.domain, termToJavaR)).append(");\n")
+		} else if (object.location.domain instanceof ConcreteDomain &&
 			(object.location.domain as ConcreteDomain).typeDomain instanceof PowersetDomain) {
 			val varName = object.hashCode.toString
 			val concreteDomain = object.location.domain as ConcreteDomain
@@ -320,10 +328,15 @@ class RuleToJava extends RuleVisitor<String> {
 					//NOT IMPLEMENTED IN JAVA	
 				''')
 		}
-		if (chooseRule.getGuard !== null)
+		if (chooseRule.getGuard !== null) {
+			var guard = new TermToJava(res).visit(chooseRule.getGuard)
+			for (variable : chooseRule.variable)
+				if (variable.domain instanceof ConcreteDomain)
+					guard = guard.replace(new TermToJava(res).visit(variable) + ".value", new TermToJava(res).visit(variable))
 			sb.append('''
-				if(«new TermToJava(res).visit(chooseRule.getGuard)»){
+				if(«guard»){
 			''')
+		}
 		else
 			sb.append('''{
 			''')
@@ -398,7 +411,12 @@ class RuleToJava extends RuleVisitor<String> {
 			'''
 					for(«new DomainToJavaString(res).visit(baseDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» : «new DomainToJavaString(res).visit(baseDomain)».values())
 				''')
-			else
+			else if (baseDomain instanceof ConcreteDomain) {
+				val variable = new TermToJava(res).visit(object.variable.get(i))
+				sb.append('''for («Util.javaType((baseDomain as ConcreteDomain).typeDomain, res)» «variable»_raw : «baseDomain.name».elems) {
+					«baseDomain.name» «variable» = «baseDomain.name».valueOf(«variable»_raw);
+				''')
+			} else
 				sb.append(
 			'''
 					for(«new DomainToJavaString(res).visit(baseDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» : «new DomainToJavaString(res).visit(baseDomain)».elems)
@@ -418,6 +436,9 @@ class RuleToJava extends RuleVisitor<String> {
 					«visit(object.getDoRule)»
 				}
 			''')
+		for (range : object.ranges)
+			if ((range.domain as PowersetDomain).baseDomain instanceof ConcreteDomain)
+				sb.append("}\n")
 		return sb.toString
 	}
 

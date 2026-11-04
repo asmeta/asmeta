@@ -11,7 +11,9 @@ import asmeta.definitions.domains.EnumTd;
 import asmeta.definitions.domains.PowersetDomain;
 import asmeta.definitions.domains.StringDomain;
 import asmeta.structure.Asm;
+import asmeta.terms.basicterms.FunctionTerm;
 import asmeta.terms.basicterms.Term;
+import asmeta.terms.basicterms.TupleTerm;
 import asmeta.terms.basicterms.VariableTerm;
 import asmeta.transitionrules.basictransitionrules.BlockRule;
 import asmeta.transitionrules.basictransitionrules.ChooseRule;
@@ -287,70 +289,83 @@ public class RuleToJava extends RuleVisitor<String> {
       _builder.newLineIfNotEmpty();
       result.append(_builder);
     } else {
-      if (((object.getLocation().getDomain() instanceof ConcreteDomain) && 
-        (((ConcreteDomain) object.getLocation().getDomain()).getTypeDomain() instanceof PowersetDomain))) {
-        final String varName = Integer.valueOf(object.hashCode()).toString();
-        Domain _domain = object.getLocation().getDomain();
-        final ConcreteDomain concreteDomain = ((ConcreteDomain) _domain);
-        StringConcatenation _builder_1 = new StringConcatenation();
-        String _name = concreteDomain.getName();
-        _builder_1.append(_name);
-        _builder_1.append(" ");
-        String _name_1 = concreteDomain.getName();
-        _builder_1.append(_name_1);
-        _builder_1.append(varName);
-        _builder_1.append("_s = new ");
-        String _name_2 = concreteDomain.getName();
-        _builder_1.append(_name_2);
-        _builder_1.append("();");
-        _builder_1.newLineIfNotEmpty();
-        _builder_1.append("\t\t\t\t");
-        String _name_3 = concreteDomain.getName();
-        _builder_1.append(_name_3, "\t\t\t\t");
-        _builder_1.append(varName, "\t\t\t\t");
-        _builder_1.append("_s.value = new HashSet<>(Arrays.asList");
-        String _visit_4 = termToJavaR.visit(object.getUpdatingTerm());
-        _builder_1.append(_visit_4, "\t\t\t\t");
-        _builder_1.append(");");
-        _builder_1.newLineIfNotEmpty();
-        _builder_1.append("\t\t\t\t");
-        String _visit_5 = new TermToJavaInUpdateRule(this.res, false, varName).visit(object.getLocation());
-        _builder_1.append(_visit_5, "\t\t\t\t");
-        _builder_1.newLineIfNotEmpty();
-        result.append(_builder_1);
+      if ((((object.getLocation() instanceof FunctionTerm) && (object.getLocation().getDomain() instanceof ConcreteDomain)) && 
+        (!(((ConcreteDomain) object.getLocation().getDomain()).getTypeDomain() instanceof PowersetDomain)))) {
+        Term _location_1 = object.getLocation();
+        final FunctionTerm location = ((FunctionTerm) _location_1);
+        result.append(location.getFunction().getName()).append(".set(");
+        TupleTerm _arguments = location.getArguments();
+        boolean _tripleNotEquals = (_arguments != null);
+        if (_tripleNotEquals) {
+          result.append(ArgumentToJava.locationArguments(location, termToJavaR)).append(", ");
+        }
+        result.append(ArgumentToJava.value(object.getUpdatingTerm(), location.getDomain(), termToJavaR)).append(");\n");
       } else {
-        Domain _domain_1 = object.getUpdatingTerm().getDomain();
-        if ((_domain_1 instanceof ConcreteDomain)) {
-          StringConcatenation _builder_2 = new StringConcatenation();
-          String _visit_6 = termToJavaL.visit(object.getLocation());
-          _builder_2.append(_visit_6);
-          _builder_2.append(" ");
-          String _visit_7 = termToJavaR.visit(object.getUpdatingTerm());
-          _builder_2.append(_visit_7);
-          result.append(_builder_2);
-          Term _updatingTerm = object.getUpdatingTerm();
-          if ((_updatingTerm instanceof VariableTerm)) {
-            result.append(".value");
-          }
-          result.append(");");
-          StringConcatenation _builder_3 = new StringConcatenation();
-          String _visit_8 = new TermToJavaInUpdateRule(this.res, false).visit(object.getLocation());
-          _builder_3.append(_visit_8);
-          result.append(_builder_3);
+        if (((object.getLocation().getDomain() instanceof ConcreteDomain) && 
+          (((ConcreteDomain) object.getLocation().getDomain()).getTypeDomain() instanceof PowersetDomain))) {
+          final String varName = Integer.valueOf(object.hashCode()).toString();
+          Domain _domain = object.getLocation().getDomain();
+          final ConcreteDomain concreteDomain = ((ConcreteDomain) _domain);
+          StringConcatenation _builder_1 = new StringConcatenation();
+          String _name = concreteDomain.getName();
+          _builder_1.append(_name);
+          _builder_1.append(" ");
+          String _name_1 = concreteDomain.getName();
+          _builder_1.append(_name_1);
+          _builder_1.append(varName);
+          _builder_1.append("_s = new ");
+          String _name_2 = concreteDomain.getName();
+          _builder_1.append(_name_2);
+          _builder_1.append("();");
+          _builder_1.newLineIfNotEmpty();
+          _builder_1.append("\t\t\t\t");
+          String _name_3 = concreteDomain.getName();
+          _builder_1.append(_name_3, "\t\t\t\t");
+          _builder_1.append(varName, "\t\t\t\t");
+          _builder_1.append("_s.value = new HashSet<>(Arrays.asList");
+          String _visit_4 = termToJavaR.visit(object.getUpdatingTerm());
+          _builder_1.append(_visit_4, "\t\t\t\t");
+          _builder_1.append(");");
+          _builder_1.newLineIfNotEmpty();
+          _builder_1.append("\t\t\t\t");
+          String _visit_5 = new TermToJavaInUpdateRule(this.res, false, varName).visit(object.getLocation());
+          _builder_1.append(_visit_5, "\t\t\t\t");
+          _builder_1.newLineIfNotEmpty();
+          result.append(_builder_1);
         } else {
-          String varName_1 = Integer.valueOf(object.hashCode()).toString();
-          StringConcatenation _builder_4 = new StringConcatenation();
-          String _visit_9 = new TermToJava(this.res, true, varName_1).visit(object.getLocation());
-          _builder_4.append(_visit_9);
-          String _visit_10 = new TermToJava(this.res, false).visit(object.getUpdatingTerm());
-          _builder_4.append(_visit_10);
-          _builder_4.append(");");
-          _builder_4.newLineIfNotEmpty();
-          _builder_4.append("\t\t\t\t   ");
-          String _visit_11 = new TermToJavaInUpdateRule(this.res, false, varName_1).visit(object.getLocation());
-          _builder_4.append(_visit_11, "\t\t\t\t   ");
-          _builder_4.newLineIfNotEmpty();
-          result.append(_builder_4);
+          Domain _domain_1 = object.getUpdatingTerm().getDomain();
+          if ((_domain_1 instanceof ConcreteDomain)) {
+            StringConcatenation _builder_2 = new StringConcatenation();
+            String _visit_6 = termToJavaL.visit(object.getLocation());
+            _builder_2.append(_visit_6);
+            _builder_2.append(" ");
+            String _visit_7 = termToJavaR.visit(object.getUpdatingTerm());
+            _builder_2.append(_visit_7);
+            result.append(_builder_2);
+            Term _updatingTerm = object.getUpdatingTerm();
+            if ((_updatingTerm instanceof VariableTerm)) {
+              result.append(".value");
+            }
+            result.append(");");
+            StringConcatenation _builder_3 = new StringConcatenation();
+            String _visit_8 = new TermToJavaInUpdateRule(this.res, false).visit(object.getLocation());
+            _builder_3.append(_visit_8);
+            result.append(_builder_3);
+          } else {
+            String varName_1 = Integer.valueOf(object.hashCode()).toString();
+            StringConcatenation _builder_4 = new StringConcatenation();
+            String _visit_9 = new TermToJava(this.res, true, varName_1).visit(object.getLocation());
+            _builder_4.append(_visit_9);
+            String _visit_10 = new TermToJava(this.res, false).visit(object.getUpdatingTerm());
+            _builder_4.append(_visit_10);
+            _builder_4.append(");");
+            _builder_4.newLineIfNotEmpty();
+            _builder_4.append("\t\t\t\t   ");
+            String _visit_11 = new TermToJavaInUpdateRule(this.res, false, varName_1).visit(object.getLocation());
+            _builder_4.append(_visit_11, "\t\t\t\t   ");
+            _builder_4.newLineIfNotEmpty();
+            result.append(_builder_4);
+          }
         }
       }
     }
@@ -573,10 +588,19 @@ public class RuleToJava extends RuleVisitor<String> {
     Term _guard = chooseRule.getGuard();
     boolean _tripleNotEquals = (_guard != null);
     if (_tripleNotEquals) {
+      String guard = new TermToJava(this.res).visit(chooseRule.getGuard());
+      EList<VariableTerm> _variable = chooseRule.getVariable();
+      for (final VariableTerm variable : _variable) {
+        Domain _domain = variable.getDomain();
+        if ((_domain instanceof ConcreteDomain)) {
+          String _visit = new TermToJava(this.res).visit(variable);
+          String _plus = (_visit + ".value");
+          guard = guard.replace(_plus, new TermToJava(this.res).visit(variable));
+        }
+      }
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("if(");
-      String _visit = new TermToJava(this.res).visit(chooseRule.getGuard());
-      _builder.append(_visit);
+      _builder.append(guard);
       _builder.append("){");
       _builder.newLineIfNotEmpty();
       sb.append(_builder);
@@ -587,8 +611,8 @@ public class RuleToJava extends RuleVisitor<String> {
       sb.append(_builder_1);
     }
     for (int i = 0; (i < chooseRule.getVariable().size()); i++) {
-      Domain _domain = chooseRule.getRanges().get(i).getDomain();
-      Domain _baseDomain = ((PowersetDomain) _domain).getBaseDomain();
+      Domain _domain_1 = chooseRule.getRanges().get(i).getDomain();
+      Domain _baseDomain = ((PowersetDomain) _domain_1).getBaseDomain();
       if ((_baseDomain instanceof AbstractTd)) {
         String termName = new TermToJava(this.res).visit(chooseRule.getVariable().get(i));
         StringConcatenation _builder_2 = new StringConcatenation();
@@ -601,20 +625,20 @@ public class RuleToJava extends RuleVisitor<String> {
         _builder_2.newLineIfNotEmpty();
         sb.append(_builder_2);
       } else {
-        Domain _domain_1 = chooseRule.getRanges().get(i).getDomain();
-        Domain _baseDomain_1 = ((PowersetDomain) _domain_1).getBaseDomain();
+        Domain _domain_2 = chooseRule.getRanges().get(i).getDomain();
+        Domain _baseDomain_1 = ((PowersetDomain) _domain_2).getBaseDomain();
         if ((_baseDomain_1 instanceof ConcreteDomain)) {
           StringConcatenation _builder_3 = new StringConcatenation();
           _builder_3.append(prefix);
           _builder_3.append("point");
           _builder_3.append(i);
           _builder_3.append(".add(");
-          Domain _domain_2 = chooseRule.getRanges().get(i).getDomain();
-          String _name = ((PowersetDomain) _domain_2).getBaseDomain().getName();
-          String _plus = (_name + ".valueOf(");
+          Domain _domain_3 = chooseRule.getRanges().get(i).getDomain();
+          String _name = ((PowersetDomain) _domain_3).getBaseDomain().getName();
+          String _plus_1 = (_name + ".valueOf(");
           String _visit_1 = new TermToJava(this.res).visit(chooseRule.getVariable().get(i));
-          String _plus_1 = (_plus + _visit_1);
-          _builder_3.append(_plus_1);
+          String _plus_2 = (_plus_1 + _visit_1);
+          _builder_3.append(_plus_2);
           _builder_3.append("));");
           _builder_3.newLineIfNotEmpty();
           sb.append(_builder_3);
@@ -669,14 +693,14 @@ public class RuleToJava extends RuleVisitor<String> {
     }
     for (int i = 0; (i < chooseRule.getVariable().size()); i++) {
       {
-        Domain _domain = chooseRule.getRanges().get(i).getDomain();
-        final Domain baseDomain = ((PowersetDomain) _domain).getBaseDomain();
+        Domain _domain_1 = chooseRule.getRanges().get(i).getDomain();
+        final Domain baseDomain = ((PowersetDomain) _domain_1).getBaseDomain();
         final String type = new DomainToJavaString(this.res).visit(baseDomain);
-        final String variable = new TermToJava(this.res).visit(chooseRule.getVariable().get(i));
+        final String variable_1 = new TermToJava(this.res).visit(chooseRule.getVariable().get(i));
         StringConcatenation _builder_6 = new StringConcatenation();
         _builder_6.append(type);
         _builder_6.append(" ");
-        _builder_6.append(variable);
+        _builder_6.append(variable_1);
         _builder_6.append(" = ");
         _builder_6.append(prefix);
         _builder_6.append("point");
@@ -685,7 +709,7 @@ public class RuleToJava extends RuleVisitor<String> {
         _builder_6.append(prefix);
         _builder_6.append("rndm);");
         _builder_6.newLineIfNotEmpty();
-        String _recordChoice = this.recordChoice(chooseRule, i, baseDomain, variable, occurrence, (prefix + "rndm"));
+        String _recordChoice = this.recordChoice(chooseRule, i, baseDomain, variable_1, occurrence, (prefix + "rndm"));
         _builder_6.append(_recordChoice);
         _builder_6.newLineIfNotEmpty();
         sb.append(_builder_6);
@@ -738,19 +762,47 @@ public class RuleToJava extends RuleVisitor<String> {
           _builder.newLineIfNotEmpty();
           sb.append(_builder);
         } else {
-          StringConcatenation _builder_1 = new StringConcatenation();
-          _builder_1.append("for(");
-          String _visit_3 = new DomainToJavaString(this.res).visit(baseDomain);
-          _builder_1.append(_visit_3);
-          _builder_1.append(" ");
-          String _visit_4 = new TermToJava(this.res).visit(object.getVariable().get(i));
-          _builder_1.append(_visit_4);
-          _builder_1.append(" : ");
-          String _visit_5 = new DomainToJavaString(this.res).visit(baseDomain);
-          _builder_1.append(_visit_5);
-          _builder_1.append(".elems)");
-          _builder_1.newLineIfNotEmpty();
-          sb.append(_builder_1);
+          if ((baseDomain instanceof ConcreteDomain)) {
+            final String variable = new TermToJava(this.res).visit(object.getVariable().get(i));
+            StringConcatenation _builder_1 = new StringConcatenation();
+            _builder_1.append("for (");
+            String _javaType = Util.javaType(((ConcreteDomain) baseDomain).getTypeDomain(), this.res);
+            _builder_1.append(_javaType);
+            _builder_1.append(" ");
+            _builder_1.append(variable);
+            _builder_1.append("_raw : ");
+            String _name = ((ConcreteDomain)baseDomain).getName();
+            _builder_1.append(_name);
+            _builder_1.append(".elems) {");
+            _builder_1.newLineIfNotEmpty();
+            _builder_1.append("\t\t\t\t\t");
+            String _name_1 = ((ConcreteDomain)baseDomain).getName();
+            _builder_1.append(_name_1, "\t\t\t\t\t");
+            _builder_1.append(" ");
+            _builder_1.append(variable, "\t\t\t\t\t");
+            _builder_1.append(" = ");
+            String _name_2 = ((ConcreteDomain)baseDomain).getName();
+            _builder_1.append(_name_2, "\t\t\t\t\t");
+            _builder_1.append(".valueOf(");
+            _builder_1.append(variable, "\t\t\t\t\t");
+            _builder_1.append("_raw);");
+            _builder_1.newLineIfNotEmpty();
+            sb.append(_builder_1);
+          } else {
+            StringConcatenation _builder_2 = new StringConcatenation();
+            _builder_2.append("for(");
+            String _visit_3 = new DomainToJavaString(this.res).visit(baseDomain);
+            _builder_2.append(_visit_3);
+            _builder_2.append(" ");
+            String _visit_4 = new TermToJava(this.res).visit(object.getVariable().get(i));
+            _builder_2.append(_visit_4);
+            _builder_2.append(" : ");
+            String _visit_5 = new DomainToJavaString(this.res).visit(baseDomain);
+            _builder_2.append(_visit_5);
+            _builder_2.append(".elems)");
+            _builder_2.newLineIfNotEmpty();
+            sb.append(_builder_2);
+          }
         }
       }
     }
@@ -784,6 +836,14 @@ public class RuleToJava extends RuleVisitor<String> {
       _builder_1.append("}");
       _builder_1.newLine();
       sb.append(_builder_1);
+    }
+    EList<Term> _ranges = object.getRanges();
+    for (final Term range : _ranges) {
+      Domain _domain = range.getDomain();
+      Domain _baseDomain = ((PowersetDomain) _domain).getBaseDomain();
+      if ((_baseDomain instanceof ConcreteDomain)) {
+        sb.append("}\n");
+      }
     }
     return sb.toString();
   }
