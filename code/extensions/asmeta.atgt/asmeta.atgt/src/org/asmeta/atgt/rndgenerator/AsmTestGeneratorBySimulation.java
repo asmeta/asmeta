@@ -195,7 +195,7 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 				addState(testsequence, state);
 				// if there is an error, stop
 				if (errorFound) {
-					testsequence.addComment("--" + msg);
+					testsequence.addComment("Error during simulation: " + msg + ", stopping at step " + currentStep);
 					break;
 				}
 				// if no step was required
