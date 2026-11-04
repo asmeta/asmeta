@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import atgt.coverage.AsmTestSequence;
+import tgtlib.definitions.expression.type.DummyType;
 import tgtlib.specification.location.Location;
 import tgtlib.specification.location.PickedVariable;
 
@@ -70,6 +71,9 @@ public class toAvalla extends TestSeqTrad {
 			for (Entry<Location, String> p : state.entrySet()) {
 				Location v = p.getKey();
 				String value = p.getValue();
+				// if any type or string type, it contains already the quotes				
+				assert (!(v.getType().getName().contains("String") || v.getType().getName().contains("Any"))
+						|| (value.startsWith("\"") && value.endsWith("\""))); 
 				assert (v instanceof PickedVariable || v.isControlled() || v.isMonitored());
 				if (v.isControlled())
 					dst.println("check " + v.toString() + " = " + value + ";");

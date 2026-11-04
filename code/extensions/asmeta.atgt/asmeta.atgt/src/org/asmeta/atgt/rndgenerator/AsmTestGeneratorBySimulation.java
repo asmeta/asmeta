@@ -49,7 +49,7 @@ import tgtlib.specification.location.Location.VarKind;
 public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 
 	boolean shuffle = false;
-	
+
 	private int stepNumber;
 	private AsmCollection asm;
 	private IdExpressionCreator icc;
@@ -57,14 +57,26 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 	// when an error is found, throw an exception immediately
 	// otherwise return the test as it has built built till now
 	static public boolean THROW_EXCEPTION_WHEN_ERROR_FOUND = false;
-	
+
 	/**
 	 * progressive number among succesive test generation runs
 	 */
 	private int testNumberOffset;
 
-	public static tgtlib.definitions.expression.type.Type dummyType = new DummyType("dummy");
+	public static final tgtlib.definitions.expression.type.Type dummyType = new DummyType("dummy");
 
+	private static final tgtlib.definitions.expression.type.Type anyType = new tgtlib.definitions.expression.type.Type(
+			"Any") {
+		@Override
+		public int range() {
+			throw new RuntimeException();
+		}
+
+		@Override
+		public <T> T accept(TypeVisitorI<T> ask) {
+			throw new RuntimeException();
+		}
+	};
 	private static tgtlib.definitions.expression.type.Type stringType = new tgtlib.definitions.expression.type.Type(
 			"String") {
 
@@ -136,14 +148,16 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 		}
 	}
 
-	/**  generate the test suite
+	/**
+	 * generate the test suite
 	 * 
 	 * @param shuffle : shuffle the choose domain
 	 * @return
 	 * @throws AsmModelNotFoundException
 	 * @throws MainRuleNotFoundException
 	 */
-	public AsmTestSuite getTestSuiteException(boolean shuffle) throws AsmModelNotFoundException, MainRuleNotFoundException {
+	public AsmTestSuite getTestSuiteException(boolean shuffle)
+			throws AsmModelNotFoundException, MainRuleNotFoundException {
 		AsmTestSuite testSuite = new AsmTestSuite();
 		for (int test = 0; test < numberofTests; test++) {
 			// get the name
@@ -154,7 +168,8 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 			SimulatorForRndGeneration simulator = new SimulatorForRndGeneration(modelName, asm, env);
 			simulator.setShuffleFlag(shuffle);
 			ChosenVarsObserver observer = null;
-			// add the observer only if the shuffle is true, otherwise the values are not picked
+			// add the observer only if the shuffle is true, otherwise the values are not
+			// picked
 			if (shuffle) {
 				observer = new ChosenVarsObserver();
 				simulator.addObserver(observer);
@@ -171,8 +186,9 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 				// execute the step
 				try {
 					simulator.runNoCatchInv(1);
-				} catch(Throwable t) {
-					if (THROW_EXCEPTION_WHEN_ERROR_FOUND) throw t;
+				} catch (Throwable t) {
+					if (THROW_EXCEPTION_WHEN_ERROR_FOUND)
+						throw t;
 					if (t instanceof InvalidInvariantException)
 						msg = "Invariant violation";
 					else if (t instanceof InvalidValueException)
@@ -184,7 +200,7 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 					errorFound = true;
 				}
 				// get previous controlled part (if not the first state)
-				if (simulator.previousState != null) 
+				if (simulator.previousState != null)
 					state.applyLocationUpdates(simulator.previousState.getLocationMap());
 				// get the monitored value of the previous step
 				state.applyLocationUpdates(randomMFReader.getValues());
@@ -275,15 +291,17 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 			// check if monitored or controlled
 			Function function = location.getSignature();
 			boolean monitored = function instanceof MonitoredFunction;
-			assert monitored || function instanceof ControlledFunction || 
-								function instanceof OutFunction || 
-								function instanceof SharedFunction : "fucntion has type " + function.getClass();
+			assert monitored || function instanceof ControlledFunction || function instanceof OutFunction
+					|| function instanceof SharedFunction : "fucntion has type " + function.getClass();
 			Value[] elements = location.getElements();
 			boolean isvar = elements.length == 0;
 			if (isvar) {
 				Type type;
 				if (function.getCodomain() instanceof asmeta.definitions.domains.StringDomain) {
 					type = stringType;
+					value = "\"" + value + "\"";
+				} else if (function.getCodomain() instanceof asmeta.definitions.domains.AnyDomain) {
+					type = anyType;
 					value = "\"" + value + "\"";
 				} else {
 					type = dummyType;
@@ -325,5 +343,5 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 			// System.out.println("PRINT" + testsequence.get(i).locationMap);
 		}
 	}
-	
+
 }

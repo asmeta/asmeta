@@ -1,8 +1,8 @@
 package org.asmeta.atgt.rndgenerator;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.ByteArrayOutputStream;
@@ -35,6 +35,14 @@ public class AsmTestGeneratorBySimulationTest {
 		Map<? extends Variable, String> state = test.getState(1);
 		// TODO
 		System.err.println(state);
+	}
+	@Test
+	public void testRandomString() throws Exception {
+		String test = generateFor(AsmTestGeneratorTest.FILE_BASE + "\\examples\\library\\Library.asm", false);
+		assertNotNull(test);
+		System.err.println(test);
+		// contains the message with quotes
+		assertTrue(test.contains("check message = \"Cerca libro\";"),test);
 	}
 
 	@Test
