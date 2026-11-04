@@ -20,6 +20,7 @@ import java.util.Set;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.asmeta.atgt.rndgenerator.AsmTestGeneratorBySimulation;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.Environment.TimeMngt;
@@ -79,6 +80,9 @@ public class IterativeRandomGeneratorRunner {
 		System.setOut(new PrintStream(OutputStream.nullOutputStream()));
 
 		LOG.info("Starting Iterative Random Generation...");
+		
+		// Generate tests also in case of exceptions
+		AsmTestGeneratorBySimulation.THROW_EXCEPTION_WHEN_ERROR_FOUND = false;
 
 		// Validate arguments
 		if (args.length < 4)

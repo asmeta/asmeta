@@ -30,6 +30,8 @@ public class ToAvallaLastAction extends toAvalla {
 		dst.println("scenario " + nomeScenario + "\n" + "\n" + "load ./" + fOpened + "\n");
 		// write as comment the test goal
 		dst.println("//// test name " + testSequence.getName());
+		if (testSequence.getComment() != null) 
+			dst.println("//// " + testSequence.getComment());
 		dst.println("//// generated for (test goal): " + testSequence.getGeneratedFor().toString());
 		
 		while (it.hasNext()) {

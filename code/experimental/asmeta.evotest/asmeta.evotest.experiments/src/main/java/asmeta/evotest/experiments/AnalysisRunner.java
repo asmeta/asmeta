@@ -276,6 +276,11 @@ public class AnalysisRunner {
 							LOG.info("Running mutation...");
 							MutationScoreExecutor mutationExecutor = MutationScoreExecutor.createTempExecutor();
 							HashMap<String, List<AsmCollection>> allMutantions = mutationExecutor.generateMutants(asm);
+							// Record counts for all operators before evaluating the mutants.
+							for (Entry<String, List<AsmCollection>> mutation : allMutantions.entrySet()) {
+								mutationData.put(mutation.getKey().toLowerCase() + "_count",
+										String.valueOf(mutation.getValue().size()));
+							}
 							for (Entry<String, List<AsmCollection>> mutation : allMutantions.entrySet()) {
 								LOG.info("Mutant operator: " + mutation.getKey());
 								String mutantionName = mutation.getKey().toLowerCase() + "_score";
@@ -284,9 +289,11 @@ public class AnalysisRunner {
 								if (nMutants > 0) {
 									Set<Integer> killed = mutationExecutor.computeMutationScore(mutatedAsms,
 											scenarioDir.getPath());
+									mutationData.put(mutation.getKey().toLowerCase() + "_killed", String.valueOf(killed.size()));
 									float mutationScore = ((float) killed.size()) / nMutants;
 									mutationData.put(mutantionName, String.valueOf(mutationScore));
 								} else {
+									mutationData.put(mutation.getKey().toLowerCase() + "_killed", "0");
 									mutationData.put(mutantionName, "NaN");
 								}
 							}

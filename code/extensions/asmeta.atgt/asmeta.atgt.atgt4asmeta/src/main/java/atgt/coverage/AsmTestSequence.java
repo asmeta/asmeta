@@ -49,6 +49,11 @@ public class AsmTestSequence extends TestResult implements Comparable<AsmTestSeq
 	 * generated for.
 	 */
 	private String name = null;
+	
+	/**
+	 * the comment to add to the test
+	 */
+	private String comment = null;
 
 	/**
 	 * the name of this test: normally the name of the test condition it is
@@ -59,10 +64,19 @@ public class AsmTestSequence extends TestResult implements Comparable<AsmTestSeq
 	public String getName() {
 		return name;
 	}
+	
+	/**
+	 * the comment to be added to the test
+	 * 
+	 * @return the comment
+	 */
+	public String getComment() {
+		return comment;
+	}
 
-	// add a comment to the name (like invariant violation)
+	// add a comment with the error (like invariant violation)
 	public void addComment(String comment) {
-		name = name + " " + comment;
+		this.comment = comment;
 	}
 
 	/**
