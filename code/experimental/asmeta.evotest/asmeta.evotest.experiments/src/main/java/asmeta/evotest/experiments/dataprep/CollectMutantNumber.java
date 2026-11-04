@@ -26,6 +26,7 @@ public class CollectMutantNumber {
 			"condnegator_count", "condremover_count", "forallmutator_count", "partoseqmutator_count",
 			"seqtoparmutator_count", "ruleremover_count");
 
+	// NOW IT IS DONE DIRECTLY BY ANALYSIS RUNNER, BUT MAY BE USEFUL FOR OLD DATA
 	public static void main(String[] args) throws Exception {
 		ASMParser.getResultLogger().setLevel(Level.ERROR);
 		// Read the file with the list of the models

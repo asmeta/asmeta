@@ -16,6 +16,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.asmeta.atgt.generator.NuSMVASMSpecTestGenerator;
+import org.asmeta.atgt.rndgenerator.AsmTestGeneratorBySimulation;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.AsmetaParserUtility;
 import org.asmeta.simulator.Environment;
@@ -107,6 +108,9 @@ public class ScenarioGeneratorRunner {
 		LOG.info("Algorithm examples: MONOTONIC_GA (whole-suite generation), DYNAMOSA (many-objective/MOSUITE). "
 				+ "Other algorithms are accepted; "
 				+ "compatibility depends on EvoSuite version and generation strategy.");
+		
+		// Random: generate tests also in case of exceptions
+		AsmTestGeneratorBySimulation.THROW_EXCEPTION_WHEN_ERROR_FOUND = false;
 		
 		// Load configuration
 		Map<String, Object> cfg;

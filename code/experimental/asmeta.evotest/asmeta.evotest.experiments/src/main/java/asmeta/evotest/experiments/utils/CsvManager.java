@@ -29,7 +29,11 @@ public class CsvManager {
 			"macro_coverage", "update_rule_coverage", "forall_rule_coverage", "branch_coverage", "rule_coverage",
 			"n_failing_scenarios", "n_val_error_scenarios", "casemutator_score", "chooserulemutator_score",
 			"condnegator_score", "condremover_score", "forallmutator_score", "partoseqmutator_score",
-			"seqtoparmutator_score", "ruleremover_score");
+			"seqtoparmutator_score", "ruleremover_score", "casemutator_count", "chooserulemutator_count",
+			"condnegator_count", "condremover_count", "forallmutator_count", "partoseqmutator_count",
+			"seqtoparmutator_count", "ruleremover_count", "casemutator_killed", "chooserulemutator_killed",
+			"condnegator_killed", "condremover_killed", "forallmutator_killed", "partoseqmutator_killed",
+			"seqtoparmutator_killed", "ruleremover_killed");
 	
 	public enum STATUS {
 		OK("OK"),
@@ -136,7 +140,7 @@ public class CsvManager {
 	 *                           {@code n_step}, {@code n_set}, {@code n_check})
 	 * @param covData            map with coverage metrics (e.g.,
 	 *                           {@code macro_coverage}, {@code rule_coverage}, ...)
-	 * @param mutationData       map with mutation scores (e.g.,
+	 * @param mutationData       map with mutation scores and counts (e.g.,
 	 *                           {@code condremover_score},
 	 *                           {@code casemutator_score}, ...)
 	 * @param asmName            name of the ASM under test
