@@ -25,10 +25,11 @@ public class ChoiceTraceEnricher {
 		}
 
 		int testCount = readInt(trace, "test.count");
-		if (testCount > scenarios.size()) {
-			throw new IllegalArgumentException(
-					"Choice trace contains " + testCount + " tests, but only " + scenarios.size() + " scenarios were found");
-		}
+		// See comment in the code below
+//		if (testCount > scenarios.size()) {
+//			throw new IllegalArgumentException(
+//					"Choice trace contains " + testCount + " tests, but only " + scenarios.size() + " scenarios were found");
+//		}
 
 		for (int testIndex = 0; testIndex < testCount; testIndex++) {
 			Map<Integer, List<AvallaPickTerm>> picksByStep = readPicks(trace, testIndex);
@@ -71,10 +72,12 @@ public class ChoiceTraceEnricher {
 			enrichedTerms.add(term);
 		}
 
-		if (!picksByStep.isEmpty()) {
-			throw new IllegalArgumentException(
-					"Choice trace for test" + testIndex + " refers to a step that is not present in scenario" + testIndex);
-		}
+		// It may happen that there are recordings for steps that do not exist in the scenario because were wrapped in try-catch.
+		// In this case, we don't need to throw an exception, we will just ignore those recordings.
+//		if (!picksByStep.isEmpty()) {
+//			throw new IllegalArgumentException(
+//					"Choice trace for test" + testIndex + " refers to a step that is not present in scenario" + testIndex);
+//		}
 
 		scenario.getScenarioList().clear();
 		scenario.getScenarioList().addAll(enrichedTerms);
