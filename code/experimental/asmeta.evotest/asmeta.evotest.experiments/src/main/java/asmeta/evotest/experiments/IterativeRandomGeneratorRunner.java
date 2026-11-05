@@ -85,8 +85,10 @@ public class IterativeRandomGeneratorRunner {
 		AsmTestGeneratorBySimulation.THROW_EXCEPTION_WHEN_ERROR_FOUND = false;
 
 		// Validate arguments
-		if (args.length < 4)
-			LOG.error("Missing argument.");
+		if (args.length < 4 || args.length > 5) {
+			LOG.error("Expected: <target folder> <asm base directory> <model list> <time budget in seconds> [--shuffle].");
+			return;
+		}
 		String targetFolder = args[0];
 		String asmExamples = args[1];
 		String modelList = args[2];
@@ -94,17 +96,17 @@ public class IterativeRandomGeneratorRunner {
 		try {
 			budget = Integer.valueOf(args[3]);
 		} catch (NumberFormatException e) {
-			LOG.error("Time budget must be an integer (seconds). Provided: " + args[1]);
+			LOG.error("Time budget must be an integer (seconds). Provided: " + args[3]);
 			return;
 		}
 		boolean shuffle;
 		if (args.length == 4) {
 			shuffle = false;
 		} else {
-			if (args[1].equals("--shuffle")) {
+			if (args[4].equals("--shuffle")) {
 				shuffle = true;
 			} else {
-				LOG.error("Error in second argument: it must be --shuffle or not be present.");
+				LOG.error("The fifth argument must be --shuffle or be omitted.");
 				return;
 			}
 		}

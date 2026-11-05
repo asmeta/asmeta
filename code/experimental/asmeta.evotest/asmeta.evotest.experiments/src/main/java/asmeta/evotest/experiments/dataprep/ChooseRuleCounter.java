@@ -21,17 +21,17 @@ import asmeta.transitionrules.basictransitionrules.ChooseRule;
 import asmeta.transitionrules.basictransitionrules.MacroDeclaration;
 import asmeta.transitionrules.basictransitionrules.Rule;
 
-public class RuleCounter {
+public class ChooseRuleCounter {
 	
 	private static final String ASM_EXAMPLES = "../../../../asm_examples";
 	
 	/*
 	 * Change the following private fields as needed
 	 */
-	private static final boolean SEARCH_BY_STRING = true;
+	private static final boolean SEARCH_BY_STRING = false;
 	
-	private static final String INPUT_LIST = "data/icst-26-exp/model_list_ok_atgt.txt";
-	private static final String OUTUPT_LIST = "data/icst-26-exp/model_list_output.txt";
+	private static final String INPUT_LIST = "data/model_list.txt";
+	private static final String OUTUPT_LIST = "data/model_list_choose.txt";
 	
 	/**
 	 * Entry point.
@@ -49,7 +49,6 @@ public class RuleCounter {
 			return;
 		}
 		// For on the lines, skipping commented ones
-		// For each asm in the list: generate tests -> run validation -> run mutation
 		List<String> searchByRuleLines = new ArrayList<>();
 		List<String> searchByStringLines = new ArrayList<>();
 		for (String line : lines) {
@@ -87,14 +86,16 @@ public class RuleCounter {
 	        	os.write(line.getBytes());
 	        	os.write(System.lineSeparator().getBytes());
 	        }
-			String stringSearchComment = System.lineSeparator() + System.lineSeparator() + "// total ASM with '" + CHOOSEONE_STRING +  "': " + searchByStringLines.size() + System.lineSeparator();
-	        os.write(stringSearchComment.getBytes());
-	        os.write(System.lineSeparator().getBytes());
-	        for (String line: searchByStringLines) {
-	        	os.write(line.getBytes());
-	        	os.write(System.lineSeparator().getBytes());
+	        if (SEARCH_BY_STRING) {
+				String stringSearchComment = System.lineSeparator() + System.lineSeparator() + "// total ASM with '" + CHOOSEONE_STRING +  "': " + searchByStringLines.size() + System.lineSeparator();
+		        os.write(stringSearchComment.getBytes());
+		        os.write(System.lineSeparator().getBytes());
+		        for (String line: searchByStringLines) {
+		        	os.write(line.getBytes());
+		        	os.write(System.lineSeparator().getBytes());
+		        }
+		        os.close();
 	        }
-	        os.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

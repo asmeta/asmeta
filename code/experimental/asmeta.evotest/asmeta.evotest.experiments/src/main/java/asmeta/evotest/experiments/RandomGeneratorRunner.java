@@ -50,7 +50,7 @@ public class RandomGeneratorRunner {
 	 *             <li>{@code args[2]} – the path to the .txt file with the list of
 	 *             asm files for which to generate random test cases</li>
 	 *             <li>optional {@code --shuffle} flag, enabling shuffled,
-	 *             non-deterministic execution of choose rules</li>
+	 *             non-deterministic execution of choose rules with pick statements in the generated scenarios</li>
 	 *             <li>{@code --folders folder1,folder2,...} – optional comma-separated
 	 *             list of source folders instead of the default folders</li>
 	 *             </ul>
