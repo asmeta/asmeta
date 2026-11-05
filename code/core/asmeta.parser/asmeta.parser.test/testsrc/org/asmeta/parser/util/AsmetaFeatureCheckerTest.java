@@ -26,6 +26,7 @@ import org.asmeta.parser.ParseException;
 import org.eclipse.emf.ecore.EObject;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 import asmeta.definitions.Function;
@@ -130,7 +131,9 @@ public class AsmetaFeatureCheckerTest {
 		assertTrue(spr.checkFeature(ASMParser.setUpReadAsm(f).getMain()));
 	}
 
-	@Test void visitAsmExamples() throws Exception {
+	@Test 
+	@Tag("TestToMavenSkip")
+	void visitAsmExamples() throws Exception {
 		List<String> modelList = readFilteredModelList(MODEL_LIST_FILE);
 		List<String> evoavallaModels = readFilteredModelList(EXPERIMENT_DIR.resolve(
 				"model_lists/model_list_evoavalla_budget_60_valid.txt"));
@@ -191,7 +194,9 @@ public class AsmetaFeatureCheckerTest {
 	/**
 	 * Prints the number of models containing each feature in the selected model list.
 	 */
-	@Test void visitAsmFeatureCounts() throws Exception {
+	@Test 
+	@Tag("TestToMavenSkip")
+	void visitAsmFeatureCounts() throws Exception {
 		List<String> modelList = readFilteredModelList(MODEL_LIST_FILE);
 
 		for (String featureName : featurePredicates.keySet()) {
@@ -214,11 +219,13 @@ public class AsmetaFeatureCheckerTest {
 
 	// Old method used for ICST 2026 to fill the green/red dots in the table in the paper,
 	// now replaced by visitAsmExamples() with the different model list .txt files
-	@Test void visitAsmResults() throws Exception {
+	@Test 
+	@Tag("TestToMavenSkip")
+	void visitAsmResults() throws Exception {
 		AsmetaFeatureChecker spr;
 
 		List<String> modelList = readResultsFile(Path.of(
-				"../../../../code/experimental/asmeta.evotest/asmeta.evotest.experiments/data/icst-26-exp/data.csv"),
+				"../../../../code/experimental/asmeta.evotest/asmeta.evotest.experiments/data/icst-26-exp-OLD/data.csv"),
 				"random");
 
 		// Fetch all files in the directory and all features

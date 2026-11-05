@@ -2,6 +2,7 @@ package org.asmeta.atgt.coverage;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -65,7 +66,7 @@ public class AsmetaBasicRuleVisitorTest {
 	public void testGetTPWithErrorsCorrected() throws Exception {
 		// Logger.getLogger(AsmetaToExprTrans.class).setLevel(Level.DEBUG);
 		checkSpec(FILE_BASE + "examples\\sluicegate\\sluiceGateMotorCtl.asm");
-		checkSpec(FILE_BASE + "examples\\traffic_light\\forAsmetaSMV\\oneWayTrafficLight.asm");
+		checkSpec(FILE_BASE + "examples\\traffic_light\\forAsmetaSMV\\oneWayTrafficLight_4SMV.asm");
 		checkSpec(FILE_BASE + "PillBox\\Level2\\pillbox_2.asm");
 		checkSpec(FILE_BASE + "examples\\models\\lift2.asm");
 	}
