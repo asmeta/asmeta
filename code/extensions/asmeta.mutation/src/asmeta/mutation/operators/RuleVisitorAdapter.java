@@ -24,8 +24,7 @@ import asmeta.transitionrules.derivedtransitionrules.CaseRule;
 import asmeta.transitionrules.turbotransitionrules.SeqRule;
 
 
-// it makes nothing but it is recurive call
-// if it is not mutated return the same rule // OR NULL TO THNINK !!! OR EMPTY LIST???
+// if it is not mutated return the same rule 
 final public class RuleVisitorAdapter extends RuleVisitor<List<Rule>> {
 
 	private RuleVisitor<List<Rule>> rulemutator;
@@ -51,55 +50,47 @@ final public class RuleVisitorAdapter extends RuleVisitor<List<Rule>> {
 
 	@Override
 	public List<Rule> visit(BlockRule block) {
+		
 		List<Rule> mutatedRules = new ArrayList<>();
+		
 		// first mutate this one
 		mutatedRules.addAll(rulemutator.visit(block));
+		
 		// mutate those inside
 		EList<Rule> rules = block.getRules();
 		for (int i = 0; i < rules.size(); i++) {
 			// mutate the i-the rule 
 			List<Rule> mutatedRule = this.visit(rules.get(i));
-			if (mutatedRule.isEmpty()){
-				// add the original one
-				// mutatedRules.add(block);
-			} else {
-				for (Rule mr: mutatedRule) {
-					List<Rule> rulesN = new ArrayList<>(EcoreUtil.copyAll(rules));
-					// 	TODO call recursively
-					// 	create a skip rule (or it can be reused?) to check
-					rulesN.set(i,mr);
-					BlockRule newBlock = BasictransitionrulesFactory.eINSTANCE.createBlockRule();
-					newBlock.getRules().addAll(rulesN);
-					mutatedRules.add(newBlock);
-				}
-			}
+			for (Rule mr: mutatedRule) {
+				List<Rule> rulesN = new ArrayList<>(EcoreUtil.copyAll(rules));
+				rulesN.set(i,mr);
+				BlockRule newBlock = BasictransitionrulesFactory.eINSTANCE.createBlockRule();
+				newBlock.getRules().addAll(rulesN);
+				mutatedRules.add(newBlock);
+			}			
 		}
 		return mutatedRules;
 	}
 
 	@Override
 	public List<Rule> visit(SeqRule seq) {
+		
 		List<Rule> mutatedRules = new ArrayList<>();
+		
 		// first mutate this one
 		mutatedRules.addAll(rulemutator.visit(seq));
+		
 		// mutate those inside
 		EList<Rule> rules = seq.getRules();
 		for (int i = 0; i < rules.size(); i++) {
 			// mutate the i-the rule 
 			List<Rule> mutatedRule = this.visit(rules.get(i));
-			if (mutatedRule.isEmpty()){
-				// add the original one
-				// mutatedRules.add(block);
-			} else {
-				for (Rule mr: mutatedRule) {
-					List<Rule> rulesN = new ArrayList<>(EcoreUtil.copyAll(rules));
-					// 	TODO call recursively
-					// 	create a skip rule (or it can be reused?) to check
-					rulesN.set(i,mr);
-					SeqRule newSeqRule =  asmeta.transitionrules.turbotransitionrules.TurbotransitionrulesFactory.eINSTANCE.createSeqRule();
-					newSeqRule.getRules().addAll(rulesN);
-					mutatedRules.add(newSeqRule);
-				}
+			for (Rule mr: mutatedRule) {
+				List<Rule> rulesN = new ArrayList<>(EcoreUtil.copyAll(rules));
+				rulesN.set(i,mr);
+				SeqRule newSeqRule =  asmeta.transitionrules.turbotransitionrules.TurbotransitionrulesFactory.eINSTANCE.createSeqRule();
+				newSeqRule.getRules().addAll(rulesN);
+				mutatedRules.add(newSeqRule);
 			}
 		}
 		return mutatedRules;
@@ -107,18 +98,23 @@ final public class RuleVisitorAdapter extends RuleVisitor<List<Rule>> {
 
 	@Override
 	public List<Rule> visit(ConditionalRule rule) {
+		
 		List<Rule> mutatedRules = new ArrayList<>();
+		
 		// first mutate this one
 		mutatedRules.addAll(rulemutator.visit(rule));
-		// mutate then and elsepart
+		
+		// mutate then and else part
 		List<Rule> thenPart = this.visit(rule.getThenRule());
 		// if else is empty, get the empty collection
 		List<Rule> elsePart = rule.getElseRule() != null ? this.visit(rule.getElseRule()) : Collections.EMPTY_LIST;
+		
 		// check if no mutation has been done
 		if (thenPart.isEmpty() && elsePart.isEmpty()) {
 			// finish
 			return mutatedRules;
 		}
+		
 		// mutate the then part 
 		for (Rule mutThen: thenPart) {
 			// recreate the if condition with the mutations
@@ -138,14 +134,12 @@ final public class RuleVisitorAdapter extends RuleVisitor<List<Rule>> {
 
 	@Override
 	public List<Rule> visit(ExtendRule rule) {
+		
 		List<Rule> mutatedRules = new ArrayList<>();
+		
 		// first mutate this one
 		mutatedRules.addAll(rulemutator.visit(rule));
 		
-		// apply inside
-		//mutatedRules.addAll(EcoreUtil.copyAll(this.visit(rule.getDoRule()))); //check
-		
-		// apply inside CHECK with angelo.
 		List<Rule> newDoRules = this.visit(rule.getDoRule());
 		for (Rule r : newDoRules) {
 			ExtendRule newMutation = EcoreUtil.copy(rule);
@@ -158,13 +152,12 @@ final public class RuleVisitorAdapter extends RuleVisitor<List<Rule>> {
 
 	@Override
 	public List<Rule> visit(LetRule rule) {
+		
 		List<Rule> mutatedRules = new ArrayList<>();
+		
 		// first mutate this one
 		mutatedRules.addAll(rulemutator.visit(rule));
-		// apply inside
-		//mutatedRules.addAll(EcoreUtil.copyAll(this.visit(rule.getInRule()))); //check
 		
-		// apply inside CHECK with angelo.
 		List<Rule> newInRules = this.visit(rule.getInRule());
 		for (Rule r : newInRules) {
 			LetRule newMutation = EcoreUtil.copy(rule);
@@ -177,11 +170,11 @@ final public class RuleVisitorAdapter extends RuleVisitor<List<Rule>> {
 
 	@Override
 	public List<Rule> visit(ChooseRule rule) {
+		
 		List<Rule> mutatedRules = new ArrayList<>();
+		
 		// first mutate this one
 		mutatedRules.addAll(rulemutator.visit(rule));
-		// apply inside
-		//mutatedRules.addAll(EcoreUtil.copyAll(this.visit(rule.getDoRule()))); //check
 		
 		List<Rule> newDoRules = this.visit(rule.getDoRule());
 		for (Rule r : newDoRules) {
@@ -205,14 +198,10 @@ final public class RuleVisitorAdapter extends RuleVisitor<List<Rule>> {
 
 	@Override
 	public List<Rule> visit(ForallRule rule) {
-		// TODO Auto-generated method stub
-		//throw new RuntimeException("not implemented yet");
 		
 		//first mutate this rule
 		List<Rule> mutatedRules = new ArrayList<>();
 		mutatedRules.addAll(rulemutator.visit(rule));
-		
-		//mutatedRules.addAll(this.visit(rule.getDoRule()));
 		
 		//visit the rule of for-all's body
 		List<Rule> newBodies = this.visit(rule.getDoRule());
@@ -232,9 +221,11 @@ final public class RuleVisitorAdapter extends RuleVisitor<List<Rule>> {
 
 	@Override
 	public List<Rule> visit(CaseRule rule) {
+		
 		//First mutate this case
 		List<Rule> mutatedRules = new ArrayList<>();
 		mutatedRules.addAll(rulemutator.visit(rule));
+		
 		//Now visit each rule for each branch
 		int index = 0;
 		for (Rule r : rule.getCaseBranches()) {
@@ -246,6 +237,7 @@ final public class RuleVisitorAdapter extends RuleVisitor<List<Rule>> {
 			}
 			index++;
 		}
+		
 		//if otherwise then visit the rule 
 		if (rule.getOtherwiseBranch() != null ) {
 			List<Rule> mutatedOW = this.visit(rule.getOtherwiseBranch());
@@ -255,6 +247,7 @@ final public class RuleVisitorAdapter extends RuleVisitor<List<Rule>> {
 				mutatedRules.add(newRule);
 			}
 		}		
+		
 		return mutatedRules;
 	}
 

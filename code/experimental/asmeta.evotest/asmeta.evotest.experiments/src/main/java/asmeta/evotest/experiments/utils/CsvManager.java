@@ -182,6 +182,8 @@ public class CsvManager {
 		String[] actualRow = new String[CSV_HEADERS.size()];
 		for (String key : row.keySet()) {
 			int index = CSV_HEADERS.indexOf(key);
+			if (index < 0)
+				throw new IllegalArgumentException("Unknown CSV column: " + key);
 			actualRow[index] = row.get(key);
 		}
 		// write the actual row to csv

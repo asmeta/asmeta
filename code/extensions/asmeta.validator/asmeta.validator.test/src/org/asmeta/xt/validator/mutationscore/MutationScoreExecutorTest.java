@@ -14,6 +14,11 @@ import org.junit.jupiter.api.Test;
 import asmeta.AsmCollection;
 import asmeta.mutation.operators.ParToSeqMutator;
 
+import asmeta.mutation.operators.NamedExpressionMutator;
+import asmeta.mutation.operators.LogicalTermMutator;
+import asmeta.mutation.operators.RelationalTermMutator;
+import asmeta.mutation.operators.ArithmeticTermMutator;
+
 class MutationScoreExecutorTest extends TestValidator {
 
 	private static final String COFFEE_VENDING_MACHINE_SCENARIOS =
@@ -50,8 +55,32 @@ class MutationScoreExecutorTest extends TestValidator {
 		assertFalse(mutants.isEmpty());
 	}
 
+	//private void assertStandardOperators(Set<String> operatorNames) {
+	//	assertEquals(Set.of("CaseMutator", "ChooseRuleMutator", "CondNegator", "CondRemover", "ForAllMutator",
+	//			"ParToSeqMutator", "RuleRemover", "SeqToParMutator"), operatorNames);
+	//}
+
 	private void assertStandardOperators(Set<String> operatorNames) {
-		assertEquals(Set.of("CaseMutator", "ChooseRuleMutator", "CondNegator", "CondRemover", "ForAllMutator",
-				"ParToSeqMutator", "RuleRemover", "SeqToParMutator"), operatorNames);
+	    assertEquals(Set.of("CaseMutator", "ChooseRuleMutator", "CondNegator", "CondRemover", "ForAllMutator",
+	            "ParToSeqMutator", "RuleRemover", "SeqToParMutator",
+	            "Logical_not", "Logical_and", "Logical_xor", "Logical_or", "Logical_implies", "Logical_iff",
+	            "Relational_lt", "Relational_le", "Relational_gt", "Relational_ge", "Relational_eq", "Relational_neq",
+	            "Arithmetic_plus", "Arithmetic_minus", "Arithmetic_mult", "Arithmetic_div",
+	            "Arithmetic_idiv", "Arithmetic_mod", "Arithmetic_pwr"), operatorNames);
 	}
+
+
+	@Test
+	void testGenerateExpressionMutants() throws Exception {
+	    MutationScoreExecutor executor = MutationScoreExecutor.createTempExecutor();
+
+	    List<AsmCollection> logicalMutants = executor.generateMutants(COFFEE_VENDING_MACHINE_SCENARIOS, new NamedExpressionMutator("Logical_and", new LogicalTermMutator("and")));
+	    List<AsmCollection> relationalMutants = executor.generateMutants(COFFEE_VENDING_MACHINE_SCENARIOS, new NamedExpressionMutator("Relational_eq", new RelationalTermMutator("eq", List.of("lt", "le", "gt", "ge", "neq"))));
+	    List<AsmCollection> arithmeticMutants = executor.generateMutants(COFFEE_VENDING_MACHINE_SCENARIOS, new NamedExpressionMutator("Arithmetic_plus", new ArithmeticTermMutator("plus")));
+
+	    assertFalse(logicalMutants.isEmpty());
+	    assertFalse(relationalMutants.isEmpty());
+	    assertFalse(arithmeticMutants.isEmpty());
+	}
+
 }

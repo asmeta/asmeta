@@ -35,7 +35,6 @@ public class ForAllMutator extends RuleBasedMutator {
 		this.asm = asm;
 	}
 	
-	// every rule (except skip) is converted to skip
 	public static class ForAllMut extends RuleVisitor<List<Rule>> {
 
 		@Override

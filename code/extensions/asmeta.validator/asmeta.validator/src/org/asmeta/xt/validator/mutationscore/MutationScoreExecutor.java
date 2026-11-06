@@ -35,6 +35,12 @@ import asmeta.mutation.operators.RuleRemover;
 import asmeta.mutation.operators.SeqToParMutator;
 import asmeta.structure.Asm;
 
+import java.util.ArrayList;
+import asmeta.mutation.operators.NamedExpressionMutator;
+import asmeta.mutation.operators.LogicalTermMutator;
+import asmeta.mutation.operators.RelationalTermMutator;
+import asmeta.mutation.operators.ArithmeticTermMutator;
+
 /**
  * Generates ASM mutants and executes Avalla scenarios over them to compute
  * mutation scores.
@@ -235,10 +241,52 @@ public class MutationScoreExecutor {
 	/**
 	 * Returns the complete default mutation operator set.
 	 */
+	//private List<AsmetaMutationOperator> standardOperators(Asm asm) {
+	//	return List.of(new CaseMutator(), new ChooseRuleMutator(asm), new CondNegator(), new CondRemover(),
+	//			new ForAllMutator(asm), new ParToSeqMutator(), new SeqToParMutator(), new RuleRemover());
+	//}
+
+
+	/**
+	 * Returns the complete default mutation operator set.
+	 * Now with the addition of relational, logical and arithmetic mutation operators
+	 */
 	private List<AsmetaMutationOperator> standardOperators(Asm asm) {
-		return List.of(new CaseMutator(), new ChooseRuleMutator(asm), new CondNegator(), new CondRemover(),
-				new ForAllMutator(asm), new ParToSeqMutator(), new SeqToParMutator(), new RuleRemover());
+
+	    List<AsmetaMutationOperator> operators = new ArrayList<>();
+
+	    // Original mutation operators
+	    operators.add(new CaseMutator());
+	    operators.add(new ChooseRuleMutator(asm));
+	    operators.add(new CondNegator());
+	    operators.add(new CondRemover());
+	    operators.add(new ForAllMutator(asm));
+	    operators.add(new ParToSeqMutator());
+	    operators.add(new SeqToParMutator());
+	    operators.add(new RuleRemover());
+
+	    // Logical mutation operators
+	    for (String op : List.of("not", "and", "xor", "or", "implies", "iff")) {
+	        operators.add(new NamedExpressionMutator("Logical_" + op, new LogicalTermMutator(op)));
+	    }
+
+
+	    // Relational mutation operators
+	    operators.add(new NamedExpressionMutator("Relational_lt", new RelationalTermMutator("lt", List.of("le", "gt", "ge", "eq", "neq"))));
+	    operators.add(new NamedExpressionMutator("Relational_le", new RelationalTermMutator("le", List.of("lt", "gt", "ge", "eq", "neq"))));
+	    operators.add(new NamedExpressionMutator("Relational_gt", new RelationalTermMutator("gt", List.of("lt", "le", "ge", "eq", "neq"))));
+	    operators.add(new NamedExpressionMutator("Relational_ge", new RelationalTermMutator("ge", List.of("lt", "le", "gt", "eq", "neq"))));
+	    operators.add(new NamedExpressionMutator("Relational_eq", new RelationalTermMutator("eq", List.of("lt", "le", "gt", "ge", "neq"))));
+	    operators.add(new NamedExpressionMutator("Relational_neq", new RelationalTermMutator("neq", List.of("lt", "le", "gt", "ge", "eq"))));
+
+	    // Arithmetic mutation operators
+	    for (String op : List.of("plus", "minus", "mult", "div","idiv", "mod", "pwr")) {
+	        operators.add(new NamedExpressionMutator("Arithmetic_" + op, new ArithmeticTermMutator(op)));
+	    }
+
+	    return operators;
 	}
+
 
 	/**
 	 * Creates the temporary directory on demand and returns it.
