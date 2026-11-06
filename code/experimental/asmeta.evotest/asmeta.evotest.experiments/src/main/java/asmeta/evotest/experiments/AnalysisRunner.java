@@ -283,18 +283,14 @@ public class AnalysisRunner {
 							}
 							for (Entry<String, List<AsmCollection>> mutation : allMutantions.entrySet()) {
 								LOG.info("Mutant operator: " + mutation.getKey());
-								String mutantionName = mutation.getKey().toLowerCase() + "_score";
 								List<AsmCollection> mutatedAsms = mutation.getValue();
 								int nMutants = mutatedAsms.size();
 								if (nMutants > 0) {
 									Set<Integer> killed = mutationExecutor.computeMutationScore(mutatedAsms,
 											scenarioDir.getPath());
 									mutationData.put(mutation.getKey().toLowerCase() + "_killed", String.valueOf(killed.size()));
-									float mutationScore = ((float) killed.size()) / nMutants;
-									mutationData.put(mutantionName, String.valueOf(mutationScore));
 								} else {
 									mutationData.put(mutation.getKey().toLowerCase() + "_killed", "0");
-									mutationData.put(mutantionName, "NaN");
 								}
 							}
 						} catch (Throwable t) {
