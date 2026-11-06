@@ -29,7 +29,12 @@ public class CsvManager {
 			"macro_coverage", "update_rule_coverage", "forall_rule_coverage", "branch_coverage", "rule_coverage",
 			"n_failing_scenarios", "n_val_error_scenarios", "casemutator_score", "chooserulemutator_score",
 			"condnegator_score", "condremover_score", "forallmutator_score", "partoseqmutator_score",
-			"seqtoparmutator_score", "ruleremover_score");
+			"seqtoparmutator_score", "ruleremover_score", "logical_not_score", "logical_and_score",
+			"logical_xor_score", "logical_or_score", "logical_implies_score", "logical_iff_score",
+			"relational_lt_score", "relational_le_score", "relational_gt_score", "relational_ge_score",
+			"relational_eq_score", "relational_neq_score", "arithmetic_plus_score", "arithmetic_minus_score",
+			"arithmetic_mult_score", "arithmetic_div_score", "arithmetic_idiv_score", "arithmetic_mod_score",
+			"arithmetic_pwr_score");
 	
 	public enum STATUS {
 		OK("OK"),
@@ -178,6 +183,8 @@ public class CsvManager {
 		String[] actualRow = new String[CSV_HEADERS.size()];
 		for (String key : row.keySet()) {
 			int index = CSV_HEADERS.indexOf(key);
+			if (index < 0)
+				throw new IllegalArgumentException("Unknown CSV column: " + key);
 			actualRow[index] = row.get(key);
 		}
 		// write the actual row to csv
