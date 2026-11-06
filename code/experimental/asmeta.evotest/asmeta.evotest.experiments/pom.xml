@@ -10,6 +10,26 @@
 		<testSourceDirectory>src/test/java</testSourceDirectory>
 		<plugins>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>3.1.0</version>
+				<executions>
+					<execution>
+						<id>delete-previous-experiment-jars</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target>
+								<delete file="${project.basedir}/data/fm-short-26-exp/fm-experiments-runner.jar" />
+								<delete file="${project.basedir}/data/experiments-runner.jar" />
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.15.0</version>
 				<configuration>
@@ -46,15 +66,10 @@
 					</execution>
 					<!-- ICST and NFM Experiments jar  -->
 					<!-- use: 
-					java -cp experiments-runner.jar
-					asmeta.evotest.experiments.ScenarioGeneratorRunner
-					java -cp experiments-runner.jar
-					asmeta.evotest.experiments.RandomGeneratorRunner [arguments]
-					java -cp experiments-runner.jar
-					asmeta.evotest.experiments.IterativeRandomGeneratorRunner
-					[arguments]
-					java -cp experiments-runner.jar asmeta.evotest.experiments.AnalysisRunner
-					[arguments]
+					java -cp experiments-runner.jar asmeta.evotest.experiments.ScenarioGeneratorRunner
+					java -cp experiments-runner.jar	asmeta.evotest.experiments.RandomGeneratorRunner [arguments]
+					java -cp experiments-runner.jar	asmeta.evotest.experiments.IterativeRandomGeneratorRunner [arguments]
+					java -cp experiments-runner.jar asmeta.evotest.experiments.AnalysisRunner [arguments]
 					-->
 					<execution>
 						<id>test-generator-jar</id>
@@ -66,8 +81,7 @@
 							<finalName>experiments-runner</finalName>
 							<appendAssemblyId>false</appendAssemblyId>
 							<outputDirectory>data</outputDirectory>
-							<!-- when using java -jar
-							icst-experiments-runner.jar, run scenario generation -->
+							<!-- when using java -jar icst-experiments-runner.jar, run scenario generation -->
 							<archive>
 								<manifest>
 									<mainClass>
