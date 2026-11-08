@@ -9,6 +9,7 @@ signature:
 	enum domain Semaforo = {SEM1, SEM2, SEM3, SEM4}	
 	monitored signal: Boolean
 	
+	// this can be difficult to evaluate if is coveread in teh state since it is a function with codomain Colore, but we need to evaluate it in the state
 	controlled semaforo: Semaforo -> Colore
 	controlled turno: Turno
 

@@ -164,7 +164,17 @@ public class ExpressionEvaluator implements tgtlib.definitions.expression.Expres
 		}
 		Expression firstOperand = e.getFirstOperand();
 		Expression secondOperand = e.getSecondOperand();
-		//System.err.println(firstOperand.getClass() + " " + secondOperand.getClass());
+		// if the first operand is a function term with no arguments, we can consider it as an id expression
+		if (firstOperand instanceof FunctionTerm ft) {
+			if (ft.getArguments().size() == 0) {
+				firstOperand = ft.getFunction();
+			}
+			else {
+				System.err.println(state);
+				throw new EvaluationNotSupported("function term with arguments not supported" + ft);
+			}
+		}
+		System.err.println(firstOperand.getClass() + " " + secondOperand.getClass());
 		if (firstOperand instanceof IdExpression && secondOperand instanceof IdExpression) {
 			// BOTH IDs
 			IdExpression e1 = (IdExpression) firstOperand;
@@ -530,9 +540,9 @@ public class ExpressionEvaluator implements tgtlib.definitions.expression.Expres
 
 	@Override
 	public Boolean forFunctionTerm(FunctionTerm ft) {
-		
+		// it must be a function term with boolean codomain
 		System.err.println("STATE " + state);
-		throw new EvaluationNotSupported("class:" + ft.getClass() + " function "+ ft.getFunction().getIdString() + "  not supported");
+		throw new EvaluationNotSupported("class:" + ft.getClass() + " function "+ ft.getFunction().getIdString() + " not supported");
 	}
 
 	@Override

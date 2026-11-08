@@ -2,13 +2,16 @@ package tgtlib.definitions.expression.visitors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import tgtlib.definitions.TypedInitExpression;
 import tgtlib.definitions.expression.Expression;
 
 import org.junit.jupiter.params.ParameterizedTest;
@@ -23,6 +26,7 @@ import tgtlib.definitions.expression.type.EnumConstCreator;
 import tgtlib.definitions.expression.type.EnumType;
 import tgtlib.definitions.expression.type.Type;
 import tgtlib.definitions.expression.type.Variable;
+import tgtlib.definitions.expression.type.BoolType.BoolConst;
 
 // test with enums
 // switch1 and switch2 ON;OFF
@@ -50,9 +54,10 @@ public class ExpressionEvaluatorTestEnums {
 		vars.add(newOnOfvariable(ecc.createIdExpression("switch2", null),onOf));
 	}
 
-	public void initExpressionEvaluatorTestEnums(String expression, String map, String result) throws ParseException{		
+	public void initExpressionEvaluatorTestEnums(String expression, String map, String result) throws ParseException{
+		// get the expression with the parser (it can be something like "switch1 == ON" or "switch1 == switch2", but also "ON" (wrong))
 		expr = ExpressionParser.parse(expression,ecc);
-		Collection<BooleanVar> vars = IDExprCollector.getBoolVarsFromId(expr);
+		Collection<TypedInitExpression> vars = getEnumVarsFromId(expr);
 		String[] maps = map.split(",");
 		Map<Variable, String> state = new HashMap<Variable, String>();
 		for(Variable v:vars){
@@ -130,14 +135,42 @@ public class ExpressionEvaluatorTestEnums {
 
 	@MethodSource("data") @ParameterizedTest
 	public void test(String expression, String map, String result) throws ParseException {
-		initExpressionEvaluatorTestEnums(expression, map, result);
-		try{
-			Boolean res = expr.accept(ev);
-			assertEquals(result,res.toString());
-		}catch (ModelIncomplete e){
-			assertEquals("error",result);			
+		try {
+			initExpressionEvaluatorTestEnums(expression, map, result);
+		} catch (Throwable e) {
+			if (result.equals("error")) {
+				return;
+			}
+			System.err.println("error in test " + expression + " with map " + map +":" + e.toString());
+			e.printStackTrace();
+			fail();
 		}
-
+		try {
+			Boolean res = expr.accept(ev);
+			assertEquals(result, res.toString());
+		} catch (ModelIncomplete e) {
+			assertEquals("error", result);
+		}
 	}
 
+	public static List<TypedInitExpression> getEnumVarsFromId(Expression e) {
+		assert vars!= null;
+		Collection<IdExpression> ids = e.accept(IDExprCollector.instance);
+		List<TypedInitExpression>  result = new ArrayList<>();
+		buildNewVar: for(final IdExpression id : ids){
+			if (id instanceof BoolConst)
+				continue;
+			// TODO why an expression could possibly contain enumerations
+			assert !(id instanceof EnumConst);
+			for (Variable v: vars){
+				// another variable found 
+				if (v.getName().equals(id.getIdString())) continue buildNewVar;
+			}
+			BooleanVar v = new BooleanVar(id);
+			result.add(v);			
+		}
+		return result;
+	}
+
+	
 }
