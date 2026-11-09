@@ -19,7 +19,7 @@ import tgtlib.specification.location.Constant;
 import tgtlib.specification.location.DerivedFunction;
 import tgtlib.specification.location.Function;
 import tgtlib.specification.location.Location;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 
 /** convert a counter example of the model checker to a test sequence
  */
@@ -56,7 +56,7 @@ public class ConverterCounterExample {
 				String locationName = var.replaceAll("\\(", "\\[").replaceAll("\\)", "\\]");
 				// case 1: a variable
 				// if it is a variable
-				Variable v = spec.getVariable(locationName);
+				AsmVariable v = spec.getVariable(locationName);
 				if (v != null) {
 					asmTestSequence.addAssignment(v, val);
 					continue;

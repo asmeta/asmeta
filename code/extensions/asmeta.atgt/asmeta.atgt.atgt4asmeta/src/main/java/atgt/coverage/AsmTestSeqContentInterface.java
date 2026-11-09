@@ -16,7 +16,7 @@ import java.util.Map;
 import tgtlib.definitions.expression.IdExpression;
 import tgtlib.specification.location.Function;
 import tgtlib.specification.location.Location;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 import tgtlib.util.TestSeqContentInterface;
 
 /**
@@ -46,7 +46,7 @@ public abstract class AsmTestSeqContentInterface implements TestSeqContentInterf
 	/**
 	 * 
 	 */
-	public abstract void addAssignment(Variable var, String value);
+	public abstract void addAssignment(AsmVariable var, String value);
 
 	/**
 	 * 

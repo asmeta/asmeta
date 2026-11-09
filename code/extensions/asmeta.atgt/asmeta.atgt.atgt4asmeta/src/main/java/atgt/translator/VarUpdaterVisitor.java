@@ -18,9 +18,8 @@ import tgtlib.specification.location.Constant;
 import tgtlib.specification.location.Function;
 import tgtlib.specification.location.LocationVisitorI;
 import tgtlib.specification.location.LogicalVariable;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 
-// TODO: Auto-generated Javadoc
 /**
  * Implementa l'interfaccia LocationisitorI per fare l'update delle variabili
  * monitorate alla fine del ciclo principale.
@@ -62,12 +61,12 @@ public class VarUpdaterVisitor implements LocationVisitorI<StringBuffer> {
 	 * @see tgtlib.specification.location.LocationVisitorI#forVariable(tgtlib.specification.location.Variable)
 	 */
 	@Override
-	public StringBuffer forVariable(Variable v) {
+	public StringBuffer forVariable(AsmVariable v) {
 		StringBuffer result = new StringBuffer("");
 
 		if (v.isControlled())
 			result.append(v.getName() + " = " + v.getName()
-					+ Variable.primeSuffix + ";");
+					+ AsmVariable.primeSuffix + ";");
 		return result;
 	}
 

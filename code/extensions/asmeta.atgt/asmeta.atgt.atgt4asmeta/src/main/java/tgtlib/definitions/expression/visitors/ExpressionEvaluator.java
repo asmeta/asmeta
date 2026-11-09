@@ -170,11 +170,9 @@ public class ExpressionEvaluator implements tgtlib.definitions.expression.Expres
 				firstOperand = ft.getFunction();
 			}
 			else {
-				System.err.println(state);
 				throw new EvaluationNotSupported("function term with arguments not supported" + ft);
 			}
 		}
-		System.err.println(firstOperand.getClass() + " " + secondOperand.getClass());
 		if (firstOperand instanceof IdExpression && secondOperand instanceof IdExpression) {
 			// BOTH IDs
 			IdExpression e1 = (IdExpression) firstOperand;
@@ -318,8 +316,11 @@ public class ExpressionEvaluator implements tgtlib.definitions.expression.Expres
 			return true;
 		}
 		assert (!var.getIdString().equalsIgnoreCase(BoolType.FALSE_CONST.getIdString()));
-		assert (!var.getIdString().equalsIgnoreCase(BoolType.TRUE_CONST.getIdString()));
-		// assuming e is a boolean
+		assert (!var.getIdString().equalsIgnoreCase(BoolType.TRUE_CONST.getIdString()));		
+		// assuming var is a boolean
+		assert (var.getType() != null) : "var " + var + " has no type";
+		// to evaluate an Id it must be a boolean variable, otherwise it is not evaluable
+		assert (var.getType() == BoolType.BOOLTYPE) : "var " + var + " is not a boolean but " + var.getType().getName();
 		String val = state.get(var);
 		if (val == null) {
 			if (modelMustBeComplete) {

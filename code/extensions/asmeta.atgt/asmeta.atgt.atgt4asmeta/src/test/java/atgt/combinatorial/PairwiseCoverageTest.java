@@ -35,7 +35,7 @@ import tgtlib.definitions.expression.IdExpressionCreator;
 import tgtlib.definitions.expression.type.BoolType;
 import tgtlib.definitions.expression.type.ElementsType;
 import tgtlib.definitions.expression.type.EnumType;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 
 /**
  * test the generation for pairwise coverage tree.
@@ -78,12 +78,12 @@ class PairwiseCoverageTest {
 		ElementsType B = new EnumType("B");
 		B.addElement("b1");
 		B.addElement("b2");
-		data.add(new Variable(IdExpressionCreator.createNewIdExpression("a"), A, null));
-		data.add(new Variable(IdExpressionCreator.createNewIdExpression("b"), B, null));
+		data.add(new AsmVariable(IdExpressionCreator.createNewIdExpression("a"), A, null));
+		data.add(new AsmVariable(IdExpressionCreator.createNewIdExpression("b"), B, null));
 		CoverageTree<AsmTestCondition> tps = std.computeTPs(data);
 		Iterator<AsmTestCondition> i = tps.allTPs().iterator();
 		System.out.println(i.next().getCondition());
-		data.add(new Variable(IdExpressionCreator.createNewIdExpression("c"), BoolType.BOOLTYPE, null));
+		data.add(new AsmVariable(IdExpressionCreator.createNewIdExpression("c"), BoolType.BOOLTYPE, null));
 		tps = std.computeTPs(data);
 		i = tps.allTPs().iterator();
 		System.out.println(i.next().getCondition());

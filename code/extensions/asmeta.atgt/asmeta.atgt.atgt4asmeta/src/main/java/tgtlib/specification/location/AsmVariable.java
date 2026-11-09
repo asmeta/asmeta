@@ -20,7 +20,7 @@ import tgtlib.definitions.expression.type.Type;
  * @author Sax Rinzivillo, Angelo Gargantini
  */
 
-public class Variable extends Location implements Comparable<Variable>{
+public class AsmVariable extends Location implements Comparable<AsmVariable>{
 
 	/** The Constant primeSuffix. */
 	public static final String primeSuffix = "___P";
@@ -36,7 +36,7 @@ public class Variable extends Location implements Comparable<Variable>{
 	 *            the initial value: it can be null
 	 */
 	@Deprecated
-	public Variable(IdExpression _name, Type _type, Expression _value) {
+	public AsmVariable(IdExpression _name, Type _type, Expression _value) {
 		super(_name, _type, _value);
 		this.setMonitored();
 	}
@@ -49,7 +49,7 @@ public class Variable extends Location implements Comparable<Variable>{
 	 * @param _value
 	 *            the initial value: it can be null
 	 */
-	public Variable(IdExpression _name, Expression _value) {
+	public AsmVariable(IdExpression _name, Expression _value) {
 		super(_name, _value);
 		this.setMonitored();
 	}
@@ -83,7 +83,7 @@ public class Variable extends Location implements Comparable<Variable>{
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
 	@Override
-	public int compareTo(Variable v) {
+	public int compareTo(AsmVariable v) {
 		// compares the ranges
 		return v.getType().range() - this.getType().range();
 	}

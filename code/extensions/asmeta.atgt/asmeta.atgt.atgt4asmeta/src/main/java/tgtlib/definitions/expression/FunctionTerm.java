@@ -19,7 +19,7 @@ public class FunctionTerm implements Expression {
 	static private List<String> stdOperator = Arrays.asList("and", "or", "eq", "not", "implies");
 
 	// to be used when it is not sure itf cab on operator
-	public static Expression createFunctionTerm(IdExpression name, Type funcCoDomain, List<? extends Expression> args) {
+	public static Expression createFunctionTerm(IdExpression name, Type funcCoDomain, List<IdExpression> args) {
 		switch (name.getIdString()) {
 		case "and":
 			assert args.size() == 2;
@@ -36,9 +36,9 @@ public class FunctionTerm implements Expression {
 		}
 	}
 
+	// function + arguments
 	private IdExpression function;
-
-	private List<? extends Expression> arguments;
+	private List<IdExpression> arguments;
 
 	private Type funcdomain;
 
@@ -51,7 +51,7 @@ public class FunctionTerm implements Expression {
 	 *                     this function will be in this set)
 	 * @param args         the args
 	 */
-	public FunctionTerm(IdExpression name, Type funcCoDomain, List<? extends Expression> args) {
+	public FunctionTerm(IdExpression name, Type funcCoDomain, List<IdExpression> args) {
 		assert !stdOperator.contains(name.getIdString()) : "operator " +name.getIdString();
 		// assert args.size() == 1;
 		function = name;
@@ -68,7 +68,7 @@ public class FunctionTerm implements Expression {
 		return function;
 	}
 
-	public List<? extends Expression> getArguments() {
+	public List<IdExpression> getArguments() {
 		return arguments;
 	}
 

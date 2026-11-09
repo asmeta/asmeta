@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import tgtlib.definitions.TestPredicate;
 import tgtlib.definitions.expression.Expression;
 import tgtlib.definitions.expression.IdExpression;
+import tgtlib.definitions.expression.parser.BooleanExpressionParserTest;
 import tgtlib.definitions.expression.parser.ExpressionParser;
 import tgtlib.definitions.expression.parser.ParseException;
 import tgtlib.definitions.expression.type.BooleanVar;
@@ -38,7 +39,7 @@ public abstract class IncrementalModelGeneratorTest<T extends MCExecutionResult>
 
 	@BeforeAll
 	static public void setupVars() throws ParseException {
-		vars = IDExprCollector.getBoolVarsFromId(ExpressionParser.parseAsBooleanExpression("a and b and c", ecc));
+		vars = BooleanExpressionParserTest.getBoolVarsFromId(ExpressionParser.parseAsBooleanExpression("a and b and c", ecc));
 	}
 
 	protected IncrementalModelGenerator<TestPredicate4Test, TestSequence4Test, T> solver;

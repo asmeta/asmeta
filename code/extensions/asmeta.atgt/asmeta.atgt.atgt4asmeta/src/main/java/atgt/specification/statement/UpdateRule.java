@@ -10,13 +10,16 @@
  ******************************************************************************/
 package atgt.specification.statement;
 
+import java.util.Collections;
 import java.util.List;
 
 import tgtlib.definitions.expression.Expression;
+import tgtlib.definitions.expression.IdExpression;
 import tgtlib.specification.location.Function;
+import tgtlib.specification.location.FunctionApplication;
 import tgtlib.specification.location.Location;
 import tgtlib.specification.location.LogicalVariable;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 
 /**
  * UpdateRule statement: var:=val or
@@ -27,11 +30,8 @@ import tgtlib.specification.location.Variable;
 
 public class UpdateRule extends BasicRule {
 
-	/** The location_fun_name. */
+	/** The location - can be also a function application. */
 	protected Location location;
-
-	/** The location_args. */
-	protected List<? extends Expression> location_args;
 
 	/** The value. */
 	protected Expression value;
@@ -44,34 +44,23 @@ public class UpdateRule extends BasicRule {
 	 * @param _value
 	 *            the _value
 	 */
-	public UpdateRule(Variable _var, Expression _value) {
-		this((Location)_var,_value,null);
+	public UpdateRule(AsmVariable _var, Expression _value) {
+		this((Location)_var,_value);
 	}
 
-	/**
-	 * Instantiates a new update rule.
-	 * 
-	 * @param _var
-	 *            the _var
-	 * @param _value
-	 *            the _value
-	 * @param _arg
-	 *            the _arg
-	 */
-	public UpdateRule(Function _var, Expression _value, List<? extends Expression> arg) {
-		this((Location)_var,_value,arg);
+	public UpdateRule(Function _var, Expression _value, List<IdExpression> args) {
+		this(new FunctionApplication(_var,args),_value);
 	}
 	
 	public UpdateRule(LogicalVariable lvar, Expression exp) {
-		this((Location)lvar,exp,null);
+		this((Location)lvar,exp);
 	}
 
-	private UpdateRule(Location _var, Expression _value, List<? extends Expression> arg) {
-		this.location = _var;
+	private UpdateRule(Location _var, Expression _value) {
 		assert _var != null;
+		this.location = _var;
+		assert _value != null;
 		this.value = _value;
-		assert value != null;
-		this.location_args = arg;
 	}
 
 	/*
@@ -98,8 +87,11 @@ public class UpdateRule extends BasicRule {
 	 * 
 	 * @return the arg
 	 */
-	public List<? extends Expression> getArg() {
-		return this.location_args;
+	public List<IdExpression> getArg() {
+		if (this.location instanceof FunctionApplication) {
+			return ((FunctionApplication)(this.location)).getArgs();
+		}
+		return null;
 	}
 
 	/**

@@ -46,7 +46,7 @@ public class AsmetaAsSpec implements Specification {
 	}
 
 	@Override
-	public tgtlib.specification.location.Variable getVariable(String locationName) {
+	public tgtlib.specification.location.AsmVariable getVariable(String locationName) {
 		// TODO Auto-generated method stub
 		return null;
 	}

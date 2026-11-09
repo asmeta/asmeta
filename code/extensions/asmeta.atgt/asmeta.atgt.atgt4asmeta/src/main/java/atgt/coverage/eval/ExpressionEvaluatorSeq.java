@@ -44,7 +44,7 @@ import tgtlib.definitions.expression.visitors.EvaluationNotSupported;
 import tgtlib.definitions.expression.visitors.ExpressionEvaluator;
 import tgtlib.definitions.expression.visitors.MathExpressionEvaluator;
 import tgtlib.specification.location.Location;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 
 /**
  * evaluates an expression against a list of assignments and returns true if it

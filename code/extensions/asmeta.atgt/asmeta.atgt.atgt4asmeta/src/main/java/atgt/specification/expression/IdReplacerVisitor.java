@@ -75,9 +75,9 @@ public class IdReplacerVisitor extends AsmExpressionVisitor<Expression> {
 		boolean changed = false;		
 		IdExpression newFN = (IdExpression) ft.getFunction().accept(this);
 		if (newFN!= ft.getFunction()) changed = true;
-		List<Expression> newExps = new ArrayList<Expression>(ft.getArguments().size());
+		List<IdExpression> newExps = new ArrayList<>(ft.getArguments().size());
 		for(Expression a : ft.getArguments()){
-			Expression newA = a.accept(this);
+			IdExpression newA = (IdExpression) a.accept(this);
 			newExps.add(newA);
 			if (newA != a)
 				changed = true;

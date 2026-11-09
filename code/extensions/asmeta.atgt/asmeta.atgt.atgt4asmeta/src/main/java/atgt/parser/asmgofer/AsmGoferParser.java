@@ -227,7 +227,7 @@ if (name.equals(name1))
         if (t == null) {if (true) throw new ParseException("type " + nameType + " not found");}
         IdExpression varID = ecc.createIdExpression(name, t);
         // get the right type
-        SP.addVariable(new Variable(varID, t, ecc.createIdExpression(value, t)));
+        SP.addVariable(new AsmVariable(varID, t, ecc.createIdExpression(value, t)));
         logger.debug("SP.addVariable(" + name + ", " + nameType + ", " + value + ")");
       }
       else
@@ -288,7 +288,7 @@ if (name.equals(name1))
       jj_consume_token(43);
       value = logicExpression();
 // Fare l'update per la varibile di nome e1
-        Variable var = SP.getVariable(e1);
+        AsmVariable var = SP.getVariable(e1);
         var.setControlled();
         {if ("" != null) return new UpdateRule(var, value);}
       break;

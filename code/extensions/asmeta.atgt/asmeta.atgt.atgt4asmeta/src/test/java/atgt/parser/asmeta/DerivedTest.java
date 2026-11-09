@@ -10,7 +10,7 @@ import atgt.parser.ParseSpecsAsmm;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import atgt.specification.ASMSpecification;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 
 class DerivedTest{
 
@@ -23,7 +23,7 @@ class DerivedTest{
 		File derivedF = ParseSpecsAsmm.getFileSpec("derived.asm");
 		ASMSpecification derS = AsmMLoaderTest.loadSpec(derivedF);
 		assertNotNull(derS);
-		Enumeration<Variable> allVariables = derS.allVariables();
+		Enumeration<AsmVariable> allVariables = derS.allVariables();
 		System.out.println(allVariables.nextElement());
 		System.out.println(allVariables.nextElement());
 		System.out.println(allVariables.nextElement());

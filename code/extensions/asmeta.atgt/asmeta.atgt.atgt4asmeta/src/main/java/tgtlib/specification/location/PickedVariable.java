@@ -9,7 +9,7 @@ import tgtlib.definitions.expression.type.DummyType;
 import tgtlib.definitions.expression.type.Type;
 
 // to be used in pick
-public class PickedVariable extends tgtlib.specification.location.Variable{
+public class PickedVariable extends tgtlib.specification.location.AsmVariable{
 	
 	static DummyType typeForChosenVar = new DummyType("for chosen var");
 	

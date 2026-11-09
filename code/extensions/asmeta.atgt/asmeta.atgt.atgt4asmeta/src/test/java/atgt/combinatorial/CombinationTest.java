@@ -23,7 +23,7 @@ import tgtlib.definitions.expression.IdExpression;
 import tgtlib.definitions.expression.type.ElementsType;
 import tgtlib.definitions.expression.type.EnumConstCreator;
 import tgtlib.definitions.expression.type.EnumType;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 import tgtlib.util.combinatorial.CombinationGeneratorList;
 
 class CombinationTest {
@@ -31,19 +31,19 @@ class CombinationTest {
 	EnumConstCreator ecc = new EnumConstCreator();
 
 	@Test void findCombinationsVariable() {
-		List<Variable> data = new ArrayList<Variable>();
+		List<AsmVariable> data = new ArrayList<AsmVariable>();
 		ElementsType A = new EnumType("A", ecc.createEnumConst("a1"),ecc.createEnumConst("a2"));
 		ElementsType B = new EnumType("B", ecc.createEnumConst("b1"),ecc.createEnumConst("b2"));
 		ElementsType C = new EnumType("C", ecc.createEnumConst("c1"),ecc.createEnumConst("c2"));
 		IdExpression idExpression_a = ecc.createIdExpression("a",A);
 		assertEquals(idExpression_a.getType(), A);
-		Variable a = new Variable(idExpression_a, A, null);
-		Variable b = new Variable(ecc.createIdExpression("b", B), B, null);
-		Variable c = new Variable(ecc.createIdExpression("c", C), C, null);
+		AsmVariable a = new AsmVariable(idExpression_a, A, null);
+		AsmVariable b = new AsmVariable(ecc.createIdExpression("b", B), B, null);
+		AsmVariable c = new AsmVariable(ecc.createIdExpression("c", C), C, null);
 		data.add(a);
 		data.add(b);
 		data.add(c);
-		CombinationGeneratorList<Variable> gen = new CombinationGeneratorList<Variable>(data, 2);
+		CombinationGeneratorList<AsmVariable> gen = new CombinationGeneratorList<AsmVariable>(data, 2);
 		assertEquals(Arrays.asList(a, b), gen.next());
 		assertEquals(Arrays.asList(a, c), gen.next());
 		assertEquals(Arrays.asList(b, c), gen.next());

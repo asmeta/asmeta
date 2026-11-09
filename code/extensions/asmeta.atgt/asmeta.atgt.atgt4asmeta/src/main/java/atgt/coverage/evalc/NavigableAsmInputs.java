@@ -20,7 +20,7 @@ import atgt.coverage.AsmTestSequence;
 import atgt.specification.ASMSpecification;
 import tgtlib.definitions.NavigableInputSequence;
 import tgtlib.specification.location.Location;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 import tgtlib.util.IterableEnumeration;
 import tgtlib.util.Pair;
 
@@ -49,7 +49,7 @@ public class NavigableAsmInputs implements NavigableInputSequence {
 	public NavigableAsmInputs(AsmTestSequence test2, ASMSpecification spec) {
 		test = test2;
 		monitoredVars = new Vector<String>();
-		for (Location v : new IterableEnumeration<Variable>(spec.allVariables())) {
+		for (Location v : new IterableEnumeration<AsmVariable>(spec.allVariables())) {
 			if (v.isMonitored())
 				monitoredVars.add(v.getName());
 		}

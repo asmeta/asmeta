@@ -21,7 +21,7 @@ import javax.xml.stream.events.XMLEvent;
 
 import atgt.coverage.AsmTestSequence;
 import tgtlib.specification.location.Location;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 
 public class toXmlStax extends TestSeqTrad {
 	
@@ -72,7 +72,7 @@ public class toXmlStax extends TestSeqTrad {
 				eventWriter.add(end);
 							
 				for( Entry<Location, String> p: state.entrySet()){
-					Variable v = (Variable) p.getKey();
+					AsmVariable v = (AsmVariable) p.getKey();
 					String value = p.getValue();
 					String varKind = null;
 					if(v.isControlled()){

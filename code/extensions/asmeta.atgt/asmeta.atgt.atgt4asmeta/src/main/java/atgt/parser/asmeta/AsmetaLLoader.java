@@ -61,7 +61,7 @@ import tgtlib.definitions.expression.type.Type;
 import tgtlib.specification.Axiom;
 import tgtlib.specification.location.Constant;
 import tgtlib.specification.location.Location;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 
 /**
  * reads spec written in AsmetaL.
@@ -170,7 +170,7 @@ public class AsmetaLLoader extends AsmSpecReader {
 					assert tipo != null : "variable " + fnct.getName() + " has no type";
 					IdExpression fcId = ecc.createIdExpression(element.getName(), tipo);
 					assert fcId.getType() != null : fcId.getIdString() + " has no type";
-					Variable var = new Variable(fcId, tipo, initExpr);
+					AsmVariable var = new AsmVariable(fcId, tipo, initExpr);
 					if (fnct instanceof MonitoredFunction)
 						var.setMonitored();
 					else if (fnct instanceof ControlledFunction)
@@ -205,7 +205,7 @@ public class AsmetaLLoader extends AsmSpecReader {
 					// variable
 					Type tipo = getDomain(element.getCodomain());
 					IdExpression fcId = ecc.createIdExpression(element.getName(), tipo);
-					Variable var = new Variable(fcId, tipo, null);
+					AsmVariable var = new AsmVariable(fcId, tipo, null);
 					SP.addVariable(var);
 					logger.debug("adding variable " + var);
 				} else {
@@ -460,7 +460,7 @@ public class AsmetaLLoader extends AsmSpecReader {
 	 */
 	private void findDelta(Collection<asmeta.definitions.Invariant> invariants) {
 		// for every monitored
-		for (Enumeration<Variable> i = SP.allVariables(); i.hasMoreElements();) {
+		for (Enumeration<AsmVariable> i = SP.allVariables(); i.hasMoreElements();) {
 			Location v = i.nextElement();
 			if (v.isMonitored()) {
 				String name = v.getName();

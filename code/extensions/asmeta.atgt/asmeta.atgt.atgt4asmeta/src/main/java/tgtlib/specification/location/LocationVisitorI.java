@@ -33,7 +33,7 @@ public interface LocationVisitorI<T> {
 	 * 
 	 * @return the t
 	 */
-	public T forVariable(Variable variable);
+	public T forVariable(AsmVariable variable);
 
 	/**
 	 * For function.

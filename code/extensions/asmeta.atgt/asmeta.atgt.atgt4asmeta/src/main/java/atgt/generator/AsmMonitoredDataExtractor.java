@@ -19,7 +19,7 @@ import extgt.coverage.combinatorial.MonitorDataExtractor;
 import extgt.coverage.combinatorial.MonitoredData;
 import tgtlib.definitions.expression.type.ElementsType;
 import tgtlib.definitions.expression.type.Type;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 
 /**
  * given a specification extracts the monitored data. is a Specification Visitor
@@ -65,8 +65,8 @@ public class AsmMonitoredDataExtractor implements MonitorDataExtractor<ASMSpecif
 		// 
 		MonitoredData result = new MonitoredData();
 		// take the monitored variables
-		for (Enumeration<Variable> e = SP.allVariables(); e.hasMoreElements();) {
-			Variable var = e.nextElement();
+		for (Enumeration<AsmVariable> e = SP.allVariables(); e.hasMoreElements();) {
+			AsmVariable var = e.nextElement();
 			if (var.isControlled()){
 				logger.info("ignoring variable " + var.getName() +" because is controlled"); //$NON-NLS-1$
 				continue;

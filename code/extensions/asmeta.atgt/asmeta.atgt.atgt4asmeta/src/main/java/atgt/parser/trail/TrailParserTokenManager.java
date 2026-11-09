@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import tgtlib.generator.MCAnalysisResult;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 import tgtlib.specification.location.Location.VarKind;
 import atgt.coverage.AsmCoverageTree;
 import atgt.coverage.AsmTestSequence;

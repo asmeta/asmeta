@@ -24,7 +24,8 @@ import tgtlib.definitions.expression.IdExpressionCreator;
 import tgtlib.definitions.expression.NotEqualsExpression;
 import tgtlib.definitions.expression.NotExpression;
 import tgtlib.specification.location.Function;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.FunctionApplication;
+import tgtlib.specification.location.AsmVariable;
 
 /**
  * RuleDeclaration Guard Coverage. Esegue una scansione della specifica e genera
@@ -94,9 +95,9 @@ public class RuleGuardVisitor extends CompleteRuleVisitor {
 		Vector<NamedTerm> list = new Vector<NamedTerm>();
 		Expression var;
 		if (a.getArg() == null) {
-			var = ((Variable) a.getVar()).getIdExpression();
+			var = ((AsmVariable) a.getVar()).getIdExpression();
 		} else {
-			Function f = (Function)a.getVar();
+			FunctionApplication f = (FunctionApplication)a.getVar();
 			var = FunctionTerm.createFunctionTerm(f.getIdExpression(), f.getDomain(), a.getArg());
 		}
 		Expression notEq = new NotEqualsExpression(var, a.getValue());

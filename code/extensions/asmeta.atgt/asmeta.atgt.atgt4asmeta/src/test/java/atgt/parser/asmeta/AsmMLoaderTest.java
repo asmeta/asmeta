@@ -42,7 +42,7 @@ import tgtlib.definitions.expression.type.ElementsType;
 import tgtlib.definitions.expression.type.EnumConst;
 import tgtlib.definitions.expression.type.EnumType;
 import tgtlib.specification.Axiom;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 import tgtlib.util.IterableEnumeration;
 
 /**
@@ -148,8 +148,8 @@ public class AsmMLoaderTest {
 			cc_asm = loadSpec(atgt.parser.ParseSpecsAsmm.CC_ASM);
 			assertNotNull(cc_asm);
 			// ADD THE CONSTRAINTS for lever
-			Variable leverVar = null;
-			for (Variable v : new IterableEnumeration<Variable>(cc_asm.allVariables())) {
+			AsmVariable leverVar = null;
+			for (AsmVariable v : new IterableEnumeration<AsmVariable>(cc_asm.allVariables())) {
 				if (v.getName().equals("lever")) {
 					leverVar = v;
 					break;
@@ -190,8 +190,8 @@ public class AsmMLoaderTest {
 			sis_asm_2 = loadSpec(atgt.parser.ParseSpecsAsmm.SIS_ABSTRACT);
 			assertNotNull(sis_asm_2);
 			// ADD THE CONSTRAINTS for waterpressure
-			Variable wpVar = null;
-			for (Variable v : new IterableEnumeration<Variable>(sis_asm_2.allVariables())) {
+			AsmVariable wpVar = null;
+			for (AsmVariable v : new IterableEnumeration<AsmVariable>(sis_asm_2.allVariables())) {
 				if (v.getName().equals("waterpressure")) {
 					wpVar = v;
 					break;
@@ -376,7 +376,7 @@ public class AsmMLoaderTest {
 		File stereoacuity = ParseSpecsAsmm.getFileSpec("stereoacuity/certifier3CHECK_6.asm");
 		ASMSpecification derS = AsmMLoaderTest.loadSpec(stereoacuity);
 		assertNotNull(derS);
-		Enumeration<Variable> allVariables = derS.allVariables();
+		Enumeration<AsmVariable> allVariables = derS.allVariables();
 		System.out.println(allVariables.nextElement());
 		System.out.println(allVariables.nextElement());
 		System.out.println(allVariables.nextElement());
@@ -392,7 +392,7 @@ public class AsmMLoaderTest {
 		File stereoacuity = new File("D:\\AgHome\\progettidaSVNGIT\\asmeta\\mvm-asmeta\\asm_models\\VentilatoreASM_NewTime\\Ventilatore4SimpleTimeLtdYFun.asm");
 		ASMSpecification derS = AsmMLoaderTest.loadSpec(stereoacuity);
 		assertNotNull(derS);
-		Enumeration<Variable> allVariables = derS.allVariables();
+		Enumeration<AsmVariable> allVariables = derS.allVariables();
 		System.out.println(allVariables.nextElement());
 		System.out.println(allVariables.nextElement());
 		System.out.println(allVariables.nextElement());

@@ -17,7 +17,7 @@ import java.util.Map;
 import tgtlib.definitions.TestSuite;
 import tgtlib.definitions.TestSuiteFactory;
 import tgtlib.specification.location.Location;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 
 /**
  * a collection of test sequences (AsmTestSequence), related to a TestCondition 

@@ -14,13 +14,13 @@ import org.junit.jupiter.params.provider.MethodSource;
 import tgtlib.definitions.expression.IdExpression;
 import tgtlib.definitions.expression.IdExpressionCreator;
 import tgtlib.definitions.expression.type.IntegerType;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 
 public class AsmTestSeqContentTest {
 
 	private static final IdExpressionCreator iec = new IdExpressionCreator();
 	private static final IdExpression aID = iec.createIdExpression("a", IntegerType.INTEGER_TYPE);
-	static Variable a = new Variable(aID, null);
+	static AsmVariable a = new AsmVariable(aID, null);
 
 	public static Collection<Object[]> option() {
 		return Arrays.asList(new Object[][] { { true }, { false } });

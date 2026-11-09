@@ -16,7 +16,7 @@ import tgtlib.specification.Specification;
 import tgtlib.specification.location.Constant;
 import tgtlib.specification.location.DerivedFunction;
 import tgtlib.specification.location.Function;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 
 /** old class for the specification of an ASM. It contains all the elements of a specification: types, variables, functions, constants, rules, axioms.
  * 
@@ -28,7 +28,7 @@ public class ASMSpecification implements Specification {
 	/** Set of all types in the specification. */
 	protected Hashtable<String, Type> types;
 	/** Set of all the variables mapped with their names. */
-	protected Hashtable<String, Variable> variables;
+	protected Hashtable<String, AsmVariable> variables;
 	/** Set of all the functions. */
 	protected Hashtable<String, Function> functions;
 	/** Set of all the constants. */
@@ -51,7 +51,7 @@ public class ASMSpecification implements Specification {
 	 */
 	public ASMSpecification() {
 		this.types = new Hashtable<String, Type>();
-		this.variables = new Hashtable<String, Variable>();
+		this.variables = new Hashtable<String, AsmVariable>();
 		this.functions = new Hashtable<String, Function>();
 		this.derivedFunctions = new Hashtable<String, DerivedFunction>();
 		this.constants = new Hashtable<String, Constant>();
@@ -127,7 +127,7 @@ public class ASMSpecification implements Specification {
 	 * @param _variable
 	 *            The variable to add
 	 */
-	public void addVariable(Variable _variable) {
+	public void addVariable(AsmVariable _variable) {
 		// type is defined
 		assert _variable.getType() != null;
 		// check that the type is known		
@@ -174,13 +174,13 @@ public class ASMSpecification implements Specification {
 	 * 
 	 * @return the enumeration< variable>
 	 */
-	public Enumeration<Variable> allVariables() {
+	public Enumeration<AsmVariable> allVariables() {
 		return this.variables.elements();
 	}
 
 	/** as immutable collection*/
 	@Override
-	public Collection<Variable> getVariables() {
+	public Collection<AsmVariable> getVariables() {
 		return Collections.unmodifiableCollection(this.variables.values());
 	}
 
@@ -190,7 +190,7 @@ public class ASMSpecification implements Specification {
 	 * @param var
 	 * @return
 	 */
-	public Variable getVariable(String var){
+	public AsmVariable getVariable(String var){
 		return variables.get(var);		
 	}
 

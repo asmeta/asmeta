@@ -78,13 +78,17 @@ public class EnumConstCreator extends IdExpressionCreator {
 	 */
 	@Override
 	public IdExpression createIdExpression(String _id, Type _type) {
+		assert _id != null : "creating an id with null name";
 		// assert _type != null : _id;
 		if (_id.equalsIgnoreCase("true"))
 			return BoolType.TRUE_CONST;
 		if (_id.equalsIgnoreCase("false"))
 			return BoolType.FALSE_CONST;
-		if (_type instanceof EnumType) {
-			return createEnumConst(_id, _type);
+		if (_type instanceof EnumType et) {
+			EnumConst enumconst = et.getEnumConst(_id);
+			if (enumconst != null) {
+				return enumconst;
+			} 
 		}
 		return super.createIdExpression(_id, _type);
 	}

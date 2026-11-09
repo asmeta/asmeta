@@ -34,7 +34,7 @@ import tgtlib.specification.location.Constant;
 import tgtlib.specification.location.DerivedFunction;
 import tgtlib.specification.location.Function;
 import tgtlib.specification.location.Location;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 import tgtlib.util.IterableEnumeration;
 
 /**
@@ -155,6 +155,9 @@ public class AsmTranslatorInputsToC extends TranslatorInputsToC<ASMSpecification
 		 * @return true, if successful
 		 */
 		abstract boolean accept(Location var);
+
+		abstract boolean accept(Function fun);
+
 	}
 
 	/**
@@ -172,6 +175,11 @@ public class AsmTranslatorInputsToC extends TranslatorInputsToC<ASMSpecification
 		@Override
 		boolean accept(Location var) {
 			return var.isMonitored();
+		}
+
+		@Override
+		boolean accept(Function fun) {
+			return fun.isMonitored();
 		}
 	}
 
@@ -192,6 +200,10 @@ public class AsmTranslatorInputsToC extends TranslatorInputsToC<ASMSpecification
 		 */
 		@Override
 		boolean accept(Location var) {
+			return !var.isMonitored();
+		}
+		@Override
+		boolean accept(Function var) {
 			return !var.isMonitored();
 		}
 	}
@@ -229,9 +241,9 @@ public class AsmTranslatorInputsToC extends TranslatorInputsToC<ASMSpecification
 	 */
 	private Map<String, String> getVarsDecl(VarSelector varselect) {
 		Map<String, String> vars = new HashMap<String, String>();
-		Iterator<Variable> allvars = new IterableEnumeration<Variable>(mySpec.allVariables()).iterator();
+		Iterator<AsmVariable> allvars = new IterableEnumeration<AsmVariable>(mySpec.allVariables()).iterator();
 		while (allvars.hasNext()) {
-			Variable var = allvars.next();
+			AsmVariable var = allvars.next();
 			if (varselect.accept(var)) {
 				Expression initVal = var.getValue();
 				if (initVal != null && initVal != Undef.UNDEF) {
@@ -247,8 +259,8 @@ public class AsmTranslatorInputsToC extends TranslatorInputsToC<ASMSpecification
 			Function fun = allFunctions.next();
 			int range = fun.getDomain().range();
 			if (varselect.accept(fun)) {
-				Expression initVal = fun.getValue();
 				// TODO gestire il valore iniziale di una funzione
+				//Expression initVal = fun.getValue();
 				//assert initVal == null;
 				vars.put(fun.getName() + "[" + range + "]", null);
 			}

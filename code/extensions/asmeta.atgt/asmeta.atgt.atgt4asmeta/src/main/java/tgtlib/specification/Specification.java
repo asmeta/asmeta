@@ -34,7 +34,7 @@ public interface Specification {
 	
 	public Collection<Axiom> getAxiom();
 
-	tgtlib.specification.location.Variable getVariable(String locationName);
+	tgtlib.specification.location.AsmVariable getVariable(String locationName);
 
 	Function getFunction(String funName);
 

@@ -15,6 +15,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import tgtlib.definitions.expression.IdExpression;
+import tgtlib.definitions.expression.parser.BooleanExpressionParserTest;
 import tgtlib.definitions.expression.parser.ExpressionParser;
 import tgtlib.definitions.expression.parser.ParseException;
 import tgtlib.definitions.expression.type.BooleanVar;
@@ -52,7 +53,7 @@ public class ExpressionEvaluatorTestFunctionTerms {
 
 	public void initExpressionEvaluatorTestEnums(String expression, String map, String result) throws ParseException{		
 		expr = ExpressionParser.parse(expression,ecc);
-		Collection<BooleanVar> vars = IDExprCollector.getBoolVarsFromId(expr);
+		Collection<BooleanVar> vars = BooleanExpressionParserTest.getBoolVarsFromId(expr);
 		String[] maps = map.split(",");
 		Map<Variable, String> state = new HashMap<Variable, String>();
 		for(Variable v:vars){

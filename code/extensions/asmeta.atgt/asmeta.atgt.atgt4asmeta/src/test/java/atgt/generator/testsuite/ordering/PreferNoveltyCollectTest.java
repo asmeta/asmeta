@@ -16,7 +16,7 @@ import tgtlib.definitions.expression.IdExpressionCreator;
 import tgtlib.definitions.expression.type.EnumConst;
 import tgtlib.definitions.expression.type.EnumConstCreator;
 import tgtlib.definitions.expression.type.EnumType;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 
 class PreferNoveltyCollectTest {
 
@@ -42,10 +42,10 @@ class PreferNoveltyCollectTest {
 		assertNotNull(c);
 		// add type
 		spec.addType(type);
-		Variable v1 = new Variable(icc.createIdExpression("A", type), type, null);
-		Variable v2 = new Variable(icc.createIdExpression("B", type), type, null);
-		Variable v3 = new Variable(icc.createIdExpression("C", type), type, null);
-		Variable v4 = new Variable(icc.createIdExpression("D", type), type, null);
+		AsmVariable v1 = new AsmVariable(icc.createIdExpression("A", type), type, null);
+		AsmVariable v2 = new AsmVariable(icc.createIdExpression("B", type), type, null);
+		AsmVariable v3 = new AsmVariable(icc.createIdExpression("C", type), type, null);
+		AsmVariable v4 = new AsmVariable(icc.createIdExpression("D", type), type, null);
 		// add the variables
 		spec.addVariable(v1);
 		spec.addVariable(v2);

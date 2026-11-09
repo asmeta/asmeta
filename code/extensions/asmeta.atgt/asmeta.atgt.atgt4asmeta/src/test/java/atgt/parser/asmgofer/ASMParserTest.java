@@ -32,7 +32,7 @@ import atgt.specification.ASMSpecification;
 import tgtlib.definitions.expression.type.BoundType;
 import tgtlib.definitions.expression.type.DummyType;
 import tgtlib.definitions.expression.type.Type;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 
 /**
  * The Class ASMParserTest.
@@ -57,7 +57,7 @@ public class ASMParserTest {
 		ASMSpecification cc = getCruiseControlNoAxiom();
 		assertNotNull(cc);
 		assertEquals(ccName, cc.name);
-		for(Variable var:cc.getVariables()){
+		for(AsmVariable var:cc.getVariables()){
 			String name = var.getName();
 			assertSame(cc.getVariable(name), var);
 			assertFalse(var.getType() instanceof DummyType, var.getName());
@@ -105,14 +105,14 @@ public class ASMParserTest {
 		ASMSpecification res = ExampleLoader.getSpec("sis.gs");
 		assertNotNull(res);
 		assertEquals("waterPressure", res.allVariables().nextElement().toString());
-		Variable WP = res.getVariable("waterPressure");
+		AsmVariable WP = res.getVariable("waterPressure");
 		assertTrue(WP.isMonitored());
 		Type WPT = WP.getType();
 		assertEquals("Int", WPT.getName());
 		assertInstanceOf(BoundType.class, WPT);
 		// gofer parser fails to set the name !!!
 		//assertEquals("SIS",res.name);
-		for(Variable var:res.getVariables()){
+		for(AsmVariable var:res.getVariables()){
 			String name = var.getName();
 			assertSame(res.getVariable(name), var);
 			assertFalse(var.getType() instanceof DummyType, var.getName());

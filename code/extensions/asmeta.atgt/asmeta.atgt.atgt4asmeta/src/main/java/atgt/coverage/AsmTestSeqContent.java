@@ -22,7 +22,7 @@ import tgtlib.definitions.expression.IdExpression;
 import tgtlib.specification.location.Function;
 import tgtlib.specification.location.FunctionApplication;
 import tgtlib.specification.location.Location;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 
 /**
  * represents the content of a ASM TEST Sequence*.
@@ -64,7 +64,7 @@ public class AsmTestSeqContent extends AsmTestSeqContentInterface {
 	}
 
 	@Override
-	public void addAssignment(Variable var, String value) {
+	public void addAssignment(AsmVariable var, String value) {
 		addAssignmentLocation(var, value);
 	}
 

@@ -12,7 +12,7 @@ import tgtlib.definitions.TestSequence;
 import tgtlib.definitions.expression.AndExpression;
 import tgtlib.definitions.expression.Expression;
 import tgtlib.definitions.expression.visitors.ExpressionEvaluator;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 
 /**
  * collected feasible test conditions in an unique test
@@ -200,7 +200,7 @@ public abstract class CollectedTestCondition<T extends TestCondition<?>, Q exten
 	public boolean witnessCoversAllInCollect() {
 		assert witness != null;
 		// TODO extend to other types 
-		Map<Variable, String> allInstructions = (Map<Variable, String>) witness.getState(0);
+		Map<AsmVariable, String> allInstructions = (Map<AsmVariable, String>) witness.getState(0);
 		ExpressionEvaluator eval = new ExpressionEvaluator(allInstructions);
 		for(T tc: tps){
 			if (!tc.getCondition().accept(eval)) {
@@ -214,7 +214,7 @@ public abstract class CollectedTestCondition<T extends TestCondition<?>, Q exten
 	public boolean witnessCovers(T tc) {
 		assert witness != null;
 		assert witness.numberOfStates() == 1;
-		Map<Variable, String> allInstructions = (Map<Variable, String>) witness.getState(0);
+		Map<AsmVariable, String> allInstructions = (Map<AsmVariable, String>) witness.getState(0);
 		ExpressionEvaluator eval = new ExpressionEvaluator(allInstructions);
 		return tc.getCondition().accept(eval);
 	}
