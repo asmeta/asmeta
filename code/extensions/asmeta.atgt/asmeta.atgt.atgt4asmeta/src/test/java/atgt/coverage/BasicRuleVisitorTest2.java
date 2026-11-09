@@ -15,7 +15,8 @@ class BasicRuleVisitorTest2 {
 	@Test void test() throws Exception {
 		AsmetaLLoader xmipar = new AsmetaLLoader();
 		//ASMSpecification SP = xmipar.read(new File("atgt_examples/nestedIf.asm"));
-		ASMSpecification SP = xmipar.read(new File("examples/phd_master_flat2_v00.asm"));
+		// file cannot found: atgt_examples/phd_master_flat2.asm
+		ASMSpecification SP = xmipar.read(new File("atgt_examples/phd_master_flat2.asm"));
 		assertNotNull(SP);
 		AsmCoverage ct = RootCoverage.STRUCT_COV.getTPTree(SP);
 		for( AsmTestCondition tp: ct.allTPs()) {
