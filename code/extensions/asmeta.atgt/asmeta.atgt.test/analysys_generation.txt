@@ -1,0 +1,102 @@
+../../../../asm_examples/examples\simple_example\population.asm	-->
+	RuntimeException class asmeta.terms.basicterms.impl.VariableTermImpl cannot be cast to class asmeta.terms.basicterms.LocationTerm (asmeta.terms.basicterms.impl.VariableTermImpl and asmeta.terms.basicterms.LocationTerm are in unnamed module of loader 'app')
+	AssertionErrorextend rule with a null do rule
+../../../../asm_examples/examples\landingGearSystem\LGS_EV.asm	-->
+	ntests: 1- nsteps: 3
+	ntests: 1- nsteps: 5
+../../../../asm_examples/PillBox\Level1\pillbox_1.asm	-->
+	ntests: 1- nsteps: 3
+	ntests: 1- nsteps: 4
+../../../../asm_examples/examples\RushHour\RushHourMon.asm	-->
+	AssertionError null
+	Error java.lang.OutOfMemoryError: Java heap space
+../../../../asm_examples/examples\RushHour\RushHour.asm	-->
+	AssertionError asmeta.terms.basicterms.impl.VariableTermImpl@3d8fd373 (name: $dir, kind: logicalVar) has no type with domain Dir
+	Error java.lang.OutOfMemoryError: Java heap space
+../../../../asm_examples/stereoacuity\certifier_nochoose_noundef.asm	-->
+	ntests: 1- nsteps: 3
+	ntests: 1- nsteps: 2
+../../../../asm_examples/examples\fsmsemantics\FSM_hooking.asm	-->
+	RuntimeException what type *Powerset(Transition)
+	Error what type *Powerset(Transition)
+../../../../asm_examples/PillBox\Level2\pillbox_2.asm	-->
+	RuntimeException only enums are supported
+	Error only enums are supported
+../../../../asm_examples/erinda\FMS_IO_2.asm	-->
+	RuntimeException what type *Prod(Label_IN1_value,Label_IN1_validity)
+	Error what type *Prod(Label_IN1_value,Label_IN1_validity)
+../../../../asm_examples/examples\RushHour\RushHourMonSimplForAsmetaSMV.asm	-->
+	RuntimeException static function carDir not supported
+	Error static function carDir not supported
+../../../../asm_examples/examples\NeedhamSchroeder\NeedhamSchroederWithSpy.asm	-->
+	RuntimeException what type *Powerset(Nonce)
+	AssertionErrornull
+../../../../asm_examples/examples\traffic_light\oneWayTrafficLight.asm	-->
+	RuntimeException static function timer not supported
+	Error static function timer not supported
+../../../../asm_examples/examples\coffeeVendingMachine\coffeeVendingMachine.asm	-->
+	RuntimeException class asmeta.terms.basicterms.impl.VariableTermImpl cannot be cast to class asmeta.terms.basicterms.LocationTerm (asmeta.terms.basicterms.impl.VariableTermImpl and asmeta.terms.basicterms.LocationTerm are in unnamed module of loader 'app')
+	Error class asmeta.terms.basicterms.impl.VariableTermImpl cannot be cast to class asmeta.terms.basicterms.LocationTerm (asmeta.terms.basicterms.impl.VariableTermImpl and asmeta.terms.basicterms.LocationTerm are in unnamed module of loader 'app')
+../../../../asm_examples/examples\sleepingBarber\sleepingBarber.asm	-->
+	AssertionError null
+	AssertionErrornull
+../../../../asm_examples/examples\sluicegate\sluiceGateMotorCtl.asm	-->
+	RuntimeException It's not possible to translate a location that have as arguments a monitored, controlled or derived function. The argument is closedPeriod
+	Error It's not possible to translate a location that have as arguments a monitored, controlled or derived function. The argument is closedPeriod
+../../../../asm_examples/examples\ABZ2020\CarSystemModule\CarSystem007\CarSystem007main.asm	-->
+	RuntimeException variable sCSLeve_Previous is not declared
+	Error Unknown function org.asmeta.flattener.term.TermRenameVars@1e1a7435 visit(interface asmeta.terms.furtherterms.RealTerm)
+../../../../asm_examples/DAS\TrafficMonitoringSystem\validation\mainForModelCheckingR4.asm	-->
+	RuntimeException what type *Camera
+	Error java.lang.OutOfMemoryError: Java heap space
+../../../../asm_examples/examples\traffic_light\oneWayTrafficLightUsingEnum.asm	-->
+	ntests: 1- nsteps: 2
+	AssertionErrornull
+../../../../asm_examples/examples\flashProtocol\flashProtocol_N2_L1_Q1_C.asm	-->
+	RuntimeException what type *AgentDomain
+	Error java.lang.OutOfMemoryError: Java heap space
+../../../../asm_examples/examples\petriNets\petriNetEdgeWeightNoPlaceCapacity_NoSeq_Matrix_v2.asm	-->
+	RuntimeException class atgt.specification.type.AbstractType cannot be cast to class tgtlib.definitions.expression.type.EnumerableType (atgt.specification.type.AbstractType and tgtlib.definitions.expression.type.EnumerableType are in unnamed module of loader 'app')
+	Error class atgt.specification.type.AbstractType cannot be cast to class tgtlib.definitions.expression.type.EnumerableType (atgt.specification.type.AbstractType and tgtlib.definitions.expression.type.EnumerableType are in unnamed module of loader 'app')
+../../../../asm_examples/examples\TrafficLightYakindu\TrafficLight0\TrafficLight_0.asm	-->
+	ntests: 1- nsteps: 3
+	ntests: 1- nsteps: 4
+../../../../asm_examples/examples\landingGearSystem\LGS_GM_withError.asm	-->
+	ntests: 1- nsteps: 3
+	ntests: 1- nsteps: 3
+../../../../asm_examples/examples\simple_example\ATM3.asm	-->
+	RuntimeException what type *Any
+	Error what type *Any
+../../../../asm_examples/examples\GilbreathCardTrick\GilbreathCardTrick.asm	-->
+	RuntimeException only enums are supported
+	Error only enums are supported
+../../../../asm_examples/DAS\TrafficMonitoringSystem\mainUnique.asm	-->
+	RuntimeException what type *Camera
+	AssertionErrorAll the domains in a forall should be finite. Therefore, it should be possible to combine them.
+../../../../asm_examples/examples\railRoadGate\railroadGate.asm	-->
+	ntests: 1- nsteps: 3
+	ntests: 1- nsteps: 2
+../../../../asm_examples/examples\fsmsemantics\FSM_hooking2.asm	-->
+	RuntimeException Rule of class class asmeta.transitionrules.basictransitionrules.impl.LetRuleImpl not translated
+	Error Rule of class class asmeta.transitionrules.basictransitionrules.impl.LetRuleImpl not translated
+../../../../asm_examples/examples\hemodialysisDevice\SCP2017\HemodialysisRef3.asm	-->
+	RuntimeException $nextParam already created with (not null) type RinsingParam
+	Error $nextParam already created with (not null) type RinsingParam
+../../../../asm_examples/examples\hemodialysisDevice\ABZ2016\Hemodialysis_ref3_forMC.asm	-->
+	AssertionError asmeta.terms.basicterms.impl.VariableTermImpl@cbd138c (name: $inf, kind: logicalVar) has no type with domain Integer
+	AssertionErrorasmeta.terms.basicterms.impl.VariableTermImpl@43bafd3b (name: $inf, kind: logicalVar) has no type with domain Integer
+../../../../asm_examples/examples\traffic_light\forAsmetaSMV\oneWayTrafficLight.asm	-->
+	AssertionError ..\..\..\..\asm_examples\examples\traffic_light\forAsmetaSMV\oneWayTrafficLight.asmnot existing
+	AssertionError..\..\..\..\asm_examples\examples\traffic_light\forAsmetaSMV\oneWayTrafficLight.asmnot existing
+../../../../asm_examples/RTPatternLibrary\Test\Test_Sem_Sync.asm	-->
+	RuntimeException Rule of class class asmeta.transitionrules.turbotransitionrules.impl.SeqRuleImpl not translated
+	Error Unknown function org.asmeta.flattener.term.TermRenameVars@4f4dbb1b visit(interface asmeta.terms.furtherterms.SequenceTerm)
+../../../../asm_examples/PillBox\Level1\pillbox_1_elia.asm	-->
+	ntests: 1- nsteps: 3
+	ntests: 1- nsteps: 14
+../../../../asm_examples/unibgstudents\Rubrica.asm	-->
+	RuntimeException what type *Seq(String)
+	Error what type *Seq(String)
+../../../../asm_examples/examples\petriNets\petriNetNoEdgeWeightNoPlaceCapacity_seq.asm	-->
+	RuntimeException what type *Powerset(Place)
+	Error what type *Powerset(Place)

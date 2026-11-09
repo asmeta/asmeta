@@ -98,12 +98,11 @@ public class AsmetaLLoader extends AsmSpecReader {
 	public ASMSpecification read(File f) throws tgtlib.specification.ParseException {
 		logger.debug("reading file " + f.getName());
 		assert f.exists();
-		// file in asmm AsmGoferParser
-		// read the specification
+		// read the specification - asmeta parser
 		AsmCollection kb;
-		try{
+		try {
 			kb = org.asmeta.parser.ASMParser.setUpReadAsm(f);
-		}catch(Exception e){
+		} catch (Exception e) {
 			throw new tgtlib.specification.ParseException(e.getMessage());
 		}
 		// get the spec name for the file name

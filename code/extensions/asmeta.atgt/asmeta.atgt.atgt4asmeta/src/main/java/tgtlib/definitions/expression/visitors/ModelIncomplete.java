@@ -14,28 +14,21 @@ import java.util.Map;
 
 import tgtlib.definitions.expression.Expression;
 import tgtlib.definitions.expression.IdExpression;
+import tgtlib.definitions.expression.type.Variable;
+import tgtlib.definitions.expression.visitors.ExpressionEvaluator.AsmState;
+import tgtlib.specification.location.Location;
 
 /**
  * the model does not specify the value for the var.
  */
 public class ModelIncomplete extends RuntimeException {
 
-	/**
-	 * Instantiates a new model incomplete.
-	 * 
-	 * @param s
-	 *            the s
-	 * @param e 
-	 */
-	ModelIncomplete(String s, Expression e) {
-		super(s + " not defined when evaluating " + e.toString());
-	}
 
-	public ModelIncomplete(IdExpression e, Map<IdExpression, String> state) {
+	public ModelIncomplete(IdExpression e, AsmState state) {
 		super("value not defined when evaluating " + e.toString() + " in " + state.toString());
 	}
 
-	public ModelIncomplete(IdExpression id, Expression e, Map<IdExpression, String> state) {
+	public ModelIncomplete(IdExpression id, Expression e, AsmState state) {
 		super("value of "+id+" ("+id.getClass()+") not defined when evaluating " + e.toString() + " in expression " + e.toString() + " state "+ state.toString());
 	}
 }

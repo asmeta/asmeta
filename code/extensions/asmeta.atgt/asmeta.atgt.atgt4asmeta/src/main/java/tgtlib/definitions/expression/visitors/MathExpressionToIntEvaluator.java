@@ -39,6 +39,8 @@ import tgtlib.definitions.expression.PlusExpression;
 import tgtlib.definitions.expression.PrimedIdExpression;
 import tgtlib.definitions.expression.UnaryExpression;
 import tgtlib.definitions.expression.XOrExpression;
+import tgtlib.definitions.expression.type.Variable;
+import tgtlib.definitions.expression.visitors.ExpressionEvaluator.AsmState;
 
 /**
  * evaluates an expression against a list of assignments and returns true if it
@@ -54,10 +56,10 @@ public class MathExpressionToIntEvaluator implements
 	static private Logger logger = Logger.getLogger(MathExpressionToIntEvaluator.class);
 
 	/** The list of assignments variable -> value. represents a state */
-	Map<IdExpression, String> state; 
+	AsmState state; 
 
-	public MathExpressionToIntEvaluator(Map<IdExpression, String> state) {
-		this.state = state;
+	public MathExpressionToIntEvaluator(AsmState currentState) {
+		this.state = currentState;
 	}
 
 	/** call the evaluator : TODO use only this entry point
@@ -148,8 +150,8 @@ public class MathExpressionToIntEvaluator implements
 	 */
 	@Override
 	public Integer forIdExpression(IdExpression var) {
-		if(state.containsKey(var)) {
-			String value = state.get(var);
+		String value = state.get(var);
+		if(value != null) {
 			try {
 				return new Integer(value);
 			}

@@ -1,5 +1,6 @@
 package tgtlib.definitions.expression;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,23 +17,67 @@ public class FunctionTerm implements Expression {
 
 	// these cannot be used a function names - this library has specific classes for
 	// this
-	static private List<String> stdOperator = Arrays.asList("and", "or", "eq", "not", "implies");
+	static private List<String> logicOperators = Arrays.asList("and", "or", "not", "implies", "xor");
+	
+	static private List<String> relOperators = Arrays.asList("eq", "neq", "ge", "le", "gt", "lt");
+	static private List<String> mathOperators = Arrays.asList("div", "plus", "minus", "mod", "mult");
+
+	static private List<String> stdOperator = new ArrayList<>();
+	static {
+		stdOperator.addAll(logicOperators);
+		stdOperator.addAll(relOperators);
+		stdOperator.addAll(mathOperators);
+	}
 
 	// to be used when it is not sure itf cab on operator
-	public static Expression createFunctionTerm(IdExpression name, Type funcCoDomain, List<IdExpression> args) {
+	public static Expression createFunctionTerm(IdExpression name, Type funcCoDomain, List<? extends Expression> args) {
 		switch (name.getIdString()) {
 		case "and":
 			assert args.size() == 2;
 			assert funcCoDomain == BoolType.BOOLTYPE;
 			return new tgtlib.definitions.expression.AndExpression(args.get(0), args.get(1));
+		case "or":
+			assert args.size() == 2;
+			assert funcCoDomain == BoolType.BOOLTYPE;
+			return new tgtlib.definitions.expression.OrExpression(args.get(0), args.get(1));
 		case "eq":
 			assert args.size() == 2;
 			return new tgtlib.definitions.expression.EqualsExpression(args.get(0), args.get(1));
+		case "neq":
+			assert args.size() == 2;
+			return new tgtlib.definitions.expression.NotEqualsExpression(args.get(0), args.get(1));
 		case "not":
 			assert args.size() == 1;
+			assert funcCoDomain == BoolType.BOOLTYPE;
 			return new tgtlib.definitions.expression.NotExpression(args.get(0));
+		case "lt":
+			assert args.size() == 2;
+			return new tgtlib.definitions.expression.LessThanExpression(args.get(0),args.get(1));
+		case "le":
+			assert args.size() == 2;
+			return new tgtlib.definitions.expression.LessEqualExpression(args.get(0),args.get(1));
+		case "gt":
+			assert args.size() == 2;
+			return new tgtlib.definitions.expression.GreaterThanExpression(args.get(0),args.get(1));
+		case "ge":
+			assert args.size() == 2;
+			return new tgtlib.definitions.expression.GreaterEqualExpression(args.get(0),args.get(1));
+		case "minus":
+			assert args.size() == 2;
+			return new tgtlib.definitions.expression.MinusExpression(args.get(0),args.get(1));
+		case "plus":
+			assert args.size() == 2;
+			return new tgtlib.definitions.expression.PlusExpression(args.get(0),args.get(1));
+		case "mod":
+			assert args.size() == 2;
+			return new tgtlib.definitions.expression.ModuloExpression(args.get(0),args.get(1));
 		default:
-			return new FunctionTerm(name, funcCoDomain, args);
+			// simplest case - function term with arguments as IdExpression
+			List<IdExpression> idargs = args.stream().map(x -> {
+				assert x instanceof IdExpression : "function term argument not supported " + x + " in " + name;
+				return (IdExpression) x;
+			}).toList();
+			return new FunctionTerm(name, funcCoDomain, idargs);
 		}
 	}
 

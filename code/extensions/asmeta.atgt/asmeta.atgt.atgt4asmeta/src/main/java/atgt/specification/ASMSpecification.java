@@ -23,7 +23,7 @@ import tgtlib.specification.location.AsmVariable;
  * @author Angelo Gargantini
  *
  */
-public class ASMSpecification implements Specification {
+public class ASMSpecification extends AsmGeneralSpecification {
 
 	/** Set of all types in the specification. */
 	protected Hashtable<String, Type> types;

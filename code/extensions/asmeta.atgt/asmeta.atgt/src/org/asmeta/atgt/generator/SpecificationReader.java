@@ -21,7 +21,9 @@ class AsmetaSpecificationReader extends SpecificationReader<org.asmeta.atgt.cove
 	@Override
 	public AsmetaAsSpec read(String asmfile) throws Exception {
 		AsmCollection asmCollection = ASMParser.setUpReadAsm(new File(asmfile));
-		return new AsmetaAsSpec(asmCollection);
+		AsmetaAsSpec asmetaAsSpec = new AsmetaAsSpec(asmCollection);
+		asmetaAsSpec.setAsmspec(new AsmetaLLoader().read(new File(asmfile)));
+		return asmetaAsSpec;
 	}
 
 }
