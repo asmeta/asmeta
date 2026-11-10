@@ -2,61 +2,63 @@ package org.asmeta.atgt.generator.nusmv;
 
 import java.util.Collections;
 
+import javax.management.RuntimeErrorException;
+
 import org.apache.log4j.Logger;
 
 import atgt.coverage.AsmTestCondition;
 import atgt.coverage.AsmTestSeqContent;
 import atgt.coverage.AsmTestSequence;
 import atgt.specification.ASMSpecification;
+import atgt.specification.type.AbstractType;
 import tgtlib.definitions.expression.FunctionTerm;
 import tgtlib.definitions.expression.IdExpression;
 import tgtlib.definitions.expression.type.EnumConstCreator;
 import tgtlib.definitions.expression.type.EnumType;
 import tgtlib.definitions.expression.type.EnumerableType;
 import tgtlib.definitions.expression.type.IntegerType;
+import tgtlib.definitions.expression.type.Type;
 import tgtlib.specification.Specification;
 import tgtlib.specification.location.Constant;
 import tgtlib.specification.location.DerivedFunction;
 import tgtlib.specification.location.Function;
 import tgtlib.specification.location.Location;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 
-/** convert a counter example of the model checker to a test sequence
+/**
+ * convert a counter example of the model checker to a test sequence
  */
 public class ConverterCounterExample {
 
-
 	private static final EnumConstCreator ENUM_CONST_CREATOR = new EnumConstCreator();
-
 
 	public static boolean IncludeUnchangedVariables = false;
 
-
 	private final static Logger LOG = Logger.getLogger(ConverterCounterExample.class);
-
 
 	public static AsmTestSequence convert(Counterexample test, Specification spec, AsmTestCondition tc) {
 		return convert(test, spec, tc, IncludeUnchangedVariables);
 	}
 //	static List<IdExpression> functions = new ArrayList<>();
 
-	public static AsmTestSequence convert(Counterexample test, Specification spec, AsmTestCondition tc, boolean includeUnchangedVariables) {
+	public static AsmTestSequence convert(Counterexample test, Specification spec, AsmTestCondition tc,
+			boolean includeUnchangedVariables) {
 		//
 		LOG.debug("converting cex with " + test.length() + " states to ASM test");
 		//
-		AsmTestSeqContent.addOnlyChangeValues = ! includeUnchangedVariables;
+		AsmTestSeqContent.addOnlyChangeValues = !includeUnchangedVariables;
 		AsmTestSequence asmTestSequence = new AsmTestSequence(tc);
 		for (ModelCheckerState mcs : test) {
 			asmTestSequence.addState();
 			for (String var : mcs.getVars()) {
-				//System.out.println(var);
+				// System.out.println(var);
 				// value
 				String val = mcs.getVarValue(var);
 				assert val != null;
 				String locationName = var.replaceAll("\\(", "\\[").replaceAll("\\)", "\\]");
 				// case 1: a variable
 				// if it is a variable
-				Variable v = spec.getVariable(locationName);
+				AsmVariable v = spec.getVariable(locationName);
 				if (v != null) {
 					asmTestSequence.addAssignment(v, val);
 					continue;
@@ -65,7 +67,7 @@ public class ConverterCounterExample {
 				// it can be a function
 				if (var.contains("_")) {
 					String funName = var.substring(0, var.indexOf('_'));
-					if (spec.getFunction(funName) != null){
+					if (spec.getFunction(funName) != null) {
 						// cannot be a function
 						assert !funName.contains("(");
 						asmTestSequence.addAssignment(var, val, Location.VarKind.CONTROLLED);
@@ -82,7 +84,7 @@ public class ConverterCounterExample {
 //					functions.stream().forEach(x -> System.out.println(x.hashCode()));
 //					functions.stream().forEach(x -> System.out.println(System.identityHashCode(x)));
 //					functions.stream().forEach(x -> System.out.println(System.identityHashCode(x.getType())));
-					if (function != null){
+					if (function != null) {
 						FunctionTerm ft = ConverterCounterExample.extractFunctionTerm(var, spec);
 						// TODO let asmtest sequence accept also function
 						asmTestSequence.addAssignment(ft, val, function.getVarKind());
@@ -91,16 +93,21 @@ public class ConverterCounterExample {
 				}
 				// derived function
 				DerivedFunction dv = spec.getDerivedFunction(var);
-				if (dv != null){
+				if (dv != null) {
 					// add as controlled (useful to link)
 					asmTestSequence.addAssignment(var, val, Location.VarKind.CONTROLLED);
 					continue;
 				}
 				// static functions,
 				Constant constant = spec.getConstantByName(var);
-				if (constant != null){
+				if (constant != null) {
 					// add as controlled - so to be checked
-					asmTestSequence.addAssignment(var,val, Location.VarKind.CONTROLLED);
+					asmTestSequence.addAssignment(var, val, Location.VarKind.CONTROLLED);
+					continue;
+				}
+				// skip choose variables
+				if (var.contains("$")) {
+					System.err.println("skipping variable " + var);
 					continue;
 				}
 				System.err.println("variable " + var + " assigned to " + val + " not found");
@@ -125,27 +132,22 @@ public class ConverterCounterExample {
 		// only one argument allowed
 		assert !argument.contains(",");
 		IdExpression argId = null;
-		/*
-		 * if (argument.equalsIgnoreCase(BoolType.FALSE_STR)){ argId =
-		 * BoolType.TRUE_CONST; }else if (argument.equalsIgnoreCase(BoolType.TRUE_STR)){
-		 * argId = BoolType.TRUE_CONST; } else{ assert false; // Constant constantByName
-		 * = getSpec().getConstantByName(argument); //if(constantByName != null; }
-		 */
-		// assuming now it is a enumerative
-		/*
-		 * EnumType et = (EnumType) f.getDomain(); argId = et.getEnumConst(argument);
-		 * assert argId != null : argument + " not found in " + et; FunctionTerm ft =
-		 * new FunctionTerm(f.getIdExpression(), f.getCodomain(),
-		 * Collections.singletonList(argId)); return ft;
-		 */
-		EnumerableType et = (EnumerableType) f.getDomain();
-		if (et instanceof EnumType) {
-			argId = ((EnumType) et).getEnumConst(argument);
-		} else {
-			argId = ENUM_CONST_CREATOR.createIdExpression(argument, IntegerType.INTEGER_TYPE);
+		// all the types (like boolean and so on)
+		Type domain = f.getDomain();
+		if (domain instanceof EnumerableType et) {
+			if (et instanceof EnumType) {
+				argId = ((EnumType) et).getEnumConst(argument);
+			} else {
+				argId = ENUM_CONST_CREATOR.createIdExpression(argument, IntegerType.INTEGER_TYPE);
+			}
+			assert argId != null : argument + " not found in " + et;
+			FunctionTerm ft = new FunctionTerm(f.getIdExpression(), f.getCodomain(), Collections.singletonList(argId));
+			return ft;
+		} else if (domain instanceof AbstractType) {
+			argId = ENUM_CONST_CREATOR.createIdExpression(argument,domain);
+			FunctionTerm ft = new FunctionTerm(f.getIdExpression(), f.getCodomain(), Collections.singletonList(argId));
+			return ft;
 		}
-		assert argId != null : argument + " not found in " + et;
-		FunctionTerm ft = new FunctionTerm(f.getIdExpression(), f.getCodomain(), Collections.singletonList(argId));
-		return ft;
+		throw new RuntimeException("location "+ location + "type " + domain + " is not enum");
 	}
 }

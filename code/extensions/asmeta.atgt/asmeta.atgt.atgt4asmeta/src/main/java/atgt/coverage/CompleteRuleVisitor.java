@@ -22,7 +22,8 @@ import tgtlib.definitions.expression.FunctionTerm;
 import tgtlib.definitions.expression.NotEqualsExpression;
 import tgtlib.definitions.expression.OrExpression;
 import tgtlib.specification.location.Function;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.FunctionApplication;
+import tgtlib.specification.location.AsmVariable;
 
 /**
  * Complete Rule Coverage. Esegue una scansione della specifica e genera una
@@ -77,9 +78,9 @@ public class CompleteRuleVisitor extends BasicRuleVisitor {
 		List<NamedTerm> list = new Vector<NamedTerm>();
 		Expression id;
 		if (a.getArg() == null) {
-			id = ((Variable)a.getVar()).getIdExpression();
+			id = ((AsmVariable)a.getVar()).getIdExpression();
 		} else {					
-			Function func = (Function)a.getVar();
+			FunctionApplication func = (FunctionApplication)a.getVar();
 			assert func.getDomain() == func.getIdExpression().getType();
 			id = FunctionTerm.createFunctionTerm(func.getIdExpression(), func.getCodomain(), a.getArg());
 		}

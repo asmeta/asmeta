@@ -126,7 +126,6 @@ public class AsmetaConditionExtractor extends RuleVisitor<List<NamedTerm>>{
 	 */
 	protected List<NamedTerm> distributeOverConditional(asmeta.transitionrules.basictransitionrules.ConditionalRule ite) {
 		List<NamedTerm> result = new Vector<>();
-
 		// get the guard
 		Expression guard = translator.visit(ite.getGuard());
 		logger.debug("guard  "+ guard);

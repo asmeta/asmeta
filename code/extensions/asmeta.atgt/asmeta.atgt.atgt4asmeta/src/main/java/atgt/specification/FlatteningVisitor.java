@@ -32,7 +32,7 @@ import tgtlib.definitions.expression.type.Type;
 import tgtlib.specification.SpecificationAnalyzer;
 import tgtlib.specification.location.Constant;
 import tgtlib.specification.location.Function;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -75,7 +75,7 @@ public class FlatteningVisitor implements
 
 		// Copy all variables
 		for (Enumeration e = SP.allVariables(); e.hasMoreElements();)
-			newSP.addVariable((Variable) e.nextElement());
+			newSP.addVariable((AsmVariable) e.nextElement());
 
 		// Copy all Functions
 		for (Enumeration e = SP.allFunction(); e.hasMoreElements();)

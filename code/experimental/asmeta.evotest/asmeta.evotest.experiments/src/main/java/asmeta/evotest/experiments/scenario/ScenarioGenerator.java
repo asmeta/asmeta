@@ -72,7 +72,7 @@ public class ScenarioGenerator {
 	 * @param stepList  the list with the number of steps for each scenario to be
 	 *                  generated
 	 * @param shuffle   if false, run choose rules deterministically (always choose
-	 *                  first element)
+	 *                  first element), else run choose rules randomly and generate tests with pick
 	 * @return random execution time in ms
 	 * @throws Exception if any Exception occurs
 	 */

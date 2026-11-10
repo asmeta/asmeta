@@ -16,7 +16,7 @@ import tgtlib.definitions.expression.IdExpression;
 import tgtlib.definitions.expression.ImpliesExpression;
 import tgtlib.definitions.expression.NextExpression;
 import tgtlib.definitions.expression.OrExpression;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -42,7 +42,7 @@ public class NextStateConstraint extends InputConstraint {
 	 * @param valPs
 	 *            all the possible values in the next state
 	 */
-	public NextStateConstraint(String name, Variable var, IdExpression val,
+	public NextStateConstraint(String name, AsmVariable var, IdExpression val,
 			IdExpression... valPs) {
 		super(name, var, makeBody(var.getIdExpression(), val, valPs));
 		currentVal = val;
@@ -64,7 +64,7 @@ public class NextStateConstraint extends InputConstraint {
 	 * @return the next state constraint
 	 */
 	public static NextStateConstraint possibleChangeIn(String name,
-			Variable var, IdExpression val, IdExpression... valPs) {
+			AsmVariable var, IdExpression val, IdExpression... valPs) {
 		IdExpression[] including = java.util.Arrays.copyOf(valPs,
 				valPs.length + 1);
 		including[valPs.length] = val;

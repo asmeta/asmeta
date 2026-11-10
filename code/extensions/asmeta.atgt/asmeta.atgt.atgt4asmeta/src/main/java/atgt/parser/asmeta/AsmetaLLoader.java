@@ -61,10 +61,10 @@ import tgtlib.definitions.expression.type.Type;
 import tgtlib.specification.Axiom;
 import tgtlib.specification.location.Constant;
 import tgtlib.specification.location.Location;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 
 /**
- * reads spec written in AsmetaL.
+ * reads spec written in AsmetaL and convert them in 
  * 
  * @author Sergio Galati, AG
  */
@@ -96,14 +96,18 @@ public class AsmetaLLoader extends AsmSpecReader {
 	 */
 	@Override
 	public ASMSpecification read(File f) throws tgtlib.specification.ParseException {
+		return read(f,true);
+	}
+
+		
+	public ASMSpecification read(File f, boolean convertRule) throws tgtlib.specification.ParseException {
 		logger.debug("reading file " + f.getName());
 		assert f.exists();
-		// file in asmm AsmGoferParser
-		// read the specification
+		// read the specification - asmeta parser
 		AsmCollection kb;
-		try{
+		try {
 			kb = org.asmeta.parser.ASMParser.setUpReadAsm(f);
-		}catch(Exception e){
+		} catch (Exception e) {
 			throw new tgtlib.specification.ParseException(e.getMessage());
 		}
 		// get the spec name for the file name
@@ -117,7 +121,7 @@ public class AsmetaLLoader extends AsmSpecReader {
 		SP = new ASMSpecification();
 		SP.name = kb.getMain().getName();
 		termConv = new TermConverter<>(SP, ecc);
-		loadAsm(asmMain);
+		loadAsm(asmMain, convertRule);
 		return SP;
 	}
 
@@ -126,8 +130,9 @@ public class AsmetaLLoader extends AsmSpecReader {
 	 * The constructor use this function to read and parser the file.
 	 * 
 	 * @param asmMain the main asm
+	 * @param convertRule 
 	 */
-	private void loadAsm(asmeta.structure.Asm asmMain) {
+	private void loadAsm(asmeta.structure.Asm asmMain, boolean convertRule) {
 		// Recupero i domini.
 		/*
 		 * per ora non uso questa parte di codice perch? creo i domini in base alle
@@ -170,7 +175,7 @@ public class AsmetaLLoader extends AsmSpecReader {
 					assert tipo != null : "variable " + fnct.getName() + " has no type";
 					IdExpression fcId = ecc.createIdExpression(element.getName(), tipo);
 					assert fcId.getType() != null : fcId.getIdString() + " has no type";
-					Variable var = new Variable(fcId, tipo, initExpr);
+					AsmVariable var = new AsmVariable(fcId, tipo, initExpr);
 					if (fnct instanceof MonitoredFunction)
 						var.setMonitored();
 					else if (fnct instanceof ControlledFunction)
@@ -205,7 +210,7 @@ public class AsmetaLLoader extends AsmSpecReader {
 					// variable
 					Type tipo = getDomain(element.getCodomain());
 					IdExpression fcId = ecc.createIdExpression(element.getName(), tipo);
-					Variable var = new Variable(fcId, tipo, null);
+					AsmVariable var = new AsmVariable(fcId, tipo, null);
 					SP.addVariable(var);
 					logger.debug("adding variable " + var);
 				} else {
@@ -261,20 +266,28 @@ public class AsmetaLLoader extends AsmSpecReader {
 				asmder.setValue(expr);
 			}
 		}
-
-		//
-		// add all rules
-		//
-		Collection<asmeta.definitions.RuleDeclaration> allRules = asmMain.getBodySection().getRuleDeclaration();
-
-		// builde the converter
-		RuleConverter ruleConverter = new RuleConverter(SP, ecc, termConv);
-
-		for (asmeta.definitions.RuleDeclaration ruleD : allRules) {
-			if (logger.isDebugEnabled()) {
-				logger.debug("loadAsm(AsmetaPackage) - adding rule " + ruleD.getName()); //$NON-NLS-1$
+		if (convertRule) {
+			// add all rules - it could be not necessary
+			Collection<asmeta.definitions.RuleDeclaration> allRules = asmMain.getBodySection().getRuleDeclaration();
+			// build the converter
+			RuleConverter ruleConverter = new RuleConverter(SP, ecc, termConv);
+			for (asmeta.definitions.RuleDeclaration ruleD : allRules) {
+				if (logger.isDebugEnabled()) {
+					logger.debug("loadAsm(AsmetaPackage) - adding rule " + ruleD.getName()); //$NON-NLS-1$
+				}
+				SP.addRule(ruleConverter.convertRuleDeclaration(ruleD));
 			}
-			SP.addRule(ruleConverter.convertRuleDeclaration(ruleD));
+			// add the main rule (it is not already in body)
+			//
+			// get main rule
+			//
+			asmeta.definitions.RuleDeclaration mainrule = asmMain.getMainrule();
+			if (mainrule != null) {
+				atgt.specification.statement.RuleDeclaration atgtmr = ruleConverter.convertRuleDeclaration(mainrule);
+				SP.addRule(atgtmr);
+				SP.setMainrule(atgtmr);
+			}
+
 		}
 		// check axioms for monitored variables
 		List<Property> properties = asmMain.getBodySection().getProperty();
@@ -285,25 +298,12 @@ public class AsmetaLLoader extends AsmSpecReader {
 			}
 		}
 		findDelta(invariants);
-
 		// add all the invariants
 		for (asmeta.definitions.Invariant invariant : invariants) {
 			Expression body = termConv.computeFunctionTerm((FunctionTerm) invariant.getBody());
 			SP.addAxiom(new Axiom(invariant.getName(), body));
 
 		}
-
-		// add the main rule (it is not already in body
-		//
-		// get main rule
-		//
-		asmeta.definitions.RuleDeclaration mainrule = asmMain.getMainrule();
-		if (mainrule != null) {
-			atgt.specification.statement.RuleDeclaration atgtmr = ruleConverter.convertRuleDeclaration(mainrule);
-			SP.addRule(atgtmr);
-			SP.setMainrule(atgtmr);
-		}
-
 		// return
 		return;
 
@@ -336,7 +336,7 @@ public class AsmetaLLoader extends AsmSpecReader {
 	 */
 	private void findDelta(Collection<asmeta.definitions.Invariant> invariants) {
 		// for every monitored
-		for (Enumeration<Variable> i = SP.allVariables(); i.hasMoreElements();) {
+		for (Enumeration<AsmVariable> i = SP.allVariables(); i.hasMoreElements();) {
 			Location v = i.nextElement();
 			if (v.isMonitored()) {
 				String name = v.getName();

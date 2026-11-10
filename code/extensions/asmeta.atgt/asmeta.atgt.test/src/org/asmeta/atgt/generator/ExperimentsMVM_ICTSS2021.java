@@ -54,7 +54,7 @@ import tgtlib.specification.location.DerivedFunction;
 import tgtlib.specification.location.Function;
 import tgtlib.specification.location.FunctionApplication;
 import tgtlib.specification.location.Location;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 
 /**
  * tests for the asmeta generator
@@ -468,7 +468,7 @@ public class ExperimentsMVM_ICTSS2021 {
 	static void addInitialState(AsmTestSequence asmTest, ASMSpecification ASMSpecification, String var, String value) {
 		Map<Location, String> initialState = asmTest.allInstructions().get(0);
 		if (!var.contains("[")) {
-			Variable variable = ASMSpecification.getVariable(var);
+			AsmVariable variable = ASMSpecification.getVariable(var);
 			if (variable != null) {
 				String val = initialState.get(variable);
 				if (val == null) {
@@ -481,7 +481,7 @@ public class ExperimentsMVM_ICTSS2021 {
 			DerivedFunction derived = ASMSpecification.getDerivedFunction(var);
 			if (derived != null) {
 				// makeup a fake location
-				Location l = new Variable(icc.createIdExpression(var, AsmTestGeneratorBySimulation.dummyType),
+				Location l = new AsmVariable(icc.createIdExpression(var, AsmTestGeneratorBySimulation.dummyType),
 						AsmTestGeneratorBySimulation.dummyType, null);
 				assert initialState.get(l) == null;
 				initialState.put(l, value);

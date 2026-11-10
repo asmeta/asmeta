@@ -308,7 +308,7 @@ public class AsmTestGeneratorBySimulation extends AsmTestGenerator {
 				}
 				// create ID (with dummy type which is wrong)
 				IdExpression varId = icc.createIdExpression(location.toString(), type);
-				tgtlib.specification.location.Variable var = new tgtlib.specification.location.Variable(varId, null);
+				tgtlib.specification.location.AsmVariable var = new tgtlib.specification.location.AsmVariable(varId, null);
 				if (monitored) {
 					var.setMonitored();
 				} else {

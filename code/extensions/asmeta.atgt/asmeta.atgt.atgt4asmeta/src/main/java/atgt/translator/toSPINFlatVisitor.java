@@ -28,7 +28,7 @@ import tgtlib.specification.location.Constant;
 import tgtlib.specification.location.DerivedFunction;
 import tgtlib.specification.location.Function;
 import tgtlib.specification.location.Location;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 
 /**
  * The Class toSPINFlatVisitor translates ASM spec to Spin
@@ -92,8 +92,8 @@ public class toSPINFlatVisitor extends ToSpinTranslatorVisitor {
 		result.append("\n");
 		// Now it's variables turn
 		result.append("/* variables definitions */ \n");
-		for (Enumeration<Variable> e = sp.allVariables(); e.hasMoreElements();) {
-			Variable nextElement = e.nextElement();
+		for (Enumeration<AsmVariable> e = sp.allVariables(); e.hasMoreElements();) {
+			AsmVariable nextElement = e.nextElement();
 			result.append(nextElement.accept(locTrans));
 		}
 		// ****************************** FOR FUNCTION
@@ -157,7 +157,7 @@ public class toSPINFlatVisitor extends ToSpinTranslatorVisitor {
 		if (use_atomic_init)
 			result.append("\natomic{");
 		result.append("\n/* print initial values and new state */\n");
-		for (Enumeration<Variable> e = sp.allVariables(); e.hasMoreElements();) {
+		for (Enumeration<AsmVariable> e = sp.allVariables(); e.hasMoreElements();) {
 			result.append(e.nextElement().accept(InitFunctionToSPINVisitor.init));
 		}
 
@@ -227,7 +227,7 @@ public class toSPINFlatVisitor extends ToSpinTranslatorVisitor {
 		// Start modeling monitored variable simulation
 
 		result.append(this.indent + "/* update of monitored variables and print*/\n");
-		for (Enumeration<Variable> e = sp.allVariables(); e.hasMoreElements();) {
+		for (Enumeration<AsmVariable> e = sp.allVariables(); e.hasMoreElements();) {
 			Location v = e.nextElement();
 			if (!(v.isControlled())) {
 				result.append(v.accept(new monVarSimulationVisitor(sp.getAxiom(), this.indent + "\t")));
@@ -244,8 +244,8 @@ public class toSPINFlatVisitor extends ToSpinTranslatorVisitor {
 
 		appendIndeted(result, "/* update of controlled variables for state change */\n");
 
-		for (Enumeration<Variable> e = sp.allVariables(); e.hasMoreElements();) {
-			Variable v = e.nextElement();
+		for (Enumeration<AsmVariable> e = sp.allVariables(); e.hasMoreElements();) {
+			AsmVariable v = e.nextElement();
 			appendIndeted(result, v.accept(new VarUpdaterVisitor(this.indent + "\t")) + "\n");
 		}
 		appendIndeted(result, "/* update of controlled functions for state change */\n");

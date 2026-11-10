@@ -17,6 +17,7 @@ import java.util.Hashtable;
 import org.apache.log4j.Logger;
 
 import tgtlib.definitions.expression.Expression;
+import tgtlib.definitions.expression.IdExpression;
 import tgtlib.definitions.expression.Undef;
 import tgtlib.definitions.expression.type.BoolType;
 import tgtlib.definitions.expression.type.BoundType;
@@ -27,7 +28,7 @@ import tgtlib.specification.location.Constant;
 import tgtlib.specification.location.Function;
 import tgtlib.specification.location.LocationVisitorI;
 import tgtlib.specification.location.LogicalVariable;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 
 /**
  * Fornisce i metodi per la dichiarazione delle variabili e delle costanti.
@@ -64,7 +65,7 @@ public class InitFunctionToSPINVisitor implements LocationVisitorI<String> {
 	 * .location.Variable)
 	 */
 	@Override
-	public String forVariable(Variable v) {
+	public String forVariable(AsmVariable v) {
 		log.debug("adding initilizazion for " + v.getName() + " "
 				+ v.getValue());
 		StringBuffer result = new StringBuffer();
@@ -97,7 +98,7 @@ public class InitFunctionToSPINVisitor implements LocationVisitorI<String> {
 	 * @param var
 	 * @param val
 	 */
-	static void addPrintF(StringBuffer result, Variable var, Expression val) {
+	static void addPrintF(StringBuffer result, AsmVariable var, Expression val) {
 		// PRINT
 		if (var.isControlled())
 			result.append("\tprintf(\"_Update_value ");
@@ -145,15 +146,15 @@ public class InitFunctionToSPINVisitor implements LocationVisitorI<String> {
 	@Override
 	public String forFunction(Function f) {
 		String result;
-		Hashtable<String, Expression> ht = f.getInitialValues();
+		Hashtable<IdExpression, Expression> ht = f.getInitialValues();
 		result = "";
 
 		// result = f.getCodomain().accept(new TypeSPINTranslatorVisitor()) + "
 		// ";
 		// result += f.getName() + "[" ;
 		if (f.getDomain() instanceof EnumType) {
-			for (Enumeration<String> et = ht.keys(); et.hasMoreElements();) {
-				String ke = et.nextElement();
+			for (Enumeration<IdExpression> et = ht.keys(); et.hasMoreElements();) {
+				IdExpression ke = et.nextElement();
 				result += f.getName() + "[" + ke + "]=" + ht.get(ke).toString()
 						+ ";\n";
 

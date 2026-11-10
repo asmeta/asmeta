@@ -162,7 +162,7 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 						append('''«new DomainToJavaString(asm).visit(object.codomain)» «object.name»(«new Util().adaptRuleParam(object.definition.variable,asm)»){
 					
 					«object.codomain.name» supp = new «object.codomain.name»();
-					supp.value = «new TermToJava(asm).visit(object.definition.body)»;
+					supp.value = «ArgumentToJava.value(object.definition.body, (object.codomain as ConcreteDomain).typeDomain, new TermToJava(asm))»;
 					
 					return supp;
 				}''')
@@ -181,7 +181,7 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 				if (object.codomain instanceof ConcreteDomain) {
 					sb.append('''«new DomainToJavaString(asm).visit(object.codomain)» «object.name»(){
 					
-					«object.codomain.name»_elem.value = «new TermToJava(asm).visit(object.definition.body)»;
+					«object.codomain.name»_elem.value = «ArgumentToJava.value(object.definition.body, (object.codomain as ConcreteDomain).typeDomain, new TermToJava(asm))»;
 					
 					return «object.codomain.name»_elem;
 				}''')
@@ -210,7 +210,7 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 						append('''«new DomainToJavaString(asm).visit(object.codomain)» «object.name»(«new Util().adaptRuleParam(object.definition.variable,asm)»){
 					
 					«object.codomain.name» supp = new «object.codomain.name»();
-					supp.value = «new TermToJava(asm).visit(object.definition.body)»;
+					supp.value = «ArgumentToJava.value(object.definition.body, (object.codomain as ConcreteDomain).typeDomain, new TermToJava(asm))»;
 					
 					return supp;
 				}''')
@@ -236,7 +236,7 @@ class FunctionToJavaDef extends ReflectiveVisitor<String> {
 					
 					«object.codomain.name» supp = new «object.codomain.name»();
 					
-					supp.value = «new TermToJava(asm).visit(object.definition.body)»;
+					supp.value = «ArgumentToJava.value(object.definition.body, (object.codomain as ConcreteDomain).typeDomain, new TermToJava(asm))»;
 					
 					return supp;
 				}''')

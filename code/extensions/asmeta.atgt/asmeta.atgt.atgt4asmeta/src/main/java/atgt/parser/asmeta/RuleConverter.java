@@ -49,8 +49,9 @@ import tgtlib.definitions.expression.type.EnumConstCreator;
 import tgtlib.definitions.expression.type.EnumType;
 import tgtlib.definitions.expression.type.Type;
 import tgtlib.specification.location.Function;
+import tgtlib.specification.location.FunctionApplication;
 import tgtlib.specification.location.LogicalVariable;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 
 class RuleConverter {
 	/** The logger : use the same as the AsmetLoader */
@@ -251,7 +252,7 @@ class RuleConverter {
 		logger.debug("translating Update Rule " + rl.toString());
 		BasicRule st = Skip.SKIP;
 		String varS = null;
-		List<? extends Expression> arg = null;
+		List<IdExpression> arg = null;
 		Expression exp = null;
 		Expression vr = null;
 
@@ -302,7 +303,7 @@ class RuleConverter {
 		if (arg == null) {
 			IdExpression id = ecc.createIdExpression(varS, null);
 			assert id != null : varS + " not found";
-			Variable var = SP.getVariable(varS);
+			AsmVariable var = SP.getVariable(varS);
 			if (var != null)
 				st = new UpdateRule(var, exp);
 			else {

@@ -169,14 +169,14 @@ class TermConverter<S extends Specification> {
 				if (args instanceof TupleTerm) {
 					String funname = fun.getName();
 					IdExpression name = ecc.createIdExpression(funname, domain);
-					List<Expression> argsExpr = translateTerms(args.getTerms());
+					List<IdExpression> argsExpr = translateTerms(args.getTerms());
 					return tgtlib.definitions.expression.FunctionTerm.createFunctionTerm(name, codomain, argsExpr);
 				} else {
 					throw new RuntimeException("what kind of term???" + args.getClass());
 				}
 			} else {
 				// a variable
-				tgtlib.specification.location.Variable f = SP.getVariable(funName);
+				tgtlib.specification.location.AsmVariable f = SP.getVariable(funName);
 				if (f != null) {
 					return f.getIdExpression();
 				}
@@ -371,7 +371,7 @@ class TermConverter<S extends Specification> {
 		List<T> result = new ArrayList<T>(terms.size());
 		for (Term t : terms) {
 			// t could be a variable
-			tgtlib.specification.location.Variable f = null;
+			tgtlib.specification.location.AsmVariable f = null;
 			if (t instanceof EnumTerm)
 				f = SP.getVariable(((EnumTerm) t).getSymbol());
 			// if it is not a variable, then translate the term, otherwise create the

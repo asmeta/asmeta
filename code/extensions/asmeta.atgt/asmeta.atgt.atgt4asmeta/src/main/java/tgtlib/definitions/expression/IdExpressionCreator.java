@@ -68,7 +68,9 @@ public class IdExpressionCreator {
 		assert !_id.equalsIgnoreCase("true");
 		assert !_id.equalsIgnoreCase("false");
 		// not enum consts, for those use EnumConstCreator
-		assert !(_type instanceof EnumType) : "creating an id with enum type, use EnumConstCreator instead";
+		// _type instanceof EnumType ==> _id is not an enum const, use EnumConstCreator instead
+		// it can be a variable of enum type, but not an enum constant
+		assert (!(_type instanceof EnumType et) || et.getEnumConst(_id) == null) : "creating an id with enum type, use EnumConstCreator instead";
 		// check if another expression already exists
 		IdExpression idS = createdExprs.get(_id);
 		if (idS == null) {

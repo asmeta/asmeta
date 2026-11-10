@@ -18,7 +18,7 @@ import java.util.Map;
 import tgtlib.definitions.expression.IdExpression;
 import tgtlib.specification.location.Function;
 import tgtlib.specification.location.Location;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -54,7 +54,7 @@ class FirstValues extends
 	 * java.lang.String)
 	 */
 	@Override
-	public void addAssignment(Variable var, String value) {
+	public void addAssignment(AsmVariable var, String value) {
 		if (status == Status.FIRST_SATE)
 			firstValues.put(var, value);
 		else if (status == Status.EMPTY){

@@ -11,7 +11,7 @@ import java.util.Map.Entry;
 
 import atgt.coverage.AsmTestSequence;
 import tgtlib.specification.location.Location;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 
 public class toXmlSerial extends TestSeqTrad {
 	
@@ -41,7 +41,7 @@ public class toXmlSerial extends TestSeqTrad {
 				dst.println("  <state>");
 				/*Scorrimento della lista contenete le variabili che si modificano nel cambio di stato*/
 				for( Entry<Location, String> p: state.entrySet()){
-					Variable v = (Variable) p.getKey();
+					AsmVariable v = (AsmVariable) p.getKey();
 					String value = p.getValue();
 					
 					/*Verifica del tipo della variabile per poter definire il giusto tag*/

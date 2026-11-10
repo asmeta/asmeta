@@ -6,6 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -17,11 +20,14 @@ import tgtlib.definitions.expression.EqualsExpression;
 import tgtlib.definitions.expression.Expression;
 import tgtlib.definitions.expression.IdExpression;
 import tgtlib.definitions.expression.IdUNotIdExpression;
+import tgtlib.definitions.expression.type.BoolType.BoolConst;
 import tgtlib.definitions.expression.type.BooleanVar;
+import tgtlib.definitions.expression.type.EnumConst;
 import tgtlib.definitions.expression.type.EnumConstCreator;
+import tgtlib.definitions.expression.type.Variable;
 import tgtlib.definitions.expression.visitors.IDExprCollector;
 
-class BooleanExpressionParserTest {
+public class BooleanExpressionParserTest {
 
 
 	@Test void iff() throws Exception {
@@ -89,10 +95,48 @@ class BooleanExpressionParserTest {
 	@Test void testmoreExpression() throws Exception {
 		  EnumConstCreator idc = new EnumConstCreator();
 		  Expression expr = ExpressionParser.parseAsBooleanExpression("(a and b) and a", idc);
-		  Set<BooleanVar> ids = new TreeSet<>(IDExprCollector.getBoolVarsFromId(expr));
+		  Set<BooleanVar> ids = new TreeSet<>(BooleanExpressionParserTest.getBoolVarsFromId(expr));
 		  Expression expr2 = ExpressionParser.parseAsBooleanExpression("(a and b) and a",idc);
-		  ids.addAll(IDExprCollector.getBoolVarsFromId(expr2));
+		  ids.addAll(BooleanExpressionParserTest.getBoolVarsFromId(expr2));
 		  assertEquals(2,ids.size());
 	 }
+
+	/**
+	 * return the list of variables assuming that all the IDs are boolean variables in the expression
+	 * (exclude the EnumConst).
+	 *
+	 * @param e the expression in which search the IDs
+	 * @param vars the variables to be excluded (for instance those already considered) - consider the name
+	 * @return the bool vars from id
+	 */
+	public static List<BooleanVar> getBoolVarsFromId(Expression e, Collection<? extends Variable> vars) {
+		assert vars!= null;
+		Collection<IdExpression> ids = e.accept(IDExprCollector.instance);
+		List<BooleanVar>  result = new ArrayList<>();
+		buildNewVar: for(final IdExpression id : ids){
+			if (id instanceof BoolConst)
+				continue;
+			// TODO why an expression could possibly contain enumerations
+			assert !(id instanceof EnumConst);
+			for (Variable v: vars){
+				// another variable found 
+				if (v.getName().equals(id.getIdString())) continue buildNewVar;
+			}
+			BooleanVar v = new BooleanVar(id);
+			result.add(v);			
+		}
+		return result;
+	}
+
+	/**
+	 * return the list of variables assuming that all the IDs are boolean variables in the expression
+	 * (exclude the EnumConst).
+	 *
+	 * @param e the expression in which search the IDs
+	 * @return the bool vars from id
+	 */
+	public static List<BooleanVar> getBoolVarsFromId(Expression e) {
+		return getBoolVarsFromId(e,Collections.EMPTY_SET); 
+	}
 	
 }

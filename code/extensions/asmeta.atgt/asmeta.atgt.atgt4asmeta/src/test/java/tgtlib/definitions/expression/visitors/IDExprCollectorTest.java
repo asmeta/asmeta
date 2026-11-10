@@ -10,6 +10,7 @@ import tgtlib.definitions.expression.Expression;
 
 import org.junit.jupiter.api.Test;
 import tgtlib.definitions.expression.IdExpression;
+import tgtlib.definitions.expression.parser.BooleanExpressionParserTest;
 import tgtlib.definitions.expression.parser.ExpressionParser;
 import tgtlib.definitions.expression.type.BooleanVar;
 
@@ -40,24 +41,24 @@ class IDExprCollectorTest {
 
 	@Test void test3() throws Exception {
 		Expression e1 = ExpressionParser.parseAsNewBooleanExpression("a or b");
-		Collection<BooleanVar> l1 = IDExprCollector.getBoolVarsFromId(e1);
+		Collection<BooleanVar> l1 = BooleanExpressionParserTest.getBoolVarsFromId(e1);
 		Expression e2 = ExpressionParser.parseAsNewBooleanExpression("a or b");
-		Collection<BooleanVar> l2 = IDExprCollector.getBoolVarsFromId(e2, l1);
+		Collection<BooleanVar> l2 = BooleanExpressionParserTest.getBoolVarsFromId(e2, l1);
 		assertEquals(0,l2.size());
 	}
 
 
 	@Test void test4() throws Exception {
 		Expression e1 = ExpressionParser.parseAsNewBooleanExpression("a or b");
-		Collection<BooleanVar> l1 = IDExprCollector.getBoolVarsFromId(e1);
+		Collection<BooleanVar> l1 = BooleanExpressionParserTest.getBoolVarsFromId(e1);
 		Expression e2 = ExpressionParser.parseAsNewBooleanExpression("a or b or c");
-		Collection<BooleanVar> l2 = IDExprCollector.getBoolVarsFromId(e2, l1);
+		Collection<BooleanVar> l2 = BooleanExpressionParserTest.getBoolVarsFromId(e2, l1);
 		assertEquals(1,l2.size());
 	}
 
 	@Test void test5TF() throws Exception {
 		Expression e1 = ExpressionParser.parseAsNewBooleanExpression("a or true");
-		Collection<BooleanVar> l1 = IDExprCollector.getBoolVarsFromId(e1);
+		Collection<BooleanVar> l1 = BooleanExpressionParserTest.getBoolVarsFromId(e1);
 		assertEquals(1,l1.size());
 	}
 

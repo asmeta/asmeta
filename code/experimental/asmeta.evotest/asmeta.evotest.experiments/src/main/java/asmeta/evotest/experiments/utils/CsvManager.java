@@ -27,13 +27,21 @@ public class CsvManager {
 	public static final List<String> CSV_HEADERS = List.of("asm_path", "asm_name", "n_macro", "n_update", "n_forall",
 			"n_branch", "n_rule", "approach", "status", "exec_time_ms", "n_scenarios", "n_step", "n_set", "n_check",
 			"macro_coverage", "update_rule_coverage", "forall_rule_coverage", "branch_coverage", "rule_coverage",
-			"n_failing_scenarios", "n_val_error_scenarios", "casemutator_score", "chooserulemutator_score",
-			"condnegator_score", "condremover_score", "forallmutator_score", "partoseqmutator_score",
-			"seqtoparmutator_score", "ruleremover_score", "casemutator_count", "chooserulemutator_count",
+			"n_failing_scenarios", "n_val_error_scenarios", "casemutator_count", "chooserulemutator_count",
 			"condnegator_count", "condremover_count", "forallmutator_count", "partoseqmutator_count",
 			"seqtoparmutator_count", "ruleremover_count", "casemutator_killed", "chooserulemutator_killed",
 			"condnegator_killed", "condremover_killed", "forallmutator_killed", "partoseqmutator_killed",
-			"seqtoparmutator_killed", "ruleremover_killed");
+			"seqtoparmutator_killed", "ruleremover_killed",
+			"logical_not_count", "logical_and_count", "logical_xor_count", "logical_or_count",
+			"logical_implies_count", "logical_iff_count", "relational_lt_count", "relational_le_count",
+			"relational_gt_count", "relational_ge_count", "relational_eq_count", "relational_neq_count",
+			"arithmetic_plus_count", "arithmetic_minus_count", "arithmetic_mult_count", "arithmetic_div_count",
+			"arithmetic_idiv_count", "arithmetic_mod_count", "arithmetic_pwr_count",
+			"logical_not_killed", "logical_and_killed", "logical_xor_killed", "logical_or_killed",
+			"logical_implies_killed", "logical_iff_killed", "relational_lt_killed", "relational_le_killed",
+			"relational_gt_killed", "relational_ge_killed", "relational_eq_killed", "relational_neq_killed",
+			"arithmetic_plus_killed", "arithmetic_minus_killed", "arithmetic_mult_killed", "arithmetic_div_killed",
+			"arithmetic_idiv_killed", "arithmetic_mod_killed", "arithmetic_pwr_killed");
 	
 	public enum STATUS {
 		OK("OK"),
@@ -140,9 +148,9 @@ public class CsvManager {
 	 *                           {@code n_step}, {@code n_set}, {@code n_check})
 	 * @param covData            map with coverage metrics (e.g.,
 	 *                           {@code macro_coverage}, {@code rule_coverage}, ...)
-	 * @param mutationData       map with mutation scores and counts (e.g.,
-	 *                           {@code condremover_score},
-	 *                           {@code casemutator_score}, ...)
+	 * @param mutationData       map with mutant counts and killed counts (e.g.,
+	 *                           {@code condremover_count},
+	 *                           {@code casemutator_killed}, ...)
 	 * @param asmName            name of the ASM under test
 	 * @param asmPath            path of the ASM under test
 	 * @param approach           name of the generation or validation approach used
@@ -182,6 +190,8 @@ public class CsvManager {
 		String[] actualRow = new String[CSV_HEADERS.size()];
 		for (String key : row.keySet()) {
 			int index = CSV_HEADERS.indexOf(key);
+			if (index < 0)
+				throw new IllegalArgumentException("Unknown CSV column: " + key);
 			actualRow[index] = row.get(key);
 		}
 		// write the actual row to csv

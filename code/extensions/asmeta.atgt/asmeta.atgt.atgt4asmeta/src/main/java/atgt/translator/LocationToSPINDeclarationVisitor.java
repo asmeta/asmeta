@@ -22,7 +22,7 @@ import tgtlib.specification.location.Constant;
 import tgtlib.specification.location.Function;
 import tgtlib.specification.location.LocationVisitorI;
 import tgtlib.specification.location.LogicalVariable;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 
 /**
  * Formisce i metodi per la dichiarazione delle variabili e delle costanti.
@@ -50,7 +50,7 @@ public class LocationToSPINDeclarationVisitor implements LocationVisitorI<String
 	 * .location.Variable)
 	 */
 	@Override
-	public StringBuffer forVariable(Variable v) {
+	public StringBuffer forVariable(AsmVariable v) {
 		StringBuffer result = new StringBuffer();
 
 		addVarDeclaration(v, result, false);
@@ -69,7 +69,7 @@ public class LocationToSPINDeclarationVisitor implements LocationVisitorI<String
 		return result;
 	}
 
-	private void addVarDeclaration(Variable v, StringBuffer result, boolean primed) {
+	private void addVarDeclaration(AsmVariable v, StringBuffer result, boolean primed) {
 		String varName = primed? v.getPrimedName() : v.getName();
 		Type type = v.getType();
 		assert ! (type instanceof DummyType): "variable " + v;

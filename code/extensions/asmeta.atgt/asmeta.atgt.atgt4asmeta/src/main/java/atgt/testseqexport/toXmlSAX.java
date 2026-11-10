@@ -14,7 +14,7 @@ import org.xml.sax.helpers.AttributesImpl;
 
 import atgt.coverage.AsmTestSequence;
 import tgtlib.specification.location.Location;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 
 public class toXmlSAX extends TestSeqTrad {
 

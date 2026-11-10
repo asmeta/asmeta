@@ -30,7 +30,7 @@ import tgtlib.definitions.expression.IdExpression;
 import tgtlib.definitions.expression.IdExpressionCreator;
 import tgtlib.definitions.expression.type.BoolType;
 import tgtlib.reduction.TestSuiteRed;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 
 
 /**
@@ -65,7 +65,7 @@ public class Util {
 		// se metto 80 da errore si Stack overflow
 		for (int i = 0; i < n; i++) {
 			IdExpression id = iecc.createIdExpression("v" + i, BoolType.BOOLTYPE);
-			Variable v = new Variable(id, null);
+			AsmVariable v = new AsmVariable(id, null);
 			v.setMonitored();
 			asm.addVariable(v);
 		}

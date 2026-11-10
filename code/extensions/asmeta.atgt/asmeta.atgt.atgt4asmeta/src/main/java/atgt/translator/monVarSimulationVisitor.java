@@ -36,7 +36,7 @@ import tgtlib.specification.location.Constant;
 import tgtlib.specification.location.Function;
 import tgtlib.specification.location.LocationVisitorI;
 import tgtlib.specification.location.LogicalVariable;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 
 /**
  * Fornisce la parte del modello SPIN per la simulazione delle variabili
@@ -92,7 +92,7 @@ public class monVarSimulationVisitor implements LocationVisitorI<StringBuffer> {
 	 * 
 	 * @return the string buffer
 	 */
-	private StringBuffer forElementsType(Variable var, ElementsType et) {
+	private StringBuffer forElementsType(AsmVariable var, ElementsType et) {
 		String varname = var.getName();
 		StringBuffer result = new StringBuffer(this.indent
 				+ "/* Simulation of variable " + varname + " */\n");
@@ -156,7 +156,7 @@ public class monVarSimulationVisitor implements LocationVisitorI<StringBuffer> {
 	 * @param ids
 	 *            the ids
 	 */
-	private void addAllVals(Variable var, StringBuffer result,
+	private void addAllVals(AsmVariable var, StringBuffer result,
 			IdExpression[] ids) {
 		if (SHUFFLE_MON_VALUES) {
 			List<IdExpression> list = Arrays.asList(ids);
@@ -173,7 +173,7 @@ public class monVarSimulationVisitor implements LocationVisitorI<StringBuffer> {
 	 * @param result
 	 * @param value
 	 */
-	private void addMonitoredValue(Variable var, StringBuffer result, Expression value) {
+	private void addMonitoredValue(AsmVariable var, StringBuffer result, Expression value) {
 		result.append("\t"+ indent + ":: ").append(var.getName())
 				.append(" = ").append(value).append(";\n");
 		InitFunctionToSPINVisitor.addPrintF(result,var,value);
@@ -189,7 +189,7 @@ public class monVarSimulationVisitor implements LocationVisitorI<StringBuffer> {
 	 * 
 	 * @return the string buffer
 	 */
-	private StringBuffer forBoundType(Variable var, BoundType s) {
+	private StringBuffer forBoundType(AsmVariable var, BoundType s) {
 		String varName = var.getName();
 		StringBuffer result = new StringBuffer();
 		result.append(this.indent).append("if\n");
@@ -304,10 +304,10 @@ public class monVarSimulationVisitor implements LocationVisitorI<StringBuffer> {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * tgtlib.specification.location.LocationVisitorI#forVariable(tgtlib.specification.location.Variable)
+	 * tgtlib.specification.location.LocationVisitorI#forVariable(tgtlib.specification.location.AsmVariable)
 	 */
 	@Override
-	public StringBuffer forVariable(Variable var) {
+	public StringBuffer forVariable(AsmVariable var) {
 		Type t = var.getType();
 		return forType(var, t);
 	}
@@ -322,7 +322,7 @@ public class monVarSimulationVisitor implements LocationVisitorI<StringBuffer> {
 	 * 
 	 * @return the string buffer
 	 */
-	private StringBuffer forType(Variable var, Type t) {
+	private StringBuffer forType(AsmVariable var, Type t) {
 		if (t instanceof EnumType || t instanceof BoolType) {
 			return forElementsType(var, (ElementsType) t);
 		} else if (t instanceof BoundType) {

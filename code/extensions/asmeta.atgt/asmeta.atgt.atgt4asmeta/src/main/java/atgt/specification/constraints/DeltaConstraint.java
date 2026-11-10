@@ -13,7 +13,7 @@ package atgt.specification.constraints;
 import tgtlib.definitions.expression.Expression;
 import tgtlib.definitions.expression.IdExpression;
 import tgtlib.specification.Axiom;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -29,7 +29,7 @@ public class DeltaConstraint extends Axiom {
 	 * @param delta
 	 *            the delta
 	 */
-	public DeltaConstraint(Variable var, int delta) {
+	public DeltaConstraint(AsmVariable var, int delta) {
 		super("delta_" + var.getName(), makeBody(var.getIdExpression(), delta));
 	}
 

@@ -8,6 +8,7 @@ import atgt.specification.ASMSpecification;
 class RootCoverageTest {
 
 	@Test void withFuzzyCounter() throws Exception {
+		// I cannot find this spec in the examples
 		ASMSpecification fuzzyCounter = ExampleLoader.getSpec("fuzzyCounter.asm");
 		
 		AsmCoverage tptree = RootCoverage.ROOT.getTPTree(fuzzyCounter);

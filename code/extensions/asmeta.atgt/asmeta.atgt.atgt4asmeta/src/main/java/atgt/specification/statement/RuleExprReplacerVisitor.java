@@ -18,9 +18,10 @@ import atgt.specification.expression.IdReplacerVisitor;
 import tgtlib.definitions.expression.Expression;
 import tgtlib.definitions.expression.IdExpression;
 import tgtlib.specification.location.Function;
+import tgtlib.specification.location.FunctionApplication;
 import tgtlib.specification.location.Location;
 import tgtlib.specification.location.LogicalVariable;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 
 /**
  * replace an id with another. if it does not change, return the same (==)
@@ -72,7 +73,7 @@ public class RuleExprReplacerVisitor implements RuleVisitor<BasicRule> {
 		if (newId != leftId) {
 			// System.out.println(" leftId " + leftId + " <- "+ newId + "
 			// assigned to " + a.value);
-			location = new Variable(newId, a.getVar().getValue());
+			location = new AsmVariable(newId, a.getVar().getValue());
 		} else {
 			location = a.getVar();
 		}
@@ -85,8 +86,8 @@ public class RuleExprReplacerVisitor implements RuleVisitor<BasicRule> {
 				return a;
 			UpdateRule result;
 			// build new rule
-			if (location instanceof Variable)
-				result = new UpdateRule((Variable) location, newRval);
+			if (location instanceof AsmVariable)
+				result = new UpdateRule((AsmVariable) location, newRval);
 			else
 				result = new UpdateRule((LogicalVariable) location, newRval);
 			return result;
@@ -99,7 +100,8 @@ public class RuleExprReplacerVisitor implements RuleVisitor<BasicRule> {
 			Expression newArg = arg.accept(idreplacer);
 			if (rvalue == newRval && arg == newArg)
 				return a;
-			return new UpdateRule((Function) a.getVar(), newRval, Arrays.asList(newArg));
+			Function f = ((FunctionApplication)a.getVar()).getFunction();
+			return new UpdateRule(f, newRval, Arrays.asList((IdExpression)newArg));
 		}
 	}
 

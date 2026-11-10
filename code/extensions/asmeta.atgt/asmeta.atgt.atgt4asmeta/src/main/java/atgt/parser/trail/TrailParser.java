@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import tgtlib.generator.MCAnalysisResult;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 import tgtlib.specification.location.Location.VarKind;
 import atgt.coverage.AsmCoverageTree;
 import atgt.coverage.AsmTestSequence;
@@ -16,9 +16,9 @@ import atgt.parser.trail.CexParser;
 public class TrailParser implements CexParser < AsmTestSequence >, TrailParserConstants {
   AsmCoverageTree tcIndex;
 
-  // useful to keep track of the variables  private Map<String,Variable> variables = new HashMap<String, Variable>();
-  public void setVariables(Collection<Variable> variables) {
-    for(Variable v: variables)
+  // useful to keep track of the variables  private Map<String,AsmVariable> variables = new HashMap<String, AsmVariable>();
+  public void setVariables(Collection<AsmVariable> variables) {
+    for(AsmVariable v: variables)
     {
       this.variables.put(v.getName(),v);
     }

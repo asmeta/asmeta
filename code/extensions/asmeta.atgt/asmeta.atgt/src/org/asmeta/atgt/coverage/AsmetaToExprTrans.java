@@ -96,7 +96,7 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 	 */
 	public Expression visit(FunctionTerm funcTerm) throws Exception {
 		Function func = funcTerm.getFunction();
-		if (funcTerm.getArguments() == null) {
+		if (funcTerm.getArguments() == null || funcTerm.getArguments().getTerms().isEmpty()) {
 			assert func.getDomain() == null;
 			Type t = getType(func.getCodomain());
 			IdExpression fid = icc.createIdExpression(funcTerm.getFunction().getName(), t);
@@ -105,8 +105,12 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 			assert !(funcTerm.getArguments() == null) : "function term without arguments "
 					+ AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(funcTerm);
 			assert !(funcTerm.getArguments().getTerms().isEmpty());
-			List<Expression> args = funcTerm.getArguments().getTerms().stream().map(x -> this.visit(x))
-					.collect(Collectors.toList());
+			List<Expression> args = new ArrayList<>();
+			// 
+			for (Term t : funcTerm.getArguments().getTerms()) {
+				Expression arg_i = visit(t);
+				args.add(arg_i);
+			}
 			// dominio o codominio??
 			Type t = getType(funcTerm.getDomain());
 			IdExpression fid = icc.createIdExpression(funcTerm.getFunction().getName(), t);
@@ -169,10 +173,10 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 		// AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(location));
 		IdExpression funName = icc.createIdExpression(location.getFunction().getName(), getType(location.getDomain()));
 		Type type = getType(location.getFunction().getCodomain());
-		List<Expression> args = new ArrayList<>();
+		List<IdExpression> args = new ArrayList<>();
 		for (Term t : location.getArguments().getTerms()) {
 			System.out.println("t" + t);
-			args.add(visit(t));
+			args.add((IdExpression) visit(t));
 		}
 		return tgtlib.definitions.expression.FunctionTerm.createFunctionTerm(funName, type, args);
 //		if(func.getName().equals("self")) {

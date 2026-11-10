@@ -18,7 +18,7 @@ import atgt.coverage.TestCondition;
 import atgt.parser.asmeta.AsmMLoaderTest;
 import atgt.specification.ASMSpecification;
 import tgtlib.definitions.expression.type.BoolType;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 import tgtlib.util.IterableEnumeration;
 
 @Disabled //atgt.parser.ParseSpecsAsmm.CC_ASM does not exists
@@ -37,9 +37,9 @@ public class PreferNoveltyTest {
 		ASMSpecification ccAx = AsmMLoaderTest
 				.loadSpec(atgt.parser.ParseSpecsAsmm.CC_ASM);
 		AsmTestSuite ts = new AsmTestSuite();
-		Variable fast = findVar(ccAx, "fast");
-		Variable brake = null, igOn = null;
-		Variable engRun = null;
+		AsmVariable fast = findVar(ccAx, "fast");
+		AsmVariable brake = null, igOn = null;
+		AsmVariable engRun = null;
 		brake = findVar(ccAx,"brake");
 		igOn = findVar(ccAx,"igOn");
 		engRun = findVar(ccAx,"engRun");
@@ -88,8 +88,8 @@ public class PreferNoveltyTest {
 
 	}
 
-	public static Variable findVar(ASMSpecification ccAx, String varname) {
-		for (Variable v : new IterableEnumeration<Variable>(ccAx.allVariables())) {
+	public static AsmVariable findVar(ASMSpecification ccAx, String varname) {
+		for (AsmVariable v : new IterableEnumeration<AsmVariable>(ccAx.allVariables())) {
 			if (v.getName().equals(varname))
 				return v;
 		}

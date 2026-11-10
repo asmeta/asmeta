@@ -39,7 +39,7 @@ import tgtlib.specification.location.Constant;
 import tgtlib.specification.location.Function;
 import tgtlib.specification.location.LocationVisitorI;
 import tgtlib.specification.location.LogicalVariable;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 
 /**
  * Crea la rappresentazione ad albero della specifica. It uses the data
@@ -145,7 +145,7 @@ public class TreeModelSpecificationVisitor implements
 	 * @see tgtlib.specification.location.LocationVisitorI#forVariable(tgtlib.specification.location.Variable)
 	 */
 	@Override
-	public DefaultMutableTreeNode forVariable(Variable v) {
+	public DefaultMutableTreeNode forVariable(AsmVariable v) {
 		return new DefaultMutableTreeNode(v);
 	}
 
@@ -239,7 +239,7 @@ public class TreeModelSpecificationVisitor implements
 		// Crea il sottoalbero per le variabili
 		category = new DefaultMutableTreeNode("Variables");
 		for (Enumeration e = sp.allVariables(); e.hasMoreElements();)
-			category.add((((Variable) e.nextElement()).accept(this)));
+			category.add((((AsmVariable) e.nextElement()).accept(this)));
 		node.add(category);
 
 		// Crea il sottoalbero per le funzioni

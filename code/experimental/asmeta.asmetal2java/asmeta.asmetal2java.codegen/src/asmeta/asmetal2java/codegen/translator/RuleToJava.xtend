@@ -12,6 +12,7 @@ import asmeta.definitions.domains.PowersetDomain
 import asmeta.definitions.domains.StringDomain
 import asmeta.structure.Asm
 import asmeta.terms.basicterms.Term
+import asmeta.terms.basicterms.FunctionTerm
 import asmeta.terms.basicterms.VariableTerm
 import asmeta.transitionrules.basictransitionrules.BlockRule
 import asmeta.transitionrules.basictransitionrules.ChooseRule
@@ -177,7 +178,14 @@ class RuleToJava extends RuleVisitor<String> {
 			result.
 				append('''«termToJavaL.visit(object.location)» = «termToJavaR.visit(object.updatingTerm)»;			   
 			''')
-		else if (object.location.domain instanceof ConcreteDomain &&
+		else if (object.location instanceof FunctionTerm && object.location.domain instanceof ConcreteDomain &&
+			!((object.location.domain as ConcreteDomain).typeDomain instanceof PowersetDomain)) {
+			val location = object.location as FunctionTerm
+			result.append(location.function.name).append(".set(")
+			if (location.arguments !== null)
+				result.append(ArgumentToJava.locationArguments(location, termToJavaR)).append(", ")
+			result.append(ArgumentToJava.value(object.updatingTerm, location.domain, termToJavaR)).append(");\n")
+		} else if (object.location.domain instanceof ConcreteDomain &&
 			(object.location.domain as ConcreteDomain).typeDomain instanceof PowersetDomain) {
 			val varName = object.hashCode.toString
 			val concreteDomain = object.location.domain as ConcreteDomain
@@ -249,6 +257,25 @@ class RuleToJava extends RuleVisitor<String> {
 		return "__asmetaChoose" + choiceCounter.getAndIncrement() + "_"
 	}
 
+	// Rebuild finite ranges using the same value hashes as the simulator (to have the same order when chosing).
+	private def String orderedChooseRange(String range, Domain domain) {
+		if (options.getChooseMode() != ChooseMode.NO_SHUFFLE) return range
+		var before = ""
+		var after = ""
+		val type = new DomainToJavaString(res).visit(domain)
+		if (domain instanceof EnumTd) {
+			before = ".map(" + type + "::name)"
+			after = ".stream().map(" + type + "::valueOf).collect(java.util.stream.Collectors.toList())"
+		} else if (domain instanceof AbstractTd) {
+			before = ".map(Object::toString)"
+			after = ".stream().map(" + type + "::get).collect(java.util.stream.Collectors.toList())"
+		} else if (domain instanceof asmeta.definitions.domains.IntegerDomain || domain instanceof asmeta.definitions.domains.NaturalDomain) {
+			before = ".map(Integer::longValue)"
+			after = ".stream().map(Long::intValue).collect(java.util.stream.Collectors.toList())"
+		} else if (!Util.isNotNumerable(domain)) return range
+		return range + ".stream()" + before + ".collect(java.util.stream.Collectors.toCollection(java.util.HashSet::new))" + after
+	}
+
 	// Metodo di supporto per tradurre gli elementi di un confronto nella classe precedente
 	override String visit(ChooseRule chooseRule) {
 		var counter = 0
@@ -286,7 +313,7 @@ class RuleToJava extends RuleVisitor<String> {
 				// per esempio: {0..5} {1,5,9} 
 				if (Util.isNotNumerable(baseDomain)) {
 					sb.append('''
-						List<«bDomStr»> «prefix»pointAll«i» = Collections.unmodifiableList(Arrays.asList «new TermToJava(res).visit(range)»);
+						Iterable<«bDomStr»> «prefix»pointAll«i» = «orderedChooseRange("Arrays.asList" + new TermToJava(res).visit(range), baseDomain)»;
 					''')
 					// add a for cycle
 					counter = counter + 1
@@ -298,17 +325,17 @@ class RuleToJava extends RuleVisitor<String> {
 					// 
 					if ((chooseRule.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof AbstractTd) {
 						sb.append('''
-							for(«bDomStr» «new TermToJava(res).visit(chooseRule.getVariable.get(i))» : «new DomainToJavaString(res).visit((chooseRule.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems)
+							for(«bDomStr» «new TermToJava(res).visit(chooseRule.getVariable.get(i))» : «orderedChooseRange(bDomStr + ".elems", baseDomain)»)
 						''')
 					} else {
 						sb.append('''
 							for(«new DomainToJavaString(res).visit(((chooseRule.getRanges.get(i).domain as PowersetDomain).baseDomain as ConcreteDomain).
-							typeDomain)» «new TermToJava(res).visit(chooseRule.getVariable.get(i))» : «new DomainToJavaString(res).visit((chooseRule.getRanges.get(i).domain as PowersetDomain).baseDomain)».elems)
+								typeDomain)» «new TermToJava(res).visit(chooseRule.getVariable.get(i))» : «orderedChooseRange(bDomStr + ".elems", (baseDomain as ConcreteDomain).typeDomain)»)
 						''')
 					}
 				} else if ((chooseRule.getRanges.get(i).domain as PowersetDomain).baseDomain instanceof EnumTd) {
 					sb.append('''
-						for(«new DomainToJavaString(res).visit((chooseRule.getRanges.get(i).domain as PowersetDomain).baseDomain)» «new TermToJava(res).visit(chooseRule.getVariable.get(i))» : «new DomainToJavaString(res).visit((chooseRule.getRanges.get(i).domain as PowersetDomain).baseDomain)».values())
+						for(«bDomStr» «new TermToJava(res).visit(chooseRule.getVariable.get(i))» : «orderedChooseRange("Arrays.asList(" + bDomStr + ".values())", baseDomain)»)
 					''')
 				} else {
 					sb.append('''
@@ -320,10 +347,15 @@ class RuleToJava extends RuleVisitor<String> {
 					//NOT IMPLEMENTED IN JAVA	
 				''')
 		}
-		if (chooseRule.getGuard !== null)
+		if (chooseRule.getGuard !== null) {
+			var guard = new TermToJava(res).visit(chooseRule.getGuard)
+			for (variable : chooseRule.variable)
+				if (variable.domain instanceof ConcreteDomain)
+					guard = guard.replace(new TermToJava(res).visit(variable) + ".value", new TermToJava(res).visit(variable))
 			sb.append('''
-				if(«new TermToJava(res).visit(chooseRule.getGuard)»){
+				if(«guard»){
 			''')
+		}
 		else
 			sb.append('''{
 			''')
@@ -398,7 +430,12 @@ class RuleToJava extends RuleVisitor<String> {
 			'''
 					for(«new DomainToJavaString(res).visit(baseDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» : «new DomainToJavaString(res).visit(baseDomain)».values())
 				''')
-			else
+			else if (baseDomain instanceof ConcreteDomain) {
+				val variable = new TermToJava(res).visit(object.variable.get(i))
+				sb.append('''for («Util.javaType((baseDomain as ConcreteDomain).typeDomain, res)» «variable»_raw : «baseDomain.name».elems) {
+					«baseDomain.name» «variable» = «baseDomain.name».valueOf(«variable»_raw);
+				''')
+			} else
 				sb.append(
 			'''
 					for(«new DomainToJavaString(res).visit(baseDomain)» «new TermToJava(res).visit(object.getVariable.get(i))» : «new DomainToJavaString(res).visit(baseDomain)».elems)
@@ -418,6 +455,9 @@ class RuleToJava extends RuleVisitor<String> {
 					«visit(object.getDoRule)»
 				}
 			''')
+		for (range : object.ranges)
+			if ((range.domain as PowersetDomain).baseDomain instanceof ConcreteDomain)
+				sb.append("}\n")
 		return sb.toString
 	}
 

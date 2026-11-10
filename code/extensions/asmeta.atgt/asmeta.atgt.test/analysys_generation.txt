@@ -1,0 +1,339 @@
+../../../../asm_examples/examples\simple_example\population.asm	-->
+	RuntimeException class asmeta.terms.basicterms.impl.VariableTermImpl cannot be cast to class asmeta.terms.basicterms.LocationTerm (asmeta.terms.basicterms.impl.VariableTermImpl and asmeta.terms.basicterms.LocationTerm are in unnamed module of loader 'app')
+	AssertionErrorextend rule with a null do rule
+../../../../asm_examples/examples\landingGearSystem\LGS_EV.asm	-->
+	ntests: 1- nsteps: 3
+	ntests: 1- nsteps: 5
+../../../../asm_examples/PillBox\Level1\pillbox_1.asm	-->
+	ntests: 1- nsteps: 3
+	ntests: 1- nsteps: 4
+../../../../asm_examples/examples\RushHour\RushHourMon.asm	-->
+	AssertionError null
+	Error java.lang.OutOfMemoryError: Java heap space
+../../../../asm_examples/examples\RushHour\RushHour.asm	-->
+	AssertionError asmeta.terms.basicterms.impl.VariableTermImpl@3d8fd373 (name: $dir, kind: logicalVar) has no type with domain Dir
+	Error java.lang.OutOfMemoryError: Java heap space
+../../../../asm_examples/stereoacuity\certifier_nochoose_noundef.asm	-->
+	ntests: 1- nsteps: 3
+	ntests: 1- nsteps: 3
+../../../../asm_examples/examples\fsmsemantics\FSM_hooking.asm	-->
+	RuntimeException what type *Powerset(Transition)
+	Error ChooseRule not supported yet
+../../../../asm_examples/PillBox\Level2\pillbox_2.asm	-->
+	RuntimeException only enums are supported
+	AssertionErrororg.asmeta.nusmv.MapVisitor@713f0372
+../../../../asm_examples/erinda\FMS_IO_2.asm	-->
+	RuntimeException what type *Prod(Label_IN1_value,Label_IN1_validity)
+	Error LetRule not implemented yet
+../../../../asm_examples/examples\RushHour\RushHourMonSimplForAsmetaSMV.asm	-->
+	RuntimeException static function carDir not supported
+	AssertionErrorfunction term argument not supported board[0, 2] in isUndef
+../../../../asm_examples/examples\NeedhamSchroeder\NeedhamSchroederWithSpy.asm	-->
+	RuntimeException what type *Powerset(Nonce)
+	AssertionErrornull
+../../../../asm_examples/examples\traffic_light\oneWayTrafficLight.asm	-->
+	RuntimeException static function timer not supported
+	Error LetRule not implemented yet
+../../../../asm_examples/examples\coffeeVendingMachine\coffeeVendingMachine.asm	-->
+	RuntimeException class asmeta.terms.basicterms.impl.VariableTermImpl cannot be cast to class asmeta.terms.basicterms.LocationTerm (asmeta.terms.basicterms.impl.VariableTermImpl and asmeta.terms.basicterms.LocationTerm are in unnamed module of loader 'app')
+	Error ChooseRule not supported yet
+../../../../asm_examples/examples\sleepingBarber\sleepingBarber.asm	-->
+	AssertionError null
+	Error ChooseRule not supported yet
+../../../../asm_examples/examples\sluicegate\sluiceGateMotorCtl.asm	-->
+	RuntimeException It's not possible to translate a location that have as arguments a monitored, controlled or derived function. The argument is closedPeriod
+	Error It's not possible to translate a location that have as arguments a monitored, controlled or derived function. The argument is closedPeriod
+../../../../asm_examples/examples\ABZ2020\CarSystemModule\CarSystem007\CarSystem007main.asm	-->
+	RuntimeException variable sCSLeve_Previous is not declared
+	Error Unknown function org.asmeta.flattener.term.TermRenameVars@29e6a30e visit(interface asmeta.terms.furtherterms.RealTerm)
+../../../../asm_examples/DAS\TrafficMonitoringSystem\validation\mainForModelCheckingR4.asm	-->
+	RuntimeException what type *Camera
+	Error java.lang.OutOfMemoryError: Java heap space
+../../../../asm_examples/examples\traffic_light\oneWayTrafficLightUsingEnum.asm	-->
+	ntests: 1- nsteps: 2
+	AssertionErrornull
+../../../../asm_examples/examples\flashProtocol\flashProtocol_N2_L1_Q1_C.asm	-->
+	RuntimeException what type *AgentDomain
+	Error java.lang.OutOfMemoryError: Java heap space
+../../../../asm_examples/examples\petriNets\petriNetEdgeWeightNoPlaceCapacity_NoSeq_Matrix_v2.asm	-->
+	RuntimeException class atgt.specification.type.AbstractType cannot be cast to class tgtlib.definitions.expression.type.EnumerableType (atgt.specification.type.AbstractType and tgtlib.definitions.expression.type.EnumerableType are in unnamed module of loader 'app')
+	Error ChooseRule not supported yet
+../../../../asm_examples/examples\TrafficLightYakindu\TrafficLight0\TrafficLight_0.asm	-->
+	ntests: 1- nsteps: 3
+	ntests: 1- nsteps: 3
+../../../../asm_examples/examples\landingGearSystem\LGS_GM_withError.asm	-->
+	ntests: 1- nsteps: 3
+	ntests: 1- nsteps: 4
+../../../../asm_examples/examples\simple_example\ATM3.asm	-->
+	RuntimeException what type *Any
+	Error Sequential rules are not supported
+../../../../asm_examples/examples\GilbreathCardTrick\GilbreathCardTrick.asm	-->
+	RuntimeException only enums are supported
+	Error ChooseRule not supported yet
+../../../../asm_examples/DAS\TrafficMonitoringSystem\mainUnique.asm	-->
+	RuntimeException what type *Camera
+	AssertionErrorAll the domains in a forall should be finite. Therefore, it should be possible to combine them.
+../../../../asm_examples/examples\railRoadGate\railroadGate.asm	-->
+	ntests: 1- nsteps: 3
+	ntests: 1- nsteps: 3
+../../../../asm_examples/examples\fsmsemantics\FSM_hooking2.asm	-->
+	RuntimeException Rule of class class asmeta.transitionrules.basictransitionrules.impl.LetRuleImpl not translated
+	Error ChooseRule not supported yet
+../../../../asm_examples/examples\hemodialysisDevice\SCP2017\HemodialysisRef3.asm	-->
+	RuntimeException $nextParam already created with (not null) type RinsingParam
+	Error Cannot invoke "atgt.specification.ASMSpecification.getVariable(String)" because "this.asmspec" is null
+../../../../asm_examples/examples\hemodialysisDevice\ABZ2016\Hemodialysis_ref3_forMC.asm	-->
+	AssertionError asmeta.terms.basicterms.impl.VariableTermImpl@76cc6682 (name: $inf, kind: logicalVar) has no type with domain Integer
+	Error Cannot invoke "atgt.specification.ASMSpecification.getVariable(String)" because "this.asmspec" is null
+../../../../asm_examples/examples\traffic_light\forAsmetaSMV\oneWayTrafficLight.asm	-->
+	AssertionError ..\..\..\..\asm_examples\examples\traffic_light\forAsmetaSMV\oneWayTrafficLight.asmnot existing
+	AssertionError..\..\..\..\asm_examples\examples\traffic_light\forAsmetaSMV\oneWayTrafficLight.asmnot existing
+../../../../asm_examples/RTPatternLibrary\Test\Test_Sem_Sync.asm	-->
+	RuntimeException Rule of class class asmeta.transitionrules.turbotransitionrules.impl.SeqRuleImpl not translated
+	Error Unknown function org.asmeta.flattener.term.TermRenameVars@611b8195 visit(interface asmeta.terms.furtherterms.SequenceTerm)
+../../../../asm_examples/PillBox\Level1\pillbox_1_elia.asm	-->
+	ntests: 1- nsteps: 3
+	ntests: 1- nsteps: 13
+../../../../asm_examples/unibgstudents\Rubrica.asm	-->
+	RuntimeException what type *Seq(String)
+	Error Sequential rules are not supported
+../../../../asm_examples/examples\petriNets\petriNetNoEdgeWeightNoPlaceCapacity_seq.asm	-->
+	RuntimeException what type *Powerset(Place)
+	Error ChooseRule not supported yet
+../../../../asm_examples/examples\ermts_etcs\scenarios\ertms_hl3_scenario6.asm	-->
+	RuntimeException what type *Trains
+	Error java.lang.OutOfMemoryError: Java heap space
+../../../../asm_examples/examples\fsmsemantics\FSM_map0_2.asm	-->
+	ntests: 1- nsteps: 3
+	ntests: 1- nsteps: 4
+../../../../asm_examples/stereoacuity\certifierRaff2.asm	-->
+	ntests: 1- nsteps: 3
+	ntests: 1- nsteps: 6
+../../../../asm_examples/examples\conwayGameOfLife\gameOfLifeAgents.asm	-->
+	RuntimeException what type *Cell
+	Error java.lang.OutOfMemoryError: Java heap space
+../../../../asm_examples/examples\hemodialysisDevice\ABZ2016\Hemodialysis_ref1_par.asm	-->
+	RuntimeException $nextparam already created with (not null) type RinsingParam
+	AssertionErrornull
+../../../../asm_examples/examples\smartHome\smartHomeNoMultiChannel.asm	-->
+	RuntimeException what type *HouseManaging
+	Error Cannot invoke "atgt.specification.ASMSpecification.getVariable(String)" because "this.asmspec" is null
+../../../../asm_examples/stereoacuity\certifierRaff3.asm	-->
+	ntests: 1- nsteps: 3
+	ntests: 1- nsteps: 3
+../../../../asm_examples/examples\SemaforiAttraversamentoPedonale.asm	-->
+	AssertionError null
+	Error ChooseRule not supported yet
+../../../../asm_examples/examples\petriNets\petriNetNoEdgeWeightNoPlaceCapacity_NoSeq_Matrix.asm	-->
+	RuntimeException class atgt.specification.type.AbstractType cannot be cast to class tgtlib.definitions.expression.type.EnumerableType (atgt.specification.type.AbstractType and tgtlib.definitions.expression.type.EnumerableType are in unnamed module of loader 'app')
+	Error ChooseRule not supported yet
+../../../../asm_examples/examples\sluicegate\Timer\sluiceGateGround.asm	-->
+	AssertionError ..\..\..\..\asm_examples\examples\sluicegate\Timer\sluiceGateGround.asmnot existing
+	AssertionError..\..\..\..\asm_examples\examples\sluicegate\Timer\sluiceGateGround.asmnot existing
+../../../../asm_examples/examples_for_nuXmv\FunctionInt.asm	-->
+	RuntimeException static function functionprova not supported
+	Error ChooseRule not supported yet
+../../../../asm_examples/erinda\for_atgt.asm	-->
+	ntests: 1- nsteps: 4
+	ntests: 1- nsteps: 6
+../../../../asm_examples/examples\ferryman\ferrymanSimulator.asm	-->
+	RuntimeException what type *String
+	Error what type *String
+../../../../asm_examples/examples\traffic_light\Timer\oneWayTrafficLight_refinedMillisecSec.asm	-->
+	AssertionError ..\..\..\..\asm_examples\examples\traffic_light\Timer\oneWayTrafficLight_refinedMillisecSec.asmnot existing
+	AssertionError..\..\..\..\asm_examples\examples\traffic_light\Timer\oneWayTrafficLight_refinedMillisecSec.asmnot existing
+../../../../asm_examples/examples\production_cell\Production_Cell_with_agents.asm	-->
+	RuntimeException what type *TransportAgent
+	Error Sequential rules are not supported
+../../../../asm_examples/examples\agents\producerConsumerRaff.asm	-->
+	RuntimeException what type *Consumer
+	Error Unknown function org.asmeta.flattener.args.RemoveArgumentsRuleFlattener@69141392 visit(interface asmeta.transitionrules.basictransitionrules.ExtendRule)
+../../../../asm_examples/examples\sluicegate\sluiceGate_with_agents.asm	-->
+	RuntimeException what type *PULSESAgent
+	Error Sequential rules are not supported
+../../../../asm_examples/examples\traffic_light\Timer\oneWayTrafficLight.asm	-->
+	AssertionError ..\..\..\..\asm_examples\examples\traffic_light\Timer\oneWayTrafficLight.asmnot existing
+	AssertionError..\..\..\..\asm_examples\examples\traffic_light\Timer\oneWayTrafficLight.asmnot existing
+../../../../asm_examples/examples\petriNets\petriNetNoEdgeWeightNoPlaceCapacity_NoSeq.asm	-->
+	RuntimeException what type *Powerset(Place)
+	Error ChooseRule not supported yet
+../../../../asm_examples/examples\traffic_light\oneWayTrafficLightUsingEnumFlat.asm	-->
+	AssertionError null
+	AssertionErrornull
+../../../../asm_examples/PHD\phd_master_flat2_v6.asm	-->
+	ntests: 1- nsteps: 3
+	ntests: 1- nsteps: 4
+../../../../asm_examples/examples\hemodialysisDevice\ABZ2016\Hemodialysis_GM.asm	-->
+	ntests: 1- nsteps: 2
+	ntests: 1- nsteps: 3
+../../../../asm_examples/PillBox\Level0\pillbox_0.asm	-->
+	ntests: 1- nsteps: 3
+	ntests: 1- nsteps: 5
+../../../../asm_examples/examples\authenticationProtocols\groundModel.asm	-->
+	RuntimeException what type *Prod(Actors,Actors,SignalId)
+	AssertionErrorextend rule with a null do rule
+../../../../asm_examples/examples\agents\SeqSelf.asm	-->
+	RuntimeException what type *Robot
+	Error Sequential rules are not supported
+../../../../asm_examples/examples\simple_example\FLIP_FLOP_0.asm	-->
+	RuntimeException For input string: "0n"
+	Error Sequential rules are not supported
+../../../../asm_examples/examples\simple_example\euclideMCD.asm	-->
+	RuntimeException Domain Integer not supported.
+	Error Domain Integer not supported.
+../../../../asm_examples/examples\ermts_etcs\scenarios\ertms_hl3_scenario5.asm	-->
+	RuntimeException what type *Trains
+	Error java.lang.OutOfMemoryError: Java heap space
+../../../../asm_examples/examples\production_cell\press.asm	-->
+	RuntimeException variable pressloaded is not declared
+	Error Index 0 out of bounds for length 0
+../../../../asm_examples/examples\ermts_etcs\models\ertms_hl3_integer_disco_lostint_lengthchanged_reco_sweep_timer.asm	-->
+	RuntimeException what type *Trains
+	Error java.lang.OutOfMemoryError: Java heap space
+../../../../asm_examples/examples\authenticationProtocols\groundModel_v2.asm	-->
+	RuntimeException what type *Prod(Actors,Actors,SignalId)
+	AssertionErrorextend rule with a null do rule
+../../../../asm_examples/examples\production_cell\robot.asm	-->
+	RuntimeException derived function tableinunloadposition with args not supported
+	Error Index 0 out of bounds for length 0
+../../../../asm_examples/examples\traffic_light\Timer\oneWayTrafficLight_refinedMillisec.asm	-->
+	AssertionError ..\..\..\..\asm_examples\examples\traffic_light\Timer\oneWayTrafficLight_refinedMillisec.asmnot existing
+	AssertionError..\..\..\..\asm_examples\examples\traffic_light\Timer\oneWayTrafficLight_refinedMillisec.asmnot existing
+../../../../asm_examples/examples\ABZ2020\CarSystemModule\CarSystem004\CarSystem004main.asm	-->
+	RuntimeException variable keyState_Previous is not declared
+	Error LetRule not implemented yet
+../../../../asm_examples/stereoacuity\certifier_nochoose.asm	-->
+	ntests: 1- nsteps: 3
+	ntests: 1- nsteps: 3
+../../../../asm_examples/unibgstudents\Contatore_U_DA_H.asm	-->
+	RuntimeException "h" cannot be used as a function name because it's a keyword.
+	Error "h" cannot be used as a function name because it's a keyword.
+../../../../asm_examples/examples\models\LIFTDC.asm	-->
+	RuntimeException Rule of class class asmeta.transitionrules.basictransitionrules.impl.LetRuleImpl not translated
+	Error Unknown function org.asmeta.flattener.term.TermRenameVars@699cdb83 visit(interface asmeta.terms.basicterms.RuleAsTerm)
+../../../../asm_examples/examples\ABZ2020\CarSystemModule\CarSystem008\CarSystem008main.asm	-->
+	RuntimeException variable keyState_Previous is not declared
+	Error Unknown function org.asmeta.flattener.term.TermRenameVars@31187432 visit(interface asmeta.terms.furtherterms.RealTerm)
+../../../../asm_examples/RTPatternLibrary\Application\CompleteApplication.asm	-->
+	RuntimeException what type *Seq(DataStream)
+	Error Unknown function org.asmeta.flattener.term.TermRenameVars@35649f95 visit(interface asmeta.terms.furtherterms.SequenceTerm)
+../../../../asm_examples/examples\simple_example\MorraCinese\withActors\MorraCinese_withActors_raff3.asm	-->
+	AssertionError type Integer(Integer) already declared
+	Error ChooseRule not supported yet
+../../../../asm_examples/DAS\TrafficMonitoringSystem\validation\mainForModelCheckingThreeCameras.asm	-->
+	RuntimeException what type *Camera
+	Error java.lang.OutOfMemoryError: Java heap space
+../../../../asm_examples/PHD\phd_master_flat2_v3.asm	-->
+	ntests: 1- nsteps: 3
+	Error java.lang.OutOfMemoryError: Java heap space
+../../../../asm_examples/examples\GilbreathCardTrick\GilbreathCardTrickSimpl.asm	-->
+	RuntimeException only enums are supported
+	Error ChooseRule not supported yet
+../../../../asm_examples/examples\simple_example\fattoriale.asm	-->
+	RuntimeException what type *String
+	Error Sequential rules are not supported
+../../../../asm_examples/examples\sultanSuccessors\sultanGreedy.asm	-->
+	RuntimeException derived function regina_in_riga with args not supported
+	Error Unknown function org.asmeta.flattener.args.RemoveArgumentsTermFlattener@1950bd1c visit(interface asmeta.terms.furtherterms.SequenceTerm)
+../../../../asm_examples/DAS\TrafficMonitoringSystem\validation\mainForModelCheckingNoSelfHealerNoFailures.asm	-->
+	RuntimeException what type *Camera
+	Error java.lang.OutOfMemoryError: Java heap space
+../../../../asm_examples/examples\models\wiper_abs2.asm	-->
+	AssertionError null
+	Error Cannot invoke "atgt.specification.ASMSpecification.getVariable(String)" because "this.asmspec" is null
+../../../../asm_examples/examples\parkingSimple.asm	-->
+	ntests: 1- nsteps: 4
+	ntests: 1- nsteps: 4
+../../../../asm_examples/PillBox\Level3\pillbox_FULL.asm	-->
+	RuntimeException what type *String
+	Error java.lang.OutOfMemoryError: Java heap space
+../../../../asm_examples/unibgstudents\RegistroDiCassa.asm	-->
+	RuntimeException what type *Any
+	Error Sequential rules are not supported
+../../../../asm_examples/examples\simple_example\euclideMCD_init.asm	-->
+	RuntimeException variable numAinit is not declared
+	Error Domain Integer not supported.
+../../../../asm_examples/examples\models\lift2.asm	-->
+	RuntimeException Function hasToDeliverAt is not declared
+	Error Domain Integer not supported.
+../../../../asm_examples/examples\models\SwapSortMon.asm	-->
+	AssertionError type Integer(Integer) already declared
+	Error ChooseRule not supported yet
+../../../../asm_examples/examples\trafficLightCoSim\controller.asm	-->
+	RuntimeException Function expired is not declared
+	Error LetRule not implemented yet
+../../../../asm_examples/examples\fsmsemantics\meta_hooking\myFSM.asm	-->
+	RuntimeException what type *String
+	Error LetRule not implemented yet
+../../../../asm_examples/examples\RushHour\emptyCellAs0\RushHour.asm	-->
+	AssertionError ..\..\..\..\asm_examples\examples\RushHour\emptyCellAs0\RushHour.asmnot existing
+	AssertionError..\..\..\..\asm_examples\examples\RushHour\emptyCellAs0\RushHour.asmnot existing
+../../../../asm_examples/examples\ermts_etcs\scenarios\ertms_hl3_scenario4.asm	-->
+	RuntimeException what type *Trains
+	Error java.lang.OutOfMemoryError: Java heap space
+../../../../asm_examples/examples\cards.asm	-->
+	RuntimeException class asmeta.terms.basicterms.impl.VariableTermImpl cannot be cast to class asmeta.terms.basicterms.LocationTerm (asmeta.terms.basicterms.impl.VariableTermImpl and asmeta.terms.basicterms.LocationTerm are in unnamed module of loader 'app')
+	Error ChooseRule not supported yet
+../../../../asm_examples/examples\petriNets\forAsmetaSMV\petriNet_forNuSMV.asm	-->
+	RuntimeException class atgt.specification.type.AbstractType cannot be cast to class tgtlib.definitions.expression.type.EnumerableType (atgt.specification.type.AbstractType and tgtlib.definitions.expression.type.EnumerableType are in unnamed module of loader 'app')
+	Error ChooseRule not supported yet
+../../../../asm_examples/examples\simple_example\SwapSort.asm	-->
+	AssertionError null
+	Error ChooseRule not supported yet
+../../../../asm_examples/DAS\TrafficMonitoringSystem\validation\mainForModelCheckingWithPatterns.asm	-->
+	RuntimeException what type *Camera
+	Error java.lang.OutOfMemoryError: Java heap space
+../../../../asm_examples/examples\simple_example\MorraCinese\MorraCinese_raff3.asm	-->
+	AssertionError type Integer(Integer) already declared
+	Error ChooseRule not supported yet
+../../../../asm_examples/examples\landingGearSystem\LGS_GM.asm	-->
+	ntests: 1- nsteps: 3
+	ntests: 1- nsteps: 7
+../../../../asm_examples/examples\TrafficLightYakindu\TrafficLight2\TrafficLight_2.asm	-->
+	ntests: 1- nsteps: 3
+	ntests: 1- nsteps: 6
+../../../../asm_examples/examples\parking.asm	-->
+	AssertionError asmeta.terms.basicterms.impl.VariableTermImpl@6979e49d (name: $r, kind: logicalVar) has no type with domain Row
+	Error ChooseRule not supported yet
+../../../../asm_examples/PillBox\Level1\pillbox_1_for_RefProv.asm	-->
+	ntests: 1- nsteps: 3
+	ntests: 1- nsteps: 5
+../../../../asm_examples/examples\hemodialysisDevice\ABZ2016\Hemodialysis_ref4.asm	-->
+	RuntimeException $nextparam already created with (not null) type RinsingParam
+	AssertionErrornull
+../../../../asm_examples/stereoacuity\certifierGround.asm	-->
+	ntests: 1- nsteps: 2
+	ntests: 1- nsteps: 2
+../../../../asm_examples/systemc\counterAG\main_user.asm	-->
+	RuntimeException Cannot invoke "atgt.specification.statement.RuleDeclaration.getName()" because "ruleD" is null
+	Error Unknown function org.asmeta.flattener.term.TermRenameVars@33a900f8 visit(interface asmeta.terms.basicterms.RuleAsTerm)
+../../../../asm_examples/examples\production_cell\ert.asm	-->
+	RuntimeException variable tableloaded is not declared
+	Error Index 0 out of bounds for length 0
+../../../../asm_examples/examples\landingGearSystem\LGS_SE_v2.asm	-->
+	ntests: 1- nsteps: 3
+	ntests: 1- nsteps: 9
+../../../../asm_examples/examples\simple_example\MorraCinese\MorraCinese_raff1.asm	-->
+	AssertionError type Integer(Integer) already declared
+	Error ChooseRule not supported yet
+../../../../asm_examples/examples\sensorVotingSimpleVersion.asm	-->
+	ntests: 1- nsteps: 3
+	ntests: 1- nsteps: 3
+../../../../asm_examples/examples\agents\FileSystem.asm	-->
+	RuntimeException what type *String
+	Error Unknown function org.asmeta.flattener.term.TermRenameVars@6fd6d2a8 visit(interface asmeta.terms.basicterms.SetTerm)
+../../../../asm_examples/examples\petriNets\forAsmetaSMV\petriNet_forNuSMV_notLive_bound1_deadlockFree.asm	-->
+	RuntimeException class atgt.specification.type.AbstractType cannot be cast to class tgtlib.definitions.expression.type.EnumerableType (atgt.specification.type.AbstractType and tgtlib.definitions.expression.type.EnumerableType are in unnamed module of loader 'app')
+	Error ChooseRule not supported yet
+../../../../asm_examples/examples\Yahalom\FlawedYahalom.asm	-->
+	RuntimeException what type *Prod(Agent,Nonce)
+	AssertionErrorextend rule with a null do rule
+../../../../asm_examples/examples\models\lift3.asm	-->
+	RuntimeException Function hasToDeliverAt is not declared
+	Error Domain Integer not supported.
+../../../../asm_examples/examples\ABZ2020\CarSystemModule\CarSystem006\CarSystem006main.asm	-->
+	RuntimeException variable sCSLeve_Previous is not declared
+	Error LetRule not implemented yet
+../../../../asm_examples/examples\RushHour\emptyCellAs0\RushHourMon.asm	-->
+	AssertionError ..\..\..\..\asm_examples\examples\RushHour\emptyCellAs0\RushHourMon.asmnot existing
+	AssertionError..\..\..\..\asm_examples\examples\RushHour\emptyCellAs0\RushHourMon.asmnot existing

@@ -86,7 +86,7 @@ class ScenarioRndGeneratorTest {
 					String asmPath = Paths.get(source).resolve(line).toString().replace('\\', '/');
 					// check if the model contains choose rule
 					AsmCollection asms = ASMParser.setUpReadAsm(new File(asmPath));
-					if (asmeta.evotest.experiments.dataprep.RuleCounter.containsInternalNonDeterminism(asms)) {
+					if (asmeta.evotest.experiments.dataprep.ChooseRuleCounter.containsInternalNonDeterminism(asms)) {
 						writer.write(specCounter + "\t" + asmPath);
 						// generate
 						AsmTestGeneratorBySimulation rndgen = new AsmTestGeneratorBySimulation(asms, 4, 1);

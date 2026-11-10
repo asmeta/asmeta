@@ -13,7 +13,7 @@ import javax.xml.stream.XMLStreamWriter;
 
 import atgt.coverage.AsmTestSequence;
 import tgtlib.specification.location.Location;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 
 public class toXmlStax2 extends TestSeqTrad {
 	
@@ -44,7 +44,7 @@ public class toXmlStax2 extends TestSeqTrad {
 				writer.writeStartElement("state");
 				/*Scorro la mappa*/
 				for( Entry<Location, String> p: state.entrySet()){
-					Variable v = (Variable) p.getKey();
+					AsmVariable v = (AsmVariable) p.getKey();
 					String value = p.getValue();
 					String varKind = null;
 

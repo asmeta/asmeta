@@ -49,7 +49,7 @@ public class ExpressionToJava {
 				|| function.equals("sqrt") || function.equals("min") || function.equals("max")
 				|| function.equals("idiv") || function.equals("concat") || function.equals("intersection")
 				|| function.equals("difference") || function.equals("symmetricDifference") || function.equals("toString")
-				|| function.equals("rtoi") || function.equals("size") || function.equals("range");
+				|| function.equals("rtoi") || function.equals("itor") || function.equals("size") || function.equals("range");
 	}
 
 	/**
@@ -68,6 +68,8 @@ public class ExpressionToJava {
 			return "java.util.Objects.toString(" + new TermToJavaStandardLibrary(asm).visit(argsTerm.get(0)) + ", \"undef\")";
 		case "rtoi":
 			return "(int) (long) (double) (" + operatorOperand(argsTerm.get(0)) + ")";
+		case "itor":
+			return "(double) (" + operatorOperand(argsTerm.get(0)) + ")";
 		case "size":
 			return size(argsTerm);
 		case "range":

@@ -22,7 +22,7 @@ import tgtlib.definitions.expression.IdExpression;
 import tgtlib.specification.location.Function;
 import tgtlib.specification.location.FunctionApplication;
 import tgtlib.specification.location.Location;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 
 /**
  * represents the content of a ASM TEST Sequence*.
@@ -50,7 +50,13 @@ public class AsmTestSeqContent extends AsmTestSeqContentInterface {
 	private Map<Location, String> lastValues;
 	
 	
+	// set to false to fill each state with previous values.
 	public static boolean addOnlyChangeValues = true;
+
+	// If true, keeps also unchanged assignments but do not fill states.
+	// This takes precedence over addOnlyChangeValues.
+	// Used for Avalla to test conversion were we explicitly keep all assignments in the original Avalla.
+	public static boolean preserveExplicitAssignments = false;
 	
 	
 	/**
@@ -64,15 +70,15 @@ public class AsmTestSeqContent extends AsmTestSeqContentInterface {
 	}
 
 	@Override
-	public void addAssignment(Variable var, String value) {
+	public void addAssignment(AsmVariable var, String value) {
 		addAssignmentLocation(var, value);
 	}
 
 	private void addAssignmentLocation(Location var, String value) {
 		assert lastStateIndex != -1 : "call addState as first instruction";
 		String lastValue = this.lastValues.get(var);
-		// if it is really a change - commit only changes
-		if (lastValue == null || !lastValue.equals(value)) {
+		// Normally store changes only; explicit mode also stores unchanged values.
+		if (preserveExplicitAssignments || lastValue == null || !lastValue.equals(value)) {
 			// check if it already assigned
 			Map<Location, String> lastState = instructions.get(lastStateIndex);
 			if (lastState.get(var) != null)
@@ -114,9 +120,9 @@ public class AsmTestSeqContent extends AsmTestSeqContentInterface {
 		instructions.add(new HashMap<Location, String>());
 		lastStateIndex ++;		
 	}
-	// complete the state with previosu valeus not changed if necessary
+	// Explicit mode never fills a state with assignments that were not added.
 	private void completeOldState() {
-		if (addOnlyChangeValues || lastStateIndex == -1) return;
+		if (preserveExplicitAssignments || addOnlyChangeValues || lastStateIndex == -1) return;
 		// copy the values in last values:
 		logger.debug("completing the last state " + instructions.get(lastStateIndex) + " with"  + lastValues);
 		instructions.get(lastStateIndex).putAll(lastValues);

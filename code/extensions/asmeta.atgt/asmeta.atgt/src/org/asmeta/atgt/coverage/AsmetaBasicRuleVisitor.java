@@ -14,7 +14,7 @@ import tgtlib.definitions.NamedTerm;
 // substitute the atgt.coverage.BasicRuleVisitor - as asmeta coverage builder i.e. it build a tp tree from asmeta specs directly
 public class AsmetaBasicRuleVisitor implements AsmetaCoverageBuilder {
 
-	static Logger logger = Logger.getRootLogger().getLogger(AsmetaBasicRuleVisitor.class);
+	static Logger logger = Logger.getLogger(AsmetaBasicRuleVisitor.class);
 
 	/**
 	 * costruisce un nuovo basic rule visitor messo public per permettere la
@@ -49,6 +49,7 @@ public class AsmetaBasicRuleVisitor implements AsmetaCoverageBuilder {
 				System.err.println("End of ASM printing.");
 				e.printStackTrace();
 			}
+			e.printStackTrace();
 			throw new RuntimeException(e.getMessage());
 		}
 		return new Coverage("ABR", list);

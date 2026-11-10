@@ -181,8 +181,8 @@ class TermToJava extends ReflectiveVisitor<String> {
 		for (pair : object.pair) {
 			if (pair.terms.size != 2)
 				throw new IllegalArgumentException("A map entry must contain exactly a key and a value")
-			map.append(" put(").append(javaValue(pair.terms.get(0))).append(", ")
-			map.append(javaValue(pair.terms.get(1))).append(");")
+			map.append(" put(").append(ArgumentToJava.value(pair.terms.get(0), mapDomain.sourceDomain, this)).append(", ")
+			map.append(ArgumentToJava.value(pair.terms.get(1), mapDomain.targetDomain, this)).append(");")
 		}
 		map.append(" }}")
 		return map.toString

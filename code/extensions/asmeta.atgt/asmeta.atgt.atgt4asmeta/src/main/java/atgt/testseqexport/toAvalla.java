@@ -32,7 +32,7 @@ public class toAvalla extends TestSeqTrad {
 	 * @param f       the file where the file is written
 	 * @param ts      the ts
 	 * @param fOpened the f opened
-	 * @throws FileNotFoundException 
+	 * @throws FileNotFoundException
 	 */
 	public toAvalla(File f, AsmTestSequence ts, String asmFile) throws FileNotFoundException {
 		super(f, ts);
@@ -63,7 +63,7 @@ public class toAvalla extends TestSeqTrad {
 		dst.println("scenario " + nomeScenario + "\n" + "\n" + "load ./" + fOpened + "\n");
 		// write as comment the test goal
 		dst.println("//// test name " + testSequence.getName());
-		if (testSequence.getComment() != null) 
+		if (testSequence.getComment() != null)
 			dst.println("//// " + testSequence.getComment());
 		dst.println("//// generated for (test goal): " + testSequence.getGeneratedFor().toString());
 
@@ -73,9 +73,10 @@ public class toAvalla extends TestSeqTrad {
 			for (Entry<Location, String> p : state.entrySet()) {
 				Location v = p.getKey();
 				String value = p.getValue();
-				// if any type or string type, it contains already the quotes				
-				assert (!(v.getType().getName().contains("String") || v.getType().getName().contains("Any"))
-						|| (value.startsWith("\"") && value.endsWith("\""))); 
+				// if any type or string type, it contains already the quotes
+				assert v.getType() == null
+						|| (!(v.getType().getName().contains("String") || v.getType().getName().contains("Any"))
+								|| (value.startsWith("\"") && value.endsWith("\"")));
 				assert (v instanceof PickedVariable || v.isControlled() || v.isMonitored());
 				if (v.isControlled())
 					dst.println("check " + v.toString() + " = " + value + ";");
@@ -93,7 +94,7 @@ public class toAvalla extends TestSeqTrad {
 				Location v = p.getKey();
 				String value = p.getValue();
 				if (v instanceof PickedVariable pick)
-					dst.println("pick " + pick.getName() + " in " + pick.getInRuleDecl() + " := " + value + ";");
+					dst.println("pick " + pick.getName() + (pick.getInRuleDecl() == null? "" : " in " + pick.getInRuleDecl()) + " := " + value + ";");
 			}
 			// if (it.hasNext())
 			dst.println("step");

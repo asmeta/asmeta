@@ -21,7 +21,7 @@ import tgtlib.definitions.expression.IdExpressionCreator;
 import tgtlib.definitions.expression.type.BoolType;
 import tgtlib.specification.location.Function;
 import tgtlib.specification.location.Location;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 import tgtlib.specification.location.Location.VarKind;
 import tgtlib.util.TestSeqContentInterface;
 
@@ -114,7 +114,7 @@ public class AsmTestSequence extends TestResult implements Comparable<AsmTestSeq
 
 	// these can be specific for a single ASMETA spec
 	/** store all the variables */
-	private static Map<String, Variable> variables;
+	private static Map<String, AsmVariable> variables;
 	/** store their ids to avoid unnecessary duplications of ids */
 	private static IdExpressionCreator iecc;
 	// the functions already build in this test
@@ -122,7 +122,7 @@ public class AsmTestSequence extends TestResult implements Comparable<AsmTestSeq
 	static private Map<IdExpression, Function> functions;
 
 	public static void resetForAnewSPEC() {
-		variables = new HashMap<String, Variable>();
+		variables = new HashMap<String, AsmVariable>();
 		iecc = new IdExpressionCreator();
 		functions = new HashMap<>();
 	}
@@ -188,7 +188,7 @@ public class AsmTestSequence extends TestResult implements Comparable<AsmTestSeq
 			val = val.toLowerCase();
 			assert val.equals(BoolType.FALSE_STR) || val.equals(BoolType.TRUE_STR);
 		}
-		content.addAssignment((Variable) varS, val);
+		content.addAssignment((AsmVariable) varS, val);
 	}
 
 	@Override
@@ -199,11 +199,11 @@ public class AsmTestSequence extends TestResult implements Comparable<AsmTestSeq
 
 	private tgtlib.definitions.expression.type.Variable getVar(String varS, VarKind vt) {
 		// get the variable
-		Variable var = variables.get(varS);
+		AsmVariable var = variables.get(varS);
 		if (var == null) {
 			// create a new var (type null)
 			// TODO read the right type from somewhere .... spec???
-			var = new Variable(iecc.createIdExpression(varS, null), null, null);
+			var = new AsmVariable(iecc.createIdExpression(varS, null), null, null);
 			if (vt == VarKind.CONTROLLED)
 				var.setControlled();
 			else

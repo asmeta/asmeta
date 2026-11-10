@@ -25,7 +25,7 @@ import org.w3c.dom.Node;
 
 import atgt.coverage.AsmTestSequence;
 import tgtlib.specification.location.Location;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 
 public class toXmlDOM extends TestSeqTrad {
 
@@ -59,7 +59,7 @@ public class toXmlDOM extends TestSeqTrad {
 				e = xmlDoc.createElementNS(null, "state");
 
 				for (Entry<Location, String> p : state.entrySet()) {
-					Variable v = (Variable) p.getKey();
+					AsmVariable v = (AsmVariable) p.getKey();
 					String value = p.getValue();
 					String varKind = null;
 

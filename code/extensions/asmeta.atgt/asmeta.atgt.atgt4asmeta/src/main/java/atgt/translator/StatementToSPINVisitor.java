@@ -40,7 +40,7 @@ import tgtlib.definitions.expression.type.EnumConst;
 import tgtlib.definitions.expression.type.EnumType;
 import tgtlib.definitions.expression.type.Type;
 import tgtlib.specification.location.Location;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 
 /**
  * The Class StatementToSPINVisitor.
@@ -175,7 +175,7 @@ public class StatementToSPINVisitor implements RuleVisitor<String>, RuleDeclarat
 			// it is a function
 			printf = "printf(\"_Update_value " + leftSide
 					+ "[%d]" + "  %d.\\n\"," + a.getArg().get(0).accept(ExpressionToSPINVisitor.SINGLETON) + ","
-					+ var + Variable.primeSuffix + "[" + a.getArg().get(0).accept(ExpressionToSPINVisitor.SINGLETON)
+					+ var + AsmVariable.primeSuffix + "[" + a.getArg().get(0).accept(ExpressionToSPINVisitor.SINGLETON)
 					+ "]" + ");\n";
 		}
 		if (!WRITE_ONLY_IF_CHANGED) {
@@ -191,12 +191,12 @@ public class StatementToSPINVisitor implements RuleVisitor<String>, RuleDeclarat
 			// condizione
 			if (a.getArg() == null) {
 				add(result,  ":: " + var + "!=" + var
-						+ Variable.primeSuffix + "->\n");
+						+ AsmVariable.primeSuffix + "->\n");
 				// scrivi in output*/
 				add(result, printf);
 			} else {
 				add(result,  ":: " + var + "[" + a.getArg()
-						+ "]" + "!=" + var + Variable.primeSuffix + "["
+						+ "]" + "!=" + var + AsmVariable.primeSuffix + "["
 						+ a.getArg() + "]" + "->\n");
 				// scrivi in output*/
 				add(result, printf);

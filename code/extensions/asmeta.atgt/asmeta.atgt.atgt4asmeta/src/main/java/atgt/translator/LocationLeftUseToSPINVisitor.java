@@ -22,7 +22,7 @@ import tgtlib.specification.location.Constant;
 import tgtlib.specification.location.Function;
 import tgtlib.specification.location.LocationVisitorI;
 import tgtlib.specification.location.LogicalVariable;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 
 /**
  * Formisce i metodi per tradurre in stringe le location
@@ -54,8 +54,8 @@ public class LocationLeftUseToSPINVisitor implements LocationVisitorI<StringBuff
 	 * .location.Variable)
 	 */
 	@Override
-	public StringBuffer forVariable(Variable v) {
-		return new StringBuffer(v.getName() + Variable.primeSuffix);
+	public StringBuffer forVariable(AsmVariable v) {
+		return new StringBuffer(v.getName() + AsmVariable.primeSuffix);
 	}
 
 	/*
@@ -67,7 +67,7 @@ public class LocationLeftUseToSPINVisitor implements LocationVisitorI<StringBuff
 	 */
 	@Override
 	public StringBuffer forFunction(Function f) {
-		return new StringBuffer(f.getName() + Variable.primeSuffix);
+		return new StringBuffer(f.getName() + AsmVariable.primeSuffix);
 	}
 
 	@Override

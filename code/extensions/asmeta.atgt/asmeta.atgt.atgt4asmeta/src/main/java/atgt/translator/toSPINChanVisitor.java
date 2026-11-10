@@ -19,7 +19,7 @@ import tgtlib.definitions.expression.type.Type;
 import tgtlib.specification.location.Constant;
 import tgtlib.specification.location.Function;
 import tgtlib.specification.location.Location;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -64,7 +64,7 @@ public class toSPINChanVisitor extends ToSpinTranslatorVisitor {
 
 		// Now it's variables turn
 		result += "/* variables definitions */ \n";
-		for (Enumeration<Variable> e = sp.allVariables(); e.hasMoreElements();) {
+		for (Enumeration<AsmVariable> e = sp.allVariables(); e.hasMoreElements();) {
 			result += (e.nextElement())
 					.accept(new LocationToSPINDeclarationVisitor());
 		}
@@ -87,7 +87,7 @@ public class toSPINChanVisitor extends ToSpinTranslatorVisitor {
 		result += "/* init function */\n";
 		result += "init{\n";
 		// the functions initialization
-		for (Enumeration<Variable> e = sp.allVariables(); e.hasMoreElements();) {
+		for (Enumeration<AsmVariable> e = sp.allVariables(); e.hasMoreElements();) {
 			result += (e.nextElement())
 					.accept(InitFunctionToSPINVisitor.init);
 		}
@@ -113,7 +113,7 @@ public class toSPINChanVisitor extends ToSpinTranslatorVisitor {
 		this.indent += "\t";
 		result += this.indent + "::\n";
 		result += this.indent + "/* Simulation of monitored variables */\n";
-		for (Enumeration<Variable> e = sp.allVariables(); e.hasMoreElements();) {
+		for (Enumeration<AsmVariable> e = sp.allVariables(); e.hasMoreElements();) {
 			Location v = e.nextElement();
 			if (!(v.isControlled())) {
 				result += this.indent + "if\n";
@@ -161,8 +161,8 @@ public class toSPINChanVisitor extends ToSpinTranslatorVisitor {
 					+ assertExpression.toString() + " );\n";
 		}
 		result += this.indent + " /* Update variables for state change */\n";
-		for (Enumeration<Variable> e = sp.allVariables(); e.hasMoreElements();) {
-			Variable v = e.nextElement();
+		for (Enumeration<AsmVariable> e = sp.allVariables(); e.hasMoreElements();) {
+			AsmVariable v = e.nextElement();
 			result += this.indent
 					+ v.accept(new VarUpdaterVisitor(this.indent + "\t"))
 					+ "\n";

@@ -11,7 +11,7 @@ import java.util.Map;
 
 import atgt.coverage.AsmTestSequence;
 import tgtlib.specification.location.Location;
-import tgtlib.specification.location.Variable;
+import tgtlib.specification.location.AsmVariable;
 
 public class toXmlSerialSchema extends TestSeqTrad {
 
@@ -40,7 +40,7 @@ public class toXmlSerialSchema extends TestSeqTrad {
 			Map<Location, String> state = it.next();
 			dst.println("  <state>");
 			for (Map.Entry<Location, String> p : state.entrySet()) {
-				Variable v = (Variable) p.getKey();
+				AsmVariable v = (AsmVariable) p.getKey();
 				String value = p.getValue();
 
 				if (v.isControlled()) {

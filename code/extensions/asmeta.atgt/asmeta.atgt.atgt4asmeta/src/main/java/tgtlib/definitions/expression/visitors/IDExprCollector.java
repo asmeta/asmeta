@@ -35,9 +35,7 @@ import tgtlib.definitions.expression.PrimedIdExpression;
 import tgtlib.definitions.expression.UnaryExpression;
 import tgtlib.definitions.expression.XOrExpression;
 import tgtlib.definitions.expression.type.BoolType;
-import tgtlib.definitions.expression.type.BoolType.BoolConst;
 import tgtlib.definitions.expression.type.BooleanVar;
-import tgtlib.definitions.expression.type.EnumConst;
 import tgtlib.definitions.expression.type.Variable;
 
 /**
@@ -84,46 +82,6 @@ public final class IDExprCollector implements ExpressionVisitor<Set<IdExpression
 		}
 		return res;	
 	}
-
-	
-	/**
-	 * return the list of variables assuming that all the IDs are boolean variables in the expression
-	 * (exclude the EnumConst).
-	 *
-	 * @param e the expression in which search the IDs
-	 * @return the bool vars from id
-	 */
-	public static List<BooleanVar> getBoolVarsFromId(Expression e) {
-		return getBoolVarsFromId(e,Collections.EMPTY_SET); 
-	}
-
-	/**
-	 * return the list of variables assuming that all the IDs are boolean variables in the expression
-	 * (exclude the EnumConst).
-	 *
-	 * @param e the expression in which search the IDs
-	 * @param vars the variables to be excluded (for instance those already considered) - consider the name
-	 * @return the bool vars from id
-	 */
-	public static List<BooleanVar> getBoolVarsFromId(Expression e, Collection<? extends Variable> vars) {
-		assert vars!= null;
-		Collection<IdExpression> ids = e.accept(IDExprCollector.instance);
-		List<BooleanVar>  result = new ArrayList<>();
-		buildNewVar: for(final IdExpression id : ids){
-			if (id instanceof BoolConst)
-				continue;
-			// TODO why an expression could possibly contain enumerations
-			assert !(id instanceof EnumConst);
-			for (Variable v: vars){
-				// another variable found 
-				if (v.getName().equals(id.getIdString())) continue buildNewVar;
-			}
-			BooleanVar v = new BooleanVar(id);
-			result.add(v);			
-		}
-		return result;
-	}
-
 	
 	
 	private IDExprCollector() {
