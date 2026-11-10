@@ -1,6 +1,7 @@
 package org.asmeta.atgt.coverage;
 
 import java.io.File;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -92,10 +93,11 @@ public class AsmetaAsSpec extends AsmGeneralSpecification {
 	public AsmVariable getVariable(String locationName) {
 		AsmVariable var = asmspec.getVariable(locationName);
 		if (var == null) {
-			RuleDeclaration chooseRule = ChooseRuleINVARFlattener.lastChooseVars.get(locationName);
-			if (chooseRule!= null) {
-				System.err.println(chooseRule + locationName);
-				return new PickedVariable(locationName, chooseRule.getName());
+			SimpleEntry<String, RuleDeclaration> simpleEntry = ChooseRuleINVARFlattener.lastChooseVars.get(locationName);
+			if (simpleEntry!= null) {
+				RuleDeclaration chooseRule = simpleEntry.getValue();
+				System.err.println(chooseRule + simpleEntry.getKey());
+				return new PickedVariable(simpleEntry.getKey(), chooseRule.getName());
 			}			
 		}
 		return var;

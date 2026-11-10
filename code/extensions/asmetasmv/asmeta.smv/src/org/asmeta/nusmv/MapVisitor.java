@@ -685,10 +685,10 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 			asm = new RemoveArgumentsFlattener(asm).flattenASM();
 			FlattenerSetting.simplify = true;
 			String name = asm.getName();
-			if (AsmetaSMVOptions.FLATTEN)  
-				asm = AsmetaMultipleFlattener.flatten(asm, ALL_SMV_FLATTENERS);
 			if (AsmetaSMVOptions.FLATTEN_CHOOSE_TOINV)  
 				asm = AsmetaMultipleFlattener.flattenWithExtra(asm, ChooseRuleINVARFlattener.class);			
+			if (AsmetaSMVOptions.FLATTEN)  
+				asm = AsmetaMultipleFlattener.flatten(asm, ALL_SMV_FLATTENERS);
 			asm.setName(name);
 		}
 		ImportFlattener importFlattener = new ImportFlattener(asm, getDir());

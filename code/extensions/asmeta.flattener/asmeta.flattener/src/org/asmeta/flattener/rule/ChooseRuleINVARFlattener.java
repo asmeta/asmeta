@@ -1,5 +1,6 @@
 package org.asmeta.flattener.rule;
 
+import java.util.AbstractMap;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,11 +31,11 @@ import asmeta.transitionrules.basictransitionrules.Rule;
 public class ChooseRuleINVARFlattener extends RuleFlattener {
 
 	private int chooseCounter = 0;
-	// keep track of the variables
-	private Map<String, RuleDeclaration> varsConvertedToMon = new HashMap<>();
+	// keep track of the variables --> original choosen var and its rule	
+	private Map<String, AbstractMap.SimpleEntry<String,RuleDeclaration>> varsConvertedToMon = new HashMap<>();
 
 	
-	static public Map<String, RuleDeclaration> lastChooseVars;
+	static public Map<String, AbstractMap.SimpleEntry<String,RuleDeclaration>> lastChooseVars;
 	
 	public ChooseRuleINVARFlattener(Asm asm) {
 		super(asm);
@@ -75,7 +76,7 @@ public class ChooseRuleINVARFlattener extends RuleFlattener {
 		// add to the map, so
 		assert !varsConvertedToMon.containsKey(chosenVarName)
 				: chosenVarName + " already taken in rule declaration " + varsConvertedToMon.get(chosenVarName);
-		varsConvertedToMon.put(chosenVarName, currentRuleDeclaration);
+		varsConvertedToMon.put(chosenVarName, new AbstractMap.SimpleEntry<>(var.getName(),currentRuleDeclaration));
 		// add chosen var to the ignature
 		Signature signature = asm.getHeaderSection().getSignature();
 		signature.getFunction().add(chosenVar);
@@ -91,13 +92,10 @@ public class ChooseRuleINVARFlattener extends RuleFlattener {
 			map.put(var, lt);
 			trv.addMap(map);
 			// build the new do rule
-			Rule newRule = visit(chooseRule.getDoRule());
 			// attenzione potrebbe contenere una choose rule a sua volta
-			// TODO if there is the guard
-			if (chooseRule.getGuard().equals("TRUE")) {
-				ConditionalRule newCondRule = ruleFact.createConditionalRule();
-				// TO BE COMPLETED
-			}
+			Rule newRule = visit(chooseRule.getDoRule());
+			// no ifnone
+			assert chooseRule.getIfnone() == null;
 			// add also the else if there ifnone
 			if (chooseRule.getIfnone() != null) {
 				// TODO
@@ -113,9 +111,6 @@ public class ChooseRuleINVARFlattener extends RuleFlattener {
 				invar.setBody(newGuard);
 				asm.getBodySection().getInvariantConstraint().add(invar);
 			}
-			// no ifnone
-			// TODO
-			assert chooseRule.getIfnone() == null;
 			trv.removeMap(map);
 			return newRule;
 		}

@@ -59,10 +59,10 @@ public class NuSMVAsmTestGeneratorComparison {
 		//testSingleFile("..\\..\\..\\..\\asm_examples\\PillBox\\Level1\\pillbox_1.asm");
 //		testSingleFile("../../../../asm_examples/stereoacuity/certifierRaff2.asm");
 //		testSingleFile("../../../../asm_examples/examples/simple_example/population.asm");
-		//testSingleFile("../../../../asm_examples/examples/sleepingBarber/sleepingBarber.asm");	
-		testSingleFile("../../../../asm_examples/examples/SemaforiAttraversamentoPedonale.asm");
+		testSingleFile("../../../../asm_examples/examples/sleepingBarber/sleepingBarber.asm");	
+		//testSingleFile("../../../../asm_examples/examples/SemaforiAttraversamentoPedonale.asm");
 	}
-	public void testSingleFile(String spec) throws Exception {
+	private void testSingleFile(String spec) throws Exception {
 //		NuSMVASMSpecTestGenerator gen1 = new NuSMVASMSpecTestGenerator(spec);
 //		AsmTestSuite test = gen1.generateAbstractTests(1, ".*");
 //		System.out.println(test.getTests());
