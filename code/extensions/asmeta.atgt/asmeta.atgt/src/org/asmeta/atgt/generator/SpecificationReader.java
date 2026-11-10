@@ -22,7 +22,14 @@ class AsmetaSpecificationReader extends SpecificationReader<org.asmeta.atgt.cove
 	public AsmetaAsSpec read(String asmfile) throws Exception {
 		AsmCollection asmCollection = ASMParser.setUpReadAsm(new File(asmfile));
 		AsmetaAsSpec asmetaAsSpec = new AsmetaAsSpec(asmCollection);
-		asmetaAsSpec.setAsmspec(new AsmetaLLoader().read(new File(asmfile)));
+		// be more tolerant - it may be go well
+		try {
+			ASMSpecification asmspec = new AsmetaLLoader().read(new File(asmfile),false);
+			asmetaAsSpec.setAsmspec(asmspec);
+		} catch(Throwable e) {
+			e.printStackTrace();
+			System.err.println("error reading with AsmetaLoader " + e.getMessage());
+		}
 		return asmetaAsSpec;
 	}
 

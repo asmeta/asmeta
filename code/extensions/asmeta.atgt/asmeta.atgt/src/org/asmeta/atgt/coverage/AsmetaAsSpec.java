@@ -1,9 +1,19 @@
 package org.asmeta.atgt.coverage;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.asmeta.flattener.AsmetaMultipleFlattener;
+import org.asmeta.flattener.RemoveArgumentsFlattener;
+import org.asmeta.flattener.nesting.RemoveNestingFlattener;
+import org.asmeta.flattener.rule.AsmetaFlattener;
+import org.asmeta.flattener.rule.CaseRuleFlattener;
+import org.asmeta.flattener.rule.ChooseRuleINVARFlattener;
+import org.asmeta.flattener.rule.ForallRuleFlattener;
+import org.asmeta.flattener.rule.LetRuleFlattener;
+import org.asmeta.flattener.rule.MacroCallRuleFlattener;
 import org.asmeta.nusmv.MapVisitor;
 
 import asmeta.AsmCollection;
@@ -29,6 +39,18 @@ import tgtlib.specification.location.Function;
  */
 public class AsmetaAsSpec extends AsmGeneralSpecification {
 
+	static Class<? extends AsmetaFlattener>[] flattersforATGTAsmeta =  new Class[] {
+		// SMV flatternes
+		MacroCallRuleFlattener.class,
+		ForallRuleFlattener.class,
+		RemoveArgumentsFlattener.class,
+		LetRuleFlattener.class,
+		CaseRuleFlattener.class,
+		RemoveNestingFlattener.class,
+		// remove choose
+		ChooseRuleINVARFlattener.class
+	};
+	
 	Asm asm;
 	// using the ASMSpecification as a proxy for the Specification interface
 	// TODO push up some methods to the AsmGeneralSpecification class and avoid composition
@@ -36,10 +58,11 @@ public class AsmetaAsSpec extends AsmGeneralSpecification {
 
 	public AsmetaAsSpec(AsmCollection asm) throws Exception {
 		// flatten the spec
-		this.asm = AsmetaMultipleFlattener.flattenWithExtra(asm.getMain(), MapVisitor.ALL_SMV_FLATTENERS);
+		this.asm = AsmetaMultipleFlattener.flattenWithExtra(asm.getMain(), flattersforATGTAsmeta);
 	}
 
 	public void setAsmspec(ASMSpecification asmspec) {
+		assert asmspec != null;
 		this.asmspec = asmspec;
 	}
 

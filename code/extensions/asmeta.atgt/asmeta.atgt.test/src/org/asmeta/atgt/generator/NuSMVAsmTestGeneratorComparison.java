@@ -55,17 +55,19 @@ public class NuSMVAsmTestGeneratorComparison {
 		//testSingleFile("../../../../asm_examples\\examples\\landingGearSystem\\LGS_EV.asm");
 		//testSingleFile("..\\..\\..\\..\\asm_examples\\examples\\traffic_light\\oneWayTrafficLightUsingEnum.asm");
 		//testSingleFile("..\\..\\..\\..\\asm_examples\\PillBox\\Level1\\pillbox_1.asm");
-		testSingleFile("../../../../asm_examples/stereoacuity/certifierRaff2.asm");
+//		testSingleFile("../../../../asm_examples/stereoacuity/certifierRaff2.asm");
+//		testSingleFile("../../../../asm_examples/examples/simple_example/population.asm");
+		testSingleFile("../../../../asm_examples/examples/sleepingBarber/sleepingBarber.asm");	
 	}
 	public void testSingleFile(String spec) throws Exception {
-		NuSMVASMSpecTestGenerator gen1 = new NuSMVASMSpecTestGenerator(spec);
-		AsmTestSuite test = gen1.generateAbstractTests(1, ".*");
-		System.out.println(test.getTests());
-		System.out.println(test.getTests().get(0).getState(0));
+//		NuSMVASMSpecTestGenerator gen1 = new NuSMVASMSpecTestGenerator(spec);
+//		AsmTestSuite test = gen1.generateAbstractTests(1, ".*");
+//		System.out.println(test.getTests());
+//		System.out.println(test.getTests().get(0).getState(0));
 //		// stesso con altra classe
-//		NuSMVAsmetaTestGenerator gen2 = new NuSMVAsmetaTestGenerator(spec, false);
-//		AsmTestSuite test = gen2.generateAbstractTests(1, ".*");
-//		System.out.println(test.getTests());						
+		NuSMVAsmetaTestGenerator gen2 = new NuSMVAsmetaTestGenerator(spec, false);
+		AsmTestSuite test = gen2.generateAbstractTests(1, ".*");
+		System.out.println(test.getTests());						
 	}
 
 	@Test
