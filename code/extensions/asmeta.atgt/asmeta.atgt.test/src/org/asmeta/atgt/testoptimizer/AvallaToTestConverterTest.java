@@ -1,44 +1,53 @@
 package org.asmeta.atgt.testoptimizer;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.asmeta.avallaxt.AvallaStandaloneSetup;
-import org.asmeta.avallaxt.avalla.Scenario;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.xtext.resource.XtextResource;
-import org.eclipse.xtext.resource.XtextResourceSet;
-import org.junit.jupiter.api.Disabled;
+import org.asmeta.avallaxt.avalla.Check;
 import org.junit.jupiter.api.Test;
-
-import com.google.inject.Injector;
-
 import atgt.coverage.AsmTestSequence;
 import tgtlib.specification.location.Location;
+import tgtlib.specification.location.PickedVariable;
 
 public class AvallaToTestConverterTest {
 
 	@Test
-	@Disabled("TODO: fiz this test")
 	public void testFromAvallaToTestSequence() throws IOException {
-		String avallaPath = "examples/optimizer/scenario.avalla";
-		// TODO: Fails when run as plain JUnit in Eclipse probably due to some classpath conflict:
-		Injector injector = new AvallaStandaloneSetup().createInjectorAndDoEMFRegistration();
-		XtextResourceSet rs = injector.getInstance(XtextResourceSet.class);
-		rs.addLoadOption(XtextResource.OPTION_RESOLVE_ALL, Boolean.TRUE);
-		Resource resource = rs.getResource(URI.createFileURI(avallaPath), true);
-		resource.load(rs.getLoadOptions());
-		Scenario s = (Scenario) resource.getContents().get(0);
+		String avallaPath = "examples/optimizer/scenario.avalla";		
+		AvallaToTestConverter converter = new AvallaToTestConverter(avallaPath);
+		AsmTestSequence test = converter.convert();
+		List<Map<Location, String>> instructions = test.allInstructions();
+		Map<Integer, List<Check>> otherChecks = converter.getOtherChecks();
 		
-		AvallaToTestConverter converter = new AvallaToTestConverter();
-		AsmTestSequence test = converter.convert(s);
-		for (Map<Location, String> t : test.allInstructions()) {
-			System.out.println("--");
-			for (Entry<Location, String> entry : t.entrySet()) {
-				System.out.println(entry.getKey() + ", " + entry.getValue());
+		assertNotNull(test);
+		assertTrue(instructions.size() == 6);
+
+		int i = 0;
+		for (Map<Location, String> state : instructions) {
+			System.out.println("State " + i);
+			for (Entry<Location, String> entry : state.entrySet()) {
+				Location loc = entry.getKey();
+				String value = entry.getValue();
+				if (loc instanceof PickedVariable pv) {
+					System.out.println("\t Variable to PICK:\t" + loc + (pv.getInRuleDecl() != null ? " in " + pv.getInRuleDecl() : "") + " = " + value);
+				}
+				if (loc.isMonitored()) {
+					System.out.println("\t monitored to SET:\t" + loc + " = " + value);
+				} else if (loc.isControlled()) {
+					System.out.println("\t controlled to CHECK:\t" + loc + " = " + value);
+				}
 			}
+			if (otherChecks.containsKey(i)) {
+				for (Check check : otherChecks.get(i)) {
+					System.out.println("\t non equality to CHECK:\t" + check.getExpression());
+				}
+			}
+			i++;
 		}
 
 	}

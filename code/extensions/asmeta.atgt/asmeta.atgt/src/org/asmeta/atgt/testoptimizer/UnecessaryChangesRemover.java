@@ -33,6 +33,7 @@ import asmeta.definitions.domains.util.DomainsSwitch;
 import atgt.coverage.AsmTestSequence;
 import tgtlib.definitions.expression.Undef;
 import tgtlib.definitions.expression.type.Variable;
+import tgtlib.specification.location.PickedVariable;
 
 // removes changes of monitored values that are unnecessary
 // i.e. that are asked by the simulator
@@ -112,7 +113,8 @@ public class UnecessaryChangesRemover extends TestOptimizer {
 			Map<? extends Variable, String> currentState = asmTest.getState(currentStateIndex);
 			List<? extends Variable> keySet = new ArrayList<>(currentState.keySet());
 			for (Variable var : keySet) {
-				if (!asked.contains(var.toString()) && !var.isControlled()) {
+				// Do not remove picked variables: we are not optimizing picks
+				if (!(var instanceof PickedVariable) && !asked.contains(var.toString()) && !var.isControlled()) {
 					log.debug("removing " + var.toString());
 					currentState.remove(var);
 				} else {

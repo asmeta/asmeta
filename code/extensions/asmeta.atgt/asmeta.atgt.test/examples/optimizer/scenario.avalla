@@ -25,3 +25,19 @@ step
 check available(COFFEE) = 10;
 check available(TEA) = 10;
 check available(MILK) = 7;
+
+set insertedCoin := ONE;
+pick $p in r_Main:= TEA;
+step
+
+check available(COFFEE) = 10;
+check available(TEA) = 9;
+check available(MILK) = 7;
+check available(TEA) > available(COFFEE);
+
+set insertedCoin := ONE;
+pick $p := COFFEE;
+step
+
+check available(COFEE) > 0;
+check available(COFFEE) = 9;

@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 
 import atgt.coverage.AsmTestSequence;
 import tgtlib.specification.location.Location;
+import tgtlib.specification.location.PickedVariable;
 
 // removes values that are unchanged wrt the previous state
 // both monitored and controlled
@@ -61,6 +62,8 @@ public class UnchangedRemover extends TestOptimizer {
 			// check the values that do not change
 			for (Entry<Location, String> assignemnt : state.entrySet()) {
 				Location loc = assignemnt.getKey();
+				// Do not remove picked variables: we are not optimizing picks
+				if (loc instanceof PickedVariable) continue;
 				String val = assignemnt.getValue();
 				// remove only if controlled if it is asked to remove all
 				if (lastvalues.get(loc.toString()) != null && lastvalues.get(loc.toString()).equals(val)
