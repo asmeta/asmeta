@@ -21,4 +21,9 @@ public class NuSMVAsmetaTestGenerator extends NuSMVTestGenerator<AsmetaAsSpec> {
 		return generateTests();
 	}
 
+	@Override
+	protected boolean isSimplifyChoose() {
+		return true;
+	}
+
 }

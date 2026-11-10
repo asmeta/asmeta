@@ -22,7 +22,9 @@ public class AsmetaSMVOptions {
 	public static boolean useCoi = true;
 	// use flattener (default true, for test cases it can be also false)
 	public static boolean FLATTEN = true;
-	
+	// use flattener (default true, for test cases it can be also false)
+	public static boolean FLATTEN_CHOOSE_TOINV = true;
+
 	private static boolean runNuSMV;
 	private static boolean useNuXmv;
 	private static boolean useNuXmvTime;

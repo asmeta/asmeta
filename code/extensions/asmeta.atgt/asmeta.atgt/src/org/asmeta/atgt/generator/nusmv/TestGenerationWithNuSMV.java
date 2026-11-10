@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.asmeta.nusmv.MapVisitor.CommentedNamedProperty;
 import org.asmeta.nusmv.main.AsmetaSMV;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
 
@@ -27,7 +28,7 @@ public class TestGenerationWithNuSMV extends AsmetaSMV {
 	 * @param expression
 	 * @throws Exception
 	 */
-	public TestGenerationWithNuSMV(String asmPath) throws Exception {
+	public TestGenerationWithNuSMV(String asmPath, boolean flattenChoose) throws Exception {
 		super(asmPath);
 		// set the options (now static, in the future could be an object)
 		AsmetaSMVOptions.keepNuSMVfile = true;
@@ -35,6 +36,7 @@ public class TestGenerationWithNuSMV extends AsmetaSMV {
 		AsmetaSMVOptions.setPrintCounterExample(true);
 		AsmetaSMVOptions.useCoi = false;
 		AsmetaSMVOptions.FLATTEN = false;
+		AsmetaSMVOptions.FLATTEN_CHOOSE_TOINV = flattenChoose;
 		clearProperties();
 	}
 
@@ -47,20 +49,21 @@ public class TestGenerationWithNuSMV extends AsmetaSMV {
 		return mv.nusmvNameToLocation;
 	}
 
-	private void buildNuSMV(Expression tp) throws Exception {
+	private void buildNuSMV(String name, Expression tp) throws Exception {
 		logger.debug("add cex and remove the other properties");
-		Set<String> trapProps = new HashSet<>();
+		Set<CommentedNamedProperty> trapProps = new HashSet<>();
 		String tpS = tp.accept(ExpressionToSMV.EXPR_TO_SMV).toString();
 		if (modelCheckerMode == ModelCheckerMode.LTLandBMC || modelCheckerMode == ModelCheckerMode.LTLFMC) {
 			// use LTL
-			trapProps.add("G(!((" + tpS + ") & X(TRUE)))");
+			trapProps.add(new CommentedNamedProperty(name, "", "G(!((" + tpS + ") & X(TRUE)))"));
 			addLtlProperties(trapProps);
 		} else {
 			assert modelCheckerMode == ModelCheckerMode.CTL;
 			// normal trap property
 			// add a further step to get the last state after the test goal is reached
 			// EX(true) adds an extra step - forces another check (and no deadlock)
-			trapProps.add("AG(!((" + tpS + ") & EX(TRUE)))");
+			String tlProp = "AG(!((" + tpS + ") & EX(TRUE)))";
+			trapProps.add(new CommentedNamedProperty(name, "",tlProp));
 			//this does not add a further step
 			//trapProps.add("AG(!(" + tpS + ")) ");
 			addCtlProperties(trapProps);
@@ -77,12 +80,12 @@ public class TestGenerationWithNuSMV extends AsmetaSMV {
 	 * @return
 	 * @throws Exception
 	 */
-	public Counterexample checkTpWithModelChecker(Expression tp) throws Exception {
+	public Counterexample checkTpWithModelChecker(String name,Expression tp) throws Exception {
 		// clear all the previous properties.
 		clearProperties();
 		translation();
 		//
-		buildNuSMV(tp);
+		buildNuSMV(name, tp);
 		//
 		executeNuSMV();
 		BufferedReader br = new BufferedReader(new	StringReader(outputRunNuSMVreplace));

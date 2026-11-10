@@ -337,6 +337,7 @@ public class ASMSpecification extends AsmGeneralSpecification {
 	}
 	
 	public static Type convertDomainToType(Domain dom, EnumConstCreator ecc) {
+		assert dom != null;
 		if (dom instanceof EnumTd) {
 			logger.debug("adding enum domain " + dom.getName());
 			EnumTd enumTD = (EnumTd) dom;

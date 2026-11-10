@@ -49,10 +49,13 @@ public abstract class NuSMVTestGenerator<S extends Specification> extends AsmTes
 	NuSMVTestGenerator(String asmFilePath, boolean coverageTp, SpecificationReader<S> specReader) throws Exception {
 		super(asmFilePath, coverageTp, specReader);
 		assert new File(asmFilePath).exists();
+		// this is used only for optimization
 		asmCollection = ASMParser.setUpReadAsm(new File(asmFilePath));
-		generator = new TestGenerationWithNuSMV(asmFilePath);
+		generator = new TestGenerationWithNuSMV(asmFilePath, isSimplifyChoose());
 	}
 	
+	protected abstract boolean isSimplifyChoose();
+
 	@Override
 	protected AsmTestSuite generateTestforASM() throws Exception{
 		return generateTestforASM(null);
@@ -66,7 +69,7 @@ public abstract class NuSMVTestGenerator<S extends Specification> extends AsmTes
 			logger.info("generation for TP " + tp.getName() + " -" + tp.getCondition() + " " + tp.getStatusDescription());
 			if (tp.getStatus() == TestConditionState.Queued) {
 				//
-				Counterexample test = generator.checkTpWithModelChecker(tp.getCondition());
+				Counterexample test = generator.checkTpWithModelChecker(tp.getName(), tp.getCondition());
 				if (test == null) {
 					String msg="test generation failed - show never happen";
 					logger.error(msg);

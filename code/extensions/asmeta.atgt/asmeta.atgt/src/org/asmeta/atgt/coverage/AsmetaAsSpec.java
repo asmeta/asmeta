@@ -17,10 +17,14 @@ import org.asmeta.flattener.rule.MacroCallRuleFlattener;
 import org.asmeta.nusmv.MapVisitor;
 
 import asmeta.AsmCollection;
+import asmeta.definitions.RuleDeclaration;
+import asmeta.definitions.domains.Domain;
 import asmeta.structure.Asm;
 import atgt.parser.asmeta.AsmetaLLoader;
 import atgt.specification.ASMSpecification;
 import atgt.specification.AsmGeneralSpecification;
+import tgtlib.definitions.expression.type.EnumConstCreator;
+import tgtlib.definitions.expression.type.Type;
 import tgtlib.definitions.expression.type.Variable;
 import tgtlib.specification.Axiom;
 import tgtlib.specification.ParseException;
@@ -29,6 +33,7 @@ import tgtlib.specification.location.AsmVariable;
 import tgtlib.specification.location.Constant;
 import tgtlib.specification.location.DerivedFunction;
 import tgtlib.specification.location.Function;
+import tgtlib.specification.location.PickedVariable;
 
 /** 
  * new class for the specification of an ASM.  It is based on ASM of asmeta.
@@ -39,17 +44,19 @@ import tgtlib.specification.location.Function;
  */
 public class AsmetaAsSpec extends AsmGeneralSpecification {
 
-	static Class<? extends AsmetaFlattener>[] flattersforATGTAsmeta =  new Class[] {
-		// SMV flatternes
-		MacroCallRuleFlattener.class,
-		ForallRuleFlattener.class,
-		RemoveArgumentsFlattener.class,
-		LetRuleFlattener.class,
-		CaseRuleFlattener.class,
-		RemoveNestingFlattener.class,
-		// remove choose
-		ChooseRuleINVARFlattener.class
-	};
+	public static Class<? extends AsmetaFlattener>[] flattersforATGTAsmeta = new Class[] {
+			// SMV flatternes
+			MacroCallRuleFlattener.class,
+			ForallRuleFlattener.class,
+			RemoveArgumentsFlattener.class,
+			LetRuleFlattener.class,
+			CaseRuleFlattener.class,
+			RemoveNestingFlattener.class,
+			// remove choose
+			ChooseRuleINVARFlattener.class
+		};
+
+	
 	
 	Asm asm;
 	// using the ASMSpecification as a proxy for the Specification interface
@@ -83,7 +90,15 @@ public class AsmetaAsSpec extends AsmGeneralSpecification {
 
 	@Override
 	public AsmVariable getVariable(String locationName) {
-		return asmspec.getVariable(locationName);
+		AsmVariable var = asmspec.getVariable(locationName);
+		if (var == null) {
+			RuleDeclaration chooseRule = ChooseRuleINVARFlattener.lastChooseVars.get(locationName);
+			if (chooseRule!= null) {
+				System.err.println(chooseRule + locationName);
+				return new PickedVariable(locationName, chooseRule.getName());
+			}			
+		}
+		return var;
 	}
 
 	@Override
@@ -99,6 +114,16 @@ public class AsmetaAsSpec extends AsmGeneralSpecification {
 	@Override
 	public DerivedFunction getDerivedFunction(String var) {
 		return asmspec.getDerivedFunction(var);
+	}
+
+	@Override
+	public Type getDomain(Domain dom, EnumConstCreator ecc) {
+		return asmspec.getDomain(dom,ecc);
+	}
+
+	@Override
+	public Type getTypeFor(String typeName) {
+		return asmspec.getTypeFor(typeName);
 	}
 
 }

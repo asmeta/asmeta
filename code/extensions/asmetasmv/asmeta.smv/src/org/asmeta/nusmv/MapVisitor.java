@@ -37,6 +37,7 @@ import org.asmeta.flattener.RemoveArgumentsFlattener;
 import org.asmeta.flattener.nesting.RemoveNestingFlattener;
 import org.asmeta.flattener.rule.AsmetaFlattener;
 import org.asmeta.flattener.rule.CaseRuleFlattener;
+import org.asmeta.flattener.rule.ChooseRuleINVARFlattener;
 import org.asmeta.flattener.rule.ForallRuleFlattener;
 import org.asmeta.flattener.rule.LetRuleFlattener;
 import org.asmeta.flattener.rule.MacroCallRuleFlattener;
@@ -99,9 +100,17 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 	final static Logger log = Logger.getLogger(MapVisitor.class);
 
 	// list of flatteners
-	public static Class<? extends AsmetaFlattener>[] ALL_SMV_FLATTENERS = new Class[] { MacroCallRuleFlattener.class,
-			ForallRuleFlattener.class, RemoveArgumentsFlattener.class, LetRuleFlattener.class, CaseRuleFlattener.class,
-			RemoveNestingFlattener.class };
+	public static Class<? extends AsmetaFlattener>[] ALL_SMV_FLATTENERS = new Class[] { 
+			// SMV flatternes
+			MacroCallRuleFlattener.class,
+			ForallRuleFlattener.class, 
+			RemoveArgumentsFlattener.class, 
+			LetRuleFlattener.class, 
+			CaseRuleFlattener.class,
+			RemoveNestingFlattener.class
+	};
+
+	
 
 	private Map<Location, String> locationNameToNusmvVariableName;
 	private NuSMVRuleVisitor rv;
@@ -109,18 +118,18 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 	public Map<String, List<String>> locationReachabilityConds;
 
 	// a property (string) with its name
-	public record NamedProperty(String name, String prop) {
+	public record CommentedNamedProperty(String comment, String name, String prop) {
 	};
 
-	List<NamedProperty> allProp; // all the properties translated in NUSMV
+	List<CommentedNamedProperty> allProp; // all the properties translated in NUSMV
 	// these are public since they are used in asmetaMA
 	// map from NUSMV to the original temporal property
 	public Map<String, List<Property>> propertyOrigin = new HashMap<>();
 	// translated to SMV
-	public List<NamedProperty> ctlList;
-	public List<NamedProperty> ltlList;
-	public List<NamedProperty> invariantList;
-	public List<NamedProperty> invariantOverMonitoredList;
+	public List<CommentedNamedProperty> ctlList;
+	public List<CommentedNamedProperty> ltlList;
+	public List<CommentedNamedProperty> invariantList;
+	public List<CommentedNamedProperty> invariantOverMonitoredList;
 
 	private ArrayList<String> justiceConstraintsList;
 	private ArrayList<String[]> compassionConstraintsList;
@@ -357,6 +366,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 	void printMainModule(String smvFileName, PrintWriter smv) {
 		smv.println("--file " + smvFileName);
 		smv.println("-- options: flatten? " + AsmetaSMVOptions.FLATTEN);
+		smv.println("-- options: flatten choose to inv? " + AsmetaSMVOptions.FLATTEN_CHOOSE_TOINV);
 		if (AsmetaSMVOptions.isUseNuXmvTime())
 			smv.println("@TIME_DOMAIN continuous");
 		smv.println("MODULE main");
@@ -630,24 +640,23 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 		// INVAR
 		if (!invariantOverMonitoredList.isEmpty()) {
 			smv.println("--AsmetaL invariants over monitored");
-			for (NamedProperty property : invariantOverMonitoredList) {
+			for (CommentedNamedProperty property : invariantOverMonitoredList) {
 				smv.println("INVAR " + property.prop + ";");
 			}
 		}
 		// print LTL, then CTL, then INVARSPEC
-		allProp = new ArrayList<NamedProperty>();
+		allProp = new ArrayList<CommentedNamedProperty>();
 		printInFile(ltlList, smv, "--LTL properties", "LTLSPEC", "ltl");
 		printInFile(ctlList, smv, "--CTL properties", "CTLSPEC", "ctl");
 		printInFile(invariantList, smv, "--AsmetaL invariants", "INVARSPEC", "inv");
 	}
 
-	private void printInFile(List<NamedProperty> nps, PrintWriter smv, String comment, String nusmvComand,
+	private void printInFile(List<CommentedNamedProperty> nps, PrintWriter smv, String comment, String nusmvComand,
 			String namePrefix) {
 		if (!nps.isEmpty()) {
 			smv.println(comment);
 			int invCounter = 0;
-			for (NamedProperty property : nps) {
-				smv.print(nusmvComand);
+			for (CommentedNamedProperty property : nps) {
 				// if(ctlListNames.size() > 0) {
 				String name = property.name;
 				if (name.equals("")) {
@@ -655,9 +664,11 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 					// so there is no clash
 					name = namePrefix + (invCounter++);
 				}
+				smv.println("-- " + property.comment);
+				smv.print(nusmvComand);
 				smv.print(" NAME " + name + " :=");
 				smv.println(" " + property.prop + ";");
-				allProp.add(new NamedProperty(name, property.prop));
+				allProp.add(new CommentedNamedProperty(property.comment, name, property.prop));
 			}
 		}
 	}
@@ -670,25 +681,15 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 	 * @throws Exception the exception
 	 */
 	public void visit(Asm asm) throws Exception {
-		if (AsmetaSMVOptions.FLATTEN) {
+		if (AsmetaSMVOptions.FLATTEN | AsmetaSMVOptions.FLATTEN_CHOOSE_TOINV) {
 			asm = new RemoveArgumentsFlattener(asm).flattenASM();
 			FlattenerSetting.simplify = true;
 			String name = asm.getName();
-			asm = AsmetaMultipleFlattener.flatten(asm, ALL_SMV_FLATTENERS);
+			if (AsmetaSMVOptions.FLATTEN)  
+				asm = AsmetaMultipleFlattener.flatten(asm, ALL_SMV_FLATTENERS);
+			if (AsmetaSMVOptions.FLATTEN_CHOOSE_TOINV)  
+				asm = AsmetaMultipleFlattener.flattenWithExtra(asm, ChooseRuleINVARFlattener.class);			
 			asm.setName(name);
-			// System.out.println(AsmetaMultipleFlattener.printASM(asm));
-
-			/*
-			 * File tempFile = File.createTempFile("tmp", ASMParser.asmExtension); String
-			 * printASM = AsmetaMultipleFlattener.printASM(asm); printASM =
-			 * printASM.replaceFirst(name,
-			 * tempFile.toPath().getFileName().toString().replace(ASMParser.asmExtension,
-			 * "")); System.out.println(printASM);
-			 * Files.write(Paths.get(tempFile.getAbsolutePath()),
-			 * printASM.getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE,
-			 * StandardOpenOption.TRUNCATE_EXISTING); asm =
-			 * ASMParser.setUpReadAsm(tempFile).getMain(); asm.setName(name);
-			 */
 		}
 		ImportFlattener importFlattener = new ImportFlattener(asm, getDir());
 		importFlattener.visit();
@@ -751,9 +752,9 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 			}
 		}
 		visitInvariants(invariants);
-		ctlList = new ArrayList<NamedProperty>();
+		ctlList = new ArrayList<CommentedNamedProperty>();
 		visitTemporalSpecs(ctlSpecs, ctlList);
-		ltlList = new ArrayList<NamedProperty>();
+		ltlList = new ArrayList<CommentedNamedProperty>();
 		visitTemporalSpecs(ltlSpecs, ltlList);
 
 		List<JusticeConstraint> justiceConstraints = new ArrayList<JusticeConstraint>();
@@ -1108,8 +1109,8 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 	 * @param invariants the ASM invariants
 	 */
 	private void visitInvariants(List<Invariant> invariants) {
-		invariantList = new ArrayList<NamedProperty>();
-		invariantOverMonitoredList = new ArrayList<NamedProperty>();
+		invariantList = new ArrayList<CommentedNamedProperty>();
+		invariantOverMonitoredList = new ArrayList<CommentedNamedProperty>();
 		if (invariants != null) {
 			for (Invariant invariant : invariants) {
 				String inv_in_smv = termTran.visit(invariant.getBody());
@@ -1121,10 +1122,12 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 				if (isoverMonitored && !(isoverControlled || isoverShared || isoverOut)) {
 					// becomes automatically INVAR in this case (assumption about the environment)
 					// otherwise one must use INVAR directly in asmeta 
-					invariantOverMonitoredList.add(new NamedProperty(invariant.getName(), inv_in_smv));
+					CommentedNamedProperty e = new CommentedNamedProperty("invariant over monitored", invariant.getName(), inv_in_smv);
+					invariantOverMonitoredList.add(e);
 				} else {
+					CommentedNamedProperty e = new CommentedNamedProperty("asmeta invariant", invariant.getName(), inv_in_smv);
 					// AsmetaL invariants "inv" become CTL properties "INVARSPEC (inv)"
-					invariantList.add(new NamedProperty(invariant.getName(), inv_in_smv));
+					invariantList.add(e);
 					addPropertyTranslation(invariant, inv_in_smv);
 				}
 			}
@@ -1132,14 +1135,14 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 	}
 
 	// visit the TemporalProperty and translate it, put it in the propertylist
-	private void visitTemporalSpecs(List<? extends TemporalProperty> specs, List<NamedProperty> propertyList) {
+	private void visitTemporalSpecs(List<? extends TemporalProperty> specs, List<CommentedNamedProperty> propertyList) {
 		String name;
 		if (specs != null) {
 			for (TemporalProperty spec : specs) {
 				name = spec.getName();
 				name = name != null ? name : "";
 				String tpinsmv = termTran.visit(spec.getBody());
-				propertyList.add(new NamedProperty(name, tpinsmv));
+				propertyList.add(new CommentedNamedProperty("translation of a SPEC in asmeta", name, tpinsmv));
 				addPropertyTranslation(spec, tpinsmv);
 			}
 		}
@@ -1535,7 +1538,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 		String charToRem = "[() ]";
 		String simplProp = prop.replaceAll(charToRem, "");
 		String key = null;
-		for (NamedProperty nameProp : allProp) {
+		for (CommentedNamedProperty nameProp : allProp) {
 			String k = nameProp.prop;
 			String simplKey = k.replaceAll(charToRem, "");
 			if (simplKey.equals(simplProp)) {

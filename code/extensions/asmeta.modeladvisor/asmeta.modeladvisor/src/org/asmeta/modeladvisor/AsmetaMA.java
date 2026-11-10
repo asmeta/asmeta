@@ -37,6 +37,7 @@ import org.asmeta.modeladvisor.texpr.Expression;
 import org.asmeta.nusmv.Environment;
 import org.asmeta.nusmv.InconsistentUpdateException;
 import org.asmeta.nusmv.MapVisitor;
+import org.asmeta.nusmv.MapVisitor.CommentedNamedProperty;
 import org.asmeta.nusmv.main.AsmetaSMV;
 import org.asmeta.nusmv.util.AsmetaSMVOptions;
 
@@ -181,7 +182,7 @@ public class AsmetaMA {
 		asmetaSMV.mv.invariantList.clear();
 		asmetaSMV.mv.invariantOverMonitoredList.clear();
 		// add now the properties for asmetaMA
-		Set<String> translatedAllProperties = new HashSet<>();
+		Set<CommentedNamedProperty> translatedAllProperties = new HashSet<>();
 		log.debug("LT Properties\n" + 
 				nuSmvProperties.entrySet().stream()
 				.map(entry -> String.format("%s : %s", entry.getKey(), entry.getValue()))
@@ -189,8 +190,13 @@ public class AsmetaMA {
 		for (Entry<Checker, Set<Expression>> entry : nuSmvProperties.entrySet()) {
 			Set<Expression> properties = entry.getValue();
 			if (!properties.isEmpty()) {
-				Set<String> translatedProperties = translate(properties);
+				Set<String> propertiesTrans = translate(properties);				
+				Set<CommentedNamedProperty> translatedProperties = new HashSet<>();
 				log.debug("adding: " + translatedProperties);
+				int pi = 1;
+				for(String p: propertiesTrans) {
+					translatedProperties.add(new CommentedNamedProperty("added for " + entry.getKey().toString(), "ma_added"+ (pi++),p));
+				}
 				translatedAllProperties.addAll(translatedProperties);
 				// System.out.println(entry.getKey().getClass().getSimpleName() + " "
 				// +translatedProperties);
@@ -201,7 +207,7 @@ public class AsmetaMA {
 		
 		if (!translatedAllProperties.isEmpty()) {
 			log.debug("As nuSmv Properties\n" + 
-					translatedAllProperties.stream()
+					translatedAllProperties.stream().map(x -> (x.comment() + x.prop()))
 					.collect(Collectors.joining("\n")));
 			asmetaSMV.addCtlProperties(translatedAllProperties);
 			asmetaSMV.createTempNuSMVfile();

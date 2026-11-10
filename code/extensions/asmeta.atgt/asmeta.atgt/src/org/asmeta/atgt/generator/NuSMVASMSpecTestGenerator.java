@@ -86,4 +86,11 @@ public class NuSMVASMSpecTestGenerator extends NuSMVTestGenerator<ASMSpecificati
 			// visitorCollection.add(new RuleGuardVisitor());
 		}
 	}
+
+
+
+	@Override
+	protected boolean isSimplifyChoose() {
+		return false;
+	}
 }

@@ -75,6 +75,7 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 	}
 
 	private Type getType(Domain domain) {
+		assert domain != null;
 		Type t = types.get(domain);
 		if (t == null) {
 			t = ASMSpecification.convertDomainToType(domain, icc);
@@ -166,12 +167,16 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 	 */
 	public Expression visit(LocationTerm location) {
 		if (location.getArguments() == null) {
-			// convert to type AsmetaLLoader.
-			return icc.createIdExpression(location.getFunction().getName(), getType(location.getDomain()));
+			// it is a var use domain as the codomain
+			Domain domain = location.getFunction().getCodomain();
+			// convert to type.
+			return icc.createIdExpression(location.getFunction().getName(), getType(domain));
 		}
+		Domain domain = location.getDomain();
+		assert domain != null;
 		// throw new RuntimeException("not implemented yet location: " +
 		// AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(location));
-		IdExpression funName = icc.createIdExpression(location.getFunction().getName(), getType(location.getDomain()));
+		IdExpression funName = icc.createIdExpression(location.getFunction().getName(), getType(domain));
 		Type type = getType(location.getFunction().getCodomain());
 		List<IdExpression> args = new ArrayList<>();
 		for (Term t : location.getArguments().getTerms()) {

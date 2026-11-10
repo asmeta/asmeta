@@ -1,5 +1,6 @@
 package org.asmeta.flattener.rule;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -30,11 +31,23 @@ public class ChooseRuleINVARFlattener extends RuleFlattener {
 
 	private int chooseCounter = 0;
 	// keep track of the variables
-	Map<String, RuleDeclaration> varsConvertedToMon = new HashMap<>();
+	private Map<String, RuleDeclaration> varsConvertedToMon = new HashMap<>();
 
+	
+	static public Map<String, RuleDeclaration> lastChooseVars;
+	
 	public ChooseRuleINVARFlattener(Asm asm) {
 		super(asm);
 	}
+	
+	@Override
+	public Asm flattenASM() {
+		Asm result = super.flattenASM();
+		// copy 
+		lastChooseVars = Collections.unmodifiableMap(varsConvertedToMon);
+		return result;		
+	}
+
 
 	@Override
 	public Rule visit(ChooseRule chooseRule) {
@@ -55,6 +68,8 @@ public class ChooseRuleINVARFlattener extends RuleFlattener {
 		String name = var.getName().replaceAll("\\$", "_X_");
 		String chosenVarName = "varforchoose_" + name + "_" + chooseCounter++;
 		chosenVar.setName(chosenVarName);
+		// it is a variable, use the codomain
+		chosenVar.setDomain(null);
 		chosenVar.setCodomain(var.getDomain());
 		chosenVar.setArity(0);
 		// add to the map, so
@@ -104,34 +119,6 @@ public class ChooseRuleINVARFlattener extends RuleFlattener {
 			trv.removeMap(map);
 			return newRule;
 		}
-		/*
-		 * // build something like // function chooseVar0 = chooseone({$b in ConcrDom|
-		 * lt($b,$a) : $b}) // note that chooseVar0 must be dynamic or static according
-		 * to its definition SetCt setCtTerm = ruleFact.createSetCt(); // {... in ... |
-		 * EList<VariableTerm> setVars = setCtTerm.getVariable(); setVars.add(var);
-		 * setCtTerm.setDomain(varDomain); // | ... :
-		 * setCtTerm.setGuard(chooseRule.getGuard()); // : ... setCtTerm.setTerm(var);
-		 * setCtTerm.getRanges().addAll(chooseRule.getRanges()); FunctionTerm chooseone
-		 * = stdlFunction.stdlFunc("chooseone", setCtTerm); Function functionForChoose;
-		 * // check the // collect all the terms in the def Body List<EObject> notStatic
-		 * = new ArrayList<>(); DynamicInTermFinder ns = new
-		 * DynamicInTermFinder(notStatic); ns.visit(chooseone); // static or derived
-		 * function to be added in the signature if (notStatic.isEmpty()) // no dynamic
-		 * functions functionForChoose =
-		 * DefinitionsPackage.eINSTANCE.getDefinitionsFactory().createStaticFunction();
-		 * else functionForChoose =
-		 * DefinitionsPackage.eINSTANCE.getDefinitionsFactory().createDerivedFunction();
-		 * //StaticFunction staticFun = functionForChoose.setArity(0);
-		 * functionForChoose.setCodomain(varDomain); String funcName = "chooseVar" +
-		 * (counter++); functionForChoose.setName(funcName);
-		 * 
-		 * // function definition FunctionDefinition defFuncDef =
-		 * StructureFactory.eINSTANCE.createFunctionDefinition();
-		 * defFuncDef.setDefinedFunction(functionForChoose);
-		 * defFuncDef.setBody(chooseone); // add function definition to the body Body
-		 * asmBody = asm.getBodySection();
-		 * asmBody.getFunctionDefinition().add(defFuncDef);
-		 */
 	}
 
 	@Override

@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -26,6 +27,7 @@ import atgt.coverage.AsmCoverage;
 import atgt.coverage.AsmTestSuite;
 import atgt.parser.asmeta.AsmetaLLoader;
 import atgt.specification.ASMSpecification;
+import atgt.testseqexport.toAvalla;
 import tgtlib.specification.ParseException;
 
 // compare the 
@@ -57,7 +59,8 @@ public class NuSMVAsmTestGeneratorComparison {
 		//testSingleFile("..\\..\\..\\..\\asm_examples\\PillBox\\Level1\\pillbox_1.asm");
 //		testSingleFile("../../../../asm_examples/stereoacuity/certifierRaff2.asm");
 //		testSingleFile("../../../../asm_examples/examples/simple_example/population.asm");
-		testSingleFile("../../../../asm_examples/examples/sleepingBarber/sleepingBarber.asm");	
+		//testSingleFile("../../../../asm_examples/examples/sleepingBarber/sleepingBarber.asm");	
+		testSingleFile("../../../../asm_examples/examples/SemaforiAttraversamentoPedonale.asm");
 	}
 	public void testSingleFile(String spec) throws Exception {
 //		NuSMVASMSpecTestGenerator gen1 = new NuSMVASMSpecTestGenerator(spec);
@@ -67,13 +70,26 @@ public class NuSMVAsmTestGeneratorComparison {
 //		// stesso con altra classe
 		NuSMVAsmetaTestGenerator gen2 = new NuSMVAsmetaTestGenerator(spec, false);
 		AsmTestSuite test = gen2.generateAbstractTests(1, ".*");
-		System.out.println(test.getTests());						
+		System.out.println(test.getTests());
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		new toAvalla(outputStream, test.getTests().get(0), "", "").save();
+		String avallaContent = outputStream.toString();
+		System.err.println(avallaContent);
 	}
 
 	@Test
 	public void testAllExperimentsEvoavalla() throws IOException {
 		//Path listFile = Path.of("model_list_atgt_valid.txt");
-		Path listFile = Path.of("model_list.txt");
+		extracted("model_list.txt");
+	}
+	@Test
+	public void testChooseExperimentsEvoavalla() throws IOException {
+		//Path listFile = Path.of("model_list_atgt_valid.txt");
+		extracted("model_list_choose.txt");
+	}
+
+	private void extracted(String string) throws IOException {
+		Path listFile = Path.of(string);
 		PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("analysys_generation.txt", true)));
 		try (BufferedReader paths = Files.newBufferedReader(listFile)) {
 			String line;

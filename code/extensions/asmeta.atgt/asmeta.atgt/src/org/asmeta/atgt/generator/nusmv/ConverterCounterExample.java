@@ -90,6 +90,7 @@ public class ConverterCounterExample {
 						asmTestSequence.addAssignment(ft, val, function.getVarKind());
 						continue;
 					}
+					throw new RuntimeException("with ( but not a function???");
 				}
 				// derived function
 				DerivedFunction dv = spec.getDerivedFunction(var);

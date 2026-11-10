@@ -40,6 +40,8 @@ public class ChooseRuleFlattener extends RuleFlattener {
 		super(asm);
 		stdlFunction = new StdlFunction(asm);
 	}
+	
+	
 
 	@Override
 	public Rule visit(ChooseRule chooseRule) {

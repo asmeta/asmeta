@@ -10,8 +10,6 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 class ChooseRuleINVARFlattenerTest extends FlattenerTest {
-	
-
 
 	@Test
 	void choose() throws Exception {
@@ -30,6 +28,10 @@ class ChooseRuleINVARFlattenerTest extends FlattenerTest {
 	void forallChoose() throws Exception {
 		assertThrows(AssertionError.class, () ->
 			flattenerTest("./examples/forallChooseRule.asm", true, ChooseRuleINVARFlattener.class));
+	}
+	@Test
+	void forallChoose2() throws Exception {	
+		flattenerTest("../../../../asm_examples/examples/SemaforiAttraversamentoPedonale.asm", true, ChooseRuleINVARFlattener.class);
 	}
 
 }

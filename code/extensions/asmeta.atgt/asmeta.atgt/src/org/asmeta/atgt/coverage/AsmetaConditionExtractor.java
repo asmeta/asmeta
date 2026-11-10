@@ -7,6 +7,8 @@ import java.util.Vector;
 import org.apache.log4j.Logger;
 import org.asmeta.simulator.RuleVisitor;
 
+import asmeta.definitions.domains.BooleanDomain;
+import asmeta.terms.basicterms.Term;
 import asmeta.terms.basicterms.impl.BasictermsFactoryImpl;
 import asmeta.transitionrules.basictransitionrules.BlockRule;
 import asmeta.transitionrules.basictransitionrules.ExtendRule;
@@ -127,7 +129,9 @@ public class AsmetaConditionExtractor extends RuleVisitor<List<NamedTerm>>{
 	protected List<NamedTerm> distributeOverConditional(asmeta.transitionrules.basictransitionrules.ConditionalRule ite) {
 		List<NamedTerm> result = new Vector<>();
 		// get the guard
-		Expression guard = translator.visit(ite.getGuard());
+		Term guardterm = ite.getGuard();
+		//assert guardterm.getDomain() instanceof BooleanDomain : ite;
+		Expression guard = translator.visit(guardterm);
 		logger.debug("guard  "+ guard);
 		List<NamedTerm> then_list = this.visit(ite.getThenRule());
 		if (!then_list.isEmpty()) {
