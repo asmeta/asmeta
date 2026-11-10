@@ -25,6 +25,7 @@ import asmeta.terms.furtherterms.LetTerm;
 import asmeta.terms.furtherterms.NaturalTerm;
 import asmeta.terms.furtherterms.RealTerm;
 import atgt.parser.asmeta.AsmetaLLoader;
+import atgt.specification.ASMSpecification;
 import tgtlib.definitions.expression.Expression;
 import tgtlib.definitions.expression.IdExpression;
 import tgtlib.definitions.expression.NumericLiteral;
@@ -46,6 +47,8 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 	EnumConstCreator icc = new EnumConstCreator();
 	Map<Domain, Type> types = new HashMap<>();
 
+	
+	
 	/**
 	 * Visita un termine.
 	 *
@@ -74,7 +77,7 @@ public class AsmetaToExprTrans extends org.asmeta.parser.util.ReflectiveVisitor<
 	private Type getType(Domain domain) {
 		Type t = types.get(domain);
 		if (t == null) {
-			t = AsmetaLLoader.convertDomainToType(domain, icc);
+			t = ASMSpecification.convertDomainToType(domain, icc);
 			types.put(domain, t);
 		}
 		return t;

@@ -8,6 +8,9 @@ import tgtlib.definitions.TestPredicate;
 
 import org.junit.jupiter.api.Test;
 
+import asmeta.definitions.domains.Domain;
+import tgtlib.definitions.expression.type.EnumConstCreator;
+import tgtlib.definitions.expression.type.Type;
 import tgtlib.definitions.expression.type.Variable;
 import tgtlib.specification.Axiom;
 import tgtlib.specification.Specification;
@@ -105,6 +108,18 @@ class CovBuilderBySubCovTest {
 
 			@Override
 			public DerivedFunction getDerivedFunction(String var) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Type getDomain(Domain dom, EnumConstCreator ecc) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+			@Override
+			public Type getTypeFor(String typeName) {
 				// TODO Auto-generated method stub
 				return null;
 			}

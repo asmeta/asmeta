@@ -51,6 +51,7 @@ import tgtlib.definitions.expression.type.EnumConstCreator;
 import tgtlib.definitions.expression.type.EnumerableType;
 import tgtlib.definitions.expression.type.IntegerType;
 import tgtlib.definitions.expression.type.Type;
+import tgtlib.specification.Specification;
 import tgtlib.specification.location.Constant;
 import tgtlib.specification.location.DerivedFunction;
 
@@ -60,16 +61,16 @@ import tgtlib.specification.location.DerivedFunction;
  * @author garganti
  * 
  */
-class TermConverter {
+class TermConverter<S extends Specification> {
 
 	/** The logger : use the same ad the AsmetLoader */
 	private final static Logger logger = Logger.getLogger(AsmetaLLoader.class);
 
-	private ASMSpecification SP;
+	private S SP;
 
 	EnumConstCreator ecc;
 
-	TermConverter(ASMSpecification SP, EnumConstCreator ecc) {
+	TermConverter(S SP, EnumConstCreator ecc) {
 		this.ecc = ecc;
 		this.SP = SP;
 	}
@@ -83,7 +84,7 @@ class TermConverter {
 	 */
 	Expression computeConstantTerm(asmeta.terms.basicterms.ConstantTerm ct) {
 		Domain d = ct.getDomain();
-		Type t = AsmetaLLoader.getDomain(d, SP, ecc);
+		Type t = SP.getDomain(d, ecc);
 		assert t != null;
 		if (d instanceof IntegerDomain) {
 			if (ct.getSymbol().startsWith("+"))
@@ -254,7 +255,7 @@ class TermConverter {
 			if (r != null) {
 				return r.getIdExpression();
 			}
-			Type value = AsmetaLLoader.getDomain(ct.getDomain(), SP, ecc);
+			Type value = SP.getDomain(ct.getDomain(), ecc);
 			assert value != null : term.getDomain().getName();
 			return ecc.createIdExpression(ct.getSymbol(), value);
 		} else if (term instanceof ConditionalTerm) {

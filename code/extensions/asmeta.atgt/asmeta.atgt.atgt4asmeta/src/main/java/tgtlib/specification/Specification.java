@@ -12,6 +12,9 @@ package tgtlib.specification;
 
 import java.util.Collection;
 
+import asmeta.definitions.domains.Domain;
+import tgtlib.definitions.expression.type.EnumConstCreator;
+import tgtlib.definitions.expression.type.Type;
 import tgtlib.definitions.expression.type.Variable;
 import tgtlib.specification.location.Constant;
 import tgtlib.specification.location.DerivedFunction;
@@ -19,7 +22,8 @@ import tgtlib.specification.location.Function;
 
 
 /** 
- * The Interface Specification for Asbtract State Machines specifications.
+ * The Interface Specification for Abstract State Machines specifications.
+ * TODO - an intermediate class Abstract State Machines specification could be useful (to allow SCR Specification)
  */
 public interface Specification {
 	
@@ -41,5 +45,9 @@ public interface Specification {
 	Constant getConstantByName(String var);
 
 	DerivedFunction getDerivedFunction(String var);
+
+	Type getDomain(Domain dom, EnumConstCreator ecc);
+
+	Type getTypeFor(String typeName);
 	
 }

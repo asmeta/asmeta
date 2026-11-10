@@ -77,7 +77,7 @@ public class AsmetaLLoader extends AsmSpecReader {
 
 	EnumConstCreator ecc;
 
-	TermConverter termConv;
+	TermConverter<ASMSpecification> termConv;
 
 	/**
 	 * Instantiates a new asmetaL loader.
@@ -116,7 +116,7 @@ public class AsmetaLLoader extends AsmSpecReader {
 		}
 		SP = new ASMSpecification();
 		SP.name = kb.getMain().getName();
-		termConv = new TermConverter(SP, ecc);
+		termConv = new TermConverter<>(SP, ecc);
 		loadAsm(asmMain);
 		return SP;
 	}
@@ -307,27 +307,7 @@ public class AsmetaLLoader extends AsmSpecReader {
 		// return
 		return;
 
-	}
-
-	static Type getDomain(Domain dom, ASMSpecification SP, EnumConstCreator ecc) {
-		// check if already created
-		Type t = SP.getTypeFor(dom.getName());
-		// check if it is boolean, it is memorized ad Bool
-		if (dom instanceof BooleanDomain) {
-			t = SP.getTypeFor(BoolType.BOOLTYPE.getName());
-			assert t != null;
-			return t;
-		}
-		// still no type with this name
-		if (t == null) {
-			// else create it
-			t = createDomain(dom, SP, ecc);
-			assert !t.getName().equals("Bool");
-			SP.addType(t);
-		}
-		assert t != null;
-		return t;
-	}
+	} 
 
 	/**
 	 * get a domain, creates if necessary
@@ -336,119 +316,15 @@ public class AsmetaLLoader extends AsmSpecReader {
 	 * @return
 	 */
 	Type getDomain(Domain dom) {
-		return getDomain(dom, SP, ecc);
+		return SP.getDomain(dom, ecc);
 	}
 
 	Type createDomain(Domain dom) {
-		return createDomain(dom, SP, ecc);
+		return SP.createDomain(dom, ecc);
 	}
 
-	/**
-	 * Create the domain for ATGT Specification.
-	 * 
-	 * @param dom The domain of the XMI model
-	 * @return the type for the ATGT Specification
-	 */
-	static Type createDomain(Domain dom, ASMSpecification SP, EnumConstCreator ecc) {
-		// check if already created
-		assert SP.getTypeFor(dom.getName()) == null;
-		return convertDomainToType(dom, ecc);
-	}
 
-	public static Type convertDomainToType(Domain dom, EnumConstCreator ecc) {
-		if (dom instanceof EnumTd) {
-			logger.debug("adding enum domain " + dom.getName());
-			EnumTd enumTD = (EnumTd) dom;
-			ElementsType enumT = new EnumType(enumTD.getName());
-			// reverse the order
-			List<EnumElement> elemnts = new ArrayList<EnumElement>();
-			elemnts.addAll(enumTD.getElement());
-			Collections.reverse(elemnts);
-			for (EnumElement element : elemnts) {
-				EnumConst enumConst = ecc.createEnumConst(element.getSymbol(),enumT);
-				enumT.addElement(enumConst);
-			}
-			return enumT;
-		} else if (dom instanceof BooleanDomain) {
-			return BoolType.BOOLTYPE;
-		} else if ((dom instanceof IntegerDomain) || (dom instanceof NaturalDomain)) {
-			return IntegerType.INTEGER_TYPE;
-		} else if (dom instanceof RealDomain) {
-			throw new RuntimeException("real domains not considered");
-		} else if (dom instanceof ConcreteDomain) {
-			logger.debug("creating ConcreteDomain" + dom.getName());
-			// the only type I can deal with is subset of Natural
-			ConcreteDomain CD = (ConcreteDomain) dom;
-			if ((CD.getTypeDomain() instanceof IntegerDomain) || (CD.getTypeDomain() instanceof NaturalDomain)) {
 
-				String nome = CD.getName();
-				assert nome != null;
-				//
-				int low, up;
-				Integer step = null;
-
-				asmeta.structure.DomainDefinition di = CD.getDefinition();
-				// if it not initialized, then consider as Integer
-				if (di == null) {
-					return new IntegerType(nome);
-				}
-				// take the first initialization
-				Term te = di.getBody();
-				// this part used to build delta, no longer in asmm
-				if (te instanceof SetTerm) {
-					// ||(te instanceof BagIntervalTerm)||
-					// (te instanceof SequenceIntervalTerm)){
-					EList<Term> elements = ((SetTerm) te).getTerm();
-					low = toInteger(elements.get(0));
-					up = toInteger(elements.get(elements.size() - 1));
-				} else {
-					throw new RuntimeException(
-							"creaDomain(Domain) - cannot deal with concrete domain init of subtype of "
-									+ te.getClass().getName());
-				}
-				if (low > up) {
-					// alcune volte sono scambiati !!!
-					int t = low;
-					low = up;
-					up = t;
-				}
-				return new BoundType(nome, low, up, step);
-			} else {
-				logger.error("creaDomain(Domain) -  cannot deal with concrete domain of subtype of " //$NON-NLS-1$
-						+ CD.getTypeDomain().getName(), null);
-			}
-		} else if (dom instanceof AbstractTd) {
-			return new AbstractType(dom.getName());
-		}
-		throw new RuntimeException("what type *" + dom.getName());
-	}
-
-	// convert a symbol to an Integer
-	static private int toInteger(Term t) {
-		if (t instanceof NaturalTerm) {
-			NaturalTerm nt = (NaturalTerm) t;
-			return Integer.parseInt(nt.getSymbol());
-		} else if (t instanceof IntegerTerm) {
-			IntegerTerm it = (IntegerTerm) t;
-			String itS = it.getSymbol();
-			if (itS.startsWith("+"))
-				itS = itS.substring(1);
-			return Integer.parseInt(itS);
-		} else if (t instanceof FunctionTerm) {
-			FunctionTerm ft = (FunctionTerm) t;
-			Function f = ft.getFunction();
-			if (f.getArity() == 1 && f.getName().equals("minus")) {
-				return -toInteger(ft.getArguments().getTerms().get(0));
-			}
-			// PA 2011/10/02
-			else if (f.getArity() == 1 && f.getName().equals("plus")) {
-				return toInteger(ft.getArguments().getTerms().get(0));
-			}
-			logger.debug("function arity =" + f.getArity() + " name " + f.getName());
-		}
-		// System.out.println(((FunctionTerm)t).getFunction().getName());
-		throw new RuntimeException("cannot convert " + t + " to Integer");
-	}
 
 	/*
 	 * check if axiom TODO da completare
