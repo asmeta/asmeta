@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -42,6 +43,11 @@ public class AsmetaPrintInfo {
 				val = 1;
 			}
 			infoMap.put(s, val);
+		}
+
+		public Map<String, Integer> infoMapOrderd() {
+			return infoMap.entrySet().stream().sorted((i1, i2) -> i1.getKey().compareTo(i2.getKey())).collect(
+					Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
 		}
 	}
 

@@ -87,7 +87,7 @@ import asmeta.transitionrules.basictransitionrules.Rule;
 public class Simulator {
 	//
 	protected List<Invariant> controlledInvariants;
-	private List<Invariant> monitoredInvariants;
+	protected List<Invariant> monitoredInvariants;
 
 	/** simulator logger with only ONE appender */
 	public static class SimulatorLogger {

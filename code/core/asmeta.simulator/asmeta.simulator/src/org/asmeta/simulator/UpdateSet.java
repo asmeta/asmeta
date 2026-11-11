@@ -41,6 +41,7 @@ import org.asmeta.simulator.value.UndefValue;
 import org.asmeta.simulator.value.Value;
 
 import asmeta.definitions.Function;
+import asmeta.definitions.OutFunction;
 
 /**
  * An update set. 
@@ -177,5 +178,28 @@ public class UpdateSet extends LocationSet {
 		} else {
 			return false;// an empty update set is NOT considered trivial
 		}
+	}
+
+	// Silvia-Angelo: merge only out functions to update set for the out used in the
+	// next Leaf
+	// to avoid inconsistent update to functions with the same name on different
+	// simulators
+	public void unionOnlyOutFun(UpdateSet anotherSet) {
+		// manages the locations
+		for (Map.Entry<Location, Value> entry : anotherSet.getLocationMap().entrySet()) {
+			Function fun = entry.getKey().getSignature();
+			if (fun instanceof OutFunction) {
+				Location location = entry.getKey();
+				Value value = entry.getValue();
+				putUpdate(location, value);
+				// System.out.println("O: " + entry);
+			}
+			/*
+			 * else { //TEMP PRINT CONTROLLED FUNCTIONS System.out.println("C: " + entry); }
+			 */
+		}
+		// manages the abstract sets
+		add(anotherSet.abstractSets);
+
 	}
 }

@@ -1,0 +1,4 @@
+setup M1 as examples/dbc_examples/asmCPrePostPar.asm
+setup M2 as examples/dbc_examples/asmCPrePostInc.asm
+setup M as ( M1 | M2 ) 
+run(M, {funcS=5;funcH=2;myinput=10})

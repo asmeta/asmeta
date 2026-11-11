@@ -1,0 +1,223 @@
+[SimulationLauncher] config = configs/trafficLight/pedestrianbeforetram.properties
+[SimulationLauncher] mode   = CHOREOGRAPHED
+[ChoreographyLauncher] : Parsing the formula(((pedestrian || tram) <|> crossManager) <||> controller) | (trafficlightA || trafficlightB)
+[Wiring] pedestrian SUB: [newPedestrianComing, newTramComing, transitionC, mCurrTimeSecs, OUT_controller, OUT_crossManager] | PUB: [OUT_pedestrian]
+[Wiring] tram SUB: [newPedestrianComing, newTramComing, transitionC, mCurrTimeSecs, OUT_controller, OUT_crossManager] | PUB: [OUT_tram]
+[Wiring] crossManager SUB: [newPedestrianComing, newTramComing, transitionC, mCurrTimeSecs, OUT_controller, OUT_pedestrian, OUT_tram] | PUB: [OUT_crossManager]
+[Wiring] controller SUB: [newPedestrianComing, newTramComing, transitionC, mCurrTimeSecs, OUT_pedestrian, OUT_tram, OUT_crossManager] | PUB: [OUT_controller]
+[Wiring] trafficlightA SUB: [OUT_pedestrian, OUT_tram, OUT_crossManager, OUT_controller] | PUB: [OUT_trafficlightA]
+[Wiring] trafficlightB SUB: [OUT_pedestrian, OUT_tram, OUT_crossManager, OUT_controller] | PUB: [OUT_trafficlightB]
+[ModelProcess] Starting model: controller from config: configs/trafficLight/pedestrianbeforetram.properties
+[ModelProcess] Starting model: crossManager from config: configs/trafficLight/pedestrianbeforetram.properties
+[ModelProcess] Starting model: trafficlightB from config: configs/trafficLight/pedestrianbeforetram.properties
+[ModelProcess] Starting model: trafficlightA from config: configs/trafficLight/pedestrianbeforetram.properties
+[ModelProcess] Starting model: pedestrian from config: configs/trafficLight/pedestrianbeforetram.properties
+[ModelProcess] Starting model: tram from config: configs/trafficLight/pedestrianbeforetram.properties
+05:40:16.027 INFO  ZeroMQWA - Started ASM Model successfully! Model path: resources/models/trafficLightCoSimCross/controller.asm with ID: 1
+05:40:16.070 INFO  ZeroMQWA - Started ASM Model successfully! Model path: resources/models/trafficLightCoSimCross/pedestrian.asm with ID: 1
+05:40:16.123 INFO  ZeroMQWA - Required monitored vars for model ID 1: [newPedestrianComing, mCurrTimeSecs, crossManagerController]
+05:40:16.141 INFO  ZeroMQWA - Required monitored vars for model ID 1: [transitionC, mCurrTimeSecs, crossManagerController]
+05:40:16.234 INFO  ZeroMQWA - Started ASM Model successfully! Model path: resources/models/trafficLightCoSimCross/crossManager.asm with ID: 1
+05:40:16.272 INFO  ZeroMQWA - Started ASM Model successfully! Model path: resources/models/trafficLightCoSimCross/tram.asm with ID: 1
+05:40:16.328 INFO  ZeroMQWA - Required monitored vars for model ID 1: [newTramComing, mCurrTimeSecs, crossManagerController]
+05:40:16.337 INFO  ZeroMQWA - Required monitored vars for model ID 1: [pedestrianComing, tramComing, statusC, mCurrTimeSecs]
+05:40:16.362 INFO  ZeroMQWA - SUB socket connected to tcp://127.0.0.1:5558 and subscribed to topics: [newPedestrianComing,newTramComing,transitionC,mCurrTimeSecs,OUT_pedestrian,OUT_tram,OUT_crossManager]
+05:40:16.369 INFO  ZeroMQWA - Environment socket connected to address tcp://127.0.0.1:5570
+05:40:16.369 INFO  ZeroMQWA - ZeroMQ Socket initialization completed with 2 SUB connections.
+05:40:16.377 INFO  ZeroMQWA - SUB socket connected to tcp://127.0.0.1:5558 and subscribed to topics: [newPedestrianComing,newTramComing,transitionC,mCurrTimeSecs,OUT_controller,OUT_crossManager]
+05:40:16.385 INFO  ZeroMQWA - Environment socket connected to address tcp://127.0.0.1:5570
+05:40:16.385 INFO  ZeroMQWA - ZeroMQ Socket initialization completed with 2 SUB connections.
+05:40:16.382 INFO  ZeroMQWA - Started ASM Model successfully! Model path: resources/models/trafficLightCoSimCross/trafficlightA.asm with ID: 1
+05:40:16.420 INFO  ZeroMQWA - Required monitored vars for model ID 1: [operateMode, statusC]
+05:40:16.518 INFO  ZeroMQWA - SUB socket connected to tcp://127.0.0.1:5558 and subscribed to topics: [newPedestrianComing,newTramComing,transitionC,mCurrTimeSecs,OUT_controller,OUT_crossManager]
+05:40:16.529 INFO  ZeroMQWA - Environment socket connected to address tcp://127.0.0.1:5570
+05:40:16.529 INFO  ZeroMQWA - ZeroMQ Socket initialization completed with 2 SUB connections.
+05:40:16.518 FATAL ZeroMQWA - [crossManager] Fatal error: Errno 48
+org.zeromq.ZMQException: Errno 48
+	at org.zeromq.ZMQ$Socket.mayRaise(ZMQ.java:3901) ~[jeromq-0.6.0.jar:?]
+	at org.zeromq.ZMQ$Socket.bind(ZMQ.java:3176) ~[jeromq-0.6.0.jar:?]
+	at asmeta.asmeta_zeromq.ZeroMQWA.initializeZmqSockets(ZeroMQWA.java:182) ~[classes/:?]
+	at asmeta.asmeta_zeromq.ZeroMQWA.runAsChoreographed(ZeroMQWA.java:353) [classes/:?]
+	at asmeta.asmeta_zeromq.ZeroMQWA.run(ZeroMQWA.java:338) [classes/:?]
+	at asmeta.asmeta_zeromq.registry.ModelProcess.main(ModelProcess.java:47) [classes/:?]
+05:40:16.548 INFO  ZeroMQWA - Started ASM Model successfully! Model path: resources/models/trafficLightCoSimCross/trafficlightB.asm with ID: 1
+05:40:16.569 INFO  ZeroMQWA - Required monitored vars for model ID 1: [operateMode, statusC]
+05:40:16.572 INFO  ZeroMQWA - SUB socket connected to tcp://127.0.0.1:5559 and subscribed to topics: [OUT_pedestrian,OUT_tram,OUT_crossManager,OUT_controller]
+05:40:16.572 INFO  ZeroMQWA - ZeroMQ Socket initialization completed with 1 SUB connections.
+05:40:16.668 INFO  ZeroMQWA - SUB socket connected to tcp://127.0.0.1:5559 and subscribed to topics: [OUT_pedestrian,OUT_tram,OUT_crossManager,OUT_controller]
+05:40:16.668 INFO  ZeroMQWA - ZeroMQ Socket initialization completed with 1 SUB connections.
+05:40:18.115 INFO  ZeroMQWA - [trafficlightA] ASM step execution time: 18.9032 ms
+05:40:18.115 INFO  ZeroMQWA - [trafficlightA] lightsA=ALL_OFF
+05:40:18.116 INFO  ZeroMQWA - [EQ2_CHOR_STEP] model=trafficlightA localStep=1 startEpochNs=1791862818095277800 endEpochNs=1791862818115341400 durationNs=20049300
+05:40:18.116 INFO  ZeroMQWA - [CHOREOGRAPHED] [trafficlightA] Step 1: 20.0493 ms
+05:40:18.206 INFO  ZeroMQWA - [trafficlightB] ASM step execution time: 17.9621 ms
+05:40:18.206 INFO  ZeroMQWA - [trafficlightB] lightsB=ALL_OFF
+05:40:18.206 INFO  ZeroMQWA - [EQ2_CHOR_STEP] model=trafficlightB localStep=1 startEpochNs=1791862818186977200 endEpochNs=1791862818206192400 durationNs=19065000
+05:40:18.206 INFO  ZeroMQWA - [CHOREOGRAPHED] [trafficlightB] Step 1: 19.065 ms
+[ChoreographyLauncher] Environment started
+Environment functions: [newPedestrianComing, newTramComing, transitionC, mCurrTimeSecs]
+Function: newPedestrianComing values: [false, false, false, false, false, false, true, true, false, false, false, false, false, false, false, false]
+Function: newTramComing values: [false, false, false, false, false, false, false, false, true, true, false, false, false, false, false, false]
+Function: transitionC values: [TURN_ON, OPERATE_T, OPERATE_T, OPERATE_T, OPERATE_T, OPERATE_T, OPERATE_T, OPERATE_T, OPERATE_T, OPERATE_T, OPERATE_T, OPERATE_T, OPERATE_T, OPERATE_T, OPERATE_T, OPERATE_T]
+Function: mCurrTimeSecs values: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16]
+Environment PUB socket bound to tcp://*:5570
+Step: 0
+[EQ2_ENV_START] step=1 epochNs=1791862820639342600
+Sent newPedestrianComing value false to tcp://*:5570 at topic newPedestrianComing
+Sent newTramComing value false to tcp://*:5570 at topic newTramComing
+Sent transitionC value TURN_ON to tcp://*:5570 at topic transitionC
+Sent mCurrTimeSecs value 1 to tcp://*:5570 at topic mCurrTimeSecs
+05:40:20.673 INFO  ZeroMQWA - [pedestrian] MISSING: crossManagerController
+[EQ2_ENV_END] step=1 epochNs=1791862820669541100 publishDurationNs=30384800
+05:40:20.689 INFO  ZeroMQWA - [controller] MISSING: crossManagerController
+05:40:20.691 INFO  ZeroMQWA - [tram] MISSING: crossManagerController
+Step: 1
+[EQ2_ENV_START] step=2 epochNs=1791862827677241700
+Sent newPedestrianComing value false to tcp://*:5570 at topic newPedestrianComing
+Sent newTramComing value false to tcp://*:5570 at topic newTramComing
+Sent transitionC value OPERATE_T to tcp://*:5570 at topic transitionC
+Sent mCurrTimeSecs value 2 to tcp://*:5570 at topic mCurrTimeSecs
+[EQ2_ENV_END] step=2 epochNs=1791862827680086100 publishDurationNs=3045500
+05:40:27.692 INFO  ZeroMQWA - [controller] MISSING: crossManagerController
+05:40:27.692 INFO  ZeroMQWA - [pedestrian] MISSING: crossManagerController
+05:40:27.692 INFO  ZeroMQWA - [tram] MISSING: crossManagerController
+Step: 2
+[EQ2_ENV_START] step=3 epochNs=1791862834683858000
+Sent newPedestrianComing value false to tcp://*:5570 at topic newPedestrianComing
+Sent newTramComing value false to tcp://*:5570 at topic newTramComing
+Sent transitionC value OPERATE_T to tcp://*:5570 at topic transitionC
+Sent mCurrTimeSecs value 3 to tcp://*:5570 at topic mCurrTimeSecs
+[EQ2_ENV_END] step=3 epochNs=1791862834686880000 publishDurationNs=2701700
+05:40:34.699 INFO  ZeroMQWA - [tram] MISSING: crossManagerController
+05:40:34.699 INFO  ZeroMQWA - [controller] MISSING: crossManagerController
+05:40:34.699 INFO  ZeroMQWA - [pedestrian] MISSING: crossManagerController
+Step: 3
+[EQ2_ENV_START] step=4 epochNs=1791862841699991200
+Sent newPedestrianComing value false to tcp://*:5570 at topic newPedestrianComing
+Sent newTramComing value false to tcp://*:5570 at topic newTramComing
+Sent transitionC value OPERATE_T to tcp://*:5570 at topic transitionC
+Sent mCurrTimeSecs value 4 to tcp://*:5570 at topic mCurrTimeSecs
+[EQ2_ENV_END] step=4 epochNs=1791862841704015300 publishDurationNs=3907000
+05:40:41.715 INFO  ZeroMQWA - [controller] MISSING: crossManagerController
+05:40:41.715 INFO  ZeroMQWA - [tram] MISSING: crossManagerController
+05:40:41.715 INFO  ZeroMQWA - [pedestrian] MISSING: crossManagerController
+Step: 4
+[EQ2_ENV_START] step=5 epochNs=1791862848712962200
+Sent newPedestrianComing value false to tcp://*:5570 at topic newPedestrianComing
+Sent newTramComing value false to tcp://*:5570 at topic newTramComing
+Sent transitionC value OPERATE_T to tcp://*:5570 at topic transitionC
+Sent mCurrTimeSecs value 5 to tcp://*:5570 at topic mCurrTimeSecs
+[EQ2_ENV_END] step=5 epochNs=1791862848714078900 publishDurationNs=1516000
+05:40:48.728 INFO  ZeroMQWA - [tram] MISSING: crossManagerController
+05:40:48.728 INFO  ZeroMQWA - [controller] MISSING: crossManagerController
+05:40:48.728 INFO  ZeroMQWA - [pedestrian] MISSING: crossManagerController
+Step: 5
+[EQ2_ENV_START] step=6 epochNs=1791862855725020700
+Sent newPedestrianComing value false to tcp://*:5570 at topic newPedestrianComing
+Sent newTramComing value false to tcp://*:5570 at topic newTramComing
+Sent transitionC value OPERATE_T to tcp://*:5570 at topic transitionC
+Sent mCurrTimeSecs value 6 to tcp://*:5570 at topic mCurrTimeSecs
+[EQ2_ENV_END] step=6 epochNs=1791862855725944200 publishDurationNs=1325400
+05:40:55.740 INFO  ZeroMQWA - [tram] MISSING: crossManagerController
+05:40:55.740 INFO  ZeroMQWA - [controller] MISSING: crossManagerController
+05:40:55.740 INFO  ZeroMQWA - [pedestrian] MISSING: crossManagerController
+Step: 6
+[EQ2_ENV_START] step=7 epochNs=1791862862727424100
+Sent newPedestrianComing value true to tcp://*:5570 at topic newPedestrianComing
+Sent newTramComing value false to tcp://*:5570 at topic newTramComing
+Sent transitionC value OPERATE_T to tcp://*:5570 at topic transitionC
+Sent mCurrTimeSecs value 7 to tcp://*:5570 at topic mCurrTimeSecs
+[EQ2_ENV_END] step=7 epochNs=1791862862728439300 publishDurationNs=1022200
+05:41:02.743 INFO  ZeroMQWA - [tram] MISSING: crossManagerController
+05:41:02.743 INFO  ZeroMQWA - [pedestrian] MISSING: crossManagerController
+05:41:02.743 INFO  ZeroMQWA - [controller] MISSING: crossManagerController
+Step: 7
+[EQ2_ENV_START] step=8 epochNs=1791862869739901700
+Sent newPedestrianComing value true to tcp://*:5570 at topic newPedestrianComing
+Sent newTramComing value false to tcp://*:5570 at topic newTramComing
+Sent transitionC value OPERATE_T to tcp://*:5570 at topic transitionC
+Sent mCurrTimeSecs value 8 to tcp://*:5570 at topic mCurrTimeSecs
+[EQ2_ENV_END] step=8 epochNs=1791862869742983400 publishDurationNs=2608600
+05:41:09.755 INFO  ZeroMQWA - [tram] MISSING: crossManagerController
+05:41:09.755 INFO  ZeroMQWA - [controller] MISSING: crossManagerController
+05:41:09.755 INFO  ZeroMQWA - [pedestrian] MISSING: crossManagerController
+Step: 8
+[EQ2_ENV_START] step=9 epochNs=1791862876754870100
+Sent newPedestrianComing value false to tcp://*:5570 at topic newPedestrianComing
+Sent newTramComing value true to tcp://*:5570 at topic newTramComing
+Sent transitionC value OPERATE_T to tcp://*:5570 at topic transitionC
+Sent mCurrTimeSecs value 9 to tcp://*:5570 at topic mCurrTimeSecs
+[EQ2_ENV_END] step=9 epochNs=1791862876756897400 publishDurationNs=2426600
+05:41:16.770 INFO  ZeroMQWA - [controller] MISSING: crossManagerController
+05:41:16.770 INFO  ZeroMQWA - [tram] MISSING: crossManagerController
+05:41:16.770 INFO  ZeroMQWA - [pedestrian] MISSING: crossManagerController
+Step: 9
+[EQ2_ENV_START] step=10 epochNs=1791862883766173700
+Sent newPedestrianComing value false to tcp://*:5570 at topic newPedestrianComing
+Sent newTramComing value true to tcp://*:5570 at topic newTramComing
+Sent transitionC value OPERATE_T to tcp://*:5570 at topic transitionC
+Sent mCurrTimeSecs value 10 to tcp://*:5570 at topic mCurrTimeSecs
+[EQ2_ENV_END] step=10 epochNs=1791862883769192100 publishDurationNs=2884300
+05:41:23.780 INFO  ZeroMQWA - [pedestrian] MISSING: crossManagerController
+05:41:23.780 INFO  ZeroMQWA - [controller] MISSING: crossManagerController
+05:41:23.780 INFO  ZeroMQWA - [tram] MISSING: crossManagerController
+Step: 10
+[EQ2_ENV_START] step=11 epochNs=1791862890776315400
+Sent newPedestrianComing value false to tcp://*:5570 at topic newPedestrianComing
+Sent newTramComing value false to tcp://*:5570 at topic newTramComing
+Sent transitionC value OPERATE_T to tcp://*:5570 at topic transitionC
+Sent mCurrTimeSecs value 11 to tcp://*:5570 at topic mCurrTimeSecs
+[EQ2_ENV_END] step=11 epochNs=1791862890777239800 publishDurationNs=1069300
+05:41:30.791 INFO  ZeroMQWA - [tram] MISSING: crossManagerController
+05:41:30.791 INFO  ZeroMQWA - [pedestrian] MISSING: crossManagerController
+05:41:30.791 INFO  ZeroMQWA - [controller] MISSING: crossManagerController
+Step: 11
+[EQ2_ENV_START] step=12 epochNs=1791862897789627600
+Sent newPedestrianComing value false to tcp://*:5570 at topic newPedestrianComing
+Sent newTramComing value false to tcp://*:5570 at topic newTramComing
+Sent transitionC value OPERATE_T to tcp://*:5570 at topic transitionC
+Sent mCurrTimeSecs value 12 to tcp://*:5570 at topic mCurrTimeSecs
+[EQ2_ENV_END] step=12 epochNs=1791862897792650600 publishDurationNs=2989900
+05:41:37.805 INFO  ZeroMQWA - [controller] MISSING: crossManagerController
+05:41:37.805 INFO  ZeroMQWA - [tram] MISSING: crossManagerController
+05:41:37.805 INFO  ZeroMQWA - [pedestrian] MISSING: crossManagerController
+Step: 12
+[EQ2_ENV_START] step=13 epochNs=1791862904800416900
+Sent newPedestrianComing value false to tcp://*:5570 at topic newPedestrianComing
+Sent newTramComing value false to tcp://*:5570 at topic newTramComing
+Sent transitionC value OPERATE_T to tcp://*:5570 at topic transitionC
+Sent mCurrTimeSecs value 13 to tcp://*:5570 at topic mCurrTimeSecs
+[EQ2_ENV_END] step=13 epochNs=1791862904803440500 publishDurationNs=2749700
+05:41:44.815 INFO  ZeroMQWA - [controller] MISSING: crossManagerController
+05:41:44.815 INFO  ZeroMQWA - [tram] MISSING: crossManagerController
+05:41:44.815 INFO  ZeroMQWA - [pedestrian] MISSING: crossManagerController
+Step: 13
+[EQ2_ENV_START] step=14 epochNs=1791862911816869100
+Sent newPedestrianComing value false to tcp://*:5570 at topic newPedestrianComing
+Sent newTramComing value false to tcp://*:5570 at topic newTramComing
+Sent transitionC value OPERATE_T to tcp://*:5570 at topic transitionC
+Sent mCurrTimeSecs value 14 to tcp://*:5570 at topic mCurrTimeSecs
+[EQ2_ENV_END] step=14 epochNs=1791862911817894700 publishDurationNs=1544200
+05:41:51.832 INFO  ZeroMQWA - [tram] MISSING: crossManagerController
+05:41:51.832 INFO  ZeroMQWA - [controller] MISSING: crossManagerController
+05:41:51.832 INFO  ZeroMQWA - [pedestrian] MISSING: crossManagerController
+Step: 14
+[EQ2_ENV_START] step=15 epochNs=1791862918823515200
+Sent newPedestrianComing value false to tcp://*:5570 at topic newPedestrianComing
+Sent newTramComing value false to tcp://*:5570 at topic newTramComing
+Sent transitionC value OPERATE_T to tcp://*:5570 at topic transitionC
+Sent mCurrTimeSecs value 15 to tcp://*:5570 at topic mCurrTimeSecs
+[EQ2_ENV_END] step=15 epochNs=1791862918824587300 publishDurationNs=1514500
+05:41:58.838 INFO  ZeroMQWA - [controller] MISSING: crossManagerController
+05:41:58.838 INFO  ZeroMQWA - [pedestrian] MISSING: crossManagerController
+05:41:58.838 INFO  ZeroMQWA - [tram] MISSING: crossManagerController
+Step: 15
+[EQ2_ENV_START] step=16 epochNs=1791862925832659000
+Sent newPedestrianComing value false to tcp://*:5570 at topic newPedestrianComing
+Sent newTramComing value false to tcp://*:5570 at topic newTramComing
+Sent transitionC value OPERATE_T to tcp://*:5570 at topic transitionC
+Sent mCurrTimeSecs value 16 to tcp://*:5570 at topic mCurrTimeSecs
+[EQ2_ENV_END] step=16 epochNs=1791862925834683900 publishDurationNs=2389700
+05:42:05.848 INFO  ZeroMQWA - [controller] MISSING: crossManagerController
+05:42:05.848 INFO  ZeroMQWA - [pedestrian] MISSING: crossManagerController
+05:42:05.848 INFO  ZeroMQWA - [tram] MISSING: crossManagerController
