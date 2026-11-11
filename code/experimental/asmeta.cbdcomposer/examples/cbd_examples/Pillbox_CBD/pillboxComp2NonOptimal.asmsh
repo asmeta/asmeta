@@ -1,0 +1,30 @@
+//Fosamax is taken on time
+//Moment is rescheduled and then taken at rescheduled time
+setup CM as examples/cbd_examples/Pillbox_CBD/configurationMgr.asm
+setup RES as examples/cbd_examples/Pillbox_CBD/reschedulerNonOptimal.asm
+setup setup_comp as ( CM || RES )
+setup C1 as examples/cbd_examples/Pillbox_CBD/compartment.asm
+setup C2 as examples/cbd_examples/Pillbox_CBD/compartment.asm
+setup PB as examples/cbd_examples/Pillbox_CBD/pillbox.asm
+run(setup_comp, {pillboxSystemTime=0;day=0;isPillMissed(compartment1)=false;pillTakenWithDelay(compartment1)=false;isPillMissed(compartment2)=false;pillTakenWithDelay(compartment2)=false;redLed(compartment1)=OFF;redLed(compartment2)=OFF;name(compartment1)="fosamax";name(compartment2)="moment";time_consumption(compartment1)=[360];time_consumption(compartment2)=[730,1140];actual_time_consumption(compartment1)=[0];actual_time_consumption(compartment2)=[0,0];drugIndex(compartment1)=0;drugIndex(compartment2)=0})
+run(C1, {compartmentOpen(1)=false;outMess(1)="";led(1)=OFF;myID=1;outMess(undef)="";led(undef)=OFF})
+run(C2, {myID=2;compartmentOpen(2)=false;outMess(2)="";led(2)=OFF;outMess(undef)="";led(undef)=OFF})
+setup pillbox_comp as  ( ( PB <|> ( CM || RES ) ) <|> ( C1 || C2 ) )
+run(pillbox_comp, {myID=undef;outMess(undef)="";led(undef)=OFF;compartmentOpen(1)=false;compartmentOpen(2)=false;systemTime=10n;skipNextPill(compartment1)=false;skipNextPill(compartment2)=false;skipNextPill(compartment1,compartment2)=false;skipNextPill(compartment2,compartment1)=false;newTime(compartment1)=0n;newTime(compartment2)=0n;setOriginalTime(compartment1)=false;setOriginalTime(compartment2)=false;setNewTime(compartment1)=false;setNewTime(compartment2)=false;openSwitch(1)=false;openSwitch(2)=false;})
+run(pillbox_comp, {myID=undef;outMess(undef)="";led(undef)=OFF;compartmentOpen(1)=false;compartmentOpen(2)=false;systemTime=361n})
+run(pillbox_comp, {myID=undef;outMess(undef)="";led(undef)=OFF;compartmentOpen(1)=true;compartmentOpen(2)=false;systemTime=362n})
+run(pillbox_comp, {myID=undef;outMess(undef)="";led(undef)=OFF;compartmentOpen(1)=false;compartmentOpen(2)=false;systemTime=364n})
+run(pillbox_comp, {myID=undef;outMess(undef)="";led(undef)=OFF;compartmentOpen(1)=false;compartmentOpen(2)=false;systemTime=365n})
+run(pillbox_comp, {myID=undef;outMess(undef)="";led(undef)=OFF;compartmentOpen(1)=false;compartmentOpen(2)=false;systemTime=366n})
+run(pillbox_comp, {myID=undef;outMess(undef)="";led(undef)=OFF;compartmentOpen(1)=false;compartmentOpen(2)=false;systemTime=731n})
+run(pillbox_comp, {myID=undef;outMess(undef)="";led(undef)=OFF;compartmentOpen(1)=false;compartmentOpen(2)=false;systemTime=742n})
+run(pillbox_comp, {myID=undef;outMess(undef)="";led(undef)=OFF;compartmentOpen(1)=false;compartmentOpen(2)=false;systemTime=762n})
+run(pillbox_comp, {myID=undef;outMess(undef)="";led(undef)=OFF;compartmentOpen(1)=false;compartmentOpen(2)=false;systemTime=765n})
+run(pillbox_comp, {myID=undef;outMess(undef)="";led(undef)=OFF;compartmentOpen(1)=false;compartmentOpen(2)=false;systemTime=791n})
+run(pillbox_comp, {myID=undef;outMess(undef)="";led(undef)=OFF;compartmentOpen(1)=false;compartmentOpen(2)=false;systemTime=792n})
+run(pillbox_comp, {myID=undef;outMess(undef)="";led(undef)=OFF;compartmentOpen(1)=false;compartmentOpen(2)=false;systemTime=793n})
+run(pillbox_comp, {myID=undef;outMess(undef)="";led(undef)=OFF;compartmentOpen(1)=false;compartmentOpen(2)=false;systemTime=794n})
+run(pillbox_comp, {myID=undef;outMess(undef)="";led(undef)=OFF;compartmentOpen(1)=false;compartmentOpen(2)=false;systemTime=795n})
+run(pillbox_comp, {myID=undef;outMess(undef)="";led(undef)=OFF;compartmentOpen(1)=false;compartmentOpen(2)=true;systemTime=796n})
+run(pillbox_comp, {myID=undef;outMess(undef)="";led(undef)=OFF;compartmentOpen(1)=false;compartmentOpen(2)=false;systemTime=797n})
+run(pillbox_comp, {myID=undef;outMess(undef)="";led(undef)=OFF;compartmentOpen(1)=false;compartmentOpen(2)=false;systemTime=798n})

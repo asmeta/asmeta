@@ -1,0 +1,11 @@
+init -n 2
+setup pillbox.asm safePillbox.asm
+run(safePillbox.asm, {redLed(compartment1)=OFF;redLed(compartment2)=OFF;name(compartment1)="fosamax";name(compartment2)="moment";time_consumption(compartment1)=[360];time_consumption(compartment2)=[730,1140];drugIndex(compartment1)=0;drugIndex(compartment2)=0})
+setup pillboxComposition as pillbox.asm <|> safePillbox.asm
+run(pillboxComposition, {setNewTime(compartment1)=false;skipNextPill(compartment1)=false;systemTime=361;openSwitch(compartment1)=false;setNewTime(compartment2)=false;skipNextPill(compartment2)=false;openSwitch(compartment2)=false})
+run(pillboxComposition, {setNewTime(compartment1)=false;skipNextPill(compartment1)=false;systemTime=365;openSwitch(compartment1)=true;setNewTime(compartment2)=false;skipNextPill(compartment2)=false;openSwitch(compartment2)=false})
+run(pillboxComposition, {setNewTime(compartment1)=false;skipNextPill(compartment1)=false;systemTime=366;openSwitch(compartment1)=false;setNewTime(compartment2)=false;skipNextPill(compartment2)=false;openSwitch(compartment2)=false})
+run(pillboxComposition, {setNewTime(compartment1)=false;skipNextPill(compartment1)=false;systemTime=731;openSwitch(compartment1)=false;setNewTime(compartment2)=false;skipNextPill(compartment2)=false;openSwitch(compartment2)=false})
+run(pillboxComposition, {setNewTime(compartment1)=false;skipNextPill(compartment1)=false;systemTime=742;openSwitch(compartment1)=false;setNewTime(compartment2)=false;skipNextPill(compartment2)=false;openSwitch(compartment2)=false})
+run(pillboxComposition, {setNewTime(compartment1)=false;skipNextPill(compartment1)=false;systemTime=753;openSwitch(compartment1)=false;setNewTime(compartment2)=false;skipNextPill(compartment2)=false;openSwitch(compartment2)=false})
+run(pillboxComposition, {setNewTime(compartment1)=false;skipNextPill(compartment1)=false;systemTime=753;openSwitch(compartment1)=false;setNewTime(compartment2)=true;skipNextPill(compartment2)=false;openSwitch(compartment2)=false;newTime(compartment2)=790})

@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.UIManager;
 
+import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.AsmetaParserUtility;
 import org.asmeta.runtime_composer.AsmetaModel;
 import org.asmeta.runtime_composer.CompositionManager;

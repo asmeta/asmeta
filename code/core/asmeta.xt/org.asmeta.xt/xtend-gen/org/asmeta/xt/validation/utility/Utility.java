@@ -144,11 +144,11 @@ public class Utility {
       return relative_path;
     }
     String res = null;
-    boolean _endsWith = relative_path.endsWith(ASMParser.ASM_EXTENSION);
+    boolean _endsWith = relative_path.endsWith(AsmetaParserUtility.ASM_EXTENSION);
     if (_endsWith) {
       res = relative_path;
     } else {
-      res = (relative_path + ASMParser.ASM_EXTENSION);
+      res = (relative_path + AsmetaParserUtility.ASM_EXTENSION);
     }
     Path basePath = Paths.get(resource_abs_path);
     Path resolvedPath = basePath.resolve(res);
