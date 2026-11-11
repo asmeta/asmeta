@@ -1,6 +1,6 @@
 /** at every step increments the seconds 
 */
-asm example
+asm SimpleCoffeeMachine
 
 import ../../STDL/StandardLibrary
 
