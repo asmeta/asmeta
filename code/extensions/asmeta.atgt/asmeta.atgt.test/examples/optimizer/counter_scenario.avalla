@@ -1,0 +1,11 @@
+scenario counter_scenario
+load Counter.asm
+
+check counter = 0;
+check counter = 0;
+step
+check counter = 1;
+check counter = 1;
+step
+check counter = 2;
+check counter = 2;

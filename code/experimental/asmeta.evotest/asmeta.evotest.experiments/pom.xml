@@ -70,6 +70,7 @@
 					java -cp experiments-runner.jar	asmeta.evotest.experiments.RandomGeneratorRunner [arguments]
 					java -cp experiments-runner.jar	asmeta.evotest.experiments.IterativeRandomGeneratorRunner [arguments]
 					java -cp experiments-runner.jar asmeta.evotest.experiments.AnalysisRunner [arguments]
+					java -cp experiments-runner.jar asmeta.evotest.experiments.OptimizerRunner [arguments]
 					-->
 					<execution>
 						<id>test-generator-jar</id>

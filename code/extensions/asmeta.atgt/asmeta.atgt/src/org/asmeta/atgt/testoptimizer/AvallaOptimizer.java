@@ -28,6 +28,13 @@ public class AvallaOptimizer {
 	 * optimized avalla is placed in the same directory of the original one.
 	 */
 	public void optimize(String avallaPath) throws Exception {
+		optimize(avallaPath, new File(avallaPath).getAbsoluteFile().getParentFile().getAbsolutePath());
+	}
+
+	/**
+	 * Optimize an avalla and save the optimized scenario in the target directory.
+	 */
+	public void optimize(String avallaPath, String targetDir) throws Exception {
 		// check avallaPath exists and is .avalla
 		File avalla = new File(avallaPath);
 		if (!avalla.exists())
@@ -52,16 +59,21 @@ public class AvallaOptimizer {
 		optimizer.optimize(test);
 		
 		// Remove redundant sets
-		optimizer = new UnecessaryChangesRemover(asm);
-		optimizer.optimize(test);
+		boolean previous = UnecessaryChangesRemover.skipLastStep;
+		UnecessaryChangesRemover.skipLastStep = true;
+		try {
+		    optimizer = new UnecessaryChangesRemover(asm);
+		    optimizer.optimize(test);
+		} finally {
+		    UnecessaryChangesRemover.skipLastStep = previous;
+		}
 		
 		// Write a new Avalla with the optimized test sequence
 		String name = avalla.getName();
 		String optimizedName = name.replace(AsmetaV.SCENARIO_EXTENSION, "_optimized" + AsmetaV.SCENARIO_EXTENSION);
-		String outputDir = avalla.getAbsoluteFile().getParentFile().getAbsolutePath();
-		File generatedFile = new File(outputDir, test.getName().replace("@", "") + ".avalla");
-		File optimizedFile = new File(outputDir, optimizedName);
-		SaveResults.saveResults(ts, asmFile.getAbsolutePath(), Collections.singleton(FormatsEnum.AVALLA), "", outputDir, false);
+		File generatedFile = new File(targetDir, test.getName().replace("@", "") + ".avalla");
+		File optimizedFile = new File(targetDir, optimizedName);
+		SaveResults.saveResults(ts, asmFile.getAbsolutePath(), Collections.singleton(FormatsEnum.AVALLA), "", targetDir, false);
 		Files.copy(generatedFile.toPath(), optimizedFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 		Files.delete(generatedFile.toPath());
 

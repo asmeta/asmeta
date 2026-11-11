@@ -1,4 +1,4 @@
-scenario scenario1
+scenario cvm_scenario
 load coffeeVendingMachine.asm
 
 check available(COFFEE) = 10;
@@ -38,6 +38,7 @@ check available(TEA) > available(COFFEE);
 set insertedCoin := ONE;
 pick $p := COFFEE;
 step
-
+check available(TEA) = 9;
+check available(MILK) = 7;
 check available(COFEE) > 0;
 check available(COFFEE) = 9;

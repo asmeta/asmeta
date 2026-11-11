@@ -62,6 +62,7 @@ public class ScenarioDataCollector {
 		for (Path path : avallaIterator) {
 			try (Stream<String> lines = Files.lines(path)) {
 				int count = (int) lines
+						.filter(line -> !line.trim().startsWith("//"))
 						.flatMap(line -> Stream.of(line.split("\\W+")))
 						.filter(word -> word.equals(statement))
 						.count();
