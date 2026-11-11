@@ -65,3 +65,4 @@ code/experimental/asmeta.evotest/asmeta.evotest/asmeta.evotest/.mvn/maven.config
 /code/experimental/asmetal2cpp/asmetal2cpp_plugin/xtend-gen
 /code/experimental/asmetal2cpp/asmetal2cpp_hw/xtend-gen
 /code/experimental/asmetal2cpp/asmetal2cpp_boostunit/xtend-gen
+/code/experimental/asmeta.cbdcomposer/test-asmetacomp/*
