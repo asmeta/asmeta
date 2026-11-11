@@ -1,0 +1,24 @@
+setup PED as examples/trafficLightCoSimCrossAB/pedestrian.asm
+setup TRAM as examples/trafficLightCoSimCrossAB/tram.asm
+setup CM as examples/trafficLightCoSimCrossAB/crossManager.asm
+setup CONTR as examples/trafficLightCoSimCrossAB/controller.asm
+setup TLA as examples/trafficLightCoSimCrossAB/trafficlightA.asm
+setup TLB as examples/trafficLightCoSimCrossAB/trafficlightB.asm
+setup comp as ( ( ( ( PED || TRAM ) <|> CM ) <||> CONTR ) | ( TLA || TLB ) )
+ 
+run(comp, {mCurrTimeSecs=1;transitionC=TURN_ON;newPedestrianComing=false;newTramComing=false;crossManagerController=NORMAL;statusC=CONTR_OFF})
+run(comp, {mCurrTimeSecs=2;transitionC=OPERATE_T;newPedestrianComing=false;newTramComing=false})
+run(comp, {mCurrTimeSecs=3;transitionC=OPERATE_T;newPedestrianComing=false;newTramComing=false})
+run(comp, {mCurrTimeSecs=4;transitionC=OPERATE_T;newPedestrianComing=false;newTramComing=false})
+run(comp, {mCurrTimeSecs=5;transitionC=OPERATE_T;newPedestrianComing=false;newTramComing=false})
+run(comp, {mCurrTimeSecs=6;transitionC=OPERATE_T;newPedestrianComing=false;newTramComing=false})
+run(comp, {mCurrTimeSecs=7;transitionC=OPERATE_T;newPedestrianComing=false;newTramComing=true})
+run(comp, {mCurrTimeSecs=8;transitionC=OPERATE_T;newPedestrianComing=false;newTramComing=true})
+run(comp, {mCurrTimeSecs=9;transitionC=OPERATE_T;newPedestrianComing=true;newTramComing=false})
+run(comp, {mCurrTimeSecs=10;transitionC=OPERATE_T;newPedestrianComing=true;newTramComing=false})
+run(comp, {mCurrTimeSecs=11;transitionC=OPERATE_T;newPedestrianComing=false;newTramComing=false})
+run(comp, {mCurrTimeSecs=12;transitionC=OPERATE_T;newPedestrianComing=false;newTramComing=false})
+run(comp, {mCurrTimeSecs=13;transitionC=OPERATE_T;newPedestrianComing=false;newTramComing=false})
+run(comp, {mCurrTimeSecs=14;transitionC=OPERATE_T;newPedestrianComing=false;newTramComing=false})
+run(comp, {mCurrTimeSecs=15;transitionC=OPERATE_T;newPedestrianComing=false;newTramComing=false})
+run(comp, {mCurrTimeSecs=16;transitionC=OPERATE_T;newPedestrianComing=false;newTramComing=false})
