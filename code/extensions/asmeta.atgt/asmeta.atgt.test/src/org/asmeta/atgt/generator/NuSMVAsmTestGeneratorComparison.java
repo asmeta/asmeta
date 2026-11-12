@@ -17,6 +17,7 @@ import org.apache.log4j.Logger;
 import org.asmeta.atgt.coverage.AsmetaAsSpec;
 import org.asmeta.atgt.coverage.AsmetaConditionExtractor;
 import org.asmeta.parser.ASMParser;
+import org.asmeta.simulator.RuleEvaluator;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -62,6 +63,18 @@ public class NuSMVAsmTestGeneratorComparison {
 		testSingleFile("../../../../asm_examples/examples/sleepingBarber/sleepingBarber.asm");	
 		//testSingleFile("../../../../asm_examples/examples/SemaforiAttraversamentoPedonale.asm");
 	}
+	
+	@Test
+	public void testSimpleChooseFile() throws Exception {
+		RuleEvaluator.UndefGuardsEvaluatedAsFalse = true;
+		// this has no tps
+		//testSingleFile("examples/simplechoose.asm");
+		testSingleFile("examples/simplechooseBiGDomain.asm");
+		testSingleFile("examples/simplechoose_f.asm");
+		testSingleFile("examples/simplechoose_f2.asm");
+	}
+
+	
 	private void testSingleFile(String spec) throws Exception {
 //		NuSMVASMSpecTestGenerator gen1 = new NuSMVASMSpecTestGenerator(spec);
 //		AsmTestSuite test = gen1.generateAbstractTests(1, ".*");
@@ -87,6 +100,9 @@ public class NuSMVAsmTestGeneratorComparison {
 		//Path listFile = Path.of("model_list_atgt_valid.txt");
 		extracted("model_list_choose.txt");
 	}
+	
+	
+	
 
 	private void extracted(String string) throws IOException {
 		Path listFile = Path.of(string);

@@ -157,8 +157,8 @@ public class AsmTestSequence extends TestResult implements Comparable<AsmTestSeq
 			f = new Function(funId, funId.getType(), location.getCoDomain(), null);
 			functions.put(funId, f);
 		}
-		// check that is the same funnction
-		assert f.getIdExpression() == funId;
+		// check that is the same function
+		assert f.getIdExpression() == funId : f.getIdExpression() + "!=" + funId;
 		assert f.getCodomain() == location.getCoDomain();
 		if (kind == VarKind.CONTROLLED)
 			f.setControlled();

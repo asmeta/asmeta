@@ -88,7 +88,7 @@ public class AsmetaBasicRuleVisitorTestExp {
 					}, 	10000);
 					Instant start = Instant.now();
 					try {
-						int numTp = AsmetaBasicRuleVisitorTest.generateCoverageFor(spec);
+						int numTp = AsmetaBasicRuleVisitorTest.generateCoverageFor(spec, false, true);
 						// write the result to the output file
 						System.out.println("number of tps for " + spec + ": " + numTp);
 						writer.write(String.valueOf(numTp));

@@ -112,10 +112,16 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 
 	/**
 	 * Shuffles the elements in the choose rule.
-	 * 
 	 */
 	public static boolean isShuffled = false;
 
+	// to be set to true in case undef gaurds must be considered false 
+	// acoording to the seminatics of boolean terms in asmeta
+	// when I write if a then I mean if a == true then
+	// in vase a is unde the guard is false
+	public static boolean UndefGuardsEvaluatedAsFalse = false;
+
+	
 	/**
 	 * Returns a string representation of a term.
 	 * 
@@ -277,16 +283,21 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 		return updateSet;
 	}
 
-	// used by condittional rule to evaluate the guard
+	// used by conditional rule to evaluate the guard
 	protected BooleanValue evalGuard(ConditionalRule condRule) {
 		logger.debug("<Guard>");
 		Value value = visitTerm(condRule.getGuard());
-		assert value instanceof BooleanValue
+		// for the semantic of boolean guards in asmeta, it could be also undef, in that case
+		// it may be considered false !
+		assert value instanceof BooleanValue || (UndefGuardsEvaluatedAsFalse && value instanceof UndefValue)
 				: value + "\n" + AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(condRule.getGuard());
-		// if undef launch an execption
-		if (value instanceof UndefValue)
-			throw new RuntimeException(
-					AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(condRule.getGuard()) + " is undef");
+		// if undef return false if required
+		if (value instanceof UndefValue) {
+			if (UndefGuardsEvaluatedAsFalse)
+				value = BooleanValue.FALSE;
+			else 
+				throw new RuntimeException(AsmetaTermPrinter.getAsmetaTermPrinter(false).visit(condRule.getGuard()) + " is undef");
+		}
 		BooleanValue guardValue = (BooleanValue) value;
 		logger.debug("</Guard>");
 		return guardValue;

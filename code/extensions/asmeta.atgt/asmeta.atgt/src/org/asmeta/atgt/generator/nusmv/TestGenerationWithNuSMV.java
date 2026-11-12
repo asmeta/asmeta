@@ -35,7 +35,8 @@ public class TestGenerationWithNuSMV extends AsmetaSMV {
 		AsmetaSMVOptions.simplifyDerived = false;
 		AsmetaSMVOptions.setPrintCounterExample(true);
 		AsmetaSMVOptions.useCoi = false;
-		AsmetaSMVOptions.FLATTEN = false;
+		// if flatten choose, so flatten also the rest - it seesm that flattenign choose is not enough
+		AsmetaSMVOptions.FLATTEN = flattenChoose;
 		AsmetaSMVOptions.FLATTEN_CHOOSE_TOINV = flattenChoose;
 		clearProperties();
 	}
