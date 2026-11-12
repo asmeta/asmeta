@@ -16,6 +16,7 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.asmeta.atgt.coverage.AsmetaAsSpec;
 import org.asmeta.atgt.coverage.AsmetaConditionExtractor;
+import org.asmeta.flattener.RemoveArgumentsFlattener;
 import org.asmeta.flattener.rule.ChooseRuleINVARFlattener;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.simulator.RuleEvaluator;
@@ -69,6 +70,7 @@ public class NuSMVAsmTestGeneratorComparison {
 	@Test
 	public void testSimpleChooseFile() throws Exception {
 		Logger.getLogger(ChooseRuleINVARFlattener.class).setLevel(Level.ALL);
+		Logger.getLogger(RemoveArgumentsFlattener.class).setLevel(Level.ALL);
 		RuleEvaluator.UndefGuardsEvaluatedAsFalse = true;
 		// this has no tps
 		//testSingleFile("examples/simplechoose.asm");

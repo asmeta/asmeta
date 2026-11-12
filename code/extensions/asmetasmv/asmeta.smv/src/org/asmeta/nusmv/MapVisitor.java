@@ -688,7 +688,7 @@ public class MapVisitor extends org.asmeta.parser.util.ReflectiveVisitor {
 			if (AsmetaSMVOptions.FLATTEN_CHOOSE_TOINV) {  
 				asm = AsmetaMultipleFlattener.flattenWithExtra(asm, ChooseRuleINVARFlattener.class);
 				// it may be necessay to remove some arguments inside the choose???
-				//asm = new RemoveArgumentsFlattener(asm).flattenASM();
+				asm = new RemoveArgumentsFlattener(asm).flattenASM();
 			}
 			if (AsmetaSMVOptions.FLATTEN)  
 				asm = AsmetaMultipleFlattener.flatten(asm, ALL_SMV_FLATTENERS);
