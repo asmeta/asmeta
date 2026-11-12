@@ -2,7 +2,7 @@
 	RuntimeException class asmeta.terms.basicterms.impl.VariableTermImpl cannot be cast to class asmeta.terms.basicterms.LocationTerm (asmeta.terms.basicterms.impl.VariableTermImpl and asmeta.terms.basicterms.LocationTerm are in unnamed module of loader 'app')
 	AssertionErrorextend rule with a null do rule
 ../../../../asm_examples/examples\RushHour\RushHour.asm	-->
-	AssertionError asmeta.terms.basicterms.impl.VariableTermImpl@54e7391d (name: $dir, kind: logicalVar) has no type with domain Dir
+	AssertionError asmeta.terms.basicterms.impl.VariableTermImpl@1cfd1875 (name: $dir, kind: logicalVar) has no type with domain Dir
 	Error java.lang.Error: Currently we support only choose rules with one variable
 ../../../../asm_examples/examples\fsmsemantics\FSM_hooking.asm	-->
 	RuntimeException what type *Powerset(Transition)
@@ -16,7 +16,7 @@
 
 NuSMV has outputted the following output:
 
-file coffeeVendingMachine.smv: line 25: "available_varforchoose__X_p_0" undefined
+file coffeeVendingMachine.smv: line 45: "available_varforchoose__X_p_0" undefined
 
 
 Aborting batch mode
@@ -39,22 +39,10 @@ Aborting batch mode
 	AssertionErrorfunction term argument not supported varforchoose__X_cut_0 - 1 in idiv
 ../../../../asm_examples/examples\fsmsemantics\FSM_hooking2.asm	-->
 	RuntimeException Rule of class class asmeta.transitionrules.basictransitionrules.impl.LetRuleImpl not translated
-	Error > NuSMV -dynamic -quiet FSM_hooking2.smv
-
-NuSMV has outputted the following output:
-
-file FSM_hooking2.smv: line 25: "source_varforchoose__X_pt_0" undefined
-
-
-Aborting batch mode
-
-NuSMV terminated by a signal
-
-Aborting batch mode
-
+	Error Cannot invoke "String.equals(Object)" because "str" is null
 ../../../../asm_examples/RTPatternLibrary\Test\Test_Sem_Sync.asm	-->
 	RuntimeException Rule of class class asmeta.transitionrules.turbotransitionrules.impl.SeqRuleImpl not translated
-	Error Unknown function org.asmeta.flattener.term.TermRenameVars@64ab04b2 visit(interface asmeta.terms.furtherterms.SequenceTerm)
+	Error Unknown function org.asmeta.flattener.term.TermRenameVars@5a194863 visit(interface asmeta.terms.furtherterms.SequenceTerm)
 ../../../../asm_examples/examples\petriNets\petriNetNoEdgeWeightNoPlaceCapacity_seq.asm	-->
 	RuntimeException what type *Powerset(Place)
 	Error Sequential rules are not supported
@@ -87,10 +75,10 @@ Aborting batch mode
 	Error Domain Natural not supported.
 ../../../../asm_examples/examples\GilbreathCardTrick\GilbreathCardTrickSimpl.asm	-->
 	RuntimeException only enums are supported
-	AssertionErrorfunction term argument not supported 12 - (varforchoose__X_cut_0 + 1) in idiv
+	AssertionErrorfunction term argument not supported varforchoose__X_cut_1 - 1 in idiv
 ../../../../asm_examples/examples\sultanSuccessors\sultanGreedy.asm	-->
 	RuntimeException derived function regina_in_riga with args not supported
-	Error Unknown function org.asmeta.flattener.args.RemoveArgumentsTermFlattener@7071141c visit(interface asmeta.terms.furtherterms.SequenceTerm)
+	Error Unknown function org.asmeta.flattener.args.RemoveArgumentsTermFlattener@64bf450b visit(interface asmeta.terms.furtherterms.SequenceTerm)
 ../../../../asm_examples/examples\models\SwapSortMon.asm	-->
 	AssertionError type Integer(Integer) already declared
 	Error java.lang.Error: Currently we support only choose rules with one variable
@@ -110,7 +98,7 @@ Aborting batch mode
 	AssertionError type Integer(Integer) already declared
 	Error Domain Natural not supported.
 ../../../../asm_examples/examples\parking.asm	-->
-	AssertionError asmeta.terms.basicterms.impl.VariableTermImpl@1337745e (name: $r, kind: logicalVar) has no type with domain Row
+	AssertionError asmeta.terms.basicterms.impl.VariableTermImpl@2e0b51d4 (name: $r, kind: logicalVar) has no type with domain Row
 	Error java.lang.Error: Currently we support only choose rules with one variable
 ../../../../asm_examples/examples\simple_example\MorraCinese\MorraCinese_raff1.asm	-->
 	AssertionError type Integer(Integer) already declared
@@ -123,16 +111,28 @@ Aborting batch mode
 	AssertionErrorextend rule with a null do rule
 ../../../../asm_examples/examples\filosofiEciliegie\filosofiEciliegieJustLeft.asm	-->
 	RuntimeException static function leftNeighbour not supported
-	Error location cherriesInPlate_PHILO2 is set to (cherriesInPlate_PHILO2 - 1) but it was set to (cherriesInPlate_PHILO1 - 1) under condition (!(cherriesInPlate_varforchoose__X_p_0 > 0) & (cherriesInPlate_PHILO1 > 0) & (PHILO2 = leftNeighbour_varforchoose__X_p_0) & (PHILO1 = leftNeighbour_varforchoose__X_p_0))
+	Error > NuSMV -dynamic -quiet filosofiEciliegieJustLeft.smv
+
+NuSMV has outputted the following output:
+
+file filosofiEciliegieJustLeft.smv: line 27: "leftNeighbour_varforchoose__X_p_0" undefined
+
+
+Aborting batch mode
+
+NuSMV terminated by a signal
+
+Aborting batch mode
+
 ../../../../asm_examples/examples\simple_example\population_raff1_twoPersons.asm	-->
 	AssertionError type Integer(Integer) already declared
 	AssertionErrorextend rule with a null do rule
 ../../../../asm_examples/examples\agents\processesSchedulerShortestJobNext.asm	-->
 	RuntimeException what type *Process
-	Error Unknown function org.asmeta.parser.util.AsmetaTermPrinter@49979bf2 visit(interface asmeta.terms.furtherterms.ExistsUniqueTerm)
+	Error Unknown function org.asmeta.parser.util.AsmetaTermPrinter@2b52642b visit(interface asmeta.terms.furtherterms.ExistsUniqueTerm)
 ../../../../asm_examples/examples\petriNets\forModelAdvisor\petriNet_forModelAdvisor_InconsUpdateViolation.asm	-->
 	RuntimeException class atgt.specification.type.AbstractType cannot be cast to class tgtlib.definitions.expression.type.EnumerableType (atgt.specification.type.AbstractType and tgtlib.definitions.expression.type.EnumerableType are in unnamed module of loader 'app')
-	AssertionErrorargs 2 isInputPlace[p1, varforchoose__X_t_0]
+	AssertionErrorargs 2 isOutputPlace[p1, varforchoose__X_t_0]
 ../../../../asm_examples/examples\simple_example\MorraCinese\MorraCinese_raff2.asm	-->
 	AssertionError type Integer(Integer) already declared
 	Error Domain Natural not supported.
@@ -147,7 +147,19 @@ Aborting batch mode
 	AssertionErrornull
 ../../../../asm_examples/examples\filosofiEciliegie\filosofiEciliegie.asm	-->
 	RuntimeException static function leftNeighbour not supported
-	Error location cherriesInPlate_PHILO2 is set to (cherriesInPlate_PHILO2 - 1) but it was set to (cherriesInPlate_PHILO1 - 1) under condition (!(cherriesInPlate_varforchoose__X_p_0 > 0) & (cherriesInPlate_PHILO1 > 0) & (PHILO2 = leftNeighbour_varforchoose__X_p_0) & (PHILO1 = leftNeighbour_varforchoose__X_p_0))
+	Error > NuSMV -dynamic -quiet filosofiEciliegie.smv
+
+NuSMV has outputted the following output:
+
+file filosofiEciliegie.smv: line 32: "rightNeighbour_varforchoose__X_p_0" undefined
+
+
+Aborting batch mode
+
+NuSMV terminated by a signal
+
+Aborting batch mode
+
 ../../../../asm_examples/examples\agents\populationAgent_raff1_fourPersons.asm	-->
 	RuntimeException what type *Person
 	AssertionErrorextend rule with a null do rule
@@ -157,3 +169,203 @@ Aborting batch mode
 ../../../../asm_examples/examples\battleship.asm	-->
 	AssertionError null
 	Error java.lang.Error: Currently we support only choose rules with one variable
+../../../../asm_examples/examples\ermts_etcs\scenarios\ertms_hl3_scenario9.asm	-->
+	RuntimeException what type *Trains
+	Error java.lang.OutOfMemoryError: Java heap space
+../../../../asm_examples/examples\simple_example\Invariants.asm	-->
+	AssertionError null
+	Error java.lang.Error: Currently we support only choose rules with one variable
+../../../../asm_examples/stereoacuity\certifierRaff4_noundef.asm	-->
+	RuntimeException class asmeta.terms.basicterms.impl.VariableTermImpl cannot be cast to class asmeta.terms.basicterms.LocationTerm (asmeta.terms.basicterms.impl.VariableTermImpl and asmeta.terms.basicterms.LocationTerm are in unnamed module of loader 'app')
+	Error Unknown function org.asmeta.nusmv.TermVisitorToSMV@66000c14 visit(interface asmeta.terms.furtherterms.SetCt)
+../../../../asm_examples/examples\GilbreathCardTrick\workingButNotElegant\GilbreathCardTrickWithAuxFunctionSimple.asm	-->
+	RuntimeException only enums are supported
+	AssertionErrorfunction term argument not supported 12 - (varforchoose__X_cut_1 + 1) in idiv
+../../../../asm_examples/examples\simple_example\IncosistentUpdate.asm	-->
+	RuntimeException class asmeta.terms.basicterms.impl.VariableTermImpl cannot be cast to class asmeta.terms.basicterms.LocationTerm (asmeta.terms.basicterms.impl.VariableTermImpl and asmeta.terms.basicterms.LocationTerm are in unnamed module of loader 'app')
+	Error Index 0 out of bounds for length 0
+../../../../asm_examples/examples\RushHour\emptyCellAs0\RushHour_EmptyAs0.asm	-->
+	AssertionError asmeta.terms.basicterms.impl.VariableTermImpl@36154161 (name: $dir, kind: logicalVar) has no type with domain Dir
+	Error java.lang.Error: Currently we support only choose rules with one variable
+../../../../asm_examples/examples\ticTacToe\ticTacToe_simulator_with_inv.asm	-->
+	RuntimeException what type *Powerset(Prod(Coord,Coord))
+	Error java.lang.Error: Currently we support only choose rules with one variable
+../../../../asm_examples/examples\agents\populationAgent.asm	-->
+	RuntimeException what type *Person
+	AssertionErrorextend rule with a null do rule
+../../../../asm_examples/examples\slotMachine.asm	-->
+	AssertionError asmeta.terms.basicterms.impl.VariableTermImpl@4944820c (name: $x, kind: logicalVar) has no type with domain Sign
+	Error java.lang.Error: Currently we support only choose rules with one variable
+../../../../asm_examples/examples\NeedhamSchroeder\NeedhamSchroederLoweWithSpy.asm	-->
+	RuntimeException what type *Powerset(Nonce)
+	AssertionErrornull
+../../../../asm_examples/examples\simple_example\MorraCinese\withActors\MorraCinese_withActors_raff2.asm	-->
+	AssertionError type Integer(Integer) already declared
+	Error Domain Natural not supported.
+../../../../asm_examples/examples\GilbreathCardTrick\GilbreathCardTrickFasterShuffleForAsmetaSMV.asm	-->
+	RuntimeException only enums are supported
+	AssertionErrorfunction term argument not supported 12 - (varforchoose__X_cut_0 + 1) in idiv
+../../../../asm_examples/examples\swapBoard.asm	-->
+	RuntimeException Function board is not declared
+	Error java.lang.Error: Currently we support only choose rules with one variable
+../../../../asm_examples/examples\agents\populationAgent_raff1_twoPersons.asm	-->
+	RuntimeException what type *Person
+	AssertionErrorextend rule with a null do rule
+../../../../asm_examples/examples\GilbreathCardTrick\GilbreathCardTrickForAsmetaSMV.asm	-->
+	RuntimeException only enums are supported
+	AssertionErrorfunction term argument not supported varforchoose__X_cut_1 - 1 in idiv
+../../../../asm_examples/examples\fsmsemantics\meta_hooking\FSM_spec.asm	-->
+	RuntimeException what type *Powerset(State)
+	Error class tgtlib.definitions.expression.FunctionTerm cannot be cast to class tgtlib.definitions.expression.IdExpression (tgtlib.definitions.expression.FunctionTerm and tgtlib.definitions.expression.IdExpression are in unnamed module of loader 'app')
+../../../../asm_examples/examples\RushHour\emptyCellAs0\RushHourForAsmetaSMV_EmptyAs0.asm	-->
+	AssertionError asmeta.terms.basicterms.impl.VariableTermImpl@19434ab0 (name: $dir, kind: logicalVar) has no type with domain Dir
+	Error java.lang.Error: Currently we support only choose rules with one variable
+../../../../asm_examples/examples\filosofiEciliegie\filosofiEciliegieAgents.asm	-->
+	RuntimeException what type *Philosopher
+	Error what type *Philosopher
+../../../../asm_examples/examples\dice\diceWithProbability.asm	-->
+	AssertionError asmeta.terms.basicterms.impl.VariableTermImpl@698b015b (name: $x, kind: logicalVar) has no type with domain Number
+	Error java.lang.Error: Currently we support only choose rules with one variable
+../../../../asm_examples/examples\dice\diceNoProbability.asm	-->
+	AssertionError asmeta.terms.basicterms.impl.VariableTermImpl@3edbab72 (name: $x, kind: logicalVar) has no type with domain Number
+	Error java.lang.Error: Currently we support only choose rules with one variable
+../../../../asm_examples/examples\darts.asm	-->
+	AssertionError asmeta.terms.basicterms.impl.VariableTermImpl@673870ea (name: $a, kind: logicalVar) has no type with domain Area
+	Error with ( but not a function???
+../../../../asm_examples/examples\petriNets\forAsmetaSMV\petriNet_forNuSMV_withDeadlock.asm	-->
+	RuntimeException class atgt.specification.type.AbstractType cannot be cast to class tgtlib.definitions.expression.type.EnumerableType (atgt.specification.type.AbstractType and tgtlib.definitions.expression.type.EnumerableType are in unnamed module of loader 'app')
+	Error Index 0 out of bounds for length 0
+../../../../asm_examples/examples\philosophers\philosophers1.asm	-->
+	RuntimeException what type *Philosophers
+	Error what type *Philosophers
+../../../../asm_examples/examples\GilbreathCardTrick\workingButNotElegant\GilbreathCardTrickWithAuxFunctionSimpleForAsmetaSMV.asm	-->
+	RuntimeException only enums are supported
+	AssertionErrorfunction term argument not supported varforchoose__X_cut_0 - 1 in idiv
+../../../../asm_examples/examples\fsmsemantics\Sle\ASM_even.asm	-->
+	RuntimeException what type *String
+	AssertionErrorAll the domains in a forall should be finite. Therefore, it should be possible to combine them.
+../../../../asm_examples/examples\ticTacToe\ticTacToe_simulator.asm	-->
+	RuntimeException class asmeta.terms.furtherterms.impl.ForallTermImpl cannot be cast to class asmeta.terms.basicterms.FunctionTerm (asmeta.terms.furtherterms.impl.ForallTermImpl and asmeta.terms.basicterms.FunctionTerm are in unnamed module of loader 'app')
+	Error java.lang.Error: Currently we support only choose rules with one variable
+../../../../asm_examples/examples\NeedhamSchroeder\NeedhamSchroederLowe.asm	-->
+	RuntimeException what type *Powerset(Nonce)
+	AssertionErrornull
+../../../../asm_examples/examples\philosophers\philosophers3.asm	-->
+	RuntimeException what type *Philosophers
+	Error java.lang.Error: Currently we support only choose rules with one variable
+../../../../asm_examples/examples\models\ordersystem_april2010.asm	-->
+	RuntimeException what type *Powerset(Orders)
+	Error Unknown function org.asmeta.flattener.term.TermRenameVars@41483f68 visit(interface asmeta.terms.furtherterms.SetCt)
+../../../../asm_examples/examples\petriNets\forModelAdvisor\petriNet_forModelAdvisor_InconsUpdateViolation2.asm	-->
+	RuntimeException class atgt.specification.type.AbstractType cannot be cast to class tgtlib.definitions.expression.type.EnumerableType (atgt.specification.type.AbstractType and tgtlib.definitions.expression.type.EnumerableType are in unnamed module of loader 'app')
+	AssertionErrorargs 2 isInputPlace[p3, varforchoose__X_t_0]
+../../../../asm_examples/examples\tombola.asm	-->
+	RuntimeException static function cartellaGiocatoreA not supported
+	Error > NuSMV -dynamic -quiet tombola.smv
+
+NuSMV has outputted the following output:
+
+file tombola.smv: line 702: "uscito_varforchoose__X_n_0" undefined
+
+
+Aborting batch mode
+
+NuSMV terminated by a signal
+
+Aborting batch mode
+
+../../../../asm_examples/examples\petriNets\petriNetEdgeWeightNoPlaceCapacity_NoSeq_Matrix_Murata17a.asm	-->
+	RuntimeException class atgt.specification.type.AbstractType cannot be cast to class tgtlib.definitions.expression.type.EnumerableType (atgt.specification.type.AbstractType and tgtlib.definitions.expression.type.EnumerableType are in unnamed module of loader 'app')
+	Error Index 0 out of bounds for length 0
+../../../../asm_examples/stereoacuity\certifierRaff4.asm	-->
+	RuntimeException class asmeta.terms.basicterms.impl.VariableTermImpl cannot be cast to class asmeta.terms.basicterms.LocationTerm (asmeta.terms.basicterms.impl.VariableTermImpl and asmeta.terms.basicterms.LocationTerm are in unnamed module of loader 'app')
+	ntests: 1- nsteps: 9
+../../../../asm_examples/examples\filosofiEciliegie\filosofiEciliegieAgentsJustLeft.asm	-->
+	RuntimeException what type *Philosopher
+	Error what type *Philosopher
+../../../../asm_examples/examples\fsmsemantics\meta_hooking\FSM_spec0.asm	-->
+	RuntimeException what type *Powerset(State)
+	Error class tgtlib.definitions.expression.FunctionTerm cannot be cast to class tgtlib.definitions.expression.IdExpression (tgtlib.definitions.expression.FunctionTerm and tgtlib.definitions.expression.IdExpression are in unnamed module of loader 'app')
+../../../../asm_examples/examples\petriNets\petriNetEdgeWeightNoPlaceCapacity_NoSeq_Matrix.asm	-->
+	RuntimeException class atgt.specification.type.AbstractType cannot be cast to class tgtlib.definitions.expression.type.EnumerableType (atgt.specification.type.AbstractType and tgtlib.definitions.expression.type.EnumerableType are in unnamed module of loader 'app')
+	Error Index 0 out of bounds for length 0
+../../../../asm_examples/examples\models\OrderSystem2.asm	-->
+	RuntimeException what type *Seq(Prod(Products,Integer))
+	AssertionErrorAll the domains in a forall should be finite. Therefore, it should be possible to combine them.
+../../../../asm_examples/examples\Yahalom\Yahalom.asm	-->
+	RuntimeException what type *Prod(Agent,Nonce)
+	AssertionErrorextend rule with a null do rule
+../../../../asm_examples/examples\simple_example\MorraCinese\MorraCineseWithAgents.asm	-->
+	RuntimeException what type *Player
+	Error Sequential rules are not supported
+../../../../asm_examples/examples\petriNets\forAsmetaSMV\petriNet_forNuSMV_reversable.asm	-->
+	RuntimeException class atgt.specification.type.AbstractType cannot be cast to class tgtlib.definitions.expression.type.EnumerableType (atgt.specification.type.AbstractType and tgtlib.definitions.expression.type.EnumerableType are in unnamed module of loader 'app')
+	Error Index 0 out of bounds for length 0
+../../../../asm_examples/examples\RushHour\RushHourForAsmetaSMV.asm	-->
+	AssertionError asmeta.terms.basicterms.impl.VariableTermImpl@6ee05426 (name: $dir, kind: logicalVar) has no type with domain Dir
+	Error java.lang.Error: Currently we support only choose rules with one variable
+../../../../asm_examples/examples\models\ordersystem.asm	-->
+	RuntimeException what type *Powerset(Orders)
+	Error Unknown function org.asmeta.flattener.term.TermRenameVars@434a8aaa visit(interface asmeta.terms.furtherterms.SetCt)
+../../../../asm_examples/examples\petriNets\petriNetEdgeWeightPlaceCapacity_NoSeq_Matrix.asm	-->
+	RuntimeException class atgt.specification.type.AbstractType cannot be cast to class tgtlib.definitions.expression.type.EnumerableType (atgt.specification.type.AbstractType and tgtlib.definitions.expression.type.EnumerableType are in unnamed module of loader 'app')
+	Error Index 0 out of bounds for length 0
+../../../../asm_examples/RTPatternLibrary\Test\Test_Sem_Async.asm	-->
+	RuntimeException Cannot invoke "atgt.specification.statement.RuleDeclaration.getName()" because "ruleD" is null
+	Error Unknown function org.asmeta.flattener.term.TermRenameVars@57f552b0 visit(interface asmeta.terms.furtherterms.SequenceTerm)
+../../../../asm_examples/examples\petriNets\forModelAdvisor\petriNet_forModelAdvisor_InconsUpdateViolation3.asm	-->
+	RuntimeException class atgt.specification.type.AbstractType cannot be cast to class tgtlib.definitions.expression.type.EnumerableType (atgt.specification.type.AbstractType and tgtlib.definitions.expression.type.EnumerableType are in unnamed module of loader 'app')
+	Error java.lang.OutOfMemoryError: Java heap space
+../../../../asm_examples/examples\RushHour\RushHourSimplForAsmetaSMV.asm	-->
+	RuntimeException static function carDir not supported
+	Error java.lang.OutOfMemoryError: Java heap space
+../../../../asm_examples/examples\simple_example\swapSortOnSeq.asm	-->
+	RuntimeException what type *Seq(Integer)
+	Error Unknown function org.asmeta.flattener.args.RemoveArgumentsTermFlattener@496615d6 visit(interface asmeta.terms.furtherterms.SequenceTerm)
+../../../../asm_examples/stereoacuity\certifierRaff4ForSMTproof.asm	-->
+	RuntimeException class asmeta.terms.basicterms.impl.VariableTermImpl cannot be cast to class asmeta.terms.basicterms.LocationTerm (asmeta.terms.basicterms.impl.VariableTermImpl and asmeta.terms.basicterms.LocationTerm are in unnamed module of loader 'app')
+	Error > NuSMV -dynamic -quiet certifierRaff4ForSMTproof.smv
+
+NuSMV has outputted the following output:
+
+TYPE ERROR file certifierRaff4ForSMTproof.smv: line 84 : undefined identifier 'isDef_currentAnswer'
+ERROR: Property "AG !(((((((test & isDef_currentAnswer) & !(getAnswer = EXITRAFF4)) & !(getAnswer = SKIPRAFF4)) & !(getAnswer = currentAnswer)) & answerError) & levelTest < 6) & EX TRUE) " is not correct or not well typed.
+
+Aborting batch mode
+
+NuSMV terminated by a signal
+
+Aborting batch mode
+
+../../../../asm_examples/examples\simple_example\MorraCinese\MorraCinese.asm	-->
+	RuntimeException what type *String
+	Error Domain String not supported.
+../../../../asm_examples/examples\fsmsemantics\FSM_hooking3.asm	-->
+	RuntimeException what type *State
+	Error what type *State
+../../../../asm_examples/examples\petriNets\petriNetEdgeWeightNoPlaceCapacity_NoSeq_Matrix_v3.asm	-->
+	RuntimeException class atgt.specification.type.AbstractType cannot be cast to class tgtlib.definitions.expression.type.EnumerableType (atgt.specification.type.AbstractType and tgtlib.definitions.expression.type.EnumerableType are in unnamed module of loader 'app')
+	Error Index 0 out of bounds for length 0
+../../../../asm_examples/examples\roulette\roulette.asm	-->
+	RuntimeException static function color not supported
+	Error > NuSMV -dynamic -quiet roulette.smv
+
+NuSMV has outputted the following output:
+
+TYPE ERROR file roulette.smv: line 68 : undefined identifier 'varforchoose__X_i722_0'
+
+TYPE ERROR file roulette.smv: line 68 : undefined identifier 'color_varforchoose__X_i722_0'
+ERROR: Property "AG !(((playerMoney > 0 & houseMoney > 1) & ((!(chosenNumber = varforchoose__X_i722_0) & chosenNumber = 26) & !(color_26 = color_varforchoose__X_i722_0))) & EX TRUE) " is not correct or not well typed.
+
+Aborting batch mode
+
+NuSMV terminated by a signal
+
+Aborting batch mode
+
+../../../../asm_examples/examples\simple_example\population_raff1_fourPersons.asm	-->
+	AssertionError type Integer(Integer) already declared
+	AssertionErrorextend rule with a null do rule
+../../../../asm_examples/examples\flashProtocol\flashProtocol_N2_L2_Q1_C.asm	-->
+	RuntimeException what type *AgentDomain
+	AssertionErrornull

@@ -16,6 +16,7 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.asmeta.atgt.coverage.AsmetaAsSpec;
 import org.asmeta.atgt.coverage.AsmetaConditionExtractor;
+import org.asmeta.flattener.rule.ChooseRuleINVARFlattener;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.simulator.RuleEvaluator;
 import org.junit.After;
@@ -60,18 +61,21 @@ public class NuSMVAsmTestGeneratorComparison {
 		//testSingleFile("..\\..\\..\\..\\asm_examples\\PillBox\\Level1\\pillbox_1.asm");
 //		testSingleFile("../../../../asm_examples/stereoacuity/certifierRaff2.asm");
 //		testSingleFile("../../../../asm_examples/examples/simple_example/population.asm");
-		testSingleFile("../../../../asm_examples/examples/sleepingBarber/sleepingBarber.asm");	
+		//testSingleFile("../../../../asm_examples/examples/sleepingBarber/sleepingBarber.asm");	
 		//testSingleFile("../../../../asm_examples/examples/SemaforiAttraversamentoPedonale.asm");
+		testSingleFile("../../../../asm_examples/examples/coffeeVendingMachine/coffeeVendingMachine.asm");
 	}
 	
 	@Test
 	public void testSimpleChooseFile() throws Exception {
+		Logger.getLogger(ChooseRuleINVARFlattener.class).setLevel(Level.ALL);
 		RuleEvaluator.UndefGuardsEvaluatedAsFalse = true;
 		// this has no tps
 		//testSingleFile("examples/simplechoose.asm");
-		testSingleFile("examples/simplechooseBiGDomain.asm");
-		testSingleFile("examples/simplechoose_f.asm");
-		testSingleFile("examples/simplechoose_f2.asm");
+		//testSingleFile("examples/simplechooseBiGDomain.asm");
+		//testSingleFile("examples/simplechoose_f.asm");
+		//testSingleFile("examples/simplechoose_f2.asm");
+		testSingleFile("examples/simplechoose_f3.asm");
 	}
 
 	

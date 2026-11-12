@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import org.apache.log4j.Logger;
 import org.asmeta.flattener.statistics.Statistics;
 import org.eclipse.emf.common.util.EList;
 
@@ -29,6 +30,8 @@ import asmeta.transitionrules.basictransitionrules.Rule;
 //  transform a choose rule in a standard rule with the element as monitored with some constraints give in INVAR
 //  
 public class ChooseRuleINVARFlattener extends RuleFlattener {
+	
+	static Logger logger = Logger.getLogger(ChooseRuleINVARFlattener.class);
 
 	private int chooseCounter = 0;
 	// keep track of the variables --> original choosen var and its rule	
@@ -77,9 +80,10 @@ public class ChooseRuleINVARFlattener extends RuleFlattener {
 		assert !varsConvertedToMon.containsKey(chosenVarName)
 				: chosenVarName + " already taken in rule declaration " + varsConvertedToMon.get(chosenVarName);
 		varsConvertedToMon.put(chosenVarName, new AbstractMap.SimpleEntry<>(var.getName(),currentRuleDeclaration));
-		// add chosen var to the ignature
+		// add chosen var to the signature
 		Signature signature = asm.getHeaderSection().getSignature();
 		signature.getFunction().add(chosenVar);
+		logger.debug("variable " + chosenVar + " added as monitor variable");
 		//
 		// rewrite the internal rule by substituing the variable
 		// replace variable in the rest of the rule
@@ -110,6 +114,9 @@ public class ChooseRuleINVARFlattener extends RuleFlattener {
 				Term newGuard = trv.visit(chooseRule.getGuard());
 				invar.setBody(newGuard);
 				asm.getBodySection().getInvariantConstraint().add(invar);
+				logger.debug("INV " + newGuard + " is added");
+			} else {
+				logger.debug("guard is true, no INV is added");
 			}
 			trv.removeMap(map);
 			return newRule;
