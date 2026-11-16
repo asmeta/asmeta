@@ -45,8 +45,8 @@
 		</dependency>
 
 		<dependency>
-			<groupId>asmeta.simulator.run.time</groupId>
-			<artifactId>asmeta.simulator.run.time</artifactId>
+			<groupId>asmeta</groupId>
+			<artifactId>asmeta.simulator.runtime</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
