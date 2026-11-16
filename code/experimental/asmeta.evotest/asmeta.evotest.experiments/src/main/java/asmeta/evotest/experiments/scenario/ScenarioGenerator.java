@@ -18,6 +18,7 @@ import java.util.regex.Pattern;
 import org.asmeta.atgt.generator.CriteriaEnum;
 import org.asmeta.atgt.generator.FormatsEnum;
 import org.asmeta.atgt.generator.NuSMVASMSpecTestGenerator;
+import org.asmeta.atgt.generator.NuSMVAsmetaTestGenerator;
 import org.asmeta.atgt.generator.SaveResults;
 import org.asmeta.atgt.rndgenerator.AsmTestGeneratorBySimulation;
 import org.asmeta.parser.ASMParser;
@@ -110,6 +111,18 @@ public class ScenarioGenerator {
 	 * @throws Exception if any Exception occurs
 	 */
 	public static float runATGT(String asmPath, String targetDir) throws Exception {
+		// coverageTp set to false because is not supported by NuSMVAsmetaTestGenerator
+		NuSMVAsmetaTestGenerator nusmvTestGenerator = new NuSMVAsmetaTestGenerator(asmPath, false);
+		Instant start = Instant.now();
+		AsmTestSuite nusmvSuite = nusmvTestGenerator.generateAbstractTests(Integer.MAX_VALUE, ".*");
+		Instant end = Instant.now();
+		long exeTime = Duration.between(start, end).toMillis();
+		saveToAvalla(asmPath, nusmvSuite, targetDir, true);
+		return exeTime;
+	}
+
+	/** Run test generation with the legacy ASMSpecification-based generator. */
+	public static float runATGTOld(String asmPath, String targetDir) throws Exception {
 		NuSMVASMSpecTestGenerator nusmvTestGenerator = new NuSMVASMSpecTestGenerator(asmPath, true);
 		Instant start = Instant.now();
 		AsmTestSuite nusmvSuite = nusmvTestGenerator.generateAbstractTests(ATGT_CRITERIA, Integer.MAX_VALUE, ".*");

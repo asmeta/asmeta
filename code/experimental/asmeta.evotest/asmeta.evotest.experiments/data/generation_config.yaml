@@ -6,23 +6,24 @@ input:
   # --- directory mode ---
   source_dir: "data/ase-exp/models/"
   # --- list mode ---
-  model_list_file: "data/icst-27-exp/model_list.txt"
+  model_list_file: "data/nfm-26-SI-exp/model_list_choose2.txt"
   base_dir: "../../../../asm_examples/"
 
 # --- Output configuration ---
 output:
-  target_folder: "data/icst-27-exp/results/"
+  target_folder: "data/nfm-26-SI-exp/scenarios/"
 
 # --- Algorithms to run ---
 algorithms:
   random:
-    run: true
-    shuffle: false
+    run: false
+    shuffle: true
     step_list: [10,10,10,10,10,10,10,10,10,10]
   atgt:
     run: true
+    also_run_old_version: true
   evoavalla:
-    run: true
+    run: false
     choose_mode: "pick" # one of: flaky | noShuffle | pick
     jdk_path: "C:/Program Files/Java/jdk-9.0.4"
-    budget: [1, 5, 10]
+    budget: 10

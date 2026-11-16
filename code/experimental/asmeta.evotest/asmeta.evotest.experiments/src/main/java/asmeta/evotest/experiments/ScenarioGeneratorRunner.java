@@ -16,6 +16,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.asmeta.atgt.generator.NuSMVASMSpecTestGenerator;
+import org.asmeta.atgt.generator.NuSMVAsmetaTestGenerator;
 import org.asmeta.atgt.rndgenerator.AsmTestGeneratorBySimulation;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.parser.AsmetaParserUtility;
@@ -33,6 +34,7 @@ import asmeta.evotest.experiments.utils.YamlManager;
 public class ScenarioGeneratorRunner {
 	public static final String RANDOM_DIR = "randomtests";
 	public static final String ATGT_DIR = "atgttests";
+	public static final String ATGT_OLD_DIR = "atgtoldtests";
 	public static final String EVOAVALLA_DIR = "evoavallatests";
 	
 	private static final String CONFIG_PATH = "data/generation_config.yaml";
@@ -98,6 +100,7 @@ public class ScenarioGeneratorRunner {
 		Logger.getLogger(RuleEvaluator.class).setLevel(Level.ERROR);
 		Logger.getLogger(Simulator.class).setLevel(Level.ERROR);
 		Logger.getLogger(NuSMVASMSpecTestGenerator.class).setLevel(Level.ERROR);
+		Logger.getLogger(NuSMVAsmetaTestGenerator.class).setLevel(Level.ERROR);
 		Logger.getLogger(EvoAsmetaTgCLI.class).setLevel(Level.INFO);
 		ASMParser.getResultLogger().setLevel(Level.ERROR);
 		System.setOut(new PrintStream(OutputStream.nullOutputStream()));
@@ -251,9 +254,9 @@ public class ScenarioGeneratorRunner {
 	}
 
 	/**
-	 * Runs the ATGT generator if enabled in the configuration. The generated
-	 * test suite is stored in a dedicated subdirectory and execution metadata
-	 * is recorded.
+	 * Runs the ATGT generator if enabled in the configuration, and optionally
+	 * also the legacy generator. Each version has a separate output directory
+	 * and execution metadata.
 	 *
 	 * @param asmFilePath  path to the ASM file
 	 * @param asmName      name of the ASM (file name without extension)
@@ -265,22 +268,31 @@ public class ScenarioGeneratorRunner {
 			Map<String, Object> algorithms) {
 		Map<String, Object> atgtCfg = (Map<String, Object>) algorithms.get("atgt");
 		if ((Boolean) atgtCfg.get("run")) {
-			LOG.info("Running ATGT...");
-			String target = targetFolder + File.separator + ATGT_DIR + File.separator + Utils.formatCounter(atgtCount)
-			+ "_" + asmName;
-			new File(target).mkdirs();
+			runAtgtVersion(asmFilePath, asmName, targetFolder, false);
+			if (Boolean.TRUE.equals(atgtCfg.get("also_run_old_version"))) {
+				runAtgtVersion(asmFilePath, asmName, targetFolder, true);
+			}
+			atgtCount++;
+		}
+	}
+
+	private static void runAtgtVersion(String asmFilePath, String asmName, String targetFolder, boolean oldVersion) {
+		String name = oldVersion ? "ATGT (old version)" : "ATGT";
+		String approachDir = oldVersion ? ATGT_OLD_DIR : ATGT_DIR;
+		LOG.info("Running " + name + "...");
+		String target = targetFolder + File.separator + approachDir + File.separator + Utils.formatCounter(atgtCount)
+				+ "_" + asmName;
+		new File(target).mkdirs();
+		try {
+			float exeTime = oldVersion ? ScenarioGenerator.runATGTOld(asmFilePath, target)
+					: ScenarioGenerator.runATGT(asmFilePath, target);
+			YamlManager.write(target, asmName, asmFilePath, exeTime, LocalDateTime.now().toString());
+		} catch (Throwable t) {
+			LOG.error(name + " failed to generate a test suite.\n" + t.getClass().getSimpleName() + ": " + t.getMessage());
 			try {
-				float exeTime = ScenarioGenerator.runATGT(asmFilePath, target);
-				YamlManager.write(target, asmName, asmFilePath, exeTime, LocalDateTime.now().toString());
-			} catch (Throwable t) {
-				LOG.error("ATGT failed to generate a test suite.\n" + t.getClass().getSimpleName() + ": " + t.getMessage());
-				try {
-					YamlManager.write(target, asmName, asmFilePath, Float.NaN, LocalDateTime.now().toString());
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			} finally {
-				atgtCount++;
+				YamlManager.write(target, asmName, asmFilePath, Float.NaN, LocalDateTime.now().toString());
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 	}

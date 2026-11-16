@@ -105,6 +105,10 @@ public class OptimizerRunner {
 				}
 			}
 			LOG.info("Optimized " + optimizedCount + "/" + scenarios.length + " scenarios successfully in " + sourceDir);
+			// If we have at least one error, we consider the suite as failed (in the .csv
+			// resulting from analysis the status will be NO_VALID_SCENARIOS, in this case
+			// meaning that the suite is not valid: we want to compare coverage and mutation
+			// for test suites for which we still have all the scenarios).
 			execTime = failed ? Float.NaN : Duration.between(start, Instant.now()).toMillis();
 		} catch (Exception e) {
 			LOG.error("Error while optimizing suite " + sourceDir, e);
