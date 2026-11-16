@@ -16,6 +16,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import org.asmeta.parser.util.Defs;
+import org.asmeta.simulator.Location;
+import org.asmeta.simulator.value.Value;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 
@@ -51,6 +53,13 @@ public class BaseTest {
 		return Defs.searchMacro(sim.asmModel, name);
 	}
 
+	public Value searchValueOfFunction(String fun) {
+		Function f = searchFunction(fun);
+		Value value = sim.currentState.read(new Location(f, new Value[0]));
+		return value;
+	}
+
+	
 	@AfterEach void tearDown() throws Exception {
 	}
 

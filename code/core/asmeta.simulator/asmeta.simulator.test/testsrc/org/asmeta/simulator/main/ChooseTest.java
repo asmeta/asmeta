@@ -50,8 +50,7 @@ class ChooseTest extends BaseTest {
 		List<Long> integers = new ArrayList<>();
 		for(int i = 1; i < 10; i++){
 			UpdateSet updateSet = sim.doOneStep();	
-			Function f = searchFunction("a");
-			Value value = sim.currentState.read(new Location(f, new Value[]{}));
+			Value value = searchValueOfFunction("a");
 			integers.add((Long) (value.getValue()));
 		}
 		checkRandomValues(integers);
