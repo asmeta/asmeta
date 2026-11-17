@@ -28,7 +28,7 @@
 							<archive>
 								<manifest>
 									<mainClass>
-										org.asmeta.cbd_composer.ComposerCLI
+										org.asmeta.cbdcomposer.ComposerCLI
 									</mainClass>
 								</manifest>
 							</archive>
