@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *      - initial API and implementation
  ******************************************************************************/
@@ -31,9 +31,9 @@ import org.junit.jupiter.api.Test;
  *
  */
 public class StdlEvaluatorTest {
-	
+
 	private StdlEvaluator eval = new StdlEvaluator();
-	
+
 	public void print() {
 		for (WrappedMethod m : StdlEvaluator.funDcls) {
 			System.out.println(m);
@@ -44,7 +44,7 @@ public class StdlEvaluatorTest {
 		String expectedName = "abs";
 		Class<?>[] expectedTypes = new Class<?>[]{RealValue.class};
 		String actualName = "abs";
-		Class<?>[] actualTypes = new Class<?>[]{RealValue.class}; 
+		Class<?>[] actualTypes = new Class<?>[]{RealValue.class};
 		testResolve(expectedName, expectedTypes, actualName, actualTypes,RealValue.class);
 	}
 
@@ -52,7 +52,7 @@ public class StdlEvaluatorTest {
 		String expectedName = "abs";
 		Class<?>[] expectedTypes = new Class<?>[]{IntegerValue.class};
 		String actualName = "abs";
-		Class<?>[] actualTypes = new Class<?>[]{IntegerValue.class}; 
+		Class<?>[] actualTypes = new Class<?>[]{IntegerValue.class};
 		testResolve(expectedName, expectedTypes, actualName, actualTypes,IntegerValue.class);
 	}
 
@@ -60,7 +60,7 @@ public class StdlEvaluatorTest {
 		String expectedName = "eq";
 		Class<?>[] expectedTypes = new Class<?>[]{Value.class, UndefValue.class};
 		String actualName = "eq";
-		Class<?>[] actualTypes = new Class<?>[]{IntegerValue.class, UndefValue.class}; 
+		Class<?>[] actualTypes = new Class<?>[]{IntegerValue.class, UndefValue.class};
 		testResolve(expectedName, expectedTypes, actualName, actualTypes,BooleanValue.class);
 	}
 
@@ -89,7 +89,7 @@ public class StdlEvaluatorTest {
 		String expectedName = "currTimeMillisecs";
 		Class<?>[] expectedTypes = new Class<?>[]{};
 		String actualName = "currTimeMillisecs";
-		Class<?>[] actualTypes = new Class<?>[]{}; 
+		Class<?>[] actualTypes = new Class<?>[]{};
 		testResolve(expectedName, expectedTypes, actualName, actualTypes,IntegerValue.class);
 	}
 
@@ -97,16 +97,16 @@ public class StdlEvaluatorTest {
 		String expectedName = "currTimeMillisecs";
 		Class<?>[] expectedTypes = new Class<?>[]{};
 		String actualName = "currTimeMillisecs";
-		Class<?>[] actualTypes = new Class<?>[]{}; 
+		Class<?>[] actualTypes = new Class<?>[]{};
 		testResolve(expectedName, expectedTypes, actualName, actualTypes,IntegerValue.class);
 		// now visit it
 	}
-	
+
 	/**
 	 * Searches a function with a given name and parameter types and checks that
-	 * the method returned by the name resolution procedure has the expected 
+	 * the method returned by the name resolution procedure has the expected
 	 * name and parameter types.
-	 * 
+	 *
 	 * @param expectedName the expected function name
 	 * @param expectedTypes the expected parameter types
 	 * @param actualName the name of the function to search

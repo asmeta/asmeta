@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *      - initial API and implementation
  ******************************************************************************/
@@ -26,7 +26,7 @@ import asmeta.definitions.Function;
 
 class AxiomsTest extends BaseTest {
 
-	
+
 	private void runCatchInv(Simulator sim, int ntimes) {
 		// get the update set
 		try{
@@ -49,7 +49,7 @@ class AxiomsTest extends BaseTest {
 	@Test void initStateMonAxiomViolation() throws Exception {
 		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/axioms/initStateMonAxiomViolation.asm",
 										ASM_EXAMPLES + "test/simulator/axioms/initStateMonAxiomViolation.env");
-		
+
 		runCatchInv(sim,3);//no step is executed
 		Function foo = searchFunction("fooA");
 		Value value = sim.currentState.read(new Location(foo, new Value[0]));
@@ -89,7 +89,7 @@ class AxiomsTest extends BaseTest {
 		});
 	}
 
-	@Test void runUntilEmptyAxiomViolationNoStop() throws Exception {		
+	@Test void runUntilEmptyAxiomViolationNoStop() throws Exception {
 		InvariantTreament olc_c = Simulator.checkInvariants;
 		// no check -> continue till asked (20 states)
 		Simulator.checkInvariants = InvariantTreament.NO_CHECK;
@@ -101,7 +101,7 @@ class AxiomsTest extends BaseTest {
 		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/axioms/runUntilEmptyAxiomViolation.asm");
 		sim.run(20);
 		assertEquals(20, sim.getNumOfState());
-		Simulator.checkInvariants = olc_c;		
+		Simulator.checkInvariants = olc_c;
 	}
 
 	@Test void axiomExample() throws Exception {

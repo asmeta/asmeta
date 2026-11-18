@@ -23,7 +23,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import asmeta.definitions.Function;
 
 public class StandardLibraryTest extends BaseTest {
-	
+
 	public static Collection<Boolean> data() {
         return Arrays.asList(Boolean.TRUE, Boolean.FALSE);
     }
@@ -33,7 +33,7 @@ public class StandardLibraryTest extends BaseTest {
     }
 
 	// private static boolean allowLazyEvalOLD;
-    
+
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
 		//AsmParserTest.setUpLogger();
@@ -55,7 +55,7 @@ public class StandardLibraryTest extends BaseTest {
 		Simulator sim = Simulator.createSimulator(ASM_EXAMPLES + ex);
 		UpdateSet us = sim.run(1);
 		System.out.println("UPDATE SET\n"+ us);
-		assertEquals("succ_fibo=[1,1,4]", us.toString());		
+		assertEquals("succ_fibo=[1,1,4]", us.toString());
 		System.out.println("CURRENT STATE\n"+ sim.getCurrentState().toString());
 	}
 
@@ -270,7 +270,9 @@ public class StandardLibraryTest extends BaseTest {
 	private String getVal(UpdateSet us, String location) {
 		Map<Location, Value> locationMap = us.getLocationMap();
 		for( Entry<Location, Value> e: locationMap.entrySet()) {
-			if (e.getKey().toString().equals(location)) return e.getValue().toString();
+			if (e.getKey().toString().equals(location)) {
+				return e.getValue().toString();
+			}
 		}
 		fail(location + " not found");
 		return null;

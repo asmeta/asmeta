@@ -4,13 +4,12 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *      - initial API and implementation
  ******************************************************************************/
 package org.asmeta.simulator.main;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -62,7 +61,7 @@ class UndefValueTest extends BaseTest {
 			sim.run(1));
 	}
 	// this instead should work
-	@Test 
+	@Test
 	void testUndefGuard() throws Exception {
 		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/UndefGuard.asm");
 		sim.run(1);

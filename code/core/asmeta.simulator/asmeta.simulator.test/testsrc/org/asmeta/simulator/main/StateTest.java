@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *      - initial API and implementation
  ******************************************************************************/
@@ -28,16 +28,16 @@ import asmeta.definitions.domains.Domain;
  *
  */
 class StateTest {
-	
+
 	Simulator sim;
 
 	@Test void readDomain()
 			throws Exception {
 		ReserveValue.nextSuffix = 0;
-		
+
 		sim = Util.getSimulatorForTestSpec("test/simulator/domains/concreteDomain.asm");
 		sim.run(1);
-		
+
 		Domain dom = Defs.searchDomain(sim.asmModel, "B");
 		SetValue actual = sim.currentState.read(dom);
 		ReserveValue[] oo = new ReserveValue[]{
@@ -45,9 +45,9 @@ class StateTest {
 				new ReserveValue("b!2"),
 				new ReserveValue("b!3")
 		};
-		SetValue expected = new SetValue(new HashSet<Value>(Arrays.asList(oo)));
+		SetValue expected = new SetValue(new HashSet<>(Arrays.asList(oo)));
 		assertEquals(expected, actual);
-		
+
 		dom = Defs.searchDomain(sim.asmModel, "A");
 		actual = sim.currentState.read(dom);
 		oo = new ReserveValue[]{
@@ -56,7 +56,7 @@ class StateTest {
 				new ReserveValue("b!3"),
 				new ReserveValue("a!1")
 		};
-		expected = new SetValue(new HashSet<Value>(Arrays.asList(oo)));
+		expected = new SetValue(new HashSet<>(Arrays.asList(oo)));
 		assertEquals(expected, actual);
 	}
 }
