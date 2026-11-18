@@ -69,3 +69,6 @@ code/experimental/asmeta.evotest/asmeta.evotest/asmeta.evotest/.mvn/maven.config
 
 # do not store coverage reports at least for now
 jacoco.exec
+
+# files created by AG do depclean
+pom_backup_depclean.xml
