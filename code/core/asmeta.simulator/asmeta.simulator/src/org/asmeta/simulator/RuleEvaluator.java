@@ -132,7 +132,7 @@ public class RuleEvaluator extends RuleVisitor<UpdateSet> {
 	 * Caches the macro substitutions.
 	 * 
 	 */
-	static HashMap<String, Rule> macros = new HashMap<String, Rule>();
+	public static HashMap<String, Rule> macros = new HashMap<String, Rule>();
 
 	public final TermEvaluator termEval;
 

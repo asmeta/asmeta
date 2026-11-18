@@ -182,6 +182,10 @@ public class MutationScoreExecutor {
 				LOG.info("Validation or scenario translation error for the mutated ASM => killed mutant.\n"
 						+ e.getClass().getSimpleName() + ": " + e.getMessage());
 				return true;
+			} finally {
+				// This simulation is finished: clear macros substitutions;
+				// the next simulation will rebuild any substituition it needs.
+				org.asmeta.simulator.RuleEvaluator.macros.clear();
 			}
 		}
 		return false;
