@@ -10,6 +10,11 @@ Each suite gets its own Java process, so a failed suite does not stop the next.
 A new analysis_results_* directory contains the combined data.csv and
 analysis.log, plus each suite's CSV and log. Failures are described in the log;
 partial results from failed processes are excluded from the combined CSV.
+An analyzed_scenarios_* directory beside scenarios/ preserves the resulting
+suite folders, including metadata and the Avalla files left by AnalysisRunner.
+Its directory depth matches the originals so relative model paths still work.
+Failed runs also preserve their suite as it was left, possibly partly filtered;
+consult analysis.log before treating those suites as fully validated.
 Original scenarios and existing results are preserved. Each invocation starts
 an independent run; previous results are not used to skip suites.
 """
@@ -131,9 +136,11 @@ class CombinedResults:
         return status not in ("OK", "NO_VALID_SCENARIOS")
 
 
-def run_approach(base, approach, results, combined):
+def run_approach(base, approach, results, analyzed, combined):
     output = results / approach
     output.mkdir()
+    saved_approach = analyzed / approach
+    saved_approach.mkdir()
     problems = 0
     # Sibling of scenarios/: preserve ../../../asm_examples references.
     with tempfile.TemporaryDirectory(prefix=".analysis_worker_", dir=str(base)) as temporary:
@@ -146,11 +153,20 @@ def run_approach(base, approach, results, combined):
         for suite in suites:
             suite_output = output / suite.name
             outcome = run_suite(work, approach, suite, suite_output)
-            problems += combined.publish(approach, suite, suite_output, outcome)
-            # Delete only the private copy, never the original scenario suite.
+            # Save the actual post-analysis tree, including Java's deletions.
+            # Move it out before the temporary workspace is cleaned up. A separate
+            # tree avoids collisions with per-suite analysis.log/data.csv files.
             copy = work / approach / suite.name
             if copy.exists():
-                shutil.rmtree(copy)
+                destination = saved_approach / suite.name
+                assert copy.resolve().parent == (work / approach).resolve()
+                assert destination.resolve().parent == saved_approach.resolve()
+                if destination.exists():
+                    raise FileExistsError(destination)
+                shutil.move(str(copy), str(destination))
+                with (suite_output / "analysis.log").open("a", encoding="utf-8") as log:
+                    log.write(f"\nSaved resulting scenario suite: {destination}\n")
+            problems += combined.publish(approach, suite, suite_output, outcome)
     return problems
 
 
@@ -173,13 +189,17 @@ def main():
         raise RuntimeError("bash and java must be available in PATH")
 
     results = Path(tempfile.mkdtemp(prefix="analysis_results_", dir=str(base)))
+    analyzed = base / results.name.replace("analysis_results_", "analyzed_scenarios_", 1)
+    analyzed.mkdir()
     print(f"Results: {results}", flush=True)
+    print(f"Resulting scenario suites: {analyzed}", flush=True)
     problems = 0
     with (results / "analysis.log").open("w", encoding="utf-8") as log:
         with (results / "data.csv").open("w", encoding="utf-8", newline="") as data:
             combined = CombinedResults(log, data)
+            combined.note(f"Resulting scenario suites: {analyzed}")
             with ThreadPoolExecutor(max_workers=len(APPROACHES)) as executor:
-                futures = {executor.submit(run_approach, base, a, results, combined): a for a in APPROACHES}
+                futures = {executor.submit(run_approach, base, a, results, analyzed, combined): a for a in APPROACHES}
                 for future in as_completed(futures):
                     try:
                         problems += future.result()
