@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *      - initial API and implementation
  ******************************************************************************/
@@ -25,7 +25,7 @@ import asmeta.AsmCollection;
 import asmeta.definitions.domains.Domain;
 import asmeta.structure.Asm;
 
-// test case for the Libaray specification 
+// test case for the Libaray specification
 class ParserValueTest {
 
 	private static final String ASM_EXAMPLES = "../../../../asm_examples/";

@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *      - initial API and implementation
  ******************************************************************************/
@@ -44,10 +44,10 @@ public class TestCluster {
 
 	/**
 	 * The main method.
-	 * 
+	 *
 	 * @param args
 	 *            the arguments
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	static public void main(String args[]) throws Exception {
 
@@ -63,7 +63,7 @@ public class TestCluster {
 
 			// build a cluster
 
-			List<Point> allPoints = new ArrayList<Point>(centerpoints.length
+			List<Point> allPoints = new ArrayList<>(centerpoints.length
 					* NPoint);
 			for (Point p : centerpoints) {
 				allPoints.addAll(pointsAround(p, NPoint));
@@ -114,16 +114,16 @@ public class TestCluster {
 	/**
 	 * restituisce un array di n punti 8arry id due elementi) attorno ad un
 	 * punto.
-	 * 
+	 *
 	 * @param n
 	 *            the nmber of points
 	 * @param o
 	 *            the o
-	 * 
+	 *
 	 * @return the double[][]
 	 */
 	static List<Point> pointsAround(Point o, int n) {
-		List<Point> result = new ArrayList<Point>(n);
+		List<Point> result = new ArrayList<>(n);
 		for (int i = 0; i < n; i++) {
 			Point toadd = new Point(o.x + rnd.nextInt(around * grid)
 					/ (double) grid, o.y + rnd.nextInt(around * grid)
@@ -138,12 +138,13 @@ public class TestCluster {
 		for (int i = 0; i < cluster.size();) {
 			result.append("(").append(cluster.get(i).x).append(",").append(
 					cluster.get(i).y).append(")");
-			if ((++i) < cluster.size())
+			if ((++i) < cluster.size()) {
 				if (i % stopEvery == 0) {
 					result.append("},{");
 				} else {
 					result.append(",");
 				}
+			}
 		}
 		return result.append("}}");
 	}
@@ -154,7 +155,7 @@ public class TestCluster {
 		runSimpleCluster("cluster.asm");
 
 	}
-	
+
 //	@Test
 	public void testClusterNossrASMwithAXIOMs() throws Exception {
 
@@ -174,7 +175,7 @@ public class TestCluster {
 	private void runSimpleCluster(String string) throws Exception {
 		int NPoint = 3;
 
-		List<Point> allPoints = new ArrayList<Point>(centerpoints.length
+		List<Point> allPoints = new ArrayList<>(centerpoints.length
 				* NPoint);
 		for (Point p : centerpoints) {
 			allPoints.addAll(pointsAround(p, NPoint));

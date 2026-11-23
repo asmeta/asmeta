@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *      - initial API and implementation
  ******************************************************************************/
@@ -14,7 +14,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -29,8 +28,8 @@ class TestsClayton {
 	@Test void difference() {
 
 
-		Set<Value> conj1 = new HashSet<Value>();
-		Set<Value> conj2 = new HashSet<Value>();
+		Set<Value> conj1 = new HashSet<>();
+		Set<Value> conj2 = new HashSet<>();
 
 		conj1.add(new StringValue("a1"));
 		conj1.add(new StringValue("a2"));
@@ -46,27 +45,22 @@ class TestsClayton {
 		Set<Value> set1 = sv1.getValue();
 		Set<Value> set2 = sv2.getValue();
 
-		Set<Value> result = new HashSet<Value>();
+		Set<Value> result = new HashSet<>();
 
-		Iterator<?> e1 = set1.iterator();
-		Iterator<?> e2 = set2.iterator();
-
-		while (e1.hasNext()) {
-			Value v = (Value) e1.next();
+		for (Value v : set1) {
 			if (!set2.contains(v)) {
 				result.add(v);
 			}
 		}
 
-		while (e2.hasNext()) {
-			Value v = (Value) e2.next();
+		for (Value v : set2) {
 			if (!set1.contains(v)) {
 				result.add(v);
 			}
 		}
 
 
-		Set<Value> toTest = new HashSet<Value>();
+		Set<Value> toTest = new HashSet<>();
 
 		toTest.add(new StringValue("a1"));
 		toTest.add(new StringValue("a2"));
@@ -79,8 +73,8 @@ class TestsClayton {
 	@Test void intersection() {
 
 
-		Set<Value> conj1 = new HashSet<Value>();
-		Set<Value> conj2 = new HashSet<Value>();
+		Set<Value> conj1 = new HashSet<>();
+		Set<Value> conj2 = new HashSet<>();
 
 		conj1.add(new StringValue("a1"));
 		conj1.add(new StringValue("a2"));
@@ -96,26 +90,21 @@ class TestsClayton {
 		Set<Value> set1 = sv1.getValue();
 		Set<Value> set2 = sv2.getValue();
 
-		Set<Value> result = new HashSet<Value>();
+		Set<Value> result = new HashSet<>();
 
-		Iterator<?> e1 = set1.iterator();
-		Iterator<?> e2 = set2.iterator();
-
-		while (e1.hasNext()) {
-			Value v = (Value) e1.next();
+		for (Value v : set1) {
 			if (set2.contains(v)) {
 				result.add(v);
 			}
 		}
 
-		while (e2.hasNext()) {
-			Value v = (Value) e2.next();
+		for (Value v : set2) {
 			if (set1.contains(v)) {
 				result.add(v);
 			}
 		}
 
-		Set<Value> toTest = new HashSet<Value>();
+		Set<Value> toTest = new HashSet<>();
 
 		toTest.add(new StringValue("a3"));
 
@@ -124,16 +113,13 @@ class TestsClayton {
 
 	@Test void testtoStringSetValue() {
 
-		Set<Value> conj2 = new HashSet<Value>();
+		Set<Value> conj2 = new HashSet<>();
 
 		conj2.add(new StringValue("a3"));
 		conj2.add(new StringValue("a4"));
 		conj2.add(new StringValue("a5"));
 
-		Iterator<?> e1 = conj2.iterator();
-
-		while (e1.hasNext()) {
-			Value v = (Value) e1.next();
+		for (Value v : conj2) {
 			conj2.add(v);
 		}
 
@@ -145,7 +131,7 @@ class TestsClayton {
 
 		Value v = new StringValue("a3");
 
-		List<Value> l = new ArrayList<Value>();
+		List<Value> l = new ArrayList<>();
 		Integer result = -1;
 
 		l.add(new StringValue("a1"));

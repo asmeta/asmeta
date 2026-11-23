@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *      - initial API and implementation
  ******************************************************************************/
@@ -16,6 +16,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import org.asmeta.parser.util.Defs;
+import org.asmeta.simulator.Location;
+import org.asmeta.simulator.value.Value;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 
@@ -28,7 +30,7 @@ import asmeta.definitions.domains.Domain;
  *
  */
 public class BaseTest {
-	
+
 	protected final static String ASM_EXAMPLES = "../../../../asm_examples/";
 
 
@@ -36,7 +38,7 @@ public class BaseTest {
 	static void checkDirectory() {
 		  assertTrue(Files.isDirectory(Path.of(ASM_EXAMPLES)));
 	}
-	
+
 	protected Simulator sim;
 
 	public Function searchFunction(String name) {
@@ -50,6 +52,13 @@ public class BaseTest {
 	public RuleDeclaration searchMacro(String name) {
 		return Defs.searchMacro(sim.asmModel, name);
 	}
+
+	public Value searchValueOfFunction(String fun) {
+		Function f = searchFunction(fun);
+		Value value = sim.currentState.read(new Location(f, new Value[0]));
+		return value;
+	}
+
 
 	@AfterEach void tearDown() throws Exception {
 	}

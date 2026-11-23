@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *      - initial API and implementation
  ******************************************************************************/
@@ -40,7 +40,7 @@ class MacroEvaluatorTest {
 		assertTrue(macros.containsKey("macro09::r_bar[\"hello\",macro10::punc]"));
 		assertTrue(macros.containsKey("macro09::r_odd[macro10::func(\"hello\"),macro10::punc,true]"));
 		assertTrue(macros.containsKey("macro09::r_fool[<<macro10::r_macro>>]"));
-		
+
 	}
 
 }
