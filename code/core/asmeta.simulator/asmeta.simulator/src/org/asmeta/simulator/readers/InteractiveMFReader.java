@@ -139,8 +139,8 @@ public class InteractiveMFReader extends AllowUndefMFReader{
 	}
 
 	/**
-	 * reads aline of text and set it ito line
-	 * 	if it is the flag allowe true, when it is found "undef" return immediatley undef value
+	 * reads a line of text and set it to line variable
+	 * 	if it is the flag allows UNDEF true, when it is found "undef" return immediatley undef value
 	 */
 	public void readLine() {
 		try {
