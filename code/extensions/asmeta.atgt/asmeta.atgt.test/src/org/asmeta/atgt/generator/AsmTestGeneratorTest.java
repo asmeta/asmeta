@@ -1,9 +1,12 @@
 package org.asmeta.atgt.generator;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
@@ -316,4 +319,32 @@ public class AsmTestGeneratorTest {
 				.generateAbstractTests(Collections.singleton(CriteriaEnum.RULE_GUARD.criteria), 1, ".*");
 
 	}
+	@Test
+	public void generateWithUndef() throws Exception {
+		String asmPath = "examples\\LGS_GM.asm";
+		// CTL and FMC
+		AsmetaSMV.modelCheckerMode = ModelCheckerMode.CTL;
+		NuSMVAsmetaTestGenerator gen2 = new NuSMVAsmetaTestGenerator(asmPath, false);
+		AsmTestSuite test = gen2.generateAbstractTests(1, "T5");
+		assertEquals(1, test.size());
+		ByteArrayOutputStream output = new ByteArrayOutputStream();
+		toAvalla ta = new toAvalla(output, test.getTests().get(0), "filename", "scenarioname");
+		ta.saveToStream();
+		assertTrue(output.toString().contains("set handle := undef;"));
+	}
+
+	@Test
+	public void generateWithNoUndef() throws Exception {
+		String asmPath = "examples\\LGS_GMNoUndef.asm";
+		// CTL and FMC
+		AsmetaSMV.modelCheckerMode = ModelCheckerMode.CTL;
+		NuSMVAsmetaTestGenerator gen2 = new NuSMVAsmetaTestGenerator(asmPath, false);
+		AsmTestSuite test = gen2.generateAbstractTests(1, "T5");
+		assertEquals(1, test.size());
+		ByteArrayOutputStream output = new ByteArrayOutputStream();
+		toAvalla ta = new toAvalla(output, test.getTests().get(0), "filename", "scenarioname");
+		ta.saveToStream();
+		assertFalse(output.toString().contains("set handle := undef;"));
+	}
+
 }
