@@ -15,6 +15,7 @@ import java.util.stream.Stream;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.asmeta.atgt.testoptimizer.AvallaOptimizer;
+import org.asmeta.atgt.testoptimizer.AvallaOptimizer.Optimization;
 import org.asmeta.parser.ASMParser;
 import org.asmeta.simulator.Environment;
 import org.asmeta.simulator.Environment.TimeMngt;
@@ -37,6 +38,7 @@ public class OptimizerRunner {
 	 *             suites</li>
 	 *             <li>{@code args[1]} – the target directory</li>
 	 *             <li>{@code args[2]} – the base directory with the asm files</li>
+	 *             <li>{@code args[3]} – optional optimization: set, check, or both (default)</li>
 	 *             </ul>
 	 */
 	public static void main(String[] args) {
@@ -47,8 +49,15 @@ public class OptimizerRunner {
 		ASMParser.getResultLogger().setLevel(Level.ERROR);
 		System.setOut(new PrintStream(OutputStream.nullOutputStream()));
 
-		if (args.length != 3) {
-			LOG.error("Expected arguments: source directory, target directory, asm base directory.");
+		if (args.length < 3 || args.length > 4) {
+			LOG.error("Expected arguments: source directory, target directory, asm base directory, [set|check|both].");
+			return;
+		}
+		Optimization optimization;
+		try {
+			optimization = args.length == 4 ? Optimization.valueOf(args[3].toUpperCase(java.util.Locale.ROOT)) : Optimization.BOTH;
+		} catch (IllegalArgumentException e) {
+			LOG.error("Invalid optimization: " + args[3] + ". Expected set, check, or both.");
 			return;
 		}
 
@@ -71,7 +80,7 @@ public class OptimizerRunner {
 					Path outputDir = targetDir.resolve(sourceDir.relativize(suiteDir));
 					Files.createDirectories(outputDir);
 					if (Files.exists(suiteDir.resolve(YamlManager.FILE_NAME)))
-						optimizeSuite(suiteDir, outputDir);
+						optimizeSuite(suiteDir, outputDir, optimization);
 				}
 			}
 			LOG.info("Optimization completed.");
@@ -80,7 +89,7 @@ public class OptimizerRunner {
 		}
 	}
 
-	private static void optimizeSuite(Path sourceDir, Path targetDir) {
+	private static void optimizeSuite(Path sourceDir, Path targetDir, Optimization optimization) {
 		LOG.info("\nOptimizing " + sourceDir);
 		Map<String, Object> metadata = null;
 		float execTime = Float.NaN;
@@ -97,7 +106,7 @@ public class OptimizerRunner {
 			AvallaOptimizer optimizer = new AvallaOptimizer();
 			for (File scenario : scenarios) {
 				try {
-					optimizer.optimize(scenario.getPath(), targetDir.toString());
+					optimizer.optimize(scenario.getPath(), targetDir.toString(), optimization);
 					optimizedCount++;
 				} catch (Exception e) {
 					failed = true;

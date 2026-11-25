@@ -29,7 +29,7 @@ case "$1" in
     ;;
 
   optimizer)
-    java -cp "$JAR" asmeta.evotest.experiments.OptimizerRunner "$2" "$3" "$4" > optimizer.log 2>&1
+    java -cp "$JAR" asmeta.evotest.experiments.OptimizerRunner "${@:2}" > optimizer.log 2>&1
     ;;
 
   *)
@@ -38,6 +38,6 @@ case "$1" in
     echo -e "*for generating using random with number of tests and steps retrieved from suites generated with 'generation' option:\n\t./run.sh rnd-generation <path/to/scenarios> <path/to/asm_examples> <path/to/model_list.txt> [--shuffle] [--folders folder1,folder2,...], if --folders is not specified, default to atgttests,evoavallatests"
     echo -e "*for generating using iterative random generation:\n\t./run.sh iterative-rnd-generation <path/to/scenarios> <path/to/asm_examples> <path/to/model_list.txt> <timeBudget> [--shuffle]"
     echo -e "*for running the analysis\n\t./run.sh analysis <path/to/scenarios> [--shuffle]"
-    echo -e "*for optimizing existing test suites\n\t./run.sh optimizer <path/to/scenarios> <path/to/target> <path/to/asm_examples>"
+    echo -e "*for optimizing existing test suites\n\t./run.sh optimizer <path/to/scenarios> <path/to/target> <path/to/asm_examples> [set|check|both] (default: both)"
     ;;
 esac

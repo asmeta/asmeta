@@ -4,13 +4,16 @@
 Place beside run.sh, experiments-runner.jar, asm_examples/ and scenarios/.
 Run without arguments: python3 parallel_analysis.py
 
-APPROACHES lists directory names inside scenarios/. Those approaches run in
+SCENARIOS_DIR selects the source folder, relative to this script or absolute.
+Keep asm_examples/ beside that folder; run.sh and JARs stay beside this script.
+APPROACHES = None uses all subfolders; a list of names selects specific ones.
+Those approaches run in
 parallel; within each approach, model-suite subdirectories run sequentially.
 Each suite gets its own Java process, so a failed suite does not stop the next.
 A new analysis_results_* directory contains the combined data.csv and
 analysis.log, plus each suite's CSV and log. Failures are described in the log;
 partial results from failed processes are excluded from the combined CSV.
-An analyzed_scenarios_* directory beside scenarios/ preserves the resulting
+An analyzed_scenarios_* directory beside the source folder preserves the resulting
 suite folders, including metadata and the Avalla files left by AnalysisRunner.
 Its directory depth matches the originals so relative model paths still work.
 Failed runs also preserve their suite as it was left, possibly partly filtered;
@@ -32,7 +35,8 @@ import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 
-APPROACHES = ("atgtoldtests", "atgttests", "opt_atgttests", "random4atgttests")
+SCENARIOS_DIR = "check_opt_scenarios"
+APPROACHES = None  # None means all subfolders, for specific subfolders use for instance ["atgt", "random_pick"].
 
 
 def read_result(path):
@@ -136,20 +140,20 @@ class CombinedResults:
         return status not in ("OK", "NO_VALID_SCENARIOS")
 
 
-def run_approach(base, approach, results, analyzed, combined):
+def run_approach(base, scenarios, approach, results, analyzed, combined):
     output = results / approach
     output.mkdir()
     saved_approach = analyzed / approach
     saved_approach.mkdir()
     problems = 0
-    # Sibling of scenarios/: preserve ../../../asm_examples references.
-    with tempfile.TemporaryDirectory(prefix=".analysis_worker_", dir=str(base)) as temporary:
+    # Sibling of the source folder: preserve ../../../asm_examples references.
+    with tempfile.TemporaryDirectory(prefix=".analysis_worker_", dir=str(scenarios.parent)) as temporary:
         work = Path(temporary)
         shutil.copy2(base / "run.sh", work / "run.sh")
         for jar in base.glob("*.jar"):
             shutil.copy2(jar, work / jar.name)
         (work / approach).mkdir()
-        suites = sorted(p for p in (base / "scenarios" / approach).iterdir() if p.is_dir())
+        suites = sorted(p for p in (scenarios / approach).iterdir() if p.is_dir())
         for suite in suites:
             suite_output = output / suite.name
             outcome = run_suite(work, approach, suite, suite_output)
@@ -174,22 +178,27 @@ def main():
     if len(sys.argv) != 1:
         raise ValueError("This script takes no arguments; run python3 parallel_analysis.py")
     base = Path(__file__).resolve().parent
-    if not APPROACHES or len(set(APPROACHES)) != len(APPROACHES):
-        raise ValueError("APPROACHES must contain distinct directory names")
-    for approach in APPROACHES:
+    scenarios = (base / SCENARIOS_DIR).resolve()
+    if not scenarios.is_dir():
+        raise FileNotFoundError(scenarios)
+    approaches = (sorted(p.name for p in scenarios.iterdir() if p.is_dir())
+                  if APPROACHES is None else list(APPROACHES))
+    if not approaches or len(set(approaches)) != len(approaches):
+        raise ValueError("Expected at least one approach with distinct directory names")
+    for approach in approaches:
         if Path(approach).name != approach or approach in (".", ".."):
             raise ValueError(f"Invalid approach directory name: {approach}")
     for filename in ("run.sh", "experiments-runner.jar"):
         if not (base / filename).is_file():
             raise FileNotFoundError(base / filename)
-    for directory in [base / "asm_examples"] + [base / "scenarios" / a for a in APPROACHES]:
+    for directory in [scenarios.parent / "asm_examples"] + [scenarios / a for a in approaches]:
         if not directory.is_dir():
             raise FileNotFoundError(directory)
     if not shutil.which("bash") or not shutil.which("java"):
         raise RuntimeError("bash and java must be available in PATH")
 
     results = Path(tempfile.mkdtemp(prefix="analysis_results_", dir=str(base)))
-    analyzed = base / results.name.replace("analysis_results_", "analyzed_scenarios_", 1)
+    analyzed = scenarios.parent / results.name.replace("analysis_results_", "analyzed_scenarios_", 1)
     analyzed.mkdir()
     print(f"Results: {results}", flush=True)
     print(f"Resulting scenario suites: {analyzed}", flush=True)
@@ -198,8 +207,8 @@ def main():
         with (results / "data.csv").open("w", encoding="utf-8", newline="") as data:
             combined = CombinedResults(log, data)
             combined.note(f"Resulting scenario suites: {analyzed}")
-            with ThreadPoolExecutor(max_workers=len(APPROACHES)) as executor:
-                futures = {executor.submit(run_approach, base, a, results, analyzed, combined): a for a in APPROACHES}
+            with ThreadPoolExecutor(max_workers=len(approaches)) as executor:
+                futures = {executor.submit(run_approach, base, scenarios, a, results, analyzed, combined): a for a in approaches}
                 for future in as_completed(futures):
                     try:
                         problems += future.result()

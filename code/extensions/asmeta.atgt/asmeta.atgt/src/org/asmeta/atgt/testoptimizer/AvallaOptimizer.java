@@ -23,6 +23,10 @@ import atgt.coverage.AsmTestSuite;
 
 public class AvallaOptimizer {
 
+	public enum Optimization {
+		SET, CHECK, BOTH
+	}
+
 	/**
 	 * Optimize an avalla removing unecessary set and check statements. The new
 	 * optimized avalla is placed in the same directory of the original one.
@@ -35,6 +39,12 @@ public class AvallaOptimizer {
 	 * Optimize an avalla and save the optimized scenario in the target directory.
 	 */
 	public void optimize(String avallaPath, String targetDir) throws Exception {
+		optimize(avallaPath, targetDir, Optimization.BOTH);
+	}
+
+	/** Optimize the selected statements and save the scenario in the target directory. */
+	public void optimize(String avallaPath, String targetDir, Optimization optimization) throws Exception {
+		java.util.Objects.requireNonNull(optimization, "optimization");
 		// check avallaPath exists and is .avalla
 		File avalla = new File(avallaPath);
 		if (!avalla.exists())
@@ -55,17 +65,19 @@ public class AvallaOptimizer {
 		AsmCollection asm = ASMParser.setUpReadAsm(asmFile);
 		
 		// Remove redundant checks
-		TestOptimizer optimizer = UnchangedRemover.allRemover;
-		optimizer.optimize(test);
+		if (optimization != Optimization.SET) {
+			UnchangedRemover.allRemover.optimize(test);
+		}
 		
 		// Remove redundant sets
-		boolean previous = UnecessaryChangesRemover.skipLastStep;
-		UnecessaryChangesRemover.skipLastStep = true;
-		try {
-		    optimizer = new UnecessaryChangesRemover(asm);
-		    optimizer.optimize(test);
-		} finally {
-		    UnecessaryChangesRemover.skipLastStep = previous;
+		if (optimization != Optimization.CHECK) {
+			boolean previous = UnecessaryChangesRemover.skipLastStep;
+			UnecessaryChangesRemover.skipLastStep = true;
+			try {
+				new UnecessaryChangesRemover(asm).optimize(test);
+			} finally {
+				UnecessaryChangesRemover.skipLastStep = previous;
+			}
 		}
 		
 		// Write a new Avalla with the optimized test sequence
