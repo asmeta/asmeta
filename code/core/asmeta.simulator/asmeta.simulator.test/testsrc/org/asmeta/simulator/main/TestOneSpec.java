@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *      - initial API and implementation
  ******************************************************************************/
@@ -24,7 +24,7 @@ import org.asmeta.simulator.readers.RandomMFReader;
 public class TestOneSpec {
 
 	public static final String FILE_BASE = "../../../../asm_examples/";
-	
+
 	public static void main(String[] a) throws Exception {
 		ClassLoader.getSystemClassLoader().setDefaultAssertionStatus(true);
 		new TestOneSpec().testOneSpec();
@@ -38,8 +38,8 @@ public class TestOneSpec {
 		//new InteractiveMFReader(System.in, System.out);
 		((RandomMFReader)monFuncReader).allowUndefValues = false;
 		Environment env = new Environment(monFuncReader);
-				
-				
+
+
 
 		Simulator sim;
 
@@ -66,19 +66,19 @@ public class TestOneSpec {
 				//rpns/r/problema_sequenza.asm",
 				//"rpns/r/problema_sequenza.asm",
 				// "rpns/r/LocVarSeq.asm");
-				// "rpns/r/cluster_nossr.asm", 
-				//"rpns/r/cluster_nossr1Dint.asm", 
+				// "rpns/r/cluster_nossr.asm",
+				//"rpns/r/cluster_nossr1Dint.asm",
 				//"examples/models/SwapSortMon.asm",
 				//"examples/library/Library.asm",
 				//"examples/models/wiper_abs2.asm",
-				//"scheduler/clock/sched.asm", 
-				//"rps_mono/models/ordersystem.asm", 
+				//"scheduler/clock/sched.asm",
+				//"rps_mono/models/ordersystem.asm",
 				//"rpns/r/BibliotecaASM.asm",
 				//"rps_agents/oneWayTrafficLight_refined_with_agents_problem.asm",
-				//AsmetaSFitTest.BASE + 
+				//AsmetaSFitTest.BASE +
 				//"rpns/r/cluster.env"
 				//"rpns/r/cluster_int.env"
-				//"rps_mono/models/oneWayTrafficLight.env"				
+				//"rps_mono/models/oneWayTrafficLight.env"
 				env
 				);
 		System.out.println(sim.getCurrentState());

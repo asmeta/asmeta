@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *      - initial API and implementation
  ******************************************************************************/
@@ -52,56 +52,56 @@ class TermSubstTest {
 	@Test void test01() throws Exception {
 		String actual = subst("test/simulator/term_subst/termsubst01.asm");
 		assertEquals(
-				"plus($x,$y)", 
+				"plus($x,$y)",
 				actual);
 	}
 
 	@Test void test02() throws Exception {
 		String actual = subst("test/simulator/term_subst/termsubst02.asm");
 		assertEquals(
-				"g(plus($x,$y),0)", 
+				"g(plus($x,$y),0)",
 				actual);
 	}
 
 	@Test void test03() throws Exception {
 		String actual = subst("test/simulator/term_subst/termsubst03.asm");
 		assertEquals(
-				"if eq($z,7) then mult(2,$z) else 77 endif", 
+				"if eq($z,7) then mult(2,$z) else 77 endif",
 				actual);
 	}
 
 	@Test void test04() throws Exception {
 		String actual = subst("test/simulator/term_subst/termsubst04.asm");
 		assertEquals(
-				"switch $y case $z:0 case $x:1 otherwise 2 endswitch", 
+				"switch $y case $z:0 case $x:1 otherwise 2 endswitch",
 				actual);
 	}
 
 	@Test void test05() throws Exception {
 		String actual = subst("test/simulator/term_subst/termsubst05.asm");
 		assertEquals(
-				"let($x!1=$x,$y!2=$y,$z!3=$z) in plus($x!1,$z) endlet", 
+				"let($x!1=$x,$y!2=$y,$z!3=$z) in plus($x!1,$z) endlet",
 				actual);
 	}
 
 	@Test void test06() throws Exception {
 		String actual = subst("test/simulator/term_subst/termsubst06.asm");
 		assertEquals(
-				"(exists $x in Natural with eq($x,plus($y,$z)))", 
+				"(exists $x in Natural with eq($x,plus($y,$z)))",
 				actual);
 	}
 
 	@Test void test07() throws Exception {
 		String actual = subst("test/simulator/term_subst/termsubst07.asm");
 		assertEquals(
-				"{$x!1 in {1,2},$d in {3,4}| neq($x!1,$d) : mult($x!1,$d)}", 
+				"{$x!1 in {1,2},$d in {3,4}| neq($x!1,$d) : mult($x!1,$d)}",
 				actual);
 	}
 
 	@Test void test08() throws Exception {
 		String actual = subst("test/simulator/term_subst/termsubst08.asm");
 		assertEquals(
-				"let($x!1=$y,$y!2=plus($x,$y)) in {$z!3 in Integer| iff(eq($x!1,$z!3),eq(plus($x,$y),$z)) : $z!3} endlet", 
+				"let($x!1=$y,$y!2=plus($x,$y)) in {$z!3 in Integer| iff(eq($x!1,$z!3),eq(plus($x,$y),$z)) : $z!3} endlet",
 				actual);
 	}
 

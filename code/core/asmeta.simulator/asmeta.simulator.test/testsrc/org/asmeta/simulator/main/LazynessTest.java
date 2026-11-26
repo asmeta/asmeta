@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *      - initial API and implementation
  ******************************************************************************/
@@ -33,7 +33,7 @@ import org.junit.jupiter.api.Test;
 import asmeta.definitions.Function;
 
 /**
- * Test for Simulator class.  
+ * Test for Simulator class.
  *
  */
 class LazynessTest extends BaseTest {
@@ -57,7 +57,9 @@ class LazynessTest extends BaseTest {
 			@Override
 			public Value readValue(Location location, State state) {
 				System.out.println("location " + location);
-				if (location.toString().equals("f1")) return BooleanValue.FALSE;
+				if (location.toString().equals("f1")) {
+					return BooleanValue.FALSE;
+				}
 				fail("do not ask other");
 				return null;
 			}
@@ -68,7 +70,7 @@ class LazynessTest extends BaseTest {
 		};
 		Environment env = new Environment(monFuncReader);
 		sim = Simulator.createSimulator(TestOneSpec.FILE_BASE + "test/simulator/monitoredLazy.asm", env);
-		sim.run(1);		
+		sim.run(1);
 		Function f = searchFunction("g1");
 		Value<?> v = sim.currentState.read(new Location(f, new Value[0]));
 		assertEquals(BooleanValue.FALSE, v);
@@ -81,7 +83,9 @@ class LazynessTest extends BaseTest {
 			@Override
 			public Value readValue(Location location, State state) {
 				System.out.println("location " + location);
-				if (location.toString().equals("f1")) return BooleanValue.FALSE;
+				if (location.toString().equals("f1")) {
+					return BooleanValue.FALSE;
+				}
 				fail("do not ask other");
 				return null;
 			}
@@ -92,37 +96,37 @@ class LazynessTest extends BaseTest {
 		};
 		Environment env = new Environment(monFuncReader);
 		sim = Simulator.createSimulator(TestOneSpec.FILE_BASE + "test/simulator/monitoredLazyDer.asm", env);
-		sim.run(1);		
+		sim.run(1);
 		Function f = searchFunction("g1");
 		Value<?> v = sim.currentState.read(new Location(f, new Value[0]));
 		assertEquals(BooleanValue.FALSE, v);
 	}
 
 
-	// a test with the ennvironment--> No lazyness should be 
+	// a test with the ennvironment--> No lazyness should be
 	@Test void lazyEnv() throws Exception {
 		sim = Util.getSimulatorForTestSpec("test/simulator/monitoredTest.asm",
 				"test/simulator/monitoredTest01.env");
-		sim.run(1);		
+		sim.run(1);
 		Function f = searchFunction("g1");
 		Value<?> v = sim.currentState.read(new Location(f, new Value[0]));
 		assertEquals(new IntegerValue(1234), v);
-		
+
 		f = searchFunction("g2");
 		v = sim.currentState.read(new Location(f, new Value[0]));
 		assertEquals(BooleanValue.TRUE, v);
 
 		f = searchFunction("g3");
 		v = sim.currentState.read(new Location(f, new Value[0]));
-		assertEquals(new SequenceValue(new ArrayList<Value>(Arrays.asList(
-				new IntegerValue(1), new IntegerValue(2), new IntegerValue(4567)))), 
+		assertEquals(new SequenceValue(new ArrayList<>(Arrays.asList(
+				new IntegerValue(1), new IntegerValue(2), new IntegerValue(4567)))),
 				v);
 
 		f = searchFunction("g4");
 		v = sim.currentState.read(new Location(f, new Value[0]));
-		assertEquals(new SequenceValue(new ArrayList<Value>(Arrays.asList(
-				new TupleValue(new IntegerValue(0), BooleanValue.FALSE), 
-				new TupleValue(new IntegerValue(1), BooleanValue.TRUE)))), 
+		assertEquals(new SequenceValue(new ArrayList<>(Arrays.asList(
+				new TupleValue(new IntegerValue(0), BooleanValue.FALSE),
+				new TupleValue(new IntegerValue(1), BooleanValue.TRUE)))),
 				v);
 	}
 }

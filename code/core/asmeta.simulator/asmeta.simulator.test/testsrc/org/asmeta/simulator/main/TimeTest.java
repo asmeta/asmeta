@@ -124,7 +124,7 @@ class TimeTest extends BaseTest {
 		Map<Integer,ChronoUnit> asked = new HashMap<>();
 		@Override
 		public Value readValue(Location location, State state) {
-			assert !asked.keySet().contains(count) : 
+			assert !asked.keySet().contains(count) :
 				"asking " + location.toString() + " " + asked.get(count);
 			// TODO Auto-generated method stub
 			System.out.println("asking for " + location.toString());
@@ -187,7 +187,7 @@ class TimeTest extends BaseTest {
 		assertEquals("[Millis, Millis]",user.asked.values().toString());
 	}
 
-	// two different units - the finer is asked after some steps, so it must give some warning 
+	// two different units - the finer is asked after some steps, so it must give some warning
 	// set current unit as minutes but then there are secs
 	@Test void mix2_au_warn() throws Exception {
 		Environment.currentTimeUnit = null;
@@ -202,7 +202,7 @@ class TimeTest extends BaseTest {
 		assertEquals("3000", getFunctionValue("timeMS", sim.getCurrentState()));
 	}
 
-	// two different units - ask only the millis 
+	// two different units - ask only the millis
 	@Test void mix1_au_warn() throws Exception {
 		Environment.currentTimeUnit = null;
 		Environment.timeMngt = TimeMngt.ask_user;
@@ -261,7 +261,7 @@ class TimeTest extends BaseTest {
 		assertEquals("2", getFunctionValue("time", sim.getCurrentState()));
 	}
 
-	
+
 
 	String getFunctionValue(String fname, State state) {
 		Function func = searchFunction(fname);

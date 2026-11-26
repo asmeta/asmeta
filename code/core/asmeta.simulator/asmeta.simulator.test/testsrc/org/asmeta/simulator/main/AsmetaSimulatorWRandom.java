@@ -31,7 +31,9 @@ class AsmetaSimulatorWRandom extends BaseTest{
 		int i;
 		for (i = 0; i < 100000; i++) {
 			asm.doOneStep();
-			if (!"c=0".equals(asm.getCurrentState().toString())) break;
+			if (!"c=0".equals(asm.getCurrentState().toString())) {
+				break;
+			}
 		}
 		assertNotEquals(100000, i);
 	}

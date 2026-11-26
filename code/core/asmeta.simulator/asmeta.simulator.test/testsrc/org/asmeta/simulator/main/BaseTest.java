@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *      - initial API and implementation
  ******************************************************************************/
@@ -30,7 +30,7 @@ import asmeta.definitions.domains.Domain;
  *
  */
 public class BaseTest {
-	
+
 	protected final static String ASM_EXAMPLES = "../../../../asm_examples/";
 
 
@@ -38,7 +38,7 @@ public class BaseTest {
 	static void checkDirectory() {
 		  assertTrue(Files.isDirectory(Path.of(ASM_EXAMPLES)));
 	}
-	
+
 	protected Simulator sim;
 
 	public Function searchFunction(String name) {
@@ -59,7 +59,7 @@ public class BaseTest {
 		return value;
 	}
 
-	
+
 	@AfterEach void tearDown() throws Exception {
 	}
 
