@@ -4,14 +4,17 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *      - initial API and implementation
  ******************************************************************************/
 package org.asmeta.simulator.main;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import org.asmeta.simulator.value.IntegerValue;
+import org.asmeta.simulator.value.Value;
 import org.junit.jupiter.api.Test;
 
 class UndefValueTest extends BaseTest {
@@ -56,5 +59,13 @@ class UndefValueTest extends BaseTest {
 					ASM_EXAMPLES + "test/env/inconUpdateWithUndef6.env");
 		assertThrows(org.asmeta.simulator.UpdateClashException.class, () ->
 			sim.run(1));
+	}
+	// this instead should work
+	@Test
+	void testUndefGuard() throws Exception {
+		sim = Simulator.createSimulator(ASM_EXAMPLES + "test/simulator/UndefGuard.asm");
+		sim.run(1);
+		Value value = searchValueOfFunction("f");
+		assertEquals(new IntegerValue(5), value);
 	}
 }

@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *      - initial API and implementation
  ******************************************************************************/
@@ -35,7 +35,7 @@ class FreeVarTest {
 		VarFinder finder = new VarFinder();
 		VariableSet freeSet = finder.visit(term);
 		assertEquals(
-				new VariableSet("$x"), 
+				new VariableSet("$x"),
 				freeSet);
 	}
 
@@ -48,7 +48,7 @@ class FreeVarTest {
 		VarFinder finder = new VarFinder();
 		VariableSet freeSet = finder.visit(term);
 		assertEquals(
-				new VariableSet("$x", "$y"), 
+				new VariableSet("$x", "$y"),
 				freeSet);
 	}
 
@@ -61,7 +61,7 @@ class FreeVarTest {
 		VarFinder finder = new VarFinder();
 		VariableSet freeSet = finder.visit(term);
 		assertEquals(
-				new VariableSet("$x", "$y", "$z"), 
+				new VariableSet("$x", "$y", "$z"),
 				freeSet);
 	}
 
@@ -74,7 +74,7 @@ class FreeVarTest {
 		VarFinder finder = new VarFinder();
 		VariableSet freeSet = finder.visit(term);
 		assertEquals(
-				new VariableSet("$z"), 
+				new VariableSet("$z"),
 				freeSet);
 	}
 
@@ -87,7 +87,7 @@ class FreeVarTest {
 		VarFinder finder = new VarFinder();
 		VariableSet freeSet = finder.visit(term);
 		assertEquals(
-				new VariableSet("$x", "$y"), 
+				new VariableSet("$x", "$y"),
 				freeSet);
 	}
 
@@ -100,7 +100,7 @@ class FreeVarTest {
 		VarFinder finder = new VarFinder();
 		VariableSet freeSet = finder.visit(term);
 		assertEquals(
-				new VariableSet(), 
+				new VariableSet(),
 				freeSet);
 	}
 
@@ -113,7 +113,7 @@ class FreeVarTest {
 		VarFinder finder = new VarFinder();
 		VariableSet freeSet = finder.visit(term);
 		assertEquals(
-				new VariableSet("$y", "$z"), 
+				new VariableSet("$y", "$z"),
 				freeSet);
 	}
 
@@ -126,7 +126,7 @@ class FreeVarTest {
 		VarFinder finder = new VarFinder();
 		VariableSet freeSet = finder.visit(term);
 		assertEquals(
-				new VariableSet("$x"), 
+				new VariableSet("$x"),
 				freeSet);
 	}
 
@@ -139,7 +139,7 @@ class FreeVarTest {
 		VarFinder finder = new VarFinder();
 		VariableSet freeSet = finder.visit(term);
 		assertEquals(
-				new VariableSet("$z"), 
+				new VariableSet("$z"),
 				freeSet);
 	}
 

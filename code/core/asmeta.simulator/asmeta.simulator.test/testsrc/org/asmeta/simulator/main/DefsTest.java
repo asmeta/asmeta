@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *      - initial API and implementation
  ******************************************************************************/
@@ -38,7 +38,7 @@ public class DefsTest {
 	@Test void test1()
 			throws Exception {
 		sim = Util.getSimulatorForTestSpec("test/simulator/domains/equals.asm");
-		
+
 		Domain d1 = search("f1").getDomain();
 		Domain d2 = search("f2").getDomain();
 		Domain d3 = search("f3").getDomain();
@@ -58,13 +58,13 @@ public class DefsTest {
 		Domain d11 = search("f11").getDomain();
 		assertTrue(Defs.equals(d9, d10));
 		assertFalse(Defs.equals(d9, d11));
-		
+
 		Domain d12 = search("f12").getDomain();
 		Domain d13 = search("f13").getDomain();
 		Domain d14 = search("f14").getDomain();
 		assertTrue(Defs.equals(d12, d13));
 		assertFalse(Defs.equals(d12, d14));
-		
+
 		Domain d15 = search("f15").getDomain();
 		Domain d16 = search("f16").getDomain();
 		Domain d17 = search("f17").getDomain();
@@ -77,10 +77,10 @@ public class DefsTest {
 	@Test void test2()
 			throws Exception {
 		sim = Util.getSimulatorForTestSpec("test/simulator/domains/test04/m2.asm");
-		
+
 		Function f1 = search("f");
 		RuleDeclaration m1 = searchMacro("m1", "r_m1");
-		Function f2 = 
+		Function f2 =
 			((LocationTerm) ((UpdateRule) m1.getRuleBody()).getLocation()).getFunction();
 		assertFalse(Defs.equals(f1, f2));
 		assertEquals("m2", Defs.getAsmName(f1));
@@ -104,7 +104,7 @@ public class DefsTest {
 		assertEquals("m1", Defs.getAsmName(f2));
 		assertEquals("m2", Defs.getAsmName(rm2));
 	}
-	
+
 	Asm getModule(String name) {
 		for (Asm asm : sim.asmCollection) {
 			if (asm.getName().equals(name)) {
@@ -126,11 +126,11 @@ public class DefsTest {
 		}
 		throw new RuntimeException("Function " + name + " not found");*/
 	}
-	
+
 	public Function search(String name) {
 		return search(sim.asmModel.getName(), name);
 	}
-	
+
 	public RuleDeclaration searchMacro(String asmName, String name) {
 		Asm asm = getModule(asmName);
 		return Defs.searchMacro(asm, name);
@@ -143,7 +143,7 @@ public class DefsTest {
 		}
 		throw new RuntimeException("Rule " + name + " not found");*/
 	}
-	
+
 	public RuleDeclaration searchMacro(String name) {
 		return searchMacro(sim.asmModel.getName(), name);
 	}

@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *      - initial API and implementation
  ******************************************************************************/
@@ -216,7 +216,7 @@ public class InterpreterTest extends BaseTest {
 		sim.run(1);
 		f = searchFunction("f");
 		v = sim.currentState.read(new Location(f, new Value[0]));
-		assertEquals(new SetValue(new HashSet<Value>(Arrays.asList(new IntegerValue(22)))), v);
+		assertEquals(new SetValue(new HashSet<>(Arrays.asList(new IntegerValue(22)))), v);
 	}
 
 	@MethodSource("data")
@@ -271,7 +271,7 @@ public class InterpreterTest extends BaseTest {
 		sim.run(1);
 		f = searchFunction("f");
 		v = sim.currentState.read(new Location(f, new Value[0]));
-		assertEquals(new SetValue(new HashSet<Value>(Arrays.asList(new IntegerValue(1), new IntegerValue(12),
+		assertEquals(new SetValue(new HashSet<>(Arrays.asList(new IntegerValue(1), new IntegerValue(12),
 				new IntegerValue(18), new IntegerValue(2), new IntegerValue(3), new IntegerValue(36),
 				new IntegerValue(4), new IntegerValue(6), new IntegerValue(9)))), v);
 	}
@@ -285,17 +285,17 @@ public class InterpreterTest extends BaseTest {
 
 		d = searchDomain("Orders");
 		v = sim.currentState.read(d);
-		assertEquals(new SetValue(new HashSet<Value>(
+		assertEquals(new SetValue(new HashSet<>(
 				Arrays.asList(new ReserveValue("o1"), new ReserveValue("o2"), new ReserveValue("o3")))), v);
 
 		d = searchDomain("Products");
 		v = sim.currentState.read(d);
-		assertEquals(new SetValue(new HashSet<Value>(Arrays.asList(new ReserveValue("p1"), new ReserveValue("p2")))),
+		assertEquals(new SetValue(new HashSet<>(Arrays.asList(new ReserveValue("p1"), new ReserveValue("p2")))),
 				v);
 
 		f = searchFunction("f");
 		v = sim.currentState.read(new Location(f, new Value[0]));
-		assertEquals(new SetValue(new HashSet<Value>(Arrays.asList(new ReserveValue("o1"), new ReserveValue("o2")))),
+		assertEquals(new SetValue(new HashSet<>(Arrays.asList(new ReserveValue("o1"), new ReserveValue("o2")))),
 				v);
 
 		f = searchFunction("orderState");
@@ -566,7 +566,7 @@ public class InterpreterTest extends BaseTest {
 		sim.run(1);
 		d = searchDomain("NumCard");
 		v = sim.currentState.read(d);
-		assertEquals(new SetValue(new HashSet<Value>(
+		assertEquals(new SetValue(new HashSet<>(
 				Arrays.asList(new ReserveValue("card1"), new ReserveValue("card2"), new ReserveValue("card3")))), v);
 
 		f = searchFunction("check");

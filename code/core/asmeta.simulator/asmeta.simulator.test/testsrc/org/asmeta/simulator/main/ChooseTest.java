@@ -4,7 +4,7 @@
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *      - initial API and implementation
  ******************************************************************************/
@@ -30,7 +30,7 @@ import org.junit.jupiter.api.Test;
 import asmeta.definitions.Function;
 
 class ChooseTest extends BaseTest {
-	
+
 	private static final String TEST_SIMULATOR_CHOOSERULE = "test/simulator/chooserule/";
 
 	@BeforeAll
@@ -42,7 +42,7 @@ class ChooseTest extends BaseTest {
 //			log.addAppender(new ConsoleAppender(new SimpleLayout()));
 //		log.setLevel(Level.ALL);
 	}
-	
+
 	static final String chooseExample = "chooseIntWithGuard.asm";
 
 	@Test void nonDetermistic() throws Exception{
@@ -50,9 +50,8 @@ class ChooseTest extends BaseTest {
 		sim.setShuffleFlag(true);
 		List<Long> integers = new ArrayList<>();
 		for(int i = 1; i < 10; i++){
-			UpdateSet updateSet = sim.doOneStep();	
-			Function f = searchFunction("a");
-			Value value = sim.currentState.read(new Location(f, new Value[]{}));
+			UpdateSet updateSet = sim.doOneStep();
+			Value value = searchValueOfFunction("a");
 			integers.add((Long) (value.getValue()));
 		}
 		checkRandomValues(integers);
@@ -64,11 +63,11 @@ class ChooseTest extends BaseTest {
 		sim.setShuffleFlag(false);
 		List<Long> integers = new ArrayList<>();
 		for(int i = 1; i < 10; i++){
-			UpdateSet updateSet = sim.doOneStep();	
+			UpdateSet updateSet = sim.doOneStep();
 			Function f = searchFunction("a");
 			Value value = sim.currentState.read(new Location(f, new Value[]{}));
 			assertTrue(value instanceof IntegerValue);
-			Long e = (Long) (value.getValue());			
+			Long e = (Long) (value.getValue());
 			integers.add(e);
 		}
 		integers.stream().forEach(x -> assertEquals(6,x));
@@ -122,7 +121,7 @@ class ChooseTest extends BaseTest {
 	@Test void intWithCond() throws Exception{
 		Simulator sim = Util.getSimulatorForTestSpec(TEST_SIMULATOR_CHOOSERULE + "ChooseOverInteger.asm");
 		try{
-			UpdateSet updateSet = sim.doOneStep();	
+			UpdateSet updateSet = sim.doOneStep();
 		} catch(RuntimeException re) {
 			assertTrue(re.getMessage().contains("Infinite"));
 		}
@@ -145,7 +144,7 @@ class ChooseTest extends BaseTest {
 	@Test void test34() throws Exception {
 		sim = Util.getSimulatorForTestSpec(TEST_SIMULATOR_CHOOSERULE + "ChooseInConcrete.asm");
 		sim.setShuffleFlag(false);
-		sim.run(1);		
+		sim.run(1);
 		Function f = searchFunction("y");
 		Value<?> v = sim.currentState.read(new Location(f, new Value[0]));
 		assertEquals(new IntegerValue(1), v);
@@ -153,7 +152,7 @@ class ChooseTest extends BaseTest {
 
 	@Test void test35() throws Exception {
 		sim = Util.getSimulatorForTestSpec(TEST_SIMULATOR_CHOOSERULE +"ChooseRule01.asm");
-		sim.run(1);		
+		sim.run(1);
 		Function f = searchFunction("f");
 		Value<?> v = sim.currentState.read(new Location(f, new Value[0]));
 		assertEquals(new IntegerValue(20), v);
@@ -161,7 +160,7 @@ class ChooseTest extends BaseTest {
 
 	@Test void test36() throws Exception {
 		sim = Util.getSimulatorForTestSpec(TEST_SIMULATOR_CHOOSERULE + "ChooseRule02.asm");
-		sim.run(1);		
+		sim.run(1);
 		Function f = searchFunction("f");
 		Value<?> v = sim.currentState.read(new Location(f, new Value[] {
 				new IntegerValue(2), new IntegerValue(5)}));
@@ -170,7 +169,7 @@ class ChooseTest extends BaseTest {
 
 	@Test void test37() throws Exception {
 		sim = Util.getSimulatorForTestSpec(TEST_SIMULATOR_CHOOSERULE + "ChooseRule03.asm");
-		sim.run(1);		
+		sim.run(1);
 		Function f = searchFunction("f");
 		Value<?> v = sim.currentState.read(new Location(f, new Value[0]));
 		assertEquals(UndefValue.UNDEF, v);
@@ -178,7 +177,7 @@ class ChooseTest extends BaseTest {
 
 	@Test void condFalseIfNone() throws Exception {
 		sim = Util.getSimulatorForTestSpec(TEST_SIMULATOR_CHOOSERULE + "ChooseRule03IfNone.asm");
-		sim.run(1);		
+		sim.run(1);
 		Function f = searchFunction("f");
 		Value<?> v = sim.currentState.read(new Location(f, new Value[0]));
 		assertEquals(new IntegerValue(0), v);
@@ -186,7 +185,7 @@ class ChooseTest extends BaseTest {
 
 	@Test void condFalseIfNoneFALSE() throws Exception {
 		sim = Util.getSimulatorForTestSpec(TEST_SIMULATOR_CHOOSERULE + "ChooseRule03IfNone2.asm");
-		sim.run(1);		
+		sim.run(1);
 		Function f = searchFunction("f");
 		Value<?> v = sim.currentState.read(new Location(f, new Value[0]));
 		assertEquals(new IntegerValue(0), v);
@@ -194,7 +193,7 @@ class ChooseTest extends BaseTest {
 
 	@Test void ad() throws Exception {
 		sim = Util.getSimulatorForTestSpec(TEST_SIMULATOR_CHOOSERULE + "ChooseRuleAD.asm");
-		sim.run(1);		
+		sim.run(1);
 		Function f = searchFunction("a");
 		Value<?> v = sim.currentState.read(new Location(f, new Value[0]));
 		assertEquals("o", v.toString());
