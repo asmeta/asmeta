@@ -65,6 +65,7 @@ class AsmetaMATest {
 
 	@Test
 	void chooseAlwaysNotEmpty() throws Exception {
+		// this now fails beacause I changed the way choose is translated
 		Set<String> expectedAlwaysNot = new HashSet<String>();
 		expectedAlwaysNot.add("$x");
 		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/chooseAlwaysNotEmpty.asm");
@@ -80,7 +81,26 @@ class AsmetaMATest {
 		assertEquals(0, notAlways.size());
 		assertEquals(0, always.size());
 	}
+	@Test
+	void chooseAlwaysNotEmpty2() throws Exception {
+		Set<String> expectedAlwaysNot = new HashSet<String>();
+		expectedAlwaysNot.add("$x");
+		AsmetaMA asmetaMA = AsmetaMA.buildAsmetaMA("examples/chooseAlwaysNotEmptyIfNone.asm");
+		asmetaMA.activateExecCheck(ExecCheck.execChooseRuleEmpty,true);
+		asmetaMA.runCheck();
+		Set<ChooseRule> alwaysNot = asmetaMA.chooseRuleIsEmpty.chooseRuleAlwaysNotEmpty;
+		Set<ChooseRule> notAlways = asmetaMA.chooseRuleIsEmpty.chooseRuleNotAlwaysEmpty;
+		Set<ChooseRule> always = asmetaMA.chooseRuleIsEmpty.chooseRuleAlwaysEmpty;
+		assertEquals(alwaysNot.size(), expectedAlwaysNot.size());
+		for(ChooseRule choooseRule: alwaysNot) {
+			assertTrue(expectedAlwaysNot.contains(choooseRule.getVariable().get(0).getName()));
+		}
+		assertEquals(0, notAlways.size());
+		assertEquals(0, always.size());
+	}
 
+	
+	
 	@Test
 	void chooseAlwaysEmpty() throws Exception {
 		Set<String> expectedAlwaysNot = new HashSet<String>();

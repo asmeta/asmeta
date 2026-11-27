@@ -12,7 +12,7 @@ definitions:
 		if mon then
 			//when the choose rule is executed,
 			//it can always find a value for $x that
-			//satisfies the guard
+			//satisfies the guard (always not empty) TRUE
 			choose $x in Boolean with $x = mon and $x do
 				foo := not(foo)
 		endif
