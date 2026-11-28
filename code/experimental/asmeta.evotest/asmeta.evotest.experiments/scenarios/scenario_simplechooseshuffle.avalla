@@ -1,0 +1,22 @@
+scenario scenario_simplechooseshuffle
+
+load ./..\..\..\extensions\asmeta.atgt\asmeta.atgt.test\examples\simplechooseBiGDomain.asm
+
+//// test name test@test0
+//// generated for (test goal): test0: NULL
+pick $i in r_Main := GG;
+step
+check myLetter = AA;
+pick $i in r_Main := HH;
+step
+check myLetter = AA;
+pick $i in r_Main := HH;
+step
+check myLetter = AA;
+pick $i in r_Main := DD;
+step
+check myLetter = AA;
+pick $i in r_Main := CC;
+step
+check myLetter = CC;
+step

@@ -1,0 +1,17 @@
+scenario scenario_simplechoosedeterministic
+
+load ./..\..\..\extensions\asmeta.atgt\asmeta.atgt.test\examples\simplechooseBiGDomain.asm
+
+//// test name test@test0
+//// generated for (test goal): test0: NULL
+step
+check myLetter = AA;
+step
+check myLetter = AA;
+step
+check myLetter = AA;
+step
+check myLetter = AA;
+step
+check myLetter = AA;
+step

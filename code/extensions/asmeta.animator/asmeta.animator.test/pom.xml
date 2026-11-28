@@ -179,7 +179,6 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter</artifactId>
-      <version>6.2.0-M1</version>
       <scope>test</scope>
       <optional>false</optional>
     </dependency>
